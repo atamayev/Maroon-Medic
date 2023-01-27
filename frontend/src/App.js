@@ -20,6 +20,7 @@ export default function App() {
 
   useEffect(() => {
     findByName();
+    console.log(currentUser)
   }, []);
   
   // this is the core search function

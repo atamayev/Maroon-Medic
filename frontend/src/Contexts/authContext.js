@@ -12,7 +12,7 @@ export const AuthContextProvider = ({ children }) => {
     const res = await axios.post("http://localhost:8800/api/auth/login", {email: username, password: password}, {
       withCredentials: true,
     });
-    console.log('current user', currentUser)
+    // console.log('current user', currentUser)
     //console.log(res.cookie)
     console.log('res.data', res.data)
 
@@ -23,7 +23,7 @@ export const AuthContextProvider = ({ children }) => {
     const res = await axios.post("http://localhost:8800/api/auth/register", {email: username, password: password}, {
       withCredentials: true,
     });
-    console.log('current user', currentUser)
+    // console.log('current user', currentUser)
     //console.log(res.cookie)
     console.log('res.data', res.data)
 

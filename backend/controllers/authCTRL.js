@@ -91,7 +91,7 @@ export async function register (req, res){
             const values_new = [email]
             
             const [results] = await connection.execute(sql_new, values_new);
-            console.log('results',results)
+            // console.log('results',results)
 
             const payload = {
               DoctorID: results[0].DoctorID, 
@@ -99,7 +99,7 @@ export async function register (req, res){
             const token = jwt.sign(payload, process.env.JWT_KEY); // Expiration time goes in here if needed
 
             const { pass, ...others } = results[0];
-            const UUID = ID_to_UUID(results[0].DoctorID)
+            // const UUID = ID_to_UUID(results[0].DoctorID)
 
             return res
               .cookie("accessToken", token, {
@@ -146,22 +146,23 @@ export async function login (req, res){
       if (bool === true) {
         // The following is to 'remember' the user is signed in through cookies          
         const { DoctorID, password, email, ...others } = results[0];
-        const UUID = ID_to_UUID(DoctorID)
 
         const payload = {
           DoctorID
         }
         const token = jwt.sign(payload, process.env.JWT_KEY);
+        const { pass, ...others1 } = results[0];
+
+        // const UUID = ID_to_UUID(DoctorID)
 
 
         return res
-          // .send({ success: true  })
           .cookie("accessToken", token, {
             // httpOnly: true,
             // secure:true
           })
           .status(200)
-          .json(DoctorID);
+          .json(others1);
       // }   
   } else {
       return res.status(400).json("Wrong password or username!");
