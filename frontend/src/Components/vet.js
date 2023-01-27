@@ -74,7 +74,9 @@ export default function Vet () {
               
               <Card.Text>
                 My ID: {user.DoctorID}<br></br>
-                My FirstName: {user.FirstName}
+                My FirstName: {user.FirstName}<br></br>
+                My LastName: {user.LastName}<br></br>
+                My gender: {user.Gender}
               </Card.Text>
               <Link to= {`/`}>
                 <Button variant="primary">

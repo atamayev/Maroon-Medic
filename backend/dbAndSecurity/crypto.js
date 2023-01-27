@@ -55,7 +55,8 @@ export default new class Crypto {
         //extracts only the keys from decryptedData:
         const keys = Object.keys(decryptedData)
 
-        const includedKeys = keys.slice(2);
+        const includedKeys = keys.slice(1);
+        console.log('includedKeys',includedKeys)
 
         for (const key of includedKeys){
             const decipher = createDecipheriv('aes-256-cbc', secretKey, iv);
