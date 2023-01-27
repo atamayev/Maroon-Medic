@@ -22,7 +22,9 @@ export default function Vet () {
   // Given the current ID, the dataservice returns all necessary information about that specific user
   async function getVet (id) {
     try{
+      // const response = await VetDataService.getSingleVet(id)
       const response = await VetDataService.getSingleVet(id)
+
         if (response.data === 'User does not exist') {
           return <p>{response.data}</p>;
         }
@@ -71,7 +73,8 @@ export default function Vet () {
               <div></div>}
               
               <Card.Text>
-                My ID: {user.DoctorID}
+                My ID: {user.DoctorID}<br></br>
+                My FirstName: {user.FirstName}
               </Card.Text>
               <Link to= {`/`}>
                 <Button variant="primary">

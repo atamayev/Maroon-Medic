@@ -28,8 +28,3 @@ export async function newVet (req, res){
         return res.status(500).json(error);
     }
 }
-
-export async function returnVetPageData (req, res){
-    //take in an id, return decrypted necessary fields. will require joining, decrypting
-    
-}

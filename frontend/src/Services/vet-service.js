@@ -5,6 +5,9 @@ export default new class VetDataService {
         return await http.get('users/fetchUsers');
     }
     // returns attributes of a certain vet
+    // async getSingleVet(DoctorID) {
+    //     return await http.get(`users/${DoctorID}`);
+    // }
     async getSingleVet(DoctorID) {
         return await http.get(`users/${DoctorID}`);
     }
