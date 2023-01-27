@@ -15,7 +15,6 @@ const port = process.env.PORT || 8000
 // Confirmation of DB Connection
 connection.connect((err) => {
     if(err) throw err;
-    console.log('MySql Connected...')
 })
 
 const app = express();

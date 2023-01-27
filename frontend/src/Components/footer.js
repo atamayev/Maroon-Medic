@@ -1,6 +1,7 @@
 import React from 'react';
 import "../CSS/footer.css";
 import { MDBFooter, MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
+import { Link } from "react-router-dom"
 
 export default function Footer() {
   return (
@@ -63,9 +64,7 @@ export default function Footer() {
 
       <div className='text-center p-4 text-white' style={{ backgroundColor: 'rgb(0, 0, 0)' }}>
       Copyright © {new Date().getFullYear()}
-        <a className='text-reset fw-bold' style={{ textDecoration: 'none' }}>
-        {' '} MaroonMedic
-        </a>
+        <Link to = "/" className='text-reset fw-bold' style={{ textDecoration: 'none' }}> MaroonMedic</Link>
       </div>
     </MDBFooter>
   );

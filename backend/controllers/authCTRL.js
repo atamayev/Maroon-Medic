@@ -135,23 +135,24 @@ export async function login (req, res){
 
   // Queries the above SQL with values. If credentials exist in the DB, success:true, if not, false
   try{
-    const [rows] = await connection.execute(sql, values);
+    const [results] = await connection.execute(sql, values);
 
-    if (!rows.length){ // If no users exist with a certain first name, login error
+    if (!results.length){ // If no users exist with a certain first name, login error
       return res.status(404).json("User not found!");
     }
     try{
-      const hashed_password = rows[0].password;
+      const hashed_password = results[0].password;
       const bool = await Hash.checkPassword(password, hashed_password)
       if (bool === true) {
-        // The following is to 'remember' the user is signed in through cookies          const { DoctorID, password, email, ...others } = rows[0];
-        const { DoctorID, password, email, ...others } = rows[0];
+        // The following is to 'remember' the user is signed in through cookies          
+        const { DoctorID, password, email, ...others } = results[0];
         const UUID = ID_to_UUID(DoctorID)
 
         const payload = {
           DoctorID
         }
         const token = jwt.sign(payload, process.env.JWT_KEY);
+
 
         return res
           // .send({ success: true  })
