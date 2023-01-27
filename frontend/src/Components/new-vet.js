@@ -14,6 +14,9 @@ export default function NewVet () {
     const [loading, setLoading] = useState(false)
     const [globalToken, setglobalToken] = useState(false)
     const navigate = useNavigate();
+    const jsonString = localStorage.getItem('user');
+    const doctorIDfromjsonData = JSON.parse(jsonString);
+    
 
     useEffect(() => {
       user_verification();
@@ -71,7 +74,7 @@ export default function NewVet () {
         try {
           setError("")
           setLoading(true)
-          await VetDataService.addingDoctorInfo(firstName, lastName, gender, DOBmonth, DOBday, DOByear)
+          await VetDataService.addingDoctorInfo(firstName, lastName, gender, DOBmonth, DOBday, DOByear, doctorIDfromjsonData.DoctorID)
           navigate("/new-vet-2")
           console.log('Data added');
           alert("Data sent successfully!");

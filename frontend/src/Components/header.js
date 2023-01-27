@@ -44,7 +44,7 @@ export default function Header ( {onSearch}) {
 
     }else{
       window.location.href = `/s/${searchName}`;
-      setTimeout(1000);
+      // setTimeout(1000);
       onSearch(searchName);
     }
 

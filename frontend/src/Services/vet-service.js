@@ -11,14 +11,15 @@ export default new class VetDataService {
     async find(query){
         return await http.get(`search/${query}`);
     }
-    async addingDoctorInfo(firstName, lastName, gender, DOBmonth, DOBday, DOByear){
+    async addingDoctorInfo(firstName, lastName, gender, DOBmonth, DOBday, DOByear, DoctorID){
         return await http.post(`profile/new-vet`, {
             firstName: firstName,
             lastName: lastName,
             gender: gender,
             DOBmonth: DOBmonth,
             DOBday: DOBday, 
-            DOByear: DOByear
+            DOByear: DOByear, 
+            DoctorID: DoctorID
         });
     }
     async logout(){
