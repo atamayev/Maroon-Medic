@@ -1,18 +1,27 @@
-import React, {useState, useContext} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import {Card, Button, Form, Alert } from 'react-bootstrap'
 import {Link, useNavigate } from "react-router-dom";
 import { AuthContext } from '../Contexts/authContext.js';
 
 export default function Login() {
-  //Creates 3 states, two of which are for text, another for error (when incorrect login)
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const {login} = useContext(AuthContext) // figure out if verify will be inside login, or seperated
-  //think it should be seperate - but then idk (would it make sense to put verify inside the login function?)
+  const {login, currentUser} = useContext(AuthContext)
 
+  function checkCurrentUser(currentUser){
+    if(currentUser){
+      console.log('currentUser', currentUser)
+      navigate(`/edit-profile`)
+    }
+  }
+  
+  useEffect(()=>{
+    checkCurrentUser(currentUser)
+  });
+  
   const handleSubmit = async (e) =>{
     e.preventDefault();
     try {
@@ -29,7 +38,6 @@ export default function Login() {
         <Card>
             <Card.Body>
                 <h2 className = "text-center mb-4">Log In</h2>
-                
                 <Form onSubmit={handleSubmit}>
                     <Form.Group id = "email">
                         <Form.Label>Email</Form.Label>

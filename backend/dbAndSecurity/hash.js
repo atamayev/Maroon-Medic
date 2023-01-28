@@ -3,25 +3,34 @@ import dotenv from "dotenv"
 dotenv.config()
 
 export default new class Hash {
+    /** hash_credentials: Async function which hashes the user's password
+     *  Async function because hashing takes time, and breaks the program if not async
+     * @param {String} dehashed_data Password
+     * @returns hashedData: Hashed Password
+     */
     async hash_credentials(dehashed_data) {
         const saltRounds = parseInt(process.env.SALT_ROUNDS, 10);
-        let hashedData = dehashed_data;
         try {
-            hashedData = await _hash(dehashed_data, saltRounds);
-            // console.log('hashedData',hashedData);
-            } catch (err) {
+            const hashedData = await _hash(dehashed_data, saltRounds);
+            return (hashedData)
+        } catch (err) {
             console.log(err);
-            }
-        return (hashedData)
+        }
       };
-
+    
+    /** checkPassword: self-explanatory
+     *  Async function because hashing takes time, and breaks the program if not async
+     * @param {String} plaintextPassword 
+     * @param {String} hashedPassword 
+     * @returns True/False Boolean
+     */
     async checkPassword(plaintextPassword, hashedPassword) {
         try {
             const isMatch = await compare(plaintextPassword, hashedPassword);
-            // console.log('isMatch',isMatch)
             return isMatch;
         } catch (err) {
             console.log(err);
+            return false;
         }
     }
 }();

@@ -1,0 +1,20 @@
+JWT & UUID
+
+Jwt use case: Send jwts just to check if the user is who they say they are
+UUID: Used to send pointers to user data (UUID points to a specific ID, which can then be joined on) in json
+
+To-do:
+1. start sending uuid as a cookie when logging in instead of others. 
+	When data is requested, the UUID cookie will be sent instead of DocID. The UUID is then joined to the DocID, and necessary data is queried and returned in a JSON
+	When logging out, will need to clear UUID cookie as well
+2. Figure out how to parse and process cookie completely server-side (no more new-vet bs). only this way can it be accessed. make cookie secure and http. 
+3.  Implement Make HTTPS
+4. 0.5: Figure out a more logial way of naming conventions for routing. what is a user/profile?
+
+5. Editability of doc info
+
+-- after registering, and going back to home, profile doesn't render - requires reload
+-- if the doc hasn't entered their basic_doctor_info, then going to their profile is an error - bc it tries to render data that doesn't exist
+-- people with existing basic_doctor_info can keep filling out the form. should not be allowed. if data already exists in basic_doctor_info, should be re-routed to /edit-profile
+	special cookie sent after logging in, which doesn't allow user to go to registration routes. forwards straight to /edit-profile
+-- show first name on home page instead of email. will require decrypt multiple.

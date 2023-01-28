@@ -62,9 +62,9 @@ export default function App() {
           {/* Catch all */}
           <Route path = '*' element = {<Missing/>} />
         </Routes>
-        <Footer className = "align-items-center justify-content-center layout-container" />
       </div>
     </Container>
+    <Footer className = "align-items-center justify-content-center layout-container" />
 </>
   );
 }

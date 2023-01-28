@@ -1,12 +1,8 @@
 import http from "../http-common"
 // this is where all the api calls are coming from
 export default new class VetDataService {
-    async getAll() { // Don't think this function is currently being used. it's lumped in with find
-        return await http.get('users/fetchUsers');
-    }
-    // returns attributes of a certain vet
-    // async getSingleVet(DoctorID) {
-    //     return await http.get(`users/${DoctorID}`);
+    // async getAll() { // Don't think this function is currently being used. it's lumped in with find. Might need to bring it back to solve double query problem
+    //     return await http.get('users/fetchUsers');
     // }
     async getSingleVet(DoctorID) {
         return await http.get(`users/${DoctorID}`);
@@ -26,10 +22,9 @@ export default new class VetDataService {
         });
     }
     async logout(){
-        return await http.get(`auth/logout`); //is with credentials true necessary?:
-        //return await http.get(`auth/logout`, {withCredentials: true}); //is with credentials true necessary?:
+        return await http.get(`auth/logout`);
     }
     async verify(accessToken){
         return await http.get(`/auth/verify`, {accessToken})
     }
-}()
+}();

@@ -23,6 +23,7 @@ app.use((req, res, next) => {
     next();
 });
 
+// Limits which URLs are able to access the server (8800)
 const allowedOrigins = ['http://localhost:3000', 'http://192.168.1.242:3000'];
 app.use(cors({
   origin: (origin, callback) => {
@@ -43,7 +44,7 @@ app.use("/api/profile", profileRoutes);
 app.use("/api/search", searchRoutes);
 
 // Any route not specified above is not found
-app.use("*", (req, res) => res.status(404).json({ error: "not found"})) // any link that was not previously designated is 404
+app.use("*", (req, res) => res.status(404).json({ error: "Route not found"})) // any link that was not previously designated is 404
 
 // Initialization of server:
 app.listen(port, ()=>{

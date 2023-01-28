@@ -4,13 +4,13 @@ import jwt from "jsonwebtoken";
 import moment from 'moment';
 import Hash from "../dbAndSecurity/hash.js";
 import dotenv from "dotenv";
-import { ID_to_UUID, UUID_Join } from "../dbAndSecurity/UUID.js";
+import { DoctorID_to_UUID, UUID_to_DoctorID } from "../dbAndSecurity/UUID.js";
 dotenv.config()
 
-/** jwt_verify verifies the user's token. 
+/** jwt_verify verifies the user's token (held in cookie). 
  *  It does this in two steps. First, it checks if the accessToken is valid (verification). If verified, the ID is extracted from the access token. The ID is then searched in the DB
  *  If there is a user's whose credentials match what was verified/queried, set verified to true. Any other case, set verified to false.
- * @param {string} req Cookie from client 
+ * @param {String} req Cookie from client 
  * @param {Boolean} res True/False
  * @returns Returns true/false, depending on wheather the cookie is verified, and if the contents of the cookie are valid
  */
@@ -54,16 +54,19 @@ export async function jwt_verify (req, res){
       }
   }
 
-/** register adds a new user's credentials to the Doctor_credentials table, and sends a 
- *  First, register checks if the 
+/** register adds a new user's credentials to the Doctor_credentials table, and sends a JSON response (along with a cookie) back to client depending on the results
+ *  First, register checks if the username entered already exists in the DB
+ *  If exists, then the user is unable to make an account. If doesn't exist, move on
+ *  The password is hashed, and a dateTime object is created, and encrypted, before being entered into the credentials DB (username is not encrypted/hashed)
+ *  Then, the DoctorID of this new user is passed into the cookie as the accessToken, to check the user's identity in the future (see jwt_verify function)
+ *  The JSON object is (currently) set to all of the information about the Doc (password, created at), and sent to client. This needs to be changed  
  * @param {Object} req Contains the user's username, password
- * @param {Response} res If successful, contains a cookie, and Json with user's results
- * @returns Depending on wheather 
+ * @param {Response} res If successful, contains a cookie, and Json with user's results. If not, returns error in a JSON
+ * @returns An error, or a json response, depending on wheather the credentials are able to be registered
  */
-// ENCRYPTION IMPLEMENTED Saves REGISTER data to the db (signs up user):
 export async function register (req, res){
     const {email, password} = req.body // Takes out the decrypted_email from the request
-    const table_name = 'Doctor_credentials' // Establishes which table to query
+    const table_name = 'Doctor_credentials'
     const DB_name = 'DoctorDB'
   
     const sql = `SELECT * FROM ${table_name} WHERE email = ?`;
@@ -73,7 +76,7 @@ export async function register (req, res){
     try{const [results] = await connection.execute(sql, values)
       if (results.length === 0){
         const hashed_password = await Hash.hash_credentials(password)
-        
+
         const date_ob = new Date();
         const format = "YYYY-MM-DD HH:mm:ss"
         const dateTime = moment(date_ob).format(format);
@@ -95,7 +98,6 @@ export async function register (req, res){
             const values_new = [email]
             
             const [results] = await connection.execute(sql_new, values_new);
-            // console.log('results',results)
 
             const payload = {
               DoctorID: results[0].DoctorID, 
@@ -123,9 +125,18 @@ export async function register (req, res){
     }
     catch(err){
       res.status(500).send({ error: 'Problem with existing email search' });
-    }; // Checks for the existance of a record with the user's input email
+    };
 }
 
+/** login checks if an existing user's credentials exist in the Doctor_credentials table. If they do, then a cookie, and user data is sent to client.
+ *  Works very similarly to register function. First, searches if the entered username exists in the DB. If exists, continue. If not, return no user found
+ *  Next, uses Hash file to compare the user's entered password with the hashed password in the DB. If compare==true, continue. If not, return Wrong Username or Password
+ *  Next, extracts the DoctorID from the select query, and passes it in to the payload (to be signed, and verified in the future), which is put into the cookie.
+ *  The other user data (password, created), is packaged in the JSON part of response (needs to be changed to only send back the UUID).
+ * @param {Object} req Contains the user's username, password
+ * @param {Response} res If successful, contains a cookie, and JSON with user's results. If not, returns error in a JSON
+ * @returns An error, or a json response, depending on wheather the credentials exist in the DB
+ */
 export async function login (req, res){
   const { email, password } = req.body;
 
@@ -141,24 +152,24 @@ export async function login (req, res){
   try{
     const [results] = await connection.execute(sql, values);
 
-    if (!results.length){ // If no users exist with a certain first name, login error
-      return res.status(404).json("User not found!");
+    if (!results.length){ 
+      // If no users exist with a certain first name, login error
+      return res.status(404).json("Username not found!");
     }
     try{
       const hashed_password = results[0].password;
       const bool = await Hash.checkPassword(password, hashed_password)
       if (bool === true) {
         // The following is to 'remember' the user is signed in through cookies          
-        const { DoctorID, password, email, ...others } = results[0];
+        // const { DoctorID, password, email, ...others } = results[0];
+        const { DoctorID, ...others } = results[0];
 
         const payload = {
           DoctorID
         }
         const token = jwt.sign(payload, process.env.JWT_KEY);
-        const { pass, ...others1 } = results[0];
 
         // const UUID = ID_to_UUID(DoctorID)
-
 
         return res
           .cookie("accessToken", token, {
@@ -166,11 +177,10 @@ export async function login (req, res){
             // secure:true
           })
           .status(200)
-          .json(others1);
-      // }   
-  } else {
-      return res.status(400).json("Wrong password or username!");
-  }
+          .json(others);
+      } else {
+          return res.status(400).json("Wrong Username or Password!");
+        }
     }
     catch(error){
       res.status(500).send({ error: 'Problem with checking password' });
@@ -179,12 +189,12 @@ export async function login (req, res){
     res.status(500).send({ error: 'Problem with email selection' });
   }
 }
+
 /** logout is self-explanatory
  *  Deletes any cookie called "accessToken"--> whenever the user navigates to future pages, their token will not be verified (token cleared)
  * @param {n/a} req No request
  * @param {Response} res Clears cookie, and informs that "User has been logged out"
  */
-// Clears Cookies --> logs user out
 export async function logout (req, res){
   console.log('logged out')
   res.clearCookie("accessToken",{

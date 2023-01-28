@@ -1,7 +1,7 @@
 
 import React, {useContext, useCallback, useState } from 'react'
 import Dropdown from "react-bootstrap/Dropdown";
-import {useLocation  } from "react-router-dom";
+import {useLocation, Link} from "react-router-dom";
 
 import logo from '../Images/logo.svg';
 import pic from '../Images/ProfileImage.jpg';
@@ -54,14 +54,14 @@ export default function Header ( {onSearch}) {
     <header className = 'header'>
       
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <a href = {"/"}>
+        <Link to = "/">
           <img 
             src = {logo} 
             alt = "Logo" 
             width= {50}
             height = {50} 
             />
-          </a>
+          </Link>
         <div className="navbar-collapse" id="navbarSupportedContent">
         <input
             type="search"

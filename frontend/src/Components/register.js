@@ -1,4 +1,4 @@
-import React, {useRef, useState, useContext} from 'react'
+import React, {useRef, useState, useContext, useEffect} from 'react'
 import {Card, Button, Form, Alert } from 'react-bootstrap'
 import {Link, useNavigate} from "react-router-dom";
 import { AuthContext } from '../Contexts/authContext.js';
@@ -11,10 +11,21 @@ export default function Register() {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
 
-  const {register} = useContext(AuthContext)
+  const {register, currentUser} = useContext(AuthContext)
+
+  function checkCurrentUser(currentUser){
+    if(currentUser){
+      console.log('currentUser', currentUser)
+      navigate(`/edit-profile`)
+    }
+  }
+  
+  useEffect(()=>{
+    checkCurrentUser(currentUser)
+  });
+
   const handleSubmit = async (e) =>{
     e.preventDefault();
-
    //First, confirms that the two passwords entered are the same
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
       return setError("Passwords do not match")

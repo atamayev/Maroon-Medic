@@ -47,13 +47,13 @@ export async function returnVetPageData (req, res){
         delete results[0].Doctor_ID;
         delete results[0].basic_Doctor_info_ID;
         delete results[0].password;
-        console.log('results', results)
+        // console.log('results', results)
         if (results.length === 0) {
             console.log('User does not exist')
             res.send('User does not exist');
         } else {
             const decrypted = Crypto.decryptSingle(results[0])
-            console.log(decrypted)
+            // console.log('decrypted', decrypted)
             return res.status(200).json(decrypted);
         }
     } catch(error){
