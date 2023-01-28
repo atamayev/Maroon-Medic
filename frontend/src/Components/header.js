@@ -41,13 +41,11 @@ export default function Header ( {onSearch}) {
     if (!searchName){
       console.log('searchName',searchName)
       window.location.href = '/';
-
     }else{
       window.location.href = `/s/${searchName}`;
       // setTimeout(1000);
       onSearch(searchName);
     }
-
   };
  
   return (
@@ -82,7 +80,7 @@ export default function Header ( {onSearch}) {
           </div>
       <Dropdown className="menu-container" >
       <Dropdown.Toggle variant="dark" id="dropdown-basic" className = "menu-trigger menu-active">
-        {currentUser ? (currentUser.email):'Profile'}
+        {currentUser ? (currentUser):'Profile'}
         <img src = {pic} 
         alt = "profile" 
         height = {20} />
@@ -95,7 +93,7 @@ export default function Header ( {onSearch}) {
           </div>
         ):(
           <div>
-          <Dropdown.Item href="/register" >Sign up</Dropdown.Item>
+          <Dropdown.Item href="/register" className='fw-bold'>Sign up</Dropdown.Item>
           <Dropdown.Item href="/login">Log In</Dropdown.Item>
           </div>
         )}

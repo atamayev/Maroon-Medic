@@ -11,7 +11,7 @@ import { connection, useDB } from './connect.js';
  * @returns Randomly generated UUID
  */
 export async function DoctorID_to_UUID(DoctorID){
-    console.log('DoctorID', DoctorID )
+    // console.log('DoctorID', DoctorID )
     const UUID = uuidv4();
   
     const table_name = 'UUID_reference';

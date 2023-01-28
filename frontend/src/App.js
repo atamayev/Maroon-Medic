@@ -42,7 +42,7 @@ export default function App() {
     <>
     {currentUser?(
       <div>
-        logged in: {currentUser.DoctorID}
+        logged in: {currentUser}
       </div>
     ):(
     <div>

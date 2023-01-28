@@ -98,22 +98,28 @@ export async function register (req, res){
             const values_new = [email]
             
             const [results] = await connection.execute(sql_new, values_new);
+            const { DoctorID, ...others } = results[0];
 
             const payload = {
-              DoctorID: results[0].DoctorID, 
+              DoctorID
             }
             const token = jwt.sign(payload, process.env.JWT_KEY); // Expiration time goes in here if needed
 
-            const { pass, ...others } = results[0];
             // const UUID = ID_to_UUID(results[0].DoctorID)
+            const UUID = await DoctorID_to_UUID(DoctorID)
+            console.log('UUID', UUID)
 
             return res
-              .cookie("accessToken", token, {
-                // httpOnly: true,
-                // secure:true
-              })
-              .status(200)
-              .json(others);
+            .cookie("accessToken", token, {
+              // httpOnly: true,
+              // secure:true
+            })
+            .cookie("UUID", UUID, {
+              // httpOnly: true,
+              // secure:true
+            })
+            .status(200)
+            .json(DoctorID);
           }
           catch(error){
             res.status(500).send({ error: 'Error Selecting email' });
@@ -169,15 +175,20 @@ export async function login (req, res){
         }
         const token = jwt.sign(payload, process.env.JWT_KEY);
 
-        // const UUID = ID_to_UUID(DoctorID)
+        const UUID = await DoctorID_to_UUID(DoctorID)
+        console.log('UUID', UUID)
 
         return res
           .cookie("accessToken", token, {
             // httpOnly: true,
             // secure:true
           })
+          .cookie("UUID", UUID, {
+            // httpOnly: true,
+            // secure:true
+          })
           .status(200)
-          .json(others);
+          .json(DoctorID);
       } else {
           return res.status(400).json("Wrong Username or Password!");
         }
@@ -197,10 +208,18 @@ export async function login (req, res){
  */
 export async function logout (req, res){
   console.log('logged out')
-  res.clearCookie("accessToken",{
+  res
+  .clearCookie("accessToken",{
     httpOnly:true,
     secure:true,
     sameSite:"none",
     path: '/'
-  }).status(200).json("User has been logged out.")
+  })
+  .clearCookie("UUID",{
+    httpOnly:true,
+    secure:true,
+    sameSite:"none",
+    path: '/'
+  })
+  .status(200).json("User has been logged out.")
 };
