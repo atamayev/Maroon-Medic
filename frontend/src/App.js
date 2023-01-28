@@ -13,6 +13,8 @@ import Missing from './Components/missing';
 import NewVet from './Components/new-vet';
 import { AuthContext } from './Contexts/authContext';
 import VetDataService from "./Services/vet-service"
+import Dashboard from './Components/dashboard';
+import EditProfile from './Components/edit-profile';
 
 export default function App() {
   const { currentUser } = useContext(AuthContext);
@@ -52,12 +54,14 @@ export default function App() {
       <Header className = "d-flex align-items-center justify-content-center w-100" onSearch={findByName} />
         <Routes>
         {/* <Route exact path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>}></Route> */}
+          <Route exact path="/" element = {<HomeVetsList results={results}/>} />
           <Route exact path = '/register' element = {<Register/>} />
           <Route exact path = '/login' element = {<Login/>} />
-          <Route exact path="/" element = {<HomeVetsList results={results}/>} />
           <Route exact path="/s/:query" element = {<SpecificVetsList/>} />
           <Route exact path = '/user/:id' element = {<Vet/>} />
           <Route exact path = '/new-vet' element = {<NewVet/>} />
+          <Route exact path = '/dashboard' element = {<Dashboard/>} />
+          <Route exact path = '/edit-profile' element = {<EditProfile/>} />
 
           {/* Catch all */}
           <Route path = '*' element = {<Missing/>} />

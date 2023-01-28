@@ -61,7 +61,7 @@ export default function NewVet () {
           <p>Please register first </p>;
           <Link to= {'/register'}>
               <Button variant="primary">
-                  <p>Go back home</p>
+                  <p>Register</p>
               </Button>
         </Link>
       </Card.Body>

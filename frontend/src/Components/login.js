@@ -14,7 +14,7 @@ export default function Login() {
   function checkCurrentUser(currentUser){
     if(currentUser){
       console.log('currentUser', currentUser)
-      navigate(`/edit-profile`)
+      navigate(`/dashboard`)
     }
   }
   
@@ -26,7 +26,7 @@ export default function Login() {
     e.preventDefault();
     try {
       await login(email, password);
-      navigate("/")
+      navigate("/dashboard")
       console.log('Logged in');
     } catch (err) {
       setError(err.response.data);

@@ -13,7 +13,6 @@ export default function HomeVetsList({ results }) {
 
   return (
 
-    // <div style={{ display: 'flex', flexDirection: 'row' }}>
     <div className="card-container" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gridGap: '16px' }}>
         {data.map((item) => {
           const { email } = item;

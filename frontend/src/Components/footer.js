@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 export default function Footer() {
   return (
     // <MDBFooter className='text-center text-lg-start text-muted text-white rounded-3 w-100' style={{ backgroundColor: 'rgb(51, 51, 51)' }}>
-    <MDBFooter className='rounded-3' style={{ backgroundColor: 'rgb(51, 51, 51)' }}>
+    <MDBFooter style={{ backgroundColor: 'rgb(51, 51, 51)' }}>
       <section>
         <MDBContainer className='text-center text-md-start mt-5 w-100'>
           <MDBRow className='mt-3'>

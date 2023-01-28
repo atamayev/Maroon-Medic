@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import App from './src/App';
 import { AuthContextProvider } from "./Contexts/authContext"
 import "bootstrap/dist/css/bootstrap.min.css";
 import { disableReactDevTools } from '@fvilers/disable-react-devtools';
