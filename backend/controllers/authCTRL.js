@@ -7,6 +7,13 @@ import dotenv from "dotenv";
 import { ID_to_UUID, UUID_Join } from "../dbAndSecurity/UUID.js";
 dotenv.config()
 
+/** jwt_verify verifies the user's token. 
+ *  It does this in two steps. First, it checks if the accessToken is valid (verification). If verified, the ID is extracted from the access token. The ID is then searched in the DB
+ *  If there is a user's whose credentials match what was verified/queried, set verified to true. Any other case, set verified to false.
+ * @param {string} req Cookie from client 
+ * @param {*} res True/False
+ * @returns Returns true/false, depending on wheather the cookie is verified, and if the contents of the cookie are valid
+ */
 export async function jwt_verify (req, res){
   const accessToken = req.cookies.accessToken
   // console.log(accessToken.cookies.accessToken)

@@ -1,7 +1,13 @@
 import {connection, useDB} from "../dbAndSecurity/connect.js";
 import Crypto from "../dbAndSecurity/crypto.js";
 
-// DECRYPTION IMPLEMENTED: fetches all the existing entries in the mysql (for the home screen) 
+/** fetchUsers returns all records from the Doctor_credentials table
+ *  fetchUsers is not directly called. It is called within the searchByQuery function in searchCTRL.js, if no query is received
+ *  Used to fill the home screen
+ * @param {n/a} req - Not application - no request
+ * @param {array} res - result
+ * @returns Either an array of results, or a message with an error
+ */
 export async function fetchUsers (req, res){
     const table_name = 'Doctor_credentials'
     const sql = `SELECT * FROM ${table_name}`
@@ -10,7 +16,6 @@ export async function fetchUsers (req, res){
     await useDB(fetchUsers.name, DB_name, `${table_name}`)
     try{
         const [results] = await connection.execute(sql)
-        // console.log('results',results)
         // const decrypted = Crypto.decrypt_multiple(results)
         return res.status(200).json(results);
     }catch(error){
@@ -18,35 +23,14 @@ export async function fetchUsers (req, res){
     }
 }
 
-// DECRYPTION IMPLEMENTED Searches for specific User ID
-export async function getUser (req, res){
-    // Declares which table to check:
-    const table_name = 'Doctor_credentials';
-    const DB_name = 'DoctorDB'
-
-    // SQL Query that searches for a specific id given values
-    const sql = `SELECT * FROM ${table_name} WHERE DoctorID = ?`;
-    const values = [req.params.id];
-    // Makes sure using correct DB: 
-    await useDB(getUser.name, DB_name, `${table_name}`)
-    try{
-        const [results] = await connection.execute(sql, values)
-        if (results.length === 0) {
-            console.log('User does not exist')
-            res.send('User does not exist');
-        } else {
-            // const decrypted = Crypto.decryptSingle(results[0])
-            return res.status(200).json(results[0]);
-            // return res.status(200).json(decrypted);
-        }
-    } catch(error){
-        console.log('error encountered in catching')
-        return res.status(500).send({ error: 'Get User Error' });
-    }
-}
-
+/** returnVetPageData searches for a particular Doctor's data
+ *  Used to fill in vet screen (particular vet)
+ *  Doctor_credentials & basic_Doctor_info are joined on the DocID, the data decrypted returned back to the client
+ * @param {int} req: DocID is passed in
+ * @param {*} res: The user's specific information from Doctor_credentials & basic_Doctor_info is joined and returned
+ * @returns Decrypted vet data from the db.
+ */
 export async function returnVetPageData (req, res){
-    //take in an id, return decrypted necessary fields. will require joining, decrypting
     const table_name1 = 'Doctor_credentials';
     const table_name2 = 'basic_Doctor_info';
     const DB_name = 'DoctorDB'
@@ -71,11 +55,9 @@ export async function returnVetPageData (req, res){
             const decrypted = Crypto.decryptSingle(results[0])
             console.log(decrypted)
             return res.status(200).json(decrypted);
-            // return res.status(200).json(decrypted);
         }
     } catch(error){
         console.log('error encountered in catching')
         return res.status(500).send({ error: 'Get User Error' });
     }
-
 }
