@@ -17,11 +17,10 @@ export default function NewVet () {
     const jsonString = localStorage.getItem('user');
     const doctorIDfromjsonData = JSON.parse(jsonString);
     
-
     useEffect(() => {
       user_verification();
     }, []);
-
+    
     function getCookie(accessToken) {
       const value = "; " + document.cookie;
       const parts = value.split("; " + accessToken + "=");
@@ -38,7 +37,7 @@ export default function NewVet () {
 
     async function user_verification (){
       const accessToken = getCookie('accessToken');
-      // console.log(accessToken)
+      console.log(accessToken)
       if(accessToken){
         console.log('accesed',accessToken);
         const response = await VetDataService.verify(accessToken)
@@ -54,6 +53,7 @@ export default function NewVet () {
       setglobalToken(false);
     }
   }
+
   if(!globalToken){
     return(
      <Card>

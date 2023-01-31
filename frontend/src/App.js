@@ -15,6 +15,7 @@ import { AuthContext } from './Contexts/authContext';
 import VetDataService from "./Services/vet-service"
 import Dashboard from './Components/dashboard';
 import EditProfile from './Components/edit-profile';
+import Test from './Components/test';
 
 export default function App() {
   const { currentUser } = useContext(AuthContext);
@@ -36,7 +37,7 @@ export default function App() {
     }catch(error){
       console.error(error);
     }
-};
+  };
 
   return (
     <>
@@ -53,12 +54,14 @@ export default function App() {
      <div className="w-100" style = {{maxWidth: "4000px"}}>
       <Header className = "d-flex align-items-center justify-content-center w-100" onSearch={findByName} />
         <Routes>
-        {/* <Route exact path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>}></Route> */}
           <Route exact path="/" element = {<HomeVetsList results={results}/>} />
-          <Route exact path = '/register' element = {<Register/>} />
-          <Route exact path = '/login' element = {<Login/>} />
           <Route exact path="/s/:query" element = {<SpecificVetsList/>} />
           <Route exact path = '/user/:id' element = {<Vet/>} />
+          <Route exact path = '/testing' element = {<Test/>} />
+
+          {/* Don't need the search header: */}
+          <Route exact path = '/register' element = {<Register/>} />
+          <Route exact path = '/login' element = {<Login/>} />
           <Route exact path = '/new-vet' element = {<NewVet/>} />
           <Route exact path = '/dashboard' element = {<Dashboard/>} />
           <Route exact path = '/edit-profile' element = {<EditProfile/>} />

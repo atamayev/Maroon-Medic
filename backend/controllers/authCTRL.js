@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import moment from 'moment';
 import Hash from "../dbAndSecurity/hash.js";
 import dotenv from "dotenv";
-import { DoctorID_to_UUID, UUID_to_DoctorID } from "../dbAndSecurity/UUID.js";
+import { DoctorID_to_UUID } from "../dbAndSecurity/UUID.js";
 dotenv.config()
 
 /** jwt_verify verifies the user's token (held in cookie). 

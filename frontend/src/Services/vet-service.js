@@ -27,4 +27,7 @@ export default new class VetDataService {
     async verify(accessToken){
         return await http.get(`/auth/verify`, {accessToken})
     }
+    async getProprietaryHomePageData(){
+        return await http.post('/users/proprietary-home-page-data')
+    }
 }();

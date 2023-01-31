@@ -14,10 +14,25 @@ export default function Vet () {
   const [user, setUser] = useState(null);
   const [error, setError] = useState('');
   const { currentUser } = useContext(AuthContext);
-
+  
   useEffect(() => {
     getVet(id);
   }, [id]);
+
+
+  // function getCookie(accessToken) {
+  //   const value = "; " + document.cookie;
+  //   const parts = value.split("; " + accessToken + "=");
+  //   // console.log(parts)
+  //   if (parts.length === 2){
+  //     const return_token = parts.pop().split(";").shift()
+  //     return return_token
+  //   }
+  //   else{
+  //     console.log('elsed')
+  //     return null
+  //   }
+  // }
 
   // Given the current ID, the dataservice returns all necessary information about that specific user
   async function getVet (id) {
@@ -59,6 +74,7 @@ export default function Vet () {
   
   return (
     <div>
+      {/* {UUID? (console.log(UUID)):(<div></div>)} */}
         <Card key={user.DoctorID} style={{margin: '0 10px' }}>
             {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
             <Card.Body>

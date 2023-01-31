@@ -28,7 +28,7 @@ export async function fetchUsers (req, res){
  *  Doctor_credentials & basic_Doctor_info are joined on the DocID, the data decrypted returned back to the client
  * @param {int} req: DocID is passed in
  * @param {*} res: The user's specific information from Doctor_credentials & basic_Doctor_info is joined and returned
- * @returns Decrypted vet data from the db.
+ * @returns Decrypted vet data from the db
  */
 export async function returnVetPageData (req, res){
     const table_name1 = 'Doctor_credentials';
@@ -60,4 +60,22 @@ export async function returnVetPageData (req, res){
         console.log('error encountered in catching')
         return res.status(500).send({ error: 'Get User Error' });
     }
-}
+};
+
+export async function proprietaryHomePageData (req, res){
+    console.log('in server')
+    console.log('req.cookies',req.cookies)
+    return res.status(200).json("test")
+    // console.log('in proprietaryHomePageData')
+    // try{
+    //     console.log('begin')
+    //     const cookie = req.headers.cookie
+    //     const data = req.data
+    //     console.log('cookie',cookie)
+    //     console.log('data',data)
+    //     return res.status(200).json('test')
+    // }catch(error){
+    //     console.log('error', error)
+    //     return res.status(500).send({error: 'Prop Home page data error'})
+    // }
+};

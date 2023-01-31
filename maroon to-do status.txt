@@ -1,8 +1,3 @@
-JWT & UUID
-
-Jwt use case: Send jwts just to check if the user is who they say they are
-UUID: Used to send pointers to user data (UUID points to a specific ID, which can then be joined on) in json
-
 To-do:
 1. start sending uuid as a cookie when logging in instead of others. 
 	When data is requested, the UUID cookie will be sent instead of DocID. No JSON data is sent as part of login (besides for 'logged in')
