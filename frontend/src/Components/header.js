@@ -1,17 +1,37 @@
 
-import React, {useContext, useCallback, useState } from 'react'
+import React, {useCallback, useState, useEffect } from 'react'
 import Dropdown from "react-bootstrap/Dropdown";
 import {useLocation, Link} from "react-router-dom";
 
 import logo from '../Images/logo.svg';
 import pic from '../Images/ProfileImage.jpg';
-import { AuthContext } from '../Contexts/authContext';
 import VetDataService from '../Services/vet-service'
 
 export default function Header ( {onSearch}) {
-  const { currentUser } = useContext(AuthContext);
   const [searchName, setSearchName ] = useState("");
   const location = useLocation();
+  const [UUID, setUUID] = useState(null)   
+
+  useEffect(()=>{
+    checkUUID()
+  });
+  
+  function checkUUID(){
+    const cookieName = "UUID=";
+    const decodedCookie = document.cookie; // when https, will need to decode
+    const cookies = decodedCookie.split(";");
+    for(let i = 0; i <cookies.length; i++) {
+      let cookie = cookies[i];
+      while (cookie.charAt(0) == ' ') {
+        cookie = cookie.substring(1);
+      }
+      if (cookie.startsWith(cookieName)) {
+        setUUID(cookie.substring(cookieName.length, cookie.length));
+      }
+    }
+    return null;
+  }
+
 
   const handleLogout = async () => {
     localStorage.clear();
@@ -80,14 +100,14 @@ export default function Header ( {onSearch}) {
           </div>
       <Dropdown className="menu-container" >
       <Dropdown.Toggle variant="dark" id="dropdown-basic" className = "menu-trigger menu-active">
-        {currentUser ? (currentUser):'Profile'}
+        {UUID ? (UUID):'Profile'}
         <img src = {pic} 
         alt = "profile" 
         height = {20} />
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        {currentUser ? (
+        {UUID ? (
           <div>
           <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
           </div>

@@ -1,7 +1,6 @@
-import React, {useRef, useState, useContext, useEffect} from 'react'
+import React, {useRef, useState, useEffect} from 'react'
 import {Card, Button, Form, Alert } from 'react-bootstrap'
 import {Link, useNavigate} from "react-router-dom";
-import { AuthContext } from '../Contexts/authContext.js';
 import VetDataService from '../Services/vet-service'
 
 export default function Register() {
@@ -11,24 +10,29 @@ export default function Register() {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
-  const [UUID, setUUID] = useState(null);
 
-  const {register, currentUser} = useContext(AuthContext)
-
-  function checkCurrentUser(currentUser){
-    if(currentUser){
-      console.log('currentUser', currentUser)
-      navigate(`/edit-profile`)
+  function checkUUID(){
+    const cookieName = "UUID=";
+    const decodedCookie = document.cookie; // when https, will need to decode
+    const cookies = decodedCookie.split(";");
+    for(let i = 0; i <cookies.length; i++) {
+      let cookie = cookies[i];
+      while (cookie.charAt(0) == ' ') {
+        cookie = cookie.substring(1);
+      }
+      if (cookie.startsWith(cookieName)) { // if cookie with UUID exists, navigate to dashboard
+        navigate(`/dashboard`)
+      }
     }
+    return null;
   }
-  
+
   useEffect(()=>{
-    checkCurrentUser(currentUser)
+    checkUUID()
   });
 
   const handleSubmit = async (e) =>{
     e.preventDefault();
-   //First, confirms that the two passwords entered are the same
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
       return setError("Passwords do not match")
     }

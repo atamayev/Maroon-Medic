@@ -16,3 +16,5 @@ To-do:
 	If cookie not present and UUID not present, re-direct to register page
 -- show first name on home page instead of email. will require decrypt multiple.
 -- double query problem: can see the cause by commenting out the if statement in home vets list. it first makes results = nothing, and then re-queryies
+	consider making results into a context. only queryied when needed
+--figure out a way to not have to keep re-writing checkUUID function. maybe create a context? or make it a global variable

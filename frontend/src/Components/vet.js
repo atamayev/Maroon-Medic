@@ -1,38 +1,40 @@
-import React, { useState, useEffect, useContext} from 'react';
+import React, { useState, useEffect} from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import {Link, useParams} from "react-router-dom";
 import VetDataService from "../Services/vet-service.js";
-import { AuthContext } from '../Contexts/authContext.js';
 
 export default function Vet () {
   // Creates an id variable which gets the id of the current page. 
   let { id } = useParams(); //the id of the current site (which user) --> used to set User
+  
   if (Number(id)){
     id = Number(id)
   }
   const [user, setUser] = useState(null);
   const [error, setError] = useState('');
-  const { currentUser } = useContext(AuthContext);
-  
+  const [UUID, setUUID] = useState(null)   
+
   useEffect(() => {
     getVet(id);
+    checkUUID()
   }, [id]);
 
-
-  // function getCookie(accessToken) {
-  //   const value = "; " + document.cookie;
-  //   const parts = value.split("; " + accessToken + "=");
-  //   // console.log(parts)
-  //   if (parts.length === 2){
-  //     const return_token = parts.pop().split(";").shift()
-  //     return return_token
-  //   }
-  //   else{
-  //     console.log('elsed')
-  //     return null
-  //   }
-  // }
+  function checkUUID(){
+    const cookieName = "UUID=";
+    const decodedCookie = document.cookie; // when https, will need to decode
+    const cookies = decodedCookie.split(";");
+    for(let i = 0; i <cookies.length; i++) {
+      let cookie = cookies[i];
+      while (cookie.charAt(0) == ' ') {
+        cookie = cookie.substring(1);
+      }
+      if (cookie.startsWith(cookieName)) {
+        setUUID(cookie.substring(cookieName.length, cookie.length));
+      }
+    }
+    return null;
+  }
 
   // Given the current ID, the dataservice returns all necessary information about that specific user
   async function getVet (id) {
@@ -80,13 +82,13 @@ export default function Vet () {
             <Card.Body>
               <Card.Title>My Email: {user.email}</Card.Title>
               {/* Check if current user exists. If exists, then check if the current user's id matches the page id. if it does, display password. if not, show nothing */}
-              {currentUser ? (currentUser.DoctorID === id ?(
+              {/* {currentUser ? (currentUser.DoctorID === id ?(
                 <Card.Text>
                 My Password: {user.password}<br></br>
                 </Card.Text>
               ):<div></div>
               ):
-              <div></div>}
+              <div></div>} */}
               
               <Card.Text>
                 My ID: {user.DoctorID}<br></br>
@@ -101,7 +103,7 @@ export default function Vet () {
             </Link>
             </Card.Body>
           </Card>
-          {currentUser? (
+          {UUID? (
             <div>
             </div>
           ): 

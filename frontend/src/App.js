@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Routes, Route} from 'react-router-dom'
 import {Container} from 'react-bootstrap';
 import "./CSS/footer.css"
@@ -11,19 +11,35 @@ import Login from "./Components/login";
 import Vet from './Components/vet';
 import Missing from './Components/missing';
 import NewVet from './Components/new-vet';
-import { AuthContext } from './Contexts/authContext';
 import VetDataService from "./Services/vet-service"
 import Dashboard from './Components/dashboard';
 import EditProfile from './Components/edit-profile';
 import Test from './Components/test';
 
 export default function App() {
-  const { currentUser } = useContext(AuthContext);
+  const [UUID, setUUID] = useState(null)   
   const [results, setResults] = useState(null);
 
   useEffect(() => {
     findByName();
+    checkUUID()
   }, []);
+
+  function checkUUID(){
+    const cookieName = "UUID=";
+    const decodedCookie = document.cookie; // when https, will need to decode
+    const cookies = decodedCookie.split(";");
+    for(let i = 0; i <cookies.length; i++) {
+      let cookie = cookies[i];
+      while (cookie.charAt(0) == ' ') {
+        cookie = cookie.substring(1);
+      }
+      if (cookie.startsWith(cookieName)) {
+        setUUID(cookie.substring(cookieName.length, cookie.length));
+      }
+    }
+    return null;
+  }
   
   // this is the core search function
   async function findByName (query) {
@@ -41,9 +57,9 @@ export default function App() {
 
   return (
     <>
-    {currentUser?(
+    {UUID?(
       <div>
-        logged in: {currentUser}
+        logged in: {UUID}
       </div>
     ):(
     <div>
