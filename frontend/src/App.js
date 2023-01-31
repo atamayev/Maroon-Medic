@@ -14,7 +14,6 @@ import NewVet from './Components/new-vet';
 import VetDataService from "./Services/vet-service"
 import Dashboard from './Components/dashboard';
 import EditProfile from './Components/edit-profile';
-import Test from './Components/test';
 
 export default function App() {
   const [UUID, setUUID] = useState(null)   
@@ -73,7 +72,6 @@ export default function App() {
           <Route exact path="/" element = {<HomeVetsList results={results}/>} />
           <Route exact path="/s/:query" element = {<SpecificVetsList/>} />
           <Route exact path = '/user/:id' element = {<Vet/>} />
-          <Route exact path = '/testing' element = {<Test/>} />
 
           {/* Don't need the search header: */}
           <Route exact path = '/register' element = {<Register/>} />

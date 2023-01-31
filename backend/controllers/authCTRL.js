@@ -17,42 +17,43 @@ dotenv.config()
 export async function jwt_verify (req, res){
   // refer to: https://github.com/SalarC123/Classius/blob/main/src/server/router.js
   //: https://dev.to/salarc123/mern-stack-authentication-tutorial-part-1-the-backend-1c57
-      try{
-        const accessToken = req.cookies.accessToken
-        const decodedDoctorID = jwt.verify(accessToken, process.env.JWT_KEY).DoctorID;
+  try{
+    const accessToken = req.cookies.accessToken
+    console.log('accessToken',accessToken)
+    const decodedDoctorID = jwt.verify(accessToken, process.env.JWT_KEY).DoctorID;
 
-        const table_name = 'Doctor_credentials';
-        const DB_name = 'DoctorDB';
+    const table_name = 'Doctor_credentials';
+    const DB_name = 'DoctorDB';
 
-        const sql = `SELECT * FROM ${table_name} WHERE DoctorID = ?`;
-        const values = [decodedDoctorID];
-        
-        await useDB(jwt_verify.name, DB_name, `${table_name}`)
-        // Searches the Doctor_credentials for the decodedDoctorID
+    const sql = `SELECT * FROM ${table_name} WHERE DoctorID = ?`;
+    const values = [decodedDoctorID];
+    
+    await useDB(jwt_verify.name, DB_name, `${table_name}`)
+    // Searches the Doctor_credentials for the decodedDoctorID
 
-        try{const [rows] = await connection.execute(sql, values)
-          if (!rows.length){
-            //If there are no doctors with the decodedDoctorID, return false
-            return res.status(401).json({success: false})
-          }
-          else{
-            // If there is a doc with the decodedDoctorID, return true
-            console.log('true')
-            return res.status(200).json({success: true})
-          };
-        }
-        catch(error){
-          // Any problems with the query: return false
-          console.log('trouble with db query', error)
-          return res.status(401).json({success: false})
-        }
-      }
-      catch(error){
-        // If token verification fails
-        console.log('error in token verification', error);
+    try{const [rows] = await connection.execute(sql, values)
+      if (!rows.length){
+        //If there are no doctors with the decodedDoctorID, return false
         return res.status(401).json({success: false})
       }
+      else{
+        // If there is a doc with the decodedDoctorID, return true
+        console.log('true')
+        return res.status(200).json({success: true})
+      };
+    }
+    catch(error){
+      // Any problems with the query: return false
+      console.log('trouble with db query', error)
+      return res.status(401).json({success: false})
+    }
   }
+  catch(error){
+    // If token verification fails
+    console.log('error in token verification', error);
+    return res.status(401).json({success: false})
+  }
+}
 
 /** register adds a new user's credentials to the Doctor_credentials table, and sends a JSON response (along with a cookie) back to client depending on the results
  *  First, register checks if the username entered already exists in the DB
@@ -119,7 +120,7 @@ export async function register (req, res){
               // secure:true
             })
             .status(200)
-            .json(DoctorID);
+            .json('login success');
           }
           catch(error){
             res.status(500).send({ error: 'Error Selecting email' });
@@ -188,7 +189,7 @@ export async function login (req, res){
             // secure:true
           })
           .status(200)
-          .json(DoctorID);
+          .json('login success');
       } else {
           return res.status(400).json("Wrong Username or Password!");
         }

@@ -62,7 +62,7 @@ export async function returnVetPageData (req, res){
     }
 };
 
-export async function proprietaryHomePageData (req, res){
+export async function UUIDtoDoctorID (req, res){
     const UUID = req.cookies.UUID
     console.log('UUID',UUID)
 
@@ -71,13 +71,14 @@ export async function proprietaryHomePageData (req, res){
     const sql = `SELECT Doctor_ID FROM ${table_name} WHERE UUID = ?`
     const values = [UUID];
         
-    await useDB(proprietaryHomePageData.name, DB_name, `${table_name}`)
+    await useDB(UUIDtoDoctorID.name, DB_name, `${table_name}`)
     
     try{
         const [results] = await connection.execute(sql, values)
         return res.status(200).json(results)
     }catch(error){
-        console.log('error encountered in catching proprietaryHomePageData')
-        return res.status(500).send({ error: 'proprietaryHomePageData Error' });
+        console.log('error encountered in catching UUIDtoDoctorID')
+        return res.send('User does not exist')
+        // return res.status(500).send({ error: 'proprietaryHomePageData Error' });
     }
 };

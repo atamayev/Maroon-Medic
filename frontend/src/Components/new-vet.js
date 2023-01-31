@@ -4,51 +4,55 @@ import {useNavigate, Link} from "react-router-dom";
 import VetDataService from "../Services/vet-service.js";
 
 export default function NewVet () {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [gender, setGender] = useState('');
-    const [DOBmonth, setDOBmonth] = useState('');
-    const [DOBday, setDOBday] = useState('');
-    const [DOByear, setDOByear] = useState('');
-    const [error, setError] = useState("")
-    const [loading, setLoading] = useState(false)
-    const [globalToken, setglobalToken] = useState(false)
-    const navigate = useNavigate();
-    const jsonString = localStorage.getItem('user');
-    const doctorIDfromjsonData = JSON.parse(jsonString);
-    
-    useEffect(() => {
-      user_verification();
-    }, []);
-    
-    function getCookie(accessToken) {
-      const value = "; " + document.cookie;
-      const parts = value.split("; " + accessToken + "=");
-      console.log(parts)
-      if (parts.length === 2){
-        const return_token = parts.pop().split(";").shift()
-        return return_token
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [gender, setGender] = useState('');
+  const [DOBmonth, setDOBmonth] = useState('');
+  const [DOBday, setDOBday] = useState('');
+  const [DOByear, setDOByear] = useState('');
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [globalToken, setglobalToken] = useState(false) // wheather or not user verified
+  const [DoctorID, setDoctorID] = useState(null);
+  const navigate = useNavigate();
+      
+  useEffect(() => {
+    user_verification();
+    UUIDtoDoctorID();
+  }, []);
+  
+  async function UUIDtoDoctorID (){
+    const cookies = document.cookie;
+    // console.log(cookies)
+    if (cookies){
+      try{
+        const response = await VetDataService.UUIDtoDoctorID(cookies)
+        if (response.data === 'User does not exist'){
+          return <p>Problem in UUID to DoctorID</p>
+        }
+        else{
+          // console.log(response.data[0].Doctor_ID)
+          setDoctorID(response.data[0].Doctor_ID)
+        }
+      }catch(error){
+        console.log('error in UUID to DoctorID', error)
       }
-      else{
-        console.log('elsed')
-        return null
+    }else{
+      console.log('elsed');
+    }
+  }
+
+  async function user_verification (){
+    const cookies = document.cookie;
+    if(cookies){
+      const response = await VetDataService.verify(cookies)
+      if(response.data.success === true){
+        setglobalToken(true)
+      }
+      else{// if user not veriifed
+        setglobalToken(false);
       }
     }
-
-    async function user_verification (){
-      const accessToken = getCookie('accessToken');
-      console.log(accessToken)
-      if(accessToken){
-        console.log('accesed',accessToken);
-        const response = await VetDataService.verify(accessToken)
-        if(response.data.success === true){
-          setglobalToken(true)
-          console.log('true');
-        }
-        else{// if user not veriifed
-          setglobalToken(false);
-        }
-      }
     else{// if no token received
       setglobalToken(false);
     }
@@ -74,10 +78,10 @@ export default function NewVet () {
       try {
         setError("")
         setLoading(true)
-        const bool = await VetDataService.addingDoctorInfo(firstName, lastName, gender, DOBmonth, DOBday, DOByear, doctorIDfromjsonData.DoctorID)
+        const bool = await VetDataService.addingDoctorInfo(firstName, lastName, gender, DOBmonth, DOBday, DOByear, DoctorID)
         if(bool.data === true){
           // navigate("/new-vet-2");
-          navigate(`/user/${doctorIDfromjsonData.DoctorID}`)
+          navigate(`/user/${DoctorID}`)
           console.log('Data added');
         }
       } catch (err) {

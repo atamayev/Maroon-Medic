@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
 
 export default function Dashboard() {
-    const [UUID, setUUID] = useState(null)   
+    const [UUID, setUUID] = useState(null)
 
     useEffect(()=>{
       checkUUID()
