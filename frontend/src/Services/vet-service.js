@@ -38,7 +38,7 @@ export default new class VetDataService {
     // async getProprietaryHomePageData(cookies){
     //     return await http.post('/users/proprietary-home-page-data', {cookies})
     // }
-    async UUIDtoDoctorID(UUID){
+    async UUIDtoDoctorID(UUID){//Takes the UUID and returns DoctorID
         return await http.post('/users/uuid-to-doctorid', {UUID})
     }
 }();
