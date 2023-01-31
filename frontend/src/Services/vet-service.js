@@ -27,7 +27,15 @@ export default new class VetDataService {
     async verify(accessToken){
         return await http.get(`/auth/verify`, {accessToken})
     }
-    async getProprietaryHomePageData(){
-        return await http.post('/users/proprietary-home-page-data')
+    async getProprietaryHomePageData(cookies){
+        return await http.post('/users/proprietary-home-page-data', {cookies})
+    }
+    async login(username, password){
+        return await http.post("/auth/login", {email: username, password: password}, 
+        {withCredentials: true})
+    }
+    async register(username, password){
+        return await http.post("/auth/register", {email: username, password: password}, 
+        {withCredentials: true})
     }
 }();

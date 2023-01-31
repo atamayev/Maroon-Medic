@@ -1,40 +1,44 @@
-import React, {useEffect, useContext} from 'react'
-import { AuthContext } from '../Contexts/authContext.js';
+import React, {useEffect, useState} from 'react'
 import {Link, useNavigate} from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
 
 export default function Dashboard() {
-    const {currentUser} = useContext(AuthContext)
-    const navigate = useNavigate();
+    const [UUID, setUUID] = useState(null)   
+
+    useEffect(()=>{
+      checkUUID()
+    });
     
-    if(!currentUser){
+    function checkUUID(){
+      const cookieName = "UUID=";
+      const decodedCookie = document.cookie; // when https, will need to decode
+      const cookies = decodedCookie.split(";");
+      for(let i = 0; i <cookies.length; i++) {
+        let cookie = cookies[i];
+        while (cookie.charAt(0) == ' ') {
+          cookie = cookie.substring(1);
+        }
+        if (cookie.startsWith(cookieName)) {
+          setUUID(cookie.substring(cookieName.length, cookie.length));
+        }
+      }
+      return null;
+    }
+
+    if(!UUID){
         return(
          <Card>
             <Card.Body>
-              <p>Please register first </p>;
+              <p>Please register or login first </p>;
               <Link to= {'/register'}>
                   <Button variant="primary">
-                      <p>Go back home</p>
+                      <p>Register</p>
                   </Button>
             </Link>
           </Card.Body>
         </Card>
         )
       }
-    
-    //   function checkCurrentUser(currentUser){
-        
-    //     if(!currentUser){
-    //       console.log('currentUser', currentUser)
-    //       alert('Not logged in. Re-directing to Login')
-    //       navigate(`/login`)
-    //     }
-    //   }
-      
-    // useEffect(()=>{
-    //     checkCurrentUser(currentUser)
-    //   });
-    // have a return function if no one logged in. immediate red-riect looks shitty
 
   return (
     <div>

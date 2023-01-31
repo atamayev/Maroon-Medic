@@ -63,19 +63,21 @@ export async function returnVetPageData (req, res){
 };
 
 export async function proprietaryHomePageData (req, res){
-    console.log('in server')
-    console.log('req.cookies',req.cookies)
-    return res.status(200).json("test")
-    // console.log('in proprietaryHomePageData')
-    // try{
-    //     console.log('begin')
-    //     const cookie = req.headers.cookie
-    //     const data = req.data
-    //     console.log('cookie',cookie)
-    //     console.log('data',data)
-    //     return res.status(200).json('test')
-    // }catch(error){
-    //     console.log('error', error)
-    //     return res.status(500).send({error: 'Prop Home page data error'})
-    // }
+    const UUID = req.cookies.UUID
+    console.log('UUID',UUID)
+
+    const table_name = 'UUID_reference';
+    const DB_name = 'DoctorDB'
+    const sql = `SELECT Doctor_ID FROM ${table_name} WHERE UUID = ?`
+    const values = [UUID];
+        
+    await useDB(proprietaryHomePageData.name, DB_name, `${table_name}`)
+    
+    try{
+        const [results] = await connection.execute(sql, values)
+        return res.status(200).json(results)
+    }catch(error){
+        console.log('error encountered in catching proprietaryHomePageData')
+        return res.status(500).send({ error: 'proprietaryHomePageData Error' });
+    }
 };

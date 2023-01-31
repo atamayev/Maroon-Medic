@@ -2,6 +2,7 @@ import React, {useState, useContext, useEffect} from 'react'
 import {Card, Button, Form, Alert } from 'react-bootstrap'
 import {Link, useNavigate } from "react-router-dom";
 import { AuthContext } from '../Contexts/authContext.js';
+import VetDataService from '../Services/vet-service'
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -25,7 +26,7 @@ export default function Login() {
   const handleSubmit = async (e) =>{
     e.preventDefault();
     try {
-      await login(email, password);
+      await VetDataService.login(email, password);
       navigate("/dashboard")
       console.log('Logged in');
     } catch (err) {

@@ -2,6 +2,7 @@ import React, {useRef, useState, useContext, useEffect} from 'react'
 import {Card, Button, Form, Alert } from 'react-bootstrap'
 import {Link, useNavigate} from "react-router-dom";
 import { AuthContext } from '../Contexts/authContext.js';
+import VetDataService from '../Services/vet-service'
 
 export default function Register() {
   const emailRef = useRef();
@@ -10,6 +11,7 @@ export default function Register() {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
+  const [UUID, setUUID] = useState(null);
 
   const {register, currentUser} = useContext(AuthContext)
 
@@ -33,7 +35,7 @@ export default function Register() {
     try {
       setError("")
       setLoading(true)
-      await register(emailRef.current.value, passwordRef.current.value);
+      await VetDataService.register(emailRef.current.value, passwordRef.current.value);
       navigate("/new-vet")
       console.log('Registered');
     } catch (err) {

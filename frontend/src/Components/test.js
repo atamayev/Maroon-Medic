@@ -8,47 +8,38 @@ export default function Test() {
         getData();
     }, []);
 
-    async function getData (){
-        const cookies = document.cookie.split("; ");
+    //Checks if a cookie with the name UUID exists. If it does, returns it. 
+    function checkUUID(){
+      const cookieName = "UUID=";
+      const decodedCookie = document.cookie; // when https, will need to decode
+      const cookies = decodedCookie.split(";");
+      for(let i = 0; i <cookies.length; i++) {
+        let cookie = cookies[i];
+        while (cookie.charAt(0) == ' ') {
+          cookie = cookie.substring(1);
+        }
+        if (cookie.startsWith(cookieName)) {
+          console.log('true')
+          return cookie.substring(cookieName.length, cookie.length);
+        }
+      }
+      return null;
+    }
 
-        if(cookies){
+    async function getData (){
+        const cookies = document.cookie;
+        if(checkUUID()){
+          const UUID = checkUUID()
             try{
-              const response = await VetDataService.getProprietaryHomePageData(cookies)
-              console.log('response', response)
+              const response = await VetDataService.getProprietaryHomePageData(UUID)
+              console.log('response', response.data[0].Doctor_ID)
             }catch(error){
               console.log('Error in getData', error)
             }
           }else{
             console.log('no cookie')
           }
-
     }
-
-//   async function currentUser1 (){
-//     const cookies = document.cookie;
-//     console.log(cookies);
-//     if(cookies){
-//       try{
-//         const response = await VetDataService.proprietaryHomePageData(cookies)
-//         console.log('response', response)
-//       }catch(error){
-//         console.log('Error in currentUser1')
-//       }
-//     }else{
-//       console.log('no cookie')
-//     }
-    
-//     // const cookies = document.cookie.split("; ");
-//     // const secondCookie = cookies[1]
-
-//     // console.log(secondCookie)
-//     // try{
-//     //   const response = await VetDataService.proprietaryHomePageData(UUID)
-//     //   console.log(response)
-//     // }catch(error){
-//     //   console.log(error)
-//     // }
-//   }
 
   return (
     <div>Test</div>
