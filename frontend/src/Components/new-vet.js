@@ -12,7 +12,7 @@ export default function NewVet () {
   const [DOByear, setDOByear] = useState('');
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
-  const [globalToken, setglobalToken] = useState(false) // wheather or not user verified
+  const [verifyToken, setverifyToken] = useState(false) // wheather or not user verified
   const [DoctorID, setDoctorID] = useState(null);
   const navigate = useNavigate();
       
@@ -47,18 +47,18 @@ export default function NewVet () {
     if(cookies){
       const response = await VetDataService.verify(cookies)
       if(response.data.success === true){
-        setglobalToken(true)
+        setverifyToken(true)
       }
       else{// if user not veriifed
-        setglobalToken(false);
+        setverifyToken(false);
       }
     }
     else{// if no token received
-      setglobalToken(false);
+      setverifyToken(false);
     }
   }
 
-  if(!globalToken){
+  if(!verifyToken){
     return(
      <Card>
         <Card.Body>

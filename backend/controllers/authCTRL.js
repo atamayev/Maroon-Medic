@@ -21,6 +21,10 @@ export async function jwt_verify (req, res){
     const accessToken = req.cookies.accessToken
     console.log('accessToken',accessToken)
     const decodedDoctorID = jwt.verify(accessToken, process.env.JWT_KEY).DoctorID;
+    
+    if (Date.now() >= decodedDoctorID.exp * 1000) {
+      return res.status(401).json({ error: "Token expired" });
+    }
 
     const table_name = 'Doctor_credentials';
     const DB_name = 'DoctorDB';
@@ -50,8 +54,79 @@ export async function jwt_verify (req, res){
   }
   catch(error){
     // If token verification fails
+    if(error.name=== "TokenExpiredError"){
+      return res.status(401).json({ error: "Token expired" });
+    }
     console.log('error in token verification', error);
     return res.status(401).json({success: false})
+  }
+}
+
+/** login checks if an existing user's credentials exist in the Doctor_credentials table. If they do, then a cookie, and user data is sent to client.
+ *  Works very similarly to register function. First, searches if the entered username exists in the DB. If exists, continue. If not, return no user found
+ *  Next, uses Hash file to compare the user's entered password with the hashed password in the DB. If compare==true, continue. If not, return Wrong Username or Password
+ *  Next, extracts the DoctorID from the select query, and passes it in to the payload (to be signed, and verified in the future), which is put into the cookie.
+ *  The other user data (password, created), is packaged in the JSON part of response (needs to be changed to only send back the UUID).
+ * @param {Object} req Contains the user's username, password
+ * @param {Response} res If successful, contains a cookie, and JSON with user's results. If not, returns error in a JSON
+ * @returns An error, or a json response, depending on wheather the credentials exist in the DB
+ */
+export async function login (req, res){
+  const { email, password } = req.body;
+
+  const table_name = 'Doctor_credentials';
+  const DB_name = 'DoctorDB';
+
+  const sql = `SELECT * FROM ${table_name} WHERE email = ?`;
+  const values = [email];
+  
+  await useDB(login.name, DB_name, `${table_name}`)
+
+  // Queries the above SQL with values. If credentials exist in the DB, success:true, if not, false
+  try{
+    const [results] = await connection.execute(sql, values);
+
+    if (!results.length){ 
+      // If no users exist with a certain first name, login error
+      return res.status(404).json("Username not found!");
+    }
+    try{
+      const hashed_password = results[0].password;
+      const bool = await Hash.checkPassword(password, hashed_password)
+      if (bool === true) {
+        // The following is to 'remember' the user is signed in through cookies          
+        // const { DoctorID, password, email, ...others } = results[0];
+        const { DoctorID, ...others } = results[0];
+
+        const payload = {
+          DoctorID, 
+          exp: Math.floor(Date.now()/1000) +10
+        }
+        const token = jwt.sign(payload, process.env.JWT_KEY);
+
+        const UUID = await DoctorID_to_UUID(DoctorID)
+        console.log('UUID', UUID)
+
+        return res
+          .cookie("accessToken", token, {
+            // httpOnly: true,
+            // secure:true
+          })
+          .cookie("UUID", UUID, {
+            // httpOnly: true,
+            // secure:true
+          })
+          .status(200)
+          .json('login success');
+      } else {
+          return res.status(400).json("Wrong Username or Password!");
+        }
+    }
+    catch(error){
+      res.status(500).send({ error: 'Problem with checking password' });
+    }
+  }catch(error){
+    res.status(500).send({ error: 'Problem with email selection' });
   }
 }
 
@@ -133,73 +208,6 @@ export async function register (req, res){
     catch(err){
       res.status(500).send({ error: 'Problem with existing email search' });
     };
-}
-
-/** login checks if an existing user's credentials exist in the Doctor_credentials table. If they do, then a cookie, and user data is sent to client.
- *  Works very similarly to register function. First, searches if the entered username exists in the DB. If exists, continue. If not, return no user found
- *  Next, uses Hash file to compare the user's entered password with the hashed password in the DB. If compare==true, continue. If not, return Wrong Username or Password
- *  Next, extracts the DoctorID from the select query, and passes it in to the payload (to be signed, and verified in the future), which is put into the cookie.
- *  The other user data (password, created), is packaged in the JSON part of response (needs to be changed to only send back the UUID).
- * @param {Object} req Contains the user's username, password
- * @param {Response} res If successful, contains a cookie, and JSON with user's results. If not, returns error in a JSON
- * @returns An error, or a json response, depending on wheather the credentials exist in the DB
- */
-export async function login (req, res){
-  const { email, password } = req.body;
-
-  const table_name = 'Doctor_credentials';
-  const DB_name = 'DoctorDB';
-
-  const sql = `SELECT * FROM ${table_name} WHERE email = ?`;
-  const values = [email];
-  
-  await useDB(login.name, DB_name, `${table_name}`)
-
-  // Queries the above SQL with values. If credentials exist in the DB, success:true, if not, false
-  try{
-    const [results] = await connection.execute(sql, values);
-
-    if (!results.length){ 
-      // If no users exist with a certain first name, login error
-      return res.status(404).json("Username not found!");
-    }
-    try{
-      const hashed_password = results[0].password;
-      const bool = await Hash.checkPassword(password, hashed_password)
-      if (bool === true) {
-        // The following is to 'remember' the user is signed in through cookies          
-        // const { DoctorID, password, email, ...others } = results[0];
-        const { DoctorID, ...others } = results[0];
-
-        const payload = {
-          DoctorID
-        }
-        const token = jwt.sign(payload, process.env.JWT_KEY);
-
-        const UUID = await DoctorID_to_UUID(DoctorID)
-        console.log('UUID', UUID)
-
-        return res
-          .cookie("accessToken", token, {
-            // httpOnly: true,
-            // secure:true
-          })
-          .cookie("UUID", UUID, {
-            // httpOnly: true,
-            // secure:true
-          })
-          .status(200)
-          .json('login success');
-      } else {
-          return res.status(400).json("Wrong Username or Password!");
-        }
-    }
-    catch(error){
-      res.status(500).send({ error: 'Problem with checking password' });
-    }
-  }catch(error){
-    res.status(500).send({ error: 'Problem with email selection' });
-  }
 }
 
 /** logout is self-explanatory

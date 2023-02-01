@@ -31,8 +31,8 @@ export async function DoctorID_to_UUID(DoctorID){
 
 /** UUID_to_DoctorID takes in the UUID, and searches for it's complementary DoctorID, returning to user
  *  NOT CURRENTLY BEING USED
- * @param {Int} DoctorID DoctorID
- * @returns Randomly generated UUID
+ * @param {*} UUID DoctorID
+ * @returns Corresponding DoctorID
  */
 export async function UUID_to_DoctorID(UUID){
     console.log('UUID', UUID )

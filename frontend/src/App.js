@@ -30,7 +30,7 @@ export default function App() {
     const cookies = decodedCookie.split(";");
     for(let i = 0; i <cookies.length; i++) {
       let cookie = cookies[i];
-      while (cookie.charAt(0) == ' ') {
+      while (cookie.charAt(0) === ' ') {
         cookie = cookie.substring(1);
       }
       if (cookie.startsWith(cookieName)) {
@@ -56,7 +56,7 @@ export default function App() {
 
   return (
     <>
-    {UUID?(
+    {/* {UUID?(
       <div>
         logged in: {UUID}
       </div>
@@ -64,7 +64,7 @@ export default function App() {
     <div>
       logged out
     </div>
-    )}
+    )} */}
      <Container className = "d-flex" style = {{minHeight: "100vh"}}>
      <div className="w-100" style = {{maxWidth: "4000px"}}>
       <Header className = "d-flex align-items-center justify-content-center w-100" onSearch={findByName} />

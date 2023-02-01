@@ -22,7 +22,7 @@ export default function Header ( {onSearch}) {
     const cookies = decodedCookie.split(";");
     for(let i = 0; i <cookies.length; i++) {
       let cookie = cookies[i];
-      while (cookie.charAt(0) == ' ') {
+      while (cookie.charAt(0) === ' ') {
         cookie = cookie.substring(1);
       }
       if (cookie.startsWith(cookieName)) {
