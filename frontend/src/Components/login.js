@@ -9,8 +9,8 @@ export default function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  function checkUUID(){
-    const cookieName = "UUID=";
+  function checkDoctorUUID(){
+    const cookieName = "DoctorUUID=";
     const decodedCookie = document.cookie; // when https, will need to decode
     const cookies = decodedCookie.split(";");
     for(let i = 0; i <cookies.length; i++) {
@@ -18,7 +18,7 @@ export default function Login() {
       while (cookie.charAt(0) === ' ') {
         cookie = cookie.substring(1);
       }
-      if (cookie.startsWith(cookieName)) { // if cookie with UUID exists, navigate to edit-profile
+      if (cookie.startsWith(cookieName)) { // if cookie with DoctorUUID exists, navigate to edit-profile
         navigate(`/edit-profile`)
       }
     }
@@ -26,7 +26,7 @@ export default function Login() {
   }
 
   useEffect(()=>{
-    checkUUID()
+    checkDoctorUUID()
   });
   
   const handleSubmit = async (e) =>{

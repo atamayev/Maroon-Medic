@@ -4,18 +4,17 @@ import {Button, Card} from 'react-bootstrap';
 import VetDataService from "../Services/vet-service.js";
 
 export default function Dashboard() {
-    const [UUID, setUUID] = useState(null)
+    const [DoctorUUID, setDoctorUUID] = useState(null)
     const [verifyToken, setverifyToken] = useState(false) // wheather or not user verified
     const [dashboardData, setDashboardData] = useState({});
 
     useEffect(()=>{
-      checkUUID();
+      checkDoctorUUID();
       user_verification();
-      
     }, []);
     
-    function checkUUID(){
-      const cookieName = "UUID=";
+    function checkDoctorUUID(){
+      const cookieName = "DoctorUUID=";
       const decodedCookie = document.cookie; // when https, will need to decode
       const cookies = decodedCookie.split(";");
       for(let i = 0; i <cookies.length; i++) {
@@ -24,11 +23,12 @@ export default function Dashboard() {
           cookie = cookie.substring(1);
         }
         if (cookie.startsWith(cookieName)) {
-          setUUID(cookie.substring(cookieName.length, cookie.length));
+          setDoctorUUID(cookie.substring(cookieName.length, cookie.length));
         }
       }
       return null;
     }
+
     async function user_verification (){
       const cookies = document.cookie;
       if(cookies){
@@ -43,27 +43,27 @@ export default function Dashboard() {
             console.log('not verified')
             setverifyToken(false);
           }
-      }catch(error){
-        if(error.response.data.error === 'Token expired'){
-          return(
-            <div>
-                    <Card>
-                <Card.Body>
-                  <p>Session Timed out. Please log in again </p>;
-                  <Link to= {'/login'}>
-                      <Button variant="primary">
-                          <p>Login</p>
-                      </Button>
-                </Link>
-              </Card.Body>
-            </Card>
-            </div>
-          )
+        }catch(error){
+          if(error.response.data.error === 'Token expired'){
+            return(
+              <div>
+                  <Card>
+                    <Card.Body>
+                      <p>Session Timed out. Please log in again </p>;
+                      <Link to= {'/login'}>
+                        <Button variant="primary">
+                            <p>Login</p>
+                        </Button>
+                      </Link>
+                    </Card.Body>
+                  </Card>
+              </div>
+            )
+          }
+          console.log(error.response.data.error)
+          setverifyToken(false);
         }
-        console.log(error.response.data.error)
-        setverifyToken(false);
       }
-    }
       else{// if no token received
         console.log('not verified')
         setverifyToken(false);
@@ -88,10 +88,9 @@ export default function Dashboard() {
       else{
         console.log('no cookies')
       }
-      
     }
 
-    if(!UUID && !verifyToken){
+    if(!DoctorUUID && !verifyToken){
       return(
        <Card>
           <Card.Body>
@@ -109,7 +108,8 @@ export default function Dashboard() {
         </Card.Body>
       </Card>
       )
-  }
+    }
+
     if(!verifyToken){
       return(
        <Card>

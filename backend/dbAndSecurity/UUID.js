@@ -4,44 +4,43 @@ import { connection, useDB } from './connect.js';
 // These functions are made to not send the DoctorID back and forth from server to client.
 // Instead, a UUID (Universally Unique Identifier) is created, which matches to a DoctorID, and is sent back and forth
 
-/** ID_to_UUID takes in the DoctorID, creates a complementary UUID, and inserts it into the UUID_reference table
+/** DoctorID_to_DoctorUUID takes in the DoctorID, creates a complementary UUID, and inserts it into the UUID_reference table
  *  NOT CURRENTLY BEING USED
  *  In the future, UUID will be what is sent to client instead of DocID as the main identifier
  * @param {Int} DoctorID DoctorID
  * @returns Randomly generated UUID
  */
-export async function DoctorID_to_UUID(DoctorID){
+export async function DoctorID_to_DoctorUUID(DoctorID){
     // console.log('DoctorID', DoctorID )
-    const UUID = uuidv4();
+    const DoctorUUID = uuidv4();
   
     const table_name = 'UUID_reference';
     const DB_name = 'DoctorDB';
   
-    await useDB(DoctorID_to_UUID.name, DB_name, `${table_name}`)
+    await useDB(DoctorID_to_DoctorUUID.name, DB_name, `${table_name}`)
     const sql = `INSERT INTO ${table_name} (UUID, Doctor_ID) VALUES (?, ?)`;
-    const values = [UUID, DoctorID ];  
+    const values = [DoctorUUID, DoctorID ];  
   
     try {
         await connection.execute(sql, values)
-        return UUID
+        return DoctorUUID
     }catch(error){
-      return (`error in ${DoctorID_to_UUID.name}:`, error)
+      return (`error in ${DoctorID_to_DoctorUUID.name}:`, error)
     }
 };
 
-/** UUID_to_DoctorID takes in the UUID, and searches for it's complementary DoctorID, returning to user
- *  NOT CURRENTLY BEING USED
+/** DoctorUUID_to_DoctorID takes in the UUID, and searches for it's complementary DoctorID, returning to user
  * @param {*} UUID DoctorID
  * @returns Corresponding DoctorID
  */
-export async function UUID_to_DoctorID(UUID){
-    console.log('UUID', UUID )
+export async function DoctorUUID_to_DoctorID(DoctorUUID){
+    console.log('UUID', DoctorUUID )
     const table_name = 'UUID_reference';
     const DB_name = 'DoctorDB';
   
-    await useDB(UUID_to_DoctorID.name, DB_name, `${table_name}`)
+    await useDB(DoctorUUID_to_DoctorID.name, DB_name, `${table_name}`)
     const sql = `SELECT Doctor_ID FROM ${table_name} WHERE UUID = ?`;
-    const values = [UUID];  
+    const values = [DoctorUUID];  
   
     try {
         const DoctorID = await connection.execute(sql, values)
@@ -49,6 +48,6 @@ export async function UUID_to_DoctorID(UUID){
         console.log('doc_new returned', doc_new)
         return doc_new
     }catch(error){
-      return (`error in ${UUID_to_DoctorID.name}:`, error)
+      return (`error in ${DoctorUUID_to_DoctorID.name}:`, error)
     }
 }

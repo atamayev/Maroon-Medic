@@ -10,14 +10,14 @@ import VetDataService from '../Services/vet-service'
 export default function Header ( {onSearch}) {
   const [searchName, setSearchName ] = useState("");
   const location = useLocation();
-  const [UUID, setUUID] = useState(null)   
+  const [DoctorUUID, setDoctorUUID] = useState(null)   
 
   useEffect(()=>{
-    checkUUID()
+    checkDoctorUUID()
   });
   
-  function checkUUID(){
-    const cookieName = "UUID=";
+  function checkDoctorUUID(){
+    const cookieName = "DoctorUUID=";
     const decodedCookie = document.cookie; // when https, will need to decode
     const cookies = decodedCookie.split(";");
     for(let i = 0; i <cookies.length; i++) {
@@ -26,7 +26,7 @@ export default function Header ( {onSearch}) {
         cookie = cookie.substring(1);
       }
       if (cookie.startsWith(cookieName)) {
-        setUUID(cookie.substring(cookieName.length, cookie.length));
+        setDoctorUUID(cookie.substring(cookieName.length, cookie.length));
       }
     }
     return null;
@@ -100,16 +100,18 @@ export default function Header ( {onSearch}) {
           </div>
       <Dropdown className="menu-container" >
       <Dropdown.Toggle variant="dark" id="dropdown-basic" className = "menu-trigger menu-active">
-        {UUID ? (UUID):'Profile'}
+        {DoctorUUID ? (DoctorUUID):'Profile'}
         <img src = {pic} 
         alt = "profile" 
         height = {20} />
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        {UUID ? (
+        {DoctorUUID ? (
           <div>
           <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
+          <Dropdown.Item href="/dashboard">Dashboard</Dropdown.Item>
+          <Dropdown.Item href="/edit-profile">Profile Settings</Dropdown.Item>
           </div>
         ):(
           <div>

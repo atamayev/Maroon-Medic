@@ -62,16 +62,16 @@ export async function returnVetPageData (req, res){
     }
 };
 
-export async function UUIDtoDoctorID (req, res){
-    const UUID = req.cookies.UUID
-    console.log('UUID',UUID)
+export async function DoctorUUIDtoDoctorID (req, res){
+    const DoctorUUID = req.cookies.DoctorUUID
+    console.log('DoctorUUID',DoctorUUID)
 
     const table_name = 'UUID_reference';
     const DB_name = 'DoctorDB'
     const sql = `SELECT Doctor_ID FROM ${table_name} WHERE UUID = ?`
-    const values = [UUID];
+    const values = [DoctorUUID];
         
-    await useDB(UUIDtoDoctorID.name, DB_name, `${table_name}`)
+    await useDB(DoctorUUIDtoDoctorID.name, DB_name, `${table_name}`)
     
     try{
         const [results] = await connection.execute(sql, values)

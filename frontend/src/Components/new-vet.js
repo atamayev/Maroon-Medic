@@ -18,24 +18,24 @@ export default function NewVet () {
       
   useEffect(() => {
     user_verification();
-    UUIDtoDoctorID();
+    DoctorUUIDtoDoctorID();
   }, []);
   
-  async function UUIDtoDoctorID (){
+  async function DoctorUUIDtoDoctorID (){
     const cookies = document.cookie;
     // console.log(cookies)
     if (cookies){
       try{
-        const response = await VetDataService.UUIDtoDoctorID(cookies)
+        const response = await VetDataService.DoctorUUIDtoDoctorID(cookies)
         if (response.data === 'User does not exist'){
-          return <p>Problem in UUID to DoctorID</p>
+          return <p>Problem in DoctorUUID to DoctorID</p>
         }
         else{
           // console.log(response.data[0].Doctor_ID)
           setDoctorID(response.data[0].Doctor_ID)
         }
       }catch(error){
-        console.log('error in UUID to DoctorID', error)
+        console.log('error in DoctorUUID to DoctorID', error)
       }
     }else{
       console.log('elsed');

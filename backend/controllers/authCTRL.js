@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import moment from 'moment';
 import Hash from "../dbAndSecurity/hash.js";
 import dotenv from "dotenv";
-import { DoctorID_to_UUID } from "../dbAndSecurity/UUID.js";
+import { DoctorID_to_DoctorUUID } from "../dbAndSecurity/UUID.js";
 dotenv.config()
 
 /** jwt_verify verifies the user's token (held in cookie). 
@@ -105,7 +105,7 @@ export async function login (req, res){
         }
         const token = jwt.sign(payload, process.env.JWT_KEY);
 
-        const UUID = await DoctorID_to_UUID(DoctorID)
+        const DoctorUUID = await DoctorID_to_DoctorUUID(DoctorID)
         // console.log('UUID', UUID)
         // const expires = new Date(Date.now() + expiration_time *1000)
 
@@ -115,7 +115,7 @@ export async function login (req, res){
             // httpOnly: true,
             // secure:true
           })
-          .cookie("UUID", UUID, {
+          .cookie("DoctorUUID", DoctorUUID, {
             // expires,
             // httpOnly: true,
             // secure:true
@@ -186,15 +186,15 @@ export async function register (req, res){
             const token = jwt.sign(payload, process.env.JWT_KEY); // Expiration time goes in here if needed
 
             // const UUID = ID_to_UUID(results[0].DoctorID)
-            const UUID = await DoctorID_to_UUID(DoctorID)
-            console.log('UUID', UUID)
+            const DoctorUUID = await DoctorID_to_DoctorUUID(DoctorID)
+            console.log('DoctorUUID', DoctorUUID)
 
             return res
             .cookie("accessToken", token, {
               // httpOnly: true,
               // secure:true
             })
-            .cookie("UUID", UUID, {
+            .cookie("DoctorUUID", DoctorUUID, {
               // httpOnly: true,
               // secure:true
             })
@@ -228,7 +228,7 @@ export async function logout (req, res){
     sameSite:"none",
     path: '/'
   })
-  .clearCookie("UUID",{
+  .clearCookie("DoctorUUID",{
     httpOnly:true,
     secure:true,
     sameSite:"none",

@@ -11,8 +11,8 @@ export default function Register() {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
 
-  function checkUUID(){
-    const cookieName = "UUID=";
+  function checkDoctorUUID(){
+    const cookieName = "DoctorUUID=";
     const decodedCookie = document.cookie; // when https, will need to decode
     const cookies = decodedCookie.split(";");
     for(let i = 0; i <cookies.length; i++) {
@@ -20,7 +20,7 @@ export default function Register() {
       while (cookie.charAt(0) === ' ') {
         cookie = cookie.substring(1);
       }
-      if (cookie.startsWith(cookieName)) { // if cookie with UUID exists, navigate to dashboard
+      if (cookie.startsWith(cookieName)) { // if cookie with DoctorUUID exists, navigate to dashboard
         navigate(`/dashboard`)
       }
     }
@@ -28,7 +28,7 @@ export default function Register() {
   }
 
   useEffect(()=>{
-    checkUUID()
+    checkDoctorUUID()
   });
 
   const handleSubmit = async (e) =>{

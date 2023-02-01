@@ -1,13 +1,13 @@
 To-do:
-1. start sending uuid as a cookie when logging in instead of others. 
-	When data is requested, the UUID cookie will be sent instead of DocID. No JSON data is sent as part of login (besides for 'logged in')
-	When the user needs to retreive data (ie when navigate to dashboard after login), it will call fill-in-data.
-	Fill-in data will get the current UUID, convert to DocID, and query the necessary dashboard data. Will return as a JSON	
-2 Make HTTPS--> only after making HTTPS can secure be turned on (see #3)
-3. Figure out how to parse and process cookie completely server-side (no more new-vet cookie parsing bs). only this way can it be accessed. then, make cookie secure and http. 
-	can only read secure/http cookie from client side.
+1. Double Query figure out
+	-- double query problem: can see the cause by commenting out the if statement in home vets list. it first makes results = nothing, and then re-queryies
+	consider making results into a context. only queryied when needed
+2. Fix all double query inefficieneices on the back-end as well. It's dirty
+3. Clean vetDahsboard code
 4. 0.5: Figure out a more logial way of naming conventions for routing. what is a user/profile?
 5. Editability of doc info
+
+
 
 -- if the doc hasn't entered their basic_doctor_info, then going to their profile is an error - bc it tries to render data that doesn't exist
 -- people with existing basic_doctor_info can keep filling out the form. should not be allowed. if data already exists in basic_doctor_info, should be re-routed to /edit-profile
@@ -15,6 +15,10 @@ To-do:
 	If cookie not present, but UUID is present forwards straight to /edit-profile
 	If cookie not present and UUID not present, re-direct to register page
 -- show first name on home page instead of email. will require decrypt multiple.
--- double query problem: can see the cause by commenting out the if statement in home vets list. it first makes results = nothing, and then re-queryies
-	consider making results into a context. only queryied when needed
+
 --figure out a way to not have to keep re-writing checkUUID function. maybe create a context? or make it a global variable
+
+
+--change uuid reference to be doctoruuid reference, also make a patientUUID reference
+--also make access token into doctoraccesstoken
+--figure out why there are 2 doctorUUID to DoctorID functions (user CTRL, UUID)

@@ -13,15 +13,15 @@ export default function Vet () {
   }
   const [user, setUser] = useState(null);
   const [error, setError] = useState('');
-  const [UUID, setUUID] = useState(null)   
+  const [DoctorUUID, setDoctorUUID] = useState(null)   
 
   useEffect(() => {
     getVet(id);
-    checkUUID()
+    checkDoctorUUID()
   }, [id]);
 
-  function checkUUID(){
-    const cookieName = "UUID=";
+  function checkDoctorUUID(){
+    const cookieName = "DoctorUUID=";
     const decodedCookie = document.cookie; // when https, will need to decode
     const cookies = decodedCookie.split(";");
     for(let i = 0; i <cookies.length; i++) {
@@ -30,7 +30,7 @@ export default function Vet () {
         cookie = cookie.substring(1);
       }
       if (cookie.startsWith(cookieName)) {
-        setUUID(cookie.substring(cookieName.length, cookie.length));
+        setDoctorUUID(cookie.substring(cookieName.length, cookie.length));
       }
     }
     return null;
@@ -76,7 +76,7 @@ export default function Vet () {
   
   return (
     <div>
-      {/* {UUID? (console.log(UUID)):(<div></div>)} */}
+      {/* {DoctorUUID? (console.log(DoctorUUID)):(<div></div>)} */}
         <Card key={user.DoctorID} style={{margin: '0 10px' }}>
             {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
             <Card.Body>
@@ -103,7 +103,7 @@ export default function Vet () {
             </Link>
             </Card.Body>
           </Card>
-          {UUID? (
+          {DoctorUUID? (
             <div>
             </div>
           ): 

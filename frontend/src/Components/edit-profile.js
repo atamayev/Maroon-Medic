@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
 
 export default function EditProfile() {
-  const [UUID, setUUID] = useState(null)   
+  const [DoctorUUID, setDoctorUUID] = useState(null)   
 
   useEffect(()=>{
-    checkUUID()
+    checkDoctorUUID()
   });
 
-  function checkUUID(){
-    const cookieName = "UUID=";
+  function checkDoctorUUID(){
+    const cookieName = "DoctorUUID=";
     const decodedCookie = document.cookie; // when https, will need to decode
     const cookies = decodedCookie.split(";");
     for(let i = 0; i <cookies.length; i++) {
@@ -19,13 +19,13 @@ export default function EditProfile() {
         cookie = cookie.substring(1);
       }
       if (cookie.startsWith(cookieName)) {
-        setUUID(cookie.substring(cookieName.length, cookie.length));
+        setDoctorUUID(cookie.substring(cookieName.length, cookie.length));
       }
     }
     return null;
   }
 
-  if(!UUID){
+  if(!DoctorUUID){
     return(
       <Card>
         <Card.Body>
