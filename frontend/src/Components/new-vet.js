@@ -81,7 +81,7 @@ export default function NewVet () {
         const bool = await VetDataService.addingDoctorInfo(firstName, lastName, gender, DOBmonth, DOBday, DOByear, DoctorID)
         if(bool.data === true){
           // navigate("/new-vet-2");
-          navigate(`/user/${DoctorID}`)
+          navigate(`/dashboard`)
           console.log('Data added');
         }
       } catch (err) {
@@ -120,12 +120,35 @@ export default function NewVet () {
         <br />
         <Form.Group id = "gender">
 
-        <Form.Label>Date of Birth:</Form.Label>
-            <Form.Control required type="text" placeholder="MM" value={DOBmonth} onChange={e => setDOBmonth( e.target.value )} />
+        <Form.Label>Date of Birth:</Form.Label><br/>
+            <select required value = {DOBmonth} onChange={e => setDOBmonth( e.target.value )}>
+            {Array.from({length: 12}, (_, i) => (
+            <option key={i + 1} value={i + 1}>{i + 1}</option>
+          ))}  
+            </select> 
+            <select required value = {DOBmonth} onChange={e => setDOBday( e.target.value )}>
+            {Array.from({length: 31}, (_, i) => (
+            <option key={i + 1} value={i + 1}>{i + 1}</option>
+          ))}  
+            </select> 
+            <select required value = {DOBmonth} onChange={e => setDOByear( e.target.value )}>
+            {Array.from({length: 101}, (_, i) => (
+            <option key={1900 + 1} value={1900 + 1}>{1900 + i}</option>
+          ))}  
+            </select> 
+     
+        {/*
+        <Form.Control required type="text" placeholder="MM" value={DOBmonth} onChange={e => setDOBmonth( e.target.value )} pattern="[1-9]|1[0-2]" 
+  onInput={(e) => {
+    if (!e.target.validity.valid) {
+      e.target.value = "";
+    }
+  }}/>
             <br />
-            <Form.Control required type="text" placeholder="DD" value={DOBday} onChange={e => setDOBday(e.target.value)} />
+            <Form.Control required type="text" placeholder="MM" value={DOBmonth} onChange={e => setDOBmonth( e.target.value )} /><br/> */}
+            {/* <Form.Control required type="text" placeholder="DD" value={DOBday} onChange={e => setDOBday(e.target.value)} />
             <br />
-            <Form.Control required type="text" placeholder="YYYY" value={DOByear} onChange={e => setDOByear(e.target.value)} />
+            <Form.Control required type="text" placeholder="YYYY" value={DOByear} onChange={e => setDOByear(e.target.value)} /> */}
         </Form.Group>
         <br />
         {/* <Button type="submit" className = "w-100" >Submit</Button> */}

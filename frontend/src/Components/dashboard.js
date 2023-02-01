@@ -6,12 +6,13 @@ import VetDataService from "../Services/vet-service.js";
 export default function Dashboard() {
     const [UUID, setUUID] = useState(null)
     const [verifyToken, setverifyToken] = useState(false) // wheather or not user verified
-    const [dashboardData, setDashboardData] = useState(null);
+    const [dashboardData, setDashboardData] = useState({});
 
     useEffect(()=>{
       checkUUID();
       user_verification();
-    });
+      
+    }, []);
     
     function checkUUID(){
       const cookieName = "UUID=";
@@ -68,6 +69,7 @@ export default function Dashboard() {
         setverifyToken(false);
       }
     }
+
     async function DashboardData (){
       const cookies = document.cookie;
       if(cookies){
@@ -75,6 +77,7 @@ export default function Dashboard() {
               const response = await VetDataService.fillDashboard(cookies)
               if (response){
                 console.log(response.data)
+                setDashboardData(response.data);
               }else{
                 console.log('no response')
               }
@@ -125,12 +128,16 @@ export default function Dashboard() {
   return (
     <div>
         <p>This is the Dashboard Page</p>
-
-          {/* <Link to= {'/edit-profile'}>
-                <Button variant="primary">
-                    <p>Edit Profile</p>
-                </Button>
-          </Link> */}
+        <Card style={{margin: '0 10px' }}>
+          <Card.Body>
+            <Card.Title>{dashboardData.FirstName} {dashboardData.LastName}</Card.Title>
+            <Card.Text>
+                My Birthdate is: {dashboardData.DOB_month}/{dashboardData.DOB_day}/{dashboardData.DOB_year}<br></br>
+                I am {dashboardData.Gender}<br></br>
+                My email is {dashboardData.email}
+              </Card.Text>
+          </Card.Body>
+       </Card>
     </div>
   )
 }
