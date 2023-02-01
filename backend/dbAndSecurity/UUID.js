@@ -45,8 +45,9 @@ export async function UUID_to_DoctorID(UUID){
   
     try {
         const DoctorID = await connection.execute(sql, values)
-        // console.log('UUID returned', UUID)
-        return DoctorID
+        const doc_new = DoctorID[0][0].Doctor_ID
+        console.log('doc_new returned', doc_new)
+        return doc_new
     }catch(error){
       return (`error in ${UUID_to_DoctorID.name}:`, error)
     }

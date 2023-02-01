@@ -41,4 +41,7 @@ export default new class VetDataService {
     async UUIDtoDoctorID(UUID){//Takes the UUID and returns DoctorID
         return await http.post('/users/uuid-to-doctorid', {UUID})
     }
+    async fillDashboard(UUID){
+        return await http.get('/profile/dashboard-data', {UUID: UUID})
+    }
 }();

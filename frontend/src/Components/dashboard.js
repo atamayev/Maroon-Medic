@@ -6,6 +6,7 @@ import VetDataService from "../Services/vet-service.js";
 export default function Dashboard() {
     const [UUID, setUUID] = useState(null)
     const [verifyToken, setverifyToken] = useState(false) // wheather or not user verified
+    const [dashboardData, setDashboardData] = useState(null);
 
     useEffect(()=>{
       checkUUID();
@@ -34,7 +35,8 @@ export default function Dashboard() {
             const response = await VetDataService.verify(cookies)
           if(response.data.success === true){
             console.log('verified')
-            setverifyToken(true)
+            setverifyToken(true);
+            DashboardData();
           }
           else{// if user not veriifed
             console.log('not verified')
@@ -66,6 +68,26 @@ export default function Dashboard() {
         setverifyToken(false);
       }
     }
+    async function DashboardData (){
+      const cookies = document.cookie;
+      if(cookies){
+           try{
+              const response = await VetDataService.fillDashboard(cookies)
+              if (response){
+                console.log(response.data)
+              }else{
+                console.log('no response')
+              }
+            }catch(error){
+              console.log('unable to fill in dashboard data', error)
+            }
+        }
+      else{
+        console.log('no cookies')
+      }
+      
+    }
+
     if(!UUID && !verifyToken){
       return(
        <Card>
@@ -100,16 +122,15 @@ export default function Dashboard() {
       )
     }
 
-
-
   return (
     <div>
         <p>This is the Dashboard Page</p>
-          <Link to= {'/edit-profile'}>
+
+          {/* <Link to= {'/edit-profile'}>
                 <Button variant="primary">
                     <p>Edit Profile</p>
                 </Button>
-          </Link>
+          </Link> */}
     </div>
   )
 }

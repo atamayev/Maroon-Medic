@@ -1,6 +1,6 @@
 import {connection, useDB} from "../dbAndSecurity/connect.js";
 import Crypto from "../dbAndSecurity/crypto.js";
-
+import { UUID_to_DoctorID } from "../dbAndSecurity/UUID.js";
 /** newVet registers the inputted user data into basic_Doctor_info table
  *  All necessary information is sent via the request (DocID, firname, lastname, etc.)
  *  This data is encrypted using Crypto, and then inserting into the table.
@@ -29,4 +29,10 @@ export async function newVet (req, res){
         console.log(`error in ${newVet.name}`,error)
         return res.status(500).json(error);
     }
+}
+
+export async function dashboardData (req, res){
+    const UUID = req.cookies.UUID
+    const DoctorID = await UUID_to_DoctorID(UUID)
+    
 }

@@ -97,22 +97,26 @@ export async function login (req, res){
         // The following is to 'remember' the user is signed in through cookies          
         // const { DoctorID, password, email, ...others } = results[0];
         const { DoctorID, ...others } = results[0];
+        const expiration_time = 20; // not using this right now.
 
         const payload = {
           DoctorID, 
-          exp: Math.floor(Date.now()/1000) +10
+          // exp: Math.floor(Date.now()/1000) +expiration_time // temporarily taking out expiration to make sure system is running smoothly
         }
         const token = jwt.sign(payload, process.env.JWT_KEY);
 
         const UUID = await DoctorID_to_UUID(DoctorID)
-        console.log('UUID', UUID)
+        // console.log('UUID', UUID)
+        // const expires = new Date(Date.now() + expiration_time *1000)
 
         return res
           .cookie("accessToken", token, {
+            // expires,
             // httpOnly: true,
             // secure:true
           })
           .cookie("UUID", UUID, {
+            // expires,
             // httpOnly: true,
             // secure:true
           })
