@@ -20,3 +20,5 @@ To-do:
 
 
 --figure out why there are 2 doctorUUID to DoctorID functions (user CTRL, UUID)
+
+-- consider making seperate CTRL folders for patient, doctor

@@ -131,7 +131,7 @@ export default function Header ( {onSearch}) {
           <div>
           <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
           <Dropdown.Item href="/dashboard">Dashboard</Dropdown.Item>
-          <Dropdown.Item href="/edit-profile">Profile Settings</Dropdown.Item>
+          <Dropdown.Item href="/edit-vet-profile">Profile Settings</Dropdown.Item>
           </div>
         ):(
           <div>

@@ -13,7 +13,7 @@ import Missing from './Components/missing';
 import NewVet from './Components/new-vet';
 import VetDataService from "./Services/vet-service"
 import Dashboard from './Components/dashboard';
-import EditProfile from './Components/edit-profile';
+import EditVetProfile from './Components/edit-vet-profile';
 
 export default function App() {
   const [UUID, setUUID] = useState(null)   
@@ -78,7 +78,7 @@ export default function App() {
           <Route exact path = '/login' element = {<Login/>} />
           <Route exact path = '/new-vet' element = {<NewVet/>} />
           <Route exact path = '/dashboard' element = {<Dashboard/>} />
-          <Route exact path = '/edit-profile' element = {<EditProfile/>} />
+          <Route exact path = '/edit-vet-profile' element = {<EditVetProfile/>} />
 
           {/* Catch all */}
           <Route path = '*' element = {<Missing/>} />

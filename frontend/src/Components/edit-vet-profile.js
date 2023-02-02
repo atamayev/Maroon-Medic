@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import { Link } from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
 
-export default function EditProfile() {
+export default function EditVetProfile() {
   const [DoctorUUID, setDoctorUUID] = useState(null)   
 
   useEffect(()=>{
