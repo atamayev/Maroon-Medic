@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {Link} from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
-import VetDataService from "../../Services/vet-service.js";
+import VetDataService from "../../Services/vet-service.js"
 
 export default function Dashboard() {
     const [DoctorUUID, setDoctorUUID] = useState(null)

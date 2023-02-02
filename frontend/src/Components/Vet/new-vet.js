@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Card, Button, Form, Alert } from 'react-bootstrap'
 import {useNavigate, Link} from "react-router-dom";
-import VetDataService from "../Services/vet-service.js";
+import VetDataService from "../../Services/vet-service.js"
 
 export default function NewVet () {
   const [firstName, setFirstName] = useState('');
