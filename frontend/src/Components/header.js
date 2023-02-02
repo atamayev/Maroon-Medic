@@ -35,10 +35,9 @@ export default function Header ( {onSearch}) {
   }
 
   async function HeaderData (){
-    const cookies = document.cookie;
     if(DoctorUUID){
          try{
-            const response = await VetDataService.fillDashboard(cookies)
+            const response = await VetDataService.fillDashboard(DoctorUUID)
             if (response){
               console.log(response.data)
               setHeaderData(response.data);
@@ -91,6 +90,7 @@ export default function Header ( {onSearch}) {
  
   return (
     <header className = 'header'>
+      {console.log(headerData)}
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <Link to = "/">
           <img 

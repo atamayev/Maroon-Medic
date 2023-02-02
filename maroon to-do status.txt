@@ -21,5 +21,9 @@ To-do:
 
 --figure out why there are 2 doctorUUID to DoctorID functions (user CTRL, UUID)
 
--- consider making seperate CTRL folders for patient, doctor
 --UUID not used in App.js. why is it set?
+--consider making microservice architecture - getting complex.
+--fix the date problem in new-vet
+--make one login/register function for vet/pt. Pass in a third parameter (vet vs pt).
+	if vet--> use the vetdb
+	if pt--> use the ptdb
