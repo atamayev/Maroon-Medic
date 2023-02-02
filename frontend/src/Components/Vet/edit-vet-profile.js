@@ -30,7 +30,7 @@ export default function EditVetProfile() {
       <Card>
         <Card.Body>
           <p>Please register or login first </p>;
-          <Link to= {'/register'}>
+          <Link to= {'/vet-register'}>
               <Button variant="primary">
                   <p>Register</p>
               </Button>

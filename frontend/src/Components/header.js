@@ -135,8 +135,8 @@ export default function Header ( {onSearch}) {
           </div>
         ):(
           <div>
-          <Dropdown.Item href="/register" className='fw-bold'>Sign up</Dropdown.Item>
-          <Dropdown.Item href="/login">Log In</Dropdown.Item>
+          <Dropdown.Item href="/vet-register" className='fw-bold'>Sign up</Dropdown.Item>
+          <Dropdown.Item href="/vet-login">Log In</Dropdown.Item>
           </div>
         )}
 {/* 

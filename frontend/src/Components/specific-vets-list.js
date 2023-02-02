@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+import {Card, Button} from 'react-bootstrap';
 import {Link, useParams} from "react-router-dom";
 import VetDataService from "../Services/vet-service"
 

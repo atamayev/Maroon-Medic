@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {Link} from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
-import VetDataService from "../Services/vet-service.js";
+import VetDataService from "../../Services/vet-service.js";
 
 export default function Dashboard() {
     const [DoctorUUID, setDoctorUUID] = useState(null)
@@ -50,7 +50,7 @@ export default function Dashboard() {
                   <Card>
                     <Card.Body>
                       <p>Session Timed out. Please log in again </p>;
-                      <Link to= {'/login'}>
+                      <Link to= {'/vet-login'}>
                         <Button variant="primary">
                             <p>Login</p>
                         </Button>
@@ -95,12 +95,12 @@ export default function Dashboard() {
        <Card>
           <Card.Body>
             <p>Please register or login first </p>;
-            <Link to= {'/register'}>
+            <Link to= {'/vet-register'}>
                 <Button variant="primary">
                     <p>Register</p>
                 </Button>
           </Link>
-          <Link to= {'/login'}>
+          <Link to= {'/vet-login'}>
                 <Button variant="primary">
                     <p>Login</p>
                 </Button>

@@ -3,7 +3,7 @@ import {Card, Button, Form, Alert } from 'react-bootstrap'
 import {Link, useNavigate } from "react-router-dom";
 import VetDataService from '../Services/vet-service'
 
-export default function Login() {
+export default function VetLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState("");
@@ -64,7 +64,7 @@ export default function Login() {
                 </Card.Body>
         </Card>
         <div className='w-100 text-center mt-2'>
-            Need an account? <Link to = "/register">Sign Up</Link> 
+            Need an account? <Link to = "/vet-register">Sign Up</Link> 
         </div>
     </>
   )

@@ -2,18 +2,20 @@ import React, {useState, useEffect} from 'react';
 import {Routes, Route} from 'react-router-dom'
 import {Container} from 'react-bootstrap';
 import "./CSS/footer.css"
+import VetDataService from "./Services/vet-service"
+//Publicly accessible:
+import Header from './Components/header';
 import HomeVetsList from "./Components/home-vets-list"
 import SpecificVetsList from "./Components/specific-vets-list"
-import Header from './Components/header';
-import Footer from './Components/footer';
-import Register from "./Components/register";
-import Login from "./Components/login";
 import Vet from './Components/vet';
+import Footer from './Components/footer';
 import Missing from './Components/missing';
-import NewVet from './Components/new-vet';
-import VetDataService from "./Services/vet-service"
-import Dashboard from './Components/dashboard';
-import EditVetProfile from './Components/edit-vet-profile';
+//Vet Specific:
+import VetRegister from "./Components/Vet/vet-register"
+import VetLogin from "./Components/Vet/vet-login"
+import NewVet from "./Components/Vet/new-vet"
+import Dashboard from "./Components/Vet/dashboard"
+import EditVetProfile from "./Components/Vet/edit-vet-profile"
 
 export default function App() {
   const [UUID, setUUID] = useState(null)   
@@ -74,8 +76,8 @@ export default function App() {
           <Route exact path = '/user/:id' element = {<Vet/>} />
 
           {/* Don't need the search header: */}
-          <Route exact path = '/register' element = {<Register/>} />
-          <Route exact path = '/login' element = {<Login/>} />
+          <Route exact path = '/vet-register' element = {<VetRegister/>} />
+          <Route exact path = '/vet-login' element = {<VetLogin/>} />
           <Route exact path = '/new-vet' element = {<NewVet/>} />
           <Route exact path = '/dashboard' element = {<Dashboard/>} />
           <Route exact path = '/edit-vet-profile' element = {<EditVetProfile/>} />
