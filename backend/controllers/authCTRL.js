@@ -8,7 +8,7 @@ import { DoctorID_to_DoctorUUID } from "../dbAndSecurity/UUID.js";
 dotenv.config()
 
 /** jwt_verify verifies the user's token (held in cookie). 
- *  It does this in two steps. First, it checks if the accessToken is valid (verification). If verified, the ID is extracted from the access token. The ID is then searched in the DB
+ *  It does this in two steps. First, it checks if the DoctorAccessToken is valid (verification). If verified, the ID is extracted from the access token. The ID is then searched in the DB
  *  If there is a user's whose credentials match what was verified/queried, set verified to true. Any other case, set verified to false.
  * @param {String} req Cookie from client 
  * @param {Boolean} res True/False
@@ -18,9 +18,9 @@ export async function jwt_verify (req, res){
   // refer to: https://github.com/SalarC123/Classius/blob/main/src/server/router.js
   //: https://dev.to/salarc123/mern-stack-authentication-tutorial-part-1-the-backend-1c57
   try{
-    const accessToken = req.cookies.accessToken
-    console.log('accessToken',accessToken)
-    const decodedDoctorID = jwt.verify(accessToken, process.env.JWT_KEY).DoctorID;
+    const DoctorAccessToken = req.cookies.DoctorAccessToken
+    console.log('DoctorAccessToken',DoctorAccessToken)
+    const decodedDoctorID = jwt.verify(DoctorAccessToken, process.env.JWT_KEY).DoctorID;
     
     if (Date.now() >= decodedDoctorID.exp * 1000) {
       return res.status(401).json({ error: "Token expired" });
@@ -110,7 +110,7 @@ export async function login (req, res){
         // const expires = new Date(Date.now() + expiration_time *1000)
 
         return res
-          .cookie("accessToken", token, {
+          .cookie("DoctorAccessToken", token, {
             // expires,
             // httpOnly: true,
             // secure:true
@@ -138,7 +138,7 @@ export async function login (req, res){
  *  First, register checks if the username entered already exists in the DB
  *  If exists, then the user is unable to make an account. If doesn't exist, move on
  *  The password is hashed, and a dateTime object is created, and encrypted, before being entered into the credentials DB (username is not encrypted/hashed)
- *  Then, the DoctorID of this new user is passed into the cookie as the accessToken, to check the user's identity in the future (see jwt_verify function)
+ *  Then, the DoctorID of this new user is passed into the cookie as the DoctorAccessToken, to check the user's identity in the future (see jwt_verify function)
  *  The JSON object is (currently) set to all of the information about the Doc (password, created at), and sent to client. This needs to be changed  
  * @param {Object} req Contains the user's username, password
  * @param {Response} res If successful, contains a cookie, and Json with user's results. If not, returns error in a JSON
@@ -190,7 +190,7 @@ export async function register (req, res){
             console.log('DoctorUUID', DoctorUUID)
 
             return res
-            .cookie("accessToken", token, {
+            .cookie("DoctorAccessToken", token, {
               // httpOnly: true,
               // secure:true
             })
@@ -215,14 +215,14 @@ export async function register (req, res){
 }
 
 /** logout is self-explanatory
- *  Deletes any cookie called "accessToken"--> whenever the user navigates to future pages, their token will not be verified (token cleared)
+ *  Deletes any cookie called "DoctorAccessToken"--> whenever the user navigates to future pages, their token will not be verified (token cleared)
  * @param {n/a} req No request
  * @param {Response} res Clears cookie, and informs that "User has been logged out"
  */
 export async function logout (req, res){
   console.log('logged out')
   res
-  .clearCookie("accessToken",{
+  .clearCookie("DoctorAccessToken",{
     httpOnly:true,
     secure:true,
     sameSite:"none",

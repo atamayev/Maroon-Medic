@@ -19,6 +19,4 @@ To-do:
 --figure out a way to not have to keep re-writing checkUUID function. maybe create a context? or make it a global variable
 
 
---change uuid reference to be doctoruuid reference, also make a patientUUID reference
---also make access token into doctoraccesstoken
 --figure out why there are 2 doctorUUID to DoctorID functions (user CTRL, UUID)

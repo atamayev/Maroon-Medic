@@ -66,9 +66,9 @@ export async function DoctorUUIDtoDoctorID (req, res){
     const DoctorUUID = req.cookies.DoctorUUID
     console.log('DoctorUUID',DoctorUUID)
 
-    const table_name = 'UUID_reference';
+    const table_name = 'DoctorUUID_reference';
     const DB_name = 'DoctorDB'
-    const sql = `SELECT Doctor_ID FROM ${table_name} WHERE UUID = ?`
+    const sql = `SELECT Doctor_ID FROM ${table_name} WHERE DoctorUUID = ?`
     const values = [DoctorUUID];
         
     await useDB(DoctorUUIDtoDoctorID.name, DB_name, `${table_name}`)

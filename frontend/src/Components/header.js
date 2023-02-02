@@ -10,13 +10,14 @@ import VetDataService from '../Services/vet-service'
 export default function Header ( {onSearch}) {
   const [searchName, setSearchName ] = useState("");
   const location = useLocation();
-  const [DoctorUUID, setDoctorUUID] = useState(null)   
+  const [DoctorUUID, setDoctorUUID] = useState(null) 
+  const [headerData, setHeaderData] = useState({});
 
   useEffect(()=>{
     checkDoctorUUID()
-  });
+  }, []);
   
-  function checkDoctorUUID(){
+  async function checkDoctorUUID(){
     const cookieName = "DoctorUUID=";
     const decodedCookie = document.cookie; // when https, will need to decode
     const cookies = decodedCookie.split(";");
@@ -27,11 +28,31 @@ export default function Header ( {onSearch}) {
       }
       if (cookie.startsWith(cookieName)) {
         setDoctorUUID(cookie.substring(cookieName.length, cookie.length));
+        await HeaderData()
       }
     }
     return null;
   }
 
+  async function HeaderData (){
+    const cookies = document.cookie;
+    if(DoctorUUID){
+         try{
+            const response = await VetDataService.fillDashboard(cookies)
+            if (response){
+              console.log(response.data)
+              setHeaderData(response.data);
+            }else{
+              console.log('no response')
+            }
+          }catch(error){
+            console.log('unable to fill in dashboard data', error)
+          }
+      }
+    else{
+      console.log('no cookies')
+    }
+  }
 
   const handleLogout = async () => {
     localStorage.clear();
@@ -70,7 +91,6 @@ export default function Header ( {onSearch}) {
  
   return (
     <header className = 'header'>
-      
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <Link to = "/">
           <img 
@@ -100,7 +120,7 @@ export default function Header ( {onSearch}) {
           </div>
       <Dropdown className="menu-container" >
       <Dropdown.Toggle variant="dark" id="dropdown-basic" className = "menu-trigger menu-active">
-        {DoctorUUID ? (DoctorUUID):'Profile'}
+        {DoctorUUID ? (headerData.FirstName):'Profile'}
         <img src = {pic} 
         alt = "profile" 
         height = {20} />

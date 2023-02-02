@@ -24,8 +24,8 @@ export default new class VetDataService {
     async logout(){
         return await http.get(`auth/logout`);
     }
-    async verify(accessToken){
-        return await http.get(`/auth/verify`, {accessToken})
+    async verify(DoctorAccessToken){
+        return await http.get(`/auth/verify`, {DoctorAccessToken})
     }
     async login(username, password){
         return await http.post("/auth/login", {email: username, password: password}, 
@@ -44,4 +44,7 @@ export default new class VetDataService {
     async fillDashboard(DoctorUUID){
         return await http.get('/profile/dashboard-data', {DoctorUUID: DoctorUUID})
     }
+    // async fillHeader(DoctorUUID){
+    //     return await http.get('/profile/header-data', {DoctorUUID: DoctorUUID})
+    // }
 }();
