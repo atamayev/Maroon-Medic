@@ -9,6 +9,7 @@ export default function VetLogin() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const login_type = 'Doctor';
   const { DoctorUUID, checkDoctorUUID } = useContext(UUIDContext);
 
   useEffect(()=>{
@@ -21,7 +22,7 @@ export default function VetLogin() {
   const handleSubmit = async (e) =>{
     e.preventDefault();
     try {
-      await VetDataService.login(email, password);
+      await VetDataService.login(email, password, login_type);
       navigate("/dashboard")
       console.log('Logged in');
     } catch (err) {

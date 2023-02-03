@@ -16,12 +16,13 @@ To-do:
 
 --figure out why there are 2 doctorUUID to DoctorID functions (user CTRL, UUID)
 
---create contexts. there should be one context for results, one context for UUID functoin (checkuuid)
-	--figure out a way to not have to keep re-writing checkUUID function. maybe create a context? or make it a global variable
-	-- show first name on home page instead of email. will require decrypt multiple.
-	-- verify function needs a context?
+--create contexts. there should be one context for results
+	-- verify function needs a context. 
+	
+-- show first name on home page instead of email. will require decrypt multiple.
+--create another header. one for home screen. one for vet screen (no search bar, just calendar, inbox button (chat), settings (make header like airbnb)
 
---fiheader.js context. await doesn't work
+--header.js context. await doesn't work
 
 --make one login/register function for vet/pt. Pass in a third parameter (vet vs pt).
 	if vet--> use the vetdb
@@ -30,4 +31,5 @@ To-do:
 
 --only wrap doctor context provider around things that need it (only functions that are UUID)
 
---consider making microservice architecture - getting complex.
+--why is registration using ref, and login uses state to hold the usernmae/pass. figure out what's better and convert
+

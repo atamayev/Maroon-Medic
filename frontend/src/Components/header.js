@@ -14,7 +14,7 @@ export default function Header ( {onSearch}) {
   const [DoctorUUID, setDoctorUUID] = useState(null) 
   const [headerData, setHeaderData] = useState({});
   // const { DoctorUUID, checkDoctorUUID } = useContext(UUIDContext);
-  const cookies = document.cookie;
+    const cookies = document.cookie;
 
   useEffect(()=>{
     checkDoctorUUID();

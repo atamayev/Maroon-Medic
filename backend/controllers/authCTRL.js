@@ -72,7 +72,14 @@ export async function jwt_verify (req, res){
  * @returns An error, or a json response, depending on wheather the credentials exist in the DB
  */
 export async function login (req, res){
-  const { email, password } = req.body;
+  const { email, password, login_type } = req.body;
+  console.log('login_type', login_type)
+  if(login_type === 'Patient'){
+    console.log('Patient type')
+  }
+  if(login_type === 'Doctor'){
+    console.log('Doctor type')
+  }
 
   const table_name = 'Doctor_credentials';
   const DB_name = 'DoctorDB';
@@ -145,7 +152,14 @@ export async function login (req, res){
  * @returns An error, or a json response, depending on wheather the credentials are able to be registered
  */
 export async function register (req, res){
-    const {email, password} = req.body // Takes out the decrypted_email from the request
+    const {email, password, register_type} = req.body // Takes out the decrypted_email from the request
+    if(register_type === 'Patient'){
+      console.log('Patient type register')
+    }
+    if(register_type === 'Doctor'){
+      console.log('Doctor type in register')
+    }
+
     const table_name = 'Doctor_credentials'
     const DB_name = 'DoctorDB'
   

@@ -9,6 +9,7 @@ export default function VetRegister() {
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
   const [error, setError] = useState("")
+  const register_type = 'Doctor';
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
   const { DoctorUUID, checkDoctorUUID } = useContext(UUIDContext);
@@ -28,7 +29,7 @@ export default function VetRegister() {
     try {
       setError("")
       setLoading(true)
-      await VetDataService.register(emailRef.current.value, passwordRef.current.value);
+      await VetDataService.register(emailRef.current.value, passwordRef.current.value, register_type);
       navigate("/new-vet")
       console.log('Registered');
     } catch (err) {
