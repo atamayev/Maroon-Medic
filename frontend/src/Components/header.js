@@ -1,6 +1,6 @@
 
 import React, {useCallback, useState, useEffect } from 'react'
-import Dropdown from "react-bootstrap/Dropdown";
+import {Dropdown} from "react-bootstrap";
 import {useLocation, Link} from "react-router-dom";
 
 import logo from '../Images/logo.svg';
@@ -15,6 +15,7 @@ export default function Header ( {onSearch}) {
 
   useEffect(()=>{
     checkDoctorUUID()
+    // HeaderData()
   }, []);
   
   async function checkDoctorUUID(){
@@ -28,6 +29,7 @@ export default function Header ( {onSearch}) {
       }
       if (cookie.startsWith(cookieName)) {
         setDoctorUUID(cookie.substring(cookieName.length, cookie.length));
+        console.log('in cookie startswith')
         await HeaderData()
       }
     }
@@ -35,9 +37,10 @@ export default function Header ( {onSearch}) {
   }
 
   async function HeaderData (){
-    if(DoctorUUID){
+    const cookies = document.cookie;
+    if(cookies){
          try{
-            const response = await VetDataService.fillDashboard(DoctorUUID)
+            const response = await VetDataService.fillDashboard(cookies)
             if (response){
               console.log(response.data)
               setHeaderData(response.data);

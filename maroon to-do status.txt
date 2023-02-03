@@ -14,16 +14,15 @@ To-do:
 	special cookie sent after registering, which allows user to go to registration routes. 
 	If cookie not present, but UUID is present forwards straight to /edit-profile
 	If cookie not present and UUID not present, re-direct to register page
--- show first name on home page instead of email. will require decrypt multiple.
-
---figure out a way to not have to keep re-writing checkUUID function. maybe create a context? or make it a global variable
-
 
 --figure out why there are 2 doctorUUID to DoctorID functions (user CTRL, UUID)
 
---UUID not used in App.js. why is it set?
---consider making microservice architecture - getting complex.
 --fix the date problem in new-vet
+--create contexts. there should be one context for results, one context for UUID functoin (checkuuid)
+	--figure out a way to not have to keep re-writing checkUUID function. maybe create a context? or make it a global variable
+	-- show first name on home page instead of email. will require decrypt multiple.
 --make one login/register function for vet/pt. Pass in a third parameter (vet vs pt).
 	if vet--> use the vetdb
 	if pt--> use the ptdb
+	
+--consider making microservice architecture - getting complex.

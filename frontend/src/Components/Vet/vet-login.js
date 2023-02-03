@@ -19,7 +19,7 @@ export default function VetLogin() {
         cookie = cookie.substring(1);
       }
       if (cookie.startsWith(cookieName)) { // if cookie with DoctorUUID exists, navigate to edit-profile
-        navigate(`/edit-vet-profile`)
+        navigate(`/dashboard`)
       }
     }
     return null;

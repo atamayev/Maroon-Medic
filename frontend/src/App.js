@@ -18,16 +18,16 @@ import Dashboard from "./Components/Vet/dashboard"
 import EditVetProfile from "./Components/Vet/edit-vet-profile"
 
 export default function App() {
-  const [UUID, setUUID] = useState(null)   
+  const [DoctorUUID, setDoctorUUID] = useState(null)   
   const [results, setResults] = useState(null);
 
   useEffect(() => {
     findByName();
-    checkUUID()
+    checkDoctorUUID()
   }, []);
 
-  function checkUUID(){
-    const cookieName = "UUID=";
+  function checkDoctorUUID(){
+    const cookieName = "DoctorUUID=";
     const decodedCookie = document.cookie; // when https, will need to decode
     const cookies = decodedCookie.split(";");
     for(let i = 0; i <cookies.length; i++) {
@@ -36,7 +36,7 @@ export default function App() {
         cookie = cookie.substring(1);
       }
       if (cookie.startsWith(cookieName)) {
-        setUUID(cookie.substring(cookieName.length, cookie.length));
+        setDoctorUUID(cookie.substring(cookieName.length, cookie.length));
       }
     }
     return null;
@@ -58,15 +58,15 @@ export default function App() {
 
   return (
     <>
-    {/* {UUID?(
+    {DoctorUUID?(
       <div>
-        logged in: {UUID}
+        logged in: {DoctorUUID}
       </div>
     ):(
     <div>
       logged out
     </div>
-    )} */}
+    )}
      <Container className = "d-flex" style = {{minHeight: "100vh"}}>
      <div className="w-100" style = {{maxWidth: "4000px"}}>
       <Header className = "d-flex align-items-center justify-content-center w-100" onSearch={findByName} />
