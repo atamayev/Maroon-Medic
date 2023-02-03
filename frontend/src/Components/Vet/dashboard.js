@@ -1,33 +1,35 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 import {Link} from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
 import VetDataService from "../../Services/vet-service.js"
+import { DoctorContext } from '../../Wraps/DoctorUUIDContext.js';
 
 export default function Dashboard() {
-    const [DoctorUUID, setDoctorUUID] = useState(null)
+    // const [DoctorUUID, setDoctorUUID] = useState(null)
     const [verifyToken, setverifyToken] = useState(false) // wheather or not user verified
     const [dashboardData, setDashboardData] = useState({});
+    const { DoctorUUID } = useContext(DoctorContext);
 
     useEffect(()=>{
-      checkDoctorUUID();
+      // checkDoctorUUID();
       user_verification();
     }, []);
     
-    function checkDoctorUUID(){
-      const cookieName = "DoctorUUID=";
-      const decodedCookie = document.cookie; // when https, will need to decode
-      const cookies = decodedCookie.split(";");
-      for(let i = 0; i <cookies.length; i++) {
-        let cookie = cookies[i];
-        while (cookie.charAt(0) === ' ') {
-          cookie = cookie.substring(1);
-        }
-        if (cookie.startsWith(cookieName)) {
-          setDoctorUUID(cookie.substring(cookieName.length, cookie.length));
-        }
-      }
-      return null;
-    }
+    // function checkDoctorUUID(){
+    //   const cookieName = "DoctorUUID=";
+    //   const decodedCookie = document.cookie; // when https, will need to decode
+    //   const cookies = decodedCookie.split(";");
+    //   for(let i = 0; i <cookies.length; i++) {
+    //     let cookie = cookies[i];
+    //     while (cookie.charAt(0) === ' ') {
+    //       cookie = cookie.substring(1);
+    //     }
+    //     if (cookie.startsWith(cookieName)) {
+    //       setDoctorUUID(cookie.substring(cookieName.length, cookie.length));
+    //     }
+    //   }
+    //   return null;
+    // }
 
     async function user_verification (){
       const cookies = document.cookie;

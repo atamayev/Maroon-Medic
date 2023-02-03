@@ -56,8 +56,7 @@ export default function Footer() {
               </p>
 
             </MDBCol>
-
-            
+           
           </MDBRow>
         </MDBContainer>
       </section>

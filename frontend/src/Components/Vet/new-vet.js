@@ -15,6 +15,22 @@ export default function NewVet () {
   const [verifyToken, setverifyToken] = useState(false) // wheather or not user verified
   const [DoctorID, setDoctorID] = useState(null);
   const navigate = useNavigate();
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+  const days = [...Array(31).keys()].map(i => i + 1);
+  const years = [...Array(100).keys()].map(i => i + new Date().getFullYear() - 100);
       
   useEffect(() => {
     user_verification();
@@ -118,9 +134,9 @@ export default function NewVet () {
             </select>
         </Form.Group>
         <br />
-        <Form.Group id = "gender">
+        <Form.Group id = "DOB">
 
-        <Form.Label>Date of Birth:</Form.Label><br/>
+        {/* <Form.Label>Date of Birth:</Form.Label><br/>
             <select required value = {DOBmonth} onChange={e => setDOBmonth( e.target.value )}>
             {Array.from({length: 12}, (_, i) => (
             <option key={i + 1} value={i + 1}>{i + 1}</option>
@@ -135,7 +151,47 @@ export default function NewVet () {
             {Array.from({length: 101}, (_, i) => (
             <option key={1900 + 1} value={1900 + 1}>{1900 + i}</option>
           ))}  
-            </select> 
+            </select>  */}
+
+            <label>
+        Month:
+        <select value={DOBmonth} onChange={e => setDOBmonth(e.target.value)}>
+          <option value="" disabled>
+            Select Month
+          </option>
+          {months.map(month => (
+            <option key={month} value={month}>
+              {month}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label>
+        Day:
+        <select value={DOBday} onChange={e => setDOBday(e.target.value)}>
+          <option value="" disabled>
+            Select Day
+          </option>
+          {days.map(day => (
+            <option key={day} value={day}>
+              {day}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label>
+        Year:
+        <select value={DOByear} onChange={e => setDOByear(e.target.value)}>
+          <option value="" disabled>
+            Select Year
+          </option>
+          {years.map(year => (
+            <option key={year} value={year}>
+              {year}
+            </option>
+          ))}
+        </select>
+      </label>
      
         {/*
         <Form.Control required type="text" placeholder="MM" value={DOBmonth} onChange={e => setDOBmonth( e.target.value )} pattern="[1-9]|1[0-2]" 

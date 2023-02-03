@@ -93,7 +93,6 @@ export default function Header ( {onSearch}) {
  
   return (
     <header className = 'header'>
-      {console.log(headerData)}
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <Link to = "/">
           <img 

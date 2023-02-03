@@ -69,7 +69,7 @@ export default function App() {
     )}
      <Container className = "d-flex" style = {{minHeight: "100vh"}}>
      <div className="w-100" style = {{maxWidth: "4000px"}}>
-      <Header className = "d-flex align-items-center justify-content-center w-100" onSearch={findByName} />
+      <Header className = "d-flex align-items-center justify-content-center w-100" onSearch={findByName}/>
         <Routes>
           <Route exact path="/" element = {<HomeVetsList results={results}/>} />
           <Route exact path="/s/:query" element = {<SpecificVetsList/>} />
@@ -81,10 +81,10 @@ export default function App() {
           <Route exact path = '/new-vet' element = {<NewVet/>} />
           <Route exact path = '/dashboard' element = {<Dashboard/>} />
           <Route exact path = '/edit-vet-profile' element = {<EditVetProfile/>} />
-
           {/* Catch all */}
           <Route path = '*' element = {<Missing/>} />
         </Routes>
+     
       </div>
     </Container>
     <Footer className = "align-items-center justify-content-center layout-container" />
