@@ -1,29 +1,14 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useContext} from 'react'
 import { Link } from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
+import { UUIDContext } from '../../Wraps/UUIDContext.js';
 
 export default function EditVetProfile() {
-  const [DoctorUUID, setDoctorUUID] = useState(null)   
+  const { DoctorUUID, checkDoctorUUID } = useContext(UUIDContext);
 
   useEffect(()=>{
     checkDoctorUUID()
   });
-
-  function checkDoctorUUID(){
-    const cookieName = "DoctorUUID=";
-    const decodedCookie = document.cookie; // when https, will need to decode
-    const cookies = decodedCookie.split(";");
-    for(let i = 0; i <cookies.length; i++) {
-      let cookie = cookies[i];
-      while (cookie.charAt(0) === ' ') {
-        cookie = cookie.substring(1);
-      }
-      if (cookie.startsWith(cookieName)) {
-        setDoctorUUID(cookie.substring(cookieName.length, cookie.length));
-      }
-    }
-    return null;
-  }
 
   if(!DoctorUUID){
     return(
@@ -42,6 +27,7 @@ export default function EditVetProfile() {
 
   return (
     <div>
+      {DoctorUUID}
         <p>This is the Edit Profile Page</p>
           <Link to= {'/dashboard'}>
                 <Button variant="primary">

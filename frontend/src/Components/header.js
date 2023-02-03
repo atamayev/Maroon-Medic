@@ -1,21 +1,29 @@
 
-import React, {useCallback, useState, useEffect } from 'react'
+import React, {useCallback, useState, useEffect, useContext } from 'react'
 import {Dropdown} from "react-bootstrap";
 import {useLocation, Link} from "react-router-dom";
 
 import logo from '../Images/logo.svg';
 import pic from '../Images/ProfileImage.jpg';
 import VetDataService from '../Services/vet-service'
+import { UUIDContext } from '../Wraps/UUIDContext.js';
 
 export default function Header ( {onSearch}) {
   const [searchName, setSearchName ] = useState("");
   const location = useLocation();
   const [DoctorUUID, setDoctorUUID] = useState(null) 
   const [headerData, setHeaderData] = useState({});
+  // const { DoctorUUID, checkDoctorUUID } = useContext(UUIDContext);
+  const cookies = document.cookie;
 
   useEffect(()=>{
-    checkDoctorUUID()
-    // HeaderData()
+    checkDoctorUUID();
+    // async function test(){
+    //   if(DoctorUUID){
+    //     await HeaderData()
+    //   }
+    // }
+    // test();
   }, []);
   
   async function checkDoctorUUID(){
@@ -29,7 +37,6 @@ export default function Header ( {onSearch}) {
       }
       if (cookie.startsWith(cookieName)) {
         setDoctorUUID(cookie.substring(cookieName.length, cookie.length));
-        console.log('in cookie startswith')
         await HeaderData()
       }
     }
@@ -37,7 +44,6 @@ export default function Header ( {onSearch}) {
   }
 
   async function HeaderData (){
-    const cookies = document.cookie;
     if(cookies){
          try{
             const response = await VetDataService.fillDashboard(cookies)

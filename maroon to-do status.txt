@@ -8,7 +8,6 @@ To-do:
 5. Editability of doc info
 
 
-
 -- if the doc hasn't entered their basic_doctor_info, then going to their profile is an error - bc it tries to render data that doesn't exist
 -- people with existing basic_doctor_info can keep filling out the form. should not be allowed. if data already exists in basic_doctor_info, should be re-routed to /edit-profile
 	special cookie sent after registering, which allows user to go to registration routes. 
@@ -17,12 +16,18 @@ To-do:
 
 --figure out why there are 2 doctorUUID to DoctorID functions (user CTRL, UUID)
 
---fix the date problem in new-vet
 --create contexts. there should be one context for results, one context for UUID functoin (checkuuid)
 	--figure out a way to not have to keep re-writing checkUUID function. maybe create a context? or make it a global variable
 	-- show first name on home page instead of email. will require decrypt multiple.
+	-- verify function needs a context?
+
+--fiheader.js context. await doesn't work
+
 --make one login/register function for vet/pt. Pass in a third parameter (vet vs pt).
 	if vet--> use the vetdb
 	if pt--> use the ptdb
-	
+--hide search bar in the vet pages (see app.js)	
+
+--only wrap doctor context provider around things that need it (only functions that are UUID)
+
 --consider making microservice architecture - getting complex.

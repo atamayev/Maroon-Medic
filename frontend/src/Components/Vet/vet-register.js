@@ -1,7 +1,8 @@
-import React, {useRef, useState, useEffect} from 'react'
+import React, {useRef, useState, useEffect, useContext} from 'react'
 import {Card, Button, Form, Alert } from 'react-bootstrap'
 import {Link, useNavigate} from "react-router-dom";
 import VetDataService from "../../Services/vet-service.js"
+import { UUIDContext } from '../../Wraps/UUIDContext.js';
 
 export default function VetRegister() {
   const emailRef = useRef();
@@ -10,25 +11,13 @@ export default function VetRegister() {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
-
-  function checkDoctorUUID(){
-    const cookieName = "DoctorUUID=";
-    const decodedCookie = document.cookie; // when https, will need to decode
-    const cookies = decodedCookie.split(";");
-    for(let i = 0; i <cookies.length; i++) {
-      let cookie = cookies[i];
-      while (cookie.charAt(0) === ' ') {
-        cookie = cookie.substring(1);
-      }
-      if (cookie.startsWith(cookieName)) { // if cookie with DoctorUUID exists, navigate to dashboard
-        navigate(`/dashboard`)
-      }
-    }
-    return null;
-  }
+  const { DoctorUUID, checkDoctorUUID } = useContext(UUIDContext);
 
   useEffect(()=>{
     checkDoctorUUID()
+    if(DoctorUUID){
+      navigate(`/dashboard`)
+    }
   });
 
   const handleSubmit = async (e) =>{
@@ -53,7 +42,7 @@ export default function VetRegister() {
     <>
         <Card>
             <Card.Body>
-                <h2 className = "text-center mb-4">Sign Up</h2>
+                <h2 className = "text-center mb-4">Vet Sign Up</h2>
                 {error && <Alert variant="danger">{error}</Alert>}
                 <Form onSubmit={handleSubmit}>
                     <Form.Group id = "email">
@@ -68,6 +57,7 @@ export default function VetRegister() {
                         <Form.Label>Password Confirmation</Form.Label>
                         <Form.Control type = "password" ref = {passwordConfirmRef} required/>
                     </Form.Group>
+                    <br/>
                     <Button disabled = {loading} className = "w-100" type = "submit">Sign Up</Button>
                 </Form>
             </Card.Body>

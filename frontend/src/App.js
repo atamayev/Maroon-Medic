@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {Routes, Route} from 'react-router-dom'
 import {Container} from 'react-bootstrap';
 import "./CSS/footer.css"
 import VetDataService from "./Services/vet-service"
+import { UUIDContext } from './Wraps/UUIDContext';
 //Publicly accessible:
 import Header from './Components/header';
 import HomeVetsList from "./Components/home-vets-list"
@@ -18,29 +19,13 @@ import Dashboard from "./Components/Vet/dashboard"
 import EditVetProfile from "./Components/Vet/edit-vet-profile"
 
 export default function App() {
-  const [DoctorUUID, setDoctorUUID] = useState(null)   
   const [results, setResults] = useState(null);
+  const { DoctorUUID, checkDoctorUUID } = useContext(UUIDContext);
 
   useEffect(() => {
     findByName();
     checkDoctorUUID()
   }, []);
-
-  function checkDoctorUUID(){
-    const cookieName = "DoctorUUID=";
-    const decodedCookie = document.cookie; // when https, will need to decode
-    const cookies = decodedCookie.split(";");
-    for(let i = 0; i <cookies.length; i++) {
-      let cookie = cookies[i];
-      while (cookie.charAt(0) === ' ') {
-        cookie = cookie.substring(1);
-      }
-      if (cookie.startsWith(cookieName)) {
-        setDoctorUUID(cookie.substring(cookieName.length, cookie.length));
-      }
-    }
-    return null;
-  }
   
   // this is the core search function
   async function findByName (query) {

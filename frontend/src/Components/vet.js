@@ -1,47 +1,31 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect, useContext} from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import {Link, useParams} from "react-router-dom";
 import VetDataService from "../Services/vet-service.js";
+import { UUIDContext } from '../Wraps/UUIDContext.js';
 
 export default function Vet () {
   // Creates an id variable which gets the id of the current page. 
+  const { DoctorUUID, checkDoctorUUID } = useContext(UUIDContext);
+  const [user, setUser] = useState(null);
+  const [error, setError] = useState('');
   let { id } = useParams(); //the id of the current site (which user) --> used to set User
   
   if (Number(id)){
     id = Number(id)
   }
-  const [user, setUser] = useState(null);
-  const [error, setError] = useState('');
-  const [DoctorUUID, setDoctorUUID] = useState(null)   
 
   useEffect(() => {
     getVet(id);
     checkDoctorUUID()
   }, [id]);
 
-  function checkDoctorUUID(){
-    const cookieName = "DoctorUUID=";
-    const decodedCookie = document.cookie; // when https, will need to decode
-    const cookies = decodedCookie.split(";");
-    for(let i = 0; i <cookies.length; i++) {
-      let cookie = cookies[i];
-      while (cookie.charAt(0) === ' ') {
-        cookie = cookie.substring(1);
-      }
-      if (cookie.startsWith(cookieName)) {
-        setDoctorUUID(cookie.substring(cookieName.length, cookie.length));
-      }
-    }
-    return null;
-  }
-
   // Given the current ID, the dataservice returns all necessary information about that specific user
   async function getVet (id) {
     try{
       // const response = await VetDataService.getSingleVet(id)
       const response = await VetDataService.getSingleVet(id)
-
         if (response.data === 'User does not exist') {
           return <p>{response.data}</p>;
         }
@@ -54,8 +38,26 @@ export default function Vet () {
     }
   };
 
-  if (error) {
-    return <div className="alert alert-danger">{error}</div>;
+  if (error && !user) {
+    return (
+      <>
+    <div className="alert alert-danger">{error}</div>
+    <Card>
+      <Card.Body>
+        <p>Doctor "{id}" does not exist </p>;
+        <Link to= {'/'}>
+            <Button variant="primary">
+                <p>Go back home</p>
+            </Button>
+        </Link>
+      </Card.Body>
+    </Card>
+  </>
+    );
+  }
+
+  if(error){
+    return <div className="alert alert-danger">{error}</div>
   }
 
   if (!user) {

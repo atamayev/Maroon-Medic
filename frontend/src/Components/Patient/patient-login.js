@@ -1,53 +1,46 @@
 //incomplete
 
 
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import {Card, Button, Form, Alert } from 'react-bootstrap'
 import {Link, useNavigate } from "react-router-dom";
 import VetDataService from "../../Services/vet-service.js"
+import { UUIDContext } from '../../Wraps/UUIDContext.js';
 
-export default function Patient() {
+export default function PatientLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState("");
+  const { PatientUUID, checkPatientUUID } = useContext(UUIDContext);
   const navigate = useNavigate();
-
-  function checkDoctorUUID(){
-    const cookieName = "DoctorUUID=";
-    const decodedCookie = document.cookie; // when https, will need to decode
-    const cookies = decodedCookie.split(";");
-    for(let i = 0; i <cookies.length; i++) {
-      let cookie = cookies[i];
-      while (cookie.charAt(0) === ' ') {
-        cookie = cookie.substring(1);
-      }
-      if (cookie.startsWith(cookieName)) { // if cookie with DoctorUUID exists, navigate to edit-profile
-        navigate(`/edit-patient-profile`)
-      }
-    }
-    return null;
-  }
+  const [loading, setLoading] = useState(false)
 
   useEffect(()=>{
-    checkDoctorUUID()
+    checkPatientUUID()
+    if(PatientUUID){
+      navigate(`/patient-profile`)
+    }
   });
   
   const handleSubmit = async (e) =>{
     e.preventDefault();
     try {
+      setError("")
+      setLoading(true)
       await VetDataService.login(email, password);
-      navigate("/dashboard")
+      navigate("/new-patient")
       console.log('Logged in');
     } catch (err) {
       setError(err.response.data);
     }
+    setLoading(false)
   };
   
   return (
     <>
         <Card>
             <Card.Body>
-                <h2 className = "text-center mb-4">Log In</h2>
+                <h2 className = "text-center mb-4">Patient Log In</h2>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group id = "email">
                         <Form.Label>Email</Form.Label>
@@ -59,7 +52,8 @@ export default function Patient() {
                     </Form.Group>
                     {error && <Alert variant="danger">{error}</Alert>}
                     {/* <Button disabled = {loading} className = "w-100"type = "submit">Log In</Button> */}
-                    <Button type = "submit" className="btn btn-primary">Log In</Button>
+                    <br/>
+                    <Button disabled = {loading} type = "submit" className="btn btn-primary w-100">Log In</Button>
                 </Form>
                 <div className='w-100 text-center mt-3'>
                   <Link to = "/forgot-password">Forgot Password?</Link>
