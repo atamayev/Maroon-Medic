@@ -7,6 +7,7 @@ import logo from '../Images/logo.svg';
 import pic from '../Images/ProfileImage.jpg';
 import VetDataService from '../Services/vet-service'
 import { UUIDContext } from '../Wraps/UUIDContext.js';
+import { VerifyContext } from '../Wraps/VerifyContext.js';
 
 export default function Header ( {onSearch}) {
   const [searchName, setSearchName ] = useState("");
@@ -14,16 +15,18 @@ export default function Header ( {onSearch}) {
   const [DoctorUUID, setDoctorUUID] = useState(null) 
   const [headerData, setHeaderData] = useState({});
   // const { DoctorUUID, checkDoctorUUID } = useContext(UUIDContext);
-    const cookies = document.cookie;
+  const {verifyToken, user_verification} = useContext(VerifyContext)
+  const cookie_monster = document.cookie;
 
   useEffect(()=>{
+    user_verification(cookie_monster);
     checkDoctorUUID();
-    // async function test(){
-    //   if(DoctorUUID){
-    //     await HeaderData()
-    //   }
-    // }
-    // test();
+    console.log('verifyToken', verifyToken)
+    console.log('DoctorUUID',DoctorUUID)
+    if (verifyToken == true && DoctorUUID){
+      console.log('verify and uuid')
+      HeaderData();
+    }
   }, []);
   
   async function checkDoctorUUID(){
@@ -44,9 +47,9 @@ export default function Header ( {onSearch}) {
   }
 
   async function HeaderData (){
-    if(cookies){
+    if(cookie_monster){
          try{
-            const response = await VetDataService.fillDashboard(cookies)
+            const response = await VetDataService.fillDashboard(cookie_monster)
             if (response){
               console.log(response.data)
               setHeaderData(response.data);
@@ -54,7 +57,7 @@ export default function Header ( {onSearch}) {
               console.log('no response')
             }
           }catch(error){
-            console.log('unable to fill in dashboard data', error)
+            console.log('unable to fill in Header data', error)
           }
       }
     else{

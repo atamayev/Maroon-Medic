@@ -6,9 +6,11 @@ const UUIDContextProvider = (props) => {
   const [DoctorUUID, setDoctorUUID] = useState(null);
   const [PatientUUID, setPatientUUID] = useState(null);
 
-  const checkDoctorUUID = () => {
+  function checkDoctorUUID () {
     const cookieName = "DoctorUUID=";
     const decodedCookie = document.cookie; // when https, will need to decode
+    console.log(decodedCookie)
+    // console.log(cookie_monster)
     const cookies = decodedCookie.split(";");
     // console.log('cookies', cookies)
     for (let i = 0; i < cookies.length; i++) {

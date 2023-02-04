@@ -3,63 +3,33 @@ import {Link} from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
 import VetDataService from "../../Services/vet-service.js"
 import { UUIDContext } from '../../Wraps/UUIDContext.js';
+import { VerifyContext } from '../../Wraps/VerifyContext.js';
 
 export default function Dashboard() {
-  const [verifyToken, setverifyToken] = useState(false) // wheather or not user verified
-  const [dashboardData, setDashboardData] = useState({});
+  // const [verifyToken, setverifyToken] = useState(false) // wheather or not user verified
+  const {verifyToken, user_verification} = useContext(VerifyContext)
   const { DoctorUUID, checkDoctorUUID } = useContext(UUIDContext);
+  const [dashboardData, setDashboardData] = useState({});
+  const cookie_monster = document.cookie;
 
   useEffect(()=>{
-    user_verification();
+    user_verification(cookie_monster);
     checkDoctorUUID();
+    console.log('verifyToken', verifyToken)
+    console.log('DoctorUUID',DoctorUUID)
+    // DashboardData(
+    if (verifyToken && DoctorUUID){
+        console.log('verify and uuid')
+        DashboardData();
+    }
   }, []);
-  
-  async function user_verification (){
-    const cookies = document.cookie;
-    if(cookies){
-      try {
-          const response = await VetDataService.verify(cookies)
-        if(response.data.success === true){
-          console.log('verified')
-          setverifyToken(true);
-          await DashboardData();
-        }
-        else{// if user not veriifed
-          console.log('not verified')
-          setverifyToken(false);
-        }
-      }catch(error){
-        if(error.response.data.error === 'Token expired'){
-          return(
-            <div>
-                <Card>
-                  <Card.Body>
-                    <p>Session Timed out. Please log in again </p>;
-                    <Link to= {'/vet-login'}>
-                      <Button variant="primary">
-                          <p>Login</p>
-                      </Button>
-                    </Link>
-                  </Card.Body>
-                </Card>
-            </div>
-          )
-        }
-        console.log(error.response.data.error)
-        setverifyToken(false);
-      }
-    }
-    else{// if no token received
-      console.log('not verified')
-      setverifyToken(false);
-    }
-  }
-
+ 
   async function DashboardData (){
-    const cookies = document.cookie;
-    if(cookies){
+    console.log('in dashboard data')
+    if(cookie_monster){
+      console.log('in cookies')
           try{
-            const response = await VetDataService.fillDashboard(cookies)
+            const response = await VetDataService.fillDashboard(cookie_monster)
             if (response){
               console.log(response.data)
               setDashboardData(response.data);
