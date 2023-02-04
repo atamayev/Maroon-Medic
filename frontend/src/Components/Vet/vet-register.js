@@ -1,13 +1,13 @@
-import React, {useRef, useState, useEffect, useContext} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import {Card, Button, Form, Alert } from 'react-bootstrap'
 import {Link, useNavigate} from "react-router-dom";
 import VetDataService from "../../Services/vet-service.js"
 import { UUIDContext } from '../../Wraps/UUIDContext.js';
 
 export default function VetRegister() {
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const passwordConfirmRef = useRef();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setpasswordConfirm] = useState('');
   const [error, setError] = useState("")
   const register_type = 'Doctor';
   const [loading, setLoading] = useState(false)
@@ -23,13 +23,13 @@ export default function VetRegister() {
 
   const handleSubmit = async (e) =>{
     e.preventDefault();
-    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+    if (password !== passwordConfirm) {
       return setError("Passwords do not match")
     }
     try {
       setError("")
       setLoading(true)
-      await VetDataService.register(emailRef.current.value, passwordRef.current.value, register_type);
+      await VetDataService.register(email, password, register_type);
       navigate("/new-vet")
       console.log('Registered');
     } catch (err) {
@@ -48,15 +48,15 @@ export default function VetRegister() {
                 <Form onSubmit={handleSubmit}>
                     <Form.Group id = "email">
                         <Form.Label>Email</Form.Label>
-                        <Form.Control type = "email" ref = {emailRef} required/>
+                        <Form.Control type = "email" id="email"  placeholder="Username" name="username" value={email} onChange={(event) => setEmail(event.target.value)}  required/>
                     </Form.Group>
                     <Form.Group id = "Password">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type = "password" ref = {passwordRef} required/>
+                        <Form.Control type = "password" id="password" placeholder="Password" name="password" value={password} onChange={(event) => setPassword(event.target.value)} required/>
                     </Form.Group>
                     <Form.Group id = "Password Confirm">
                         <Form.Label>Password Confirmation</Form.Label>
-                        <Form.Control type = "password" ref = {passwordConfirmRef} required/>
+                        <Form.Control type = "password" id="confirm-password" placeholder="Confirm Password" name="confirm-password" value={passwordConfirm} onChange={(event) => setpasswordConfirm(event.target.value)} required/>
                     </Form.Group>
                     <br/>
                     <Button disabled = {loading} className = "w-100" type = "submit">Sign Up</Button>

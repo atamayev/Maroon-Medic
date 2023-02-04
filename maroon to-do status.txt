@@ -3,8 +3,8 @@ To-do:
 	-- double query problem: can see the cause by commenting out the if statement in home vets list. it first makes results = nothing, and then re-queryies
 	consider making results into a context. only queryied when needed
 2. Fix all double query inefficieneices on the back-end as well. It's dirty
-3. Clean vetDahsboard code
 4. 0.5: Figure out a more logial way of naming conventions for routing. what is a user/profile?
+4. Fix Contexts in dashboard, header. Could be giving problems bc dashboard data takes a while to fill (observe backend console)
 5. Editability of doc info
 
 
@@ -17,19 +17,19 @@ To-do:
 --figure out why there are 2 doctorUUID to DoctorID functions (user CTRL, UUID)
 
 --create contexts. there should be one context for results
-	-- verify function needs a context. 
-	
+	--fix verify function context in header and dashboard.
+	-- verificiation doesn't work in new-vet either. fixed it for now by bringing back old fcn
+	--header.js context. await doesn't work
+
+-- doctor "" doesnot exist shows up even for doctors who exist, just don't query (not rly sure how to solve, aside from solving the an error occured issue)
+
 -- show first name on home page instead of email. will require decrypt multiple.
 --create another header. one for home screen. one for vet screen (no search bar, just calendar, inbox button (chat), settings (make header like airbnb)
-
---header.js context. await doesn't work
+	--hide search bar in the vet pages (see app.js)	
 
 --make one login/register function for vet/pt. Pass in a third parameter (vet vs pt).
 	if vet--> use the vetdb
 	if pt--> use the ptdb
---hide search bar in the vet pages (see app.js)	
 
 --only wrap doctor context provider around things that need it (only functions that are UUID)
-
---why is registration using ref, and login uses state to hold the usernmae/pass. figure out what's better and convert
 

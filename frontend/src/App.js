@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {Routes, Route} from 'react-router-dom'
+import {Routes, Route, useLocation} from 'react-router-dom'
 import {Container} from 'react-bootstrap';
 import "./CSS/footer.css"
 import VetDataService from "./Services/vet-service"
@@ -21,6 +21,7 @@ import EditVetProfile from "./Components/Vet/edit-vet-profile"
 export default function App() {
   const [results, setResults] = useState(null);
   const { DoctorUUID, checkDoctorUUID } = useContext(UUIDContext);
+  const location = useLocation();
 
   useEffect(() => {
     findByName();
@@ -55,7 +56,10 @@ export default function App() {
      <Container className = "d-flex" style = {{minHeight: "100vh"}}>
      <div className="w-100" style = {{maxWidth: "4000px"}}>
       <Header className = "d-flex align-items-center justify-content-center w-100" onSearch={findByName}/>
+      {/* <Header className = "d-flex align-items-center justify-content-center w-100"/> */}
         <Routes>
+          {/* <Route exact path = "/" element = {<Header className = "d-flex align-items-center justify-content-center w-100" onSearch={findByName}/>}/> */}
+
           <Route exact path="/" element = {<HomeVetsList results={results}/>} />
           <Route exact path="/s/:query" element = {<SpecificVetsList/>} />
           <Route exact path = '/user/:id' element = {<Vet/>} />

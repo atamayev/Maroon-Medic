@@ -13,9 +13,10 @@ export default function NewVet () {
   const [DOByear, setDOByear] = useState('');
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
+  const [verifyToken, setverifyToken] = useState(false) // wheather or not user verified
   const [DoctorID, setDoctorID] = useState(null);
   const navigate = useNavigate();
-  const {verifyToken, user_verification} = useContext(VerifyContext)
+  // const {verifyToken, user_verification} = useContext(VerifyContext)
   const months = [
     "January",
     "February",
@@ -58,6 +59,22 @@ export default function NewVet () {
       console.log('elsed');
     }
   }
+  async function user_verification (){
+    const cookies = document.cookie;
+    if(cookies){
+      const response = await VetDataService.verify(cookies)
+      if(response.data.success === true){
+        setverifyToken(true)
+      }
+      else{// if user not veriifed
+        setverifyToken(false);
+      }
+    }
+    else{// if no token received
+      setverifyToken(false);
+    }
+  }
+
 
   if(!verifyToken){
     return(
