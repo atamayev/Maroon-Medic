@@ -18,7 +18,7 @@ export default function Header () {
   // const { DoctorUUID, checkDoctorUUID } = useContext(UUIDContext);
   const {verifyToken, user_verification} = useContext(VerifyContext)
   const cookie_monster = document.cookie;
-  const {setSearchTerm} = useContext(SearchContext)
+  const {searchTerm, setSearchTerm} = useContext(SearchContext)
 
   useEffect(()=>{
     user_verification(cookie_monster);
@@ -105,7 +105,16 @@ export default function Header () {
   // };
   const handleSearch = (event) => {
     console.log(event)
-    setSearchTerm(event)
+    if (!event){
+      console.log('searchName',event)
+      window.location.href = '/';
+    }else{
+      window.location.href = `/s/${event}`;
+      // setTimeout(1000);
+      setSearchTerm(event);
+    }
+    // console.log(event)
+    // setSearchTerm(event)
   };
  
   return (
