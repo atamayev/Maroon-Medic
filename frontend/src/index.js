@@ -6,6 +6,7 @@ import { disableReactDevTools } from '@fvilers/disable-react-devtools';
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import { UUIDContextProvider } from './Wraps/UUIDContext';
 import { VerifyContextProvider } from './Wraps/VerifyContext';
+import { SearchContextProvider } from './Wraps/SearchContext';
 if (process.env.NODE_ENV === 'production') {
   disableReactDevTools();
 }
@@ -15,11 +16,13 @@ root.render(
   <React.StrictMode>
     <UUIDContextProvider>
       <VerifyContextProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path = "/*" element = {<App/>} />
-        </Routes>
-      </BrowserRouter>
+        <SearchContextProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path = "/*" element = {<App/>} />
+          </Routes>
+        </BrowserRouter>
+        </SearchContextProvider>
       </VerifyContextProvider>
     </UUIDContextProvider>
   </React.StrictMode>

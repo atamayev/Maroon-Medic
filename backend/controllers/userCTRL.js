@@ -1,28 +1,6 @@
 import {connection, useDB} from "../dbAndSecurity/connect.js";
 import Crypto from "../dbAndSecurity/crypto.js";
 
-/** fetchUsers returns all records from the Doctor_credentials table
- *  fetchUsers is not directly called. It is called within the searchByQuery function in searchCTRL.js, if no query is received
- *  Used to fill the home screen
- * @param {n/a} req - Not application - no request
- * @param {array} res - result
- * @returns Either an array of results, or a message with an error
- */
-export async function fetchUsers (req, res){
-    const table_name = 'Doctor_credentials'
-    const sql = `SELECT * FROM ${table_name}`
-    const DB_name = 'DoctorDB'
-    
-    await useDB(fetchUsers.name, DB_name, `${table_name}`)
-    try{
-        const [results] = await connection.execute(sql)
-        // const decrypted = Crypto.decrypt_multiple(results)
-        return res.status(200).json(results);
-    }catch(error){
-        res.status(500).send({ error: 'Error fetching data' });
-    }
-}
-
 /** returnVetPageData searches for a particular Doctor's data
  *  Used to fill in vet screen (particular vet)
  *  Doctor_credentials & basic_Doctor_info are joined on the DocID, the data decrypted returned back to the client

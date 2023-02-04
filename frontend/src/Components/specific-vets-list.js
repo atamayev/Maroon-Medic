@@ -1,10 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {Card, Button} from 'react-bootstrap';
 import {Link, useParams} from "react-router-dom";
 import VetDataService from "../Services/vet-service"
+import { SearchContext } from '../Wraps/SearchContext';
 
 export default function SpecificVetsList() {
-    let { query } = useParams(); //the id of the current site (which user) --> used to set User
+  const {searchTerm, items} = useContext(SearchContext)
+  console.log()
+  
+  let { query } = useParams(); //the id of the current site (which user) --> used to set User
     if (!query){
         window.location.href = '/';
     }

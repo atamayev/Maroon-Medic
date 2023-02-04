@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {Routes, Route, useLocation} from 'react-router-dom'
+import {Routes, Route} from 'react-router-dom'
 import {Container} from 'react-bootstrap';
 import "./CSS/footer.css"
 import VetDataService from "./Services/vet-service"
@@ -19,28 +19,27 @@ import Dashboard from "./Components/Vet/dashboard"
 import EditVetProfile from "./Components/Vet/edit-vet-profile"
 
 export default function App() {
-  const [results, setResults] = useState(null);
+  // const [results, setResults] = useState(null);
   const { DoctorUUID, checkDoctorUUID } = useContext(UUIDContext);
-  const location = useLocation();
 
   useEffect(() => {
-    findByName();
+    // findByName();
     checkDoctorUUID()
   }, []);
   
-  // this is the core search function
-  async function findByName (query) {
-    console.log('query', query)
-    if (!query){
-      query = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    }
-    try{
-      const response = await VetDataService.find(query)
-      setResults(response.data); // Sets the data state to the response (all vets)
-    }catch(error){
-      console.error(error);
-    }
-  };
+  // // this is the core search function
+  // async function findByName (query) {
+  //   console.log('query', query)
+  //   if (!query){
+  //     query = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  //   }
+  //   try{
+  //     const response = await VetDataService.find(query)
+  //     setResults(response.data); // Sets the data state to the response (all vets)
+  //   }catch(error){
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <>
@@ -55,12 +54,12 @@ export default function App() {
     )}
      <Container className = "d-flex" style = {{minHeight: "100vh"}}>
      <div className="w-100" style = {{maxWidth: "4000px"}}>
-      <Header className = "d-flex align-items-center justify-content-center w-100" onSearch={findByName}/>
+      <Header className = "d-flex align-items-center justify-content-center w-100"/>
       {/* <Header className = "d-flex align-items-center justify-content-center w-100"/> */}
         <Routes>
           {/* <Route exact path = "/" element = {<Header className = "d-flex align-items-center justify-content-center w-100" onSearch={findByName}/>}/> */}
 
-          <Route exact path="/" element = {<HomeVetsList results={results}/>} />
+          <Route exact path="/" element = {<HomeVetsList/>} />
           <Route exact path="/s/:query" element = {<SpecificVetsList/>} />
           <Route exact path = '/user/:id' element = {<Vet/>} />
 

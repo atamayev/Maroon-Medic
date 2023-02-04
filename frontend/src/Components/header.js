@@ -8,21 +8,23 @@ import pic from '../Images/ProfileImage.jpg';
 import VetDataService from '../Services/vet-service'
 import { UUIDContext } from '../Wraps/UUIDContext.js';
 import { VerifyContext } from '../Wraps/VerifyContext.js';
+import { SearchContext } from '../Wraps/SearchContext';
 
-export default function Header ( {onSearch}) {
-  const [searchName, setSearchName ] = useState("");
+export default function Header () {
+  // const [searchName, setSearchName ] = useState("");
   const location = useLocation();
   const [DoctorUUID, setDoctorUUID] = useState(null) 
   const [headerData, setHeaderData] = useState({});
   // const { DoctorUUID, checkDoctorUUID } = useContext(UUIDContext);
   const {verifyToken, user_verification} = useContext(VerifyContext)
   const cookie_monster = document.cookie;
+  const {setSearchTerm} = useContext(SearchContext)
 
   useEffect(()=>{
     user_verification(cookie_monster);
     checkDoctorUUID();
-    console.log('verifyToken', verifyToken)
-    console.log('DoctorUUID',DoctorUUID)
+    // console.log('verifyToken', verifyToken)
+    // console.log('DoctorUUID',DoctorUUID)
     if (verifyToken == true && DoctorUUID){
       console.log('verify and uuid')
       HeaderData();
@@ -74,7 +76,8 @@ export default function Header ( {onSearch}) {
     }
     handleRefresh();
     console.log('logged out');
-}
+  }
+
   const handleRefresh = useCallback(() => {
     if (location.pathname === '/') {
         window.location.reload();
@@ -83,21 +86,26 @@ export default function Header ( {onSearch}) {
     }
   }, [location]);
 
-  const handleKeyUp = (e) => {
-    if (e.key === 'Enter'){
-      handleSearch(searchName);
+  const handleKeyUp = (event) => {
+    if (event.key === 'Enter'){
+      console.log('handlkey up in event.target.value', event.target.value)
+      handleSearch(event.target.value);
     }
   }
 
-  const handleSearch = () => {
-    if (!searchName){
-      console.log('searchName',searchName)
-      window.location.href = '/';
-    }else{
-      window.location.href = `/s/${searchName}`;
-      // setTimeout(1000);
-      onSearch(searchName);
-    }
+  // const handleSearch = () => {
+  //   if (!searchName){
+  //     console.log('searchName',searchName)
+  //     window.location.href = '/';
+  //   }else{
+  //     window.location.href = `/s/${searchName}`;
+  //     // setTimeout(1000);
+  //     onSearch(searchName);
+  //   }
+  // };
+  const handleSearch = (event) => {
+    console.log(event)
+    setSearchTerm(event)
   };
  
   return (
@@ -117,8 +125,6 @@ export default function Header ( {onSearch}) {
             className="form-control mr-sm-2"
             placeholder="Search"
             aria-label="Search"
-            value={searchName}
-            onChange={ e => setSearchName(e.target.value)}
             onKeyUp={handleKeyUp}
           />
           <div className="input-group-append">

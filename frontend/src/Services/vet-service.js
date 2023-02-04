@@ -8,6 +8,7 @@ export default new class VetDataService {
         return await http.get(`users/${DoctorID}`);
     }
     async find(query){
+        console.log('query in VDS', query)
         return await http.get(`search/${query}`);
     }
     async addingDoctorInfo(firstName, lastName, gender, DOBmonth, DOBday, DOByear, DoctorID){
