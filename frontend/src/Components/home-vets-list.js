@@ -4,17 +4,18 @@ import {Link} from "react-router-dom";
 import { SearchContext } from '../Wraps/SearchContext';
 
 export default function HomeVetsList() {
-  const {searchTerm, items} = useContext(SearchContext)
+  localStorage.setItem("searchTerm", "")
+  const {items} = useContext(SearchContext)
   console.log(items)
-  // console.log('results', results)
+
   if (!items || items === "User not found"){
     return <div> No results</div>
   }
   const data = items.slice(0, 100); // This has no function rn, since there are less than 100 users. once there are more, only the first 100 will be returned
 
   return (
-
-    <div className="card-container" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gridGap: '16px' }}>
+    <>
+      <div className="card-container" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gridGap: '16px' }}>
         {data.map((item) => {
           const { email } = item;
           return(
@@ -35,5 +36,6 @@ export default function HomeVetsList() {
           )
         })}
       </div>
+    </>
   );
 }

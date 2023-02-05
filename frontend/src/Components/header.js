@@ -1,8 +1,7 @@
 
 import React, {useCallback, useState, useEffect, useContext } from 'react'
 import {Dropdown} from "react-bootstrap";
-import {useLocation, Link} from "react-router-dom";
-
+import {useLocation} from "react-router-dom";
 import logo from '../Images/logo.svg';
 import pic from '../Images/ProfileImage.jpg';
 import VetDataService from '../Services/vet-service'
@@ -18,7 +17,7 @@ export default function Header () {
   // const { DoctorUUID, checkDoctorUUID } = useContext(UUIDContext);
   const {verifyToken, user_verification} = useContext(VerifyContext)
   const cookie_monster = document.cookie;
-  const {searchTerm, setSearchTerm} = useContext(SearchContext)
+  const {setSearchTerm} = useContext(SearchContext)
 
   useEffect(()=>{
     user_verification(cookie_monster);
@@ -68,7 +67,6 @@ export default function Header () {
   }
 
   const handleLogout = async () => {
-    localStorage.clear();
     try{
       await VetDataService.logout();
     } catch(error){
@@ -93,41 +91,37 @@ export default function Header () {
     }
   }
 
-  // const handleSearch = () => {
-  //   if (!searchName){
-  //     console.log('searchName',searchName)
-  //     window.location.href = '/';
-  //   }else{
-  //     window.location.href = `/s/${searchName}`;
-  //     // setTimeout(1000);
-  //     onSearch(searchName);
-  //   }
-  // };
   const handleSearch = (event) => {
     console.log(event)
     if (!event){
       console.log('searchName',event)
+      localStorage.setItem("searchTerm", "")
       window.location.href = '/';
     }else{
       window.location.href = `/s/${event}`;
       // setTimeout(1000);
+      console.log('searchName',event)
       setSearchTerm(event);
     }
     // console.log(event)
     // setSearchTerm(event)
   };
- 
+  const handleHome = () => {
+    localStorage.setItem("searchTerm", "")
+    window.location.href = '/';
+  }
+
   return (
-    <header className = 'header'>
+    <header>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <Link to = "/">
           <img 
             src = {logo} 
             alt = "Logo" 
             width= {50}
             height = {50} 
+            onClick = {handleHome}
+            style={{ cursor: "pointer" }} 
             />
-          </Link>
         <div className="navbar-collapse" id="navbarSupportedContent">
         <input
             type="search"
@@ -163,12 +157,11 @@ export default function Header () {
           <div>
           <Dropdown.Item href="/vet-register" className='fw-bold'>Sign up</Dropdown.Item>
           <Dropdown.Item href="/vet-login">Log In</Dropdown.Item>
+          <Dropdown.Divider />
+          <Dropdown.Item href="/help">Help</Dropdown.Item>
           </div>
         )}
-{/* 
-        <Dropdown.Divider />
-        <Dropdown.Item href="/about">About</Dropdown.Item>
-        <Dropdown.Item href="/help">Help</Dropdown.Item> */}
+
       </Dropdown.Menu>
     </Dropdown>
         </div>

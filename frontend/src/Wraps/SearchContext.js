@@ -1,17 +1,12 @@
 import React, { createContext, useEffect, useState } from 'react';
 import VetDataService from "../Services/vet-service.js"
-const SearchContext = createContext();
+export const SearchContext = createContext();
 
-const SearchContextProvider = (props) => {
-  const [searchTerm, setSearchTerm] = useState(null);
+export const SearchContextProvider = (props) => {
+  const [searchTerm, setSearchTerm] = useState(localStorage.getItem("searchTerm")|| null);
   const [items, setItems] = useState([]);
-  
-  useEffect(()=>{
-    fetchData();
-    console.log(searchTerm)
-  }, []);
-  
-  async function fetchData (searchTerm){
+
+  async function fetchData (){
     try{
       console.log('searchTerm',searchTerm)
       const result = await VetDataService.find(searchTerm);
@@ -23,6 +18,12 @@ const SearchContextProvider = (props) => {
     }
   }
 
+  useEffect(()=>{
+    localStorage.setItem("searchTerm", searchTerm)
+    fetchData()
+    console.log('searchTerm',searchTerm)
+  }, [searchTerm]);
+  
   return (
     <SearchContext.Provider value={{ searchTerm, setSearchTerm, items, fetchData}}>
       {props.children}
@@ -30,4 +31,3 @@ const SearchContextProvider = (props) => {
   );
 };
 
-export { SearchContext, SearchContextProvider };

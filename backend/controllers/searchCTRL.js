@@ -14,8 +14,9 @@ export async function searchByQuery (req, res){
     const table_name = 'Doctor_credentials';
     const DB_name = 'DoctorDB'
     await useDB(searchByQuery.name, DB_name, `${table_name}`)
+    console.log(req.params.query)
     
-    if(req.params.query == 'undefined'){
+    if(req.params.query == 'null' || req.params.query == 'undefined'){
         return await fetchUsers (req, res);
         // console.log('this is atest', req.params.query)
     }

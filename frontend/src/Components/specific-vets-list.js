@@ -5,34 +5,23 @@ import VetDataService from "../Services/vet-service"
 import { SearchContext } from '../Wraps/SearchContext';
 
 export default function SpecificVetsList() {
-  const {searchTerm, items} = useContext(SearchContext)
-  console.log()
+  const {searchTerm, items, setSearchTerm} = useContext(SearchContext)
   
   let { query } = useParams(); //the id of the current site (which user) --> used to set User
-    if (!query){
-        window.location.href = '/';
-    }
-    const [results, setResults] = useState(null);
+  console.log(`query ${query} searchterm ${searchTerm}`)
+  
+  if (!query){
+      window.location.href = '/';
+  }
+  if(query != searchTerm){
+    console.log(`query ${query} searchterm ${searchTerm}`)
+    setSearchTerm(query)
+  }  
 
-    useEffect(() => {
-        findByName(query);
-    }, [query]);
-
-    async function findByName (query) {
-        console.log('query', query)
-        try{
-          const response = await VetDataService.find(query)
-          setResults(response.data); // Sets the data state to the response (all vets)
-        }catch(error){
-          console.error(error);
-        }
-  };
-
-  // console.log('results', results)
-  if (!results || results === "User not found"){
+  if (!items || items === "User not found"){
     return <div> No results</div>
   }
-  const data = results.slice(0, 100); // This has no function rn, since there are less than 100 users. once there are more, only the first 100 will be returned
+  const data = items.slice(0, 100); // This has no function rn, since there are less than 100 users. once there are more, only the first 100 will be returned
 
   return (
 
