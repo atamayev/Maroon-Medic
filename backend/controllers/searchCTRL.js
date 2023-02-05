@@ -19,10 +19,6 @@ export async function searchByQuery (req, res){
         return await fetchUsers (req, res);
         // console.log('this is atest', req.params.query)
     }
-
-    // if (req.params.query == "ABCDEFGHIJKLMNOPQRSTUVWXYZ"){
-    //     return await fetchUsers (req, res);
-    // } 
     else {
         const sql = `SELECT * FROM ${table_name} WHERE email LIKE ?`;
         const values = ['%' + req.params.query + '%'];

@@ -17,11 +17,11 @@ root.render(
     <UUIDContextProvider>
       <VerifyContextProvider>
         <SearchContextProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path = "/*" element = {<App/>} />
-          </Routes>
-        </BrowserRouter>
+          <BrowserRouter>
+            <Routes>
+              <Route path = "/*" element = {<App/>} />
+            </Routes>
+          </BrowserRouter>
         </SearchContextProvider>
       </VerifyContextProvider>
     </UUIDContextProvider>

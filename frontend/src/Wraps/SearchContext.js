@@ -8,10 +8,12 @@ const SearchContextProvider = (props) => {
   
   useEffect(()=>{
     fetchData();
+    console.log(searchTerm)
   }, []);
   
   async function fetchData (searchTerm){
     try{
+      console.log('searchTerm',searchTerm)
       const result = await VetDataService.find(searchTerm);
       console.log(result.data)
       setItems(result.data);
@@ -20,21 +22,6 @@ const SearchContextProvider = (props) => {
       console.log('error in search context',error)
     }
   }
-
-  // useEffect(()=>{
-  //   const fetchData = async (searchTerm) => {
-  //     // Fetch all items from the database
-  //     try{
-  //       const result = await VetDataService.find(searchTerm);
-  //       console.log(result.data)
-  //       setItems(result.data);
-  //     }
-  //     catch(error){
-  //       console.log('error in search context',error)
-  //     }
-  //   }
-  //   fetchData();
-  // }, []);
 
   return (
     <SearchContext.Provider value={{ searchTerm, setSearchTerm, items, fetchData}}>
