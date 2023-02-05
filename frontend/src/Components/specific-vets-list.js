@@ -1,7 +1,6 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useContext} from 'react';
 import {Card, Button} from 'react-bootstrap';
 import {Link, useParams} from "react-router-dom";
-import VetDataService from "../Services/vet-service"
 import { SearchContext } from '../Wraps/SearchContext';
 
 export default function SpecificVetsList() {

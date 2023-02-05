@@ -5,21 +5,25 @@ export const SearchContext = createContext();
 export const SearchContextProvider = (props) => {
   const [searchTerm, setSearchTerm] = useState(localStorage.getItem("searchTerm")|| null);
   const [items, setItems] = useState([]);
+  const pathname = window.location.pathname;
 
   async function fetchData (){
-    try{
-      console.log('searchTerm',searchTerm)
-      const result = await VetDataService.find(searchTerm);
-      console.log(result.data)
-      setItems(result.data);
-    }
-    catch(error){
-      console.log('error in search context',error)
+    if(pathname === '/' || pathname.startsWith('/s/')){
+      try{
+        console.log('searchTerm',searchTerm)
+        const result = await VetDataService.find(searchTerm);
+        console.log(result.data)
+        setItems(result.data);
+      }
+      catch(error){
+        console.log('error in search context',error)
+      }
     }
   }
 
   useEffect(()=>{
     localStorage.setItem("searchTerm", searchTerm)
+    
     fetchData()
     console.log('searchTerm',searchTerm)
   }, [searchTerm]);
