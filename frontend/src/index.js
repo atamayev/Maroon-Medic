@@ -7,13 +7,14 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import { UUIDContextProvider } from './Wraps/UUIDContext';
 import { VerifyContextProvider } from './Wraps/VerifyContext';
 import { SearchContextProvider } from './Wraps/SearchContext';
+
 if (process.env.NODE_ENV === 'production') {
   disableReactDevTools();
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <UUIDContextProvider>
       <VerifyContextProvider>
         <SearchContextProvider>
@@ -25,6 +26,6 @@ root.render(
         </SearchContextProvider>
       </VerifyContextProvider>
     </UUIDContextProvider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 

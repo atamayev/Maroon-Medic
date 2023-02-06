@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 });
 
 // Limits which URLs are able to access the server (8800)
-const allowedOrigins = ['https://localhost:3000', 'https://192.168.1.242:3000', 'http://localhost:3000', 'http://192.168.1.242:3000'];
+const allowedOrigins = ['https://localhost:3000', 'https://192.168.1.243:3000', 'http://localhost:3000', 'http://192.168.1.243:3000'];
 app.use(cors({
   origin: (origin, callback) => {
     if (allowedOrigins.indexOf(origin) !== -1) {

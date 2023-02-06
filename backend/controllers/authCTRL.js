@@ -19,7 +19,7 @@ export async function jwt_verify (req, res){
   //: https://dev.to/salarc123/mern-stack-authentication-tutorial-part-1-the-backend-1c57
   try{
     const DoctorAccessToken = req.cookies.DoctorAccessToken
-    console.log('DoctorAccessToken',DoctorAccessToken)
+    // console.log('DoctorAccessToken',DoctorAccessToken)
     const decodedDoctorID = jwt.verify(DoctorAccessToken, process.env.JWT_KEY).DoctorID;
     
     if (Date.now() >= decodedDoctorID.exp * 1000) {
@@ -42,7 +42,7 @@ export async function jwt_verify (req, res){
       }
       else{
         // If there is a doc with the decodedDoctorID, return true
-        console.log('true')
+        // console.log('true')
         return res.status(200).json({success: true})
       };
     }
@@ -201,7 +201,7 @@ export async function register (req, res){
 
             // const UUID = ID_to_UUID(results[0].DoctorID)
             const DoctorUUID = await DoctorID_to_DoctorUUID(DoctorID)
-            console.log('DoctorUUID', DoctorUUID)
+            // console.log('DoctorUUID', DoctorUUID)
 
             return res
             .cookie("DoctorAccessToken", token, {

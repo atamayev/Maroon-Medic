@@ -12,7 +12,7 @@ import moment from 'moment';
  * @returns Randomly generated UUID
  */
 export async function DoctorID_to_DoctorUUID(DoctorID){
-    // console.log('DoctorID', DoctorID )
+    // console.log('DoctorID_to_DoctorUUID', DoctorID )
     const DoctorUUID = uuidv4();
   
     const table_name = 'DoctorUUID_reference';
@@ -20,7 +20,7 @@ export async function DoctorID_to_DoctorUUID(DoctorID){
     const date_ob = new Date();
     const format = "YYYY-MM-DD HH:mm:ss"
     const dateTime = moment(date_ob).format(format);
-    console.log('dateTime',dateTime)
+    // console.log('dateTime',dateTime)
     // const dateTimeObj = {
     //   Created_at: `${dateTime}`
     // }
@@ -42,7 +42,7 @@ export async function DoctorID_to_DoctorUUID(DoctorID){
  * @returns Corresponding DoctorID
  */
 export async function DoctorUUID_to_DoctorID(DoctorUUID){
-    console.log('DoctorUUID', DoctorUUID )
+    // console.log('DoctorUUID_to_DoctorID', DoctorUUID )
     const table_name = 'DoctorUUID_reference';
     const DB_name = 'DoctorDB';
   
@@ -53,7 +53,7 @@ export async function DoctorUUID_to_DoctorID(DoctorUUID){
     try {
         const DoctorID = await connection.execute(sql, values)
         const doc_new = DoctorID[0][0].Doctor_ID
-        console.log('doc_new returned', doc_new)
+        // console.log('doc_new returned', doc_new)
         return doc_new
     }catch(error){
       return (`error in ${DoctorUUID_to_DoctorID.name}:`, error)

@@ -18,6 +18,7 @@ To-do:
 
 --create contexts. there should be one context for results
 	--fix verify function context in header and dashboard.
+		1. When navigating to dashboard, new-vet, edit-profile (don't need to verify when saving (already veryfying when navigating, don't need double verificaiton).
 	-- verificiation doesn't work in new-vet either. fixed it for now by bringing back old fcn
 	--header.js context. await doesn't work
 
@@ -33,3 +34,7 @@ To-do:
 
 --only wrap doctor context provider around things that need it (only functions that are UUID)
 
+--onclick button header
+	onclick button doesn't work bc search term isn't being imported
+
+-- instead of navigate to dashbord after login, make it go to the dashboard (instead of Link to, make it an Href, so that the data re-quires)

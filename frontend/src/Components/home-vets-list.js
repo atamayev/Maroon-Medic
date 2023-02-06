@@ -6,7 +6,7 @@ import { SearchContext } from '../Wraps/SearchContext';
 export default function HomeVetsList() {
   localStorage.setItem("searchTerm", "")
   const {items} = useContext(SearchContext)
-  console.log(items)
+  // console.log(items)
 
   if (!items || items === "User not found"){
     return <div> No results</div>

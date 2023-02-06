@@ -9,7 +9,7 @@ import { DoctorUUID_to_DoctorID } from "../dbAndSecurity/UUID.js";
  * @returns true/error
  */
 export async function newVet (req, res){
-    console.log('req.body',req.body)
+    // console.log('req.body',req.body)
     const DocID = req.body.DoctorID
     delete req.body.DoctorID;
 

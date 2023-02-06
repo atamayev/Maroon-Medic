@@ -42,7 +42,7 @@ export async function returnVetPageData (req, res){
 
 export async function DoctorUUIDtoDoctorID (req, res){
     const DoctorUUID = req.cookies.DoctorUUID
-    console.log('DoctorUUID',DoctorUUID)
+    // console.log('DoctorUUID',DoctorUUID)
 
     const table_name = 'DoctorUUID_reference';
     const DB_name = 'DoctorDB'

@@ -99,12 +99,10 @@ export default function Header () {
       window.location.href = '/';
     }else{
       window.location.href = `/s/${event}`;
-      // setTimeout(1000);
       console.log('searchName',event)
       setSearchTerm(event);
     }
-    // console.log(event)
-    // setSearchTerm(event)
+
   };
   const handleHome = () => {
     localStorage.setItem("searchTerm", "")
