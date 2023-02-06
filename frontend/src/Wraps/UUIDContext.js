@@ -9,10 +9,7 @@ const UUIDContextProvider = (props) => {
   function checkDoctorUUID () {
     const cookieName = "DoctorUUID=";
     const decodedCookie = document.cookie; // when https, will need to decode
-    console.log(decodedCookie)
-    // console.log(cookie_monster)
     const cookies = decodedCookie.split(";");
-    // console.log('cookies', cookies)
     for (let i = 0; i < cookies.length; i++) {
       let cookie = cookies[i];
       while (cookie.charAt(0) === ' ') {
@@ -20,6 +17,7 @@ const UUIDContextProvider = (props) => {
       }
       if (cookie.startsWith(cookieName)) {
         setDoctorUUID(cookie.substring(cookieName.length, cookie.length));
+        console.log('true in Doctor UUID context')
       }
     }
   };
@@ -28,7 +26,6 @@ const UUIDContextProvider = (props) => {
     const cookieName = "PatientUUID=";
     const decodedCookie = document.cookie; // when https, will need to decode
     const cookies = decodedCookie.split(";");
-    console.log('cookies', cookies)
     for (let i = 0; i < cookies.length; i++) {
       let cookie = cookies[i];
       while (cookie.charAt(0) === ' ') {
@@ -36,6 +33,7 @@ const UUIDContextProvider = (props) => {
       }
       if (cookie.startsWith(cookieName)) {
         setPatientUUID(cookie.substring(cookieName.length, cookie.length));
+        console.log('true in Patient UUID context')
       }
     }
   };

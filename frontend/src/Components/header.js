@@ -17,7 +17,7 @@ export default function Header () {
   // const { DoctorUUID, checkDoctorUUID } = useContext(UUIDContext);
   const {verifyToken, user_verification} = useContext(VerifyContext)
   const cookie_monster = document.cookie;
-  const {setSearchTerm} = useContext(SearchContext)
+  const {searchTerm, setSearchTerm} = useContext(SearchContext)
 
   useEffect(()=>{
     user_verification(cookie_monster);
@@ -87,20 +87,21 @@ export default function Header () {
   const handleKeyUp = (event) => {
     if (event.key === 'Enter'){
       console.log('handlkey up in event.target.value', event.target.value)
+      setSearchTerm(event.target.value)
       handleSearch(event.target.value);
     }
   }
 
-  const handleSearch = (event) => {
-    console.log(event)
-    if (!event){
-      console.log('searchName',event)
+  const handleSearch = (value) => {
+    console.log(value)
+    if (!value){
+      console.log('searchName',value)
       localStorage.setItem("searchTerm", "")
       window.location.href = '/';
     }else{
-      window.location.href = `/s/${event}`;
-      console.log('searchName',event)
-      setSearchTerm(event);
+      window.location.href = `/s/${value}`;
+      console.log('searchName',value)
+      setSearchTerm(value);
     }
 
   };
@@ -126,13 +127,14 @@ export default function Header () {
             className="form-control mr-sm-2"
             placeholder="Search"
             aria-label="Search"
+            value = {searchTerm}
             onKeyUp={handleKeyUp}
           />
           <div className="input-group-append">
             <button
               className="btn btn-dark"
               type="button"
-              onClick={handleSearch}>
+              onClick={()=>handleSearch(searchTerm)}>
               Search
             </button>
           </div>

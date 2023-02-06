@@ -7,9 +7,6 @@ const VerifyContextProvider = (props) => {
   const [verifyToken, setverifyToken] = useState(false) // wheather or not user verified
 
   async function user_verification (cookie_monster){
-    // const cookies = document.cookie;
-    // console.log('using user verification')
-    console.log(cookie_monster)
     if(cookie_monster){
       const response = await VetDataService.verify(cookie_monster)
       if(response.data.success === true){

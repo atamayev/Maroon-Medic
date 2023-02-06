@@ -1,8 +1,5 @@
 To-do:
-1. Double Query figure out
-	-- double query problem: can see the cause by commenting out the if statement in home vets list. it first makes results = nothing, and then re-queryies
-	consider making results into a context. only queryied when needed
-2. Fix all double query inefficieneices on the back-end as well. It's dirty
+
 4. 0.5: Figure out a more logial way of naming conventions for routing. what is a user/profile?
 4. Fix Contexts in dashboard, header. Could be giving problems bc dashboard data takes a while to fill (observe backend console)
 5. Editability of doc info
@@ -37,4 +34,7 @@ To-do:
 --onclick button header
 	onclick button doesn't work bc search term isn't being imported
 
--- instead of navigate to dashbord after login, make it go to the dashboard (instead of Link to, make it an Href, so that the data re-quires)
+-- instead of navigate to dashbord after login, make it go to the dashboard (instead of Link to, make it an Href, so that the data re-quieres
+
+--any react components that have multiple functions in useEffects should have multiple useEffects (unless their dependencies are the same - ie both wwatching cookie monster).
+	useEffect watches for something to change. 

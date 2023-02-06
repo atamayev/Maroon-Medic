@@ -10,9 +10,7 @@ export const SearchContextProvider = (props) => {
   async function fetchData (){
     if(pathname === '/' || pathname.startsWith('/s/')){
       try{
-        // console.log('searchTerm',searchTerm)
         const result = await VetDataService.find(searchTerm);
-        // console.log(result.data)
         setItems(result.data);
       }
       catch(error){
@@ -23,9 +21,7 @@ export const SearchContextProvider = (props) => {
 
   useEffect(()=>{
     localStorage.setItem("searchTerm", searchTerm)
-    
     fetchData()
-    // console.log('searchTerm',searchTerm)
   }, [searchTerm]);
   
   return (

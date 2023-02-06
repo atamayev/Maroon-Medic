@@ -1,8 +1,7 @@
-import React, {useEffect, useContext} from 'react';
+import React from 'react';
 import {Routes, Route} from 'react-router-dom'
 import {Container} from 'react-bootstrap';
 import "./CSS/footer.css"
-import { UUIDContext } from './Wraps/UUIDContext';
 //Publicly accessible:
 import Header from './Components/header';
 import HomeVetsList from "./Components/home-vets-list"
