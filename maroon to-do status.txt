@@ -37,4 +37,9 @@ To-do:
 -- instead of navigate to dashbord after login, make it go to the dashboard (instead of Link to, make it an Href, so that the data re-quieres
 
 --any react components that have multiple functions in useEffects should have multiple useEffects (unless their dependencies are the same - ie both wwatching cookie monster).
-	useEffect watches for something to change. 
+	useEffect watches for something to change.
+	add dependencies to any useEffects that might need them.
+
+-- replace all instances of cookies with a global cookie monster variable. 
+
+--when searching for specific term, doesn't let you change the search parameter

@@ -127,7 +127,6 @@ export default function Header () {
             className="form-control mr-sm-2"
             placeholder="Search"
             aria-label="Search"
-            value = {searchTerm}
             onKeyUp={handleKeyUp}
           />
           <div className="input-group-append">
