@@ -15,7 +15,7 @@ export default function Header () {
   const { checkUUID, DoctorUUID } = useContext(UUIDContext);
   const {user_verification} = useContext(VerifyContext);
   const cookie_monster = document.cookie;
-  const {setSearchTerm} = useContext(SearchContext);
+  const {setSearchTerm, searchTerm} = useContext(SearchContext);
 
   useEffect(()=>{
     user_verification(cookie_monster);
@@ -23,7 +23,7 @@ export default function Header () {
       console.log('in checkuuid')
       HeaderData();
     }
-  }, [location]);
+  }, [location, cookie_monster]);
   
   async function HeaderData (){
     if(cookie_monster){
@@ -115,6 +115,7 @@ export default function Header () {
             className="form-control mr-sm-2"
             placeholder="Search"
             aria-label="Search"
+            defaultValue= {searchTerm}
             onKeyUp={handleKeyUp}
           />
           <div className="input-group-append">

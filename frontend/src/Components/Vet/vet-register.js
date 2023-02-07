@@ -1,10 +1,11 @@
 import React, {useState, useEffect, useContext} from 'react'
 import {Card, Button, Form, Alert } from 'react-bootstrap'
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useNavigate, useLocation} from "react-router-dom";
 import VetDataService from "../../Services/vet-service.js"
 import { UUIDContext } from '../../Wraps/UUIDContext.js';
 
 export default function VetRegister() {
+  const location = useLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setpasswordConfirm] = useState('');
@@ -13,12 +14,13 @@ export default function VetRegister() {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
   const { checkUUID } = useContext(UUIDContext);
+  const cookie_monster = document.cookie;
 
   useEffect(()=>{
     if(checkUUID('DoctorUUID=')===true){
       navigate(`/dashboard`)
     }
-  });
+  }, [location, cookie_monster]);
 
   const handleSubmit = async (e) =>{
     e.preventDefault();

@@ -1,8 +1,9 @@
 To-do:
 
-4. 0.5: Figure out a more logial way of naming conventions for routing. what is a user/profile?
-4. Fix Contexts in dashboard, header. Could be giving problems bc dashboard data takes a while to fill (observe backend console)
-5. Editability of doc info
+1.figure out why there are 2 doctorUUID to DoctorID functions (user CTRL, UUID)
+2: Figure out a more logial way of naming conventions for routing. what is a user/profile?
+2. Patient registration/login
+4. Editability of doc info
 
 
 -- if the doc hasn't entered their basic_doctor_info, then going to their profile is an error - bc it tries to render data that doesn't exist
@@ -11,27 +12,13 @@ To-do:
 	If cookie not present, but UUID is present forwards straight to /edit-profile
 	If cookie not present and UUID not present, re-direct to register page
 
---figure out why there are 2 doctorUUID to DoctorID functions (user CTRL, UUID)
-
 -- doctor "" doesnot exist shows up even for doctors who exist, just don't query (not rly sure how to solve, aside from solving the an error occured issue)
 
 -- show first name on home page instead of email. will require decrypt multiple.
 --create another header. one for home screen. one for vet screen (no search bar, just calendar, inbox button (chat), settings (make header like airbnb)
 	--hide search bar in the vet pages (see app.js)	
 
---make one login/register function for vet/pt. Pass in a third parameter (vet vs pt).
-	if vet--> use the vetdb
-	if pt--> use the ptdb
-
---any react components that have multiple functions in useEffects should have multiple useEffects (unless their dependencies are the same - ie both wwatching cookie monster).
-	useEffect watches for something to change.
-	add dependencies to any useEffects that might need them.
-
--- replace all instances of cookies with a global cookie monster variable. 
-
--- when someone makes a search query, it should appear on the serach bar when they go to the next page.
-	-- consider make a new local storage object - previus saerch. when someone makes a search, it should become similar to the value in the serach bar. but should be changable obvisouly
-
 --in checkdoctorUUID, should search the DB for the found UUID.
 
--- header still doesn't checkdoctoruuid correctly
+--searching null or undefined shouldn't query all results
+

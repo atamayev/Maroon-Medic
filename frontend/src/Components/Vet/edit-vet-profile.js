@@ -1,14 +1,17 @@
 import React, {useEffect, useContext} from 'react'
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
 import { UUIDContext } from '../../Wraps/UUIDContext.js';
 
 export default function EditVetProfile() {
   const { DoctorUUID, checkUUID } = useContext(UUIDContext);
+  const cookie_monster = document.cookie;
+  const location = useLocation();
+  // also needs verify when navigate to page.
 
   useEffect(()=>{
     checkUUID()
-  });
+  }, [cookie_monster, location]);
 
   if(!DoctorUUID){
     return(

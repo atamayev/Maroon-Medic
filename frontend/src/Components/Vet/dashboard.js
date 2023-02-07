@@ -18,7 +18,7 @@ export default function Dashboard() {
     }
     // console.log('verifyToken', verifyToken)
     // console.log('DoctorUUID',DoctorUUID)
-  }, [location]);
+  }, [location, cookie_monster]);
  
   async function DashboardData (){
     // console.log('in dashboard data')

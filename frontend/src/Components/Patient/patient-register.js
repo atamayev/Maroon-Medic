@@ -1,10 +1,11 @@
-import React, {useRef, useState, useEffect, useContext} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import {Card, Button, Form, Alert } from 'react-bootstrap'
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useNavigate, useLocation} from "react-router-dom";
 import VetDataService from "../../Services/vet-service.js"
 import { UUIDContext } from '../../Wraps/UUIDContext.js';
 
 export default function PatientRegister() {
+  const location = useLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setpasswordConfirm] = useState('');
@@ -18,7 +19,7 @@ export default function PatientRegister() {
     if(checkUUID('PatientUUID=')===true){
       navigate(`/patient-profile`)
     }
-  });
+  }, [location]);
 
   const handleSubmit = async (e) =>{
     e.preventDefault();

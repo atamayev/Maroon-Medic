@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {Card, Button, Form, Alert } from 'react-bootstrap'
-import {useNavigate, Link, useLocation} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import VetDataService from "../../Services/vet-service.js"
 import { VerifyContext } from '../../Wraps/VerifyContext.js';
 
@@ -13,11 +13,12 @@ export default function NewVet () {
   const [DOByear, setDOByear] = useState('');
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
-  const [verifyToken, setverifyToken] = useState(false) // wheather or not user verified
+  // const [verifyToken, setverifyToken] = useState(false) // wheather or not user verified
   const [DoctorID, setDoctorID] = useState(null);
-  const navigate = useNavigate();
   const location = useLocation();
-  // const {checkUUID} = useContext(VerifyContext)
+  const {user_verification, verifyToken} = useContext(VerifyContext);
+  const cookie_monster = document.cookie;
+
   const months = [
     "January",
     "February",
@@ -36,9 +37,9 @@ export default function NewVet () {
   const years = [...Array(100).keys()].map(i => i + new Date().getFullYear() - 100);
       
   useEffect(() => {
-    user_verification();
+    user_verification(cookie_monster);
     DoctorUUIDtoDoctorID();
-  }, [location]);
+  }, [location, cookie_monster]);
   
   async function DoctorUUIDtoDoctorID (){
     const cookies = document.cookie;
@@ -58,21 +59,6 @@ export default function NewVet () {
       }
     }else{
       console.log('elsed');
-    }
-  }
-  async function user_verification (){
-    const cookies = document.cookie;
-    if(cookies){
-      const response = await VetDataService.verify(cookies)
-      if(response.data.success === true){
-        setverifyToken(true)
-      }
-      else{// if user not veriifed
-        setverifyToken(false);
-      }
-    }
-    else{// if no token received
-      setverifyToken(false);
     }
   }
 
@@ -98,8 +84,9 @@ export default function NewVet () {
         setLoading(true)
         const bool = await VetDataService.addingDoctorInfo(firstName, lastName, gender, DOBmonth, DOBday, DOByear, DoctorID)
         if(bool.data === true){
-          // navigate("/new-vet-2");
-          navigate(`/dashboard`)
+          // navigate("/dashboard");// this would be more efficient i think, but when this is used, the data doesn't load in time
+
+          window.location.href = '/dashboard';
           console.log('Data added');
         }
       } catch (err) {
@@ -138,24 +125,7 @@ export default function NewVet () {
         <br />
         <Form.Group id = "DOB">
 
-        {/* <Form.Label>Date of Birth:</Form.Label><br/>
-            <select required value = {DOBmonth} onChange={e => setDOBmonth( e.target.value )}>
-            {Array.from({length: 12}, (_, i) => (
-            <option key={i + 1} value={i + 1}>{i + 1}</option>
-          ))}  
-            </select> 
-            <select required value = {DOBmonth} onChange={e => setDOBday( e.target.value )}>
-            {Array.from({length: 31}, (_, i) => (
-            <option key={i + 1} value={i + 1}>{i + 1}</option>
-          ))}  
-            </select> 
-            <select required value = {DOBmonth} onChange={e => setDOByear( e.target.value )}>
-            {Array.from({length: 101}, (_, i) => (
-            <option key={1900 + 1} value={1900 + 1}>{1900 + i}</option>
-          ))}  
-            </select>  */}
-
-            <label>
+        <label>
         Month:
         <select value={DOBmonth} onChange={e => setDOBmonth(e.target.value)}>
           <option value="" disabled>

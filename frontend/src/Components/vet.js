@@ -7,19 +7,20 @@ import { UUIDContext } from '../Wraps/UUIDContext.js';
 
 export default function Vet () {
   // Creates an id variable which gets the id of the current page. 
-  const { DoctorUUID, checkDoctorUUID } = useContext(UUIDContext);
+  const { DoctorUUID, checkUUID } = useContext(UUIDContext);
   const [user, setUser] = useState(null);
   const [error, setError] = useState('');
   let { id } = useParams(); //the id of the current site (which user) --> used to set User
-  
+  const cookie_monster = document.cookie;
+
   if (Number(id)){
     id = Number(id)
   }
 
   useEffect(() => {
+    checkUUID()
     getVet(id);
-    checkDoctorUUID()
-  }, [id]);
+  }, [id, cookie_monster]);
 
   // Given the current ID, the dataservice returns all necessary information about that specific user
   async function getVet (id) {
