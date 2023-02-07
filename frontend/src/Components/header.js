@@ -10,25 +10,24 @@ import { VerifyContext } from '../Wraps/VerifyContext.js';
 import { SearchContext } from '../Wraps/SearchContext';
 
 export default function Header () {
-  // const [searchName, setSearchName ] = useState("");
   const location = useLocation();
-  const [DoctorUUID, setDoctorUUID] = useState(null) 
+  const [DoctorUUID, setDoctorUUID] = useState(null);
   const [headerData, setHeaderData] = useState({});
   // const { DoctorUUID, checkDoctorUUID } = useContext(UUIDContext);
-  const {verifyToken, user_verification} = useContext(VerifyContext)
+  const {verifyToken, user_verification} = useContext(VerifyContext);
   const cookie_monster = document.cookie;
-  const {searchTerm, setSearchTerm} = useContext(SearchContext)
+  const {searchTerm, setSearchTerm} = useContext(SearchContext);
 
   useEffect(()=>{
     user_verification(cookie_monster);
     checkDoctorUUID();
     // console.log('verifyToken', verifyToken)
     // console.log('DoctorUUID',DoctorUUID)
-    if (verifyToken == true && DoctorUUID){
-      console.log('verify and uuid')
-      HeaderData();
-    }
-  }, []);
+    // if (verifyToken == true && DoctorUUID){
+    //   console.log('verify and uuid')
+    //   HeaderData();
+    // }
+  }, [location]);
   
   async function checkDoctorUUID(){
     const cookieName = "DoctorUUID=";
@@ -86,9 +85,17 @@ export default function Header () {
 
   const handleKeyUp = (event) => {
     if (event.key === 'Enter'){
-      console.log('handlkey up in event.target.value', event.target.value)
-      setSearchTerm(event.target.value)
-      handleSearch(event.target.value);
+      const value = event.target.value
+      console.log(`handleKeyUp in ${value}`, value)
+      if (!value){
+        console.log('searchName',value)
+        localStorage.setItem("searchTerm", "")
+        window.location.href = '/';
+      }else{
+        console.log('searchName',value)
+        setSearchTerm(value);
+        window.location.href = `/s/${value}`;
+      }
     }
   }
 
@@ -99,12 +106,12 @@ export default function Header () {
       localStorage.setItem("searchTerm", "")
       window.location.href = '/';
     }else{
-      window.location.href = `/s/${value}`;
       console.log('searchName',value)
       setSearchTerm(value);
+      window.location.href = `/s/${value}`;
     }
-
   };
+
   const handleHome = () => {
     localStorage.setItem("searchTerm", "")
     window.location.href = '/';
@@ -124,6 +131,7 @@ export default function Header () {
         <div className="navbar-collapse" id="navbarSupportedContent">
         <input
             type="search"
+            id = "search-input"
             className="form-control mr-sm-2"
             placeholder="Search"
             aria-label="Search"
@@ -133,7 +141,7 @@ export default function Header () {
             <button
               className="btn btn-dark"
               type="button"
-              onClick={()=>handleSearch(searchTerm)}>
+              onClick={()=>handleSearch(document.getElementById("search-input").value)}>
               Search
             </button>
           </div>

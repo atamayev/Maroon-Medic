@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useContext} from 'react'
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
 import VetDataService from "../../Services/vet-service.js"
 import { UUIDContext } from '../../Wraps/UUIDContext.js';
@@ -11,6 +11,7 @@ export default function Dashboard() {
   const { DoctorUUID, checkDoctorUUID } = useContext(UUIDContext);
   const [dashboardData, setDashboardData] = useState({});
   const cookie_monster = document.cookie;
+  const location = useLocation();
 
   useEffect(()=>{
     user_verification(cookie_monster);
@@ -22,7 +23,7 @@ export default function Dashboard() {
         console.log('verify and uuid')
         DashboardData();
     }
-  }, []);
+  }, [location]);
  
   async function DashboardData (){
     console.log('in dashboard data')
