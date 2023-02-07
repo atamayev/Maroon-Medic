@@ -11,10 +11,9 @@ export default function Dashboard() {
   const [dashboardData, setDashboardData] = useState({});
   const cookie_monster = document.cookie;
   const location = useLocation();
-  const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
 
   useEffect(()=>{
-    if(user_verification(cookie_monster) && checkUUID('DoctorUUID=') ===true){
+    if(user_verification(cookie_monster) && checkUUID('DoctorUUID=') === true){
       DashboardData()
     }
     // console.log('verifyToken', verifyToken)

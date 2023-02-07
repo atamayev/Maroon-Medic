@@ -11,54 +11,34 @@ import { SearchContext } from '../Wraps/SearchContext';
 
 export default function Header () {
   const location = useLocation();
-  const [DoctorUUID, setDoctorUUID] = useState(null);
   const [headerData, setHeaderData] = useState({});
-  // const { checkUUID } = useContext(UUIDContext);
+  const { checkUUID, DoctorUUID } = useContext(UUIDContext);
   const {user_verification} = useContext(VerifyContext);
   const cookie_monster = document.cookie;
   const {setSearchTerm} = useContext(SearchContext);
 
   useEffect(()=>{
     user_verification(cookie_monster);
-    checkDoctorUUID();
-    // console.log('verifyToken', verifyToken)
-    // console.log('DoctorUUID',DoctorUUID)
-    // if (verifyToken == true && DoctorUUID){
-    //   console.log('verify and uuid')
-    //   HeaderData();
-    // }
+    if(checkUUID('DoctorUUID=') === true){
+      console.log('in checkuuid')
+      HeaderData();
+    }
   }, [location]);
   
-  async function checkDoctorUUID(){
-    const cookieName = "DoctorUUID=";
-    const decodedCookie = document.cookie; // when https, will need to decode
-    const cookies = decodedCookie.split(";");
-    for(let i = 0; i <cookies.length; i++) {
-      let cookie = cookies[i];
-      while (cookie.charAt(0) === ' ') {
-        cookie = cookie.substring(1);
-      }
-      if (cookie.startsWith(cookieName)) {
-        setDoctorUUID(cookie.substring(cookieName.length, cookie.length));
-        await HeaderData()
-      }
-    }
-    return null;
-  }
-
   async function HeaderData (){
     if(cookie_monster){
-         try{
-            const response = await VetDataService.fillDashboard(cookie_monster)
-            if (response){
-              console.log(response.data)
-              setHeaderData(response.data);
-            }else{
-              console.log('no response')
-            }
-          }catch(error){
-            console.log('unable to fill in Header data', error)
+      console.log('cookie monster')
+        try{
+          const response = await VetDataService.fillDashboard(cookie_monster)
+          if (response){
+            console.log(response.data)
+            setHeaderData(response.data);
+          }else{
+            console.log('no response')
           }
+        }catch(error){
+          console.log('unable to fill in Header data', error)
+        }
       }
     else{
       console.log('no cookies')

@@ -13,12 +13,6 @@ To-do:
 
 --figure out why there are 2 doctorUUID to DoctorID functions (user CTRL, UUID)
 
---create contexts. there should be one context for results
-	--fix verify function context in header and dashboard.
-		1. When navigating to dashboard, new-vet, edit-profile (don't need to verify when saving (already veryfying when navigating, don't need double verificaiton).
-	-- verificiation doesn't work in new-vet either. fixed it for now by bringing back old fcn
-	--header.js context. await doesn't work
-
 -- doctor "" doesnot exist shows up even for doctors who exist, just don't query (not rly sure how to solve, aside from solving the an error occured issue)
 
 -- show first name on home page instead of email. will require decrypt multiple.
@@ -28,10 +22,6 @@ To-do:
 --make one login/register function for vet/pt. Pass in a third parameter (vet vs pt).
 	if vet--> use the vetdb
 	if pt--> use the ptdb
-
---only wrap doctor context provider around things that need it (only functions that are UUID)
-
--- instead of navigate to dashbord after login, make it go to the dashboard (instead of Link to, make it an Href, so that the data re-quieres
 
 --any react components that have multiple functions in useEffects should have multiple useEffects (unless their dependencies are the same - ie both wwatching cookie monster).
 	useEffect watches for something to change.
@@ -43,3 +33,5 @@ To-do:
 	-- consider make a new local storage object - previus saerch. when someone makes a search, it should become similar to the value in the serach bar. but should be changable obvisouly
 
 --in checkdoctorUUID, should search the DB for the found UUID.
+
+-- header still doesn't checkdoctoruuid correctly

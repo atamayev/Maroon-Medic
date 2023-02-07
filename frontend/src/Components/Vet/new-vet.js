@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {Card, Button, Form, Alert } from 'react-bootstrap'
-import {useNavigate, Link} from "react-router-dom";
+import {useNavigate, Link, useLocation} from "react-router-dom";
 import VetDataService from "../../Services/vet-service.js"
 import { VerifyContext } from '../../Wraps/VerifyContext.js';
 
@@ -16,6 +16,7 @@ export default function NewVet () {
   const [verifyToken, setverifyToken] = useState(false) // wheather or not user verified
   const [DoctorID, setDoctorID] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
   // const {checkUUID} = useContext(VerifyContext)
   const months = [
     "January",
@@ -37,7 +38,7 @@ export default function NewVet () {
   useEffect(() => {
     user_verification();
     DoctorUUIDtoDoctorID();
-  }, []);
+  }, [location]);
   
   async function DoctorUUIDtoDoctorID (){
     const cookies = document.cookie;
