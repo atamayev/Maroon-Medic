@@ -12,13 +12,12 @@ export default function PatientLogin() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState("");
   const login_type = 'Patient';
-  const { PatientUUID, checkPatientUUID } = useContext(UUIDContext);
+  const { checkUUID } = useContext(UUIDContext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false)
 
   useEffect(()=>{
-    checkPatientUUID()
-    if(PatientUUID){
+    if(checkUUID('PatientUUID=')===true){
       navigate(`/patient-profile`)
     }
   });

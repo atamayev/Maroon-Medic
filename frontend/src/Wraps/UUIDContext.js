@@ -5,41 +5,47 @@ const UUIDContext = createContext();
 const UUIDContextProvider = (props) => {
   const [DoctorUUID, setDoctorUUID] = useState(null);
   const [PatientUUID, setPatientUUID] = useState(null);
+  const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
 
-  function checkDoctorUUID () {
-    const cookieName = "DoctorUUID=";
-    const decodedCookie = document.cookie; // when https, will need to decode
-    const cookies = decodedCookie.split(";");
-    for (let i = 0; i < cookies.length; i++) {
-      let cookie = cookies[i];
+  function checkUUID(type) {
+    try{
+        const cookieValue = getCookieValue(type);
+        if (cookieValue) {
+          if(type === 'DoctorUUID=' && uuidRegex.test(cookieValue)){
+            setDoctorUUID(cookieValue)
+            console.log('true')
+            return true
+          }
+          if(type === 'PatientUUID=' && uuidRegex.test(cookieValue)){
+            setPatientUUID(cookieValue)
+            console.log('true')
+            return true
+          }
+        } else {
+          console.log('false')
+          return false;
+        }
+    }catch(error){
+      console.log('err in UUID context', error)
+    }
+  }
+  
+  function getCookieValue(cookieName) {
+    const cookieArray = document.cookie.split(";");
+    for (let i = 0; i < cookieArray.length; i++) {
+      let cookie = cookieArray[i];
       while (cookie.charAt(0) === ' ') {
         cookie = cookie.substring(1);
       }
       if (cookie.startsWith(cookieName)) {
-        setDoctorUUID(cookie.substring(cookieName.length, cookie.length));
-        console.log('true in Doctor UUID context')
+        return cookie.substring(cookieName.length, cookie.length)
       }
     }
-  };
-
-  const checkPatientUUID = () => {
-    const cookieName = "PatientUUID=";
-    const decodedCookie = document.cookie; // when https, will need to decode
-    const cookies = decodedCookie.split(";");
-    for (let i = 0; i < cookies.length; i++) {
-      let cookie = cookies[i];
-      while (cookie.charAt(0) === ' ') {
-        cookie = cookie.substring(1);
-      }
-      if (cookie.startsWith(cookieName)) {
-        setPatientUUID(cookie.substring(cookieName.length, cookie.length));
-        console.log('true in Patient UUID context')
-      }
-    }
-  };
+    return "";
+  }
 
   return (
-    <UUIDContext.Provider value={{ DoctorUUID, checkDoctorUUID, PatientUUID, checkPatientUUID }}>
+    <UUIDContext.Provider value={{ DoctorUUID, PatientUUID, checkUUID}}>
       {props.children}
     </UUIDContext.Provider>
   );

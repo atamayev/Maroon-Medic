@@ -12,11 +12,10 @@ export default function VetRegister() {
   const register_type = 'Doctor';
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
-  const { DoctorUUID, checkDoctorUUID } = useContext(UUIDContext);
+  const { checkUUID } = useContext(UUIDContext);
 
   useEffect(()=>{
-    checkDoctorUUID()
-    if(DoctorUUID){
+    if(checkUUID('DoctorUUID=')===true){
       navigate(`/dashboard`)
     }
   });

@@ -10,11 +10,10 @@ export default function VetLogin() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const login_type = 'Doctor';
-  const { DoctorUUID, checkDoctorUUID } = useContext(UUIDContext);
+  const { checkUUID } = useContext(UUIDContext);
 
   useEffect(()=>{
-    checkDoctorUUID()
-    if(DoctorUUID){
+    if(checkUUID('DoctorUUID=')===true){
       navigate(`/dashboard`)
     }
   });

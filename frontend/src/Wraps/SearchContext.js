@@ -20,7 +20,6 @@ export const SearchContextProvider = (props) => {
   }
 
   useEffect(()=>{
-    // localStorage.setItem("searchTerm", searchTerm)
     fetchData()
   }, [searchTerm]);
   

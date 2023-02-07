@@ -12,11 +12,10 @@ export default function PatientRegister() {
   const register_type = 'Patient';
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
-  const { PatientUUID, checkPatientUUID } = useContext(UUIDContext);
+  const { checkUUID } = useContext(UUIDContext);
 
   useEffect(()=>{
-    checkPatientUUID()
-    if(PatientUUID){
+    if(checkUUID('PatientUUID=')===true){
       navigate(`/patient-profile`)
     }
   });

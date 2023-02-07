@@ -4,10 +4,10 @@ import {Button, Card} from 'react-bootstrap';
 import { UUIDContext } from '../../Wraps/UUIDContext.js';
 
 export default function EditVetProfile() {
-  const { DoctorUUID, checkDoctorUUID } = useContext(UUIDContext);
+  const { DoctorUUID, checkUUID } = useContext(UUIDContext);
 
   useEffect(()=>{
-    checkDoctorUUID()
+    checkUUID()
   });
 
   if(!DoctorUUID){

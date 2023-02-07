@@ -13,10 +13,10 @@ export default function Header () {
   const location = useLocation();
   const [DoctorUUID, setDoctorUUID] = useState(null);
   const [headerData, setHeaderData] = useState({});
-  // const { DoctorUUID, checkDoctorUUID } = useContext(UUIDContext);
-  const {verifyToken, user_verification} = useContext(VerifyContext);
+  // const { checkUUID } = useContext(UUIDContext);
+  const {user_verification} = useContext(VerifyContext);
   const cookie_monster = document.cookie;
-  const {searchTerm, setSearchTerm} = useContext(SearchContext);
+  const {setSearchTerm} = useContext(SearchContext);
 
   useEffect(()=>{
     user_verification(cookie_monster);

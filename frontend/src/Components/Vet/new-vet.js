@@ -16,7 +16,7 @@ export default function NewVet () {
   const [verifyToken, setverifyToken] = useState(false) // wheather or not user verified
   const [DoctorID, setDoctorID] = useState(null);
   const navigate = useNavigate();
-  // const {verifyToken, user_verification} = useContext(VerifyContext)
+  // const {checkUUID} = useContext(VerifyContext)
   const months = [
     "January",
     "February",
@@ -74,7 +74,6 @@ export default function NewVet () {
       setverifyToken(false);
     }
   }
-
 
   if(!verifyToken){
     return(

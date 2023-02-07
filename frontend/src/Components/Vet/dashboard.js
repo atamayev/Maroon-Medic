@@ -6,29 +6,25 @@ import { UUIDContext } from '../../Wraps/UUIDContext.js';
 import { VerifyContext } from '../../Wraps/VerifyContext.js';
 
 export default function Dashboard() {
-  // const [verifyToken, setverifyToken] = useState(false) // wheather or not user verified
   const {verifyToken, user_verification} = useContext(VerifyContext)
-  const { DoctorUUID, checkDoctorUUID } = useContext(UUIDContext);
+  const { DoctorUUID, checkUUID} = useContext(UUIDContext);
   const [dashboardData, setDashboardData] = useState({});
   const cookie_monster = document.cookie;
   const location = useLocation();
+  const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
 
   useEffect(()=>{
-    user_verification(cookie_monster);
-    checkDoctorUUID();
-    console.log('verifyToken', verifyToken)
-    console.log('DoctorUUID',DoctorUUID)
-    // DashboardData(
-    if (verifyToken && DoctorUUID){
-        console.log('verify and uuid')
-        DashboardData();
+    if(user_verification(cookie_monster) && checkUUID('DoctorUUID=') ===true){
+      DashboardData()
     }
+    // console.log('verifyToken', verifyToken)
+    // console.log('DoctorUUID',DoctorUUID)
   }, [location]);
  
   async function DashboardData (){
-    console.log('in dashboard data')
+    // console.log('in dashboard data')
     if(cookie_monster){
-      console.log('in cookies')
+      // console.log('in cookies')
           try{
             const response = await VetDataService.fillDashboard(cookie_monster)
             if (response){

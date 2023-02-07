@@ -31,9 +31,6 @@ To-do:
 
 --only wrap doctor context provider around things that need it (only functions that are UUID)
 
---onclick button header
-	onclick button doesn't work bc search term isn't being imported
-
 -- instead of navigate to dashbord after login, make it go to the dashboard (instead of Link to, make it an Href, so that the data re-quieres
 
 --any react components that have multiple functions in useEffects should have multiple useEffects (unless their dependencies are the same - ie both wwatching cookie monster).
@@ -41,3 +38,8 @@ To-do:
 	add dependencies to any useEffects that might need them.
 
 -- replace all instances of cookies with a global cookie monster variable. 
+
+-- when someone makes a search query, it should appear on the serach bar when they go to the next page.
+	-- consider make a new local storage object - previus saerch. when someone makes a search, it should become similar to the value in the serach bar. but should be changable obvisouly
+
+--in checkdoctorUUID, should search the DB for the found UUID.
