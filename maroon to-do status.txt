@@ -1,8 +1,7 @@
 To-do:
 
-Replace all vet with doctor
-2. Patient registration/login
-4. Editability of doc info
+1. Patient registration/login
+2. Editability of doc info
 
 
 -- if the doc hasn't entered their basic_doctor_info, then going to their profile is an error - bc it tries to render data that doesn't exist

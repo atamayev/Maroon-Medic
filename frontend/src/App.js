@@ -10,11 +10,11 @@ import Doctor from './Components/doctor';
 import Footer from './Components/footer';
 import Missing from './Components/missing';
 //Vet Specific:
-import VetRegister from "./Components/Doctor/doctor-register"
+import DoctorRegister from "./Components/Doctor/doctor-register"
 import DoctorLogin from "./Components/Doctor/doctor-login"
 import NewDoctor from "./Components/Doctor/new-doctor"
 import Dashboard from "./Components/Doctor/dashboard"
-import EditVetProfile from "./Components/Doctor/edit-doctor-profile"
+import EditDoctorProfile from "./Components/Doctor/edit-doctor-profile"
 
 export default function App() {
 
@@ -29,11 +29,11 @@ export default function App() {
           <Route exact path = '/user/:id' element = {<Doctor/>} />
 
           {/* Don't need the search header: */}
-          <Route exact path = '/vet-register' element = {<VetRegister/>} />
+          <Route exact path = '/vet-register' element = {<DoctorRegister/>} />
           <Route exact path = '/vet-login' element = {<DoctorLogin/>} />
           <Route exact path = '/new-vet' element = {<NewDoctor/>} />
           <Route exact path = '/dashboard' element = {<Dashboard/>} />
-          <Route exact path = '/edit-vet-profile' element = {<EditVetProfile/>} />
+          <Route exact path = '/edit-vet-profile' element = {<EditDoctorProfile/>} />
           {/* Catch all */}
           <Route path = '*' element = {<Missing/>} />
         </Routes>

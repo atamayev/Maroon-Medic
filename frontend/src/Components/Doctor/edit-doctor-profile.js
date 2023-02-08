@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
 import { UUIDContext } from '../../Wraps/UUIDContext.js';
 
-export default function EditVetProfile() {
+export default function EditDoctorProfile() {
   const { DoctorUUID, checkUUID } = useContext(UUIDContext);
   const cookie_monster = document.cookie;
   const location = useLocation();

@@ -41,11 +41,9 @@ export default function NewDoctor () {
   }, [location, cookie_monster]);
   
   async function DoctorUUIDtoDoctorID (){
-    const cookies = document.cookie;
-    // console.log(cookies)
-    if (cookies){
+    if (cookie_monster){
       try{
-        const response = await DataService.DoctorUUIDtoDoctorID(cookies)
+        const response = await DataService.DoctorUUIDtoDoctorID(cookie_monster)
         if (response.data === 'User does not exist'){
           return <p>Problem in DoctorUUID to DoctorID</p>
         }
@@ -83,8 +81,7 @@ export default function NewDoctor () {
         setLoading(true)
         const bool = await DataService.addingDoctorInfo(firstName, lastName, gender, DOBmonth, DOBday, DOByear, DoctorID)
         if(bool.data === true){
-          // navigate("/dashboard");// this would be more efficient i think, but when this is used, the data doesn't load in time
-
+          // navigate("/dashboard");// this would be more efficient i think, but when navigate is used, the data doesn't load in time
           window.location.href = '/dashboard';
           console.log('Data added');
         }

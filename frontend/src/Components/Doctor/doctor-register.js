@@ -4,7 +4,7 @@ import {Link, useNavigate, useLocation} from "react-router-dom";
 import DataService from "../../Services/data-service.js"
 import { UUIDContext } from '../../Wraps/UUIDContext.js';
 
-export default function VetRegister() {
+export default function DoctorRegister() {
   const location = useLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
