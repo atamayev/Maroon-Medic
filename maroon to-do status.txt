@@ -1,8 +1,17 @@
 To-do:
 
+
+--delete location as a dependency, asap. all of the useEffects are called whenever a link changes. this is dumb
+
+--will need to figure out how to only call the function when a specific link changes CHATGPT HAD SOMETHING
+-- also, fetchData is run whenever hte search term is changed. seems to be at every page.
+-- console.log('something') in every single useEffect to see how often it is run. this could be a disaster if everything is running
+-- figure out how to get fetchUsers to run only if the page is home/specific home
+--how does doctor.js load when linked to from home, but home isn't rendered when linked to.
+	double query is back - location dependency is being annoying
+	
 1. Patient registration/login
 2. Editability of doc info
-
 
 -- if the doc hasn't entered their basic_doctor_info, then going to their profile is an error - bc it tries to render data that doesn't exist
 -- people with existing basic_doctor_info can keep filling out the form. should not be allowed. if data already exists in basic_doctor_info, should be re-routed to /edit-profile

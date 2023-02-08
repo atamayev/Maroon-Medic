@@ -20,18 +20,17 @@ export default function Header () {
   useEffect(()=>{
     user_verification(cookie_monster);
     if(checkUUID('DoctorUUID=') === true){
-      console.log('in checkuuid')
       HeaderData();
     }
   }, [location, cookie_monster]);
   
   async function HeaderData (){
     if(cookie_monster){
-      console.log('cookie monster')
+      // console.log('cookie monster')
         try{
           const response = await DataService.fillDashboard(cookie_monster)
           if (response){
-            console.log(response.data)
+            // console.log(response.data)
             setHeaderData(response.data);
           }else{
             console.log('no response')

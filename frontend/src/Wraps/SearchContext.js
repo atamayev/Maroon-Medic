@@ -21,6 +21,7 @@ export const SearchContextProvider = (props) => {
 
   useEffect(()=>{
     fetchData()
+    console.log('testing')
   }, [searchTerm]);
   
   return (

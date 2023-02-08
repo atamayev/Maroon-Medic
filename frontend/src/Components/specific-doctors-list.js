@@ -17,10 +17,10 @@ export default function SpecificDoctorsList() {
     setSearchTerm(query)
   }  
 
-  if (!items || items === "User not found"){
+  if (!items || items === "Vet not found"){
     return <div> No results</div>
   }
-  const data = items.slice(0, 100); // This has no function rn, since there are less than 100 users. once there are more, only the first 100 will be returned
+  const data = items.slice(0, 100); // This has no function rn, since there are less than 100 vets. once there are more, only the first 100 will be returned
 
   return (
 
@@ -36,7 +36,7 @@ export default function SpecificDoctorsList() {
               {/* <Card.Text>
               My Password: {password}
               </Card.Text> */}
-              <Link to= {`/user/${item.DoctorID}`}>
+              <Link to = {`/vet/${item.DoctorID}`}>
                 <Button variant="primary">
                     <p>Click Me! id: {item.DoctorID}</p>
                 </Button>

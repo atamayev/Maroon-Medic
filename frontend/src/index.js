@@ -15,17 +15,19 @@ if (process.env.NODE_ENV === 'production') {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
+  <BrowserRouter>
     <UUIDContextProvider>
       <VerifyContextProvider>
         <SearchContextProvider>
-          <BrowserRouter>
+
             <Routes>
               <Route path = "/*" element = {<App/>} />
             </Routes>
-          </BrowserRouter>
+
         </SearchContextProvider>
       </VerifyContextProvider>
     </UUIDContextProvider>
+    </BrowserRouter>
   // </React.StrictMode>
 );
 

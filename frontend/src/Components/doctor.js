@@ -7,10 +7,10 @@ import { UUIDContext } from '../Wraps/UUIDContext.js';
 
 export default function Doctor () {
   // Creates an id variable which gets the id of the current page. 
+  let { id } = useParams(); //the id of the current site (which user) --> used to set User
   const { DoctorUUID, checkUUID } = useContext(UUIDContext);
   const [user, setUser] = useState(null);
   const [error, setError] = useState('');
-  let { id } = useParams(); //the id of the current site (which user) --> used to set User
   const cookie_monster = document.cookie;
 
   if (Number(id)){
@@ -98,12 +98,13 @@ export default function Doctor () {
                 My LastName: {user.LastName}<br></br>
                 My gender: {user.Gender}
               </Card.Text>
-              <Link to= {`/`}>
-                <Button variant="primary">
-                    <p>Go back home</p>
+              <a href = "/">
+                
+              <Button variant="primary">
+                    <p>Go back home (Href)</p>
                 </Button>
-            </Link>
-            </Card.Body>
+                </a>
+             </Card.Body>
           </Card>
           {DoctorUUID? (
             <div>

@@ -10,7 +10,7 @@ const VerifyContextProvider = (props) => {
     if(cookie_monster){
       const response = await VetDataService.verify(cookie_monster)
       if(response.data.success === true){
-        console.log('true in verify context')
+        // console.log('true in verify context')
         setverifyToken(true)
       }
       else{// if user not veriifed
@@ -23,9 +23,9 @@ const VerifyContextProvider = (props) => {
       setverifyToken(false);
     }
   }
-  useEffect(()=>{
-    console.log(verifyToken);
-  }, [verifyToken])
+  // useEffect(()=>{
+  //   // console.log(verifyToken);
+  // }, [verifyToken])
 
   return (
     <VerifyContext.Provider value={{ verifyToken, user_verification }}>

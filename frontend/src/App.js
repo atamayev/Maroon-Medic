@@ -26,7 +26,7 @@ export default function App() {
         <Routes>
           <Route exact path="/" element = {<HomeDoctorsList/>} />
           <Route exact path="/s/:query" element = {<SpecificDoctorsList/>} />
-          <Route exact path = '/user/:id' element = {<Doctor/>} />
+          <Route exact path = '/vet/:id' element = {<Doctor/>} />
 
           {/* Don't need the search header: */}
           <Route exact path = '/vet-register' element = {<DoctorRegister/>} />
