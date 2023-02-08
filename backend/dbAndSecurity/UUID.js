@@ -5,35 +5,39 @@ import moment from 'moment';
 // These functions are made to not send the DoctorID back and forth from server to client.
 // Instead, a UUID (Universally Unique Identifier) is created, which matches to a DoctorID, and is sent back and forth
 
-/** DoctorID_to_DoctorUUID takes in the DoctorID, creates a complementary UUID, and inserts it into the UUID_reference table
- *  NOT CURRENTLY BEING USED
+/** ID_to_UUID takes in the ID, creates a complementary UUID, and inserts it into the UUID_reference table
  *  In the future, UUID will be what is sent to client instead of DocID as the main identifier
- * @param {Int} DoctorID DoctorID
+ * @param {Int} ID DoctorID
  * @returns Randomly generated UUID
  */
-export async function DoctorID_to_DoctorUUID(DoctorID){
+export async function ID_to_UUID(ID, type){
     // console.log('DoctorID_to_DoctorUUID', DoctorID )
-    const DoctorUUID = uuidv4();
-  
-    const table_name = 'DoctorUUID_reference';
-    const DB_name = 'DoctorDB';
+    console.log(`in ID to UUID, ${type}`)
+    const UUID = uuidv4();
+    let table_name;
+    let DB_name;
     const date_ob = new Date();
     const format = "YYYY-MM-DD HH:mm:ss"
     const dateTime = moment(date_ob).format(format);
-    // console.log('dateTime',dateTime)
-    // const dateTimeObj = {
-    //   Created_at: `${dateTime}`
-    // }
-  
-    await useDB(DoctorID_to_DoctorUUID.name, DB_name, `${table_name}`)
-    const sql = `INSERT INTO ${table_name} (DoctorUUID, Created_at, Doctor_ID) VALUES (?, ?, ?)`;
-    const values = [DoctorUUID, dateTime, DoctorID ];
+    if (type === 'Doctor'){
+      table_name = 'DoctorUUID_reference';
+      DB_name = 'DoctorDB';
+    }
+    else if (type === 'Patient'){
+      table_name = 'Owner_credentials';
+      DB_name = 'PatientDB';
+    }
+ 
+    await useDB(ID_to_UUID.name, DB_name, `${table_name}`)
+    const sql = `INSERT INTO ${table_name} (${type}UUID, Created_at, ${type}_ID) VALUES (?, ?, ?)`;
+    console.log(sql)
+    const values = [UUID, dateTime, ID ];
   
     try {
         await connection.execute(sql, values)
-        return DoctorUUID
+        return UUID
     }catch(error){
-      return (`error in ${DoctorID_to_DoctorUUID.name}:`, error)
+      return (`error in ${ID_to_UUID.name}:`, error)
     }
 };
 

@@ -4,9 +4,9 @@ import cors from "cors"
 import cookieParser from "cookie-parser";
 import { connection } from "./dbAndSecurity/connect.js";
 import authRoutes from "./routes/authROUTES.js";
-import publicDataRoutes from "./routes/publicDataROUTES.js";
+import publicDoctorDataRoutes from "./routes/publicDoctorDataROUTES.js";
+import privateDoctorDataRoutes from "./routes/privateDoctorDataROUTES.js";
 import searchRoutes from "./routes/searchROUTES.js";
-import privateDataRoutes from "./routes/privateDataROUTES.js";
 
 dotenv.config()
 
@@ -39,8 +39,8 @@ app.use(cookieParser());
 app.use(express.json()) // allows server to read json format responses
 
 app.use("/api/auth", authRoutes);
-app.use("/api/public-data", publicDataRoutes);
-app.use("/api/private-data", privateDataRoutes);
+app.use("/api/public-doctor-data", publicDoctorDataRoutes);
+app.use("/api/private-doctor-data", privateDoctorDataRoutes);
 app.use("/api/search", searchRoutes);
 
 // Any route not specified above is not found

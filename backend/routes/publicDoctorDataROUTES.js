@@ -1,5 +1,5 @@
 import express from "express";
-import { returnDoctorPageData, DoctorUUIDtoDoctorID} from "../controllers/publicDataCTRL.js";
+import { returnDoctorPageData, DoctorUUIDtoDoctorID} from "../controllers/publicDoctorDataCTRL.js";
 
 const router = express.Router()
 

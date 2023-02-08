@@ -14,6 +14,7 @@ export default function Dashboard() {
 
   useEffect(()=>{
     if(user_verification(cookie_monster) && checkUUID('DoctorUUID=') === true){
+      console.log(`Used ${Dashboard.name} useEffect`)
       DashboardData()
     }
     // console.log('verifyToken', verifyToken)

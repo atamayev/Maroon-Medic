@@ -1,5 +1,5 @@
 import express from "express";
-import { newDoctor, dashboardData } from "../controllers/privateDataCTRL.js";
+import { newDoctor, dashboardData } from "../controllers/privateDoctorDataCTRL.js";
 
 const router = express.Router()
 

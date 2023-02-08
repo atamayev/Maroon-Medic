@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import moment from 'moment';
 import Hash from "../dbAndSecurity/hash.js";
 import dotenv from "dotenv";
-import { DoctorID_to_DoctorUUID } from "../dbAndSecurity/UUID.js";
+import { ID_to_UUID } from "../dbAndSecurity/UUID.js";
 dotenv.config()
 
 /** jwt_verify verifies the user's token (held in cookie). 
@@ -73,16 +73,20 @@ export async function jwt_verify (req, res){
  */
 export async function login (req, res){
   const { email, password, login_type } = req.body;
-  console.log('login_type', login_type)
+  let table_name;
+  let DB_name;
+
   if(login_type === 'Patient'){
-    console.log('Patient type')
-  }
-  if(login_type === 'Doctor'){
-    console.log('Doctor type')
+    console.log('Type: Patient')
+    table_name = 'Owner_credentials';
+    DB_name = 'PatientDB';
   }
 
-  const table_name = 'Doctor_credentials';
-  const DB_name = 'DoctorDB';
+  else if(login_type === 'Doctor'){
+    console.log('Type Doctor')
+    table_name = 'Doctor_credentials';
+    DB_name = 'DoctorDB';
+  }
 
   const sql = `SELECT * FROM ${table_name} WHERE email = ?`;
   const values = [email];
@@ -101,8 +105,40 @@ export async function login (req, res){
       const hashed_password = results[0].password;
       const bool = await Hash.checkPassword(password, hashed_password)
       if (bool === true) {
+        if(login_type === 'Patient'){
+          console.log('Type: Patient in try')
         // The following is to 'remember' the user is signed in through cookies          
-        // const { DoctorID, password, email, ...others } = results[0];
+          const { PatientID, ...others } = results[0];
+          const expiration_time = 20; // not using this right now.
+
+          const payload = {
+            PatientID, 
+            // exp: Math.floor(Date.now()/1000) +expiration_time // temporarily taking out expiration to make sure system is running smoothly
+          }
+          const token = jwt.sign(payload, process.env.JWT_KEY);
+
+          const PatientUUID = await ID_to_UUID(PatientID, login_type)
+          // console.log('UUID', UUID)
+          // const expires = new Date(Date.now() + expiration_time *1000)
+
+          return res
+            .cookie("PatientAccessToken", token, {
+              // expires,
+              // httpOnly: true,
+              // secure:true
+            })
+            .cookie("PatientUUID", PatientUUID, {
+              // expires,
+              // httpOnly: true,
+              // secure:true
+            })
+            .status(200)
+            .json('login success');
+          }
+      
+        else if(login_type === 'Doctor'){
+          console.log('Type Doctor in try')
+        // The following is to 'remember' the user is signed in through cookies          
         const { DoctorID, ...others } = results[0];
         const expiration_time = 20; // not using this right now.
 
@@ -112,7 +148,7 @@ export async function login (req, res){
         }
         const token = jwt.sign(payload, process.env.JWT_KEY);
 
-        const DoctorUUID = await DoctorID_to_DoctorUUID(DoctorID)
+        const DoctorUUID = await ID_to_UUID(DoctorID, login_type)
         // console.log('UUID', UUID)
         // const expires = new Date(Date.now() + expiration_time *1000)
 
@@ -129,6 +165,8 @@ export async function login (req, res){
           })
           .status(200)
           .json('login success');
+        }
+
       } else {
           return res.status(400).json("Wrong Username or Password!");
         }
@@ -153,21 +191,27 @@ export async function login (req, res){
  */
 export async function register (req, res){
     const {email, password, register_type} = req.body // Takes out the decrypted_email from the request
+    let table_name;
+    let DB_name;
+    
     if(register_type === 'Patient'){
       console.log('Patient type register')
+      table_name = 'Owner_credentials';
+      DB_name = 'PatientDB';
     }
     if(register_type === 'Doctor'){
       console.log('Doctor type in register')
+      table_name = 'Doctor_credentials';
+      DB_name = 'DoctorDB';
     }
-
-    const table_name = 'Doctor_credentials'
-    const DB_name = 'DoctorDB'
   
     const sql = `SELECT * FROM ${table_name} WHERE email = ?`;
     const values = [email];
     await useDB(register.name, DB_name, `${table_name}`)
 
-    try{const [results] = await connection.execute(sql, values)
+    try{
+      const [results] = await connection.execute(sql, values)
+      
       if (results.length === 0){
         const hashed_password = await Hash.hash_credentials(password)
 
@@ -184,6 +228,7 @@ export async function register (req, res){
         
           try {await connection.execute(sql, values)} // Insert Query}
           catch (error){
+            console.log('error in catching insert')
             res.status(500).send({ error: 'Error saving data' });
           }
         // After making an account, need to set the token to be the current user. 
@@ -192,30 +237,59 @@ export async function register (req, res){
             const values_new = [email]
             
             const [results] = await connection.execute(sql_new, values_new);
-            const { DoctorID, ...others } = results[0];
+            
+            if(register_type === 'Patient'){
+              const { PatientID, ...others } = results[0];
 
-            const payload = {
-              DoctorID
+              const payload = {
+                PatientID
+              }
+              const token = jwt.sign(payload, process.env.JWT_KEY); // Expiration time goes in here if needed
+
+              // const UUID = ID_to_UUID(results[0].DoctorID)
+              const PatientUUID = await ID_to_UUID(PatientID, register_type)
+              // console.log('DoctorUUID', DoctorUUID)
+
+              return res
+              .cookie("PatientAccessToken", token, {
+                // httpOnly: true,
+                // secure:true
+              })
+              .cookie("PatientUUID", PatientUUID, {
+                // httpOnly: true,
+                // secure:true
+              })
+              .status(200)
+              .json('login success');
             }
-            const token = jwt.sign(payload, process.env.JWT_KEY); // Expiration time goes in here if needed
 
-            // const UUID = ID_to_UUID(results[0].DoctorID)
-            const DoctorUUID = await DoctorID_to_DoctorUUID(DoctorID)
-            // console.log('DoctorUUID', DoctorUUID)
+            else if(register_type === 'Doctor'){
+              const { DoctorID, ...others } = results[0];
 
-            return res
-            .cookie("DoctorAccessToken", token, {
-              // httpOnly: true,
-              // secure:true
-            })
-            .cookie("DoctorUUID", DoctorUUID, {
-              // httpOnly: true,
-              // secure:true
-            })
-            .status(200)
-            .json('login success');
+              const payload = {
+                DoctorID
+              }
+              const token = jwt.sign(payload, process.env.JWT_KEY); // Expiration time goes in here if needed
+
+              // const UUID = ID_to_UUID(results[0].DoctorID)
+              const DoctorUUID = await ID_to_UUID(DoctorID, register_type)
+              // console.log('DoctorUUID', DoctorUUID)
+
+              return res
+              .cookie("DoctorAccessToken", token, {
+                // httpOnly: true,
+                // secure:true
+              })
+              .cookie("DoctorUUID", DoctorUUID, {
+                // httpOnly: true,
+                // secure:true
+              })
+              .status(200)
+              .json('login success');
+            }
           }
           catch(error){
+            console.log('error in patient/doctor registration')
             res.status(500).send({ error: 'Error Selecting email' });
           }
       }
@@ -224,6 +298,7 @@ export async function register (req, res){
       }
     }
     catch(err){
+      console.log('in registration error')
       res.status(500).send({ error: 'Problem with existing email search' });
     };
 }

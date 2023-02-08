@@ -9,7 +9,10 @@ To-do:
 -- figure out how to get fetchUsers to run only if the page is home/specific home
 --how does doctor.js load when linked to from home, but home isn't rendered when linked to.
 	double query is back - location dependency is being annoying
-	
+	-- also delete cookie monster as a dependency for most useEffects.
+-- if link  ==patient register, &&patient UUID==true, navigate. 
+	import cookie monster as a dependency
+
 1. Patient registration/login
 2. Editability of doc info
 
