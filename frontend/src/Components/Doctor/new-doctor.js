@@ -123,7 +123,7 @@ export default function NewDoctor () {
 
         <label>
         Month:
-        <select value={DOBmonth} onChange={e => setDOBmonth(e.target.value)}>
+        <select required value={DOBmonth} onChange={e => setDOBmonth(e.target.value)}>
           <option value="" disabled>
             Select Month
           </option>
@@ -136,7 +136,7 @@ export default function NewDoctor () {
       </label>
       <label>
         Day:
-        <select value={DOBday} onChange={e => setDOBday(e.target.value)}>
+        <select required value={DOBday} onChange={e => setDOBday(e.target.value)}>
           <option value="" disabled>
             Select Day
           </option>
@@ -149,7 +149,7 @@ export default function NewDoctor () {
       </label>
       <label>
         Year:
-        <select value={DOByear} onChange={e => setDOByear(e.target.value)}>
+        <select required value={DOByear} onChange={e => setDOByear(e.target.value)}>
           <option value="" disabled>
             Select Year
           </option>
