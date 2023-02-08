@@ -2,10 +2,10 @@ import React, { useState, useEffect, useContext} from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import {Link, useParams} from "react-router-dom";
-import VetDataService from "../Services/vet-service.js";
+import DataService from "../Services/data-service.js";
 import { UUIDContext } from '../Wraps/UUIDContext.js';
 
-export default function Vet () {
+export default function Doctor () {
   // Creates an id variable which gets the id of the current page. 
   const { DoctorUUID, checkUUID } = useContext(UUIDContext);
   const [user, setUser] = useState(null);
@@ -19,14 +19,13 @@ export default function Vet () {
 
   useEffect(() => {
     checkUUID()
-    getVet(id);
+    getDoctor(id);
   }, [id, cookie_monster]);
 
   // Given the current ID, the dataservice returns all necessary information about that specific user
-  async function getVet (id) {
+  async function getDoctor (id) {
     try{
-      // const response = await VetDataService.getSingleVet(id)
-      const response = await VetDataService.getSingleVet(id)
+      const response = await DataService.getSingleDoctor(id)
         if (response.data === 'User does not exist') {
           return <p>{response.data}</p>;
         }
@@ -34,7 +33,7 @@ export default function Vet () {
           setUser(response.data);
         }
     }catch(e){
-      console.error(`Unable to getVet, ${e}`);
+      console.error(`Unable to getDoctor, ${e}`);
       setError('An error occurred');
     }
   };

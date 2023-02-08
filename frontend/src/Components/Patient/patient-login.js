@@ -4,7 +4,7 @@
 import React, {useState, useEffect, useContext} from 'react'
 import {Card, Button, Form, Alert } from 'react-bootstrap'
 import {Link, useNavigate, useLocation } from "react-router-dom";
-import VetDataService from "../../Services/vet-service.js"
+import DataService from "../../Services/data-service.js"
 import { UUIDContext } from '../../Wraps/UUIDContext.js';
 
 export default function PatientLogin() {
@@ -28,7 +28,7 @@ export default function PatientLogin() {
     try {
       setError("")
       setLoading(true)
-      await VetDataService.login(email, password, login_type);
+      await DataService.login(email, password, login_type);
       navigate("/new-patient")
       console.log('Logged in');
     } catch (err) {
@@ -62,7 +62,7 @@ export default function PatientLogin() {
                 </Card.Body>
         </Card>
         <div className='w-100 text-center mt-2'>
-            Need an account? <Link to = "/vet-register">Sign Up</Link> 
+            Need an account? <Link to = "/patient-register">Sign Up</Link> 
         </div>
     </>
   )

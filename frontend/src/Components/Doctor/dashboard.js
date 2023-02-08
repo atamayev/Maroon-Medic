@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useContext} from 'react'
 import {Link, useLocation} from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
-import VetDataService from "../../Services/vet-service.js"
+import DataService from "../../Services/data-service.js"
 import { UUIDContext } from '../../Wraps/UUIDContext.js';
 import { VerifyContext } from '../../Wraps/VerifyContext.js';
 
@@ -25,7 +25,7 @@ export default function Dashboard() {
     if(cookie_monster){
       // console.log('in cookies')
           try{
-            const response = await VetDataService.fillDashboard(cookie_monster)
+            const response = await DataService.fillDashboard(cookie_monster)
             if (response){
               console.log(response.data)
               setDashboardData(response.data);

@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import VetDataService from "../Services/vet-service"
+import VetDataService from "../Services/data-service"
 
 const VerifyContext = createContext();
 

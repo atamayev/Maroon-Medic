@@ -3,7 +3,7 @@ import {Card, Button} from 'react-bootstrap';
 import {Link} from "react-router-dom";
 import { SearchContext } from '../Wraps/SearchContext';
 
-export default function HomeVetsList() {
+export default function HomeDoctorsList() {
   localStorage.setItem("searchTerm", "")
   const {items} = useContext(SearchContext)
   // console.log(items)

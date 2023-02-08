@@ -26,10 +26,10 @@ export default new class Crypto {
         return (encryptedData)
     }
 
-    /** decryptSingle: Decrypts a single record (usually for the individual vet pages)
+    /** decryptSingle: Decrypts a single record (usually for the individual doctor pages)
      *  Takes the IV/Secret Key from .env file (makes them into a buffer from a hex), and decrypts a single 'row' of data
      *  For example: ['asdasdjanskdna', 'akjsndkjsankd', 'asdasdgff''] is turned into ['bob', 'smith', 'male'] 
-     *  Used in userCTRL to decrypt user data when showing to the client (for the individual vet pages)
+     *  Used in userCTRL to decrypt user data when showing to the client (for the individual doctor pages)
      * @param {Array} encrypted_single A 1*n array
      * @returns A decrypted 1*n array
      */

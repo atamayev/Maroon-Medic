@@ -1,10 +1,10 @@
 // import React, { useState, useEffect, useContext } from 'react';
 // import {Card, Button, Form, Alert } from 'react-bootstrap'
 // import {Link, useLocation} from "react-router-dom";
-// import VetDataService from "../../Services/vet-service.js"
+// import DataService from "../../Services/data-service.js"
 // import { VerifyContext } from '../../Wraps/VerifyContext.js';
 
-// export default function NewVet () {
+// export default function NewPatient () {
 //   const [firstName, setFirstName] = useState('');
 //   const [lastName, setLastName] = useState('');
 //   const [gender, setGender] = useState('');
@@ -46,7 +46,7 @@
 //     // console.log(cookies)
 //     if (cookies){
 //       try{
-//         const response = await VetDataService.PatientUUIDtoPatientID(cookies)
+//         const response = await DataService.PatientUUIDtoPatientID(cookies)
 //         if (response.data === 'User does not exist'){
 //           return <p>Problem in PatientUUID to PatientID</p>
 //         }
@@ -67,7 +67,7 @@
 //      <Card>
 //         <Card.Body>
 //           <p>Please register first </p>;
-//           <Link to= {'/vet-register'}>
+//           <Link to= {'/patient-register'}>
 //               <Button variant="primary">
 //                   <p>Register</p>
 //               </Button>
@@ -82,7 +82,7 @@
 //       try {
 //         setError("")
 //         setLoading(true)
-//         const bool = await VetDataService.addingPatientInfo(firstName, lastName, gender, DOBmonth, DOBday, DOByear, PatientID)
+//         const bool = await DataService.addingPatientInfo(firstName, lastName, gender, DOBmonth, DOBday, DOByear, PatientID)
 //         if(bool.data === true){
 //           // navigate("/dashboard");// this would be more efficient i think, but when this is used, the data doesn't load in time
 

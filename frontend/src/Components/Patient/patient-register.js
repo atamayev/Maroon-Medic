@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react'
 import {Card, Button, Form, Alert } from 'react-bootstrap'
 import {Link, useNavigate, useLocation} from "react-router-dom";
-import VetDataService from "../../Services/vet-service.js"
+import DataService from "../../Services/data-service.js"
 import { UUIDContext } from '../../Wraps/UUIDContext.js';
 
 export default function PatientRegister() {
@@ -29,7 +29,7 @@ export default function PatientRegister() {
     try {
       setError("")
       setLoading(true)
-      await VetDataService.register(email, password, register_type);
+      await DataService.register(email, password, register_type);
       navigate("/new-patient")
       console.log('Registered');
     } catch (err) {

@@ -37,7 +37,9 @@ export async function DoctorID_to_DoctorUUID(DoctorID){
     }
 };
 
-/** DoctorUUID_to_DoctorID takes in the UUID, and searches for it's complementary DoctorID, returning to user
+/** DoctorUUID_to_DoctorID takes in the UUID, and searches for it's complementary DoctorID, and returns it
+ * Note, this is practically the same function as DoctorUUIDtoDoctorID in userCTRL.js. The reason for having two similar functions is that this one is soley for back-end purposes
+ * DoctorUUIDtoDoctorID in userCTRL.js returns the DoctorID to client as a JSON, with a response.
  * @param {*} UUID DoctorID
  * @returns Corresponding DoctorID
  */

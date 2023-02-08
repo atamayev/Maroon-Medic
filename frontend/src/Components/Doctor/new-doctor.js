@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {Card, Button, Form, Alert } from 'react-bootstrap'
 import {Link, useLocation} from "react-router-dom";
-import VetDataService from "../../Services/vet-service.js"
+import DataService from "../../Services/data-service.js"
 import { VerifyContext } from '../../Wraps/VerifyContext.js';
 
-export default function NewVet () {
+export default function NewDoctor () {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [gender, setGender] = useState('');
@@ -13,7 +13,6 @@ export default function NewVet () {
   const [DOByear, setDOByear] = useState('');
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
-  // const [verifyToken, setverifyToken] = useState(false) // wheather or not user verified
   const [DoctorID, setDoctorID] = useState(null);
   const location = useLocation();
   const {user_verification, verifyToken} = useContext(VerifyContext);
@@ -46,7 +45,7 @@ export default function NewVet () {
     // console.log(cookies)
     if (cookies){
       try{
-        const response = await VetDataService.DoctorUUIDtoDoctorID(cookies)
+        const response = await DataService.DoctorUUIDtoDoctorID(cookies)
         if (response.data === 'User does not exist'){
           return <p>Problem in DoctorUUID to DoctorID</p>
         }
@@ -82,7 +81,7 @@ export default function NewVet () {
       try {
         setError("")
         setLoading(true)
-        const bool = await VetDataService.addingDoctorInfo(firstName, lastName, gender, DOBmonth, DOBday, DOByear, DoctorID)
+        const bool = await DataService.addingDoctorInfo(firstName, lastName, gender, DOBmonth, DOBday, DOByear, DoctorID)
         if(bool.data === true){
           // navigate("/dashboard");// this would be more efficient i think, but when this is used, the data doesn't load in time
 

@@ -1,9 +1,9 @@
 import express from "express";
-import { newVet, dashboardData } from "../controllers/profileCTRL.js";
+import { newDoctor, dashboardData } from "../controllers/privateDataCTRL.js";
 
 const router = express.Router()
 
-router.post("/new-vet", newVet)
+router.post("/new-doctor", newDoctor)
 router.get("/dashboard-data", dashboardData)
 
 

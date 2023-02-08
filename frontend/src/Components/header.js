@@ -4,7 +4,7 @@ import {Dropdown} from "react-bootstrap";
 import {useLocation} from "react-router-dom";
 import logo from '../Images/logo.svg';
 import pic from '../Images/ProfileImage.jpg';
-import VetDataService from '../Services/vet-service'
+import DataService from '../Services/data-service'
 import { UUIDContext } from '../Wraps/UUIDContext.js';
 import { VerifyContext } from '../Wraps/VerifyContext.js';
 import { SearchContext } from '../Wraps/SearchContext';
@@ -29,7 +29,7 @@ export default function Header () {
     if(cookie_monster){
       console.log('cookie monster')
         try{
-          const response = await VetDataService.fillDashboard(cookie_monster)
+          const response = await DataService.fillDashboard(cookie_monster)
           if (response){
             console.log(response.data)
             setHeaderData(response.data);
@@ -47,7 +47,7 @@ export default function Header () {
 
   const handleLogout = async () => {
     try{
-      await VetDataService.logout();
+      await DataService.logout();
     } catch(error){
       console.log('error',error)
     }

@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import VetDataService from "../Services/vet-service.js"
+import VetDataService from "../Services/data-service.js"
 export const SearchContext = createContext();
 
 export const SearchContextProvider = (props) => {

@@ -1,22 +1,22 @@
 import {connection, useDB} from "../dbAndSecurity/connect.js";
 import Crypto from "../dbAndSecurity/crypto.js";
 
-/** returnVetPageData searches for a particular Doctor's data
- *  Used to fill in vet screen (particular vet)
+/** returnDoctorPageData searches for a particular Doctor's data
+ *  Used to fill in doctor screen (particular doctor)
  *  Doctor_credentials & basic_Doctor_info are joined on the DocID, the data decrypted returned back to the client
  * @param {int} req: DocID is passed in
  * @param {*} res: The user's specific information from Doctor_credentials & basic_Doctor_info is joined and returned
- * @returns Decrypted vet data from the db
+ * @returns Decrypted doctor data from the db
  */
-export async function returnVetPageData (req, res){
+export async function returnDoctorPageData (req, res){
     const table_name1 = 'Doctor_credentials';
     const table_name2 = 'basic_Doctor_info';
     const DB_name = 'DoctorDB'
     const sql = `SELECT * FROM ${table_name1} LEFT JOIN ${table_name2} ON ${table_name1}.DoctorID = ${table_name2}.Doctor_ID WHERE ${table_name1}.DoctorID = ?`
     const values = [req.params.id];
-        
-    await useDB(returnVetPageData.name, DB_name, `${table_name1}`)
-    await useDB(returnVetPageData.name, DB_name, `${table_name2}`)
+
+    await useDB(returnDoctorPageData.name, DB_name, `${table_name1}`)
+    await useDB(returnDoctorPageData.name, DB_name, `${table_name2}`)
     
     try{
         const [results] = await connection.execute(sql, values)
@@ -40,6 +40,13 @@ export async function returnVetPageData (req, res){
     }
 };
 
+/** DoctorUUIDtoDoctorID takes in the UUID, and searches for it's complementary DoctorID, returning to user
+ * Note, this is practically the same function as DoctorUUID_to_DoctorID in UUID.js. The reason for having two similar functions is that this one returns data to the user, in the form of a JSON
+ * DoctorUUID_to_DoctorID in UUID.js is soley a back-end function, used to return the Doctor's UUID as a string.
+ * @param {*} req DoctorID
+ * @param {*} res JSON
+ * @returns Corresponding DoctorID
+ */
 export async function DoctorUUIDtoDoctorID (req, res){
     const DoctorUUID = req.cookies.DoctorUUID
     // console.log('DoctorUUID',DoctorUUID)

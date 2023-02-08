@@ -4,17 +4,17 @@ import {Container} from 'react-bootstrap';
 import "./CSS/footer.css"
 //Publicly accessible:
 import Header from './Components/header';
-import HomeVetsList from "./Components/home-vets-list"
-import SpecificVetsList from "./Components/specific-vets-list"
-import Vet from './Components/vet';
+import HomeDoctorsList from "./Components/home-doctors-list"
+import SpecificDoctorsList from "./Components/specific-doctors-list"
+import Doctor from './Components/doctor';
 import Footer from './Components/footer';
 import Missing from './Components/missing';
 //Vet Specific:
-import VetRegister from "./Components/Vet/vet-register"
-import VetLogin from "./Components/Vet/vet-login"
-import NewVet from "./Components/Vet/new-vet"
-import Dashboard from "./Components/Vet/dashboard"
-import EditVetProfile from "./Components/Vet/edit-vet-profile"
+import VetRegister from "./Components/Doctor/doctor-register"
+import DoctorLogin from "./Components/Doctor/doctor-login"
+import NewDoctor from "./Components/Doctor/new-doctor"
+import Dashboard from "./Components/Doctor/dashboard"
+import EditVetProfile from "./Components/Doctor/edit-doctor-profile"
 
 export default function App() {
 
@@ -24,14 +24,14 @@ export default function App() {
      <div className="w-100" style = {{maxWidth: "4000px"}}>
      <Header className = "d-flex align-items-center justify-content-center w-100"/>
         <Routes>
-          <Route exact path="/" element = {<HomeVetsList/>} />
-          <Route exact path="/s/:query" element = {<SpecificVetsList/>} />
-          <Route exact path = '/user/:id' element = {<Vet/>} />
+          <Route exact path="/" element = {<HomeDoctorsList/>} />
+          <Route exact path="/s/:query" element = {<SpecificDoctorsList/>} />
+          <Route exact path = '/user/:id' element = {<Doctor/>} />
 
           {/* Don't need the search header: */}
           <Route exact path = '/vet-register' element = {<VetRegister/>} />
-          <Route exact path = '/vet-login' element = {<VetLogin/>} />
-          <Route exact path = '/new-vet' element = {<NewVet/>} />
+          <Route exact path = '/vet-login' element = {<DoctorLogin/>} />
+          <Route exact path = '/new-vet' element = {<NewDoctor/>} />
           <Route exact path = '/dashboard' element = {<Dashboard/>} />
           <Route exact path = '/edit-vet-profile' element = {<EditVetProfile/>} />
           {/* Catch all */}

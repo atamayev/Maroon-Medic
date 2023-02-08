@@ -3,7 +3,7 @@ import {Card, Button} from 'react-bootstrap';
 import {Link, useParams} from "react-router-dom";
 import { SearchContext } from '../Wraps/SearchContext';
 
-export default function SpecificVetsList() {
+export default function SpecificDoctorsList() {
   const {searchTerm, items, setSearchTerm} = useContext(SearchContext)
   
   let { query } = useParams(); //the id of the current site (which user) --> used to set User

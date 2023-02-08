@@ -1,9 +1,9 @@
 import express from "express";
-import { returnVetPageData, DoctorUUIDtoDoctorID} from "../controllers/userCTRL.js";
+import { returnDoctorPageData, DoctorUUIDtoDoctorID} from "../controllers/publicDataCTRL.js";
 
 const router = express.Router()
 
-router.get("/:id", returnVetPageData)
+router.get("/:id", returnDoctorPageData)
 router.post("/doctoruuid-to-doctorid", DoctorUUIDtoDoctorID)
 
 export default router

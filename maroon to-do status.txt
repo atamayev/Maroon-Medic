@@ -1,7 +1,6 @@
 To-do:
 
-1.figure out why there are 2 doctorUUID to DoctorID functions (user CTRL, UUID)
-2: Figure out a more logial way of naming conventions for routing. what is a user/profile?
+Replace all vet with doctor
 2. Patient registration/login
 4. Editability of doc info
 
@@ -22,3 +21,4 @@ To-do:
 
 --searching null or undefined shouldn't query all results
 
+--make uuid to id a context. will need to pull this in multiple places. 

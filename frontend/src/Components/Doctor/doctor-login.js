@@ -1,10 +1,10 @@
 import React, {useState, useEffect, useContext} from 'react'
 import {Card, Button, Form, Alert } from 'react-bootstrap'
 import {Link, useNavigate, useLocation} from "react-router-dom";
-import VetDataService from "../../Services/vet-service.js"
+import DataService from "../../Services/data-service.js"
 import { UUIDContext } from '../../Wraps/UUIDContext.js';
 
-export default function VetLogin() {
+export default function DoctorLogin() {
   const location = useLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,14 +23,14 @@ export default function VetLogin() {
   const handleSubmit = async (e) =>{
     e.preventDefault();
     try {
-      await VetDataService.login(email, password, login_type);
+      await DataService.login(email, password, login_type);
       navigate("/dashboard")
       console.log('Logged in');
     } catch (err) {
       setError(err.response.data);
     }
   };
-  
+
   return (
     <>
       <Card>
