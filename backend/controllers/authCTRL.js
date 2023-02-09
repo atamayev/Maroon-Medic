@@ -32,7 +32,7 @@ export async function jwt_verify (req, res){
     const sql = `SELECT * FROM ${table_name} WHERE DoctorID = ?`;
     const values = [decodedDoctorID];
     
-    await useDB(jwt_verify.name, DB_name, `${table_name}`)
+    await useDB(jwt_verify.name, DB_name, table_name)
     // Searches the Doctor_credentials for the decodedDoctorID
 
     try{const [rows] = await connection.execute(sql, values)
@@ -91,7 +91,7 @@ export async function login (req, res){
   const sql = `SELECT * FROM ${table_name} WHERE email = ?`;
   const values = [email];
   
-  await useDB(login.name, DB_name, `${table_name}`)
+  await useDB(login.name, DB_name, table_name)
 
   // Queries the above SQL with values. If credentials exist in the DB, success:true, if not, false
   try{
@@ -207,7 +207,7 @@ export async function register (req, res){
   
     const sql = `SELECT * FROM ${table_name} WHERE email = ?`;
     const values = [email];
-    await useDB(register.name, DB_name, `${table_name}`)
+    await useDB(register.name, DB_name, table_name)
 
     try{
       const [results] = await connection.execute(sql, values)

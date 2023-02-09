@@ -20,7 +20,7 @@ export async function newDoctor (req, res){
     const sql = `INSERT INTO ${table_name} (FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year, Doctor_ID) VALUES (?,?,?,?,?,?,?)`;
 
     const values = [encrypted.firstName, encrypted.lastName, encrypted.gender, encrypted.DOBmonth, encrypted.DOBday, encrypted.DOByear, DocID];
-    await useDB(newDoctor.name, DB_name, `${table_name}`)
+    await useDB(newDoctor.name, DB_name, table_name)
     
     try{
         await connection.execute(sql, values)
@@ -41,8 +41,8 @@ export async function dashboardData (req, res){
   
     const sql = `SELECT * FROM ${table_name1} LEFT JOIN ${table_name2} ON ${table_name1}.DoctorID = ${table_name2}.Doctor_ID WHERE ${table_name1}.DoctorID = ?`
     const values = [DoctorID];
-    await useDB(dashboardData.name, DB_name, `${table_name1}`)
-    await useDB(dashboardData.name, DB_name, `${table_name2}`)
+    await useDB(dashboardData.name, DB_name, table_name1)
+    await useDB(dashboardData.name, DB_name, table_name2)
 
     try{
         const [results] = await connection.execute(sql, values)

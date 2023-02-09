@@ -12,6 +12,8 @@ export const SearchContextProvider = (props) => {
       try{
         const result = await VetDataService.find(searchTerm);
         setItems(result.data);
+        console.log(items)
+
       }
       catch(error){
         console.log('error in search context',error)

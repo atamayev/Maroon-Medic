@@ -13,7 +13,7 @@ import Crypto from "../dbAndSecurity/crypto.js";
 export async function searchByQuery (req, res){
     const table_name = 'Doctor_credentials';
     const DB_name = 'DoctorDB'
-    await useDB(searchByQuery.name, DB_name, `${table_name}`)
+    await useDB(searchByQuery.name, DB_name, table_name)
     // console.log(req.params.query)
     
     if(req.params.query == 'null' || req.params.query == 'undefined'){
@@ -49,7 +49,7 @@ export async function fetchUsers (req, res){
     const sql = `SELECT * FROM ${table_name}`
     const DB_name = 'DoctorDB'
     
-    await useDB(fetchUsers.name, DB_name, `${table_name}`)
+    await useDB(fetchUsers.name, DB_name, table_name)
     try{
         const [results] = await connection.execute(sql)
         // const decrypted = Crypto.decrypt_multiple(results)
