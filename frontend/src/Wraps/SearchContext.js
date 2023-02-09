@@ -9,11 +9,13 @@ export const SearchContextProvider = (props) => {
 
   async function fetchData (){
     if(pathname === '/' || pathname.startsWith('/s/')){
+      console.log('fetching data')
       try{
         const result = await VetDataService.find(searchTerm);
         setItems(result.data);
-        console.log(items)
-
+        // Important: do not uncomment until figure out why they log different things
+        // console.log(result.data);
+        // console.log(items)
       }
       catch(error){
         console.log('error in search context',error)
@@ -22,8 +24,10 @@ export const SearchContextProvider = (props) => {
   }
 
   useEffect(()=>{
-    fetchData()
-    console.log('testing')
+    if (pathname === "/" || pathname.startsWith('/s/')) {
+      fetchData()
+      console.log('testing')
+    }
   }, [searchTerm]);
   
   return (

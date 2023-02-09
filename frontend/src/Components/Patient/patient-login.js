@@ -1,6 +1,3 @@
-//incomplete
-
-
 import React, {useState, useEffect, useContext} from 'react'
 import {Card, Button, Form, Alert } from 'react-bootstrap'
 import {Link, useNavigate, useLocation } from "react-router-dom";
@@ -14,12 +11,11 @@ export default function PatientLogin() {
   const login_type = 'Patient';
   const { checkUUID } = useContext(UUIDContext);
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false)
   const location = useLocation();
 
   useEffect(()=>{
     if(checkUUID('PatientUUID=')===true){
-      navigate(`/patient-profile`)
+      navigate(`/patient-dashboard`)
     }
   }, [location]);
   
@@ -27,14 +23,12 @@ export default function PatientLogin() {
     e.preventDefault();
     try {
       setError("")
-      setLoading(true)
       await DataService.login(email, password, login_type);
-      navigate("/new-patient")
+      navigate("/patient-dashboard")
       console.log('Logged in');
     } catch (err) {
       setError(err.response.data);
     }
-    setLoading(false)
   };
   
   return (
@@ -54,7 +48,7 @@ export default function PatientLogin() {
                     {error && <Alert variant="danger">{error}</Alert>}
                     {/* <Button disabled = {loading} className = "w-100"type = "submit">Log In</Button> */}
                     <br/>
-                    <Button disabled = {loading} type = "submit" className="btn btn-primary w-100">Log In</Button>
+                    <Button type = "submit" className="btn btn-primary w-100">Log In</Button>
                 </Form>
                 <div className='w-100 text-center mt-3'>
                   <Link to = "/forgot-password">Forgot Password?</Link>

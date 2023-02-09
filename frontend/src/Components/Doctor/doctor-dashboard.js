@@ -5,18 +5,22 @@ import DataService from "../../Services/data-service.js"
 import { UUIDContext } from '../../Wraps/UUIDContext.js';
 import { VerifyContext } from '../../Wraps/VerifyContext.js';
 
-export default function Dashboard() {
+export default function DoctorDashboard() {
   const {verifyToken, user_verification} = useContext(VerifyContext)
   const { DoctorUUID, checkUUID} = useContext(UUIDContext);
   const [dashboardData, setDashboardData] = useState({});
   const cookie_monster = document.cookie;
   const location = useLocation();
+  const pathname = window.location.pathname;
 
   useEffect(()=>{
-    if(user_verification(cookie_monster) && checkUUID('DoctorUUID=') === true){
-      console.log(`Used ${Dashboard.name} useEffect`)
-      DashboardData()
+    if (pathname.startsWith('/vet-dashboard')) {
+      if(user_verification(cookie_monster) && checkUUID('DoctorUUID=') === true){
+        console.log(`Used ${DoctorDashboard.name} useEffect`)
+        DashboardData()
+      }
     }
+
     // console.log('verifyToken', verifyToken)
     // console.log('DoctorUUID',DoctorUUID)
   }, [location, cookie_monster]);

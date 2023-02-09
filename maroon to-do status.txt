@@ -1,9 +1,12 @@
 To-do:
 
+1. Review in detail dependencies of all wrap functions. They are called whenever anything changes when dependency is blank. search term, location, etc.
+	- might not need a useEffect for wraps (look how verify/uuid does it)
+	--will need to figure out how to only call the function when a specific link changes CHATGPT HAD SOMETHING
+
 
 --delete location as a dependency, asap. all of the useEffects are called whenever a link changes. this is dumb
 
---will need to figure out how to only call the function when a specific link changes CHATGPT HAD SOMETHING
 -- also, fetchData is run whenever hte search term is changed. seems to be at every page.
 -- console.log('something') in every single useEffect to see how often it is run. this could be a disaster if everything is running
 -- figure out how to get fetchUsers to run only if the page is home/specific home
@@ -13,8 +16,24 @@ To-do:
 -- if link  ==patient register, &&patient UUID==true, navigate. 
 	import cookie monster as a dependency
 
+-- if search has no results, site crashes. this is because of the asynchronus nature of the find function. see chatgpt for details
+
+-- for all the patient/doctor singular functons, if not doctor or not patient, make an else that returns an error
+--make verify tokens different for doctor/patient
+
 1. Patient registration/login
 2. Editability of doc info
+ASAP:
+
+-- make a fillHeader function, make private patient data routes, 
+patient dashboard data function. can be same as doctor
+
+--make uuid to id a context. will need to pull this in multiple places. 
+
+
+Later:
+
+-- if pt logged in, or vet logged in, shouldn't be allowed to log into the other one.
 
 -- if the doc hasn't entered their basic_doctor_info, then going to their profile is an error - bc it tries to render data that doesn't exist
 -- people with existing basic_doctor_info can keep filling out the form. should not be allowed. if data already exists in basic_doctor_info, should be re-routed to /edit-profile
@@ -32,4 +51,3 @@ To-do:
 
 --searching null or undefined shouldn't query all results
 
---make uuid to id a context. will need to pull this in multiple places. 

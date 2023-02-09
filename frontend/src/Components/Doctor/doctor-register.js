@@ -18,7 +18,7 @@ export default function DoctorRegister() {
 
   useEffect(()=>{
     if(checkUUID('DoctorUUID=')===true){
-      navigate(`/dashboard`)
+      navigate(`/vet-dashboard`)
     }
   }, [location, cookie_monster]);
 

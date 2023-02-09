@@ -82,7 +82,7 @@ export default function NewDoctor () {
         const bool = await DataService.addingDoctorInfo(firstName, lastName, gender, DOBmonth, DOBday, DOByear, DoctorID)
         if(bool.data === true){
           // navigate("/dashboard");// this would be more efficient i think, but when navigate is used, the data doesn't load in time
-          window.location.href = '/dashboard';
+          window.location.href = '/vet-dashboard';
           console.log('Data added');
         }
       } catch (err) {

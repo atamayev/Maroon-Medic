@@ -134,10 +134,10 @@ export default function Header () {
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        {DoctorUUID || PatientUUID ? (
+        {DoctorUUID ? (
           <div>
           <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
-          <Dropdown.Item href="/dashboard">Dashboard</Dropdown.Item>
+          <Dropdown.Item href="/vet-dashboard">Dashboard</Dropdown.Item>
           <Dropdown.Item href="/edit-vet-profile">Profile Settings</Dropdown.Item>
           </div>
         ):(

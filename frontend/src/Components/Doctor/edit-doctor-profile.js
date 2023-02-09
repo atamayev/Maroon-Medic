@@ -32,7 +32,7 @@ export default function EditDoctorProfile() {
     <div>
       {DoctorUUID}
         <p>This is the Edit Profile Page</p>
-          <Link to= {'/dashboard'}>
+          <Link to= {'/vet-dashboard'}>
                 <Button variant="primary">
                     <p>Dashboard</p>
                 </Button>
