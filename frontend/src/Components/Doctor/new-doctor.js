@@ -43,7 +43,7 @@ export default function NewDoctor () {
   async function DoctorUUIDtoDoctorID (){
     if (cookie_monster){
       try{
-        const response = await DataService.DoctorUUIDtoDoctorID(cookie_monster)
+        const response = await DataService.UUIDtoID(cookie_monster, 'Doctor')
         if (response.data === 'User does not exist'){
           return <p>Problem in DoctorUUID to DoctorID</p>
         }

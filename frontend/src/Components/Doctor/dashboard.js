@@ -26,7 +26,7 @@ export default function Dashboard() {
     if(cookie_monster){
       // console.log('in cookies')
           try{
-            const response = await DataService.fillDashboard(cookie_monster)
+            const response = await DataService.fillDoctorDashboard(cookie_monster)
             if (response){
               console.log(response.data)
               setDashboardData(response.data);
@@ -34,7 +34,7 @@ export default function Dashboard() {
               console.log('no response')
             }
           }catch(error){
-            console.log('unable to fill in dashboard data', error)
+            console.log('unable to fillDoctorDashboard', error)
           }
       }
     else{
@@ -82,7 +82,7 @@ export default function Dashboard() {
         <p>This is the Dashboard Page</p>
         <Card style={{margin: '0 10px' }}>
           <Card.Body>
-            <Card.Title>{dashboardData.FirstName} {dashboardData.LastName}</Card.Title>
+            <Card.Title>Dr. {dashboardData.FirstName} {dashboardData.LastName}</Card.Title>
             <Card.Text>
                 My Birthdate is: {dashboardData.DOB_month} {dashboardData.DOB_day}, {dashboardData.DOB_year}<br></br>
                 I am {dashboardData.Gender}<br></br>

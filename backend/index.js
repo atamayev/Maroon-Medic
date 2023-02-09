@@ -6,6 +6,7 @@ import { connection } from "./dbAndSecurity/connect.js";
 import authRoutes from "./routes/authROUTES.js";
 import publicDoctorDataRoutes from "./routes/publicDoctorDataROUTES.js";
 import privateDoctorDataRoutes from "./routes/privateDoctorDataROUTES.js";
+import publicDataRoutes from "./routes/publicDataROUTES.js";
 import searchRoutes from "./routes/searchROUTES.js";
 
 dotenv.config()
@@ -41,6 +42,7 @@ app.use(express.json()) // allows server to read json format responses
 app.use("/api/auth", authRoutes);
 app.use("/api/public-doctor-data", publicDoctorDataRoutes);
 app.use("/api/private-doctor-data", privateDoctorDataRoutes);
+app.use("/api/public-data", publicDataRoutes);
 app.use("/api/search", searchRoutes);
 
 // Any route not specified above is not found

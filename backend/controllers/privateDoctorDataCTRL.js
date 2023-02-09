@@ -1,6 +1,6 @@
 import {connection, useDB} from "../dbAndSecurity/connect.js";
 import Crypto from "../dbAndSecurity/crypto.js";
-import { DoctorUUID_to_DoctorID } from "../dbAndSecurity/UUID.js";
+import { UUID_to_ID } from "../dbAndSecurity/UUID.js";
 /** newDoctor registers the inputted user data into basic_Doctor_info table
  *  All necessary information is sent via the request (DocID, firname, lastname, etc.)
  *  This data is encrypted using Crypto, and then inserting into the table.
@@ -33,7 +33,7 @@ export async function newDoctor (req, res){
 
 export async function dashboardData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID
-    const DoctorID = await DoctorUUID_to_DoctorID(DoctorUUID) // converts DoctorUUID to docid
+    const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor') // converts DoctorUUID to docid
     
     const table_name1 = 'Doctor_credentials';
     const table_name2 = 'basic_Doctor_info';

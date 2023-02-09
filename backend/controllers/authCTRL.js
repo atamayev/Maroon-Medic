@@ -294,6 +294,7 @@ export async function register (req, res){
           }
       }
       else {
+        console.log('User already exists')
         return res.status(400).json("User already exists!");// results.length is >0 --> user already exists
       }
     }

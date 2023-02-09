@@ -22,8 +22,8 @@ export default new class DataService {
     async logout(){
         return await http.get(`auth/logout`);
     }
-    async verify(DoctorAccessToken){
-        return await http.get(`/auth/verify`, {DoctorAccessToken})
+    async verify(AccessToken){
+        return await http.get(`/auth/verify`, {AccessToken})
     }
     async login(username, password, login_type){
         return await http.post("/auth/login", {email: username, password: password, login_type: login_type}, 
@@ -33,10 +33,16 @@ export default new class DataService {
         return await http.post("/auth/register", {email: username, password: password, register_type: register_type}, 
         {withCredentials: true})
     }
-    async DoctorUUIDtoDoctorID(DoctorUUID){//Takes the DoctorUUID and returns DoctorID - for entering data
-        return await http.post('/public-doctor-data/DoctorUUID-to-doctorid', {DoctorUUID})
+    async UUIDtoID(UUID, type){//Takes the DoctorUUID and returns DoctorID - for entering data (new pt, doctor)
+        return await http.post('/public-doctor-data/uuid-to-id', {UUID:UUID, type:type})
     }
-    async fillDashboard(DoctorUUID){
+    async fillDoctorDashboard(DoctorUUID){
         return await http.get('/private-doctor-data/dashboard-data', {DoctorUUID: DoctorUUID})
+    }
+    async fillPatientDashboard(PatientUUID){
+        return await http.get('/private-patient-data/dashboard-data', {PatientUUID: PatientUUID})
+    }
+    async fillHeader(UUID, type){
+        return await http.get('/public-data/header-data', {UUID: UUID, type: type})
     }
 }();

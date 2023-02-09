@@ -12,7 +12,7 @@ import { SearchContext } from '../Wraps/SearchContext';
 export default function Header () {
   const location = useLocation();
   const [headerData, setHeaderData] = useState({});
-  const { checkUUID, DoctorUUID } = useContext(UUIDContext);
+  const { checkUUID, DoctorUUID, PatientUUID} = useContext(UUIDContext);
   const {user_verification} = useContext(VerifyContext);
   const cookie_monster = document.cookie;
   const {setSearchTerm, searchTerm} = useContext(SearchContext);
@@ -28,7 +28,7 @@ export default function Header () {
     if(cookie_monster){
       // console.log('cookie monster')
         try{
-          const response = await DataService.fillDashboard(cookie_monster)
+          const response = await DataService.fillDoctorDashboard(cookie_monster)
           if (response){
             // console.log(response.data)
             setHeaderData(response.data);
@@ -134,7 +134,7 @@ export default function Header () {
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        {DoctorUUID ? (
+        {DoctorUUID || PatientUUID ? (
           <div>
           <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
           <Dropdown.Item href="/dashboard">Dashboard</Dropdown.Item>
@@ -142,8 +142,11 @@ export default function Header () {
           </div>
         ):(
           <div>
-          <Dropdown.Item href="/vet-register" className='fw-bold'>Sign up</Dropdown.Item>
-          <Dropdown.Item href="/vet-login">Log In</Dropdown.Item>
+          <Dropdown.Item href="/vet-register" className='fw-bold'>Vet Sign up</Dropdown.Item>
+          <Dropdown.Item href="/vet-login">Vet Log In</Dropdown.Item>
+          <Dropdown.Item href="/patient-register" className='fw-bold'>Patient Sign up</Dropdown.Item>
+          <Dropdown.Item href="/patient-login">Patient Log In</Dropdown.Item>
+
           <Dropdown.Divider />
           <Dropdown.Item href="/help">Help</Dropdown.Item>
           </div>

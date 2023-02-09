@@ -8,6 +8,7 @@ import moment from 'moment';
 /** ID_to_UUID takes in the ID, creates a complementary UUID, and inserts it into the UUID_reference table
  *  In the future, UUID will be what is sent to client instead of DocID as the main identifier
  * @param {Int} ID DoctorID
+ * @param {String} type Doctor or Patient
  * @returns Randomly generated UUID
  */
 export async function ID_to_UUID(ID, type){
@@ -34,8 +35,8 @@ export async function ID_to_UUID(ID, type){
     const values = [UUID, dateTime, ID ];
   
     try {
-        await connection.execute(sql, values)
-        return UUID
+      await connection.execute(sql, values)
+      return UUID
     }catch(error){
       return (`error in ${ID_to_UUID.name}:`, error)
     }
@@ -47,21 +48,37 @@ export async function ID_to_UUID(ID, type){
  * @param {*} UUID DoctorID
  * @returns Corresponding DoctorID
  */
-export async function DoctorUUID_to_DoctorID(DoctorUUID){
-    // console.log('DoctorUUID_to_DoctorID', DoctorUUID )
-    const table_name = 'DoctorUUID_reference';
-    const DB_name = 'DoctorDB';
-  
-    await useDB(DoctorUUID_to_DoctorID.name, DB_name, `${table_name}`)
-    const sql = `SELECT Doctor_ID FROM ${table_name} WHERE DoctorUUID = ?`;
-    const values = [DoctorUUID];  
-  
-    try {
-        const DoctorID = await connection.execute(sql, values)
-        const doc_new = DoctorID[0][0].Doctor_ID
-        // console.log('doc_new returned', doc_new)
-        return doc_new
-    }catch(error){
-      return (`error in ${DoctorUUID_to_DoctorID.name}:`, error)
-    }
+export async function UUID_to_ID(UUID, type){
+  let table_name;
+  let DB_name;
+  if (type === 'Doctor'){
+    table_name = 'DoctorUUID_reference';
+    DB_name = 'DoctorDB';
+  }
+  else if (type === 'Patient'){
+    table_name = 'Owner_credentials';
+    DB_name = 'PatientDB';
+  }
+  else{
+    return (`error in ${UUID_to_ID.name}:`, error)
+  }
+
+  await useDB(UUID_to_ID.name, DB_name, table_name)
+  const sql = `SELECT ${type}_ID FROM ${table_name} WHERE ${type}UUID = ?`;
+  const values = [UUID];
+
+  try {
+      const incomplete_ID = await connection.execute(sql, values)
+      if (type === 'Doctor'){
+        const doctor_ID = incomplete_ID[0][0].Doctor_ID
+        return doctor_ID
+      }
+      else if (type === 'Patient'){
+        const patient_ID = incomplete_ID[0][0].Patient_ID
+        return patient_ID
+      }
+
+  }catch(error){
+    return (`error in ${UUID_to_ID.name}:`, error)
+  }
 }
