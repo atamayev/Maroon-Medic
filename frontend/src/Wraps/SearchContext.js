@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useState } from 'react';
 import VetDataService from "../Services/data-service.js"
 export const SearchContext = createContext();
 
@@ -23,13 +23,6 @@ export const SearchContextProvider = (props) => {
     }
   }
 
-  useEffect(()=>{
-    if (pathname === "/" || pathname.startsWith('/s/')) {
-      fetchData()
-      console.log('testing')
-    }
-  }, [searchTerm]);
-  
   return (
     <SearchContext.Provider value={{ searchTerm, setSearchTerm, items, fetchData}}>
       {props.children}

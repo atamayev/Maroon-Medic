@@ -1,21 +1,24 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Card, Button} from 'react-bootstrap';
 import {Link, useParams} from "react-router-dom";
 import { SearchContext } from '../Wraps/SearchContext';
 
 export default function SpecificDoctorsList() {
-  const {searchTerm, items, setSearchTerm} = useContext(SearchContext)
+  const {searchTerm, items, setSearchTerm, fetchData} = useContext(SearchContext)
   
   let { query } = useParams(); //the id of the current site (which user) --> used to set User
-  console.log(`query ${query} searchterm ${searchTerm}`)
-  
+ 
   if (!query){
       window.location.href = '/';
   }
-  if(query != searchTerm){
-    console.log(`query ${query} searchterm ${searchTerm}`)
-    setSearchTerm(query)
-  }  
+  useEffect(()=>{
+    console.log('In Specific Doctors List')
+    if(query != searchTerm){
+      console.log(`query ${query} searchterm ${searchTerm}`)
+      setSearchTerm(query)
+    }
+    fetchData()
+  }, [searchTerm])
 
   if (!items || items === "Vet not found"){
     return <div> No results</div>

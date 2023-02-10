@@ -20,9 +20,6 @@ export default function DoctorDashboard() {
         DashboardData()
       }
     }
-
-    // console.log('verifyToken', verifyToken)
-    // console.log('DoctorUUID',DoctorUUID)
   }, [location, cookie_monster]);
  
   async function DashboardData (){

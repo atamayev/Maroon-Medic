@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useState } from 'react';
 import VetDataService from "../Services/data-service"
 
 const VerifyContext = createContext();
@@ -23,9 +23,6 @@ const VerifyContextProvider = (props) => {
       setverifyToken(false);
     }
   }
-  // useEffect(()=>{
-  //   // console.log(verifyToken);
-  // }, [verifyToken])
 
   return (
     <VerifyContext.Provider value={{ verifyToken, user_verification }}>

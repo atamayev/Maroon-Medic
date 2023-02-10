@@ -45,11 +45,11 @@ export default function Doctor () {
     <Card>
       <Card.Body>
         <p>Doctor "{id}" does not exist </p>;
-        <Link to= {'/'}>
-            <Button variant="primary">
-                <p>Go back home</p>
+        <a href = "/">
+          <Button variant="primary">
+                <p>Go back home (Href)</p>
             </Button>
-        </Link>
+        </a>
       </Card.Body>
     </Card>
   </>
@@ -66,12 +66,12 @@ export default function Doctor () {
     <Card>
       <Card.Body>
         <p>Doctor "{id}" does not exist </p>;
-        <Link to= {'/'}>
-            <Button variant="primary">
-                <p>Go back home</p>
+        <a href = "/">
+          <Button variant="primary">
+                <p>Go back home (Href)</p>
             </Button>
-        </Link>
-      </Card.Body>
+        </a>
+    </Card.Body>
     </Card>
     )
   }
@@ -112,7 +112,7 @@ export default function Doctor () {
           ): 
           <Link to= {'/vet-login'}>
                 <Button variant="primary">
-                    <p>Login</p>
+                    <p>You aren't logged in. Login</p>
                 </Button>
           </Link>
           }

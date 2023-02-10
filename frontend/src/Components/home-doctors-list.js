@@ -1,12 +1,16 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Card, Button} from 'react-bootstrap';
 import {Link} from "react-router-dom";
 import { SearchContext } from '../Wraps/SearchContext';
 
 export default function HomeDoctorsList() {
   localStorage.setItem("searchTerm", "")
-  const {items} = useContext(SearchContext)
+  const {items, fetchData, serachTerm} = useContext(SearchContext)
   // console.log(items)
+  useEffect(()=>{
+    console.log('in home doctors list')
+    fetchData();
+  }, [serachTerm])
 
   if (!items || items === "Vet not found"){
     return <div> No results</div>
