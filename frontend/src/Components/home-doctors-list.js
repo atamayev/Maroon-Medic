@@ -5,12 +5,15 @@ import { SearchContext } from '../Wraps/SearchContext';
 
 export default function HomeDoctorsList() {
   localStorage.setItem("searchTerm", "")
-  const {items, fetchData, serachTerm} = useContext(SearchContext)
+  const {items, fetchData,setSearchTerm } = useContext(SearchContext)
+  // setSearchTerm('')
+  // console.log(searchTerm)
   // console.log(items)
   useEffect(()=>{
+    setSearchTerm("")
     console.log('in home doctors list')
     fetchData();
-  }, [serachTerm])
+  }, [])
 
   if (!items || items === "Vet not found"){
     return <div> No results</div>

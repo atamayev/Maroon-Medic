@@ -19,7 +19,7 @@ const VerifyContextProvider = (props) => {
       }
     }
     else{// if no token received
-      console.log('no cookei received')
+      // console.log('no cookei received')
       setverifyToken(false);
     }
   }

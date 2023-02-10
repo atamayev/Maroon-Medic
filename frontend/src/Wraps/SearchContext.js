@@ -9,13 +9,11 @@ export const SearchContextProvider = (props) => {
 
   async function fetchData (){
     if(pathname === '/' || pathname.startsWith('/s/')){
-      console.log('fetching data')
+      console.log('3)fetching data')
       try{
+        console.log('4)searchTerm in fetchData', searchTerm)
         const result = await VetDataService.find(searchTerm);
         setItems(result.data);
-        // Important: do not uncomment until figure out why they log different things
-        // console.log(result.data);
-        // console.log(items)
       }
       catch(error){
         console.log('error in search context',error)

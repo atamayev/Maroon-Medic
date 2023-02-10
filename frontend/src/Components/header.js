@@ -72,7 +72,7 @@ export default function Header () {
         window.location.href = '/';
       }else{
         console.log('searchName',value)
-        setSearchTerm(value);
+        localStorage.setItem("searchTerm", value)
         window.location.href = `/s/${value}`;
       }
     }
