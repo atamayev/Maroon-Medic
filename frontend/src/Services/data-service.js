@@ -46,6 +46,6 @@ export default new class DataService {
         return await http.get('/private-patient-data/dashboard-data', {PatientUUID: PatientUUID})
     }
     async fillHeader(UUID, type){
-        return await http.get('/public-data/header-data', {UUID: UUID, type: type})
+        return await http.get('/private-common-data/header-data', {UUID: UUID, type: type})
     }
 }();

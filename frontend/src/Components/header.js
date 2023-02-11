@@ -29,7 +29,7 @@ export default function Header () {
     if(cookie_monster){
       // console.log('cookie monster')
         try{
-          const response = await DataService.fillDoctorDashboard(cookie_monster)
+          const response = await DataService.fillDoctorDashboard(cookie_monster) // need to change this to fill Header - and pass in type (doctor or patient)
           if (response){
             // console.log(response.data)
             setHeaderData(response.data);

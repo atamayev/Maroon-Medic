@@ -1,5 +1,5 @@
 import express from "express";
-import { headerData } from "../controllers/publicDataCTRL.js";
+import { headerData } from "../controllers/privateCommonDataCTRL.js";
 
 const router = express.Router()
 

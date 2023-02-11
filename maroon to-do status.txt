@@ -3,15 +3,13 @@ To-do:
 -- for all the patient/doctor backend functons (ie auth, UUID), if not doctor or not patient, make an else that returns an error
 --make verify tokens (in .env) different for doctor/patient
 
-1. Patient registration/login
-2. Editability of doc info
 ASAP:
 
--- make a fillHeader function, make private patient data routes, 
+-- make a fillHeader function
 patient dashboard data function. can be same as doctor
 
---make uuid to id a context. will need to pull this in multiple places. 
-
+1. Patient registration/login
+2. Editability of doc info
 
 Later:
 
@@ -29,5 +27,5 @@ Later:
 --create another header. one for home screen. one for vet screen (no search bar, just calendar, inbox button (chat), settings (make header like airbnb)
 	--hide search bar in the vet pages (see app.js)	
 
---in checkdoctorUUID, should search the DB for the found UUID.
+--in checkdoctorUUID, should search the DB for the found UUID., instead of just hchecking the regex
 
