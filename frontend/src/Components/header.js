@@ -69,11 +69,11 @@ export default function Header () {
       console.log(`handleKeyUp in ${value}`, value)
       if (!value){
         console.log('searchName',value)
-        localStorage.setItem("searchTerm", "")
+        sessionStorage.setItem("searchTerm", "")
         window.location.href = '/';
       }else{
         console.log('searchName',value)
-        localStorage.setItem("searchTerm", value)
+        sessionStorage.setItem("searchTerm", value)
         window.location.href = `/s/${value}`;
       }
     }
@@ -83,7 +83,7 @@ export default function Header () {
     console.log(value)
     if (!value){
       console.log('searchName',value)
-      localStorage.setItem("searchTerm", "")
+      sessionStorage.setItem("searchTerm", "")
       window.location.href = '/';
     }else{
       console.log('searchName',value)
@@ -93,7 +93,7 @@ export default function Header () {
   };
 
   const handleHome = () => {
-    localStorage.setItem("searchTerm", "")
+    sessionStorage.setItem("searchTerm", "")
     window.location.href = '/';
   }
 

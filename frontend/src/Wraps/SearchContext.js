@@ -3,7 +3,7 @@ import VetDataService from "../Services/data-service.js"
 export const SearchContext = createContext();
 
 export const SearchContextProvider = (props) => {
-  const [searchTerm, setSearchTerm] = useState(localStorage.getItem("searchTerm")|| null);
+  const [searchTerm, setSearchTerm] = useState(sessionStorage.getItem("searchTerm")|| null);
   const [items, setItems] = useState([]);
   const pathname = window.location.pathname;
 

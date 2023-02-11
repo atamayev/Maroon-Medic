@@ -4,7 +4,6 @@ import {Link} from "react-router-dom";
 import { SearchContext } from '../Wraps/SearchContext';
 
 export default function HomeDoctorsList() {
-  localStorage.setItem("searchTerm", "")
   const {items, fetchData, setSearchTerm } = useContext(SearchContext)
   
   useEffect(()=>{
