@@ -31,7 +31,6 @@ export async function ID_to_UUID(ID, type){
  
     await useDB(ID_to_UUID.name, DB_name, `${table_name}`)
     const sql = `INSERT INTO ${table_name} (${type}UUID, Created_at, ${type}_ID) VALUES (?, ?, ?)`;
-    console.log(sql)
     const values = [UUID, dateTime, ID ];
   
     try {

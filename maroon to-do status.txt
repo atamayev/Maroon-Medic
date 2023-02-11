@@ -1,10 +1,9 @@
 To-do:
 
---make verify tokens (in .env) different for doctor/patient --> will need to checkf or type in jwt verify
+-- delete type from everywhere--> make it read the cookie for Doctor or Patient
 -- on logout, delete UUID from table
 --in checkdoctorUUID, should search the DB for the found UUID., instead of just hchecking the regex
 	shouldn't need to feed doctorUUID as a parameter
--- delete type from everywhere--> make it read the cookie for Doctor or Patient
 
 ASAP:
 
