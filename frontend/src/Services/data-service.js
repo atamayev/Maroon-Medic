@@ -37,7 +37,7 @@ export default new class DataService {
         {withCredentials: true})
     }
     async UUIDtoID(UUID, type){//Takes the DoctorUUID and returns DoctorID - for entering data (new pt, doctor)
-        return await http.post('/public-doctor-data/uuid-to-id', {UUID:UUID, type:type})
+        return await http.post('/private-common-data/uuid-to-id', {UUID:UUID, type:type})
     }
     async fillDoctorDashboard(DoctorUUID){
         return await http.get('/private-doctor-data/dashboard-data', {DoctorUUID: DoctorUUID})
