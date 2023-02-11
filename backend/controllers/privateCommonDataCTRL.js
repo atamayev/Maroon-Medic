@@ -13,27 +13,26 @@ export async function  headerData (req, res){ // for both pateints, and docs -- 
  * @returns Corresponding ID
  */
 export async function UUIDtoID (req, res){
+    const cookies = req.cookies
     let UUID;
-    const type = req.body.type;
     let table_name;
     let DB_name;
-    if(type === 'Doctor'){    
-        console.log('Type Doctor')
+    let sql;
+
+    if("DoctorAccessToken" in cookies){
+        UUID = req.cookies.DoctorUUID
         table_name = 'DoctorUUID_reference';
         DB_name = 'DoctorDB';
-        UUID = req.cookies.DoctorUUID;
-    }else if(type === 'Patient'){
-        console.log('Type: Patient')
+        sql = `SELECT Doctor_ID FROM ${table_name} WHERE DoctorUUID = ?`;
+    }else if("PatientAccessToken" in cookies){
+        UUID = req.cookies.PatientUUID;
         table_name = 'PatientUUID_reference';
         DB_name = 'PatientDB';
-        UUID = req.cookies.PatientUUID;
+        sql = `SELECT Patient_ID FROM ${table_name} WHERE PatientUUID = ?`;
     }else{
         return res.send('Invalid User Type') // If Type not Doctor or Patient
     }
-    
-    const sql = `SELECT ${type}_ID FROM ${table_name} WHERE ${type}UUID = ?`;
     const values = [UUID];
-        
     await useDB(UUIDtoID.name, DB_name, table_name)
     
     try{

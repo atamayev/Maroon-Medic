@@ -37,8 +37,8 @@ export default new class DataService {
         return await http.post("/auth/register", {email: username, password: password, register_type: register_type}, 
         {withCredentials: true})
     }
-    async UUIDtoID(UUID, type){//Takes the DoctorUUID and returns DoctorID - for entering data (new pt, doctor)
-        return await http.post('/private-common-data/uuid-to-id', {UUID:UUID, type:type})
+    async UUIDtoID(){//Takes the DoctorUUID and returns DoctorID - for entering data (new pt, doctor)
+        return await http.post('/private-common-data/uuid-to-id')
     }
     async fillDoctorDashboard(DoctorUUID){
         return await http.get('/private-doctor-data/dashboard-data', {DoctorUUID: DoctorUUID})

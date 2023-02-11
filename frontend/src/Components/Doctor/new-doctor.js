@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {Card, Button, Form, Alert } from 'react-bootstrap'
-import {Link, useLocation} from "react-router-dom";
+import {Link} from "react-router-dom";
 import DataService from "../../Services/data-service.js"
 import { VerifyContext } from '../../Wraps/VerifyContext.js';
 
@@ -14,7 +14,6 @@ export default function NewDoctor () {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const [DoctorID, setDoctorID] = useState(null);
-  const location = useLocation();
   const {user_verification, verifyToken} = useContext(VerifyContext);
   const cookie_monster = document.cookie;
 
@@ -43,7 +42,7 @@ export default function NewDoctor () {
   async function DoctorUUIDtoDoctorID (){
     if (cookie_monster){
       try{
-        const response = await DataService.UUIDtoID(cookie_monster, 'Doctor')
+        const response = await DataService.UUIDtoID()
         if (response.data === 'User does not exist'){
           return <p>Problem in DoctorUUID to DoctorID</p>
         }

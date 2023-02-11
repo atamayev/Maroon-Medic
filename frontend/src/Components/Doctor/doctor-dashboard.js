@@ -35,7 +35,7 @@ export default function DoctorDashboard() {
           try{
             const response = await DataService.fillDoctorDashboard(cookie_monster)
             if (response){
-              console.log(response.data)
+              // console.log(response.data)
               setDashboardData(response.data);
             }else{
               console.log('no response')
