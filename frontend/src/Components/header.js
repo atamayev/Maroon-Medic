@@ -19,10 +19,16 @@ export default function Header () {
 
   useEffect(()=>{
     console.log('in header useEffect')
-    user_verification(cookie_monster);
-    if(checkUUID('DoctorUUID=') === true && verifyToken === true){
-      HeaderData();
-    }
+    user_verification(cookie_monster)
+    .then(result => {
+      if (result === true && checkUUID("DoctorUUID=") === true) {
+        console.log(`Used ${Header.name} useEffect`);
+        HeaderData();
+      }
+    })
+    .catch(error => {
+      console.error(error);
+    });
   }, [cookie_monster]);
   
   async function HeaderData (){
@@ -51,7 +57,8 @@ export default function Header () {
       type = 'Doctor'
     }else if (PatientUUID){
       type = 'Patient'
-    }try{
+    }
+    try{
       console.log(type)
       await DataService.logout(type);
     } catch(error){

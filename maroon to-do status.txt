@@ -1,6 +1,8 @@
 To-do:
 
 --make verify tokens (in .env) different for doctor/patient --> will need to checkf or type in jwt verify
+-- on logout, delete UUID from table
+--in checkdoctorUUID, should search the DB for the found UUID., instead of just hchecking the regex
 
 ASAP:
 
@@ -12,6 +14,7 @@ patient dashboard data function. can be same as doctor
 
 Later:
 
+-- figure out saving json data to local storage, and then check if data exists in local storage before quierying db. 
 -- if pt logged in, or vet logged in, shouldn't be allowed to log into the other one.
 
 -- if the doc hasn't entered their basic_doctor_info, then going to their profile is an error - bc it tries to render data that doesn't exist
@@ -26,5 +29,4 @@ Later:
 --create another header. one for home screen. one for vet screen (no search bar, just calendar, inbox button (chat), settings (make header like airbnb)
 	--hide search bar in the vet pages (see app.js)	
 
---in checkdoctorUUID, should search the DB for the found UUID., instead of just hchecking the regex
 

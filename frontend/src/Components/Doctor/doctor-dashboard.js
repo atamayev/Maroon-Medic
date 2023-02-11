@@ -10,16 +10,22 @@ export default function DoctorDashboard() {
   const { DoctorUUID, checkUUID} = useContext(UUIDContext);
   const [dashboardData, setDashboardData] = useState({});
   const cookie_monster = document.cookie;
-  const pathname = window.location.pathname;
+  // const pathname = window.location.pathname;
 
-  useEffect(()=>{
-    console.log('in doctor-dashboard useEffect')
-    if (pathname.startsWith('/vet-dashboard')) {
-      if(user_verification(cookie_monster) && checkUUID('DoctorUUID=') === true){
-        console.log(`Used ${DoctorDashboard.name} useEffect`)
-        DashboardData()
-      }
-    }
+  useEffect(() => {
+    console.log("in doctor-dashboard useEffect");
+    // if (pathname.startsWith("/vet-dashboard")) {
+      user_verification(cookie_monster)
+        .then(result => {
+          if (result === true && checkUUID("DoctorUUID=") === true) {
+            console.log(`Used ${DoctorDashboard.name} useEffect`);
+            DashboardData();
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    // }
   }, []);
  
   async function DashboardData (){

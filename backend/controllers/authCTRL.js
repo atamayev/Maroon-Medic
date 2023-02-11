@@ -16,24 +16,28 @@ dotenv.config()
  */
 export async function jwt_verify (req, res){
   try{
+    const cookies = req.cookies
     let AccessToken;
     let decodedID;
     let table_name;
-    let DB_name;    
-    const {type} = req.body;
+    let DB_name;
+    let sql; 
 
-    if(type === 'Doctor'){
+    if("DoctorAccessToken" in cookies){
       console.log('Type Doctor')
       AccessToken = req.cookies.DoctorAccessToken
       decodedID = jwt.verify(AccessToken, process.env.JWT_KEY).DoctorID;
       table_name = 'Doctor_credentials';
       DB_name = 'DoctorDB';
-    }else if(type === 'Patient'){
+      sql = `SELECT * FROM ${table_name} WHERE DoctorID = ?`;
+
+    }else if("PatientAccessToken" in cookies){
       console.log('Type: Patient')
       AccessToken = req.cookies.PatientAccessToken
       decodedID = jwt.verify(AccessToken, process.env.JWT_KEY).PatientID;
       table_name = 'Owner_credentials';
       DB_name = 'PatientDB';
+      sql = `SELECT * FROM ${table_name} WHERE PatientID = ?`;
     }else{
       return res.send('Invalid User Type') // If Type not Doctor or Patient
     }
@@ -41,9 +45,6 @@ export async function jwt_verify (req, res){
       return res.status(401).json({ error: "Token expired" });
     }
 
-    // const table_name = 'Doctor_credentials';
-    // const DB_name = 'DoctorDB';
-    const sql = `SELECT * FROM ${table_name} WHERE ${type}ID = ?`;
     const values = [decodedID];
     
     await useDB(jwt_verify.name, DB_name, table_name)

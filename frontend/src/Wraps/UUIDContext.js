@@ -13,7 +13,7 @@ const UUIDContextProvider = (props) => {
         if (cookieValue) {
           if(type === 'DoctorUUID=' && uuidRegex.test(cookieValue)){
             setDoctorUUID(cookieValue)
-            // console.log('true')
+            console.log('true in DoctorUUID')
             return true
           }
           if(type === 'PatientUUID=' && uuidRegex.test(cookieValue)){

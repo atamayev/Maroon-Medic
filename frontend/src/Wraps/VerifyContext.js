@@ -10,17 +10,20 @@ const VerifyContextProvider = (props) => {
     if(cookie_monster){
       const response = await VetDataService.verify(cookie_monster)
       if(response.data.success === true){
-        // console.log('true in verify context')
+        console.log('true in verify context')
         setverifyToken(true)
+        return true
       }
       else{// if user not veriifed
         console.log('user not verified')
         setverifyToken(false);
+        return false
       }
     }
     else{// if no token received
       // console.log('no cookei received')
       setverifyToken(false);
+      return false
     }
   }
 
