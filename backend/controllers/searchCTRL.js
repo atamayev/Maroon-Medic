@@ -11,44 +11,40 @@ import Crypto from "../dbAndSecurity/crypto.js";
  * @returns Returns an array of users, depending on the outcome of the query
  */
 export async function searchByQuery (req, res){
+    console.log(' in searchByQuery')
     const table_name = 'Doctor_credentials';
     const DB_name = 'DoctorDB'
     await useDB(searchByQuery.name, DB_name, table_name)
     // console.log(req.params.query)
-    
-    if(req.params.query == 'null' || req.params.query == 'undefined'){
-        return await fetchUsers (req, res);
-        // console.log('this is atest', req.params.query)
-    }
-    else {
-        const sql = `SELECT * FROM ${table_name} WHERE email LIKE ?`;
-        const values = ['%' + req.params.query + '%'];
-        try{
-            const [results] = await connection.execute(sql, values)
-            if (results.length === 0) {
-                console.log('User not found')
-                res.send('User not found');
-            } else {
-                // const decrypted = Crypto.decrypt_multiple(results)
-                return res.status(200).json(results);
-            }
-        }catch(error){
-            return res.status(500).send({ error: 'Search Error' });
+
+    const sql = `SELECT * FROM ${table_name} WHERE email LIKE ?`;
+    const values = ['%' + req.params.query + '%'];
+    try{
+        const [results] = await connection.execute(sql, values)
+        if (results.length === 0) {
+            console.log('User not found')
+            res.send('User not found');
+        } else {
+            // const decrypted = Crypto.decrypt_multiple(results)
+            return res.status(200).json(results);
         }
+    }catch(error){
+        return res.status(500).send({ error: 'Search Error' });
     }
 }
 /** fetchUsers returns all records from the Doctor_credentials table
  *  fetchUsers is not directly called. It is called within the searchByQuery function in searchCTRL.js, if no query is received
  *  Used to fill the home screen
- * @param {n/a} req - Not application - no request
+ * @param {*} req - Not application - no request
  * @param {array} res - result
  * @returns Either an array of results, or a message with an error
  */
 export async function fetchUsers (req, res){
+    console.log(' in fetch users')
     const table_name = 'Doctor_credentials'
     const sql = `SELECT * FROM ${table_name}`
     const DB_name = 'DoctorDB'
-    
+
     await useDB(fetchUsers.name, DB_name, table_name)
     try{
         const [results] = await connection.execute(sql)

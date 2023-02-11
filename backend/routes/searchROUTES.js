@@ -1,9 +1,10 @@
 import express from "express";
-import { searchByQuery} from "../controllers/searchCTRL.js";
+import { searchByQuery, fetchUsers} from "../controllers/searchCTRL.js";
 
 const router = express.Router()
 
-router.get("/:query", searchByQuery)
+router.get("/s/:query", searchByQuery)
+router.get("/fetchAllUsers", fetchUsers)
 
 
 export default router

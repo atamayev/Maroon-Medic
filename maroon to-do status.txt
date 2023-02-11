@@ -1,13 +1,7 @@
 To-do:
 
-1. Review in detail dependencies of all wrap functions. They are called whenever anything changes when dependency is blank. search term, location, etc.
-	- might not need a useEffect for wraps (look how verify/uuid does it)
-	--will need to figure out how to only call the function when a specific link changes CHATGPT HAD SOMETHING
-
-
 --delete location as a dependency, asap. all of the useEffects are called whenever a link changes. this is dumb
 
--- also, fetchData is run whenever hte search term is changed. seems to be at every page.
 -- console.log('something') in every single useEffect to see how often it is run. this could be a disaster if everything is running
 -- figure out how to get fetchUsers to run only if the page is home/specific home
 --how does doctor.js load when linked to from home, but home isn't rendered when linked to.
@@ -18,8 +12,8 @@ To-do:
 
 -- if search has no results, site crashes. this is because of the asynchronus nature of the find function. see chatgpt for details
 
--- for all the patient/doctor singular functons, if not doctor or not patient, make an else that returns an error
---make verify tokens different for doctor/patient
+-- for all the patient/doctor backend functons (ie auth, UUID), if not doctor or not patient, make an else that returns an error
+--make verify tokens (in .env) different for doctor/patient
 
 1. Patient registration/login
 2. Editability of doc info
@@ -48,6 +42,4 @@ Later:
 	--hide search bar in the vet pages (see app.js)	
 
 --in checkdoctorUUID, should search the DB for the found UUID.
-
---searching null or undefined shouldn't query all results
 

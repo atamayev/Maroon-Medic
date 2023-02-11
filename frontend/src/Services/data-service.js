@@ -6,7 +6,10 @@ export default new class DataService {
     }
     async find(query){
         console.log('query in VDS', query)
-        return await http.get(`search/${query}`);
+        return await http.get(`search/s/${query}`);
+    }
+    async fetchAllUsers(){
+        return await http.get('search/fetchAllUsers');
     }
     async addingDoctorInfo(firstName, lastName, gender, DOBmonth, DOBday, DOByear, DoctorID){
         return await http.post(`private-doctor-data/new-doctor`, {

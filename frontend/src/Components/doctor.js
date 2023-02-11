@@ -18,6 +18,7 @@ export default function Doctor () {
   }
 
   useEffect(() => {
+    console.log('in doctor.js')
     checkUUID()
     getDoctor(id);
   }, [id, cookie_monster]);
@@ -100,7 +101,7 @@ export default function Doctor () {
               </Card.Text>
               <a href = "/">
                 
-              <Button variant="primary">
+              <Button variant="primary" >
                     <p>Go back home (Href)</p>
                 </Button>
                 </a>
