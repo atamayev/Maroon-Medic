@@ -17,20 +17,18 @@ export async function UUIDtoID (req, res){
     const type = req.body.type;
     let table_name;
     let DB_name;
-    console.log('type',type)
-
-    if(type === 'Patient'){
-        console.log('Type: Patient')
-        table_name = 'PatientUUID_reference';
-        DB_name = 'PatientDB';
-        UUID = req.cookies.PatientUUID;
-    }
-
-    else if(type === 'Doctor'){
+    if(type === 'Doctor'){    
         console.log('Type Doctor')
         table_name = 'DoctorUUID_reference';
         DB_name = 'DoctorDB';
         UUID = req.cookies.DoctorUUID;
+    }else if(type === 'Patient'){
+        console.log('Type: Patient')
+        table_name = 'PatientUUID_reference';
+        DB_name = 'PatientDB';
+        UUID = req.cookies.PatientUUID;
+    }else{
+        return res.send('Invalid User Type') // If Type not Doctor or Patient
     }
     
     const sql = `SELECT ${type}_ID FROM ${table_name} WHERE ${type}UUID = ?`;

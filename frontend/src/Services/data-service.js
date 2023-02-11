@@ -22,8 +22,9 @@ export default new class DataService {
             DoctorID: DoctorID
         });
     }
-    async logout(){
-        return await http.get(`auth/logout`);
+    async logout(type){
+        console.log(type)
+        return await http.post(`auth/logout`, {type: type});
     }
     async verify(AccessToken){
         return await http.get(`/auth/verify`, {AccessToken})

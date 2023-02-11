@@ -80,14 +80,13 @@ export async function login (req, res){
     console.log('Type: Patient')
     table_name = 'Owner_credentials';
     DB_name = 'PatientDB';
-  }
-
-  else if(login_type === 'Doctor'){
+  }else if(login_type === 'Doctor'){
     console.log('Type Doctor')
     table_name = 'Doctor_credentials';
     DB_name = 'DoctorDB';
+  }else{
+    return res.send('Invalid User Type') // If Type not Doctor or Patient
   }
-
   const sql = `SELECT * FROM ${table_name} WHERE email = ?`;
   const values = [email];
   
@@ -105,68 +104,67 @@ export async function login (req, res){
       const hashed_password = results[0].password;
       const bool = await Hash.checkPassword(password, hashed_password)
       if (bool === true) {
-        if(login_type === 'Patient'){
-          console.log('Type: Patient in try')
-        // The following is to 'remember' the user is signed in through cookies          
-          const { PatientID, ...others } = results[0];
+        if(login_type === 'Doctor'){
+          console.log('Type Doctor in try')
+          // The following is to 'remember' the user is signed in through cookies          
+          const { DoctorID } = results[0];
           const expiration_time = 20; // not using this right now.
 
           const payload = {
-            PatientID, 
+            DoctorID, 
             // exp: Math.floor(Date.now()/1000) +expiration_time // temporarily taking out expiration to make sure system is running smoothly
           }
           const token = jwt.sign(payload, process.env.JWT_KEY);
 
-          const PatientUUID = await ID_to_UUID(PatientID, login_type)
+          const DoctorUUID = await ID_to_UUID(DoctorID, login_type)
           // console.log('UUID', UUID)
           // const expires = new Date(Date.now() + expiration_time *1000)
 
           return res
-            .cookie("PatientAccessToken", token, {
+            .cookie("DoctorAccessToken", token, {
               // expires,
               // httpOnly: true,
               // secure:true
             })
-            .cookie("PatientUUID", PatientUUID, {
+            .cookie("DoctorUUID", DoctorUUID, {
               // expires,
               // httpOnly: true,
               // secure:true
             })
             .status(200)
             .json('login success');
-          }
-      
-        else if(login_type === 'Doctor'){
-          console.log('Type Doctor in try')
-        // The following is to 'remember' the user is signed in through cookies          
-        const { DoctorID, ...others } = results[0];
-        const expiration_time = 20; // not using this right now.
+          }else if(login_type === 'Patient'){
+            console.log('Type: Patient in try')
+            // The following is to 'remember' the user is signed in through cookies          
+            const { PatientID } = results[0];
+            //const expiration_time = 20; // not using this right now.
 
-        const payload = {
-          DoctorID, 
-          // exp: Math.floor(Date.now()/1000) +expiration_time // temporarily taking out expiration to make sure system is running smoothly
-        }
-        const token = jwt.sign(payload, process.env.JWT_KEY);
+            const payload = {
+              PatientID, 
+              // exp: Math.floor(Date.now()/1000) +expiration_time // temporarily taking out expiration to make sure system is running smoothly
+            }
+            const token = jwt.sign(payload, process.env.JWT_KEY);
 
-        const DoctorUUID = await ID_to_UUID(DoctorID, login_type)
-        // console.log('UUID', UUID)
-        // const expires = new Date(Date.now() + expiration_time *1000)
+            const PatientUUID = await ID_to_UUID(PatientID, login_type)
+            // console.log('UUID', UUID)
+            // const expires = new Date(Date.now() + expiration_time *1000)
 
-        return res
-          .cookie("DoctorAccessToken", token, {
-            // expires,
-            // httpOnly: true,
-            // secure:true
-          })
-          .cookie("DoctorUUID", DoctorUUID, {
-            // expires,
-            // httpOnly: true,
-            // secure:true
-          })
-          .status(200)
-          .json('login success');
-        }
-
+            return res
+              .cookie("PatientAccessToken", token, {
+                // expires,
+                // httpOnly: true,
+                // secure:true
+              })
+              .cookie("PatientUUID", PatientUUID, {
+                // expires,
+                // httpOnly: true,
+                // secure:true
+              })
+              .status(200)
+              .json('login success');
+          }else{
+              return res.send('Invalid User Type') // If Type not Doctor or Patient
+            }
       } else {
           return res.status(400).json("Wrong Username or Password!");
         }
@@ -193,16 +191,16 @@ export async function register (req, res){
     const {email, password, register_type} = req.body // Takes out the decrypted_email from the request
     let table_name;
     let DB_name;
-    
-    if(register_type === 'Patient'){
-      console.log('Patient type register')
-      table_name = 'Owner_credentials';
-      DB_name = 'PatientDB';
-    }
     if(register_type === 'Doctor'){
       console.log('Doctor type in register')
       table_name = 'Doctor_credentials';
       DB_name = 'DoctorDB';
+    }else if(register_type === 'Patient'){
+      console.log('Patient type register')
+      table_name = 'Owner_credentials';
+      DB_name = 'PatientDB';
+    }else{
+      return res.send('Invalid User Type') // If Type not Doctor or Patient
     }
   
     const sql = `SELECT * FROM ${table_name} WHERE email = ?`;
@@ -237,34 +235,8 @@ export async function register (req, res){
             const values_new = [email]
             
             const [results] = await connection.execute(sql_new, values_new);
-            
-            if(register_type === 'Patient'){
-              const { PatientID, ...others } = results[0];
-
-              const payload = {
-                PatientID
-              }
-              const token = jwt.sign(payload, process.env.JWT_KEY); // Expiration time goes in here if needed
-
-              // const UUID = ID_to_UUID(results[0].DoctorID)
-              const PatientUUID = await ID_to_UUID(PatientID, register_type)
-              // console.log('DoctorUUID', DoctorUUID)
-
-              return res
-              .cookie("PatientAccessToken", token, {
-                // httpOnly: true,
-                // secure:true
-              })
-              .cookie("PatientUUID", PatientUUID, {
-                // httpOnly: true,
-                // secure:true
-              })
-              .status(200)
-              .json('login success');
-            }
-
-            else if(register_type === 'Doctor'){
-              const { DoctorID, ...others } = results[0];
+            if(register_type === 'Doctor'){
+              const { DoctorID } = results[0];
 
               const payload = {
                 DoctorID
@@ -286,6 +258,31 @@ export async function register (req, res){
               })
               .status(200)
               .json('login success');
+            }else if(register_type === 'Patient'){
+              const { PatientID } = results[0];
+
+              const payload = {
+                PatientID
+              }
+              const token = jwt.sign(payload, process.env.JWT_KEY); // Expiration time goes in here if needed
+
+              // const UUID = ID_to_UUID(results[0].DoctorID)
+              const PatientUUID = await ID_to_UUID(PatientID, register_type)
+              // console.log('DoctorUUID', DoctorUUID)
+
+              return res
+              .cookie("PatientAccessToken", token, {
+                // httpOnly: true,
+                // secure:true
+              })
+              .cookie("PatientUUID", PatientUUID, {
+                // httpOnly: true,
+                // secure:true
+              })
+              .status(200)
+              .json('login success');
+            }else{
+              return res.send('Invalid User Type') // If Type not Doctor or Patient
             }
           }
           catch(error){
@@ -305,24 +302,45 @@ export async function register (req, res){
 }
 
 /** logout is self-explanatory
- *  Deletes any cookie called "DoctorAccessToken"--> whenever the user navigates to future pages, their token will not be verified (token cleared)
- * @param {n/a} req No request
+ *  Depending on the type, deletes any cookie called "{type}AccessToken"--> whenever the user navigates to future pages, their token will not be verified (token cleared)
+ * @param {*} req Type: doctor or patient
  * @param {Response} res Clears cookie, and informs that "User has been logged out"
  */
 export async function logout (req, res){
-  console.log('logged out')
-  res
-  .clearCookie("DoctorAccessToken",{
-    httpOnly:true,
-    secure:true,
-    sameSite:"none",
-    path: '/'
-  })
-  .clearCookie("DoctorUUID",{
-    httpOnly:true,
-    secure:true,
-    sameSite:"none",
-    path: '/'
-  })
-  .status(200).json("User has been logged out.")
+  const {type} = req.body
+  if(type === 'Doctor'){
+    res
+    .clearCookie("DoctorAccessToken",{
+      httpOnly:true,
+      secure:true,
+      sameSite:"none",
+      path: '/'
+    })
+    .clearCookie("DoctorUUID",{
+      httpOnly:true,
+      secure:true,
+      sameSite:"none",
+      path: '/'
+    })
+    .status(200).json("User has been logged out.")
+    console.log('logged out Doctor')
+  }else if(type === 'Patient'){
+    res
+    .clearCookie("PatientAccessToken",{
+      httpOnly:true,
+      secure:true,
+      sameSite:"none",
+      path: '/'
+    })
+    .clearCookie("PatientUUID",{
+      httpOnly:true,
+      secure:true,
+      sameSite:"none",
+      path: '/'
+    })
+    .status(200).json("User has been logged out.")
+    console.log('logged out Patient')
+  }else{
+    res.status(500).send('Invalid User Type') // If Type not Doctor or Patient
+  }
 };

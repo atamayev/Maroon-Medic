@@ -1,7 +1,6 @@
 To-do:
 
--- for all the patient/doctor backend functons (ie auth, UUID), if not doctor or not patient, make an else that returns an error
---make verify tokens (in .env) different for doctor/patient
+--make verify tokens (in .env) different for doctor/patient --> will need to checkf or type in jwt verify
 
 ASAP:
 

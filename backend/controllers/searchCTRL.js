@@ -40,7 +40,6 @@ export async function searchByQuery (req, res){
  * @returns Either an array of results, or a message with an error
  */
 export async function fetchUsers (req, res){
-    console.log(' in fetch users')
     const table_name = 'Doctor_credentials'
     const sql = `SELECT * FROM ${table_name}`
     const DB_name = 'DoctorDB'

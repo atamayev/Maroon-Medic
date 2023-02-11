@@ -46,8 +46,14 @@ export default function Header () {
   }
 
   const handleLogout = async () => {
-    try{
-      await DataService.logout();
+    let type;
+    if(DoctorUUID){
+      type = 'Doctor'
+    }else if (PatientUUID){
+      type = 'Patient'
+    }try{
+      console.log(type)
+      await DataService.logout(type);
     } catch(error){
       console.log('error',error)
     }
