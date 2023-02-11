@@ -18,11 +18,12 @@ export default function Header () {
   const {setSearchTerm, searchTerm} = useContext(SearchContext);
 
   useEffect(()=>{
+    console.log('in header useEffect')
     user_verification(cookie_monster);
     if(checkUUID('DoctorUUID=') === true){
       HeaderData();
     }
-  }, [location, cookie_monster]);
+  }, [cookie_monster]);
   
   async function HeaderData (){
     if(cookie_monster){

@@ -28,7 +28,9 @@ export default function App() {
      <Header className = "d-flex align-items-center justify-content-center w-100"/>
         <Routes>
           <Route exact path="/" element = {<HomeDoctorsList/>} />
-          <Route exact path="/s/:query" element = {<SpecificDoctorsList/>} />
+          {/* Specific Doctrs List both for if there is a query, and if there isnt: next line */}
+          <Route exact path="/s/:query" element = {<SpecificDoctorsList/>} /> 
+          <Route exact path="/s/" element = {<SpecificDoctorsList/>} />
           <Route exact path = '/vet/:id' element = {<Doctor/>} />
 
           {/* Don't need the search header: */}

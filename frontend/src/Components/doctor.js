@@ -11,7 +11,6 @@ export default function Doctor () {
   const { DoctorUUID, checkUUID } = useContext(UUIDContext);
   const [user, setUser] = useState(null);
   const [error, setError] = useState('');
-  const cookie_monster = document.cookie;
 
   if (Number(id)){
     id = Number(id)
@@ -21,7 +20,7 @@ export default function Doctor () {
     console.log('in doctor.js')
     checkUUID()
     getDoctor(id);
-  }, [id, cookie_monster]);
+  }, []);
 
   // Given the current ID, the dataservice returns all necessary information about that specific user
   async function getDoctor (id) {

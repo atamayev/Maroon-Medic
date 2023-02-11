@@ -1,11 +1,10 @@
 import React, {useState, useEffect, useContext} from 'react'
 import {Card, Button, Form, Alert } from 'react-bootstrap'
-import {Link, useNavigate, useLocation} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import DataService from "../../Services/data-service.js"
 import { UUIDContext } from '../../Wraps/UUIDContext.js';
 
 export default function DoctorRegister() {
-  const location = useLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setpasswordConfirm] = useState('');
@@ -14,13 +13,13 @@ export default function DoctorRegister() {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
   const { checkUUID } = useContext(UUIDContext);
-  const cookie_monster = document.cookie;
 
   useEffect(()=>{
+    console.log('in doctor register useEffect')
     if(checkUUID('DoctorUUID=')===true){
       navigate(`/vet-dashboard`)
     }
-  }, [location, cookie_monster]);
+  }, []);
 
   const handleSubmit = async (e) =>{
     e.preventDefault();

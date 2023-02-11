@@ -10,8 +10,9 @@ export default function EditDoctorProfile() {
   // also needs verify when navigate to page.
 
   useEffect(()=>{
+    console.log('in edit doctor useEffect')
     checkUUID()
-  }, [cookie_monster, location]);
+  }, []);
 
   if(!DoctorUUID){
     return(

@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react'
 import {Card, Button, Form, Alert } from 'react-bootstrap'
-import {Link, useNavigate, useLocation } from "react-router-dom";
+import {Link, useNavigate } from "react-router-dom";
 import DataService from "../../Services/data-service.js"
 import { UUIDContext } from '../../Wraps/UUIDContext.js';
 
@@ -11,13 +11,12 @@ export default function PatientLogin() {
   const login_type = 'Patient';
   const { checkUUID } = useContext(UUIDContext);
   const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(()=>{
     if(checkUUID('PatientUUID=')===true){
       navigate(`/patient-dashboard`)
     }
-  }, [location]);
+  }, []);
   
   const handleSubmit = async (e) =>{
     e.preventDefault();

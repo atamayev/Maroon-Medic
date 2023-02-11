@@ -7,6 +7,7 @@ export default function SpecificDoctorsList() {
   const {searchTerm, items, setSearchTerm, fetchData} = useContext(SearchContext)
   
   let { query } = useParams(); //the id of the current site (which user) --> used to set User
+  console.log(query)
  
   if (!query){
       window.location.href = '/';
@@ -15,7 +16,6 @@ export default function SpecificDoctorsList() {
     console.log('1)In Specific Doctors List')
     setSearchTerm(query)
     fetchData()
-    console.log(items)
   }, [searchTerm])
 
   if (!items || items === 'User not found'){

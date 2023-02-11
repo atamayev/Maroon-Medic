@@ -38,7 +38,7 @@ export default function NewDoctor () {
   useEffect(() => {
     user_verification(cookie_monster);
     DoctorUUIDtoDoctorID();
-  }, [location, cookie_monster]);
+  }, []);
   
   async function DoctorUUIDtoDoctorID (){
     if (cookie_monster){

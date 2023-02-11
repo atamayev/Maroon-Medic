@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useContext} from 'react'
-import {Link, useLocation} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
 import DataService from "../../Services/data-service.js"
 import { UUIDContext } from '../../Wraps/UUIDContext.js';
@@ -10,17 +10,17 @@ export default function DoctorDashboard() {
   const { DoctorUUID, checkUUID} = useContext(UUIDContext);
   const [dashboardData, setDashboardData] = useState({});
   const cookie_monster = document.cookie;
-  const location = useLocation();
   const pathname = window.location.pathname;
 
   useEffect(()=>{
+    console.log('in doctor-dashboard useEffect')
     if (pathname.startsWith('/vet-dashboard')) {
       if(user_verification(cookie_monster) && checkUUID('DoctorUUID=') === true){
         console.log(`Used ${DoctorDashboard.name} useEffect`)
         DashboardData()
       }
     }
-  }, [location, cookie_monster]);
+  }, []);
  
   async function DashboardData (){
     // console.log('in dashboard data')

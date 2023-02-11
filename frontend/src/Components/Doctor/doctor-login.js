@@ -15,10 +15,11 @@ export default function DoctorLogin() {
   const { checkUUID } = useContext(UUIDContext);
 
   useEffect(()=>{
+    console.log('in doctorlogin')
     if(checkUUID('DoctorUUID=')===true){
       navigate(`/vet-dashboard`)
     }
-  }, [location, cookie_monster]);
+  }, []);
   
   const handleSubmit = async (e) =>{
     e.preventDefault();
