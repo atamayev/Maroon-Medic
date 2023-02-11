@@ -114,7 +114,7 @@ export default function Header () {
             className="form-control mr-sm-2"
             placeholder="Search"
             aria-label="Search"
-            defaultValue= {searchTerm}
+            defaultValue={location.pathname !== '/' ? searchTerm : ''}
             onKeyUp={handleKeyUp}
           />
           <div className="input-group-append">

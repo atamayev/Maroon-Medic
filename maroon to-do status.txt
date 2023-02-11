@@ -10,8 +10,6 @@ To-do:
 -- if link  ==patient register, &&patient UUID==true, navigate. 
 	import cookie monster as a dependency
 
--- if search has no results, site crashes. this is because of the asynchronus nature of the find function. see chatgpt for details
-
 -- for all the patient/doctor backend functons (ie auth, UUID), if not doctor or not patient, make an else that returns an error
 --make verify tokens (in .env) different for doctor/patient
 

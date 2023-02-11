@@ -15,17 +15,22 @@ export default function SpecificDoctorsList() {
     console.log('1)In Specific Doctors List')
     setSearchTerm(query)
     fetchData()
+    console.log(items)
   }, [searchTerm])
 
-  if (!items || items === "Vet not found"){
-    return <div> No results</div>
+  if (!items || items === 'User not found'){
+    return (
+        <div> 
+          No results
+          </div>
+    );
   }
-  const data = items.slice(0, 100); // This has no function rn, since there are less than 100 vets. once there are more, only the first 100 will be returned
 
-  return (
+  else{
+    const data = items.slice(0, 100); // This has no function rn, since there are less than 100 vets. once there are more, only the first 100 will be returned
 
-    // <div style={{ display: 'flex', flexDirection: 'row' }}>
-    <div className="card-container" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gridGap: '16px' }}>
+    return (
+      <div className="card-container" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gridGap: '16px' }}>
         {data.map((item) => {
           const { email } = item;
           return(
@@ -43,5 +48,6 @@ export default function SpecificDoctorsList() {
           )
         })}
       </div>
-  );
+    );
+  }
 }
