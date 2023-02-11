@@ -26,15 +26,14 @@ export async function jwt_verify (req, res){
     if("DoctorAccessToken" in cookies){
       console.log('Type Doctor')
       AccessToken = req.cookies.DoctorAccessToken
-      decodedID = jwt.verify(AccessToken, process.env.JWT_KEY).DoctorID;
+      decodedID = jwt.verify(AccessToken, process.env.DOCTOR_JWT_KEY).DoctorID;
       table_name = 'Doctor_credentials';
       DB_name = 'DoctorDB';
       sql = `SELECT * FROM ${table_name} WHERE DoctorID = ?`;
-
     }else if("PatientAccessToken" in cookies){
       console.log('Type: Patient')
       AccessToken = req.cookies.PatientAccessToken
-      decodedID = jwt.verify(AccessToken, process.env.JWT_KEY).PatientID;
+      decodedID = jwt.verify(AccessToken, process.env.PATIENT_JWT_KEY).PatientID;
       table_name = 'Owner_credentials';
       DB_name = 'PatientDB';
       sql = `SELECT * FROM ${table_name} WHERE PatientID = ?`;
@@ -128,7 +127,7 @@ export async function login (req, res){
             DoctorID, 
             // exp: Math.floor(Date.now()/1000) +expiration_time // temporarily taking out expiration to make sure system is running smoothly
           }
-          const token = jwt.sign(payload, process.env.JWT_KEY);
+          const token = jwt.sign(payload, process.env.DOCTOR_JWT_KEY);
 
           const DoctorUUID = await ID_to_UUID(DoctorID, login_type)
           // console.log('UUID', UUID)
@@ -157,7 +156,7 @@ export async function login (req, res){
               PatientID, 
               // exp: Math.floor(Date.now()/1000) +expiration_time // temporarily taking out expiration to make sure system is running smoothly
             }
-            const token = jwt.sign(payload, process.env.JWT_KEY);
+            const token = jwt.sign(payload, process.env.PATIENT_JWT_KEY);
 
             const PatientUUID = await ID_to_UUID(PatientID, login_type)
             // console.log('UUID', UUID)
@@ -255,7 +254,7 @@ export async function register (req, res){
               const payload = {
                 DoctorID
               }
-              const token = jwt.sign(payload, process.env.JWT_KEY); // Expiration time goes in here if needed
+              const token = jwt.sign(payload, process.env.DOCTOR_JWT_KEY); // Expiration time goes in here if needed
 
               // const UUID = ID_to_UUID(results[0].DoctorID)
               const DoctorUUID = await ID_to_UUID(DoctorID, register_type)
@@ -278,7 +277,7 @@ export async function register (req, res){
               const payload = {
                 PatientID
               }
-              const token = jwt.sign(payload, process.env.JWT_KEY); // Expiration time goes in here if needed
+              const token = jwt.sign(payload, process.env.PATIENT_JWT_KEY); // Expiration time goes in here if needed
 
               // const UUID = ID_to_UUID(results[0].DoctorID)
               const PatientUUID = await ID_to_UUID(PatientID, register_type)

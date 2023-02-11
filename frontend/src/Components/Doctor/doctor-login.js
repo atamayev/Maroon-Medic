@@ -27,7 +27,7 @@ export default function DoctorLogin() {
       setError("")
       await DataService.login(email, password, login_type);
       navigate("/vet-dashboard")
-      console.log('Logged in');
+      console.log('Navigating to Dashboard');
     } catch (err) {
       setError(err.response.data);
     }
