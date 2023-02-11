@@ -27,7 +27,7 @@ export default new class DataService {
         return await http.post(`auth/logout`, {type: type});
     }
     async verify(AccessToken){
-        return await http.get(`/auth/verify`, {AccessToken})
+        return await http.post(`/auth/verify`, {AccessToken})
     }
     async login(username, password, login_type){
         return await http.post("/auth/login", {email: username, password: password, login_type: login_type}, 

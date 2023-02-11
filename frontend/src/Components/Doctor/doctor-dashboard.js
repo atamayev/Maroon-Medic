@@ -64,6 +64,7 @@ export default function DoctorDashboard() {
   }
 
   if(!verifyToken){
+    // this means the user has logged in (credentials exist in the DB), but they were not verified for whatever reason
     return(
       <Card>
         <Card.Body>

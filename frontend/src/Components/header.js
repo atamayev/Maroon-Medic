@@ -13,14 +13,14 @@ export default function Header () {
   const location = useLocation();
   const [headerData, setHeaderData] = useState({});
   const { checkUUID, DoctorUUID, PatientUUID} = useContext(UUIDContext);
-  const {user_verification} = useContext(VerifyContext);
+  const {verifyToken, user_verification} = useContext(VerifyContext);
   const cookie_monster = document.cookie;
   const {setSearchTerm, searchTerm} = useContext(SearchContext);
 
   useEffect(()=>{
     console.log('in header useEffect')
     user_verification(cookie_monster);
-    if(checkUUID('DoctorUUID=') === true){
+    if(checkUUID('DoctorUUID=') === true && verifyToken === true){
       HeaderData();
     }
   }, [cookie_monster]);

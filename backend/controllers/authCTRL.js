@@ -15,33 +15,47 @@ dotenv.config()
  * @returns Returns true/false, depending on wheather the cookie is verified, and if the contents of the cookie are valid
  */
 export async function jwt_verify (req, res){
-  // refer to: https://github.com/SalarC123/Classius/blob/main/src/server/router.js
-  //: https://dev.to/salarc123/mern-stack-authentication-tutorial-part-1-the-backend-1c57
   try{
-    const DoctorAccessToken = req.cookies.DoctorAccessToken
-    // console.log('DoctorAccessToken',DoctorAccessToken)
-    const decodedDoctorID = jwt.verify(DoctorAccessToken, process.env.JWT_KEY).DoctorID;
-    
-    if (Date.now() >= decodedDoctorID.exp * 1000) {
+    let AccessToken;
+    let decodedID;
+    let table_name;
+    let DB_name;    
+    const {type} = req.body;
+
+    if(type === 'Doctor'){
+      console.log('Type Doctor')
+      AccessToken = req.cookies.DoctorAccessToken
+      decodedID = jwt.verify(AccessToken, process.env.JWT_KEY).DoctorID;
+      table_name = 'Doctor_credentials';
+      DB_name = 'DoctorDB';
+    }else if(type === 'Patient'){
+      console.log('Type: Patient')
+      AccessToken = req.cookies.PatientAccessToken
+      decodedID = jwt.verify(AccessToken, process.env.JWT_KEY).PatientID;
+      table_name = 'Owner_credentials';
+      DB_name = 'PatientDB';
+    }else{
+      return res.send('Invalid User Type') // If Type not Doctor or Patient
+    }
+    if (Date.now() >= decodedID.exp * 1000) {
       return res.status(401).json({ error: "Token expired" });
     }
 
-    const table_name = 'Doctor_credentials';
-    const DB_name = 'DoctorDB';
-
-    const sql = `SELECT * FROM ${table_name} WHERE DoctorID = ?`;
-    const values = [decodedDoctorID];
+    // const table_name = 'Doctor_credentials';
+    // const DB_name = 'DoctorDB';
+    const sql = `SELECT * FROM ${table_name} WHERE ${type}ID = ?`;
+    const values = [decodedID];
     
     await useDB(jwt_verify.name, DB_name, table_name)
-    // Searches the Doctor_credentials for the decodedDoctorID
+    // Searches the Credentials Table for the decodedID
 
     try{const [rows] = await connection.execute(sql, values)
       if (!rows.length){
-        //If there are no doctors with the decodedDoctorID, return false
+        //If there are no doctors/pts with the decodedID, return false
         return res.status(401).json({success: false})
       }
       else{
-        // If there is a doc with the decodedDoctorID, return true
+        // If there is a doc/pt with the decodedID, return true
         // console.log('true')
         return res.status(200).json({success: true})
       };
@@ -75,15 +89,14 @@ export async function login (req, res){
   const { email, password, login_type } = req.body;
   let table_name;
   let DB_name;
-
-  if(login_type === 'Patient'){
-    console.log('Type: Patient')
-    table_name = 'Owner_credentials';
-    DB_name = 'PatientDB';
-  }else if(login_type === 'Doctor'){
+  if(login_type === 'Doctor'){
     console.log('Type Doctor')
     table_name = 'Doctor_credentials';
     DB_name = 'DoctorDB';
+  }else if(login_type === 'Patient'){
+    console.log('Type: Patient')
+    table_name = 'Owner_credentials';
+    DB_name = 'PatientDB';
   }else{
     return res.send('Invalid User Type') // If Type not Doctor or Patient
   }
