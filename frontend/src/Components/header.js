@@ -38,9 +38,10 @@ export default function Header () {
   
   async function HeaderData (){
     try{
-      const response = await DataService.fillDoctorDashboard() // need to change this to fill Header - and pass in type (doctor or patient)
+      const response = await DataService.fillHeader() // need to change this to fill Header - and pass in type (doctor or patient)
       if (response){
         // console.log(response.data)
+        console.log(response.data)
         setHeaderData(response.data);
       }else{
         console.log('no response')

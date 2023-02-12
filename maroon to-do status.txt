@@ -3,6 +3,7 @@ To-do:
 ASAP:
 
 -- make a fillHeader function - take type out as a param
+	-- works, but make the sql only query the FirstName instead of all fields, will then need to figure out how to deal with the splice in decrypt single
 patient dashboard data function. can be same as doctor
 
 1. Patient registration/login
