@@ -1,47 +1,30 @@
 import React, { createContext, useState } from 'react';
-
+import DataService from '../Services/data-service';
 const UUIDContext = createContext();
 
 const UUIDContextProvider = (props) => {
   const [DoctorUUID, setDoctorUUID] = useState(null);
   const [PatientUUID, setPatientUUID] = useState(null);
-  const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
 
-  function checkUUID(type) {
+  async function checkUUID() {
     try{
-        const cookieValue = getCookieValue(type);
-        if (cookieValue) {
-          if(type === 'DoctorUUID=' && uuidRegex.test(cookieValue)){
-            setDoctorUUID(cookieValue)
-            console.log('true in DoctorUUID')
-            return true
-          }
-          if(type === 'PatientUUID=' && uuidRegex.test(cookieValue)){
-            setPatientUUID(cookieValue)
-            console.log('PatientUUID')
-            return true
-          }
-        } else {
-          // console.log('false')
-          return false;
-        }
+      const response = await DataService.checkUUID();
+      const cookieValue = response.data.cookieValue
+      if (response.data.type === 'Doctor' && response.data.isValid === true) {
+        setDoctorUUID(cookieValue)
+        return true
+      }
+      else if (response.data.type === 'Patient' && response.data.isValid === true){
+        setPatientUUID(cookieValue)
+        return true
+      }
+      else {
+        console.log('false')
+        return false;
+      }
     }catch(error){
       console.log('err in UUID context', error)
     }
-  }
-  
-  function getCookieValue(cookieName) {
-    const cookieArray = document.cookie.split(";");
-    for (let i = 0; i < cookieArray.length; i++) {
-      let cookie = cookieArray[i];
-      while (cookie.charAt(0) === ' ') {
-        cookie = cookie.substring(1);
-      }
-      if (cookie.startsWith(cookieName)) {
-        return cookie.substring(cookieName.length, cookie.length)
-      }
-    }
-    return "";
   }
 
   return (

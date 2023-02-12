@@ -16,16 +16,25 @@ export default function DoctorDashboard() {
     console.log("in doctor-dashboard useEffect");
     // if (pathname.startsWith("/vet-dashboard")) {
       user_verification(cookie_monster)
-        .then(result => {
-          if (result === true && checkUUID("DoctorUUID=") === true) {
-            console.log(`Used ${DoctorDashboard.name} useEffect`);
-            DashboardData();
-          }
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    // }
+      .then(result => {
+        if (result === true) {
+          return checkUUID();
+        } else {
+          throw new Error("Result from user_verification is false");
+        }
+      })
+      .then(checkUUIDResult => {
+        if (checkUUIDResult === true) {
+          console.log(`Used ${DoctorDashboard.name} useEffect`);
+          DashboardData();
+        } else {
+          throw new Error("Result from checkUUID is false");
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    
   }, []);
  
   async function DashboardData (){

@@ -44,3 +44,53 @@ export async function UUIDtoID (req, res){
         // return res.status(500).send({ error: 'proprietaryHomePageData Error' });
     }
 };
+
+export async function checkUUID (req, res){
+    const cookies = req.cookies
+    let UUID;
+    let table_name;
+    let DB_name;
+    let sql;
+    let response = {
+        isValid: false,
+        cookieValue: '',
+        type: ''
+    };
+
+    if("DoctorAccessToken" in cookies){
+        UUID = req.cookies.DoctorUUID
+        table_name = 'DoctorUUID_reference';
+        DB_name = 'DoctorDB';
+        sql = `SELECT * FROM ${table_name} WHERE DoctorUUID = ?`;
+        response.type = 'Doctor';
+    }else if("PatientAccessToken" in cookies){
+        UUID = req.cookies.PatientUUID;
+        table_name = 'PatientUUID_reference';
+        DB_name = 'PatientDB';
+        sql = `SELECT * FROM ${table_name} WHERE PatientUUID = ?`;
+        response.type = 'Patient';
+    }else{
+        return res.send('Invalid User Type') // If Type not Doctor or Patient
+    }
+    const values = [UUID];
+    await useDB(UUIDtoID.name, DB_name, table_name)
+    
+    try{
+        const [results] = await connection.execute(sql, values)
+        // console.log('results',results)
+        if(results.length === 1){
+            response.isValid = true;
+            response.cookieValue = UUID;
+            console.log(response)
+            return res.status(200).json(response);
+        }
+        else{
+            console.log('Invalid UUID')
+            return res.status(500).json(error);     
+        }
+    }catch(error){
+        console.log('error encountered in catching UUIDtoID')
+        return res.status(500).json(error);
+        // return res.status(500).send({ error: 'proprietaryHomePageData Error' });
+    }
+};

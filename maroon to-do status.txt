@@ -1,13 +1,13 @@
 To-do:
 
--- delete type from everywhere--> make it read the cookie for Doctor or Patient
--- on logout, delete UUID from table
 --in checkdoctorUUID, should search the DB for the found UUID., instead of just hchecking the regex
 	shouldn't need to feed doctorUUID as a parameter
-
+	-- back end functin should return true/false, cookie value, and type
+-- don't need to feed cookie monster to user verification - can be accessed by back end	
+	delete all cases of feeding cookie monster to functions in back-end
 ASAP:
 
--- make a fillHeader function
+-- make a fillHeader function - take type out as a param
 patient dashboard data function. can be same as doctor
 
 1. Patient registration/login
@@ -15,7 +15,6 @@ patient dashboard data function. can be same as doctor
 
 Later:
 
--- figure out saving json data to local storage, and then check if data exists in local storage before quierying db. 
 -- if pt logged in, or vet logged in, shouldn't be allowed to log into the other one.
 
 -- if the doc hasn't entered their basic_doctor_info, then going to their profile is an error - bc it tries to render data that doesn't exist
@@ -29,5 +28,7 @@ Later:
 -- show first name on home page instead of email. will require decrypt multiple.
 --create another header. one for home screen. one for vet screen (no search bar, just calendar, inbox button (chat), settings (make header like airbnb)
 	--hide search bar in the vet pages (see app.js)	
+
+-- figure out saving json data to local storage, and then check if data exists in local storage before quierying db. 
 
 

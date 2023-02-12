@@ -10,7 +10,7 @@ const VerifyContextProvider = (props) => {
     if(cookie_monster){
       const response = await VetDataService.verify(cookie_monster)
       if(response.data.success === true){
-        console.log('true in verify context')
+        // console.log('true in verify context')
         setverifyToken(true)
         return true
       }

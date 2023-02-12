@@ -13,7 +13,7 @@ export default function Header () {
   const location = useLocation();
   const [headerData, setHeaderData] = useState({});
   const { checkUUID, DoctorUUID, PatientUUID} = useContext(UUIDContext);
-  const {verifyToken, user_verification} = useContext(VerifyContext);
+  const {user_verification} = useContext(VerifyContext);
   const cookie_monster = document.cookie;
   const {setSearchTerm, searchTerm} = useContext(SearchContext);
 
@@ -21,9 +21,18 @@ export default function Header () {
     console.log('in header useEffect')
     user_verification(cookie_monster)
     .then(result => {
-      if (result === true && checkUUID("DoctorUUID=") === true) {
+      if (result === true) {
+        return checkUUID();
+      } else {
+        throw new Error("Result from user_verification is false");
+      }
+    })
+    .then(checkUUIDResult => {
+      if (checkUUIDResult === true) {
         console.log(`Used ${Header.name} useEffect`);
         HeaderData();
+      } else {
+        throw new Error("Result from checkUUID is false");
       }
     })
     .catch(error => {
@@ -141,7 +150,7 @@ export default function Header () {
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        {DoctorUUID ? (
+        {DoctorUUID || PatientUUID ? (
           <div>
           <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
           <Dropdown.Item href="/vet-dashboard">Dashboard</Dropdown.Item>

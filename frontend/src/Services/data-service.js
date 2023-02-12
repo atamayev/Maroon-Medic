@@ -49,4 +49,7 @@ export default new class DataService {
     async fillHeader(UUID, type){
         return await http.get('/private-common-data/header-data', {UUID: UUID, type: type})
     }
+    async checkUUID(){
+        return await http.post('/private-common-data/check-uuid')
+    }
 }();
