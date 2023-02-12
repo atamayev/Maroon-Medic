@@ -13,7 +13,7 @@ export default function DoctorLogin() {
   const { checkUUID } = useContext(UUIDContext);
 
   useEffect(()=>{
-    console.log('in doctorlogin')
+    console.log('in doctorlogin UseEffect')
     checkUUID()
       .then(result => {
         if (result === true) {
@@ -28,7 +28,7 @@ export default function DoctorLogin() {
       setError("")
       await DataService.login(email, password, login_type);
       navigate("/vet-dashboard")
-      console.log('Navigating to Dashboard');
+      console.log('Navigating to Doctor Dashboard');
     } catch (err) {
       setError(err.response.data);
     }

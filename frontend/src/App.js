@@ -18,6 +18,7 @@ import EditDoctorProfile from "./Components/Doctor/edit-doctor-profile"
 //Patient Specific:
 import PatientLogin from './Components/Patient/patient-login';
 import PatientRegister from './Components/Patient/patient-register';
+import PatientDashboard from "./Components/Patient/patient-dashboard"
 
 export default function App() {
 
@@ -41,6 +42,7 @@ export default function App() {
           <Route exact path = '/edit-vet-profile' element = {<EditDoctorProfile/>} />
           <Route exact path = '/patient-register' element = {<PatientRegister/>} />
           <Route exact path = '/patient-login' element = {<PatientLogin/>} />
+          <Route exact path = '/patient-dashboard' element = {<PatientDashboard/>} />
           {/* Catch all */}
           <Route path = '*' element = {<Missing/>} />
         </Routes>
