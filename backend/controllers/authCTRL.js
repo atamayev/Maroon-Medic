@@ -33,8 +33,9 @@ export async function jwt_verify (req, res){
     }else if("PatientAccessToken" in cookies){
       console.log('Type: Patient')
       AccessToken = req.cookies.PatientAccessToken
+      // console.log(AccessToken)
       decodedID = jwt.verify(AccessToken, process.env.PATIENT_JWT_KEY).PatientID;
-      table_name = 'Owner_credentials';
+      table_name = 'Patient_credentials';
       DB_name = 'PatientDB';
       sql = `SELECT * FROM ${table_name} WHERE PatientID = ?`;
     }else{
@@ -95,7 +96,7 @@ export async function login (req, res){
     DB_name = 'DoctorDB';
   }else if(login_type === 'Patient'){
     // console.log('Type: Patient')
-    table_name = 'Owner_credentials';
+    table_name = 'Patient_credentials';
     DB_name = 'PatientDB';
   }else{
     return res.send('Invalid User Type') // If Type not Doctor or Patient
@@ -210,7 +211,7 @@ export async function register (req, res){
       DB_name = 'DoctorDB';
     }else if(register_type === 'Patient'){
       console.log('Patient type register')
-      table_name = 'Owner_credentials';
+      table_name = 'Patient_credentials';
       DB_name = 'PatientDB';
     }else{
       return res.send('Invalid User Type') // If Type not Doctor or Patient
@@ -235,7 +236,7 @@ export async function register (req, res){
         const encrypted_date_time = Crypto.encrypt_single_entry(dateTimeObj).Created_at
         
         const sql = `INSERT INTO ${table_name} (email, password, Created_at) VALUES (?, ?, ?)`;
-        const values = [email, hashed_password, encrypted_date_time ]; // Change to be decrypted email. 
+        const values = [email, hashed_password, encrypted_date_time ];
         
           try {await connection.execute(sql, values)} // Insert Query}
           catch (error){
@@ -246,8 +247,9 @@ export async function register (req, res){
           try{
             const sql_new = `SELECT * FROM ${table_name} WHERE email = ?`;
             const values_new = [email]
-            
+
             const [results] = await connection.execute(sql_new, values_new);
+            
             if(register_type === 'Doctor'){
               const { DoctorID } = results[0];
 
@@ -278,7 +280,7 @@ export async function register (req, res){
                 PatientID
               }
               const token = jwt.sign(payload, process.env.PATIENT_JWT_KEY); // Expiration time goes in here if needed
-
+              
               // const UUID = ID_to_UUID(results[0].DoctorID)
               const PatientUUID = await ID_to_UUID(PatientID, register_type)
               // console.log('DoctorUUID', DoctorUUID)

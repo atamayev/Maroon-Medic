@@ -19,15 +19,15 @@ export async function headerData (req, res){ // for both pateints, and docs -- j
         DB_name = 'DoctorDB';
         sql = `SELECT ${table_name2}.FirstName FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.Doctor_ID = ${table_name1}.DoctorID WHERE ${table_name1}.DoctorID = ?`
     }
-    // // Commenting out for now because basic owner info DNE
-    // else if("PatientAccessToken" in cookies){
-    //     UUID = req.cookies.PatientUUID
-    //     ID = await UUID_to_ID(UUID, 'Patient')
-    //     table_name1 = 'owner_credentials';
-    //     table_name2 = 'basic_owner_info';
-    //     DB_name = 'PatientDB';
-    //     sql = `SELECT FirstName FROM ${table_name1} LEFT JOIN ${table_name2} ON ${table_name1}.PatientID = ${table_name2}.Patient_ID WHERE ${table_name1}.PatientID = ?`
-    // }
+    // // Commenting out for now because basic patient info DNE
+    else if("PatientAccessToken" in cookies){
+        UUID = req.cookies.PatientUUID
+        ID = await UUID_to_ID(UUID, 'Patient')
+        table_name1 = 'Patient_credentials';
+        table_name2 = 'basic_Patient_info';
+        DB_name = 'PatientDB';
+        sql = `SELECT ${table_name2}.FirstName FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.Patient_ID = ${table_name1}.PatientID WHERE ${table_name1}.PatientID = ?`
+    }
     else{
         return res.send('Invalid User Type') // If Type not Doctor or Patient
     }
@@ -135,6 +135,5 @@ export async function checkUUID (req, res){
     }catch(error){
         console.log('error encountered in catching checkUUID')
         return res.status(500).json(error);
-        // return res.status(500).send({ error: 'proprietaryHomePageData Error' });
     }
 };

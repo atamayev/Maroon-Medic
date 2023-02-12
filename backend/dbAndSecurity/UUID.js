@@ -7,12 +7,11 @@ import moment from 'moment';
 
 /** ID_to_UUID takes in the ID, creates a complementary UUID, and inserts it into the UUID_reference table
  *  In the future, UUID will be what is sent to client instead of DocID as the main identifier
- * @param {Int} ID DoctorID
+ * @param {Int} ID Doctor/PatientID
  * @param {String} type Doctor or Patient
  * @returns Randomly generated UUID
  */
 export async function ID_to_UUID(ID, type){
-    // console.log('DoctorID_to_DoctorUUID', DoctorID )
     console.log(`in ID to UUID, ${type}`)
     const UUID = uuidv4();
     let table_name;
@@ -25,7 +24,7 @@ export async function ID_to_UUID(ID, type){
       DB_name = 'DoctorDB';
     }
     else if (type === 'Patient'){
-      table_name = 'Owner_credentials';
+      table_name = 'PatientUUID_reference';
       DB_name = 'PatientDB';
     }
  
@@ -55,7 +54,7 @@ export async function UUID_to_ID(UUID, type){
     DB_name = 'DoctorDB';
   }
   else if (type === 'Patient'){
-    table_name = 'Owner_credentials';
+    table_name = 'PatientUUID_reference';
     DB_name = 'PatientDB';
   }
   else{

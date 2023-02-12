@@ -1,12 +1,14 @@
 To-do:
 
 ASAP:
-patient dashboard data function. can be same as doctor
-
 1. Patient registration/login
+	patient dashboard data function. can be same as doctor
+	-- current problem is to change the naming sceheme of patients to owners
+
 2. Editability of doc info
 
 Later:
+-- change naming scheme of patients vs owners. doesn't sound right. make it patient_credentials, and pet info
 
 -- if pt logged in, or vet logged in, shouldn't be allowed to log into the other one.
 
