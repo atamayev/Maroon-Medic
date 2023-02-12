@@ -9,13 +9,11 @@ export default function DoctorDashboard() {
   const {verifyToken, user_verification} = useContext(VerifyContext)
   const { DoctorUUID, checkUUID} = useContext(UUIDContext);
   const [dashboardData, setDashboardData] = useState({});
-  const cookie_monster = document.cookie;
-  // const pathname = window.location.pathname;
 
   useEffect(() => {
     console.log("in doctor-dashboard useEffect");
     // if (pathname.startsWith("/vet-dashboard")) {
-      user_verification(cookie_monster)
+      user_verification()
       .then(result => {
         if (result === true) {
           return checkUUID();
@@ -38,27 +36,20 @@ export default function DoctorDashboard() {
   }, []);
  
   async function DashboardData (){
-    // console.log('in dashboard data')
-    if(cookie_monster){
-      // console.log('in cookies')
-          try{
-            const response = await DataService.fillDoctorDashboard(cookie_monster)
-            if (response){
-              // console.log(response.data)
-              setDashboardData(response.data);
-            }else{
-              console.log('no response')
-            }
-          }catch(error){
-            console.log('unable to fillDoctorDashboard', error)
-          }
+    try{
+      const response = await DataService.fillDoctorDashboard()
+      if (response){
+        // console.log(response.data)
+        setDashboardData(response.data);
+      }else{
+        console.log('no response')
       }
-    else{
-      console.log('no cookies')
+    }catch(error){
+      console.log('unable to fillDoctorDashboard', error)
     }
   }
 
-  if(!DoctorUUID && !verifyToken){
+  if(!DoctorUUID || !verifyToken){
     return(
       <Card>
         <Card.Body>
@@ -71,22 +62,6 @@ export default function DoctorDashboard() {
         <Link to= {'/vet-login'}>
               <Button variant="primary">
                   <p>Login</p>
-              </Button>
-        </Link>
-      </Card.Body>
-    </Card>
-    )
-  }
-
-  if(!verifyToken){
-    // this means the user has logged in (credentials exist in the DB), but they were not verified for whatever reason
-    return(
-      <Card>
-        <Card.Body>
-          <p>Please register first </p>;
-          <Link to= {'/register'}>
-              <Button variant="primary">
-                  <p>Register</p>
               </Button>
         </Link>
       </Card.Body>

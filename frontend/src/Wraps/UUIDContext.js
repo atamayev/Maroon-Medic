@@ -23,6 +23,8 @@ const UUIDContextProvider = (props) => {
         return false;
       }
     }catch(error){
+      setDoctorUUID(null)
+      setPatientUUID(null)
       console.log('err in UUID context', error)
     }
   }

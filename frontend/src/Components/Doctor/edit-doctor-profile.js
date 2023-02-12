@@ -5,13 +5,12 @@ import { UUIDContext } from '../../Wraps/UUIDContext.js';
 
 export default function EditDoctorProfile() {
   const { DoctorUUID, checkUUID } = useContext(UUIDContext);
-  const cookie_monster = document.cookie;
   const location = useLocation();
   // also needs verify when navigate to page.
 
   useEffect(()=>{
     console.log('in edit doctor useEffect')
-    checkUUID()
+    // if check uuid or verify context false--> re-direct to login/register
   }, []);
 
   if(!DoctorUUID){

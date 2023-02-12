@@ -15,7 +15,6 @@ export default function NewDoctor () {
   const [loading, setLoading] = useState(false)
   const [DoctorID, setDoctorID] = useState(null);
   const {user_verification, verifyToken} = useContext(VerifyContext);
-  const cookie_monster = document.cookie;
 
   const months = [
     "January",
@@ -35,26 +34,29 @@ export default function NewDoctor () {
   const years = [...Array(100).keys()].map(i => i + new Date().getFullYear() - 100);
       
   useEffect(() => {
-    user_verification(cookie_monster);
-    DoctorUUIDtoDoctorID();
+    // should have a check for special cookie function (UUID-like), to ensure that users with existing accounts cannot re-enter data
+    user_verification()
+    .then(result => {
+      if (result === true) {
+        return DoctorUUIDtoDoctorID();
+      } else {
+        throw new Error("Result from user_verification is false");
+      }
+    })
   }, []);
   
   async function DoctorUUIDtoDoctorID (){
-    if (cookie_monster){
-      try{
-        const response = await DataService.UUIDtoID()
-        if (response.data === 'User does not exist'){
-          return <p>Problem in DoctorUUID to DoctorID</p>
-        }
-        else{
-          // console.log(response.data[0].Doctor_ID)
-          setDoctorID(response.data[0].Doctor_ID)
-        }
-      }catch(error){
-        console.log('error in DoctorUUID to DoctorID', error)
+    try{
+      const response = await DataService.UUIDtoID()
+      if (response.data === 'User does not exist'){
+        return <p>Problem in DoctorUUID to DoctorID</p>
       }
-    }else{
-      console.log('elsed');
+      else{
+        // console.log(response.data[0].Doctor_ID)
+        setDoctorID(response.data[0].Doctor_ID)
+      }
+    }catch(error){
+      console.log('error in DoctorUUID to DoctorID', error)
     }
   }
 

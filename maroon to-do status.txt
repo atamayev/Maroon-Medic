@@ -1,10 +1,5 @@
 To-do:
 
---in checkdoctorUUID, should search the DB for the found UUID., instead of just hchecking the regex
-	shouldn't need to feed doctorUUID as a parameter
-	-- back end functin should return true/false, cookie value, and type
--- don't need to feed cookie monster to user verification - can be accessed by back end	
-	delete all cases of feeding cookie monster to functions in back-end
 ASAP:
 
 -- make a fillHeader function - take type out as a param

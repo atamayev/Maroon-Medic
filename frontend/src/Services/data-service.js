@@ -23,11 +23,10 @@ export default new class DataService {
         });
     }
     async logout(){
-        // console.log(type)
-        return await http.post(`auth/logout`);
+        return await http.post('auth/logout');
     }
-    async verify(AccessToken){
-        return await http.post(`/auth/verify`, {AccessToken})
+    async verify(){
+        return await http.post('/auth/verify')
     }
     async login(username, password, login_type){
         return await http.post("/auth/login", {email: username, password: password, login_type: login_type}, 
@@ -40,8 +39,8 @@ export default new class DataService {
     async UUIDtoID(){//Takes the DoctorUUID and returns DoctorID - for entering data (new pt, doctor)
         return await http.post('/private-common-data/uuid-to-id')
     }
-    async fillDoctorDashboard(DoctorUUID){
-        return await http.get('/private-doctor-data/dashboard-data', {DoctorUUID: DoctorUUID})
+    async fillDoctorDashboard(){
+        return await http.get('/private-doctor-data/dashboard-data')
     }
     async fillPatientDashboard(PatientUUID){
         return await http.get('/private-patient-data/dashboard-data', {PatientUUID: PatientUUID})

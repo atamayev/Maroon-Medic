@@ -1,24 +1,25 @@
 import React, {useState, useEffect, useContext} from 'react'
 import {Card, Button, Form, Alert } from 'react-bootstrap'
-import {Link, useNavigate, useLocation} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import DataService from "../../Services/data-service.js"
 import { UUIDContext } from '../../Wraps/UUIDContext.js';
 
 export default function DoctorLogin() {
-  const location = useLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const login_type = 'Doctor';
-  const cookie_monster = document.cookie;
   const { checkUUID } = useContext(UUIDContext);
 
   useEffect(()=>{
     console.log('in doctorlogin')
-    if(checkUUID('DoctorUUID=')===true){
-      navigate(`/vet-dashboard`)
-    }
+    checkUUID()
+      .then(result => {
+        if (result === true) {
+          navigate(`/vet-dashboard`);
+        }
+      })
   }, []);
   
   const handleSubmit = async (e) =>{

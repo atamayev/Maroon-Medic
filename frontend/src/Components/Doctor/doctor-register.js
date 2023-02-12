@@ -16,9 +16,12 @@ export default function DoctorRegister() {
 
   useEffect(()=>{
     console.log('in doctor register useEffect')
-    if(checkUUID('DoctorUUID=')===true){
-      navigate(`/vet-dashboard`)
-    }
+    checkUUID()
+      .then(result => {
+        if (result === true) {
+          navigate(`/vet-dashboard`);
+        }
+      })
   }, []);
 
   const handleSubmit = async (e) =>{

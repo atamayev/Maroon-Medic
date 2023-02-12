@@ -19,20 +19,16 @@ export default function Header () {
 
   useEffect(()=>{
     console.log('in header useEffect')
-    user_verification(cookie_monster)
+    user_verification()
     .then(result => {
       if (result === true) {
         return checkUUID();
-      } else {
-        throw new Error("Result from user_verification is false");
       }
     })
     .then(checkUUIDResult => {
       if (checkUUIDResult === true) {
         console.log(`Used ${Header.name} useEffect`);
         HeaderData();
-      } else {
-        throw new Error("Result from checkUUID is false");
       }
     })
     .catch(error => {
@@ -41,22 +37,16 @@ export default function Header () {
   }, [cookie_monster]);
   
   async function HeaderData (){
-    if(cookie_monster){
-      // console.log('cookie monster')
-        try{
-          const response = await DataService.fillDoctorDashboard(cookie_monster) // need to change this to fill Header - and pass in type (doctor or patient)
-          if (response){
-            // console.log(response.data)
-            setHeaderData(response.data);
-          }else{
-            console.log('no response')
-          }
-        }catch(error){
-          console.log('unable to fill in Header data', error)
-        }
+    try{
+      const response = await DataService.fillDoctorDashboard() // need to change this to fill Header - and pass in type (doctor or patient)
+      if (response){
+        // console.log(response.data)
+        setHeaderData(response.data);
+      }else{
+        console.log('no response')
       }
-    else{
-      console.log('no cookies')
+    }catch(error){
+      console.log('unable to fill in Header data', error)
     }
   }
 

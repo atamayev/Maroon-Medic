@@ -6,9 +6,9 @@ const VerifyContext = createContext();
 const VerifyContextProvider = (props) => {
   const [verifyToken, setverifyToken] = useState(false) // wheather or not user verified
   
-  async function user_verification (cookie_monster){
-    if(cookie_monster){
-      const response = await VetDataService.verify(cookie_monster)
+  async function user_verification (){
+    try{
+      const response = await VetDataService.verify()
       if(response.data.success === true){
         // console.log('true in verify context')
         setverifyToken(true)
@@ -19,11 +19,9 @@ const VerifyContextProvider = (props) => {
         setverifyToken(false);
         return false
       }
-    }
-    else{// if no token received
-      // console.log('no cookei received')
-      setverifyToken(false);
-      return false
+    }catch(error){
+      setverifyToken(false)
+      console.log('err in UUID context', error)
     }
   }
 

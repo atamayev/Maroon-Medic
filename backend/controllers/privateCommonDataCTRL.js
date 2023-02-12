@@ -73,7 +73,7 @@ export async function checkUUID (req, res){
         return res.send('Invalid User Type') // If Type not Doctor or Patient
     }
     const values = [UUID];
-    await useDB(UUIDtoID.name, DB_name, table_name)
+    await useDB(checkUUID.name, DB_name, table_name)
     
     try{
         const [results] = await connection.execute(sql, values)
@@ -81,7 +81,6 @@ export async function checkUUID (req, res){
         if(results.length === 1){
             response.isValid = true;
             response.cookieValue = UUID;
-            console.log(response)
             return res.status(200).json(response);
         }
         else{
@@ -89,7 +88,7 @@ export async function checkUUID (req, res){
             return res.status(500).json(error);     
         }
     }catch(error){
-        console.log('error encountered in catching UUIDtoID')
+        console.log('error encountered in catching checkUUID')
         return res.status(500).json(error);
         // return res.status(500).send({ error: 'proprietaryHomePageData Error' });
     }
