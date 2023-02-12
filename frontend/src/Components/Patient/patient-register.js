@@ -33,7 +33,7 @@ export default function PatietRegister() {
       setError("")
       setLoading(true)
       await DataService.register(email, password, register_type);
-      navigate("/patient-dashboard") // needs to change to new-patient
+      navigate("/new-patient") // needs to change to new-patient
       console.log('Registered');
     } catch (err) {
       console.log('err in registration')

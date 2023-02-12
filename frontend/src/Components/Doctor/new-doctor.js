@@ -161,19 +161,6 @@ export default function NewDoctor () {
           ))}
         </select>
       </label>
-     
-        {/*
-        <Form.Control required type="text" placeholder="MM" value={DOBmonth} onChange={e => setDOBmonth( e.target.value )} pattern="[1-9]|1[0-2]" 
-  onInput={(e) => {
-    if (!e.target.validity.valid) {
-      e.target.value = "";
-    }
-  }}/>
-            <br />
-            <Form.Control required type="text" placeholder="MM" value={DOBmonth} onChange={e => setDOBmonth( e.target.value )} /><br/> */}
-            {/* <Form.Control required type="text" placeholder="DD" value={DOBday} onChange={e => setDOBday(e.target.value)} />
-            <br />
-            <Form.Control required type="text" placeholder="YYYY" value={DOByear} onChange={e => setDOByear(e.target.value)} /> */}
         </Form.Group>
         <br />
         {/* <Button type="submit" className = "w-100" >Submit</Button> */}
