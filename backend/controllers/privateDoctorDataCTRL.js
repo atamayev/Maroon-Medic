@@ -10,7 +10,7 @@ import { UUID_to_ID } from "../dbAndSecurity/UUID.js";
  */
 export async function newDoctor (req, res){
     // console.log('req.body',req.body)
-    const DocID = req.body.DoctorID
+    const DoctorID = req.body.DoctorID
     delete req.body.DoctorID;
 
     const table_name = 'basic_Doctor_info'
@@ -19,7 +19,7 @@ export async function newDoctor (req, res){
 
     const sql = `INSERT INTO ${table_name} (FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year, Doctor_ID) VALUES (?,?,?,?,?,?,?)`;
 
-    const values = [encrypted.firstName, encrypted.lastName, encrypted.gender, encrypted.DOBmonth, encrypted.DOBday, encrypted.DOByear, DocID];
+    const values = [encrypted.firstName, encrypted.lastName, encrypted.gender, encrypted.DOBmonth, encrypted.DOBday, encrypted.DOByear, DoctorID];
     await useDB(newDoctor.name, DB_name, table_name)
     
     try{
@@ -62,4 +62,4 @@ export async function dashboardData (req, res){
     }catch(error){
         return (`error in ${dashboardData.name}:`, error)
     }
-}
+};

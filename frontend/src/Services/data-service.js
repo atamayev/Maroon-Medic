@@ -22,6 +22,17 @@ export default new class DataService {
             DoctorID: DoctorID
         });
     }
+    async addingPatientInfo(firstName, lastName, gender, DOBmonth, DOBday, DOByear, PatientID){
+        return await http.post(`private-patient-data/new-patient`, {
+            firstName: firstName,
+            lastName: lastName,
+            gender: gender,
+            DOBmonth: DOBmonth,
+            DOBday: DOBday, 
+            DOByear: DOByear, 
+            PatientID: PatientID
+        });
+    }
     async logout(){
         return await http.post('auth/logout');
     }
@@ -42,8 +53,8 @@ export default new class DataService {
     async fillDoctorDashboard(){
         return await http.get('/private-doctor-data/dashboard-data')
     }
-    async fillPatientDashboard(PatientUUID){
-        return await http.get('/private-patient-data/dashboard-data', {PatientUUID: PatientUUID})
+    async fillPatientDashboard(){
+        return await http.get('/private-patient-data/dashboard-data')
     }
     async fillHeader(){
         return await http.post('/private-common-data/header-data')
