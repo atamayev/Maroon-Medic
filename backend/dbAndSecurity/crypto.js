@@ -30,7 +30,7 @@ export default new class Crypto {
      *  Takes the IV/Secret Key from .env file (makes them into a buffer from a hex), and decrypts a single 'row' of data
      *  For example: ['asdasdjanskdna', 'akjsndkjsankd', 'asdasdgff''] is turned into ['bob', 'smith', 'male'] 
      *  Used in userCTRL to decrypt user data when showing to the client (for the individual doctor pages)
-     * @param {Array} encrypted_single A 1*n array
+     * @param {Array} encrypted_single A 1*n array (that usually contains an object)
      * @returns A decrypted 1*n array
      */
     decryptSingle(encrypted_single){
@@ -38,12 +38,11 @@ export default new class Crypto {
         const secretKey = Buffer.from(process.env.ENCRYPTION_SECRET_KEY, 'hex');
 
         let decryptedData = encrypted_single;
-        const keys = Object.keys(decryptedData)
+        let keys = Object.keys(decryptedData)
+        // The email element in the array is deleted since it's already decrypted (stored unencrypted in db)
+        keys = keys.filter(item => item !== 'email');
 
-        // The first element in the array is spliced to delete the already decrypted email
-        const includedKeys = keys.slice(1); 
-
-        for (const key of includedKeys){
+        for (const key of keys){
             const decipher = createDecipheriv('aes-256-cbc', secretKey, iv);
             decryptedData[key] = decipher.update(encrypted_single[key], 'hex', 'utf8');
             decryptedData[key] += decipher.final('utf8');

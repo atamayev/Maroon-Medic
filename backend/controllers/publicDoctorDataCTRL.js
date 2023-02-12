@@ -16,7 +16,6 @@ export async function returnDoctorPageData (req, res){
     const values = [req.params.id];
 
     await useDB(returnDoctorPageData.name, DB_name, table_name1)
-    await useDB(returnDoctorPageData.name, DB_name, table_name2)
     
     try{
         const [results] = await connection.execute(sql, values)

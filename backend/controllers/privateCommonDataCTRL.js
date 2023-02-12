@@ -17,7 +17,7 @@ export async function headerData (req, res){ // for both pateints, and docs -- j
         table_name1 = 'Doctor_credentials';
         table_name2 = 'basic_Doctor_info';
         DB_name = 'DoctorDB';
-        sql = `SELECT * FROM ${table_name1} LEFT JOIN ${table_name2} ON ${table_name1}.DoctorID = ${table_name2}.Doctor_ID WHERE ${table_name1}.DoctorID = ?`
+        sql = `SELECT ${table_name2}.FirstName FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.Doctor_ID = ${table_name1}.DoctorID WHERE ${table_name1}.DoctorID = ?`
     }
     // // Commenting out for now because basic owner info DNE
     // else if("PatientAccessToken" in cookies){
@@ -33,20 +33,14 @@ export async function headerData (req, res){ // for both pateints, and docs -- j
     }
     const values = [ID];
     await useDB(headerData.name, DB_name, table_name1)
-    await useDB(headerData.name, DB_name, table_name2)
     
     try{
         const [results] = await connection.execute(sql, values)
-        delete results[0].DoctorID;
-        delete results[0].Doctor_ID;
-        delete results[0].basic_Doctor_info_ID;
-        delete results[0].password;
-        if (results.length === 0) {
+         if (results.length === 0) {
             console.log('User does not exist')
             res.send('User does not exist');
         } else {
             const decrypted = Crypto.decryptSingle(results[0])
-            console.log('decrypted in headerdata', decrypted)
             return res.status(200).json(decrypted);
         }
     }catch(error){

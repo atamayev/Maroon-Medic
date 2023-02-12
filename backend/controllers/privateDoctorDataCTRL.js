@@ -42,7 +42,7 @@ export async function dashboardData (req, res){
     const sql = `SELECT * FROM ${table_name1} LEFT JOIN ${table_name2} ON ${table_name1}.DoctorID = ${table_name2}.Doctor_ID WHERE ${table_name1}.DoctorID = ?`
     const values = [DoctorID];
     await useDB(dashboardData.name, DB_name, table_name1)
-    await useDB(dashboardData.name, DB_name, table_name2)
+    // await useDB(dashboardData.name, DB_name, table_name2)
 
     try{
         const [results] = await connection.execute(sql, values)
