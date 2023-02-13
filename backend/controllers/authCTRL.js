@@ -22,22 +22,29 @@ export async function jwt_verify (req, res){
     let table_name;
     let DB_name;
     let sql; 
+    let response = {
+      isValid: false, 
+      tokenValue: '',
+      type: ''
+    }
 
     if("DoctorAccessToken" in cookies){
-      console.log('Type Doctor')
+      console.log('Type Doctor in jwt_verify')
       AccessToken = req.cookies.DoctorAccessToken
       decodedID = jwt.verify(AccessToken, process.env.DOCTOR_JWT_KEY).DoctorID;
       table_name = 'Doctor_credentials';
       DB_name = 'DoctorDB';
       sql = `SELECT * FROM ${table_name} WHERE DoctorID = ?`;
+      response.type = 'Doctor';
     }else if("PatientAccessToken" in cookies){
-      console.log('Type: Patient')
+      console.log('Type: Patient in jwt_verify')
       AccessToken = req.cookies.PatientAccessToken
       // console.log(AccessToken)
       decodedID = jwt.verify(AccessToken, process.env.PATIENT_JWT_KEY).PatientID;
       table_name = 'Patient_credentials';
       DB_name = 'PatientDB';
       sql = `SELECT * FROM ${table_name} WHERE PatientID = ?`;
+      response.type = 'Patient';
     }else{
       return res.send('Invalid User Type') // If Type not Doctor or Patient
     }
@@ -46,25 +53,35 @@ export async function jwt_verify (req, res){
     }
 
     const values = [decodedID];
-    
     await useDB(jwt_verify.name, DB_name, table_name)
     // Searches the Credentials Table for the decodedID
 
-    try{const [rows] = await connection.execute(sql, values)
-      if (!rows.length){
-        //If there are no doctors/pts with the decodedID, return false
-        return res.status(401).json({success: false})
+    try{
+      const [results] = await connection.execute(sql, values)
+      // console.log('results',results)
+      if(results.length === 1){
+        response.isValid = true;
+        response.tokenValue = AccessToken;
+        return res.status(200).json(response);
       }
-      else{
-        // If there is a doc/pt with the decodedID, return true
-        // console.log('true')
-        return res.status(200).json({success: true})
-      };
+    else{
+        console.log('Invalid Token')
+        return res.status(500).json(error);     
+    }
+    //   if (!rows.length){
+    //     //If there are no doctors/pts with the decodedID, return false
+    //     return res.status(401).json({success: false})
+    //   }
+    //   else{
+    //     // If there is a doc/pt with the decodedID, return true
+    //     // console.log('true')
+    //     return res.status(200).json({success: true})
+    //   };
     }
     catch(error){
       // Any problems with the query: return false
       console.log('trouble with db query', error)
-      return res.status(401).json({success: false})
+      return res.status(500).json(error);
     }
   }
   catch(error){
@@ -73,7 +90,7 @@ export async function jwt_verify (req, res){
       return res.status(401).json({ error: "Token expired" });
     }
     console.log('error in token verification', error);
-    return res.status(401).json({success: false})
+    return res.status(500).json(error);
   }
 }
 

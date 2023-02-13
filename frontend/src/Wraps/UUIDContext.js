@@ -20,6 +20,8 @@ const UUIDContextProvider = (props) => {
       }
       else {
         console.log('false')
+        // setDoctorUUID(null)
+        // setPatientUUID(null)
         return false;
       }
     }catch(error){

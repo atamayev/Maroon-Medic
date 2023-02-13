@@ -6,8 +6,8 @@ import { UUIDContext } from '../../Wraps/UUIDContext.js';
 import { VerifyContext } from '../../Wraps/VerifyContext.js';
 
 export default function DoctorDashboard() {
-  const {verifyToken, user_verification} = useContext(VerifyContext)
-  const { DoctorUUID, checkUUID} = useContext(UUIDContext);
+  const {DoctorVerifyToken, PatientVerifyToken, user_verification} = useContext(VerifyContext)
+  const { DoctorUUID, PatientUUID, checkUUID} = useContext(UUIDContext);
   const [dashboardData, setDashboardData] = useState({});
 
   useEffect(() => {
@@ -49,7 +49,22 @@ export default function DoctorDashboard() {
     }
   }
 
-  if(!DoctorUUID || !verifyToken){
+  if(PatientVerifyToken || PatientUUID){
+    return(
+      <Card>
+        <Card.Body>
+        <p>Unautorized to view Doctor Dashboard </p>;
+        <Link to= {'/patient-dashboard'}>
+              <Button variant="primary">
+                  <p>Return to Patient Dashboard</p>
+              </Button>
+        </Link>
+        </Card.Body>
+      </Card>
+    )
+  }
+
+  if(!DoctorUUID || !DoctorVerifyToken){
     return(
       <Card>
         <Card.Body>

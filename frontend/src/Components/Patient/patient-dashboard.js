@@ -1,18 +1,28 @@
 import React, {useEffect, useState, useContext} from 'react'
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
 import DataService from "../../Services/data-service.js"
 import { UUIDContext } from '../../Wraps/UUIDContext.js';
 import { VerifyContext } from '../../Wraps/VerifyContext.js';
 
 export default function PatientDashboard() {
-  const {verifyToken, user_verification} = useContext(VerifyContext)
-  const { PatientUUID, checkUUID} = useContext(UUIDContext);
+  const {DoctorVerifyToken, PatientVerifyToken, user_verification} = useContext(VerifyContext)
+  const { DoctorUUID, PatientUUID, checkUUID} = useContext(UUIDContext);
   const [dashboardData, setDashboardData] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log("in Patient-dashboard useEffect");
-    // if (pathname.startsWith("/vet-dashboard")) {
+    console.log(PatientUUID)
+    console.log(PatientVerifyToken)
+    console.log(DoctorUUID)
+    console.log(DoctorVerifyToken)
+    // if (DoctorUUID){
+    //   console.log('doctorUUID', DoctorUUID)
+    //   navigate(`/vet-dashboard`);
+    // }
+
+    // else if (PatientUUID){
       user_verification()
       .then(result => {
         if (result === true) {
@@ -32,6 +42,9 @@ export default function PatientDashboard() {
       .catch(error => {
         console.error(error);
       });
+    // }
+    // if (pathname.startsWith("/vet-dashboard")) {
+
     
   }, []);
  
@@ -49,7 +62,22 @@ export default function PatientDashboard() {
     }
   }
 
-  if(!PatientUUID || !verifyToken){
+  if (DoctorVerifyToken || DoctorUUID){
+    return(
+      <Card>
+        <Card.Body>
+        <p>Unautorized to view Patient Dashboard</p>
+        <Link to= {'/doctor-dashboard'}>
+              <Button variant="primary">
+                  <p>Return to Doctor Dashboard</p>
+              </Button>
+        </Link>
+        </Card.Body>
+      </Card>
+    )
+  }
+
+  if(!PatientUUID || !PatientVerifyToken){
     return(
       <Card>
         <Card.Body>

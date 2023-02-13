@@ -14,7 +14,7 @@ export default function NewDoctor () {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const [DoctorID, setDoctorID] = useState(null);
-  const {user_verification, verifyToken} = useContext(VerifyContext);
+  const {user_verification, DoctorVerifyToken} = useContext(VerifyContext);
 
   const months = [
     "January",
@@ -60,7 +60,7 @@ export default function NewDoctor () {
     }
   }
 
-  if(!verifyToken){
+  if(!DoctorVerifyToken){
     return(
      <Card>
         <Card.Body>
