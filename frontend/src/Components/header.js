@@ -41,7 +41,6 @@ export default function Header () {
       const response = await DataService.fillHeader() // need to change this to fill Header - and pass in type (doctor or patient)
       if (response){
         // console.log(response.data)
-        console.log(response.data)
         setHeaderData(response.data);
       }else{
         console.log('no response')
@@ -134,7 +133,7 @@ export default function Header () {
           </div>
       <Dropdown className="menu-container" >
       <Dropdown.Toggle variant="dark" id="dropdown-basic" className = "menu-trigger menu-active">
-        {DoctorUUID ? (headerData.FirstName):'Profile'}
+        {DoctorUUID || PatientUUID ? (headerData.FirstName):'Profile'}
         <img src = {pic} 
         alt = "profile" 
         height = {20} />

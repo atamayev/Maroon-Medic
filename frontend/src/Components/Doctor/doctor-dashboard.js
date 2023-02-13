@@ -71,7 +71,7 @@ export default function DoctorDashboard() {
 
   return (
     <div>
-        <p>This is the Dashboard Page</p>
+        <p>This is the Vet Dashboard Page</p>
         <Card style={{margin: '0 10px' }}>
           <Card.Body>
             <Card.Title>Dr. {dashboardData.FirstName} {dashboardData.LastName}</Card.Title>
