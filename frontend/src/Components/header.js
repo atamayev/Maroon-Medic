@@ -140,13 +140,19 @@ export default function Header () {
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        {DoctorUUID || PatientUUID ? (
+        {DoctorUUID ? (
           <div>
           <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
-          <Dropdown.Item href="/vet-dashboard">Dashboard</Dropdown.Item>
+          <Dropdown.Item href="/vet-dashboard">Vet Dashboard</Dropdown.Item>
           <Dropdown.Item href="/edit-vet-profile">Profile Settings</Dropdown.Item>
           </div>
-        ):(
+          ) : PatientUUID ? (
+            <div>
+          <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
+          <Dropdown.Item href="/patient-dashboard">Patient Dashboard</Dropdown.Item>
+          <Dropdown.Item href="/edit-patient-profile">Profile Settings</Dropdown.Item>
+            </div>
+          ) : (
           <div>
           <Dropdown.Item href="/vet-register" className='fw-bold'>Vet Sign up</Dropdown.Item>
           <Dropdown.Item href="/vet-login">Vet Log In</Dropdown.Item>
@@ -156,8 +162,8 @@ export default function Header () {
           <Dropdown.Divider />
           <Dropdown.Item href="/help">Help</Dropdown.Item>
           </div>
-        )}
-
+          )
+           }
       </Dropdown.Menu>
     </Dropdown>
         </div>

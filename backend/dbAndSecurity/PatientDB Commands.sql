@@ -11,7 +11,6 @@ CREATE TABLE Patient_credentials (
   Created_at VARCHAR(150) NOT NULL);
 
 select * from Patient_credentials;
-drop table basic_Patient_info;
 CREATE TABLE basic_Patient_info (
 basic_Patient_infoID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 FirstName VARCHAR(150) NOT NULL,
