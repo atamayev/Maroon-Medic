@@ -1,5 +1,11 @@
 To-do:
 
+confirm:         delete results[0].basic_Doctor_infoID;
+in private doctor data
+
+figure out the basic_Doctor_infoID vs basic_Doctor_info_ID, and same for patient.
+	keep it consistent
+	
 ASAP:
 1. Patient registration/login
 	patient dashboard data function. can be same as doctor

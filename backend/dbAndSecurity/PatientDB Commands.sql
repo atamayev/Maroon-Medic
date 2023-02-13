@@ -11,12 +11,12 @@ CREATE TABLE Patient_credentials (
   Created_at VARCHAR(150) NOT NULL);
 
 select * from Patient_credentials;
-
+drop table basic_Patient_info;
 CREATE TABLE basic_Patient_info (
 basic_Patient_infoID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 FirstName VARCHAR(150) NOT NULL,
 LastName VARCHAR(150) NOT NULL,
-Gender VARCHAR(10) NOT NULL,
+Gender VARCHAR(150) NOT NULL,
 DOB_month VARCHAR(150) NOT NULL,
 DOB_day VARCHAR(150) NOT NULL,
 DOB_year VARCHAR(150) NOT NULL,
