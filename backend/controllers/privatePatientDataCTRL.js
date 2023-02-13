@@ -34,19 +34,14 @@ export async function dashboardData (req, res){
     const table_name2 = 'basic_Patient_info';
     const DB_name = 'PatientDB';
   
-    const sql = `SELECT * FROM ${table_name1} LEFT JOIN ${table_name2} ON ${table_name1}.PatientID = ${table_name2}.Patient_ID WHERE ${table_name1}.PatientID = ?`
+    const sql = `SELECT email, Created_at, FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year FROM ${table_name1} LEFT JOIN ${table_name2} ON ${table_name1}.PatientID = ${table_name2}.Patient_ID WHERE ${table_name1}.PatientID = ?`
     const values = [PatientID];
     await useDB(dashboardData.name, DB_name, table_name1)
     // await useDB(dashboardData.name, DB_name, table_name2)
 
     try{
         const [results] = await connection.execute(sql, values)
-        // deleting these values bc they can't be decrypted (not strings)
-        delete results[0].PatientID;
-        delete results[0].Patient_ID;
-        delete results[0].basic_Patient_infoID;
-        delete results[0].password;
-        // console.log('results', results)
+
         if (results.length === 0) {
             console.log('User does not exist')
             res.send('User does not exist');

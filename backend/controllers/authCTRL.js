@@ -131,78 +131,81 @@ export async function login (req, res){
       // If no users exist with a certain first name, login error
       return res.status(404).json("Username not found!");
     }
-    try{
-      const hashed_password = results[0].password;
-      const bool = await Hash.checkPassword(password, hashed_password)
-      if (bool === true) {
-        if(login_type === 'Doctor'){
-          console.log('Type Doctor in try')
-          // The following is to 'remember' the user is signed in through cookies          
-          const { DoctorID } = results[0];
-          const expiration_time = 20; // not using this right now.
-
-          const payload = {
-            DoctorID, 
-            // exp: Math.floor(Date.now()/1000) +expiration_time // temporarily taking out expiration to make sure system is running smoothly
-          }
-          const token = jwt.sign(payload, process.env.DOCTOR_JWT_KEY);
-
-          const DoctorUUID = await ID_to_UUID(DoctorID, login_type)
-          // console.log('UUID', UUID)
-          // const expires = new Date(Date.now() + expiration_time *1000)
-
-          return res
-            .cookie("DoctorAccessToken", token, {
-              // expires,
-              // httpOnly: true,
-              // secure:true
-            })
-            .cookie("DoctorUUID", DoctorUUID, {
-              // expires,
-              // httpOnly: true,
-              // secure:true
-            })
-            .status(200)
-            .json('login success');
-          }else if(login_type === 'Patient'){
-            console.log('Type: Patient in try')
+    else{
+      try{
+        const hashed_password = results[0].password;
+        const bool = await Hash.checkPassword(password, hashed_password)
+        if (bool === true) {
+          if(login_type === 'Doctor'){
+            console.log('Type Doctor in try')
             // The following is to 'remember' the user is signed in through cookies          
-            const { PatientID } = results[0];
-            //const expiration_time = 20; // not using this right now.
-
+            const { DoctorID } = results[0];
+            const expiration_time = 20; // not using this right now.
+  
             const payload = {
-              PatientID, 
+              DoctorID, 
               // exp: Math.floor(Date.now()/1000) +expiration_time // temporarily taking out expiration to make sure system is running smoothly
             }
-            const token = jwt.sign(payload, process.env.PATIENT_JWT_KEY);
-
-            const PatientUUID = await ID_to_UUID(PatientID, login_type)
+            const token = jwt.sign(payload, process.env.DOCTOR_JWT_KEY);
+  
+            const DoctorUUID = await ID_to_UUID(DoctorID, login_type)
             // console.log('UUID', UUID)
             // const expires = new Date(Date.now() + expiration_time *1000)
-
+  
             return res
-              .cookie("PatientAccessToken", token, {
+              .cookie("DoctorAccessToken", token, {
                 // expires,
                 // httpOnly: true,
                 // secure:true
               })
-              .cookie("PatientUUID", PatientUUID, {
+              .cookie("DoctorUUID", DoctorUUID, {
                 // expires,
                 // httpOnly: true,
                 // secure:true
               })
               .status(200)
               .json('login success');
-          }else{
-              return res.send('Invalid User Type') // If Type not Doctor or Patient
-            }
-      } else {
-          return res.status(400).json("Wrong Username or Password!");
-        }
+            }else if(login_type === 'Patient'){
+              console.log('Type: Patient in try')
+              // The following is to 'remember' the user is signed in through cookies          
+              const { PatientID } = results[0];
+              //const expiration_time = 20; // not using this right now.
+  
+              const payload = {
+                PatientID, 
+                // exp: Math.floor(Date.now()/1000) +expiration_time // temporarily taking out expiration to make sure system is running smoothly
+              }
+              const token = jwt.sign(payload, process.env.PATIENT_JWT_KEY);
+  
+              const PatientUUID = await ID_to_UUID(PatientID, login_type)
+              // console.log('UUID', UUID)
+              // const expires = new Date(Date.now() + expiration_time *1000)
+  
+              return res
+                .cookie("PatientAccessToken", token, {
+                  // expires,
+                  // httpOnly: true,
+                  // secure:true
+                })
+                .cookie("PatientUUID", PatientUUID, {
+                  // expires,
+                  // httpOnly: true,
+                  // secure:true
+                })
+                .status(200)
+                .json('login success');
+            }else{
+                return res.send('Invalid User Type') // If Type not Doctor or Patient
+              }
+        } else {
+            return res.status(400).json("Wrong Username or Password!");
+          }
+      }
+      catch(error){
+        res.status(500).send({ error: 'Problem with checking password' });
+      }
     }
-    catch(error){
-      res.status(500).send({ error: 'Problem with checking password' });
-    }
+
   }catch(error){
     res.status(500).send({ error: 'Problem with email selection' });
   }

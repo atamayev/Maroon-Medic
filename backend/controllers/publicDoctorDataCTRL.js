@@ -12,20 +12,14 @@ export async function returnDoctorPageData (req, res){
     const table_name1 = 'Doctor_credentials';
     const table_name2 = 'basic_Doctor_info';
     const DB_name = 'DoctorDB'
-    const sql = `SELECT * FROM ${table_name1} LEFT JOIN ${table_name2} ON ${table_name1}.DoctorID = ${table_name2}.Doctor_ID WHERE ${table_name1}.DoctorID = ?`
+    const sql = `SELECT email, Created_at, FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year FROM ${table_name1} LEFT JOIN ${table_name2} ON ${table_name1}.DoctorID = ${table_name2}.Doctor_ID WHERE ${table_name1}.DoctorID = ?`
     const values = [req.params.id];
 
     await useDB(returnDoctorPageData.name, DB_name, table_name1)
     
     try{
         const [results] = await connection.execute(sql, values)
-        // deleting these values bc they can't be decrypted (not strings)
-        delete results[0].DoctorID;
-        delete results[0].Doctor_ID;
-        delete results[0].basic_Doctor_info_ID;
-        delete results[0].password;
-        // console.log('results', results)
-        if (results.length === 0) {
+          if (results.length === 0) {
             console.log('User does not exist')
             res.send('User does not exist');
         } else {

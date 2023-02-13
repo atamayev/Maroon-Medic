@@ -9,43 +9,28 @@ export default function PatientDashboard() {
   const {DoctorVerifyToken, PatientVerifyToken, user_verification} = useContext(VerifyContext)
   const { DoctorUUID, PatientUUID, checkUUID} = useContext(UUIDContext);
   const [dashboardData, setDashboardData] = useState({});
-  const navigate = useNavigate();
 
   useEffect(() => {
     console.log("in Patient-dashboard useEffect");
-    console.log(PatientUUID)
-    console.log(PatientVerifyToken)
-    console.log(DoctorUUID)
-    console.log(DoctorVerifyToken)
-    // if (DoctorUUID){
-    //   console.log('doctorUUID', DoctorUUID)
-    //   navigate(`/vet-dashboard`);
-    // }
-
-    // else if (PatientUUID){
-      user_verification()
-      .then(result => {
-        if (result === true) {
-          return checkUUID();
-        } else {
-          throw new Error("Result from user_verification is false");
-        }
-      })
-      .then(checkUUIDResult => {
-        if (checkUUIDResult === true) {
-          console.log(`Used ${PatientDashboard.name} useEffect`);
-          DashboardData();
-        } else {
-          throw new Error("Result from checkUUID is false");
-        }
-      })
-      .catch(error => {
-        console.error(error);
-      });
-    // }
-    // if (pathname.startsWith("/vet-dashboard")) {
-
-    
+    user_verification()
+    .then(result => {
+      if (result === true) {
+        return checkUUID();
+      } else {
+        throw new Error("Result from user_verification is false");
+      }
+    })
+    .then(checkUUIDResult => {
+      if (checkUUIDResult === true) {
+        console.log(`Used ${PatientDashboard.name} useEffect`);
+        DashboardData();
+      } else {
+        throw new Error("Result from checkUUID is false");
+      }
+    })
+    .catch(error => {
+      console.error(error);
+    });
   }, []);
  
   async function DashboardData (){
