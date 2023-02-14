@@ -24,7 +24,14 @@ export default function DoctorDashboard() {
     .then(checkUUIDResult => {
       if (checkUUIDResult === true) {
         console.log(`Used ${DoctorDashboard.name} useEffect`);
-        DashboardData();
+        const storedDashboardData = sessionStorage.getItem("dashboardData")
+        if (storedDashboardData){
+          setDashboardData(JSON.parse(storedDashboardData));
+        }else{
+          console.log('fetching data from db (elsed)')
+          DashboardData();
+
+        }
       } else {
         throw new Error("Result from checkUUID is false");
       }
@@ -39,8 +46,9 @@ export default function DoctorDashboard() {
     try{
       const response = await DataService.fillDoctorDashboard()
       if (response){
-        // console.log(response.data)
+        console.log(response.data)
         setDashboardData(response.data);
+        sessionStorage.setItem("dashboardData", JSON.stringify(response.data))
       }else{
         console.log('no response')
       }
@@ -89,12 +97,21 @@ export default function DoctorDashboard() {
         <p>This is the Vet Dashboard Page</p>
         <Card style={{margin: '0 10px' }}>
           <Card.Body>
-            <Card.Title>Dr. {dashboardData.FirstName} {dashboardData.LastName}</Card.Title>
-            <Card.Text>
-                My Birthdate is: {dashboardData.DOB_month} {dashboardData.DOB_day}, {dashboardData.DOB_year}<br></br>
-                I am {dashboardData.Gender}<br></br>
-                My email is {dashboardData.email}
-              </Card.Text>
+            {dashboardData ? (
+              <div>
+              <Card.Title>Dr. {dashboardData.FirstName} {dashboardData.LastName}</Card.Title>
+                <Card.Text>
+                    My Birthdate is: {dashboardData.DOB_month} {dashboardData.DOB_day}, {dashboardData.DOB_year}<br></br>
+                    I am {dashboardData.Gender}<br></br>
+                    My email is {dashboardData.email}
+                </Card.Text>
+              </div>
+            ):
+            (
+              <Card.Title>Loading Data...</Card.Title>
+            )
+            }
+            
           </Card.Body>
        </Card>
     </div>
