@@ -12,9 +12,8 @@ import { SearchContext } from '../Contexts/SearchContext';
 export default function Header () {
   const location = useLocation();
   const [headerData, setHeaderData] = useState({});
-  const { checkUUID, DoctorUUID, PatientUUID} = useContext(UUIDContext);
-  const {user_verification} = useContext(VerifyContext);
-  const cookie_monster = document.cookie;
+  const {checkUUID} = useContext(UUIDContext);
+  const {user_verification, DoctorVerifyToken, PatientVerifyToken} = useContext(VerifyContext);
   const {setSearchTerm, searchTerm} = useContext(SearchContext);
 
   useEffect(()=>{
@@ -42,7 +41,7 @@ export default function Header () {
     .catch(error => {
       console.error(error);
     });
-  }, [cookie_monster]);
+  }, []);
   
   async function HeaderData (){
     try{
@@ -144,20 +143,20 @@ export default function Header () {
           </div>
       <Dropdown className="menu-container" >
       <Dropdown.Toggle variant="dark" id="dropdown-basic" className = "menu-trigger menu-active">
-        {DoctorUUID || PatientUUID ? (headerData.FirstName):'Profile'}
+        {DoctorVerifyToken || PatientVerifyToken ? (headerData.FirstName):'Profile'}
         <img src = {pic} 
         alt = "profile" 
         height = {20} />
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        {DoctorUUID ? (
+        {DoctorVerifyToken ? (
           <div>
           <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
           <Dropdown.Item href="/vet-dashboard">Vet Dashboard</Dropdown.Item>
           <Dropdown.Item href="/edit-vet-profile">Profile Settings</Dropdown.Item>
           </div>
-          ) : PatientUUID ? (
+          ) : PatientVerifyToken ? (
             <div>
           <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
           <Dropdown.Item href="/patient-dashboard">Patient Dashboard</Dropdown.Item>

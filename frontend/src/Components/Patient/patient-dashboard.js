@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useContext} from 'react'
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
 import DataService from "../../Services/data-service.js"
 import { UUIDContext } from '../../Contexts/UUIDContext.js';
@@ -7,7 +7,7 @@ import { VerifyContext } from '../../Contexts/VerifyContext.js';
 
 export default function PatientDashboard() {
   const {DoctorVerifyToken, PatientVerifyToken, user_verification} = useContext(VerifyContext)
-  const { DoctorUUID, PatientUUID, checkUUID} = useContext(UUIDContext);
+  const {checkUUID} = useContext(UUIDContext);
   const [dashboardData, setDashboardData] = useState({});
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export default function PatientDashboard() {
     }
   }
 
-  if (DoctorVerifyToken || DoctorUUID){
+  if (DoctorVerifyToken){
     return(
       <Card>
         <Card.Body>
@@ -69,7 +69,7 @@ export default function PatientDashboard() {
     )
   }
 
-  if(!PatientUUID || !PatientVerifyToken){
+  if(!PatientVerifyToken){
     return(
       <Card>
         <Card.Body>

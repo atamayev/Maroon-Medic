@@ -1,8 +1,6 @@
 To-do:
 
-
 ASAP:
--- loggout should clear session storage
 2. Editability of doc info
 
 Later:

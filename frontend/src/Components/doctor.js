@@ -41,7 +41,7 @@ export default function Doctor () {
     <div className="alert alert-danger">{error}</div>
     <Card>
       <Card.Body>
-        <p>Doctor "{id}" does not exist </p>;
+        <p>Vet "{id}" does not exist </p>;
         <a href = "/">
           <Button variant="primary">
                 <p>Go back home (Href)</p>
@@ -58,11 +58,10 @@ export default function Doctor () {
   }
 
   if (!user) {
-    // console.log('id',id)
     return(
     <Card>
       <Card.Body>
-        <p>Doctor "{id}" does not exist </p>;
+        <p>Vet "{id}" does not exist </p>;
         <a href = "/">
           <Button variant="primary">
                 <p>Go back home (Href)</p>

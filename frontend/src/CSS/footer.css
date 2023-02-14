@@ -1,24 +1,6 @@
-/* 
-.footer-header-text {
-    color: rgb(255, 255, 255);
-    font-weight: bold;
-    text-align: center;
-    border-radius: 10px;
-    width: 100%;
-    width: max-content;
-    
+.link{
+    color:rgb(230, 230, 230)
 }
-b:link{
-    color: rgb(186, 186, 186);
+.link:hover{
+    color: white
 }
-b:hover{
-    color: rgb(255, 255, 255);
-} */
-.layout-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  footer{
-    margin-top: auto;
-  }

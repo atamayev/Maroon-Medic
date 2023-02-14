@@ -7,7 +7,7 @@ import { VerifyContext } from '../../Contexts/VerifyContext.js';
 
 export default function DoctorDashboard() {
   const {DoctorVerifyToken, PatientVerifyToken, user_verification} = useContext(VerifyContext)
-  const { DoctorUUID, PatientUUID, checkUUID} = useContext(UUIDContext);
+  const {checkUUID} = useContext(UUIDContext);
   const [dashboardData, setDashboardData] = useState({});
 
   useEffect(() => {
@@ -44,7 +44,6 @@ export default function DoctorDashboard() {
     try{
       const response = await DataService.fillDoctorDashboard()
       if (response){
-        console.log(response.data)
         setDashboardData(response.data);
         sessionStorage.setItem("dashboardData", JSON.stringify(response.data))
       }else{
@@ -55,7 +54,7 @@ export default function DoctorDashboard() {
     }
   }
 
-  if(PatientVerifyToken || PatientUUID){
+  if(PatientVerifyToken){
     return(
       <Card>
         <Card.Body>
@@ -70,7 +69,7 @@ export default function DoctorDashboard() {
     )
   }
 
-  if(!DoctorUUID || !DoctorVerifyToken){
+  if(!DoctorVerifyToken){
     return(
       <Card>
         <Card.Body>
@@ -114,4 +113,4 @@ export default function DoctorDashboard() {
        </Card>
     </div>
   )
-}
+};

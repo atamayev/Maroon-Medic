@@ -1,4 +1,5 @@
 import React from 'react';
+import "../CSS/footer.css"
 import "../CSS/footer.css";
 import { MDBFooter, MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import { Link } from "react-router-dom"
@@ -11,22 +12,22 @@ export default function Footer() {
         <MDBContainer className='text-center text-md-start mt-5 w-100'>
           <MDBRow className='mt-3'>
             
-            <MDBCol md="3" lg="4" xl="3" className='mx-auto mb-4 text-white'  >
-              <h6 className='fw-bold mb-4' >
+            <MDBCol md="3" lg="4" xl="3" className='mx-auto mb-4'  >
+              <h6 className='fw-bold mb-4 text-white' >
                 MaroonMedic
               </h6>
               <p>
-                <a href='/' className='text-reset' style={{ textDecoration: 'none' }}>
+                <a href='/' className='link' style={{ textDecoration: 'none' }}>
                   Home
                 </a>
               </p>
               <p>
-                <a href='/about' className='text-reset' style={{ textDecoration: 'none' }}>
+                <a href='/about' className='link' style={{ textDecoration: 'none' }}>
                   About Us
                 </a>
               </p>
               <p>
-                <a href='/help' className='text-reset' style={{ textDecoration: 'none' }}>
+                <a href='/help' className='link' style={{ textDecoration: 'none' }}>
                   Help
                 </a>
               </p>

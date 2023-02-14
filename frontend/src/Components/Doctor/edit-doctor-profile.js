@@ -1,19 +1,50 @@
 import React, {useEffect, useContext} from 'react'
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
 import { UUIDContext } from '../../Contexts/UUIDContext.js';
+import { VerifyContext } from '../../Contexts/VerifyContext.js';
 
 export default function EditDoctorProfile() {
-  const { DoctorUUID, checkUUID } = useContext(UUIDContext);
-  const location = useLocation();
+  const {checkUUID} = useContext(UUIDContext);
+  const {user_verification, DoctorVerifyToken, PatientVerifyToken} = useContext(VerifyContext);
   // also needs verify when navigate to page.
 
   useEffect(()=>{
-    console.log('in edit doctor useEffect')
-    // if check uuid or verify context false--> re-direct to login/register
+    console.log('in editDoctor useEffect')
+    user_verification()
+    .then(result => {
+      if (result === true) {
+        return checkUUID();
+      }
+    })
+    .then(checkUUIDResult => {
+      if (checkUUIDResult === true) {
+        console.log(`Used ${EditDoctorProfile.name} useEffect`);
+      } else {
+        throw new Error("Result from checkUUID is false");
+      }
+    })
+    .catch(error => {
+      console.error(error);
+    });
   }, []);
 
-  if(!DoctorUUID){
+  if(PatientVerifyToken){
+    return(
+      <Card>
+        <Card.Body>
+        <p>Unautorized to edit Doctor Details </p>;
+        <Link to= {'/patient-edit-profile'}>
+              <Button variant="primary">
+                  <p>Return to Patient Edit Profile</p>
+              </Button>
+        </Link>
+        </Card.Body>
+      </Card>
+    )
+  }
+
+  if(!DoctorVerifyToken){
     return(
       <Card>
         <Card.Body>
@@ -30,13 +61,12 @@ export default function EditDoctorProfile() {
 
   return (
     <div>
-      {DoctorUUID}
-        <p>This is the Edit Profile Page</p>
-          <Link to= {'/vet-dashboard'}>
-                <Button variant="primary">
-                    <p>Dashboard</p>
-                </Button>
-          </Link>
+      <p>This is the Edit Profile Page</p>
+        <Link to= {'/vet-dashboard'}>
+              <Button variant="primary">
+                  <p>Dashboard</p>
+              </Button>
+        </Link>
     </div>
   )
-}
+};

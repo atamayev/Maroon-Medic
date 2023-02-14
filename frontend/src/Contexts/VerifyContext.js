@@ -32,22 +32,6 @@ const VerifyContextProvider = (props) => {
     }
   }
 
-  //     if(response.data.success === true){
-  //       // console.log('true in verify context')
-  //       setDoctorVerifyToken(true)
-  //       return true
-  //     }
-  //     else{// if user not veriifed
-  //       console.log('user not verified')
-  //       setDoctorVerifyToken(false);
-  //       return false
-  //     }
-  //   }catch(error){
-  //     setDoctorVerifyToken(false)
-  //     console.log('err in UUID context', error)
-  //   }
-  // }
-
   return (
     <VerifyContext.Provider value={{ DoctorVerifyToken, PatientVerifyToken, user_verification }}>
       {props.children}
