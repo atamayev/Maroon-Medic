@@ -28,7 +28,15 @@ export default function Header () {
     .then(checkUUIDResult => {
       if (checkUUIDResult === true) {
         console.log(`Used ${Header.name} useEffect`);
-        HeaderData();
+        const storedHeaderData = sessionStorage.getItem("headerData")
+        if (storedHeaderData){
+          setHeaderData(JSON.parse(storedHeaderData));
+        }else{
+          console.log('fetching data from db (elsed)')
+          HeaderData();
+        }
+      } else {
+        throw new Error("Result from checkUUID is false");
       }
     })
     .catch(error => {
@@ -42,6 +50,7 @@ export default function Header () {
       if (response){
         // console.log(response.data)
         setHeaderData(response.data);
+        sessionStorage.setItem("headerData", JSON.stringify(response.data))
       }else{
         console.log('no response')
       }
@@ -52,6 +61,8 @@ export default function Header () {
 
   const handleLogout = async () => {
     try{
+      sessionStorage.removeItem("dashboardData");
+      sessionStorage.removeItem("headerData");
       await DataService.logout();
     } catch(error){
       console.log('error',error)

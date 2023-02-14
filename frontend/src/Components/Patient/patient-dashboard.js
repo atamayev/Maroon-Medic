@@ -23,7 +23,13 @@ export default function PatientDashboard() {
     .then(checkUUIDResult => {
       if (checkUUIDResult === true) {
         console.log(`Used ${PatientDashboard.name} useEffect`);
-        DashboardData();
+        const storedDashboardData = sessionStorage.getItem("dashboardData")
+        if (storedDashboardData){
+          setDashboardData(JSON.parse(storedDashboardData));
+        }else{
+          console.log('fetching data from db (elsed)')
+          DashboardData();
+        }
       } else {
         throw new Error("Result from checkUUID is false");
       }
@@ -37,8 +43,9 @@ export default function PatientDashboard() {
     try{
       const response = await DataService.fillPatientDashboard()
       if (response){
-        // console.log(response.data)
+        console.log(response.data)
         setDashboardData(response.data);
+        sessionStorage.setItem("dashboardData", JSON.stringify(response.data))
       }else{
         console.log('no response')
       }

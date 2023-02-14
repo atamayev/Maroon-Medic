@@ -343,6 +343,10 @@ export async function register (req, res){
  */
 export async function logout (req, res){
   const cookies = req.cookies
+  const sess = req.session
+  console.log('sess',sess)
+  const params = req.params
+  console.log('params',params)
   let UUID;
   let table_name;
   let DB_name;

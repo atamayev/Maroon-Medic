@@ -12,7 +12,6 @@ export default function DoctorDashboard() {
 
   useEffect(() => {
     console.log("in doctor-dashboard useEffect");
-    // if (pathname.startsWith("/vet-dashboard")) {
     user_verification()
     .then(result => {
       if (result === true) {
@@ -30,7 +29,6 @@ export default function DoctorDashboard() {
         }else{
           console.log('fetching data from db (elsed)')
           DashboardData();
-
         }
       } else {
         throw new Error("Result from checkUUID is false");

@@ -1,6 +1,8 @@
 To-do:
 
+
 ASAP:
+-- loggout should clear session storage
 2. Editability of doc info
 
 Later:
@@ -19,6 +21,5 @@ Later:
 --create another header. one for home screen. one for vet screen (no search bar, just calendar, inbox button (chat), settings (make header like airbnb)
 	--hide search bar in the vet pages (see app.js)	
 
--- figure out saving json data to local storage, and then check if data exists in local storage before quierying db. 
 
 
