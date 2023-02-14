@@ -5,9 +5,9 @@ import {useLocation} from "react-router-dom";
 import logo from '../Images/logo.svg';
 import pic from '../Images/ProfileImage.jpg';
 import DataService from '../Services/data-service'
-import { UUIDContext } from '../Wraps/UUIDContext.js';
-import { VerifyContext } from '../Wraps/VerifyContext.js';
-import { SearchContext } from '../Wraps/SearchContext';
+import { UUIDContext } from '../Contexts/UUIDContext.js';
+import { VerifyContext } from '../Contexts/VerifyContext.js';
+import { SearchContext } from '../Contexts/SearchContext';
 
 export default function Header () {
   const location = useLocation();

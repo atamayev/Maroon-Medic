@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import {Card, Button, Form, Alert } from 'react-bootstrap'
 import {Link} from "react-router-dom";
 import DataService from "../../Services/data-service.js"
-import { VerifyContext } from '../../Wraps/VerifyContext.js';
+import { VerifyContext } from '../../Contexts/VerifyContext.js';
 
 export default function NewPatient () {
   const [firstName, setFirstName] = useState('');

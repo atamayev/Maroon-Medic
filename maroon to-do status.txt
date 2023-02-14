@@ -1,21 +1,6 @@
 To-do:
 
-confirm:         delete results[0].basic_Doctor_infoID;
-in private doctor data
-
-figure out the basic_Doctor_infoID vs basic_Doctor_info_ID, and same for patient.
-	keep it consistent
-
-in the else part of checkUUID (context), make it set the uuids to null if false - like this:
-	      else {
-        console.log('false')
-        setDoctorVerifyToken(null)
-        setPatientVerifyToken(null)
-        return false;
-      }
 ASAP:
-
-
 2. Editability of doc info
 
 Later:

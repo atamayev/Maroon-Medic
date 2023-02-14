@@ -1,7 +1,7 @@
 import React, {useContext, useEffect} from 'react';
 import {Card, Button} from 'react-bootstrap';
 import {Link, useParams} from "react-router-dom";
-import { SearchContext } from '../Wraps/SearchContext';
+import { SearchContext } from '../Contexts/SearchContext';
 
 export default function SpecificDoctorsList() {
   const {searchTerm, items, setSearchTerm, fetchData} = useContext(SearchContext)

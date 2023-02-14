@@ -1,7 +1,7 @@
 import React, {useEffect, useContext} from 'react'
 import { Link, useLocation } from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
-import { UUIDContext } from '../../Wraps/UUIDContext.js';
+import { UUIDContext } from '../../Contexts/UUIDContext.js';
 
 export default function EditDoctorProfile() {
   const { DoctorUUID, checkUUID } = useContext(UUIDContext);

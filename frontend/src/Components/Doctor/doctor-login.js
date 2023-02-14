@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext} from 'react'
 import {Card, Button, Form, Alert } from 'react-bootstrap'
 import {Link, useNavigate} from "react-router-dom";
 import DataService from "../../Services/data-service.js"
-import { UUIDContext } from '../../Wraps/UUIDContext.js';
+import { UUIDContext } from '../../Contexts/UUIDContext.js';
 
 export default function DoctorLogin() {
   const [email, setEmail] = useState('');

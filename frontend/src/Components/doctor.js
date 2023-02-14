@@ -1,14 +1,12 @@
 import React, { useState, useEffect, useContext} from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import {Link, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import DataService from "../Services/data-service.js";
-import { UUIDContext } from '../Wraps/UUIDContext.js';
 
 export default function Doctor () {
   // Creates an id variable which gets the id of the current page. 
   let { id } = useParams(); //the id of the current site (which user) --> used to set User
-  const { DoctorUUID, checkUUID } = useContext(UUIDContext);
   const [user, setUser] = useState(null);
   const [error, setError] = useState('');
 
@@ -18,7 +16,6 @@ export default function Doctor () {
 
   useEffect(() => {
     console.log('in doctor.js')
-    checkUUID()
     getDoctor(id);
   }, []);
 
@@ -106,17 +103,6 @@ export default function Doctor () {
                 </a>
              </Card.Body>
           </Card>
-          {DoctorUUID? (
-            <div>
-            </div>
-          ): 
-          <Link to= {'/vet-login'}>
-                <Button variant="primary">
-                    <p>You aren't logged in. Login</p>
-                </Button>
-          </Link>
-          }
-
     </div>
   );
 }

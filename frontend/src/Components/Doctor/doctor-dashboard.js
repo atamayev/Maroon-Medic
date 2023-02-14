@@ -2,8 +2,8 @@ import React, {useEffect, useState, useContext} from 'react'
 import {Link} from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
 import DataService from "../../Services/data-service.js"
-import { UUIDContext } from '../../Wraps/UUIDContext.js';
-import { VerifyContext } from '../../Wraps/VerifyContext.js';
+import { UUIDContext } from '../../Contexts/UUIDContext.js';
+import { VerifyContext } from '../../Contexts/VerifyContext.js';
 
 export default function DoctorDashboard() {
   const {DoctorVerifyToken, PatientVerifyToken, user_verification} = useContext(VerifyContext)

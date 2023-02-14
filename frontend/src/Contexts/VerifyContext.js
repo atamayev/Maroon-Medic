@@ -21,8 +21,8 @@ const VerifyContextProvider = (props) => {
       }
       else {
         console.log('false')
-        // setDoctorVerifyToken(null)
-        // setPatientVerifyToken(null)
+        setDoctorVerifyToken(null)
+        setPatientVerifyToken(null)
         return false;
       }
     }catch(error){
