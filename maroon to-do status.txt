@@ -1,5 +1,7 @@
 To-do:
 
+after registering, the name doesn't appear on the top. could be a type problem
+
 consider completely deleting checkUUID as a verification mechanism in useEffect
 	UUID should only be used to send data bw client and serve
 	
@@ -8,6 +10,10 @@ Functions to make type-dependent (like logout):
 	All auth functions
 
 In JWT verify, is searching for the ID in the db necessary? shouldn't it just be verifying
+
+break up login/register into more try/catches
+created at in UUID table should be encrypted 
+
 
 re-do code documentation
 ASAP:
