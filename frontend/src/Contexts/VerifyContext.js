@@ -1,6 +1,5 @@
 import React, { createContext, useState } from 'react';
-import VetDataService from "../Services/data-service"
-
+import DataService from '../Services/data-service';
 const VerifyContext = createContext();
 
 const VerifyContextProvider = (props) => {
@@ -9,7 +8,7 @@ const VerifyContextProvider = (props) => {
 
   async function user_verification (){
     try{
-      const response = await VetDataService.verify()
+      const response = await DataService.verify()
       const tokenValue = response.data.tokenValue
       if (response.data.type === 'Doctor' && response.data.isValid === true) {
         setDoctorVerifyToken(tokenValue)

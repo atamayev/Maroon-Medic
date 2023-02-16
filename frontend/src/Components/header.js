@@ -15,6 +15,7 @@ export default function Header () {
   const {checkUUID} = useContext(UUIDContext);
   const {user_verification, DoctorVerifyToken, PatientVerifyToken} = useContext(VerifyContext);
   const {setSearchTerm, searchTerm} = useContext(SearchContext);
+  const cookie_monster = document.cookie;
 
   useEffect(()=>{
     console.log('in header useEffect')
@@ -41,11 +42,11 @@ export default function Header () {
     .catch(error => {
       console.error(error);
     });
-  }, []);
+  }, [cookie_monster]);
   
   async function HeaderData (){
     try{
-      const response = await DataService.fillHeader() // need to change this to fill Header - and pass in type (doctor or patient)
+      const response = await DataService.fillHeader() 
       if (response){
         // console.log(response.data)
         setHeaderData(response.data);
