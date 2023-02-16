@@ -6,7 +6,9 @@ consider completely deleting checkUUID as a verification mechanism in useEffect
 Functions to make type-dependent (like logout):
 	Private common
 	All auth functions
-	
+
+In JWT verify, is searching for the ID in the db necessary? shouldn't it just be verifying
+
 ASAP:
 2. Editability of doc info
 

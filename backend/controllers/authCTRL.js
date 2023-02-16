@@ -15,72 +15,62 @@ dotenv.config()
  * @returns Returns true/false, depending on wheather the cookie is verified, and if the contents of the cookie are valid
  */
 export async function jwt_verify (req, res){
-  try{
-    const cookies = req.cookies
-    let AccessToken;
-    let decodedID;
-    let table_name;
-    let DB_name;
-    let sql; 
-    let response = {
-      isValid: false, 
-      tokenValue: '',
-      type: ''
-    }
+  const cookies = req.cookies
+  let AccessToken;
+  let response = {
+    isValid: false, 
+    tokenValue: '',
+    type: ''
+  }
+  let decodedID;
 
-    if("DoctorAccessToken" in cookies){
-      console.log('Type Doctor in jwt_verify')
-      AccessToken = req.cookies.DoctorAccessToken
-      decodedID = jwt.verify(AccessToken, process.env.DOCTOR_JWT_KEY).DoctorID;
-      table_name = 'Doctor_credentials';
-      DB_name = 'DoctorDB';
-      sql = `SELECT * FROM ${table_name} WHERE DoctorID = ?`;
-      response.type = 'Doctor';
-    }else if("PatientAccessToken" in cookies){
-      console.log('Type: Patient in jwt_verify')
-      AccessToken = req.cookies.PatientAccessToken
-      // console.log(AccessToken)
-      decodedID = jwt.verify(AccessToken, process.env.PATIENT_JWT_KEY).PatientID;
-      table_name = 'Patient_credentials';
-      DB_name = 'PatientDB';
-      sql = `SELECT * FROM ${table_name} WHERE PatientID = ?`;
-      response.type = 'Patient';
-    }else{
-      return res.send('Invalid User Type') // If Type not Doctor or Patient
-    }
+  if("DoctorAccessToken" in cookies){
+    response.type = 'Doctor';
+  }else if("PatientAccessToken" in cookies){
+    response.type = 'Patient';
+  }
+  else{
+    return res.send('Invalid User Type') // If Type not Doctor or Patient
+  }
+  console.log('Type', response.type)
+
+  try{
+    AccessToken = req.cookies[`${response.type}AccessToken`]
+    const JWTKey = response.type === 'Patient' ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY;
+    decodedID = jwt.verify(AccessToken, JWTKey)[`${response.type}ID`];
     if (Date.now() >= decodedID.exp * 1000) {
       return res.status(401).json({ error: "Token expired" });
     }
-
-    const values = [decodedID];
-    await useDB(jwt_verify.name, DB_name, table_name)
-    // Searches the Credentials Table for the decodedID
-
-    try{
-      const [results] = await connection.execute(sql, values)
-      // console.log('results',results)
-      if(results.length === 1){
-        response.isValid = true;
-        response.tokenValue = AccessToken;
-        return res.status(200).json(response);
-      }
-    else{
-        console.log('Invalid Token')
-        return res.status(500).json(error);     
-    }
-    }
-    catch(error){
-      // Any problems with the query: return false
-      console.log('trouble with db query', error)
-      return res.status(500).json(error);
+  }catch(error){
+    if(error.name === "TokenExpiredError"){
+      return res.status(401).json({ error: "Token expired" });
+    }else{
+      console.log('error in token verification', error);
+      return res.status(500).json(error); 
     }
   }
-  catch(error){
-    // If token verification fails
-    if(error.name=== "TokenExpiredError"){
-      return res.status(401).json({ error: "Token expired" });
+
+  const table_name = `${response.type}_credentials`;
+  const DB_name = `${response.type}DB`;
+  const sql = `SELECT * FROM ${table_name} WHERE ${response.type}ID = ?`;
+  const values = [decodedID];
+
+  await useDB(jwt_verify.name, DB_name, table_name);
+
+  try{
+    const [results] = await connection.execute(sql, values)
+    // console.log('results',results)
+    if(results.length === 1){
+      response.isValid = true;
+      response.tokenValue = AccessToken;
+      return res.status(200).json(response);
+    }else{
+      console.log('Invalid Token')
+      return res.status(500).json(error);     
     }
-    console.log('error in token verification', error);
+  }catch(error){
+    // Any problems with the query: return false
+    console.log('trouble with db query', error)
     return res.status(500).json(error);
   }
 }
