@@ -9,6 +9,7 @@ Functions to make type-dependent (like logout):
 
 In JWT verify, is searching for the ID in the db necessary? shouldn't it just be verifying
 
+re-do code documentation
 ASAP:
 2. Editability of doc info
 
