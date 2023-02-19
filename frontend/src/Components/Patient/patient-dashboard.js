@@ -43,7 +43,7 @@ export default function PatientDashboard() {
     try{
       const response = await DataService.fillPatientDashboard()
       if (response){
-        console.log(response.data)
+        // console.log(response.data)
         setDashboardData(response.data);
         sessionStorage.setItem("dashboardData", JSON.stringify(response.data))
       }else{

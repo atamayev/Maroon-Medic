@@ -19,29 +19,33 @@ export default function Header () {
 
   useEffect(()=>{
     console.log('in header useEffect')
-    user_verification()
-    .then(result => {
-      if (result === true) {
-        return checkUUID();
-      }
-    })
-    .then(checkUUIDResult => {
-      if (checkUUIDResult === true) {
-        console.log(`Used ${Header.name} useEffect`);
-        const storedHeaderData = sessionStorage.getItem("headerData")
-        if (storedHeaderData){
-          setHeaderData(JSON.parse(storedHeaderData));
-        }else{
-          console.log('fetching data from db (elsed)')
-          HeaderData();
+    if (location.pathname !== '/new-vet' && location.pathname !== '/new-patient'){
+      console.log('in if')
+      user_verification()
+      .then(result => {
+        if (result === true) {
+          return checkUUID();
         }
-      } else {
-        throw new Error("Result from checkUUID is false");
-      }
-    })
-    .catch(error => {
-      console.error(error);
-    });
+      })
+      .then(checkUUIDResult => {
+        if (checkUUIDResult === true) {
+          console.log(`Used ${Header.name} useEffect`);
+          const storedHeaderData = sessionStorage.getItem("headerData")
+          if (storedHeaderData){
+            setHeaderData(JSON.parse(storedHeaderData));
+          }else{
+            console.log('fetching data from db (elsed)')
+            HeaderData();
+          }
+        } else {
+          throw new Error("Result from checkUUID is false");
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    }
+
   }, [cookie_monster]);
   
   async function HeaderData (){

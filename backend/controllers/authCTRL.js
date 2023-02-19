@@ -32,7 +32,7 @@ export async function jwt_verify (req, res){
   else{
     return res.send('Invalid User Type') // If Type not Doctor or Patient
   }
-  console.log('Type', response.type)
+  console.log('Type in jwt_verify', response.type)
 
   try{
     AccessToken = req.cookies[`${response.type}AccessToken`]
@@ -197,7 +197,7 @@ export async function register (req, res){
         const encrypted_date_time = Crypto.encrypt_single_entry(dateTimeObj).Created_at
         
         const sql = `INSERT INTO ${table_name} (email, password, Created_at) VALUES (?, ?, ?)`;
-        const values = [email, hashed_password, encrypted_date_time ];
+        const values = [email, hashed_password, encrypted_date_time];
         
           try {await connection.execute(sql, values)} // Insert Query}
           catch (error){
@@ -242,7 +242,7 @@ export async function register (req, res){
               .json('login success');
           }
 
-            //old:
+          //old:
           //   if(register_type === 'Doctor'){
           //     const { DoctorID } = results[0];
 
@@ -315,49 +315,53 @@ export async function register (req, res){
  * @param {Response} res Clears cookie, and informs that "User has been logged out"
  */
 export async function logout (req, res){
-  const cookies = req.cookies
-  let UUID;
-  let type;
-
-  if("DoctorAccessToken" in cookies){
-    UUID = req.cookies.DoctorUUID
-    type = 'Doctor';
-    console.log(`Type ${type}`)
-  }else if("PatientAccessToken" in cookies){
-    UUID = req.cookies.PatientUUID
-    type = 'Patient';
-    console.log(`Type ${type}`)
-  }
-  else{
-    return res.send('Invalid User Type') // If Type not Doctor or Patient
-  }
-
-  const table_name = `${type}UUID_reference`;
-  const DB_name = `${type}DB`;
-  const sql = `DELETE FROM ${table_name} WHERE ${type}UUID = ?`;
-  const values = [UUID];
-
-  await useDB(logout.name, DB_name, table_name)
-
   try{
-    await connection.execute(sql, values)
-    res
-    .clearCookie(`${type}AccessToken`,{
-      httpOnly:true,
-      secure:true,
-      sameSite:"none",
-      path: '/'
-    })
-    .clearCookie(`${type}UUID`,{
-      httpOnly:true,
-      secure:true,
-      sameSite:"none",
-      path: '/'
-    })
-    .status(200).json(`${type} has been logged out.`)
-    console.log(`logged out ${type}`)
-  }catch (error){
-    console.log(`error in logging ${type} out`)
-    res.status(500).send({ error: `Error in logging ${type} out` });
+    const cookies = req.cookies
+    let UUID;
+    let type;
+  
+    if("DoctorAccessToken" in cookies){
+      UUID = req.cookies.DoctorUUID
+      type = 'Doctor';
+      console.log(`Type ${type}`)
+    }else if("PatientAccessToken" in cookies){
+      UUID = req.cookies.PatientUUID
+      type = 'Patient';
+      console.log(`Type ${type}`)
+    }
+    else{
+      return res.send('Invalid User Type') // If Type not Doctor or Patient
+    }
+  
+    const table_name = `${type}UUID_reference`;
+    const DB_name = `${type}DB`;
+    const sql = `DELETE FROM ${table_name} WHERE ${type}UUID = ?`;
+    const values = [UUID];
+  
+    await useDB(logout.name, DB_name, table_name)
+  
+    try{
+      await connection.execute(sql, values)
+      res
+      .clearCookie(`${type}AccessToken`,{
+        httpOnly:true,
+        secure:true,
+        sameSite:"none",
+        path: '/'
+      })
+      .clearCookie(`${type}UUID`,{
+        httpOnly:true,
+        secure:true,
+        sameSite:"none",
+        path: '/'
+      })
+      .status(200).json(`${type} has been logged out.`)
+      console.log(`logged out ${type}`)
+    }catch (error){
+      console.log(`error in logging ${type} out`)
+      res.status(500).send({ error: `Error in logging ${type} out` });
+    }
+  }catch(error){
+    res.status(500).send({ error: `Error in accessing DB` });
   }
 };

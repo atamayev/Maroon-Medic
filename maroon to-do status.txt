@@ -1,13 +1,7 @@
 To-do:
 
-after registering, the name doesn't appear on the top. could be a type problem
-
 consider completely deleting checkUUID as a verification mechanism in useEffect
 	UUID should only be used to send data bw client and serve
-	
-Functions to make type-dependent (like logout):
-	Private common
-	All auth functions
 
 In JWT verify, is searching for the ID in the db necessary? shouldn't it just be verifying
 
@@ -18,6 +12,7 @@ created at in UUID table should be encrypted
 re-do code documentation
 ASAP:
 2. Editability of doc info
+	when editing info, should first check session storage, then db. if exists, alter db. if doesn't exist, insert
 
 Later:
 
@@ -34,3 +29,5 @@ Later:
 -- show first name on home page instead of email. will require decrypt multiple.
 --create another header. one for home screen. one for vet screen (no search bar, just calendar, inbox button (chat), settings (make header like airbnb)
 	--hide search bar in the vet pages (see app.js)	
+
+--during registration (new-vet/new-patient), the header name becomes nothing. should solve this by deleting the traditional header during non-search pages
