@@ -20,7 +20,6 @@ export default function Header () {
   useEffect(()=>{
     console.log('in header useEffect')
     if (location.pathname !== '/new-vet' && location.pathname !== '/new-patient'){
-      console.log('in if')
       user_verification()
       .then(result => {
         if (result === true) {

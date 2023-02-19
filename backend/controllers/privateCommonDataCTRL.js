@@ -9,11 +9,9 @@ export async function headerData (req, res){ // for both pateints, and docs -- j
     if("DoctorAccessToken" in cookies){
         UUID = req.cookies.DoctorUUID
         type = 'Doctor';
-        console.log(`Type ${type}`)
     }else if("PatientAccessToken" in cookies){
         UUID = req.cookies.PatientUUID
         type = 'Patient';
-        console.log(`Type ${type}`)
     }
     else{
         return res.send('Invalid User Type') // If Type not Doctor or Patient
@@ -23,14 +21,12 @@ export async function headerData (req, res){ // for both pateints, and docs -- j
     const DB_name = 'DoctorDB';
     const sql = `SELECT ${table_name2}.FirstName FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.${type}_ID = ${table_name1}.${type}ID WHERE ${table_name1}.${type}ID = ?`
     const ID = await UUID_to_ID(UUID, type)
-    console.log('ID',ID)
 
     const values = [ID];
     await useDB(headerData.name, DB_name, table_name1)
     
     try{
         const [results] = await connection.execute(sql, values)
-        console.log('results',results)
          if (results.length === 0) {
             console.log('User does not exist')
             res.send('User does not exist');
@@ -60,11 +56,9 @@ export async function UUIDtoID (req, res){
         if("DoctorAccessToken" in cookies){
             UUID = req.cookies.DoctorUUID
             type = 'Doctor';
-            console.log(`Type ${type}`)
           }else if("PatientAccessToken" in cookies){
             UUID = req.cookies.PatientUUID
             type = 'Patient';
-            console.log(`Type ${type}`)
           }
           else{
             return res.send('Invalid User Type') // If Type not Doctor or Patient
@@ -107,7 +101,6 @@ export async function checkUUID (req, res){
     else{
         return res.send('Invalid User Type') // If Type not Doctor or Patient
     }
-    console.log('Type in checkUUID', response.type) 
 
     const UUID = req.cookies[`${response.type}UUID`]
     const table_name = `${response.type}UUID_reference`;
@@ -119,7 +112,6 @@ export async function checkUUID (req, res){
         await useDB(checkUUID.name, DB_name, table_name)
 
         const [results] = await connection.execute(sql, values)
-        // console.log('results',results)
         if(results.length === 1){
             response.isValid = true;
             response.cookieValue = UUID;

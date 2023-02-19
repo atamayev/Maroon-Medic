@@ -32,15 +32,18 @@ export async function jwt_verify (req, res){
   else{
     return res.send('Invalid User Type') // If Type not Doctor or Patient
   }
-  console.log('Type in jwt_verify', response.type)
 
   try{
     AccessToken = req.cookies[`${response.type}AccessToken`]
     const JWTKey = response.type === 'Patient' ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY;
-    console.log('AccessToken',AccessToken)
     decodedID = jwt.verify(AccessToken, JWTKey)[`${response.type}ID`];
     if (Date.now() >= decodedID.exp * 1000) {
       return res.status(401).json({ error: "Token expired" });
+    }
+    else{
+      response.isValid = true;
+      response.tokenValue = AccessToken;
+      return res.status(200).json(response);
     }
   }catch(error){
     if(error.name === "TokenExpiredError"){
@@ -50,31 +53,7 @@ export async function jwt_verify (req, res){
       return res.status(500).json(error); 
     }
   }
-
-  const table_name = `${response.type}_credentials`;
-  const DB_name = `${response.type}DB`;
-  const sql = `SELECT * FROM ${table_name} WHERE ${response.type}ID = ?`;
-  const values = [decodedID];
-
-  await useDB(jwt_verify.name, DB_name, table_name);
-
-  try{
-    const [results] = await connection.execute(sql, values)
-    // console.log('results',results)
-    if(results.length === 1){
-      response.isValid = true;
-      response.tokenValue = AccessToken;
-      return res.status(200).json(response);
-    }else{
-      console.log('Invalid Token')
-      return res.status(500).json(error);     
-    }
-  }catch(error){
-    // Any problems with the query: return false
-    console.log('trouble with db query', error)
-    return res.status(500).json(error);
-  }
-}
+};
 
 /** login checks if an existing user's credentials exist in the Doctor_credentials table. If they do, then a cookie, and user data is sent to client.
  *  Works very similarly to register function. First, searches if the entered username exists in the DB. If exists, continue. If not, return no user found
@@ -171,7 +150,6 @@ export async function register (req, res){
     let table_name;
     let DB_name;
     if(register_type === 'Doctor' || register_type === 'Patient'){
-      console.log(`${register_type} type in register`)
       table_name = `${register_type}_credentials`;
       DB_name = `${register_type}DB`;
     }else{
@@ -224,7 +202,6 @@ export async function register (req, res){
             const token = jwt.sign(payload, JWTKey);
   
             const UUID = await ID_to_UUID(ID, register_type)
-            // console.log('UUID', UUID)
             // const expires = new Date(Date.now() + expiration_time *1000)
   
             return res
@@ -241,58 +218,6 @@ export async function register (req, res){
               .status(200)
               .json('login success');
           }
-
-          //old:
-          //   if(register_type === 'Doctor'){
-          //     const { DoctorID } = results[0];
-
-          //     const payload = {
-          //       DoctorID
-          //     }
-          //     const token = jwt.sign(payload, process.env.DOCTOR_JWT_KEY); // Expiration time goes in here if needed
-
-          //     // const UUID = ID_to_UUID(results[0].DoctorID)
-          //     const DoctorUUID = await ID_to_UUID(DoctorID, register_type)
-          //     // console.log('DoctorUUID', DoctorUUID)
-
-          //     return res
-          //     .cookie("DoctorAccessToken", token, {
-          //       // httpOnly: true,
-          //       // secure:true
-          //     })
-          //     .cookie("DoctorUUID", DoctorUUID, {
-          //       // httpOnly: true,
-          //       // secure:true
-          //     })
-          //     .status(200)
-          //     .json('login success');
-          //   }else if(register_type === 'Patient'){
-          //     const { PatientID } = results[0];
-
-          //     const payload = {
-          //       PatientID
-          //     }
-          //     const token = jwt.sign(payload, process.env.PATIENT_JWT_KEY); // Expiration time goes in here if needed
-              
-          //     // const UUID = ID_to_UUID(results[0].DoctorID)
-          //     const PatientUUID = await ID_to_UUID(PatientID, register_type)
-          //     // console.log('DoctorUUID', DoctorUUID)
-
-          //     return res
-          //     .cookie("PatientAccessToken", token, {
-          //       // httpOnly: true,
-          //       // secure:true
-          //     })
-          //     .cookie("PatientUUID", PatientUUID, {
-          //       // httpOnly: true,
-          //       // secure:true
-          //     })
-          //     .status(200)
-          //     .json('login success');
-          //   }else{
-          //     return res.send('Invalid User Type') // If Type not Doctor or Patient
-          //   }
-          // }
           catch(error){
             console.log('error in patient/doctor registration')
             res.status(500).send({ error: 'Error Selecting email' });
@@ -323,11 +248,9 @@ export async function logout (req, res){
     if("DoctorAccessToken" in cookies){
       UUID = req.cookies.DoctorUUID
       type = 'Doctor';
-      console.log(`Type ${type}`)
     }else if("PatientAccessToken" in cookies){
       UUID = req.cookies.PatientUUID
       type = 'Patient';
-      console.log(`Type ${type}`)
     }
     else{
       return res.send('Invalid User Type') // If Type not Doctor or Patient

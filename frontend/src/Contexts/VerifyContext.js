@@ -3,31 +3,31 @@ import DataService from '../Services/data-service';
 const VerifyContext = createContext();
 
 const VerifyContextProvider = (props) => {
-  const [DoctorVerifyToken, setDoctorVerifyToken] = useState(null) // wheather or not user verified
-  const [PatientVerifyToken, setPatientVerifyToken] = useState(null) // wheather or not user verified
+  const [DoctorVerifyToken, setDoctorVerifyToken] = useState(null); // wheather or not user verified
+  const [PatientVerifyToken, setPatientVerifyToken] = useState(null); // wheather or not user verified
 
   async function user_verification (){
     try{
-      const response = await DataService.verify()
-      const tokenValue = response.data.tokenValue
+      const response = await DataService.verify();
+      const tokenValue = response.data.tokenValue;
       if (response.data.type === 'Doctor' && response.data.isValid === true) {
-        setDoctorVerifyToken(tokenValue)
-        return true
+        setDoctorVerifyToken(tokenValue);
+        return true;
       }
       else if (response.data.type === 'Patient' && response.data.isValid === true){
-        setPatientVerifyToken(tokenValue)
-        return true
+        setPatientVerifyToken(tokenValue);
+        return true;
       }
       else {
-        console.log('false')
-        setDoctorVerifyToken(null)
-        setPatientVerifyToken(null)
+        console.log('false');
+        setDoctorVerifyToken(null);
+        setPatientVerifyToken(null);
         return false;
       }
     }catch(error){
-      setDoctorVerifyToken(null)
-      setPatientVerifyToken(null)
-      console.log('err in user_verification context', error)
+      setDoctorVerifyToken(null);
+      setPatientVerifyToken(null);
+      console.log('err in user_verification context', error);
     }
   }
 
