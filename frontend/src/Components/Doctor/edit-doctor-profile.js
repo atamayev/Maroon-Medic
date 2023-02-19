@@ -1,27 +1,17 @@
 import React, {useEffect, useContext} from 'react'
 import { Link } from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
-import { UUIDContext } from '../../Contexts/UUIDContext.js';
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 
 export default function EditDoctorProfile() {
-  const {checkUUID} = useContext(UUIDContext);
   const {user_verification, DoctorVerifyToken, PatientVerifyToken} = useContext(VerifyContext);
-  // also needs verify when navigate to page.
 
   useEffect(()=>{
     console.log('in editDoctor useEffect')
     user_verification()
     .then(result => {
       if (result === true) {
-        return checkUUID();
-      }
-    })
-    .then(checkUUIDResult => {
-      if (checkUUIDResult === true) {
         console.log(`Used ${EditDoctorProfile.name} useEffect`);
-      } else {
-        throw new Error("Result from checkUUID is false");
       }
     })
     .catch(error => {

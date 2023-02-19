@@ -2,26 +2,17 @@ import React, {useEffect, useState, useContext} from 'react'
 import {Link} from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
 import DataService from "../../Services/data-service.js"
-import { UUIDContext } from '../../Contexts/UUIDContext.js';
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 
 export default function PatientDashboard() {
   const {DoctorVerifyToken, PatientVerifyToken, user_verification} = useContext(VerifyContext)
-  const {checkUUID} = useContext(UUIDContext);
   const [dashboardData, setDashboardData] = useState({});
 
   useEffect(() => {
-    console.log("in Patient-dashboard useEffect");
+    console.log("in patient-dashboard useEffect");
     user_verification()
     .then(result => {
       if (result === true) {
-        return checkUUID();
-      } else {
-        throw new Error("Result from user_verification is false");
-      }
-    })
-    .then(checkUUIDResult => {
-      if (checkUUIDResult === true) {
         console.log(`Used ${PatientDashboard.name} useEffect`);
         const storedDashboardData = sessionStorage.getItem("dashboardData")
         if (storedDashboardData){
@@ -30,8 +21,6 @@ export default function PatientDashboard() {
           console.log('fetching data from db (elsed)')
           DashboardData();
         }
-      } else {
-        throw new Error("Result from checkUUID is false");
       }
     })
     .catch(error => {

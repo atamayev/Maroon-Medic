@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext} from 'react'
 import {Card, Button, Form, Alert } from 'react-bootstrap'
 import {Link, useNavigate} from "react-router-dom";
 import DataService from "../../Services/data-service.js"
-import { UUIDContext } from '../../Contexts/UUIDContext.js';
+import { VerifyContext } from '../../Contexts/VerifyContext.js';
 
 export default function DoctorRegister() {
   const [email, setEmail] = useState('');
@@ -12,11 +12,11 @@ export default function DoctorRegister() {
   const register_type = 'Doctor';
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
-  const { checkUUID } = useContext(UUIDContext);
+  const {user_verification} = useContext(VerifyContext)
 
   useEffect(()=>{
     console.log('in doctor register useEffect')
-    checkUUID()
+    user_verification()
       .then(result => {
         if (result === true) {
           navigate(`/vet-dashboard`);
@@ -71,4 +71,4 @@ export default function DoctorRegister() {
         </div>
     </>
   )
-}
+};

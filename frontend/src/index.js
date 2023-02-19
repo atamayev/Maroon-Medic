@@ -4,7 +4,7 @@ import App from './App';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { disableReactDevTools } from '@fvilers/disable-react-devtools';
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
-import { UUIDContextProvider } from './Contexts/UUIDContext';
+// import { UUIDContextProvider } from './Contexts/UUIDContext';
 import { VerifyContextProvider } from './Contexts/VerifyContext';
 import { SearchContextProvider } from './Contexts/SearchContext';
 
@@ -16,7 +16,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
   <BrowserRouter>
-    <UUIDContextProvider>
+    {/* <UUIDContextProvider> */}
       <VerifyContextProvider>
         <SearchContextProvider>
 
@@ -26,7 +26,7 @@ root.render(
 
         </SearchContextProvider>
       </VerifyContextProvider>
-    </UUIDContextProvider>
+    {/* </UUIDContextProvider> */}
     </BrowserRouter>
   // </React.StrictMode>
 );

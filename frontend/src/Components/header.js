@@ -5,14 +5,12 @@ import {useLocation} from "react-router-dom";
 import logo from '../Images/logo.svg';
 import pic from '../Images/ProfileImage.jpg';
 import DataService from '../Services/data-service'
-import { UUIDContext } from '../Contexts/UUIDContext.js';
 import { VerifyContext } from '../Contexts/VerifyContext.js';
 import { SearchContext } from '../Contexts/SearchContext';
 
 export default function Header () {
   const location = useLocation();
   const [headerData, setHeaderData] = useState({});
-  const {checkUUID} = useContext(UUIDContext);
   const {user_verification, DoctorVerifyToken, PatientVerifyToken} = useContext(VerifyContext);
   const {setSearchTerm, searchTerm} = useContext(SearchContext);
   const cookie_monster = document.cookie;
@@ -23,11 +21,6 @@ export default function Header () {
       user_verification()
       .then(result => {
         if (result === true) {
-          return checkUUID();
-        }
-      })
-      .then(checkUUIDResult => {
-        if (checkUUIDResult === true) {
           console.log(`Used ${Header.name} useEffect`);
           const storedHeaderData = sessionStorage.getItem("headerData")
           if (storedHeaderData){
@@ -36,15 +29,12 @@ export default function Header () {
             console.log('fetching data from db (elsed)')
             HeaderData();
           }
-        } else {
-          throw new Error("Result from checkUUID is false");
         }
       })
       .catch(error => {
         console.error(error);
       });
     }
-
   }, [cookie_monster]);
   
   async function HeaderData (){
