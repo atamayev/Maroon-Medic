@@ -81,57 +81,67 @@ export async function login (req, res){
   
   await useDB(login.name, DB_name, table_name)
 
+  let results;
+  let hashed_password;
+
   try{
-    const [results] = await connection.execute(sql, values);
-
-    if (!results.length){ 
-      // If no users exist with a certain first name, login error
-      return res.status(404).json("Username not found!");
-    }
-    else{
-      try{
-        const hashed_password = results[0].password;
-        const bool = await Hash.checkPassword(password, hashed_password)
-        if (bool === true) {
-          const IDKey = `${login_type}ID`;
-          const ID = results[0][IDKey];
-          
-          const expiration_time = 20; // not using this right now.
-          
-          const payload = {
-            [IDKey]: ID,
-            // exp: Math.floor(Date.now()/1000) +expiration_time // temporarily taking out expiration to make sure system is running smoothly
-          }
-          const JWTKey = login_type === 'Patient' ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY;
-
-          const token = jwt.sign(payload, JWTKey);
-
-          const UUID = await ID_to_UUID(ID, login_type)
-          // console.log('UUID', UUID)
-          // const expires = new Date(Date.now() + expiration_time *1000)
-
-          return res
-            .cookie(`${login_type}AccessToken`, token, {
-              // expires,
-              // httpOnly: true,
-              // secure:true
-            })
-            .cookie(`${login_type}UUID`, UUID, {
-              // expires,
-              // httpOnly: true,
-              // secure:true
-            })
-            .status(200)
-            .json('login success');
-        }else {
-          return res.status(400).json("Wrong Username or Password!");
-        }
-      }catch(error){
-        res.status(500).send({ error: 'Problem with checking password, or signing password, or ID to UUID' });
-      }
-    }
+    [results] = await connection.execute(sql, values);
+    hashed_password = results[0].password;
   }catch(error){
     res.status(500).send({ error: 'Problem with email selection' });
+  }
+
+  if (!results.length){ 
+    // If no users exist with a certain first name, login error
+    return res.status(404).json("Username not found!");
+  }
+
+  let bool;
+
+  try{
+    bool = await Hash.checkPassword(password, hashed_password)
+  }catch(error){
+    res.status(500).send({ error: 'Problem with checking password' });
+  }
+  
+  if (bool === true) {
+    const IDKey = `${login_type}ID`;
+    const ID = results[0][IDKey];
+    
+    const expiration_time = 20; // not using this right now.
+    
+    const payload = {
+      [IDKey]: ID,
+      // exp: Math.floor(Date.now()/1000) +expiration_time // temporarily taking out expiration to make sure system is running smoothly
+    }
+    const JWTKey = login_type === 'Patient' ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY;
+    
+    let token;
+    try{
+      token = jwt.sign(payload, JWTKey);
+    }catch(error){
+      res.status(500).send({ error: 'Problem with Signing JWT' });
+    }
+
+    const UUID = await ID_to_UUID(ID, login_type)
+    // console.log('UUID', UUID)
+    // const expires = new Date(Date.now() + expiration_time *1000)
+
+    return res
+      .cookie(`${login_type}AccessToken`, token, {
+        // expires,
+        // httpOnly: true,
+        // secure:true
+      })
+      .cookie(`${login_type}UUID`, UUID, {
+        // expires,
+        // httpOnly: true,
+        // secure:true
+      })
+      .status(200)
+      .json('login success');
+  }else {
+    return res.status(400).json("Wrong Username or Password!");
   }
 };
 
@@ -158,81 +168,97 @@ export async function register (req, res){
     }  
     const sql = `SELECT * FROM ${table_name} WHERE email = ?`;
     const values = [email];
+
     await useDB(register.name, DB_name, table_name)
 
+    let results;
     try{
-      const [results] = await connection.execute(sql, values)
-      
-      if (results.length === 0){
-        const hashed_password = await Hash.hash_credentials(password)
+      [results] = await connection.execute(sql, values)
+    }catch(error){
+      console.log('Problem with existing email search')
+      res.status(500).send({ error: 'Problem with existing email search' });
+    }
 
-        const date_ob = new Date();
-        const format = "YYYY-MM-DD HH:mm:ss"
-        const dateTime = moment(date_ob).format(format);
-        const dateTimeObj = {
-          Created_at: `${dateTime}`
-        }
-        const encrypted_date_time = Crypto.encrypt_single_entry(dateTimeObj).Created_at
-        
-        const sql = `INSERT INTO ${table_name} (email, password, Created_at) VALUES (?, ?, ?)`;
-        const values = [email, hashed_password, encrypted_date_time];
-        
-          try {await connection.execute(sql, values)} // Insert Query}
-          catch (error){
-            console.log('error in catching insert')
-            res.status(500).send({ error: 'Error saving data' });
-          }
-        // After making an account, need to set the token to be the current user. 
-          try{
-            const sql_new = `SELECT * FROM ${table_name} WHERE email = ?`;
-            const values_new = [email]
-
-            const [results] = await connection.execute(sql_new, values_new);
-            
-            const IDKey = `${register_type}ID`;
-            const ID = results[0][IDKey];
-            const expiration_time = 20; // not using this right now.
-          
-            const payload = {
-              [IDKey]: ID,
-              // exp: Math.floor(Date.now()/1000) +expiration_time // temporarily taking out expiration to make sure system is running smoothly
-            }
-            const JWTKey = register_type === 'Patient' ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY;
-  
-            const token = jwt.sign(payload, JWTKey);
-  
-            const UUID = await ID_to_UUID(ID, register_type)
-            // const expires = new Date(Date.now() + expiration_time *1000)
-  
-            return res
-              .cookie(`${register_type}AccessToken`, token, {
-                // expires,
-                // httpOnly: true,
-                // secure:true
-              })
-              .cookie(`${register_type}UUID`, UUID, {
-                // expires,
-                // httpOnly: true,
-                // secure:true
-              })
-              .status(200)
-              .json('login success');
-          }
-          catch(error){
-            console.log('error in patient/doctor registration')
-            res.status(500).send({ error: 'Error Selecting email' });
-          }
-      }
-      else {
-        console.log('User already exists')
-        return res.status(400).json("User already exists!");// results.length is >0 --> user already exists
+    let hashed_password;
+    if(!results.length){
+      try{
+        hashed_password = await Hash.hash_credentials(password)
+      }catch(error){
+        console.log('Problem with Password Hashing')
+        res.status(500).send({ error: 'Problem with Password Hashing' });
       }
     }
-    catch(err){
-      console.log('in registration error')
-      res.status(500).send({ error: 'Problem with existing email search' });
-    };
-}
+
+    const date_ob = new Date();
+    const format = "YYYY-MM-DD HH:mm:ss"
+    const dateTime = moment(date_ob).format(format);
+    const dateTimeObj = {
+      Created_at: `${dateTime}`
+    }
+    let encrypted_date_time;
+    try{
+      encrypted_date_time = Crypto.encrypt_single_entry(dateTimeObj).Created_at
+    }
+    catch(error){
+      console.log('Problem with Data Encryption')
+      res.status(500).send({ error: 'Problem with Data Encryption' });
+    }
+    
+    const sql_1 = `INSERT INTO ${table_name} (email, password, Created_at) VALUES (?, ?, ?)`;
+    const values_1 = [email, hashed_password, encrypted_date_time];
+    try {
+      await connection.execute(sql_1, values_1)
+    }catch (error){
+      console.log('Problem with Data Inseration')
+      res.status(500).send({ error: 'Problem with Data Inseration' });
+    }
+
+    let results_1;
+    try{
+      [results_1] = await connection.execute(sql, values); // using same query as before, just now with the inserted email
+
+    }catch(error){
+      console.log('Problem with Data Selection')
+      res.status(500).send({ error: 'Problem with Data Selection' });
+    }
+
+    const IDKey = `${register_type}ID`;
+    const ID = results_1[0][IDKey];
+    const expiration_time = 20; // not using this right now.
+    const payload = {
+      [IDKey]: ID,
+      // exp: Math.floor(Date.now()/1000) +expiration_time // temporarily taking out expiration to make sure system is running smoothly
+    }
+    const JWTKey = register_type === 'Patient' ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY;
+    let token;
+    try{
+      token = jwt.sign(payload, JWTKey);
+    }catch(error){
+      console.log('error in catching insert')
+      res.status(500).send({ error: 'Problem with Data Selection' });
+    }
+
+    let UUID;
+    try{
+      UUID = await ID_to_UUID(ID, register_type)
+    }catch(error){
+      console.log('error in IDUUID')
+      res.status(500).send({ error: 'Problem with IDUUID' });
+    }
+    return res
+      .cookie(`${register_type}AccessToken`, token, {
+        // expires,
+        // httpOnly: true,
+        // secure:true
+      })
+      .cookie(`${register_type}UUID`, UUID, {
+        // expires,
+        // httpOnly: true,
+        // secure:true
+      })
+      .status(200)
+      .json('login success');
+};
 
 /** logout is self-explanatory
  *  Depending on the type, deletes any cookie called "{type}AccessToken"--> whenever the user navigates to future pages, their token will not be verified (token cleared)
