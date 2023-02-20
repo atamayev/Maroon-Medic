@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import { connection } from "./dbAndSecurity/connect.js";
 //ROUTES:
 import authRoutes from "./routes/authROUTES.js";
-import privateCommonDataRoutes from "./routes/privateCommonDataROUTES.js";
+import commonDataRoutes from "./routes/commonDataROUTES.js";
 import privateDoctorDataRoutes from "./routes/privateDoctorDataROUTES.js";
 import privatePatientDataRoutes from "./routes/privatePatientDataROUTES.js"
 import publicDoctorDataRoutes from "./routes/publicDoctorDataROUTES.js";
@@ -42,7 +42,7 @@ app.use(cookieParser());
 app.use(express.json()) // allows server to read json format responses
 
 app.use("/api/auth", authRoutes);
-app.use("/api/private-common-data", privateCommonDataRoutes);
+app.use("/api/common-data", commonDataRoutes);
 app.use("/api/private-doctor-data", privateDoctorDataRoutes);
 app.use("/api/private-patient-data", privatePatientDataRoutes);
 app.use("/api/public-doctor-data", publicDoctorDataRoutes);

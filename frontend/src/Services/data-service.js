@@ -47,8 +47,8 @@ export default new class DataService {
         return await http.post("/auth/register", {email: username, password: password, register_type: register_type}, 
         {withCredentials: true})
     }
-    async UUIDtoID(){//Takes the DoctorUUID and returns DoctorID - for entering data (new pt, doctor)
-        return await http.post('/private-common-data/uuid-to-id')
+    async UUIDtoID(){//Takes the UUID and returns ID - for entering data (new pt, doctor)
+        return await http.post('/common-data/uuid-to-id')
     }
     async fillDoctorDashboard(){
         return await http.get('/private-doctor-data/dashboard-data')
@@ -56,10 +56,4 @@ export default new class DataService {
     async fillPatientDashboard(){
         return await http.get('/private-patient-data/dashboard-data')
     }
-    // async fillHeader(){
-    //     return await http.post('/private-common-data/header-data')
-    // }
-    // async checkUUID(){
-    //     return await http.post('/private-common-data/check-uuid')
-    // }
 }();

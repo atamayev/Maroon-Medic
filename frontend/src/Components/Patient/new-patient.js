@@ -13,7 +13,6 @@ export default function NewPatient () {
   const [DOByear, setDOByear] = useState('');
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
-  const [PatientID, setPatientID] = useState(null);
   const {user_verification, PatientVerifyToken} = useContext(VerifyContext);
 
   const months = [
@@ -35,25 +34,19 @@ export default function NewPatient () {
       
   useEffect(() => {
     // should have a check for special cookie function (UUID-like), to ensure that users with existing accounts cannot re-enter data
-    user_verification()
-    .then(result => {
-      if (result === true) {
-        return PatientUUIDtoPatientID();
-      } else {
-        throw new Error("Result from user_verification is false");
-      }
-    })
+    if (user_verification() === true){
+      console.log('FALSE')
+    }
   }, []);
   
   async function PatientUUIDtoPatientID (){
     try{
       const response = await DataService.UUIDtoID()
       if (response.data === 'User does not exist'){
-        return <p>Problem in PatientUUID to PatientID</p>
+        console.log('User does not exist')
       }
       else{
-        // console.log(response.data[0].Patient_ID)
-        setPatientID(response.data[0].Patient_ID)
+        return response.data;
       }
     }catch(error){
       console.log('error in PatientUUID to PatientID', error)
@@ -77,6 +70,7 @@ export default function NewPatient () {
 
   const handleSubmit = async (e) => {
       e.preventDefault();
+      const PatientID = await PatientUUIDtoPatientID();
       try {
         setError("")
         setLoading(true)
@@ -84,7 +78,6 @@ export default function NewPatient () {
         if(bool.data === true){
           // navigate("/dashboard");// this would be more efficient i think, but when navigate is used, the data doesn't load in time
           window.location.href = '/patient-dashboard';
-          console.log('Data added');
         }
       } catch (err) {
         console.log('err in adding data 1',err)
