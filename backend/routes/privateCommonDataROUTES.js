@@ -1,9 +1,9 @@
 import express from "express";
-import { headerData, UUIDtoID } from "../controllers/privateCommonDataCTRL.js";
+import { UUIDtoID } from "../controllers/privateCommonDataCTRL.js";
 
 const router = express.Router()
 
-router.post("/header-data", headerData)
+// router.post("/header-data", headerData)
 router.post("/uuid-to-id", UUIDtoID)
 // router.post("/check-uuid", checkUUID)
 

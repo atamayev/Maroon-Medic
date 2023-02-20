@@ -56,9 +56,9 @@ export default new class DataService {
     async fillPatientDashboard(){
         return await http.get('/private-patient-data/dashboard-data')
     }
-    async fillHeader(){
-        return await http.post('/private-common-data/header-data')
-    }
+    // async fillHeader(){
+    //     return await http.post('/private-common-data/header-data')
+    // }
     // async checkUUID(){
     //     return await http.post('/private-common-data/check-uuid')
     // }

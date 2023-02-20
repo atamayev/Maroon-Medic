@@ -10,9 +10,9 @@ import { SearchContext } from '../Contexts/SearchContext';
 
 export default function Header () {
   const location = useLocation();
-  const [headerData, setHeaderData] = useState({});
+  const [headerData, setHeaderData] = useState('');
   const {user_verification, DoctorVerifyToken, PatientVerifyToken} = useContext(VerifyContext);
-  const {setSearchTerm, searchTerm} = useContext(SearchContext);
+  const {searchTerm, setSearchTerm} = useContext(SearchContext);
   const cookie_monster = document.cookie;
 
   useEffect(()=>{
@@ -21,14 +21,16 @@ export default function Header () {
       user_verification()
       .then(result => {
         if (result === true) {
-          console.log(`Used ${Header.name} useEffect`);
-          const storedHeaderData = sessionStorage.getItem("headerData")
-          if (storedHeaderData){
-            setHeaderData(JSON.parse(storedHeaderData));
-          }else{
-            console.log('fetching data from db (elsed)')
-            HeaderData();
-          }
+          setTimeout(()=>{//slightly inefficient way of doing it, but this pauses the headerData, allowing the dashboarddata to run it's query, and then populates the headerData 50 miliseconds later
+            // this is done in order to not query the DB twice (once for dashboardData, and once for headerData).
+            const name = JSON.parse(sessionStorage.getItem("dashboardData")).FirstName;
+            if (name){
+              console.log(`Used ${Header.name} useEffect`);
+              setHeaderData(name);
+            }else{
+              console.log('fetching data from db (elsed)')
+            }
+          }, 50)
         }
       })
       .catch(error => {
@@ -36,26 +38,10 @@ export default function Header () {
       });
     }
   }, [cookie_monster]);
-  
-  async function HeaderData (){
-    try{
-      const response = await DataService.fillHeader() 
-      if (response){
-        // console.log(response.data)
-        setHeaderData(response.data);
-        sessionStorage.setItem("headerData", JSON.stringify(response.data))
-      }else{
-        console.log('no response')
-      }
-    }catch(error){
-      console.log('unable to fill in Header data', error)
-    }
-  }
 
   const handleLogout = async () => {
     try{
       sessionStorage.removeItem("dashboardData");
-      sessionStorage.removeItem("headerData");
       await DataService.logout();
     } catch(error){
       console.log('error',error)
@@ -137,7 +123,7 @@ export default function Header () {
           </div>
       <Dropdown className="menu-container" >
       <Dropdown.Toggle variant="dark" id="dropdown-basic" className = "menu-trigger menu-active">
-        {DoctorVerifyToken || PatientVerifyToken ? (headerData.FirstName):'Profile'}
+        {DoctorVerifyToken || PatientVerifyToken ? (headerData):'Profile'}
         <img src = {pic} 
         alt = "profile" 
         height = {20} />

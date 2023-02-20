@@ -53,15 +53,8 @@ export async function UUID_to_ID(UUID, type){
 
   try {
       const incomplete_ID = await connection.execute(sql, values)
-      if (type === 'Doctor'){
-        const doctor_ID = incomplete_ID[0][0].Doctor_ID
-        return doctor_ID
-      }
-      else if (type === 'Patient'){
-        const patient_ID = incomplete_ID[0][0].Patient_ID
-        return patient_ID
-      }
-
+      const ID = incomplete_ID[0][0][`${type}_ID`];
+      return ID
   }catch(error){
     return (`error in ${UUID_to_ID.name}:`, error)
   }
