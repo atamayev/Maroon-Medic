@@ -27,7 +27,7 @@ select * from basic_patient_info;
 CREATE TABLE PatientUUID_reference(
 PatientUUID_referenceID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 PatientUUID VARCHAR(150) NOT NULL, 
-Created_at DATETIME NOT NULL,
+Created_at VARCHAR(150) NOT NULL,
 Patient_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Patient_ID) REFERENCES Patient_credentials(PatientID)
 );

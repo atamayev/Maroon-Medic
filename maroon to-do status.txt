@@ -1,10 +1,8 @@
 To-do:
 
-consider completely deleting checkUUID as a verification mechanism in useEffect
-	UUID should only be used to send data bw client and serve
+clean up type in UUID.js
 
 break up login/register into more try/catches
-created at in UUID table should be encrypted 
 
 in new doctor/patient, shouldn't call UUIDtoID until the submission step. doing DB query before it makes sense to do so
 take out headerData function. just take from dashboard data

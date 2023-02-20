@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { connection, useDB } from './connect.js';
 import moment from 'moment';
-
+import Crypto from './crypto.js';
 // These functions are made to not send the DoctorID back and forth from server to client.
 // Instead, a UUID (Universally Unique Identifier) is created, which matches to a DoctorID, and is sent back and forth
 
@@ -14,23 +14,20 @@ import moment from 'moment';
 export async function ID_to_UUID(ID, type){
     console.log(`in ID to UUID, ${type}`)
     const UUID = uuidv4();
-    let table_name;
-    let DB_name;
+    const table_name = `${type}UUID_reference`; // not check if type is patient or doctor because this is not a client-facing function. every function that uses this function already filters out non-patient/doctor types
+    const DB_name = `${type}DB`;
+    
     const date_ob = new Date();
     const format = "YYYY-MM-DD HH:mm:ss"
     const dateTime = moment(date_ob).format(format);
-    if (type === 'Doctor'){
-      table_name = 'DoctorUUID_reference';
-      DB_name = 'DoctorDB';
+    const dateTimeObj = {
+      Created_at: `${dateTime}`
     }
-    else if (type === 'Patient'){
-      table_name = 'PatientUUID_reference';
-      DB_name = 'PatientDB';
-    }
- 
+    const encrypted_date_time = Crypto.encrypt_single_entry(dateTimeObj).Created_at
+
     await useDB(ID_to_UUID.name, DB_name, `${table_name}`)
     const sql = `INSERT INTO ${table_name} (${type}UUID, Created_at, ${type}_ID) VALUES (?, ?, ?)`;
-    const values = [UUID, dateTime, ID ];
+    const values = [UUID, encrypted_date_time, ID ];
   
     try {
       await connection.execute(sql, values)
@@ -47,19 +44,8 @@ export async function ID_to_UUID(ID, type){
  * @returns Corresponding DoctorID
  */
 export async function UUID_to_ID(UUID, type){
-  let table_name;
-  let DB_name;
-  if (type === 'Doctor'){
-    table_name = 'DoctorUUID_reference';
-    DB_name = 'DoctorDB';
-  }
-  else if (type === 'Patient'){
-    table_name = 'PatientUUID_reference';
-    DB_name = 'PatientDB';
-  }
-  else{
-    return (`error in ${UUID_to_ID.name}:`, error)
-  }
+  const table_name = `${type}UUID_reference`; // not check if type is patient or doctor because this is not a client-facing function. every function that uses this function already filters out non-patient/doctor types
+  const DB_name = `${type}DB`;
 
   await useDB(UUID_to_ID.name, DB_name, table_name)
   const sql = `SELECT ${type}_ID FROM ${table_name} WHERE ${type}UUID = ?`;

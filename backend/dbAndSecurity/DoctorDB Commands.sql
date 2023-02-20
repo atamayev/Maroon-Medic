@@ -32,7 +32,7 @@ SELECT * FROM Doctor_credentials left JOIN basic_Doctor_info ON Doctor_credentia
 CREATE TABLE DoctorUUID_reference(
 DoctorUUID_referenceID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 DoctorUUID VARCHAR(150) NOT NULL, 
-Created_at DATETIME NOT NULL,
+Created_at VARCHAR(150) NOT NULL,
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID)
 );
@@ -57,14 +57,14 @@ FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 
 CREATE TABLE profile_update_history(
 profile_update_historyID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Updated_at DATETIME, 
+Updated_at VARCHAR(150), 
 IP_Address INT unsigned,
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 
 CREATE TABLE login_history(
 login_historyID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Login_at DATETIME, 
+Login_at VARCHAR(150), 
 IP_Address INT unsigned,
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
@@ -93,7 +93,7 @@ FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 CREATE TABLE language_list(
 -- Lookup Table
 language_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Language_name VARCHAR(100));
+Language_name VARCHAR(150));
 
 CREATE TABLE language_mapping(
 language_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -115,7 +115,7 @@ Major_name VARCHAR(300));
 CREATE TABLE education_types_list(
 -- Lookup Table
 education_typeID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Education_type VARCHAR(300)); -- bachelor, resideny, fellow
+Education_type VARCHAR(150)); -- bachelor, resideny, fellow
 
 CREATE TABLE education_mapping(
 education_mapping_ID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -146,10 +146,10 @@ CREATE TABLE Doctor_addresses(
 addresses_ID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 address_line_1 VARCHAR(200),
 address_line_2 VARCHAR(200), -- apt, suite, etc.
-city VARCHAR(200), 
-state VARCHAR(5),
-zip INT(10),
-country VARCHAR(100),
+city VARCHAR(150), 
+state VARCHAR(150),
+zip INT(150),
+country VARCHAR(150),
 address_priority INT(5),-- address number is the primary, secondary, etc. 
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
@@ -168,8 +168,8 @@ FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 
 CREATE TABLE booking_availability(
 booking_availabilityID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Day_of_week VARCHAR(20),
-Day_start_time DATETIME, 
+Day_of_week VARCHAR(150),
+Day_start_time VARCHAR(150), 
 Hours_in_advance_scheduling INT,
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
