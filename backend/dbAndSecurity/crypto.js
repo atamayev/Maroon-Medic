@@ -16,15 +16,18 @@ export default new class Crypto {
         const secretKey = Buffer.from(process.env.ENCRYPTION_SECRET_KEY, 'hex');
         
         let encryptedData = decryptedData;
-        const keys = Object.keys(decryptedData)
-
-        for (const key of keys){
-            const cipher = createCipheriv('aes-256-cbc', secretKey, iv);
-            encryptedData[key] = cipher.update(decryptedData[key], 'utf8', 'hex');
-            encryptedData[key] += cipher.final('hex');
+        const keys = Object.keys(decryptedData);
+        try{
+            for (const key of keys){
+                const cipher = createCipheriv('aes-256-cbc', secretKey, iv);
+                encryptedData[key] = cipher.update(decryptedData[key], 'utf8', 'hex');
+                encryptedData[key] += cipher.final('hex');
+            }
+            return (encryptedData)
+        }catch(error){
+            console.log('Error in encrypt_single_entry', error);
         }
-        return (encryptedData)
-    }
+    };
 
     /** decryptSingle: Decrypts a single record (usually for the individual doctor pages)
      *  Takes the IV/Secret Key from .env file (makes them into a buffer from a hex), and decrypts a single 'row' of data
@@ -38,16 +41,20 @@ export default new class Crypto {
         const secretKey = Buffer.from(process.env.ENCRYPTION_SECRET_KEY, 'hex');
 
         let decryptedData = encrypted_single;
-        let keys = Object.keys(decryptedData)
+        let keys = Object.keys(decryptedData);
         // The email element in the array is deleted since it's already decrypted (stored unencrypted in db)
         keys = keys.filter(item => item !== 'email');
-
-        for (const key of keys){
-            const decipher = createDecipheriv('aes-256-cbc', secretKey, iv);
-            decryptedData[key] = decipher.update(encrypted_single[key], 'hex', 'utf8');
-            decryptedData[key] += decipher.final('utf8');
+        try{
+            for (const key of keys){
+                const decipher = createDecipheriv('aes-256-cbc', secretKey, iv);
+                decryptedData[key] = decipher.update(encrypted_single[key], 'hex', 'utf8');
+                decryptedData[key] += decipher.final('utf8');
+            }
+            return decryptedData
+        }catch(error){
+            console.log('Error in decryptSingle', error);
         }
-        return decryptedData
+
     };
     
     /** decrypt_multiple: Decrypts a array of objects. Used for the home screen (although not currently being used since no encrypted data appears on the home screen)
@@ -57,22 +64,25 @@ export default new class Crypto {
      */
     decrypt_multiple (encryptedData){
         const decryptedRecords = [];
-
-        for (const record of encryptedData){
-            const iv = Buffer.from(process.env.ENCRYPTION_IV, 'hex');
-            const secretKey = Buffer.from(process.env.ENCRYPTION_SECRET_KEY, 'hex');
-    
-            let decryptedData = record
-            // decryptedData = record;
-            const keys = Object.keys(decryptedData)
-            
-            for (const key of keys){
-                const decipher = createDecipheriv('aes-256-cbc', secretKey, iv);
-                decryptedData[key] = decipher.update(record[key], 'hex', 'utf8');
-                decryptedData[key] += decipher.final('utf8');
-            }
-            decryptedRecords.push(decryptedData)
+        try{
+            for (const record of encryptedData){
+                const iv = Buffer.from(process.env.ENCRYPTION_IV, 'hex');
+                const secretKey = Buffer.from(process.env.ENCRYPTION_SECRET_KEY, 'hex');
+        
+                let decryptedData = record
+                // decryptedData = record;
+                const keys = Object.keys(decryptedData)
+                
+                for (const key of keys){
+                    const decipher = createDecipheriv('aes-256-cbc', secretKey, iv);
+                    decryptedData[key] = decipher.update(record[key], 'hex', 'utf8');
+                    decryptedData[key] += decipher.final('utf8');
+                }
+                    decryptedRecords.push(decryptedData)
+                }
+            return decryptedRecords
+        }catch(error){
+            console.log('Error in decrypt_multiple', error);
         }
-    return decryptedRecords
     };
 }();

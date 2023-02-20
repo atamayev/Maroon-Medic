@@ -9,28 +9,23 @@ import { UUID_to_ID } from "../dbAndSecurity/UUID.js";
  * @returns Corresponding ID
  */
 export async function UUIDtoID (req, res){
-    console.log('in uuid to id')
+    // console.log('in uuid to id')
+    const cookies = req.cookies
+    let UUID;
+    let type;
+    if("DoctorAccessToken" in cookies){
+        UUID = req.cookies.DoctorUUID
+        type = 'Doctor';
+    } else if("PatientAccessToken" in cookies){
+        UUID = req.cookies.PatientUUID
+        type = 'Patient';
+    } else{
+        return res.send('Invalid User Type') // If Type not Doctor or Patient
+    }
     try{
-        const cookies = req.cookies
-        let UUID;
-        let type;
-        if("DoctorAccessToken" in cookies){
-            UUID = req.cookies.DoctorUUID
-            type = 'Doctor';
-        } else if("PatientAccessToken" in cookies){
-            UUID = req.cookies.PatientUUID
-            type = 'Patient';
-        } else{
-            return res.send('Invalid User Type') // If Type not Doctor or Patient
-        }
-            try{
-                const results = await UUID_to_ID(UUID, type)
-                return res.status(200).json(results)
-            }catch(error){
-                return res.send('Error in User ID conversion')
-            }
+        const results = await UUID_to_ID(UUID, type)
+        return res.status(200).json(results)
     }catch(error){
-        console.log('error in UUIDtoID ', error);
-        return res.send('User does not exist')
+        return res.send('Error in User ID conversion')
     }
 };

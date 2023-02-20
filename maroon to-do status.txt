@@ -1,6 +1,6 @@
 To-do:
 
-break up login/register into more try/catches
+simplify nested try catches
 
 re-do code documentation
 
