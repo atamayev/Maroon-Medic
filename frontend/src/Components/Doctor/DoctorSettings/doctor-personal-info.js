@@ -1,9 +1,9 @@
 import React, {useState} from 'react'
-import DoctorHeader from './doctor-header.js';
+import DoctorHeader from '../doctor-header.js';
 import {Card, Button, Form } from 'react-bootstrap'
-import DataService from '../../Services/data-service.js';
+import DataService from '../../../Services/data-service.js';
 
-export default function DoctorSettings() {
+export default function DoctorPersonalInfo() {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');

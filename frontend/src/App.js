@@ -15,7 +15,11 @@ import DoctorLogin from "./Components/Doctor/doctor-login"
 import NewDoctor from "./Components/Doctor/new-doctor"
 import DoctorDashboard from './Components/Doctor/doctor-dashboard';
 import DoctorAccountDetails from "./Components/Doctor/doctor-account-details"
-import DoctorSettings from './Components/Doctor/doctor-settings';
+import DoctorSettings from './Components/Doctor/DoctorSettings/doctor-settings';
+import DoctorPersonalInfo from './Components/Doctor/DoctorSettings/doctor-personal-info';
+import DoctorPrivacy from './Components/Doctor/DoctorSettings/doctor-privacy';
+import DoctorLoginAndSecurity from './Components/Doctor/DoctorSettings/doctor-login-and-security';
+
 //Patient Specific:
 import PatientLogin from './Components/Patient/patient-login';
 import PatientRegister from './Components/Patient/patient-register';
@@ -43,6 +47,9 @@ export default function App() {
           <Route exact path = '/vet-dashboard' element = {<DoctorDashboard/>} />
           <Route exact path = '/vet-account-details' element = {<DoctorAccountDetails/>} />
           <Route exact path = '/vet-settings' element = {<DoctorSettings/>} />
+          <Route exact path = '/vet-settings/personal-information' element = {<DoctorPersonalInfo/>} />
+          <Route exact path = '/vet-settings/privacy' element = {<DoctorPrivacy/>} />
+          <Route exact path = '/vet-settings/login-and-security' element = {<DoctorLoginAndSecurity/>} />
 
           <Route exact path = '/patient-register' element = {<PatientRegister/>} />
           <Route exact path = '/patient-login' element = {<PatientLogin/>} />
