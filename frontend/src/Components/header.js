@@ -1,4 +1,3 @@
-
 import React, {useCallback, useState, useEffect, useContext } from 'react'
 import {Dropdown} from "react-bootstrap";
 import {useLocation} from "react-router-dom";
@@ -134,13 +133,13 @@ export default function Header () {
           <div>
           <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
           <Dropdown.Item href="/vet-dashboard">Vet Dashboard</Dropdown.Item>
-          <Dropdown.Item href="/edit-vet-profile">Profile Settings</Dropdown.Item>
+          <Dropdown.Item href="/vet-account-details">Account Settings</Dropdown.Item>
           </div>
           ) : PatientVerifyToken ? (
             <div>
           <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
           <Dropdown.Item href="/patient-dashboard">Patient Dashboard</Dropdown.Item>
-          <Dropdown.Item href="/edit-patient-profile">Profile Settings</Dropdown.Item>
+          <Dropdown.Item href="/patient-account-details">Account Settings</Dropdown.Item>
             </div>
           ) : (
           <div>

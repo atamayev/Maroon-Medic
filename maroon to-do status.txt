@@ -1,7 +1,5 @@
 To-do:
 
-simplify nested try catches
-
 re-do code documentation
 
 ASAP:

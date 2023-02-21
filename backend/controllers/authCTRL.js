@@ -30,6 +30,7 @@ export async function jwt_verify (req, res){
     response.type = 'Patient';
   }
   else{
+    console.log('Invalid User Type')
     return res.send('Invalid User Type') // If Type not Doctor or Patient
   }
 

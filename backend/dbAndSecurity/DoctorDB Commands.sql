@@ -168,11 +168,19 @@ FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 
 CREATE TABLE booking_availability(
 booking_availabilityID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Day_of_week VARCHAR(150),
-Day_start_time VARCHAR(150), 
-Hours_in_advance_scheduling INT,
+Day_of_week VARCHAR(150), -- wheather or not the doc takes on monday
+Day_of_week_Start_Time VARCHAR(150),
+Day_of_week_End_Time VARCHAR(150),	
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
+
+CREATE TABLE detailed_booking_availability(
+detailed_booking_availabilityID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+Hours_in_advance_scheduling VARCHAR(150),
+Cancelation VARCHAR(150),
+Hours_in_advance_cancelation VARCHAR(150),
+FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
+
 
 ALTER USER 'root' IDENTIFIED WITH mysql_native_password BY 'password';
 

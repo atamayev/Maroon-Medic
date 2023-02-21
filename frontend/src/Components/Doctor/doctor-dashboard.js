@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
 import DataService from "../../Services/data-service.js"
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
+import DoctorHeader from './doctor-header.js';
 
 export default function DoctorDashboard() {
   const {DoctorVerifyToken, PatientVerifyToken, user_verification} = useContext(VerifyContext)
@@ -79,6 +80,7 @@ export default function DoctorDashboard() {
 
   return (
     <div>
+      <DoctorHeader/>
         <p>This is the Vet Dashboard Page</p>
         <Card style={{margin: '0 10px' }}>
           <Card.Body>

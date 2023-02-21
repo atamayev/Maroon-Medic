@@ -12,7 +12,6 @@ import Crypto from './crypto.js';
  * @returns Randomly generated UUID
  */
 export async function ID_to_UUID(ID, type){
-    console.log(`in ID to UUID, ${type}`)
     const UUID = uuidv4();
     const table_name = `${type}UUID_reference`; // not check if type is patient or doctor because this is not a client-facing function. every function that uses this function already filters out non-patient/doctor types
     const DB_name = `${type}DB`;

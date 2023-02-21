@@ -1,0 +1,63 @@
+Across the Top (instead of header):
+
+	Dashboard:
+		Upcoming appts
+		Edit Services offered & pricing
+		Update availblity
+		Explore settings
+	Inbox
+		New messages (new bookings, recommendations, verification status etc.)
+		Not yet: Chat
+	Account
+		Description
+		Link to edit name/email (looking to change personal info --> link to settings)
+		Pictures
+		Languages spoken
+		Edication (school, major, education type) - able to add multiple
+		Certifications list
+		Per Locaiton:
+			Address
+			Phone
+			Services offered, (later with complementary pricing)
+			Insurances accepted
+	Settings
+		Personal Info
+			Legal Name (First, Last)
+			email
+			Phone
+			Government ID
+		Not yet: Payments
+		Not yet: Taxes
+		Privacy
+			Include my practice in search listings
+		Global Preferences
+			Preferred Language, Currency, Time zone
+		Tax
+		Login & Security:
+			Password (last updated), and ability to update
+	
+
+
+Credentials
+basic Info (firstname, last, etc.)
+Phone
+Description
+Profile update history
+login history
+service_list
+pictures
+language mapping
+	language list
+
+educaiton mapping
+	schools list
+	majjors_list
+	education tyypes
+
+Certifications_list
+	certifciatoins mapping
+
+addresses
+insurances
+insrunace mapping
+booking availbility/detailed

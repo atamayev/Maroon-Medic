@@ -2,8 +2,9 @@ import React, {useEffect, useContext} from 'react'
 import { Link } from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
+import DoctorHeader from './doctor-header.js';
 
-export default function EditDoctorProfile() {
+export default function DoctorAccountDetails() {
   const {user_verification, DoctorVerifyToken, PatientVerifyToken} = useContext(VerifyContext);
 
   useEffect(()=>{
@@ -11,7 +12,7 @@ export default function EditDoctorProfile() {
     user_verification()
     .then(result => {
       if (result === true) {
-        console.log(`Used ${EditDoctorProfile.name} useEffect`);
+        console.log(`Used ${DoctorAccountDetails.name} useEffect`);
       }
     })
     .catch(error => {
@@ -51,6 +52,7 @@ export default function EditDoctorProfile() {
 
   return (
     <div>
+      <DoctorHeader/>
       <p>This is the Edit Profile Page</p>
         <Link to= {'/vet-dashboard'}>
               <Button variant="primary">
