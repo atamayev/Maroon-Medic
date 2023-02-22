@@ -1,10 +1,11 @@
 import express from "express";
-import { newDoctor, dashboardData } from "../controllers/privateDoctorDataCTRL.js";
+import { newDoctor, dashboardData, personalData } from "../controllers/privateDoctorDataCTRL.js";
 
 const router = express.Router()
 
 router.post("/new-doctor", newDoctor)
 router.get("/dashboard-data", dashboardData)
+router.get("/personal-data", personalData)
 
 
 export default router

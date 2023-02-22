@@ -1,7 +1,7 @@
 To-do:
 
 re-do code documentation
-
+--figure out not putting all routes in app.js. Maybe put the settings routes into the doctorsettings.js
 ASAP:
 2. Editability of doc info
 	when editing info, should first check session storage, then db. if exists, alter db. if doesn't exist, insert

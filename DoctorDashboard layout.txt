@@ -2,10 +2,12 @@ Across the Top (instead of header):
 
 	Dashboard:
 		Upcoming appts
-		Edit Services offered & pricing
-		Update availblity
-		Explore settings
-	Inbox
+		More options/filling in the space:
+			Edit Services offered & pricing--> link to account Booking Times
+			Update availblity--> link to account Booking Times
+			Explore settings
+			Chat
+	Not yet: Inbox
 		New messages (new bookings, recommendations, verification status etc.)
 		Not yet: Chat
 	Account
@@ -17,8 +19,9 @@ Across the Top (instead of header):
 		Certifications list
 		Per Locaiton:
 			Address
+			Booking Availibility (which days/times work)
 			Phone
-			Services offered, (later with complementary pricing)
+			Services offered, time for each of them, wheather or not they can overlap (later with complementary pricing)
 			Insurances accepted
 	Settings
 		Personal Info
@@ -37,6 +40,7 @@ Across the Top (instead of header):
 			Password (last updated), and ability to update
 	
 
+All Tables:
 
 Credentials
 basic Info (firstname, last, etc.)

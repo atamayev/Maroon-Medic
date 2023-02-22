@@ -81,7 +81,7 @@ export default function DoctorDashboard() {
   return (
     <div>
       <DoctorHeader/>
-        <p>This is the Vet Dashboard Page</p>
+        <p>Welcome back, Dr. {dashboardData.LastName}</p>
         <Card style={{margin: '0 10px' }}>
           <Card.Body>
             {dashboardData ? (

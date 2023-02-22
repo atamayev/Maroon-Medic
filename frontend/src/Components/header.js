@@ -22,14 +22,19 @@ export default function Header () {
         if (result === true) {
           setTimeout(()=>{//slightly inefficient way of doing it, but this pauses the headerData, allowing the dashboarddata to run it's query, and then populates the headerData 50 miliseconds later
             // this is done in order to not query the DB twice (once for dashboardData, and once for headerData).
-            const name = JSON.parse(sessionStorage.getItem("dashboardData")).FirstName;
-            if (name){
-              console.log(`Used ${Header.name} useEffect`);
+            try{
+              const name = JSON.parse(sessionStorage.getItem("dashboardData")).FirstName;
               setHeaderData(name);
-            }else{
-              console.log('fetching data from db (elsed)')
+            }catch(error){
+              if (error instanceof TypeError){
+                console.log()
+                DashboardData();
+              }
+              else{
+                console.log('some other error')
+              }
             }
-          }, 50)
+           }, 50)
         }
       })
       .catch(error => {
@@ -37,6 +42,20 @@ export default function Header () {
       });
     }
   }, [cookie_monster]);
+
+  async function DashboardData (){
+    try{
+      const response = await DataService.fillDoctorDashboard()
+      if (response){
+        setHeaderData(response.data.FirstName);
+        sessionStorage.setItem("dashboardData", JSON.stringify(response.data))
+      }else{
+        console.log('no response')
+      }
+    }catch(error){
+      console.log('unable to fillDoctorDashboard', error)
+    }
+  }
 
   const handleLogout = async () => {
     try{

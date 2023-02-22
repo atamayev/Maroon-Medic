@@ -177,7 +177,7 @@ FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 CREATE TABLE detailed_booking_availability(
 detailed_booking_availabilityID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Hours_in_advance_scheduling VARCHAR(150),
-Cancelation VARCHAR(150),
+Latest_Hours_before_booking VARCHAR(150),
 Hours_in_advance_cancelation VARCHAR(150),
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 
