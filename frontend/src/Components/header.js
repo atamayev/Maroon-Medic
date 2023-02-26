@@ -23,12 +23,12 @@ export default function Header () {
           setTimeout(()=>{//slightly inefficient way of doing it, but this pauses the headerData, allowing the dashboarddata to run it's query, and then populates the headerData 50 miliseconds later
             // this is done in order to not query the DB twice (once for dashboardData, and once for headerData).
             try{
-              const name = JSON.parse(sessionStorage.getItem("dashboardData")).FirstName;
+              const name = JSON.parse(sessionStorage.getItem("DoctorPersonalInfo")).FirstName;
               setHeaderData(name);
             }catch(error){
               if (error instanceof TypeError){
                 console.log()
-                DashboardData();
+                PersonalInfo();
               }
               else{
                 console.log('some other error')
@@ -43,23 +43,24 @@ export default function Header () {
     }
   }, [cookie_monster]);
 
-  async function DashboardData (){
+  async function PersonalInfo (){
     try{
-      const response = await DataService.fillDoctorDashboard()
+      const response = await DataService.fillDoctorPersonalData()
       if (response){
         setHeaderData(response.data.FirstName);
-        sessionStorage.setItem("dashboardData", JSON.stringify(response.data))
+        sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(response.data))
       }else{
         console.log('no response')
       }
     }catch(error){
-      console.log('unable to fillDoctorDashboard', error)
+      console.log('unable to fillDoctorPersonalData', error)
     }
   }
 
   const handleLogout = async () => {
     try{
       sessionStorage.removeItem("dashboardData");
+      sessionStorage.removeItem("DoctorPersonalInfo");
       await DataService.logout();
     } catch(error){
       console.log('error',error)

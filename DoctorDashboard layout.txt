@@ -26,9 +26,8 @@ Across the Top (instead of header):
 	Settings
 		Personal Info
 			Legal Name (First, Last)
-			email
 			Phone
-			Government ID
+			Government ID	
 		Not yet: Payments
 		Not yet: Taxes
 		Privacy
@@ -37,7 +36,10 @@ Across the Top (instead of header):
 			Preferred Language, Currency, Time zone
 		Tax
 		Login & Security:
-			Password (last updated), and ability to update
+			Password: ability to update
+			email: change email
+			List of past login activity
+
 	
 
 All Tables:

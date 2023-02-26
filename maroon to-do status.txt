@@ -1,10 +1,20 @@
 To-do:
 
-re-do code documentation
---figure out not putting all routes in app.js. Maybe put the settings routes into the doctorsettings.js
 ASAP:
 2. Editability of doc info
 	when editing info, should first check session storage, then db. if exists, alter db. if doesn't exist, insert
+	-- add DOB, gender to doctor_personal page
+	-- will probably need to change what data dashboard data queries from the DB. Don't need DOB, gender on the dashboard.
+		will just need upcoming appointments, maybe a welcome Dr. ____.
+
+--send back login/register as an object instead of three vars. same for addingDoctor/Patient Data
+	when re-doing this, make sure to capitalize first/lastname, gender, dobmonth correctly. dobmonth should be DOB_month
+
+
+
+--re-do code documentation
+
+--figure out not putting all routes in app.js. Maybe put the settings routes into the doctorsettings.js
 
 Later:
 

@@ -32,7 +32,6 @@ export default function DoctorPersonalInfo() {
     async function PersonalInfoData(){
         console.log('in personal data')
         try{
-            //need to make this fucntion:
             const response = await DataService.fillDoctorPersonalData()
             console.log(response.data)
             if (response){
@@ -48,19 +47,24 @@ export default function DoctorPersonalInfo() {
 
     const handleSave = async (e) =>{
         e.preventDefault();
-        const storedPersonalInfoData = sessionStorage.getItem("DoctorPersonalInfo")
+        const storedPersonalInfoData = sessionStorage.getItem("DoctorPersonalInfo");
+        const stringifiedPersonalInfoData = JSON.stringify(personalInfo)
         try{
-            if (personalInfo != storedPersonalInfoData){// if there is a change, and handlesave is used:
+            if (stringifiedPersonalInfoData !== storedPersonalInfoData){// if there is a change, and handlesave is used:
                 try {
                     //create this:
-                    await DataService.savePersonalData(personalInfo);
-                    console.log('Updated Informtion');
+                    const response = await DataService.saveDoctorPersonalData(personalInfo);
+                    if (response.data === true){
+                        // setPersonalInfo(personalInfo);
+                        sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(personalInfo));
+                        console.log('Saved!');
+                    }else{
+                      console.log('no response')
+                    }
                 } catch (error) {
                     console.log(error.response.data);
                 }
             }else{
-                console.log('personalInfo',personalInfo)
-                console.log('storedPersonalInfoData',storedPersonalInfoData)
                 console.log('same data')
             }
         }catch(error){
@@ -109,26 +113,42 @@ export default function DoctorPersonalInfo() {
         <Card>
             <Card.Body>
                 <Form onSubmit = {handleSave}>
-
-                <Form.Group id = "firstName">
+                {/* Conisder adding DOB, Gender as a field to this */}
+                <Form.Group id = "FirstName">
                     <Form.Label>First Name</Form.Label>
-                    <Form.Control id="firstName" defaultValue={personalInfo.FirstName} onChange={(event) => setPersonalInfo({...PersonalInfoData, firstName: event.target.value})}/>
+                    <Form.Control id="FirstName" defaultValue={personalInfo.FirstName} onChange={(event) => setPersonalInfo({...personalInfo, FirstName: event.target.value})}/>
                 </Form.Group>
 
-                <Form.Group id = "lastName">
+                <Form.Group id = "LastName">
                     <Form.Label>Last Name</Form.Label>
-                    <Form.Control id="lastName" defaultValue={personalInfo.LastName} onChange={(event) => setPersonalInfo({...PersonalInfoData, lastName: event.target.value})}/>
+                    <Form.Control id="LastName" defaultValue={personalInfo.LastName} onChange={(event) => setPersonalInfo({...personalInfo, LastName: event.target.value})}/>
                 </Form.Group>
 
-                <Form.Group id = "email">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control id="email" defaultValue={personalInfo.email} onChange={(event) => setPersonalInfo({...PersonalInfoData, email: event.target.value})}/>
+                <Form.Group id = "Gender">
+                    <Form.Label>Gender</Form.Label>
+                    <Form.Control id="Gender" defaultValue={personalInfo.Gender} onChange={(event) => setPersonalInfo({...personalInfo, Gender: event.target.value})}/>
                 </Form.Group>
 
-                <Form.Group id = "phone">
+                <Form.Group id = "DOB_month">
+                    <Form.Label>Birthmonth</Form.Label>
+                    <Form.Control id="DOB_month" defaultValue={personalInfo.DOB_month} onChange={(event) => setPersonalInfo({...personalInfo, DOB_month: event.target.value})}/>
+                </Form.Group>
+
+                <Form.Group id = "DOB_day">
+                    <Form.Label>Birthday</Form.Label>
+                    <Form.Control id="DOB_day" defaultValue={personalInfo.DOB_day} onChange={(event) => setPersonalInfo({...personalInfo, DOB_day: event.target.value})}/>
+                </Form.Group>
+
+                <Form.Group id = "DOB_year">
+                    <Form.Label>Birthyear</Form.Label>
+                    <Form.Control id="DOB_year" defaultValue={personalInfo.DOB_year} onChange={(event) => setPersonalInfo({...personalInfo, DOB_year: event.target.value})}/>
+                </Form.Group>
+
+                {/* <Form.Group id = "phone">
                     <Form.Label>Personal Phone Number</Form.Label>
                     <Form.Control id="phone" defaultValue={personalInfo.phone} onChange={(event) => setPersonalInfo({...PersonalInfoData, phone: event.target.value})}/>
-                </Form.Group>
+                </Form.Group> */}
+
                 <br/>
                 <Button type = "submit" className="btn btn-primary w-100">Save</Button>
                 </Form>
