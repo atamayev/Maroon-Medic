@@ -31,7 +31,7 @@ export async function jwt_verify (req, res){
   }
   else{
     console.log('Invalid User Type')
-    return res.send('Invalid User Type') // If Type not Doctor or Patient
+    return res.status(400).json('Invalid User Type'); // If Type not Doctor or Patient
   }
 
   try{
@@ -89,7 +89,7 @@ export async function login (req, res){
     [results] = await connection.execute(sql, values);
     hashed_password = results[0].password;
   }catch(error){
-    res.status(500).send({ error: 'Problem with email selection' });
+    return res.status(500).send({ error: 'Problem with email selection' });
   }
 
   if (!results.length){ 
@@ -102,7 +102,7 @@ export async function login (req, res){
   try{
     bool = await Hash.checkPassword(password, hashed_password)
   }catch(error){
-    res.status(500).send({ error: 'Problem with checking password' });
+    return res.status(500).send({ error: 'Problem with checking password' });
   }
   
   if (bool === true) {
@@ -121,7 +121,7 @@ export async function login (req, res){
     try{
       token = jwt.sign(payload, JWTKey);
     }catch(error){
-      res.status(500).send({ error: 'Problem with Signing JWT' });
+      return res.status(500).send({ error: 'Problem with Signing JWT' });
     }
 
     const UUID = await ID_to_UUID(ID, login_type)
@@ -157,7 +157,7 @@ export async function login (req, res){
  * @returns An error, or a json response, depending on wheather the credentials are able to be registered
  */
 export async function register (req, res){
-    const {email, password, register_type} = req.body // Takes out the decrypted_email from the request
+    const {email, password, register_type} = req.body.register_information_object // Takes out the decrypted_email from the request
     let table_name;
     let DB_name;
     if(register_type === 'Doctor' || register_type === 'Patient'){
@@ -175,9 +175,13 @@ export async function register (req, res){
     let results;
     try{
       [results] = await connection.execute(sql, values)
+      if (results.length !== 0){
+        console.log('User already exists')
+        return res.status(400).json("User already exists!");
+      }
     }catch(error){
       console.log('Problem with existing email search')
-      res.status(500).send({ error: 'Problem with existing email search' });
+      return res.status(500).send({ error: 'Problem with existing email search' });
     }
 
     let hashed_password;
@@ -186,7 +190,7 @@ export async function register (req, res){
         hashed_password = await Hash.hash_credentials(password)
       }catch(error){
         console.log('Problem with Password Hashing')
-        res.status(500).send({ error: 'Problem with Password Hashing' });
+        return res.status(500).send({ error: 'Problem with Password Hashing' });
       }
     }
 
@@ -202,7 +206,7 @@ export async function register (req, res){
     }
     catch(error){
       console.log('Problem with Data Encryption')
-      res.status(500).send({ error: 'Problem with Data Encryption' });
+      return res.status(500).send({ error: 'Problem with Data Encryption' });
     }
     
     const sql_1 = `INSERT INTO ${table_name} (email, password, Created_at) VALUES (?, ?, ?)`;
@@ -211,7 +215,7 @@ export async function register (req, res){
       await connection.execute(sql_1, values_1)
     }catch (error){
       console.log('Problem with Data Inseration')
-      res.status(500).send({ error: 'Problem with Data Inseration' });
+      return res.status(500).send({ error: 'Problem with Data Inseration' });
     }
 
     let results_1;
@@ -220,7 +224,7 @@ export async function register (req, res){
 
     }catch(error){
       console.log('Problem with Data Selection')
-      res.status(500).send({ error: 'Problem with Data Selection' });
+      return res.status(500).send({ error: 'Problem with Data Selection' });
     }
 
     const IDKey = `${register_type}ID`;
@@ -236,7 +240,7 @@ export async function register (req, res){
       token = jwt.sign(payload, JWTKey);
     }catch(error){
       console.log('error in catching insert')
-      res.status(500).send({ error: 'Problem with Data Selection' });
+      return res.status(500).send({ error: 'Problem with Data Selection' });
     }
 
     let UUID;
@@ -244,7 +248,7 @@ export async function register (req, res){
       UUID = await ID_to_UUID(ID, register_type)
     }catch(error){
       console.log('error in IDUUID')
-      res.status(500).send({ error: 'Problem with IDUUID' });
+      return res.status(500).send({ error: 'Problem with IDUUID' });
     }
     return res
       .cookie(`${register_type}AccessToken`, token, {
@@ -309,9 +313,9 @@ export async function logout (req, res){
       console.log(`logged out ${type}`)
     }catch (error){
       console.log(`error in logging ${type} out`)
-      res.status(500).send({ error: `Error in logging ${type} out` });
+      return res.status(500).send({ error: `Error in logging ${type} out` });
     }
   }catch(error){
-    res.status(500).send({ error: `Error in accessing DB` });
+    return res.status(500).send({ error: `Error in accessing DB` });
   }
 };

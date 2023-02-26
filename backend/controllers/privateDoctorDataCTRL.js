@@ -10,15 +10,15 @@ import { UUID_to_ID } from "../dbAndSecurity/UUID.js";
  */
 export async function newDoctor (req, res){
     const DoctorID = req.body.DoctorID
-    delete req.body.DoctorID; // deleted so its not encrypted (useless to encrypt)
+    const new_doctor_object = req.body.new_doctor_object
 
     const table_name = 'basic_Doctor_info'
     const DB_name = 'DoctorDB'
-    const encrypted = Crypto.encrypt_single_entry(req.body)
+    const encrypted = Crypto.encrypt_single_entry(new_doctor_object)
 
     const sql = `INSERT INTO ${table_name} (FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year, Doctor_ID) VALUES (?,?,?,?,?,?,?)`;
 
-    const values = [encrypted.firstName, encrypted.lastName, encrypted.gender, encrypted.DOBmonth, encrypted.DOBday, encrypted.DOByear, DoctorID];
+    const values = [encrypted.FirstName, encrypted.LastName, encrypted.Gender, encrypted.DOB_month, encrypted.DOB_day, encrypted.DOB_year, DoctorID];
     await useDB(newDoctor.name, DB_name, table_name)
     
     try{

@@ -4,6 +4,10 @@ ASAP:
 --send back login/register as an object instead of three vars. same for addingDoctor/Patient Data
 	when re-doing this, make sure to capitalize first/lastname, gender, dobmonth correctly. dobmonth should be DOB_month
 
+-- when patient logs in, cannot access the firstname, etc. - crashes site
+
+in login and register front-end, awaits login/register, but navigates regardless of response. send something like: login= true from back-end, then in front-end, if login=true, navigate. otherwise stay
+
 
 
 --re-do code documentation

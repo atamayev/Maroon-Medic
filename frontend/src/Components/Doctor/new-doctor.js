@@ -5,12 +5,7 @@ import DataService from "../../Services/data-service.js"
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 
 export default function NewDoctor () {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [gender, setGender] = useState('');
-  const [DOBmonth, setDOBmonth] = useState('');
-  const [DOBday, setDOBday] = useState('');
-  const [DOByear, setDOByear] = useState('');
+  const [newDoctorInfo, setNewDoctorInfo] = useState({});
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const {user_verification, DoctorVerifyToken} = useContext(VerifyContext);
@@ -74,7 +69,8 @@ export default function NewDoctor () {
       try {
         setError("")
         setLoading(true)
-        const bool = await DataService.addingDoctorInfo(firstName, lastName, gender, DOBmonth, DOBday, DOByear, DoctorID)
+        console.log(newDoctorInfo)
+        const bool = await DataService.addingDoctorInfo(newDoctorInfo, DoctorID)
         if(bool.data === true){
           // navigate("/vet-dashboard");// this would be more efficient i think, but when navigate is used, the data doesn't load in time
           window.location.href = '/vet-dashboard';
@@ -91,21 +87,21 @@ export default function NewDoctor () {
       <Card.Body>
       {error && <Alert variant="danger">{error}</Alert>}
       <Form onSubmit={handleSubmit}>
-        <Form.Group id = "firstname">
+        <Form.Group id = "FirstName">
           <Form.Label> First Name: </Form.Label>
-              <Form.Control required type="text" value={firstName} onChange={e => setFirstName(e.target.value)} />
+              <Form.Control required type="text" value={newDoctorInfo.FirstName} onChange={event => setNewDoctorInfo({...newDoctorInfo, FirstName: event.target.value})} />
         </Form.Group>
         <br />
         
-        <Form.Group id = "lastname">
+        <Form.Group id = "LastName">
         <Form.Label>Last Name: </Form.Label>
-            <Form.Control required type="text" value={lastName} onChange={e => setLastName(e.target.value)} />
+            <Form.Control required type="text" value={newDoctorInfo.LastName} onChange={event => setNewDoctorInfo({...newDoctorInfo, LastName: event.target.value})} />
         </Form.Group>
         <br />
         
-        <Form.Group id = "gender">
+        <Form.Group id = "Gender">
         <Form.Label> Gender: </Form.Label>
-            <select required value={gender} onChange={e => setGender(e.target.value)}>
+            <select required value={newDoctorInfo.Gender} onChange={event => setNewDoctorInfo({...newDoctorInfo, Gender: event.target.value})}>
                 <option value="">Select</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
@@ -117,7 +113,7 @@ export default function NewDoctor () {
 
         <label>
         Month:
-        <select required value={DOBmonth} onChange={e => setDOBmonth(e.target.value)}>
+        <select required defaultValue = "" value={newDoctorInfo.DOB_month} onChange={event => setNewDoctorInfo({...newDoctorInfo, DOB_month: event.target.value})}>
           <option value="" disabled>
             Select Month
           </option>
@@ -130,7 +126,7 @@ export default function NewDoctor () {
       </label>
       <label>
         Day:
-        <select required value={DOBday} onChange={e => setDOBday(e.target.value)}>
+        <select required defaultValue = "" value={newDoctorInfo.DOB_day} onChange={event => setNewDoctorInfo({...newDoctorInfo, DOB_day: event.target.value})}>
           <option value="" disabled>
             Select Day
           </option>
@@ -143,7 +139,7 @@ export default function NewDoctor () {
       </label>
       <label>
         Year:
-        <select required value={DOByear} onChange={e => setDOByear(e.target.value)}>
+        <select required defaultValue = "" value={newDoctorInfo.DOB_year} onChange={event => setNewDoctorInfo({...newDoctorInfo, DOB_year: event.target.value})}>
           <option value="" disabled>
             Select Year
           </option>

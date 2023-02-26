@@ -53,3 +53,28 @@ export async function dashboardData (req, res){
         return (`error in ${dashboardData.name}:`, error)
     }
 };
+
+export async function personalData (req, res){
+    const PatientUUID = req.cookies.PatientUUID
+    const PatientID = await UUID_to_ID(PatientUUID, 'Patient') // converts PatientUUID to docid
+    
+    const table_name = 'basic_Patient_info';
+    const DB_name = 'PatientDB';
+  
+    const sql = `SELECT FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year FROM ${table_name} WHERE Patient_ID = ?`
+    const values = [PatientID];
+    await useDB(personalData.name, DB_name, table_name)
+
+    try{
+        const [results] = await connection.execute(sql, values)
+        if (results.length === 0) {
+            console.log('User does not exist')
+            res.send({});
+        } else {
+            const decrypted = Crypto.decryptSingle(results[0])
+            return res.status(200).json(decrypted);
+        }
+    }catch(error){
+        return (`error in ${personalData.name}:`, error)
+    }
+};

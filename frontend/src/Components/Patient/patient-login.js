@@ -5,11 +5,9 @@ import DataService from "../../Services/data-service.js"
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 
 export default function PatientLogin() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [login_information_object, setLogin_information_object] = useState({login_type: 'Patient'});
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const login_type = 'Patient';
   const {user_verification} = useContext(VerifyContext)
 
   useEffect(()=>{
@@ -24,9 +22,9 @@ export default function PatientLogin() {
   
   const handleSubmit = async (e) =>{
     e.preventDefault();
+    setError("")
     try {
-      setError("")
-      await DataService.login(email, password, login_type);
+      await DataService.login(login_information_object);
       navigate("/patient-dashboard")
       console.log('Navigating to Patient Dashboard');
     } catch (err) {
@@ -40,13 +38,13 @@ export default function PatientLogin() {
         <Card.Body>
             <h2 className = "text-center mb-4">Patient Log In</h2>
             <Form onSubmit={handleSubmit}>
-                <Form.Group id = "email">
+            <Form.Group id = "email">
                     <Form.Label>Email</Form.Label>
-                    <Form.Control type="email" id="email"  placeholder="Username" name="username" value={email} onChange={(event) => setEmail(event.target.value)}  required/>
+                    <Form.Control type="email" id="email"  placeholder="Username" name="username" value={login_information_object.email} onChange={(event) => setLogin_information_object({...login_information_object, email: event.target.value})} required/>
                 </Form.Group>
                 <Form.Group id = "Password">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" className="form-control" id="password" placeholder="Password" name="password" value={password} onChange={(event) => setPassword(event.target.value)} required/>
+                    <Form.Control type="password" className="form-control" id="password" placeholder="Password" name="password" value={login_information_object.password} onChange={(event) => setLogin_information_object({...login_information_object, password: event.target.value})} required/>
                 </Form.Group>
                 {error && <Alert variant="danger">{error}</Alert>}
                 {/* <Button disabled = {loading} className = "w-100"type = "submit">Log In</Button> */}

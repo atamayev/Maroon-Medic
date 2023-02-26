@@ -11,16 +11,8 @@ export default new class DataService {
     async fetchAllUsers(){
         return await http.get('search/fetchAllUsers');
     }
-    async addingDoctorInfo(firstName, lastName, gender, DOBmonth, DOBday, DOByear, DoctorID){
-        return await http.post(`private-doctor-data/new-doctor`, {
-            firstName: firstName,
-            lastName: lastName,
-            gender: gender,
-            DOBmonth: DOBmonth,
-            DOBday: DOBday, 
-            DOByear: DOByear, 
-            DoctorID: DoctorID
-        });
+    async addingDoctorInfo(new_doctor_object, DoctorID){
+        return await http.post(`private-doctor-data/new-doctor`, {new_doctor_object, DoctorID});
     }
     async addingPatientInfo(firstName, lastName, gender, DOBmonth, DOBday, DOByear, PatientID){
         return await http.post(`private-patient-data/new-patient`, {
@@ -43,8 +35,8 @@ export default new class DataService {
         return await http.post("/auth/login", {login_information_object}, 
         {withCredentials: true})
     }
-    async register(username, password, register_type){
-        return await http.post("/auth/register", {email: username, password: password, register_type: register_type}, 
+    async register(register_information_object){
+        return await http.post("/auth/register", {register_information_object}, 
         {withCredentials: true})
     }
     async UUIDtoID(){//Takes the UUID and returns ID - for entering data (new pt, doctor)

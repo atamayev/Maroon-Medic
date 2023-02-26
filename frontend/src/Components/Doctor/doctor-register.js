@@ -5,11 +5,9 @@ import DataService from "../../Services/data-service.js"
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 
 export default function DoctorRegister() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [register_information_object, setRegister_information_object] = useState({register_type: 'Doctor'});
   const [passwordConfirm, setpasswordConfirm] = useState('');
   const [error, setError] = useState("")
-  const register_type = 'Doctor';
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
   const {user_verification} = useContext(VerifyContext)
@@ -26,13 +24,13 @@ export default function DoctorRegister() {
 
   const handleSubmit = async (e) =>{
     e.preventDefault();
-    if (password !== passwordConfirm) {
+    if (register_information_object.password !== passwordConfirm) {
       return setError("Passwords do not match")
     }
     try {
       setError("")
       setLoading(true)
-      await DataService.register(email, password, register_type);
+      await DataService.register(register_information_object);
       navigate("/new-vet")
       console.log('Registered');
     } catch (err) {
@@ -51,11 +49,11 @@ export default function DoctorRegister() {
                 <Form onSubmit={handleSubmit}>
                     <Form.Group id = "email">
                         <Form.Label>Email</Form.Label>
-                        <Form.Control type = "email" id="email"  placeholder="Username" name="username" value={email} onChange={(event) => setEmail(event.target.value)}  required/>
+                        <Form.Control type = "email" id="email"  placeholder="Username" name="username" value={register_information_object.email} onChange={(event) => setRegister_information_object({...register_information_object, email: event.target.value})}  required/>
                     </Form.Group>
                     <Form.Group id = "Password">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type = "password" id="password" placeholder="Password" name="password" value={password} onChange={(event) => setPassword(event.target.value)} required/>
+                        <Form.Control type = "password" id="password" placeholder="Password" name="password" value={register_information_object.password} onChange={(event) => setRegister_information_object({...register_information_object, password: event.target.value})} required/>
                     </Form.Group>
                     <Form.Group id = "Password Confirm">
                         <Form.Label>Password Confirmation</Form.Label>
