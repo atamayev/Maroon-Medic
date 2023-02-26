@@ -66,7 +66,7 @@ export async function jwt_verify (req, res){
  * @returns An error, or a json response, depending on wheather the credentials exist in the DB
  */
 export async function login (req, res){
-  const { email, password, login_type } = req.body;
+  const { email, password, login_type } = req.body.login_information_object;
   let table_name;
   let DB_name;
   if(login_type === 'Doctor' || login_type === 'Patient'){

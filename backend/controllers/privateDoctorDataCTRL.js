@@ -75,7 +75,6 @@ export async function personalData (req, res){
             res.send({});
         } else {
             const decrypted = Crypto.decryptSingle(results[0])
-            console.log(decrypted)
             return res.status(200).json(decrypted);
         }
     }catch(error){

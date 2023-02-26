@@ -39,8 +39,8 @@ export default new class DataService {
     async verify(){
         return await http.post('/auth/verify')
     }
-    async login(username, password, login_type){
-        return await http.post("/auth/login", {email: username, password: password, login_type: login_type}, 
+    async login(login_information_object){
+        return await http.post("/auth/login", {login_information_object}, 
         {withCredentials: true})
     }
     async register(username, password, register_type){
