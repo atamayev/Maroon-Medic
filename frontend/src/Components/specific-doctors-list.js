@@ -27,7 +27,7 @@ export default function SpecificDoctorsList() {
   }
 
   else{
-    const data = items.slice(0, 100); // This has no function rn, since there are less than 100 vets. once there are more, only the first 100 will be returned
+    const data = items.slice(0, 1000); // This has no function rn, since there are less than 1000 vets. once there are more, only the first 100 will be returned
 
     return (
       <div className="card-container" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gridGap: '16px' }}>

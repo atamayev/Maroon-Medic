@@ -14,7 +14,7 @@ export async function newPatient (req, res){
 
     const sql = `INSERT INTO ${table_name} (FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year, Patient_ID) VALUES (?,?,?,?,?,?,?)`;
 
-    const values = [encrypted.firstName, encrypted.lastName, encrypted.gender, encrypted.DOBmonth, encrypted.DOBday, encrypted.DOByear, PatientID];
+    const values = [encrypted.FirstName, encrypted.LastName, encrypted.Gender, encrypted.DOB_month, encrypted.DOB_day, encrypted.DOB_year, PatientID];
     await useDB(newPatient.name, DB_name, table_name)
     
     try{

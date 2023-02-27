@@ -15,7 +15,7 @@ export default function HomeDoctorsList() {
   if (!items || items === "Vet not found"){
     return <div> No results</div>
   }
-  const data = items.slice(0, 100); // This has no function rn, since there are less than 100 users. once there are more, only the first 100 will be returned
+  const data = items.slice(0, 1000); // This has no function rn, since there are less than 1000 users. once there are more, only the first 100 will be returned
 
   return (
     <>
