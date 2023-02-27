@@ -18,49 +18,60 @@ export default function Header () {
   useEffect(()=>{
     console.log('in header useEffect')
     if (location.pathname !== '/new-vet' && location.pathname !== '/new-patient'){
-      user_verification()
-      .then(result => {
-        if (result.verified === true) {
-          setTimeout(()=>{//slightly inefficient way of doing it, but this pauses the headerData, allowing the dashboarddata to run it's query, and then populates the headerData 50 miliseconds later
-            // this is done in order to not query the DB twice (once for dashboardData, and once for headerData).
+      try{
+        const name = JSON.parse(sessionStorage.getItem("DoctorPersonalInfo")).FirstName;
+        setUser_type('Doctor')
+        setHeaderData(name);
+        return;
+      }catch(error){
+        console.log(error)
+      }
+      try{
+        const name = JSON.parse(sessionStorage.getItem("PatientPersonalInfo")).FirstName;
+        setUser_type('Patient')
+        setHeaderData(name);
+        return;
+      }catch(error){
+        console.log(error)
+      }
+
+      //sets the headerData when login/register:
+      if (!headerData){
+        console.log('no header data')
+        user_verification()
+        .then(result => {
+          if (result.verified === true && result.DoctorToken) {
+            setUser_type('Doctor')
             try{
-              if (result.DoctorToken){
-                setUser_type('Doctor')
-                try{
-                  const name = JSON.parse(sessionStorage.getItem("DoctorPersonalInfo")).FirstName;
-                  setHeaderData(name);
-                }catch(error){
-                  if (error instanceof TypeError){
-                    PersonalInfo('Doctor');
-                  }
-                  else{
-                    console.log('some other error')
-                  }
-                } 
-              }
-              else if (result.PatientToken){
-                setUser_type('Patient')
-                try{
-                  const name = JSON.parse(sessionStorage.getItem("PatientPersonalInfo")).FirstName;
-                  setHeaderData(name);
-                }catch(error){
-                  if (error instanceof TypeError){
-                    PersonalInfo('Patient');
-                  }
-                  else{
-                    console.log('some other error')
-                  }
-                }    
-              }
+              const name = JSON.parse(sessionStorage.getItem("DoctorPersonalInfo")).FirstName;
+              setHeaderData(name);
             }catch(error){
-              console.log('Big error', error)
-            }
-           }, 50)
-        }
-      })
-      .catch(error => {
-        console.error(error);
-      });
+              if (error instanceof TypeError){
+                PersonalInfo('Doctor');
+              }
+              else{
+                console.log('some other error')
+              }
+            } 
+          }else if (result.verified === true && result.PatientToken){
+            setUser_type('Patient')
+            try{
+              const name = JSON.parse(sessionStorage.getItem("PatientPersonalInfo")).FirstName;
+              setHeaderData(name);
+            }catch(error){
+              if (error instanceof TypeError){
+                PersonalInfo('Patient');
+              }
+              else{
+                console.log('some other error')
+              }
+            }    
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      }
     }
   }, [cookie_monster]);
 
