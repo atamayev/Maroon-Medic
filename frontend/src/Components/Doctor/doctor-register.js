@@ -7,10 +7,10 @@ import { VerifyContext } from '../../Contexts/VerifyContext.js';
 export default function DoctorRegister() {
   const [register_information_object, setRegister_information_object] = useState({register_type: 'Doctor'});
   const [passwordConfirm, setpasswordConfirm] = useState('');
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const {user_verification} = useContext(VerifyContext)
+  const {user_verification} = useContext(VerifyContext);
 
   useEffect(()=>{
     console.log('in doctor register useEffect')

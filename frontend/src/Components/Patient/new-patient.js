@@ -1,20 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {Card, Button, Form, Alert } from 'react-bootstrap'
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import DataService from "../../Services/data-service.js"
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 
 export default function NewPatient () {
   const [newPatientInfo, setNewPatientInfo] = useState({});
-  // const [firstName, setFirstName] = useState('');
-  // const [lastName, setLastName] = useState('');
-  // const [gender, setGender] = useState('');
-  // const [DOBmonth, setDOBmonth] = useState('');
-  // const [DOBday, setDOBday] = useState('');
-  // const [DOByear, setDOByear] = useState('');
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
-  const {user_verification, PatientVerifyToken} = useContext(VerifyContext);
+  const {user_verification} = useContext(VerifyContext);
+  const [user_type, setUser_type] = useState(null);
+  const navigate = useNavigate();
 
   const months = [
     "January",
@@ -34,10 +30,18 @@ export default function NewPatient () {
   const years = [...Array(100).keys()].map(i => i + new Date().getFullYear() - 100);
       
   useEffect(() => {
-    // should have a check for special cookie function (UUID-like), to ensure that users with existing accounts cannot re-enter data
-    if (user_verification() === true){
-      console.log('FALSE')
-    }
+  // should have a check for special cookie function (UUID-like), to ensure that users with existing accounts cannot re-enter data
+  // Here, there should be some function that checks if the user is a new user or not.
+  // If the user is new, allow them to use the page. if not, navigate them to their dashboard page
+  user_verification()
+    .then(result => {
+      if (result.verified === true && result.PatientToken) {
+        setUser_type('Patient')
+      }
+      else if (result.verified === true && result.DoctorToken) {
+        navigate(`/vet-dashboard`);
+      }
+    })
   }, []);
   
   async function PatientUUIDtoPatientID (){
@@ -54,7 +58,7 @@ export default function NewPatient () {
     }
   }
 
-  if(!PatientVerifyToken){
+  if(user_type !== 'Patient'){
     return(
      <Card>
         <Card.Body>

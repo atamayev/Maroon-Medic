@@ -7,19 +7,22 @@ import { VerifyContext } from '../../Contexts/VerifyContext.js';
 export default function PatietRegister() {
   const [register_information_object, setRegister_information_object] = useState({register_type: 'Patient'});
   const [passwordConfirm, setpasswordConfirm] = useState('');
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const {user_verification} = useContext(VerifyContext)
+  const {user_verification} = useContext(VerifyContext);
 
   useEffect(()=>{
     console.log('in Patient Register useEffect')
     user_verification()
-      .then(result => {
-        if (result === true) {
-          navigate(`/patient-dashboard`);
-        }
-      })
+    .then(result => {
+      if (result.verified === true && result.PatientToken) {
+        navigate(`/patient-dashboard`);
+      }
+      else if (result.verified === true && result.DoctorToken) {
+        navigate(`/vet-dashboard`);
+      }
+    })
   }, []);
 
   const handleSubmit = async (e) =>{

@@ -17,7 +17,7 @@ export default function DoctorDashboard() {
       if (result.verified === true && result.DoctorToken) {
         console.log(`Used ${DoctorDashboard.name} useEffect`);
         setUser_type('Doctor')
-        const storedDashboardData = sessionStorage.getItem("dashboardData")
+        const storedDashboardData = sessionStorage.getItem("DoctorDashboardData")
         if (storedDashboardData){
           setDashboardData(JSON.parse(storedDashboardData));
         }else{
@@ -42,7 +42,7 @@ export default function DoctorDashboard() {
       const response = await DataService.fillDoctorDashboard()
       if (response){
         setDashboardData(response.data);
-        sessionStorage.setItem("dashboardData", JSON.stringify(response.data))
+        sessionStorage.setItem("DoctorDashboardData", JSON.stringify(response.data))
       }else{
         console.log('no response')
       }

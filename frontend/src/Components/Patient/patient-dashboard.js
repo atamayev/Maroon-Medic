@@ -5,22 +5,30 @@ import DataService from "../../Services/data-service.js"
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 
 export default function PatientDashboard() {
-  const {DoctorVerifyToken, PatientVerifyToken, user_verification} = useContext(VerifyContext)
+  const {user_verification} = useContext(VerifyContext)
   const [dashboardData, setDashboardData] = useState({});
+  const [user_type, setUser_type] = useState(null);
 
   useEffect(() => {
     console.log("in patient-dashboard useEffect");
     user_verification()
     .then(result => {
-      if (result === true) {
+      if (result.verified === true && result.PatientToken) {
         console.log(`Used ${PatientDashboard.name} useEffect`);
-        const storedDashboardData = sessionStorage.getItem("dashboardData")
+        setUser_type('Patient')
+        const storedDashboardData = sessionStorage.getItem("PatientDashboardData")
         if (storedDashboardData){
           setDashboardData(JSON.parse(storedDashboardData));
         }else{
           console.log('fetching data from db (elsed)')
           DashboardData();
         }
+      }
+      else if (result.verified === true && result.DoctorToken){
+        setUser_type('Doctor')
+      }
+      else{
+        console.log('Unverified')
       }
     })
     .catch(error => {
@@ -34,7 +42,7 @@ export default function PatientDashboard() {
       if (response){
         // console.log(response.data)
         setDashboardData(response.data);
-        sessionStorage.setItem("dashboardData", JSON.stringify(response.data))
+        sessionStorage.setItem("PatientDashboardData", JSON.stringify(response.data))
       }else{
         console.log('no response')
       }
@@ -43,7 +51,7 @@ export default function PatientDashboard() {
     }
   }
 
-  if (DoctorVerifyToken){
+  if (user_type === 'Doctor'){
     return(
       <Card>
         <Card.Body>
@@ -58,7 +66,7 @@ export default function PatientDashboard() {
     )
   }
 
-  if(!PatientVerifyToken){
+  if(user_type !== 'Patient'){
     return(
       <Card>
         <Card.Body>
@@ -93,4 +101,4 @@ export default function PatientDashboard() {
        </Card>
     </div>
   )
-}
+};

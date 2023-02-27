@@ -8,7 +8,7 @@ export default function DoctorLogin() {
   const [login_information_object, setLogin_information_object] = useState({login_type: 'Doctor'});
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const {user_verification} = useContext(VerifyContext)
+  const {user_verification} = useContext(VerifyContext);
 
   useEffect(()=>{
     console.log('in doctorlogin UseEffect')
