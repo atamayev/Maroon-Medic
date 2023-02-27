@@ -7,13 +7,15 @@ import { VerifyContext } from '../../../Contexts/VerifyContext.js';
 
 export default function DoctorPersonalInfo() {
     const [personalInfo, setPersonalInfo] = useState({});
-    const {DoctorVerifyToken, PatientVerifyToken, user_verification} = useContext(VerifyContext)
+    const {user_verification} = useContext(VerifyContext)
+    const [user_type, setUser_type] = useState(null);
 
     useEffect(()=>{
         console.log("in DoctorPersonalInfo useEffect");
         user_verification()
         .then(result => {
-          if (result === true) {
+          if (result.verified === true && result.DoctorToken) {
+            setUser_type('Doctor')
             console.log(`Used ${DoctorPersonalInfo.name} useEffect`);
             const storedPersonalInfoData = sessionStorage.getItem("DoctorPersonalInfo")
             if (storedPersonalInfoData){
@@ -22,6 +24,12 @@ export default function DoctorPersonalInfo() {
               console.log('fetching data from db (elsed)')
               PersonalInfoData();
             }
+          }
+          else if (result.verified === true && result.PatientToken){
+            setUser_type('Patient')
+          }
+          else{
+            console.log('Unverified')
           }
         })
         .catch(error => {
@@ -72,7 +80,7 @@ export default function DoctorPersonalInfo() {
         }
     };
 
-    if(PatientVerifyToken){
+    if(user_type === 'Patient'){
         return(
           <Card>
             <Card.Body>
@@ -87,7 +95,7 @@ export default function DoctorPersonalInfo() {
         )
       }
     
-    if(!DoctorVerifyToken){
+    if(user_type !== 'Doctor'){
         return(
             <Card>
             <Card.Body>

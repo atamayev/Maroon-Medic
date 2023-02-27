@@ -1,18 +1,26 @@
-import React, {useEffect, useContext} from 'react'
-import { Link } from "react-router-dom";
+import React, {useEffect, useContext, useState} from 'react'
+import {Link} from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import DoctorHeader from './doctor-header.js';
 
 export default function DoctorAccountDetails() {
-  const {user_verification, DoctorVerifyToken, PatientVerifyToken} = useContext(VerifyContext);
+  const {user_verification} = useContext(VerifyContext);
+  const [user_type, setUser_type] = useState(null);
 
   useEffect(()=>{
     console.log('in editDoctor useEffect')
     user_verification()
     .then(result => {
-      if (result === true) {
+      if (result.verified === true && result.DoctorToken) {
+        setUser_type('Doctor')
         console.log(`Used ${DoctorAccountDetails.name} useEffect`);
+      }
+      else if (result.verified === true && result.PatientToken){
+        setUser_type('Patient')
+      }
+      else{
+        console.log('Unverified')
       }
     })
     .catch(error => {
@@ -20,7 +28,7 @@ export default function DoctorAccountDetails() {
     });
   }, []);
 
-  if(PatientVerifyToken){
+  if(user_type === 'Patient'){
     return(
       <Card>
         <Card.Body>
@@ -35,7 +43,7 @@ export default function DoctorAccountDetails() {
     )
   }
 
-  if(!DoctorVerifyToken){
+  if(user_type !== 'Doctor'){
     return(
       <Card>
         <Card.Body>

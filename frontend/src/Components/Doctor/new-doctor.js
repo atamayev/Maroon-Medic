@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {Card, Button, Form, Alert } from 'react-bootstrap'
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import DataService from "../../Services/data-service.js"
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 
@@ -8,7 +8,9 @@ export default function NewDoctor () {
   const [newDoctorInfo, setNewDoctorInfo] = useState({});
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
-  const {user_verification, DoctorVerifyToken} = useContext(VerifyContext);
+  const {user_verification} = useContext(VerifyContext);
+  const [user_type, setUser_type] = useState(null);
+  const navigate = useNavigate();
 
   const months = [
     "January",
@@ -29,9 +31,17 @@ export default function NewDoctor () {
       
   useEffect(() => {
     // should have a check for special cookie function (UUID-like), to ensure that users with existing accounts cannot re-enter data
-    if (user_verification() === true){
-      console.log('FALSE')
-    }
+    // Here, there should be some function that checks if the user is a new user or not.
+    // If the user is new, allow them to use the page. if not, navigate them to their dashboard page
+    user_verification()
+      .then(result => {
+        if (result.verified === true && result.DoctorToken) {
+          setUser_type('Doctor')
+        }
+        else if (result.verified === true && result.PatientToken) {
+          navigate(`/patient-dashboard`);
+        }
+      })
   }, []);
   
   async function DoctorUUIDtoDoctorID (){
@@ -48,7 +58,7 @@ export default function NewDoctor () {
     }
   }
 
-  if(!DoctorVerifyToken){
+  if(user_type !== 'Doctor'){
     return(
      <Card>
         <Card.Body>
@@ -69,15 +79,14 @@ export default function NewDoctor () {
       try {
         setError("")
         setLoading(true)
-        // console.log(newDoctorInfo)
         const bool = await DataService.addingDoctorInfo(newDoctorInfo, DoctorID)
         if(bool.data === true){
           // navigate("/vet-dashboard");// this would be more efficient i think, but when navigate is used, the data doesn't load in time
           window.location.href = '/vet-dashboard';
         }
-      } catch (err) {
-        console.log('err in adding data 1',err)
-        setError(err.response.data);
+      } catch (error) {
+        console.log('err in adding data 1',error)
+        setError(error.response.data);
       }
       setLoading(false)
   }

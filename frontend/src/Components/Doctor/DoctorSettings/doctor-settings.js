@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
+import React from 'react'
 import DoctorHeader from '../doctor-header.js';
-import {Card, CardGroup, Col, Row } from 'react-bootstrap'
+import {Card, CardGroup } from 'react-bootstrap'
 import {Link} from "react-router-dom";
 
 export default function DoctorSettings() {

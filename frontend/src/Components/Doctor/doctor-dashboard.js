@@ -6,15 +6,17 @@ import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import DoctorHeader from './doctor-header.js';
 
 export default function DoctorDashboard() {
-  const {DoctorVerifyToken, PatientVerifyToken, user_verification} = useContext(VerifyContext)
+  const {user_verification} = useContext(VerifyContext)
   const [dashboardData, setDashboardData] = useState({});
+  const [user_type, setUser_type] = useState(null);
 
   useEffect(() => {
     console.log("in doctor-dashboard useEffect");
     user_verification()
     .then(result => {
-      if (result === true) {
+      if (result.verified === true && result.DoctorToken) {
         console.log(`Used ${DoctorDashboard.name} useEffect`);
+        setUser_type('Doctor')
         const storedDashboardData = sessionStorage.getItem("dashboardData")
         if (storedDashboardData){
           setDashboardData(JSON.parse(storedDashboardData));
@@ -22,6 +24,12 @@ export default function DoctorDashboard() {
           console.log('fetching data from db (elsed)')
           DashboardData();
         }
+      }
+      else if (result.verified === true && result.PatientToken){
+        setUser_type('Patient')
+      }
+      else{
+        console.log('Unverified')
       }
     })
     .catch(error => {
@@ -43,7 +51,7 @@ export default function DoctorDashboard() {
     }
   }
 
-  if(PatientVerifyToken){
+  if(user_type === 'Patient'){
     return(
       <Card>
         <Card.Body>
@@ -58,7 +66,7 @@ export default function DoctorDashboard() {
     )
   }
 
-  if(!DoctorVerifyToken){
+  if(user_type !== 'Doctor'){
     return(
       <Card>
         <Card.Body>

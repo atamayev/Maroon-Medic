@@ -74,20 +74,10 @@ export default function Doctor () {
   
   return (
     <div>
-      {/* {DoctorUUID? (console.log(DoctorUUID)):(<div></div>)} */}
         <Card key={user.DoctorID} style={{margin: '0 10px' }}>
             {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
             <Card.Body>
               <Card.Title>My Email: {user.email}</Card.Title>
-              {/* Check if current user exists. If exists, then check if the current user's id matches the page id. if it does, display password. if not, show nothing */}
-              {/* {currentUser ? (currentUser.DoctorID === id ?(
-                <Card.Text>
-                My Password: {user.password}<br></br>
-                </Card.Text>
-              ):<div></div>
-              ):
-              <div></div>} */}
-              
               <Card.Text>
                 My ID: {user.DoctorID}<br></br>
                 My FirstName: {user.FirstName}<br></br>

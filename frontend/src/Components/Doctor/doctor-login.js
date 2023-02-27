@@ -14,8 +14,11 @@ export default function DoctorLogin() {
     console.log('in doctorlogin UseEffect')
     user_verification()
       .then(result => {
-        if (result === true) {
+        if (result.verified === true && result.DoctorToken) {
           navigate(`/vet-dashboard`);
+        }
+        else if (result.verified === true && result.PatientToken) {
+          navigate(`/patient-dashboard`);
         }
       })
   }, []);
