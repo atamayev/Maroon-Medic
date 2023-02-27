@@ -64,7 +64,7 @@ export default function Footer() {
 
       <div className='text-center p-4 text-white' style={{ backgroundColor: 'rgb(0, 0, 0)' }}>
       Copyright © {new Date().getFullYear()}
-        <Link to = "/" className='text-reset fw-bold' style={{ textDecoration: 'none' }}> MaroonMedic</Link>
+        <a  href = "/" className='text-reset fw-bold' style={{ textDecoration: 'none' }}> MaroonMedic</a>
       </div>
     </MDBFooter>
   );

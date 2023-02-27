@@ -6,11 +6,11 @@ import { UUID_to_ID } from "../dbAndSecurity/UUID.js";
 export async function newPatient (req, res){
     // console.log('req.body',req.body)
     const PatientID = req.body.PatientID
-    delete req.body.PatientID;
+    const new_patient_object = req.body.new_patient_object
 
     const table_name = 'basic_Patient_info'
     const DB_name = 'PatientDB'
-    const encrypted = Crypto.encrypt_single_entry(req.body)
+    const encrypted = Crypto.encrypt_single_entry(new_patient_object)
 
     const sql = `INSERT INTO ${table_name} (FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year, Patient_ID) VALUES (?,?,?,?,?,?,?)`;
 

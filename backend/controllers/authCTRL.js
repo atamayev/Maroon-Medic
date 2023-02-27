@@ -30,7 +30,7 @@ export async function jwt_verify (req, res){
     response.type = 'Patient';
   }
   else{
-    console.log('Invalid User Type')
+    console.log('Invalid User Type in JWT Verify')
     return res.status(400).json('Invalid User Type'); // If Type not Doctor or Patient
   }
 
@@ -284,6 +284,7 @@ export async function logout (req, res){
       type = 'Patient';
     }
     else{
+      console.log('Invalid User Type in logout')
       return res.send('Invalid User Type') // If Type not Doctor or Patient
     }
   

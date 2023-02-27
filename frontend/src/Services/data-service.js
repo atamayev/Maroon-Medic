@@ -14,16 +14,8 @@ export default new class DataService {
     async addingDoctorInfo(new_doctor_object, DoctorID){
         return await http.post(`private-doctor-data/new-doctor`, {new_doctor_object, DoctorID});
     }
-    async addingPatientInfo(firstName, lastName, gender, DOBmonth, DOBday, DOByear, PatientID){
-        return await http.post(`private-patient-data/new-patient`, {
-            firstName: firstName,
-            lastName: lastName,
-            gender: gender,
-            DOBmonth: DOBmonth,
-            DOBday: DOBday, 
-            DOByear: DOByear, 
-            PatientID: PatientID
-        });
+    async addingPatientInfo(new_patient_object, PatientID){
+        return await http.post(`private-patient-data/new-patient`, {new_patient_object, PatientID});
     }
     async logout(){
         return await http.post('auth/logout');
@@ -54,4 +46,10 @@ export default new class DataService {
     async saveDoctorPersonalData(personalInfo){
         return await http.post('/private-doctor-data/save-personal-data', {personalInfo})
     }
+    async fillPatientPersonalData(){
+        return await http.get('/private-patient-data/personal-data')
+    }
+    // async savePatientPersonalData(personalInfo){
+    //     return await http.post('/private-patient-data/save-personal-data', {personalInfo})
+    // }
 }();

@@ -11,7 +11,6 @@ import Crypto from "../dbAndSecurity/crypto.js";
  * @returns Returns an array of users, depending on the outcome of the query
  */
 export async function searchByQuery (req, res){
-    console.log(' in searchByQuery')
     const table_name = 'Doctor_credentials';
     const DB_name = 'DoctorDB'
     await useDB(searchByQuery.name, DB_name, table_name)

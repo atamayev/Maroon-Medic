@@ -69,7 +69,7 @@ export default function NewDoctor () {
       try {
         setError("")
         setLoading(true)
-        console.log(newDoctorInfo)
+        // console.log(newDoctorInfo)
         const bool = await DataService.addingDoctorInfo(newDoctorInfo, DoctorID)
         if(bool.data === true){
           // navigate("/vet-dashboard");// this would be more efficient i think, but when navigate is used, the data doesn't load in time
@@ -152,9 +152,7 @@ export default function NewDoctor () {
       </label>
         </Form.Group>
         <br />
-        {/* <Button type="submit" className = "w-100" >Submit</Button> */}
-        {/* Bring this back when done testing - this is to ensure the button can't be pressed more than once */}
-        <Button type="submit" className = "w-100" disabled = {loading}>Submit</Button>
+         <Button type="submit" className = "w-100" disabled = {loading}>Submit</Button>
       </Form>
       </Card.Body>
     </Card>
