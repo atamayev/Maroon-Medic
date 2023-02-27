@@ -33,12 +33,16 @@ export default function PatietRegister() {
     try {
       setError("")
       setLoading(true)
-      await DataService.register(register_information_object);
-      navigate("/new-patient")
-      console.log('Registered');
-    } catch (err) {
-      console.log('err in registration')
-      setError(err.response.data);
+      const response = await DataService.register(register_information_object);
+      if (response.data === true){
+        navigate("/new-patient")
+        console.log('Registered');
+      }else{
+        console.log('Registration didnt work');
+      }
+    } catch (error) {
+      console.log('error in registration')
+      setError(error.response.data);
     }
     setLoading(false)
   };

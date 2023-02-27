@@ -140,7 +140,7 @@ export async function login (req, res){
         // secure:true
       })
       .status(200)
-      .json('login success');
+      .json(true);
   }else {
     return res.status(400).json("Wrong Username or Password!");
   }
@@ -262,7 +262,7 @@ export async function register (req, res){
         // secure:true
       })
       .status(200)
-      .json('login success');
+      .json(true);
 };
 
 /** logout is self-explanatory

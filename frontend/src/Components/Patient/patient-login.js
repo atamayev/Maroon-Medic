@@ -27,9 +27,13 @@ export default function PatientLogin() {
     e.preventDefault();
     setError("")
     try {
-      await DataService.login(login_information_object);
-      navigate("/patient-dashboard")
-      console.log('Navigating to Patient Dashboard');
+      const response = await DataService.login(login_information_object);
+      if (response.data === true){
+        navigate("/patient-dashboard")
+        console.log('Navigating to Patient Dashboard');
+      }else{
+        console.log('Login didnt work');
+      }
     } catch (err) {
       setError(err.response.data);
     }

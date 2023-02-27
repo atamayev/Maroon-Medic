@@ -47,7 +47,7 @@ export default function NewDoctor () {
   async function DoctorUUIDtoDoctorID (){
     try{
       const response = await DataService.UUIDtoID()
-      if (response.data === 'User does not exist'){
+      if (response.data === 'Error in User ID conversion'){
         console.log('User does not exist')
       }
       else{

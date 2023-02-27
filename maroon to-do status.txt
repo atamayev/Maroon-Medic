@@ -3,17 +3,12 @@ To-do:
 ASAP:
 if headerData already exists, not necessary to set it again. bad ui experience. If headername, next (break from useeffect). if no header name, do the stuff
 
-in login and register front-end, awaits login/register, but navigates regardless of response. send something like: login= true from back-end, then in front-end, if login=true, navigate. otherwise stay
-
-figure out what to do when user not verified in the doctor/patient pages. can't just log unverified
 
 --re-do code documentation
 
 --figure out not putting all routes in app.js. Maybe put the settings routes into the doctorsettings.js
 
 Later:
-
--- if pt logged in, or vet logged in, shouldn't be allowed to log into the other one.
 
 -- if the doc hasn't entered their basic_doctor_info, then going to their profile is an error - bc it tries to render data that doesn't exist
 -- people with existing basic_doctor_info can keep filling out the form. should not be allowed. if data already exists in basic_doctor_info, should be re-routed to /edit-profile
@@ -27,4 +22,4 @@ Later:
 --create another header. one for home screen. one for vet screen (no search bar, just calendar, inbox button (chat), settings (make header like airbnb)
 	--hide search bar in the vet pages (see app.js)	
 
---during registration (new-vet/new-patient), the header name becomes nothing. should solve this by deleting the traditional header during non-search pages
+figure out what to do when user not verified in the doctor/patient pages. can't just log unverified

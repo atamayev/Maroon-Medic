@@ -56,7 +56,7 @@ export default function PatientDashboard() {
       <Card>
         <Card.Body>
         <p>Unautorized to view Patient Dashboard</p>
-        <Link to= {'/doctor-dashboard'}>
+        <Link to= {'/vet-dashboard'}>
               <Button variant="primary">
                   <p>Return to Doctor Dashboard</p>
               </Button>

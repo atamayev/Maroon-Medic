@@ -1,11 +1,8 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext } from 'react';
 import DataService from '../Services/data-service';
 const VerifyContext = createContext();
 
 const VerifyContextProvider = (props) => {
-  // const [DoctorVerifyToken, setDoctorVerifyToken] = useState(null); // wheather or not user verified
-  // const [PatientVerifyToken, setPatientVerifyToken] = useState(null); // wheather or not user verified
-
   async function user_verification (){
     try{
       const response = await DataService.verify();
