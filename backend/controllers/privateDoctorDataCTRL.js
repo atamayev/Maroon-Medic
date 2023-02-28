@@ -88,21 +88,41 @@ export async function savePersonalData (req, res){
     
     const personalInfo = req.body.personalInfo;
     const encrypted_personalInfo = Crypto.encrypt_single_entry(personalInfo)
-    
+
     const DB_name = 'DoctorDB';
 
     const table_name = 'basic_Doctor_info';
-    const sql = `INSERT INTO ${table_name} (FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year, Doctor_ID) VALUES (?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE FirstName = ?, LastName = ?, Gender = ?, DOB_month = ?, DOB_day = ?, DOB_year = ?`;
-   
-    const values = [encrypted_personalInfo.FirstName, encrypted_personalInfo.LastName, encrypted_personalInfo.Gender, encrypted_personalInfo.DOB_month, encrypted_personalInfo.DOB_day, encrypted_personalInfo.DOB_year, DoctorID, encrypted_personalInfo.FirstName, encrypted_personalInfo.LastName, encrypted_personalInfo.Gender, encrypted_personalInfo.DOB_month, encrypted_personalInfo.DOB_day, encrypted_personalInfo.DOB_year ];
+    const sql = `SELECT * FROM  ${table_name} WHERE Doctor_ID = ?`
+    const values = [DoctorID];
+    let results;
+    
     await useDB(savePersonalData.name, DB_name, table_name)
-
     try{
-        await connection.execute(sql, values);
-        return res.status(200).json(true);
+        [results] = await connection.execute(sql, values);
     }catch(error){
         console.log(`error in ${savePersonalData.name}:`, error)
         return res.status(200).json(false);
     }
 
+    if (!results.length){// if no results, then insert.
+        const sql1 = `INSERT INTO ${table_name} (FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year, Doctor_ID) VALUES (?,?,?,?,?,?,?)`;
+        const values1 = [encrypted_personalInfo.FirstName, encrypted_personalInfo.LastName, encrypted_personalInfo.Gender, encrypted_personalInfo.DOB_month, encrypted_personalInfo.DOB_day, encrypted_personalInfo.DOB_year, DoctorID];
+        try{
+            await connection.execute(sql1, values1);
+            return res.status(200).json(true);
+        }catch(error){
+            console.log(`error in if ${savePersonalData.name}:`, error)
+            return res.status(200).json(false);
+        }
+    }else{// if there are results, that means that the record exists, and needs to be altered
+        const sql2 = `UPDATE ${table_name} SET FirstName = ?, LastName = ?, Gender = ?, DOB_month = ?, DOB_day = ?, DOB_year = ?`;
+        const values2 = [encrypted_personalInfo.FirstName, encrypted_personalInfo.LastName, encrypted_personalInfo.Gender, encrypted_personalInfo.DOB_month, encrypted_personalInfo.DOB_day, encrypted_personalInfo.DOB_year];
+        try{
+            await connection.execute(sql2, values2);
+            return res.status(200).json(true);
+        }catch(error){
+            console.log(`error in else ${savePersonalData.name}:`, error)
+            return res.status(200).json(false);
+        }
+    }
 };

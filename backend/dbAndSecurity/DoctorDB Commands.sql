@@ -10,23 +10,21 @@ CREATE TABLE Doctor_credentials (
   Created_at VARCHAR(150) NOT NULL) AUTO_INCREMENT=1000000;
   
 select * from Doctor_credentials;
--- insert into Doctor_credentials (email, password, Created_at) values
--- ('test email', 'pass', '123');
 
+-- delete from basic_Doctor_info where basic_Doctor_infoID between 112 and 115;
 select * from basic_Doctor_info;
 -- drop table basic_Doctor_info;
 CREATE TABLE basic_Doctor_info (
 basic_Doctor_infoID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-FirstName VARCHAR(150) NOT NULL,
-LastName VARCHAR(150) NOT NULL,
-Gender VARCHAR(150) NOT NULL,
-DOB_month VARCHAR(150) NOT NULL,
-DOB_day VARCHAR(150) NOT NULL,
-DOB_year VARCHAR(150) NOT NULL,
-Doctor_ID INT unsigned NOT NULL, 
+FirstName VARCHAR(150) NULL,
+LastName VARCHAR(150) NULL,
+Gender VARCHAR(150) NULL,
+DOB_month VARCHAR(150) NULL,
+DOB_day VARCHAR(150) NULL,
+DOB_year VARCHAR(150) NULL,
+Doctor_ID INT unsigned NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
-
-SELECT * FROM Doctor_credentials left JOIN basic_Doctor_info ON Doctor_credentials.DoctorID = basic_Doctor_info.Doctor_ID;
+SELECT * FROM Doctor_credentials left JOIN basic_Doctor_info ON Doctor_credentials.DoctorID = basic_Doctor_info.Doctor_ID where email = 'abc@123.com5';
 -- WHERE Doctor_credentials.DoctorID = 1000000;
 
 CREATE TABLE DoctorUUID_reference(
