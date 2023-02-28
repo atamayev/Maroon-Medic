@@ -88,7 +88,7 @@ export async function savePersonalData (req, res){
     
     const personalInfo = req.body.personalInfo;
     const encrypted_personalInfo = Crypto.encrypt_single_entry(personalInfo)
-
+    
     const DB_name = 'DoctorDB';
 
     const table_name = 'basic_Doctor_info';

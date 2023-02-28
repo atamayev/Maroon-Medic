@@ -1,12 +1,15 @@
 To-do:
 
 ASAP:
+bug:--saving data does not override previous record, it adds a new one
+
 -- people with existing basic_doctor_info can keep filling out the form. should not be allowed. if data already exists in basic_doctor_info, should be re-routed to /edit-profile
 	special cookie sent after registering, which allows user to go to registration routes. 
 	If cookie not present, but UUID is present forwards straight to /edit-profile
 	If cookie not present and UUID not present, re-direct to register page
-	
+
 --re-do code documentation
+
 
 
 Later:
@@ -14,8 +17,6 @@ Later:
 -- if the doc hasn't entered their basic_doctor_info, then going to their profile is an error - bc it tries to render data that doesn't exist
 
 --figure out not putting all routes in app.js. Maybe put the settings routes into the doctorsettings.js
-
--- show first name on home page instead of email. will require decrypt multiple.
 
 --create another header. one for home screen. one for vet screen (no search bar, just calendar, inbox button (chat), settings (make header like airbnb)
 	--hide search bar in the vet pages (see app.js)	

@@ -11,26 +11,30 @@ import Crypto from "../dbAndSecurity/crypto.js";
  * @returns Returns an array of users, depending on the outcome of the query
  */
 export async function searchByQuery (req, res){
-    const table_name = 'Doctor_credentials';
+    const table_name = 'basic_Doctor_info';
     const DB_name = 'DoctorDB'
     await useDB(searchByQuery.name, DB_name, table_name)
-    // console.log(req.params.query)
+    const decrypted_query_object = {query: req.params.query}
 
-    const sql = `SELECT * FROM ${table_name} WHERE email LIKE ?`;
-    const values = ['%' + req.params.query + '%'];
+    const encrypted_query_object = Crypto.encrypt_single_entry(decrypted_query_object)// this is done to encrypt the user's query, to then search the db (since all names in db are encrypted)
+
+    const sql = `SELECT FirstName, LastName, Doctor_ID FROM ${table_name} WHERE FirstName = ?`;
+
+    const values = [encrypted_query_object.query];
     try{
         const [results] = await connection.execute(sql, values)
+        
         if (results.length === 0) {
             console.log('User not found')
             res.send('User not found');
         } else {
-            // const decrypted = Crypto.decrypt_multiple(results)
-            return res.status(200).json(results);
+            const decrypted = Crypto.decrypt_multiple(results)
+            return res.status(200).json(decrypted);
         }
     }catch(error){
         return res.status(500).send({ error: 'Search Error' });
     }
-}
+};
 /** fetchUsers returns all records from the Doctor_credentials table
  *  fetchUsers is not directly called. It is called within the searchByQuery function in searchCTRL.js, if no query is received
  *  Used to fill the home screen
@@ -39,16 +43,16 @@ export async function searchByQuery (req, res){
  * @returns Either an array of results, or a message with an error
  */
 export async function fetchUsers (req, res){
-    const table_name = 'Doctor_credentials'
-    const sql = `SELECT * FROM ${table_name}`
+    const table_name = 'basic_Doctor_info'
+    const sql = `SELECT FirstName, LastName, Doctor_ID FROM ${table_name}`
     const DB_name = 'DoctorDB'
 
     await useDB(fetchUsers.name, DB_name, table_name)
     try{
         const [results] = await connection.execute(sql)
-        // const decrypted = Crypto.decrypt_multiple(results)
-        return res.status(200).json(results);
+        const decrypted = Crypto.decrypt_multiple(results)
+        return res.status(200).json(decrypted);
     }catch(error){
         res.status(500).send({ error: 'Error fetching data' });
     }
-}
+};

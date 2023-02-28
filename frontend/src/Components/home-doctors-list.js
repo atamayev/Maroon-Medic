@@ -21,18 +21,15 @@ export default function HomeDoctorsList() {
     <>
       <div className="card-container" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gridGap: '16px' }}>
         {data.map((item) => {
-          const { email } = item;
+          const { FirstName, LastName, Doctor_ID } = item;
           return(
-            <Card key={item.DoctorID} style={{margin: '0 10px', gridColumn: 'span 1', gridRow: 'span 1' }}>
+            <Card key={Doctor_ID} style={{margin: '0 10px', gridColumn: 'span 1', gridRow: 'span 1' }}>
             {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
             <Card.Body>
-              <Card.Title>My First Name: {email}</Card.Title>
-              {/* <Card.Text>
-              My Password: {password}
-              </Card.Text> */}
-              <Link to = {`/vet/${item.DoctorID}`}>
+              <Card.Title>Dr. {FirstName} {LastName}</Card.Title>
+              <Link to = {`/vet/${Doctor_ID}`}>
                 <Button variant="primary">
-                    <p>Click Me! id: {item.DoctorID}</p>
+                    <p>Click Me! id: {Doctor_ID}</p>
                 </Button>
               </Link>
             </Card.Body>

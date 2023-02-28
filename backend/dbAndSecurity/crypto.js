@@ -64,14 +64,16 @@ export default new class Crypto {
      */
     decrypt_multiple (encryptedData){
         const decryptedRecords = [];
+
         try{
             for (const record of encryptedData){
+                // console.log('record',record)
                 const iv = Buffer.from(process.env.ENCRYPTION_IV, 'hex');
                 const secretKey = Buffer.from(process.env.ENCRYPTION_SECRET_KEY, 'hex');
         
                 let decryptedData = record
-                // decryptedData = record;
-                const keys = Object.keys(decryptedData)
+                let keys = Object.keys(decryptedData)
+                keys = keys.filter(item => item !== 'Doctor_ID');
                 
                 for (const key of keys){
                     const decipher = createDecipheriv('aes-256-cbc', secretKey, iv);
