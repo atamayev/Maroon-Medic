@@ -74,12 +74,12 @@ export default function Doctor () {
   
   return (
     <div>
-        <Card key={user.DoctorID} style={{margin: '0 10px' }}>
+        <Card key={user.Doctor_ID} style={{margin: '0 10px' }}>
             {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
             <Card.Body>
               <Card.Title>My Email: {user.email}</Card.Title>
               <Card.Text>
-                My ID: {user.DoctorID}<br></br>
+                My ID: {user.Doctor_ID}<br></br>
                 My FirstName: {user.FirstName}<br></br>
                 My LastName: {user.LastName}<br></br>
                 My gender: {user.Gender}

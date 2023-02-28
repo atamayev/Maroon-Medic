@@ -261,6 +261,11 @@ export async function register (req, res){
         // httpOnly: true,
         // secure:true
       })
+      .cookie(`${register_type}New_User`, 'NewUser', {
+        // expires,
+        // httpOnly: true,
+        // secure:true
+      })
       .status(200)
       .json(true);
 };

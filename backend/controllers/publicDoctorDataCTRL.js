@@ -12,7 +12,7 @@ export async function returnDoctorPageData (req, res){
     const table_name1 = 'Doctor_credentials';
     const table_name2 = 'basic_Doctor_info';
     const DB_name = 'DoctorDB'
-    const sql = `SELECT email, Created_at, FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year FROM ${table_name1} LEFT JOIN ${table_name2} ON ${table_name1}.DoctorID = ${table_name2}.Doctor_ID WHERE ${table_name1}.DoctorID = ?`
+    const sql = `SELECT email, FirstName, LastName, Gender, Doctor_ID FROM ${table_name1} LEFT JOIN ${table_name2} ON ${table_name1}.DoctorID = ${table_name2}.Doctor_ID WHERE ${table_name1}.DoctorID = ?`
     const values = [req.params.id];
 
     await useDB(returnDoctorPageData.name, DB_name, table_name1)
@@ -24,7 +24,6 @@ export async function returnDoctorPageData (req, res){
             res.send('User does not exist');
         } else {
             const decrypted = Crypto.decryptSingle(results[0])
-            // console.log('decrypted', decrypted)
             return res.status(200).json(decrypted);
         }
     } catch(error){

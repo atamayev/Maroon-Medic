@@ -1,8 +1,6 @@
 To-do:
 
 ASAP:
-bug:--saving data does not override previous record, it adds a new one
-
 -- people with existing basic_doctor_info can keep filling out the form. should not be allowed. if data already exists in basic_doctor_info, should be re-routed to /edit-profile
 	special cookie sent after registering, which allows user to go to registration routes. 
 	If cookie not present, but UUID is present forwards straight to /edit-profile
