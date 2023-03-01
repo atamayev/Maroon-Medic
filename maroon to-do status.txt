@@ -1,22 +1,29 @@
 To-do:
 
 ASAP:
--- people with existing basic_doctor_info can keep filling out the form. should not be allowed. if data already exists in basic_doctor_info, should be re-routed to /edit-profile
+
+-- nEW-DOCTOR PAGE: people with existing basic_doctor_info can keep filling out the form. should not be allowed. if data already exists in basic_doctor_info, should be re-routed to /edit-profile
 	special cookie sent after registering, which allows user to go to registration routes. 
 	If cookie not present, but UUID is present forwards straight to /edit-profile
 	If cookie not present and UUID not present, re-direct to register page
-
+See github desktop
+	
 --re-do code documentation
-
 
 
 Later:
 
--- if the doc hasn't entered their basic_doctor_info, then going to their profile is an error - bc it tries to render data that doesn't exist
-
+see papa text:
+	-- need to make another table/column in table (maybe in credentials), which is a boolean of wheather or not the vet is verified.
+		--vets are verified if their identity is confirmed, and they have their information in (name, hours, etc.)
+		-- eventually, will also need to make an option for vets to have an account, but not listed in search (yes/no option in settings or something). would only show their profile to public if this is on.
+			-- 2 options: profile shows in search, and profile doesn't show in search (still shows if users directly search for the vet)
+		
+		
 --figure out not putting all routes in app.js. Maybe put the settings routes into the doctorsettings.js
 
 --create another header. one for home screen. one for vet screen (no search bar, just calendar, inbox button (chat), settings (make header like airbnb)
 	--hide search bar in the vet pages (see app.js)	
 
 figure out what to do when user not verified in the doctor/patient pages. can't just log unverified
+

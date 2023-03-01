@@ -22,7 +22,7 @@ export async function jwt_verify (req, res){
     tokenValue: '',
     type: ''
   }
-  let decodedID;
+  let decodedUUID;
 
   if("DoctorAccessToken" in cookies){
     response.type = 'Doctor';
@@ -37,22 +37,40 @@ export async function jwt_verify (req, res){
   try{
     AccessToken = req.cookies[`${response.type}AccessToken`]
     const JWTKey = response.type === 'Patient' ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY;
-    decodedID = jwt.verify(AccessToken, JWTKey)[`${response.type}ID`];
-    if (Date.now() >= decodedID.exp * 1000) {
-      return res.status(401).json({ error: "Token expired" });
-    }
-    else{
-      response.isValid = true;
-      response.tokenValue = AccessToken;
-      return res.status(200).json(response);
-    }
+    decodedUUID = jwt.verify(AccessToken, JWTKey)[`${response.type}ID`];
   }catch(error){
     if(error.name === "TokenExpiredError"){
-      return res.status(401).json({ error: "Token expired" });
+      response.isValid = false;
+      return res.status(402).json(response);
     }else{
       console.log('error in token verification', error);
       return res.status(500).json(error); 
     }
+  }
+  if (Date.now() >= decodedUUID.exp * 1000) {
+    response.isValid = false;
+    return res.status(401).json(response);
+  }
+  else{
+    const table_name = `${response.type}UUID_reference`
+    const DB_name = `${response.type}DB`;
+    const sql = `SELECT * FROM ${table_name} WHERE ${response.type}UUID = ?`;
+    const values = [decodedUUID];
+    await useDB(jwt_verify.name, DB_name, table_name)
+    
+    try{
+      const [results] = await connection.execute(sql, values)
+      if (results.length === 1) {
+        response.isValid = true;
+        response.tokenValue = AccessToken;
+        return res.status(200).json(response);
+      } else {
+        response.isValid = false;
+        return res.status(500).json(response);
+      }
+  }catch(error){
+      return (`error in ${dashboardData.name}:`, error)
+  }
   }
 };
 
@@ -108,11 +126,12 @@ export async function login (req, res){
   if (bool === true) {
     const IDKey = `${login_type}ID`;
     const ID = results[0][IDKey];
+    const UUID = await ID_to_UUID(ID, login_type)
     
     const expiration_time = 20; // not using this right now.
     
     const payload = {
-      [IDKey]: ID,
+      [IDKey]: UUID,
       // exp: Math.floor(Date.now()/1000) +expiration_time // temporarily taking out expiration to make sure system is running smoothly
     }
     const JWTKey = login_type === 'Patient' ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY;
@@ -124,8 +143,6 @@ export async function login (req, res){
       return res.status(500).send({ error: 'Problem with Signing JWT' });
     }
 
-    const UUID = await ID_to_UUID(ID, login_type)
-    // console.log('UUID', UUID)
     // const expires = new Date(Date.now() + expiration_time *1000)
 
     return res
