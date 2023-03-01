@@ -28,7 +28,25 @@ export async function newDoctor (req, res){
         console.log(`error in ${newDoctor.name}`,error)
         return res.status(500).json(error);
     }
-}
+};
+
+export async function newDoctorConfirmation (req, res){
+    const DoctorUUID = req.cookies.DoctorUUID
+    const newUser = req.cookies.DoctorNew_User
+    if (DoctorUUID && newUser){
+        console.log("New User")
+        return res.status(200).json("New User");
+    }else if (!DoctorUUID && !newUser){// makes sure that the user is new.
+        console.log("No new Doctor nor UUID")
+        return res.status(500).json("No new Doctor nor UUID");
+    }else if (DoctorUUID && !newUser){
+        console.log("UUID but not new Doctor")
+        return res.status(200).json("UUID but not new Doctor");
+    }else{
+        console.log("New Doctor but not UUID")
+        return res.status(500).json("New Doctor but not UUID");
+    }
+};
 
 export async function dashboardData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID

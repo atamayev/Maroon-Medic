@@ -9,7 +9,6 @@ export default function NewPatient () {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const {user_verification} = useContext(VerifyContext);
-  const [user_type, setUser_type] = useState(null);
   const navigate = useNavigate();
 
   const months = [
@@ -36,10 +35,22 @@ export default function NewPatient () {
   user_verification()
     .then(result => {
       if (result.verified === true && result.PatientToken) {
-        setUser_type('Patient')
+        DataService.newPatientConfirmation()
+        .then(result => {
+          if (result.data === "No new Patient nor UUID") {
+            navigate('/');
+          }else if (result.data === "UUID but not new Patient") {
+            navigate(`/patient-dashboard`);
+          }else if (result.data === "New Patient but not UUID") {
+            navigate('/patient-register');
+          }else if (result.data === "New User"){
+          }
+        })
       }
       else if (result.verified === true && result.DoctorToken) {
         navigate(`/vet-dashboard`);
+      }else{
+        navigate('/patient-register')
       }
     })
   }, []);
@@ -56,21 +67,6 @@ export default function NewPatient () {
     }catch(error){
       console.log('error in PatientUUID to PatientID', error)
     }
-  }
-
-  if(user_type !== 'Patient'){
-    return(
-     <Card>
-        <Card.Body>
-          <p>Please register first </p>;
-          <Link to= {'/patient-register'}>
-              <Button variant="primary">
-                  <p>Register</p>
-              </Button>
-        </Link>
-      </Card.Body>
-    </Card>
-    )
   }
 
   const handleSubmit = async (e) => {

@@ -24,7 +24,7 @@ export default function Header () {
         setHeaderData(name);
         return;
       }catch(error){
-        console.log(error)
+        // console.log(error)
       }
       try{
         const name = JSON.parse(sessionStorage.getItem("PatientPersonalInfo")).FirstName;
@@ -32,9 +32,9 @@ export default function Header () {
         setHeaderData(name);
         return;
       }catch(error){
-        console.log(error)
+        // console.log(error)
       }
-
+  
       //sets the headerData when login/register:
       if (!headerData){
         console.log('no header data')

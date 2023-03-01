@@ -14,8 +14,14 @@ export default new class DataService {
     async addingDoctorInfo(new_doctor_object, DoctorID){
         return await http.post(`private-doctor-data/new-doctor`, {new_doctor_object, DoctorID});
     }
+    async newDoctorConfirmation(){
+        return await http.get(`private-doctor-data/new-doctor-confirmation`);
+    }
     async addingPatientInfo(new_patient_object, PatientID){
         return await http.post(`private-patient-data/new-patient`, {new_patient_object, PatientID});
+    }
+    async newPatientConfirmation(){
+        return await http.get(`private-patient-data/new-patient-confirmation`);
     }
     async logout(){
         return await http.post('auth/logout');

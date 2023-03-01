@@ -2,12 +2,10 @@ To-do:
 
 ASAP:
 
--- nEW-DOCTOR PAGE: people with existing basic_doctor_info can keep filling out the form. should not be allowed. if data already exists in basic_doctor_info, should be re-routed to /edit-profile
-	special cookie sent after registering, which allows user to go to registration routes. 
-	If cookie not present, but UUID is present forwards straight to /edit-profile
-	If cookie not present and UUID not present, re-direct to register page
-See github desktop
-	
+--change what i'm sending with the new user cookie. would also need to verify what i am changing it to - perhaps a uuid of sorts?
+
+-- if theres a password error in entering password, there's no way to reset the eror, een when new passwrod entered
+
 --re-do code documentation
 
 

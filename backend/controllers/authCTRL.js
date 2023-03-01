@@ -60,6 +60,7 @@ export async function jwt_verify (req, res){
     
     try{
       const [results] = await connection.execute(sql, values)
+      // console.log(results);
       if (results.length === 1) {
         response.isValid = true;
         response.tokenValue = AccessToken;
@@ -246,9 +247,11 @@ export async function register (req, res){
 
     const IDKey = `${register_type}ID`;
     const ID = results_1[0][IDKey];
+    const UUID = await ID_to_UUID(ID, register_type)
+
     const expiration_time = 20; // not using this right now.
     const payload = {
-      [IDKey]: ID,
+      [IDKey]: UUID,
       // exp: Math.floor(Date.now()/1000) +expiration_time // temporarily taking out expiration to make sure system is running smoothly
     }
     const JWTKey = register_type === 'Patient' ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY;
@@ -260,13 +263,6 @@ export async function register (req, res){
       return res.status(500).send({ error: 'Problem with Data Selection' });
     }
 
-    let UUID;
-    try{
-      UUID = await ID_to_UUID(ID, register_type)
-    }catch(error){
-      console.log('error in IDUUID')
-      return res.status(500).send({ error: 'Problem with IDUUID' });
-    }
     return res
       .cookie(`${register_type}AccessToken`, token, {
         // expires,
@@ -320,17 +316,23 @@ export async function logout (req, res){
     try{
       await connection.execute(sql, values)
       res
-      .clearCookie(`${type}AccessToken`,{
+      .clearCookie(`${type}AccessToken`, {
         httpOnly:true,
         secure:true,
         sameSite:"none",
         path: '/'
       })
-      .clearCookie(`${type}UUID`,{
+      .clearCookie(`${type}UUID`, {
         httpOnly:true,
         secure:true,
         sameSite:"none",
         path: '/'
+      })
+      .clearCookie(`${type}New_User`, {
+        // httpOnly:true,
+        // secure:true,
+        // sameSite:"none",
+        // path: '/'
       })
       .status(200).json(`${type} has been logged out.`)
       console.log(`logged out ${type}`)

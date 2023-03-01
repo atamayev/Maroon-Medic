@@ -26,6 +26,24 @@ export async function newPatient (req, res){
     }
 };
 
+export async function newPatientConfirmation (req, res){
+    const PatientUUID = req.cookies.PatientUUID
+    const newUser = req.cookies.PatientNew_User
+    if (PatientUUID && newUser){
+        console.log("New User")
+        return res.status(200).json("New User");
+    }else if (!PatientUUID && !newUser){// makes sure that the user is new.
+        console.log("No new Patient nor UUID")
+        return res.status(500).json("No new Patient nor UUID");
+    }else if (PatientUUID && !newUser){
+        console.log("UUID but not new Patient")
+        return res.status(200).json("UUID but not new Patient");
+    }else{
+        console.log("New Patient but not UUID")
+        return res.status(500).json("New Patient but not UUID");
+    }
+};
+
 export async function dashboardData (req, res){
     const PatientUUID = req.cookies.PatientUUID
     const PatientID = await UUID_to_ID(PatientUUID, 'Patient') // converts PatientUUID to docid
