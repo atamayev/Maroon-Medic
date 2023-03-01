@@ -32,19 +32,42 @@ export async function newDoctor (req, res){
 
 export async function newDoctorConfirmation (req, res){
     const DoctorUUID = req.cookies.DoctorUUID
-    const newUser = req.cookies.DoctorNew_User
-    if (DoctorUUID && newUser){
+    const newUserUUID = req.cookies.DoctorNew_User
+    if (!newUserUUID){
+        return res.status(200).json("Unverified");
+    }
+    let verified = false;
+    const table_name = `DoctorUUID_reference`
+    const DB_name = `DoctorDB`;
+    const sql = `SELECT * FROM ${table_name} WHERE DoctorUUID = ?`;
+    const values = [newUserUUID];
+    await useDB(newDoctorConfirmation.name, DB_name, table_name)
+
+    try{
+      const [results] = await connection.execute(sql, values)
+      console.log(results);
+      if (results.length === 1) {
+        verified = true;
+      } else {
+        verified = false;
+        return res.status(500).json("Unverified");
+      }
+    }catch(error){
+      return (`error in ${newDoctorConfirmation.name}:`, error)
+    }
+
+    if (DoctorUUID && verified){
         console.log("New User")
         return res.status(200).json("New User");
-    }else if (!DoctorUUID && !newUser){// makes sure that the user is new.
+    }else if (!DoctorUUID && !verified){// makes sure that the user is new.
         console.log("No new Doctor nor UUID")
-        return res.status(500).json("No new Doctor nor UUID");
-    }else if (DoctorUUID && !newUser){
+        return res.status(200).json("No new Doctor nor UUID");
+    }else if (DoctorUUID && !verified){
         console.log("UUID but not new Doctor")
         return res.status(200).json("UUID but not new Doctor");
     }else{
         console.log("New Doctor but not UUID")
-        return res.status(500).json("New Doctor but not UUID");
+        return res.status(200).json("New Doctor but not UUID");
     }
 };
 

@@ -263,6 +263,8 @@ export async function register (req, res){
       return res.status(500).send({ error: 'Problem with Data Selection' });
     }
 
+    const newUser_UUID = await ID_to_UUID(ID, register_type)
+
     return res
       .cookie(`${register_type}AccessToken`, token, {
         // expires,
@@ -274,7 +276,7 @@ export async function register (req, res){
         // httpOnly: true,
         // secure:true
       })
-      .cookie(`${register_type}New_User`, 'NewUser', {
+      .cookie(`${register_type}New_User`, newUser_UUID, {
         // expires,
         // httpOnly: true,
         // secure:true
@@ -329,10 +331,10 @@ export async function logout (req, res){
         path: '/'
       })
       .clearCookie(`${type}New_User`, {
-        // httpOnly:true,
-        // secure:true,
-        // sameSite:"none",
-        // path: '/'
+        httpOnly:true,
+        secure:true,
+        sameSite:"none",
+        path: '/'
       })
       .status(200).json(`${type} has been logged out.`)
       console.log(`logged out ${type}`)

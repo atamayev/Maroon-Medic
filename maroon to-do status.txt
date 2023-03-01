@@ -2,9 +2,7 @@ To-do:
 
 ASAP:
 
---change what i'm sending with the new user cookie. would also need to verify what i am changing it to - perhaps a uuid of sorts?
-
--- if theres a password error in entering password, there's no way to reset the eror, een when new passwrod entered
+-- should the new doctor uuid be deleted after logout? check all uuid creations, and make sure they're all deleted after logout
 
 --re-do code documentation
 

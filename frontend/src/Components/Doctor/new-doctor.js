@@ -39,11 +39,13 @@ export default function NewDoctor () {
             .then(result => {
               if (result.data === "No new Doctor nor UUID") {
                 navigate('/');
-              }else if (result.data === "UUID but not new Doctor") {
+              }else if (result.data === "UUID but not new Doctor" || result.data === "Unverified") {
                 navigate(`/vet-dashboard`);
               }else if (result.data === "New Doctor but not UUID") {
                 navigate('/vet-register');
               }else if (result.data === "New User"){
+              }else{
+                navigate('/vet-register');
               }
             })
         }

@@ -28,19 +28,42 @@ export async function newPatient (req, res){
 
 export async function newPatientConfirmation (req, res){
     const PatientUUID = req.cookies.PatientUUID
-    const newUser = req.cookies.PatientNew_User
-    if (PatientUUID && newUser){
+    const newUserUUID = req.cookies.PatientNew_User
+    if (!newUserUUID){
+        return res.status(200).json("Unverified");
+    }
+    let verified = false;
+    const table_name = `PatientUUID_reference`
+    const DB_name = `PatientDB`;
+    const sql = `SELECT * FROM ${table_name} WHERE PatientUUID = ?`;
+    const values = [newUserUUID];
+    await useDB(newPatientConfirmation.name, DB_name, table_name)
+
+    try{
+      const [results] = await connection.execute(sql, values)
+      console.log(results);
+      if (results.length === 1) {
+        verified = true;
+      } else {
+        verified = false;
+        return res.status(500).json("Unverified");
+      }
+    }catch(error){
+      return (`error in ${newPatientConfirmation.name}:`, error)
+    }
+
+    if (PatientUUID && verified){
         console.log("New User")
         return res.status(200).json("New User");
-    }else if (!PatientUUID && !newUser){// makes sure that the user is new.
+    }else if (!PatientUUID && !verified){// makes sure that the user is new.
         console.log("No new Patient nor UUID")
-        return res.status(500).json("No new Patient nor UUID");
-    }else if (PatientUUID && !newUser){
+        return res.status(200).json("No new Patient nor UUID");
+    }else if (PatientUUID && !verified){
         console.log("UUID but not new Patient")
         return res.status(200).json("UUID but not new Patient");
     }else{
         console.log("New Patient but not UUID")
-        return res.status(500).json("New Patient but not UUID");
+        return res.status(200).json("New Patient but not UUID");
     }
 };
 
