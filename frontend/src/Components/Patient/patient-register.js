@@ -26,12 +26,12 @@ export default function PatietRegister() {
   }, []);
 
   const handleSubmit = async (e) =>{
+    setError("")
     e.preventDefault();
     if (register_information_object.password !== passwordConfirm) {
       return setError("Passwords do not match")
     }
     try {
-      setError("")
       setLoading(true)
       const response = await DataService.register(register_information_object);
       if (response.data === true){

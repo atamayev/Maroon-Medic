@@ -8,6 +8,8 @@ ASAP:
 
 --re-do code documentation
 
+--header does not refresh when navigating to dashboard from new-vet/patient. can use href instead, but it's messy
+
 
 Later:
 

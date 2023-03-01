@@ -27,11 +27,11 @@ export default function DoctorRegister() {
 
   const handleSubmit = async (e) =>{
     e.preventDefault();
+    setError("")
     if (register_information_object.password !== passwordConfirm) {
       return setError("Passwords do not match")
     }
     try {
-      setError("")
       setLoading(true)
       const response = await DataService.register(register_information_object);
       if (response.data === true){
