@@ -2,21 +2,27 @@ To-do:
 
 ASAP:
 
--- should the new doctor uuid be deleted after logout? check all uuid creations, and make sure they're all deleted after logout
-
---re-do code documentation
-
---header does not refresh when navigating to dashboard from new-vet/patient. can use href instead, but it's messy
-
-
-Later:
-
 see papa text:
 	-- need to make another table/column in table (maybe in credentials), which is a boolean of wheather or not the vet is verified.
 		--vets are verified if their identity is confirmed, and they have their information in (name, hours, etc.)
 		-- eventually, will also need to make an option for vets to have an account, but not listed in search (yes/no option in settings or something). would only show their profile to public if this is on.
 			-- 2 options: profile shows in search, and profile doesn't show in search (still shows if users directly search for the vet)
-		
+
+-- add personal phone number as a columnt to the credentials table. should be a login method. 
+	-- then, query the phone number in personal information, settings.
+--consider encrypting user emails. would not change the code besides having to encrypt user input when they enter emails
+
+-- should the new doctor uuid be deleted in db after logout? check all uuid creations, and make sure they're all deleted after logout
+
+--re-do code documentation
+
+
+
+Later:
+
+
+--header does not refresh when navigating to dashboard from new-vet/patient. can use href instead, but it's messy
+
 		
 --figure out not putting all routes in app.js. Maybe put the settings routes into the doctorsettings.js
 

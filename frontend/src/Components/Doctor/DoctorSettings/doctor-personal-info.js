@@ -121,7 +121,6 @@ export default function DoctorPersonalInfo() {
         <Card>
             <Card.Body>
                 <Form onSubmit = {handleSave}>
-                {/* Conisder adding DOB, Gender as a field to this */}
                 <Form.Group id = "FirstName">
                     <Form.Label>First Name</Form.Label>
                     <Form.Control id="FirstName" defaultValue={personalInfo.FirstName} onChange={(event) => setPersonalInfo({...personalInfo, FirstName: event.target.value})}/>
@@ -151,11 +150,6 @@ export default function DoctorPersonalInfo() {
                     <Form.Label>Birthyear</Form.Label>
                     <Form.Control id="DOB_year" defaultValue={personalInfo.DOB_year} onChange={(event) => setPersonalInfo({...personalInfo, DOB_year: event.target.value})}/>
                 </Form.Group>
-
-                {/* <Form.Group id = "phone">
-                    <Form.Label>Personal Phone Number</Form.Label>
-                    <Form.Control id="phone" defaultValue={personalInfo.phone} onChange={(event) => setPersonalInfo({...PersonalInfoData, phone: event.target.value})}/>
-                </Form.Group> */}
 
                 <br/>
                 <Button type = "submit" className="btn btn-primary w-100">Save</Button>
