@@ -96,10 +96,7 @@ export default function Header () {
 
   const handleLogout = async () => {
     try{
-      sessionStorage.removeItem("DoctorDashboardData");
-      sessionStorage.removeItem("PatientDashboardData");
-      sessionStorage.removeItem("DoctorPersonalInfo");
-      sessionStorage.removeItem("PatientPersonalInfo");
+      sessionStorage.clear();
       await DataService.logout();
     } catch(error){
       console.log('error',error)

@@ -1,6 +1,8 @@
 import {connection, useDB} from "../dbAndSecurity/connect.js";
 import Crypto from "../dbAndSecurity/crypto.js";
 import { UUID_to_ID } from "../dbAndSecurity/UUID.js";
+import DoctorDBOperations from "../dbAndSecurity/DoctorDBOperations.js";
+
 /** newDoctor registers the inputted user data into basic_Doctor_info table
  *  All necessary information is sent via the request (DocID, firname, lastname, etc.)
  *  This data is encrypted using Crypto, and then inserting into the table.
@@ -137,7 +139,7 @@ export async function savePersonalData (req, res){
     const values = [DoctorID];
     let results;
     
-    await useDB(savePersonalData.name, DB_name, table_name)
+    await useDB(savePersonalData.name, DB_name, table_name);
     try{
         [results] = await connection.execute(sql, values);
     }catch(error){
@@ -152,7 +154,7 @@ export async function savePersonalData (req, res){
             await connection.execute(sql1, values1);
             return res.status(200).json(true);
         }catch(error){
-            console.log(`error in if ${savePersonalData.name}:`, error)
+            console.log(`error in if ${savePersonalData.name}:`, error);
             return res.status(200).json(false);
         }
     }else{// if there are results, that means that the record exists, and needs to be altered
@@ -162,8 +164,75 @@ export async function savePersonalData (req, res){
             await connection.execute(sql2, values2);
             return res.status(200).json(true);
         }catch(error){
-            console.log(`error in else ${savePersonalData.name}:`, error)
+            console.log(`error in else ${savePersonalData.name}:`, error);
             return res.status(200).json(false);
         }
+    }
+};
+
+export async function saveDescriptionData (req, res){
+    const DoctorUUID = req.cookies.DoctorUUID;
+    const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
+    
+    const description = req.body.Description;
+    const encrypted_description = Crypto.encrypt_single_entry(description);
+
+    const table_name = 'descriptions';
+    const DB_name = 'DoctorDB';
+
+    const sql = `SELECT * FROM  ${table_name} WHERE Doctor_ID = ?`;
+    const values = [DoctorID];
+    let results;
+    
+    await useDB(saveDescriptionData.name, DB_name, table_name);
+    try{
+        [results] = await connection.execute(sql, values);
+    }catch(error){
+        console.log(`error in ${saveDescriptionData.name}:`, error);
+        return res.status(200).json(false);
+    }
+
+    if (!results.length){// if no results, then insert.
+        const sql1 = `INSERT INTO ${table_name} (Description, Doctor_ID) VALUES (?,?)`;
+        const values1 = [encrypted_description.Description, DoctorID];
+        try{
+            await connection.execute(sql1, values1);
+            return res.status(200).json(true);
+        }catch(error){
+            console.log(`error in if ${saveDescriptionData.name}:`, error);
+            return res.status(200).json(false);
+        }
+    }else{// if there are results, that means that the record exists, and needs to be altered
+        const sql2 = `UPDATE ${table_name} SET Description = ? WHERE Doctor_ID = ?`;
+        const values2 = [encrypted_description.Description, DoctorID];
+        try{
+            await connection.execute(sql2, values2);
+            return res.status(200).json(true);
+        }catch(error){
+            console.log(`error in else ${saveDescriptionData.name}:`, error);
+            return res.status(200).json(false);
+        }
+    }
+};
+
+export async function accountDetails (req, res){
+    const DoctorUUID = req.cookies.DoctorUUID;
+    const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor');
+    let response = [];
+
+    try{
+        response.push(await DoctorDBOperations.FetchDescriptionData(DoctorID)); 
+        response.push(await DoctorDBOperations.FetchDoctorLanguages(DoctorID)); 
+        response.push(await DoctorDBOperations.FetchDoctorPictures(DoctorID));
+        response.push(await DoctorDBOperations.FetchDoctorServices(DoctorID));
+        response.push(await DoctorDBOperations.FetchDoctorAddressData(DoctorID));
+        response.push(await DoctorDBOperations.FetchDoctorCertifications(DoctorID));
+        response.push(await DoctorDBOperations.FetchDoctorInsurances(DoctorID));
+        response.push(await DoctorDBOperations.FetchDoctorEducation(DoctorID));
+        return res.status(200).json(response);
+    }catch(error){
+        console.log('error in accountDetails', error);
+        const emptyResponse = [];
+        return res.status(200).json(emptyResponse);
     }
 };

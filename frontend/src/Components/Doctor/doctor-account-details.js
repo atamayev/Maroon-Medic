@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import {Button, Card, Form, Carousel, Accordion} from 'react-bootstrap';
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import DoctorHeader from './doctor-header.js';
+import DataService from '../../Services/data-service.js';
 
 export default function DoctorAccountDetails() {
   const [accountDetails, setAccountDetails] = useState({});
@@ -12,15 +13,22 @@ export default function DoctorAccountDetails() {
   const [languages, setLanguages] = useState (['English', 'Russian']); // might be better to combine languages into account details
 
   useEffect(()=>{
-    console.log('in editDoctor useEffect')
+    console.log('in accountDetails useEffect')
     user_verification()
     .then(result => {
       if (result.verified === true && result.DoctorToken) {
         setUser_type('Doctor')
         console.log(`Used ${DoctorAccountDetails.name} useEffect`);
+        const storedAccountDetails = sessionStorage.getItem("DoctorAccountDetails")
+        if(storedAccountDetails){
+          setAccountDetails(JSON.parse(storedAccountDetails));
+        }else{
+          console.log('fetching data from db (elsed)')
+          Description();
+        }
       }
       else if (result.verified === true && result.PatientToken){
-        setUser_type('Patient')
+        setUser_type('Patient');
       }
       else{
         console.log('Unverified')
@@ -60,6 +68,22 @@ export default function DoctorAccountDetails() {
     </Card>
     )
   }
+
+  async function Description(){
+    console.log('in Description')
+    try{
+        const response = await DataService.fillDoctorAccountDetails();
+        console.log(response.data)
+        if (response){
+            setAccountDetails(response.data);
+            sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(response.data));
+        }else{
+          console.log('no response');
+        }
+      }catch(error){
+        console.log('unable to fill AccountDetails', error)
+      }
+}
 
   const handleSelectCarousel = (selectedIndex, e) => {
     setCarouselIndex(selectedIndex);

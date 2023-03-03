@@ -17,7 +17,7 @@ Across the Top (instead of header):
 		Languages spoken
 		Edication (school, major, education type) - able to add multiple
 		Certifications list
-		Per Locaiton:
+		Per Location:
 			Address
 			Booking Availibility (which days/times work)
 			Phone
