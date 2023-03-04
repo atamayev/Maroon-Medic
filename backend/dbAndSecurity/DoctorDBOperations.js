@@ -43,8 +43,7 @@ export default new class DoctorDBOperations{
                 console.log('User does not exist');
                 return {};
             } else {
-                const decrypted = Crypto.decryptSingle(results[0]);
-                return (decrypted);
+                return (results);
             }
         }catch(error){
             return (`error in ${functionName}:`, error);
@@ -93,8 +92,7 @@ export default new class DoctorDBOperations{
                 console.log('User does not exist');
                 return {};
             } else {
-                const decrypted = Crypto.decryptSingle(results[0]);
-                return (decrypted);
+                return (results);
             }
         }catch(error){
             return (`error in ${functionName}:`, error);
@@ -143,8 +141,7 @@ export default new class DoctorDBOperations{
                 console.log('User does not exist');
                 return {};
             } else {
-                const decrypted = Crypto.decryptSingle(results[0]);
-                return (decrypted);
+                return (results);
             }
         }catch(error){
             return (`error in ${functionName}:`, error);
@@ -168,8 +165,7 @@ export default new class DoctorDBOperations{
                 console.log('User does not exist');
                 return {};
             } else {
-                const decrypted = Crypto.decryptSingle(results[0]);
-                return (decrypted);
+                return (results);
             }
         }catch(error){
             return (`error in ${functionName}:`, error);
@@ -196,8 +192,7 @@ export default new class DoctorDBOperations{
                 console.log('User does not exist');
                 return {};
             } else {
-                const decrypted = Crypto.decryptSingle(results[0]);
-                return (decrypted);
+                return (results);
             }
         }catch(error){
             return (`error in ${functionName}:`, error);

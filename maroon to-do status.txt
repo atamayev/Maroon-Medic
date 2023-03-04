@@ -2,12 +2,9 @@ To-do:
 
 ASAP:
 
--- may not neeed to decrypt the results for the functions that use mapping tables
-
--- not sure why the mapping tables are structured as they are. to input data, i would first have to find the text in teh lookup table, and then insert the ID into the mapping table
 -- should be one function to return all account details. Should pull it from multiple sources. The save datas should be different functions, but the fetches should all be bundled up into 1 fcn
 	-- will need to make the queried results into a list of objects: [ {}, {}].
-	-- consider making one function that joins it all
+	-- consider making one sql command that joins all tables, instead of 10different sql ops
 see papa text:
 	-- need to make another table/column in table (maybe in credentials), which is a boolean of wheather or not the vet is verified.
 		--vets are verified if their identity is confirmed, and they have their information in (name, hours, etc.)
