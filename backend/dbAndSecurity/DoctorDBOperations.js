@@ -80,10 +80,10 @@ export default new class DoctorDBOperations{
         const functionName = this.FetchDoctorServices.bind(this).name;
 
         const table_name1 = 'service_mapping';
-        const table_name2 = 'service_list';
+        const table_name2 = 'service_and_category_list';
         const DB_name = 'DoctorDB';
     
-        const sql = `SELECT ${table_name2}.Service_name FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.service_listID = ${table_name1}.Service_ID WHERE ${table_name1}.Doctor_ID = ?`;
+        const sql = `SELECT ${table_name2}.Category_name, ${table_name2}.Service_name  FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.service_and_category_listID = ${table_name1}.Service_ID WHERE ${table_name1}.Doctor_ID = ?`;
         const values = [DoctorID];
         await useDB(functionName, DB_name, table_name1);
     
@@ -126,14 +126,14 @@ export default new class DoctorDBOperations{
         }
     };
     
-    async FetchDoctorCertifications (DoctorID){
-        const functionName = this.FetchDoctorCertifications.bind(this).name;
+    async FetchDoctorSpecialties (DoctorID){
+        const functionName = this.FetchDoctorSpecialties.bind(this).name;
 
-        const table_name1 = 'certification_mapping';
-        const table_name2 = 'certification_list'
+        const table_name1 = 'specialty_mapping';
+        const table_name2 = 'specialties_list'
         const DB_name = 'DoctorDB';
     
-        const sql = `SELECT ${table_name2}.Certification_name FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.certification_listID = ${table_name1}.Certification_ID WHERE ${table_name1}.Doctor_ID = ?`;
+        const sql = `SELECT ${table_name2}.Organization_name, ${table_name2}.Specialty_name  FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.specialties_listID = ${table_name1}.specialty_mappingID WHERE ${table_name1}.Doctor_ID = ?`;
         const values = [DoctorID];
         await useDB(functionName, DB_name, table_name1);
     

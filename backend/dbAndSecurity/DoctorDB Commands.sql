@@ -66,17 +66,19 @@ IP_Address INT unsigned,
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 
-CREATE TABLE service_list(
+CREATE TABLE service_and_category_list(
 -- Lookup Table
-service_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+service_and_category_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+Category_name VARCHAR(250),
 Service_name VARCHAR(250));
+drop table service_and_category_list;
 
 CREATE TABLE service_mapping(
 service_mapping_ID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Service_time INT,
 Service_price DECIMAL,
-Service_ID INT unsigned NOT NULL, 
-FOREIGN KEY (Service_ID) REFERENCES service_list(service_listID),
+Service_and_Category_ID INT unsigned NOT NULL, 
+FOREIGN KEY (Service_and_Category_ID) REFERENCES service_and_category_list(service_and_category_listID),
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 
@@ -92,6 +94,7 @@ CREATE TABLE language_list(
 language_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Language_name VARCHAR(150));
 
+SELECT * FROM language_list;
 CREATE TABLE language_mapping(
 language_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Language_ID INT unsigned NOT NULL, 
@@ -108,11 +111,14 @@ CREATE TABLE major_list(
 -- Lookup Table
 major_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Major_name VARCHAR(300));
+select * from major_list;
 
 CREATE TABLE education_type_list(
 -- Lookup Table
 education_typeID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Education_type VARCHAR(150)); -- bachelor, resideny, fellow
+select * from education_type_list;
+
 
 CREATE TABLE education_mapping(
 education_mapping_ID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -127,15 +133,17 @@ End_Date DATE,
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 
-CREATE TABLE certification_list(
+CREATE TABLE specialties_list(
 -- Lookup Table
-certification_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Certification_name VARCHAR(300));
+specialties_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+Organization_name VARCHAR(300),
+Specialty_name VARCHAR(300));
+SELECT * FROM specialties_list;
 
-CREATE TABLE certification_mapping(
-certification_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Certification_ID INT unsigned NOT NULL, 
-FOREIGN KEY (Certification_ID) REFERENCES certification_list(certification_listID),
+CREATE TABLE specialty_mapping(
+specialty_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+Specialty_ID INT unsigned NOT NULL, 
+FOREIGN KEY (Specialty_ID) REFERENCES specialties_list(specialties_listID),
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 
