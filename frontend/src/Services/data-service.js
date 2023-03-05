@@ -61,6 +61,25 @@ export default new class DataService {
     async fillLanguages(){
         return await http.get('/private-doctor-data/fetch-all-languages')
     }
+    async fillSpecialties(){
+        return await http.get('/private-doctor-data/fetch-all-specialties')
+    }
+    async fillServicesAndCategories(){
+        return await http.get('/private-doctor-data/fetch-all-services-and-categories')
+    }
+    async fillSchools(){
+        return await http.get('/private-doctor-data/fetch-all-schools')
+    }
+    async fillMajors(){
+        return await http.get('/private-doctor-data/fetch-all-majors')
+    }
+    async fillInsurances(){
+        return await http.get('/private-doctor-data/fetch-all-insurances')
+    }
+    async fillEducationTypes(){
+        return await http.get('/private-doctor-data/fetch-all-education-types')
+    }
+
     // async savePatientPersonalData(personalInfo){
     //     return await http.post('/private-patient-data/save-personal-data', {personalInfo})
     // }

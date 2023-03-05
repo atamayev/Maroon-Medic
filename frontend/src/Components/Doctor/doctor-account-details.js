@@ -73,6 +73,7 @@ export default function DoctorAccountDetails() {
     console.log('in Description')
     try{
         const response = await DataService.fillDoctorAccountDetails();
+        // await DataService.fillLanguages();
         console.log(response.data)
         if (response){
             setAccountDetails(response.data);
@@ -83,7 +84,7 @@ export default function DoctorAccountDetails() {
       }catch(error){
         console.log('unable to fill AccountDetails', error)
       }
-}
+  }
 
   const handleSelectCarousel = (selectedIndex, e) => {
     setCarouselIndex(selectedIndex);
