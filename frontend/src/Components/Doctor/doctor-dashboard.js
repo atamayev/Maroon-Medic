@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useContext} from 'react'
 import {Link} from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
-import DataService from "../../Services/data-service.js"
+import PrivateDoctorDataService from "../../Services/private-doctor-data-service.js"
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import DoctorHeader from './doctor-header.js';
 
@@ -39,7 +39,7 @@ export default function DoctorDashboard() {
  
   async function DashboardData (){
     try{
-      const response = await DataService.fillDoctorDashboard()
+      const response = await PrivateDoctorDataService.fillDoctorDashboard()
       if (response){
         setDashboardData(response.data);
         sessionStorage.setItem("DoctorDashboardData", JSON.stringify(response.data))

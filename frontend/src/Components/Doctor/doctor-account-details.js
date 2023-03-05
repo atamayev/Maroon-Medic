@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import {Button, Card, Form, Carousel, Accordion} from 'react-bootstrap';
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import DoctorHeader from './doctor-header.js';
-import DataService from '../../Services/data-service.js';
+import PrivateDoctorDataService from '../../Services/private-doctor-data-service.js';
 
 export default function DoctorAccountDetails() {
   const [accountDetails, setAccountDetails] = useState({});
@@ -72,7 +72,7 @@ export default function DoctorAccountDetails() {
   async function Description(){
     console.log('in Description')
     try{
-        const response = await DataService.fillDoctorAccountDetails();
+        const response = await PrivateDoctorDataService.fillDoctorAccountDetails();
         // await DataService.fillLanguages();
         console.log(response.data)
         if (response){

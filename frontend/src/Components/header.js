@@ -4,6 +4,7 @@ import {useLocation} from "react-router-dom";
 import logo from '../Images/logo.svg';
 import pic from '../Images/ProfileImage.jpg';
 import DataService from '../Services/data-service'
+import PrivateDoctorDataService from '../Services/private-doctor-data-service'
 import { VerifyContext } from '../Contexts/VerifyContext.js';
 import { SearchContext } from '../Contexts/SearchContext';
 
@@ -76,22 +77,29 @@ export default function Header () {
   }, [cookie_monster]);
 
   async function PersonalInfo (type){
-    if (type === 'Doctor' || type === 'Patient'){
+    let response;
+    if (type === 'Doctor'){
       try{
-        const response = await DataService[`fill${type}PersonalData`]();
-        if (response){
-          setHeaderData(response.data.FirstName);
-          sessionStorage.setItem(`${type}PersonalInfo`, JSON.stringify(response.data))
-        }else{
-          console.log('no response')
-        }
+        response = await PrivateDoctorDataService.fillDoctorPersonalData();
       }catch(error){
-        console.log(`unable to fill${type}PersonalData`, error)
+        console.log(`unable to fillDoctorPersonalData`, error)
+      }
+    }else if (type === 'Patient'){
+      try{
+        response = await DataService.fillPatientPersonalData();
+      }catch(error){
+        console.log(`unable to fillPatientPersonalData`, error)
       }
     }else{
       console.log('no Type:', type)
+    }
 
-    } 
+    if (response){
+      setHeaderData(response.data.FirstName);
+      sessionStorage.setItem(`${type}PersonalInfo`, JSON.stringify(response.data))
+    }else{
+      console.log('no response')
+    }
   };  
 
   const handleLogout = async () => {

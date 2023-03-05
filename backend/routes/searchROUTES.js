@@ -1,5 +1,8 @@
 import express from "express";
-import { searchByQuery, fetchUsers} from "../controllers/searchCTRL.js";
+import { 
+    searchByQuery, 
+    fetchUsers
+} from "../controllers/searchCTRL.js";
 
 const router = express.Router()
 

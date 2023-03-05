@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext} from 'react'
 import {Link} from "react-router-dom";
 import {Card, Button, Form } from 'react-bootstrap'
 import DoctorHeader from '../doctor-header.js';
-import DataService from '../../../Services/data-service.js';
+import PrivateDoctorDataService from '../../../Services/private-doctor-data-service.js';
 import { VerifyContext } from '../../../Contexts/VerifyContext.js';
 
 export default function DoctorPersonalInfo() {
@@ -40,7 +40,7 @@ export default function DoctorPersonalInfo() {
     async function PersonalInfoData(){
         console.log('in personal data')
         try{
-            const response = await DataService.fillDoctorPersonalData()
+            const response = await PrivateDoctorDataService.fillDoctorPersonalData()
             console.log(response.data)
             if (response){
                 setPersonalInfo(response.data);
@@ -61,7 +61,7 @@ export default function DoctorPersonalInfo() {
             if (stringifiedPersonalInfoData !== storedPersonalInfoData){// if there is a change, and handlesave is used:
                 try {
                     //create this:
-                    const response = await DataService.saveDoctorPersonalData(personalInfo);
+                    const response = await PrivateDoctorDataService.saveDoctorPersonalData(personalInfo);
                     if (response.data === true){
                         // setPersonalInfo(personalInfo);
                         sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(personalInfo));

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {Card, Button, Form, Alert } from 'react-bootstrap'
 import {useNavigate} from "react-router-dom";
-import DataService from "../../Services/data-service.js"
+import PrivateDoctorDataService from "../../Services/private-doctor-data-service.js"
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 
 export default function NewDoctor () {
@@ -35,7 +35,7 @@ export default function NewDoctor () {
     user_verification()
       .then(result => {
         if (result.verified === true && result.DoctorToken) {
-          DataService.newDoctorConfirmation()
+          PrivateDoctorDataService.newDoctorConfirmation()
             .then(result => {
               if (result.data === "No new Doctor nor UUID") {
                 navigate('/');
@@ -62,7 +62,7 @@ export default function NewDoctor () {
       try {
         setError("")
         setLoading(true)
-        const bool = await DataService.addingDoctorInfo(newDoctorInfo)
+        const bool = await PrivateDoctorDataService.addingDoctorInfo(newDoctorInfo)
         if(bool.data === true){
           // navigate("/vet-dashboard");// this would be more efficient i think, but when navigate is used, the data doesn't load in time
           window.location.href = '/vet-dashboard';
