@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {Card, Button, Form, Alert } from 'react-bootstrap'
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import DataService from "../../Services/data-service.js"
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 
@@ -57,27 +57,12 @@ export default function NewDoctor () {
       })
   }, []);
   
-  async function DoctorUUIDtoDoctorID (){
-    try{
-      const response = await DataService.UUIDtoID()
-      if (response.data === 'Error in User ID conversion'){
-        console.log('User does not exist')
-      }
-      else{
-        return response.data;
-      }
-    }catch(error){
-      console.log('error in DoctorUUID to DoctorID', error)
-    }
-  }
-
   const handleSubmit = async (e) => {
       e.preventDefault();
-      const DoctorID = await DoctorUUIDtoDoctorID();
       try {
         setError("")
         setLoading(true)
-        const bool = await DataService.addingDoctorInfo(newDoctorInfo, DoctorID)
+        const bool = await DataService.addingDoctorInfo(newDoctorInfo)
         if(bool.data === true){
           // navigate("/vet-dashboard");// this would be more efficient i think, but when navigate is used, the data doesn't load in time
           window.location.href = '/vet-dashboard';

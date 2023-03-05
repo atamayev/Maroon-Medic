@@ -5,7 +5,8 @@ import { UUID_to_ID } from "../dbAndSecurity/UUID.js";
 
 export async function newPatient (req, res){
     // console.log('req.body',req.body)
-    const PatientID = req.body.PatientID
+    const PatientUUID = req.cookies.PatientUUID
+    const PatientID = await UUID_to_ID(PatientUUID, 'Patient') // converts DoctorUUID to docid
     const new_patient_object = req.body.new_patient_object
 
     const table_name = 'basic_Patient_info'
@@ -67,7 +68,7 @@ export async function newPatientConfirmation (req, res){
     }
 };
 
-export async function dashboardData (req, res){
+export async function fetchDashboardData (req, res){
     const PatientUUID = req.cookies.PatientUUID
     const PatientID = await UUID_to_ID(PatientUUID, 'Patient') // converts PatientUUID to docid
     
@@ -77,7 +78,7 @@ export async function dashboardData (req, res){
   
     const sql = `SELECT email, Created_at, FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year FROM ${table_name1} LEFT JOIN ${table_name2} ON ${table_name1}.PatientID = ${table_name2}.Patient_ID WHERE ${table_name1}.PatientID = ?`
     const values = [PatientID];
-    await useDB(dashboardData.name, DB_name, table_name1)
+    await useDB(fetchDashboardData.name, DB_name, table_name1)
     // await useDB(dashboardData.name, DB_name, table_name2)
 
     try{
@@ -91,11 +92,11 @@ export async function dashboardData (req, res){
             return res.status(200).json(decrypted);
         }
     }catch(error){
-        return (`error in ${dashboardData.name}:`, error)
+        return (`error in ${fetchDashboardData.name}:`, error)
     }
 };
 
-export async function personalData (req, res){
+export async function fetchPersonalData (req, res){
     const PatientUUID = req.cookies.PatientUUID
     const PatientID = await UUID_to_ID(PatientUUID, 'Patient') // converts PatientUUID to docid
     
@@ -104,7 +105,7 @@ export async function personalData (req, res){
   
     const sql = `SELECT FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year FROM ${table_name} WHERE Patient_ID = ?`
     const values = [PatientID];
-    await useDB(personalData.name, DB_name, table_name)
+    await useDB(fetchPersonalData.name, DB_name, table_name)
 
     try{
         const [results] = await connection.execute(sql, values)
@@ -116,6 +117,6 @@ export async function personalData (req, res){
             return res.status(200).json(decrypted);
         }
     }catch(error){
-        return (`error in ${personalData.name}:`, error)
+        return (`error in ${fetchPersonalData.name}:`, error)
     }
 };
