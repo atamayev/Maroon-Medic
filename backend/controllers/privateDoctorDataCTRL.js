@@ -227,6 +227,28 @@ export async function saveLanguageData (req, res){
     const table_name = 'language_mapping';
     const DB_name = 'DoctorDB';
 
+
+    // this doesn't let docs delete from their table. Would like need to run a select * command, then see if the req.body.lanauges interesects with the results from the select
+
+    for (let i = 0; i<languages.length; i++){
+        const sql1 = `INSERT INTO ${table_name} (Language_ID, Doctor_ID) VALUES (?,?)`;
+        const values1 = [languages[i], DoctorID];
+        try{
+            await connection.execute(sql1, values1);
+            return res.status(200).json(true);
+        }catch(error){
+            if(error.code === '1062'){
+                continue;
+            }else{
+                console.log(`error in if ${saveLanguageData.name}:`, error);
+                return res.status(200).json(false);
+            }
+        }
+    }
+
+
+
+
     const sql = `SELECT * FROM  ${table_name} WHERE Doctor_ID = ?`;
     const values = [DoctorID];
     let results;

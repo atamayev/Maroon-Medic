@@ -7,10 +7,13 @@ import PrivateDoctorDataService from '../../Services/private-doctor-data-service
 
 export default function DoctorAccountDetails() {
   const [accountDetails, setAccountDetails] = useState({});
+  const [listDetails, setListDetails] = useState({});
   const {user_verification} = useContext(VerifyContext);
   const [user_type, setUser_type] = useState(null);
   const [carouselIndex, setCarouselIndex] = useState(0);
-  const [languages, setLanguages] = useState (['English', 'Russian']); // might be better to combine languages into account details
+  const [languages, setLanguages] = useState([]);
+  const [selectedLanguage, setSelectedLanguage] = useState('');
+  const [spokenLanguages, setSpokenLanguages] = useState([]); // might be better to combine this into accountDetails
 
   useEffect(()=>{
     console.log('in accountDetails useEffect')
@@ -19,13 +22,22 @@ export default function DoctorAccountDetails() {
       if (result.verified === true && result.DoctorToken) {
         setUser_type('Doctor')
         console.log(`Used ${DoctorAccountDetails.name} useEffect`);
+        
         const storedAccountDetails = sessionStorage.getItem("DoctorAccountDetails")
         if(storedAccountDetails){
           setAccountDetails(JSON.parse(storedAccountDetails));
         }else{
           console.log('fetching data from db (elsed)')
-          Description();
+          FillDoctorAccountDetails();
         }
+        const storedListDetails = sessionStorage.getItem("ListDetails")
+        if(storedListDetails){
+          setListDetails(JSON.parse(storedListDetails));
+        }else{
+          console.log('fetching data from db (elsed)')
+          FillLists();
+        }
+
       }
       else if (result.verified === true && result.PatientToken){
         setUser_type('Patient');
@@ -69,11 +81,10 @@ export default function DoctorAccountDetails() {
     )
   }
 
-  async function Description(){
-    console.log('in Description')
+  async function FillDoctorAccountDetails(){
+    console.log('in FillDoctorAccountDetails')
     try{
         const response = await PrivateDoctorDataService.fillDoctorAccountDetails();
-        // await DataService.fillLanguages();
         console.log(response.data)
         if (response){
             setAccountDetails(response.data);
@@ -86,25 +97,48 @@ export default function DoctorAccountDetails() {
       }
   }
 
+  async function FillLists(){ // this will be used to fill the lists in the db (insurances, languages, etc.) Should be one function that returns an object of arrays of hte different lists
+    console.log('in fill lists')
+    try{
+        const response = await PrivateDoctorDataService.fillLanguages();
+        console.log(response.data)
+        if (response){
+            setListDetails(response.data);
+            sessionStorage.setItem("ListDetails", JSON.stringify(response.data));
+        }else{
+          console.log('no response');
+        }
+      }catch(error){
+        console.log('unable to fill ListDetails', error)
+      }
+  }
+
   const handleSelectCarousel = (selectedIndex, e) => {
     setCarouselIndex(selectedIndex);
   };
 
-  function handleChangeLanguage(index, event) {
-    const newItems = [...languages];
-    newItems[index] = event.target.value;
-    setLanguages(newItems);
-  }
+  const handleLanguageChange = (event) => {
+    setSelectedLanguage(event.target.value);
+  };
 
-  function handleAddLanguage() {
-    const newItems = [...languages, ''];
-    setLanguages(newItems);
-  }
+  const handleAddLanguage = () => {
+    if (selectedLanguage !== '' && !spokenLanguages.includes(selectedLanguage)) {
+      setSpokenLanguages([...spokenLanguages, selectedLanguage]);
+    }
+    setSelectedLanguage('');
+  };
 
-  function handleDeleteLanguage(index) {
-    const newItems = [...languages];
-    newItems.splice(index, 1);
-    setLanguages(newItems);
+  const handleDeleteLanguage = (language) => {
+    setSpokenLanguages(spokenLanguages.filter(l => l !== language));
+  };
+
+  async function saveLanguages(){
+    try{
+      const JSONlanguages = JSON.stringify(spokenLanguages)
+      await PrivateDoctorDataService.saveLanguages(JSONlanguages)
+    }catch(error){
+      console.log('error in saving languages',error)
+    }
   }
 
   return (
@@ -181,7 +215,7 @@ export default function DoctorAccountDetails() {
       </Carousel>   
       <br/>
 
-      <Card>
+      {/* <Card>
           <Card.Body>
           <Form>
               <Form.Group id = "Languages">
@@ -194,13 +228,33 @@ export default function DoctorAccountDetails() {
           </Form>
           </Card.Body>
       </Card>
-      <br/>
+      <br/> */}
 
 
     <Card>
     <Card.Body>
-      Languages
-      {languages.map((language, index) => (
+    Languages
+    <label htmlFor="language">Select a language:</label>
+      <select id="language" name="language" value={selectedLanguage} onChange={handleLanguageChange}>
+        <option value="">Choose a language</option>
+        {listDetails.map(language => (
+          <option key={language.code} value={language.code}>
+            {language.Language_name}
+          </option>
+        ))}
+      </select>
+      <Button onClick={handleAddLanguage}>Add</Button>
+      <ul>
+        {spokenLanguages.map(language => (
+          <li key={language}>
+            {language} <Button onClick={() => handleDeleteLanguage(language)}>x</Button>
+          </li>
+        ))}
+      </ul>
+      <Button onClick={saveLanguages}>Save</Button>
+
+      
+      {/* {languages.map((language, index) => (
         <div key={index}>
           <input
             type="text"
@@ -210,7 +264,7 @@ export default function DoctorAccountDetails() {
           <Button onClick={() => handleDeleteLanguage(index)}>X</Button>
         </div>
       ))}
-      <Button onClick={handleAddLanguage}>+</Button>
+      <Button onClick={handleAddLanguage}>+</Button> */}
       </Card.Body>
     </Card>
     <br/>

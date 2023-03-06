@@ -148,13 +148,28 @@ CREATE TABLE language_list(
 language_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Language_name VARCHAR(150));
 
-SELECT * FROM language_list;
+SELECT * FROM language_mapping;
 CREATE TABLE language_mapping(
 language_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Language_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Language_ID) REFERENCES language_list(language_listID),
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
+	-- Important key constraint:
+	ALTER TABLE language_mapping
+	ADD CONSTRAINT language_mapping_constraint
+	UNIQUE (Language_ID, Doctor_ID);
+
+-- MERGE INTO language_mapping a
+-- USING (SELECT '1' as Doctor_ID, '1000000' as Language_ID) u
+-- ON a.Doctor_ID = u.Doctor_ID AND a.Language_ID = u.Language_ID
+-- WHEN NOT MATCHED THEN
+--     INSERT (Doctor_ID, Language_ID) VALUES (u.Doctor_ID, u.Language_ID);
+
+INSERT INTO language_mapping (Language_ID, Doctor_ID)
+VALUES (1, 1000000);
+
+SELECT * FROM language_mapping;
 
 CREATE TABLE school_list(
 -- Lookup Table
