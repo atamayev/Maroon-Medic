@@ -2,7 +2,9 @@ To-do:
 
 ASAP:
 
--- still need to fill insurances table
+--make 2 dummy headers, one without search, and without profile & search.
+	the one without profile and search should appear on the new doctor page.
+	the one without search should appear on dashboard, account details, etc.
 -- should be one function to return all account details. Should pull it from multiple sources. The save datas should be different functions, but the fetches should all be bundled up into 1 fcn
 	-- will need to make the queried results into a list of objects: [ {}, {}].
 -- after saving account data, when navigating back to dashboard, the data hasn't updated. might not be neccesary to update (since the current dashboard is filler)

@@ -6,6 +6,7 @@ import {
     savePersonalData, 
     newDoctorConfirmation, 
     saveDescriptionData, 
+    saveLanguageData,
     fetchAccountDetails, 
     fetchAllLanguages,
     fetchAllSpecialties,
@@ -24,6 +25,7 @@ router.get("/fetch-dashboard-data", fetchDashboardData)
 router.get("/fetch-personal-data", fetchPersonalData)
 router.post("/save-personal-data", savePersonalData)
 router.post("/save-description-data", saveDescriptionData)
+router.post("/save-language-data", saveLanguageData)
 router.get("/fetch-account-details-data", fetchAccountDetails)
 router.get("/fetch-all-languages", fetchAllLanguages)
 router.get("/fetch-all-specialties", fetchAllSpecialties)

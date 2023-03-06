@@ -25,6 +25,9 @@ export default new class PrivateDoctorDataService {
     async fillLanguages(){
         return await http.get('/private-doctor-data/fetch-all-languages')
     }
+    async saveLanguages(Languages){
+        return await http.post('/private-doctor-data/save-language-data', {Languages})
+    }
     async fillSpecialties(){
         return await http.get('/private-doctor-data/fetch-all-specialties')
     }

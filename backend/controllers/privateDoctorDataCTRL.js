@@ -139,6 +139,7 @@ export async function savePersonalData (req, res){
     const sql = `SELECT * FROM  ${table_name} WHERE Doctor_ID = ?`
     const values = [DoctorID];
     let results;
+    //this is upsert:
     
     await useDB(savePersonalData.name, DB_name, table_name);
     try{
@@ -212,6 +213,65 @@ export async function saveDescriptionData (req, res){
         }catch(error){
             console.log(`error in else ${saveDescriptionData.name}:`, error);
             return res.status(200).json(false);
+        }
+    }
+};
+
+export async function saveLanguageData (req, res){
+    const DoctorUUID = req.cookies.DoctorUUID;
+    const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
+    
+    const languages = req.body.Languages;
+    console.log(languages)
+
+    const table_name = 'language_mapping';
+    const DB_name = 'DoctorDB';
+
+    const sql = `SELECT * FROM  ${table_name} WHERE Doctor_ID = ?`;
+    const values = [DoctorID];
+    let results;
+    
+    await useDB(saveLanguageData.name, DB_name, table_name);
+    try{
+        [results] = await connection.execute(sql, values);
+    }catch(error){
+        console.log(`error in ${saveLanguageData.name}:`, error);
+        return res.status(200).json(false);
+    }
+
+    if (!results.length){// if no results, then insert.
+        for (let i = 0; i<languages.length; i++){
+            const sql1 = `INSERT INTO ${table_name} (Language_ID, Doctor_ID) VALUES (?,?)`;
+            const values1 = [languages[i], DoctorID];
+            try{
+                await connection.execute(sql1, values1);
+                return res.status(200).json(true);
+            }catch(error){
+                console.log(`error in if ${saveLanguageData.name}:`, error);
+                return res.status(200).json(false);
+            }
+        }
+        
+    }else{// if there are results, that means that the record exists, and needs to be altered
+        //Slightly stupid way of doing it, but first deletes all records in the table where doctorid =?, then inserts
+        const sql2 = `DELETE FROM ${table_name} WHERE Doctor_ID = ? `
+        const values2 = [DoctorID]
+        try{
+            await connection.execute(sql2, values2);
+        }catch(error){
+            console.log(`error in else ${saveLanguageData.name}:`, error);
+            return res.status(200).json(false);
+        }
+        for (let i = 0; i<languages.length; i++){
+            const sql3 = `INSERT INTO ${table_name} (Language_ID, Doctor_ID) VALUES (?,?)`;
+            const values3 = [languages[i], DoctorID];
+            try{
+                await connection.execute(sql3, values3);
+                return res.status(200).json(true);
+            }catch(error){
+                console.log(`error in if ${saveLanguageData.name}:`, error);
+                return res.status(200).json(false);
+            }
         }
     }
 };
