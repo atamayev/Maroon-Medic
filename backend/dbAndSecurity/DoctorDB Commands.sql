@@ -155,7 +155,8 @@ Language_ID INT unsigned NOT NULL,
 FOREIGN KEY (Language_ID) REFERENCES language_list(language_listID),
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
-	-- Important key constraint:
+	
+    -- Important key constraint:
 	ALTER TABLE language_mapping
 	ADD CONSTRAINT language_mapping_constraint
 	UNIQUE (Language_ID, Doctor_ID);
