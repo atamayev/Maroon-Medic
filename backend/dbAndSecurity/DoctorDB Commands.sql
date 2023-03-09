@@ -62,7 +62,7 @@ CREATE TABLE Doctor_credentials (
   email VARCHAR(150) NOT NULL,
   password VARCHAR(150) NOT NULL,
   Created_at VARCHAR(150) NOT NULL) AUTO_INCREMENT=1000000;
-  
+
 select * from Doctor_credentials;
 
 -- delete from basic_Doctor_info where basic_Doctor_infoID between 112 and 115;
@@ -148,8 +148,9 @@ CREATE TABLE language_list(
 language_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Language_name VARCHAR(150));
 
-SELECT * FROM language_mapping;
+SELECT * FROM language_mapping JOIN language_list ON language_listID = language_mapping.Language_ID;
 
+-- DELETE FROM language_mapping where Doctor_ID = '1000000';
 CREATE TABLE language_mapping(
 language_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Language_ID INT unsigned NOT NULL, 

@@ -2,6 +2,11 @@ To-do:
 
 ASAP:
 
+
+--when saving multiple rows, try to see if can implement {multiple:true}. This is to add an array to sql, breaking up the array into objects, without using a loop
+--https://stackoverflow.com/questions/23266854/node-mysql-multiple-statements-in-one-query
+	--for creating multiple sql statements
+	implement multiple sql statements true
 --make 2 dummy headers, one without search, and without profile & search.
 	the one without profile and search should appear on the new doctor page.
 	the one without search should appear on dashboard, account details, etc.

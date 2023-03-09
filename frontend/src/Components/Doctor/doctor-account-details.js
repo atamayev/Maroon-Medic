@@ -83,7 +83,7 @@ export default function DoctorAccountDetails() {
     console.log('in FillDoctorAccountDetails')
     try{
         const response = await PrivateDoctorDataService.fillDoctorAccountDetails();
-        console.log(response.data)
+        // console.log(response.data)
         if (response){
             setAccountDetails(response.data);
             sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(response.data));
@@ -224,6 +224,7 @@ export default function DoctorAccountDetails() {
     <Card>
     <Card.Body>
     Languages
+    <br/>
     <label htmlFor="language">Select a language:</label>
       <select id="language" name="language" value={selectedLanguage.language_listID || ''} onChange={handleLanguageChange}>
         <option value="">Choose a language</option>

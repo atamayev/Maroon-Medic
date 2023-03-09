@@ -222,7 +222,6 @@ export async function saveLanguageData (req, res){
     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
     
     const spokenLanguages = req.body.Languages;
-    console.log(spokenLanguages)
 
     const DB_name = 'DoctorDB';
     const table_name = 'language_mapping';
@@ -241,55 +240,72 @@ export async function saveLanguageData (req, res){
 
     if (results.length > 0) {
         // Doctor already has spoken languages in the database
-        const oldLanguages = results.map(result => result.language); // old languages are the languages queried from the table^
+        const oldLanguages = results.map(result => result.Language_ID); // old languages are the languages queried from the table^
+        console.log('oldLanguages',oldLanguages)
         const newLanguages = spokenLanguages;
   
         // Check for changes in spoken languages
         const addedLanguages = newLanguages.filter(language => !oldLanguages.includes(language));
         const deletedLanguages = oldLanguages.filter(language => !newLanguages.includes(language));
+        console.log('addedLanguages', addedLanguages)
+        console.log('deletedLanguages', deletedLanguages)
   
         // there was a map command in ChatGPT which didn't require a for loop, not sure if it would work
         if (addedLanguages.length > 0) {
+            console.log('adding languages')
             for (let i = 0; i<addedLanguages.length; i++){
                 const sql1 = `INSERT INTO ${table_name} (Language_ID, Doctor_ID) VALUES (?,?)`;
                 const values1 = [addedLanguages[i], DoctorID];
                 try{
                     await connection.execute(sql1, values1);
-                    return res.status(200).json(true);
                 }catch(error){
                     console.log(`error in if ${saveLanguageData.name}:`, error);
                     return res.status(200).json(false);
                 }
             }
-        }
-  
-        if (deletedLanguages.length > 0) {
+            return res.status(200).json(true);
+        }  
+        else if (deletedLanguages.length > 0) {
+            console.log('deleting languages')
             for (let i = 0; i<deletedLanguages.length; i++){
                 const sql1 = `DELETE FROM ${table_name} WHERE Language_ID = ? AND Doctor_ID = ?`;
                 const values1 = [deletedLanguages[i], DoctorID];
                 try{
                     await connection.execute(sql1, values1);
-                    return res.status(200).json(true);
                 }catch(error){
                     console.log(`error in if ${saveLanguageData.name}:`, error);
                     return res.status(200).json(false);
                 }
             }
-        }
-      }
-      else {
-        // Doctor does not have spoken languages in the database
-        const sql1 = `INSERT INTO ${table_name} (Language_ID, Doctor_ID) VALUES (?,?)`;
-        const spokenLanguagesQuery = spokenLanguages.map(language => [language, DoctorID]);
-        console.log(spokenLanguagesQuery)
-        try{
-            await connection.execute(sql1, [spokenLanguagesQuery]);
             return res.status(200).json(true);
-        }catch(error){
-            console.log(`error in if ${saveLanguageData.name}:`, error);
-            return res.status(200).json(false);
         }
       }
+      else{
+        for (let i=0; i<spokenLanguages.length; i++){
+            const sql1 = `INSERT INTO ${table_name} (Language_ID, Doctor_ID) VALUES (?,?)`;
+            const values1 = [spokenLanguages[i], DoctorID];
+            try{
+                await connection.execute(sql1, values1);
+            }catch(error){
+                console.log(`error in if ${saveLanguageData.name}:`, error);
+                return res.status(200).json(false);
+            }
+        }
+        return res.status(200).json(true);
+      }
+    //   else {
+    //     // Doctor does not have spoken languages in the database
+    //     const sql1 = `INSERT INTO ${table_name} (Language_ID, Doctor_ID) VALUES (?,?)`;
+    //     const spokenLanguagesQuery = spokenLanguages.map(language => [language, DoctorID]);
+    //     console.log(spokenLanguagesQuery)
+    //     try{
+    //         await connection.execute(sql1, [spokenLanguagesQuery]);
+    //         return res.status(200).json(true);
+    //     }catch(error){
+    //         console.log(`error in if ${saveLanguageData.name}:`, error);
+    //         return res.status(200).json(false);
+    //     }
+    //   }
 };
 
 // export async function accountDetails (req, res){
