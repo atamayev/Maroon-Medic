@@ -135,15 +135,12 @@ export default function DoctorAccountDetails() {
   };
 
   async function saveLanguages(){
-    if(spokenLanguages.length >0){
-      try {
-        const languageIds = spokenLanguages.map(lang => lang.language_listID);
-        console.log('Spoken language IDs:', languageIds);
-        await PrivateDoctorDataService.saveLanguages(languageIds)
-      } catch(error) {
-        console.log('error in saving languages', error)
-      }
-    }else{
+    try {
+      const languageIds = spokenLanguages.map(lang => lang.language_listID);
+      console.log('Spoken language IDs:', languageIds);
+      await PrivateDoctorDataService.saveLanguages(languageIds)
+    } catch(error) {
+      console.log('error in saving languages', error)
     }
   };
 

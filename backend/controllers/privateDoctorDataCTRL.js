@@ -229,7 +229,7 @@ export async function saveLanguageData (req, res){
     const sql = `SELECT * FROM  ${table_name} WHERE Doctor_ID = ?`
     const values = [DoctorID];
     let results;
-
+    
     await useDB(saveLanguageData.name, DB_name, table_name);
     try{
         [results] = await connection.execute(sql, values);
@@ -241,14 +241,11 @@ export async function saveLanguageData (req, res){
     if (results.length > 0) {
         // Doctor already has spoken languages in the database
         const oldLanguages = results.map(result => result.Language_ID); // old languages are the languages queried from the table^
-        console.log('oldLanguages',oldLanguages)
         const newLanguages = spokenLanguages;
-  
+
         // Check for changes in spoken languages
         const addedLanguages = newLanguages.filter(language => !oldLanguages.includes(language));
         const deletedLanguages = oldLanguages.filter(language => !newLanguages.includes(language));
-        console.log('addedLanguages', addedLanguages)
-        console.log('deletedLanguages', deletedLanguages)
   
         // there was a map command in ChatGPT which didn't require a for loop, not sure if it would work
         if (addedLanguages.length > 0) {
@@ -281,6 +278,7 @@ export async function saveLanguageData (req, res){
         }
       }
       else{
+        console.log('adding languages in else')
         for (let i=0; i<spokenLanguages.length; i++){
             const sql1 = `INSERT INTO ${table_name} (Language_ID, Doctor_ID) VALUES (?,?)`;
             const values1 = [spokenLanguages[i], DoctorID];
