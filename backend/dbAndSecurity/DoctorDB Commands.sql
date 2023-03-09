@@ -149,6 +149,7 @@ language_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Language_name VARCHAR(150));
 
 SELECT * FROM language_mapping;
+
 CREATE TABLE language_mapping(
 language_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Language_ID INT unsigned NOT NULL, 

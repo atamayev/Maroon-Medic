@@ -1,7 +1,7 @@
 import {connection, useDB} from "../dbAndSecurity/connect.js";
 import Crypto from "../dbAndSecurity/crypto.js";
 import { UUID_to_ID } from "../dbAndSecurity/UUID.js";
-import DoctorDBOperations from "../dbAndSecurity/DoctorDBOperations.js";
+//import DoctorDBOperations from "../dbAndSecurity/DoctorDBOperations.js";
 
 /** newDoctor registers the inputted user data into basic_Doctor_info table
  *  All necessary information is sent via the request (DocID, firname, lastname, etc.)
@@ -276,85 +276,20 @@ export async function saveLanguageData (req, res){
                 }
             }
         }
-      } else {
-        for (let i = 0; i<spokenLanguages.length; i++){
-            const sql1 = `INSERT INTO ${table_name} (Language_ID, Doctor_ID) VALUES (?,?)`;
-            const values1 = [spokenLanguages[i], DoctorID];
-            try{
-                await connection.execute(sql1, values1);
-                return res.status(200).json(true);
-            }catch(error){
-                console.log(`error in if ${saveLanguageData.name}:`, error);
-                return res.status(200).json(false);
-            }
+      }
+      else {
+        // Doctor does not have spoken languages in the database
+        const sql1 = `INSERT INTO ${table_name} (Language_ID, Doctor_ID) VALUES (?,?)`;
+        const spokenLanguagesQuery = spokenLanguages.map(language => [language, DoctorID]);
+        console.log(spokenLanguagesQuery)
+        try{
+            await connection.execute(sql1, [spokenLanguagesQuery]);
+            return res.status(200).json(true);
+        }catch(error){
+            console.log(`error in if ${saveLanguageData.name}:`, error);
+            return res.status(200).json(false);
         }
       }
-
-    // this doesn't let docs delete from their table. Would like need to run a select * command, then see if the req.body.lanauges interesects with the results from the select
-
-    // for (let i = 0; i<newLanguages.length; i++){
-    //     const sql1 = `INSERT INTO ${table_name} (Language_ID, Doctor_ID) VALUES (?,?)`;
-    //     const values1 = [newLanguages[i], DoctorID];
-    //     try{
-    //         await connection.execute(sql1, values1);
-    //         return res.status(200).json(true);
-    //     }catch(error){
-    //         if(error.code === '1062'){
-    //             continue;
-    //         }else{
-    //             console.log(`error in if ${saveLanguageData.name}:`, error);
-    //             return res.status(200).json(false);
-    //         }
-    //     }
-    // }
-
-    // const sql = `SELECT * FROM  ${table_name} WHERE Doctor_ID = ?`;
-    // const values = [DoctorID];
-    // let results;
-    
-    // await useDB(saveLanguageData.name, DB_name, table_name);
-    // try{
-    //     [results] = await connection.execute(sql, values);
-    // }catch(error){
-    //     console.log(`error in ${saveLanguageData.name}:`, error);
-    //     return res.status(200).json(false);
-    // }
-
-    // if (!results.length){// if no results, then insert.
-    //     for (let i = 0; i<languages.length; i++){
-    //         const sql1 = `INSERT INTO ${table_name} (Language_ID, Doctor_ID) VALUES (?,?)`;
-    //         const values1 = [languages[i], DoctorID];
-    //         try{
-    //             await connection.execute(sql1, values1);
-    //             return res.status(200).json(true);
-    //         }catch(error){
-    //             console.log(`error in if ${saveLanguageData.name}:`, error);
-    //             return res.status(200).json(false);
-    //         }
-    //     }
-        
-    // }else{// if there are results, that means that the record exists, and needs to be altered
-    //     //Slightly stupid way of doing it, but first deletes all records in the table where doctorid =?, then inserts
-    //     const sql2 = `DELETE FROM ${table_name} WHERE Doctor_ID = ? `
-    //     const values2 = [DoctorID]
-    //     try{
-    //         await connection.execute(sql2, values2);
-    //     }catch(error){
-    //         console.log(`error in else ${saveLanguageData.name}:`, error);
-    //         return res.status(200).json(false);
-    //     }
-    //     for (let i = 0; i<languages.length; i++){
-    //         const sql3 = `INSERT INTO ${table_name} (Language_ID, Doctor_ID) VALUES (?,?)`;
-    //         const values3 = [languages[i], DoctorID];
-    //         try{
-    //             await connection.execute(sql3, values3);
-    //             return res.status(200).json(true);
-    //         }catch(error){
-    //             console.log(`error in if ${saveLanguageData.name}:`, error);
-    //             return res.status(200).json(false);
-    //         }
-    //     }
-    // }
 };
 
 // export async function accountDetails (req, res){

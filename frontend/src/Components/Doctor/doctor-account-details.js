@@ -135,14 +135,15 @@ export default function DoctorAccountDetails() {
   };
 
   async function saveLanguages(){
-    try {
-      const languageIds = spokenLanguages.map(lang => lang.language_listID);
-      console.log('Spoken language IDs:', languageIds);
-      const JSONLanguages = JSON.stringify(languageIds);
-      console.log('JSON languages', JSONLanguages);
-      // await PrivateDoctorDataService.saveLanguages(JSONLanguages)
-    } catch(error) {
-      console.log('error in saving languages', error)
+    if(spokenLanguages.length >0){
+      try {
+        const languageIds = spokenLanguages.map(lang => lang.language_listID);
+        console.log('Spoken language IDs:', languageIds);
+        await PrivateDoctorDataService.saveLanguages(languageIds)
+      } catch(error) {
+        console.log('error in saving languages', error)
+      }
+    }else{
     }
   };
 
