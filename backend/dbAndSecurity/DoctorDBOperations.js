@@ -15,7 +15,7 @@ export default new class DoctorDBOperations{
         try{
             const [results] = await connection.execute(sql, values);
             if (results.length === 0) {
-                console.log('User does not exist');
+                console.log('DescriptionData does not exist');
                 return {};
             } else {
                 const decrypted = Crypto.decryptSingle(results[0]);
@@ -40,7 +40,7 @@ export default new class DoctorDBOperations{
         try{
             const [results] = await connection.execute(sql, values);
             if (results.length === 0) {
-                console.log('User does not exist');
+                console.log('DoctorLanguages Data does not exist');
                 return {};
             } else {
                 return (results);
@@ -64,7 +64,7 @@ export default new class DoctorDBOperations{
             const [results] = await connection.execute(sql, values);// will need to return a list of picture links, and picture number (which one is first, second, etc.)
             
             if (results.length === 0) {
-                console.log('User does not exist');
+                console.log('DoctorPictures Data does not exist');
                 return {};
             } else {
                 console.log(results);
@@ -82,14 +82,14 @@ export default new class DoctorDBOperations{
         const table_name2 = 'service_and_category_list';
         const DB_name = 'DoctorDB';
     
-        const sql = `SELECT ${table_name2}.Category_name, ${table_name2}.Service_name  FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.service_and_category_listID = ${table_name1}.Service_ID WHERE ${table_name1}.Doctor_ID = ?`;
+        const sql = `SELECT ${table_name2}.Category_name, ${table_name2}.Service_name  FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.service_and_category_listID = ${table_name1}.service_mapping_ID WHERE ${table_name1}.Doctor_ID = ?`;
         const values = [DoctorID];
         await useDB(functionName, DB_name, table_name1);
     
         try{
             const [results] = await connection.execute(sql, values);
             if (results.length === 0) {
-                console.log('User does not exist');
+                console.log('DoctorServices Data does not exist');
                 return {};
             } else {
                 return (results);
@@ -113,7 +113,7 @@ export default new class DoctorDBOperations{
         try{
             const [results] = await connection.execute(sql, values);
             if (results.length === 0) {
-                console.log('User does not exist');
+                console.log('DoctorAddressData Data does not exist');
                 return {};
             } else {
                 const decrypted = Crypto.decryptSingle(results[0]);
@@ -124,21 +124,21 @@ export default new class DoctorDBOperations{
         }
     };
     
-    async FetchDoctorSpecialties (DoctorID){
-        const functionName = this.FetchDoctorSpecialties.bind(this).name;
+    async FetchDoctorCertifications (DoctorID){
+        const functionName = this.FetchDoctorCertifications.bind(this).name;
 
         const table_name1 = 'specialty_mapping';
         const table_name2 = 'specialties_list'
         const DB_name = 'DoctorDB';
     
-        const sql = `SELECT ${table_name2}.Organization_name, ${table_name2}.Specialty_name  FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.specialties_listID = ${table_name1}.specialty_mappingID WHERE ${table_name1}.Doctor_ID = ?`;
+        const sql = `SELECT ${table_name2}.Organization_name, ${table_name2}.Specialty_name FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.specialties_listID = ${table_name1}.specialty_mappingID WHERE ${table_name1}.Doctor_ID = ?`;
         const values = [DoctorID];
         await useDB(functionName, DB_name, table_name1);
     
         try{
             const [results] = await connection.execute(sql, values);
             if (results.length === 0) {
-                console.log('User does not exist');
+                console.log('DoctorCertifications Data does not exist');
                 return {};
             } else {
                 return (results);
@@ -162,7 +162,7 @@ export default new class DoctorDBOperations{
         try{
             const [results] = await connection.execute(sql, values);
             if (results.length === 0) {
-                console.log('User does not exist');
+                console.log('DoctorInsurances Data does not exist');
                 return {};
             } else {
                 return (results);
@@ -189,7 +189,7 @@ export default new class DoctorDBOperations{
         try{
             const [results] = await connection.execute(sql, values);
             if (results.length === 0) {
-                console.log('User does not exist');
+                console.log('DoctorEducation Data does not exist');
                 return {};
             } else {
                 return (results);

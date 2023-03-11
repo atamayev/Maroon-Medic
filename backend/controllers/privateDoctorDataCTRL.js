@@ -1,7 +1,7 @@
 import {connection, useDB} from "../dbAndSecurity/connect.js";
 import Crypto from "../dbAndSecurity/crypto.js";
 import { UUID_to_ID } from "../dbAndSecurity/UUID.js";
-//import DoctorDBOperations from "../dbAndSecurity/DoctorDBOperations.js";
+import DoctorDBOperations from "../dbAndSecurity/DoctorDBOperations.js";
 
 /** newDoctor registers the inputted user data into basic_Doctor_info table
  *  All necessary information is sent via the request (DocID, firname, lastname, etc.)
@@ -306,87 +306,89 @@ export async function saveLanguageData (req, res){
     //   }
 };
 
-// export async function accountDetails (req, res){
-//     const DoctorUUID = req.cookies.DoctorUUID;
-//     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor');
-//     let response = [];
-
-//     try{
-//         response.push(await DoctorDBOperations.FetchDescriptionData(DoctorID)); 
-//         response.push(await DoctorDBOperations.FetchDoctorLanguages(DoctorID)); 
-//         response.push(await DoctorDBOperations.FetchDoctorPictures(DoctorID));
-//         response.push(await DoctorDBOperations.FetchDoctorServices(DoctorID));
-//         response.push(await DoctorDBOperations.FetchDoctorAddressData(DoctorID));
-//         response.push(await DoctorDBOperations.FetchDoctorCertifications(DoctorID));
-//         response.push(await DoctorDBOperations.FetchDoctorInsurances(DoctorID));
-//         response.push(await DoctorDBOperations.FetchDoctorEducation(DoctorID));
-//         return res.status(200).json(response);
-//     }catch(error){
-//         console.log('error in accountDetails', error);
-//         const emptyResponse = [];
-//         return res.status(200).json(emptyResponse);
-//     }
-// };
-
-export async function fetchAccountDetails(req, res){
+export async function fetchAccountDetails (req, res){
     const DoctorUUID = req.cookies.DoctorUUID;
     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor');
-    const table_name = 'basic_Doctor_info';
-    const DB_name = 'DoctorDB'
-
-    const sql = `SELECT
-	bdi.Doctor_ID, bdi.FirstName, bdi.LastName,
-    sl2.School_name, ml.Major_name, etl.Education_type, em.Start_Date, em.End_Date, 
-    il.Insurance_name, 
-    sl1.Organization_name, sl1.Specialty_name, 
-    pn.Phone, da.address_line_1, da.address_line_2, da.city, da.state, da.zip, da.country,
-    scl3.Category_name, scl3.Service_name, sm1.Service_time, sm1.Service_price,
-    d.Description,
-    ll.language_name,
-    p.picture_link, 
-    p.picture_number
-
-    FROM ${table_name} bdi
-
-    JOIN pictures p ON bdi.Doctor_ID = p.Doctor_ID
-
-    JOIN language_mapping lm ON bdi.Doctor_ID = lm.Doctor_ID
-    JOIN language_list ll ON lm.language_mappingID = ll.language_listID
-
-    JOIN descriptions d ON bdi.Doctor_ID = d.Doctor_ID
-
-    JOIN service_mapping sm1 ON bdi.Doctor_ID = sm1.Doctor_ID
-    JOIN service_and_category_list scl3 ON sm1.service_mapping_ID = scl3.service_and_category_listID
-
-    JOIN Doctor_addresses da ON bdi.Doctor_ID = da.Doctor_ID
-    JOIN phone_numbers pn ON da.addresses_ID = pn.Address_ID
-
-    JOIN specialty_mapping sm2 ON bdi.Doctor_ID = sm2.Doctor_ID
-    JOIN specialties_list sl1 ON sm2.Specialty_ID = sl1.specialties_listID
-
-    JOIN education_mapping em ON bdi.Doctor_ID = em.Doctor_ID
-    JOIN school_list sl2 ON em.School_ID = sl2.school_listID 
-    JOIN major_list ml ON em.Major_ID = ml.major_listID
-    JOIN education_type_list etl ON em.Education_type_ID = etl.education_typeID 
-
-    JOIN insurance_mapping im ON bdi.Doctor_ID = im.Doctor_ID
-    JOIN insurance_list il ON im.Insurance_ID = il.insurance_listID
-
-    WHERE bdi.Doctor_ID = ?`;
-
-    const values = [DoctorID];
-    await useDB(fetchAccountDetails.name, DB_name, table_name)
+    let response = [];
 
     try{
-        const [results] = await connection.execute(sql, values);
-        console.log(results);
-        return res.status(200).json(results);
+        response.push(await DoctorDBOperations.FetchDescriptionData(DoctorID)); 
+        response.push(await DoctorDBOperations.FetchDoctorLanguages(DoctorID)); 
+        response.push(await DoctorDBOperations.FetchDoctorPictures(DoctorID));
+        response.push(await DoctorDBOperations.FetchDoctorServices(DoctorID));
+        response.push(await DoctorDBOperations.FetchDoctorAddressData(DoctorID));
+        response.push(await DoctorDBOperations.FetchDoctorCertifications(DoctorID));
+        response.push(await DoctorDBOperations.FetchDoctorInsurances(DoctorID));
+        response.push(await DoctorDBOperations.FetchDoctorEducation(DoctorID));
+        console.log('response:', response)
+        return res.status(200).json(response);
     }catch(error){
         console.log('error in accountDetails', error);
         const emptyResponse = [];
-        return res.status(200).json(emptyResponse);  
+        return res.status(200).json(emptyResponse);
     }
 };
+
+// export async function fetchAccountDetails(req, res){
+//     const DoctorUUID = req.cookies.DoctorUUID;
+//     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor');
+//     const table_name = 'basic_Doctor_info';
+//     const DB_name = 'DoctorDB'
+
+//     const sql = `SELECT
+// 	bdi.Doctor_ID, bdi.FirstName, bdi.LastName,
+//     sl2.School_name, ml.Major_name, etl.Education_type, em.Start_Date, em.End_Date, 
+//     il.Insurance_name, 
+//     sl1.Organization_name, sl1.Specialty_name, 
+//     pn.Phone, da.address_line_1, da.address_line_2, da.city, da.state, da.zip, da.country,
+//     scl3.Category_name, scl3.Service_name, sm1.Service_time, sm1.Service_price,
+//     d.Description,
+//     ll.language_name,
+//     p.picture_link, 
+//     p.picture_number
+
+//     FROM ${table_name} bdi
+
+//     LEFT OUTER JOIN pictures p ON bdi.Doctor_ID = p.Doctor_ID
+
+//     LEFT OUTER JOIN language_mapping lm ON bdi.Doctor_ID = lm.Doctor_ID
+//     LEFT OUTER JOIN language_list ll ON lm.language_mappingID = ll.language_listID
+
+//     LEFT OUTER JOIN descriptions d ON bdi.Doctor_ID = d.Doctor_ID
+
+//     LEFT OUTER JOIN service_mapping sm1 ON bdi.Doctor_ID = sm1.Doctor_ID
+//     LEFT OUTER JOIN service_and_category_list scl3 ON sm1.service_mapping_ID = scl3.service_and_category_listID
+
+//     LEFT OUTER JOIN Doctor_addresses da ON bdi.Doctor_ID = da.Doctor_ID
+//     LEFT OUTER JOIN phone_numbers pn ON da.addresses_ID = pn.Address_ID
+
+//     LEFT OUTER JOIN specialty_mapping sm2 ON bdi.Doctor_ID = sm2.Doctor_ID
+//     LEFT OUTER JOIN specialties_list sl1 ON sm2.Specialty_ID = sl1.specialties_listID
+
+//     LEFT OUTER JOIN education_mapping em ON bdi.Doctor_ID = em.Doctor_ID
+//     LEFT OUTER JOIN school_list sl2 ON em.School_ID = sl2.school_listID 
+//     LEFT OUTER JOIN major_list ml ON em.Major_ID = ml.major_listID
+//     LEFT OUTER JOIN education_type_list etl ON em.Education_type_ID = etl.education_typeID 
+
+//     LEFT OUTER JOIN insurance_mapping im ON bdi.Doctor_ID = im.Doctor_ID
+//     LEFT OUTER JOIN insurance_list il ON im.Insurance_ID = il.insurance_listID
+
+//     WHERE bdi.Doctor_ID = ?`;
+
+//     const values = [DoctorID];
+//     console.log(DoctorID)
+//     await useDB(fetchAccountDetails.name, DB_name, table_name)
+
+//     try{
+//         const [results] = await connection.execute(sql, values);
+//         console.log('Account Details results',results);
+//         return res.status(200).json(results);
+//     }catch(error){
+//         console.log('error in accountDetails', error);
+//         const emptyResponse = [];
+//         return res.status(200).json(emptyResponse);  
+//     }
+// };
 
 export async function fetchAllLanguages (req, res){
     const table_name = 'language_list'

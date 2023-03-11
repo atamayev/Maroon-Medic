@@ -149,6 +149,14 @@ language_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Language_name VARCHAR(150));
 
 SELECT * FROM language_mapping JOIN language_list ON language_listID = language_mapping.Language_ID;
+SELECT
+	bdi.Doctor_ID, bdi.FirstName, bdi.LastName,ll.language_name
+    FROM basic_Doctor_info bdi
+    JOIN language_mapping lm ON bdi.Doctor_ID = lm.Doctor_ID
+    JOIN language_list ll ON lm.language_mappingID = ll.language_listID
+    WHERE bdi.Doctor_ID = '1000000';
+
+
 
 -- DELETE FROM language_mapping where Doctor_ID = '1000000';
 CREATE TABLE language_mapping(
