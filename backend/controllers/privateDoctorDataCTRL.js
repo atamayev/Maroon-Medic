@@ -131,6 +131,7 @@ export async function savePersonalData (req, res){
     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor') // converts DoctorUUID to docid
     
     const personalInfo = req.body.personalInfo;
+    // console.log('personalInfo',personalInfo)
     const encrypted_personalInfo = Crypto.encrypt_single_entry(personalInfo)
 
     const DB_name = 'DoctorDB';
@@ -198,6 +199,7 @@ export async function saveDescriptionData (req, res){
         const sql1 = `INSERT INTO ${table_name} (Description, Doctor_ID) VALUES (?,?)`;
         const values1 = [encrypted_description.Description, DoctorID];
         try{
+            console.log('values1',values1)
             await connection.execute(sql1, values1);
             return res.status(200).json(true);
         }catch(error){
@@ -205,9 +207,11 @@ export async function saveDescriptionData (req, res){
             return res.status(200).json(false);
         }
     }else{// if there are results, that means that the record exists, and needs to be altered
+        
         const sql2 = `UPDATE ${table_name} SET Description = ? WHERE Doctor_ID = ?`;
         const values2 = [encrypted_description.Description, DoctorID];
         try{
+            console.log('values2',values2)
             await connection.execute(sql2, values2);
             return res.status(200).json(true);
         }catch(error){

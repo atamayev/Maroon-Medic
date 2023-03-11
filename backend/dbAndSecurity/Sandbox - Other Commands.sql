@@ -37,3 +37,7 @@ LEFT OUTER JOIN insurance_mapping im ON bdi.Doctor_ID = im.Doctor_ID
 LEFT OUTER JOIN insurance_list il ON im.Insurance_ID = il.insurance_listID
 
 WHERE bdi.Doctor_ID = '1000000';
+
+
+DELETE FROM descriptions WHERE Doctor_ID = '1000000';
+SELECT * FROM descriptions;

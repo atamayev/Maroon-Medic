@@ -2,13 +2,12 @@ To-do:
 
 ASAP:
 
-
+-- in the privateDoctor Data Service, remove the word Doctor from all the function names. it's obvious if its the in PDDS file that its for docs
+--cleanup privteDoctorData. take out all fetch lists. put into another file
 --when saving multiple rows, try to see if can implement {multiple:true}. This is to add an array to sql, breaking up the array into objects, without using a loop
 --https://stackoverflow.com/questions/23266854/node-mysql-multiple-statements-in-one-query
 	--for creating multiple sql statements
 
--- should be one function to return all account details. Should pull it from multiple sources. The save datas should be different functions, but the fetches should all be bundled up into 1 fcn
-	-- will need to make the queried results into a list of objects: [ {}, {}].
 -- after saving account data, when navigating back to dashboard, the data hasn't updated. might not be neccesary to update (since the current dashboard is filler)
 
 see papa text:

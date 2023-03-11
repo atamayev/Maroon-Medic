@@ -13,6 +13,7 @@ export default function DoctorAccountDetails() {
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [selectedLanguage, setSelectedLanguage] = useState('');
   const [spokenLanguages, setSpokenLanguages] = useState([]); // might be better to combine this into accountDetails
+  const [description, setDescription] = useState({});
 
   useEffect(()=>{
     console.log('in accountDetails useEffect')
@@ -86,6 +87,10 @@ export default function DoctorAccountDetails() {
         // console.log(response.data)
         if (response){
             setAccountDetails(response.data);
+            if(response.data[0] && Object.keys(response.data[0]).length > 0){
+              setDescription(response.data[0]);
+            }
+            setSpokenLanguages(response.data[1])
             sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(response.data));
         }else{
           console.log('no response');
@@ -144,6 +149,19 @@ export default function DoctorAccountDetails() {
     }
   };
 
+  function handleDescriptionChange(event) {
+    setDescription({Description: event.target.value});
+  }
+
+  async function saveDescription(){
+    console.log('description',description)
+    try {
+      await PrivateDoctorDataService.saveDoctorDescriptionData(description)
+    } catch(error) {
+      console.log('error in saveDescription', error)
+    }
+  };
+
   return (
     <div>
       <DoctorHeader/>
@@ -154,10 +172,10 @@ export default function DoctorAccountDetails() {
         <Form>
             <Form.Group id = "Description">
                   <Form.Label>Description</Form.Label>
-                  <Form.Control id="Description" defaultValue={accountDetails.Description} onChange={(event) => setAccountDetails({...accountDetails, Description: event.target.value})}/>
+                  <Form.Control id="Description" defaultValue={description} onChange = {handleDescriptionChange}/>
             </Form.Group>
                 <div className="d-grid justify-content-md-end">
-                <Button type = "submit" className="btn btn-primary w-20">Save</Button>
+                <Button onClick={saveDescription}>Save</Button>
                 </div>
         </Form>
         </Card.Body>

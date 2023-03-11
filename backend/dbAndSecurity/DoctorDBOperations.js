@@ -11,14 +11,16 @@ export default new class DoctorDBOperations{
         const sql = `SELECT Description FROM ${table_name} WHERE Doctor_ID = ?`;
         const values = [DoctorID];
         await useDB(functionName, DB_name, table_name);
-    
+
         try{
             const [results] = await connection.execute(sql, values);
+            console.log(results)
             if (results.length === 0) {
                 console.log('DescriptionData does not exist');
                 return {};
             } else {
                 const decrypted = Crypto.decryptSingle(results[0]);
+                console.log('decrypted',decrypted)
                 return (decrypted);
             }
         }catch(error){
@@ -33,7 +35,7 @@ export default new class DoctorDBOperations{
         const table_name2 = 'language_list'
         const DB_name = 'DoctorDB';
     
-        const sql = `SELECT ${table_name2}.Language_name FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.language_listID = ${table_name1}.Language_ID WHERE ${table_name1}.Doctor_ID = ?`;
+        const sql = `SELECT ${table_name2}.Language_name, ${table_name2}.language_listID FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.language_listID = ${table_name1}.Language_ID WHERE ${table_name1}.Doctor_ID = ?`;
         const values = [DoctorID];
         await useDB(functionName, DB_name, table_name1);
     
@@ -82,7 +84,7 @@ export default new class DoctorDBOperations{
         const table_name2 = 'service_and_category_list';
         const DB_name = 'DoctorDB';
     
-        const sql = `SELECT ${table_name2}.Category_name, ${table_name2}.Service_name  FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.service_and_category_listID = ${table_name1}.service_mapping_ID WHERE ${table_name1}.Doctor_ID = ?`;
+        const sql = `SELECT ${table_name2}.Category_name, ${table_name2}.Service_name FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.service_and_category_listID = ${table_name1}.service_mapping_ID WHERE ${table_name1}.Doctor_ID = ?`;
         const values = [DoctorID];
         await useDB(functionName, DB_name, table_name1);
     
