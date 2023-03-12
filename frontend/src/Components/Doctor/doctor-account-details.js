@@ -160,7 +160,13 @@ export default function DoctorAccountDetails() {
   async function saveDescription(){
     console.log('description',description)
     try {
-      await PrivateDoctorDataService.saveDoctorDescriptionData(description)
+      const response = await PrivateDoctorDataService.saveDoctorDescriptionData(description);
+      if(response.status === 200){
+        const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
+        DoctorAccountDetails[0] = description;
+        sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));        
+      }
+
     } catch(error) {
       console.log('error in saveDescription', error)
     }

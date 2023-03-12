@@ -146,7 +146,7 @@ export async function savePersonalData (req, res){
         [results] = await connection.execute(sql, values);
     }catch(error){
         console.log(`error in ${savePersonalData.name}:`, error)
-        return res.status(200).json(false);
+        return res.status(400).json(false);
     }
 
     if (!results.length){// if no results, then insert.
@@ -157,7 +157,7 @@ export async function savePersonalData (req, res){
             return res.status(200).json(true);
         }catch(error){
             console.log(`error in if ${savePersonalData.name}:`, error);
-            return res.status(200).json(false);
+            return res.status(400).json(false);
         }
     }else{// if there are results, that means that the record exists, and needs to be altered
         const sql2 = `UPDATE ${table_name} SET FirstName = ?, LastName = ?, Gender = ?, DOB_month = ?, DOB_day = ?, DOB_year = ? WHERE Doctor_ID = ?`;
@@ -167,7 +167,7 @@ export async function savePersonalData (req, res){
             return res.status(200).json(true);
         }catch(error){
             console.log(`error in else ${savePersonalData.name}:`, error);
-            return res.status(200).json(false);
+            return res.status(400).json(false);
         }
     }
 };
@@ -191,7 +191,7 @@ export async function saveDescriptionData (req, res){
         [results] = await connection.execute(sql, values);
     }catch(error){
         console.log(`error in ${saveDescriptionData.name}:`, error);
-        return res.status(200).json(false);
+        return res.status(400).json(false);
     }
 
     if (!results.length){// if no results, then insert.
@@ -203,10 +203,9 @@ export async function saveDescriptionData (req, res){
             return res.status(200).json(true);
         }catch(error){
             console.log(`error in if ${saveDescriptionData.name}:`, error);
-            return res.status(200).json(false);
+            return res.status(400).json(false);
         }
     }else{// if there are results, that means that the record exists, and needs to be altered
-        
         const sql2 = `UPDATE ${table_name} SET Description = ? WHERE Doctor_ID = ?`;
         const values2 = [encrypted_description.Description, DoctorID];
         try{
@@ -215,7 +214,7 @@ export async function saveDescriptionData (req, res){
             return res.status(200).json(true);
         }catch(error){
             console.log(`error in else ${saveDescriptionData.name}:`, error);
-            return res.status(200).json(false);
+            return res.status(400).json(false);
         }
     }
 };
@@ -238,7 +237,7 @@ export async function saveLanguageData (req, res){
         [results] = await connection.execute(sql, values);
     }catch(error){
         console.log(`error in ${saveLanguageData.name}:`, error)
-        return res.status(200).json(false);
+        return res.status(400).json(false);
     }
 
     if (results.length > 0) {
@@ -260,7 +259,7 @@ export async function saveLanguageData (req, res){
                     await connection.execute(sql1, values1);
                 }catch(error){
                     console.log(`error in if ${saveLanguageData.name}:`, error);
-                    return res.status(200).json(false);
+                    return res.status(400).json(false);
                 }
             }
             return res.status(200).json(true);
@@ -274,7 +273,7 @@ export async function saveLanguageData (req, res){
                     await connection.execute(sql1, values1);
                 }catch(error){
                     console.log(`error in if ${saveLanguageData.name}:`, error);
-                    return res.status(200).json(false);
+                    return res.status(400).json(false);
                 }
             }
             return res.status(200).json(true);
@@ -289,7 +288,7 @@ export async function saveLanguageData (req, res){
                 await connection.execute(sql1, values1);
             }catch(error){
                 console.log(`error in if ${saveLanguageData.name}:`, error);
-                return res.status(200).json(false);
+                return res.status(400).json(false);
             }
         }
         return res.status(200).json(true);
