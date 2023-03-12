@@ -5,7 +5,7 @@ export default new class DoctorDBOperations{
      async FetchDescriptionData (DoctorID){
         const functionName = this.FetchDescriptionData.bind(this).name;
 
-        const table_name = 'descriptions';
+        const table_name = 'descriptions1';
         const DB_name = 'DoctorDB';
     
         const sql = `SELECT Description FROM ${table_name} WHERE Doctor_ID = ?`;

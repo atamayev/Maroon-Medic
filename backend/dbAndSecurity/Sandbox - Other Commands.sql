@@ -40,4 +40,7 @@ WHERE bdi.Doctor_ID = '1000000';
 
 
 DELETE FROM descriptions WHERE Doctor_ID = '1000000';
-SELECT * FROM descriptions;
+-- INSERT INTO descriptions (Description, Doctor_ID) VALUES
+-- ('xyz123', '1000001');
+-- DROP TABLE descriptions;
+SELECT * FROM descriptions1;

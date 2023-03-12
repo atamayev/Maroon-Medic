@@ -64,6 +64,13 @@ Description BLOB,
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 
+-- This is a test table to see the entries in the Blob field in descriptions
+CREATE TABLE descriptions1(
+descriptionsID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+Description VARCHAR(200),
+Doctor_ID INT unsigned NOT NULL, 
+FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
+
 CREATE TABLE profile_update_history(
 profile_update_historyID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Updated_at VARCHAR(150), 
