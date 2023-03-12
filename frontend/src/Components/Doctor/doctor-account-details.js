@@ -91,8 +91,6 @@ export default function DoctorAccountDetails() {
             setAccountDetails(response.data);
             if(response.data[0] && Object.keys(response.data[0]).length > 0){
               setDescription(response.data[0]);
-              console.log('response.data[0]',response.data[0])
-              console.log('description',description)
             }
             setSpokenLanguages(response.data[1])
             sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(response.data));
@@ -157,18 +155,21 @@ export default function DoctorAccountDetails() {
     setDescription({Description: event.target.value});
   }
 
-  async function saveDescription(){
-    console.log('description',description)
-    try {
-      const response = await PrivateDoctorDataService.saveDoctorDescriptionData(description);
-      if(response.status === 200){
-        const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-        DoctorAccountDetails[0] = description;
-        sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));        
+  async function saveDescription(event){
+    event.preventDefault();
+    let DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
+    if(description.Description !== DoctorAccountDetails[0].Description){
+      try {
+        const response = await PrivateDoctorDataService.saveDoctorDescriptionData(description);
+        if(response.status === 200){
+          // const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
+          DoctorAccountDetails[0] = description;
+          sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+          console.log('Saved!');
+        }
+      } catch(error) {
+        console.log('error in saveDescription', error)
       }
-
-    } catch(error) {
-      console.log('error in saveDescription', error)
     }
   };
 
@@ -179,7 +180,7 @@ export default function DoctorAccountDetails() {
 
       <Card>
         <Card.Body>
-          <Form>
+          <Form onSubmit={saveDescription}> 
             {description ? (
               <Form.Group id = "Description">
                 <Form.Label>Description</Form.Label>
@@ -191,14 +192,17 @@ export default function DoctorAccountDetails() {
               </Form.Group>
             ):(
               <Form.Group id = "Description">
-                    <Form.Label>Description</Form.Label>
-                    <Form.Control id="Description" defaultValue='Loading' onChange = {handleDescriptionChange}/>
+                <Form.Label>Description</Form.Label>
+                <Form.Control 
+                    id="Description" 
+                    defaultValue="Loading" 
+                    onChange = {handleDescriptionChange}
+                  />
               </Form.Group>
             )}
-              
-                  <div className="d-grid justify-content-md-end">
-                  <Button onClick={saveDescription}>Save</Button>
-                  </div>
+            <div className="d-grid justify-content-md-end">
+            <Button onClick={saveDescription}>Save</Button>
+            </div>
           </Form>
         </Card.Body>
       </Card>
