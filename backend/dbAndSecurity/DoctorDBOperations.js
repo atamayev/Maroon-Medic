@@ -5,7 +5,7 @@ export default new class DoctorDBOperations{
      async FetchDescriptionData (DoctorID){
         const functionName = this.FetchDescriptionData.bind(this).name;
 
-        const table_name = 'descriptions1';
+        const table_name = 'descriptions';
         const DB_name = 'DoctorDB';
     
         const sql = `SELECT Description FROM ${table_name} WHERE Doctor_ID = ?`;
@@ -14,10 +14,10 @@ export default new class DoctorDBOperations{
 
         try{
             const [results] = await connection.execute(sql, values);
-            console.log(results)
+            console.log('results',results)
             if (results.length === 0) {
                 console.log('DescriptionData does not exist');
-                return {};
+                return {Description: ''};
             } else {
                 const decrypted = Crypto.decryptSingle(results[0]);
                 console.log('decrypted',decrypted)

@@ -13,7 +13,9 @@ export default function DoctorAccountDetails() {
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [selectedLanguage, setSelectedLanguage] = useState('');
   const [spokenLanguages, setSpokenLanguages] = useState([]); // might be better to combine this into accountDetails
-  const [description, setDescription] = useState({});
+  const [description, setDescription] = useState(
+    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[0] || {}
+  );
 
   useEffect(()=>{
     console.log('in accountDetails useEffect')
@@ -89,6 +91,8 @@ export default function DoctorAccountDetails() {
             setAccountDetails(response.data);
             if(response.data[0] && Object.keys(response.data[0]).length > 0){
               setDescription(response.data[0]);
+              console.log('response.data[0]',response.data[0])
+              console.log('description',description)
             }
             setSpokenLanguages(response.data[1])
             sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(response.data));
@@ -169,15 +173,27 @@ export default function DoctorAccountDetails() {
 
       <Card>
         <Card.Body>
-        <Form>
-            <Form.Group id = "Description">
-                  <Form.Label>Description</Form.Label>
-                  <Form.Control id="Description" defaultValue={description} onChange = {handleDescriptionChange}/>
-            </Form.Group>
-                <div className="d-grid justify-content-md-end">
-                <Button onClick={saveDescription}>Save</Button>
-                </div>
-        </Form>
+          <Form>
+            {description ? (
+              <Form.Group id = "Description">
+                <Form.Label>Description</Form.Label>
+                <Form.Control 
+                  id="Description" 
+                  value={description.Description}
+                  onChange = {handleDescriptionChange}
+                />
+              </Form.Group>
+            ):(
+              <Form.Group id = "Description">
+                    <Form.Label>Description</Form.Label>
+                    <Form.Control id="Description" defaultValue='Loading' onChange = {handleDescriptionChange}/>
+              </Form.Group>
+            )}
+              
+                  <div className="d-grid justify-content-md-end">
+                  <Button onClick={saveDescription}>Save</Button>
+                  </div>
+          </Form>
         </Card.Body>
       </Card>
       <br/>

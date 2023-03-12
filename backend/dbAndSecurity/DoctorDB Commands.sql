@@ -60,16 +60,11 @@ FOREIGN KEY (Address_ID) REFERENCES Doctor_addresses(addresses_ID));
 
 CREATE TABLE descriptions(
 descriptionsID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Description BLOB,
+Description VARCHAR(2000),
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 
--- This is a test table to see the entries in the Blob field in descriptions
-CREATE TABLE descriptions1(
-descriptionsID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Description VARCHAR(200),
-Doctor_ID INT unsigned NOT NULL, 
-FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
+SELECT * FROM descriptions;
 
 CREATE TABLE profile_update_history(
 profile_update_historyID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
