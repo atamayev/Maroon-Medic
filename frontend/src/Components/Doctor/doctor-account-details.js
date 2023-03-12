@@ -16,6 +16,7 @@ export default function DoctorAccountDetails() {
   const [description, setDescription] = useState(
     JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[0] || {}
   );
+  const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false);
 
   useEffect(()=>{
     console.log('in accountDetails useEffect')
@@ -91,6 +92,9 @@ export default function DoctorAccountDetails() {
             setAccountDetails(response.data);
             if(response.data[0] && Object.keys(response.data[0]).length > 0){
               setDescription(response.data[0]);
+              if(response.data[0].Description.length === 1000){
+                setIsDescriptionOverLimit(true);
+              }
             }
             setSpokenLanguages(response.data[1])
             sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(response.data));
@@ -134,8 +138,7 @@ export default function DoctorAccountDetails() {
       setSpokenLanguages([...spokenLanguages, selectedLanguage]);
     }
     setSelectedLanguage('');
-  };
-  
+  }; 
 
   const handleDeleteLanguage = (language) => {
     setSpokenLanguages(spokenLanguages.filter(l => l !== language));
@@ -152,17 +155,18 @@ export default function DoctorAccountDetails() {
   };
 
   function handleDescriptionChange(event) {
-    setDescription({Description: event.target.value});
-  }
+    const value = event.target.value;
+    setDescription({Description: value});
+    setIsDescriptionOverLimit(value.length >= 1000);// if description length is over 1000, makes counter red.
+  };
 
   async function saveDescription(event){
     event.preventDefault();
     let DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-    if(description.Description !== DoctorAccountDetails[0].Description){
+    if(description.Description !== DoctorAccountDetails[0].Description){//makes sure that it's only pushing to DB if description changed
       try {
         const response = await PrivateDoctorDataService.saveDoctorDescriptionData(description);
         if(response.status === 200){
-          // const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
           DoctorAccountDetails[0] = description;
           sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
           console.log('Saved!');
@@ -173,6 +177,10 @@ export default function DoctorAccountDetails() {
     }
   };
 
+  const counterStyle = {
+    color: isDescriptionOverLimit ? "red" : "black",
+  };
+
   return (
     <div>
       <DoctorHeader/>
@@ -181,14 +189,17 @@ export default function DoctorAccountDetails() {
       <Card>
         <Card.Body>
           <Form onSubmit={saveDescription}> 
-            {description ? (
-              <Form.Group id = "Description">
+            {description.Description ? (
+              <Form.Group id = "Description" className="mb-3">
                 <Form.Label>Description</Form.Label>
                 <Form.Control 
                   id="Description" 
                   value={description.Description}
                   onChange = {handleDescriptionChange}
+                  maxLength={1000} // limit to 1000 characters
+                  as="textarea" rows={3}
                 />
+                <div style={counterStyle}>Character Limit: {description.Description.length} / 1000</div>
               </Form.Group>
             ):(
               <Form.Group id = "Description">

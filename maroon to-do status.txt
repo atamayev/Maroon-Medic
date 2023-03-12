@@ -2,8 +2,6 @@ To-do:
 
 ASAP:
 
---limit saving desription to 1000 characters
--- make description box varible in size
 -- in the privateDoctor Data Service, remove the word Doctor from all the function names. it's obvious if its the in PDDS file that its for docs
 --cleanup privteDoctorData. take out all fetch lists. put into another file
 --when saving multiple rows, try to see if can implement {multiple:true}. This is to add an array to sql, breaking up the array into objects, without using a loop

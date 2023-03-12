@@ -60,7 +60,7 @@ FOREIGN KEY (Address_ID) REFERENCES Doctor_addresses(addresses_ID));
 
 CREATE TABLE descriptions(
 descriptionsID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Description VARCHAR(2000),
+Description VARCHAR(2500),
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 
