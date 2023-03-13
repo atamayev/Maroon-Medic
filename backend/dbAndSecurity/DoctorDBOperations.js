@@ -1,7 +1,7 @@
 import {connection, useDB} from "./connect.js"
 import Crypto from "./crypto.js";
 
-export default new class DoctorDBOperations{
+export default new class FetchDoctorData{
      async FetchDescriptionData (DoctorID){
         const functionName = this.FetchDescriptionData.bind(this).name;
 
@@ -14,13 +14,11 @@ export default new class DoctorDBOperations{
 
         try{
             const [results] = await connection.execute(sql, values);
-            console.log('results',results)
             if (results.length === 0) {
                 console.log('DescriptionData does not exist');
                 return {Description: ''};
             } else {
                 const decrypted = Crypto.decryptSingle(results[0]);
-                console.log('decrypted',decrypted)
                 return (decrypted);
             }
         }catch(error){
