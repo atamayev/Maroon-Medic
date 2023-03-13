@@ -2,7 +2,7 @@ import React from 'react';
 import "../CSS/footer.css"
 import "../CSS/footer.css";
 import { MDBFooter, MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
-import { Link } from "react-router-dom"
+// import { Link } from "react-router-dom"
 
 export default function Footer() {
   return (

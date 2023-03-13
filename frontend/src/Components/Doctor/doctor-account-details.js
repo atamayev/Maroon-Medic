@@ -6,17 +6,18 @@ import DoctorHeader from './doctor-header.js';
 import PrivateDoctorDataService from '../../Services/private-doctor-data-service.js';
 
 export default function DoctorAccountDetails() {
-  const [accountDetails, setAccountDetails] = useState({});
   const [listDetails, setListDetails] = useState({});
   const {user_verification} = useContext(VerifyContext);
   const [user_type, setUser_type] = useState(null);
-  const [carouselIndex, setCarouselIndex] = useState(0);
-  const [selectedLanguage, setSelectedLanguage] = useState('');
-  const [spokenLanguages, setSpokenLanguages] = useState([]); // might be better to combine this into accountDetails
+  // const [carouselIndex, setCarouselIndex] = useState(0);
   const [description, setDescription] = useState(
     JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[0] || {}
   );
   const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState('');
+  const [spokenLanguages, setSpokenLanguages] = useState(
+    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[1] || []
+  );
 
   useEffect(()=>{
     console.log('in accountDetails useEffect')
@@ -25,11 +26,8 @@ export default function DoctorAccountDetails() {
       if (result.verified === true && result.DoctorToken) {
         setUser_type('Doctor')
         console.log(`Used ${DoctorAccountDetails.name} useEffect`);
-        
         const storedAccountDetails = sessionStorage.getItem("DoctorAccountDetails")
-        if(storedAccountDetails){
-          setAccountDetails(JSON.parse(storedAccountDetails));
-        }else{
+        if(!storedAccountDetails){
           console.log('fetching data from db (elsed)')
           FillDoctorAccountDetails();
         }
@@ -86,17 +84,18 @@ export default function DoctorAccountDetails() {
   async function FillDoctorAccountDetails(){
     console.log('in FillDoctorAccountDetails')
     try{
-        const response = await PrivateDoctorDataService.fillDoctorAccountDetails();
+        const response = await PrivateDoctorDataService.fillAccountDetails();
         // console.log(response.data)
         if (response){
-            setAccountDetails(response.data);
             if(response.data[0] && Object.keys(response.data[0]).length > 0){
               setDescription(response.data[0]);
               if(response.data[0].Description.length === 1000){
                 setIsDescriptionOverLimit(true);
               }
             }
-            setSpokenLanguages(response.data[1])
+            if(response.data[1]){
+              setSpokenLanguages(response.data[1])
+            }
             sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(response.data));
         }else{
           console.log('no response');
@@ -123,34 +122,66 @@ export default function DoctorAccountDetails() {
       }
   }
 
-  const handleSelectCarousel = (selectedIndex, e) => {
-    setCarouselIndex(selectedIndex);
-  };
+  // const handleSelectCarousel = (selectedIndex, e) => {
+  //   setCarouselIndex(selectedIndex);
+  //   // from React Bootstrap
+  // };
 
   const handleLanguageChange = (event) => {
     const languageId = parseInt(event.target.value);
     const language = listDetails.find(lang => lang.language_listID === languageId);
     setSelectedLanguage(language);
   };
-
+  
   const handleAddLanguage = () => {
-    if (selectedLanguage && !spokenLanguages.includes(selectedLanguage)) {
-      setSpokenLanguages([...spokenLanguages, selectedLanguage]);
+    console.log(selectedLanguage);
+    if(selectedLanguage){
+      if(spokenLanguages.length >0){
+        if(!spokenLanguages.includes(selectedLanguage)){
+          setSpokenLanguages([...spokenLanguages, selectedLanguage]);
+        }
+      }else{
+        setSpokenLanguages([selectedLanguage]);
+      }
     }
     setSelectedLanguage('');
-  }; 
+  };
 
   const handleDeleteLanguage = (language) => {
     setSpokenLanguages(spokenLanguages.filter(l => l !== language));
   };
 
   async function saveLanguages(){
-    try {
-      const languageIds = spokenLanguages.map(lang => lang.language_listID);
-      console.log('Spoken language IDs:', languageIds);
-      await PrivateDoctorDataService.saveLanguages(languageIds)
-    } catch(error) {
-      console.log('error in saving languages', error)
+    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
+    const languageIds = spokenLanguages.map(lang => lang.language_listID).sort((a,b)=>a-b); // spoken languages are those that are on server side. state changes when languages added/deleted
+
+    if(spokenLanguages.length > 0){
+      const savedLanguages = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[1] || []
+      const savedLanguagesIDs = savedLanguages.map(language => language.language_listID).sort((a,b)=>a-b);
+  
+      if(languageIds.length !== savedLanguagesIDs.length || languageIds.every((value, index) => value !== savedLanguagesIDs[index])){//checks if they are the same
+        try {
+          const response = await PrivateDoctorDataService.saveLanguages(languageIds)
+          if(response.status === 200){
+            DoctorAccountDetails[1] = spokenLanguages;
+            sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+            console.log('Saved!');
+          }
+        } catch(error) {
+          console.log('error in saving languages', error)
+        }
+      }
+    }else{
+      try {
+        const response = await PrivateDoctorDataService.saveLanguages(languageIds)
+        if(response.status === 200){
+          DoctorAccountDetails[1] = spokenLanguages;
+          sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+          console.log('Saved! in else');
+        }
+      } catch(error) {
+        console.log('error in saving languages', error)
+      }
     }
   };
 
@@ -162,10 +193,10 @@ export default function DoctorAccountDetails() {
 
   async function saveDescription(event){
     event.preventDefault();
-    let DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
+    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
     if(description.Description !== DoctorAccountDetails[0].Description){//makes sure that it's only pushing to DB if description changed
       try {
-        const response = await PrivateDoctorDataService.saveDoctorDescriptionData(description);
+        const response = await PrivateDoctorDataService.saveDescriptionData(description);
         if(response.status === 200){
           DoctorAccountDetails[0] = description;
           sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
@@ -206,8 +237,10 @@ export default function DoctorAccountDetails() {
                 <Form.Label>Description</Form.Label>
                 <Form.Control 
                     id="Description" 
-                    defaultValue="Loading" 
+                    defaultValue="" 
                     onChange = {handleDescriptionChange}
+                    maxLength={1000} // limit to 1000 characters
+                    as="textarea" rows={3}
                   />
               </Form.Group>
             )}
@@ -229,8 +262,8 @@ export default function DoctorAccountDetails() {
         </Card.Body>
       </Card>
       <br/>
-      Edit Pictures:
 
+      {/* Edit Pictures:
       <Carousel activeIndex={carouselIndex} onSelect={handleSelectCarousel}>
       <Carousel.Item>
         <img
@@ -271,13 +304,13 @@ export default function DoctorAccountDetails() {
         </Carousel.Caption>
       </Carousel.Item>
       </Carousel>   
-      <br/>
+      <br/> */}
 
     <Card>
     <Card.Body>
     Languages
     <br/>
-    <label htmlFor="language">Select a language:</label>
+    <label htmlFor="language">Select a language: </label>
       <select id="language" name="language" value={selectedLanguage.language_listID || ''} onChange={handleLanguageChange}>
         <option value="">Choose a language</option>
         {/* {console.log(listDetails)} */}
@@ -289,10 +322,10 @@ export default function DoctorAccountDetails() {
       </select>
       <Button onClick={handleAddLanguage}>Add</Button>
       <ul>
-        {spokenLanguages.map(language => (
-          <li key={language.language_listID}>
-            {language.Language_name} <Button onClick={() => handleDeleteLanguage(language)}>x</Button>
-          </li>
+        {Array.isArray(spokenLanguages) && spokenLanguages.map(language => (
+        <li key={language.language_listID}>
+          {language.Language_name} <Button onClick={() => handleDeleteLanguage(language)}>x</Button>
+        </li>
         ))}
       </ul>
       <Button onClick={saveLanguages}>Save</Button>

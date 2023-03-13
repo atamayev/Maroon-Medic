@@ -43,7 +43,7 @@ export default new class DoctorDBOperations{
             const [results] = await connection.execute(sql, values);
             if (results.length === 0) {
                 console.log('DoctorLanguages Data does not exist');
-                return {};
+                return [];
             } else {
                 return (results);
             }
@@ -67,7 +67,7 @@ export default new class DoctorDBOperations{
             
             if (results.length === 0) {
                 console.log('DoctorPictures Data does not exist');
-                return {};
+                return [];
             } else {
                 console.log(results);
                 return (results);
@@ -92,7 +92,7 @@ export default new class DoctorDBOperations{
             const [results] = await connection.execute(sql, values);
             if (results.length === 0) {
                 console.log('DoctorServices Data does not exist');
-                return {};
+                return [];
             } else {
                 return (results);
             }
@@ -116,7 +116,7 @@ export default new class DoctorDBOperations{
             const [results] = await connection.execute(sql, values);
             if (results.length === 0) {
                 console.log('DoctorAddressData Data does not exist');
-                return {};
+                return [];
             } else {
                 const decrypted = Crypto.decryptSingle(results[0]);
                 return (decrypted);
@@ -141,7 +141,7 @@ export default new class DoctorDBOperations{
             const [results] = await connection.execute(sql, values);
             if (results.length === 0) {
                 console.log('DoctorCertifications Data does not exist');
-                return {};
+                return [];
             } else {
                 return (results);
             }
@@ -165,7 +165,7 @@ export default new class DoctorDBOperations{
             const [results] = await connection.execute(sql, values);
             if (results.length === 0) {
                 console.log('DoctorInsurances Data does not exist');
-                return {};
+                return [];
             } else {
                 return (results);
             }
@@ -192,7 +192,7 @@ export default new class DoctorDBOperations{
             const [results] = await connection.execute(sql, values);
             if (results.length === 0) {
                 console.log('DoctorEducation Data does not exist');
-                return {};
+                return [];
             } else {
                 return (results);
             }

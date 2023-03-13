@@ -39,7 +39,7 @@ export default function DoctorDashboard() {
  
   async function DashboardData (){
     try{
-      const response = await PrivateDoctorDataService.fillDoctorDashboard()
+      const response = await PrivateDoctorDataService.fillDashboard()
       if (response){
         setDashboardData(response.data);
         sessionStorage.setItem("DoctorDashboardData", JSON.stringify(response.data))

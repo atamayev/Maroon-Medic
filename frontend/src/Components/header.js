@@ -80,7 +80,7 @@ export default function Header () {
     let response;
     if (type === 'Doctor'){
       try{
-        response = await PrivateDoctorDataService.fillDoctorPersonalData();
+        response = await PrivateDoctorDataService.fillPersonalData();
       }catch(error){
         console.log(`unable to fillDoctorPersonalData`, error)
       }

@@ -40,7 +40,7 @@ export default function DoctorPersonalInfo() {
     async function PersonalInfoData(){
         console.log('in personal data')
         try{
-            const response = await PrivateDoctorDataService.fillDoctorPersonalData()
+            const response = await PrivateDoctorDataService.fillPersonalData()
             console.log(response.data)
             if (response){
                 setPersonalInfo(response.data);
@@ -61,7 +61,7 @@ export default function DoctorPersonalInfo() {
             if (stringifiedPersonalInfoData !== storedPersonalInfoData){// if there is a change, and handlesave is used:
                 try {
                     //create this:
-                    const response = await PrivateDoctorDataService.saveDoctorPersonalData(personalInfo);
+                    const response = await PrivateDoctorDataService.savePersonalData(personalInfo);
                     if (response.data === true){
                         // setPersonalInfo(personalInfo);
                         sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(personalInfo));

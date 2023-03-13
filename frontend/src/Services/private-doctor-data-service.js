@@ -7,19 +7,19 @@ export default new class PrivateDoctorDataService {
     async newDoctorConfirmation(){
         return await http.get(`private-doctor-data/new-doctor-confirmation`);
     }
-    async fillDoctorDashboard(){
+    async fillDashboard(){
         return await http.get('/private-doctor-data/fetch-dashboard-data')
     }
-    async fillDoctorPersonalData(){
+    async fillPersonalData(){
         return await http.get('/private-doctor-data/fetch-personal-data')
     }
-    async saveDoctorPersonalData(personalInfo){
+    async savePersonalData(personalInfo){
         return await http.post('/private-doctor-data/save-personal-data', {personalInfo})
     }
-    async fillDoctorAccountDetails(){
+    async fillAccountDetails(){
         return await http.get('/private-doctor-data/fetch-account-details-data')
     }
-    async saveDoctorDescriptionData(Description){
+    async saveDescriptionData(Description){
         return await http.post('/private-doctor-data/save-description-data', {Description})
     }
     async fillLanguages(){
