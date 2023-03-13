@@ -10,14 +10,15 @@ import Crypto from "../dbAndSecurity/crypto.js";
  * @returns Returns an array of users, depending on the outcome of the query
  */
 export async function searchByQuery (req, res){
-    const table_name = 'basic_Doctor_info';
+    const table_name1 = 'basic_Doctor_info'
+    const table_name2 = 'Doctor_credentials'
     const DB_name = 'DoctorDB'
-    await useDB(searchByQuery.name, DB_name, table_name)
+    await useDB(searchByQuery.name, DB_name, table_name1)
     const decrypted_query_object = {query: req.params.query}
 
     const encrypted_query_object = Crypto.encrypt_single_entry(decrypted_query_object)// this is done to encrypt the user's query, to then search the db (since all names in db are encrypted)
 
-    const sql = `SELECT FirstName, LastName, Doctor_ID FROM ${table_name} WHERE FirstName = ?`;
+    const sql = `SELECT FirstName, LastName, Doctor_ID FROM ${table_name2} left JOIN ${table_name1} ON ${table_name2}.DoctorID = ${table_name1}.Doctor_ID WHERE verified = TRUE AND publiclyAvailable = TRUE AND FirstName = ?`;
 
     const values = [encrypted_query_object.query];
     try{
@@ -31,7 +32,8 @@ export async function searchByQuery (req, res){
             return res.status(200).json(decrypted);
         }
     }catch(error){
-        return res.status(500).send({ error: 'Search Error' });
+        console.log('Search by Query Error', error)
+        return res.status(500).send({ error: 'Search by Query Error' });
     }
 };
 /** fetchUsers returns all records from the Doctor_credentials table
@@ -42,16 +44,18 @@ export async function searchByQuery (req, res){
  * @returns Either an array of results, or a message with an error
  */
 export async function fetchUsers (req, res){
-    const table_name = 'basic_Doctor_info'
-    const sql = `SELECT FirstName, LastName, Doctor_ID FROM ${table_name}`
+    const table_name1 = 'basic_Doctor_info'
+    const table_name2 = 'Doctor_credentials'
+    const sql = `SELECT FirstName, LastName, Doctor_ID FROM ${table_name2} left JOIN ${table_name1} ON ${table_name2}.DoctorID = ${table_name1}.Doctor_ID WHERE verified = TRUE AND publiclyAvailable = TRUE`
     const DB_name = 'DoctorDB'
 
-    await useDB(fetchUsers.name, DB_name, table_name)
+    await useDB(fetchUsers.name, DB_name, table_name1)
     try{
         const [results] = await connection.execute(sql)
         const decrypted = Crypto.decrypt_multiple(results)
         return res.status(200).json(decrypted);
     }catch(error){
-        res.status(500).send({ error: 'Error fetching data' });
+        console.log('Fetch Users Error', error)
+        res.status(500).send({ error: 'Fetch Users Error' });
     }
 };

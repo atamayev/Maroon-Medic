@@ -103,7 +103,6 @@ export async function login (req, res){
   let encrypted_email;
   try{
     encrypted_email = Crypto.encrypt_single_entry(emailObj).email
-    // console.log('encrypted_email',encrypted_email)
   }catch(error){
     console.log('Problem with Data Encryption')
     return res.status(500).send({ error: 'Problem with Data Encryption' });
@@ -256,8 +255,8 @@ export async function register (req, res){
       return res.status(500).send({ error: 'Problem with Data Encryption' });
     }
     
-    const sql_1 = `INSERT INTO ${table_name} (email, password, Created_at) VALUES (?, ?, ?)`;
-    const values_1 = [encrypted_email, hashed_password, encrypted_date_time];
+    const sql_1 = `INSERT INTO ${table_name} (email, password, Created_at, verified, publiclyAvailable) VALUES (?, ?, ?, ?, ?)`;
+    const values_1 = [encrypted_email, hashed_password, encrypted_date_time, true, true];// in the future, will need to change this. Verified shouldn't be set to true by default, should require some kind of ID verification
     try {
       await connection.execute(sql_1, values_1)
     }catch (error){

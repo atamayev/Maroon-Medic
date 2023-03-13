@@ -8,11 +8,12 @@ see papa text:
 		-- eventually, will also need to make an option for vets to have an account, but not listed in search (yes/no option in settings or something). would only show their profile to public if this is on.
 			-- 2 options: profile shows in search, and profile doesn't show in search (still shows if users directly search for the vet)
 
--- add personal phone number as a columnt to the credentials table. should be a login method. 
-	-- then, query the phone number in personal information, settings.
-
 -- should the new doctor uuid be deleted in db after logout? check all uuid creations, and make sure they're all deleted after logout
 	both doc and pt
+
+-- consider funneleing all lists through one route. schools majors, etc. Same as account details.
+	--would still be necessary to keep some of the list routes seperate (like languages - since those can be searched over, and patients should be allowed to add their languages).
+	
 
 --re-do code documentation
 

@@ -19,10 +19,12 @@ CREATE TABLE Doctor_credentials (
   DoctorID  INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY, # NVI
   email VARCHAR(150) NOT NULL,
   password VARCHAR(150) NOT NULL,
-  Created_at VARCHAR(150) NOT NULL) AUTO_INCREMENT=1000000;
+  Created_at VARCHAR(150) NOT NULL, 
+  verified BOOLEAN NOT NULL, 
+  publiclyAvailable BOOLEAN NOT NULL) AUTO_INCREMENT=1000000;
 
 select * from Doctor_credentials;
--- DELETE FROM Doctor_credentials WHERE DoctorID ='1000123';
+DELETE FROM Doctor_credentials WHERE DoctorID ='1000124';
 select * from basic_Doctor_info;
 
 CREATE TABLE basic_Doctor_info (
@@ -35,7 +37,9 @@ DOB_day VARCHAR(150) NULL,
 DOB_year VARCHAR(150) NULL,
 Doctor_ID INT unsigned NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
-SELECT * FROM Doctor_credentials left JOIN basic_Doctor_info ON Doctor_credentials.DoctorID = basic_Doctor_info.Doctor_ID where email = 'abc@123.com5';
+-- SELECT FirstName, LastName, Doctor_ID FROM Doctor_credentials left JOIN basic_Doctor_info ON Doctor_credentials.DoctorID = basic_Doctor_info.Doctor_ID where email = 'abc@123.com5';
+SELECT FirstName, LastName, Doctor_ID FROM Doctor_credentials left JOIN basic_Doctor_info ON Doctor_credentials.DoctorID = basic_Doctor_info.Doctor_ID WHERE verified = TRUE AND publiclyAvailable=TRUE;
+
 -- WHERE Doctor_credentials.DoctorID = 1000000;
 
 CREATE TABLE DoctorUUID_reference(
