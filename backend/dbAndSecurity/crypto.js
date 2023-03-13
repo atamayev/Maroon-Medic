@@ -43,8 +43,8 @@ export default new class Crypto {
         let decryptedData = encrypted_single;
         let keys = Object.keys(decryptedData);
         // The email element in the array is deleted since it's already decrypted (stored unencrypted in db)
-        keys = keys.filter(item => item !== 'email');
         keys = keys.filter(item => item !== 'Doctor_ID');
+        keys = keys.filter(item => item !== 'DoctorID');
         try{
             for (const key of keys){
                 const decipher = createDecipheriv('aes-256-cbc', secretKey, iv);

@@ -22,7 +22,7 @@ CREATE TABLE Doctor_credentials (
   Created_at VARCHAR(150) NOT NULL) AUTO_INCREMENT=1000000;
 
 select * from Doctor_credentials;
-
+-- DELETE FROM Doctor_credentials WHERE DoctorID ='1000123';
 select * from basic_Doctor_info;
 
 CREATE TABLE basic_Doctor_info (
@@ -65,6 +65,7 @@ FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 
 SELECT * FROM descriptions;
 SELECT * FROM doctoruuid_reference;
+
 CREATE TABLE profile_update_history(
 profile_update_historyID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Updated_at VARCHAR(150), 

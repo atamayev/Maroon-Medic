@@ -10,9 +10,9 @@ see papa text:
 
 -- add personal phone number as a columnt to the credentials table. should be a login method. 
 	-- then, query the phone number in personal information, settings.
---consider encrypting user emails. would not change the code besides having to encrypt user input when they enter emails
 
 -- should the new doctor uuid be deleted in db after logout? check all uuid creations, and make sure they're all deleted after logout
+	both doc and pt
 
 --re-do code documentation
 

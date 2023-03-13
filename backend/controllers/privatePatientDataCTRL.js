@@ -42,7 +42,6 @@ export async function newPatientConfirmation (req, res){
 
     try{
       const [results] = await connection.execute(sql, values)
-      console.log(results);
       if (results.length === 1) {
         verified = true;
       } else {

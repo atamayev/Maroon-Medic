@@ -5,7 +5,6 @@ import Crypto from "../dbAndSecurity/crypto.js";
  *  Upon first loading the site, there is no query. When there is no query, it is set to "ABCDEFGHIJKLMNOPQRSTUVWXYZ" 
  *  This is a dummy variable, since if(!req.params.query) didn't work
  *  If the query is the dummy variable, then all users are returned (fetchUsers)
- *  If there is a query, query the DB using a LIKE clause on the email
  * @param {String} req Query is passed in
  * @param {Array} res 
  * @returns Returns an array of users, depending on the outcome of the query
