@@ -23,7 +23,6 @@ CREATE TABLE Doctor_credentials (
 
 select * from Doctor_credentials;
 
--- delete from basic_Doctor_info where basic_Doctor_infoID between 112 and 115;
 select * from basic_Doctor_info;
 
 CREATE TABLE basic_Doctor_info (
@@ -65,7 +64,7 @@ Doctor_ID INT unsigned NOT NULL,
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 
 SELECT * FROM descriptions;
-
+SELECT * FROM doctoruuid_reference;
 CREATE TABLE profile_update_history(
 profile_update_historyID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Updated_at VARCHAR(150), 
@@ -107,7 +106,6 @@ CREATE TABLE language_list(
 -- Lookup Table
 language_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Language_name VARCHAR(150));
-
 SELECT * FROM language_mapping JOIN language_list ON language_listID = language_mapping.Language_ID;
 SELECT
 	bdi.Doctor_ID, bdi.FirstName, bdi.LastName,ll.language_name
@@ -136,9 +134,6 @@ FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 -- ON a.Doctor_ID = u.Doctor_ID AND a.Language_ID = u.Language_ID
 -- WHEN NOT MATCHED THEN
 --     INSERT (Doctor_ID, Language_ID) VALUES (u.Doctor_ID, u.Language_ID);
-
-INSERT INTO language_mapping (Language_ID, Doctor_ID)
-VALUES (1, 1000000);
 
 SELECT * FROM language_mapping;
 

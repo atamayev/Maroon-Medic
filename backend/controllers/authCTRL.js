@@ -106,14 +106,16 @@ export async function login (req, res){
 
   try{
     [results] = await connection.execute(sql, values);
-    hashed_password = results[0].password;
+    if (!results.length){ 
+      // If no users exist with a certain first name, login error
+      console.log('Username not found');
+      return res.status(404).json("Username not found!");
+    }else{
+      hashed_password = results[0].password;
+    }
   }catch(error){
+    console.log('Problem with email selection', error)
     return res.status(500).send({ error: 'Problem with email selection' });
-  }
-
-  if (!results.length){ 
-    // If no users exist with a certain first name, login error
-    return res.status(404).json("Username not found!");
   }
 
   let bool;
@@ -121,6 +123,7 @@ export async function login (req, res){
   try{
     bool = await Hash.checkPassword(password, hashed_password)
   }catch(error){
+    console.log('Problem with checking password', error)
     return res.status(500).send({ error: 'Problem with checking password' });
   }
   
@@ -141,6 +144,7 @@ export async function login (req, res){
     try{
       token = jwt.sign(payload, JWTKey);
     }catch(error){
+      console.log('Problem with Signing JWT', error)
       return res.status(500).send({ error: 'Problem with Signing JWT' });
     }
 

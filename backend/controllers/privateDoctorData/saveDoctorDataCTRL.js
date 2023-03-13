@@ -125,8 +125,7 @@ export async function saveLanguageData (req, res){
         // Check for changes in spoken languages
         const addedLanguages = newLanguages.filter(language => !oldLanguages.includes(language));
         const deletedLanguages = oldLanguages.filter(language => !newLanguages.includes(language));
-  
-        // there was a map command in ChatGPT which didn't require a for loop, not sure if it would work
+
         if (addedLanguages.length > 0) {
             console.log('adding languages')
             for (let i = 0; i<addedLanguages.length; i++){

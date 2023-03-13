@@ -134,7 +134,6 @@ export default function DoctorAccountDetails() {
   };
   
   const handleAddLanguage = () => {
-    console.log(selectedLanguage);
     if(selectedLanguage){
       if(spokenLanguages.length >0){
         if(!spokenLanguages.includes(selectedLanguage)){

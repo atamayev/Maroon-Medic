@@ -2,10 +2,6 @@ To-do:
 
 ASAP:
 
---when saving multiple rows, try to see if can implement {multiple:true}. This is to add an array to sql, breaking up the array into objects, without using a loop
---https://stackoverflow.com/questions/23266854/node-mysql-multiple-statements-in-one-query
-	--for creating multiple sql statements
-
 see papa text:
 	-- need to make another table/column in table (maybe in credentials), which is a boolean of wheather or not the vet is verified.
 		--vets are verified if their identity is confirmed, and they have their information in (name, hours, etc.)
