@@ -1,5 +1,5 @@
-import {connection, useDB} from "./connect.js"
-import Crypto from "./crypto.js";
+import {connection, useDB} from "../../dbAndSecurity/connect.js"
+import Crypto from "../../dbAndSecurity/crypto.js";
 
 export default new class FetchDoctorData{
      async FetchDescriptionData (DoctorID){
@@ -195,6 +195,31 @@ export default new class FetchDoctorData{
                 return (results);
             }
         }catch(error){
+            return (`error in ${functionName}:`, error);
+        }
+    };
+
+     async FetchPubliclyAvailable (DoctorID){
+        const functionName = this.FetchDescriptionData.bind(this).name;
+
+        const table_name = 'Doctor_credentials';
+        const DB_name = 'DoctorDB';
+    
+        const sql = `SELECT publiclyAvailable, verified FROM ${table_name} WHERE DoctorID = ?`;
+        const values = [DoctorID];
+        await useDB(functionName, DB_name, table_name);
+
+        try{
+            const [results] = await connection.execute(sql, values);
+            if (results.length === 0) {
+                console.log('FetchPubliclyAvailable does not exist');
+                return [{PubliclyAvailable: false}, {Verified: false}];
+            } else {
+                console.log('true')
+                return [{PubliclyAvailable: results[0].publiclyAvailable}, {Verified: results[0].publiclyAvailable}];
+            }
+        }catch(error){
+            console.log(`error in ${functionName}`, error)
             return (`error in ${functionName}:`, error);
         }
     };

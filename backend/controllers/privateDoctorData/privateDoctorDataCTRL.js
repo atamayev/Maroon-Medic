@@ -1,7 +1,7 @@
 import {connection, useDB} from "../../dbAndSecurity/connect.js";
 import Crypto from "../../dbAndSecurity/crypto.js";
 import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
-import FetchDoctorData from "../../dbAndSecurity/DoctorDBOperations.js";
+import FetchDoctorData from "./DoctorDBOperations.js";
 
 /** newDoctor registers the inputted user data into basic_Doctor_info table
  *  All necessary information is sent via the request (DocID, firname, lastname, etc.)
@@ -82,7 +82,7 @@ export async function fetchDashboardData (req, res){
     const table_name2 = 'basic_Doctor_info';
     const DB_name = 'DoctorDB';
   
-    const sql = `SELECT email, Created_at, FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year FROM ${table_name1} LEFT JOIN ${table_name2} ON ${table_name1}.DoctorID = ${table_name2}.Doctor_ID WHERE ${table_name1}.DoctorID = ?`
+    const sql = `SELECT email, FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year FROM ${table_name1} LEFT JOIN ${table_name2} ON ${table_name1}.DoctorID = ${table_name2}.Doctor_ID WHERE ${table_name1}.DoctorID = ?`
     const values = [DoctorID];
     await useDB(fetchDashboardData.name, DB_name, table_name1)
 
@@ -139,6 +139,7 @@ export async function fetchAccountDetails (req, res){
         response.push(await FetchDoctorData.FetchDoctorCertifications(DoctorID));
         response.push(await FetchDoctorData.FetchDoctorInsurances(DoctorID));
         response.push(await FetchDoctorData.FetchDoctorEducation(DoctorID));
+        response.push(await FetchDoctorData.FetchPubliclyAvailable(DoctorID));
         return res.status(200).json(response);
     }catch(error){
         console.log('error in accountDetails', error);

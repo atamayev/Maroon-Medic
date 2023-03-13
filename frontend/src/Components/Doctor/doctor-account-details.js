@@ -18,6 +18,12 @@ export default function DoctorAccountDetails() {
   const [spokenLanguages, setSpokenLanguages] = useState(
     JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[1] || []
   );
+  const [publiclyAvailable, setPubliclyAvailable] = useState(
+    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[8] || []
+  );  
+  const [verified, setVerified] = useState(
+    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[8] || []
+  );
 
   useEffect(()=>{
     console.log('in accountDetails useEffect')
