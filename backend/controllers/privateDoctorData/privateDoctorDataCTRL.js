@@ -2,7 +2,7 @@ import {connection, useDB} from "../../dbAndSecurity/connect.js";
 import Crypto from "../../dbAndSecurity/crypto.js";
 import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
 import FetchDoctorData from "./DoctorDBOperations.js";
-
+import FetchAllLists from "./fetchAllLists.js";
 /** newDoctor registers the inputted user data into basic_Doctor_info table
  *  All necessary information is sent via the request (DocID, firname, lastname, etc.)
  *  This data is encrypted using Crypto, and then inserting into the table.
@@ -129,7 +129,6 @@ export async function fetchAccountDetails (req, res){
     const DoctorUUID = req.cookies.DoctorUUID;
     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor');
     let response = [];
-
     try{
         response.push(await FetchDoctorData.FetchDescriptionData(DoctorID)); 
         response.push(await FetchDoctorData.FetchDoctorLanguages(DoctorID)); 
@@ -144,6 +143,24 @@ export async function fetchAccountDetails (req, res){
     }catch(error){
         console.log('error in accountDetails', error);
         const emptyResponse = [];
-        return res.status(200).json(emptyResponse);
+        return res.status(400).json(emptyResponse);
+    }
+};
+
+export async function fetchAllLists (req, res){
+    let response = [];
+    try{
+        response.push(await FetchAllLists.fetchAllLanguages()); 
+        response.push(await FetchAllLists.fetchAllSpecialties()); 
+        response.push(await FetchAllLists.fetchAllServicesAndCategories());
+        response.push(await FetchAllLists.fetchAllSchools());
+        response.push(await FetchAllLists.fetchAllMajors());
+        response.push(await FetchAllLists.fetchAllInsurances());
+        response.push(await FetchAllLists.fetchAllEducationTypes());
+        return res.status(200).json(response);
+    }catch(error){
+        console.log('error in accountDetails', error);
+        const emptyResponse = [];
+        return res.status(400).json(emptyResponse);
     }
 };

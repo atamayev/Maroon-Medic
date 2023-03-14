@@ -170,3 +170,25 @@ export async function saveLanguageData (req, res){
         return res.status(200).json(true);
       }
 };
+
+export async function savePublicAvailibilityData (req, res){
+    const DoctorUUID = req.cookies.DoctorUUID;
+    const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
+    
+    const publicAvailibility = req.body.PublicAvailibility;
+    const table_name = 'Doctor_credentials';
+    const DB_name = 'DoctorDB';
+    console.log('publicAvailibility',publicAvailibility)
+
+    const sql = `UPDATE ${table_name} SET publiclyAvailable = ? WHERE DoctorID = ?`;
+    const values = [publicAvailibility, DoctorID];
+
+    await useDB(savePublicAvailibilityData.name, DB_name, table_name);
+    try{
+        await connection.execute(sql, values);
+        return res.status(200).json();
+    }catch(error){
+        console.log(`error in ${savePublicAvailibilityData.name}:`, error);
+        return res.status(400).json();
+    }
+};

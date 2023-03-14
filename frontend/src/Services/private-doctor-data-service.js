@@ -22,28 +22,13 @@ export default new class PrivateDoctorDataService {
     async saveDescriptionData(Description){
         return await http.post('/private-doctor-data/save-description-data', {Description})
     }
-    async fillLanguages(){
-        return await http.get('/private-doctor-data/fetch-all-languages')
-    }
     async saveLanguages(Languages){
         return await http.post('/private-doctor-data/save-language-data', {Languages})
     }
-    async fillSpecialties(){
-        return await http.get('/private-doctor-data/fetch-all-specialties')
+    async fillLists(){
+        return await http.get('/private-doctor-data/fetch-all-lists')
     }
-    async fillServicesAndCategories(){
-        return await http.get('/private-doctor-data/fetch-all-services-and-categories')
-    }
-    async fillSchools(){
-        return await http.get('/private-doctor-data/fetch-all-schools')
-    }
-    async fillMajors(){
-        return await http.get('/private-doctor-data/fetch-all-majors')
-    }
-    async fillInsurances(){
-        return await http.get('/private-doctor-data/fetch-all-insurances')
-    }
-    async fillEducationTypes(){
-        return await http.get('/private-doctor-data/fetch-all-education-types')
+    async savePublicAvailibility(PublicAvailibility){
+        return await http.post('/private-doctor-data/save-public-availibility-data', {PublicAvailibility})
     }
 }();

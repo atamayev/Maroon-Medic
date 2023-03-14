@@ -1,6 +1,6 @@
 import React, {useEffect, useContext, useState} from 'react'
 import {Link} from "react-router-dom";
-import {Button, Card, Form, Carousel, Accordion} from 'react-bootstrap';
+import {Button, Card, Form, Carousel, Accordion, ToggleButton, ToggleButtonGroup} from 'react-bootstrap';
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import DoctorHeader from './doctor-header.js';
 import PrivateDoctorDataService from '../../Services/private-doctor-data-service.js';
@@ -19,11 +19,10 @@ export default function DoctorAccountDetails() {
     JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[1] || []
   );
   const [publiclyAvailable, setPubliclyAvailable] = useState(
-    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[8] || []
+    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[8][0].PubliclyAvailable || 0
   );  
-  const [verified, setVerified] = useState(
-    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[8] || []
-  );
+  const verified = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[8][0].Verified || []
+
 
   useEffect(()=>{
     console.log('in accountDetails useEffect')
@@ -115,8 +114,8 @@ export default function DoctorAccountDetails() {
     // this will be used to fill the lists in the db (insurances, languages, etc.) Should be one function that returns an object of arrays of hte different lists
     console.log('in fill lists')
     try{
-        const response = await PrivateDoctorDataService.fillLanguages();
-        // console.log(response.data)
+        const response = await PrivateDoctorDataService.fillLists();
+        console.log(response.data)
         if (response){
             setListDetails(response.data);
             sessionStorage.setItem("ListDetails", JSON.stringify(response.data));
@@ -135,7 +134,7 @@ export default function DoctorAccountDetails() {
 
   const handleLanguageChange = (event) => {
     const languageId = parseInt(event.target.value);
-    const language = listDetails.find(lang => lang.language_listID === languageId);
+    const language = listDetails[0].find(lang => lang.language_listID === languageId);
     setSelectedLanguage(language);
   };
   
@@ -216,6 +215,22 @@ export default function DoctorAccountDetails() {
   const counterStyle = {
     color: isDescriptionOverLimit ? "red" : "black",
   };
+
+  async function handlePublicAvailibilityToggle (value) {
+    setPubliclyAvailable(value);
+    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
+    try{
+      const response = await PrivateDoctorDataService.savePublicAvailibility(value);
+      if(response.status === 200){
+        DoctorAccountDetails[8][0].PubliclyAvailable = value;
+        sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+        console.log('Saved!');
+      }
+    }catch(error){
+      console.log('error in handlePublicAvailibilityToggle', error)
+
+    }
+  }
 
   return (
     <div>
@@ -318,8 +333,8 @@ export default function DoctorAccountDetails() {
     <label htmlFor="language">Select a language: </label>
       <select id="language" name="language" value={selectedLanguage.language_listID || ''} onChange={handleLanguageChange}>
         <option value="">Choose a language</option>
-        {/* {console.log(listDetails)} */}
-        {Array.isArray(listDetails) && listDetails.map((language) => (
+        {console.log(listDetails[0])}
+        {Array.isArray(listDetails[0]) && listDetails[0].length > 0 && listDetails[0].map((language) => (
         <option key={language.language_listID} value={language.language_listID}>
           {language.Language_name}
         </option>
@@ -361,7 +376,46 @@ export default function DoctorAccountDetails() {
       </Accordion>
       </Card.Body>
     </Card>
+    <br/>
 
+    <Card>
+      <Card.Header>
+        Verification and Search Results
+      </Card.Header>
+      <Card.Body>
+        Account Verification Status:
+        <div>
+          {verified ? (
+            <Button
+            variant="success"
+            disabled          
+          >
+            ✓ (Your identity is Verified)
+          </Button>
+          ):(
+            <Button
+              variant="danger"
+              disabled
+              >
+              X (Your identity is Not Verified)
+            </Button>
+          )
+          }
+       </div>
+        <br/>
+
+        Would you like your profile to be publicly Available?
+        <br/>
+        <ToggleButtonGroup type="radio" name="options" value={publiclyAvailable} onChange={handlePublicAvailibilityToggle}>
+          <ToggleButton id="tbg-radio-1" value = {0} style={{ backgroundColor: publiclyAvailable === 0 ? "red" : "white", color: publiclyAvailable === 0 ? "white" : "black", borderColor: "black"}}>
+            No
+          </ToggleButton>
+          <ToggleButton id="tbg-radio-2" value = {1} style={{ backgroundColor: publiclyAvailable === 1 ? "green" : "white", color: publiclyAvailable === 1 ? "white" : "black", borderColor: "black"}}>
+            Yes
+          </ToggleButton>
+      </ToggleButtonGroup>
+      </Card.Body>
+    </Card>
   </div>
   )
 };

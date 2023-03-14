@@ -196,7 +196,7 @@ export default function Header () {
           <div>
           <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
           <Dropdown.Item href="/vet-dashboard">Vet Dashboard</Dropdown.Item>
-          <Dropdown.Item href="/vet-account-details">Account Settings</Dropdown.Item>
+          <Dropdown.Item href="/vet-account-details">Account Details</Dropdown.Item>
           </div>
           ) : user_type === 'Patient' ? (
             <div>
