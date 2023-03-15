@@ -7,18 +7,15 @@ ASAP:
 
 --fill in the schools sql table.
 
--- consider funneleing all lists through one route. schools majors, etc. Same as account details.
-	--would still be necessary to keep some of the list routes seperate (like languages - since those can be searched over, and patients should be allowed to add their languages).
-
---while loading, dashboard, account details should be like this:
-	https://react-bootstrap.github.io/components/placeholder/
-	
 --re-do code documentation
 
 
 
 Later:
 
+--while loading, dashboard, account details should be like this:
+	https://react-bootstrap.github.io/components/placeholder/
+	
 --make 2 dummy headers, one without search, and without profile & search.
 	the one without profile and search should appear on the new doctor page.
 	the one without search should appear on dashboard, account details, etc.

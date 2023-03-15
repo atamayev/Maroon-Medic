@@ -1,6 +1,6 @@
 import { connection, useDB } from "../../dbAndSecurity/connect.js";
 
-export default new class FetchAllLists{
+export default new class FetchAllDoctorLists{
     async fetchAllLanguages (){
         const functionName = this.fetchAllLanguages.bind(this).name;
         const table_name = 'language_list'

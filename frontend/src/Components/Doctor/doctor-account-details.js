@@ -333,7 +333,6 @@ export default function DoctorAccountDetails() {
     <label htmlFor="language">Select a language: </label>
       <select id="language" name="language" value={selectedLanguage.language_listID || ''} onChange={handleLanguageChange}>
         <option value="">Choose a language</option>
-        {console.log(listDetails[0])}
         {Array.isArray(listDetails[0]) && listDetails[0].length > 0 && listDetails[0].map((language) => (
         <option key={language.language_listID} value={language.language_listID}>
           {language.Language_name}

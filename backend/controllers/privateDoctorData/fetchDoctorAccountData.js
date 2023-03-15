@@ -1,7 +1,7 @@
 import {connection, useDB} from "../../dbAndSecurity/connect.js"
 import Crypto from "../../dbAndSecurity/crypto.js";
 
-export default new class FetchDoctorData{
+export default new class FetchDoctorAccountData{
      async FetchDescriptionData (DoctorID){
         const functionName = this.FetchDescriptionData.bind(this).name;
 
@@ -25,7 +25,7 @@ export default new class FetchDoctorData{
             return (`error in ${functionName}:`, error);
         }
     };
-    
+
     async FetchDoctorLanguages (DoctorID){
         const functionName = this.FetchDoctorLanguages.bind(this).name;
 

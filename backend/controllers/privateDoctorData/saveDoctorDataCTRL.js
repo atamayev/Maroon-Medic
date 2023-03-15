@@ -2,7 +2,6 @@ import { connection, useDB } from "../../dbAndSecurity/connect.js";
 import Crypto from "../../dbAndSecurity/crypto.js";
 import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
 
-
 export async function savePersonalData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID
     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor') // converts DoctorUUID to docid

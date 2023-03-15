@@ -67,7 +67,7 @@ Description VARCHAR(2500),
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 
-SELECT * FROM descriptions;
+SELECT * FROM specialties_list;
 SELECT * FROM doctoruuid_reference;
 
 CREATE TABLE profile_update_history(
@@ -146,6 +146,8 @@ CREATE TABLE school_list(
 -- Lookup Table
 school_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 School_name VARCHAR(300));
+
+select * from school_list;
 
 CREATE TABLE major_list(
 -- Lookup Table

@@ -1,8 +1,9 @@
 import {connection, useDB} from "../../dbAndSecurity/connect.js";
 import Crypto from "../../dbAndSecurity/crypto.js";
 import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
-import FetchDoctorData from "./DoctorDBOperations.js";
-import FetchAllLists from "./fetchAllLists.js";
+import FetchDoctorAccountData from "./fetchDoctorAccountData.js";
+import FetchAllDoctorLists from "./fetchAllDoctorLists.js";
+
 /** newDoctor registers the inputted user data into basic_Doctor_info table
  *  All necessary information is sent via the request (DocID, firname, lastname, etc.)
  *  This data is encrypted using Crypto, and then inserting into the table.
@@ -130,15 +131,15 @@ export async function fetchAccountDetails (req, res){
     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor');
     let response = [];
     try{
-        response.push(await FetchDoctorData.FetchDescriptionData(DoctorID)); 
-        response.push(await FetchDoctorData.FetchDoctorLanguages(DoctorID)); 
-        response.push(await FetchDoctorData.FetchDoctorPictures(DoctorID));
-        response.push(await FetchDoctorData.FetchDoctorServices(DoctorID));
-        response.push(await FetchDoctorData.FetchDoctorAddressData(DoctorID));
-        response.push(await FetchDoctorData.FetchDoctorCertifications(DoctorID));
-        response.push(await FetchDoctorData.FetchDoctorInsurances(DoctorID));
-        response.push(await FetchDoctorData.FetchDoctorEducation(DoctorID));
-        response.push(await FetchDoctorData.FetchPubliclyAvailable(DoctorID));
+        response.push(await FetchDoctorAccountData.FetchDescriptionData(DoctorID)); 
+        response.push(await FetchDoctorAccountData.FetchDoctorLanguages(DoctorID)); 
+        response.push(await FetchDoctorAccountData.FetchDoctorPictures(DoctorID));
+        response.push(await FetchDoctorAccountData.FetchDoctorServices(DoctorID));
+        response.push(await FetchDoctorAccountData.FetchDoctorAddressData(DoctorID));
+        response.push(await FetchDoctorAccountData.FetchDoctorCertifications(DoctorID));
+        response.push(await FetchDoctorAccountData.FetchDoctorInsurances(DoctorID));
+        response.push(await FetchDoctorAccountData.FetchDoctorEducation(DoctorID));
+        response.push(await FetchDoctorAccountData.FetchPubliclyAvailable(DoctorID));
         return res.status(200).json(response);
     }catch(error){
         console.log('error in accountDetails', error);
@@ -147,16 +148,16 @@ export async function fetchAccountDetails (req, res){
     }
 };
 
-export async function fetchAllLists (req, res){
+export async function FetchDoctorLists (req, res){
     let response = [];
     try{
-        response.push(await FetchAllLists.fetchAllLanguages()); 
-        response.push(await FetchAllLists.fetchAllSpecialties()); 
-        response.push(await FetchAllLists.fetchAllServicesAndCategories());
-        response.push(await FetchAllLists.fetchAllSchools());
-        response.push(await FetchAllLists.fetchAllMajors());
-        response.push(await FetchAllLists.fetchAllInsurances());
-        response.push(await FetchAllLists.fetchAllEducationTypes());
+        response.push(await FetchAllDoctorLists.fetchAllLanguages()); 
+        response.push(await FetchAllDoctorLists.fetchAllSpecialties()); 
+        response.push(await FetchAllDoctorLists.fetchAllServicesAndCategories());
+        response.push(await FetchAllDoctorLists.fetchAllSchools());
+        response.push(await FetchAllDoctorLists.fetchAllMajors());
+        response.push(await FetchAllDoctorLists.fetchAllInsurances());
+        response.push(await FetchAllDoctorLists.fetchAllEducationTypes());
         return res.status(200).json(response);
     }catch(error){
         console.log('error in accountDetails', error);
