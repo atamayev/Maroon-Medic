@@ -9,7 +9,7 @@ AND education_mapping.Major_ID = major_list.major_listID
 AND education_mapping.Education_type_ID = education_type_list.education_typeID 
 AND education_mapping.Doctor_ID = '100000';
 
-
+SELECT * FROM specialties_list;
 SELECT insurance_mapping.Doctor_ID, insurance_list.Insurance_name FROM insurance_list JOIN insurance_mapping ON insurance_list.insurance_listID = insurance_mapping.Insurance_ID WHERE insurance_mapping.Doctor_ID = '1000000';
 
 SELECT specialties_list.Organization_name, specialties_list.Specialty_name  FROM specialties_list JOIN specialty_mapping ON specialties_list.specialties_listID = specialty_mapping.specialty_mappingID WHERE specialty_mapping.Doctor_ID = '1000000';
@@ -24,7 +24,6 @@ CREATE TABLE Doctor_credentials (
   publiclyAvailable BOOLEAN NOT NULL) AUTO_INCREMENT=1000000;
 
 select * from Doctor_credentials;
-DELETE FROM Doctor_credentials WHERE DoctorID ='1000124';
 select * from basic_Doctor_info;
 
 CREATE TABLE basic_Doctor_info (
@@ -68,7 +67,6 @@ Doctor_ID INT unsigned NOT NULL,
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 
 SELECT * FROM specialties_list;
-SELECT * FROM doctoruuid_reference;
 
 CREATE TABLE profile_update_history(
 profile_update_historyID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,

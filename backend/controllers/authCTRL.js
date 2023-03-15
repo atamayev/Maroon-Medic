@@ -208,7 +208,6 @@ export async function register (req, res){
     let encrypted_email;
     try{
       encrypted_email = Crypto.encrypt_single_entry(emailObj).email
-      console.log('encrypted_email',encrypted_email)
     }catch(error){
       console.log('Problem with Data Encryption')
       return res.status(500).send({ error: 'Problem with Data Encryption' });
@@ -254,20 +253,29 @@ export async function register (req, res){
       console.log('Problem with Data Encryption')
       return res.status(500).send({ error: 'Problem with Data Encryption' });
     }
-    
-    const sql_1 = `INSERT INTO ${table_name} (email, password, Created_at, verified, publiclyAvailable) VALUES (?, ?, ?, ?, ?)`;
-    const values_1 = [encrypted_email, hashed_password, encrypted_date_time, true, true];// in the future, will need to change this. Verified shouldn't be set to true by default, should require some kind of ID verification
+
+    let sql_1
+    let values_1;
+    if(register_type === 'Doctor'){
+      sql_1 = `INSERT INTO ${table_name} (email, password, Created_at, verified, publiclyAvailable) VALUES (?, ?, ?, ?, ?)`;
+      values_1 = [encrypted_email, hashed_password, encrypted_date_time, true, true];// in the future, will need to change this. Verified shouldn't be set to true by default, should require some kind of ID verification
+    }else if (register_type === 'Patient'){
+      sql_1 = `INSERT INTO ${table_name} (email, password, Created_at) VALUES (?, ?, ?)`;
+      values_1 = [encrypted_email, hashed_password, encrypted_date_time];// in the future, will need to change this. Verified shouldn't be set to true by default, should require some kind of ID verification
+    }else{
+      console.log('invalid user')
+      return res.send('Invalid User Type') // If Type not Doctor or Patient
+    }
     try {
       await connection.execute(sql_1, values_1)
     }catch (error){
-      console.log('Problem with Data Inseration')
-      return res.status(500).send({ error: 'Problem with Data Inseration' });
+      console.log('Problem with Data Insertion')
+      return res.status(500).send({ error: 'Problem with Data Insertion' });
     }
 
     let results_1;
     try{
-      [results_1] = await connection.execute(sql, values); // using same query as before, just now with the inserted email
-
+      [results_1] = await connection.execute(sql, values); // using same query as before, just now with the inserted email - this is to set the user after registering
     }catch(error){
       console.log('Problem with Data Selection')
       return res.status(500).send({ error: 'Problem with Data Selection' });
@@ -319,59 +327,72 @@ export async function register (req, res){
  * @param {Response} res Clears cookie, and informs that "User has been logged out"
  */
 export async function logout (req, res){
+  let type;
   try{
     const cookies = req.cookies
+    console.log('cookies',cookies)
     let UUID;
-    let type;
+    let newUserUUID;
   
     if("DoctorAccessToken" in cookies){
       UUID = req.cookies.DoctorUUID
       type = 'Doctor';
+      if("DoctorNew_User" in cookies){
+        newUserUUID = req.cookies.DoctorNew_User
+      }
     }else if("PatientAccessToken" in cookies){
       UUID = req.cookies.PatientUUID
       type = 'Patient';
+      if("PatientNew_User" in cookies){
+        newUserUUID = req.cookies.PatientNew_User
+      }
     }
     else{
       console.log('Invalid User Type in logout')
       return res.send('Invalid User Type') // If Type not Doctor or Patient
     }
+    console.log('newUserUUID',newUserUUID)
   
     const table_name = `${type}UUID_reference`;
     const DB_name = `${type}DB`;
     const sql = `DELETE FROM ${table_name} WHERE ${type}UUID = ?`;
-    const values = [UUID];
+    let values = [UUID];
   
     await useDB(logout.name, DB_name, table_name)
-  
-    try{
+    await connection.execute(sql, values)
+    if(newUserUUID){
+      values = [newUserUUID]
       await connection.execute(sql, values)
-      res
-      .clearCookie(`${type}AccessToken`, {
-        httpOnly:true,
-        secure:true,
-        sameSite:"none",
-        path: '/'
-      })
-      .clearCookie(`${type}UUID`, {
-        httpOnly:true,
-        secure:true,
-        sameSite:"none",
-        path: '/'
-      })
-      .clearCookie(`${type}New_User`, {
-        httpOnly:true,
-        secure:true,
-        sameSite:"none",
-        path: '/'
-      })
-      .status(200).json(`${type} has been logged out.`)
-      console.log(`logged out ${type}`)
-    }catch (error){
-      console.log(`error in logging ${type} out`)
-      return res.status(500).send({ error: `Error in logging ${type} out` });
     }
   }catch(error){
-    console.log('Error in accessing DB', error)
-    return res.status(500).send({ error: `Error in accessing DB` });
+      console.log('Error in accessing DB', error)
+      return res.status(500).send({ error: `Error in accessing DB` });
+    }
+  
+  try{
+    res
+    .clearCookie(`${type}AccessToken`, {
+      httpOnly:true,
+      secure:true,
+      sameSite:"none",
+      path: '/'
+    })
+    .clearCookie(`${type}UUID`, {
+      httpOnly:true,
+      secure:true,
+      sameSite:"none",
+      path: '/'
+    })
+    .clearCookie(`${type}New_User`, {
+      httpOnly:true,
+      secure:true,
+      sameSite:"none",
+      path: '/'
+    })
+    .status(200).json(`${type} has been logged out.`)
+    console.log(`logged out ${type}`)
+  }catch (error){
+    console.log(`error in logging ${type} out`)
+    return res.status(500).send({ error: `Error in logging ${type} out` });
   }
 };
