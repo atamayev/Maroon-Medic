@@ -105,4 +105,3 @@ export async function fetchAllInsurances (req, res){
         return res.status(500).json(error);
     }
 };
-

@@ -14,6 +14,7 @@ dotenv.config()
  * @param {String} req Cookie from client 
  * @param {Boolean} res True/False
  * @returns Returns true/false, depending on wheather the cookie is verified, and if the contents of the cookie are valid
+ *  DOCUMENTATION LAST UPDATED 3/14/23
  */
 export async function JWT_verify (req, res){
   const cookies = req.cookies;
@@ -72,14 +73,19 @@ export async function JWT_verify (req, res){
   }
 };
 
-/** login checks if an existing user's credentials exist in the Doctor_credentials table. If they do, then a cookie, and user data is sent to client.
- *  Works very similarly to register function. First, searches if the entered username exists in the DB. If exists, continue. If not, return no user found
- *  Next, uses Hash file to compare the user's entered password with the hashed password in the DB. If compare==true, continue. If not, return Wrong Username or Password
- *  Next, extracts the DoctorID from the select query, and passes it in to the payload (to be signed, and verified in the future), which is put into the cookie.
- *  The other user data (password, created), is packaged in the JSON part of response (needs to be changed to only send back the UUID).
- * @param {Object} req Contains the user's username, password
+/** login checks if an existing user's credentials exist in the Doctor_credentials table. If they do, then UUID cookie and KWT sent to client
+ *  First, deciphers what kind of user is trying to login based on the login_information object.
+ *  The entered email is encrypted, and searched in the DB
+ *  If that email exists, continue. If not, return Username not found
+ *  If the email exists, extract the hashed password from the DB
+ *  If hashed pass in DB matches the entered pass, start creating JWT key, and send the cookie. If not, means incorrect password
+ *  A complementary UUID is created fromt the user's ID (extracted from the login), and sent as part of the payload. This payload is signed with a JWT key, and sent as a cookie
+ *  The UUID is sent seperately as a cookie.
+ *  JWT and UUID have two different purposes. JWT is strictly for verification purposes. UUID will be used as an intermediary to send data back and forth bw client and server. Similar to a nametag on a person
+ * @param {Object} req Contains the user's username, password, type
  * @param {Response} res If successful, contains a cookie, and JSON with user's results. If not, returns error in a JSON
  * @returns An error, or a json response, depending on wheather the credentials exist in the DB
+ *  DOCUMENTATION LAST UPDATED 3/14/23
  */
 export async function login (req, res){
   const { email, password, login_type } = req.body.login_information_object;
@@ -177,15 +183,20 @@ export async function login (req, res){
   }
 };
 
-/** register adds a new user's credentials to the Doctor_credentials table, and sends a JSON response (along with a cookie) back to client depending on the results
- *  First, register checks if the username entered already exists in the DB
+/** 
+ *  register adds a new user's credentials to the Doctor_credentials table, and sends a JSON response (along with a cookie) back to client depending on the results
+ *  Register code is very similar to login. Read login documentation for a more in-depth review
+  * First, register checks if the username entered already exists in the DB
  *  If exists, then the user is unable to make an account. If doesn't exist, move on
- *  The password is hashed, and a dateTime object is created, and encrypted, before being entered into the credentials DB (username is not encrypted/hashed)
- *  Then, the DoctorID of this new user is passed into the cookie as the DoctorAccessToken, to check the user's identity in the future (see jwt_verify function)
- *  The JSON object is (currently) set to all of the information about the Doc (password, created at), and sent to client. This needs to be changed  
- * @param {Object} req Contains the user's username, password
- * @param {Response} res If successful, contains a cookie, and Json with user's results. If not, returns error in a JSON
+ *  The password is hashed, and a dateTime object is created, and encrypted, before being entered into the credentials DB
+ *  Depending on the user_type, the insert SQL change. If doctor, insert verification status (currently set to true by default).
+ *  Verification is wheather the doctor's identity is confirmed (via some ID)
+ *  The rest of the code is same as login.
+ *  However, an extra newUser cookie is sent during registration. This is done to give the new user permission to certain pages that non-new users shouldn't have access to (new-doctor, patient)
+ * @param {Object} req Contains the user's username, password, type
+ * @param {Response} res If successful, returns 3 cookies: UUID, newUserUUID, and AccessToken. If not, returns error in a JSON
  * @returns An error, or a json response, depending on wheather the credentials are able to be registered
+ *  DOCUMENTATION LAST UPDATED 3/14/23
  */
 export async function register (req, res){
     const {email, password, register_type} = req.body.register_information_object // Takes out the decrypted_email from the request
@@ -320,6 +331,7 @@ export async function register (req, res){
 
 /** logout is self-explanatory
  *  Depending on the type, deletes any cookie called "{type}AccessToken"--> whenever the user navigates to future pages, their token will not be verified (token cleared)
+ *  Deletes UUID that was created for user to be able to send data back and forth.
  * @param {*} req Type: doctor or patient
  * @param {Response} res Clears cookie, and informs that "User has been logged out"
  */

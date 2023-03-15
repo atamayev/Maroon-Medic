@@ -27,7 +27,7 @@ export default function NewDoctor () {
   ];
   const days = [...Array(31).keys()].map(i => i + 1);
   const years = [...Array(100).keys()].map(i => i + new Date().getFullYear() - 100);
-      
+
   useEffect(() => {
      user_verification()
       .then(result => {
