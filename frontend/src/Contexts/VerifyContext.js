@@ -6,17 +6,10 @@ const VerifyContextProvider = (props) => {
   async function user_verification (){
     try{
       const response = await DataService.verify();
-      const tokenValue = response.data.tokenValue;
-      if (response.data.type === 'Doctor' && response.data.isValid === true) {
+      if (response.data.isValid === true) {
         return {
           verified: true, 
-          DoctorToken: tokenValue
-        };
-      }
-      else if (response.data.type === 'Patient' && response.data.isValid === true){
-        return {
-          verified: true, 
-          PatientToken: tokenValue
+          user_type: response.data.type
         };
       }
       else {

@@ -14,19 +14,23 @@ export default function DoctorDashboard() {
     console.log("in doctor-dashboard useEffect");
     user_verification()
     .then(result => {
-      if (result.verified === true && result.DoctorToken) {
-        console.log(`Used ${DoctorDashboard.name} useEffect`);
-        setUser_type('Doctor')
-        const storedDashboardData = sessionStorage.getItem("DoctorDashboardData")
-        if (storedDashboardData){
-          setDashboardData(JSON.parse(storedDashboardData));
-        }else{
-          console.log('fetching data from db (elsed)')
-          DashboardData();
+      if (result.verified === true) {
+        setUser_type(result.user_type)
+        if(result.user_type === 'Doctor'){
+          try{
+            console.log(`Used ${DoctorDashboard.name} useEffect`);
+            setUser_type('Doctor')
+            const storedDashboardData = sessionStorage.getItem("DoctorDashboardData")
+            if (storedDashboardData){
+              setDashboardData(JSON.parse(storedDashboardData));
+            }else{
+              console.log('fetching data from db (elsed)')
+              DashboardData();
+            }
+          }catch(error){
+            console.log(error)
+          }
         }
-      }
-      else if (result.verified === true && result.PatientToken){
-        setUser_type('Patient')
       }
       else{
         console.log('Unverified')

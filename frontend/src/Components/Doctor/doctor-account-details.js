@@ -28,24 +28,27 @@ export default function DoctorAccountDetails() {
     console.log('in accountDetails useEffect')
     user_verification()
     .then(result => {
-      if (result.verified === true && result.DoctorToken) {
-        setUser_type('Doctor')
-        console.log(`Used ${DoctorAccountDetails.name} useEffect`);
-        const storedAccountDetails = sessionStorage.getItem("DoctorAccountDetails")
-        if(!storedAccountDetails){
-          console.log('fetching data from db (elsed)')
-          FillDoctorAccountDetails();
+      if (result.verified === true) {
+        setUser_type(result.user_type)
+        if(result.user_type === 'Doctor'){
+          try{
+            console.log(`Used ${DoctorAccountDetails.name} useEffect`);
+            const storedAccountDetails = sessionStorage.getItem("DoctorAccountDetails")
+            if(!storedAccountDetails){
+              console.log('fetching data from db (elsed)')
+              FillDoctorAccountDetails();
+            }
+            const storedListDetails = sessionStorage.getItem("ListDetails")
+            if(storedListDetails){
+              setListDetails(JSON.parse(storedListDetails));
+            }else{
+              console.log('fetching data from db (elsed)')
+              FillLists();
+            }
+          }catch(error){
+            console.log(error)
+          }
         }
-        const storedListDetails = sessionStorage.getItem("ListDetails")
-        if(storedListDetails){
-          setListDetails(JSON.parse(storedListDetails));
-        }else{
-          console.log('fetching data from db (elsed)')
-          FillLists();
-        }
-      }
-      else if (result.verified === true && result.PatientToken){
-        setUser_type('Patient');
       }
       else{
         console.log('Unverified')

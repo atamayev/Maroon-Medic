@@ -2,6 +2,8 @@ To-do:
 
 ASAP:
 
+-- in user verification, and jwt verify, don't need to set the token value in JWT verify. uneccesary.
+ 
 --fill in the schools sql table.
 
 --re-do code documentation

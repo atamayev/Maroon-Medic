@@ -11,30 +11,33 @@ export default function DoctorPersonalInfo() {
     const [user_type, setUser_type] = useState(null);
 
     useEffect(()=>{
-        console.log("in DoctorPersonalInfo useEffect");
-        user_verification()
-        .then(result => {
-          if (result.verified === true && result.DoctorToken) {
-            setUser_type('Doctor')
-            console.log(`Used ${DoctorPersonalInfo.name} useEffect`);
-            const storedPersonalInfoData = sessionStorage.getItem("DoctorPersonalInfo")
-            if (storedPersonalInfoData){
-                setPersonalInfo(JSON.parse(storedPersonalInfoData));
-            }else{
-              console.log('fetching data from db (elsed)')
-              PersonalInfoData();
+      console.log("in DoctorPersonalInfo useEffect");
+      user_verification()
+      .then(result => {
+        if (result.verified === true) {
+          setUser_type(result.user_type)
+          if(result.user_type === 'Doctor'){
+            try{
+              console.log(`Used ${DoctorPersonalInfo.name} useEffect`);
+              const storedPersonalInfoData = sessionStorage.getItem("DoctorPersonalInfo")
+              if (storedPersonalInfoData){
+                  setPersonalInfo(JSON.parse(storedPersonalInfoData));
+              }else{
+                console.log('fetching data from db (elsed)')
+                PersonalInfoData();
+              }
+            }catch(error){
+              console.log(error)
             }
           }
-          else if (result.verified === true && result.PatientToken){
-            setUser_type('Patient')
-          }
-          else{
-            console.log('Unverified')
-          }
-        })
-        .catch(error => {
-          console.error(error);
-        });
+        }
+        else{
+          console.log('Unverified')
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
     }, [])
 
     async function PersonalInfoData(){

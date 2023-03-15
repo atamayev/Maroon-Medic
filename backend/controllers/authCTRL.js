@@ -7,31 +7,30 @@ import dotenv from "dotenv";
 import { ID_to_UUID } from "../dbAndSecurity/UUID.js";
 dotenv.config()
 
-/** jwt_verify verifies the user's token (held in cookie). 
- *  It does this in two steps. First, it checks if the DoctorAccessToken is valid (verification). If verified, the ID is extracted from the access token. The ID is then searched in the DB
+/** JWT_verify verifies the user's token (held in cookie). 
+ *  It does this in two steps. First, it checks if the DoctorAccessToken is valid (verification). If verified, the UUID is extracted from the Access Token. The UUID is then searched in the DB
+ *  If the user's UUID is in the UUID_reference table, and the JWT was verified successfully, set isValid to true,
  *  If there is a user's whose credentials match what was verified/queried, set verified to true. Any other case, set verified to false.
  * @param {String} req Cookie from client 
  * @param {Boolean} res True/False
  * @returns Returns true/false, depending on wheather the cookie is verified, and if the contents of the cookie are valid
  */
-export async function jwt_verify (req, res){
-  const cookies = req.cookies
+export async function JWT_verify (req, res){
+  const cookies = req.cookies;
   let AccessToken;
   let response = {
     isValid: false, 
-    tokenValue: '',
     type: ''
-  }
+  };
   let decodedUUID;
 
   if("DoctorAccessToken" in cookies){
     response.type = 'Doctor';
   }else if("PatientAccessToken" in cookies){
     response.type = 'Patient';
-  }
-  else{
+  }else{
     console.log('Invalid User Type in JWT Verify')
-    return res.status(400).json('Invalid User Type'); // If Type not Doctor or Patient
+    return res.status(400).json('Invalid User Type');
   }
 
   try{
@@ -40,38 +39,36 @@ export async function jwt_verify (req, res){
     decodedUUID = jwt.verify(AccessToken, JWTKey)[`${response.type}ID`];
   }catch(error){
     if(error.name === "TokenExpiredError"){
-      response.isValid = false;
+      console.log('Token expired', error.name)
       return res.status(402).json(response);
     }else{
       console.log('error in token verification', error);
-      return res.status(500).json(error); 
+      return res.status(500).json(response); 
     }
   }
+
   if (Date.now() >= decodedUUID.exp * 1000) {
-    response.isValid = false;
+    console.log('Token expired', decodedUUID.exp)
     return res.status(401).json(response);
-  }
-  else{
+  }else{
     const table_name = `${response.type}UUID_reference`
     const DB_name = `${response.type}DB`;
     const sql = `SELECT * FROM ${table_name} WHERE ${response.type}UUID = ?`;
     const values = [decodedUUID];
-    await useDB(jwt_verify.name, DB_name, table_name)
+    await useDB(JWT_verify.name, DB_name, table_name)
     
     try{
       const [results] = await connection.execute(sql, values)
-      // console.log(results);
       if (results.length === 1) {
         response.isValid = true;
-        response.tokenValue = AccessToken;
         return res.status(200).json(response);
       } else {
         response.isValid = false;
         return res.status(500).json(response);
       }
-  }catch(error){
-      return (`error in ${dashboardData.name}:`, error)
-  }
+    }catch(error){
+        return (`error in ${dashboardData.name}:`, error)
+    }
   }
 };
 
@@ -330,7 +327,6 @@ export async function logout (req, res){
   let type;
   try{
     const cookies = req.cookies
-    console.log('cookies',cookies)
     let UUID;
     let newUserUUID;
   
@@ -351,7 +347,6 @@ export async function logout (req, res){
       console.log('Invalid User Type in logout')
       return res.send('Invalid User Type') // If Type not Doctor or Patient
     }
-    console.log('newUserUUID',newUserUUID)
   
     const table_name = `${type}UUID_reference`;
     const DB_name = `${type}DB`;

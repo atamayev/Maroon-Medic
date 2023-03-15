@@ -16,10 +16,10 @@ export default function DoctorRegister() {
     console.log('in doctor register useEffect')
     user_verification()
       .then(result => {
-        if (result.verified === true && result.DoctorToken) {
+        if (result.verified === true && result.user_type === 'Doctor') {
           navigate(`/vet-dashboard`);
         }
-        else if (result.verified === true && result.PatientToken) {
+        else if (result.verified === true && result.user_type === 'Patient') {
           navigate(`/patient-dashboard`);
         }
       })

@@ -29,17 +29,14 @@ export default function NewPatient () {
   const years = [...Array(100).keys()].map(i => i + new Date().getFullYear() - 100);
       
   useEffect(() => {
-  // should have a check for special cookie function (UUID-like), to ensure that users with existing accounts cannot re-enter data
-  // Here, there should be some function that checks if the user is a new user or not.
-  // If the user is new, allow them to use the page. if not, navigate them to their dashboard page
   user_verification()
     .then(result => {
-      if (result.verified === true && result.PatientToken) {
+      if (result.verified === true && result.user_type === 'Patient') {
         DataService.newPatientConfirmation()
         .then(result => {
-          if (result.data === "No new Patient nor UUID" || result.data === "Unverified") {
+          if (result.data === "No new Patient nor UUID" ) {
             navigate('/');
-          }else if (result.data === "UUID but not new Patient") {
+          }else if (result.data === "UUID but not new Patient" || result.data === "Unverified") {
             navigate(`/patient-dashboard`);
           }else if (result.data === "New Patient but not UUID") {
             navigate('/patient-register');
@@ -49,7 +46,7 @@ export default function NewPatient () {
           }
         })
       }
-      else if (result.verified === true && result.DoctorToken) {
+      else if (result.verified === true && result.user_type === 'Doctor') {
         navigate(`/vet-dashboard`);
       }else{
         navigate('/patient-register')

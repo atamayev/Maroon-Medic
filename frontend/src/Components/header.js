@@ -41,32 +41,19 @@ export default function Header () {
         console.log('no header data')
         user_verification()
         .then(result => {
-          if (result.verified === true && result.DoctorToken) {
-            setUser_type('Doctor')
+          if (result.verified === true) {
+            setUser_type(result.user_type)
             try{
-              const name = JSON.parse(sessionStorage.getItem("DoctorPersonalInfo")).FirstName;
+              const name = JSON.parse(sessionStorage.getItem(`${result.user_type}PersonalInfo`)).FirstName;
               setHeaderData(name);
             }catch(error){
               if (error instanceof TypeError){
-                PersonalInfo('Doctor');
+                PersonalInfo(result.user_type);
               }
               else{
                 console.log('some other error')
               }
             } 
-          }else if (result.verified === true && result.PatientToken){
-            setUser_type('Patient')
-            try{
-              const name = JSON.parse(sessionStorage.getItem("PatientPersonalInfo")).FirstName;
-              setHeaderData(name);
-            }catch(error){
-              if (error instanceof TypeError){
-                PersonalInfo('Patient');
-              }
-              else{
-                console.log('some other error')
-              }
-            }    
           }
         })
         .catch(error => {

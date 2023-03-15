@@ -16,10 +16,10 @@ export default function PatietRegister() {
     console.log('in Patient Register useEffect')
     user_verification()
     .then(result => {
-      if (result.verified === true && result.PatientToken) {
+      if (result.verified === true && result.user_type === 'Patient') {
         navigate(`/patient-dashboard`);
       }
-      else if (result.verified === true && result.DoctorToken) {
+      else if (result.verified === true && result.user_type === 'Doctor') {
         navigate(`/vet-dashboard`);
       }
     })
