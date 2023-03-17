@@ -2,10 +2,9 @@ To-do:
 
 ASAP:
 
--- is sending both a newUser uuid and regular uuid necessary? why not just send new uuid?
+fill in the rest of list details
+	--checkbox integratoin vs dropdown. for insruances, checkbox. see email for details: "Fill in rest of lists"
 --fill in the schools sql table.
-
---re-do code documentation
 
 
 

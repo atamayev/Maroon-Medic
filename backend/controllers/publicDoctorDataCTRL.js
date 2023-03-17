@@ -7,6 +7,7 @@ import Crypto from "../dbAndSecurity/crypto.js";
  * @param {int} req: DocID is passed in
  * @param {*} res: The user's specific information from Doctor_credentials & basic_Doctor_info is joined and returned
  * @returns Decrypted doctor data from the db
+ *  DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function returnDoctorPageData (req, res){
     const table_name1 = 'Doctor_credentials';

@@ -1,6 +1,12 @@
 import {connection, useDB} from "../../dbAndSecurity/connect.js"
 import Crypto from "../../dbAndSecurity/crypto.js";
 
+/** FetchDoctorAccountData is fairly self-explanatory
+ *  Here, each Doctor's particular data is fetched from the DB.
+ *  For the functions with multiple table names, joins are used to match a particular doctor's records with the actual name.
+ *  For example, a table might have: {Bob, 3}, {Bob, 7}, and then a mapping table shows that 3 and 7 are actually English and French. This is done to keep the data in the mapping tables as small as possible
+ *  DOCUMENTATION LAST UPDATED 3/16/23
+ */
 export default new class FetchDoctorAccountData{
      async FetchDescriptionData (DoctorID){
         const functionName = this.FetchDescriptionData.bind(this).name;

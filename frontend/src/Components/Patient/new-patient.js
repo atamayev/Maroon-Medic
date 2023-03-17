@@ -34,13 +34,10 @@ export default function NewPatient () {
       if (result.verified === true && result.user_type === 'Patient') {
         DataService.newPatientConfirmation()
         .then(result => {
-          if (result.data === "No new Patient nor UUID" ) {
-            navigate('/');
-          }else if (result.data === "UUID but not new Patient" || result.data === "Unverified") {
-            navigate(`/patient-dashboard`);
-          }else if (result.data === "New Patient but not UUID") {
-            navigate('/patient-register');
-          }else if (result.data === "New User"){
+          console.log(result);
+          if (result.data === false) {
+            navigate('patient-register');
+          }else if (result.data === true) {
           }else{
             navigate('/patient-register');
           }

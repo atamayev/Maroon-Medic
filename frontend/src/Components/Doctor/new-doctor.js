@@ -34,13 +34,10 @@ export default function NewDoctor () {
         if (result.verified === true && result.user_type === 'Doctor') {
           PrivateDoctorDataService.newDoctorConfirmation()
             .then(result => {
-              if (result.data === "No new Doctor nor UUID") {
-                navigate('/');
-              }else if (result.data === "UUID but not new Doctor" || result.data === "Unverified") {
-                navigate(`/vet-dashboard`);
-              }else if (result.data === "New Doctor but not UUID") {
-                navigate('/vet-register');
-              }else if (result.data === "New User"){
+              console.log(result);
+              if (result.data === false) {
+                navigate('vet-register');
+              }else if (result.data === true) {
               }else{
                 navigate('/vet-register');
               }

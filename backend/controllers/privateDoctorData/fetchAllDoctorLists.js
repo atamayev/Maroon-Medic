@@ -1,5 +1,9 @@
 import { connection, useDB } from "../../dbAndSecurity/connect.js";
 
+/** FetchAllDoctorLists is fairly self-explanatory
+ *  These lists are fetched from the DB for each doctor to fill in their respective information.
+ *  DOCUMENTATION LAST UPDATED 3/16/23
+ */
 export default new class FetchAllDoctorLists{
     async fetchAllLanguages (){
         const functionName = this.fetchAllLanguages.bind(this).name;

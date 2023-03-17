@@ -3,6 +3,14 @@ import Crypto from "../dbAndSecurity/crypto.js";
 import { UUID_to_ID } from "../dbAndSecurity/UUID.js";
 // all of the functions to add pt data, and pull it for necessary components on pt dashboard
 
+/** newPatient registers the inputted user data into basic_Patient_info table
+ *  All necessary information is sent via the request (PatientUUID, firname, lastname, etc.)
+ *  This data is encrypted using Crypto, and then inserting into the table.
+ * @param {Array} req 
+ * @param {Array} res If the user data is successfully added to table, return true. If not, return error--> front end doesn't allow
+ * @returns true/error
+ * DOCUMENTATION LAST UPDATED 3/16/23
+ */
 export async function newPatient (req, res){
     // console.log('req.body',req.body)
     const PatientUUID = req.cookies.PatientUUID
@@ -27,46 +35,54 @@ export async function newPatient (req, res){
     }
 };
 
+/** newPatientConfirmation makes sure that the user on the site is a new Patient
+ *  If newPatientUUID or the regular PatientUUID don't exist, returns false.
+ *  If both the PatientUUID and newPatientUUID exist in DB, then returns true, else returns false.
+ * @param {Array} req 
+ * @param {Array} res If the user data is successfully found in the table to table, return true. If not, return false --> front-end re-directs to register page
+ * @returns true/false
+ * DOCUMENTATION LAST UPDATED 3/16/23
+ */
 export async function newPatientConfirmation (req, res){
-    const PatientUUID = req.cookies.PatientUUID
-    const newUserUUID = req.cookies.PatientNew_User
-    if (!newUserUUID){
-        return res.status(200).json("Unverified");
+    let Patient_permission = false;
+    const newPatientUUID = req.cookies.PatientNew_User
+    const existingPatientUUID = req.cookies.PatientUUID
+
+    if (!newPatientUUID || !existingPatientUUID){
+        return res.status(200).json(Patient_permission);
     }
-    let verified = false;
     const table_name = `PatientUUID_reference`
     const DB_name = `PatientDB`;
     const sql = `SELECT * FROM ${table_name} WHERE PatientUUID = ?`;
-    const values = [newUserUUID];
+    let values = [newPatientUUID];
     await useDB(newPatientConfirmation.name, DB_name, table_name)
 
     try{
       const [results] = await connection.execute(sql, values)
-      if (results.length === 1) {
-        verified = true;
+      values = [existingPatientUUID]
+      const [results1] = await connection.execute(sql, values)
+
+      if (results.length === 1 && results1.length ===1) {
+        Patient_permission = true;
+        return res.status(200).json(Patient_permission);
       } else {
-        verified = false;
-        return res.status(500).json("Unverified");
+        Patient_statusObj.is_new_Patient = false;
+        return res.status(500).json(Patient_permission);
       }
     }catch(error){
-      return (`error in ${newPatientConfirmation.name}:`, error)
-    }
-
-    if (PatientUUID && verified){
-        console.log("New User")
-        return res.status(200).json("New User");
-    }else if (!PatientUUID && !verified){// makes sure that the user is new.
-        console.log("No new Patient nor UUID")
-        return res.status(200).json("No new Patient nor UUID");
-    }else if (PatientUUID && !verified){
-        console.log("UUID but not new Patient")
-        return res.status(200).json("UUID but not new Patient");
-    }else{
-        console.log("New Patient but not UUID")
-        return res.status(200).json("New Patient but not UUID");
+        console.log(`error in ${newPatientConfirmation.name}:`, error)
+        Patient_statusObj.is_new_Patient = false;
+        return res.status(500).json(Patient_permission);
     }
 };
 
+/** fetchDashboardData retrieves the Patient's dashboard data. Currently dummy.
+ *  Takes the Patient's UUID, and converts to the PatientID. Then, joins necessary tables to retrieve dashboard data
+ * @param {Cookies} req Contains the user's cookies (PatientUUID)
+ * @param {Array} res Decrypted, or error
+ * @returns Decrypted user data.
+ * DOCUMENTATION LAST UPDATED 3/16/23
+ */
 export async function fetchDashboardData (req, res){
     const PatientUUID = req.cookies.PatientUUID
     const PatientID = await UUID_to_ID(PatientUUID, 'Patient') // converts PatientUUID to docid
@@ -95,6 +111,14 @@ export async function fetchDashboardData (req, res){
     }
 };
 
+/** fetchPersonalData retrieves the Patient's personal data.
+ *  Currently almost identical to dashboard
+ *  Takes the Patient's UUID, and converts to the PatientID. Then, joins necessary tables to retrieve dashboard data
+ * @param {Cookies} req Contains the user's cookies (PatientUUID)
+ * @param {Array} res Decrypted, or error
+ * @returns Decrypted user data.
+ * DOCUMENTATION LAST UPDATED 3/16/23
+ */
 export async function fetchPersonalData (req, res){
     const PatientUUID = req.cookies.PatientUUID
     const PatientID = await UUID_to_ID(PatientUUID, 'Patient') // converts PatientUUID to docid

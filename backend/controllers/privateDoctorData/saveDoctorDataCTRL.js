@@ -2,6 +2,15 @@ import { connection, useDB } from "../../dbAndSecurity/connect.js";
 import Crypto from "../../dbAndSecurity/crypto.js";
 import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
 
+/** savePersonalData is self-explanatory in name
+ *  First, converts from UUID to ID. Then, checks if any records exist in basic_doctor_info.
+ *  If records don't exist, then it inserts the data.
+ *  if records do exist, the data is updated. depending on wheather the data is entered successfully or not, it returns true/false
+ * @param {String} req Cookie from client 
+ * @param {Boolean} res True/False
+ * @returns Returns true/false, depending on wheather the data was saved corretly
+ *  DOCUMENTATION LAST UPDATED 3/16/23
+ */
 export async function savePersonalData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID
     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor') // converts DoctorUUID to docid
@@ -47,7 +56,15 @@ export async function savePersonalData (req, res){
         }
     }
 };
-
+/** saveDescriptionData is self-explanatory in name
+ *  First, converts from UUID to ID. Then, checks if any records exist in descriptions.
+ *  If records don't exist, then it inserts the data.
+ *  if records do exist, the data is updated. depending on wheather the data is entered successfully or not, it returns true/false
+ * @param {String} req Cookie from client 
+ * @param {Boolean} res True/False
+ * @returns Returns true/false, depending on wheather the data was saved corretly
+ *  DOCUMENTATION LAST UPDATED 3/16/23
+ */
 export async function saveDescriptionData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID;
     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
@@ -95,6 +112,17 @@ export async function saveDescriptionData (req, res){
     }
 };
 
+/** saveLanguageData is self-explanatory in name
+ *  First, converts from UUID to ID. Then, checks if any records exist in language_mapping with the user's id.
+ *  If results exist in language_mapping, then the 'difference' between the existing languages in the db, and the new languages are found.
+ *  If the difference is only that new languages were added, then those languages are inserted into the db
+ *  If the difference is that languages that were previously there are now deleted, then those languages get deleted from the DB (this is done via filtering in the code) 
+ *  If there are no results found initially, that means the user never inputed languages. The user's new languages are inserted.
+ * @param {String} req Cookie from client, language list
+ * @param {Boolean} res True/False
+ * @returns Returns true/false, depending on wheather the data was saved correctly
+ *  DOCUMENTATION LAST UPDATED 3/16/23
+ */
 export async function saveLanguageData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID;
     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
@@ -170,6 +198,13 @@ export async function saveLanguageData (req, res){
       }
 };
 
+/** savePublicAvailibilityData is a Doctor-controlled function that allows them to say wheather or not they want their profile accessible to patients
+ *  First, converts from UUID to ID. Then, updates the doctor's avalibility to whatever they did on the front-end. The request is only allowed to happen if the new availiblty status is dfferent from the old one.
+ * @param {String} req Cookie from client, PublicAvailibility status
+ * @param {Boolean} res 
+ * @returns Empty json
+ *  DOCUMENTATION LAST UPDATED 3/16/23
+ */
 export async function savePublicAvailibilityData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID;
     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
@@ -177,7 +212,6 @@ export async function savePublicAvailibilityData (req, res){
     const publicAvailibility = req.body.PublicAvailibility;
     const table_name = 'Doctor_credentials';
     const DB_name = 'DoctorDB';
-    console.log('publicAvailibility',publicAvailibility)
 
     const sql = `UPDATE ${table_name} SET publiclyAvailable = ? WHERE DoctorID = ?`;
     const values = [publicAvailibility, DoctorID];
