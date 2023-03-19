@@ -9,7 +9,7 @@ export default function DoctorAccountDetails() {
   const [listDetails, setListDetails] = useState({});
   const {user_verification} = useContext(VerifyContext);
   const [user_type, setUser_type] = useState(null);
-  // const [carouselIndex, setCarouselIndex] = useState(0);
+  const [carouselIndex, setCarouselIndex] = useState(0);
   const [description, setDescription] = useState(
     JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[0] || {}
   );
@@ -104,6 +104,9 @@ export default function DoctorAccountDetails() {
             if(response.data[1]){
               setSpokenLanguages(response.data[1])
             }
+            if(response.data[8][0].PubliclyAvailable){
+              setPubliclyAvailable(response.data[8][0].PubliclyAvailable)
+            }
             sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(response.data));
         }else{
           console.log('no response');
@@ -130,10 +133,10 @@ export default function DoctorAccountDetails() {
       }
   }
 
-  // const handleSelectCarousel = (selectedIndex, e) => {
-  //   setCarouselIndex(selectedIndex);
-  //   // from React Bootstrap
-  // };
+  const handleSelectCarousel = (selectedIndex, e) => {
+    setCarouselIndex(selectedIndex);
+    // from React Bootstrap
+  };
 
   const handleLanguageChange = (event) => {
     const languageId = parseInt(event.target.value);
@@ -286,7 +289,7 @@ export default function DoctorAccountDetails() {
       </Card>
       <br/>
 
-      {/* Edit Pictures:
+      Edit Pictures:
       <Carousel activeIndex={carouselIndex} onSelect={handleSelectCarousel}>
       <Carousel.Item>
         <img
@@ -327,7 +330,7 @@ export default function DoctorAccountDetails() {
         </Carousel.Caption>
       </Carousel.Item>
       </Carousel>   
-      <br/> */}
+      <br/>
 
     <Card>
     <Card.Body>
