@@ -183,7 +183,7 @@ export default function DoctorAccountDetails() {
     const savedLanguages = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[1] || []
     const savedLanguagesIDs = savedLanguages.map(language => language.language_listID).sort((a,b)=>a-b);
 
-    if((languageIds.length || savedLanguagesIDs.length) && (languageIds.length !== savedLanguagesIDs.length || languageIds.every((value, index) => value !== savedLanguagesIDs[index]))){//checks if they are the same
+    if(!checkIfListsAreEqual(languageIds, savedLanguagesIDs)){//checks if they are the same
       try {
         const response = await PrivateDoctorDataService.saveLanguages(languageIds)
         if(response.status === 200){
@@ -236,7 +236,7 @@ export default function DoctorAccountDetails() {
     const savedInsurances = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[6] || []
     const savedInsurancesIDs = savedInsurances.map(insurance => insurance.insurance_listID).sort((a,b)=>a-b);
 
-    if((insuranceIds.length || savedInsurancesIDs.length) && (insuranceIds.length !== savedInsurancesIDs.length || insuranceIds.every((value, index) => value !== savedInsurancesIDs[index]))){//only saves if the insurances changed
+    if(!checkIfListsAreEqual(insuranceIds, savedInsurancesIDs)){//only saves if the insurances changed
       try {
         const response = await PrivateDoctorDataService.saveInsurances(insuranceIds)
         if(response.status === 200){
@@ -251,6 +251,30 @@ export default function DoctorAccountDetails() {
       console.log('same')
     }
   };
+
+  function checkIfListsAreEqual(list1, list2) {
+    // Convert each list to a set
+    const set1 = new Set(list1);
+    const set2 = new Set(list2);
+    // Check if the size of both sets is the same
+    if (set1.size !== set2.size) {
+      return false;
+    }
+    // Check if every element in set1 exists in set2
+    for (const element of set1) {
+      if (!set2.has(element)) {
+        return false;
+      }
+    }
+    // Check if every element in set2 exists in set1
+    for (const element of set2) {
+      if (!set1.has(element)) {
+        return false;
+      }
+    }
+    // If both sets contain the same elements, return true
+    return true;
+  }
 
   function handleDescriptionChange(event) {
     const value = event.target.value;

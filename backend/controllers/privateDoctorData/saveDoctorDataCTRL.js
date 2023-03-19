@@ -154,7 +154,7 @@ export async function saveLanguageData (req, res){
         const addedLanguages = newLanguages.filter(language => !oldLanguages.includes(language));
         const deletedLanguages = oldLanguages.filter(language => !newLanguages.includes(language));
 
-        if (addedLanguages.length > 0) {
+        if (addedLanguages.length > 0) {// if languages akready exist int he list, they are added here
             console.log('adding languages')
             for (let i = 0; i<addedLanguages.length; i++){
                 const sql1 = `INSERT INTO ${table_name} (Language_ID, Doctor_ID) VALUES (?,?)`;
@@ -166,9 +166,8 @@ export async function saveLanguageData (req, res){
                     return res.status(400).json(false);
                 }
             }
-            return res.status(200).json(true);
-        }  
-        else if (deletedLanguages.length > 0) {
+        }
+        if (deletedLanguages.length > 0) {
             console.log('deleting languages')
             for (let i = 0; i<deletedLanguages.length; i++){
                 const sql1 = `DELETE FROM ${table_name} WHERE Language_ID = ? AND Doctor_ID = ?`;
@@ -180,10 +179,10 @@ export async function saveLanguageData (req, res){
                     return res.status(400).json(false);
                 }
             }
-            return res.status(200).json(true);
         }
+        return res.status(200).json(true) // after inserting/deleting, return.
       }
-      else if (spokenLanguages.length > 0){
+      else if (spokenLanguages.length > 0){ // if results is 0, adds languages (means no previously existing langs)
         console.log('adding languages in else')
         for (let i=0; i<spokenLanguages.length; i++){
             const sql1 = `INSERT INTO ${table_name} (Language_ID, Doctor_ID) VALUES (?,?)`;
@@ -195,10 +194,11 @@ export async function saveLanguageData (req, res){
                 return res.status(400).json(false);
             }
         }
-        return res.status(200).json(true);
-      }else{
-        console.log('elsed')
         return res.status(200).json(true)
+      }
+      else{
+        console.log('elsed')
+        return res.status(400).json(false)
       }
 };
 
@@ -218,7 +218,6 @@ export async function saveInsuranceData (req, res){
     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
     
     const acceptedInsurances = req.body.Insurances;
-    console.log('acceptedInsurances',acceptedInsurances)
 
     const DB_name = 'DoctorDB';
     const table_name = 'insurance_mapping';
@@ -245,7 +244,6 @@ export async function saveInsuranceData (req, res){
         const deletedInsurances = oldInsurances.filter(insurance => !newInsurances.includes(insurance));
 
         if (addedInsurances.length > 0) {
-            console.log(addedInsurances)
             console.log('adding insurances')
             for (let i = 0; i<addedInsurances.length; i++){
                 const sql1 = `INSERT INTO ${table_name} (Insurance_ID, Doctor_ID) VALUES (?,?)`;
@@ -257,9 +255,8 @@ export async function saveInsuranceData (req, res){
                     return res.status(400).json(false);
                 }
             }
-            return res.status(200).json(true);
         }  
-        else if (deletedInsurances.length > 0) {
+        if (deletedInsurances.length > 0) {
             console.log('deleting insurances')
             for (let i = 0; i<deletedInsurances.length; i++){
                 const sql1 = `DELETE FROM ${table_name} WHERE Insurance_ID = ? AND Doctor_ID = ?`;
@@ -271,8 +268,8 @@ export async function saveInsuranceData (req, res){
                     return res.status(400).json(false);
                 }
             }
-            return res.status(200).json(true);
         }
+        return res.status(200).json(true);
       }
       else if (acceptedInsurances.length > 0){
         console.log('adding insurances in else')
@@ -287,9 +284,10 @@ export async function saveInsuranceData (req, res){
             }
         }
         return res.status(200).json(true);
-      }else{
+      }
+      else{
         console.log('elsed')
-        return res.status(200).json(true)
+        return res.status(400).json(false)
       }
 };
 
