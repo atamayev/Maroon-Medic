@@ -9,6 +9,8 @@ export default function DoctorDashboard() {
   const {user_verification} = useContext(VerifyContext)
   const [dashboardData, setDashboardData] = useState({});
   const [user_type, setUser_type] = useState(null);
+  const newDoctor = document.cookie.split(';').some((item) => item.trim().startsWith('DoctorNew_User'));
+
 
   useEffect(() => {
     console.log("in doctor-dashboard useEffect");
@@ -93,7 +95,7 @@ export default function DoctorDashboard() {
   return (
     <div>
       <DoctorHeader/>
-        <p>Welcome back, Dr. {dashboardData.LastName}</p>
+        <p>Welcome{newDoctor?(<> to MaroonMedic</>):(<> back</>)}, Dr. {dashboardData.LastName}</p>
         <Card style={{margin: '0 10px' }}>
           <Card.Body>
             {dashboardData ? (

@@ -34,7 +34,6 @@ export default function NewDoctor () {
         if (result.verified === true && result.user_type === 'Doctor') {
           PrivateDoctorDataService.newDoctorConfirmation()
             .then(result => {
-              console.log(result);
               if (result.data === false) {
                 navigate('vet-register');
               }else if (result.data === true) {

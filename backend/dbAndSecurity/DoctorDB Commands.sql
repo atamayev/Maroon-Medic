@@ -98,6 +98,11 @@ FOREIGN KEY (Service_and_Category_ID) REFERENCES service_and_category_list(servi
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 
+    -- Important key constraint:
+	ALTER TABLE service_mapping
+	ADD CONSTRAINT service_mapping_constraint
+	UNIQUE (Service_price, Service_and_Category_ID, Doctor_ID);
+    
 CREATE TABLE pictures(
 picturesID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 picture_link VARCHAR(512),
@@ -173,6 +178,10 @@ End_Date DATE,
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 
+	ALTER TABLE education_mapping
+	ADD CONSTRAINT education_mapping_constraint
+	UNIQUE (School_ID, Major_ID, Education_type_ID, Doctor_ID);
+
 CREATE TABLE specialties_list(
 -- Lookup Table
 specialties_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -187,6 +196,10 @@ FOREIGN KEY (Specialty_ID) REFERENCES specialties_list(specialties_listID),
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 
+	ALTER TABLE specialty_mapping
+	ADD CONSTRAINT specialty_mapping_constraint
+	UNIQUE (Specialty_ID, Doctor_ID);
+    
 CREATE TABLE Doctor_addresses(
 addresses_ID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 address_line_1 VARCHAR(200),
@@ -210,6 +223,13 @@ Insurance_ID INT unsigned NOT NULL,
 FOREIGN KEY (Insurance_ID) REFERENCES insurance_list(insurance_listID),
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
+
+    -- Important key constraint:
+	ALTER TABLE insurance_mapping
+	ADD CONSTRAINT insurance_mapping_constraint
+	UNIQUE (Insurance_ID, Doctor_ID);
+    
+SELECT * FROM insurance_mapping;
 
 CREATE TABLE booking_availability(
 booking_availabilityID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,

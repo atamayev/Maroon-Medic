@@ -18,9 +18,13 @@ export default function DoctorAccountDetails() {
   const [spokenLanguages, setSpokenLanguages] = useState(
     JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[1] || []
   );
+  const [selectedInsurance, setSelectedInsurance] = useState('');
+  const [acceptedInsurances, setAcceptedInsurances] = useState(
+    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[6] || []
+  );
   const [publiclyAvailable, setPubliclyAvailable] = useState(
-    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[8][0].PubliclyAvailable || 0
-  );  
+    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[8][0]?.PubliclyAvailable || 0
+  );
   const verified = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[8][0].Verified || []
 
 
@@ -104,6 +108,9 @@ export default function DoctorAccountDetails() {
             if(response.data[1]){
               setSpokenLanguages(response.data[1])
             }
+            if(response.data[6]){
+              setAcceptedInsurances(response.data[6])
+            }
             if(response.data[8][0].PubliclyAvailable){
               setPubliclyAvailable(response.data[8][0].PubliclyAvailable)
             }
@@ -139,9 +146,18 @@ export default function DoctorAccountDetails() {
   };
 
   const handleLanguageChange = (event) => {
-    const languageId = parseInt(event.target.value);
-    const language = listDetails[0].find(lang => lang.language_listID === languageId);
-    setSelectedLanguage(language);
+    try{
+      const languageId = parseInt(event.target.value);
+      if (languageId) {
+        const language = listDetails[0].find(lang => lang.language_listID === languageId);
+        setSelectedLanguage(language);
+      } else {
+        setSelectedLanguage(null);
+      }
+    }catch (error) {
+    console.log('error in handle language change', error)
+  }
+
   };
   
   const handleAddLanguage = () => {
@@ -164,34 +180,75 @@ export default function DoctorAccountDetails() {
   async function saveLanguages(){
     const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
     const languageIds = spokenLanguages.map(lang => lang.language_listID).sort((a,b)=>a-b); // spoken languages are those that are on server side. state changes when languages added/deleted
+    const savedLanguages = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[1] || []
+    const savedLanguagesIDs = savedLanguages.map(language => language.language_listID).sort((a,b)=>a-b);
 
-    if(spokenLanguages.length > 0){
-      const savedLanguages = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[1] || []
-      const savedLanguagesIDs = savedLanguages.map(language => language.language_listID).sort((a,b)=>a-b);
-  
-      if(languageIds.length !== savedLanguagesIDs.length || languageIds.every((value, index) => value !== savedLanguagesIDs[index])){//checks if they are the same
-        try {
-          const response = await PrivateDoctorDataService.saveLanguages(languageIds)
-          if(response.status === 200){
-            DoctorAccountDetails[1] = spokenLanguages;
-            sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-            console.log('Saved!');
-          }
-        } catch(error) {
-          console.log('error in saving languages', error)
-        }
-      }
-    }else{
+    if((languageIds.length || savedLanguagesIDs.length) && (languageIds.length !== savedLanguagesIDs.length || languageIds.every((value, index) => value !== savedLanguagesIDs[index]))){//checks if they are the same
       try {
         const response = await PrivateDoctorDataService.saveLanguages(languageIds)
         if(response.status === 200){
           DoctorAccountDetails[1] = spokenLanguages;
           sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-          console.log('Saved! in else');
+          console.log('Saved!');
         }
       } catch(error) {
         console.log('error in saving languages', error)
       }
+    }else{
+      console.log('same')
+    }
+  };
+
+  const handleInsuranceChange = (event) => {
+    try {
+      const insuranceId = parseInt(event.target.value);
+      if (insuranceId) {
+        const insurance = listDetails[5].find(ins => ins.insurance_listID === insuranceId);
+        setSelectedInsurance(insurance);
+      } else {
+        setSelectedInsurance(null);
+      }
+    } catch (error) {
+      console.log('error in handle insurance change', error)
+    }
+  };
+  
+  const handleAddInsurance = () => {
+    if(selectedInsurance){
+      if(acceptedInsurances.length >0){
+        if(!acceptedInsurances.includes(selectedInsurance)){
+          setAcceptedInsurances([...acceptedInsurances, selectedInsurance]);
+        }
+      }else{
+        setAcceptedInsurances([selectedInsurance]);
+      }
+    }
+    setSelectedInsurance('');
+  };
+
+  const handleDeleteInsurance = (insurance) => {
+    setAcceptedInsurances(acceptedInsurances.filter(i => i !== insurance));
+  };
+
+  async function saveInsurances(){
+    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
+    const insuranceIds = acceptedInsurances.map(ins => ins.insurance_listID).sort((a,b)=>a-b); // list of all added insurances
+    const savedInsurances = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[6] || []
+    const savedInsurancesIDs = savedInsurances.map(insurance => insurance.insurance_listID).sort((a,b)=>a-b);
+
+    if((insuranceIds.length || savedInsurancesIDs.length) && (insuranceIds.length !== savedInsurancesIDs.length || insuranceIds.every((value, index) => value !== savedInsurancesIDs[index]))){//only saves if the insurances changed
+      try {
+        const response = await PrivateDoctorDataService.saveInsurances(insuranceIds)
+        if(response.status === 200){
+          DoctorAccountDetails[6] = acceptedInsurances;
+          sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+          console.log('Saved!');
+        }
+      } catch(error) {
+        console.log('error in saving Insurances', error)
+      }
+    }else{
+      console.log('same')
     }
   };
 
@@ -334,14 +391,41 @@ export default function DoctorAccountDetails() {
 
     <Card>
     <Card.Body>
+    Insurances
+    <br/>
+    <label htmlFor="insurance">Select a insurance: </label>
+      <select id="insurance" name="insurance" value={selectedInsurance?.insurance_listID || ''} onChange={handleInsuranceChange}>
+        <option value ="">Choose an insurance</option>
+        {Array.isArray(listDetails[5]) && listDetails[5].length > 0 && listDetails[5].map((insurance) => (
+        <option key={insurance?.insurance_listID} value={insurance?.insurance_listID}>
+          {insurance?.Insurance_name}
+        </option>
+      ))}
+      </select>
+      <Button onClick={handleAddInsurance}>Add</Button>
+      <ul>
+        {Array.isArray(acceptedInsurances) && acceptedInsurances.map(insurance => (
+        <li key={insurance.insurance_listID}>
+          {insurance.Insurance_name} <Button onClick={() => handleDeleteInsurance(insurance)}>x</Button>
+        </li>
+        ))}
+      </ul>
+      <Button onClick={saveInsurances}>Save</Button>
+
+      </Card.Body>
+    </Card>
+    <br/>
+
+    <Card>
+    <Card.Body>
     Languages
     <br/>
     <label htmlFor="language">Select a language: </label>
-      <select id="language" name="language" value={selectedLanguage.language_listID || ''} onChange={handleLanguageChange}>
+      <select id="language" name="language" value={selectedLanguage?.language_listID || ''} onChange={handleLanguageChange}>
         <option value="">Choose a language</option>
         {Array.isArray(listDetails[0]) && listDetails[0].length > 0 && listDetails[0].map((language) => (
-        <option key={language.language_listID} value={language.language_listID}>
-          {language.Language_name}
+        <option key={language?.language_listID} value={language?.language_listID}>
+          {language?.Language_name}
         </option>
       ))}
       </select>
@@ -411,7 +495,7 @@ export default function DoctorAccountDetails() {
 
         Would you like your profile to be publicly Available?
         <br/>
-        <ToggleButtonGroup type="radio" name="options" value={publiclyAvailable} onChange={handlePublicAvailibilityToggle}>
+        <ToggleButtonGroup type="radio" name="options" value={publiclyAvailable ?? 0} onChange={handlePublicAvailibilityToggle}>
           <ToggleButton id="tbg-radio-1" value = {0} style={{ backgroundColor: publiclyAvailable === 0 ? "red" : "white", color: publiclyAvailable === 0 ? "white" : "black", borderColor: "black"}}>
             No
           </ToggleButton>
