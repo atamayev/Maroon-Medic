@@ -291,6 +291,85 @@ export async function saveInsuranceData (req, res){
       }
 };
 
+// needs to be edited:
+export async function saveSpecialtyData (req, res){
+    const DoctorUUID = req.cookies.DoctorUUID;
+    const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
+    
+    const acceptedInsurances = req.body.Insurances;
+
+    const DB_name = 'DoctorDB';
+    const table_name = 'insurance_mapping';
+
+    const sql = `SELECT * FROM  ${table_name} WHERE Doctor_ID = ?`
+    const values = [DoctorID];
+    let results;
+    
+    await useDB(saveInsuranceData.name, DB_name, table_name);
+    try{
+        [results] = await connection.execute(sql, values);
+    }catch(error){
+        console.log(`error in ${saveInsuranceData.name}:`, error)
+        return res.status(400).json(false);
+    }
+
+    if (results.length > 0) {
+        // Doctor already has spoken insurances in the database
+        const oldInsurances = results.map(result => result.Insurance_ID); // old insurances are the insurances queried from the table^
+        const newInsurances = acceptedInsurances;
+
+        // Check for changes in spoken insurances
+        const addedInsurances = newInsurances.filter(insurance => !oldInsurances.includes(insurance));
+        const deletedInsurances = oldInsurances.filter(insurance => !newInsurances.includes(insurance));
+
+        if (addedInsurances.length > 0) {
+            console.log('adding insurances')
+            for (let i = 0; i<addedInsurances.length; i++){
+                const sql1 = `INSERT INTO ${table_name} (Insurance_ID, Doctor_ID) VALUES (?,?)`;
+                const values1 = [addedInsurances[i], DoctorID];
+                try{
+                    await connection.execute(sql1, values1);
+                }catch(error){
+                    console.log(`error in if ${saveInsuranceData.name}:`, error);
+                    return res.status(400).json(false);
+                }
+            }
+        }  
+        if (deletedInsurances.length > 0) {
+            console.log('deleting insurances')
+            for (let i = 0; i<deletedInsurances.length; i++){
+                const sql1 = `DELETE FROM ${table_name} WHERE Insurance_ID = ? AND Doctor_ID = ?`;
+                const values1 = [deletedInsurances[i], DoctorID];
+                try{
+                    await connection.execute(sql1, values1);
+                }catch(error){
+                    console.log(`error in if ${saveInsuranceData.name}:`, error);
+                    return res.status(400).json(false);
+                }
+            }
+        }
+        return res.status(200).json(true);
+      }
+      else if (acceptedInsurances.length > 0){
+        console.log('adding insurances in else')
+        for (let i=0; i<acceptedInsurances.length; i++){
+            const sql1 = `INSERT INTO ${table_name} (Insurance_ID, Doctor_ID) VALUES (?,?)`;
+            const values1 = [acceptedInsurances[i], DoctorID];
+            try{
+                await connection.execute(sql1, values1);
+            }catch(error){
+                console.log(`error in if ${saveInsuranceData.name}:`, error);
+                return res.status(400).json(false);
+            }
+        }
+        return res.status(200).json(true);
+      }
+      else{
+        console.log('elsed')
+        return res.status(400).json(false)
+      }
+};
+
 /** savePublicAvailibilityData is a Doctor-controlled function that allows them to say wheather or not they want their profile accessible to patients
  *  First, converts from UUID to ID. Then, updates the doctor's avalibility to whatever they did on the front-end. The request is only allowed to happen if the new availiblty status is dfferent from the old one.
  * @param {String} req Cookie from client, PublicAvailibility status

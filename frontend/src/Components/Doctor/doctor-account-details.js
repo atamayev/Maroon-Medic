@@ -18,6 +18,10 @@ export default function DoctorAccountDetails() {
   const [spokenLanguages, setSpokenLanguages] = useState(
     JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[1] || []
   );
+  const [selectedSpecialty, setSelectedSpecialty] = useState('');
+  const [doctorSpecialties, setDoctorSpecialties] = useState(
+    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[5] || []
+  );
   const [selectedInsurance, setSelectedInsurance] = useState('');
   const [acceptedInsurances, setAcceptedInsurances] = useState(
     JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[6] || []
@@ -108,6 +112,9 @@ export default function DoctorAccountDetails() {
             if(response.data[1]){
               setSpokenLanguages(response.data[1])
             }
+            if(response.data[5]){
+              setDoctorSpecialties(response.data[5])
+            }
             if(response.data[6]){
               setAcceptedInsurances(response.data[6])
             }
@@ -193,6 +200,60 @@ export default function DoctorAccountDetails() {
         }
       } catch(error) {
         console.log('error in saving languages', error)
+      }
+    }else{
+      console.log('same')
+    }
+  };
+
+  const handleSpecialtyChange = (event) => {
+    try{
+      const specialtyId = parseInt(event.target.value);
+      if (specialtyId) {
+        const specialty = listDetails[1].find(spec => spec.specialties_listID === specialtyId);
+        setSelectedSpecialty(specialty);
+      } else {
+        setSelectedSpecialty(null);
+      }
+    }catch (error) {
+    console.log('error in handle specialty change', error)
+  }
+
+  };
+  
+  const handleAddSpecialty = () => {
+    if(selectedSpecialty){
+      if(doctorSpecialties.length >0){
+        if(!doctorSpecialties.includes(selectedSpecialty)){
+          setSelectedSpecialty([...doctorSpecialties, selectedSpecialty]);
+        }
+      }else{
+        setSelectedSpecialty([selectedSpecialty]);
+      }
+    }
+    setSelectedSpecialty('');
+  };
+
+  const handleDeleteSpecialty = (specialty) => {
+    setDoctorSpecialties(doctorSpecialties.filter(s => s !== specialty));
+  };
+
+  async function saveSpecialies(){
+    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
+    const specialtyIds = doctorSpecialties.map(lang => lang.specialties_listID).sort((a,b)=>a-b); // spoken languages are those that are on server side. state changes when languages added/deleted
+    const savedSpecialties = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[5] || []
+    const savedSpecialtyIDs = savedSpecialties.map(specialty => specialty.specialties_listID).sort((a,b)=>a-b);
+
+    if(!checkIfListsAreEqual(specialtyIds, savedSpecialtyIDs)){//checks if they are the same
+      try {
+        const response = await PrivateDoctorDataService.saveSpecialties(specialtyIds)
+        if(response.status === 200){
+          DoctorAccountDetails[5] = doctorSpecialties;
+          sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+          console.log('Saved!');
+        }
+      } catch(error) {
+        console.log('error in saving specialites', error)
       }
     }else{
       console.log('same')

@@ -2,7 +2,10 @@ To-do:
 
 ASAP:
 
--- save langues/insuances can either add or delete, cann't do both .this is because it returns after add
+-- need to create save speciality data function, and the cascading dropdown.
+
+--make sure the list and doctccount data mathc up numbers (first one one both should be same)
+
 fill in the rest of list details
 	--checkbox integratoin vs dropdown. for insruances, checkbox. see email for details: "Fill in rest of lists"
 

@@ -130,8 +130,8 @@ export default new class FetchDoctorAccountData{
         }
     };
     
-    async FetchDoctorCertifications (DoctorID){
-        const functionName = this.FetchDoctorCertifications.bind(this).name;
+    async FetchDoctorSpecialties (DoctorID){
+        const functionName = this.FetchDoctorSpecialties.bind(this).name;
 
         const table_name1 = 'specialty_mapping';
         const table_name2 = 'specialties_list'
@@ -144,7 +144,7 @@ export default new class FetchDoctorAccountData{
         try{
             const [results] = await connection.execute(sql, values);
             if (results.length === 0) {
-                console.log('DoctorCertifications Data does not exist');
+                console.log('DoctorSpecialties Data does not exist');
                 return [];
             } else {
                 return (results);

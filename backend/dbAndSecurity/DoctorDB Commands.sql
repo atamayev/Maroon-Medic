@@ -199,7 +199,7 @@ FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 	ALTER TABLE specialty_mapping
 	ADD CONSTRAINT specialty_mapping_constraint
 	UNIQUE (Specialty_ID, Doctor_ID);
-    
+
 CREATE TABLE Doctor_addresses(
 addresses_ID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 address_line_1 VARCHAR(200),

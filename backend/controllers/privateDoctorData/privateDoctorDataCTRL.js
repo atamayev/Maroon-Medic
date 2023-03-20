@@ -161,7 +161,7 @@ export async function fetchAccountDetails (req, res){
         response.push(await FetchDoctorAccountData.FetchDoctorPictures(DoctorID));
         response.push(await FetchDoctorAccountData.FetchDoctorServices(DoctorID));
         response.push(await FetchDoctorAccountData.FetchDoctorAddressData(DoctorID));
-        response.push(await FetchDoctorAccountData.FetchDoctorCertifications(DoctorID));
+        response.push(await FetchDoctorAccountData.FetchDoctorSpecialties(DoctorID));
         response.push(await FetchDoctorAccountData.FetchDoctorInsurances(DoctorID));
         response.push(await FetchDoctorAccountData.FetchDoctorEducation(DoctorID));
         response.push(await FetchDoctorAccountData.FetchPubliclyAvailable(DoctorID));

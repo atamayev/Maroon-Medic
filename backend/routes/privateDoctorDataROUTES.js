@@ -11,6 +11,7 @@ import{
     savePersonalData, 
     saveDescriptionData,
     saveLanguageData,
+    saveSpecialtyData,
     saveInsuranceData,
     savePublicAvailibilityData
 }from "../controllers/privateDoctorData/saveDoctorDataCTRL.js";
@@ -27,6 +28,7 @@ router.get("/fetch-all-lists", FetchDoctorLists)
 router.post("/save-personal-data", savePersonalData)
 router.post("/save-description-data", saveDescriptionData)
 router.post("/save-language-data", saveLanguageData)
+router.post("/save-specialty-data", saveSpecialtyData)
 router.post("/save-insurance-data", saveInsuranceData)
 router.post("/save-public-availibility-data", savePublicAvailibilityData)
 export default router
