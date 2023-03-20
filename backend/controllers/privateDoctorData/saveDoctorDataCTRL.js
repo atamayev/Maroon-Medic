@@ -291,74 +291,84 @@ export async function saveInsuranceData (req, res){
       }
 };
 
-// needs to be edited:
+/** saveSpecialtyData is self-explanatory in name
+ *  First, converts from UUID to ID. Then, checks if any records exist in insurance_mapping with the user's id.
+ *  If results exist in insurance_mapping, then the 'difference' between the existing insurances in the db, and the new insurances are found.
+ *  If the difference is only that new insurances were added, then those insurances are inserted into the db
+ *  If the difference is that insurances that were previously there are now deleted, then those insurances get deleted from the DB (this is done via filtering in the code) 
+ *  If there are no results found initially, that means the user never inputed insurances. The user's new insurances are inserted.
+ * @param {String} req Cookie from client, insurance list
+ * @param {Boolean} res True/False
+ * @returns Returns true/false, depending on wheather the data was saved correctly
+ *  DOCUMENTATION LAST UPDATED 3/19/23
+ */
 export async function saveSpecialtyData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID;
     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
     
-    const acceptedInsurances = req.body.Insurances;
+    const doctorSpecialties = req.body.Specialties;
 
     const DB_name = 'DoctorDB';
-    const table_name = 'insurance_mapping';
+    const table_name = 'specialty_mapping';
 
     const sql = `SELECT * FROM  ${table_name} WHERE Doctor_ID = ?`
     const values = [DoctorID];
     let results;
     
-    await useDB(saveInsuranceData.name, DB_name, table_name);
+    await useDB(saveSpecialtyData.name, DB_name, table_name);
     try{
         [results] = await connection.execute(sql, values);
     }catch(error){
-        console.log(`error in ${saveInsuranceData.name}:`, error)
+        console.log(`error in ${saveSpecialtyData.name}:`, error)
         return res.status(400).json(false);
     }
 
     if (results.length > 0) {
-        // Doctor already has spoken insurances in the database
-        const oldInsurances = results.map(result => result.Insurance_ID); // old insurances are the insurances queried from the table^
-        const newInsurances = acceptedInsurances;
+        // Doctor already has spoken specialties in the database
+        const oldSpecialties = results.map(result => result.Specialty_ID); // old specialties are the specialties queried from the table^
+        const newSpecialties = doctorSpecialties;
 
-        // Check for changes in spoken insurances
-        const addedInsurances = newInsurances.filter(insurance => !oldInsurances.includes(insurance));
-        const deletedInsurances = oldInsurances.filter(insurance => !newInsurances.includes(insurance));
+        // Check for changes in spoken specialties
+        const addedSpecialties = newSpecialties.filter(specialty => !oldSpecialties.includes(specialty));
+        const deletedSpecialties = oldSpecialties.filter(specialty => !newSpecialties.includes(specialty));
 
-        if (addedInsurances.length > 0) {
-            console.log('adding insurances')
-            for (let i = 0; i<addedInsurances.length; i++){
-                const sql1 = `INSERT INTO ${table_name} (Insurance_ID, Doctor_ID) VALUES (?,?)`;
-                const values1 = [addedInsurances[i], DoctorID];
+        if (addedSpecialties.length > 0) {
+            console.log('adding specialties')
+            for (let i = 0; i<addedSpecialties.length; i++){
+                const sql1 = `INSERT INTO ${table_name} (Specialty_ID, Doctor_ID) VALUES (?,?)`;
+                const values1 = [addedSpecialties[i], DoctorID];
                 try{
                     await connection.execute(sql1, values1);
                 }catch(error){
-                    console.log(`error in if ${saveInsuranceData.name}:`, error);
+                    console.log(`error in if ${saveSpecialtyData.name}:`, error);
                     return res.status(400).json(false);
                 }
             }
         }  
-        if (deletedInsurances.length > 0) {
-            console.log('deleting insurances')
-            for (let i = 0; i<deletedInsurances.length; i++){
-                const sql1 = `DELETE FROM ${table_name} WHERE Insurance_ID = ? AND Doctor_ID = ?`;
-                const values1 = [deletedInsurances[i], DoctorID];
+        if (deletedSpecialties.length > 0) {
+            console.log('deleting specialties')
+            for (let i = 0; i<deletedSpecialties.length; i++){
+                const sql1 = `DELETE FROM ${table_name} WHERE Specialty_ID = ? AND Doctor_ID = ?`;
+                const values1 = [deletedSpecialties[i], DoctorID];
                 try{
                     await connection.execute(sql1, values1);
                 }catch(error){
-                    console.log(`error in if ${saveInsuranceData.name}:`, error);
+                    console.log(`error in if ${saveSpecialtyData.name}:`, error);
                     return res.status(400).json(false);
                 }
             }
         }
         return res.status(200).json(true);
       }
-      else if (acceptedInsurances.length > 0){
-        console.log('adding insurances in else')
-        for (let i=0; i<acceptedInsurances.length; i++){
-            const sql1 = `INSERT INTO ${table_name} (Insurance_ID, Doctor_ID) VALUES (?,?)`;
-            const values1 = [acceptedInsurances[i], DoctorID];
+      else if (doctorSpecialties.length > 0){
+        console.log('adding specialties in else')
+        for (let i=0; i<doctorSpecialties.length; i++){
+            const sql1 = `INSERT INTO ${table_name} (Specialty_ID, Doctor_ID) VALUES (?,?)`;
+            const values1 = [doctorSpecialties[i], DoctorID];
             try{
                 await connection.execute(sql1, values1);
             }catch(error){
-                console.log(`error in if ${saveInsuranceData.name}:`, error);
+                console.log(`error in if ${saveSpecialtyData.name}:`, error);
                 return res.status(400).json(false);
             }
         }

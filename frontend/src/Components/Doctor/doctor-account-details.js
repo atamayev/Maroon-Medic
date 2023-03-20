@@ -22,6 +22,7 @@ export default function DoctorAccountDetails() {
   const [doctorSpecialties, setDoctorSpecialties] = useState(
     JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[5] || []
   );
+  const [selectedOrganization, setSelectedOrganization] = useState('');
   const [selectedInsurance, setSelectedInsurance] = useState('');
   const [acceptedInsurances, setAcceptedInsurances] = useState(
     JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[6] || []
@@ -206,6 +207,14 @@ export default function DoctorAccountDetails() {
     }
   };
 
+  const handleOrganizationChange = (event) =>{
+    try{
+      setSelectedOrganization(event.target.value)
+    }catch(error){
+
+    }
+  }
+
   const handleSpecialtyChange = (event) => {
     try{
       const specialtyId = parseInt(event.target.value);
@@ -217,9 +226,9 @@ export default function DoctorAccountDetails() {
       }
     }catch (error) {
     console.log('error in handle specialty change', error)
-  }
-
+    }
   };
+
   
   const handleAddSpecialty = () => {
     if(selectedSpecialty){
@@ -436,7 +445,7 @@ export default function DoctorAccountDetails() {
       <Carousel.Item>
         <img
           className="d-block w-100"
-          src = "../Images/ProfileImage.jpg"
+          src = "../../Images/ProfileImage.jpg"
           // src="holder.js/800x400?text=First slide&bg=373940"
           alt="First slide"
         />
@@ -449,7 +458,7 @@ export default function DoctorAccountDetails() {
       <Carousel.Item>
         <img
           className="d-block w-100"
-          src="holder.js/800x400?text=Second slide&bg=282c34"
+          src = "../../Images/ProfileImage.jpg"
           alt="Second slide"
         />
         <Carousel.Caption>
@@ -473,6 +482,52 @@ export default function DoctorAccountDetails() {
       </Carousel.Item>
       </Carousel>   
       <br/>
+
+      <Card>
+    <Card.Body>
+    Specialties
+    <label htmlFor="organization-select"></label>
+    <br/>
+      <select id="organization-select" value={selectedSpecialty.Organization_name} onChange={handleOrganizationChange}>
+        <option value="">-- Select an organization --</option>
+        {Array.isArray(listDetails[1]) && listDetails[1].length > 0 && [...new Set(listDetails[1].map((organization) => organization.Organization_name))].map((organizationName) => {
+      const organization = listDetails[1].find((o) => o.Organization_name === organizationName);
+      return (
+            <option key={organization.id} value={organization.id}>
+              {organization.Organization_name}
+            </option>
+          );
+        })}
+      </select>
+      {selectedSpecialty.Specialty_name && (
+        <>
+          <br />
+          <label htmlFor="specialty-select">Specialty:</label>
+          <select id="specialty-select" value={selectedSpecialty.Specialty_name} onChange={handleSpecialtyChange}>
+            <option value="">-- Select a specialty --</option>
+            {Array.isArray(listDetails[1]) && listDetails[1].length > 0 && listDetails[1].map((specialty)  => (
+              <option key={specialty.specialties_listID} value={specialty.specialties_listID}>
+                {specialty.Specialty_name}
+              </option>
+            ))}
+          </select>
+
+        </>
+      )}
+        <Button onClick={handleAddSpecialty}>Add</Button>
+          <ul>
+            {Array.isArray(doctorSpecialties) && doctorSpecialties.map(specialty => (
+            <li key={specialty.specialty_listID}>
+              {specialty.Organization_name}, {specialty.Specialty_name} 
+              <Button onClick={() => handleDeleteSpecialty(specialty)}>x</Button>
+            </li>
+            ))}
+          </ul>
+          <Button onClick={saveInsurances}>Save</Button>
+
+      </Card.Body>
+    </Card>
+    <br/>
 
     <Card>
     <Card.Body>

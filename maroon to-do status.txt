@@ -2,6 +2,8 @@ To-do:
 
 ASAP:
 
+--create one save function for all of similar sql tables (insurances, langauges, etc. can all be in one function, template literals the reest)
+
 -- need to create save speciality data function, and the cascading dropdown.
 
 --make sure the list and doctccount data mathc up numbers (first one one both should be same)
