@@ -196,6 +196,7 @@ FOREIGN KEY (Specialty_ID) REFERENCES specialties_list(specialties_listID),
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 
+SELECT * FROM specialty_mapping;
 	ALTER TABLE specialty_mapping
 	ADD CONSTRAINT specialty_mapping_constraint
 	UNIQUE (Specialty_ID, Doctor_ID);

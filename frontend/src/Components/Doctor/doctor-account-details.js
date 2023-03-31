@@ -18,11 +18,11 @@ export default function DoctorAccountDetails() {
   const [spokenLanguages, setSpokenLanguages] = useState(
     JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[1] || []
   );
-  const [selectedSpecialty, setSelectedSpecialty] = useState('');
+  const [selectedSpecialties, setSelectedSpecialties] = useState([]);
+  const [selectedOrganization, setSelectedOrganization] = useState('');
   const [doctorSpecialties, setDoctorSpecialties] = useState(
     JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[5] || []
   );
-  const [selectedOrganization, setSelectedOrganization] = useState('');
   const [selectedInsurance, setSelectedInsurance] = useState('');
   const [acceptedInsurances, setAcceptedInsurances] = useState(
     JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[6] || []
@@ -206,45 +206,45 @@ export default function DoctorAccountDetails() {
       console.log('same')
     }
   };
-
-  const handleOrganizationChange = (event) =>{
-    try{
-      setSelectedOrganization(event.target.value)
-    }catch(error){
-
-    }
-  }
-
-  const handleSpecialtyChange = (event) => {
-    try{
-      const specialtyId = parseInt(event.target.value);
-      if (specialtyId) {
-        const specialty = listDetails[1].find(spec => spec.specialties_listID === specialtyId);
-        setSelectedSpecialty(specialty);
-      } else {
-        setSelectedSpecialty(null);
-      }
-    }catch (error) {
-    console.log('error in handle specialty change', error)
+  const handleSelectSpecialty = (event) => {
+    const specialty = listDetails[1].find((item) => item.specialties_listID === parseInt(event.target.value));
+    if (specialty) {
+      setSelectedSpecialties([...selectedSpecialties, specialty]);
     }
   };
+
+  // const handleSelectSpecialty  = (specialty) => {
+  //   setSelectedSpecialties([...selectedSpecialties, specialty])
+  //   // try{
+  //   //   const specialtyId = parseInt(event.target.value);
+  //   //   if (specialtyId) {
+  //   //     const specialty = listDetails[1].find(spec => spec.specialties_listID === specialtyId);
+  //   //     setSelectedSpecialty(specialty);
+  //   //   } else {
+  //   //     setSelectedSpecialty(null);
+  //   //   }
+  //   // }catch (error) {
+  //   // console.log('error in handle specialty change', error)
+  //   // }
+  // };
 
   
-  const handleAddSpecialty = () => {
-    if(selectedSpecialty){
-      if(doctorSpecialties.length >0){
-        if(!doctorSpecialties.includes(selectedSpecialty)){
-          setSelectedSpecialty([...doctorSpecialties, selectedSpecialty]);
-        }
-      }else{
-        setSelectedSpecialty([selectedSpecialty]);
-      }
-    }
-    setSelectedSpecialty('');
-  };
+  // const handleAddSpecialty = () => {
+  //   if(selectedSpecialty){
+  //     if(doctorSpecialties.length >0){
+  //       if(!doctorSpecialties.includes(selectedSpecialty)){
+  //         setSelectedSpecialty([...doctorSpecialties, selectedSpecialty]);
+  //       }
+  //     }else{
+  //       setSelectedSpecialty([selectedSpecialty]);
+  //     }
+  //   }
+  //   setSelectedSpecialty('');
+  // };
 
-  const handleDeleteSpecialty = (specialty) => {
-    setDoctorSpecialties(doctorSpecialties.filter(s => s !== specialty));
+  const handleDeleteSpecialty = (index) => {
+    setSelectedSpecialties(selectedSpecialties.filter((_, i) => i !== index));
+    // setDoctorSpecialties(doctorSpecialties.filter(s => s !== index));
   };
 
   async function saveSpecialies(){
@@ -268,6 +268,11 @@ export default function DoctorAccountDetails() {
       console.log('same')
     }
   };
+
+  const organizations = Array.from(new Set(listDetails[1].map((item) => item.Organization_name)));
+  const specialties = selectedOrganization
+    ? listDetails[1].filter((item) => item.Organization_name === selectedOrganization)
+    : [];
 
   const handleInsuranceChange = (event) => {
     try {
@@ -483,12 +488,46 @@ export default function DoctorAccountDetails() {
       </Carousel>   
       <br/>
 
-      <Card>
+    <Card>
     <Card.Body>
-    Specialties
-    <label htmlFor="organization-select"></label>
-    <br/>
-      <select id="organization-select" value={selectedSpecialty.Organization_name} onChange={handleOrganizationChange}>
+    
+    <label htmlFor="organization">Select an organization: </label>
+      <select
+        id="organization"
+        name="organization"
+        value={selectedOrganization}
+        onChange={(e) => setSelectedOrganization(e.target.value)}
+      >
+        <option value="">Choose an organization</option>
+        {organizations.map((organization, index) => (
+          <option key={index} value={organization}>
+            {organization}
+          </option>
+        ))}
+      </select>
+      {selectedOrganization && (
+        <>
+          <label htmlFor="specialty">Select a specialty: </label>
+          <select id="specialty" name="specialty" onChange={handleSelectSpecialty}>
+            <option value="">Choose a specialty</option>
+            {specialties.map((specialty) => (
+              <option key={specialty.specialties_listID} value={specialty.specialties_listID}>
+                {specialty.Specialty_name}
+              </option>
+            ))}
+          </select>
+        </>
+      )}
+      <ul>
+        {selectedSpecialties.map((specialty, index) => (
+          <li key={index}>
+            {specialty.Organization_name} - {specialty.Specialty_name}{' '}
+            <button onClick={() => handleDeleteSpecialty(index)}>X</button>
+          </li>
+        ))}
+      </ul>
+      <button onClick={saveSpecialies}>Save</button>
+      {/* <select id="organization-select" value={selectedSpecialty.Organization_name} onChange={handleOrganizationChange}>
         <option value="">-- Select an organization --</option>
         {Array.isArray(listDetails[1]) && listDetails[1].length > 0 && [...new Set(listDetails[1].map((organization) => organization.Organization_name))].map((organizationName) => {
       const organization = listDetails[1].find((o) => o.Organization_name === organizationName);
@@ -523,7 +562,7 @@ export default function DoctorAccountDetails() {
             </li>
             ))}
           </ul>
-          <Button onClick={saveInsurances}>Save</Button>
+          <Button onClick={saveInsurances}>Save</Button> */}
 
       </Card.Body>
     </Card>
@@ -648,3 +687,4 @@ export default function DoctorAccountDetails() {
   </div>
   )
 };
+

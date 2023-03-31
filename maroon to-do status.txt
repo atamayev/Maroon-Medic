@@ -6,7 +6,12 @@ ASAP:
 
 -- need to create save speciality data function, and the cascading dropdown.
 
---make sure the list and doctccount data mathc up numbers (first one one both should be same)
+-- before saving email to db, make sure it is lowercase, so that when searching db, it is done in uniform way
+	save emails as lowercase. then, when logging in, email should be lowercased before searching the db.
+	-- figure out which data should be encrypted by the db. data at rest encryption
+
+--make sure the list and doctor account data mathc up numbers (first one one both should be same)
+	the indeces of each type of category should be the same (ie specialiteis should have hte same number for both)
 
 fill in the rest of list details
 	--checkbox integratoin vs dropdown. for insruances, checkbox. see email for details: "Fill in rest of lists"
