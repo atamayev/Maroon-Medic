@@ -10,28 +10,32 @@ export default function DoctorAccountDetails() {
   const {user_verification} = useContext(VerifyContext);
   const [user_type, setUser_type] = useState(null);
   const [carouselIndex, setCarouselIndex] = useState(0);
+  
+  const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false);
   const [description, setDescription] = useState(
     JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[0] || {}
   );
-  const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false);
+
   const [selectedLanguage, setSelectedLanguage] = useState('');
   const [spokenLanguages, setSpokenLanguages] = useState(
     JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[1] || []
   );
-  const [selectedSpecialties, setSelectedSpecialties] = useState([]);
+
   const [selectedOrganization, setSelectedOrganization] = useState('');
+  const [selectedSpecialty, setSelectedSpecialties] = useState('');
   const [doctorSpecialties, setDoctorSpecialties] = useState(
     JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[5] || []
   );
+
   const [selectedInsurance, setSelectedInsurance] = useState('');
   const [acceptedInsurances, setAcceptedInsurances] = useState(
     JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[6] || []
   );
+
+  const verified = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[8][0].Verified || []
   const [publiclyAvailable, setPubliclyAvailable] = useState(
     JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[8][0]?.PubliclyAvailable || 0
   );
-  const verified = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[8][0].Verified || []
-
 
   useEffect(()=>{
     console.log('in accountDetails useEffect')
@@ -205,20 +209,41 @@ export default function DoctorAccountDetails() {
       console.log('same')
     }
   };
+
   const handleSelectSpecialty = (event) => {
-    const specialty = listDetails[1].find((item) => item.specialties_listID === parseInt(event.target.value));
-    if (specialty) {
-      setSelectedSpecialties([...selectedSpecialties, specialty]);
-    }
+    try{
+      const specialtyId = parseInt(event.target.value);
+      if (specialtyId) {
+        const specialty = listDetails[1].find((item) => item.specialties_listID === parseInt(event.target.value));
+        setSelectedSpecialties(specialty);
+      } else {
+        setSelectedSpecialties(null);
+      }
+    }catch (error) {
+    console.log('error in handleSelectSpecialty', error)
+  }
   };
 
-  const handleDeleteSpecialty = (index) => {
-    setSelectedSpecialties(selectedSpecialties.filter((_, i) => i !== index));
+  const handleAddSpecialty = () => {
+    if(selectedSpecialty){
+      if(doctorSpecialties.length >0){
+        if(!doctorSpecialties.includes(selectedSpecialty)){
+          setDoctorSpecialties([...doctorSpecialties, selectedSpecialty]);
+        }
+      }else{
+        setDoctorSpecialties([selectedSpecialty]);
+      }
+    }
+    setSelectedSpecialties('');
+  };
+
+  const handleDeleteSpecialty = (specialty) => {
+    setDoctorSpecialties(doctorSpecialties.filter(s => s !== specialty));
   };
 
   async function saveSpecialies(){
     const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-    const specialtyIds = doctorSpecialties.map(lang => lang.specialties_listID).sort((a,b)=>a-b); // spoken languages are those that are on server side. state changes when languages added/deleted
+    const specialtyIds = doctorSpecialties.map(specialty => specialty.specialties_listID).sort((a,b)=>a-b); // spoken languages are those that are on server side. state changes when languages added/deleted
     const savedSpecialties = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[5] || []
     const savedSpecialtyIDs = savedSpecialties.map(specialty => specialty.specialties_listID).sort((a,b)=>a-b);
 
@@ -459,7 +484,7 @@ export default function DoctorAccountDetails() {
     <Card>
     <Card.Body>
     {Array.from(new Set(listDetails[1]?.map((item) => item.Organization_name))).length > 0 ? (
-              <>
+      <>
         <label htmlFor="organization">Select an organization: </label>
       <select
         id="organization"
@@ -479,7 +504,7 @@ export default function DoctorAccountDetails() {
       {selectedOrganization && (
         <>
           <label htmlFor="specialty">Select a specialty: </label>
-          <select id="specialty" name="specialty" onChange={handleSelectSpecialty}>
+          <select id="specialty" name="specialty" value={selectedSpecialty?.specialties_listID || ''}onChange={handleSelectSpecialty}>
             <option value="">Choose a specialty</option>
             {specialties.map((specialty) => (
               <option key={specialty.specialties_listID} value={specialty.specialties_listID}>
@@ -487,13 +512,16 @@ export default function DoctorAccountDetails() {
               </option>
             ))}
           </select>
+          <Button onClick={handleAddSpecialty}>Add</Button>
+
         </>
+        
       )}
       <ul>
-        {selectedSpecialties.map((specialty, index) => (
-          <li key={index}>
+        {doctorSpecialties.map(specialty => (
+          <li key={specialty.specialties_listID}>
             {specialty.Organization_name} - {specialty.Specialty_name}{' '}
-            <button onClick={() => handleDeleteSpecialty(index)}>X</button>
+            <Button onClick={() => handleDeleteSpecialty(specialty)}>X</Button>
           </li>
         ))}
       </ul>
@@ -551,7 +579,8 @@ export default function DoctorAccountDetails() {
       <ul>
         {Array.isArray(spokenLanguages) && spokenLanguages.map(language => (
         <li key={language.language_listID}>
-          {language.Language_name} <Button onClick={() => handleDeleteLanguage(language)}>x</Button>
+          {language.Language_name} 
+          <Button onClick={() => handleDeleteLanguage(language)}>x</Button>
         </li>
         ))}
       </ul>
