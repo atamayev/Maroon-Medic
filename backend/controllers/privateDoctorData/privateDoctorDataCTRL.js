@@ -156,14 +156,14 @@ export async function fetchAccountDetails (req, res){
     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor');
     let response = [];
     try{
-        response.push(await FetchDoctorAccountData.FetchDescriptionData(DoctorID)); 
-        response.push(await FetchDoctorAccountData.FetchDoctorLanguages(DoctorID)); 
-        response.push(await FetchDoctorAccountData.FetchDoctorPictures(DoctorID));
-        response.push(await FetchDoctorAccountData.FetchDoctorServices(DoctorID));
-        response.push(await FetchDoctorAccountData.FetchDoctorAddressData(DoctorID));
-        response.push(await FetchDoctorAccountData.FetchDoctorSpecialties(DoctorID));
         response.push(await FetchDoctorAccountData.FetchDoctorInsurances(DoctorID));
+        response.push(await FetchDoctorAccountData.FetchDoctorLanguages(DoctorID)); 
+        response.push(await FetchDoctorAccountData.FetchDoctorServices(DoctorID));
+        response.push(await FetchDoctorAccountData.FetchDoctorSpecialties(DoctorID));
         response.push(await FetchDoctorAccountData.FetchDoctorEducation(DoctorID));
+        response.push(await FetchDoctorAccountData.FetchDoctorAddressData(DoctorID));
+        response.push(await FetchDoctorAccountData.FetchDescriptionData(DoctorID)); 
+        response.push(await FetchDoctorAccountData.FetchDoctorPictures(DoctorID));
         response.push(await FetchDoctorAccountData.FetchPubliclyAvailable(DoctorID));
         return res.status(200).json(response);
     }catch(error){
@@ -180,15 +180,15 @@ export async function fetchAccountDetails (req, res){
  * DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function FetchDoctorLists (req, res){
-    let response = [];
     try{
-        response.push(await FetchAllDoctorLists.fetchAllLanguages()); 
-        response.push(await FetchAllDoctorLists.fetchAllSpecialties()); 
-        response.push(await FetchAllDoctorLists.fetchAllServicesAndCategories());
-        response.push(await FetchAllDoctorLists.fetchAllSchools());
-        response.push(await FetchAllDoctorLists.fetchAllMajors());
+        let response = [];
         response.push(await FetchAllDoctorLists.fetchAllInsurances());
+        response.push(await FetchAllDoctorLists.fetchAllLanguages());
+        response.push(await FetchAllDoctorLists.fetchAllServicesAndCategories());
+        response.push(await FetchAllDoctorLists.fetchAllSpecialties());
         response.push(await FetchAllDoctorLists.fetchAllEducationTypes());
+        response.push(await FetchAllDoctorLists.fetchAllMajors());
+        response.push(await FetchAllDoctorLists.fetchAllSchools());
         return res.status(200).json(response);
     }catch(error){
         console.log('error in accountDetails', error);

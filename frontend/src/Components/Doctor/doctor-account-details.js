@@ -11,9 +11,9 @@ export default function DoctorAccountDetails() {
   const [user_type, setUser_type] = useState(null);
   const [carouselIndex, setCarouselIndex] = useState(0);
   
-  const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false);
-  const [description, setDescription] = useState(
-    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[0] || {}
+  const [selectedInsurance, setSelectedInsurance] = useState('');
+  const [acceptedInsurances, setAcceptedInsurances] = useState(
+    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[0] || []
   );
 
   const [selectedLanguage, setSelectedLanguage] = useState('');
@@ -24,12 +24,12 @@ export default function DoctorAccountDetails() {
   const [selectedOrganization, setSelectedOrganization] = useState('');
   const [selectedSpecialty, setSelectedSpecialties] = useState('');
   const [doctorSpecialties, setDoctorSpecialties] = useState(
-    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[5] || []
+    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[3] || []
   );
 
-  const [selectedInsurance, setSelectedInsurance] = useState('');
-  const [acceptedInsurances, setAcceptedInsurances] = useState(
-    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[6] || []
+  const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false);
+  const [description, setDescription] = useState(
+    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[6] || {}
   );
 
   const verified = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[8][0].Verified || []
@@ -108,20 +108,20 @@ export default function DoctorAccountDetails() {
         const response = await PrivateDoctorDataService.fillAccountDetails();
         // console.log(response.data)
         if (response){
-            if(response.data[0] && Object.keys(response.data[0]).length > 0){
-              setDescription(response.data[0]);
-              if(response.data[0].Description.length === 1000){
-                setIsDescriptionOverLimit(true);
-              }
+            if(response.data[0]){
+              setAcceptedInsurances(response.data[0])
             }
             if(response.data[1]){
               setSpokenLanguages(response.data[1])
             }
-            if(response.data[5]){
-              setDoctorSpecialties(response.data[5])
+            if(response.data[3]){
+              setDoctorSpecialties(response.data[3])
             }
-            if(response.data[6]){
-              setAcceptedInsurances(response.data[6])
+            if(response.data[6] && Object.keys(response.data[6]).length > 0){
+              setDescription(response.data[6]);
+              if(response.data[6].Description.length === 1000){
+                setIsDescriptionOverLimit(true);
+              }
             }
             if(response.data[8][0].PubliclyAvailable){
               setPubliclyAvailable(response.data[8][0].PubliclyAvailable)
@@ -161,14 +161,14 @@ export default function DoctorAccountDetails() {
     try{
       const languageId = parseInt(event.target.value);
       if (languageId) {
-        const language = listDetails[0].find(lang => lang.language_listID === languageId);
+        const language = listDetails[1].find(lang => lang.language_listID === languageId);
         setSelectedLanguage(language);
       } else {
         setSelectedLanguage(null);
       }
     }catch (error) {
     console.log('error in handle language change', error)
-  }
+    }
   };
   
   const handleAddLanguage = () => {
@@ -214,7 +214,7 @@ export default function DoctorAccountDetails() {
     try{
       const specialtyId = parseInt(event.target.value);
       if (specialtyId) {
-        const specialty = listDetails[1].find((item) => item.specialties_listID === parseInt(event.target.value));
+        const specialty = listDetails[3].find((item) => item.specialties_listID === parseInt(event.target.value));
         setSelectedSpecialties(specialty);
       } else {
         setSelectedSpecialties(null);
@@ -244,14 +244,14 @@ export default function DoctorAccountDetails() {
   async function saveSpecialies(){
     const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
     const specialtyIds = doctorSpecialties.map(specialty => specialty.specialties_listID).sort((a,b)=>a-b); // spoken languages are those that are on server side. state changes when languages added/deleted
-    const savedSpecialties = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[5] || []
+    const savedSpecialties = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[3] || []
     const savedSpecialtyIDs = savedSpecialties.map(specialty => specialty.specialties_listID).sort((a,b)=>a-b);
 
     if(!checkIfListsAreEqual(specialtyIds, savedSpecialtyIDs)){//checks if they are the same
       try {
         const response = await PrivateDoctorDataService.saveGeneralData(specialtyIds, 'Specialty')
         if(response.status === 200){
-          DoctorAccountDetails[5] = doctorSpecialties;
+          DoctorAccountDetails[3] = doctorSpecialties;
           sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
           console.log('Saved!');
         }
@@ -264,14 +264,14 @@ export default function DoctorAccountDetails() {
   };
 
   const specialties = selectedOrganization
-    ? listDetails[1].filter((item) => item.Organization_name === selectedOrganization)
+    ? listDetails[3].filter((item) => item.Organization_name === selectedOrganization)
     : [];
 
   const handleInsuranceChange = (event) => {
     try {
       const insuranceId = parseInt(event.target.value);
       if (insuranceId) {
-        const insurance = listDetails[5].find(ins => ins.insurance_listID === insuranceId);
+        const insurance = listDetails[0].find(ins => ins.insurance_listID === insuranceId);
         setSelectedInsurance(insurance);
       } else {
         setSelectedInsurance(null);
@@ -301,14 +301,14 @@ export default function DoctorAccountDetails() {
   async function saveInsurances(){
     const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
     const insuranceIds = acceptedInsurances.map(ins => ins.insurance_listID).sort((a,b)=>a-b); // list of all added insurances
-    const savedInsurances = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[6] || []
+    const savedInsurances = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[0] || []
     const savedInsurancesIDs = savedInsurances.map(insurance => insurance.insurance_listID).sort((a,b)=>a-b);
 
     if(!checkIfListsAreEqual(insuranceIds, savedInsurancesIDs)){//only saves if the insurances changed
       try {
         const response = await PrivateDoctorDataService.saveGeneralData(insuranceIds, 'Insurance')
         if(response.status === 200){
-          DoctorAccountDetails[6] = acceptedInsurances;
+          DoctorAccountDetails[0] = acceptedInsurances;
           sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
           console.log('Saved!');
         }
@@ -353,11 +353,11 @@ export default function DoctorAccountDetails() {
   async function saveDescription(event){
     event.preventDefault();
     const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-    if(description.Description !== DoctorAccountDetails[0].Description){//makes sure that it's only pushing to DB if description changed
+    if(description.Description !== DoctorAccountDetails[6].Description){//makes sure that it's only pushing to DB if description changed
       try {
         const response = await PrivateDoctorDataService.saveDescriptionData(description);
         if(response.status === 200){
-          DoctorAccountDetails[0] = description;
+          DoctorAccountDetails[6] = description;
           sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
           console.log('Saved!');
         }
@@ -481,58 +481,68 @@ export default function DoctorAccountDetails() {
       </Carousel>   
       <br/>
 
-    <Card>
-    <Card.Body>
-    {Array.from(new Set(listDetails[1]?.map((item) => item.Organization_name))).length > 0 ? (
-      <>
-        <label htmlFor="organization">Select an organization: </label>
-      <select
-        id="organization"
-        name="organization"
-        value={selectedOrganization}
-        onChange={(e) => setSelectedOrganization(e.target.value)}
-      >
-        <option value="">Choose an organization</option>
-        {Array.from(new Set(listDetails[1]?.map((item) => item.Organization_name))).map(
-        (organization, index) => (
-          <option key={index} value={organization}>
-            {organization}
-          </option>
-        ))}
-      </select>
-      <br/>
-      {selectedOrganization && (
-        <>
-          <label htmlFor="specialty">Select a specialty: </label>
-          <select id="specialty" name="specialty" value={selectedSpecialty?.specialties_listID || ''}onChange={handleSelectSpecialty}>
-            <option value="">Choose a specialty</option>
-            {specialties.map((specialty) => (
-              <option key={specialty.specialties_listID} value={specialty.specialties_listID}>
-                {specialty.Specialty_name}
-              </option>
-            ))}
-          </select>
-          <Button onClick={handleAddSpecialty}>Add</Button>
-
-        </>
-        
-      )}
-      <ul>
-        {doctorSpecialties.map(specialty => (
-          <li key={specialty.specialties_listID}>
-            {specialty.Organization_name} - {specialty.Specialty_name}{' '}
-            <Button onClick={() => handleDeleteSpecialty(specialty)}>X</Button>
-          </li>
-        ))}
-      </ul>
-      <Button onClick={saveSpecialies}>Save</Button>
-        </>
-      ):(
-        <p>Loading</p>
-      )
-      }
-      </Card.Body>
-    </Card>
+      <Card>
+        <Card.Body>
+          {Array.from(new Set(listDetails[3]?.map((item) => item.Organization_name))).length > 0 ? (
+            <>
+              <label htmlFor="organization">Select an organization: </label>
+              <select
+                id="organization"
+                name="organization"
+                value={selectedOrganization}
+                onChange={(e) => setSelectedOrganization(e.target.value)}
+              >
+                <option value="">Choose an organization</option>
+                {Array.from(new Set(listDetails[3]?.map((item) => item.Organization_name))).map(
+                  (organization, index) => (
+                    <option key={index} value={organization}>
+                      {organization}
+                    </option>
+                  ))}
+              </select>
+              <br />
+              {selectedOrganization && (
+                <>
+                  <label htmlFor="specialty">Select a specialty: </label>
+                  <select
+                    id="specialty"
+                    name="specialty"
+                    value={selectedSpecialty?.specialties_listID || ""}
+                    onChange={handleSelectSpecialty}
+                  >
+                    <option value="">Choose a specialty</option>
+                    {specialties
+                      .filter(
+                        (specialty) =>
+                          !doctorSpecialties.find(
+                            (doctorSpecialty) =>
+                              doctorSpecialty.specialties_listID === specialty.specialties_listID
+                          )
+                      )
+                      .map((specialty) => (
+                        <option key={specialty.specialties_listID} value={specialty.specialties_listID}>
+                          {specialty.Specialty_name}
+                        </option>
+                      ))}
+                  </select>
+                  <Button onClick={handleAddSpecialty}>Add</Button>
+                </>
+              )}
+              <ul>
+                {doctorSpecialties.map((specialty) => (
+                  <li key={specialty.specialties_listID}>
+                    {specialty.Organization_name} - {specialty.Specialty_name}{" "}
+                    <Button onClick={() => handleDeleteSpecialty(specialty)}>X</Button>
+                  </li>
+                ))}
+              </ul>
+              <Button onClick={saveSpecialies}>Save</Button>
+            </>
+          ) : (
+            <p>Loading</p>
+          )}
+        </Card.Body>
+      </Card>
     <br/>
 
     <Card>
@@ -542,11 +552,15 @@ export default function DoctorAccountDetails() {
     <label htmlFor="insurance">Select a insurance: </label>
       <select id="insurance" name="insurance" value={selectedInsurance?.insurance_listID || ''} onChange={handleInsuranceChange}>
         <option value ="">Choose an insurance</option>
-        {Array.isArray(listDetails[5]) && listDetails[5].length > 0 && listDetails[5].map((insurance) => (
-        <option key={insurance?.insurance_listID} value={insurance?.insurance_listID}>
-          {insurance?.Insurance_name}
-        </option>
-      ))}
+        {Array.isArray(listDetails[0]) &&
+            listDetails[0].length > 0 &&
+            listDetails[0]
+              .filter((insurance) => !acceptedInsurances.find((accepted) => accepted.insurance_listID === insurance.insurance_listID))
+              .map((insurance) => (
+                <option key={insurance?.insurance_listID} value={insurance?.insurance_listID}>
+                  {insurance?.Insurance_name}
+                </option>
+        ))}
       </select>
       <Button onClick={handleAddInsurance}>Add</Button>
       <ul>
@@ -567,24 +581,35 @@ export default function DoctorAccountDetails() {
     Languages
     <br/>
     <label htmlFor="language">Select a language: </label>
-      <select id="language" name="language" value={selectedLanguage?.language_listID || ''} onChange={handleLanguageChange}>
-        <option value="">Choose a language</option>
-        {Array.isArray(listDetails[0]) && listDetails[0].length > 0 && listDetails[0].map((language) => (
-        <option key={language?.language_listID} value={language?.language_listID}>
-          {language?.Language_name}
-        </option>
-      ))}
-      </select>
-      <Button onClick={handleAddLanguage}>Add</Button>
-      <ul>
-        {Array.isArray(spokenLanguages) && spokenLanguages.map(language => (
-        <li key={language.language_listID}>
-          {language.Language_name} 
-          <Button onClick={() => handleDeleteLanguage(language)}>x</Button>
-        </li>
+    <select
+      id="language"
+      name="language"
+      value={selectedLanguage?.language_listID || ""}
+      onChange={handleLanguageChange}
+    >
+      <option value="">Choose a language</option>
+      {Array.isArray(listDetails[1]) &&
+        listDetails[1].length > 0 &&
+        listDetails[1]
+          .filter((language) => !spokenLanguages.find((spoken) => spoken.language_listID === language.language_listID))
+          .map((language) => (
+            <option key={language?.language_listID} value={language?.language_listID}>
+              {language?.Language_name}
+            </option>
+          ))}
+    </select>
+    <Button onClick={handleAddLanguage}>Add</Button>
+    <ul>
+      {Array.isArray(spokenLanguages) &&
+        spokenLanguages.map((language) => (
+          <li key={language.language_listID}>
+            {language.Language_name}
+            <Button onClick={() => handleDeleteLanguage(language)}>x</Button>
+          </li>
         ))}
-      </ul>
-      <Button onClick={saveLanguages}>Save</Button>
+    </ul>
+    <Button onClick={saveLanguages}>Save</Button>
+
 
       </Card.Body>
     </Card>
