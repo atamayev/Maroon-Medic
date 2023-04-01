@@ -160,7 +160,8 @@ export async function fetchAccountDetails (req, res){
         response.push(await FetchDoctorAccountData.FetchDoctorLanguages(DoctorID)); 
         response.push(await FetchDoctorAccountData.FetchDoctorServices(DoctorID));
         response.push(await FetchDoctorAccountData.FetchDoctorSpecialties(DoctorID));
-        response.push(await FetchDoctorAccountData.FetchDoctorEducation(DoctorID));
+        response.push(await FetchDoctorAccountData.FetchPreVetEducation(DoctorID));
+        response.push(await FetchDoctorAccountData.FetchVetEducation(DoctorID));
         response.push(await FetchDoctorAccountData.FetchDoctorAddressData(DoctorID));
         response.push(await FetchDoctorAccountData.FetchDescriptionData(DoctorID)); 
         response.push(await FetchDoctorAccountData.FetchDoctorPictures(DoctorID));
@@ -186,9 +187,11 @@ export async function FetchDoctorLists (req, res){
         response.push(await FetchAllDoctorLists.fetchAllLanguages());
         response.push(await FetchAllDoctorLists.fetchAllServicesAndCategories());
         response.push(await FetchAllDoctorLists.fetchAllSpecialties());
-        response.push(await FetchAllDoctorLists.fetchAllEducationTypes());
+        response.push(await FetchAllDoctorLists.fetchAllPreVetSchools());
+        response.push(await FetchAllDoctorLists.fetchAllPreVetEducationTypes());
         response.push(await FetchAllDoctorLists.fetchAllMajors());
-        response.push(await FetchAllDoctorLists.fetchAllSchools());
+        response.push(await FetchAllDoctorLists.fetchAllVetSchools());
+        response.push(await FetchAllDoctorLists.fetchAllVetEducationTypes());
         return res.status(200).json(response);
     }catch(error){
         console.log('error in accountDetails', error);

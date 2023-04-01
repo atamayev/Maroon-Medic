@@ -87,7 +87,7 @@ CREATE TABLE service_and_category_list(
 service_and_category_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Category_name VARCHAR(250),
 Service_name VARCHAR(250));
-drop table service_and_category_list;
+SELECT* FROM service_and_category_list;
 
 CREATE TABLE service_mapping(
 service_mapping_ID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -137,20 +137,15 @@ FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 	ADD CONSTRAINT language_mapping_constraint
 	UNIQUE (Language_ID, Doctor_ID);
 
--- MERGE INTO language_mapping a
--- USING (SELECT '1' as Doctor_ID, '1000000' as Language_ID) u
--- ON a.Doctor_ID = u.Doctor_ID AND a.Language_ID = u.Language_ID
--- WHEN NOT MATCHED THEN
---     INSERT (Doctor_ID, Language_ID) VALUES (u.Doctor_ID, u.Language_ID);
 
 SELECT * FROM language_mapping;
 
-CREATE TABLE school_list(
+CREATE TABLE pre_vet_school_list(
 -- Lookup Table
-school_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+pre_vet_school_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 School_name VARCHAR(300));
 
-select * from school_list;
+select * from pre_vet_school_list;
 
 CREATE TABLE major_list(
 -- Lookup Table
@@ -158,29 +153,55 @@ major_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Major_name VARCHAR(300));
 select * from major_list;
 
-CREATE TABLE education_type_list(
+CREATE TABLE pre_vet_education_type_list(
 -- Lookup Table
-education_typeID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Education_type VARCHAR(150)); -- bachelor, resideny, fellow
-select * from education_type_list;
+pre_vet_education_typeID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+Education_type VARCHAR(150));
+select * from pre_vet_education_type_list;
 
-
-CREATE TABLE education_mapping(
-education_mapping_ID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE pre_vet_education_mapping(
+pre_vet_education_mapping INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 School_ID INT unsigned NOT NULL, 
-FOREIGN KEY (School_ID) REFERENCES school_list(school_listID),
+FOREIGN KEY (School_ID) REFERENCES pre_vet_school_list(pre_vet_school_listID),
 Major_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Major_ID) REFERENCES major_list(major_listID),
 Education_type_ID INT unsigned NOT NULL, 
-FOREIGN KEY (Education_type_ID) REFERENCES education_type_list(education_typeID), 
+FOREIGN KEY (Education_type_ID) REFERENCES pre_vet_education_type_list(pre_vet_education_typeID), 
 Start_Date DATE, 
 End_Date DATE,
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
-
-	ALTER TABLE education_mapping
-	ADD CONSTRAINT education_mapping_constraint
+select * from pre_vet_education_mapping;
+	ALTER TABLE pre_vet_education_mapping
+	ADD CONSTRAINT pre_vet_education_mapping_constraint
 	UNIQUE (School_ID, Major_ID, Education_type_ID, Doctor_ID);
+
+CREATE TABLE vet_school_list(
+-- Lookup Table
+vet_school_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+School_name VARCHAR(300));
+select * from vet_school_list;
+
+CREATE TABLE vet_education_type_list(
+-- Lookup Table
+vet_education_typeID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+Education_type VARCHAR(150));
+select * from vet_education_type_list;
+
+CREATE TABLE vet_education_mapping(
+vet_education_mapping INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+School_ID INT unsigned NOT NULL, 
+FOREIGN KEY (School_ID) REFERENCES vet_school_list(vet_school_listID),
+Education_type_ID INT unsigned NOT NULL, 
+FOREIGN KEY (Education_type_ID) REFERENCES vet_education_type_list(vet_education_typeID), 
+Start_Date DATE, 
+End_Date DATE,
+Doctor_ID INT unsigned NOT NULL, 
+FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
+select * from vet_education_mapping;
+	ALTER TABLE vet_education_mapping
+	ADD CONSTRAINT vet_education_mapping_constraint
+	UNIQUE (School_ID, Education_type_ID, Doctor_ID);
 
 CREATE TABLE specialties_list(
 -- Lookup Table

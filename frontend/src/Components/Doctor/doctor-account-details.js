@@ -27,14 +27,27 @@ export default function DoctorAccountDetails() {
     JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[3] || []
   );
 
-  const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false);
-  const [description, setDescription] = useState(
-    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[6] || {}
+  const [selectedPreVetSchool, setSelectedPreVetSchool] = useState('');
+  const [selectedMajor, setSelectedMajor] = useState('');
+  const [selectedPreVetEducationType, setSelectedPreVetEducationType] = useState('');
+  const [preVetEducation, setPreVetEducation] = useState(
+    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[4] || []
   );
 
-  const verified = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[8][0].Verified || []
+  const [selectedVetSchool, setSelectedVetSchool] = useState('');
+  const [selectedVetEducationType, setSelectedVetEducationType] = useState('');
+  const [vetEducation, setVetEducation] = useState(
+    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[5] || []
+  );
+
+  const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false);
+  const [description, setDescription] = useState(
+    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[7] || {}
+  );
+
+  const verified = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[9][0].Verified || []
   const [publiclyAvailable, setPubliclyAvailable] = useState(
-    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[8][0]?.PubliclyAvailable || 0
+    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[9][0]?.PubliclyAvailable || 0
   );
 
   useEffect(()=>{
@@ -117,14 +130,14 @@ export default function DoctorAccountDetails() {
             if(response.data[3]){
               setDoctorSpecialties(response.data[3])
             }
-            if(response.data[6] && Object.keys(response.data[6]).length > 0){
-              setDescription(response.data[6]);
-              if(response.data[6].Description.length === 1000){
+            if(response.data[7] && Object.keys(response.data[7]).length > 0){
+              setDescription(response.data[7]);
+              if(response.data[7].Description.length === 1000){
                 setIsDescriptionOverLimit(true);
               }
             }
-            if(response.data[8][0].PubliclyAvailable){
-              setPubliclyAvailable(response.data[8][0].PubliclyAvailable)
+            if(response.data[9][0].PubliclyAvailable){
+              setPubliclyAvailable(response.data[9][0].PubliclyAvailable)
             }
             sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(response.data));
         }else{
@@ -353,11 +366,11 @@ export default function DoctorAccountDetails() {
   async function saveDescription(event){
     event.preventDefault();
     const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-    if(description.Description !== DoctorAccountDetails[6].Description){//makes sure that it's only pushing to DB if description changed
+    if(description.Description !== DoctorAccountDetails[7].Description){//makes sure that it's only pushing to DB if description changed
       try {
         const response = await PrivateDoctorDataService.saveDescriptionData(description);
         if(response.status === 200){
-          DoctorAccountDetails[6] = description;
+          DoctorAccountDetails[7] = description;
           sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
           console.log('Saved!');
         }
@@ -377,7 +390,7 @@ export default function DoctorAccountDetails() {
     try{
       const response = await PrivateDoctorDataService.savePublicAvailibility(value);
       if(response.status === 200){
-        DoctorAccountDetails[8][0].PubliclyAvailable = value;
+        DoctorAccountDetails[9][0].PubliclyAvailable = value;
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
         console.log('Saved!');
       }

@@ -5,8 +5,6 @@ ASAP:
 fill in the rest of list details
 	--checkbox integratoin vs dropdown. for insruances, checkbox. see email for details: "Fill in rest of lists"
 
---fill in the schools sql table.
-
 -- before saving email to db, make sure it is lowercase, so that when searching db, it is done in uniform way
 	save emails as lowercase. then, when logging in, email should be lowercased before searching the db.
 	-- figure out which data should be encrypted by the db. data at rest encryption
