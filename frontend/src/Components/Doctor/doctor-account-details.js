@@ -196,7 +196,7 @@ export default function DoctorAccountDetails() {
 
     if(!checkIfListsAreEqual(languageIds, savedLanguagesIDs)){//checks if they are the same
       try {
-        const response = await PrivateDoctorDataService.saveLanguages(languageIds)
+        const response = await PrivateDoctorDataService.saveGeneralData(languageIds, 'Language')
         if(response.status === 200){
           DoctorAccountDetails[1] = spokenLanguages;
           sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
@@ -249,7 +249,7 @@ export default function DoctorAccountDetails() {
 
     if(!checkIfListsAreEqual(specialtyIds, savedSpecialtyIDs)){//checks if they are the same
       try {
-        const response = await PrivateDoctorDataService.saveSpecialties(specialtyIds)
+        const response = await PrivateDoctorDataService.saveGeneralData(specialtyIds, 'Specialty')
         if(response.status === 200){
           DoctorAccountDetails[5] = doctorSpecialties;
           sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
@@ -306,7 +306,7 @@ export default function DoctorAccountDetails() {
 
     if(!checkIfListsAreEqual(insuranceIds, savedInsurancesIDs)){//only saves if the insurances changed
       try {
-        const response = await PrivateDoctorDataService.saveInsurances(insuranceIds)
+        const response = await PrivateDoctorDataService.saveGeneralData(insuranceIds, 'Insurance')
         if(response.status === 200){
           DoctorAccountDetails[6] = acceptedInsurances;
           sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));

@@ -13,6 +13,7 @@ import{
     saveLanguageData,
     saveSpecialtyData,
     saveInsuranceData,
+    saveGeneralData,
     savePublicAvailibilityData
 }from "../controllers/privateDoctorData/saveDoctorDataCTRL.js";
 
@@ -30,5 +31,7 @@ router.post("/save-description-data", saveDescriptionData)
 router.post("/save-language-data", saveLanguageData)
 router.post("/save-specialty-data", saveSpecialtyData)
 router.post("/save-insurance-data", saveInsuranceData)
+router.post("/save-general-data", saveGeneralData)
+
 router.post("/save-public-availibility-data", savePublicAvailibilityData)
 export default router

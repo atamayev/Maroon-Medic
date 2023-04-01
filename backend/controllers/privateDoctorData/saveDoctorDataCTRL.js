@@ -380,6 +380,94 @@ export async function saveSpecialtyData (req, res){
       }
 };
 
+/** save General Data is used to save specialites, insurances, and languages.
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ */
+export async function saveGeneralData (req, res){
+    const DoctorUUID = req.cookies.DoctorUUID;
+    const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
+    const DataType = req.body.DataType
+    const DataTypelower = DataType.charAt(0).toLowerCase() + DataType.slice(1);
+    console.log('DataType',DataType)
+    
+    const doctorData = req.body.Data;
+    console.log('doctorData',doctorData)
+
+    const DB_name = 'DoctorDB';
+    const table_name = `${DataTypelower}_mapping`;
+
+    const sql = `SELECT * FROM  ${table_name} WHERE Doctor_ID = ?`
+    const values = [DoctorID];
+    let results;
+
+    await useDB(saveGeneralData.name, DB_name, table_name);
+    try{
+        [results] = await connection.execute(sql, values);
+    }catch(error){
+        console.log(`error in ${saveGeneralData.name}:`, error)
+        return res.status(400).json(false);
+    }
+
+    if (results.length > 0) {
+        // Doctor already has spoken specialties in the database
+        const oldData = results.map(result => result[`${DataType}_ID`]);// uppercase
+         // old specialties are the specialties queried from the table^
+        const newData = doctorData;
+
+        // Check for changes in spoken specialties
+        const addedData = newData.filter(data => !oldData.includes(data));
+        const deletedData = oldData.filter(data => !newData.includes(data));
+
+        if (addedData.length > 0) {
+            console.log('adding data')
+            for (let i = 0; i<addedData.length; i++){
+                const sql1 = `INSERT INTO ${table_name} (${DataType}_ID, Doctor_ID) VALUES (?,?)`; // upper
+                const values1 = [addedData[i], DoctorID];
+                try{
+                    await connection.execute(sql1, values1);
+                }catch(error){
+                    console.log(`error in if ${saveGeneralData.name}:`, error);
+                    return res.status(400).json(false);
+                }
+            }
+        }  
+        if (deletedData.length > 0) {
+            console.log('deleting data')
+            for (let i = 0; i<deletedData.length; i++){
+                const sql1 = `DELETE FROM ${table_name} WHERE ${DataType}_ID = ? AND Doctor_ID = ?`; // upper
+                const values1 = [deletedData[i], DoctorID];
+                try{
+                    await connection.execute(sql1, values1);
+                }catch(error){
+                    console.log(`error in if ${saveGeneralData.name}:`, error);
+                    return res.status(400).json(false);
+                }
+            }
+        }
+        return res.status(200).json(true);
+      }
+      else if (doctorData.length > 0){
+        console.log('adding data in else')
+        for (let i=0; i<doctorData.length; i++){
+            const sql1 = `INSERT INTO ${table_name} (${DataType}_ID, Doctor_ID) VALUES (?,?)`; // upper
+            const values1 = [doctorData[i], DoctorID];
+            try{
+                await connection.execute(sql1, values1);
+            }catch(error){
+                console.log(`error in if ${saveGeneralData.name}:`, error);
+                return res.status(400).json(false);
+            }
+        }
+        return res.status(200).json(true);
+      }
+      else{
+        console.log('elsed')
+        return res.status(400).json(false)
+      }
+}
+
 /** savePublicAvailibilityData is a Doctor-controlled function that allows them to say wheather or not they want their profile accessible to patients
  *  First, converts from UUID to ID. Then, updates the doctor's avalibility to whatever they did on the front-end. The request is only allowed to happen if the new availiblty status is dfferent from the old one.
  * @param {String} req Cookie from client, PublicAvailibility status

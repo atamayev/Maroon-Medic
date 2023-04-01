@@ -4,8 +4,6 @@ ASAP:
 
 --create one save function for all of similar sql tables (insurances, langauges, etc. can all be in one function, template literals the reest)
 
--- need to create save speciality data function, and the cascading dropdown.
-
 -- before saving email to db, make sure it is lowercase, so that when searching db, it is done in uniform way
 	save emails as lowercase. then, when logging in, email should be lowercased before searching the db.
 	-- figure out which data should be encrypted by the db. data at rest encryption
