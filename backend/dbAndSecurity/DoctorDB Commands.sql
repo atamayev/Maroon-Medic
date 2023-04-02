@@ -160,7 +160,7 @@ Education_type VARCHAR(150));
 select * from pre_vet_education_type_list;
 
 CREATE TABLE pre_vet_education_mapping(
-pre_vet_education_mapping INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+pre_vet_education_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 School_ID INT unsigned NOT NULL, 
 FOREIGN KEY (School_ID) REFERENCES pre_vet_school_list(pre_vet_school_listID),
 Major_ID INT unsigned NOT NULL, 
@@ -189,7 +189,7 @@ Education_type VARCHAR(150));
 select * from vet_education_type_list;
 
 CREATE TABLE vet_education_mapping(
-vet_education_mapping INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+vet_education_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 School_ID INT unsigned NOT NULL, 
 FOREIGN KEY (School_ID) REFERENCES vet_school_list(vet_school_listID),
 Education_type_ID INT unsigned NOT NULL, 

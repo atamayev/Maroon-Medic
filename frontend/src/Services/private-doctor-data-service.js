@@ -31,4 +31,7 @@ export default new class PrivateDoctorDataService {
     async savePublicAvailibility(PublicAvailibility){
         return await http.post('/private-doctor-data/save-public-availibility-data', {PublicAvailibility})
     }
+    async saveEducationData(EducationData, EducationnType){
+        return await http.post('/private-doctor-data/save-education-data', {EducationData: EducationData, EducationType: EducationnType})
+    }
 }();

@@ -130,6 +130,12 @@ export default function DoctorAccountDetails() {
             if(response.data[3]){
               setDoctorSpecialties(response.data[3])
             }
+            if(response.data[4]){
+              setPreVetEducation(response.data[4])
+            }
+            if(response.data[5]){
+              setVetEducation(response.data[5])
+            }
             if(response.data[7] && Object.keys(response.data[7]).length > 0){
               setDescription(response.data[7]);
               if(response.data[7].Description.length === 1000){
@@ -357,6 +363,150 @@ export default function DoctorAccountDetails() {
     return true;
   }
 
+  function isObjectsEqual(obj1, obj2) {
+    const keys1 = Object.keys(obj1).sort();
+    const keys2 = Object.keys(obj2).sort();
+  
+    if (keys1.length !== keys2.length) {
+      return false;
+    }
+  
+    for (let i = 0; i < keys1.length; i++) {
+      const key1 = keys1[i];
+      const key2 = keys2[i];
+  
+      if (key1 !== key2 || obj1[key1] !== obj2[key2]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function isObjectInArray(newObj, objectsArray) {
+    for (const obj of objectsArray) {
+      if (isObjectsEqual(newObj, obj)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  const handlePreVetSchoolChange = (event) => {
+    try {
+      const schoolID = parseInt(event.target.value);
+      if (schoolID) {
+        const school = listDetails[4].find(sch => sch.pre_vet_school_listID === schoolID);
+        setSelectedPreVetSchool(school);
+      } else {
+        setSelectedPreVetSchool(null);
+      }
+    } catch (error) {
+      console.log('error in handle prevetschool change', error)
+    }
+  };
+  
+  const handleAddPreVetEducation = () => {
+    if(selectedPreVetSchool && selectedMajor && selectedPreVetEducationType){
+      const selectedEducationObj = {
+        School_name: selectedPreVetSchool, 
+        Education_type:selectedPreVetEducationType,
+        Major_name: selectedMajor
+      }
+      if(preVetEducation.length >0){
+
+        if(!isObjectInArray(selectedEducationObj, preVetEducation)){
+          setPreVetEducation([...preVetEducation, {School_name: selectedPreVetSchool, Education_type: selectedPreVetEducationType, Major_name: selectedMajor}]);
+        }
+
+      }else{
+        setPreVetEducation([{School_name: selectedPreVetSchool, Education_type: selectedPreVetEducationType, Major_name: selectedMajor}]);
+      }
+    }
+    setSelectedPreVetSchool('');
+    setSelectedMajor('');
+    setSelectedPreVetEducationType('');
+  };
+
+  const handleDeletePreVetEducation = (PreVetEducationObject) => {
+    setPreVetEducation(preVetEducation.filter(obj => !isObjectsEqual(obj, PreVetEducationObject)));
+  };
+
+  async function savePreVetSchool(){
+    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
+    const savedPreVetEducations = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[4] || []
+
+    if(!isObjectInArray(preVetEducation, savedPreVetEducations)){//only saves if the insurances changed
+      try {
+        const response = await PrivateDoctorDataService.saveEducationData(preVetEducation, 'pre_vet')
+        if(response.status === 200){
+          DoctorAccountDetails[4] = preVetEducation;
+          sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+          console.log('Saved!');
+        }
+      } catch(error) {
+        console.log('error in saving Insurances', error)
+      }
+    }else{
+      console.log('same')
+    }
+  };
+
+  const handleVetSchoolChange = (event) => {
+    try {
+      const schoolID = parseInt(event.target.value);
+      if (schoolID) {
+        const school = listDetails[5].find(sch => sch.vet_school_listID === schoolID);
+        setSelectedVetSchool(school);
+      } else {
+        setSelectedVetSchool(null);
+      }
+    } catch (error) {
+      console.log('error in handle vetschool change', error)
+    }
+  };
+  
+  const handleAddVetEducation = () => {
+    if(selectedVetSchool && selectedVetEducationType){
+      const selectedEducationObj = {
+        School_name: selectedVetSchool, 
+        Education_type: selectedVetEducationType,
+      }
+      if(vetEducation.length >0){
+        if(!isObjectInArray(selectedEducationObj, vetEducation)){
+          setVetEducation([...vetEducation, {School_name: selectedVetSchool, Education_type: selectedVetEducationType}]);
+        }
+      }else{
+        setVetEducation([{School_name: selectedVetSchool, Education_type: selectedVetEducationType}]);
+      }
+    }
+    setSelectedVetSchool('');
+    setSelectedVetEducationType('');
+  };
+
+  const handleDeleteVetEducation = (vetEducationObject) => {
+    setVetEducation(vetEducationObject.filter(obj => !isObjectsEqual(obj, vetEducationObject)));
+  };
+
+  async function saveVetSchool(){
+    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
+    const savedVetEducations = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[5] || []
+
+    if(!isObjectInArray(vetEducation, savedVetEducations)){//only saves if the insurances changed
+      try {
+        const response = await PrivateDoctorDataService.saveEducationData(preVetEducation, 'vet')
+        if(response.status === 200){
+          DoctorAccountDetails[5] = vetEducation;
+          sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+          console.log('Saved!');
+        }
+      } catch(error) {
+        console.log('error in saving Insurances', error)
+      }
+    }else{
+      console.log('same')
+    }
+  };
+
   function handleDescriptionChange(event) {
     const value = event.target.value;
     setDescription({Description: value});
@@ -396,7 +546,6 @@ export default function DoctorAccountDetails() {
       }
     }catch(error){
       console.log('error in handlePublicAvailibilityToggle', error)
-
     }
   }
 
