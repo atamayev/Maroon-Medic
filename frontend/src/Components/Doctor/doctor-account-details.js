@@ -405,6 +405,34 @@ export default function DoctorAccountDetails() {
     }
   };
   
+  const handlePreVetEducationTypeChange = (event) => {
+    try {
+      const educationTypeID = parseInt(event.target.value);
+      if (educationTypeID) {
+        const educationType = listDetails[5].find(sch => sch.pre_vet_education_typeID === educationTypeID);
+        setSelectedPreVetEducationType(educationType);
+      } else {
+        setSelectedPreVetSchool(null);
+      }
+    } catch (error) {
+      console.log('error in handlePreVetEducationTypeChange', error)
+    }
+  };
+
+  const handlePreVetMajorChange = (event) => {
+    try {
+      const majorID = parseInt(event.target.value);
+      if (majorID) {
+        const major = listDetails[6].find(maj => maj.major_listID === majorID);
+        setSelectedMajor(major);
+      } else {
+        setSelectedMajor(null);
+      }
+    } catch (error) {
+      console.log('error in handle handlePreVetMajorChange', error)
+    }
+  };
+  
   const handleAddPreVetEducation = () => {
     if(selectedPreVetSchool && selectedMajor && selectedPreVetEducationType){
       const selectedEducationObj = {
@@ -552,6 +580,86 @@ export default function DoctorAccountDetails() {
   return (
     <div>
       <DoctorHeader/>
+      <Card>
+        <Card.Header>
+          Change all of this card to pre-vet education
+        </Card.Header>
+        <Card.Body>
+          {Array.from(new Set(listDetails[4]?.map((item) => item.School_name))).length > 0 ? (
+            <>
+              <label htmlFor="pre-vet-school">Select a school: </label>
+              <select
+                id="pre-vet-school"
+                name="pre-vet-school"
+                value={selectedPreVetSchool}
+                onChange={(e) => setSelectedPreVetSchool(e.target.value)}
+              >
+                <option value="">Choose a School</option>
+                {Array.from(new Set(listDetails[4]?.map((item) => item.School_name))).map(
+                  (school, index) => (
+                    <option key={index} value={school}>
+                      {school}
+                    </option>
+                  ))}
+              </select>
+              <br />
+              {selectedPreVetSchool && (
+                <>
+                  <label htmlFor="major">Select a Major: </label>
+                  <select
+                    id="major"
+                    name="major"
+                    value={selectedMajor?.major_listID || ""}
+                    onChange={handlePreVetMajorChange}
+                  >
+                    <option value="">Choose a major</option>
+                    {listDetails[6]
+                      .map((major) => (
+                        <option key={major.major_listID} value={major.major_listID}>
+                          {major.Major_name}
+                        </option>
+                      ))}
+                  </select>
+                </>
+              )
+              }
+              <br/>
+                {selectedMajor && (
+                  <>
+                  <label htmlFor="education-type">Select a Type of Education: </label>
+                    <select
+                      id="education"
+                      name="education"
+                      value={selectedPreVetEducationType?.pre_vet_education_typeID || ""}
+                      onChange={handlePreVetEducationTypeChange}
+                    >
+                      <option value="">Choose an Education Type</option>
+                      {listDetails[5]
+                        .map((preVetEdType) => (
+                          <option key={preVetEdType.pre_vet_education_typeID} value={preVetEdType.pre_vet_education_typeID}>
+                            {preVetEdType.Education_type}
+                          </option>
+                        ))}
+                    </select>
+                    <Button onClick={handleAddPreVetEducation}>Add</Button>
+                  </>
+                )}
+              <ul>
+                {preVetEducation.map((pre_vet_education) => (
+                  <li key={pre_vet_education.specialties_listID}>
+                    {pre_vet_education.School_name}, {pre_vet_education.Major_name}, {pre_vet_education.Education_type}{" "}
+                    <Button onClick={() => handleDeletePreVetEducation(pre_vet_education)}>X</Button>
+                  </li>
+                ))}
+              </ul>
+              <Button onClick={savePreVetSchool}>Save</Button>
+            </>
+          ) : (
+            <p>Loading</p>
+          )}
+        </Card.Body>
+      </Card>
+    <br/>
       <p>This is the Account Details Page</p>
 
       <Card>

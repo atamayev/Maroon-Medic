@@ -8,11 +8,19 @@ fill in the rest of list details
 	--checkbox integratoin vs dropdown. for insruances, checkbox. see email for details: "Fill in rest of lists"
 	1. Address + phone numbers
 	2. Education
+	Think about how to integrate checkboxes vs drop down. For services, insurance, checkboxes will be better. For services, should have the category name be like a parent to all it's service names. If category selected, all service names selected. 
+
+Other things like majors, schools should be drop-down. 
+	when there is a checkbox, make it save automatically. 
+		consider saving automatically for other data types as well
 -- before saving email to db, make sure it is lowercase, so that when searching db, it is done in uniform way
 	save emails as lowercase. then, when logging in, email should be lowercased before searching the db.
 	-- figure out which data should be encrypted by the db. data at rest encryption
 
+-- start outsourcing all internal operations within front-end components
+-- change contexts to class-based, especially verification status, so it doesn't keep calling userverification. 
 
+--after finish all parts of vet account details, begin to de-clutter that file, and figure out how to simplify data transport. 
 Later:
 
 --while loading, dashboard, account details should be like this:

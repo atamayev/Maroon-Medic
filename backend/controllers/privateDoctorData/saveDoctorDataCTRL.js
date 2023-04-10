@@ -207,11 +207,11 @@ export async function saveGeneralData (req, res){
 export async function saveEducationData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID;
     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
-    const DataType = req.body.DataType
-    const doctorData = req.body.Data;
+    const EducationType = req.body.EducationType;//'pre_vet' or 'vet'
+    const EducationData = req.body.EducationData; // array of arrays, to make comparing to sql easier.
 
     const DB_name = 'DoctorDB';
-    const table_name = `${DataType}_mapping`;
+    const table_name = `${EducationType}_education_mapping`;
 
     const sql = `SELECT * FROM  ${table_name} WHERE Doctor_ID = ?`
     const values = [DoctorID];
@@ -229,8 +229,9 @@ export async function saveEducationData (req, res){
 
     if (results.length > 0) {
         // Doctor already has data in the table
-        const oldData = results.map(result => result[`${DataType}_ID`]); // old data are the data queried from the table^
-        const newData = doctorData;
+        // will be comparing array of arrays to array of arrays.
+        const oldEducationData = results.map(result => result[`//need to change this to query items inside of an array insdei array`]); // old data are the data queried from the table^
+        const newEducationData = EducationData;
 
         // Check for changes in data:
         const addedData = newData.filter(data => !oldData.includes(data));

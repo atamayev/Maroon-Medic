@@ -65,7 +65,7 @@ descriptionsID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Description VARCHAR(2500),
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
-
+select * from descriptions;
 SELECT * FROM specialties_list;
 
 CREATE TABLE profile_update_history(
@@ -167,8 +167,8 @@ Major_ID INT unsigned NOT NULL,
 FOREIGN KEY (Major_ID) REFERENCES major_list(major_listID),
 Education_type_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Education_type_ID) REFERENCES pre_vet_education_type_list(pre_vet_education_typeID), 
-Start_Date DATE, 
-End_Date DATE,
+Start_Date DATE NOT NULL,
+End_Date DATE NOT NULL,
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 select * from pre_vet_education_mapping;
@@ -194,8 +194,8 @@ School_ID INT unsigned NOT NULL,
 FOREIGN KEY (School_ID) REFERENCES vet_school_list(vet_school_listID),
 Education_type_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Education_type_ID) REFERENCES vet_education_type_list(vet_education_typeID), 
-Start_Date DATE, 
-End_Date DATE,
+Start_Date DATE NOT NULL, 
+End_Date DATE NOT NULL,
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 select * from vet_education_mapping;
