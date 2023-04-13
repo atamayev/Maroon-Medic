@@ -8,7 +8,7 @@ export default function DoctorSettings() {
 
   return (
     <>
-        <Header dropdown = {true} search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
+        <Header dropdown = {true}/>
         <DoctorHeader/>
         <CardGroup>
             <DoctorSettingsLinks vetSettingsLink = {"personal-information"} title = {"Personal Information"}/>

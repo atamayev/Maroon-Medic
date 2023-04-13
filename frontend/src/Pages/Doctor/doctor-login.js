@@ -45,7 +45,7 @@ export default function DoctorLogin() {
 
   return (
     <>
-      <Header dropdown = {true} search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
+      <Header dropdown = {true} search = {true}/>
       <LoginAndRegistrationForm
         handleSubmit={handleSubmit}
         credentials={login_information_object}

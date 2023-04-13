@@ -50,7 +50,7 @@ export default function PatietRegister() {
 
   return (
     <>
-      <Header dropdown = {true} search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
+      <Header dropdown = {true} search = {true}/>
       <LoginAndRegistrationForm
         handleSubmit={handleSubmit}
         credentials={register_information_object}

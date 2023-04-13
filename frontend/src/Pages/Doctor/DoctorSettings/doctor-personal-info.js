@@ -88,7 +88,7 @@ export default function DoctorPersonalInfo() {
     if(user_type === 'Patient'){
         return(
           <>
-            <Header dropdown = {true} search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
+            <Header dropdown = {true} search = {true}/>
             <Card>
               <Card.Body>
               <p>Unautorized to view Doctor Dashboard </p>;
@@ -107,7 +107,7 @@ export default function DoctorPersonalInfo() {
     if(user_type !== 'Doctor'){
       return(
         <>
-          <Header dropdown = {true} search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
+          <Header dropdown = {true} search = {true}/>
           <Card>
             <Card.Body>
               <p>Please register or login first </p>;
@@ -129,7 +129,7 @@ export default function DoctorPersonalInfo() {
 
   return (
     <div>
-      <Header dropdown = {true} search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
+      <Header dropdown = {true}/>
 
       <DoctorHeader/>
       <Card>

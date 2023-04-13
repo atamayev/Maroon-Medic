@@ -53,7 +53,7 @@ export default function NewPatient () {
 
   return (
     <>
-      <Header className = "d-flex align-items-center justify-content-center w-100"/>
+      <Header/>
       <NewAccountForm
         handleSubmit={handleSubmit}
         newInfo={newPatientInfo}
@@ -62,6 +62,5 @@ export default function NewPatient () {
         loading = {loading}
       />
     </>
-
   );
 };

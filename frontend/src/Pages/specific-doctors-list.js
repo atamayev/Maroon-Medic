@@ -19,23 +19,22 @@ export default function SpecificDoctorsList() {
     fetchData()
   }, [searchTerm])
 
-  if (!items || items === 'User not found'){
-    return (
-        <div> 
-          <Header search = {true} dropdown = {true} className = "d-flex align-items-center justify-content-center w-100"/>
-          No results
-          </div>
-    );
+  const renderSearchResults = () => {
+    if (!items || items === 'User not found'){
+      return <div> No results</div>
+    }else{
+      const data = items.slice(0, 1000); // This has no function rn, since there are less than 1000 vets. once there are more, only the first 100 will be returned
+      return(
+        <SearchResults data = {data}/>
+      )
+    }
   }
 
-  else{
-    const data = items.slice(0, 1000); // This has no function rn, since there are less than 1000 vets. once there are more, only the first 100 will be returned
 
-    return (
-      <>
-      <Header search = {true} dropdown = {true} className = "d-flex align-items-center justify-content-center w-100"/>
-      <SearchResults data = {data}/>
-      </>
-    );
-  }
+  return (
+    <>
+      <Header search = {true} dropdown = {true}/>
+      {renderSearchResults()}
+    </>
+  );
 }

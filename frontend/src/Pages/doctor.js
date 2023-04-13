@@ -39,7 +39,7 @@ export default function Doctor () {
   if (error || !user) {
     return (
       <>
-      <Header dropdown = {true} search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
+      <Header dropdown = {true} search = {true}/>
         {error && <div className="alert alert-danger">{error}</div>}
         <Card>
           <Card.Body>
@@ -57,7 +57,7 @@ export default function Doctor () {
   
   return (
     <>
-      <Header dropdown = {true} search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
+      <Header dropdown = {true} search = {true}/>
       <Card key={user.Doctor_ID} style={{margin: '0 10px' }}>
           {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
           <Card.Body>

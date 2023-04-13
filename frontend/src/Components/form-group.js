@@ -15,6 +15,5 @@ export default function FormGroup({id, label, defaultValue, onChange, type, plac
         required = {required}
       />
     </Form.Group>
-
   )
 }

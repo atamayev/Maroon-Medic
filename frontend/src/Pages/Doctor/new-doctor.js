@@ -52,7 +52,7 @@ export default function NewDoctor () {
 
   return (
     <>
-      <Header className = "d-flex align-items-center justify-content-center w-100"/>
+      <Header/>
       <NewAccountForm
         handleSubmit={handleSubmit}
         newInfo={newDoctorInfo}

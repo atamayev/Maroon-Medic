@@ -60,7 +60,7 @@ export default function DoctorDashboard() {
   if(user_type === 'Patient'){
     return(
       <>
-        <Header dropdown = {true} search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
+        <Header dropdown = {true} search = {true}/>
         <Card>
           <Card.Body>
           <p>Unautorized to view Doctor Dashboard </p>;
@@ -78,7 +78,7 @@ export default function DoctorDashboard() {
   if(user_type !== 'Doctor'){
     return(
       <>
-        <Header dropdown = {true} search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
+        <Header dropdown = {true} search = {true}/>
         <Card>
           <Card.Body>
             <p>Please register or login first </p>;
@@ -119,7 +119,7 @@ export default function DoctorDashboard() {
 
   return (
     <>
-      <Header dropdown = {true} search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
+      <Header dropdown = {true}/>
       <DoctorHeader/>
         <p>Welcome{newDoctor?(<> to MaroonMedic</>):(<> back</>)}, Dr. {dashboardData.LastName}</p>
         <Card style={{margin: '0 10px' }}>

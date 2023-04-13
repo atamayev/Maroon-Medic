@@ -141,23 +141,25 @@ export default function Header (props) {
     }
   }, [location]);
 
-  const renderDropdown = ()=>{
-    if(props.dropdown === true){
-      return(
-        <Dropdown className="menu-container" >
-        <Dropdown.Toggle variant="dark" id="dropdown-basic" className = "menu-trigger menu-active">
-          {headerData ? (headerData):'Profile'}
-          <img src = {pic}
-          alt = "profile" 
-          height = {20} />
-        </Dropdown.Toggle>
-        <Dropdown.Menu>
-          {renderDropdownItems()}
-        </Dropdown.Menu>
-      </Dropdown>
-      )
+  const renderDropdown = () => {
+    if (props.dropdown === true) {
+      return (
+        <Dropdown className="menu-container">
+          <Dropdown.Toggle
+            variant="dark"
+            id="dropdown-basic"
+            className="menu-trigger menu-active"
+          >
+            {headerData ? headerData : "Profile"}
+            <img src={pic} alt="profile" height={20} className="ml-2" />
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            {renderDropdownItems()}
+          </Dropdown.Menu>
+        </Dropdown>
+      );
     }
-  }
+  };
 
   const renderDropdownItems = ()=>{
     if(props.dropdown === true){
@@ -224,6 +226,7 @@ export default function Header (props) {
   return (
     <header>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <div className="container">
           <img 
             src = {logo} 
             alt = "Logo" 
@@ -231,10 +234,14 @@ export default function Header (props) {
             height = {50} 
             onClick = {handleHome}
             style={{ cursor: "pointer" }} 
+            className="mr-2"
             />
         <div className="navbar-collapse" id="navbarSupportedContent">
           {renderSearch()}
-          {renderDropdown()}
+          <ul className="navbar-nav ml-auto">
+            <li className="nav-item">{renderDropdown()}</li>
+          </ul>
+        </div>
         </div>
       </nav>
     </header>

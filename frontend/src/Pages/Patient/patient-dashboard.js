@@ -98,7 +98,7 @@ export default function PatientDashboard() {
 
   return (
     <div>
-        <Header dropdown = {true} search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
+        <Header dropdown = {true} search = {true}/>
         <p>This is the Patient Dashboard Page</p>
         <Card style={{margin: '0 10px' }}>
           <Card.Body>
