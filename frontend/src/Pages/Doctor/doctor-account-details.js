@@ -580,7 +580,7 @@ export default function DoctorAccountDetails() {
 
   return (
     <div>
-      <Header search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
+      <Header search = {true} dropdown = {true} className = "d-flex align-items-center justify-content-center w-100"/>
       <DoctorHeader/>
       <Card>
         <Card.Header>

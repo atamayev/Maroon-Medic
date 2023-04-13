@@ -2,12 +2,12 @@ import React, {useState, useEffect, useContext} from 'react'
 import {useNavigate} from "react-router-dom";
 import DataService from "../../Services/data-service.js"
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
-import RegisterForm from '../../Components/register-form.js';
 import Header from '../header.js';
+import LoginAndRegistrationForm from '../../Components/login-and-registration-form.js';
 
 export default function DoctorRegister() {
   const [register_information_object, setRegister_information_object] = useState({register_type: 'Doctor'});
-  const [passwordConfirm, setpasswordConfirm] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -51,15 +51,16 @@ export default function DoctorRegister() {
   return (
     <>
       <Header dropdown = {true} search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
-      <RegisterForm
+      <LoginAndRegistrationForm
         handleSubmit={handleSubmit}
-        register_information_object={register_information_object}
-        setRegister_information_object={setRegister_information_object}
+        credentials={register_information_object}
+        setCredentials={setRegister_information_object}
         passwordConfirm = {passwordConfirm}
-        setpasswordConfirm = {setpasswordConfirm}
+        setPasswordConfirm = {setPasswordConfirm}
         error={error}
         type="Vet"
         loading = {loading}
+        loginOrSignUp = 'Sign up'
       />
     </>
   )
