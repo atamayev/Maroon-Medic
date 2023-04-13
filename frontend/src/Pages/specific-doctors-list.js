@@ -22,7 +22,7 @@ export default function SpecificDoctorsList() {
   if (!items || items === 'User not found'){
     return (
         <div> 
-          <Header search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
+          <Header search = {true} dropdown = {true} className = "d-flex align-items-center justify-content-center w-100"/>
           No results
           </div>
     );
@@ -33,7 +33,7 @@ export default function SpecificDoctorsList() {
 
     return (
       <>
-      <Header search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
+      <Header search = {true} dropdown = {true} className = "d-flex align-items-center justify-content-center w-100"/>
       <SearchResults data = {data}/>
       </>
     );

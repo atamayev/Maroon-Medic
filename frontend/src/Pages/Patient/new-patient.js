@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom";
 import DataService from "../../Services/data-service.js"
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import NewAccountForm from '../../Components/new-account-form.js';
+import Header from '../header.js';
 
 export default function NewPatient () {
   const [newPatientInfo, setNewPatientInfo] = useState({});
@@ -51,12 +52,16 @@ export default function NewPatient () {
   }
 
   return (
-    <NewAccountForm
-    handleSubmit={handleSubmit}
-    newInfo={newPatientInfo}
-    setNewInfo={setNewPatientInfo}
-    error={error}
-    loading = {loading}
-  />
+    <>
+      <Header className = "d-flex align-items-center justify-content-center w-100"/>
+      <NewAccountForm
+        handleSubmit={handleSubmit}
+        newInfo={newPatientInfo}
+        setNewInfo={setNewPatientInfo}
+        error={error}
+        loading = {loading}
+      />
+    </>
+
   );
 };

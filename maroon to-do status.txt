@@ -1,6 +1,8 @@
 To-do:
 
 ASAP:
+1. make login & register one component., have it use register-form within as a componnet.
+- de-simplify some of the componnets. don't just want to copy and paste the entire component out, want to take out small parts
 
 1. finish going through all files, and decide which ones need search = true, which ones need dropdown =true
 -- dropdown in header. choose which pages should have the search bar, and which should have the login/ake account dropdown

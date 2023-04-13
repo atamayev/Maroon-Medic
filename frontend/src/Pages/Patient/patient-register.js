@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom";
 import DataService from "../../Services/data-service.js"
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import RegisterForm from '../../Components/register-form.js';
+import Header from '../header.js';
 
 export default function PatietRegister() {
   const [register_information_object, setRegister_information_object] = useState({register_type: 'Patient'});
@@ -48,7 +49,9 @@ export default function PatietRegister() {
   };
 
   return (
-    <RegisterForm
+    <>
+      <Header dropdown = {true} search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
+      <RegisterForm
       handleSubmit={handleSubmit}
       register_information_object={register_information_object}
       setRegister_information_object={setRegister_information_object}
@@ -57,6 +60,8 @@ export default function PatietRegister() {
       error={error}
       type="Patient"
       loading = {loading}
-    />
+      />
+    </>
+
   )
 };

@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom";
 import DataService from "../../Services/data-service.js"
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import LoginForm from '../../Components/login-form.js';
+import Header from '../header.js';
 
 export default function PatientLogin() {
   const [login_information_object, setLogin_information_object] = useState({login_type: 'Patient'});
@@ -41,6 +42,7 @@ export default function PatientLogin() {
 
   return (
     <>
+      <Header dropdown = {true} search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
       <LoginForm
         handleSubmit={handleSubmit}
         login_information_object={login_information_object}

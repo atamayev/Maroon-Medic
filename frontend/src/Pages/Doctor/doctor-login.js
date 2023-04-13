@@ -42,7 +42,7 @@ export default function DoctorLogin() {
 
   return (
     <>
-      <Header search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
+      <Header dropdown = {true} search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
       <LoginForm
         handleSubmit={handleSubmit}
         login_information_object={login_information_object}

@@ -4,6 +4,8 @@ import {Card, Button, Form } from 'react-bootstrap'
 import DoctorHeader from '../doctor-header.js';
 import PrivateDoctorDataService from '../../../Services/private-doctor-data-service.js';
 import { VerifyContext } from '../../../Contexts/VerifyContext.js';
+import Header from '../../header.js';
+import FormGroup from '../../../Components/form-group.js';
 
 export default function DoctorPersonalInfo() {
     const [personalInfo, setPersonalInfo] = useState({});
@@ -85,80 +87,95 @@ export default function DoctorPersonalInfo() {
 
     if(user_type === 'Patient'){
         return(
-          <Card>
-            <Card.Body>
-            <p>Unautorized to view Doctor Dashboard </p>;
-            <Link to= {'/patient-dashboard'}>
-                  <Button variant="primary">
-                      <p>Return to Patient Dashboard</p>
-                  </Button>
-            </Link>
-            </Card.Body>
-          </Card>
+          <>
+            <Header dropdown = {true} search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
+            <Card>
+              <Card.Body>
+              <p>Unautorized to view Doctor Dashboard </p>;
+              <Link to= {'/patient-dashboard'}>
+                    <Button variant="primary">
+                        <p>Return to Patient Dashboard</p>
+                    </Button>
+              </Link>
+              </Card.Body>
+            </Card>
+          </>
+
         )
       }
     
     if(user_type !== 'Doctor'){
-        return(
-            <Card>
+      return(
+        <>
+          <Header dropdown = {true} search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
+          <Card>
             <Card.Body>
-                <p>Please register or login first </p>;
-                <Link to= {'/vet-register'}>
-                    <Button variant="primary">
-                        <p>Register</p>
-                    </Button>
-            </Link>
-            <Link to= {'/vet-login'}>
-                    <Button variant="primary">
-                        <p>Login</p>
-                    </Button>
-            </Link>
+              <p>Please register or login first </p>;
+              <Link to= {'/vet-register'}>
+                <Button variant="primary">
+                  <p>Register</p>
+                </Button>
+              </Link>
+              <Link to= {'/vet-login'}>
+                      <Button variant="primary">
+                          <p>Login</p>
+                      </Button>
+              </Link>
             </Card.Body>
-        </Card>
-        )
+          </Card>
+        </>
+      )
     }
 
   return (
     <div>
-        <DoctorHeader/>
-        <Card>
-            <Card.Body>
-                <Form onSubmit = {handleSave}>
-                <Form.Group id = "FirstName">
-                    <Form.Label>First Name</Form.Label>
-                    <Form.Control id="FirstName" defaultValue={personalInfo.FirstName} onChange={(event) => setPersonalInfo({...personalInfo, FirstName: event.target.value})}/>
-                </Form.Group>
+      <Header dropdown = {true} search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
 
-                <Form.Group id = "LastName">
-                    <Form.Label>Last Name</Form.Label>
-                    <Form.Control id="LastName" defaultValue={personalInfo.LastName} onChange={(event) => setPersonalInfo({...personalInfo, LastName: event.target.value})}/>
-                </Form.Group>
-
-                <Form.Group id = "Gender">
-                    <Form.Label>Gender</Form.Label>
-                    <Form.Control id="Gender" defaultValue={personalInfo.Gender} onChange={(event) => setPersonalInfo({...personalInfo, Gender: event.target.value})}/>
-                </Form.Group>
-
-                <Form.Group id = "DOB_month">
-                    <Form.Label>Birthmonth</Form.Label>
-                    <Form.Control id="DOB_month" defaultValue={personalInfo.DOB_month} onChange={(event) => setPersonalInfo({...personalInfo, DOB_month: event.target.value})}/>
-                </Form.Group>
-
-                <Form.Group id = "DOB_day">
-                    <Form.Label>Birthday</Form.Label>
-                    <Form.Control id="DOB_day" defaultValue={personalInfo.DOB_day} onChange={(event) => setPersonalInfo({...personalInfo, DOB_day: event.target.value})}/>
-                </Form.Group>
-
-                <Form.Group id = "DOB_year">
-                    <Form.Label>Birthyear</Form.Label>
-                    <Form.Control id="DOB_year" defaultValue={personalInfo.DOB_year} onChange={(event) => setPersonalInfo({...personalInfo, DOB_year: event.target.value})}/>
-                </Form.Group>
-
-                <br/>
-                <Button type = "submit" className="btn btn-primary w-100">Save</Button>
-                </Form>
-            </Card.Body>
-        </Card>
+      <DoctorHeader/>
+      <Card>
+          <Card.Body>
+              <Form onSubmit = {handleSave}>
+              <FormGroup
+                id="FirstName"
+                label="First Name"
+                defaultValue={personalInfo.FirstName}
+                onChange={(event) => setPersonalInfo({...personalInfo, FirstName: event.target.value})}
+              />
+              <FormGroup
+                id="LastName"
+                label="Last Name"
+                defaultValue={personalInfo.LastName}
+                onChange={(event) => setPersonalInfo({...personalInfo, LastName: event.target.value})}
+              />
+              <FormGroup
+                id="Gender"
+                label="Gender"
+                defaultValue={personalInfo.Gender}
+                onChange={(event) => setPersonalInfo({...personalInfo, Gender: event.target.value})}
+              />
+              <FormGroup
+                id="DOB_month"
+                label="Birthmonth"
+                defaultValue={personalInfo.DOB_month}
+                onChange={(event) => setPersonalInfo({...personalInfo, DOB_month: event.target.value})}
+              />
+              <FormGroup
+                id="DOB_day"
+                label="Birthday"
+                defaultValue={personalInfo.DOB_day}
+                onChange={(event) => setPersonalInfo({...personalInfo, DOB_day: event.target.value})}
+              />
+              <FormGroup
+                id="DOB_year"
+                label="Birthyear"
+                defaultValue={personalInfo.DOB_year}
+                onChange={(event) => setPersonalInfo({...personalInfo, DOB_year: event.target.value})}
+              />
+              <br/>
+              <Button type = "submit" className="btn btn-primary w-100">Save</Button>
+              </Form>
+          </Card.Body>
+      </Card>
     </div>
   )
 };

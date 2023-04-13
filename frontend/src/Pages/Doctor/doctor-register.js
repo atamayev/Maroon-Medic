@@ -50,7 +50,7 @@ export default function DoctorRegister() {
 
   return (
     <>
-      <Header search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
+      <Header dropdown = {true} search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
       <RegisterForm
         handleSubmit={handleSubmit}
         register_information_object={register_information_object}

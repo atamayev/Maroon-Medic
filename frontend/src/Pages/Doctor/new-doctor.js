@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom";
 import PrivateDoctorDataService from "../../Services/private-doctor-data-service.js"
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import NewAccountForm from '../../Components/new-account-form.js';
+import Header from '../header.js';
 
 export default function NewDoctor () {
   const [newDoctorInfo, setNewDoctorInfo] = useState({});
@@ -50,12 +51,15 @@ export default function NewDoctor () {
   }
 
   return (
-  <NewAccountForm
-    handleSubmit={handleSubmit}
-    newInfo={newDoctorInfo}
-    setNewInfo={setNewDoctorInfo}
-    error={error}
-    loading = {loading}
-  />
+    <>
+      <Header className = "d-flex align-items-center justify-content-center w-100"/>
+      <NewAccountForm
+        handleSubmit={handleSubmit}
+        newInfo={newDoctorInfo}
+        setNewInfo={setNewDoctorInfo}
+        error={error}
+        loading = {loading}
+      />
+    </>
   );
 };

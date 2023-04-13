@@ -141,8 +141,25 @@ export default function Header (props) {
     }
   }, [location]);
 
-
   const renderDropdown = ()=>{
+    if(props.dropdown === true){
+      return(
+        <Dropdown className="menu-container" >
+        <Dropdown.Toggle variant="dark" id="dropdown-basic" className = "menu-trigger menu-active">
+          {headerData ? (headerData):'Profile'}
+          <img src = {pic}
+          alt = "profile" 
+          height = {20} />
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+          {renderDropdownItems()}
+        </Dropdown.Menu>
+      </Dropdown>
+      )
+    }
+  }
+
+  const renderDropdownItems = ()=>{
     if(props.dropdown === true){
       if(user_type === 'Doctor'){
         return(
@@ -177,7 +194,7 @@ export default function Header (props) {
       }
     }
   }
-
+  
   const renderSearch = ()=>{
     if(props.search === true){
       return(
@@ -217,18 +234,7 @@ export default function Header (props) {
             />
         <div className="navbar-collapse" id="navbarSupportedContent">
           {renderSearch()}
-      <Dropdown className="menu-container" >
-      <Dropdown.Toggle variant="dark" id="dropdown-basic" className = "menu-trigger menu-active">
-        {headerData ? (headerData):'Profile'}
-        <img src = {pic}
-        alt = "profile" 
-        height = {20} />
-      </Dropdown.Toggle>
-
-      <Dropdown.Menu>
-        {renderDropdown()}
-      </Dropdown.Menu>
-    </Dropdown>
+          {renderDropdown()}
         </div>
       </nav>
     </header>
