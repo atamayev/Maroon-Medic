@@ -3,6 +3,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import {useParams} from "react-router-dom";
 import DataService from "../Services/data-service.js";
+import Header from './header.js';
 
 export default function Doctor () {
   // Creates an id variable which gets the id of the current page. 
@@ -38,6 +39,7 @@ export default function Doctor () {
   if (error || !user) {
     return (
       <>
+      <Header search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
         {error && <div className="alert alert-danger">{error}</div>}
         <Card>
           <Card.Body>
@@ -54,7 +56,8 @@ export default function Doctor () {
   }
   
   return (
-    <div>
+    <>
+      <Header search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
       <Card key={user.Doctor_ID} style={{margin: '0 10px' }}>
           {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
           <Card.Body>
@@ -72,6 +75,6 @@ export default function Doctor () {
             </a>
           </Card.Body>
       </Card>
-    </div>
+    </>
   );
 }

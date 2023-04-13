@@ -41,7 +41,7 @@ const handleHome = () => {
   window.location.href = '/';
 }
 
-export default function Header () {
+export default function Header (props) {
   const location = useLocation();
   const [headerData, setHeaderData] = useState('');
   const {user_verification} = useContext(VerifyContext);
@@ -143,52 +143,46 @@ export default function Header () {
 
 
   const renderDropdown = ()=>{
-    if(user_type === 'Doctor'){
-      return(
-        <div>
-          <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
-          <Dropdown.Item href="/vet-dashboard">Vet Dashboard</Dropdown.Item>
-          <Dropdown.Item href="/vet-account-details">Account Details</Dropdown.Item>
-        </div>
-      )
-    }
-    else if (user_type === 'Patient'){
-      return(
-        <div>
-          <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
-          <Dropdown.Item href="/patient-dashboard">Patient Dashboard</Dropdown.Item>
-          <Dropdown.Item href="/patient-account-details">Account Settings</Dropdown.Item>
-        </div>
-      )
-    }
-    else{
-      return(
-        <div>
-          <Dropdown.Item href="/vet-register" className='fw-bold'>Vet Sign up</Dropdown.Item>
-          <Dropdown.Item href="/vet-login">Vet Log In</Dropdown.Item>
-          <Dropdown.Item href="/patient-register" className='fw-bold'>Patient Sign up</Dropdown.Item>
-          <Dropdown.Item href="/patient-login">Patient Log In</Dropdown.Item>
-    
-          <Dropdown.Divider />
-          <Dropdown.Item href="/help">Help</Dropdown.Item>
-        </div>
-      )
+    if(props.dropdown === true){
+      if(user_type === 'Doctor'){
+        return(
+          <div>
+            <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
+            <Dropdown.Item href="/vet-dashboard">Vet Dashboard</Dropdown.Item>
+            <Dropdown.Item href="/vet-account-details">Account Details</Dropdown.Item>
+          </div>
+        )
+      }
+      else if (user_type === 'Patient'){
+        return(
+          <div>
+            <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
+            <Dropdown.Item href="/patient-dashboard">Patient Dashboard</Dropdown.Item>
+            <Dropdown.Item href="/patient-account-details">Account Settings</Dropdown.Item>
+          </div>
+        )
+      }
+      else{
+        return(
+          <div>
+            <Dropdown.Item href="/vet-register" className='fw-bold'>Vet Sign up</Dropdown.Item>
+            <Dropdown.Item href="/vet-login">Vet Log In</Dropdown.Item>
+            <Dropdown.Item href="/patient-register" className='fw-bold'>Patient Sign up</Dropdown.Item>
+            <Dropdown.Item href="/patient-login">Patient Log In</Dropdown.Item>
+      
+            <Dropdown.Divider />
+            <Dropdown.Item href="/help">Help</Dropdown.Item>
+          </div>
+        )
+      }
     }
   }
 
-  return (
-    <header>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <img 
-            src = {logo} 
-            alt = "Logo" 
-            width= {50}
-            height = {50} 
-            onClick = {handleHome}
-            style={{ cursor: "pointer" }} 
-            />
-        <div className="navbar-collapse" id="navbarSupportedContent">
-        <input
+  const renderSearch = ()=>{
+    if(props.search === true){
+      return(
+        <>
+          <input
             type="search"
             id = "search-input"
             className="form-control mr-sm-2"
@@ -205,6 +199,24 @@ export default function Header () {
               Search
             </button>
           </div>
+        </>
+      )
+    }
+  }
+
+  return (
+    <header>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+          <img 
+            src = {logo} 
+            alt = "Logo" 
+            width= {50}
+            height = {50} 
+            onClick = {handleHome}
+            style={{ cursor: "pointer" }} 
+            />
+        <div className="navbar-collapse" id="navbarSupportedContent">
+          {renderSearch()}
       <Dropdown className="menu-container" >
       <Dropdown.Toggle variant="dark" id="dropdown-basic" className = "menu-trigger menu-active">
         {headerData ? (headerData):'Profile'}

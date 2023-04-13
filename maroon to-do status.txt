@@ -2,13 +2,15 @@ To-do:
 
 ASAP:
 
+1. finish going through all files, and decide which ones need search = true, which ones need dropdown =true
+-- dropdown in header. choose which pages should have the search bar, and which should have the login/ake account dropdown
+
 -- the state representing the pre-vet education should be a [{}, {}], with each object representing a seperate education
 	then, before sending to the back-end, would convert objects to arrays.
 -- need to integrate date when adding educations
 
 TT stuff:
-1. rename components folder--> pages. Make a components folder (with specialty components (ie a special link component (give it href, title)
-	go through all files, see what is repeated, outsource to a componnet (like custom-link)
+1. Continue going through all files, see what is repeated, outsource to a componnet (like custom-link)
 2. consider changing to tsx framework - more exact (types, etc.)
 3. dividie up the returns into functions, and then call teh functions in one return stateent at the bottom
 

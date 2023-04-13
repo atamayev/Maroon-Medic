@@ -4,6 +4,7 @@ import {Button, Card, Form, Carousel, Accordion, ToggleButton, ToggleButtonGroup
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import DoctorHeader from './doctor-header.js';
 import PrivateDoctorDataService from '../../Services/private-doctor-data-service.js';
+import Header from '../header.js';
 
 export default function DoctorAccountDetails() {
   const [listDetails, setListDetails] = useState({});
@@ -579,6 +580,7 @@ export default function DoctorAccountDetails() {
 
   return (
     <div>
+      <Header search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
       <DoctorHeader/>
       <Card>
         <Card.Header>

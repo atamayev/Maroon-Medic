@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom";
 import DataService from "../../Services/data-service.js"
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import RegisterForm from '../../Components/register-form.js';
+import Header from '../header.js';
 
 export default function DoctorRegister() {
   const [register_information_object, setRegister_information_object] = useState({register_type: 'Doctor'});
@@ -48,15 +49,18 @@ export default function DoctorRegister() {
   };
 
   return (
-    <RegisterForm
-      handleSubmit={handleSubmit}
-      register_information_object={register_information_object}
-      setRegister_information_object={setRegister_information_object}
-      passwordConfirm = {passwordConfirm}
-      setpasswordConfirm = {setpasswordConfirm}
-      error={error}
-      type="Vet"
-      loading = {loading}
-    />
+    <>
+      <Header search = {true} className = "d-flex align-items-center justify-content-center w-100"/>
+      <RegisterForm
+        handleSubmit={handleSubmit}
+        register_information_object={register_information_object}
+        setRegister_information_object={setRegister_information_object}
+        passwordConfirm = {passwordConfirm}
+        setpasswordConfirm = {setpasswordConfirm}
+        error={error}
+        type="Vet"
+        loading = {loading}
+      />
+    </>
   )
 };

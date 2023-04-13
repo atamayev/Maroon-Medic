@@ -30,17 +30,15 @@ export default function App() {
 
   return (
     <>
-     <Container className = "d-flex" style = {{minHeight: "100vh"}}>
-     <div className="w-100" style = {{maxWidth: "4000px"}}>
-     <Header className = "d-flex align-items-center justify-content-center w-100"/>
+    <Container className = "d-flex" style = {{minHeight: "100vh"}}>
+      <div className="w-100" style = {{maxWidth: "4000px"}}>
         <Routes>
           <Route exact path="/" element = {<HomeDoctorsList/>} />
-          {/* Specific Doctrs List both for if there is a query, and if there isnt: next line */}
+          {/* Specific Doctors List both for if there is a query, and if there isnt: next line */}
           <Route exact path="/s/:query" element = {<SpecificDoctorsList/>} /> 
           <Route exact path="/s/" element = {<SpecificDoctorsList/>} />
           <Route exact path = '/vet/:id' element = {<Doctor/>} />
 
-          {/* Don't need the search header: */}
           <Route exact path = '/vet-register' element = {<DoctorRegister/>} />
           <Route exact path = '/vet-login' element = {<DoctorLogin/>} />
           <Route exact path = '/new-vet' element = {<NewDoctor/>} />
@@ -59,7 +57,7 @@ export default function App() {
           {/* Catch all */}
           <Route path = '*' element = {<Missing/>} />
         </Routes>
-     
+
       </div>
     </Container>
     <Footer className = "align-items-center justify-content-center layout-container" />
