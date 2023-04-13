@@ -3,28 +3,28 @@ import {Routes, Route} from 'react-router-dom'
 import {Container} from 'react-bootstrap';
 import "./CSS/footer.css"
 //Publicly accessible:
-import Header from './Components/header';
-import HomeDoctorsList from "./Components/home-doctors-list"
-import SpecificDoctorsList from "./Components/specific-doctors-list"
-import Doctor from './Components/doctor';
-import Footer from './Components/footer';
-import Missing from './Components/missing';
+import Header from './Pages/header';
+import HomeDoctorsList from "./Pages/home-doctors-list"
+import SpecificDoctorsList from "./Pages/specific-doctors-list"
+import Doctor from './Pages/doctor';
+import Footer from './Pages/footer';
+import Missing from './Pages/missing';
 //Vet Specific:
-import DoctorRegister from "./Components/Doctor/doctor-register"
-import DoctorLogin from "./Components/Doctor/doctor-login"
-import NewDoctor from "./Components/Doctor/new-doctor"
-import DoctorDashboard from './Components/Doctor/doctor-dashboard';
-import DoctorAccountDetails from "./Components/Doctor/doctor-account-details"
-import DoctorSettings from './Components/Doctor/DoctorSettings/doctor-settings';
-import DoctorPersonalInfo from './Components/Doctor/DoctorSettings/doctor-personal-info';
-import DoctorPrivacy from './Components/Doctor/DoctorSettings/doctor-privacy';
-import DoctorLoginAndSecurity from './Components/Doctor/DoctorSettings/doctor-login-and-security';
+import DoctorRegister from "./Pages/Doctor/doctor-register"
+import DoctorLogin from "./Pages/Doctor/doctor-login"
+import NewDoctor from "./Pages/Doctor/new-doctor"
+import DoctorDashboard from './Pages/Doctor/doctor-dashboard';
+import DoctorAccountDetails from "./Pages/Doctor/doctor-account-details"
+import DoctorSettings from './Pages/Doctor/DoctorSettings/doctor-settings';
+import DoctorPersonalInfo from './Pages/Doctor/DoctorSettings/doctor-personal-info';
+import DoctorPrivacy from './Pages/Doctor/DoctorSettings/doctor-privacy';
+import DoctorLoginAndSecurity from './Pages/Doctor/DoctorSettings/doctor-login-and-security';
 
 //Patient Specific:
-import PatientLogin from './Components/Patient/patient-login';
-import PatientRegister from './Components/Patient/patient-register';
-import PatientDashboard from "./Components/Patient/patient-dashboard"
-import NewPatient from './Components/Patient/new-patient';
+import PatientLogin from './Pages/Patient/patient-login';
+import PatientRegister from './Pages/Patient/patient-register';
+import PatientDashboard from "./Pages/Patient/patient-dashboard"
+import NewPatient from './Pages/Patient/new-patient';
 
 export default function App() {
 
