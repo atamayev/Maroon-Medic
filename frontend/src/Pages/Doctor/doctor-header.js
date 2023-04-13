@@ -1,29 +1,15 @@
 import React from 'react'
 import { Nav } from 'react-bootstrap';
+import DoctorNavHeader from '../../Components/doctor-nav-header';
 
 export default function DoctorHeader() {
 
   return (
     <>
         <Nav justify variant = "pills" className="justify-content-center">
-                <Nav.Item>
-                    <Nav.Link href = '/vet-dashboard' eventKey = "link-1">
-                    Dashboard
-                    </Nav.Link>
-                </Nav.Item>
-
-            <Nav.Item>
-                <Nav.Link href = "/vet-account-details" className="link-2">
-                    Account Details
-                </Nav.Link>
-            </Nav.Item>
-
-            <Nav.Item>
-                <Nav.Link href = "/vet-settings" eventKey = "link-3">
-                Settings
-                </Nav.Link>
-            </Nav.Item>
-
+            <DoctorNavHeader href = '/vet-dashboard' eventKey = "link-1" title='Dashboard'/>
+            <DoctorNavHeader href = '/vet-account-details' eventKey = "link-2" title='Account Details'/>
+            <DoctorNavHeader href = '/vet-settings' eventKey = "link-3" title='Settings'/>
         </Nav>
     </>
   )

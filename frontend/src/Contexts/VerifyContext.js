@@ -19,7 +19,7 @@ const VerifyContextProvider = (props) => {
         };
       }
     }catch(error){
-      console.log('Error in user_verification context', error);
+      // console.log('Error in user_verification context', error);
       return {
         verified: false
       };

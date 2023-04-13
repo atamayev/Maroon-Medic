@@ -35,63 +35,43 @@ export default function Doctor () {
     }
   };
 
-  if (error && !user) {
+  if (error || !user) {
     return (
       <>
-    <div className="alert alert-danger">{error}</div>
-    <Card>
-      <Card.Body>
-        <p>Vet "{id}" does not exist </p>;
-        <a href = "/">
-          <Button variant="primary">
+        {error && <div className="alert alert-danger">{error}</div>}
+        <Card>
+          <Card.Body>
+            <p>Vet "{id}" does not exist</p>
+            <a href="/">
+              <Button variant="primary">
                 <p>Go back home (Href)</p>
-            </Button>
-        </a>
-      </Card.Body>
-    </Card>
-  </>
+              </Button>
+            </a>
+          </Card.Body>
+        </Card>
+      </>
     );
-  }
-
-  if(error){
-    return <div className="alert alert-danger">{error}</div>
-  }
-
-  if (!user) {
-    return(
-    <Card>
-      <Card.Body>
-        <p>Vet "{id}" does not exist </p>;
-        <a href = "/">
-          <Button variant="primary">
-                <p>Go back home (Href)</p>
-            </Button>
-        </a>
-    </Card.Body>
-    </Card>
-    )
   }
   
   return (
     <div>
-        <Card key={user.Doctor_ID} style={{margin: '0 10px' }}>
-            {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
-            <Card.Body>
-              <Card.Title>My Email: {user.email}</Card.Title>
-              <Card.Text>
-                My ID: {user.Doctor_ID}<br></br>
-                My FirstName: {user.FirstName}<br></br>
-                My LastName: {user.LastName}<br></br>
-                My gender: {user.Gender}
-              </Card.Text>
-              <a href = "/">
-                
-              <Button variant="primary" >
-                    <p>Go back home (Href)</p>
-                </Button>
-                </a>
-             </Card.Body>
-          </Card>
+      <Card key={user.Doctor_ID} style={{margin: '0 10px' }}>
+          {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
+          <Card.Body>
+            <Card.Title>My Email: {user.email}</Card.Title>
+            <Card.Text>
+              My ID: {user.Doctor_ID}<br></br>
+              My FirstName: {user.FirstName}<br></br>
+              My LastName: {user.LastName}<br></br>
+              My gender: {user.Gender}
+            </Card.Text>
+            <a href = "/">
+                <Button variant="primary" >
+                  <p>Go back home (Href)</p>
+              </Button>
+            </a>
+          </Card.Body>
+      </Card>
     </div>
   );
 }

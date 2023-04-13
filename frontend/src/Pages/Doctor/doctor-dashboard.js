@@ -11,7 +11,6 @@ export default function DoctorDashboard() {
   const [user_type, setUser_type] = useState(null);
   const newDoctor = document.cookie.split(';').some((item) => item.trim().startsWith('DoctorNew_User'));
 
-
   useEffect(() => {
     console.log("in doctor-dashboard useEffect");
     user_verification()

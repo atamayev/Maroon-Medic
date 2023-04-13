@@ -8,6 +8,39 @@ import PrivateDoctorDataService from '../Services/private-doctor-data-service'
 import { VerifyContext } from '../Contexts/VerifyContext.js';
 import { SearchContext } from '../Contexts/SearchContext';
 
+const handleKeyUp = (event) => {
+  if (event.key === 'Enter'){
+    const value = event.target.value
+    console.log(`handleKeyUp in ${value}`, value)
+    if (!value){
+      console.log('searchName',value)
+      sessionStorage.setItem("searchTerm", "")
+      window.location.href = '/';
+    }else{
+      console.log('searchName',value)
+      sessionStorage.setItem("searchTerm", value)
+      window.location.href = `/s/${value}`;
+    }
+  }
+}
+
+const handleSearch = (value, setSearchTerm) => {
+  if (!value){
+    console.log('searchName',value)
+    sessionStorage.setItem("searchTerm", "")
+    window.location.href = '/';
+  }else{
+    console.log('searchName',value)
+    setSearchTerm(value);
+    window.location.href = `/s/${value}`;
+  }
+};
+
+const handleHome = () => {
+  sessionStorage.setItem("searchTerm", "")
+  window.location.href = '/';
+}
+
 export default function Header () {
   const location = useLocation();
   const [headerData, setHeaderData] = useState('');
@@ -87,8 +120,8 @@ export default function Header () {
     }else{
       console.log('no response')
     }
-  };  
-
+  }; 
+  
   const handleLogout = async () => {
     try{
       sessionStorage.clear();
@@ -99,7 +132,7 @@ export default function Header () {
     handleRefresh();
     console.log('logged out');
   }
-
+  
   const handleRefresh = useCallback(() => {
     if (location.pathname === '/') {
         window.location.reload();
@@ -108,37 +141,39 @@ export default function Header () {
     }
   }, [location]);
 
-  const handleKeyUp = (event) => {
-    if (event.key === 'Enter'){
-      const value = event.target.value
-      console.log(`handleKeyUp in ${value}`, value)
-      if (!value){
-        console.log('searchName',value)
-        sessionStorage.setItem("searchTerm", "")
-        window.location.href = '/';
-      }else{
-        console.log('searchName',value)
-        sessionStorage.setItem("searchTerm", value)
-        window.location.href = `/s/${value}`;
-      }
-    }
-  }
 
-  const handleSearch = (value) => {
-    if (!value){
-      console.log('searchName',value)
-      sessionStorage.setItem("searchTerm", "")
-      window.location.href = '/';
-    }else{
-      console.log('searchName',value)
-      setSearchTerm(value);
-      window.location.href = `/s/${value}`;
+  const renderDropdown = ()=>{
+    if(user_type === 'Doctor'){
+      return(
+        <div>
+          <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
+          <Dropdown.Item href="/vet-dashboard">Vet Dashboard</Dropdown.Item>
+          <Dropdown.Item href="/vet-account-details">Account Details</Dropdown.Item>
+        </div>
+      )
     }
-  };
-
-  const handleHome = () => {
-    sessionStorage.setItem("searchTerm", "")
-    window.location.href = '/';
+    else if (user_type === 'Patient'){
+      return(
+        <div>
+          <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
+          <Dropdown.Item href="/patient-dashboard">Patient Dashboard</Dropdown.Item>
+          <Dropdown.Item href="/patient-account-details">Account Settings</Dropdown.Item>
+        </div>
+      )
+    }
+    else{
+      return(
+        <div>
+          <Dropdown.Item href="/vet-register" className='fw-bold'>Vet Sign up</Dropdown.Item>
+          <Dropdown.Item href="/vet-login">Vet Log In</Dropdown.Item>
+          <Dropdown.Item href="/patient-register" className='fw-bold'>Patient Sign up</Dropdown.Item>
+          <Dropdown.Item href="/patient-login">Patient Log In</Dropdown.Item>
+    
+          <Dropdown.Divider />
+          <Dropdown.Item href="/help">Help</Dropdown.Item>
+        </div>
+      )
+    }
   }
 
   return (
@@ -166,43 +201,20 @@ export default function Header () {
             <button
               className="btn btn-dark"
               type="button"
-              onClick={()=>handleSearch(document.getElementById("search-input").value)}>
+              onClick={()=>handleSearch(document.getElementById("search-input").value, setSearchTerm)}>
               Search
             </button>
           </div>
       <Dropdown className="menu-container" >
       <Dropdown.Toggle variant="dark" id="dropdown-basic" className = "menu-trigger menu-active">
         {headerData ? (headerData):'Profile'}
-        <img src = {pic} 
+        <img src = {pic}
         alt = "profile" 
         height = {20} />
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        {user_type === 'Doctor' ? (
-          <div>
-          <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
-          <Dropdown.Item href="/vet-dashboard">Vet Dashboard</Dropdown.Item>
-          <Dropdown.Item href="/vet-account-details">Account Details</Dropdown.Item>
-          </div>
-          ) : user_type === 'Patient' ? (
-            <div>
-          <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
-          <Dropdown.Item href="/patient-dashboard">Patient Dashboard</Dropdown.Item>
-          <Dropdown.Item href="/patient-account-details">Account Settings</Dropdown.Item>
-            </div>
-          ) : (
-          <div>
-          <Dropdown.Item href="/vet-register" className='fw-bold'>Vet Sign up</Dropdown.Item>
-          <Dropdown.Item href="/vet-login">Vet Log In</Dropdown.Item>
-          <Dropdown.Item href="/patient-register" className='fw-bold'>Patient Sign up</Dropdown.Item>
-          <Dropdown.Item href="/patient-login">Patient Log In</Dropdown.Item>
-
-          <Dropdown.Divider />
-          <Dropdown.Item href="/help">Help</Dropdown.Item>
-          </div>
-          )
-           }
+        {renderDropdown()}
       </Dropdown.Menu>
     </Dropdown>
         </div>

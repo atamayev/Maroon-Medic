@@ -1,7 +1,7 @@
 import React from 'react'
 import DoctorHeader from '../doctor-header.js';
-import {Card, CardGroup } from 'react-bootstrap'
-import {Link} from "react-router-dom";
+import { CardGroup } from 'react-bootstrap'
+import DoctorSettingsLinks from '../../../Components/doctor-settings-links.js';
 
 export default function DoctorSettings() {
 
@@ -9,29 +9,9 @@ export default function DoctorSettings() {
     <>
         <DoctorHeader/>
         <CardGroup>
-        <Link to = "/vet-settings/personal-information" style={{ textDecoration: 'none' }}>
-            <Card border="primary" style={{ width: '18rem' }}>
-                <Card.Body>
-                <Card.Title>Personal Information</Card.Title>
-                </Card.Body>
-            </Card>
-        </Link>
-
-        <Link to = "/vet-settings/privacy" style={{ textDecoration: 'none' }}>
-            <Card border="primary" style={{ width: '18rem' }}>
-                <Card.Body>
-                <Card.Title>Privacy</Card.Title>
-                </Card.Body>
-            </Card>
-        </Link>
-
-        <Link to = "/vet-settings/login-and-security" style={{ textDecoration: 'none' }}>
-            <Card border="primary" style={{ width: '18rem' }}>
-                <Card.Body>
-                <Card.Title>Login & Security</Card.Title>
-                </Card.Body>
-            </Card>
-        </Link>
+            <DoctorSettingsLinks vetSettingsLink = {"personal-information"} title = {"Personal Information"}/>
+            <DoctorSettingsLinks vetSettingsLink = {"privacy"} title = {"Privacy"}/>
+            <DoctorSettingsLinks vetSettingsLink = {"login-and-security"} title = {"Login & Security"}/>
         </CardGroup>
     </>
   )
