@@ -5,6 +5,7 @@ import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import DoctorHeader from './doctor-header.js';
 import PrivateDoctorDataService from '../../Services/private-doctor-data-service.js';
 import Header from '../header.js';
+import FormGroup from '../../Components/form-group.js';
 
 export default function DoctorAccountDetails() {
   const [listDetails, setListDetails] = useState({});
@@ -578,11 +579,9 @@ export default function DoctorAccountDetails() {
     }
   }
 
-  return (
-    <div>
-      <Header dropdown = {true}/>
-      <DoctorHeader/>
-      <Card>
+  const renderPreVetEducationSection = () =>{
+    return(
+        <Card>
         <Card.Header>
           Change all of this card to pre-vet education
         </Card.Header>
@@ -661,43 +660,62 @@ export default function DoctorAccountDetails() {
           )}
         </Card.Body>
       </Card>
-    <br/>
-      <p>This is the Account Details Page</p>
+    )
+  }
 
+  const renderIsDescription = () =>{
+    if (description.Description){
+      return(
+        <Form onSubmit={saveDescription}> 
+        <FormGroup
+            id="Description" 
+            value={description.Description} 
+            onChange = {handleDescriptionChange}
+            maxLength={1000} // limit to 1000 characters
+            as="textarea" 
+            rows={3}
+            label={"Description"}
+          />
+            <div style={counterStyle}>Character Limit: {description.Description.length} / 1000</div>
+          <div className="d-grid justify-content-md-end">
+        <Button onClick={saveDescription}>Save</Button>
+        </div>
+      </Form>
+        )
+    }else{
+      return(
+        <>
+        <Form onSubmit={saveDescription}> 
+          <FormGroup
+              id="Description" 
+              defaultValue="" 
+              onChange = {handleDescriptionChange}
+              maxLength={1000} // limit to 1000 characters
+              as="textarea" 
+              rows={3}
+              label={"Description"}
+            />
+          <div className="d-grid justify-content-md-end">
+            <Button onClick={saveDescription}>Save</Button>
+          </div>
+        </Form>
+        </>
+      )
+    }
+  }
+
+  const renderDescriptionSection = () =>{
+    return(
       <Card>
         <Card.Body>
-          <Form onSubmit={saveDescription}> 
-            {description.Description ? (
-              <Form.Group id = "Description" className="mb-3">
-                <Form.Label>Description</Form.Label>
-                <Form.Control 
-                  id="Description" 
-                  value={description.Description}
-                  onChange = {handleDescriptionChange}
-                  maxLength={1000} // limit to 1000 characters
-                  as="textarea" rows={3}
-                />
-                <div style={counterStyle}>Character Limit: {description.Description.length} / 1000</div>
-              </Form.Group>
-            ):(
-              <Form.Group id = "Description">
-                <Form.Label>Description</Form.Label>
-                <Form.Control 
-                    id="Description" 
-                    defaultValue="" 
-                    onChange = {handleDescriptionChange}
-                    maxLength={1000} // limit to 1000 characters
-                    as="textarea" rows={3}
-                  />
-              </Form.Group>
-            )}
-            <div className="d-grid justify-content-md-end">
-            <Button onClick={saveDescription}>Save</Button>
-            </div>
-          </Form>
+          {renderIsDescription()}
         </Card.Body>
       </Card>
-      <br/>
+    )
+  }
+
+  const renderPersonalInfoLinkSection =  () =>{
+    return(
       <Card>
         <Card.Body>
           Looking to edit your Profile Information? Click here: 
@@ -708,8 +726,12 @@ export default function DoctorAccountDetails() {
         </Link>
         </Card.Body>
       </Card>
-      <br/>
+    )
+  }
 
+  const renderPicturesSection = ()=>{
+    return(
+      <>
       Edit Pictures:
       <Carousel activeIndex={carouselIndex} onSelect={handleSelectCarousel}>
       <Carousel.Item>
@@ -751,8 +773,12 @@ export default function DoctorAccountDetails() {
         </Carousel.Caption>
       </Carousel.Item>
       </Carousel>   
-      <br/>
+      </>
+    )
+  }
 
+  const renderSpecialtySection = () =>{
+    return(
       <Card>
         <Card.Body>
           {Array.from(new Set(listDetails[3]?.map((item) => item.Organization_name))).length > 0 ? (
@@ -815,25 +841,28 @@ export default function DoctorAccountDetails() {
           )}
         </Card.Body>
       </Card>
-    <br/>
+    )
+  }
 
+  const renderInsuranceSection = () =>{
+    return(
     <Card>
-    <Card.Body>
-    Insurances
-    <br/>
-    <label htmlFor="insurance">Select a insurance: </label>
-      <select id="insurance" name="insurance" value={selectedInsurance?.insurance_listID || ''} onChange={handleInsuranceChange}>
-        <option value ="">Choose an insurance</option>
-        {Array.isArray(listDetails[0]) &&
-            listDetails[0].length > 0 &&
-            listDetails[0]
-              .filter((insurance) => !acceptedInsurances.find((accepted) => accepted.insurance_listID === insurance.insurance_listID))
-              .map((insurance) => (
-                <option key={insurance?.insurance_listID} value={insurance?.insurance_listID}>
-                  {insurance?.Insurance_name}
-                </option>
-        ))}
-      </select>
+      <Card.Body>
+      Insurances
+      <br/>
+      <label htmlFor="insurance">Select a insurance: </label>
+        <select id="insurance" name="insurance" value={selectedInsurance?.insurance_listID || ''} onChange={handleInsuranceChange}>
+          <option value ="">Choose an insurance</option>
+          {Array.isArray(listDetails[0]) &&
+              listDetails[0].length > 0 &&
+              listDetails[0]
+                .filter((insurance) => !acceptedInsurances.find((accepted) => accepted.insurance_listID === insurance.insurance_listID))
+                .map((insurance) => (
+                  <option key={insurance?.insurance_listID} value={insurance?.insurance_listID}>
+                    {insurance?.Insurance_name}
+                  </option>
+          ))}
+        </select>
       <Button onClick={handleAddInsurance}>Add</Button>
       <ul>
         {Array.isArray(acceptedInsurances) && acceptedInsurances.map(insurance => (
@@ -843,51 +872,54 @@ export default function DoctorAccountDetails() {
         ))}
       </ul>
       <Button onClick={saveInsurances}>Save</Button>
-
       </Card.Body>
     </Card>
-    <br/>
+    )
+  }
 
-    <Card>
-    <Card.Body>
-    Languages
-    <br/>
-    <label htmlFor="language">Select a language: </label>
-    <select
-      id="language"
-      name="language"
-      value={selectedLanguage?.language_listID || ""}
-      onChange={handleLanguageChange}
-    >
-      <option value="">Choose a language</option>
-      {Array.isArray(listDetails[1]) &&
-        listDetails[1].length > 0 &&
-        listDetails[1]
-          .filter((language) => !spokenLanguages.find((spoken) => spoken.language_listID === language.language_listID))
-          .map((language) => (
-            <option key={language?.language_listID} value={language?.language_listID}>
-              {language?.Language_name}
-            </option>
-          ))}
-    </select>
-    <Button onClick={handleAddLanguage}>Add</Button>
-    <ul>
-      {Array.isArray(spokenLanguages) &&
-        spokenLanguages.map((language) => (
-          <li key={language.language_listID}>
-            {language.Language_name}
-            <Button onClick={() => handleDeleteLanguage(language)}>x</Button>
-          </li>
-        ))}
-    </ul>
-    <Button onClick={saveLanguages}>Save</Button>
+  const renderLanguageSection = () =>{
+    return(
+      <Card>
+        <Card.Body>
+        Languages
+        <br/>
+        <label htmlFor="language">Select a language: </label>
+        <select
+          id="language"
+          name="language"
+          value={selectedLanguage?.language_listID || ""}
+          onChange={handleLanguageChange}
+        >
+          <option value="">Choose a language</option>
+          {Array.isArray(listDetails[1]) &&
+            listDetails[1].length > 0 &&
+            listDetails[1]
+              .filter((language) => !spokenLanguages.find((spoken) => spoken.language_listID === language.language_listID))
+              .map((language) => (
+                <option key={language?.language_listID} value={language?.language_listID}>
+                  {language?.Language_name}
+                </option>
+              ))}
+        </select>
+        <Button onClick={handleAddLanguage}>Add</Button>
+        <ul>
+          {Array.isArray(spokenLanguages) &&
+            spokenLanguages.map((language) => (
+              <li key={language.language_listID}>
+                {language.Language_name}
+                <Button onClick={() => handleDeleteLanguage(language)}>x</Button>
+              </li>
+            ))}
+        </ul>
+        <Button onClick={saveLanguages}>Save</Button>
+        </Card.Body>
+      </Card>
+    )
+  }
 
-
-      </Card.Body>
-    </Card>
-    <br/>
-    
-    <Card>
+  const renderLocationsSection = () =>{
+    return(
+      <Card>
       <Card.Body>
         Locations
       <Accordion defaultActiveKey={['0']} alwaysOpen>
@@ -909,9 +941,12 @@ export default function DoctorAccountDetails() {
       </Accordion>
       </Card.Body>
     </Card>
-    <br/>
+    )
+  }
 
-    <Card>
+  const renderVerificationAndPublicStatusSection = () =>{
+    return(
+      <Card>
       <Card.Header>
         Verification and Search Results
       </Card.Header>
@@ -949,7 +984,31 @@ export default function DoctorAccountDetails() {
       </ToggleButtonGroup>
       </Card.Body>
     </Card>
+    )
+  }
+
+  return (
+    <div>
+      <Header dropdown = {true}/>
+      <DoctorHeader/>
+      <p>This is the Account Details Page</p>
+      {renderPreVetEducationSection()}
+      <br/>
+      {renderDescriptionSection()}
+      <br/>
+      {renderPersonalInfoLinkSection()}
+      <br/>
+      {renderPicturesSection()}
+      <br/>
+      {renderSpecialtySection()}
+      <br/>
+      {renderInsuranceSection}
+      <br/>
+      {renderLanguageSection()}
+      <br/>
+      {renderLocationsSection()}
+      <br/>
+      {renderVerificationAndPublicStatusSection()}
   </div>
   )
 };
-

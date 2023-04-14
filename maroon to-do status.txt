@@ -2,6 +2,10 @@ To-do:
 
 ASAP:
 --outsource handleSubmits from register, login, new-pt/doc
+--remove all complex ternaries. go through all files. to do this for nested ternaries, acan create other render components, which have a simple if statemnt check to render/not render something
+	preveted
+	specialty
+	veritication
 
 -- the state representing the pre-vet education should be a [{}, {}], with each object representing a seperate education
 	then, before sending to the back-end, would convert objects to arrays.

@@ -1,7 +1,19 @@
 import React from 'react'
 import {Form } from 'react-bootstrap'
 
-export default function FormGroup({id, label, defaultValue, onChange, type, placeholder, required}) {
+export default function FormGroup({
+  id, 
+  label, 
+  defaultValue, 
+  onChange, 
+  type, 
+  placeholder, 
+  required,
+  as, 
+  rows, 
+  maxLength,
+  value
+}) {
 
   return (
     <Form.Group id={id}>
@@ -13,6 +25,10 @@ export default function FormGroup({id, label, defaultValue, onChange, type, plac
         type = {type}
         placeholder= {placeholder}
         required = {required}
+        as = {as}
+        rows = {rows}
+        maxLength = {maxLength}
+        value = {value}
       />
     </Form.Group>
   )
