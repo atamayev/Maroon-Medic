@@ -41,10 +41,10 @@ export default function PatientLogin() {
               VetOrPatient: type
             }
         )}
-        credentials={login_information_object}
-        setCredentials={setLogin_information_object}
-        error={error}
-        type= {type}
+        credentials = {login_information_object}
+        setCredentials = {setLogin_information_object}
+        error = {error}
+        VetOrPatient = {type}
         loading = {loading}
         loginOrSignUp = 'Login'
       />

@@ -14,8 +14,7 @@ export const handleLoginSubmit = async ({
             setLoading(true)
             const response = await DataService.login(login_information_object);
             if (response.data === true){
-                navigate(`/${VetOrPatient}-dashboard`)
-                console.log(`Navigating to ${VetOrPatient} Dashboard`);
+                navigate(`/${VetOrPatient.toLowerCase()}-dashboard`)
             }else{
                 console.log('Login didnt work');
             }
@@ -24,5 +23,34 @@ export const handleLoginSubmit = async ({
             setError(err.response.data);
         }
         setLoading(false)
-  };
+};
 
+export const handleRegisterSubmit = async ({
+    e,
+    register_information_object, 
+    passwordConfirm,
+    navigate, 
+    setError, 
+    setLoading, 
+    VetOrPatient
+    }) => {
+        e.preventDefault();
+        setError("")
+        if (register_information_object.password !== passwordConfirm) {
+            return setError("Passwords do not match")
+        }
+        try {
+            setLoading(true)
+            const response = await DataService.register(register_information_object);
+            if (response.data === true){
+                console.log('Registered');
+                navigate(`/new-${VetOrPatient.toLowerCase()}`)
+            }else{
+                console.log('Registration didnt work');
+            }
+        } catch (err) {
+            console.log(err)
+            setError(err.response.data);
+        }
+        setLoading(false)
+};

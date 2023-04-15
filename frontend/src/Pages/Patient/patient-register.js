@@ -1,12 +1,13 @@
 import React, {useState, useEffect, useContext} from 'react'
 import {useNavigate} from "react-router-dom";
-import DataService from "../../Services/data-service.js"
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import Header from '../header.js';
 import LoginAndRegistrationForm from '../../Components/login-and-registration-form.js';
+import { handleRegisterSubmit } from '../../Components/login-and-register-handle-submit.js';
 
 export default function PatietRegister() {
-  const [register_information_object, setRegister_information_object] = useState({register_type: 'Patient'});
+  const type = "Patient"
+  const [register_information_object, setRegister_information_object] = useState({register_type: type});
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -26,39 +27,28 @@ export default function PatietRegister() {
     })
   }, []);
 
-  const handleSubmit = async (e) =>{
-    setError("")
-    e.preventDefault();
-    if (register_information_object.password !== passwordConfirm) {
-      return setError("Passwords do not match")
-    }
-    try {
-      setLoading(true)
-      const response = await DataService.register(register_information_object);
-      if (response.data === true){
-        navigate("/new-patient")
-        console.log('Registered');
-      }else{
-        console.log('Registration didnt work');
-      }
-    } catch (error) {
-      console.log('error in registration')
-      setError(error.response.data);
-    }
-    setLoading(false)
-  };
-
   return (
     <>
       <Header dropdown = {true} search = {true}/>
       <LoginAndRegistrationForm
-        handleSubmit={handleSubmit}
-        credentials={register_information_object}
-        setCredentials={setRegister_information_object}
+        handleSubmit={(e) =>
+          handleRegisterSubmit(
+            {
+              e,
+              register_information_object,
+              passwordConfirm,
+              navigate,
+              setError,
+              setLoading,
+              VetOrPatient: type
+            }
+        )}
+        credentials = {register_information_object}
+        setCredentials = {setRegister_information_object}
         passwordConfirm = {passwordConfirm}
         setPasswordConfirm = {setPasswordConfirm}
-        error={error}
-        type="Patient"
+        error = {error}
+        VetOrPatient = {type}
         loading = {loading}
         loginOrSignUp = 'Sign up'
       />

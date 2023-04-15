@@ -9,7 +9,7 @@ export default function LoginAndRegistrationForm({
   setCredentials, 
   setPasswordConfirm,
   error,
-  type,
+  VetOrPatient,
   loginOrSignUp,
   loading }) {
 
@@ -33,10 +33,10 @@ export default function LoginAndRegistrationForm({
       return(
         <>
           <div className='w-100 text-center mt-3'>
-            <Link to = {`/${type}-forgot-password`}>Forgot Password?</Link>
+            <Link to = {`/${VetOrPatient.toLowerCase()}-forgot-password`}>Forgot Password?</Link>
           </div>
           <div className='w-100 text-center mt-2'>
-            Need an account? <Link to = {`/${type}-register`}>Sign Up</Link> 
+            Need an account? <Link to = {`/${VetOrPatient.toLowerCase()}-register`}>Sign Up</Link> 
           </div>
         </>
 
@@ -48,7 +48,7 @@ export default function LoginAndRegistrationForm({
     if (loginOrSignUp === 'Sign up'){
       return(
         <div className='w-100 text-center mt-2'>
-          Already have an account? <Link to = {`/${type}-login`}>Log In</Link>
+          Already have an account? <Link to = {`/${VetOrPatient.toLowerCase()}-login`}>Log In</Link>
         </div>
       )
     }  
@@ -58,7 +58,7 @@ export default function LoginAndRegistrationForm({
     <>
       <Card>
         <Card.Body>
-          <h2 className = "text-center mb-4">{type} {loginOrSignUp}</h2>
+          <h2 className = "text-center mb-4">{VetOrPatient} {loginOrSignUp}</h2>
           <Form onSubmit={handleSubmit}>
             <FormGroup
               id = "email"

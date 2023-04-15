@@ -44,7 +44,7 @@ export default function DoctorLogin() {
         credentials = {login_information_object}
         setCredentials = {setLogin_information_object}
         error = {error}
-        type = {type}
+        VetOrPatient = {type}
         loading = {loading}
         loginOrSignUp = 'Login'
       />

@@ -1,9 +1,7 @@
 To-do:
 
 ASAP:
---change type in login/register to DoctorOrPatient
---outsource handleSubmits from register, login, new-pt/doc
---remove all complex ternaries. go through all files. to do this for nested ternaries, acan create other render components, which have a simple if statemnt check to render/not render something
+--remove all complex ternaries. go through all files. to do this for nested ternaries, can create other render components, which have a simple if statemnt check to render/not render something
 	preveted
 	specialty
 	veritication
@@ -11,7 +9,6 @@ ASAP:
 -- the state representing the pre-vet education should be a [{}, {}], with each object representing a seperate education
 	then, before sending to the back-end, would convert objects to arrays.
 -- need to integrate date when adding educations
-
 
 fill in the rest of list details
 	--checkbox integratoin vs dropdown. for insruances, checkbox. see email for details: "Fill in rest of lists"
@@ -37,3 +34,6 @@ figure out what to do when user not verified in the doctor/patient pages. can't 
 -- consider adding a verified row to patient_credneitals
 
 start using bootstrap or integrate tailwind css classes. tell chatgpt to make pages prettier (header, etc.)
+
+--after save data, need to temporarilyy show a saved notification (like when the user incorrectly enters incorrect credentials, shows error)
+
