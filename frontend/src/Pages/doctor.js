@@ -16,7 +16,6 @@ export default function Doctor () {
   }
 
   useEffect(() => {
-    console.log('in doctor.js')
     getDoctor(id);
   }, []);
 

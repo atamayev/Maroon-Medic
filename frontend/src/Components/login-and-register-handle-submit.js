@@ -16,7 +16,7 @@ export const handleLoginSubmit = async ({
             if (response.data === true){
                 navigate(`/${VetOrPatient.toLowerCase()}-dashboard`)
             }else{
-                console.log('Login didnt work');
+                setError("Login didn't work");
             }
         } catch (err) {
             console.log(err)
@@ -43,10 +43,9 @@ export const handleRegisterSubmit = async ({
             setLoading(true)
             const response = await DataService.register(register_information_object);
             if (response.data === true){
-                console.log('Registered');
                 navigate(`/new-${VetOrPatient.toLowerCase()}`)
             }else{
-                console.log('Registration didnt work');
+                setError("Registration didn't work");
             }
         } catch (err) {
             console.log(err)

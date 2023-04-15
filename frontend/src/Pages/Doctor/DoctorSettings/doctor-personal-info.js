@@ -8,124 +8,119 @@ import Header from '../../header.js';
 import FormGroup from '../../../Components/form-group.js';
 
 export default function DoctorPersonalInfo() {
-    const [personalInfo, setPersonalInfo] = useState({});
-    const {user_verification} = useContext(VerifyContext)
-    const [user_type, setUser_type] = useState(null);
+  const [personalInfo, setPersonalInfo] = useState({});
+  const {user_verification} = useContext(VerifyContext)
+  const [user_type, setUser_type] = useState(null);
 
-    useEffect(()=>{
-      console.log("in DoctorPersonalInfo useEffect");
-      user_verification()
-      .then(result => {
-        if (result.verified === true) {
-          setUser_type(result.user_type)
-          if(result.user_type === 'Doctor'){
-            try{
-              console.log(`Used ${DoctorPersonalInfo.name} useEffect`);
-              const storedPersonalInfoData = sessionStorage.getItem("DoctorPersonalInfo")
-              if (storedPersonalInfoData){
-                  setPersonalInfo(JSON.parse(storedPersonalInfoData));
-              }else{
-                console.log('fetching data from db (elsed)')
-                PersonalInfoData();
-              }
-            }catch(error){
-              console.log(error)
-            }
-          }
-        }
-        else{
-          console.log('Unverified')
-        }
-      })
-      .catch(error => {
-        console.error(error);
-      });
-    }, [])
-
-    async function PersonalInfoData(){
-        console.log('in personal data')
-        try{
-            const response = await PrivateDoctorDataService.fillPersonalData()
-            console.log(response.data)
-            if (response){
-                setPersonalInfo(response.data);
-                sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(response.data))
+  useEffect(()=>{
+    user_verification()
+    .then(result => {
+      if (result.verified === true) {
+        setUser_type(result.user_type)
+        if(result.user_type === 'Doctor'){
+          try{
+            const storedPersonalInfoData = sessionStorage.getItem("DoctorPersonalInfo")
+            if (storedPersonalInfoData){
+                setPersonalInfo(JSON.parse(storedPersonalInfoData));
             }else{
-              console.log('no response')
+              PersonalInfoData();
             }
           }catch(error){
-            console.log('unable to fill PersonalInfoData', error)
+            console.log(error)
           }
-    }
-
-    const handleSave = async (e) =>{
-        e.preventDefault();
-        const storedPersonalInfoData = sessionStorage.getItem("DoctorPersonalInfo");
-        const stringifiedPersonalInfoData = JSON.stringify(personalInfo)
-        try{
-            if (stringifiedPersonalInfoData !== storedPersonalInfoData){// if there is a change, and handlesave is used:
-                try {
-                    //create this:
-                    const response = await PrivateDoctorDataService.savePersonalData(personalInfo);
-                    if (response.data === true){
-                        // setPersonalInfo(personalInfo);
-                        sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(personalInfo));
-                        console.log('Saved!');
-                    }else{
-                      console.log('no response')
-                    }
-                } catch (error) {
-                    console.log(error.response.data);
-                }
-            }else{
-                console.log('same data')
-            }
-        }catch(error){
-            console.log('unable to handleSave', error)
         }
-    };
-
-    if(user_type === 'Patient'){
-        return(
-          <>
-            <Header dropdown = {true} search = {true}/>
-            <Card>
-              <Card.Body>
-              <p>Unautorized to view Doctor Dashboard </p>;
-              <Link to= {'/patient-dashboard'}>
-                    <Button variant="primary">
-                        <p>Return to Patient Dashboard</p>
-                    </Button>
-              </Link>
-              </Card.Body>
-            </Card>
-          </>
-
-        )
       }
-    
-    if(user_type !== 'Doctor'){
+      else{
+        console.log('Unverified')
+      }
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  }, [])
+
+  async function PersonalInfoData(){
+      try{
+          const response = await PrivateDoctorDataService.fillPersonalData()
+          if (response){
+              setPersonalInfo(response.data);
+              sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(response.data))
+          }else{
+            console.log('no response')
+          }
+        }catch(error){
+          console.log('unable to fill PersonalInfoData', error)
+        }
+  }
+
+  const handleSave = async (e) =>{
+      e.preventDefault();
+      const storedPersonalInfoData = sessionStorage.getItem("DoctorPersonalInfo");
+      const stringifiedPersonalInfoData = JSON.stringify(personalInfo)
+      try{
+          if (stringifiedPersonalInfoData !== storedPersonalInfoData){// if there is a change, and handlesave is used:
+              try {
+                  //create this:
+                  const response = await PrivateDoctorDataService.savePersonalData(personalInfo);
+                  if (response.data === true){
+                      // setPersonalInfo(personalInfo);
+                      sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(personalInfo));
+                      console.log('Saved!');
+                  }else{
+                    console.log('no response')
+                  }
+              } catch (error) {
+                  console.log(error.response.data);
+              }
+          }else{
+              console.log('same data')
+          }
+      }catch(error){
+          console.log('unable to handleSave', error)
+      }
+  };
+
+  if(user_type === 'Patient'){
       return(
         <>
           <Header dropdown = {true} search = {true}/>
           <Card>
             <Card.Body>
-              <p>Please register or login first </p>;
-              <Link to= {'/vet-register'}>
-                <Button variant="primary">
-                  <p>Register</p>
-                </Button>
-              </Link>
-              <Link to= {'/vet-login'}>
-                      <Button variant="primary">
-                          <p>Login</p>
-                      </Button>
-              </Link>
+            <p>Unautorized to view Doctor Dashboard </p>;
+            <Link to= {'/patient-dashboard'}>
+                  <Button variant="primary">
+                      <p>Return to Patient Dashboard</p>
+                  </Button>
+            </Link>
             </Card.Body>
           </Card>
         </>
+
       )
     }
+  
+  if(user_type !== 'Doctor'){
+    return(
+      <>
+        <Header dropdown = {true} search = {true}/>
+        <Card>
+          <Card.Body>
+            <p>Please register or login first </p>;
+            <Link to= {'/vet-register'}>
+              <Button variant="primary">
+                <p>Register</p>
+              </Button>
+            </Link>
+            <Link to= {'/vet-login'}>
+                    <Button variant="primary">
+                        <p>Login</p>
+                    </Button>
+            </Link>
+          </Card.Body>
+        </Card>
+      </>
+    )
+  }
 
   return (
     <div>

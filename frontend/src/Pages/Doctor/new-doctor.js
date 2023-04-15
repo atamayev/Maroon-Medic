@@ -44,7 +44,6 @@ export default function NewDoctor () {
           window.location.href = '/vet-dashboard';
         }
       } catch (error) {
-        console.log('err in adding data 1',error)
         setError(error.response.data);
       }
       setLoading(false)

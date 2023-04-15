@@ -14,7 +14,6 @@ export default function DoctorLogin() {
   const type = "Vet"
 
   useEffect(()=>{
-    console.log('in doctorlogin UseEffect')
     user_verification()
       .then(result => {
         if (result.verified === true && result.user_type === 'Doctor') {

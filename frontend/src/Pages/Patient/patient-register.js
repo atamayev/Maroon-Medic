@@ -15,7 +15,6 @@ export default function PatietRegister() {
   const {user_verification} = useContext(VerifyContext);
 
   useEffect(()=>{
-    console.log('in Patient Register useEffect')
     user_verification()
     .then(result => {
       if (result.verified === true && result.user_type === 'Patient') {
@@ -53,6 +52,5 @@ export default function PatietRegister() {
         loginOrSignUp = 'Sign up'
       />
     </>
-
   )
 };

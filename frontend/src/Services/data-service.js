@@ -37,7 +37,7 @@ export default new class DataService {
         return await http.get('/private-patient-data/fetch-personal-data')
     }
     //UNTESTED:
-    async savePatientPersonalData(personalInfo){
-        return await http.post('/private-patient-data/save-personal-data', {personalInfo})
-    }
+    // async savePatientPersonalData(personalInfo){
+    //     return await http.post('/private-patient-data/save-personal-data', {personalInfo})
+    // }
 }();

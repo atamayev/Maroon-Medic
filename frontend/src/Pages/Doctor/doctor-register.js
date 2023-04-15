@@ -15,7 +15,6 @@ export default function DoctorRegister() {
   const type = "Vet"
 
   useEffect(()=>{
-    console.log('in doctor register useEffect')
     user_verification()
       .then(result => {
         if (result.verified === true && result.user_type === 'Doctor') {

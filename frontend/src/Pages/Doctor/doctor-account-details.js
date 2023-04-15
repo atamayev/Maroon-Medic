@@ -53,24 +53,20 @@ export default function DoctorAccountDetails() {
   );
 
   useEffect(()=>{
-    console.log('in accountDetails useEffect')
     user_verification()
     .then(result => {
       if (result.verified === true) {
         setUser_type(result.user_type)
         if(result.user_type === 'Doctor'){
           try{
-            console.log(`Used ${DoctorAccountDetails.name} useEffect`);
             const storedAccountDetails = sessionStorage.getItem("DoctorAccountDetails")
             if(!storedAccountDetails){
-              console.log('fetching data from db (elsed)')
               FillDoctorAccountDetails();
             }
             const storedListDetails = sessionStorage.getItem("ListDetails")
             if(storedListDetails){
               setListDetails(JSON.parse(storedListDetails));
             }else{
-              console.log('fetching data from db (elsed)')
               FillLists();
             }
           }catch(error){
@@ -118,10 +114,8 @@ export default function DoctorAccountDetails() {
   }
 
   async function FillDoctorAccountDetails(){
-    console.log('in FillDoctorAccountDetails')
     try{
         const response = await PrivateDoctorDataService.fillAccountDetails();
-        // console.log(response.data)
         if (response){
             if(response.data[0]){
               setAcceptedInsurances(response.data[0])
@@ -158,10 +152,8 @@ export default function DoctorAccountDetails() {
 
   async function FillLists(){ 
     // this will be used to fill the lists in the db (insurances, languages, etc.) Should be one function that returns an object of arrays of hte different lists
-    console.log('in fill lists')
     try{
         const response = await PrivateDoctorDataService.fillLists();
-        // console.log(response.data)
         if (response){
             setListDetails(response.data);
             sessionStorage.setItem("ListDetails", JSON.stringify(response.data));
@@ -579,6 +571,85 @@ export default function DoctorAccountDetails() {
     }
   }
 
+  const renderIsPreVetEducation = ()=>{
+    if(Array.from(new Set(listDetails[4]?.map((item) => item.School_name))).length > 0){
+      return(
+        <>
+          <label htmlFor="pre-vet-school">Select a school: </label>
+          <select
+            id="pre-vet-school"
+            name="pre-vet-school"
+            value={selectedPreVetSchool}
+            onChange={(e) => setSelectedPreVetSchool(e.target.value)}
+          >
+            <option value="">Choose a School</option>
+            {Array.from(new Set(listDetails[4]?.map((item) => item.School_name))).map(
+              (school, index) => (
+                <option key={index} value={school}>
+                  {school}
+                </option>
+              ))}
+          </select>
+          <br />
+          {selectedPreVetSchool && (
+            <>
+              <label htmlFor="major">Select a Major: </label>
+              <select
+                id="major"
+                name="major"
+                value={selectedMajor?.major_listID || ""}
+                onChange={handlePreVetMajorChange}
+              >
+                <option value="">Choose a major</option>
+                {listDetails[6]
+                  .map((major) => (
+                    <option key={major.major_listID} value={major.major_listID}>
+                      {major.Major_name}
+                    </option>
+                  ))}
+              </select>
+            </>
+          )
+          }
+          <br/>
+            {selectedMajor && (
+              <>
+              <label htmlFor="education-type">Select a Type of Education: </label>
+                <select
+                  id="education"
+                  name="education"
+                  value={selectedPreVetEducationType?.pre_vet_education_typeID || ""}
+                  onChange={handlePreVetEducationTypeChange}
+                >
+                  <option value="">Choose an Education Type</option>
+                  {listDetails[5]
+                    .map((preVetEdType) => (
+                      <option key={preVetEdType.pre_vet_education_typeID} value={preVetEdType.pre_vet_education_typeID}>
+                        {preVetEdType.Education_type}
+                      </option>
+                    ))}
+                </select>
+                <Button onClick={handleAddPreVetEducation}>Add</Button>
+              </>
+            )}
+          <ul>
+            {preVetEducation.map((pre_vet_education) => (
+              <li key={pre_vet_education.specialties_listID}>
+                {pre_vet_education.School_name}, {pre_vet_education.Major_name}, {pre_vet_education.Education_type}{" "}
+                <Button onClick={() => handleDeletePreVetEducation(pre_vet_education)}>X</Button>
+              </li>
+            ))}
+          </ul>
+          <Button onClick={savePreVetSchool}>Save</Button>
+        </>
+      )
+    }else{
+      return(
+        <p>Loading...</p>
+      )
+    }
+  }
+
   const renderPreVetEducationSection = () =>{
     return(
         <Card>
@@ -586,78 +657,7 @@ export default function DoctorAccountDetails() {
           Change all of this card to pre-vet education
         </Card.Header>
         <Card.Body>
-          {Array.from(new Set(listDetails[4]?.map((item) => item.School_name))).length > 0 ? (
-            <>
-              <label htmlFor="pre-vet-school">Select a school: </label>
-              <select
-                id="pre-vet-school"
-                name="pre-vet-school"
-                value={selectedPreVetSchool}
-                onChange={(e) => setSelectedPreVetSchool(e.target.value)}
-              >
-                <option value="">Choose a School</option>
-                {Array.from(new Set(listDetails[4]?.map((item) => item.School_name))).map(
-                  (school, index) => (
-                    <option key={index} value={school}>
-                      {school}
-                    </option>
-                  ))}
-              </select>
-              <br />
-              {selectedPreVetSchool && (
-                <>
-                  <label htmlFor="major">Select a Major: </label>
-                  <select
-                    id="major"
-                    name="major"
-                    value={selectedMajor?.major_listID || ""}
-                    onChange={handlePreVetMajorChange}
-                  >
-                    <option value="">Choose a major</option>
-                    {listDetails[6]
-                      .map((major) => (
-                        <option key={major.major_listID} value={major.major_listID}>
-                          {major.Major_name}
-                        </option>
-                      ))}
-                  </select>
-                </>
-              )
-              }
-              <br/>
-                {selectedMajor && (
-                  <>
-                  <label htmlFor="education-type">Select a Type of Education: </label>
-                    <select
-                      id="education"
-                      name="education"
-                      value={selectedPreVetEducationType?.pre_vet_education_typeID || ""}
-                      onChange={handlePreVetEducationTypeChange}
-                    >
-                      <option value="">Choose an Education Type</option>
-                      {listDetails[5]
-                        .map((preVetEdType) => (
-                          <option key={preVetEdType.pre_vet_education_typeID} value={preVetEdType.pre_vet_education_typeID}>
-                            {preVetEdType.Education_type}
-                          </option>
-                        ))}
-                    </select>
-                    <Button onClick={handleAddPreVetEducation}>Add</Button>
-                  </>
-                )}
-              <ul>
-                {preVetEducation.map((pre_vet_education) => (
-                  <li key={pre_vet_education.specialties_listID}>
-                    {pre_vet_education.School_name}, {pre_vet_education.Major_name}, {pre_vet_education.Education_type}{" "}
-                    <Button onClick={() => handleDeletePreVetEducation(pre_vet_education)}>X</Button>
-                  </li>
-                ))}
-              </ul>
-              <Button onClick={savePreVetSchool}>Save</Button>
-            </>
-          ) : (
-            <p>Loading</p>
-          )}
+          {renderIsPreVetEducation()}
         </Card.Body>
       </Card>
     )
@@ -777,68 +777,76 @@ export default function DoctorAccountDetails() {
     )
   }
 
+  const renderIsSpecialty = () =>{
+    if(Array.from(new Set(listDetails[3]?.map((item) => item.Organization_name))).length){
+      return(
+        <>
+          <label htmlFor="organization">Select an organization: </label>
+          <select
+            id="organization"
+            name="organization"
+            value={selectedOrganization}
+            onChange={(e) => setSelectedOrganization(e.target.value)}
+          >
+            <option value="">Choose an organization</option>
+            {Array.from(new Set(listDetails[3]?.map((item) => item.Organization_name))).map(
+              (organization, index) => (
+                <option key={index} value={organization}>
+                  {organization}
+                </option>
+              ))}
+          </select>
+          <br />
+          {selectedOrganization && (
+            <>
+              <label htmlFor="specialty">Select a specialty: </label>
+              <select
+                id="specialty"
+                name="specialty"
+                value={selectedSpecialty?.specialties_listID || ""}
+                onChange={handleSelectSpecialty}
+              >
+                <option value="">Choose a specialty</option>
+                {specialties
+                  .filter(
+                    (specialty) =>
+                      !doctorSpecialties.find(
+                        (doctorSpecialty) =>
+                          doctorSpecialty.specialties_listID === specialty.specialties_listID
+                      )
+                  )
+                  .map((specialty) => (
+                    <option key={specialty.specialties_listID} value={specialty.specialties_listID}>
+                      {specialty.Specialty_name}
+                    </option>
+                  ))}
+              </select>
+              <Button onClick={handleAddSpecialty}>Add</Button>
+            </>
+          )}
+          <ul>
+            {doctorSpecialties.map((specialty) => (
+              <li key={specialty.specialties_listID}>
+                {specialty.Organization_name} - {specialty.Specialty_name}{" "}
+                <Button onClick={() => handleDeleteSpecialty(specialty)}>X</Button>
+              </li>
+            ))}
+          </ul>
+          <Button onClick={saveSpecialies}>Save</Button>
+        </>
+      )
+    }else{
+      return(
+        <p>Loading...</p>
+      )
+    }
+  }
+
   const renderSpecialtySection = () =>{
     return(
       <Card>
         <Card.Body>
-          {Array.from(new Set(listDetails[3]?.map((item) => item.Organization_name))).length > 0 ? (
-            <>
-              <label htmlFor="organization">Select an organization: </label>
-              <select
-                id="organization"
-                name="organization"
-                value={selectedOrganization}
-                onChange={(e) => setSelectedOrganization(e.target.value)}
-              >
-                <option value="">Choose an organization</option>
-                {Array.from(new Set(listDetails[3]?.map((item) => item.Organization_name))).map(
-                  (organization, index) => (
-                    <option key={index} value={organization}>
-                      {organization}
-                    </option>
-                  ))}
-              </select>
-              <br />
-              {selectedOrganization && (
-                <>
-                  <label htmlFor="specialty">Select a specialty: </label>
-                  <select
-                    id="specialty"
-                    name="specialty"
-                    value={selectedSpecialty?.specialties_listID || ""}
-                    onChange={handleSelectSpecialty}
-                  >
-                    <option value="">Choose a specialty</option>
-                    {specialties
-                      .filter(
-                        (specialty) =>
-                          !doctorSpecialties.find(
-                            (doctorSpecialty) =>
-                              doctorSpecialty.specialties_listID === specialty.specialties_listID
-                          )
-                      )
-                      .map((specialty) => (
-                        <option key={specialty.specialties_listID} value={specialty.specialties_listID}>
-                          {specialty.Specialty_name}
-                        </option>
-                      ))}
-                  </select>
-                  <Button onClick={handleAddSpecialty}>Add</Button>
-                </>
-              )}
-              <ul>
-                {doctorSpecialties.map((specialty) => (
-                  <li key={specialty.specialties_listID}>
-                    {specialty.Organization_name} - {specialty.Specialty_name}{" "}
-                    <Button onClick={() => handleDeleteSpecialty(specialty)}>X</Button>
-                  </li>
-                ))}
-              </ul>
-              <Button onClick={saveSpecialies}>Save</Button>
-            </>
-          ) : (
-            <p>Loading</p>
-          )}
+          {renderIsSpecialty()}
         </Card.Body>
       </Card>
     )
@@ -944,46 +952,50 @@ export default function DoctorAccountDetails() {
     )
   }
 
-  const renderVerificationAndPublicStatusSection = () =>{
-    return(
-      <Card>
-      <Card.Header>
-        Verification and Search Results
-      </Card.Header>
-      <Card.Body>
-        Account Verification Status:
-        <div>
-          {verified ? (
-            <Button
+  const renderIsVerification = () =>{
+    if(verified){
+      return(
+        <Button
             variant="success"
             disabled          
           >
-            ✓ (Your identity is Verified)
-          </Button>
-          ):(
-            <Button
-              variant="danger"
-              disabled
-              >
-              X (Your identity is Not Verified)
-            </Button>
-          )
-          }
-       </div>
-        <br/>
+          ✓ (Your identity is Verified)
+        </Button>
+      )
+    }else{
+      return(
+        <Button
+          variant="danger"
+          disabled
+          >
+          X (Your identity is Not Verified)
+        </Button>
+      )
+    }
+  }
 
-        Would you like your profile to be publicly Available?
-        <br/>
-        <ToggleButtonGroup type="radio" name="options" value={publiclyAvailable ?? 0} onChange={handlePublicAvailibilityToggle}>
-          <ToggleButton id="tbg-radio-1" value = {0} style={{ backgroundColor: publiclyAvailable === 0 ? "red" : "white", color: publiclyAvailable === 0 ? "white" : "black", borderColor: "black"}}>
-            No
-          </ToggleButton>
-          <ToggleButton id="tbg-radio-2" value = {1} style={{ backgroundColor: publiclyAvailable === 1 ? "green" : "white", color: publiclyAvailable === 1 ? "white" : "black", borderColor: "black"}}>
-            Yes
-          </ToggleButton>
-      </ToggleButtonGroup>
-      </Card.Body>
-    </Card>
+  const renderVerificationAndPublicStatusSection = () =>{
+    return(
+      <Card>
+        <Card.Header>
+          Verification and Search Results
+        </Card.Header>
+        <Card.Body>
+          Account Verification Status:
+          {renderIsVerification()}
+          <br/>
+          Would you like your profile to be Publicly Available?
+          <br/>
+          <ToggleButtonGroup type="radio" name="options" value={publiclyAvailable ?? 0} onChange={handlePublicAvailibilityToggle}>
+            <ToggleButton id="tbg-radio-1" value = {0} style={{ backgroundColor: publiclyAvailable === 0 ? "red" : "white", color: publiclyAvailable === 0 ? "white" : "black", borderColor: "black"}}>
+              No
+            </ToggleButton>
+            <ToggleButton id="tbg-radio-2" value = {1} style={{ backgroundColor: publiclyAvailable === 1 ? "green" : "white", color: publiclyAvailable === 1 ? "white" : "black", borderColor: "black"}}>
+              Yes
+            </ToggleButton>
+        </ToggleButtonGroup>
+        </Card.Body>
+      </Card>
     )
   }
 

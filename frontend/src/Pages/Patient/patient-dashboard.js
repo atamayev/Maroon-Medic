@@ -11,19 +11,16 @@ export default function PatientDashboard() {
   const [user_type, setUser_type] = useState(null);
 
   useEffect(() => {
-    console.log("in patient-dashboard useEffect");
     user_verification()
     .then(result => {
       if (result.verified === true) {
         setUser_type(result.user_type)
         if(result.user_type === 'Patient'){
           try{
-            console.log(`Used ${PatientDashboard.name} useEffect`);
             const storedDashboardData = sessionStorage.getItem("PatientDashboardData")
             if (storedDashboardData){
               setDashboardData(JSON.parse(storedDashboardData));
             }else{
-              console.log('fetching data from db (elsed)')
               DashboardData();
             }
           }catch(error){
@@ -44,7 +41,6 @@ export default function PatientDashboard() {
     try{
       const response = await DataService.fillPatientDashboard()
       if (response){
-        // console.log(response.data)
         setDashboardData(response.data);
         sessionStorage.setItem("PatientDashboardData", JSON.stringify(response.data))
       }else{

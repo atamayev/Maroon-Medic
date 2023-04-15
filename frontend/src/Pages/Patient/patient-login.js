@@ -14,7 +14,6 @@ export default function PatientLogin() {
   const {user_verification} = useContext(VerifyContext);
 
   useEffect(()=>{
-    console.log('in Patientlogin UseEffect')
     user_verification()
     .then(result => {
       if (result.verified === true && result.user_type === 'Patient') {

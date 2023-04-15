@@ -7,7 +7,6 @@ export default function HomeDoctorsList() {
   
   useEffect(()=>{
     setSearchTerm("")
-    console.log('in home doctors list')
     fetchData();
   }, [])
   

@@ -8,10 +8,7 @@ export const SearchContextProvider = (props) => {
   const pathname = window.location.pathname;
 
   async function fetchData (){
-    console.log('in fetch data')
-
     if(pathname === '/'){
-      console.log('3.5)fetching data')
       try{
         const result = await VetDataService.fetchAllUsers();
         setItems(result.data);
@@ -22,9 +19,7 @@ export const SearchContextProvider = (props) => {
     }
 
     if(pathname.startsWith('/s/')){
-      console.log('3)fetching data')
       try{
-        console.log('4)searchTerm in fetchData', searchTerm)
         const result = await VetDataService.find(searchTerm);
         setItems(result.data);
       }

@@ -11,13 +11,11 @@ import { SearchContext } from '../Contexts/SearchContext';
 const handleKeyUp = (event) => {
   if (event.key === 'Enter'){
     const value = event.target.value
-    console.log(`handleKeyUp in ${value}`, value)
     if (!value){
       console.log('searchName',value)
       sessionStorage.setItem("searchTerm", "")
       window.location.href = '/';
     }else{
-      console.log('searchName',value)
       sessionStorage.setItem("searchTerm", value)
       window.location.href = `/s/${value}`;
     }
@@ -26,11 +24,9 @@ const handleKeyUp = (event) => {
 
 const handleSearch = (value, setSearchTerm) => {
   if (!value){
-    console.log('searchName',value)
     sessionStorage.setItem("searchTerm", "")
     window.location.href = '/';
   }else{
-    console.log('searchName',value)
     setSearchTerm(value);
     window.location.href = `/s/${value}`;
   }
@@ -50,7 +46,6 @@ export default function Header (props) {
   const cookie_monster = document.cookie;
 
   useEffect(()=>{
-    console.log('in header useEffect')
     if (location.pathname !== '/new-vet' && location.pathname !== '/new-patient'){
       try{
         const name = JSON.parse(sessionStorage.getItem("DoctorPersonalInfo")).FirstName;
@@ -58,7 +53,6 @@ export default function Header (props) {
         setHeaderData(name);
         return;
       }catch(error){
-        // console.log(error)
       }
       try{
         const name = JSON.parse(sessionStorage.getItem("PatientPersonalInfo")).FirstName;
@@ -66,12 +60,10 @@ export default function Header (props) {
         setHeaderData(name);
         return;
       }catch(error){
-        // console.log(error)
       }
   
       //sets the headerData when login/register:
       if (!headerData){
-        console.log('no header data')
         user_verification()
         .then(result => {
           if (result.verified === true) {
@@ -130,7 +122,6 @@ export default function Header (props) {
       console.log('error',error)
     }
     handleRefresh();
-    console.log('logged out');
   }
   
   const handleRefresh = useCallback(() => {

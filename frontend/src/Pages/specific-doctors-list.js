@@ -14,7 +14,6 @@ export default function SpecificDoctorsList() {
       window.location.href = '/';
   }
   useEffect(()=>{
-    console.log('1)In Specific Doctors List')
     setSearchTerm(query)
     fetchData()
   }, [searchTerm])
@@ -29,7 +28,6 @@ export default function SpecificDoctorsList() {
       )
     }
   }
-
 
   return (
     <>

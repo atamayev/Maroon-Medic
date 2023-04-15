@@ -13,20 +13,17 @@ export default function DoctorDashboard() {
   const newDoctor = document.cookie.split(';').some((item) => item.trim().startsWith('DoctorNew_User'));
 
   useEffect(() => {
-    console.log("in doctor-dashboard useEffect");
     user_verification()
     .then(result => {
       if (result.verified === true) {
         setUser_type(result.user_type)
         if(result.user_type === 'Doctor'){
           try{
-            console.log(`Used ${DoctorDashboard.name} useEffect`);
             setUser_type('Doctor')
             const storedDashboardData = sessionStorage.getItem("DoctorDashboardData")
             if (storedDashboardData){
               setDashboardData(JSON.parse(storedDashboardData));
             }else{
-              console.log('fetching data from db (elsed)')
               DashboardData();
             }
           }catch(error){
