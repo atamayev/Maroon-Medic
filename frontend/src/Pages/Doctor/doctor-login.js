@@ -1,9 +1,9 @@
 import React, {useState, useEffect, useContext} from 'react'
 import {useNavigate} from "react-router-dom";
-import DataService from "../../Services/data-service.js"
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import Header from '../header.js';
 import LoginAndRegistrationForm from '../../Components/login-and-registration-form.js';
+import {handleLoginSubmit} from '../../Components/login-and-register-handle-submit.js';
 
 export default function DoctorLogin() {
   const [login_information_object, setLogin_information_object] = useState({login_type: 'Doctor'});
@@ -11,6 +11,7 @@ export default function DoctorLogin() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const {user_verification} = useContext(VerifyContext);
+  const type = "Vet"
 
   useEffect(()=>{
     console.log('in doctorlogin UseEffect')
@@ -23,35 +24,27 @@ export default function DoctorLogin() {
           navigate(`/patient-dashboard`);
         }
       })
-  }, []);
-  
-  const handleSubmit = async (e) =>{
-    e.preventDefault();
-    setError("")
-    try {
-      setLoading(true)
-      const response = await DataService.login(login_information_object);
-      if (response.data === true){
-        navigate("/vet-dashboard")
-        console.log('Navigating to Doctor Dashboard');
-      }else{
-        console.log('Login didnt work');
-      }
-    } catch (err) {
-      setError(err.response.data);
-    }
-    setLoading(false)
-  };
+  }, []);  
 
   return (
     <>
       <Header dropdown = {true} search = {true}/>
       <LoginAndRegistrationForm
-        handleSubmit={handleSubmit}
-        credentials={login_information_object}
-        setCredentials={setLogin_information_object}
-        error={error}
-        type="Vet"
+        handleSubmit={(e) =>
+          handleLoginSubmit(
+            {
+              e,
+              login_information_object,
+              navigate,
+              setError,
+              setLoading,
+              VetOrPatient: type
+            }
+        )}
+        credentials = {login_information_object}
+        setCredentials = {setLogin_information_object}
+        error = {error}
+        type = {type}
         loading = {loading}
         loginOrSignUp = 'Login'
       />

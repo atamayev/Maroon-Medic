@@ -1,12 +1,13 @@
 import React, {useState, useEffect, useContext} from 'react'
 import {useNavigate} from "react-router-dom";
-import DataService from "../../Services/data-service.js"
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import LoginAndRegistrationForm from '../../Components/login-and-registration-form.js';
 import Header from '../header.js';
+import { handleLoginSubmit } from '../../Components/login-and-register-handle-submit.js';
 
 export default function PatientLogin() {
-  const [login_information_object, setLogin_information_object] = useState({login_type: 'Patient'});
+  const type = "Patient"
+  const [login_information_object, setLogin_information_object] = useState({login_type: type});
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -23,35 +24,27 @@ export default function PatientLogin() {
         navigate(`/vet-dashboard`);
       }
     })
-  }, []);
-
-  const handleSubmit = async (e) =>{
-    e.preventDefault();
-    setError("")
-    try {
-      setLoading(true)
-      const response = await DataService.login(login_information_object);
-      if (response.data === true){
-        navigate("/patient-dashboard")
-        console.log('Navigating to Patient Dashboard');
-      }else{
-        console.log('Login didnt work');
-      }
-    } catch (err) {
-      setError(err.response.data);
-    }
-    setLoading(false)
-  };
+  }, [])
 
   return (
     <>
       <Header dropdown = {true} search = {true}/>
       <LoginAndRegistrationForm
-        handleSubmit={handleSubmit}
+        handleSubmit={(e) =>
+          handleLoginSubmit(
+            {
+              e,
+              login_information_object,
+              navigate,
+              setError,
+              setLoading,
+              VetOrPatient: type
+            }
+        )}
         credentials={login_information_object}
         setCredentials={setLogin_information_object}
         error={error}
-        type="Patient"
+        type= {type}
         loading = {loading}
         loginOrSignUp = 'Login'
       />

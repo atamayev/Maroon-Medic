@@ -1,6 +1,7 @@
 To-do:
 
 ASAP:
+--change type in login/register to DoctorOrPatient
 --outsource handleSubmits from register, login, new-pt/doc
 --remove all complex ternaries. go through all files. to do this for nested ternaries, acan create other render components, which have a simple if statemnt check to render/not render something
 	preveted
@@ -11,10 +12,6 @@ ASAP:
 	then, before sending to the back-end, would convert objects to arrays.
 -- need to integrate date when adding educations
 
-TT stuff:
-	1. dividie up the returns into functions, and then call teh functions in one return stateent at the bottom
-	-- start outsourcing all internal operations within front-end components
-	-- change contexts to class-based, especially verification status, so it doesn't keep calling userverification. 
 
 fill in the rest of list details
 	--checkbox integratoin vs dropdown. for insruances, checkbox. see email for details: "Fill in rest of lists"
