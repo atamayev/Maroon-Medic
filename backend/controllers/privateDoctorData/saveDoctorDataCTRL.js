@@ -102,7 +102,6 @@ export async function saveDescriptionData (req, res){
         const sql2 = `UPDATE ${table_name} SET Description = ? WHERE Doctor_ID = ?`;
         const values2 = [encrypted_description.Description, DoctorID];
         try{
-            console.log('values2',values2)
             await connection.execute(sql2, values2);
             return res.status(200).json(true);
         }catch(error){
