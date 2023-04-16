@@ -6,6 +6,20 @@ import DoctorHeader from './doctor-header.js';
 import Header from '../header.js';
 import { NonDoctorAccess } from '../../Components/user-type-unauth.js';
 
+async function fetchDoctorDashboardData(setDashboardData){
+  try{
+    const response = await PrivateDoctorDataService.fillDashboard()
+    if (response){
+      setDashboardData(response.data);
+      sessionStorage.setItem("DoctorDashboardData", JSON.stringify(response.data))
+    }else{
+      console.log('no response')
+    }
+  }catch(error){
+    console.log('unable to fillDoctorDashboard', error)
+  }
+}
+
 export default function DoctorDashboard() {
   const {user_verification} = useContext(VerifyContext)
   const [dashboardData, setDashboardData] = useState({});
@@ -24,7 +38,7 @@ export default function DoctorDashboard() {
             if (storedDashboardData){
               setDashboardData(JSON.parse(storedDashboardData));
             }else{
-              DashboardData();
+              fetchDoctorDashboardData(setDashboardData);
             }
           }catch(error){
             console.log(error)
@@ -40,20 +54,6 @@ export default function DoctorDashboard() {
     });
   }, []);
  
-  async function DashboardData (){
-    try{
-      const response = await PrivateDoctorDataService.fillDashboard()
-      if (response){
-        setDashboardData(response.data);
-        sessionStorage.setItem("DoctorDashboardData", JSON.stringify(response.data))
-      }else{
-        console.log('no response')
-      }
-    }catch(error){
-      console.log('unable to fillDoctorDashboard', error)
-    }
-  }
-
   if(user_type !== 'Doctor'){
     return(
       <NonDoctorAccess/>

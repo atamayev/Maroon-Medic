@@ -5,6 +5,20 @@ import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import Header from '../header.js';
 import { NonPatientAccess } from '../../Components/user-type-unauth.js';
 
+async function fetchPatientDashboardData(setDashboardData){
+  try{
+    const response = await DataService.fillPatientDashboard()
+    if (response){
+      setDashboardData(response.data);
+      sessionStorage.setItem("PatientDashboardData", JSON.stringify(response.data))
+    }else{
+      console.log('no response')
+    }
+  }catch(error){
+    console.log('unable to fillPatientDashboard', error)
+  }
+}
+
 export default function PatientDashboard() {
   const {user_verification} = useContext(VerifyContext)
   const [dashboardData, setDashboardData] = useState({});
@@ -21,7 +35,7 @@ export default function PatientDashboard() {
             if (storedDashboardData){
               setDashboardData(JSON.parse(storedDashboardData));
             }else{
-              DashboardData();
+              fetchPatientDashboardData(setDashboardData);
             }
           }catch(error){
             console.log(error)
@@ -36,20 +50,6 @@ export default function PatientDashboard() {
       console.error(error);
     });
   }, []);
- 
-  async function DashboardData (){
-    try{
-      const response = await DataService.fillPatientDashboard()
-      if (response){
-        setDashboardData(response.data);
-        sessionStorage.setItem("PatientDashboardData", JSON.stringify(response.data))
-      }else{
-        console.log('no response')
-      }
-    }catch(error){
-      console.log('unable to fillPatientDashboard', error)
-    }
-  }
 
   if(user_type !== 'Patient'){
     return(

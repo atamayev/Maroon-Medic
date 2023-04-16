@@ -8,6 +8,101 @@ import Header from '../header.js';
 import FormGroup from '../../Components/form-group.js';
 import { NonDoctorAccess } from '../../Components/user-type-unauth.js';
 
+async function FillLists(setListDetails){ 
+  console.log('filling lists')
+  // this will be used to fill the lists in the db (insurances, languages, etc.) Should be one function that returns an object of arrays of hte different lists
+  try{
+      const response = await PrivateDoctorDataService.fillLists();
+      if (response){
+          setListDetails(response.data);
+          sessionStorage.setItem("ListDetails", JSON.stringify(response.data));
+      }else{
+        console.log('no response');
+      }
+    }catch(error){
+      console.log('unable to fill ListDetails', error)
+    }
+}
+
+const handleLanguageChange = (event, listDetails, setSelectedLanguage) => {
+  try{
+    const languageId = parseInt(event.target.value);
+    if (languageId) {
+      const language = listDetails[1].find(lang => lang.language_listID === languageId);
+      setSelectedLanguage(language);
+    } else {
+      setSelectedLanguage(null);
+    }
+  }catch (error) {
+  console.log('error in handle language change', error)
+  }
+};
+
+function checkIfListsAreEqual(list1, list2) {
+  // Convert each list to a set
+  const set1 = new Set(list1);
+  const set2 = new Set(list2);
+  // Check if the size of both sets is the same
+  if (set1.size !== set2.size) {
+    return false;
+  }
+  // Check if every element in set1 exists in set2
+  for (const element of set1) {
+    if (!set2.has(element)) {
+      return false;
+    }
+  }
+  // Check if every element in set2 exists in set1
+  for (const element of set2) {
+    if (!set1.has(element)) {
+      return false;
+    }
+  }
+  // If both sets contain the same elements, return true
+  return true;
+}
+
+function isObjectsEqual(obj1, obj2) {
+  const keys1 = Object.keys(obj1).sort();
+  const keys2 = Object.keys(obj2).sort();
+
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
+
+  for (let i = 0; i < keys1.length; i++) {
+    const key1 = keys1[i];
+    const key2 = keys2[i];
+
+    if (key1 !== key2 || obj1[key1] !== obj2[key2]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function isObjectInArray(newObj, objectsArray) {
+  for (const obj of objectsArray) {
+    if (isObjectsEqual(newObj, obj)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+const handleAddLanguage = (selectedLanguage, spokenLanguages, setSpokenLanguages, setSelectedLanguage) => {
+  if(selectedLanguage){
+    if(spokenLanguages.length >0){
+      if(!spokenLanguages.includes(selectedLanguage)){
+        setSpokenLanguages([...spokenLanguages, selectedLanguage]);
+      }
+    }else{
+      setSpokenLanguages([selectedLanguage]);
+    }
+  }
+  setSelectedLanguage('');
+};
+
 export default function DoctorAccountDetails() {
   const [listDetails, setListDetails] = useState({});
   const {user_verification} = useContext(VerifyContext);
@@ -68,7 +163,7 @@ export default function DoctorAccountDetails() {
             if(storedListDetails){
               setListDetails(JSON.parse(storedListDetails));
             }else{
-              FillLists();
+              FillLists(setListDetails);
             }
           }catch(error){
             console.log(error)
@@ -121,51 +216,9 @@ export default function DoctorAccountDetails() {
       }
   }
 
-  async function FillLists(){ 
-    // this will be used to fill the lists in the db (insurances, languages, etc.) Should be one function that returns an object of arrays of hte different lists
-    try{
-        const response = await PrivateDoctorDataService.fillLists();
-        if (response){
-            setListDetails(response.data);
-            sessionStorage.setItem("ListDetails", JSON.stringify(response.data));
-        }else{
-          console.log('no response');
-        }
-      }catch(error){
-        console.log('unable to fill ListDetails', error)
-      }
-  }
-
   const handleSelectCarousel = (selectedIndex, e) => {
     setCarouselIndex(selectedIndex);
     // from React Bootstrap
-  };
-
-  const handleLanguageChange = (event) => {
-    try{
-      const languageId = parseInt(event.target.value);
-      if (languageId) {
-        const language = listDetails[1].find(lang => lang.language_listID === languageId);
-        setSelectedLanguage(language);
-      } else {
-        setSelectedLanguage(null);
-      }
-    }catch (error) {
-    console.log('error in handle language change', error)
-    }
-  };
-  
-  const handleAddLanguage = () => {
-    if(selectedLanguage){
-      if(spokenLanguages.length >0){
-        if(!spokenLanguages.includes(selectedLanguage)){
-          setSpokenLanguages([...spokenLanguages, selectedLanguage]);
-        }
-      }else{
-        setSpokenLanguages([selectedLanguage]);
-      }
-    }
-    setSelectedLanguage('');
   };
 
   const handleDeleteLanguage = (language) => {
@@ -303,58 +356,6 @@ export default function DoctorAccountDetails() {
       console.log('same')
     }
   };
-
-  function checkIfListsAreEqual(list1, list2) {
-    // Convert each list to a set
-    const set1 = new Set(list1);
-    const set2 = new Set(list2);
-    // Check if the size of both sets is the same
-    if (set1.size !== set2.size) {
-      return false;
-    }
-    // Check if every element in set1 exists in set2
-    for (const element of set1) {
-      if (!set2.has(element)) {
-        return false;
-      }
-    }
-    // Check if every element in set2 exists in set1
-    for (const element of set2) {
-      if (!set1.has(element)) {
-        return false;
-      }
-    }
-    // If both sets contain the same elements, return true
-    return true;
-  }
-
-  function isObjectsEqual(obj1, obj2) {
-    const keys1 = Object.keys(obj1).sort();
-    const keys2 = Object.keys(obj2).sort();
-  
-    if (keys1.length !== keys2.length) {
-      return false;
-    }
-  
-    for (let i = 0; i < keys1.length; i++) {
-      const key1 = keys1[i];
-      const key2 = keys2[i];
-  
-      if (key1 !== key2 || obj1[key1] !== obj2[key2]) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  function isObjectInArray(newObj, objectsArray) {
-    for (const obj of objectsArray) {
-      if (isObjectsEqual(newObj, obj)) {
-        return true;
-      }
-    }
-    return false;
-  }
 
   const handlePreVetSchoolChange = (event) => {
     try {
@@ -867,7 +868,7 @@ export default function DoctorAccountDetails() {
           id="language"
           name="language"
           value={selectedLanguage?.language_listID || ""}
-          onChange={handleLanguageChange}
+          onChange={event =>handleLanguageChange(event, listDetails, setSelectedLanguage)}
         >
           <option value="">Choose a language</option>
           {Array.isArray(listDetails[1]) &&
@@ -880,7 +881,7 @@ export default function DoctorAccountDetails() {
                 </option>
               ))}
         </select>
-        <Button onClick={handleAddLanguage}>Add</Button>
+        <Button onClick={()=>handleAddLanguage(selectedLanguage, spokenLanguages, setSpokenLanguages, setSelectedLanguage)}>Add</Button>
         <ul>
           {Array.isArray(spokenLanguages) &&
             spokenLanguages.map((language) => (
