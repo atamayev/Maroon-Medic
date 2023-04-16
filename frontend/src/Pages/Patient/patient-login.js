@@ -2,8 +2,8 @@ import React, {useState} from 'react'
 import {useNavigate} from "react-router-dom";
 import LoginAndRegistrationForm from '../../Components/login-and-registration-form.js';
 import Header from '../header.js';
-import { handleLoginSubmit } from '../../Components/handle-submits.js';
-import { useVerifyForPatients } from '../../Components/user-verification-snippets.js';
+import {handleLoginSubmit} from "../../Custom Hooks/handle-submits.js"
+import {useVerifyForPatients} from "../../Custom Hooks/user-verification-snippets.js"
 
 export default function PatientLogin() {
   const type = "Patient"

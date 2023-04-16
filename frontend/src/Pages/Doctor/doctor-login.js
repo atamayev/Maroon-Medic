@@ -2,8 +2,8 @@ import React, {useState} from 'react'
 import {useNavigate} from "react-router-dom";
 import Header from '../header.js';
 import LoginAndRegistrationForm from '../../Components/login-and-registration-form.js';
-import {handleLoginSubmit} from '../../Components/handle-submits.js';
-import { useVerifyForVets } from '../../Components/user-verification-snippets.js';
+import {handleLoginSubmit} from "../../Custom Hooks/handle-submits.js"
+import {useVerifyForVets} from "../../Custom Hooks/user-verification-snippets.js"
 
 export default function DoctorLogin() {
   const [login_information_object, setLogin_information_object] = useState({login_type: 'Doctor'});

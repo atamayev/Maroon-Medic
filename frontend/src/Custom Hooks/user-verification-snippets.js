@@ -16,7 +16,7 @@ export const useVerifyForVets = ()=>{
                 navigate(`/patient-dashboard`);
             }
     })
-})
+    }, [])
 };
 
 export const useVerifyForPatients = ()=>{
@@ -33,5 +33,5 @@ export const useVerifyForPatients = ()=>{
                 navigate(`/vet-dashboard`);
             }
         })
-    })
+    }, [])
 };

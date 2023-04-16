@@ -1,10 +1,10 @@
 import React, {useEffect, useState, useContext} from 'react'
-import {Link} from "react-router-dom";
-import {Button, Card} from 'react-bootstrap';
+import {Card} from 'react-bootstrap';
 import PrivateDoctorDataService from "../../Services/private-doctor-data-service.js"
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import DoctorHeader from './doctor-header.js';
 import Header from '../header.js';
+import { UserIsUnAuthPatient } from '../../Components/user-type-unauth.js';
 
 export default function DoctorDashboard() {
   const {user_verification} = useContext(VerifyContext)
@@ -54,44 +54,9 @@ export default function DoctorDashboard() {
     }
   }
 
-  if(user_type === 'Patient'){
+  if(user_type === 'Patient' || user_type !== 'Doctor'){
     return(
-      <>
-        <Header dropdown = {true} search = {true}/>
-        <Card>
-          <Card.Body>
-          <p>Unautorized to view Doctor Dashboard </p>;
-          <Link to= {'/patient-dashboard'}>
-                <Button variant="primary">
-                    <p>Return to Patient Dashboard</p>
-                </Button>
-          </Link>
-          </Card.Body>
-        </Card>
-      </>
-    )
-  }
-
-  if(user_type !== 'Doctor'){
-    return(
-      <>
-        <Header dropdown = {true} search = {true}/>
-        <Card>
-          <Card.Body>
-            <p>Please register or login first </p>;
-            <Link to= {'/vet-register'}>
-                <Button variant="primary">
-                    <p>Register</p>
-                </Button>
-            </Link>
-            <Link to= {'/vet-login'}>
-                  <Button variant="primary">
-                      <p>Login</p>
-                  </Button>
-            </Link>
-          </Card.Body>
-        </Card>
-      </>
+      <UserIsUnAuthPatient user_type = {user_type} />
     )
   }
 

@@ -4,7 +4,7 @@ import DataService from "../../Services/data-service.js"
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import NewAccountForm from '../../Components/new-account-form.js';
 import Header from '../header.js';
-import { handleNewUserSubmit } from '../../Components/handle-submits.js';
+import {handleNewUserSubmit} from "../../Custom Hooks/handle-submits.js"
 
 export default function NewPatient () {
   const [newPatientInfo, setNewPatientInfo] = useState({});

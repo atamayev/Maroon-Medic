@@ -6,6 +6,7 @@ import DoctorHeader from './doctor-header.js';
 import PrivateDoctorDataService from '../../Services/private-doctor-data-service.js';
 import Header from '../header.js';
 import FormGroup from '../../Components/form-group.js';
+import { UserIsUnAuthPatient } from '../../Components/user-type-unauth.js';
 
 export default function DoctorAccountDetails() {
   const [listDetails, setListDetails] = useState({});
@@ -82,36 +83,6 @@ export default function DoctorAccountDetails() {
       console.error(error);
     });
   }, []);
-
-  if(user_type === 'Patient'){
-    return(
-      <Card>
-        <Card.Body>
-        <p>Unautorized to edit Doctor Details </p>;
-        <Link to= {'/patient-edit-profile'}>
-              <Button variant="primary">
-                  <p>Return to Patient Edit Profile</p>
-              </Button>
-        </Link>
-        </Card.Body>
-      </Card>
-    )
-  }
-
-  if(user_type !== 'Doctor'){
-    return(
-      <Card>
-        <Card.Body>
-          <p>Please register or login first </p>;
-          <Link to= {'/vet-register'}>
-              <Button variant="primary">
-                  <p>Register</p>
-              </Button>
-        </Link>
-      </Card.Body>
-    </Card>
-    )
-  }
 
   async function FillDoctorAccountDetails(){
     try{
@@ -996,6 +967,12 @@ export default function DoctorAccountDetails() {
         </ToggleButtonGroup>
         </Card.Body>
       </Card>
+    )
+  }
+
+  if(user_type === 'Patient' || user_type !== 'Doctor'){
+    return(
+      <UserIsUnAuthPatient user_type = {user_type} />
     )
   }
 
