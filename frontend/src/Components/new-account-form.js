@@ -60,8 +60,8 @@ export default function NewAccountForm({
               </select>
           </Form.Group>
           <br />
-          <Form.Group id = "DOB">
 
+          <Form.Group id = "DOB">
           <label>
           Month:
           <select required defaultValue = "" value={newInfo.DOB_month} onChange={event => setNewInfo({...newInfo, DOB_month: event.target.value})}>
@@ -103,6 +103,7 @@ export default function NewAccountForm({
         </label>
           </Form.Group>
           <br />
+          
           <Button type="submit" className = "w-100" disabled = {loading}>Submit</Button>
         </Form>
         </Card.Body>

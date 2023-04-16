@@ -5,7 +5,7 @@ import PrivateDoctorDataService from '../../../Services/private-doctor-data-serv
 import { VerifyContext } from '../../../Contexts/VerifyContext.js';
 import Header from '../../header.js';
 import FormGroup from '../../../Components/form-group.js';
-import { UserIsUnAuthPatient } from '../../../Components/user-type-unauth.js';
+import { NonDoctorAccess } from '../../../Components/user-type-unauth.js';
 
 export default function DoctorPersonalInfo() {
   const [personalInfo, setPersonalInfo] = useState({});
@@ -80,9 +80,9 @@ export default function DoctorPersonalInfo() {
       }
   };
 
-  if(user_type === 'Patient' || user_type !== 'Doctor'){
+  if(user_type !== 'Doctor'){
     return(
-      <UserIsUnAuthPatient user_type = {user_type} />
+      <NonDoctorAccess/>
     )
   }
 

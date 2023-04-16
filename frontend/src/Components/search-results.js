@@ -11,15 +11,15 @@ export default function SearchResults(props) {
       return(
         <Card key={Doctor_ID} style={{margin: '0 10px', gridColumn: 'span 1', gridRow: 'span 1' }}>
         {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
-        <Card.Body>
-          <Card.Title>Dr. {FirstName} {LastName}</Card.Title>
-          <Link to = {`/vet/${Doctor_ID}`}>
-            <Button variant="primary">
-                <p>Click Me! id: {Doctor_ID}</p>
-            </Button>
-          </Link>
-        </Card.Body>
-      </Card>
+          <Card.Body>
+            <Card.Title>Dr. {FirstName} {LastName}</Card.Title>
+              <Link to = {`/vet/${Doctor_ID}`}>
+                <Button variant="primary">
+                    <p>Click Me! id: {Doctor_ID}</p>
+                </Button>
+              </Link>
+          </Card.Body>
+        </Card>
       )
     })}
   </div>

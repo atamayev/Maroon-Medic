@@ -3,7 +3,7 @@ import {Card} from 'react-bootstrap';
 import DataService from "../../Services/data-service.js"
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import Header from '../header.js';
-import { UserIsUnAuthDoctor } from '../../Components/user-type-unauth.js';
+import { NonPatientAccess } from '../../Components/user-type-unauth.js';
 
 export default function PatientDashboard() {
   const {user_verification} = useContext(VerifyContext)
@@ -51,9 +51,9 @@ export default function PatientDashboard() {
     }
   }
 
-  if(user_type === 'Doctor' || user_type !== 'Patient'){
+  if(user_type !== 'Patient'){
     return(
-      <UserIsUnAuthDoctor user_type = {user_type} />
+      <NonPatientAccess/>
     )
   }
 

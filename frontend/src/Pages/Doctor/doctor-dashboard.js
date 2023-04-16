@@ -4,7 +4,7 @@ import PrivateDoctorDataService from "../../Services/private-doctor-data-service
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import DoctorHeader from './doctor-header.js';
 import Header from '../header.js';
-import { UserIsUnAuthPatient } from '../../Components/user-type-unauth.js';
+import { NonDoctorAccess } from '../../Components/user-type-unauth.js';
 
 export default function DoctorDashboard() {
   const {user_verification} = useContext(VerifyContext)
@@ -54,9 +54,9 @@ export default function DoctorDashboard() {
     }
   }
 
-  if(user_type === 'Patient' || user_type !== 'Doctor'){
+  if(user_type !== 'Doctor'){
     return(
-      <UserIsUnAuthPatient user_type = {user_type} />
+      <NonDoctorAccess/>
     )
   }
 

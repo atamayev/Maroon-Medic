@@ -68,7 +68,7 @@ export async function JWT_verify (req, res){
         return res.status(500).json(response);
       }
     }catch(error){
-        return (`error in ${dashboardData.name}:`, error)
+        return (`error in ${JWT_verify.name}:`, error)
     }
   }
 };
