@@ -4,6 +4,7 @@ import DataService from "../../Services/data-service.js"
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import NewAccountForm from '../../Components/new-account-form.js';
 import Header from '../header.js';
+import { handleNewUserSubmit } from '../../Components/handle-submits.js';
 
 export default function NewPatient () {
   const [newPatientInfo, setNewPatientInfo] = useState({});
@@ -33,32 +34,25 @@ export default function NewPatient () {
       }
     })
   }, []);
-  
-  const handleSubmit = async (e) => {
-      e.preventDefault();
-      try {
-        setError("")
-        setLoading(true)
-        const bool = await DataService.addingPatientInfo(newPatientInfo)
-        if(bool.data === true){
-          // navigate("/dashboard");// this would be more efficient i think, but when navigate is used, the data doesn't load in time
-          window.location.href = '/patient-dashboard';
-        }
-      } catch (err) {
-        console.log('err in adding data 1',err)
-        setError(err.response.data);
-      }
-      setLoading(false)
-  }
 
   return (
     <>
       <Header/>
       <NewAccountForm
-        handleSubmit={handleSubmit}
-        newInfo={newPatientInfo}
-        setNewInfo={setNewPatientInfo}
-        error={error}
+        handleSubmit={(e) =>
+          handleNewUserSubmit(
+            {
+              e,
+              newInfo: newPatientInfo,
+              navigate,
+              setError,
+              setLoading,
+              VetOrPatient: "Patient"
+            }
+        )}
+        newInfo = {newPatientInfo}
+        setNewInfo= {setNewPatientInfo}
+        error = {error}
         loading = {loading}
       />
     </>

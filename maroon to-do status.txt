@@ -4,7 +4,7 @@ ASAP:
 --outsource handleSubmit in new-patient/doctor
 --remove all unneccesary useEffects (most of the user_verification ones are). see how devin did it--> basiically just have it run outside the useEffect.
 	consider outsourcing the user_verification re-direct logic if repetetive anywhere
-	
+-- if prior to inputting into db, any field is null, do not add to the db. return 'trouble saving'
 -- the state representing the pre-vet education should be a [{}, {}], with each object representing a seperate education
 	then, before sending to the back-end, would convert objects to arrays.
 -- need to integrate date when adding educations

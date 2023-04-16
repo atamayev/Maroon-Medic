@@ -47,15 +47,16 @@ export default new class Crypto {
         keys = keys.filter(item => item !== 'DoctorID');
         try{
             for (const key of keys){
-                const decipher = createDecipheriv('aes-256-cbc', secretKey, iv);
-                decryptedData[key] = decipher.update(encrypted_single[key], 'hex', 'utf8');
-                decryptedData[key] += decipher.final('utf8');
+                if(decryptedData[key]){
+                    const decipher = createDecipheriv('aes-256-cbc', secretKey, iv);
+                    decryptedData[key] = decipher.update(encrypted_single[key], 'hex', 'utf8');
+                    decryptedData[key] += decipher.final('utf8');
+                }
             }
             return decryptedData
         }catch(error){
             console.log('Error in decryptSingle', error);
         }
-
     };
     
     /** decrypt_multiple: Decrypts a array of objects. Used for the home screen (although not currently being used since no encrypted data appears on the home screen)
@@ -65,7 +66,6 @@ export default new class Crypto {
      */
     decrypt_multiple (encryptedData){
         const decryptedRecords = [];
-
         try{
             for (const record of encryptedData){
                 // console.log('record',record)
@@ -77,9 +77,11 @@ export default new class Crypto {
                 keys = keys.filter(item => item !== 'Doctor_ID');
                 
                 for (const key of keys){
-                    const decipher = createDecipheriv('aes-256-cbc', secretKey, iv);
-                    decryptedData[key] = decipher.update(record[key], 'hex', 'utf8');
-                    decryptedData[key] += decipher.final('utf8');
+                    if(decryptedData[key]){
+                        const decipher = createDecipheriv('aes-256-cbc', secretKey, iv);
+                        decryptedData[key] = decipher.update(record[key], 'hex', 'utf8');
+                        decryptedData[key] += decipher.final('utf8');
+                    }
                 }
                     decryptedRecords.push(decryptedData)
                 }

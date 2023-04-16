@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import LoginAndRegistrationForm from '../../Components/login-and-registration-form.js';
 import Header from '../header.js';
-import { handleLoginSubmit } from '../../Components/login-and-register-handle-submit.js';
+import { handleLoginSubmit } from '../../Components/handle-submits.js';
 
 export default function PatientLogin() {
   const type = "Patient"
