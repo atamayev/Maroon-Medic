@@ -1,9 +1,9 @@
-import React, {useState, useEffect, useContext} from 'react'
+import React, {useState} from 'react'
 import {useNavigate} from "react-router-dom";
-import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import Header from '../header.js';
 import LoginAndRegistrationForm from '../../Components/login-and-registration-form.js';
 import { handleRegisterSubmit } from '../../Components/handle-submits.js';
+import { useVerifyForPatients } from '../../Components/user-verification-snippets.js';
 
 export default function PatietRegister() {
   const type = "Patient"
@@ -12,19 +12,8 @@ export default function PatietRegister() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const {user_verification} = useContext(VerifyContext);
 
-  useEffect(()=>{
-    user_verification()
-    .then(result => {
-      if (result.verified === true && result.user_type === 'Patient') {
-        navigate(`/patient-dashboard`);
-      }
-      else if (result.verified === true && result.user_type === 'Doctor') {
-        navigate(`/vet-dashboard`);
-      }
-    })
-  }, []);
+  useVerifyForPatients(); //Makes sure the user isn't logged in already. If so, re-directs
 
   return (
     <>
