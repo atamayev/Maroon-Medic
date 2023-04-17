@@ -86,19 +86,37 @@ export async function saveDescription(description){
     }
 };
 
+function convertDateForSql(dateString) {
+  // Split the date string by '-'
+  const dateParts = dateString.split('-');
+
+  // Extract the year, month, and day
+  const year = dateParts[0];
+  const month = new Date(dateParts[1] + '-1-1').getMonth() + 1; // Get month index (0-11) and convert to month number (1-12)
+  const day = dateParts[2];
+
+  // Format the date as "YYYY-MM-DD"
+  const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.padStart(2, '0')}`;
+
+  return formattedDate;
+}
+
+
 export async function savePreVetSchool(preVetEducation, listDetails){
-  console.log('preVetEducation',preVetEducation)
     const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
     const savedPreVetEducations = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[4] || []
-    const mappedArray = preVetEducation.map(obj => [
-      listDetails[4].find(school => school.School_name === obj.School_name)?.pre_vet_school_listID || null,
-      listDetails[6].find(major => major.Major_name === obj.Major_name)?.major_listID || null,
-      listDetails[5].find(educationType => educationType.EducationType_name === obj.EducationType_name)?.pre_vet_education_typeID || null
-    ]);
-
-    //Makes sure that the education is not the same before writing to DB:
-    if(!mappedArray.every(arr => savedPreVetEducations.some(savedArr => JSON.stringify(savedArr) === JSON.stringify(arr)))){
+    // Makes sure that the education is not the same before writing to DB:
+    console.log(preVetEducation)
+    console.log(savedPreVetEducations)
+    if(!preVetEducation.every(arr => savedPreVetEducations.some(savedArr => JSON.stringify(savedArr) === JSON.stringify(arr)))){
       try {
+        const mappedArray = preVetEducation.map(obj => [
+          listDetails[4].find(school => school.School_name === obj.School_name)?.pre_vet_school_listID || null,
+          listDetails[6].find(major => major.Major_name === obj.Major_name)?.major_listID || null,
+          listDetails[5].find(educationType => educationType.EducationType_name === obj.EducationType_name)?.pre_vet_education_typeID || null,
+          convertDateForSql(obj.Start_Date),
+          convertDateForSql(obj.End_Date)
+        ]);
         const response = await PrivateDoctorDataService.saveEducationData(mappedArray, 'pre_vet')
         if(response.status === 200){
           DoctorAccountDetails[4] = preVetEducation;
@@ -106,7 +124,7 @@ export async function savePreVetSchool(preVetEducation, listDetails){
           console.log('Saved!');
         }
       } catch(error) {
-        console.log('error in saving Insurances', error)
+        console.log('error in saving PreVets', error)
       }
     }else{
       console.log('same')

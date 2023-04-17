@@ -91,6 +91,8 @@ export default function DoctorAccountDetails() {
 
   const [startYear, setStartYear] = useState(years[0]);
   const [endYear, setEndYear] = useState(years[0]);
+  const [startMonth, setStartMonth] = useState('January');
+  const [endMonth, setEndMonth] = useState('January');
 
   useEffect(()=>{
     user_verification()
@@ -179,7 +181,7 @@ export default function DoctorAccountDetails() {
       <div>
         <label>
           Start Month:
-          <select name="startMonth">
+          <select name="startMonth" value = {startMonth} onChange = {e => setStartMonth(e.target.value)}>
             {months.map(month => (
               <option key={month} value={month}>{month}</option>
             ))}
@@ -197,7 +199,7 @@ export default function DoctorAccountDetails() {
         <br />
         <label>
           End Month:
-          <select name="endMonth">
+          <select name="endMonth" value = {endMonth} onChange = {e => setEndMonth(e.target.value)}>
             {months.map(month => (
               <option key={month} value={month}>{month}</option>
             ))}
@@ -285,14 +287,30 @@ export default function DoctorAccountDetails() {
                 </select>
                 {allChoicesFilled && renderEducationTime()}
                   {allChoicesFilled && (
-                    <Button onClick={() => handleAddPreVetEducation(selectedPreVetSchool, selectedMajor, selectedPreVetEducationType, preVetEducation, setPreVetEducation, setSelectedPreVetSchool, setSelectedMajor, setSelectedPreVetEducationType, startYear, endYear)}>Add</Button>
+                    <Button onClick={() => handleAddPreVetEducation(
+                      selectedPreVetSchool, 
+                      selectedMajor, 
+                      selectedPreVetEducationType, 
+                      preVetEducation, 
+                      setPreVetEducation, 
+                      setSelectedPreVetSchool, 
+                      setSelectedMajor, 
+                      setSelectedPreVetEducationType, 
+                      startMonth,
+                      setStartMonth, 
+                      endMonth,
+                      setEndMonth,
+                      startYear,
+                      setStartYear, 
+                      endYear,
+                      setEndYear)}>Add</Button>
                   )}              
                   </>
                 )}
           <ul>
             {preVetEducation.map((pre_vet_education) => (
               <li key={pre_vet_education.specialties_listID}>
-                {pre_vet_education.School_name}, {pre_vet_education.Major_name}, {pre_vet_education.Education_type}{" "}
+                {pre_vet_education.School_name}, {pre_vet_education.Major_name}, {pre_vet_education.Education_type}{" "}{pre_vet_education.Start_Date} --- {pre_vet_education.End_Date} 
                 <Button onClick={() => handleDeletePreVetEducation(pre_vet_education, preVetEducation, setPreVetEducation)}>X</Button>
               </li>
             ))}

@@ -41,29 +41,57 @@ export const handleAddInsurance = (selectedInsurance, acceptedInsurances, setAcc
     setSelectedInsurance('');
 };
 
-export const handleAddPreVetEducation = (selectedPreVetSchool, selectedMajor, selectedPreVetEducationType, preVetEducation, setPreVetEducation, setSelectedPreVetSchool, setSelectedMajor, setSelectedPreVetEducationType) => {
+export const handleAddPreVetEducation = (
+    selectedPreVetSchool, 
+    selectedMajor, 
+    selectedPreVetEducationType, 
+    preVetEducation, 
+    setPreVetEducation, 
+    setSelectedPreVetSchool, 
+    setSelectedMajor, 
+    setSelectedPreVetEducationType,
+    startMonth,
+    setStartMonth, 
+    endMonth,
+    setEndMonth,
+    startYear,
+    setStartYear, 
+    endYear,
+    setEndYear
+    ) => {
   if(selectedPreVetSchool && selectedMajor && selectedPreVetEducationType){
+    if(!startMonth){
+      startMonth = 'January'
+    }
+    if(!endMonth){
+      endMonth = 'January'
+    }
     const selectedEducationObj = {
       School_name: selectedPreVetSchool, 
       Education_type:selectedPreVetEducationType,
-      Major_name: selectedMajor
+      Major_name: selectedMajor,
+      Start_Date: `${startYear}-${startMonth}-1`,
+      End_Date: `${endYear}-${endMonth}-1`,
     }
     console.log(selectedEducationObj)
     if(preVetEducation.length >0){
       if(!isObjectInArray(selectedEducationObj, preVetEducation)){
-        setPreVetEducation([...preVetEducation, {School_name: selectedPreVetSchool, Education_type: selectedPreVetEducationType, Major_name: selectedMajor}]);
+        setPreVetEducation([...preVetEducation, selectedEducationObj]);
       }
 
     }else{
-      setPreVetEducation([{School_name: selectedPreVetSchool, Education_type: selectedPreVetEducationType, Major_name: selectedMajor}]);
+      setPreVetEducation([selectedEducationObj]);
     }
   }
   setSelectedPreVetSchool('');
   setSelectedMajor('');
   setSelectedPreVetEducationType('');
+  setStartMonth('January')
+  setEndMonth('January')
+  setStartYear(1923)
+  setEndYear(1923)
 };
 
-  
 export const handleAddVetEducation = (selectedVetSchool, selectedVetEducationType, vetEducation, setVetEducation, setSelectedVetSchool, setSelectedVetEducationType) => {
   if(selectedVetSchool && selectedVetEducationType){
     const selectedEducationObj = {
