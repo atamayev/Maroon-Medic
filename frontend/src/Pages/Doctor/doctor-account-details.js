@@ -72,6 +72,26 @@ export default function DoctorAccountDetails() {
     JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[9][0]?.PubliclyAvailable || 0
   );
 
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+
+  const years = [...Array(100).keys()].map(i => i + new Date().getFullYear() - 100);
+
+  const [startYear, setStartYear] = useState(years[0]);
+  const [endYear, setEndYear] = useState(years[0]);
+
   useEffect(()=>{
     user_verification()
     .then(result => {
@@ -154,7 +174,52 @@ export default function DoctorAccountDetails() {
     color: isDescriptionOverLimit ? "red" : "black",
   };
 
+  const renderEducationTime = () =>{
+    return(
+      <div>
+        <label>
+          Start Month:
+          <select name="startMonth">
+            {months.map(month => (
+              <option key={month} value={month}>{month}</option>
+            ))}
+          </select>
+        </label>
+        <br />
+        <label>
+          Start Year:
+          <select value={startYear} onChange={e => setStartYear(e.target.value)}>
+            {years.map(year => (
+              <option key={year} value={year}>{year}</option>
+            ))}
+          </select>
+        </label>
+        <br />
+        <label>
+          End Month:
+          <select name="endMonth">
+            {months.map(month => (
+              <option key={month} value={month}>{month}</option>
+            ))}
+          </select>
+        </label>
+        <br />
+        <label>
+          End Year:
+          <select value={endYear} onChange={e => setEndYear(e.target.value)}>
+            {years.map(year => (
+              <option key={year} value={year}>{year}</option>
+            ))}
+          </select>
+        </label>
+        <br />
+    </div>
+    )
+  }
+
   const renderIsPreVetEducation = ()=>{
+    const allChoicesFilled = selectedPreVetSchool && selectedMajor && selectedPreVetEducationType;
+
     if(Array.from(new Set(listDetails[4]?.map((item) => item.School_name))).length > 0){
       return(
         <>
@@ -180,16 +245,16 @@ export default function DoctorAccountDetails() {
               <select
                 id="major"
                 name="major"
-                value={selectedMajor?.major_listID || ""}
-                onChange = {event => handlePreVetMajorChange(event, listDetails, setSelectedMajor)}
+                value={selectedMajor}
+                onChange = {(event) => setSelectedMajor(event.target.value)}
               >
                 <option value="">Choose a major</option>
-                {listDetails[6]
-                  .map((major) => (
-                    <option key={major.major_listID} value={major.major_listID}>
-                      {major.Major_name}
-                    </option>
-                  ))}
+                {Array.from(new Set(listDetails[6]?.map((item) => item.Major_name))).map(
+              (major, index) => (
+                <option key={index} value={major}>
+                  {major}
+                </option>
+              ))}
               </select>
             </>
           )
@@ -201,10 +266,16 @@ export default function DoctorAccountDetails() {
                 <select
                   id="education"
                   name="education"
-                  value={selectedPreVetEducationType?.pre_vet_education_typeID || ""}
-                  onChange={event => handlePreVetEducationTypeChange(event, listDetails, setSelectedPreVetEducationType, setSelectedPreVetSchool)}
+                  value={selectedPreVetEducationType}
+                  onChange={(event) => setSelectedPreVetEducationType(event.target.value)}
                 >
                   <option value="">Choose an Education Type</option>
+                  {Array.from(new Set(listDetails[5]?.map((item) => item.Education_type))).map(
+                    (preVetEdType, index) => (
+                      <option key={index} value={preVetEdType}>
+                        {preVetEdType}
+                      </option>
+                    ))}
                   {listDetails[5]
                     .map((preVetEdType) => (
                       <option key={preVetEdType.pre_vet_education_typeID} value={preVetEdType.pre_vet_education_typeID}>
@@ -212,9 +283,12 @@ export default function DoctorAccountDetails() {
                       </option>
                     ))}
                 </select>
-                <Button onClick={()=>handleAddPreVetEducation(selectedPreVetSchool, selectedMajor, selectedPreVetEducationType, preVetEducation, setPreVetEducation, setSelectedPreVetSchool, setSelectedMajor, setSelectedPreVetEducationType)}>Add</Button>
-              </>
-            )}
+                {allChoicesFilled && renderEducationTime()}
+                  {allChoicesFilled && (
+                    <Button onClick={() => handleAddPreVetEducation(selectedPreVetSchool, selectedMajor, selectedPreVetEducationType, preVetEducation, setPreVetEducation, setSelectedPreVetSchool, setSelectedMajor, setSelectedPreVetEducationType, startYear, endYear)}>Add</Button>
+                  )}              
+                  </>
+                )}
           <ul>
             {preVetEducation.map((pre_vet_education) => (
               <li key={pre_vet_education.specialties_listID}>
@@ -223,7 +297,7 @@ export default function DoctorAccountDetails() {
               </li>
             ))}
           </ul>
-          <Button onClick={savePreVetSchool}>Save</Button>
+          <Button onClick={()=>savePreVetSchool(preVetEducation, listDetails)}>Save</Button>
         </>
       )
     }else{

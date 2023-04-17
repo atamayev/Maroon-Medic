@@ -208,6 +208,7 @@ export async function saveEducationData (req, res){
     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
     const EducationType = req.body.EducationType;//'pre_vet' or 'vet'
     const EducationData = req.body.EducationData; // array of arrays, to make comparing to sql easier.
+    console.log(EducationData)
 
     const DB_name = 'DoctorDB';
     const table_name = `${EducationType}_education_mapping`;
@@ -223,6 +224,7 @@ export async function saveEducationData (req, res){
         console.log(`error in ${saveEducationData.name}:`, error)
         return res.status(400).json(false);
     }
+    console.log('results', results)
 
     // DEPENDING ON WHEATHER OR NOT IT IS PREVET OR VET, CHANGE THE SQL. SHOULD BE ADDING DIFFERENT NUMBER OF COLUMNS
 
@@ -233,14 +235,14 @@ export async function saveEducationData (req, res){
         const newEducationData = EducationData;
 
         // Check for changes in data:
-        const addedData = newData.filter(data => !oldData.includes(data));
-        const deletedData = oldData.filter(data => !newData.includes(data));
+        const addedData = newEducationData.filter(data => !oldEducationData.includes(data));
+        const deletedData = oldEducationData.filter(data => !newEducationData.includes(data));
 
         if (addedData.length > 0) {
             console.log('adding data')
             for (let i = 0; i<addedData.length; i++){
-                const sql1 = `INSERT INTO ${table_name} (${DataType}_ID, Doctor_ID) VALUES (?,?)`;
-                const values1 = [addedData[i], DoctorID];
+                const sql1 = `INSERT INTO ${table_name} (School_ID, Major_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?,?,?,?,?,?)`;
+                const values1 = [addedData[i][0], addedData[i][1], addedData[i][2], addedData[i][3], addedData[i][4], DoctorID];
                 try{
                     await connection.execute(sql1, values1);
                 }catch(error){
@@ -252,8 +254,8 @@ export async function saveEducationData (req, res){
         if (deletedData.length > 0) {
             console.log('deleting data')
             for (let i = 0; i<deletedData.length; i++){
-                const sql1 = `DELETE FROM ${table_name} WHERE ${DataType}_ID = ? AND Doctor_ID = ?`;
-                const values1 = [deletedData[i], DoctorID];
+                const sql1 = `DELETE FROM ${table_name} WHERE School_ID = ? AND Major_ID = ? AND Education_type_ID = ? AND Doctor_ID = ?`;
+                const values1 = [deletedData[i][0], deletedData[i][1], deletedData[i][2], deletedData[i][3]];
                 try{
                     await connection.execute(sql1, values1);
                 }catch(error){
@@ -264,12 +266,13 @@ export async function saveEducationData (req, res){
         }
         return res.status(200).json(true);
       }
-      else if (doctorData.length > 0){
+      else if (EducationData.length > 0){
         console.log('adding data in else')
-        for (let i=0; i<doctorData.length; i++){
-            const sql1 = `INSERT INTO ${table_name} (${DataType}_ID, Doctor_ID) VALUES (?,?)`;
-            const values1 = [doctorData[i], DoctorID];
+        for (let i=0; i<EducationData.length; i++){
+            const sql1 = `INSERT INTO ${table_name} (School_ID, Major_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?,?,?,?,?,?)`;
+            const values1 = [EducationData[i][0], EducationData[i][1], EducationData[i][2], EducationData[i][3], EducationData[i][4], DoctorID];
             try{
+                console.log(values1)
                 await connection.execute(sql1, values1);
             }catch(error){
                 console.log(`error in if ${saveEducationData.name}:`, error);
@@ -281,7 +284,7 @@ export async function saveEducationData (req, res){
       else{
         console.log('elsed')
         return res.status(400).json(false)
-      }
+        }
 };
 
 /** savePublicAvailibilityData is a Doctor-controlled function that allows them to say wheather or not they want their profile accessible to patients

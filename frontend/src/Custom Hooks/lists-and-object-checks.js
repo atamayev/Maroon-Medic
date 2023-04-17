@@ -1,4 +1,3 @@
-
 export function checkIfListsAreEqual(list1, list2) {
     // Convert each list to a set
     const set1 = new Set(list1);
@@ -22,7 +21,7 @@ export function checkIfListsAreEqual(list1, list2) {
     // If both sets contain the same elements, return true
     return true;
 }
-  
+
 export function isObjectsEqual(obj1, obj2) {
     const keys1 = Object.keys(obj1).sort();
     const keys2 = Object.keys(obj2).sort();
@@ -41,7 +40,7 @@ export function isObjectsEqual(obj1, obj2) {
     }
     return true;
 }
-  
+
 export function isObjectInArray(newObj, objectsArray) {
     for (const obj of objectsArray) {
       if (isObjectsEqual(newObj, obj)) {
@@ -50,4 +49,3 @@ export function isObjectInArray(newObj, objectsArray) {
     }
     return false;
 }
-  

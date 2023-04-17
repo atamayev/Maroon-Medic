@@ -42,7 +42,6 @@ export const handleAddInsurance = (selectedInsurance, acceptedInsurances, setAcc
 };
 
 export const handleAddPreVetEducation = (selectedPreVetSchool, selectedMajor, selectedPreVetEducationType, preVetEducation, setPreVetEducation, setSelectedPreVetSchool, setSelectedMajor, setSelectedPreVetEducationType) => {
-  console.log('in add')
   if(selectedPreVetSchool && selectedMajor && selectedPreVetEducationType){
     const selectedEducationObj = {
       School_name: selectedPreVetSchool, 

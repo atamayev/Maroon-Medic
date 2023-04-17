@@ -44,8 +44,9 @@ export async function saveSpecialies(doctorSpecialties){
       console.log('same')
     }
 };
-  
+
 export async function saveInsurances(acceptedInsurances){
+  console.log(acceptedInsurances)
     const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
     const insuranceIds = acceptedInsurances.map(ins => ins.insurance_listID).sort((a,b)=>a-b); // list of all added insurances
     const savedInsurances = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[0] || []
@@ -85,13 +86,20 @@ export async function saveDescription(description){
     }
 };
 
-export async function savePreVetSchool(preVetEducation){
+export async function savePreVetSchool(preVetEducation, listDetails){
+  console.log('preVetEducation',preVetEducation)
     const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
     const savedPreVetEducations = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[4] || []
+    const mappedArray = preVetEducation.map(obj => [
+      listDetails[4].find(school => school.School_name === obj.School_name)?.pre_vet_school_listID || null,
+      listDetails[6].find(major => major.Major_name === obj.Major_name)?.major_listID || null,
+      listDetails[5].find(educationType => educationType.EducationType_name === obj.EducationType_name)?.pre_vet_education_typeID || null
+    ]);
 
-    if(!isObjectInArray(preVetEducation, savedPreVetEducations)){//only saves if the insurances changed
+    //Makes sure that the education is not the same before writing to DB:
+    if(!mappedArray.every(arr => savedPreVetEducations.some(savedArr => JSON.stringify(savedArr) === JSON.stringify(arr)))){
       try {
-        const response = await PrivateDoctorDataService.saveEducationData(preVetEducation, 'pre_vet')
+        const response = await PrivateDoctorDataService.saveEducationData(mappedArray, 'pre_vet')
         if(response.status === 200){
           DoctorAccountDetails[4] = preVetEducation;
           sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));

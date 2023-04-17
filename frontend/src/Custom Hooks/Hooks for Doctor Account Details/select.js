@@ -79,7 +79,7 @@ export const handlePreVetEducationTypeChange = (event, listDetails, setSelectedP
   try {
     const educationTypeID = parseInt(event.target.value);
     if (educationTypeID) {
-      const educationType = listDetails[5].find(sch => sch.pre_vet_education_typeID === educationTypeID);
+      const educationType = listDetails[5].find(type => type.pre_vet_education_typeID === educationTypeID);
       setSelectedPreVetEducationType(educationType);
     } else {
       setSelectedPreVetSchool(null);
