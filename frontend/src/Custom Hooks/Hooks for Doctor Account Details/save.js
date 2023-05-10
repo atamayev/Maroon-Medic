@@ -1,4 +1,4 @@
-import { checkIfListsAreEqual, isObjectInArray} from "../lists-and-object-checks";
+import { checkIfListsAreEqual, isObjectInArray, areArraysSame} from "../lists-and-object-checks";
 import PrivateDoctorDataService from "../../Services/private-doctor-data-service";
 
 export async function saveLanguages(spokenLanguages){
@@ -108,7 +108,7 @@ export async function savePreVetSchool(preVetEducation, listDetails){
     // Makes sure that the education is not the same before writing to DB:
     console.log(preVetEducation)
     console.log(savedPreVetEducations)
-    if(!preVetEducation.every(arr => savedPreVetEducations.some(savedArr => JSON.stringify(savedArr) === JSON.stringify(arr)))){
+    if(!areArraysSame(preVetEducation, savedPreVetEducations)){
       try {
         const mappedArray = preVetEducation.map(obj => [
           listDetails[4].find(school => school.School_name === obj.School_name)?.pre_vet_school_listID || null,
