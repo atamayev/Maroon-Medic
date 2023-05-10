@@ -124,7 +124,12 @@ export default new class FetchDoctorAccountData{
                 console.log('PreVetEducation Data does not exist');
                 return [];
             } else {
-                return (results);
+                const newResults = results.map(obj => ({
+                    ...obj,
+                    Start_Date: new Date(obj.Start_Date).toISOString().slice(0,10),
+                    End_Date: new Date(obj.End_Date).toISOString().slice(0,10)
+                  }));//Converts the dates to a proper format.
+                return (newResults);
             }
         }catch(error){
             return (`error in ${functionName}:`, error);
@@ -150,7 +155,12 @@ export default new class FetchDoctorAccountData{
                 console.log('VetEducation Data does not exist');
                 return [];
             } else {
-                return (results);
+                const newResults = results.map(obj => ({
+                    ...obj,
+                    Start_Date: new Date(obj.Start_Date).toISOString().slice(0,10),
+                    End_Date: new Date(obj.End_Date).toISOString().slice(0,10)
+                  }));//Converts the dates to a proper format.
+                return (newResults);
             }
         }catch(error){
             return (`error in ${functionName}:`, error);

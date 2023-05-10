@@ -12,11 +12,11 @@ ASAP:
 	
 -- need to integrate date when adding educations
 
---will need to filter majors, education type like did for specialites
-
 -- will likely need to simplify the select.js. what it's doing rn is redundant. inside account details, it's setting the value of the type of to the id. then, select has to find which type has that id.
 	for example, if select Lemonade insurance, instead of setting selected vet school to Lemondae, it first sends back lemonad'es id, and then converts it to the name
-	
+simplification of pre-vet education needed.
+general simplification of account details needed.
+
 fill in the rest of list details
 	--checkbox integratoin vs dropdown. for insruances, checkbox. see email for details: "Fill in rest of lists"
 	1. Address + phone numbers
