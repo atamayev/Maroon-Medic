@@ -101,7 +101,6 @@ function convertDateForSql(dateString) {
   return formattedDate;
 }
 
-
 export async function savePreVetSchool(preVetEducation, listDetails){
     const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
     const savedPreVetEducations = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[4] || []

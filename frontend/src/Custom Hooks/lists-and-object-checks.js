@@ -59,7 +59,7 @@ function objectsAreSame(x, y) {
   return true;
 }
 
-export function areArraysSame(arr1, arr2) {
+export function areArraysSame(arr1, arr2) {//Sees if 2 arrays of objects are the same
   if (arr1.length !== arr2.length) return false;
   
   return arr1.every(obj1 => arr2.some(obj2 => objectsAreSame(obj1, obj2)));

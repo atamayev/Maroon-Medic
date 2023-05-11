@@ -233,8 +233,6 @@ export async function saveEducationData (req, res){
         return res.status(400).json(false);
     }
 
-    // DEPENDING ON WHEATHER OR NOT IT IS PREVET OR VET, CHANGE THE SQL. SHOULD BE ADDING DIFFERENT NUMBER OF COLUMNS
-
     if (formattedResults.length > 0) {
         // Doctor already has data in the table
         // will be comparing array of arrays to array of arrays.
@@ -252,9 +250,21 @@ export async function saveEducationData (req, res){
         if (addedData.length > 0) {
             console.log('addedData.length',addedData.length)
             console.log('adding data')
+            let sql1;
+            let values1;
             for (let i = 0; i<addedData.length; i++){
-                const sql1 = `INSERT INTO ${table_name} (School_ID, Major_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?,?,?,?,?,?)`;
-                const values1 = [addedData[i][0], addedData[i][1], addedData[i][2], addedData[i][3], addedData[i][4], DoctorID];
+                if(EducationType === 'pre_vet'){
+                    sql1 = `INSERT INTO ${table_name} (School_ID, Major_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?,?,?,?,?,?)`;
+                    values1 = [addedData[i][0], addedData[i][1], addedData[i][2], addedData[i][3], addedData[i][4], DoctorID];    
+                }else if (EducationType === 'vet'){
+                    //Needs confirmation: is addedData[i][3] correct?
+                    sql1 = `INSERT INTO ${table_name} (School_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?,?,?,?,?)`;
+                    values1 = [addedData[i][0], addedData[i][1], addedData[i][2], addedData[i][3], DoctorID];     
+                }else{
+                    console.log(`error in if ${saveEducationData.name}:`, error);
+                    return res.status(400).json(false);
+                }
+
                 try{
                     await connection.execute(sql1, values1);
                     console.log('successfuly added')
@@ -267,11 +277,23 @@ export async function saveEducationData (req, res){
         if (deletedData.length > 0) {
             console.log('deletedData',deletedData.length)
             console.log('deleting data')
+            let sql2;
+            let values2;
             for (let i = 0; i<deletedData.length; i++){
-                const sql1 = `DELETE FROM ${table_name} WHERE School_ID = ? AND Major_ID = ? AND Education_type_ID = ? AND Doctor_ID = ?`;
-                const values1 = [deletedData[i][0], deletedData[i][1], deletedData[i][2], deletedData[i][3]];
+                if(EducationType === 'pre_vet'){
+                    sql2 = `DELETE FROM ${table_name} WHERE School_ID = ? AND Major_ID = ? AND Education_type_ID = ? AND Doctor_ID = ?`;
+                    // MAKE SURE THAT DOCTOR_ID IS INCLUDED IN DELETED DATA
+                    values2 = [deletedData[i][0], deletedData[i][1], deletedData[i][2], DoctorID];
+                }else if (EducationType === 'vet'){
+                    sql2 = `DELETE FROM ${table_name} WHERE School_ID = ? AND Education_type_ID = ? AND Doctor_ID = ?`;
+                    values2 = [deletedData[i][0], deletedData[i][1], DoctorID];    
+                }else{
+                    console.log(`error in if ${saveEducationData.name}:`, error);
+                    return res.status(400).json(false);
+                }
+  
                 try{
-                    await connection.execute(sql1, values1);
+                    await connection.execute(sql2, values2);
                 }catch(error){
                     console.log(`error in if ${saveEducationData.name}:`, error);
                     return res.status(400).json(false);
@@ -281,13 +303,25 @@ export async function saveEducationData (req, res){
         return res.status(200).json(true);
       }
       else if (EducationData.length > 0){
+        //Can only get into here if formatted results.length not >0: no results from the DB - adding completely new data
         console.log('adding data in else')
+        let sql3;
+        let values3;
         for (let i=0; i<EducationData.length; i++){
-            const sql1 = `INSERT INTO ${table_name} (School_ID, Major_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?,?,?,?,?,?)`;
-            const values1 = [EducationData[i][0], EducationData[i][1], EducationData[i][2], EducationData[i][3], EducationData[i][4], DoctorID];
+            if(EducationType === 'pre_vet'){
+                sql3 = `INSERT INTO ${table_name} (School_ID, Major_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?,?,?,?,?,?)`;
+                values3 = [EducationData[i][0], EducationData[i][1], EducationData[i][2], EducationData[i][3], EducationData[i][4], DoctorID];
+            }else if (EducationType === 'vet'){
+                //Needs confirmation: is addedData[i][3] correct?
+                sql3 = `INSERT INTO ${table_name} (School_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?,?,?,?,?)`;
+                values3 = [addedData[i][0], addedData[i][1], addedData[i][2], addedData[i][3], DoctorID];     
+            }else{
+                console.log(`error in if ${saveEducationData.name}:`, error);
+                return res.status(400).json(false);
+            }
             try{
-                console.log(values1)
-                await connection.execute(sql1, values1);
+                console.log(values3)
+                await connection.execute(sql3, values3);
             }catch(error){
                 console.log(`error in if ${saveEducationData.name}:`, error);
                 return res.status(400).json(false);
@@ -296,6 +330,7 @@ export async function saveEducationData (req, res){
         return res.status(200).json(true);
       }
       else{
+        //NO new data or queried results from DB.
         console.log('elsed')
         return res.status(400).json(false)
     }
