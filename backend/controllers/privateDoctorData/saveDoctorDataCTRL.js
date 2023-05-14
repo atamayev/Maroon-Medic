@@ -275,7 +275,7 @@ export async function saveEducationData (req, res){
             }
         } 
         if (deletedData.length > 0) {
-            console.log('deletedData',deletedData.length)
+            console.log('deletedData.length',deletedData.length)
             console.log('deleting data')
             let sql2;
             let values2;

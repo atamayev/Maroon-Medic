@@ -15,7 +15,7 @@ export default new class FetchDoctorAccountData{
         const table_name2 = 'insurance_list'
         const DB_name = 'DoctorDB';
     
-        const sql = `SELECT ${table_name2}.Insurance_name FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.insurance_listID = ${table_name1}.Insurance_ID WHERE ${table_name1}.Doctor_ID = ?`;
+        const sql = `SELECT ${table_name2}.Insurance_name, ${table_name2}.insurance_listID FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.insurance_listID = ${table_name1}.Insurance_ID WHERE ${table_name1}.Doctor_ID = ?`;
         const values = [DoctorID];
         await useDB(functionName, DB_name, table_name1);
     
@@ -87,7 +87,7 @@ export default new class FetchDoctorAccountData{
         const table_name2 = 'specialties_list'
         const DB_name = 'DoctorDB';
     
-        const sql = `SELECT ${table_name2}.Organization_name, ${table_name2}.Specialty_name FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.specialties_listID = ${table_name1}.specialty_mappingID WHERE ${table_name1}.Doctor_ID = ?`;
+        const sql = `SELECT ${table_name2}.Organization_name, ${table_name2}.Specialty_name, ${table_name2}.specialties_listID FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.specialties_listID = ${table_name1}.specialty_mappingID WHERE ${table_name1}.Doctor_ID = ?`;
         const values = [DoctorID];
         await useDB(functionName, DB_name, table_name1);
     

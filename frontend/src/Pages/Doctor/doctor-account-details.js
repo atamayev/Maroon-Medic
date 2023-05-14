@@ -130,9 +130,11 @@ export default function DoctorAccountDetails() {
         const response = await PrivateDoctorDataService.fillAccountDetails();
         if (response){
             if(response.data[0]){
+              console.log('insurances:',response.data[0])
               setAcceptedInsurances(response.data[0])
             }
             if(response.data[1]){
+              console.log('languages:',response.data[1])
               setSpokenLanguages(response.data[1])
             }
             if(response.data[3]){
@@ -329,7 +331,7 @@ export default function DoctorAccountDetails() {
     return(
         <Card>
         <Card.Header>
-          Change all of this card to pre-vet education
+          Pre-vet education
         </Card.Header>
         <Card.Body>
           {renderIsPreVetEducation()}
@@ -348,7 +350,6 @@ export default function DoctorAccountDetails() {
           maxLength={1000} // limit to 1000 characters
           as="textarea" 
           rows={3}
-          label={"Description"}
         />
           <div style={counterStyle}>Character Limit: {description.Description ? (<>{description.Description.length}</>):(<>0</>)} / 1000</div>
         <div className="d-grid justify-content-md-end">
@@ -361,6 +362,9 @@ export default function DoctorAccountDetails() {
   const renderDescriptionSection = () =>{
     return(
       <Card>
+        <Card.Header>
+          Description
+        </Card.Header>
         <Card.Body>
           {renderIsDescription()}
         </Card.Body>
@@ -372,7 +376,7 @@ export default function DoctorAccountDetails() {
     return(
       <Card>
         <Card.Body>
-          Looking to edit your Profile Information? Click here: 
+          Looking to edit your Profile Information? {''} 
           <Link to= {'/vet-settings/personal-information'}>
               <Button variant="primary" className="btn btn-primary p-1">
                   <p>Edit Personal Information</p>
@@ -499,6 +503,9 @@ export default function DoctorAccountDetails() {
   const renderSpecialtySection = () =>{
     return(
       <Card>
+        <Card.Header>
+            Specialties
+        </Card.Header>
         <Card.Body>
           {renderIsSpecialty()}
         </Card.Body>
@@ -509,9 +516,10 @@ export default function DoctorAccountDetails() {
   const renderInsuranceSection = () =>{
     return(
     <Card>
+      <Card.Header>
+        Insurances
+      </Card.Header>
       <Card.Body>
-      Insurances
-      <br/>
       <label htmlFor="insurance">Select a insurance: </label>
         <select 
           id="insurance" 
@@ -548,9 +556,10 @@ export default function DoctorAccountDetails() {
   const renderLanguageSection = () =>{
     return(
       <Card>
+        <Card.Header>
+          Languages
+        </Card.Header>
         <Card.Body>
-        Languages
-        <br/>
         <label htmlFor="language">Select a language: </label>
         <select
           id="language"
@@ -588,8 +597,10 @@ export default function DoctorAccountDetails() {
   const renderLocationsSection = () =>{
     return(
       <Card>
+        <Card.Header>
+          Locations
+        </Card.Header>
       <Card.Body>
-        Locations
       <Accordion defaultActiveKey={['0']} alwaysOpen>
         <Accordion.Item eventKey="0">
           <Accordion.Header>Accordion Item #1</Accordion.Header>
