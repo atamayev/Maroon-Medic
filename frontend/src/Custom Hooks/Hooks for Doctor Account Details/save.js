@@ -104,15 +104,13 @@ function convertDateForSql(dateString) {
 export async function savePreVetSchool(preVetEducation, listDetails){
     const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
     const savedPreVetEducations = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[4] || []
-    // Makes sure that the education is not the same before writing to DB:
-    console.log(preVetEducation)
-    console.log(savedPreVetEducations)
+    
     if(!areArraysSame(preVetEducation, savedPreVetEducations)){
       try {
         const mappedArray = preVetEducation.map(obj => [
           listDetails[4].find(school => school.School_name === obj.School_name)?.pre_vet_school_listID || null,
           listDetails[6].find(major => major.Major_name === obj.Major_name)?.major_listID || null,
-          listDetails[5].find(educationType => educationType.EducationType_name === obj.EducationType_name)?.pre_vet_education_typeID || null,
+          listDetails[5].find(educationType => educationType.Education_type === obj.Education_type)?.pre_vet_education_typeID || null,
           convertDateForSql(obj.Start_Date),
           convertDateForSql(obj.End_Date)
         ]);
@@ -130,13 +128,19 @@ export async function savePreVetSchool(preVetEducation, listDetails){
     }
 };
 
-export async function saveVetSchool(vetEducation){
+export async function saveVetSchool(vetEducation, listDetails){
     const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
     const savedVetEducations = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[5] || []
 
-    if(!isObjectInArray(vetEducation, savedVetEducations)){//only saves if the insurances changed
+    if(!areArraysSame(vetEducation, savedVetEducations)){//only saves if the insurances changed
       try {
-        const response = await PrivateDoctorDataService.saveEducationData(vetEducation, 'vet')
+        const mappedArray = vetEducation.map(obj => [
+          listDetails[7].find(school => school.School_name === obj.School_name)?.vet_school_listID || null,
+          listDetails[8].find(educationType => educationType.Education_Type === obj.Education_Type)?.vet_education_typeID || null,
+          convertDateForSql(obj.Start_Date),
+          convertDateForSql(obj.End_Date)
+        ]);
+        const response = await PrivateDoctorDataService.saveEducationData(mappedArray, 'vet')
         if(response.status === 200){
           DoctorAccountDetails[5] = vetEducation;
           sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));

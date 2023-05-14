@@ -329,7 +329,7 @@ export async function saveEducationData (req, res){
             }else if (EducationType === 'vet'){
                 //Needs confirmation: is addedData[i][3] correct?
                 sql3 = `INSERT INTO ${table_name} (School_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?,?,?,?,?)`;
-                values3 = [addedData[i][0], addedData[i][1], addedData[i][2], addedData[i][3], DoctorID];     
+                values3 = [EducationData[i][0], EducationData[i][1], EducationData[i][2], EducationData[i][3], DoctorID];
             }else{
                 console.log(`error in if ${saveEducationData.name}:`, error);
                 return res.status(400).json(false);

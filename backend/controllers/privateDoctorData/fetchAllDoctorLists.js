@@ -69,7 +69,6 @@ export default new class FetchAllDoctorLists{
         }
     };
 
-
     async fetchAllPreVetSchools(){
         const functionName = this.fetchAllPreVetSchools.bind(this).name;
         const table_name = 'pre_vet_school_list'

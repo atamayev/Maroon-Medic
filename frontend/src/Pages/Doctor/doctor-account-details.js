@@ -7,7 +7,7 @@ import PrivateDoctorDataService from '../../Services/private-doctor-data-service
 import Header from '../header.js';
 import FormGroup from '../../Components/form-group.js';
 import { NonDoctorAccess } from '../../Components/user-type-unauth.js';
-import { handleLanguageChange, handleSelectSpecialty, handleInsuranceChange, handleDescriptionChange, handlePreVetEducationTypeChange, handlePreVetMajorChange, handlePreVetSchoolChange, handleVetSchoolChange, handleSelectCarousel} from '../../Custom Hooks/Hooks for Doctor Account Details/select.js';
+import { handleLanguageChange, handleSelectSpecialty, handleInsuranceChange, handleDescriptionChange, handleSelectCarousel} from '../../Custom Hooks/Hooks for Doctor Account Details/select.js';
 import { handleAddLanguage, handleAddSpecialty, handleAddInsurance, handleAddPreVetEducation, handleAddVetEducation } from '../../Custom Hooks/Hooks for Doctor Account Details/add.js';
 import { handleDeleteInsurance, handleDeleteLanguage, handleDeleteSpecialty, handleDeletePreVetEducation, handleDeleteVetEducation } from '../../Custom Hooks/Hooks for Doctor Account Details/delete.js';
 import { saveInsurances, saveLanguages, saveSpecialies, saveDescription, savePreVetSchool, saveVetSchool, handlePublicAvailibilityToggle } from '../../Custom Hooks/Hooks for Doctor Account Details/save.js';
@@ -268,8 +268,8 @@ export default function DoctorAccountDetails() {
               <>
               <label htmlFor="education-type">Select a Type of Education: </label>
                 <select
-                  id="education"
-                  name="education"
+                  id="education-type"
+                  name="education-type"
                   value={selectedPreVetEducationType}
                   onChange={(event) => setSelectedPreVetEducationType(event.target.value)}
                 >
@@ -278,12 +278,6 @@ export default function DoctorAccountDetails() {
                     (preVetEdType, index) => (
                       <option key={index} value={preVetEdType}>
                         {preVetEdType}
-                      </option>
-                    ))}
-                  {listDetails[5]
-                    .map((preVetEdType) => (
-                      <option key={preVetEdType.pre_vet_education_typeID} value={preVetEdType.pre_vet_education_typeID}>
-                        {preVetEdType.Education_type}
                       </option>
                     ))}
                 </select>
@@ -338,6 +332,96 @@ export default function DoctorAccountDetails() {
         </Card.Body>
       </Card>
     )
+  }
+
+  const renderIsVetEducation = ()=>{
+    const allChoicesFilled = selectedVetSchool && selectedVetEducationType;
+
+    if(Array.from(new Set(listDetails[7]?.map((item) => item.School_name))).length > 0){
+      return(
+        <>
+          <label htmlFor="vet-school">Select a Veterinary School: </label>
+          <select
+            id="vet-school"
+            name="vet-school"
+            value={selectedVetSchool}
+            onChange={(e) => setSelectedVetSchool(e.target.value)}
+          >
+            <option value="">Choose a School</option>
+            {Array.from(new Set(listDetails[7]?.map((item) => item.School_name))).map(
+              (school, index) => (
+                <option key={index} value={school}>
+                  {school}
+                </option>
+              ))}
+          </select>
+          <br />
+            {selectedVetSchool && (
+              <>
+              <label htmlFor="education-type">Select a Type of Veterinary Education: </label>
+                <select
+                  id="vet-education"
+                  name="vet-education"
+                  value={selectedVetEducationType}
+                  onChange={(event) => setSelectedVetEducationType(event.target.value)}
+                >
+                  <option value="">Choose an Education Type</option>
+                  {Array.from(new Set(listDetails[8]?.map((item) => item.Education_type))).map(
+                    (VetEdType, index) => (
+                      <option key={index} value={VetEdType}>
+                        {VetEdType}
+                      </option>
+                    ))}
+                </select>
+                {allChoicesFilled && renderEducationTime()}
+                  {allChoicesFilled && (
+                    <Button onClick={() => handleAddVetEducation(
+                      selectedVetSchool, 
+                      selectedVetEducationType, 
+                      vetEducation, 
+                      setVetEducation, 
+                      setSelectedVetSchool, 
+                      setSelectedVetEducationType,
+                      startMonth,
+                      setStartMonth, 
+                      endMonth,
+                      setEndMonth,
+                      startYear,
+                      setStartYear, 
+                      endYear,
+                      setEndYear
+                      )}>Add</Button>
+                  )}              
+                  </>
+                )}
+          <ul>
+            {vetEducation.map((vet_education) => (
+              <li key={vet_education.specialties_listID}>
+                {vet_education.School_name}, {vet_education.Education_type}{" "}{vet_education.Start_Date} --- {vet_education.End_Date} 
+                <Button onClick={() => handleDeleteVetEducation(vet_education, vetEducation, setVetEducation)}>X</Button>
+              </li>
+            ))}
+          </ul>
+          <Button onClick={()=>saveVetSchool(vetEducation, listDetails)}>Save</Button>
+        </>
+      )
+    }else{
+      return(
+        <p>Loading...</p>
+      )
+    }
+  }
+  const renderVetEducationSection = () =>{
+    return(
+      <Card>
+      <Card.Header>
+        Vet Education
+      </Card.Header>
+      <Card.Body>
+        {renderIsVetEducation()}
+      </Card.Body>
+    </Card>
+  )
   }
 
   const renderIsDescription = () =>{
@@ -678,6 +762,8 @@ export default function DoctorAccountDetails() {
       <DoctorHeader/>
       <p>This is the Account Details Page</p>
       {renderPreVetEducationSection()}
+      <br/>
+      {renderVetEducationSection()}
       <br/>
       {renderDescriptionSection()}
       <br/>

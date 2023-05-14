@@ -78,7 +78,6 @@ export const handleAddPreVetEducation = (
       if(!isObjectInArray(selectedEducationObj, preVetEducation)){
         setPreVetEducation([...preVetEducation, selectedEducationObj]);
       }
-
     }else{
       setPreVetEducation([selectedEducationObj]);
     }
@@ -92,20 +91,48 @@ export const handleAddPreVetEducation = (
   setEndYear(1923)
 };
 
-export const handleAddVetEducation = (selectedVetSchool, selectedVetEducationType, vetEducation, setVetEducation, setSelectedVetSchool, setSelectedVetEducationType) => {
+export const handleAddVetEducation = (
+    selectedVetSchool, 
+    selectedVetEducationType, 
+    vetEducation, 
+    setVetEducation, 
+    setSelectedVetSchool, 
+    setSelectedVetEducationType,
+    startMonth,
+    setStartMonth, 
+    endMonth,
+    setEndMonth,
+    startYear,
+    setStartYear, 
+    endYear,
+    setEndYear
+    ) => {
   if(selectedVetSchool && selectedVetEducationType){
+    if(!startMonth){
+      startMonth = 'January'
+    }
+    if(!endMonth){
+      endMonth = 'January'
+    }
     const selectedEducationObj = {
       School_name: selectedVetSchool, 
       Education_type: selectedVetEducationType,
+      Start_Date: `${startYear}-${startMonth}-1`,
+      End_Date: `${endYear}-${endMonth}-1`,
     }
+    console.log(selectedEducationObj)
     if(vetEducation.length >0){
       if(!isObjectInArray(selectedEducationObj, vetEducation)){
-        setVetEducation([...vetEducation, {School_name: selectedVetSchool, Education_type: selectedVetEducationType}]);
+        setVetEducation([...vetEducation, selectedEducationObj]);
       }
     }else{
-      setVetEducation([{School_name: selectedVetSchool, Education_type: selectedVetEducationType}]);
+      setVetEducation([selectedEducationObj]);
     }
   }
   setSelectedVetSchool('');
   setSelectedVetEducationType('');
+  setStartMonth('January')
+  setEndMonth('January')
+  setStartYear(1923)
+  setEndYear(1923)
 };
