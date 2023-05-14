@@ -130,12 +130,13 @@ export default function DoctorAccountDetails() {
         const response = await PrivateDoctorDataService.fillAccountDetails();
         if (response){
             if(response.data[0]){
-              console.log('insurances:',response.data[0])
               setAcceptedInsurances(response.data[0])
             }
             if(response.data[1]){
-              console.log('languages:',response.data[1])
               setSpokenLanguages(response.data[1])
+            }
+            if(response.data[2]){
+              //Set Services
             }
             if(response.data[3]){
               setDoctorSpecialties(response.data[3])
@@ -146,11 +147,17 @@ export default function DoctorAccountDetails() {
             if(response.data[5]){
               setVetEducation(response.data[5])
             }
+            if(response.data[6]){
+              //Set Address Data
+            }
             if(response.data[7] && Object.keys(response.data[7]).length > 0){
               setDescription(response.data[7]);
               if(response.data[7].Description.length === 1000){
                 setIsDescriptionOverLimit(true);
               }
+            }
+            if(response.data[8]){
+              //Somehow set pictures.
             }
             if(response.data[9][0].PubliclyAvailable){
               setPubliclyAvailable(response.data[9][0].PubliclyAvailable)
@@ -411,6 +418,7 @@ export default function DoctorAccountDetails() {
       )
     }
   }
+  
   const renderVetEducationSection = () =>{
     return(
       <Card>

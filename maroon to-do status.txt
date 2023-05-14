@@ -1,13 +1,6 @@
 To-do:
 
 ASAP:
---remove all unneccesary useEffects (most of the user_verification ones are). see how devin did it--> basiically just have it run outside the useEffect.
-	consider outsourcing the user_verification re-direct logic if repetetive anywhere
-
--- will likely need to simplify the select.js. what it's doing rn is redundant. inside account details, it's setting the value of the type of to the id. then, select has to find which type has that id.
-	for example, if select Lemonade insurance, instead of setting selected vet school to Lemondae, it first sends back lemonad'es id, and then converts it to the name
-simplification of pre-vet education needed.
-general simplification of account details needed.
 
 fill in the rest of list details
 	--checkbox integratoin vs dropdown. for insruances, checkbox. see email for details: "Fill in rest of lists"
@@ -15,9 +8,15 @@ fill in the rest of list details
 	2. Services and Categories
 	Think about how to integrate checkboxes vs drop down. For services, insurance, checkboxes will be better. For services, should have the category name be like a parent to all it's service names. If category selected, all service names selected. 
 
-Other things like majors, schools should be drop-down. 
+-- will likely need to simplify the select.js. what it's doing rn is redundant. inside account details, it's setting the value of the type of to the id. then, select has to find which type has that id.
+	for example, if select Lemonade insurance, instead of setting selected vet school to Lemondae, it first sends back lemonad'es id, and then converts it to the name
+simplification of pre-vet education needed.
+general simplification of account details needed.
+
+Make insurances, and services checkboxes.
 	when there is a checkbox, make it save automatically. 
-		consider saving automatically for other data types as well
+
+
 -- before saving email to db, make sure it is lowercase, so that when searching db, it is done in uniform way
 	save emails as lowercase. then, when logging in, email should be lowercased before searching the db.
 	-- figure out which data should be encrypted by the db. data at rest encryption

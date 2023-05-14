@@ -173,6 +173,7 @@ export async function fetchAccountDetails (req, res){
         return res.status(400).json(emptyResponse);
     }
 };
+
 /** fetchAccountDetails creates a list of objects contains all of the Lists from the DB
  *  Doctors fill in their personal details using options from these lists.
  * @param {N/A} req 
