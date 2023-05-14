@@ -1,7 +1,7 @@
 import { checkIfListsAreEqual, isObjectInArray, areArraysSame} from "../lists-and-object-checks";
 import PrivateDoctorDataService from "../../Services/private-doctor-data-service";
 
-export async function saveLanguages(spokenLanguages){
+export async function saveLanguages(spokenLanguages, setShowSavedLanguagesMessage){
     const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
     const languageIds = spokenLanguages.map(lang => lang.language_listID).sort((a,b)=>a-b); // spoken languages are those that are on server side. state changes when languages added/deleted
     const savedLanguages = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[1] || []
@@ -14,6 +14,13 @@ export async function saveLanguages(spokenLanguages){
           DoctorAccountDetails[1] = spokenLanguages;
           sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
           console.log('Saved!');
+          // Show the saved message
+          setShowSavedLanguagesMessage(true);
+
+          // Hide the saved message after 5 seconds
+          setTimeout(() => {
+            setShowSavedLanguagesMessage(false);
+          }, 5000);
         }
       } catch(error) {
         console.log('error in saving languages', error)
@@ -23,7 +30,7 @@ export async function saveLanguages(spokenLanguages){
     }
 };
 
-export async function saveSpecialies(doctorSpecialties){
+export async function saveSpecialies(doctorSpecialties, setShowSavedSpecialtiesMessage){
     const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
     const specialtyIds = doctorSpecialties.map(specialty => specialty.specialties_listID).sort((a,b)=>a-b); // spoken languages are those that are on server side. state changes when languages added/deleted
     const savedSpecialties = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[3] || []
@@ -36,6 +43,13 @@ export async function saveSpecialies(doctorSpecialties){
           DoctorAccountDetails[3] = doctorSpecialties;
           sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
           console.log('Saved!');
+          // Show the saved message
+          setShowSavedSpecialtiesMessage(true);
+
+          // Hide the saved message after 5 seconds
+          setTimeout(() => {
+            setShowSavedSpecialtiesMessage(false);
+          }, 5000);
         }
       } catch(error) {
         console.log('error in saving specialites', error)
@@ -45,7 +59,7 @@ export async function saveSpecialies(doctorSpecialties){
     }
 };
 
-export async function saveInsurances(acceptedInsurances){
+export async function saveInsurances(acceptedInsurances, setShowSavedInsurancesMessage){
   console.log(acceptedInsurances)
     const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
     const insuranceIds = acceptedInsurances.map(ins => ins.insurance_listID).sort((a,b)=>a-b); // list of all added insurances
@@ -59,6 +73,13 @@ export async function saveInsurances(acceptedInsurances){
           DoctorAccountDetails[0] = acceptedInsurances;
           sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
           console.log('Saved!');
+          // Show the saved message
+          setShowSavedInsurancesMessage(true);
+
+          // Hide the saved message after 5 seconds
+          setTimeout(() => {
+            setShowSavedInsurancesMessage(false);
+          }, 5000);
         }
       } catch(error) {
         console.log('error in saving Insurances', error)
@@ -68,7 +89,7 @@ export async function saveInsurances(acceptedInsurances){
     }
 };
 
-export async function saveDescription(description){
+export async function saveDescription(description, setShowSavedDescriptionMessage){
     const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
     if(description.Description !== DoctorAccountDetails[7].Description){//makes sure that it's only pushing to DB if description changed
       try {
@@ -77,6 +98,13 @@ export async function saveDescription(description){
           DoctorAccountDetails[7] = description;
           sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
           console.log('Saved!');
+          // Show the saved message
+          setShowSavedDescriptionMessage(true);
+
+          // Hide the saved message after 5 seconds
+          setTimeout(() => {
+            setShowSavedDescriptionMessage(false);
+          }, 5000);
         }
       } catch(error) {
         console.log('error in saveDescription', error)
@@ -101,7 +129,7 @@ function convertDateForSql(dateString) {
   return formattedDate;
 }
 
-export async function savePreVetSchool(preVetEducation, listDetails){
+export async function savePreVetSchool(preVetEducation, listDetails, setShowSavedPreVetMessage){
     const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
     const savedPreVetEducations = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[4] || []
     
@@ -119,6 +147,13 @@ export async function savePreVetSchool(preVetEducation, listDetails){
           DoctorAccountDetails[4] = preVetEducation;
           sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
           console.log('Saved!');
+          // Show the saved message
+          setShowSavedPreVetMessage(true);
+
+          // Hide the saved message after 5 seconds
+          setTimeout(() => {
+            setShowSavedPreVetMessage(false);
+          }, 5000);
         }
       } catch(error) {
         console.log('error in saving PreVets', error)
@@ -128,7 +163,7 @@ export async function savePreVetSchool(preVetEducation, listDetails){
     }
 };
 
-export async function saveVetSchool(vetEducation, listDetails){
+export async function saveVetSchool(vetEducation, listDetails, setShowSavedVetMessage){
     const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
     const savedVetEducations = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[5] || []
 
@@ -145,6 +180,13 @@ export async function saveVetSchool(vetEducation, listDetails){
           DoctorAccountDetails[5] = vetEducation;
           sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
           console.log('Saved!');
+          // Show the saved message
+          setShowSavedVetMessage(true);
+
+          // Hide the saved message after 5 seconds
+          setTimeout(() => {
+            setShowSavedVetMessage(false);
+          }, 5000);
         }
       } catch(error) {
         console.log('error in saving Insurances', error)

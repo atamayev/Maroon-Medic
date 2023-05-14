@@ -72,6 +72,18 @@ export default function DoctorAccountDetails() {
     JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[9][0]?.PubliclyAvailable || 0
   );
 
+  const [showSavedPreVetMessage, setShowSavedPreVetMessage] = useState(false);
+
+  const [showSavedVetMessage, setShowSavedVetMessage] = useState(false);
+
+  const [showSavedDescriptionMessage, setShowSavedDescriptionMessage] = useState(false);
+
+  const [showSavedSpecialtiesMessage, setShowSavedSpecialtiesMessage] = useState(false);
+
+  const [showSavedInsurancesMessage, setShowSavedInsurancesMessage] = useState(false);
+
+  const [showSavedLanguagesMessage, setShowSavedLanguagesMessage] = useState(false);
+
   const months = [
     "January",
     "February",
@@ -124,6 +136,73 @@ export default function DoctorAccountDetails() {
       console.error(error);
     });
   }, []);
+
+  useEffect(() => {
+    //This is done to prevent a potential memory leak
+    let timeoutId1;
+    let timeoutId2;
+    let timeoutId3;
+    let timeoutId4;
+    let timeoutId5;
+    let timeoutId6;
+
+    if (showSavedPreVetMessage) {
+      timeoutId1 = setTimeout(() => {
+        setShowSavedPreVetMessage(false);
+      }, 5000);
+    }
+  
+    if (showSavedVetMessage) {
+      timeoutId2 = setTimeout(() => {
+        setShowSavedVetMessage(false);
+      }, 5000);
+    }
+
+    if (showSavedDescriptionMessage) {
+      timeoutId3 = setTimeout(() => {
+        setShowSavedDescriptionMessage(false);
+      }, 5000);
+    }
+
+    if (showSavedSpecialtiesMessage) {
+      timeoutId4 = setTimeout(() => {
+        setShowSavedSpecialtiesMessage(false);
+      }, 5000);
+    }
+
+    if (showSavedInsurancesMessage) {
+      timeoutId5 = setTimeout(() => {
+        setShowSavedInsurancesMessage(false);
+      }, 5000);
+    }
+
+    if (showSavedLanguagesMessage) {
+      timeoutId6 = setTimeout(() => {
+        setShowSavedLanguagesMessage(false);
+      }, 5000);
+    }
+  
+    return () => {
+      if (timeoutId1) {
+        clearTimeout(timeoutId1);
+      }
+      if (timeoutId2) {
+        clearTimeout(timeoutId2);
+      }
+      if (timeoutId3) {
+        clearTimeout(timeoutId3);
+      }
+      if (timeoutId4) {
+        clearTimeout(timeoutId4);
+      }
+      if (timeoutId5) {
+        clearTimeout(timeoutId5);
+      }
+      if (timeoutId6) {
+        clearTimeout(timeoutId6);
+      }
+    };
+  }, [showSavedPreVetMessage, showSavedVetMessage, showSavedDescriptionMessage, showSavedSpecialtiesMessage, showSavedInsurancesMessage, showSavedLanguagesMessage]);
 
   async function FillDoctorAccountDetails(){
     try{
@@ -318,7 +397,8 @@ export default function DoctorAccountDetails() {
               </li>
             ))}
           </ul>
-          <Button onClick={()=>savePreVetSchool(preVetEducation, listDetails)}>Save</Button>
+          <Button onClick={()=>savePreVetSchool(preVetEducation, listDetails, setShowSavedPreVetMessage)}>Save</Button>
+          <span className={`fade ${showSavedPreVetMessage ? 'show' : ''}`}>  Pre-vet education saved!</span>
         </>
       )
     }else{
@@ -409,7 +489,8 @@ export default function DoctorAccountDetails() {
               </li>
             ))}
           </ul>
-          <Button onClick={()=>saveVetSchool(vetEducation, listDetails)}>Save</Button>
+          <Button onClick={()=>saveVetSchool(vetEducation, listDetails, setShowSavedVetMessage)}>Save</Button>
+          <span className={`fade ${showSavedVetMessage ? 'show' : ''}`}>  Vet education saved!</span>
         </>
       )
     }else{
@@ -444,9 +525,8 @@ export default function DoctorAccountDetails() {
           rows={3}
         />
           <div style={counterStyle}>Character Limit: {description.Description ? (<>{description.Description.length}</>):(<>0</>)} / 1000</div>
-        <div className="d-grid justify-content-md-end">
-      <Button onClick={()=> saveDescription(description)}>Save</Button>
-      </div>
+      <Button onClick={()=> saveDescription(description, setShowSavedDescriptionMessage)}>Save</Button>
+      <span className={`fade ${showSavedDescriptionMessage ? 'show' : ''}`}>  Description saved!</span>
     </Form>
       )
   }
@@ -582,7 +662,8 @@ export default function DoctorAccountDetails() {
               </li>
             ))}
           </ul>
-          <Button onClick={() => saveSpecialies(doctorSpecialties)}>Save</Button>
+          <Button onClick={() => saveSpecialies(doctorSpecialties, setShowSavedSpecialtiesMessage)}>Save</Button>
+          <span className={`fade ${showSavedSpecialtiesMessage ? 'show' : ''}`}>  Specialties saved!</span>
         </>
       )
     }else{
@@ -639,7 +720,8 @@ export default function DoctorAccountDetails() {
             </li>
           ))}
       </ul>
-      <Button onClick={()=>saveInsurances(acceptedInsurances)}>Save</Button>
+      <Button onClick={()=>saveInsurances(acceptedInsurances, setShowSavedInsurancesMessage)}>Save</Button>
+      <span className={`fade ${showSavedInsurancesMessage ? 'show' : ''}`}>  Insurances saved!</span>
       </Card.Body>
     </Card>
     )
@@ -680,7 +762,8 @@ export default function DoctorAccountDetails() {
               </li>
             ))}
         </ul>
-        <Button onClick={() => saveLanguages(spokenLanguages)}>Save</Button>
+        <Button onClick={() => saveLanguages(spokenLanguages, setShowSavedLanguagesMessage)}>Save</Button>
+        <span className={`fade ${showSavedLanguagesMessage ? 'show' : ''}`}>  Languages saved!</span>
         </Card.Body>
       </Card>
     )
@@ -714,7 +797,28 @@ export default function DoctorAccountDetails() {
     </Card>
     )
   }
-
+  
+  const renderIsVetServices = () =>{
+    if(Array.from(new Set(listDetails[2]?.map((item) => item.Category_name))).length){
+      return(
+        <>
+          Services Placeholder - should be a checkbox 
+        </>
+      )
+    }
+  }
+  const renderServicesSection = () =>{
+    return(
+      <Card>
+      <Card.Header>
+        Vet Services
+      </Card.Header>
+      <Card.Body>
+        {renderIsVetServices()}
+      </Card.Body>
+    </Card>
+  )
+  }
   const renderIsVerification = () =>{
     if(verified){
       return(
@@ -785,6 +889,8 @@ export default function DoctorAccountDetails() {
       <br/>
       {renderLanguageSection()}
       <br/>
+      {renderServicesSection()}
+      <br />
       {renderLocationsSection()}
       <br/>
       {renderVerificationAndPublicStatusSection()}
