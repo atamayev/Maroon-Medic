@@ -7,10 +7,10 @@ import PrivateDoctorDataService from '../../Services/private-doctor-data-service
 import Header from '../header.js';
 import FormGroup from '../../Components/form-group.js';
 import { NonDoctorAccess } from '../../Components/user-type-unauth.js';
-import { handleLanguageChange, handleSelectSpecialty, handleInsuranceChange, handleDescriptionChange, handleSelectCarousel} from '../../Custom Hooks/Hooks for Doctor Account Details/select.js';
+import { handleLanguageChange, handleSelectSpecialty, handleDescriptionChange, handleSelectCarousel, handleCategoryChange, handleServiceChange} from '../../Custom Hooks/Hooks for Doctor Account Details/select.js';
 import { handleAddLanguage, handleAddSpecialty, handleAddInsurance, handleAddPreVetEducation, handleAddVetEducation } from '../../Custom Hooks/Hooks for Doctor Account Details/add.js';
 import { handleDeleteInsurance, handleDeleteLanguage, handleDeleteSpecialty, handleDeletePreVetEducation, handleDeleteVetEducation } from '../../Custom Hooks/Hooks for Doctor Account Details/delete.js';
-import { saveInsurances, saveLanguages, saveSpecialies, saveDescription, savePreVetSchool, saveVetSchool, handlePublicAvailibilityToggle } from '../../Custom Hooks/Hooks for Doctor Account Details/save.js';
+import { saveInsurances, saveLanguages, saveSpecialies, saveDescription, savePreVetSchool, saveVetSchool, saveServices, handlePublicAvailibilityToggle } from '../../Custom Hooks/Hooks for Doctor Account Details/save.js';
 import { useConfirmationTimeout } from '../../Custom Hooks/Hooks for Doctor Account Details/savedMessageUseEffect.js';
 
 async function FillLists(setListDetails){ 
@@ -34,7 +34,6 @@ export default function DoctorAccountDetails() {
   const [user_type, setUser_type] = useState(null);
   const [carouselIndex, setCarouselIndex] = useState(0);
   
-  const [selectedInsurance, setSelectedInsurance] = useState('');
   const [acceptedInsurances, setAcceptedInsurances] = useState(
     JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[0] || []
   );
@@ -49,6 +48,9 @@ export default function DoctorAccountDetails() {
   const [doctorSpecialties, setDoctorSpecialties] = useState(
     JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[3] || []
   );
+
+  const [selectedServices, setSelectedServices] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   const [selectedPreVetSchool, setSelectedPreVetSchool] = useState('');
   const [selectedMajor, setSelectedMajor] = useState('');
@@ -84,6 +86,8 @@ export default function DoctorAccountDetails() {
   const [showSavedInsurancesMessage, setShowSavedInsurancesMessage] = useState(false);
 
   const [showSavedLanguagesMessage, setShowSavedLanguagesMessage] = useState(false);
+
+  const [showSavedServicesMessage, setShowSavedServicesMessage] = useState(false);
 
   const months = [
     "January",
@@ -150,7 +154,9 @@ export default function DoctorAccountDetails() {
     showSavedInsurancesMessage,
     setShowSavedInsurancesMessage,
     showSavedLanguagesMessage,
-    setShowSavedLanguagesMessage
+    setShowSavedLanguagesMessage,
+    showSavedServicesMessage,
+    setShowSavedServicesMessage
   );
 
   async function FillDoctorAccountDetails(){
@@ -743,10 +749,44 @@ export default function DoctorAccountDetails() {
   }
   
   const renderIsVetServices = () =>{
+    const categories = {};
+    listDetails[2].forEach(service => {
+      if (!categories[service.Category_name]) {
+        categories[service.Category_name] = [];
+      }
+      categories[service.Category_name].push(service);
+    });
+
     if(Array.from(new Set(listDetails[2]?.map((item) => item.Category_name))).length){
       return(
         <>
-          Services Placeholder - should be a checkbox 
+          {Object.entries(categories).map(([category, services]) => (
+          <div key={category} style = {{marginBottom: '10px'}}>
+            <input
+              type="checkbox"
+              id={category}
+              name="category"
+              checked={selectedCategories.includes(category)}
+              onChange={event => handleCategoryChange(event, category, services, selectedCategories, setSelectedCategories, selectedServices, setSelectedServices)}
+            />
+            <label htmlFor={category}>{category}</label>
+            <div>
+              {services.map(service => (
+                <div key={service.service_and_category_listID} style={{ paddingLeft: '20px' }}>
+                  <input
+                    type="checkbox"
+                    id={service?.service_and_category_listID}
+                    name="service"
+                    checked={selectedServices.find(s => s.service_and_category_listID === service.service_and_category_listID) !== undefined}
+                    onChange={event => handleServiceChange(event, service, selectedServices, setSelectedServices)}
+                  />
+                  <label htmlFor={service.service_and_category_listID}>{service.Service_name}</label>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+        <Button onClick={() => saveServices(selectedServices, setShowSavedServicesMessage)}>Save</Button>
         </>
       )
     }

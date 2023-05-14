@@ -51,3 +51,21 @@ export const handleSelectCarousel = (selectedIndex, setCarouselIndex) => {
   setCarouselIndex(selectedIndex);
   // from React Bootstrap
 };
+
+export const handleCategoryChange = (event, category, services, selectedCategories, setSelectedCategories, selectedServices, setSelectedServices) => {
+  if (event.target.checked) {
+    setSelectedCategories([...selectedCategories, category]);
+    setSelectedServices([...selectedServices, ...services]);
+  } else {
+    setSelectedCategories(selectedCategories.filter(c => c !== category));
+    setSelectedServices(selectedServices.filter(service => service.Category_name !== category));
+  }
+};
+
+export const handleServiceChange = (event, service, selectedServices, setSelectedServices) => {
+  if (event.target.checked) {
+    setSelectedServices([...selectedServices, service]);
+  } else {
+    setSelectedServices(selectedServices.filter(s => s.service_and_category_listID !== service.service_and_category_listID));
+  }
+};

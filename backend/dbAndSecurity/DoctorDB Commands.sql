@@ -55,10 +55,12 @@ select * from DoctorUUID_reference;
 
 CREATE TABLE phone_numbers(
 phone_numbersID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Phone VARCHAR(150),
+Phone VARCHAR(150) NOT NULL,
 Phone_Priority INT, 
 Address_ID INT unsigned NOT NULL,
 FOREIGN KEY (Address_ID) REFERENCES Doctor_addresses(addresses_ID));
+
+select * from phone_numbers;
 
 CREATE TABLE descriptions(
 descriptionsID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -121,8 +123,6 @@ SELECT
     JOIN language_mapping lm ON bdi.Doctor_ID = lm.Doctor_ID
     JOIN language_list ll ON lm.language_mappingID = ll.language_listID
     WHERE bdi.Doctor_ID = '1000000';
-
-
 
 -- DELETE FROM language_mapping where Doctor_ID = '1000000';
 CREATE TABLE language_mapping(

@@ -1,6 +1,7 @@
 To-do:
 
 ASAP:
+fix erro where page jumps if click  in between services
 1. Address + phone numbers
 2. Services and Categories
 

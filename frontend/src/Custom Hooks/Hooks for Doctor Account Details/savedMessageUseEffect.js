@@ -13,7 +13,9 @@ export const useConfirmationTimeout = (
   showSavedInsurancesMessage,
   setShowSavedInsurancesMessage,
   showSavedLanguagesMessage,
-  setShowSavedLanguagesMessage
+  setShowSavedLanguagesMessage,
+  showSavedServicesMessage,
+  setShowSavedServicesMessage
 ) => {
     useEffect(() => {
         //This is done to prevent a potential memory leak
@@ -23,6 +25,7 @@ export const useConfirmationTimeout = (
         let timeoutId4;
         let timeoutId5;
         let timeoutId6;
+        let timeoutId7;
     
         if (showSavedPreVetMessage) {
           timeoutId1 = setTimeout(() => {
@@ -59,6 +62,12 @@ export const useConfirmationTimeout = (
             setShowSavedLanguagesMessage(false);
           }, 5000);
         }
+
+        if (showSavedServicesMessage){
+          timeoutId7 = setTimeout(() => {
+            setShowSavedServicesMessage(false);
+          }, 5000);
+        }
       
         return () => {
           if (timeoutId1) {
@@ -79,6 +88,9 @@ export const useConfirmationTimeout = (
           if (timeoutId6) {
             clearTimeout(timeoutId6);
           }
+          if (timeoutId7) {
+            clearTimeout(timeoutId7);
+          }
         };
       }, [
         showSavedPreVetMessage, 
@@ -86,6 +98,7 @@ export const useConfirmationTimeout = (
         showSavedDescriptionMessage, 
         showSavedSpecialtiesMessage, 
         showSavedInsurancesMessage, 
-        showSavedLanguagesMessage
+        showSavedLanguagesMessage,
+        showSavedServicesMessage
     ]);
 };

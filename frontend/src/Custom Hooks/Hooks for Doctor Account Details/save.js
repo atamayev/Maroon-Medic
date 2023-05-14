@@ -89,6 +89,36 @@ export async function saveInsurances(acceptedInsurances, setShowSavedInsurancesM
     }
 };
 
+export async function saveServices(selectedServices, setShowSavedServicesMessage){
+  console.log(selectedServices)
+    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
+    const serviceIds = selectedServices.map(service => service.service_and_category_listID).sort((a,b)=>a-b); // list of all added insurances
+    const savedServices = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[2] || []
+    const savedServiceIDs = savedServices.map(service => service.service_and_category_listID).sort((a,b)=>a-b);
+  
+    if(!checkIfListsAreEqual(serviceIds, savedServiceIDs)){//only saves if the insurances changed
+      try {
+        const response = await PrivateDoctorDataService.saveGeneralData(serviceIds, 'Service')
+        if(response.status === 200){
+          DoctorAccountDetails[2] = selectedServices;
+          sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+          console.log('Saved!');
+          // Show the saved message
+          setShowSavedServicesMessage(true);
+
+          // Hide the saved message after 5 seconds
+          setTimeout(() => {
+            setShowSavedServicesMessage(false);
+          }, 5000);
+        }
+      } catch(error) {
+        console.log('error in saving Services', error)
+      }
+    }else{
+      console.log('same')
+    }
+};
+
 export async function saveDescription(description, setShowSavedDescriptionMessage){
     const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
     if(description.Description !== DoctorAccountDetails[7].Description){//makes sure that it's only pushing to DB if description changed
