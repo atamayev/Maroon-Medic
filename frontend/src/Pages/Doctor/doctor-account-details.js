@@ -7,7 +7,7 @@ import PrivateDoctorDataService from '../../Services/private-doctor-data-service
 import Header from '../header.js';
 import FormGroup from '../../Components/form-group.js';
 import { NonDoctorAccess } from '../../Components/user-type-unauth.js';
-import { handleLanguageChange, handleSelectSpecialty, handleDescriptionChange, handleSelectCarousel, handleCategoryChange, handleServiceChange} from '../../Custom Hooks/Hooks for Doctor Account Details/select.js';
+import { handleLanguageChange, handleSelectSpecialty, handleDescriptionChange, handleSelectCarousel, handleCategoryChange, handleServiceChange, handleToggleCategory} from '../../Custom Hooks/Hooks for Doctor Account Details/select.js';
 import { handleAddLanguage, handleAddSpecialty, handleAddInsurance, handleAddPreVetEducation, handleAddVetEducation } from '../../Custom Hooks/Hooks for Doctor Account Details/add.js';
 import { handleDeleteInsurance, handleDeleteLanguage, handleDeleteSpecialty, handleDeletePreVetEducation, handleDeleteVetEducation } from '../../Custom Hooks/Hooks for Doctor Account Details/delete.js';
 import { saveInsurances, saveLanguages, saveSpecialies, saveDescription, savePreVetSchool, saveVetSchool, saveServices, handlePublicAvailibilityToggle } from '../../Custom Hooks/Hooks for Doctor Account Details/save.js';
@@ -74,6 +74,8 @@ export default function DoctorAccountDetails() {
   const [publiclyAvailable, setPubliclyAvailable] = useState(
     JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[9][0]?.PubliclyAvailable || 0
   );
+
+  const [expandedCategories, setExpandedCategories] = useState([]);
 
   const [showSavedPreVetMessage, setShowSavedPreVetMessage] = useState(false);
 
@@ -648,7 +650,6 @@ export default function DoctorAccountDetails() {
           Insurances
         </Card.Header>
         <Card.Body>
-          <label>Select insurances: </label>
           {Array.isArray(listDetails[0]) &&
             listDetails[0].length > 0 &&
             listDetails[0].map((insurance) => (
@@ -684,7 +685,6 @@ export default function DoctorAccountDetails() {
           Languages
         </Card.Header>
         <Card.Body>
-        <label htmlFor="language">Select a language: </label>
         <select
           id="language"
           name="language"
@@ -748,45 +748,52 @@ export default function DoctorAccountDetails() {
     )
   }
   
-  const renderIsVetServices = () =>{
+  const renderIsVetServices = () => {
     const categories = {};
-    listDetails[2].forEach(service => {
-      if (!categories[service.Category_name]) {
-        categories[service.Category_name] = [];
-      }
-      categories[service.Category_name].push(service);
-    });
-
-    if(Array.from(new Set(listDetails[2]?.map((item) => item.Category_name))).length){
-      return(
+    if (listDetails[2]) {
+      listDetails[2].forEach(service => {
+        if (!categories[service.Category_name]) {
+          categories[service.Category_name] = [];
+        }
+        categories[service.Category_name].push(service);
+      });
+    }
+  
+    if (Array.from(new Set(listDetails[2]?.map((item) => item.Category_name))).length) {
+      return (
         <>
           {Object.entries(categories).map(([category, services]) => (
-          <div key={category} style = {{marginBottom: '10px'}}>
-            <input
-              type="checkbox"
-              id={category}
-              name="category"
-              checked={selectedCategories.includes(category)}
-              onChange={event => handleCategoryChange(event, category, services, selectedCategories, setSelectedCategories, selectedServices, setSelectedServices)}
-            />
-            <label htmlFor={category}>{category}</label>
-            <div>
-              {services.map(service => (
-                <div key={service.service_and_category_listID} style={{ paddingLeft: '20px' }}>
-                  <input
-                    type="checkbox"
-                    id={service?.service_and_category_listID}
-                    name="service"
-                    checked={selectedServices.find(s => s.service_and_category_listID === service.service_and_category_listID) !== undefined}
-                    onChange={event => handleServiceChange(event, service, selectedServices, setSelectedServices)}
-                  />
-                  <label htmlFor={service.service_and_category_listID}>{service.Service_name}</label>
+            <div key={category} style={{ marginBottom: '10px' }}>
+              <input
+                type="checkbox"
+                id={category}
+                name="category"
+                checked={selectedCategories.includes(category)}
+                onChange={event => handleCategoryChange(event, category, services, selectedCategories, setSelectedCategories, selectedServices, setSelectedServices)}
+              />
+              <label htmlFor={category}>{category}</label>
+              {services.length > 1 && (
+                <Button onClick={() => handleToggleCategory(category, setExpandedCategories)}>Toggle</Button>
+              )}
+              {services.length > 1 && expandedCategories.includes(category) && (
+                <div>
+                  {services.map(service => (
+                    <div key={service.service_and_category_listID} style={{ paddingLeft: '20px' }}>
+                      <input
+                        type="checkbox"
+                        id={`${category}-${service.service_and_category_listID}`}
+                        name="service"
+                        checked={selectedServices.find(s => s.service_and_category_listID === service.service_and_category_listID) !== undefined}
+                        onChange={event => handleServiceChange(event, service, selectedServices, setSelectedServices)}
+                      />
+                      <label htmlFor={`${category}-${service.service_and_category_listID}`}>{service.Service_name}</label>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              )}
             </div>
-          </div>
-        ))}
-        <Button onClick={() => saveServices(selectedServices, setShowSavedServicesMessage)}>Save</Button>
+          ))}
+          <Button onClick={() => saveServices(selectedServices, setShowSavedServicesMessage)}>Save</Button>
         </>
       )
     }

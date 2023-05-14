@@ -1,17 +1,14 @@
 To-do:
 
 ASAP:
-fix erro where page jumps if click  in between services
+create new functoin: need to figure out how to save prices along with time for each service. 
+
 1. Address + phone numbers
-2. Services and Categories
 
 -- will likely need to simplify the select.js. what it's doing rn is redundant. inside account details, it's setting the value of the type of to the id. then, select has to find which type has that id.
 	for example, if select Lemonade insurance, instead of setting selected vet school to Lemondae, it first sends back lemonad'es id, and then converts it to the name
 simplification of pre-vet education needed.
 general simplification of account details needed.
-
-Make services checkboxes.
-	when there is a checkbox, make it save automatically. 
 
 -- before saving email to db, make sure it is lowercase, so that when searching db, it is done in uniform way
 	save emails as lowercase. then, when logging in, email should be lowercased before searching the db.
