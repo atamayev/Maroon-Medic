@@ -8,8 +8,8 @@ export const handleDeleteSpecialty = (specialty, doctorSpecialties, setDoctorSpe
     setDoctorSpecialties(doctorSpecialties.filter(s => s !== specialty));
 };
   
-export const handleDeleteInsurance = (insurance, acceptedInsurances, setAcceptedInsurances) => {
-    setAcceptedInsurances(acceptedInsurances.filter(i => i !== insurance));
+export const handleDeleteInsurance = (insuranceToDelete, acceptedInsurances, setAcceptedInsurances) => {
+    setAcceptedInsurances(acceptedInsurances.filter(insurance => insurance.insurance_listID !== insuranceToDelete.insurance_listID));
 };
 
 export const handleDeletePreVetEducation = (preVetEducationObject, preVetEducation, setPreVetEducation) => {

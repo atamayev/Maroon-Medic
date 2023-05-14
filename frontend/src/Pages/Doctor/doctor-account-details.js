@@ -635,47 +635,42 @@ export default function DoctorAccountDetails() {
     )
   }
 
-  const renderInsuranceSection = () =>{
-    return(
-    <Card>
-      <Card.Header>
-        Insurances
-      </Card.Header>
-      <Card.Body>
-      <label htmlFor="insurance">Select a insurance: </label>
-        <select 
-          id="insurance" 
-          name="insurance" 
-          value = {selectedInsurance?.insurance_listID || ''} 
-          onChange = {event => handleInsuranceChange(event, listDetails, setSelectedInsurance)}>
-          <option value ="">Choose an insurance</option>
+  const renderInsuranceSection = () => {
+    return (
+      <Card>
+        <Card.Header>
+          Insurances
+        </Card.Header>
+        <Card.Body>
+          <label>Select insurances: </label>
           {Array.isArray(listDetails[0]) &&
-              listDetails[0].length > 0 &&
-              listDetails[0]
-                .filter((insurance) => !acceptedInsurances.find((accepted) => accepted.insurance_listID === insurance.insurance_listID))
-                .map((insurance) => (
-                  <option key={insurance?.insurance_listID} value={insurance?.insurance_listID}>
-                    {insurance?.Insurance_name}
-                  </option>
-          ))}
-        </select>
-      <Button onClick={() => handleAddInsurance(selectedInsurance, acceptedInsurances, setAcceptedInsurances, setSelectedInsurance)}>Add</Button>
-      <ul>
-        {Array.isArray(acceptedInsurances) && 
-          acceptedInsurances.map(insurance => (
-            <li key={insurance.insurance_listID}>
-              {insurance.Insurance_name} 
-              <Button onClick={() => handleDeleteInsurance(insurance, acceptedInsurances, setAcceptedInsurances)}>x</Button>
-            </li>
-          ))}
-      </ul>
-      <Button onClick={()=>saveInsurances(acceptedInsurances, setShowSavedInsurancesMessage)}>Save</Button>
-      <span className={`fade ${showSavedInsurancesMessage ? 'show' : ''}`}>  Insurances saved!</span>
-      </Card.Body>
-    </Card>
-    )
-  }
-
+            listDetails[0].length > 0 &&
+            listDetails[0].map((insurance) => (
+              <div key={insurance?.insurance_listID}>
+                <input
+                  type="checkbox"
+                  id={insurance?.insurance_listID}
+                  name="insurance"
+                  value={insurance?.insurance_listID}
+                  checked={acceptedInsurances.find((accepted) => accepted.insurance_listID === insurance.insurance_listID) !== undefined}
+                  onChange={(event) => {
+                    if (event.target.checked) {
+                      handleAddInsurance(insurance, acceptedInsurances, setAcceptedInsurances);
+                    } else {
+                      handleDeleteInsurance(insurance, acceptedInsurances, setAcceptedInsurances);
+                    }
+                  }}
+                />
+                <label htmlFor={insurance?.insurance_listID}>{insurance?.Insurance_name}</label>
+              </div>
+            ))}
+          <Button onClick={() => saveInsurances(acceptedInsurances, setShowSavedInsurancesMessage)}>Save</Button>
+          <span className={`fade ${showSavedInsurancesMessage ? 'show' : ''}`}>  Insurances saved!</span>
+        </Card.Body>
+      </Card>
+    );
+  };
+  
   const renderLanguageSection = () =>{
     return(
       <Card>
@@ -756,6 +751,7 @@ export default function DoctorAccountDetails() {
       )
     }
   }
+
   const renderServicesSection = () =>{
     return(
       <Card>
@@ -768,6 +764,7 @@ export default function DoctorAccountDetails() {
     </Card>
   )
   }
+
   const renderIsVerification = () =>{
     if(verified){
       return(

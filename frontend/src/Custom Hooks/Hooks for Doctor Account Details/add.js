@@ -28,17 +28,12 @@ export const handleAddSpecialty = (selectedSpecialty, doctorSpecialties, setDoct
   setSelectedSpecialties('');
 };
 
-export const handleAddInsurance = (selectedInsurance, acceptedInsurances, setAcceptedInsurances, setSelectedInsurance) => {
-    if(selectedInsurance){
-      if(acceptedInsurances.length >0){
-        if(!acceptedInsurances.includes(selectedInsurance)){
-          setAcceptedInsurances([...acceptedInsurances, selectedInsurance]);
-        }
-      }else{
-        setAcceptedInsurances([selectedInsurance]);
-      }
+export const handleAddInsurance = (selectedInsurance, acceptedInsurances, setAcceptedInsurances) => {
+  if(selectedInsurance){
+    if(!acceptedInsurances.some(insurance => insurance.insurance_listID === selectedInsurance.insurance_listID)){
+      setAcceptedInsurances([...acceptedInsurances, selectedInsurance]);
     }
-    setSelectedInsurance('');
+  }
 };
 
 export const handleAddPreVetEducation = (

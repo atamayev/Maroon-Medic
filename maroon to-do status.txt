@@ -9,7 +9,7 @@ ASAP:
 simplification of pre-vet education needed.
 general simplification of account details needed.
 
-Make insurances, and services checkboxes.
+Make services checkboxes.
 	when there is a checkbox, make it save automatically. 
 
 -- before saving email to db, make sure it is lowercase, so that when searching db, it is done in uniform way
