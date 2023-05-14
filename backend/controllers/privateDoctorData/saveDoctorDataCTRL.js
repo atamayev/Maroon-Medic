@@ -161,26 +161,36 @@ export async function saveGeneralData (req, res){
         if (addedData.length > 0) {
             console.log('adding data')
             for (let i = 0; i<addedData.length; i++){
-                const sql1 = `INSERT INTO ${table_name} (${DataType}_ID, Doctor_ID) VALUES (?,?)`;
-                const values1 = [addedData[i], DoctorID];
-                try{
-                    await connection.execute(sql1, values1);
-                }catch(error){
-                    console.log(`error in if ${saveGeneralData.name}:`, error);
-                    return res.status(400).json(false);
+                if(addedData[i]){
+                    const sql1 = `INSERT INTO ${table_name} (${DataType}_ID, Doctor_ID) VALUES (?,?)`;
+                    const values1 = [addedData[i], DoctorID];
+                    try{
+                        await connection.execute(sql1, values1);
+                    }catch(error){
+                        console.log(`error in if ${saveGeneralData.name}:`, error);
+                        return res.status(400).json(false);
+                    }
+                }else{
+                    console.log(`problem in adding data ${saveGeneralData.name}: field ${i} is null`);
+                    return res.status(400).json(false);    
                 }
             }
-        }  
+        }
         if (deletedData.length > 0) {
             console.log('deleting data')
             for (let i = 0; i<deletedData.length; i++){
-                const sql1 = `DELETE FROM ${table_name} WHERE ${DataType}_ID = ? AND Doctor_ID = ?`;
-                const values1 = [deletedData[i], DoctorID];
-                try{
-                    await connection.execute(sql1, values1);
-                }catch(error){
-                    console.log(`error in if ${saveGeneralData.name}:`, error);
-                    return res.status(400).json(false);
+                if(deletedData[i]){
+                    const sql1 = `DELETE FROM ${table_name} WHERE ${DataType}_ID = ? AND Doctor_ID = ?`;
+                    const values1 = [deletedData[i], DoctorID];
+                    try{
+                        await connection.execute(sql1, values1);
+                    }catch(error){
+                        console.log(`error in if ${saveGeneralData.name}:`, error);
+                        return res.status(400).json(false);
+                    }
+                }else{
+                    console.log(`problem in deleting ${saveGeneralData.name}: field ${i} is null`);
+                    return res.status(400).json(false);    
                 }
             }
         }
@@ -189,13 +199,18 @@ export async function saveGeneralData (req, res){
       else if (doctorData.length > 0){
         console.log('adding data in else')
         for (let i=0; i<doctorData.length; i++){
-            const sql1 = `INSERT INTO ${table_name} (${DataType}_ID, Doctor_ID) VALUES (?,?)`;
-            const values1 = [doctorData[i], DoctorID];
-            try{
-                await connection.execute(sql1, values1);
-            }catch(error){
-                console.log(`error in if ${saveGeneralData.name}:`, error);
-                return res.status(400).json(false);
+            if(doctorData[i]){
+                const sql1 = `INSERT INTO ${table_name} (${DataType}_ID, Doctor_ID) VALUES (?,?)`;
+                const values1 = [doctorData[i], DoctorID];
+                try{
+                    await connection.execute(sql1, values1);
+                }catch(error){
+                    console.log(`error in if ${saveGeneralData.name}:`, error);
+                    return res.status(400).json(false);
+                }
+            }else{
+                console.log(`problem in adding data in else ${saveGeneralData.name}: field ${i} is null`);
+                return res.status(400).json(false);   
             }
         }
         return res.status(200).json(true);

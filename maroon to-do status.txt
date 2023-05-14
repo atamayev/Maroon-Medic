@@ -4,8 +4,6 @@ ASAP:
 --remove all unneccesary useEffects (most of the user_verification ones are). see how devin did it--> basiically just have it run outside the useEffect.
 	consider outsourcing the user_verification re-direct logic if repetetive anywhere
 
--- if prior to inputting into db, any field is null, do not add to the db. return 'trouble saving'
-
 -- will likely need to simplify the select.js. what it's doing rn is redundant. inside account details, it's setting the value of the type of to the id. then, select has to find which type has that id.
 	for example, if select Lemonade insurance, instead of setting selected vet school to Lemondae, it first sends back lemonad'es id, and then converts it to the name
 simplification of pre-vet education needed.
