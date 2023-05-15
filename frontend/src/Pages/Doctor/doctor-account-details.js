@@ -46,7 +46,6 @@ export default function DoctorAccountDetails() {
 
   const [selectedServices, setSelectedServices] = useState(DoctorAccountDetails?.[2] || []);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [acceptedServices, setAcceptedServices] = useState([]);
 
   const [selectedPreVetSchool, setSelectedPreVetSchool] = useState('');
   const [selectedMajor, setSelectedMajor] = useState('');
@@ -161,7 +160,7 @@ export default function DoctorAccountDetails() {
             }
             if(response.data[2]){
               console.log(response.data[2])
-              setAcceptedServices(response.data[2])
+              setSelectedServices(response.data[2])
             }
             if(response.data[3]){
               setDoctorSpecialties(response.data[3])
@@ -738,6 +737,7 @@ export default function DoctorAccountDetails() {
   }
   
   const renderIsVetServices = () => {
+    // console.log('selectedServices',selectedServices)
     const categories = {};
     if (listDetails[2]) {
       listDetails[2].forEach(service => {

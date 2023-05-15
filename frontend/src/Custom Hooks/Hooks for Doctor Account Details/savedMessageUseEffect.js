@@ -1,104 +1,34 @@
-// useConfirmationTimeout.js
 import { useEffect } from 'react';
 
-export const useConfirmationTimeout = (
-  showSavedPreVetMessage,
-  setShowSavedPreVetMessage,
-  showSavedVetMessage,
-  setShowSavedVetMessage,
-  showSavedDescriptionMessage,
-  setShowSavedDescriptionMessage,
-  showSavedSpecialtiesMessage,
-  setShowSavedSpecialtiesMessage,
-  showSavedInsurancesMessage,
-  setShowSavedInsurancesMessage,
-  showSavedLanguagesMessage,
-  setShowSavedLanguagesMessage,
-  showSavedServicesMessage,
-  setShowSavedServicesMessage
-) => {
-    useEffect(() => {
-        //This is done to prevent a potential memory leak
-        let timeoutId1;
-        let timeoutId2;
-        let timeoutId3;
-        let timeoutId4;
-        let timeoutId5;
-        let timeoutId6;
-        let timeoutId7;
-    
-        if (showSavedPreVetMessage) {
-          timeoutId1 = setTimeout(() => {
-            setShowSavedPreVetMessage(false);
-          }, 5000);
-        }
-      
-        if (showSavedVetMessage) {
-          timeoutId2 = setTimeout(() => {
-            setShowSavedVetMessage(false);
-          }, 5000);
-        }
-    
-        if (showSavedDescriptionMessage) {
-          timeoutId3 = setTimeout(() => {
-            setShowSavedDescriptionMessage(false);
-          }, 5000);
-        }
-    
-        if (showSavedSpecialtiesMessage) {
-          timeoutId4 = setTimeout(() => {
-            setShowSavedSpecialtiesMessage(false);
-          }, 5000);
-        }
-    
-        if (showSavedInsurancesMessage) {
-          timeoutId5 = setTimeout(() => {
-            setShowSavedInsurancesMessage(false);
-          }, 5000);
-        }
-    
-        if (showSavedLanguagesMessage) {
-          timeoutId6 = setTimeout(() => {
-            setShowSavedLanguagesMessage(false);
-          }, 5000);
-        }
+export const useConfirmationTimeout = (...args) => {
+  // Create an array to hold the timeout ids
+  let timeoutIds = [];
 
-        if (showSavedServicesMessage){
-          timeoutId7 = setTimeout(() => {
-            setShowSavedServicesMessage(false);
-          }, 5000);
-        }
+  useEffect(() => {
+    // Clear the timeout array
+    timeoutIds = [];
+
+    // Loop through each pair of arguments (show and set functions)
+    for(let i = 0; i < args.length; i += 2) {
+      const showFunc = args[i];
+      const setFunc = args[i+1];
       
-        return () => {
-          if (timeoutId1) {
-            clearTimeout(timeoutId1);
-          }
-          if (timeoutId2) {
-            clearTimeout(timeoutId2);
-          }
-          if (timeoutId3) {
-            clearTimeout(timeoutId3);
-          }
-          if (timeoutId4) {
-            clearTimeout(timeoutId4);
-          }
-          if (timeoutId5) {
-            clearTimeout(timeoutId5);
-          }
-          if (timeoutId6) {
-            clearTimeout(timeoutId6);
-          }
-          if (timeoutId7) {
-            clearTimeout(timeoutId7);
-          }
-        };
-      }, [
-        showSavedPreVetMessage, 
-        showSavedVetMessage, 
-        showSavedDescriptionMessage, 
-        showSavedSpecialtiesMessage, 
-        showSavedInsurancesMessage, 
-        showSavedLanguagesMessage,
-        showSavedServicesMessage
-    ]);
+      // If the show function returns true, set a timeout
+      if(showFunc) {
+        const timeoutId = setTimeout(() => {
+          setFunc(false);
+        }, 5000);
+        
+        // Push the timeout id to the array
+        timeoutIds.push(timeoutId);
+      }
+    }
+    
+    // Clear all timeouts when the component unmounts
+    return () => {
+      for (let id of timeoutIds) {
+        clearTimeout(id);
+      }
+    };
+  }, args); // Pass all arguments as dependencies to useEffect
 };

@@ -88,11 +88,11 @@ export const handleAddPreVetEducation = (
 
 export const handleAddVetEducation = (
     selectedVetSchool, 
+    setSelectedVetSchool, 
     selectedVetEducationType, 
+    setSelectedVetEducationType,
     vetEducation, 
     setVetEducation, 
-    setSelectedVetSchool, 
-    setSelectedVetEducationType,
     startMonth,
     setStartMonth, 
     endMonth,

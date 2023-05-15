@@ -2,6 +2,7 @@ To-do:
 
 ASAP:
 create new functoin: need to figure out how to save prices along with time for each service. 
+divide doctor-account-details into indivudla files for eahc section
 
 1. Address + phone numbers
 
