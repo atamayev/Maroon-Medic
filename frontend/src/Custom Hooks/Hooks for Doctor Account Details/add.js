@@ -15,11 +15,9 @@ export const handleAddLanguage = (selectedLanguage, spokenLanguages, setSpokenLa
 
 export const handleAddSpecialty = (selectedSpecialty, doctorSpecialties, setDoctorSpecialties, setSelectedSpecialties) => {
   if(selectedSpecialty){
-    console.log(selectedSpecialty)
     if(doctorSpecialties.length >0){
       if(!doctorSpecialties.includes(selectedSpecialty)){
         setDoctorSpecialties([...doctorSpecialties, selectedSpecialty]);
-        console.log(doctorSpecialties)
       }
     }else{
       setDoctorSpecialties([selectedSpecialty]);
@@ -68,7 +66,6 @@ export const handleAddPreVetEducation = (
       Start_Date: `${startYear}-${startMonth}-1`,
       End_Date: `${endYear}-${endMonth}-1`,
     }
-    console.log(selectedEducationObj)
     if(preVetEducation.length >0){
       if(!isObjectInArray(selectedEducationObj, preVetEducation)){
         setPreVetEducation([...preVetEducation, selectedEducationObj]);
@@ -115,7 +112,6 @@ export const handleAddVetEducation = (
       Start_Date: `${startYear}-${startMonth}-1`,
       End_Date: `${endYear}-${endMonth}-1`,
     }
-    console.log(selectedEducationObj)
     if(vetEducation.length >0){
       if(!isObjectInArray(selectedEducationObj, vetEducation)){
         setVetEducation([...vetEducation, selectedEducationObj]);

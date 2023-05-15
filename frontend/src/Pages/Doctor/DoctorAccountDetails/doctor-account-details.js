@@ -1,21 +1,21 @@
 import React, {useEffect, useContext, useState} from 'react'
-import {Link} from "react-router-dom";
-import {Button, Card, Accordion} from 'react-bootstrap';
 import { VerifyContext } from '../../../Contexts/VerifyContext.js';
 import DoctorHeader from '../doctor-header.js';
 import PrivateDoctorDataService from '../../../Services/private-doctor-data-service.js';
 import Header from '../../header.js';
 import { NonDoctorAccess } from '../../../Components/user-type-unauth.js';
-import { handleLanguageChange, handleSelectSpecialty, handleCategoryChange, handleServiceChange, handleToggleCategory} from '../../../Custom Hooks/Hooks for Doctor Account Details/select.js';
-import { handleAddLanguage, handleAddSpecialty, handleAddInsurance } from '../../../Custom Hooks/Hooks for Doctor Account Details/add.js';
-import { handleDeleteInsurance, handleDeleteLanguage, handleDeleteSpecialty } from '../../../Custom Hooks/Hooks for Doctor Account Details/delete.js';
-import { saveInsurances, saveLanguages, saveSpecialies, saveServices } from '../../../Custom Hooks/Hooks for Doctor Account Details/save.js';
 import { useConfirmationTimeout } from '../../../Custom Hooks/Hooks for Doctor Account Details/savedMessageUseEffect.js';
 import RenderPreVetEducationSection from './preVetEducation.js';
 import RenderVetEducationSection from './vetEducation.js';
 import RenderDescriptionSection from './description.js';
-import RenderPicturesSection from './pictures.js';
+//import RenderPicturesSection from './pictures.js';
 import RenderVerificationAndPublicStatusSection from './verificationAndPublicStatus.js';
+import RenderPersonalInfoLinkSection from './personalInfoLink.js';
+import RenderInsuranceSection from './insurance.js';
+import RenderLanguageSection from './language.js';
+import RenderServiceSection from './service.js';
+import RenderLocationSection from './location.js';
+import RenderSpecialtySection from './specialty.js';
 
 async function FillLists(setListDetails){ 
   // this will be used to fill the lists in the db (insurances, languages, etc.) Should be one function that returns an object of arrays of hte different lists
@@ -196,305 +196,26 @@ export default function DoctorAccountDetails() {
     color: isDescriptionOverLimit ? "red" : "black",
   };
 
-  const renderPersonalInfoLinkSection =  () =>{
-    return(
-      <Card>
-        <Card.Body>
-          Looking to edit your Profile Information? {''} 
-          <Link to= {'/vet-settings/personal-information'}>
-              <Button variant="primary" className="btn btn-primary p-1">
-                  <p>Edit Personal Information</p>
-              </Button>
-        </Link>
-        </Card.Body>
-      </Card>
-    )
-  }
-
-  const renderIsSpecialty = () =>{
-    if(Array.from(new Set(listDetails[3]?.map((item) => item.Organization_name))).length){
-      return(
-        <>
-          <label htmlFor="organization">Select an organization: </label>
-          <select
-            id="organization"
-            name="organization"
-            value={selectedOrganization}
-            onChange={(e) => setSelectedOrganization(e.target.value)}
-          >
-            <option value="">Choose an organization</option>
-            {Array.from(new Set(listDetails[3]?.map((item) => item.Organization_name))).map(
-              (organization, index) => (
-                <option key={index} value={organization}>
-                  {organization}
-                </option>
-              ))}
-          </select>
-          <br />
-          {selectedOrganization && (
-            <>
-              <label htmlFor="specialty">Select a specialty: </label>
-              <select
-                id="specialty"
-                name="specialty"
-                value={selectedSpecialty?.specialties_listID || ""}
-                onChange={event => handleSelectSpecialty(event, listDetails, setSelectedSpecialties)}
-              >
-                <option value="">Choose a specialty</option>
-                {specialties
-                  .filter(
-                    (specialty) =>
-                      !doctorSpecialties.find(
-                        (doctorSpecialty) =>
-                          doctorSpecialty.specialties_listID === specialty.specialties_listID
-                      )
-                  )
-                  .map((specialty) => (
-                    <option key={specialty.specialties_listID} value={specialty.specialties_listID}>
-                      {specialty.Specialty_name}
-                    </option>
-                  ))}
-              </select>
-              <Button onClick={()=> handleAddSpecialty(selectedSpecialty, doctorSpecialties, setDoctorSpecialties, setSelectedSpecialties)}>Add</Button>
-            </>
-          )}
-          <ul>
-            {doctorSpecialties.map((specialty) => (
-              <li key={specialty.specialties_listID}>
-                {specialty.Organization_name} - {specialty.Specialty_name}{" "}
-                <Button onClick={() => handleDeleteSpecialty(specialty, doctorSpecialties, setDoctorSpecialties)}>X</Button>
-              </li>
-            ))}
-          </ul>
-          <Button onClick={() => saveSpecialies(doctorSpecialties, setShowSavedSpecialtiesMessage)}>Save</Button>
-          <span className={`fade ${showSavedSpecialtiesMessage ? 'show' : ''}`}>  Specialties saved!</span>
-        </>
-      )
-    }else{
-      return(
-        <p>Loading...</p>
-      )
-    }
-  }
-
-  const renderSpecialtySection = () =>{
-    return(
-      <Card>
-        <Card.Header>
-            Specialties
-        </Card.Header>
-        <Card.Body>
-          {renderIsSpecialty()}
-        </Card.Body>
-      </Card>
-    )
-  }
-
-  const renderInsuranceSection = () => {
-    return (
-      <Card>
-        <Card.Header>
-          Insurances
-        </Card.Header>
-        <Card.Body>
-          {Array.isArray(listDetails[0]) &&
-            listDetails[0].length > 0 &&
-            listDetails[0].map((insurance) => (
-              <div key={insurance?.insurance_listID}>
-                <input
-                  type="checkbox"
-                  id={insurance?.insurance_listID}
-                  name="insurance"
-                  value={insurance?.insurance_listID}
-                  checked={acceptedInsurances.find((accepted) => accepted.insurance_listID === insurance.insurance_listID) !== undefined}
-                  onChange={(event) => {
-                    if (event.target.checked) {
-                      handleAddInsurance(insurance, acceptedInsurances, setAcceptedInsurances);
-                    } else {
-                      handleDeleteInsurance(insurance, acceptedInsurances, setAcceptedInsurances);
-                    }
-                  }}
-                />
-                <label htmlFor={insurance?.insurance_listID}>{insurance?.Insurance_name}</label>
-              </div>
-            ))}
-          <Button onClick={() => saveInsurances(acceptedInsurances, setShowSavedInsurancesMessage)}>Save</Button>
-          <span className={`fade ${showSavedInsurancesMessage ? 'show' : ''}`}>  Insurances saved!</span>
-        </Card.Body>
-      </Card>
-    );
-  };
-  
-  const renderLanguageSection = () =>{
-    return(
-      <Card>
-        <Card.Header>
-          Languages
-        </Card.Header>
-        <Card.Body>
-        <select
-          id="language"
-          name="language"
-          value={selectedLanguage?.language_listID || ""}
-          onChange={event =>handleLanguageChange(event, listDetails, setSelectedLanguage)}
-        >
-          <option value="">Choose a language</option>
-          {Array.isArray(listDetails[1]) &&
-            listDetails[1].length > 0 &&
-            listDetails[1]
-              .filter((language) => !spokenLanguages.find((spoken) => spoken.language_listID === language.language_listID))
-              .map((language) => (
-                <option key={language?.language_listID} value={language?.language_listID}>
-                  {language?.Language_name}
-                </option>
-              ))}
-        </select>
-        <Button onClick={()=>handleAddLanguage(selectedLanguage, spokenLanguages, setSpokenLanguages, setSelectedLanguage)}>Add</Button>
-        <ul>
-          {Array.isArray(spokenLanguages) &&
-            spokenLanguages.map((language) => (
-              <li key={language.language_listID}>
-                {language.Language_name}
-                <Button onClick={() => handleDeleteLanguage(language, spokenLanguages, setSpokenLanguages)}>x</Button>
-              </li>
-            ))}
-        </ul>
-        <Button onClick={() => saveLanguages(spokenLanguages, setShowSavedLanguagesMessage)}>Save</Button>
-        <span className={`fade ${showSavedLanguagesMessage ? 'show' : ''}`}>  Languages saved!</span>
-        </Card.Body>
-      </Card>
-    )
-  }
-
-  const renderLocationsSection = () =>{
-    return(
-      <Card>
-        <Card.Header>
-          Locations
-        </Card.Header>
-      <Card.Body>
-      <Accordion defaultActiveKey={['0']} alwaysOpen>
-        <Accordion.Item eventKey="0">
-          <Accordion.Header>Accordion Item #1</Accordion.Header>
-            {/* possibly: {accountDetails.Location.index.name}{accountDetails.Location.index.name} */}
-
-          <Accordion.Body>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          </Accordion.Body>
-        </Accordion.Item>
-
-        <Accordion.Item eventKey="1">
-          <Accordion.Header>Accordion Item #2</Accordion.Header>
-          <Accordion.Body>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          </Accordion.Body>
-      </Accordion.Item>
-      </Accordion>
-      </Card.Body>
-    </Card>
-    )
-  }
-  
-  const renderIsVetServices = () => {
-    // console.log('selectedServices',selectedServices)
-    const categories = {};
-    if (listDetails[2]) {
-      listDetails[2].forEach(service => {
-        if (!categories[service.Category_name]) {
-          categories[service.Category_name] = [];
-        }
-        categories[service.Category_name].push(service);
-      });
-    }
-  
-    if (Array.from(new Set(listDetails[2]?.map((item) => item.Category_name))).length) {
-      return (
-        <>
-          {Object.entries(categories).map(([category, services]) => (
-            <div key={category} style={{ marginBottom: '10px' }}>
-              <input
-                type="checkbox"
-                id={category}
-                name="category"
-                checked={selectedCategories.includes(category)}
-                onChange={event => handleCategoryChange(event, category, services, selectedCategories, setSelectedCategories, selectedServices, setSelectedServices, expandedCategories, setExpandedCategories)}
-              />
-              <label htmlFor={category}>{category}</label>
-              {services.length > 1 && (
-                <Button onClick={() => handleToggleCategory(category, setExpandedCategories)}>Toggle</Button>
-              )}
-              {(services.length <= 1 || expandedCategories.includes(category)) && (
-                <div>
-                  {services.map(service => (
-                    <div key={service.service_and_category_listID} style={{ paddingLeft: '20px' }}>
-                      <input
-                        type="checkbox"
-                        id={`${category}-${service.service_and_category_listID}`}
-                        name="service"
-                        checked={selectedServices.find(s => s.service_and_category_listID === service.service_and_category_listID) !== undefined}
-                        onChange={event => handleServiceChange(event, service, selectedServices, setSelectedServices)}
-                      />
-                      <label htmlFor={`${category}-${service.service_and_category_listID}`}>{service.Service_name}</label>
-                      {selectedServices.find(s => s.service_and_category_listID === service.service_and_category_listID) && (
-                        <>
-                          <input
-                            type="number"
-                            placeholder="Service Time"
-                            id={`time-${service.service_and_category_listID}`}
-                            required
-                          />
-                          <input
-                            type="number"
-                            placeholder="Service Price"
-                            id={`price-${service.service_and_category_listID}`}
-                          />
-                        </>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-          <Button onClick={() => saveServices(selectedServices, setShowSavedServicesMessage)}>Save</Button>
-        </>
-      )
-    }
-  }
-  
-  const renderServicesSection = () =>{
-    return(
-      <Card>
-      <Card.Header>
-        Vet Services
-      </Card.Header>
-      <Card.Body>
-        {renderIsVetServices()}
-      </Card.Body>
-    </Card>
-  )
-  }
-
   return (
     <div>
       <Header dropdown = {true}/>
       <DoctorHeader/>
       <p>This is the Account Details Page</p>
       <RenderPreVetEducationSection
+        listDetails = {listDetails}
         selectedPreVetSchool = {selectedPreVetSchool}
         setSelectedPreVetSchool = {setSelectedPreVetSchool}
         selectedMajor = {selectedMajor}
         setSelectedMajor = {setSelectedMajor}
         selectedPreVetEducationType = {selectedPreVetEducationType}
         setSelectedPreVetEducationType = {setSelectedPreVetEducationType}
-        listDetails = {listDetails}
         startMonth= {startMonth} 
         setStartMonth = {setStartMonth}
-        endMonth = {endMonth} 
+        endMonth = {endMonth}
         setEndMonth = {setEndMonth}
-        startYear = {startYear} 
+        startYear = {startYear}
         setStartYear = {setStartYear}
-        endYear = {endYear} 
+        endYear = {endYear}
         setEndYear = {setEndYear}
         preVetEducation = {preVetEducation}
         setPreVetEducation = {setPreVetEducation}
@@ -502,19 +223,19 @@ export default function DoctorAccountDetails() {
         setShowSavedPreVetMessage = {setShowSavedPreVetMessage}
       />
       <br/>
-      <RenderVetEducationSection 
+      <RenderVetEducationSection
+        listDetails = {listDetails}
         selectedVetSchool = {selectedVetSchool}
         setSelectedVetSchool = {setSelectedVetSchool}
         selectedVetEducationType = {selectedVetEducationType}
         setSelectedVetEducationType = {setSelectedVetEducationType}
-        listDetails = {listDetails}
-        startMonth= {startMonth} 
+        startMonth= {startMonth}
         setStartMonth = {setStartMonth}
-        endMonth = {endMonth} 
+        endMonth = {endMonth}
         setEndMonth = {setEndMonth}
-        startYear = {startYear} 
+        startYear = {startYear}
         setStartYear = {setStartYear}
-        endYear = {endYear} 
+        endYear = {endYear}
         setEndYear = {setEndYear}
         vetEducation = {vetEducation}
         setVetEducation = {setVetEducation}
@@ -527,26 +248,59 @@ export default function DoctorAccountDetails() {
         setDescription = {setDescription}
         setIsDescriptionOverLimit = {setIsDescriptionOverLimit}
         counterStyle = {counterStyle}
-        setShowSavedDescriptionMessage = {setShowSavedDescriptionMessage}
         showSavedDescriptionMessage = {showSavedDescriptionMessage}
+        setShowSavedDescriptionMessage = {setShowSavedDescriptionMessage}
       />
       <br/>
-      {renderPersonalInfoLinkSection()}
+      <RenderPersonalInfoLinkSection/>
       <br/>
       {/* <RenderPicturesSection
         carouselIndex = {carouselIndex}
         setCarouselIndex = {setCarouselIndex}
       />
       <br/> */}
-      {renderSpecialtySection()}
+      <RenderSpecialtySection 
+        listDetails = {listDetails}
+        selectedOrganization = {selectedOrganization}
+        setSelectedOrganization = {setSelectedOrganization}
+        selectedSpecialty = {selectedSpecialty}
+        setSelectedSpecialties = {setSelectedSpecialties}
+        specialties = {specialties}
+        doctorSpecialties = {doctorSpecialties}
+        setDoctorSpecialties = {setDoctorSpecialties}
+        setShowSavedSpecialtiesMessage = {setShowSavedSpecialtiesMessage}
+      />
       <br/>
-      {renderInsuranceSection()}
+      <RenderInsuranceSection
+        listDetails = {listDetails}
+        acceptedInsurances = {acceptedInsurances}
+        setAcceptedInsurances = {setAcceptedInsurances}
+        showSavedInsurancesMessage = {showSavedInsurancesMessage}
+        setShowSavedInsurancesMessage = {setShowSavedInsurancesMessage}
+      />
       <br/>
-      {renderLanguageSection()}
+      <RenderLanguageSection
+        listDetails = {listDetails}
+        selectedLanguage = {selectedLanguage}
+        setSelectedLanguage = {setSelectedLanguage}
+        spokenLanguages = {spokenLanguages}
+        setSpokenLanguages = {setSpokenLanguages}
+        showSavedLanguagesMessage = {showSavedLanguagesMessage}
+        setShowSavedLanguagesMessage = {setShowSavedLanguagesMessage}
+      />
       <br/>
-      {renderServicesSection()}
+      <RenderServiceSection
+        listDetails = {listDetails}
+        selectedCategories = {selectedCategories}
+        setSelectedCategories = {setSelectedCategories}
+        selectedServices = {selectedServices}
+        setSelectedServices = {setSelectedServices}
+        expandedCategories = {expandedCategories}
+        setExpandedCategories = {setExpandedCategories}
+        setShowSavedServicesMessage = {setShowSavedServicesMessage}
+      />
       <br />
-      {renderLocationsSection()}
+      <RenderLocationSection/>
       <br/>
       <RenderVerificationAndPublicStatusSection
         publiclyAvailable = {publiclyAvailable}
