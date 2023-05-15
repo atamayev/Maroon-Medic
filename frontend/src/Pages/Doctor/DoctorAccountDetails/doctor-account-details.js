@@ -1,19 +1,21 @@
 import React, {useEffect, useContext, useState} from 'react'
 import {Link} from "react-router-dom";
-import {Button, Card, Form, Carousel, Accordion, ToggleButton, ToggleButtonGroup} from 'react-bootstrap';
+import {Button, Card, Accordion} from 'react-bootstrap';
 import { VerifyContext } from '../../../Contexts/VerifyContext.js';
 import DoctorHeader from '../doctor-header.js';
 import PrivateDoctorDataService from '../../../Services/private-doctor-data-service.js';
 import Header from '../../header.js';
-import FormGroup from '../../../Components/form-group.js';
 import { NonDoctorAccess } from '../../../Components/user-type-unauth.js';
-import { handleLanguageChange, handleSelectSpecialty, handleDescriptionChange, handleSelectCarousel, handleCategoryChange, handleServiceChange, handleToggleCategory} from '../../../Custom Hooks/Hooks for Doctor Account Details/select.js';
+import { handleLanguageChange, handleSelectSpecialty, handleCategoryChange, handleServiceChange, handleToggleCategory} from '../../../Custom Hooks/Hooks for Doctor Account Details/select.js';
 import { handleAddLanguage, handleAddSpecialty, handleAddInsurance } from '../../../Custom Hooks/Hooks for Doctor Account Details/add.js';
 import { handleDeleteInsurance, handleDeleteLanguage, handleDeleteSpecialty } from '../../../Custom Hooks/Hooks for Doctor Account Details/delete.js';
-import { saveInsurances, saveLanguages, saveSpecialies, saveDescription, saveServices, handlePublicAvailibilityToggle } from '../../../Custom Hooks/Hooks for Doctor Account Details/save.js';
+import { saveInsurances, saveLanguages, saveSpecialies, saveServices } from '../../../Custom Hooks/Hooks for Doctor Account Details/save.js';
 import { useConfirmationTimeout } from '../../../Custom Hooks/Hooks for Doctor Account Details/savedMessageUseEffect.js';
 import RenderPreVetEducationSection from './preVetEducation.js';
 import RenderVetEducationSection from './vetEducation.js';
+import RenderDescriptionSection from './description.js';
+import RenderPicturesSection from './pictures.js';
+import RenderVerificationAndPublicStatusSection from './verificationAndPublicStatus.js';
 
 async function FillLists(setListDetails){ 
   // this will be used to fill the lists in the db (insurances, languages, etc.) Should be one function that returns an object of arrays of hte different lists
@@ -34,7 +36,7 @@ export default function DoctorAccountDetails() {
   const [listDetails, setListDetails] = useState({});
   const {user_verification} = useContext(VerifyContext);
   const [user_type, setUser_type] = useState(null);
-  const [carouselIndex, setCarouselIndex] = useState(0);
+  //const [carouselIndex, setCarouselIndex] = useState(0);
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   
   const [acceptedInsurances, setAcceptedInsurances] = useState(DoctorAccountDetails?.[0] || []);
@@ -194,37 +196,6 @@ export default function DoctorAccountDetails() {
     color: isDescriptionOverLimit ? "red" : "black",
   };
 
-  const renderIsDescription = () =>{
-    return(
-      <Form> 
-      <FormGroup
-          id="Description" 
-          value={description.Description} 
-          onChange = {event => handleDescriptionChange(event, setDescription, setIsDescriptionOverLimit)}
-          maxLength={1000} // limit to 1000 characters
-          as="textarea" 
-          rows={3}
-        />
-          <div style={counterStyle}>Character Limit: {description.Description ? (<>{description.Description.length}</>):(<>0</>)} / 1000</div>
-      <Button onClick={()=> saveDescription(description, setShowSavedDescriptionMessage)}>Save</Button>
-      <span className={`fade ${showSavedDescriptionMessage ? 'show' : ''}`}>  Description saved!</span>
-    </Form>
-      )
-  }
-
-  const renderDescriptionSection = () =>{
-    return(
-      <Card>
-        <Card.Header>
-          Description
-        </Card.Header>
-        <Card.Body>
-          {renderIsDescription()}
-        </Card.Body>
-      </Card>
-    )
-  }
-
   const renderPersonalInfoLinkSection =  () =>{
     return(
       <Card>
@@ -237,54 +208,6 @@ export default function DoctorAccountDetails() {
         </Link>
         </Card.Body>
       </Card>
-    )
-  }
-
-  const renderPicturesSection = ()=>{
-    return(
-      <>
-      Edit Pictures:
-      <Carousel activeIndex={carouselIndex} onSelect={()=>handleSelectCarousel(carouselIndex, setCarouselIndex)}>
-      <Carousel.Item>
-        <img
-          className="d-block w-100"
-          src = "../../Images/ProfileImage.jpg"
-          // src="holder.js/800x400?text=First slide&bg=373940"
-          alt="First slide"
-        />
-        <Carousel.Caption>
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-
-      <Carousel.Item>
-        <img
-          className="d-block w-100"
-          src = "../../Images/ProfileImage.jpg"
-          alt="Second slide"
-        />
-        <Carousel.Caption>
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-
-      <Carousel.Item>
-        <img
-          className="d-block w-100"
-          // src="holder.js/800x400?text=Third slide&bg=20232a"
-          alt="Third slide"
-        />
-        <Carousel.Caption>
-          <h3>Third slide label</h3>
-          <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-          </p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      </Carousel>   
-      </>
     )
   }
 
@@ -552,55 +475,6 @@ export default function DoctorAccountDetails() {
   )
   }
 
-  const renderIsVerification = () =>{
-    if(verified){
-      return(
-        <Button
-            variant="success"
-            disabled          
-          >
-          ✓ (Your identity is Verified)
-        </Button>
-      )
-    }else{
-      return(
-        <Button
-          variant="danger"
-          disabled
-          >
-          X (Your identity is Not Verified)
-        </Button>
-      )
-    }
-  }
-
-  const renderVerificationAndPublicStatusSection = () =>{
-    return(
-      <Card>
-        <Card.Header>
-          Verification and Search Results
-        </Card.Header>
-        <Card.Body>
-          Account Verification Status:
-          {renderIsVerification()}
-          <br/>
-          Would you like your profile to be Publicly Available?
-          <br/>
-          <ToggleButtonGroup type="radio" name="options" 
-          value={publiclyAvailable ?? 0} 
-          onChange={(value)=>handlePublicAvailibilityToggle(value, setPubliclyAvailable)}>
-            <ToggleButton id="tbg-radio-1" value = {0} style={{ backgroundColor: publiclyAvailable === 0 ? "red" : "white", color: publiclyAvailable === 0 ? "white" : "black", borderColor: "black"}}>
-              No
-            </ToggleButton>
-            <ToggleButton id="tbg-radio-2" value = {1} style={{ backgroundColor: publiclyAvailable === 1 ? "green" : "white", color: publiclyAvailable === 1 ? "white" : "black", borderColor: "black"}}>
-              Yes
-            </ToggleButton>
-        </ToggleButtonGroup>
-        </Card.Body>
-      </Card>
-    )
-  }
-
   return (
     <div>
       <Header dropdown = {true}/>
@@ -648,11 +522,21 @@ export default function DoctorAccountDetails() {
         setShowSavedVetMessage = {setShowSavedVetMessage}
       />
       <br/>
-      {renderDescriptionSection()}
+      <RenderDescriptionSection
+        description = {description}
+        setDescription = {setDescription}
+        setIsDescriptionOverLimit = {setIsDescriptionOverLimit}
+        counterStyle = {counterStyle}
+        setShowSavedDescriptionMessage = {setShowSavedDescriptionMessage}
+        showSavedDescriptionMessage = {showSavedDescriptionMessage}
+      />
       <br/>
       {renderPersonalInfoLinkSection()}
       <br/>
-      {/* {renderPicturesSection()}
+      {/* <RenderPicturesSection
+        carouselIndex = {carouselIndex}
+        setCarouselIndex = {setCarouselIndex}
+      />
       <br/> */}
       {renderSpecialtySection()}
       <br/>
@@ -664,7 +548,11 @@ export default function DoctorAccountDetails() {
       <br />
       {renderLocationsSection()}
       <br/>
-      {renderVerificationAndPublicStatusSection()}
+      <RenderVerificationAndPublicStatusSection
+        publiclyAvailable = {publiclyAvailable}
+        setPubliclyAvailable = {setPubliclyAvailable}
+        verified = {verified}
+      />
   </div>
   )
 };

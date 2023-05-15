@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
-import EducationTime from "./EducationTime";
+import EducationTime from "./educationTime";
 import { handleAddPreVetEducation } from "../../../Custom Hooks/Hooks for Doctor Account Details/add";
 import { handleDeletePreVetEducation } from "../../../Custom Hooks/Hooks for Doctor Account Details/delete";
 import { savePreVetSchool } from "../../../Custom Hooks/Hooks for Doctor Account Details/save";
