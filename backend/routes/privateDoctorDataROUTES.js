@@ -12,7 +12,8 @@ import{
     saveDescriptionData,
     saveGeneralData,
     savePublicAvailibilityData,
-    saveEducationData
+    saveEducationData,
+    saveServicesData
 }from "../controllers/privateDoctorData/saveDoctorDataCTRL.js";
 
 const router = express.Router()
@@ -29,5 +30,6 @@ router.post("/save-description-data", saveDescriptionData)
 router.post("/save-general-data", saveGeneralData)
 router.post("/save-public-availibility-data", savePublicAvailibilityData)
 router.post("/save-education-data", saveEducationData)
+router.post("/save-services-data", saveServicesData)
 
 export default router

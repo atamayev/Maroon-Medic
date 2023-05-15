@@ -769,13 +769,13 @@ export default function DoctorAccountDetails() {
                 id={category}
                 name="category"
                 checked={selectedCategories.includes(category)}
-                onChange={event => handleCategoryChange(event, category, services, selectedCategories, setSelectedCategories, selectedServices, setSelectedServices)}
+                onChange={event => handleCategoryChange(event, category, services, selectedCategories, setSelectedCategories, selectedServices, setSelectedServices, expandedCategories, setExpandedCategories)}
               />
               <label htmlFor={category}>{category}</label>
               {services.length > 1 && (
                 <Button onClick={() => handleToggleCategory(category, setExpandedCategories)}>Toggle</Button>
               )}
-              {services.length > 1 && expandedCategories.includes(category) && (
+              {(services.length <= 1 || expandedCategories.includes(category)) && (
                 <div>
                   {services.map(service => (
                     <div key={service.service_and_category_listID} style={{ paddingLeft: '20px' }}>
@@ -787,6 +787,21 @@ export default function DoctorAccountDetails() {
                         onChange={event => handleServiceChange(event, service, selectedServices, setSelectedServices)}
                       />
                       <label htmlFor={`${category}-${service.service_and_category_listID}`}>{service.Service_name}</label>
+                      {selectedServices.find(s => s.service_and_category_listID === service.service_and_category_listID) && (
+                        <>
+                          <input
+                            type="number"
+                            placeholder="Service Time"
+                            id={`time-${service.service_and_category_listID}`}
+                            required
+                          />
+                          <input
+                            type="number"
+                            placeholder="Service Price"
+                            id={`price-${service.service_and_category_listID}`}
+                          />
+                        </>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -798,7 +813,7 @@ export default function DoctorAccountDetails() {
       )
     }
   }
-
+  
   const renderServicesSection = () =>{
     return(
       <Card>

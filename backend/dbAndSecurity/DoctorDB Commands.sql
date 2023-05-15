@@ -93,13 +93,12 @@ SELECT* FROM service_and_category_list;
 
 CREATE TABLE service_mapping(
 service_mapping_ID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Service_time INT,
+Service_time INT NOT NULL,
 Service_price DECIMAL,
 Service_and_Category_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Service_and_Category_ID) REFERENCES service_and_category_list(service_and_category_listID),
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
-
     -- Important key constraint:
 	ALTER TABLE service_mapping
 	ADD CONSTRAINT service_mapping_constraint

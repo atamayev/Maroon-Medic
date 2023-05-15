@@ -63,7 +63,7 @@ export default new class FetchDoctorAccountData{
         const table_name2 = 'service_and_category_list';
         const DB_name = 'DoctorDB';
     
-        const sql = `SELECT ${table_name2}.Category_name, ${table_name2}.Service_name FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.service_and_category_listID = ${table_name1}.service_mapping_ID WHERE ${table_name1}.Doctor_ID = ?`;
+        const sql = `SELECT ${table_name2}.Category_name, ${table_name2}.Service_name, ${table_name1}.service_mapping_ID, ${table_name1}.Service_time, ${table_name1}.Service_price, FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.service_and_category_listID = ${table_name1}.service_mapping_ID WHERE ${table_name1}.Doctor_ID = ?`;
         const values = [DoctorID];
         await useDB(functionName, DB_name, table_name1);
     

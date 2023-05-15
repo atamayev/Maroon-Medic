@@ -221,13 +221,107 @@ export async function saveGeneralData (req, res){
       }
 };
 
+export async function saveServicesData (req, res){
+    const DoctorUUID = req.cookies.DoctorUUID;
+    const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
+    const ServicesData = req.body.ServicesData; //Array of Arrays
+    console.log('ServicesData from body request', ServicesData)
+
+    const DB_name = 'DoctorDB';
+    const table_name = `service_mapping`;
+
+    const sql = `SELECT * FROM  ${table_name} WHERE Doctor_ID = ?`
+    const values = [DoctorID];
+    let results;
+
+    await useDB(saveServicesData.name, DB_name, table_name);
+    try{
+        [results] = await connection.execute(sql, values);
+    }catch(error){
+        console.log(`error in ${saveServicesData.name}:`, error)
+        return res.status(400).json(false);
+    }
+
+    if (results.length > 0 ){
+        // Doctor already has data in the table
+        // will be comparing array of arrays to array of arrays.
+        const oldServicesData = results.map(obj => Object.values(obj).slice(1, -1));// Changes the results into an array of arrays, of the same form as EducationData
+        console.log('oldServicesData as an array of arrays',oldServicesData)
+        const newServicesData = ServicesData;
+
+        // Check for changes in data:
+        const addedData = newServicesData.filter(arr1 => !oldServicesData.some(arr2 => JSON.stringify(arr1) === JSON.stringify(arr2)));
+        const deletedData = oldServicesData.filter(arr1 => !newServicesData.some(arr2 => JSON.stringify(arr1) === JSON.stringify(arr2)));
+
+        console.log('addedData', addedData);
+        console.log('deletedData', deletedData)
+
+        if(addedData.length > 0){
+            console.log('addedData.length',addedData.length)
+            console.log('adding data')
+            let sql1;
+            let values1;
+
+            for (let i = 0; i<addedData.length; i++){
+                sql1 = `INSERT INTO ${table_name} (Service_time, Service_price, Service_and_Category_ID, Doctor_ID) VALUES (?,?,?,?)`;
+                values1 = [addedData[i][0], addedData[i][1], addedData[i][2], DoctorID];
+                try{
+                    await connection.execute(sql1, values1);
+                    console.log('successfuly added')
+                }catch(error){
+                    console.log(`error in if ${saveServicesData.name}:`, error);
+                    return res.status(400).json(false);
+                }
+            }
+        }
+        if(deletedData.length > 0){
+            console.log('deletedData.length',deletedData.length)
+            console.log('deleting data')
+            let sql2;
+            let values2;
+
+            for (let i = 0; i<deletedData.length; i++){
+                sql2 = `DELETE FROM ${table_name} WHERE Service_and_Category_ID = ? AND Doctor_ID = ?`;
+                values2 = [deletedData[i][2], DoctorID];
+                try{
+                    await connection.execute(sql2, values2);
+                }catch(error){
+                    console.log(`error in if ${saveServicesData.name}:`, error);
+                    return res.status(400).json(false);
+                }
+            }
+        }
+    }else if (ServicesData.length > 0){
+        //Can only get into here if formatted results.length not >0: no results from the DB - adding completely new data
+        console.log('adding data in else')
+        let sql3;
+        let values3;
+        for (let i=0; i<ServicesData.length; i++){
+            sql3 = `INSERT INTO ${table_name} (Service_time, Service_price, Service_and_Category_ID, Doctor_ID) VALUES (?,?,?,?)`;
+            values3 = [ServicesData[i][0], ServicesData[i][1], ServicesData[i][2], DoctorID];
+            try{
+                console.log(values3)
+                await connection.execute(sql3, values3);
+            }catch(error){
+                console.log(`error in if ${saveServicesData.name}:`, error);
+                return res.status(400).json(false);
+            }
+        }
+        return res.status(200).json(true);
+      }else{
+        //NO new data or queried results from DB.
+        console.log('elsed')
+        return res.status(400).json(false)
+    }
+};
+
 export async function saveEducationData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID;
     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
     const EducationType = req.body.EducationType;//'pre_vet' or 'vet'
-    const EducationData = req.body.EducationData; // array of arrays, to make comparing to sql easier.
-    console.log('EducationData from body request', EducationData)
-
+    const EducationData = req.body.EducationData; // array of arrays, to make comparing to sql easier.: ie: [[ 13, 56, 7, '1923-01-01', '1923-01-01' ],[ 698, 13, 9, '1923-01-01', '1923-01-01' ]]
+    console.log(EducationData)
+    
     const DB_name = 'DoctorDB';
     const table_name = `${EducationType}_education_mapping`;
 
@@ -297,7 +391,6 @@ export async function saveEducationData (req, res){
             for (let i = 0; i<deletedData.length; i++){
                 if(EducationType === 'pre_vet'){
                     sql2 = `DELETE FROM ${table_name} WHERE School_ID = ? AND Major_ID = ? AND Education_type_ID = ? AND Doctor_ID = ?`;
-                    // MAKE SURE THAT DOCTOR_ID IS INCLUDED IN DELETED DATA
                     values2 = [deletedData[i][0], deletedData[i][1], deletedData[i][2], DoctorID];
                 }else if (EducationType === 'vet'){
                     sql2 = `DELETE FROM ${table_name} WHERE School_ID = ? AND Education_type_ID = ? AND Doctor_ID = ?`;

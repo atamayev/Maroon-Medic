@@ -1,4 +1,4 @@
-import { checkIfListsAreEqual, isObjectInArray, areArraysSame} from "../lists-and-object-checks";
+import { checkIfListsAreEqual, areArraysSame} from "../lists-and-object-checks";
 import PrivateDoctorDataService from "../../Services/private-doctor-data-service";
 
 export async function saveLanguages(spokenLanguages, setShowSavedLanguagesMessage){
@@ -92,28 +92,42 @@ export async function saveInsurances(acceptedInsurances, setShowSavedInsurancesM
 export async function saveServices(selectedServices, setShowSavedServicesMessage){
   console.log(selectedServices)
     const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
+    let servicesData = [];
+    selectedServices.forEach(service => {
+      let time = document.getElementById(`time-${service.service_and_category_listID}`)?.value;
+      let price = document.getElementById(`price-${service.service_and_category_listID}`)?.value || null;
+      if (!time) {
+        alert('Please fill out the Service Time for all selected services.');
+        return;
+      }
+      servicesData.push([service.service_and_category_listID, Number(time), price]);
+    })
+
+    console.log('servicesData',servicesData)
+    console.log('selectedServices',selectedServices)
+
     const serviceIds = selectedServices.map(service => service.service_and_category_listID).sort((a,b)=>a-b); // list of all added insurances
     const savedServices = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[2] || []
     const savedServiceIDs = savedServices.map(service => service.service_and_category_listID).sort((a,b)=>a-b);
-  
-    if(!checkIfListsAreEqual(serviceIds, savedServiceIDs)){//only saves if the insurances changed
-      try {
-        const response = await PrivateDoctorDataService.saveGeneralData(serviceIds, 'Service')
-        if(response.status === 200){
-          DoctorAccountDetails[2] = selectedServices;
-          sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-          console.log('Saved!');
-          // Show the saved message
-          setShowSavedServicesMessage(true);
+    console.log('serviceIds',serviceIds)
+    if(!checkIfListsAreEqual(serviceIds, savedServiceIDs)){//only saves if the services changed
+      // try {
+      //   const response = await PrivateDoctorDataService.saveServiceData(serviceIds)
+      //   if(response.status === 200){
+      //     DoctorAccountDetails[2] = selectedServices;
+      //     sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+      //     console.log('Saved!');
+      //     // Show the saved message
+      //     setShowSavedServicesMessage(true);
 
-          // Hide the saved message after 5 seconds
-          setTimeout(() => {
-            setShowSavedServicesMessage(false);
-          }, 5000);
-        }
-      } catch(error) {
-        console.log('error in saving Services', error)
-      }
+      //     // Hide the saved message after 5 seconds
+      //     setTimeout(() => {
+      //       setShowSavedServicesMessage(false);
+      //     }, 5000);
+      //   }
+      // } catch(error) {
+      //   console.log('error in saving Services', error)
+      // }
     }else{
       console.log('same')
     }
@@ -173,6 +187,7 @@ export async function savePreVetSchool(preVetEducation, listDetails, setShowSave
           convertDateForSql(obj.End_Date)
         ]);
         const response = await PrivateDoctorDataService.saveEducationData(mappedArray, 'pre_vet')
+        console.log(mappedArray)
         if(response.status === 200){
           DoctorAccountDetails[4] = preVetEducation;
           sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
