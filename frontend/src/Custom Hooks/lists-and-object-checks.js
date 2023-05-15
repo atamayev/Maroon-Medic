@@ -64,3 +64,8 @@ export function areArraysSame(arr1, arr2) {//Sees if 2 arrays of objects are the
   
   return arr1.every(obj1 => arr2.some(obj2 => objectsAreSame(obj1, obj2)));
 }
+
+// Function to compare two arrays
+export function arraysEqual(a, b) {
+  return a.length === b.length && a.every((val, index) => val === b[index]);
+}

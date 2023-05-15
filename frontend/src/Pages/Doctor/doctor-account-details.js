@@ -33,47 +33,35 @@ export default function DoctorAccountDetails() {
   const {user_verification} = useContext(VerifyContext);
   const [user_type, setUser_type] = useState(null);
   const [carouselIndex, setCarouselIndex] = useState(0);
+  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   
-  const [acceptedInsurances, setAcceptedInsurances] = useState(
-    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[0] || []
-  );
+  const [acceptedInsurances, setAcceptedInsurances] = useState(DoctorAccountDetails?.[0] || []);
 
   const [selectedLanguage, setSelectedLanguage] = useState('');
-  const [spokenLanguages, setSpokenLanguages] = useState(
-    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[1] || []
-  );
+  const [spokenLanguages, setSpokenLanguages] = useState(DoctorAccountDetails?.[1] || []);
 
   const [selectedOrganization, setSelectedOrganization] = useState('');
   const [selectedSpecialty, setSelectedSpecialties] = useState('');
-  const [doctorSpecialties, setDoctorSpecialties] = useState(
-    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[3] || []
-  );
+  const [doctorSpecialties, setDoctorSpecialties] = useState(DoctorAccountDetails?.[3] || []);
 
-  const [selectedServices, setSelectedServices] = useState([]);
+  const [selectedServices, setSelectedServices] = useState(DoctorAccountDetails?.[2] || []);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [acceptedServices, setAcceptedServices] = useState([]);
 
   const [selectedPreVetSchool, setSelectedPreVetSchool] = useState('');
   const [selectedMajor, setSelectedMajor] = useState('');
   const [selectedPreVetEducationType, setSelectedPreVetEducationType] = useState('');
-  const [preVetEducation, setPreVetEducation] = useState(
-    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[4] || []
-  );
+  const [preVetEducation, setPreVetEducation] = useState(DoctorAccountDetails?.[4] || []);
 
   const [selectedVetSchool, setSelectedVetSchool] = useState('');
   const [selectedVetEducationType, setSelectedVetEducationType] = useState('');
-  const [vetEducation, setVetEducation] = useState(
-    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[5] || []
-  );
+  const [vetEducation, setVetEducation] = useState(DoctorAccountDetails?.[5] || []);
 
   const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false);
-  const [description, setDescription] = useState(
-    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[7] || {}
-  );
+  const [description, setDescription] = useState(DoctorAccountDetails?.[7] || {});
 
-  const verified = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[9][0].Verified || []
-  const [publiclyAvailable, setPubliclyAvailable] = useState(
-    JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[9][0]?.PubliclyAvailable || 0
-  );
+  const verified = DoctorAccountDetails?.[9][0].Verified || [];
+  const [publiclyAvailable, setPubliclyAvailable] = useState(DoctorAccountDetails?.[9][0]?.PubliclyAvailable || 0);
 
   const [expandedCategories, setExpandedCategories] = useState([]);
 
@@ -172,7 +160,8 @@ export default function DoctorAccountDetails() {
               setSpokenLanguages(response.data[1])
             }
             if(response.data[2]){
-              //Set Services
+              console.log(response.data[2])
+              setAcceptedServices(response.data[2])
             }
             if(response.data[3]){
               setDoctorSpecialties(response.data[3])

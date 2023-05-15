@@ -297,7 +297,7 @@ export async function saveServicesData (req, res){
         let sql3;
         let values3;
         for (let i=0; i<ServicesData.length; i++){
-            sql3 = `INSERT INTO ${table_name} (Service_time, Service_price, Service_and_Category_ID, Doctor_ID) VALUES (?,?,?,?)`;
+            sql3 = `INSERT INTO ${table_name} (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?,?,?,?)`;
             values3 = [ServicesData[i][0], ServicesData[i][1], ServicesData[i][2], DoctorID];
             try{
                 console.log(values3)
