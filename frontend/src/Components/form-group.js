@@ -16,12 +16,12 @@ export default function FormGroup({
 }) {
 
   return (
-    <Form.Group id={id}>
+    <Form.Group id = {id}>
       <Form.Label>{label}</Form.Label>
       <Form.Control
-        id={id}
-        defaultValue={defaultValue}
-        onChange={onChange}
+        id = {id}
+        defaultValue = {defaultValue}
+        onChange = {onChange}
         type = {type}
         placeholder= {placeholder}
         required = {required}

@@ -3,7 +3,6 @@ import {Card, Button} from 'react-bootstrap';
 import {Link} from "react-router-dom";
 
 export default function SearchResults(props) {
-    
   return (
     <div className="card-container" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gridGap: '16px' }}>
     {props.data.map((item) => {
@@ -24,4 +23,4 @@ export default function SearchResults(props) {
     })}
   </div>
   )
-}
+};
