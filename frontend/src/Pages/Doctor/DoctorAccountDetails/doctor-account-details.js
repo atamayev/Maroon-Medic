@@ -1,17 +1,19 @@
 import React, {useEffect, useContext, useState} from 'react'
 import {Link} from "react-router-dom";
 import {Button, Card, Form, Carousel, Accordion, ToggleButton, ToggleButtonGroup} from 'react-bootstrap';
-import { VerifyContext } from '../../Contexts/VerifyContext.js';
-import DoctorHeader from './doctor-header.js';
-import PrivateDoctorDataService from '../../Services/private-doctor-data-service.js';
-import Header from '../header.js';
-import FormGroup from '../../Components/form-group.js';
-import { NonDoctorAccess } from '../../Components/user-type-unauth.js';
-import { handleLanguageChange, handleSelectSpecialty, handleDescriptionChange, handleSelectCarousel, handleCategoryChange, handleServiceChange, handleToggleCategory} from '../../Custom Hooks/Hooks for Doctor Account Details/select.js';
-import { handleAddLanguage, handleAddSpecialty, handleAddInsurance, handleAddPreVetEducation, handleAddVetEducation } from '../../Custom Hooks/Hooks for Doctor Account Details/add.js';
-import { handleDeleteInsurance, handleDeleteLanguage, handleDeleteSpecialty, handleDeletePreVetEducation, handleDeleteVetEducation } from '../../Custom Hooks/Hooks for Doctor Account Details/delete.js';
-import { saveInsurances, saveLanguages, saveSpecialies, saveDescription, savePreVetSchool, saveVetSchool, saveServices, handlePublicAvailibilityToggle } from '../../Custom Hooks/Hooks for Doctor Account Details/save.js';
-import { useConfirmationTimeout } from '../../Custom Hooks/Hooks for Doctor Account Details/savedMessageUseEffect.js';
+import { VerifyContext } from '../../../Contexts/VerifyContext.js';
+import DoctorHeader from '../doctor-header.js';
+import PrivateDoctorDataService from '../../../Services/private-doctor-data-service.js';
+import Header from '../../header.js';
+import FormGroup from '../../../Components/form-group.js';
+import { NonDoctorAccess } from '../../../Components/user-type-unauth.js';
+import { handleLanguageChange, handleSelectSpecialty, handleDescriptionChange, handleSelectCarousel, handleCategoryChange, handleServiceChange, handleToggleCategory} from '../../../Custom Hooks/Hooks for Doctor Account Details/select.js';
+import { handleAddLanguage, handleAddSpecialty, handleAddInsurance } from '../../../Custom Hooks/Hooks for Doctor Account Details/add.js';
+import { handleDeleteInsurance, handleDeleteLanguage, handleDeleteSpecialty } from '../../../Custom Hooks/Hooks for Doctor Account Details/delete.js';
+import { saveInsurances, saveLanguages, saveSpecialies, saveDescription, saveServices, handlePublicAvailibilityToggle } from '../../../Custom Hooks/Hooks for Doctor Account Details/save.js';
+import { useConfirmationTimeout } from '../../../Custom Hooks/Hooks for Doctor Account Details/savedMessageUseEffect.js';
+import RenderPreVetEducationSection from './preVetEducation.js';
+import RenderVetEducationSection from './vetEducation.js';
 
 async function FillLists(setListDetails){ 
   // this will be used to fill the lists in the db (insurances, languages, etc.) Should be one function that returns an object of arrays of hte different lists
@@ -78,25 +80,8 @@ export default function DoctorAccountDetails() {
 
   const [showSavedServicesMessage, setShowSavedServicesMessage] = useState(false);
 
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
-  ];
-
-  const years = [...Array(100).keys()].map(i => i + new Date().getFullYear() - 100);
-
-  const [startYear, setStartYear] = useState(years[0]);
-  const [endYear, setEndYear] = useState(years[0]);
+  const [startYear, setStartYear] = useState(1923);
+  const [endYear, setEndYear] = useState(1923);
   const [startMonth, setStartMonth] = useState('January');
   const [endMonth, setEndMonth] = useState('January');
 
@@ -208,255 +193,6 @@ export default function DoctorAccountDetails() {
   const counterStyle = {
     color: isDescriptionOverLimit ? "red" : "black",
   };
-
-  const renderEducationTime = () =>{
-    return(
-      <div>
-        <label>
-          Start Month:
-          <select name="startMonth" value = {startMonth} onChange = {e => setStartMonth(e.target.value)}>
-            {months.map(month => (
-              <option key={month} value={month}>{month}</option>
-            ))}
-          </select>
-        </label>
-        <br />
-        <label>
-          Start Year:
-          <select value={startYear} onChange={e => setStartYear(e.target.value)}>
-            {years.map(year => (
-              <option key={year} value={year}>{year}</option>
-            ))}
-          </select>
-        </label>
-        <br />
-        <label>
-          End Month:
-          <select name="endMonth" value = {endMonth} onChange = {e => setEndMonth(e.target.value)}>
-            {months.map(month => (
-              <option key={month} value={month}>{month}</option>
-            ))}
-          </select>
-        </label>
-        <br />
-        <label>
-          End Year:
-          <select value={endYear} onChange={e => setEndYear(e.target.value)}>
-            {years.map(year => (
-              <option key={year} value={year}>{year}</option>
-            ))}
-          </select>
-        </label>
-        <br />
-    </div>
-    )
-  }
-
-  const renderIsPreVetEducation = ()=>{
-    const allChoicesFilled = selectedPreVetSchool && selectedMajor && selectedPreVetEducationType;
-
-    if(Array.from(new Set(listDetails[4]?.map((item) => item.School_name))).length > 0){
-      return(
-        <>
-          <label htmlFor="pre-vet-school">Select a school: </label>
-          <select
-            id="pre-vet-school"
-            name="pre-vet-school"
-            value={selectedPreVetSchool}
-            onChange={(e) => setSelectedPreVetSchool(e.target.value)}
-          >
-            <option value="">Choose a School</option>
-            {Array.from(new Set(listDetails[4]?.map((item) => item.School_name))).map(
-              (school, index) => (
-                <option key={index} value={school}>
-                  {school}
-                </option>
-              ))}
-          </select>
-          <br />
-          {selectedPreVetSchool && (
-            <>
-              <label htmlFor="major">Select a Major: </label>
-              <select
-                id="major"
-                name="major"
-                value={selectedMajor}
-                onChange = {(event) => setSelectedMajor(event.target.value)}
-              >
-                <option value="">Choose a major</option>
-                {Array.from(new Set(listDetails[6]?.map((item) => item.Major_name))).map(
-              (major, index) => (
-                <option key={index} value={major}>
-                  {major}
-                </option>
-              ))}
-              </select>
-            </>
-          )
-          }
-          <br/>
-            {selectedMajor && (
-              <>
-              <label htmlFor="education-type">Select a Type of Education: </label>
-                <select
-                  id="education-type"
-                  name="education-type"
-                  value={selectedPreVetEducationType}
-                  onChange={(event) => setSelectedPreVetEducationType(event.target.value)}
-                >
-                  <option value="">Choose an Education Type</option>
-                  {Array.from(new Set(listDetails[5]?.map((item) => item.Education_type))).map(
-                    (preVetEdType, index) => (
-                      <option key={index} value={preVetEdType}>
-                        {preVetEdType}
-                      </option>
-                    ))}
-                </select>
-                {allChoicesFilled && renderEducationTime()}
-                  {allChoicesFilled && (
-                    <Button onClick={() => handleAddPreVetEducation(
-                      selectedPreVetSchool, 
-                      selectedMajor, 
-                      selectedPreVetEducationType, 
-                      preVetEducation, 
-                      setPreVetEducation, 
-                      setSelectedPreVetSchool, 
-                      setSelectedMajor, 
-                      setSelectedPreVetEducationType, 
-                      startMonth,
-                      setStartMonth, 
-                      endMonth,
-                      setEndMonth,
-                      startYear,
-                      setStartYear, 
-                      endYear,
-                      setEndYear)}>Add</Button>
-                  )}              
-                  </>
-                )}
-          <ul>
-            {preVetEducation.map((pre_vet_education) => (
-              <li key={pre_vet_education.specialties_listID}>
-                {pre_vet_education.School_name}, {pre_vet_education.Major_name}, {pre_vet_education.Education_type}{" "}{pre_vet_education.Start_Date} --- {pre_vet_education.End_Date} 
-                <Button onClick={() => handleDeletePreVetEducation(pre_vet_education, preVetEducation, setPreVetEducation)}>X</Button>
-              </li>
-            ))}
-          </ul>
-          <Button onClick={()=>savePreVetSchool(preVetEducation, listDetails, setShowSavedPreVetMessage)}>Save</Button>
-          <span className={`fade ${showSavedPreVetMessage ? 'show' : ''}`}>  Pre-vet education saved!</span>
-        </>
-      )
-    }else{
-      return(
-        <p>Loading...</p>
-      )
-    }
-  }
-
-  const renderPreVetEducationSection = () =>{
-    return(
-        <Card>
-        <Card.Header>
-          Pre-vet education
-        </Card.Header>
-        <Card.Body>
-          {renderIsPreVetEducation()}
-        </Card.Body>
-      </Card>
-    )
-  }
-
-  const renderIsVetEducation = ()=>{
-    const allChoicesFilled = selectedVetSchool && selectedVetEducationType;
-
-    if(Array.from(new Set(listDetails[7]?.map((item) => item.School_name))).length > 0){
-      return(
-        <>
-          <label htmlFor="vet-school">Select a Veterinary School: </label>
-          <select
-            id="vet-school"
-            name="vet-school"
-            value={selectedVetSchool}
-            onChange={(e) => setSelectedVetSchool(e.target.value)}
-          >
-            <option value="">Choose a School</option>
-            {Array.from(new Set(listDetails[7]?.map((item) => item.School_name))).map(
-              (school, index) => (
-                <option key={index} value={school}>
-                  {school}
-                </option>
-              ))}
-          </select>
-          <br />
-            {selectedVetSchool && (
-              <>
-              <label htmlFor="education-type">Select a Type of Veterinary Education: </label>
-                <select
-                  id="vet-education"
-                  name="vet-education"
-                  value={selectedVetEducationType}
-                  onChange={(event) => setSelectedVetEducationType(event.target.value)}
-                >
-                  <option value="">Choose an Education Type</option>
-                  {Array.from(new Set(listDetails[8]?.map((item) => item.Education_type))).map(
-                    (VetEdType, index) => (
-                      <option key={index} value={VetEdType}>
-                        {VetEdType}
-                      </option>
-                    ))}
-                </select>
-                {allChoicesFilled && renderEducationTime()}
-                  {allChoicesFilled && (
-                    <Button onClick={() => handleAddVetEducation(
-                      selectedVetSchool, 
-                      selectedVetEducationType, 
-                      vetEducation, 
-                      setVetEducation, 
-                      setSelectedVetSchool, 
-                      setSelectedVetEducationType,
-                      startMonth,
-                      setStartMonth, 
-                      endMonth,
-                      setEndMonth,
-                      startYear,
-                      setStartYear, 
-                      endYear,
-                      setEndYear
-                      )}>Add</Button>
-                  )}              
-                  </>
-                )}
-          <ul>
-            {vetEducation.map((vet_education) => (
-              <li key={vet_education.specialties_listID}>
-                {vet_education.School_name}, {vet_education.Education_type}{" "}{vet_education.Start_Date} --- {vet_education.End_Date} 
-                <Button onClick={() => handleDeleteVetEducation(vet_education, vetEducation, setVetEducation)}>X</Button>
-              </li>
-            ))}
-          </ul>
-          <Button onClick={()=>saveVetSchool(vetEducation, listDetails, setShowSavedVetMessage)}>Save</Button>
-          <span className={`fade ${showSavedVetMessage ? 'show' : ''}`}>  Vet education saved!</span>
-        </>
-      )
-    }else{
-      return(
-        <p>Loading...</p>
-      )
-    }
-  }
-  
-  const renderVetEducationSection = () =>{
-    return(
-      <Card>
-      <Card.Header>
-        Vet Education
-      </Card.Header>
-      <Card.Body>
-        {renderIsVetEducation()}
-      </Card.Body>
-    </Card>
-  )
-  }
 
   const renderIsDescription = () =>{
     return(
@@ -870,9 +606,47 @@ export default function DoctorAccountDetails() {
       <Header dropdown = {true}/>
       <DoctorHeader/>
       <p>This is the Account Details Page</p>
-      {renderPreVetEducationSection()}
+      <RenderPreVetEducationSection
+        selectedPreVetSchool = {selectedPreVetSchool}
+        setSelectedPreVetSchool = {setSelectedPreVetSchool}
+        selectedMajor = {selectedMajor}
+        setSelectedMajor = {setSelectedMajor}
+        selectedPreVetEducationType = {selectedPreVetEducationType}
+        setSelectedPreVetEducationType = {setSelectedPreVetEducationType}
+        listDetails = {listDetails}
+        startMonth= {startMonth} 
+        setStartMonth = {setStartMonth}
+        endMonth = {endMonth} 
+        setEndMonth = {setEndMonth}
+        startYear = {startYear} 
+        setStartYear = {setStartYear}
+        endYear = {endYear} 
+        setEndYear = {setEndYear}
+        preVetEducation = {preVetEducation}
+        setPreVetEducation = {setPreVetEducation}
+        showSavedPreVetMessage = {showSavedPreVetMessage}
+        setShowSavedPreVetMessage = {setShowSavedPreVetMessage}
+      />
       <br/>
-      {renderVetEducationSection()}
+      <RenderVetEducationSection 
+        selectedVetSchool = {selectedVetSchool}
+        setSelectedVetSchool = {setSelectedVetSchool}
+        selectedVetEducationType = {selectedVetEducationType}
+        setSelectedVetEducationType = {setSelectedVetEducationType}
+        listDetails = {listDetails}
+        startMonth= {startMonth} 
+        setStartMonth = {setStartMonth}
+        endMonth = {endMonth} 
+        setEndMonth = {setEndMonth}
+        startYear = {startYear} 
+        setStartYear = {setStartYear}
+        endYear = {endYear} 
+        setEndYear = {setEndYear}
+        vetEducation = {vetEducation}
+        setVetEducation = {setVetEducation}
+        showSavedVetMessage = {showSavedVetMessage}
+        setShowSavedVetMessage = {setShowSavedVetMessage}
+      />
       <br/>
       {renderDescriptionSection()}
       <br/>

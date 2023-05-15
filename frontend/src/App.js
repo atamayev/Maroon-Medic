@@ -14,7 +14,7 @@ import DoctorRegister from "./Pages/Doctor/doctor-register"
 import DoctorLogin from "./Pages/Doctor/doctor-login"
 import NewDoctor from "./Pages/Doctor/new-doctor"
 import DoctorDashboard from './Pages/Doctor/doctor-dashboard';
-import DoctorAccountDetails from "./Pages/Doctor/doctor-account-details"
+import DoctorAccountDetails from './Pages/Doctor/DoctorAccountDetails/doctor-account-details';
 import DoctorSettings from './Pages/Doctor/DoctorSettings/doctor-settings';
 import DoctorPersonalInfo from './Pages/Doctor/DoctorSettings/doctor-personal-info';
 import DoctorPrivacy from './Pages/Doctor/DoctorSettings/doctor-privacy';

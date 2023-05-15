@@ -1,6 +1,7 @@
 To-do:
 
 ASAP:
+make setmonth, year, startmonth, year, etc. into a single state
 create new functoin: need to figure out how to save prices along with time for each service. 
 divide doctor-account-details into indivudla files for eahc section
 
