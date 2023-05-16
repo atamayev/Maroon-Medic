@@ -2,32 +2,35 @@ import React from 'react'
 import {Form } from 'react-bootstrap'
 
 export default function FormGroup({
-  id, 
-  label, 
-  defaultValue, 
-  onChange, 
-  type, 
-  placeholder, 
-  required,
-  as, 
-  rows, 
+  as,
+  className,
+  defaultValue,
+  id,
+  label,
   maxLength,
+  name,
+  onChange,
+  placeholder,
+  required,
+  rows,
+  type,
   value
 }) {
 
   return (
-    <Form.Group id = {id}>
+    <Form.Group id = {id} className = {className}>
       <Form.Label>{label}</Form.Label>
       <Form.Control
-        id = {id}
+        as = {as}
         defaultValue = {defaultValue}
+        id = {id}
+        maxLength = {maxLength}
+        name = {name}
         onChange = {onChange}
-        type = {type}
         placeholder= {placeholder}
         required = {required}
-        as = {as}
         rows = {rows}
-        maxLength = {maxLength}
+        type = {type}
         value = {value}
       />
     </Form.Group>

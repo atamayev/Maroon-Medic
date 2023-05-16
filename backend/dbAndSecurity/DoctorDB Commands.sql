@@ -53,15 +53,6 @@ select * from DoctorUUID_reference;
 -- insert into DoctorUUID_reference (DoctorUUID, Doctor_ID) values
 -- ('123', '1000000');
 
-CREATE TABLE phone_numbers(
-phone_numbersID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Phone VARCHAR(150) NOT NULL,
-Phone_Priority INT, 
-Address_ID INT unsigned NOT NULL,
-FOREIGN KEY (Address_ID) REFERENCES Doctor_addresses(addresses_ID));
-
-select * from phone_numbers;
-
 CREATE TABLE descriptions(
 descriptionsID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Description VARCHAR(2500),
@@ -99,11 +90,13 @@ Service_and_Category_ID INT unsigned NOT NULL,
 FOREIGN KEY (Service_and_Category_ID) REFERENCES service_and_category_list(service_and_category_listID),
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
+Select * from service_mapping;
     -- Important key constraint:
 	ALTER TABLE service_mapping
 	ADD CONSTRAINT service_mapping_constraint
 	UNIQUE (Service_price, Service_and_Category_ID, Doctor_ID);
     
+delete from service_mapping where Doctor_ID = '1000125';
 CREATE TABLE pictures(
 picturesID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 picture_link VARCHAR(512),
@@ -135,7 +128,6 @@ FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 	ALTER TABLE language_mapping
 	ADD CONSTRAINT language_mapping_constraint
 	UNIQUE (Language_ID, Doctor_ID);
-
 
 SELECT * FROM language_mapping;
 
@@ -221,17 +213,27 @@ SELECT * FROM specialty_mapping;
 	ADD CONSTRAINT specialty_mapping_constraint
 	UNIQUE (Specialty_ID, Doctor_ID);
 
+CREATE TABLE phone_numbers(
+phone_numbersID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+Phone VARCHAR(150) NOT NULL,
+Phone_Priority INT, 
+Address_ID INT unsigned NOT NULL,
+FOREIGN KEY (Address_ID) REFERENCES Doctor_addresses(addresses_ID));
+
+select * from phone_numbers;
 CREATE TABLE Doctor_addresses(
 addresses_ID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-address_line_1 VARCHAR(200),
+address_title VARCHAR(200) NOT NULL,
+address_line_1 VARCHAR(200) NOT NULL,
 address_line_2 VARCHAR(200), -- apt, suite, etc.
-city VARCHAR(150), 
-state VARCHAR(150),
-zip INT,
-country VARCHAR(150),
+city VARCHAR(150) NOT NULL, 
+state VARCHAR(150) NOT NULL,
+zip INT NOT NULL,
+country VARCHAR(150) NOT NULL,
 address_priority INT,-- address number is the primary, secondary, etc. 
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
+SELECT * FROM Doctor_addresses;
 
 CREATE TABLE insurance_list(
 -- Lookup Table

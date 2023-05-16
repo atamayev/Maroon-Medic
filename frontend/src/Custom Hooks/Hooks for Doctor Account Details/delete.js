@@ -19,3 +19,7 @@ export const handleDeletePreVetEducation = (preVetEducationObject, preVetEducati
 export const handleDeleteVetEducation = (vetEducationObject, vetEducation, setVetEducation) => {
     setVetEducation(vetEducation.filter(obj => !isObjectsEqual(obj, vetEducationObject)));
 };
+
+export const handleDeleteAccordion = (id, addresses, setAddresses) => {
+    setAddresses(addresses.filter(address => address.id !== id));
+};

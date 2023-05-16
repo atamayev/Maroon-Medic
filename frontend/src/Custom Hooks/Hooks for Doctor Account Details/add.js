@@ -34,6 +34,10 @@ export const handleAddInsurance = (selectedInsurance, acceptedInsurances, setAcc
   }
 };
 
+export const handleAddAccordion = (addresses, setAddresses) => {
+  setAddresses([...addresses, { id: addresses.length, addressTitle: '', addressLine1: '', addressLine2: '', city: '', state: '', zip: '', country: '', phone: '' }]);
+};
+
 export const handleAddPreVetEducation = (
     selectedPreVetSchool, 
     selectedMajor, 

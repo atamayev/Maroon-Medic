@@ -252,6 +252,10 @@ export async function saveVetSchool(vetEducation, listDetails, setShowSavedVetMe
   }
 };
 
+export async function saveLocation (addresses){
+  console.log(addresses)
+};
+
 export async function handlePublicAvailibilityToggle (value, setPubliclyAvailable) {
   setPubliclyAvailable(value);
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
@@ -265,4 +269,4 @@ export async function handlePublicAvailibilityToggle (value, setPubliclyAvailabl
   }catch(error){
     console.log('error in handlePublicAvailibilityToggle', error)
   }
-}
+};

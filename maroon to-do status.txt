@@ -1,9 +1,9 @@
 To-do:
 
 ASAP:
-re-order imports in doctoraccountdetails, re-order props to make logical sense, make sets after hte states
+create new functoin: need to figure out how to display saved service data
 make setmonth, year, startmonth, year, etc. into a single state
-create new functoin: need to figure out how to save prices along with time for each service. 
+
 
 1. Address + phone numbers
 

@@ -130,7 +130,6 @@ export async function saveGeneralData (req, res){
     const DataTypelower = DataType.charAt(0).toLowerCase() + DataType.slice(1);
     
     const doctorData = req.body.Data; // The Data is an array of the IDs of the DataType ([1,4,7,12], where each of these is a specific Language_ID)
-    console.log('doctorData',doctorData)
 
     const DB_name = 'DoctorDB';
     const table_name = `${DataTypelower}_mapping`;
@@ -146,7 +145,6 @@ export async function saveGeneralData (req, res){
         console.log(`error in ${saveGeneralData.name}:`, error)
         return res.status(400).json(false);
     }
-    console.log('results',results)
 
     if (results.length > 0) {
         // Doctor already has data in the table
@@ -442,6 +440,95 @@ export async function saveEducationData (req, res){
         console.log('elsed')
         return res.status(400).json(false)
     }
+};
+
+export async function saveAddressData (req, res){
+    const DoctorUUID = req.cookies.DoctorUUID;
+    const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
+    
+    const AddressData = req.body.AddressData;
+    const table_name1 = 'Doctor_addresses';
+    const table_name2 = 'phone_numbers'; 
+    const DB_name = 'DoctorDB';
+
+    const sql = `SELECT * FROM ${table_name1} JOIN ${table_name2} ON ${table_name1}.addresses_ID = ${table_name2}.Address_ID WHERE ${table_name1}.Doctor_ID = ?`;
+    const values = [DoctorID];
+    let results;
+
+    await useDB(saveAddressData.name, DB_name, table_name1);
+    try{
+        [results] = await connection.execute(sql, values);
+    }catch(error){
+        console.log(`error in ${saveAddressData.name}:`, error)
+        return res.status(400).json(false);
+    }
+    console.log('results',results)
+        if (results.length > 0) {
+            console.log(results)
+            //Will need to figure out which data to compare and how.
+            //const oldData = results.map(result => result[`${DataType}_ID`]); //An array of IDs, in the same form as the doctorData: ie [1,2,4,5]
+            const newData = AddressData;
+
+            // Check for changes in data:
+            const addedData = newData.filter(data => !oldData.includes(data)); //Filter the newData, check if there is anything new that wasn't in oldData
+            const deletedData = results.filter(data => !newData.includes(data));
+
+            if (addedData.length > 0) {
+                console.log('adding data')
+                // for (let i = 0; i<addedData.length; i++){
+                //     if(addedData[i]){
+                //         const sql1 = `INSERT INTO ${table_name} (${DataType}_ID, Doctor_ID) VALUES (?,?)`;
+                //         const values1 = [addedData[i], DoctorID];
+                //         try{
+                //             await connection.execute(sql1, values1);
+                //         }catch(error){
+                //             console.log(`error in if ${saveAddressData.name}:`, error);
+                //             return res.status(400).json(false);
+                //         }
+                //     }else{
+                //         console.log(`problem in adding data ${saveAddressData.name}: field ${i} is null`);
+                //         return res.status(400).json(false);    
+                //     }
+                // }
+            }
+            if (deletedData.length > 0) {
+                console.log('deleting data')
+                // for (let i = 0; i<deletedData.length; i++){
+                //     if(deletedData[i]){
+                //         const sql1 = `DELETE FROM ${table_name} WHERE ${DataType}_ID = ? AND Doctor_ID = ?`;
+                //         const values1 = [deletedData[i], DoctorID];
+                //         try{
+                //             await connection.execute(sql1, values1);
+                //         }catch(error){
+                //             console.log(`error in if ${saveAddressData.name}:`, error);
+                //             return res.status(400).json(false);
+                //         }
+                //     }else{
+                //         console.log(`problem in deleting ${saveAddressData.name}: field ${i} is null`);
+                //         return res.status(400).json(false);    
+                //     }
+                // }
+            }
+        return res.status(200).json(true);
+      }
+      else if (AddressData.length > 0){
+        console.log('adding data in else')
+        for (let i=0; i<AddressData.length; i++){
+            const sql1 = `INSERT INTO ${table_name1} (address_title, address_line_1, address_line_2, city, state, zip, country, address_priority, Doctor_ID) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?)`;
+            const values1 = [AddressData[i].address_title, DoctorID];//NEEDS TO BE CHANGED, DON'T KNOW THE ADDRESS_Data properties
+            try{
+                await connection.execute(sql1, values1);
+            }catch(error){
+                console.log(`error in if ${saveAddressData.name}:`, error);
+                return res.status(400).json(false);
+            }
+        }
+        return res.status(200).json(true);
+      }
+      else{
+        console.log('elsed')
+        return res.status(400).json(false)
+      }
 };
 
 /** savePublicAvailibilityData is a Doctor-controlled function that allows them to say wheather or not they want their profile accessible to patients

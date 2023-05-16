@@ -66,6 +66,8 @@ export default function DoctorAccountDetails() {
   const verified = DoctorAccountDetails?.[9][0].Verified || [];
   const [publiclyAvailable, setPubliclyAvailable] = useState(DoctorAccountDetails?.[9][0]?.PubliclyAvailable || 0);
 
+  const [addresses, setAddresses] = useState([{ id: 0, addressTitle: '', addressLine1: '', addressLine2: '', city: '', state: '', zip: '', country: '', phone: ''}]);
+
   const [expandedCategories, setExpandedCategories] = useState([]);
 
   const [showSavedPreVetMessage, setShowSavedPreVetMessage] = useState(false);
@@ -300,7 +302,11 @@ export default function DoctorAccountDetails() {
         setShowSavedServicesMessage = {setShowSavedServicesMessage}
       />
       <br />
-      <RenderLocationSection/>
+      <RenderLocationSection
+        listDetails = {listDetails}
+        addresses = {addresses}
+        setAddresses = {setAddresses}
+      />
       <br/>
       <RenderVerificationAndPublicStatusSection
         publiclyAvailable = {publiclyAvailable}
