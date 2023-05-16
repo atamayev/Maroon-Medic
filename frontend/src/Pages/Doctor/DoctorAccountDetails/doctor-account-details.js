@@ -43,13 +43,13 @@ export default function DoctorAccountDetails() {
 
   const [selectedLanguage, setSelectedLanguage] = useState('');
   const [spokenLanguages, setSpokenLanguages] = useState(DoctorAccountDetails?.[1] || []);
+  
+  const [selectedServices, setSelectedServices] = useState(DoctorAccountDetails?.[2] || []);
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   const [selectedOrganization, setSelectedOrganization] = useState('');
   const [selectedSpecialty, setSelectedSpecialties] = useState('');
   const [doctorSpecialties, setDoctorSpecialties] = useState(DoctorAccountDetails?.[3] || []);
-
-  const [selectedServices, setSelectedServices] = useState(DoctorAccountDetails?.[2] || []);
-  const [selectedCategories, setSelectedCategories] = useState([]);
 
   const [selectedPreVetSchool, setSelectedPreVetSchool] = useState('');
   const [selectedMajor, setSelectedMajor] = useState('');
@@ -60,13 +60,13 @@ export default function DoctorAccountDetails() {
   const [selectedVetEducationType, setSelectedVetEducationType] = useState('');
   const [vetEducation, setVetEducation] = useState(DoctorAccountDetails?.[5] || []);
 
+  const [addresses, setAddresses] = useState(DoctorAccountDetails?.[6] ||[{ id: 0, addressTitle: '', addressLine1: '', addressLine2: '', city: '', state: '', zip: '', country: '', phone: ''}]);
+
   const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false);
   const [description, setDescription] = useState(DoctorAccountDetails?.[7] || {});
 
   const verified = DoctorAccountDetails?.[9][0].Verified || [];
   const [publiclyAvailable, setPubliclyAvailable] = useState(DoctorAccountDetails?.[9][0]?.PubliclyAvailable || 0);
-
-  const [addresses, setAddresses] = useState([{ id: 0, addressTitle: '', addressLine1: '', addressLine2: '', city: '', state: '', zip: '', country: '', phone: ''}]);
 
   const [expandedCategories, setExpandedCategories] = useState([]);
 
@@ -83,6 +83,8 @@ export default function DoctorAccountDetails() {
   const [showSavedLanguagesMessage, setShowSavedLanguagesMessage] = useState(false);
 
   const [showSavedServicesMessage, setShowSavedServicesMessage] = useState(false);
+
+  const [showSavedLocationMessage, setShowSavedLocationMessage] = useState(false);
 
   const [startYear, setStartYear] = useState(1923);
   const [endYear, setEndYear] = useState(1923);
@@ -134,7 +136,9 @@ export default function DoctorAccountDetails() {
     showSavedLanguagesMessage,
     setShowSavedLanguagesMessage,
     showSavedServicesMessage,
-    setShowSavedServicesMessage
+    setShowSavedServicesMessage,
+    showSavedLocationMessage,
+    setShowSavedLocationMessage
   );
 
   async function FillDoctorAccountDetails(){
@@ -161,7 +165,7 @@ export default function DoctorAccountDetails() {
               setVetEducation(response.data[5])
             }
             if(response.data[6]){
-              //Set Address Data
+              setAddresses(response.data[6])
             }
             if(response.data[7] && Object.keys(response.data[7]).length > 0){
               setDescription(response.data[7]);
@@ -306,6 +310,8 @@ export default function DoctorAccountDetails() {
         listDetails = {listDetails}
         addresses = {addresses}
         setAddresses = {setAddresses}
+        showSavedLocationMessage = {showSavedLocationMessage}
+        setShowSavedLocationMessage = {setShowSavedLocationMessage}
       />
       <br/>
       <RenderVerificationAndPublicStatusSection

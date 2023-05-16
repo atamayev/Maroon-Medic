@@ -42,7 +42,8 @@ function AddressForm(props) {
         ))}
       </Accordion>
       <Button variant="primary" onClick={()=> handleAddAccordion(props.addresses, props.setAddresses)}>Add Address</Button>
-      <Button variant="success" onClick={()=> saveLocation(props.addresses)}>Save</Button>
+      <Button variant="success" onClick={()=> saveLocation(props.addresses, props.setShowSavedLocationMessage)}>Save</Button>
+      <span className={`fade ${props.showSavedLocationMessage ? 'show' : ''}`}> Locations saved!</span>
     </>
   );
 };

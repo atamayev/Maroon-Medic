@@ -4,7 +4,7 @@ import PrivateDoctorDataService from "../../Services/private-doctor-data-service
 export async function saveLanguages(spokenLanguages, setShowSavedLanguagesMessage){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   const languageIds = spokenLanguages.map(lang => lang.language_listID).sort((a,b)=>a-b); // spoken languages are those that are on server side. state changes when languages added/deleted
-  const savedLanguages = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[1] || []
+  const savedLanguages = DoctorAccountDetails?.[1] || []
   const savedLanguagesIDs = savedLanguages.map(language => language.language_listID).sort((a,b)=>a-b);
 
   if(!checkIfListsAreEqual(languageIds, savedLanguagesIDs)){//checks if they are the same
@@ -33,7 +33,7 @@ export async function saveLanguages(spokenLanguages, setShowSavedLanguagesMessag
 export async function saveSpecialies(doctorSpecialties, setShowSavedSpecialtiesMessage){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   const specialtyIds = doctorSpecialties.map(specialty => specialty.specialties_listID).sort((a,b)=>a-b); // spoken languages are those that are on server side. state changes when languages added/deleted
-  const savedSpecialties = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[3] || []
+  const savedSpecialties = DoctorAccountDetails?.[3] || []
   const savedSpecialtyIDs = savedSpecialties.map(specialty => specialty.specialties_listID).sort((a,b)=>a-b);
 
   if(!checkIfListsAreEqual(specialtyIds, savedSpecialtyIDs)){//checks if they are the same
@@ -63,7 +63,7 @@ export async function saveInsurances(acceptedInsurances, setShowSavedInsurancesM
   console.log(acceptedInsurances)
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   const insuranceIds = acceptedInsurances.map(ins => ins.insurance_listID).sort((a,b)=>a-b); // list of all added insurances
-  const savedInsurances = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[0] || []
+  const savedInsurances = DoctorAccountDetails?.[0] || []
   const savedInsurancesIDs = savedInsurances.map(insurance => insurance.insurance_listID).sort((a,b)=>a-b);
 
   if(!checkIfListsAreEqual(insuranceIds, savedInsurancesIDs)){//only saves if the insurances changed
@@ -169,6 +169,56 @@ export async function saveDescription(description, setShowSavedDescriptionMessag
   }
 };
 
+export async function saveLocation (addresses, setShowSavedLocationMessage){
+  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
+  const savedLocationData = DoctorAccountDetails?.[6]
+  if(!savedLocationData || savedLocationData.length === 0){
+    //If no Location Data exists, then just set the session data to the new data, no need to compare arrays
+    try {
+      console.log('new data')
+      const response = await PrivateDoctorDataService.saveAddressData(addresses);
+      if(response.status === 200){
+        DoctorAccountDetails[6] = addresses;
+        sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+        console.log('Saved!');
+        // Show the saved message
+        setShowSavedLocationMessage(true);
+
+        // Hide the saved message after 5 seconds
+        setTimeout(() => {
+          setShowSavedLocationMessage(false);
+        }, 5000);
+      }
+    } catch(error) {
+      console.log('error in saveLocation', error)
+    }
+  }else{
+    if(!areArraysSame(addresses, savedLocationData)){
+      try {
+        console.log('comparing data')
+        const response = await PrivateDoctorDataService.saveAddressData(addresses);
+        if(response.status === 200){
+          DoctorAccountDetails[6] = addresses;
+          sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+          console.log('Saved!');
+          // Show the saved message
+          setShowSavedLocationMessage(true);
+
+          // Hide the saved message after 5 seconds
+          setTimeout(() => {
+            setShowSavedLocationMessage(false);
+          }, 5000);
+        }
+      } catch(error) {
+        console.log('error in saveLocation', error)
+      }
+    }else{
+      console.log('same');
+    }
+    //Compare the addresses array to the savedLocation Data array.
+  }
+};
+
 function convertDateForSql(dateString) {
   // Split the date string by '-'
   const dateParts = dateString.split('-');
@@ -186,7 +236,7 @@ function convertDateForSql(dateString) {
 
 export async function savePreVetSchool(preVetEducation, listDetails, setShowSavedPreVetMessage){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  const savedPreVetEducations = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[4] || []
+  const savedPreVetEducations = DoctorAccountDetails?.[4] || []
   
   if(!areArraysSame(preVetEducation, savedPreVetEducations)){
     try {
@@ -221,7 +271,7 @@ export async function savePreVetSchool(preVetEducation, listDetails, setShowSave
 
 export async function saveVetSchool(vetEducation, listDetails, setShowSavedVetMessage){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  const savedVetEducations = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[5] || []
+  const savedVetEducations = DoctorAccountDetails?.[5] || []
 
   if(!areArraysSame(vetEducation, savedVetEducations)){//only saves if the insurances changed
     try {
@@ -250,10 +300,6 @@ export async function saveVetSchool(vetEducation, listDetails, setShowSavedVetMe
   }else{
     console.log('same')
   }
-};
-
-export async function saveLocation (addresses){
-  console.log(addresses)
 };
 
 export async function handlePublicAvailibilityToggle (value, setPubliclyAvailable) {
