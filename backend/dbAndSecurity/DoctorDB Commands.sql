@@ -215,12 +215,14 @@ SELECT * FROM specialty_mapping;
 
 CREATE TABLE phone_numbers(
 phone_numbersID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Phone VARCHAR(150) NOT NULL,
+Phone VARCHAR(150),
 Phone_Priority INT, 
 Address_ID INT unsigned NOT NULL,
 FOREIGN KEY (Address_ID) REFERENCES Doctor_addresses(addresses_ID));
-
 select * from phone_numbers;
+delete from phone_numbers where phone_numbersID between '1' and '1000';
+drop table phone_numbers;
+
 CREATE TABLE Doctor_addresses(
 addresses_ID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 address_title VARCHAR(200) NOT NULL,
@@ -234,6 +236,8 @@ address_priority INT,-- address number is the primary, secondary, etc.
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 SELECT * FROM Doctor_addresses;
+SELECT * FROM  Doctor_addresses JOIN phone_numbers ON  Doctor_addresses.addresses_ID = phone_numbers.Address_ID WHERE  Doctor_addresses.Doctor_ID = '1000125';
+delete from Doctor_addresses where Doctor_ID = '1000125';
 
 CREATE TABLE insurance_list(
 -- Lookup Table

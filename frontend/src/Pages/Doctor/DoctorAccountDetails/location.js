@@ -29,6 +29,22 @@ function AddressForm(props) {
     props.setAddresses(newAddresses);
   };
 
+  function areAllFieldsValid(addresses) {
+    for (let address of addresses) {
+      if (
+        !address.addressTitle || 
+        !address.addressLine1 || 
+        !address.city ||
+        !address.state ||
+        !address.zip ||
+        !address.country
+      ) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   return (
     <>
       <Accordion defaultActiveKey={0}>
@@ -42,7 +58,13 @@ function AddressForm(props) {
         ))}
       </Accordion>
       <Button variant="primary" onClick={()=> handleAddAccordion(props.addresses, props.setAddresses)}>Add Address</Button>
-      <Button variant="success" onClick={()=> saveLocation(props.addresses, props.setShowSavedLocationMessage)}>Save</Button>
+      <Button 
+        variant="success" 
+        onClick={()=> saveLocation(props.addresses, props.setShowSavedLocationMessage)}
+        disabled={!areAllFieldsValid(props.addresses)} // Disable button if not all fields are valid
+      >
+        Save
+      </Button>
       <span className={`fade ${props.showSavedLocationMessage ? 'show' : ''}`}> Locations saved!</span>
     </>
   );
