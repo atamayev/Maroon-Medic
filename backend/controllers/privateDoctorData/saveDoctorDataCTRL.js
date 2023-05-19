@@ -1,5 +1,6 @@
 import { connection, useDB } from "../../dbAndSecurity/connect.js";
 import Crypto from "../../dbAndSecurity/crypto.js";
+import { getUpdatedRecords } from "../../dbAndSecurity/updatingAddressData.js";
 import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
 
 /** savePersonalData is self-explanatory in name
@@ -450,7 +451,7 @@ export async function saveAddressData (req, res){
     const AddressData = req.body.AddressData;
     console.log('AddressData', AddressData)
 
-    const table_name1 = 'Doctor_addresses';
+    const table_name1 = 'doctor_addresses';
     const table_name2 = 'phone_numbers'; 
     const DB_name = 'DoctorDB';
 
@@ -461,7 +462,7 @@ export async function saveAddressData (req, res){
     await useDB(saveAddressData.name, DB_name, table_name1);
     try{
         [results] = await connection.execute(sql, values);
-        console.log('results from initial select *',results)
+        console.log('results length',results)
     }catch(error){
         console.log(`error in ${saveAddressData.name}:`, error)
         return res.status(400).json(false);
@@ -478,29 +479,11 @@ export async function saveAddressData (req, res){
             .filter(result => !newData.some(data => data.addresses_ID === result.addresses_ID))
             .map(result => result.addresses_ID);
         
-        //Updated data first checks if the addresses_ID in each element of result and the addresses_ID in newData match. 
-        //If they do not match, that element is not included in updatedData
-        //If they do match, then another check is performed, which checks wheather or not the data of any of the keys of the object with that addresses_ID was changed.
-        //If it was changed, then it is added to updatedData.
-        const updatedData = newData.filter(data => {
-            const result = results.find(result => result.addresses_ID === data.addresses_ID);
-            if (!result) return false; // Skip if there is no matching result
-            
-            // Check if any of the keys in result have different values compared to data
-            for (const key in result) {
-                if (key !== 'addresses_ID' && result[key] !== data[key]) {
-                return true; // Add to updatedData if any key has a different value
-                }
-            }
-            
-            return false;
-        });
-        
+        const updatedData = getUpdatedRecords(newData, results)
+       
         console.log('addedData', addedData)
         console.log('deletedData', deletedData)
         console.log('updatedData', updatedData)
-
-        const phone_priority = null
 
         if (addedData.length > 0) {
             console.log('adding data')
@@ -516,7 +499,7 @@ export async function saveAddressData (req, res){
                     return res.status(400).json(false);
                 }
                 const sql2 = `INSERT INTO ${table_name2} (phone, phone_priority, address_ID) VALUES (?, ?, ?)`
-                const values2 = [addedData[i].phone, phone_priority, insert_results.insertId];
+                const values2 = [addedData[i].phone, addedData[i].phone_priority, insert_results.insertId];
                 console.log('values in phone number insert',values2);
                 try{
                     await connection.execute(sql2, values2);
@@ -525,25 +508,23 @@ export async function saveAddressData (req, res){
                     return res.status(400).json(false);  
                 }
             }
-            return res.status(200).json(true);
-            }
-        if (deletedData) {
+        }
+        if (deletedData.length) {
             console.log('deleting data')
             for (let i = 0; i<deletedData.length; i++){
-                    //Automatically deletes data in the phone number table, since the two are linked via a cascade
-                    const sql1 = `DELETE FROM ${table_name1} WHERE addresses_ID = ?`;
-                    const values1 = [deletedData[i]];
-                    console.log('values1',values1)
-                    try{
-                        await connection.execute(sql1, values1);
-                    }catch(error){
-                        console.log(`error in deleting address data ${saveAddressData.name}:`, error);
-                        return res.status(400).json(false);
-                    }
+                //Automatically deletes data in the phone number table, since the two are linked via a cascade
+                const sql1 = `DELETE FROM ${table_name1} WHERE addresses_ID = ?`;
+                const values1 = [deletedData[i]];
+                console.log('values1',values1)
+                try{
+                    await connection.execute(sql1, values1);
+                }catch(error){
+                    console.log(`error in deleting address data ${saveAddressData.name}:`, error);
+                    return res.status(400).json(false);
+                }
             }
-            return res.status(200).json(true);
         }
-        if(updatedData){
+        if(updatedData.length){
             console.log('updating data')
             for (let i = 0; i<updatedData.length; i++){
                 const sql1 = `UPDATE ${table_name1} SET address_title = ?, address_line_1 = ?, address_line_2 = ?, city = ?, state = ?, zip = ?, country = ? WHERE addresses_ID = ?`;
@@ -554,7 +535,7 @@ export async function saveAddressData (req, res){
                     console.log(`error in updatedData address data ${saveAddressData.name}:`, error);
                     return res.status(400).json(false);
                 }
-                const sql2 = `UPDATE ${table_name2} SET phone = ? WHERE addresses_ID = ?`;
+                const sql2 = `UPDATE ${table_name2} SET phone = ? WHERE address_ID = ?`;
                 const values2 = [updatedData[i].phone, updatedData[i].addresses_ID];
                 try{
                     await connection.execute(sql2, values2);
@@ -564,9 +545,9 @@ export async function saveAddressData (req, res){
                 }
             }
         }
+        return res.status(200).json(true);
     } else if (AddressData.length > 0){
         console.log('adding data in else')
-        const phone_priority = null
         for (let i=0; i<AddressData.length; i++){
             const sql1 = `INSERT INTO ${table_name1} (address_title, address_line_1, address_line_2, city, state, zip, country, address_priority, Doctor_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
             const values1 = [AddressData[i].address_title, AddressData[i].address_line_1, AddressData[i].address_line_2, AddressData[i].city, AddressData[i].state, AddressData[i].zip, AddressData[i].country, AddressData[i].address_priority, DoctorID];
@@ -579,7 +560,7 @@ export async function saveAddressData (req, res){
                 return res.status(400).json(false);
             }
             const sql = `INSERT INTO ${table_name2} (phone, phone_priority, address_ID) VALUES (?, ?, ?)`
-            const values = [AddressData[i].phone, phone_priority, insert_results.insertId];
+            const values = [AddressData[i].phone, AddressData[i].phone_priority, insert_results.insertId];
             try{
                 await connection.execute(sql, values);
             }catch(error){

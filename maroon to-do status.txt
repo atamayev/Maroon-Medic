@@ -2,12 +2,11 @@ To-do:
 
 ASAP:
 
--make phone_pririty 0 for everything for now temporarily.
-IMPT:look back at all the places in code where i am selecting data right after inserting to get the ID - replace with results.insertId
-make DoctorAddresses lowercase 
-
 Saving, displaying, deleting Address + phone numbers
 	after adding address data, will need to change the value of session storage variable to include address_ID
+
+IMPT:look back at all the places in code where i am selecting data right after inserting to get the ID - replace with results.insertId
+	ie in authCTRL
 
 need to figure out how to display saved service data
 make setmonth, year, startmonth, year, etc. into a single state
@@ -41,3 +40,5 @@ figure out what to do when user not verified in the doctor/patient pages. can't 
 
 start using bootstrap or integrate tailwind css classes. tell chatgpt to make pages prettier (header, etc.)
 
+figure out phone_priority (address_data), currently sending it back as 0. Phone priority is for when one location has multiple phone numbers. So each object in the address list might have an object inside that contains phone numbers, link
+	See 5/19 commit
