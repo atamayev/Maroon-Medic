@@ -60,7 +60,7 @@ export default function DoctorAccountDetails() {
   const [selectedVetEducationType, setSelectedVetEducationType] = useState('');
   const [vetEducation, setVetEducation] = useState(DoctorAccountDetails?.[5] || []);
 
-  const [addresses, setAddresses] = useState(DoctorAccountDetails?.[6] ||[{ id: 0, addressTitle: '', addressLine1: '', addressLine2: '', city: '', state: '', zip: '', country: '', phone: ''}]);
+  const [addresses, setAddresses] = useState(DoctorAccountDetails?.[6] ||[{ address_priority: 0, addresses_ID: 0, address_title: '', address_line_1  : '', address_line_2: '', city: '', state: '', zip: '', country: '', phone: ''}]);
 
   const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false);
   const [description, setDescription] = useState(DoctorAccountDetails?.[7] || {});
@@ -86,6 +86,7 @@ export default function DoctorAccountDetails() {
 
   const [showSavedLocationMessage, setShowSavedLocationMessage] = useState(false);
 
+  //Should make this into one state:
   const [startYear, setStartYear] = useState(1923);
   const [endYear, setEndYear] = useState(1923);
   const [startMonth, setStartMonth] = useState('January');

@@ -1,16 +1,23 @@
 To-do:
 
 ASAP:
+
+-make phone_pririty 0 for everything for now temporarily.
+IMPT:look back at all the places in code where i am selecting data right after inserting to get the ID - replace with results.insertId
+make DoctorAddresses lowercase 
+
+Saving, displaying, deleting Address + phone numbers
+	after adding address data, will need to change the value of session storage variable to include address_ID
+
 need to figure out how to display saved service data
 make setmonth, year, startmonth, year, etc. into a single state
 
 
-Saving and displaying Address + phone numbers
 Make the 'Add Address' Button Finalize a Location, make it within the accordion. 
 	So when add address is pressed, it becomes a pretty-looking text (can edit it by pressing a pencil in the top right or something)
 	Add a new 'Add new address' button to add a new acordion strip
 Encrypt address and phone number entry to the DB
-Will eed to figre out priority for adding locations and phone numbers, null for now
+Will need to figre out priority for adding locations and phone numbers, null for now
 
 -- will likely need to simplify the select.js. what it's doing rn is redundant. inside account details, it's setting the value of the type of to the id. then, select has to find which type has that id.
 	for example, if select Lemonade insurance, instead of setting selected vet school to Lemondae, it first sends back lemonad'es id, and then converts it to the name

@@ -13,7 +13,7 @@ import Crypto from './crypto.js';
  */
 export async function ID_to_UUID(ID, type){
     const UUID = uuidv4();
-    const table_name = `${type}UUID_reference`; // not check if type is patient or doctor because this is not a client-facing function. every function that uses this function already filters out non-patient/doctor types
+    const table_name = `${type}UUID_reference`;
     const DB_name = `${type}DB`;
     
     const date_ob = new Date();
@@ -43,7 +43,7 @@ export async function ID_to_UUID(ID, type){
  * @returns Corresponding DoctorID
  */
 export async function UUID_to_ID(UUID, type){
-  const table_name = `${type}UUID_reference`; // not check if type is patient or doctor because this is not a client-facing function. every function that uses this function already filters out non-patient/doctor types
+  const table_name = `${type}UUID_reference`;
   const DB_name = `${type}DB`;
 
   await useDB(UUID_to_ID.name, DB_name, table_name)

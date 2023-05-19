@@ -19,9 +19,12 @@ export default function RenderLocationSection(props){
 };
 
 function AddressForm(props) {
-  const handleInputChange = (event, id) => {
+  const handleInputChange = (event, address_priority) => {
+    console.log('event.target.name', event.target.name)
+    console.log('address_priority', address_priority)
+
     const newAddresses = props.addresses.map(address => {
-      if (address.id === id) {
+      if (address.address_priority === address_priority) {
         return { ...address, [event.target.name]: event.target.value }
       }
       return address;
@@ -32,8 +35,8 @@ function AddressForm(props) {
   function areAllFieldsValid(addresses) {
     for (let address of addresses) {
       if (
-        !address.addressTitle || 
-        !address.addressLine1 || 
+        !address.address_title || 
+        !address.address_line_1 || 
         !address.city ||
         !address.state ||
         !address.zip ||
@@ -52,8 +55,8 @@ function AddressForm(props) {
           <AddressAccordionItem 
           key={index} 
           address={address} 
-          handleInputChange={(e) => handleInputChange(e, address.id)}
-          handleDeleteAccordion={() => handleDeleteAccordion(address.id, props.addresses, props.setAddresses)}
+          handleInputChange={(e) => handleInputChange(e, address.address_priority)}
+          handleDeleteAccordion={() => handleDeleteAccordion(address.address_priority, props.addresses, props.setAddresses)}
           />
         ))}
       </Accordion>
@@ -71,10 +74,10 @@ function AddressForm(props) {
 };
 
 const AddressAccordionItem = ({ address, handleInputChange, handleDeleteAccordion, addresses, setAddresses }) => (
-  <Accordion.Item eventKey={address.id}>
+  <Accordion.Item eventKey={address.address_priority}>
     <Accordion.Header>
-      {address.addressTitle ? (address.addressTitle): ('Address #' + (address.id + 1))}
-      <Button variant="danger" size="sm" onClick={() => handleDeleteAccordion(address.id, addresses, setAddresses)} style={{ float: 'right' }}>X</Button>
+      {address.address_title ? (address.address_title): ('Address #' + (address.address_priority + 1))}
+      <Button variant="danger" size="sm" onClick={() => handleDeleteAccordion(address.address_priority, addresses, setAddresses)} style={{ float: 'right' }}>X</Button>
     </Accordion.Header>
     <Accordion.Body>
       <Form>
@@ -84,9 +87,9 @@ const AddressAccordionItem = ({ address, handleInputChange, handleDeleteAccordio
             type = "text"
             placeholder="Address Title" 
             required
-            value={address.addressTitle}
+            value={address.address_title}
             onChange={handleInputChange}
-            name="addressTitle"  // add this line
+            name="address_title"
         />
         <FormGroup
           className="mb-3"
@@ -94,18 +97,18 @@ const AddressAccordionItem = ({ address, handleInputChange, handleDeleteAccordio
           type = "text"
           placeholder="Address line 1" 
           required
-          value={address.addressLine1}
+          value={address.address_line_1}
           onChange={handleInputChange}
-          name="addressLine1"  // add this line
+          name="address_line_1"
         />
         <FormGroup
           className="mb-3"
           label = "Address line 2"
           type = "text"
           placeholder="Address line 2" 
-          value={address.addressLine2}
+          value={address.address_line_2}
           onChange={handleInputChange}
-          name="addressLine2"
+          name="address_line_2"
         />
         <FormGroup
           className="mb-3"

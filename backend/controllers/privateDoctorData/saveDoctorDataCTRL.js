@@ -448,139 +448,150 @@ export async function saveAddressData (req, res){
     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
     
     const AddressData = req.body.AddressData;
+    console.log('AddressData', AddressData)
 
     const table_name1 = 'Doctor_addresses';
     const table_name2 = 'phone_numbers'; 
     const DB_name = 'DoctorDB';
 
-    const sql = `SELECT * FROM ${table_name1} JOIN ${table_name2} ON ${table_name1}.addresses_ID = ${table_name2}.Address_ID WHERE ${table_name1}.Doctor_ID = ?`;
+    const sql = `SELECT * FROM ${table_name1} JOIN ${table_name2} ON ${table_name1}.addresses_ID = ${table_name2}.address_ID WHERE ${table_name1}.Doctor_ID = ?`;
     const values = [DoctorID];
     let results;
 
     await useDB(saveAddressData.name, DB_name, table_name1);
     try{
         [results] = await connection.execute(sql, values);
+        console.log('results from initial select *',results)
     }catch(error){
         console.log(`error in ${saveAddressData.name}:`, error)
         return res.status(400).json(false);
     }
-    if (results.length > 0) {
-        //Will need to figure out which data to compare and how.
-        //const oldData = results.map(result => result[`${DataType}_ID`]); //An array of IDs, in the same form as the doctorData: ie [1,2,4,5]
+    if (results.length) {
         const newData = AddressData;
-
         // Check for changes in data:
-        const addedData = newData.filter(data => !results.includes(data)); //Filter the newData, check if there is anything new that wasn't in oldData
-        const deletedData = results.filter(data => !newData.includes(data));
-        console.log('addedData',addedData)
-        console.log('deletedData',deletedData)
-        const address_priority = null
+        
+        //Filter the newData, check if there are any objects whose addresses_ID is null. Null addresses_ID means the data is new
+        const addedData = newData.filter(data => data.addresses_ID === 0);
+
+        //Extracts just the IDs of the data that was in the DB, but is not in the new incoming Data
+        const deletedData = results
+            .filter(result => !newData.some(data => data.addresses_ID === result.addresses_ID))
+            .map(result => result.addresses_ID);
+        
+        //Updated data first checks if the addresses_ID in each element of result and the addresses_ID in newData match. 
+        //If they do not match, that element is not included in updatedData
+        //If they do match, then another check is performed, which checks wheather or not the data of any of the keys of the object with that addresses_ID was changed.
+        //If it was changed, then it is added to updatedData.
+        const updatedData = newData.filter(data => {
+            const result = results.find(result => result.addresses_ID === data.addresses_ID);
+            if (!result) return false; // Skip if there is no matching result
+            
+            // Check if any of the keys in result have different values compared to data
+            for (const key in result) {
+                if (key !== 'addresses_ID' && result[key] !== data[key]) {
+                return true; // Add to updatedData if any key has a different value
+                }
+            }
+            
+            return false;
+        });
+        
+        console.log('addedData', addedData)
+        console.log('deletedData', deletedData)
+        console.log('updatedData', updatedData)
+
         const phone_priority = null
 
         if (addedData.length > 0) {
             console.log('adding data')
             for (let i = 0; i<addedData.length; i++){
-                const sql1 = `INSERT INTO ${table_name1} (address_title, address_line_1, address_line_2, city, state, zip, country, address_priority, Doctor_ID) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?)`;
-                const values1 = [addedData[i].addressTitle, addedData[i].addressLine1, addedData[i].addressLine2, addedData[i].city, addedData[i].state, addedData[i].zip, addedData[i].country, address_priority, DoctorID];
+                const sql1 = `INSERT INTO ${table_name1} (address_title, address_line_1, address_line_2, city, state, zip, country, address_priority, Doctor_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+                const values1 = [addedData[i].address_title, addedData[i].address_line_1, addedData[i].address_line_2, addedData[i].city, addedData[i].state, addedData[i].zip, addedData[i].country, addedData[i].address_priority, DoctorID];
                 let insert_results;
                 try{
                     [insert_results] = await connection.execute(sql1, values1);
-                    console.log('results.affectedRows', results)
+                    console.log('insert_results.insertId', insert_results.insertId)
                 }catch(error){
                     console.log(`error in adding address data ${saveAddressData.name}:`, error);
                     return res.status(400).json(false);
                 }
-                if(insert_results){//Make sure this condtion makes sense
-                    //need to extract the 'addresses_ID' of the just saved information, and insert an entry into the phone numbers table
-                    const sql = `SELECT * FROM ${table_name1} WHERE address_title = ? AND address_line_1 = ? AND address_line_2 = ? AND city = ? AND state = ? AND zip = ? AND country = ? AND Doctor_ID = ?`
-                    const values = [addedData[i].addressTitle, addedData[i].addressLine1, addedData[i].addressLine2, addedData[i].city, addedData[i].state, addedData[i].zip, addedData[i].country, DoctorID];
-                    console.log('values in select',values)
-                    let select_results;
-                    try{
-                    [select_results] = await connection.execute(sql, values);
-                    console.log('select_results',select_results)//Not printing the corect data
-                    }catch(error){
-                        console.log(`error in selecting address data ${saveAddressData.name}:`, error);
-                        return res.status(400).json(false);  
-                    }
-                    if(select_results){
-                        const sql = `INSERT INTO ${table_name2} (Phone, Phone_priority, Address_ID) VALUES (?, ?, ?)`
-                        const values = [addedData[i].phone, phone_priority, select_results[0].addresses_ID];
-                        console.log('values in phone number insert',values);
-                        try{
-                            await connection.execute(sql, values);
-                        }catch(error){
-                            console.log(`error in inserting phone info ${saveAddressData.name}:`, error);
-                            return res.status(400).json(false);  
-                        }
-                    }
-                }
-            }
-            return res.status(200).json(true);
-            }
-        if (deletedData.length > 0) {
-            console.log('deleting data')
-            for (let i = 0; i<deletedData.length; i++){
-                //needs to be fixed to delete properly, like the added data blck
-                
-                // const sql1 = `DELETE FROM ${table_name1} WHERE address_title = ? AND address_line_1 = ? AND address_line_2 = ? AND city = ? AND state = ? AND zip = ? AND country = ? AND Doctor_ID = ?`;
-                // const values1 = [deletedData[i].addressTitle, deletedData[i].addressLine1, deletedData[i].addressLine2, deletedData[i].city, deletedData[i].state, deletedData[i].zip, deletedData[i].country, DoctorID];
-                // try{
-                //     await connection.execute(sql1, values1);
-                // }catch(error){
-                //     console.log(`error in DELETING ${saveAddressData.name}:`, error);
-                //     return res.status(400).json(false);
-                // }
-            }
-        }
-
-        return res.status(200).json(true);
-    } else if (AddressData.length > 0){
-    console.log('adding data in else')
-    const address_priority = null
-    const phone_priority = null
-    for (let i=0; i<AddressData.length; i++){
-        const sql1 = `INSERT INTO ${table_name1} (address_title, address_line_1, address_line_2, city, state, zip, country, address_priority, Doctor_ID) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?)`;
-        const values1 = [AddressData[i].addressTitle, AddressData[i].addressLine1, AddressData[i].addressLine2, AddressData[i].city, AddressData[i].state, AddressData[i].zip, AddressData[i].country, address_priority, DoctorID];
-        let insert_results;
-        try{
-            [insert_results] = await connection.execute(sql1, values1);
-            console.log('results.affectedRows', results)
-        }catch(error){
-            console.log(`error in adding address data ${saveAddressData.name}:`, error);
-            return res.status(400).json(false);
-        }
-        if(insert_results){//Make sure this condtion makes sense
-            //need to extract the 'addresses_ID' of the just saved information, and insert an entry into the phone numbers table
-            const sql = `SELECT * FROM ${table_name1} WHERE address_title = ? AND address_line_1 = ? AND address_line_2 = ? AND city = ? AND state = ? AND zip = ? AND country = ? AND Doctor_ID = ?`
-            const values = [AddressData[i].addressTitle, AddressData[i].addressLine1, AddressData[i].addressLine2, AddressData[i].city, AddressData[i].state, AddressData[i].zip, AddressData[i].country, DoctorID];
-            console.log('values in select',values)
-            let select_results;
-            try{
-            [select_results] = await connection.execute(sql, values);
-            console.log('select_results',select_results)//Not printing the corect data
-            }catch(error){
-                console.log(`error in selecting address data ${saveAddressData.name}:`, error);
-                return res.status(400).json(false);  
-            }
-            if(select_results){
-                const sql = `INSERT INTO ${table_name2} (Phone, Phone_priority, Address_ID) VALUES (?, ?, ?)`
-                const values = [AddressData[i].phone, phone_priority, select_results[0].addresses_ID];
-                console.log('values in insert',values);
+                const sql2 = `INSERT INTO ${table_name2} (phone, phone_priority, address_ID) VALUES (?, ?, ?)`
+                const values2 = [addedData[i].phone, phone_priority, insert_results.insertId];
+                console.log('values in phone number insert',values2);
                 try{
-                    await connection.execute(sql, values);
+                    await connection.execute(sql2, values2);
                 }catch(error){
                     console.log(`error in inserting phone info ${saveAddressData.name}:`, error);
                     return res.status(400).json(false);  
                 }
             }
+            return res.status(200).json(true);
+            }
+        if (deletedData) {
+            console.log('deleting data')
+            for (let i = 0; i<deletedData.length; i++){
+                    //Automatically deletes data in the phone number table, since the two are linked via a cascade
+                    const sql1 = `DELETE FROM ${table_name1} WHERE addresses_ID = ?`;
+                    const values1 = [deletedData[i]];
+                    console.log('values1',values1)
+                    try{
+                        await connection.execute(sql1, values1);
+                    }catch(error){
+                        console.log(`error in deleting address data ${saveAddressData.name}:`, error);
+                        return res.status(400).json(false);
+                    }
+            }
+            return res.status(200).json(true);
         }
-    }
-    return res.status(200).json(true);
+        if(updatedData){
+            console.log('updating data')
+            for (let i = 0; i<updatedData.length; i++){
+                const sql1 = `UPDATE ${table_name1} SET address_title = ?, address_line_1 = ?, address_line_2 = ?, city = ?, state = ?, zip = ?, country = ? WHERE addresses_ID = ?`;
+                const values1 = [updatedData[i].address_title, updatedData[i].address_line_1, updatedData[i].address_line_2, updatedData[i].city, updatedData[i].state, updatedData[i].zip, updatedData[i].country, updatedData[i].addresses_ID];
+                try{
+                    await connection.execute(sql1, values1);
+                }catch(error){
+                    console.log(`error in updatedData address data ${saveAddressData.name}:`, error);
+                    return res.status(400).json(false);
+                }
+                const sql2 = `UPDATE ${table_name2} SET phone = ? WHERE addresses_ID = ?`;
+                const values2 = [updatedData[i].phone, updatedData[i].addresses_ID];
+                try{
+                    await connection.execute(sql2, values2);
+                }catch(error){
+                    console.log(`error in updatedData phone address data ${saveAddressData.name}:`, error);
+                    return res.status(400).json(false);
+                }
+            }
+        }
+    } else if (AddressData.length > 0){
+        console.log('adding data in else')
+        const phone_priority = null
+        for (let i=0; i<AddressData.length; i++){
+            const sql1 = `INSERT INTO ${table_name1} (address_title, address_line_1, address_line_2, city, state, zip, country, address_priority, Doctor_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+            const values1 = [AddressData[i].address_title, AddressData[i].address_line_1, AddressData[i].address_line_2, AddressData[i].city, AddressData[i].state, AddressData[i].zip, AddressData[i].country, AddressData[i].address_priority, DoctorID];
+            let insert_results;
+            try{
+                [insert_results] = await connection.execute(sql1, values1);
+                console.log('insert_results.insertId', insert_results.insertId)
+            }catch(error){
+                console.log(`error in adding address data ${saveAddressData.name}:`, error);
+                return res.status(400).json(false);
+            }
+            const sql = `INSERT INTO ${table_name2} (phone, phone_priority, address_ID) VALUES (?, ?, ?)`
+            const values = [AddressData[i].phone, phone_priority, insert_results.insertId];
+            try{
+                await connection.execute(sql, values);
+            }catch(error){
+                console.log(`error in inserting phone info ${saveAddressData.name}:`, error);
+                return res.status(400).json(false);  
+            }
+        }
+        return res.status(200).json(true);
     }
     else{
-    console.log('elsed')
-    return res.status(400).json(false)
+        console.log('elsed')
+        return res.status(400).json(false)
     }
 };
 

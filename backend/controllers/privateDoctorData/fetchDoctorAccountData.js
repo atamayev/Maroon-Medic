@@ -173,7 +173,7 @@ export default new class FetchDoctorAccountData{
         const table_name1 = 'phone_numbers';
         const table_name2 = 'Doctor_addresses';
         const DB_name = 'DoctorDB';
-        const sql = `SELECT ${table_name2}.address_line_1, ${table_name2}.address_line_2, ${table_name2}.city, ${table_name2}.state, ${table_name2}.zip, ${table_name2}.country, ${table_name1}.Phone FROM ${table_name2}, ${table_name1} WHERE ${table_name2}.addresses_ID = ${table_name1}.Address_ID AND ${table_name2}.Doctor_ID = ?`;
+        const sql = `SELECT ${table_name2}.addresses_ID, ${table_name2}.address_title, ${table_name2}.address_line_1, ${table_name2}.address_line_2, ${table_name2}.city, ${table_name2}.state, ${table_name2}.zip, ${table_name2}.country, ${table_name1}.phone FROM ${table_name2}, ${table_name1} WHERE ${table_name2}.addresses_ID = ${table_name1}.address_ID AND ${table_name2}.Doctor_ID = ?`;
     
         const values = [DoctorID];
         await useDB(functionName, DB_name, table_name1);
@@ -184,8 +184,9 @@ export default new class FetchDoctorAccountData{
                 console.log('DoctorAddressData Data does not exist');
                 return [];
             } else {
-                const decrypted = Crypto.decryptSingle(results[0]);
-                return (decrypted);
+                // const decrypted = Crypto.decryptSingle(results[0]);
+                // return (decrypted);
+                return (results);
             }
         }catch(error){
             return (`error in ${functionName}:`, error);
@@ -233,7 +234,7 @@ export default new class FetchDoctorAccountData{
                 console.log('DoctorPictures Data does not exist');
                 return [];
             } else {
-                console.log(results);
+                //console.log(results);
                 return (results);
             }
         }catch(error){

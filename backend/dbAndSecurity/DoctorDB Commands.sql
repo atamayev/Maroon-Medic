@@ -215,10 +215,12 @@ SELECT * FROM specialty_mapping;
 
 CREATE TABLE phone_numbers(
 phone_numbersID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Phone VARCHAR(150),
-Phone_Priority INT, 
-Address_ID INT unsigned NOT NULL,
-FOREIGN KEY (Address_ID) REFERENCES Doctor_addresses(addresses_ID));
+phone VARCHAR(150),
+phone_Priority INT, 
+address_ID INT unsigned NOT NULL,
+FOREIGN KEY (address_ID) REFERENCES Doctor_addresses(addresses_ID) ON DELETE CASCADE
+);
+
 select * from phone_numbers;
 delete from phone_numbers where phone_numbersID between '1' and '1000';
 drop table phone_numbers;
