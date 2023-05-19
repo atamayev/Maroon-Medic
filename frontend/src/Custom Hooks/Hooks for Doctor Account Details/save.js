@@ -178,7 +178,9 @@ export async function saveLocation (addresses, setShowSavedLocationMessage){
       console.log('new data')
       const response = await PrivateDoctorDataService.saveAddressData(addresses);
       if(response.status === 200){
-        DoctorAccountDetails[6] = addresses;
+        const newAddressData = response.data
+        console.log('newAddressData',newAddressData)
+        DoctorAccountDetails[6] = newAddressData;
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
         console.log('Saved!');
         // Show the saved message
@@ -198,7 +200,8 @@ export async function saveLocation (addresses, setShowSavedLocationMessage){
         console.log('comparing data')
         const response = await PrivateDoctorDataService.saveAddressData(addresses);
         if(response.status === 200){
-          DoctorAccountDetails[6] = addresses;
+          const newAddressData = response.data
+          DoctorAccountDetails[6] = newAddressData;
           sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
           console.log('Saved!');
           // Show the saved message

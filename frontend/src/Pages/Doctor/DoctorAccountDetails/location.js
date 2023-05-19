@@ -20,9 +20,6 @@ export default function RenderLocationSection(props){
 
 function AddressForm(props) {
   const handleInputChange = (event, address_priority) => {
-    console.log('event.target.name', event.target.name)
-    console.log('address_priority', address_priority)
-
     const newAddresses = props.addresses.map(address => {
       if (address.address_priority === address_priority) {
         return { ...address, [event.target.name]: event.target.value }
@@ -50,7 +47,7 @@ function AddressForm(props) {
 
   return (
     <>
-      <Accordion defaultActiveKey={0}>
+      <Accordion>
         {props.addresses.map((address, index) => (
           <AddressAccordionItem 
           key={index} 

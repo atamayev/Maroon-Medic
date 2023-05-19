@@ -586,8 +586,9 @@ export async function saveAddressData (req, res){
                 console.log(`error in inserting phone info ${saveAddressData.name}:`, error);
                 return res.status(400).json(false);  
             }
+            AddressData[i].addresses_ID = insert_results.insertId;
         }
-        return res.status(200).json(true);
+        return res.status(200).json(AddressData);
     }
     else{
         console.log('elsed')
