@@ -1,6 +1,6 @@
 import { connection, useDB } from "../../dbAndSecurity/connect.js";
 import Crypto from "../../dbAndSecurity/crypto.js";
-import { getUpdatedRecords } from "../../dbAndSecurity/updatingAddressData.js";
+import { getUnchangedRecords, getUpdatedRecords } from "../../dbAndSecurity/addressOperations.js";
 import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
 
 /** savePersonalData is self-explanatory in name
@@ -449,7 +449,6 @@ export async function saveAddressData (req, res){
     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
     
     const AddressData = req.body.AddressData;
-    console.log('AddressData', AddressData)
 
     const table_name1 = 'doctor_addresses';
     const table_name2 = 'phone_numbers'; 
@@ -462,7 +461,6 @@ export async function saveAddressData (req, res){
     await useDB(saveAddressData.name, DB_name, table_name1);
     try{
         [results] = await connection.execute(sql, values);
-        console.log('results length',results)
     }catch(error){
         console.log(`error in ${saveAddressData.name}:`, error)
         return res.status(400).json(false);
@@ -480,10 +478,10 @@ export async function saveAddressData (req, res){
             .map(result => result.addresses_ID);
         
         const updatedData = getUpdatedRecords(newData, results)
-       
-        console.log('addedData', addedData)
-        console.log('deletedData', deletedData)
-        console.log('updatedData', updatedData)
+
+        const unchangedData = getUnchangedRecords(newData, results);
+
+        let returnedData = unchangedData; //initialize the data to return with the data that hasn't changed.
 
         if (addedData.length > 0) {
             console.log('adding data')
@@ -493,20 +491,20 @@ export async function saveAddressData (req, res){
                 let insert_results;
                 try{
                     [insert_results] = await connection.execute(sql1, values1);
-                    console.log('insert_results.insertId', insert_results.insertId)
                 }catch(error){
                     console.log(`error in adding address data ${saveAddressData.name}:`, error);
                     return res.status(400).json(false);
                 }
                 const sql2 = `INSERT INTO ${table_name2} (phone, phone_priority, address_ID) VALUES (?, ?, ?)`
                 const values2 = [addedData[i].phone, addedData[i].phone_priority, insert_results.insertId];
-                console.log('values in phone number insert',values2);
                 try{
                     await connection.execute(sql2, values2);
                 }catch(error){
                     console.log(`error in inserting phone info ${saveAddressData.name}:`, error);
-                    return res.status(400).json(false);  
+                    return res.status(400);  
                 }
+                addedData[i].addresses_ID = insert_results.insertId;
+                returnedData.push(addedData[i])
             }
         }
         if (deletedData.length) {
@@ -515,7 +513,6 @@ export async function saveAddressData (req, res){
                 //Automatically deletes data in the phone number table, since the two are linked via a cascade
                 const sql1 = `DELETE FROM ${table_name1} WHERE addresses_ID = ?`;
                 const values1 = [deletedData[i]];
-                console.log('values1',values1)
                 try{
                     await connection.execute(sql1, values1);
                 }catch(error){
@@ -543,9 +540,10 @@ export async function saveAddressData (req, res){
                     console.log(`error in updatedData phone address data ${saveAddressData.name}:`, error);
                     return res.status(400).json(false);
                 }
+                returnedData.push(updatedData[i])
             }
         }
-        return res.status(200).json(true);
+        return res.status(200).json(returnedData);
     } else if (AddressData.length > 0){
         console.log('adding data in else')
         for (let i=0; i<AddressData.length; i++){
@@ -554,7 +552,6 @@ export async function saveAddressData (req, res){
             let insert_results;
             try{
                 [insert_results] = await connection.execute(sql1, values1);
-                console.log('insert_results.insertId', insert_results.insertId)
             }catch(error){
                 console.log(`error in adding address data ${saveAddressData.name}:`, error);
                 return res.status(400).json(false);

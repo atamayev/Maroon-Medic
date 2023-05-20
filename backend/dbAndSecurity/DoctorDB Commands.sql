@@ -216,7 +216,7 @@ SELECT * FROM specialty_mapping;
 CREATE TABLE phone_numbers(
 phone_numbersID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 phone VARCHAR(150),
-phone_Priority INT, 
+phone_priority INT, 
 address_ID INT unsigned NOT NULL,
 FOREIGN KEY (address_ID) REFERENCES Doctor_addresses(addresses_ID) ON DELETE CASCADE
 );
@@ -225,21 +225,22 @@ select * from phone_numbers;
 delete from phone_numbers where phone_numbersID between '1' and '1000';
 drop table phone_numbers;
 
-CREATE TABLE Doctor_addresses(
+CREATE TABLE doctor_addresses(
 addresses_ID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 address_title VARCHAR(200) NOT NULL,
 address_line_1 VARCHAR(200) NOT NULL,
 address_line_2 VARCHAR(200), -- apt, suite, etc.
 city VARCHAR(150) NOT NULL, 
 state VARCHAR(150) NOT NULL,
-zip INT NOT NULL,
+zip VARCHAR(10) NOT NULL,
 country VARCHAR(150) NOT NULL,
 address_priority INT,-- address number is the primary, secondary, etc. 
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
-SELECT * FROM Doctor_addresses;
-SELECT * FROM  Doctor_addresses JOIN phone_numbers ON  Doctor_addresses.addresses_ID = phone_numbers.Address_ID WHERE  Doctor_addresses.Doctor_ID = '1000125';
-delete from Doctor_addresses where Doctor_ID = '1000125';
+SELECT * FROM doctor_addresses;
+SELECT * FROM  doctor_addresses JOIN phone_numbers ON  doctor_addresses.addresses_ID = phone_numbers.Address_ID WHERE  doctor_addresses.Doctor_ID = '1000125';
+DELETE FROM doctor_addresses WHERE Doctor_ID = '1000125' ;
+
 
 CREATE TABLE insurance_list(
 -- Lookup Table

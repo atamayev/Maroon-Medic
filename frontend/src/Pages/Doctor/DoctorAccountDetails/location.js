@@ -60,8 +60,11 @@ function AddressForm(props) {
       <Button variant="primary" onClick={()=> handleAddAccordion(props.addresses, props.setAddresses)}>Add Address</Button>
       <Button 
         variant="success" 
-        onClick={()=> saveLocation(props.addresses, props.setShowSavedLocationMessage)}
-        disabled={!areAllFieldsValid(props.addresses)} // Disable button if not all fields are valid
+        onClick={()=> saveLocation(props.addresses, props.setAddresses, props.setShowSavedLocationMessage)}
+        disabled={
+          !areAllFieldsValid(props.addresses) || 
+          (!props.addresses.length && !JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[6].length)} // Disable button if not all fields are valid, or if the number of addresses is 0 and the length of the addresses array in session is 0
+            //The second condition exists so that, even if the number of addresses is 0, the doctor will be able to save their data, if there are addresses in session storage. This will only be the case if the doc deletes data
       >
         Save
       </Button>

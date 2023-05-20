@@ -153,7 +153,7 @@ export default function DoctorAccountDetails() {
               setSpokenLanguages(response.data[1])
             }
             if(response.data[2]){
-              console.log(response.data[2])
+              //console.log(response.data[2])
               setSelectedServices(response.data[2])
             }
             if(response.data[3]){

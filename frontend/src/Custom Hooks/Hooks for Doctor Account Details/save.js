@@ -169,7 +169,7 @@ export async function saveDescription(description, setShowSavedDescriptionMessag
   }
 };
 
-export async function saveLocation (addresses, setShowSavedLocationMessage){
+export async function saveLocation (addresses, setAddresses, setShowSavedLocationMessage){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   const savedLocationData = DoctorAccountDetails?.[6]
   if(!savedLocationData || !savedLocationData.length){
@@ -179,8 +179,9 @@ export async function saveLocation (addresses, setShowSavedLocationMessage){
       const response = await PrivateDoctorDataService.saveAddressData(addresses);
       if(response.status === 200){
         const newAddressData = response.data
-        console.log('newAddressData',newAddressData)
-        DoctorAccountDetails[6] = newAddressData;
+        DoctorAccountDetails[6] = newAddressData;//Updates session storage addresses
+        setAddresses(newAddressData) //Updates variable addresses 
+        console.log('addresses',addresses)
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
         console.log('Saved!');
         // Show the saved message
@@ -190,6 +191,8 @@ export async function saveLocation (addresses, setShowSavedLocationMessage){
         setTimeout(() => {
           setShowSavedLocationMessage(false);
         }, 5000);
+      }else{
+        console.log('problem saving data')
       }
     } catch(error) {
       console.log('error in saveLocation', error)
@@ -202,6 +205,8 @@ export async function saveLocation (addresses, setShowSavedLocationMessage){
         if(response.status === 200){
           const newAddressData = response.data
           DoctorAccountDetails[6] = newAddressData;
+          setAddresses(newAddressData)
+          console.log('addresses',addresses)
           sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
           console.log('Saved!');
           // Show the saved message
@@ -211,6 +216,8 @@ export async function saveLocation (addresses, setShowSavedLocationMessage){
           setTimeout(() => {
             setShowSavedLocationMessage(false);
           }, 5000);
+        }else{
+          console.log('problem saving data')
         }
       } catch(error) {
         console.log('error in saveLocation', error)

@@ -2,11 +2,11 @@ To-do:
 
 ASAP:
 
-Saving, displaying, deleting Address + phone numbers
-	after adding address data, will need to change the value of session storage variable to include address_ID
-
 IMPT:look back at all the places in code where i am selecting data right after inserting to get the ID - replace with results.insertId
 	ie in authCTRL
+
+noticed that the specialties are not saving correctly?
+in save location data, do something besides for console.log('problem saving data'). need to show it on the screen. consider making a new setSaved function, but for when the data is not saved correctly.
 
 need to figure out how to display saved service data
 make setmonth, year, startmonth, year, etc. into a single state
