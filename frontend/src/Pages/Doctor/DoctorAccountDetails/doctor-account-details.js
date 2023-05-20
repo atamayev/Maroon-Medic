@@ -275,6 +275,7 @@ export default function DoctorAccountDetails() {
         specialties = {specialties}
         doctorSpecialties = {doctorSpecialties}
         setDoctorSpecialties = {setDoctorSpecialties}
+        showSavedSpecialtiesMessage = {showSavedSpecialtiesMessage}
         setShowSavedSpecialtiesMessage = {setShowSavedSpecialtiesMessage}
       />
       <br/>
@@ -304,6 +305,7 @@ export default function DoctorAccountDetails() {
         setSelectedServices = {setSelectedServices}
         expandedCategories = {expandedCategories}
         setExpandedCategories = {setExpandedCategories}
+        showSavedServicesMessage = {showSavedServicesMessage}
         setShowSavedServicesMessage = {setShowSavedServicesMessage}
       />
       <br />

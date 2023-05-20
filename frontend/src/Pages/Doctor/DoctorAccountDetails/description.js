@@ -30,7 +30,11 @@ function renderIsDescription(props){
             rows={3}
           />
             <div style={props.counterStyle}>Character Limit: {props.description.Description ? (<>{props.description.Description.length}</>):(<>0</>)} / 1000</div>
-        <Button onClick={()=> saveDescription(props.description, props.setShowSavedDescriptionMessage)}>Save</Button>
+        <Button 
+          variant="success" 
+          onClick={()=> saveDescription(props.description, props.setShowSavedDescriptionMessage)}
+          >
+            Save</Button>
         <span className={`fade ${props.showSavedDescriptionMessage ? 'show' : ''}`}>  Description saved!</span>
       </Form>
         )

@@ -118,7 +118,11 @@ function renderIsPreVetEducation(props){
               </li>
             ))}
           </ul>
-          <Button onClick={()=>savePreVetSchool(props.preVetEducation, props.listDetails, props.setShowSavedPreVetMessage)}>Save</Button>
+          <Button 
+            variant="success" 
+            onClick={()=>savePreVetSchool(props.preVetEducation, props.listDetails, props.setShowSavedPreVetMessage)}
+            >
+              Save</Button>
           <span className={`fade ${props.showSavedPreVetMessage ? 'show' : ''}`}>  Pre-vet education saved!</span>
         </>
       )

@@ -80,7 +80,11 @@ function renderIsVetServices (props) {
             )}
           </div>
         ))}
-        <Button onClick={() => saveServices(props.selectedServices, props.setShowSavedServicesMessage)}>Save</Button>
+        <Button 
+          variant="success" 
+          onClick={() => saveServices(props.selectedServices, props.setShowSavedServicesMessage)}
+          >
+            Save</Button>
       </>
     )
   }

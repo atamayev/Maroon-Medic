@@ -96,7 +96,11 @@ function renderIsVetEducation(props){
               </li>
             ))}
           </ul>
-          <Button onClick={()=>saveVetSchool(props.vetEducation, props.listDetails, props.setShowSavedVetMessage)}>Save</Button>
+          <Button 
+            variant="success" 
+            onClick={()=>saveVetSchool(props.vetEducation, props.listDetails, props.setShowSavedVetMessage)}
+            >
+              Save</Button>
           <span className={`fade ${props.showSavedVetMessage ? 'show' : ''}`}>  Vet education saved!</span>
         </>
       )

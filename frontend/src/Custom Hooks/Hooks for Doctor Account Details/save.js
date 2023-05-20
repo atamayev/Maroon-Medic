@@ -172,7 +172,7 @@ export async function saveDescription(description, setShowSavedDescriptionMessag
 export async function saveLocation (addresses, setAddresses, setShowSavedLocationMessage){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   const savedLocationData = DoctorAccountDetails?.[6]
-  if(!savedLocationData || !savedLocationData.length){
+  if((!savedLocationData || !savedLocationData.length) && (addresses.length)){
     //If no Location Data exists, then just set the session data to the new data, no need to compare arrays
     try {
       console.log('new data')

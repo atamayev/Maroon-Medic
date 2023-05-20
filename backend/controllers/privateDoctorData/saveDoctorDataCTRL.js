@@ -215,8 +215,8 @@ export async function saveGeneralData (req, res){
         return res.status(200).json(true);
     }
     else{
-    console.log('elsed')
-    return res.status(400).json(false)
+        console.log('elsed')
+        return res.status(400).json(false)
     }
 };
 

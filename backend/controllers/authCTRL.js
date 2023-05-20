@@ -269,7 +269,7 @@ export async function register (req, res){
       values_1 = [encrypted_email, hashed_password, encrypted_date_time, true, true];// in the future, will need to change this. Verified shouldn't be set to true by default, should require some kind of ID verification
     }else if (register_type === 'Patient'){
       sql_1 = `INSERT INTO ${table_name} (email, password, Created_at) VALUES (?, ?, ?)`;
-      values_1 = [encrypted_email, hashed_password, encrypted_date_time];// in the future, will need to change this. Verified shouldn't be set to true by default, should require some kind of ID verification
+      values_1 = [encrypted_email, hashed_password, encrypted_date_time];
     }else{
       console.log('invalid user')
       return res.send('Invalid User Type') // If Type not Doctor or Patient

@@ -41,7 +41,11 @@ function renderIsVetInsurance(props){
               <label htmlFor={insurance?.insurance_listID}>{insurance?.Insurance_name}</label>
             </div>
           ))}
-        <Button onClick={() => saveInsurances(props.acceptedInsurances, props.setShowSavedInsurancesMessage)}>Save</Button>
+        <Button 
+          variant="success" 
+          onClick={() => saveInsurances(props.acceptedInsurances, props.setShowSavedInsurancesMessage)}
+          >
+          Save</Button>
         <span className={`fade ${props.showSavedInsurancesMessage ? 'show' : ''}`}>  Insurances saved!</span>
       </>
       );

@@ -73,7 +73,11 @@ function renderIsSpecialty(props){
                 </li>
               ))}
             </ul>
-            <Button onClick={() => saveSpecialies(props.doctorSpecialties, props.setShowSavedSpecialtiesMessage)}>Save</Button>
+            <Button 
+              variant = "success"
+              onClick={() => saveSpecialies(props.doctorSpecialties, props.setShowSavedSpecialtiesMessage)}
+              >
+              Save</Button>
             <span className={`fade ${props.showSavedSpecialtiesMessage ? 'show' : ''}`}>  Specialties saved!</span>
           </>
         )

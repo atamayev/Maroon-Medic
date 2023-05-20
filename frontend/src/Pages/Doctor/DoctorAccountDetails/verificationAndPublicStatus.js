@@ -34,7 +34,7 @@ function renderIsVerification (props) {
       return(
         <Button
             variant="success"
-            disabled          
+            disabled 
           >
           ✓ (Your identity is Verified)
         </Button>
