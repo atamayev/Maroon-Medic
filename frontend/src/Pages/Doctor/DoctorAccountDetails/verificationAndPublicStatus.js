@@ -16,7 +16,7 @@ export default function RenderVerificationAndPublicStatusSection (props){
         <br/>
         <ToggleButtonGroup type="radio" name="options" 
         value={props.publiclyAvailable ?? 0} 
-        onChange={(value)=>handlePublicAvailibilityToggle(value, props.setPubliclyAvailable)}>
+        onChange={(value)=>handlePublicAvailibilityToggle(value, props.setPubliclyAvailable, props.setShowSavedPubliclyAvalableMessage, props.setShowSavePubliclyAvalableProblemMessage)}>
           <ToggleButton id="tbg-radio-1" value = {0} style={{ backgroundColor: props.publiclyAvailable === 0 ? "red" : "white", color: props.publiclyAvailable === 0 ? "white" : "black", borderColor: "black"}}>
             No
           </ToggleButton>
@@ -24,6 +24,8 @@ export default function RenderVerificationAndPublicStatusSection (props){
             Yes
           </ToggleButton>
       </ToggleButtonGroup>
+      <span className={`fade ${props.showSavedPubliclyAvalableMessage ? 'show' : ''}`}>Public Availability Status saved!</span>
+      <span className={`fade ${props.showSavePubliclyAvalableProblemMessage ? 'show' : ''}`}>Problem Saving Public Availability Status!</span>
       </Card.Body>
     </Card>
   );

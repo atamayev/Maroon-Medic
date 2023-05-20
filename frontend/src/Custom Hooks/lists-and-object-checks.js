@@ -1,4 +1,4 @@
-export function checkIfListsAreEqual(list1, list2) {
+export function checkIfListsAreEqual(list1, list2) {//Sees if two arrays of arrays are the same
     // Convert each list to a set
     const set1 = new Set(list1);
     const set2 = new Set(list2);

@@ -1,17 +1,11 @@
 To-do:
 
 ASAP:
-for all of the save data functions, if there is no data present, then instead of comparing arrays, go straight into saving data
-see what ChatGPT had to say about simplifying saveData
-
 Order the cards on the screen in teh same order as the variables.
 change showsavedPreVet to PreVetEd, and same for showSavedVet-->showSavedVetEd
 --if services gives the alert, it still goes to the db.
 IMPT:look back at all the places in code where i am selecting data right after inserting to get the ID - replace with results.insertId
 	ie in authCTRL
-
-noticed that the specialties are not saving correctly?
-in save location data, do something besides for console.log('problem saving data'). need to show it on the screen. consider making a new setSaved function, but for when the data is not saved correctly.
 
 need to figure out how to display saved service data
 make setmonth, year, startmonth, year, etc. into a single state

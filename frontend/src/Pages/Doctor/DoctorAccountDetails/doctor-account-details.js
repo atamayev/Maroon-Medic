@@ -92,6 +92,8 @@ export default function DoctorAccountDetails() {
 
   const [publiclyAvailable, setPubliclyAvailable] = useState(DoctorAccountDetails?.[9][0]?.PubliclyAvailable || 0);
   const verified = DoctorAccountDetails?.[9][0].Verified || [];
+  const [showSavedPubliclyAvalableMessage, setShowSavedPubliclyAvalableMessage] = useState(false);
+  const [showSavePubliclyAvalableProblemMessage, setShowSavePubliclyAvalableProblemMessage] = useState(false);
 
   //Should make this into one state:
   const [startYear, setStartYear] = useState(1923);
@@ -162,6 +164,9 @@ export default function DoctorAccountDetails() {
     showSavedDescriptionMessage, setShowSavedDescriptionMessage, 
     showSameDescriptionMessage, setShowSameDescriptionMessage, 
     showSaveDescriptionProblemMessage, setShowSaveDescriptionProblemMessage,  
+
+    showSavedPubliclyAvalableMessage, setShowSavedPubliclyAvalableMessage,
+    showSavePubliclyAvalableProblemMessage, setShowSavePubliclyAvalableProblemMessage
   );
 
   async function FillDoctorAccountDetails(){
@@ -366,6 +371,10 @@ export default function DoctorAccountDetails() {
         publiclyAvailable = {publiclyAvailable}
         setPubliclyAvailable = {setPubliclyAvailable}
         verified = {verified}
+        showSavedPubliclyAvalableMessage = {showSavedPubliclyAvalableMessage}
+        setShowSavedPubliclyAvalableMessage = {setShowSavedPubliclyAvalableMessage}
+        showSavePubliclyAvalableProblemMessage = {showSavePubliclyAvalableProblemMessage}
+        setShowSavePubliclyAvalableProblemMessage = {setShowSavePubliclyAvalableProblemMessage}
       />
   </div>
   )
