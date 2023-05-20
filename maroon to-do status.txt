@@ -1,6 +1,7 @@
 To-do:
 
 ASAP:
+for all of the save data functions, if the data is same, need to show that on the screen. if there is an error, need to show that there is an error
 --if services gives the alert, it still goes to the db.
 IMPT:look back at all the places in code where i am selecting data right after inserting to get the ID - replace with results.insertId
 	ie in authCTRL

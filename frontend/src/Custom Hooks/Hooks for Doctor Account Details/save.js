@@ -16,11 +16,6 @@ export async function saveLanguages(spokenLanguages, setShowSavedLanguagesMessag
         console.log('Saved!');
         // Show the saved message
         setShowSavedLanguagesMessage(true);
-
-        // Hide the saved message after 5 seconds
-        setTimeout(() => {
-          setShowSavedLanguagesMessage(false);
-        }, 5000);
       }
     } catch(error) {
       console.log('error in saving languages', error)
@@ -45,11 +40,6 @@ export async function saveSpecialies(doctorSpecialties, setShowSavedSpecialtiesM
         console.log('Saved!');
         // Show the saved message
         setShowSavedSpecialtiesMessage(true);
-
-        // Hide the saved message after 5 seconds
-        setTimeout(() => {
-          setShowSavedSpecialtiesMessage(false);
-        }, 5000);
       }
     } catch(error) {
       console.log('error in saving specialites', error)
@@ -59,8 +49,7 @@ export async function saveSpecialies(doctorSpecialties, setShowSavedSpecialtiesM
   }
 };
 
-export async function saveInsurances(acceptedInsurances, setShowSavedInsurancesMessage){
-  console.log(acceptedInsurances)
+export async function saveInsurances(acceptedInsurances, setShowSavedInsurancesMessage, setShowSameInsuranceMessage, setShowSaveProblemMessage){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   const insuranceIds = acceptedInsurances.map(ins => ins.insurance_listID).sort((a,b)=>a-b); // list of all added insurances
   const savedInsurances = DoctorAccountDetails?.[0] || []
@@ -75,16 +64,13 @@ export async function saveInsurances(acceptedInsurances, setShowSavedInsurancesM
         console.log('Saved!');
         // Show the saved message
         setShowSavedInsurancesMessage(true);
-
-        // Hide the saved message after 5 seconds
-        setTimeout(() => {
-          setShowSavedInsurancesMessage(false);
-        }, 5000);
       }
     } catch(error) {
+      setShowSaveProblemMessage(true);
       console.log('error in saving Insurances', error)
     }
   }else{
+    setShowSameInsuranceMessage(true);
     console.log('same')
   }
 };
@@ -130,11 +116,6 @@ export async function saveServices(selectedServices, setShowSavedServicesMessage
             console.log('Saved!');
             // Show the saved message
             setShowSavedServicesMessage(true);
-
-            // Hide the saved message after 5 seconds
-            setTimeout(() => {
-              setShowSavedServicesMessage(false);
-            }, 5000);
           }
       }catch(error) {
         console.log('error in saving Services', error)
@@ -155,11 +136,6 @@ export async function saveDescription(description, setShowSavedDescriptionMessag
         console.log('Saved!');
         // Show the saved message
         setShowSavedDescriptionMessage(true);
-
-        // Hide the saved message after 5 seconds
-        setTimeout(() => {
-          setShowSavedDescriptionMessage(false);
-        }, 5000);
       }
     } catch(error) {
       console.log('error in saveDescription', error)
@@ -186,11 +162,6 @@ export async function saveLocation (addresses, setAddresses, setShowSavedLocatio
         console.log('Saved!');
         // Show the saved message
         setShowSavedLocationMessage(true);
-
-        // Hide the saved message after 5 seconds
-        setTimeout(() => {
-          setShowSavedLocationMessage(false);
-        }, 5000);
       }else{
         console.log('problem saving data')
       }
@@ -211,11 +182,6 @@ export async function saveLocation (addresses, setAddresses, setShowSavedLocatio
           console.log('Saved!');
           // Show the saved message
           setShowSavedLocationMessage(true);
-
-          // Hide the saved message after 5 seconds
-          setTimeout(() => {
-            setShowSavedLocationMessage(false);
-          }, 5000);
         }else{
           console.log('problem saving data')
         }
@@ -265,11 +231,6 @@ export async function savePreVetSchool(preVetEducation, listDetails, setShowSave
         console.log('Saved!');
         // Show the saved message
         setShowSavedPreVetMessage(true);
-
-        // Hide the saved message after 5 seconds
-        setTimeout(() => {
-          setShowSavedPreVetMessage(false);
-        }, 5000);
       }
     } catch(error) {
       console.log('error in saving PreVets', error)
@@ -283,7 +244,7 @@ export async function saveVetSchool(vetEducation, listDetails, setShowSavedVetMe
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   const savedVetEducations = DoctorAccountDetails?.[5] || []
 
-  if(!areArraysSame(vetEducation, savedVetEducations)){//only saves if the insurances changed
+  if(!areArraysSame(vetEducation, savedVetEducations)){//only saves if the educations changed
     try {
       const mappedArray = vetEducation.map(obj => [
         listDetails[7].find(school => school.School_name === obj.School_name)?.vet_school_listID || null,
@@ -298,14 +259,9 @@ export async function saveVetSchool(vetEducation, listDetails, setShowSavedVetMe
         console.log('Saved!');
         // Show the saved message
         setShowSavedVetMessage(true);
-
-        // Hide the saved message after 5 seconds
-        setTimeout(() => {
-          setShowSavedVetMessage(false);
-        }, 5000);
       }
     } catch(error) {
-      console.log('error in saving Insurances', error)
+      console.log('error in saving education', error)
     }
   }else{
     console.log('same')

@@ -40,51 +40,44 @@ export default function DoctorAccountDetails() {
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   
   const [acceptedInsurances, setAcceptedInsurances] = useState(DoctorAccountDetails?.[0] || []);
+  const [showSavedInsurancesMessage, setShowSavedInsurancesMessage] = useState(false);
+  const [showSameInsuranceMessage , setShowSameInsuranceMessage ] = useState(false);
+  const [showSaveInsuranceProblemMessage, setShowSaveInsuranceProblemMessage] = useState(false);
 
   const [selectedLanguage, setSelectedLanguage] = useState('');
   const [spokenLanguages, setSpokenLanguages] = useState(DoctorAccountDetails?.[1] || []);
-  
+  const [showSavedLanguagesMessage, setShowSavedLanguagesMessage] = useState(false);
+
   const [selectedServices, setSelectedServices] = useState(DoctorAccountDetails?.[2] || []);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [expandedCategories, setExpandedCategories] = useState([]);
+  const [showSavedServicesMessage, setShowSavedServicesMessage] = useState(false);
 
   const [selectedOrganization, setSelectedOrganization] = useState('');
   const [selectedSpecialty, setSelectedSpecialties] = useState('');
   const [doctorSpecialties, setDoctorSpecialties] = useState(DoctorAccountDetails?.[3] || []);
+  const [showSavedSpecialtiesMessage, setShowSavedSpecialtiesMessage] = useState(false);
 
   const [selectedPreVetSchool, setSelectedPreVetSchool] = useState('');
   const [selectedMajor, setSelectedMajor] = useState('');
   const [selectedPreVetEducationType, setSelectedPreVetEducationType] = useState('');
   const [preVetEducation, setPreVetEducation] = useState(DoctorAccountDetails?.[4] || []);
+  const [showSavedPreVetMessage, setShowSavedPreVetMessage] = useState(false);
 
   const [selectedVetSchool, setSelectedVetSchool] = useState('');
   const [selectedVetEducationType, setSelectedVetEducationType] = useState('');
   const [vetEducation, setVetEducation] = useState(DoctorAccountDetails?.[5] || []);
+  const [showSavedVetMessage, setShowSavedVetMessage] = useState(false);
 
   const [addresses, setAddresses] = useState(DoctorAccountDetails?.[6] ||[{ address_priority: 0, addresses_ID: 0, address_title: '', address_line_1  : '', address_line_2: '', city: '', state: '', zip: '', country: '', phone_priority: 0, phone: ''}]);
+  const [showSavedLocationMessage, setShowSavedLocationMessage] = useState(false);
 
   const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false);
   const [description, setDescription] = useState(DoctorAccountDetails?.[7] || {});
-
-  const verified = DoctorAccountDetails?.[9][0].Verified || [];
-  const [publiclyAvailable, setPubliclyAvailable] = useState(DoctorAccountDetails?.[9][0]?.PubliclyAvailable || 0);
-
-  const [expandedCategories, setExpandedCategories] = useState([]);
-
-  const [showSavedPreVetMessage, setShowSavedPreVetMessage] = useState(false);
-
-  const [showSavedVetMessage, setShowSavedVetMessage] = useState(false);
-
   const [showSavedDescriptionMessage, setShowSavedDescriptionMessage] = useState(false);
 
-  const [showSavedSpecialtiesMessage, setShowSavedSpecialtiesMessage] = useState(false);
-
-  const [showSavedInsurancesMessage, setShowSavedInsurancesMessage] = useState(false);
-
-  const [showSavedLanguagesMessage, setShowSavedLanguagesMessage] = useState(false);
-
-  const [showSavedServicesMessage, setShowSavedServicesMessage] = useState(false);
-
-  const [showSavedLocationMessage, setShowSavedLocationMessage] = useState(false);
+  const [publiclyAvailable, setPubliclyAvailable] = useState(DoctorAccountDetails?.[9][0]?.PubliclyAvailable || 0);
+  const verified = DoctorAccountDetails?.[9][0].Verified || [];
 
   //Should make this into one state:
   const [startYear, setStartYear] = useState(1923);
@@ -132,8 +125,14 @@ export default function DoctorAccountDetails() {
     setShowSavedDescriptionMessage,
     showSavedSpecialtiesMessage,
     setShowSavedSpecialtiesMessage,
+
     showSavedInsurancesMessage,
     setShowSavedInsurancesMessage,
+    showSameInsuranceMessage,
+    setShowSameInsuranceMessage,
+    showSaveInsuranceProblemMessage, 
+    setShowSaveInsuranceProblemMessage,
+    
     showSavedLanguagesMessage,
     setShowSavedLanguagesMessage,
     showSavedServicesMessage,
@@ -285,6 +284,10 @@ export default function DoctorAccountDetails() {
         setAcceptedInsurances = {setAcceptedInsurances}
         showSavedInsurancesMessage = {showSavedInsurancesMessage}
         setShowSavedInsurancesMessage = {setShowSavedInsurancesMessage}
+        showSameInsuranceMessage = {showSameInsuranceMessage}
+        setShowSameInsuranceMessage = {setShowSameInsuranceMessage}
+        showSaveInsuranceProblemMessage = {showSaveInsuranceProblemMessage}
+        setShowSaveInsuranceProblemMessage = {setShowSaveInsuranceProblemMessage}
       />
       <br/>
       <RenderLanguageSection

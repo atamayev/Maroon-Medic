@@ -60,6 +60,7 @@ function AddressForm(props) {
       <Button variant="primary" onClick={()=> handleAddAccordion(props.addresses, props.setAddresses)}>Add Address</Button>
       <Button 
         variant="success" 
+        disabled = {!areAllFieldsValid(props.addresses)}
         onClick={()=> saveLocation(props.addresses, props.setAddresses, props.setShowSavedLocationMessage)}
         >
         Save</Button>
