@@ -125,7 +125,18 @@ export async function saveServices(selectedServices, setShowSavedServicesMessage
 
 export async function saveDescription(description, setShowSavedDescriptionMessage, setShowSameDescriptionMessage, setShowSaveDescriptionProblemMessage){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  if(description.Description !== DoctorAccountDetails[7].Description){//makes sure that it's only pushing to DB if description changed
+  const savedDescriptionData = DoctorAccountDetails[7].Description;
+  let shouldSave = false;
+
+  if (!savedDescriptionData || !savedDescriptionData.length) {
+    // If no Location Data exists, sets 
+    shouldSave = !!description.Description.length;
+  } else if (description.Description !== savedDescriptionData) {
+    // Data is different
+    shouldSave = true;
+  }
+
+  if(shouldSave){//makes sure that it's only pushing to DB if description changed
     try {
       const response = await PrivateDoctorDataService.saveDescriptionData(description);
       if(response.status === 200){
@@ -138,55 +149,44 @@ export async function saveDescription(description, setShowSavedDescriptionMessag
       console.log('error in saveDescription', error)
     }
   }else{
-      setShowSameDescriptionMessage(true);
-      console.log('same')
+    setShowSameDescriptionMessage(true);
   }
 };
 
-export async function saveLocation (addresses, setAddresses, setShowSavedLocationsMessage, setShowSameLocationsMessage, setShowSaveLocationsProblemMessage){
+export async function saveLocation (addresses, setAddresses, setShowSavedLocationMessage, setShowSameLocationMessage, setShowSaveProblemMessage){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  const savedLocationData = DoctorAccountDetails?.[6]
-  if((!savedLocationData || !savedLocationData.length) && (addresses.length)){
-    //If no Location Data exists, then just set the session data to the new data, no need to compare arrays
+  const savedLocationData = DoctorAccountDetails?.[6];
+  let shouldSave = false;
+
+  if (!savedLocationData || !savedLocationData.length) {
+    // If no Location Data exists
+    shouldSave = !!addresses.length;
+  } else if (!areArraysSame(addresses, savedLocationData)) {
+    // Data is different
+    shouldSave = true;
+  } else {
+    // Data is the same
+    console.log('same');
+    setShowSameLocationMessage(true);
+  }
+
+  if (shouldSave) {
     try {
-      console.log('new data')
       const response = await PrivateDoctorDataService.saveAddressData(addresses);
-      if(response.status === 200){
-        const newAddressData = response.data
-        DoctorAccountDetails[6] = newAddressData;//Updates session storage addresses
-        setAddresses(newAddressData) //Updates variable addresses 
+      if (response.status === 200) {
+        const newAddressData = response.data;
+        DoctorAccountDetails[6] = newAddressData;
+        setAddresses(newAddressData);
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-        setShowSavedLocationsMessage(true);
-      }else{
-        setShowSaveLocationsProblemMessage(true);
-        console.log('problem saving data')
+        console.log('Saved!');
+        setShowSavedLocationMessage(true);
+      } else {
+        console.log('problem saving data');
+        setShowSaveProblemMessage(true);
       }
-    } catch(error) {
-      setShowSaveLocationsProblemMessage(true);
-      console.log('error in saveLocation', error)
-    }
-  }else{
-    if(!areArraysSame(addresses, savedLocationData)){
-      try {
-        console.log('comparing data')
-        const response = await PrivateDoctorDataService.saveAddressData(addresses);
-        if(response.status === 200){
-          const newAddressData = response.data
-          DoctorAccountDetails[6] = newAddressData;
-          setAddresses(newAddressData)
-          sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-          setShowSavedLocationsMessage(true);
-        }else{
-          setShowSaveLocationsProblemMessage(true);
-          console.log('problem saving data')
-        }
-      } catch(error) {
-        setShowSaveLocationsProblemMessage(true);
-        console.log('error in saveLocation', error)
-      }
-    }else{
-      setShowSameLocationsMessage(true);
-      console.log('same');
+    } catch (error) {
+      console.log('error in saveLocation', error);
+      setShowSaveProblemMessage(true);
     }
   }
 };

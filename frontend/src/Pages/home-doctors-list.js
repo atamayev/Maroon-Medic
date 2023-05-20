@@ -21,4 +21,4 @@ export default function HomeDoctorsList() {
       <SearchResults data = {data}/>
     </>
   );
-}
+};
