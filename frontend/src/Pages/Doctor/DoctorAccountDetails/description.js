@@ -19,23 +19,29 @@ export default function RenderDescriptionSection (props){
 };
 
 function renderIsDescription(props){
-    return(
-        <Form> 
-        <FormGroup
-            id="Description" 
-            value={props.description.Description} 
-            onChange = {event => handleDescriptionChange(event, props.setDescription, props.setIsDescriptionOverLimit)}
-            maxLength={1000} // limit to 1000 characters
-            as="textarea" 
-            rows={3}
-          />
-            <div style={props.counterStyle}>Character Limit: {props.description.Description ? (<>{props.description.Description.length}</>):(<>0</>)} / 1000</div>
-        <Button 
-          variant="success" 
-          onClick={()=> saveDescription(props.description, props.setShowSavedDescriptionMessage)}
-          >
-            Save</Button>
-        <span className={`fade ${props.showSavedDescriptionMessage ? 'show' : ''}`}>  Description saved!</span>
-      </Form>
-        )
+  const counterStyle = {
+    color: props.isDescriptionOverLimit ? "red" : "black",
+  };
+  
+  return(
+      <Form> 
+      <FormGroup
+          id="Description" 
+          value={props.description.Description} 
+          onChange = {event => handleDescriptionChange(event, props.setDescription, props.setIsDescriptionOverLimit)}
+          maxLength={1000} // limit to 1000 characters
+          as="textarea" 
+          rows={3}
+        />
+          <div style={counterStyle}>Character Limit: {props.description.Description ? (<>{props.description.Description.length}</>):(<>0</>)} / 1000</div>
+      <Button 
+        variant="success" 
+        onClick={()=> saveDescription(props.description, props.setShowSavedDescriptionMessage, props.setShowSameDescriptionMessage, props.setShowSaveDescriptionProblemMessage)}
+        >
+          Save</Button>
+      <span className={`fade ${props.showSavedDescriptionMessage ? 'show' : ''}`}>Description saved!</span>
+      <span className={`fade ${props.showSameDescriptionMessage ? 'show' : ''}`}>Same Description data!</span>
+      <span className={`fade ${props.showSaveVetProblemMessage ? 'show' : ''}`}>Problem Saving Description data!</span>
+    </Form>
+  );
 };

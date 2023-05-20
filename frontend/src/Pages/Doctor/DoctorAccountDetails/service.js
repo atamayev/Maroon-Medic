@@ -82,9 +82,12 @@ function renderIsVetServices (props) {
         ))}
         <Button 
           variant="success" 
-          onClick={() => saveServices(props.selectedServices, props.setShowSavedServicesMessage)}
+          onClick={() => saveServices(props.selectedServices, props.setShowSavedServicesMessage, props.setShowSameServicesMessage, props.setShowSaveServicesProblemMessage)}
           >
             Save</Button>
+        <span className={`fade ${props.showSavedServicesMessage ? 'show' : ''}`}>Services saved!</span>
+        <span className={`fade ${props.showSameServicesMessage ? 'show' : ''}`}>Same Services data!</span>
+        <span className={`fade ${props.showSaveServicesProblemMessage ? 'show' : ''}`}>Problem Saving Service data!</span>
       </>
     )
   }

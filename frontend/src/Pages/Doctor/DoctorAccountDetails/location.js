@@ -61,10 +61,12 @@ function AddressForm(props) {
       <Button 
         variant="success" 
         disabled = {!areAllFieldsValid(props.addresses)}
-        onClick={()=> saveLocation(props.addresses, props.setAddresses, props.setShowSavedLocationMessage)}
+        onClick={()=> saveLocation(props.addresses, props.setAddresses, props.setShowSavedLocationsMessage, props.setShowSameLocationsMessage, props.setShowSaveLocationsProblemMessage)}
         >
         Save</Button>
-      <span className={`fade ${props.showSavedLocationMessage ? 'show' : ''}`}> Locations saved!</span>
+      <span className={`fade ${props.showSavedLocationsMessage ? 'show' : ''}`}>Locations saved!</span>
+      <span className={`fade ${props.showSameLocationsMessage ? 'show' : ''}`}>Same Location data!</span>
+      <span className={`fade ${props.showSaveLocationsProblemMessage ? 'show' : ''}`}>Problem Saving Location data!</span>
     </>
   );
 };

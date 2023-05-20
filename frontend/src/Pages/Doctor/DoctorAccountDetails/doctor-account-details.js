@@ -41,40 +41,54 @@ export default function DoctorAccountDetails() {
   
   const [acceptedInsurances, setAcceptedInsurances] = useState(DoctorAccountDetails?.[0] || []);
   const [showSavedInsurancesMessage, setShowSavedInsurancesMessage] = useState(false);
-  const [showSameInsuranceMessage , setShowSameInsuranceMessage ] = useState(false);
-  const [showSaveInsuranceProblemMessage, setShowSaveInsuranceProblemMessage] = useState(false);
+  const [showSameInsurancesMessage , setShowSameInsurancesMessage ] = useState(false);
+  const [showSaveInsurancesProblemMessage, setshowSaveInsurancesProblemMessage] = useState(false);
 
   const [selectedLanguage, setSelectedLanguage] = useState('');
   const [spokenLanguages, setSpokenLanguages] = useState(DoctorAccountDetails?.[1] || []);
   const [showSavedLanguagesMessage, setShowSavedLanguagesMessage] = useState(false);
+  const [showSameLanguagesMessage, setShowSameLanguagesMessage] = useState(false);
+  const [showSaveLanguagesProblemMessage, setShowSaveLanguagesProblemMessage] = useState(false);
 
   const [selectedServices, setSelectedServices] = useState(DoctorAccountDetails?.[2] || []);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [expandedCategories, setExpandedCategories] = useState([]);
   const [showSavedServicesMessage, setShowSavedServicesMessage] = useState(false);
-
+  const [showSameServicesMessage, setShowSameServicesMessage] = useState(false);
+  const [showSaveServicesProblemMessage, setShowSaveServicesProblemMessage] = useState(false);
+  
   const [selectedOrganization, setSelectedOrganization] = useState('');
   const [selectedSpecialty, setSelectedSpecialties] = useState('');
   const [doctorSpecialties, setDoctorSpecialties] = useState(DoctorAccountDetails?.[3] || []);
   const [showSavedSpecialtiesMessage, setShowSavedSpecialtiesMessage] = useState(false);
+  const [showSameSpecialtiesMessage, setShowSameSpecialtiesMessage] = useState(false);
+  const [showSaveSpecialtiesProblemMessage, setShowSaveSpecialtiesProblemMessage] = useState(false);
 
   const [selectedPreVetSchool, setSelectedPreVetSchool] = useState('');
   const [selectedMajor, setSelectedMajor] = useState('');
   const [selectedPreVetEducationType, setSelectedPreVetEducationType] = useState('');
   const [preVetEducation, setPreVetEducation] = useState(DoctorAccountDetails?.[4] || []);
   const [showSavedPreVetMessage, setShowSavedPreVetMessage] = useState(false);
+  const [showSamePreVetMessage, setShowSamePreVetMessage] = useState(false);
+  const [showSavePreVetProblemMessage, setShowSavePreVetProblemMessage] = useState(false);
 
   const [selectedVetSchool, setSelectedVetSchool] = useState('');
   const [selectedVetEducationType, setSelectedVetEducationType] = useState('');
   const [vetEducation, setVetEducation] = useState(DoctorAccountDetails?.[5] || []);
   const [showSavedVetMessage, setShowSavedVetMessage] = useState(false);
+  const [showSameVetMessage, setShowSameVetMessage] = useState(false);
+  const [showSaveVetProblemMessage, setShowSaveVetProblemMessage] = useState(false);
 
   const [addresses, setAddresses] = useState(DoctorAccountDetails?.[6] ||[{ address_priority: 0, addresses_ID: 0, address_title: '', address_line_1  : '', address_line_2: '', city: '', state: '', zip: '', country: '', phone_priority: 0, phone: ''}]);
-  const [showSavedLocationMessage, setShowSavedLocationMessage] = useState(false);
+  const [showSavedLocationsMessage, setShowSavedLocationsMessage] = useState(false);
+  const [showSameLocationsMessage, setShowSameLocationsMessage] = useState(false);
+  const [showSaveLocationsProblemMessage, setShowSaveLocationsProblemMessage] = useState(false);
 
   const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false);
   const [description, setDescription] = useState(DoctorAccountDetails?.[7] || {});
   const [showSavedDescriptionMessage, setShowSavedDescriptionMessage] = useState(false);
+  const [showSameDescriptionMessage, setShowSameDescriptionMessage] = useState(false);
+  const [showSaveDescriptionProblemMessage, setShowSaveDescriptionProblemMessage] = useState(false);
 
   const [publiclyAvailable, setPubliclyAvailable] = useState(DoctorAccountDetails?.[9][0]?.PubliclyAvailable || 0);
   const verified = DoctorAccountDetails?.[9][0].Verified || [];
@@ -117,28 +131,37 @@ export default function DoctorAccountDetails() {
   }, []);
 
   useConfirmationTimeout(
-    showSavedPreVetMessage,
-    setShowSavedPreVetMessage,
-    showSavedVetMessage,
-    setShowSavedVetMessage,
-    showSavedDescriptionMessage,
-    setShowSavedDescriptionMessage,
-    showSavedSpecialtiesMessage,
-    setShowSavedSpecialtiesMessage,
-
-    showSavedInsurancesMessage,
-    setShowSavedInsurancesMessage,
-    showSameInsuranceMessage,
-    setShowSameInsuranceMessage,
-    showSaveInsuranceProblemMessage, 
-    setShowSaveInsuranceProblemMessage,
+    showSavedInsurancesMessage, setShowSavedInsurancesMessage, 
+    showSameInsurancesMessage, setShowSameInsurancesMessage, 
+    showSaveInsurancesProblemMessage, setshowSaveInsurancesProblemMessage,
     
-    showSavedLanguagesMessage,
-    setShowSavedLanguagesMessage,
-    showSavedServicesMessage,
-    setShowSavedServicesMessage,
-    showSavedLocationMessage,
-    setShowSavedLocationMessage
+    showSavedLanguagesMessage, setShowSavedLanguagesMessage, 
+    showSameLanguagesMessage, setShowSameLanguagesMessage, 
+    showSaveLanguagesProblemMessage, setShowSaveLanguagesProblemMessage,
+    
+    showSavedServicesMessage, setShowSavedServicesMessage, 
+    showSameServicesMessage, setShowSameServicesMessage, 
+    showSaveServicesProblemMessage, setShowSaveServicesProblemMessage,
+    
+    showSavedSpecialtiesMessage, setShowSavedSpecialtiesMessage, 
+    showSameSpecialtiesMessage, setShowSameSpecialtiesMessage, 
+    showSaveSpecialtiesProblemMessage, setShowSaveSpecialtiesProblemMessage,
+    
+    showSavedPreVetMessage, setShowSavedPreVetMessage, 
+    showSamePreVetMessage, setShowSamePreVetMessage, 
+    showSavePreVetProblemMessage, setShowSavePreVetProblemMessage,
+    
+    showSavedVetMessage, setShowSavedVetMessage, 
+    showSameVetMessage, setShowSameVetMessage, 
+    showSaveVetProblemMessage, setShowSaveVetProblemMessage,
+    
+    showSavedLocationsMessage, setShowSavedLocationsMessage, 
+    showSameLocationsMessage, setShowSameLocationsMessage, 
+    showSaveLocationsProblemMessage, setShowSaveLocationsProblemMessage,
+    
+    showSavedDescriptionMessage, setShowSavedDescriptionMessage, 
+    showSameDescriptionMessage, setShowSameDescriptionMessage, 
+    showSaveDescriptionProblemMessage, setShowSaveDescriptionProblemMessage,  
   );
 
   async function FillDoctorAccountDetails(){
@@ -194,14 +217,6 @@ export default function DoctorAccountDetails() {
     )
   }
 
-  const specialties = selectedOrganization
-    ? listDetails[3].filter((item) => item.Organization_name === selectedOrganization)
-    : [];
-
-  const counterStyle = {
-    color: isDescriptionOverLimit ? "red" : "black",
-  };
-
   return (
     <div>
       <Header dropdown = {true}/>
@@ -227,6 +242,10 @@ export default function DoctorAccountDetails() {
         setPreVetEducation = {setPreVetEducation}
         showSavedPreVetMessage = {showSavedPreVetMessage}
         setShowSavedPreVetMessage = {setShowSavedPreVetMessage}
+        showSamePreVetMessage = {showSamePreVetMessage}
+        setShowSamePreVetMessage = {setShowSamePreVetMessage}
+        showSavePreVetProblemMessage = {showSavePreVetProblemMessage}
+        setShowSavePreVetProblemMessage = {setShowSavePreVetProblemMessage}
       />
       <br/>
       <RenderVetEducationSection
@@ -247,15 +266,23 @@ export default function DoctorAccountDetails() {
         setVetEducation = {setVetEducation}
         showSavedVetMessage = {showSavedVetMessage}
         setShowSavedVetMessage = {setShowSavedVetMessage}
+        showSameVetMessage = {showSameVetMessage}
+        setShowSameVetMessage = {setShowSameVetMessage}
+        showSaveVetProblemMessage = {showSaveVetProblemMessage}
+        setShowSaveVetProblemMessage = {setShowSaveVetProblemMessage}
       />
       <br/>
       <RenderDescriptionSection
         description = {description}
         setDescription = {setDescription}
+        isDescriptionOverLimit = {isDescriptionOverLimit}
         setIsDescriptionOverLimit = {setIsDescriptionOverLimit}
-        counterStyle = {counterStyle}
         showSavedDescriptionMessage = {showSavedDescriptionMessage}
         setShowSavedDescriptionMessage = {setShowSavedDescriptionMessage}
+        showSameDescriptionMessage = {showSameDescriptionMessage}
+        setShowSameDescriptionMessage = {setShowSameDescriptionMessage}
+        showSaveDescriptionProblemMessage = {showSaveDescriptionProblemMessage}
+        setShowSaveDescriptionProblemMessage = {setShowSaveDescriptionProblemMessage}
       />
       <br/>
       <RenderPersonalInfoLinkSection/>
@@ -271,11 +298,14 @@ export default function DoctorAccountDetails() {
         setSelectedOrganization = {setSelectedOrganization}
         selectedSpecialty = {selectedSpecialty}
         setSelectedSpecialties = {setSelectedSpecialties}
-        specialties = {specialties}
         doctorSpecialties = {doctorSpecialties}
         setDoctorSpecialties = {setDoctorSpecialties}
         showSavedSpecialtiesMessage = {showSavedSpecialtiesMessage}
         setShowSavedSpecialtiesMessage = {setShowSavedSpecialtiesMessage}
+        showSameSpecialtiesMessage = {showSameSpecialtiesMessage}
+        setShowSameSpecialtiesMessage = {setShowSameSpecialtiesMessage}
+        showSaveSpecialtiesProblemMessage = {showSaveSpecialtiesProblemMessage}
+        setShowSaveSpecialtiesProblemMessage = {setShowSaveSpecialtiesProblemMessage}
       />
       <br/>
       <RenderInsuranceSection
@@ -284,10 +314,10 @@ export default function DoctorAccountDetails() {
         setAcceptedInsurances = {setAcceptedInsurances}
         showSavedInsurancesMessage = {showSavedInsurancesMessage}
         setShowSavedInsurancesMessage = {setShowSavedInsurancesMessage}
-        showSameInsuranceMessage = {showSameInsuranceMessage}
-        setShowSameInsuranceMessage = {setShowSameInsuranceMessage}
-        showSaveInsuranceProblemMessage = {showSaveInsuranceProblemMessage}
-        setShowSaveInsuranceProblemMessage = {setShowSaveInsuranceProblemMessage}
+        showSameInsurancesMessage = {showSameInsurancesMessage}
+        setShowSameInsurancesMessage = {setShowSameInsurancesMessage}
+        showSaveInsurancesProblemMessage = {showSaveInsurancesProblemMessage}
+        setshowSaveInsurancesProblemMessage = {setshowSaveInsurancesProblemMessage}
       />
       <br/>
       <RenderLanguageSection
@@ -298,6 +328,10 @@ export default function DoctorAccountDetails() {
         setSpokenLanguages = {setSpokenLanguages}
         showSavedLanguagesMessage = {showSavedLanguagesMessage}
         setShowSavedLanguagesMessage = {setShowSavedLanguagesMessage}
+        showSameLanguagesMessage = {showSameLanguagesMessage}
+        setShowSameLanguagesMessage = {setShowSameLanguagesMessage}
+        showSaveLanguagesProblemMessage = {showSaveLanguagesProblemMessage}
+        setShowSaveLanguagesProblemMessage = {setShowSaveLanguagesProblemMessage}
       />
       <br/>
       <RenderServiceSection
@@ -310,14 +344,22 @@ export default function DoctorAccountDetails() {
         setExpandedCategories = {setExpandedCategories}
         showSavedServicesMessage = {showSavedServicesMessage}
         setShowSavedServicesMessage = {setShowSavedServicesMessage}
+        showSameServicesMessage = {showSameServicesMessage}
+        setShowSameServicesMessage = {setShowSameServicesMessage}
+        showSaveServicesProblemMessage = {showSaveServicesProblemMessage}
+        setShowSaveServicesProblemMessage = {setShowSaveServicesProblemMessage}
       />
       <br />
       <RenderLocationSection
         listDetails = {listDetails}
         addresses = {addresses}
         setAddresses = {setAddresses}
-        showSavedLocationMessage = {showSavedLocationMessage}
-        setShowSavedLocationMessage = {setShowSavedLocationMessage}
+        showSavedLocationsMessage = {showSavedLocationsMessage}
+        setShowSavedLocationsMessage = {setShowSavedLocationsMessage}
+        showSameLocationsMessage = {showSameLocationsMessage}
+        setShowSameLocationsMessage = {setShowSameLocationsMessage}
+        showSaveLocationsProblemMessage = {showSaveLocationsProblemMessage}
+        setShowSaveLocationsProblemMessage = {setShowSaveLocationsProblemMessage}
       />
       <br/>
       <RenderVerificationAndPublicStatusSection

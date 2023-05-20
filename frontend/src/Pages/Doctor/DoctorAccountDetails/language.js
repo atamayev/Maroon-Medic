@@ -50,10 +50,12 @@ function renderIsVetLanguages(props){
         </ul>
         <Button 
           variant="success" 
-          onClick={() => saveLanguages(props.spokenLanguages, props.setShowSavedLanguagesMessage)}
+          onClick={() => saveLanguages(props.spokenLanguages, props.setShowSavedLanguagesMessage, props.setShowSameLanguagesMessage, props.setShowSaveLanguagesProblemMessage)}
           >
           Save</Button>
-        <span className={`fade ${props.showSavedLanguagesMessage ? 'show' : ''}`}>  Languages saved!</span>
+        <span className={`fade ${props.showSavedLanguagesMessage ? 'show' : ''}`}>Languages saved!</span>
+        <span className={`fade ${props.showSameLanguagesMessage ? 'show' : ''}`}>Same Language data!</span>
+        <span className={`fade ${props.showSaveLanguagesProblemMessage ? 'show' : ''}`}>Problem saving Language data!</span>
       </div>
       )
 };
