@@ -217,10 +217,12 @@ export async function saveGeneralData (req, res){
 export async function saveServicesData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID;
     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
-    const ServicesData = req.body.ServicesData; //Array of Arrays
+    const ServicesData = req.body.ServicesData; //Array of Objects
 
     const DB_name = 'DoctorDB';
     const table_name = `service_mapping`;
+
+    console.log('ServicesData',ServicesData)
 
     const sql = `SELECT * FROM  ${table_name} WHERE Doctor_ID = ?`
     const values = [DoctorID];
@@ -239,18 +241,20 @@ export async function saveServicesData (req, res){
         // will be comparing array of arrays to array of arrays.
         const oldServicesData = results.map(obj => Object.values(obj).slice(1, -1));// Changes the results into an array of arrays, of the same form as EducationData
         const newServicesData = ServicesData;
+        console.log('oldServicesData',oldServicesData)
 
         // Check for changes in data:
         const addedData = newServicesData.filter(arr1 => !oldServicesData.some(arr2 => JSON.stringify(arr1) === JSON.stringify(arr2)));
         const deletedData = oldServicesData.filter(arr1 => !newServicesData.some(arr2 => JSON.stringify(arr1) === JSON.stringify(arr2)));
-
+        //will have to add updated data, unchanged data. 
+        
         if(addedData.length > 0){
             let sql1;
             let values1;
 
             for (let i = 0; i<addedData.length; i++){
-                sql1 = `INSERT INTO ${table_name} (Service_time, Service_price, Service_and_Category_ID, Doctor_ID) VALUES (?,?,?,?)`;
-                values1 = [addedData[i][0], addedData[i][1], addedData[i][2], DoctorID];
+                sql1 = `INSERT INTO ${table_name} (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?,?,?,?)`;
+                values1 = [addedData[i].service_and_category_listID, addedData[i].Service_time, addedData[i].Service_price, DoctorID];
                 try{
                     await connection.execute(sql1, values1);
                 }catch(error){
@@ -265,7 +269,7 @@ export async function saveServicesData (req, res){
 
             for (let i = 0; i<deletedData.length; i++){
                 sql2 = `DELETE FROM ${table_name} WHERE Service_and_Category_ID = ? AND Doctor_ID = ?`;
-                values2 = [deletedData[i][2], DoctorID];
+                values2 = [deletedData[i].service_and_category_listID, DoctorID];
                 try{
                     await connection.execute(sql2, values2);
                 }catch(error){
@@ -281,7 +285,7 @@ export async function saveServicesData (req, res){
         let values3;
         for (let i=0; i<ServicesData.length; i++){
             sql3 = `INSERT INTO ${table_name} (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?,?,?,?)`;
-            values3 = [ServicesData[i][0], ServicesData[i][1], ServicesData[i][2], DoctorID];
+            values3 = [ServicesData[i].service_and_category_listID, ServicesData[i].Service_time, ServicesData[i].Service_price, DoctorID];
             try{
                 await connection.execute(sql3, values3);
             }catch(error){

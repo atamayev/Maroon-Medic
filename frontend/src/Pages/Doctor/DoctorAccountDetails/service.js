@@ -31,6 +31,10 @@ function renderIsVetServices (props) {
       categories[service.Category_name].push(service);
     });
   }
+  const areAllTimesSet = (services) => {
+    return services.every(service => service.Service_time !== null && service.Service_time !== "");
+  }
+  
   console.log('props.acceptedServices',props.acceptedServices)
 
   if (Array.from(new Set(props.listDetails[2]?.map((item) => item.Category_name))).length) {
@@ -74,7 +78,7 @@ function renderIsVetServices (props) {
                         <>
                           <input
                             type="number"
-                            placeholder="Service Time"
+                            placeholder="Service Time (req)"
                             id={`time-${service.service_and_category_listID}`}
                             required
                             value={selectedService?.Service_time || ""}
@@ -90,7 +94,7 @@ function renderIsVetServices (props) {
                           />
                           <input
                             type="number"
-                            placeholder="Service Price"
+                            placeholder="Service Price (opt)"
                             id={`price-${service.service_and_category_listID}`}
                             value={selectedService?.Service_price || ""}
                             onChange={(event) => {
@@ -114,9 +118,11 @@ function renderIsVetServices (props) {
         ))}
         <Button 
           variant="success" 
+          disabled={!areAllTimesSet(props.acceptedServices)}
           onClick={() => saveServices(props.acceptedServices, props.setShowSavedServicesMessage, props.setShowSameServicesMessage, props.setShowSaveServicesProblemMessage)}
-          >
-            Save</Button>
+        >
+          Save
+        </Button>
         <span className={`fade ${props.showSavedServicesMessage ? 'show' : ''}`}>Services saved!</span>
         <span className={`fade ${props.showSameServicesMessage ? 'show' : ''}`}>Same Services!</span>
         <span className={`fade ${props.showSaveServicesProblemMessage ? 'show' : ''}`}>Problem Saving Services!</span>

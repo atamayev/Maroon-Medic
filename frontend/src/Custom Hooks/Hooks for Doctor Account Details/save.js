@@ -66,54 +66,36 @@ export async function saveLanguages(spokenLanguages, setShowSavedLanguagesMessag
   }
 };
 
-export async function saveServices(selectedServices, setShowSavedServicesMessage, setShowSameServicesMessage, setShowSaveServicesProblemMessage){
-  //NON-FUNCTIONAL
+export async function saveServices(acceptedServices, setShowSavedServicesMessage, setShowSameServicesMessage, setShowSaveServicesProblemMessage){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
+  const savedServices = DoctorAccountDetails?.[2] || [];
+  const savedServiceIDs = savedServices.map(service => service.service_and_category_listID).sort((a,b)=>a-b);
+  const serviceIds = acceptedServices.map(serv => serv.service_and_category_listID).sort((a,b)=>a-b); // list of all added insurances
+  
+  let shouldSave = false;
 
-  //savedServices is an Array of Objects of currently saved Services
-  const savedServices = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))?.[2] || []
+  if(!savedServiceIDs.length || !savedServiceIDs){
+    shouldSave = !!serviceIds.length
+  }else if((!checkIfListsAreEqual(serviceIds, savedServiceIDs))){
+    shouldSave = true;
+  }else{
+    setShowSameServicesMessage(true);
+  }
 
-  // Convert the array of objects to an array of arrays
-  const convertedArray = savedServices.map(obj => [obj.service_and_category_listID, obj.Service_time, obj.Service_price]);
-
-  //Creates an array of arrays from the entered Services data
-  let servicesData = [];
-  selectedServices.forEach(service => {
-    let time = document.getElementById(`time-${service.service_and_category_listID}`)?.value;
-    let price = document.getElementById(`price-${service.service_and_category_listID}`)?.value || null;
-    if (!time) {
-      alert('Please fill out the Service Time for all selected services.');
-      return;
-    }
-    servicesData.push([service.service_and_category_listID, Number(time), price]);
-  })
-
-  // Sort and stringify arrays for comparison
-  let sortedSavedServices = convertedArray.map(e => e.sort());
-  let sortedServicesData = servicesData.map(e => e.sort());
-
-  console.log('sortedSavedServices',sortedSavedServices)
-  console.log('sortedServicesData',sortedServicesData)
-
-  // Check if every element in the first array is included in the second array and vice versa
-  if (!(sortedSavedServices.every(arr1 => sortedServicesData.some(arr2 => arraysEqual(arr1, arr2))) 
-    && sortedServicesData.every(arr1 => sortedSavedServices.some(arr2 => arraysEqual(arr1, arr2))))) {
-    console.log('different')
-    console.log(sortedServicesData)
+  if(shouldSave){//only saves if the insurances changed
     try {
-          const response = await PrivateDoctorDataService.saveServiceData(sortedServicesData)
-          if(response.status === 200){
-            DoctorAccountDetails[2] = selectedServices;
-            sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-            console.log('Saved!');
-            // Show the saved message
-            setShowSavedServicesMessage(true);
-          }
-      }catch(error) {
-        console.log('error in saving Services', error)
+      const response = await PrivateDoctorDataService.saveServiceData(acceptedServices)//Make sure it's accepted services and not something else
+      if(response.status === 200){
+        DoctorAccountDetails[2] = acceptedServices;
+        sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+        setShowSavedServicesMessage(true);
       }
-  }else {
-    console.log('same');
+    } catch(error) {
+      setShowSaveServicesProblemMessage(true);
+      console.log('error in saving Services', error)
+    }
+  }else{
+    setShowSameServicesMessage(true);
   }
 };
 

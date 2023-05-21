@@ -84,8 +84,8 @@ SELECT* FROM service_and_category_list;
 
 CREATE TABLE service_mapping(
 service_mapping_ID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Service_time INT NOT NULL,
-Service_price DECIMAL,
+Service_time VARCHAR(10) NOT NULL,
+Service_price VARCHAR(10),
 Service_and_Category_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Service_and_Category_ID) REFERENCES service_and_category_list(service_and_category_listID),
 Doctor_ID INT unsigned NOT NULL, 
