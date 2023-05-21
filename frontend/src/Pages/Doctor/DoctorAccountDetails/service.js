@@ -20,7 +20,9 @@ export default function RenderServiceSection (props){
 
 //Does not work as intended
 function renderIsVetServices (props) {
-  // console.log('selectedServices',selectedServices)
+  console.log('props.selectedServices',props.selectedServices)
+  console.log('props.selectedCategories',props.selectedCategories)
+
   const categories = {};
   if (props.listDetails[2]) {
     props.listDetails[2].forEach(service => {
@@ -49,33 +51,38 @@ function renderIsVetServices (props) {
             )}
             {(services.length <= 1 || props.expandedCategories.includes(category)) && (
               <div>
-                {services.map(service => (
-                  <div key={service.service_and_category_listID} style={{ paddingLeft: '20px' }}>
-                    <input
-                      type="checkbox"
-                      id={`${category}-${service.service_and_category_listID}`}
-                      name="service"
-                      checked={props.selectedServices.find(s => s.service_and_category_listID === service.service_and_category_listID) !== undefined}
-                      onChange={event => handleServiceChange(event, service, props.selectedServices, props.setSelectedServices)}
-                    />
-                    <label htmlFor={`${category}-${service.service_and_category_listID}`}>{service.Service_name}</label>
-                    {props.selectedServices.find(s => s.service_and_category_listID === service.service_and_category_listID) && (
-                      <>
-                        <input
-                          type="number"
-                          placeholder="Service Time"
-                          id={`time-${service.service_and_category_listID}`}
-                          required
-                        />
-                        <input
-                          type="number"
-                          placeholder="Service Price"
-                          id={`price-${service.service_and_category_listID}`}
-                        />
-                      </>
-                    )}
-                  </div>
-                ))}
+                {services.map(service => {
+                  const selectedService = props.selectedServices.find(s => s.Service_and_Category_ID === service.service_and_category_listID);
+                  return (
+                    <div key={service.service_and_category_listID} style={{ paddingLeft: '20px' }}>
+                      <input
+                        type="checkbox"
+                        id={`${category}-${service.service_and_category_listID}`}
+                        name="service"
+                        checked={selectedService !== undefined}
+                        onChange={event => handleServiceChange(event, service, props.selectedServices, props.setSelectedServices)}
+                      />
+                      <label htmlFor={`${category}-${service.service_and_category_listID}`}>{service.Service_name}</label>
+                      {selectedService && (
+                        <>
+                          <input
+                            type="number"
+                            placeholder="Service Time"
+                            id={`time-${service.service_and_category_listID}`}
+                            required
+                            value={selectedService?.Service_time || ""}
+                          />
+                          <input
+                            type="number"
+                            placeholder="Service Price"
+                            id={`price-${service.service_and_category_listID}`}
+                            value={selectedService?.Service_price || ""}
+                          />
+                        </>
+                      )}
+                    </div>
+                  )
+                })}
               </div>
             )}
           </div>
@@ -88,6 +95,12 @@ function renderIsVetServices (props) {
         <span className={`fade ${props.showSavedServicesMessage ? 'show' : ''}`}>Services saved!</span>
         <span className={`fade ${props.showSameServicesMessage ? 'show' : ''}`}>Same Services!</span>
         <span className={`fade ${props.showSaveServicesProblemMessage ? 'show' : ''}`}>Problem Saving Services!</span>
+      </>
+    )
+  }else{
+    return(
+      <>
+      Loading...
       </>
     )
   }

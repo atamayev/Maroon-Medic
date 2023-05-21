@@ -40,8 +40,6 @@ export function getUpdatedRecords(newData, results) {
 };
   
 export function getUnchangedRecords(newData, results) {
-  console.log('newData',newData)
-  console.log('results',results)
   const resultDataMap = new Map();
   let unchangedData = [];
 

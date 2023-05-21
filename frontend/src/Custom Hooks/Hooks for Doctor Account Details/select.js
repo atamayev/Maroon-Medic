@@ -30,7 +30,7 @@ export const handleLanguageChange = (event, listDetails, setSelectedLanguage) =>
 export const handleCategoryChange = (event, category, services, selectedCategories, setSelectedCategories, selectedServices, setSelectedServices, expandedCategories, setExpandedCategories) => {
   if (event.target.checked) {
     setSelectedCategories([...selectedCategories, category]);
-    const newServices = services.filter(service => !selectedServices.some(selectedService => selectedService.service_and_category_listID === service.service_and_category_listID));
+    const newServices = services.filter(service => !selectedServices.some(selectedService => selectedService.service_mapping_ID === service.service_and_category_listID));
     setSelectedServices([...selectedServices, ...newServices]);
     if(!expandedCategories.includes(category)){
       setExpandedCategories(prev => [...prev, category]);
@@ -45,7 +45,7 @@ export const handleServiceChange = (event, service, selectedServices, setSelecte
   if (event.target.checked) {
     setSelectedServices([...selectedServices, service]);
   } else {
-    setSelectedServices(selectedServices.filter(s => s.service_and_category_listID !== service.service_and_category_listID));
+    setSelectedServices(selectedServices.filter(s => s.service_mapping_ID!== service.service_and_category_listID));
   }
 };
 
