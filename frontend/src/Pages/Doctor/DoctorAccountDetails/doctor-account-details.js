@@ -68,16 +68,16 @@ export default function DoctorAccountDetails() {
   const [selectedMajor, setSelectedMajor] = useState('');
   const [selectedPreVetEducationType, setSelectedPreVetEducationType] = useState('');
   const [preVetEducation, setPreVetEducation] = useState(DoctorAccountDetails?.[4] || []);
-  const [showSavedPreVetMessage, setShowSavedPreVetMessage] = useState(false);
-  const [showSamePreVetMessage, setShowSamePreVetMessage] = useState(false);
-  const [showSavePreVetProblemMessage, setShowSavePreVetProblemMessage] = useState(false);
+  const [showSavedPreVetEducationMessage, setShowSavedPreVetEducationMessage] = useState(false);
+  const [showSamePreVetEducationMessage, setShowSamePreVetEducationMessage] = useState(false);
+  const [showSavePreVetEducationProblemMessage, setShowSavePreVetEducationProblemMessage] = useState(false);
 
   const [selectedVetSchool, setSelectedVetSchool] = useState('');
   const [selectedVetEducationType, setSelectedVetEducationType] = useState('');
   const [vetEducation, setVetEducation] = useState(DoctorAccountDetails?.[5] || []);
-  const [showSavedVetMessage, setShowSavedVetMessage] = useState(false);
-  const [showSameVetMessage, setShowSameVetMessage] = useState(false);
-  const [showSaveVetProblemMessage, setShowSaveVetProblemMessage] = useState(false);
+  const [showSavedVetEducationMessage, setShowSavedVetEducationMessage] = useState(false);
+  const [showSameVetEducationMessage, setShowSameVetEducationMessage] = useState(false);
+  const [showSaveVetEducationProblemMessage, setShowSaveVetEducationProblemMessage] = useState(false);
 
   const [addresses, setAddresses] = useState(DoctorAccountDetails?.[6] ||[{ address_priority: 0, addresses_ID: 0, address_title: '', address_line_1  : '', address_line_2: '', city: '', state: '', zip: '', country: '', phone_priority: 0, phone: ''}]);
   const [showSavedLocationsMessage, setShowSavedLocationsMessage] = useState(false);
@@ -149,13 +149,13 @@ export default function DoctorAccountDetails() {
     showSameSpecialtiesMessage, setShowSameSpecialtiesMessage, 
     showSaveSpecialtiesProblemMessage, setShowSaveSpecialtiesProblemMessage,
     
-    showSavedPreVetMessage, setShowSavedPreVetMessage, 
-    showSamePreVetMessage, setShowSamePreVetMessage, 
-    showSavePreVetProblemMessage, setShowSavePreVetProblemMessage,
+    showSavedPreVetEducationMessage, setShowSavedPreVetEducationMessage, 
+    showSamePreVetEducationMessage, setShowSamePreVetEducationMessage, 
+    showSavePreVetEducationProblemMessage, setShowSavePreVetEducationProblemMessage,
     
-    showSavedVetMessage, setShowSavedVetMessage, 
-    showSameVetMessage, setShowSameVetMessage, 
-    showSaveVetProblemMessage, setShowSaveVetProblemMessage,
+    showSavedVetEducationMessage, setShowSavedVetEducationMessage, 
+    showSameVetEducationMessage, setShowSameVetEducationMessage, 
+    showSaveVetEducationProblemMessage, setShowSaveVetEducationProblemMessage,
     
     showSavedLocationsMessage, setShowSavedLocationsMessage, 
     showSameLocationsMessage, setShowSameLocationsMessage, 
@@ -245,12 +245,12 @@ export default function DoctorAccountDetails() {
         setEndYear = {setEndYear}
         preVetEducation = {preVetEducation}
         setPreVetEducation = {setPreVetEducation}
-        showSavedPreVetMessage = {showSavedPreVetMessage}
-        setShowSavedPreVetMessage = {setShowSavedPreVetMessage}
-        showSamePreVetMessage = {showSamePreVetMessage}
-        setShowSamePreVetMessage = {setShowSamePreVetMessage}
-        showSavePreVetProblemMessage = {showSavePreVetProblemMessage}
-        setShowSavePreVetProblemMessage = {setShowSavePreVetProblemMessage}
+        showSavedPreVetEducationMessage = {showSavedPreVetEducationMessage}
+        setShowSavedPreVetEducationMessage = {setShowSavedPreVetEducationMessage}
+        showSamePreVetEducationMessage = {showSamePreVetEducationMessage}
+        setShowSamePreVetEducationMessage = {setShowSamePreVetEducationMessage}
+        showSavePreVetEducationProblemMessage = {showSavePreVetEducationProblemMessage}
+        setShowSavePreVetEducationProblemMessage = {setShowSavePreVetEducationProblemMessage}
       />
       <br/>
       <RenderVetEducationSection
@@ -269,12 +269,12 @@ export default function DoctorAccountDetails() {
         setEndYear = {setEndYear}
         vetEducation = {vetEducation}
         setVetEducation = {setVetEducation}
-        showSavedVetMessage = {showSavedVetMessage}
-        setShowSavedVetMessage = {setShowSavedVetMessage}
-        showSameVetMessage = {showSameVetMessage}
-        setShowSameVetMessage = {setShowSameVetMessage}
-        showSaveVetProblemMessage = {showSaveVetProblemMessage}
-        setShowSaveVetProblemMessage = {setShowSaveVetProblemMessage}
+        showSavedVetEducationMessage = {showSavedVetEducationMessage}
+        setShowSavedVetEducationMessage = {setShowSavedVetEducationMessage}
+        showSameVetEducationMessage = {showSameVetEducationMessage}
+        setShowSameVetEducationMessage = {setShowSameVetEducationMessage}
+        showSaveVetEducationProblemMessage = {showSaveVetEducationProblemMessage}
+        setShowSaveVetEducationProblemMessage = {setShowSaveVetEducationProblemMessage}
       />
       <br/>
       <RenderDescriptionSection

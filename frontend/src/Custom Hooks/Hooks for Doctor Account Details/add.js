@@ -1,5 +1,13 @@
 import { isObjectInArray } from "../lists-and-object-checks";
 
+export const handleAddInsurance = (selectedInsurance, acceptedInsurances, setAcceptedInsurances) => {
+  if(selectedInsurance){
+    if(!acceptedInsurances.some(insurance => insurance.insurance_listID === selectedInsurance.insurance_listID)){
+      setAcceptedInsurances([...acceptedInsurances, selectedInsurance]);
+    }
+  }
+};
+
 export const handleAddLanguage = (selectedLanguage, spokenLanguages, setSpokenLanguages, setSelectedLanguage) => {
     if(selectedLanguage){
       if(spokenLanguages.length >0){
@@ -24,18 +32,6 @@ export const handleAddSpecialty = (selectedSpecialty, doctorSpecialties, setDoct
     }
   }
   setSelectedSpecialties('');
-};
-
-export const handleAddInsurance = (selectedInsurance, acceptedInsurances, setAcceptedInsurances) => {
-  if(selectedInsurance){
-    if(!acceptedInsurances.some(insurance => insurance.insurance_listID === selectedInsurance.insurance_listID)){
-      setAcceptedInsurances([...acceptedInsurances, selectedInsurance]);
-    }
-  }
-};
-
-export const handleAddAccordion = (addresses, setAddresses) => {
-  setAddresses([...addresses, { address_priority: addresses.length, addresses_ID: 0, address_title: '', address_line_1: '', address_line_2: '', city: '', state: '', zip: '', country: '', phone_priority: 0, phone: ''}]);
 };
 
 export const handleAddPreVetEducation = (
@@ -130,4 +126,8 @@ export const handleAddVetEducation = (
   setEndMonth('January')
   setStartYear(1923)
   setEndYear(1923)
+};
+
+export const handleAddAccordion = (addresses, setAddresses) => {
+  setAddresses([...addresses, { address_priority: addresses.length, addresses_ID: 0, address_title: '', address_line_1: '', address_line_2: '', city: '', state: '', zip: '', country: '', phone_priority: 0, phone: ''}]);
 };

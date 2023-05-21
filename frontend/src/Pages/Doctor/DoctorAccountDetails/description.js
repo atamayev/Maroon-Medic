@@ -40,8 +40,8 @@ function renderIsDescription(props){
         >
           Save</Button>
       <span className={`fade ${props.showSavedDescriptionMessage ? 'show' : ''}`}>Description saved!</span>
-      <span className={`fade ${props.showSameDescriptionMessage ? 'show' : ''}`}>Same Description data!</span>
-      <span className={`fade ${props.showSaveVetProblemMessage ? 'show' : ''}`}>Problem Saving Description data!</span>
+      <span className={`fade ${props.showSameDescriptionMessage ? 'show' : ''}`}>Same Description!</span>
+      <span className={`fade ${props.showSaveVetProblemMessage ? 'show' : ''}`}>Problem Saving Description!</span>
     </Form>
   );
 };

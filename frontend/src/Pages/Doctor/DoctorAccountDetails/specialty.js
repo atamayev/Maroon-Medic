@@ -84,7 +84,7 @@ function renderIsSpecialty(props){
           Save</Button>
         <span className={`fade ${props.showSavedSpecialtiesMessage ? 'show' : ''}`}>Specialties saved!</span>
         <span className={`fade ${props.showSameSpecialtiesMessage ? 'show' : ''}`}>Same Specialty data!</span>
-        <span className={`fade ${props.showSaveSpecialtiesProblemMessage ? 'show' : ''}`}>Problem Saving Specialty data!</span>
+        <span className={`fade ${props.showSaveSpecialtiesProblemMessage ? 'show' : ''}`}>Problem Saving Specialties!</span>
       </>
     )
   }else{

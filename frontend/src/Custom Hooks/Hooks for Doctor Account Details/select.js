@@ -1,4 +1,18 @@
 
+export const handleInsuranceChange = (event, listDetails, setSelectedInsurance) => {
+  try {
+    const insuranceId = parseInt(event.target.value);
+    if (insuranceId) {
+      const insurance = listDetails[0].find(ins => ins.insurance_listID === insuranceId);
+      setSelectedInsurance(insurance);
+    } else {
+      setSelectedInsurance(null);
+    }
+  } catch (error) {
+    console.log('error in handle insurance change', error)
+  }
+};
+
 export const handleLanguageChange = (event, listDetails, setSelectedLanguage) => {
     try{
       const languageId = parseInt(event.target.value);
@@ -11,45 +25,6 @@ export const handleLanguageChange = (event, listDetails, setSelectedLanguage) =>
     }catch (error) {
     console.log('error in handle language change', error)
     }
-};
-
-export const handleSelectSpecialty = (event, listDetails, setSelectedSpecialties) => {
-    try{
-      const specialtyId = parseInt(event.target.value);
-      if (specialtyId) {
-        const specialty = listDetails[3].find((item) => item.specialties_listID === parseInt(event.target.value));
-        setSelectedSpecialties(specialty);
-      } else {
-        setSelectedSpecialties(null);
-      }
-    }catch (error) {
-    console.log('error in handleSelectSpecialty', error)
-  }
-};
-
-export const handleInsuranceChange = (event, listDetails, setSelectedInsurance) => {
-    try {
-      const insuranceId = parseInt(event.target.value);
-      if (insuranceId) {
-        const insurance = listDetails[0].find(ins => ins.insurance_listID === insuranceId);
-        setSelectedInsurance(insurance);
-      } else {
-        setSelectedInsurance(null);
-      }
-    } catch (error) {
-      console.log('error in handle insurance change', error)
-    }
-};
-
-export const handleDescriptionChange = (event, setDescription, setIsDescriptionOverLimit) =>{
-  const value = event.target.value;
-  setDescription({Description: value});
-  setIsDescriptionOverLimit(value.length >= 1000);// if description length is over 1000, makes counter red.
-};
-
-export const handleSelectCarousel = (selectedIndex, setCarouselIndex) => {
-  setCarouselIndex(selectedIndex);
-  // from React Bootstrap
 };
 
 export const handleCategoryChange = (event, category, services, selectedCategories, setSelectedCategories, selectedServices, setSelectedServices, expandedCategories, setExpandedCategories) => {
@@ -74,6 +49,20 @@ export const handleServiceChange = (event, service, selectedServices, setSelecte
   }
 };
 
+export const handleSelectSpecialty = (event, listDetails, setSelectedSpecialties) => {
+    try{
+      const specialtyId = parseInt(event.target.value);
+      if (specialtyId) {
+        const specialty = listDetails[3].find((item) => item.specialties_listID === parseInt(event.target.value));
+        setSelectedSpecialties(specialty);
+      } else {
+        setSelectedSpecialties(null);
+      }
+    }catch (error) {
+    console.log('error in handleSelectSpecialty', error)
+  }
+};
+
 export const handleToggleCategory = (category, setExpandedCategories) => {
   setExpandedCategories(prevState => {
     if (prevState.includes(category)) {
@@ -82,4 +71,15 @@ export const handleToggleCategory = (category, setExpandedCategories) => {
       return [...prevState, category];
     }
   });
+};
+
+export const handleDescriptionChange = (event, setDescription, setIsDescriptionOverLimit) =>{
+  const value = event.target.value;
+  setDescription({Description: value});
+  setIsDescriptionOverLimit(value.length >= 1000);// if description length is over 1000, makes counter red.
+};
+
+export const handleSelectCarousel = (selectedIndex, setCarouselIndex) => {
+  setCarouselIndex(selectedIndex);
+  // from React Bootstrap
 };

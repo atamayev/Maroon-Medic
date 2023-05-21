@@ -55,12 +55,12 @@ export async function newPatientConfirmation (req, res){
     const DB_name = `PatientDB`;
     const sql = `SELECT * FROM ${table_name} WHERE PatientUUID = ?`;
     let values = [newPatientUUID];
+    let values1 = [existingPatientUUID];
     await useDB(newPatientConfirmation.name, DB_name, table_name)
 
     try{
       const [results] = await connection.execute(sql, values)
-      values = [existingPatientUUID]
-      const [results1] = await connection.execute(sql, values)
+      const [results1] = await connection.execute(sql, values1)
 
       if (results.length === 1 && results1.length ===1) {
         Patient_permission = true;

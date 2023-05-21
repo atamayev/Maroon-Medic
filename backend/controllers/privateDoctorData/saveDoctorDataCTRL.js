@@ -92,7 +92,6 @@ export async function saveDescriptionData (req, res){
         const sql1 = `INSERT INTO ${table_name} (Description, Doctor_ID) VALUES (?,?)`;
         const values1 = [encrypted_description.Description, DoctorID];
         try{
-            console.log('values1',values1)
             await connection.execute(sql1, values1);
             return res.status(200).json(true);
         }catch(error){
@@ -150,7 +149,6 @@ export async function saveGeneralData (req, res){
     if (results.length > 0) {
         // Doctor already has data in the table
         const oldData = results.map(result => result[`${DataType}_ID`]); //An array of IDs, in the same form as the doctorData: ie [1,2,4,5]
-        console.log('oldData',oldData)
         const newData = doctorData;
 
         // Check for changes in data:
@@ -158,7 +156,6 @@ export async function saveGeneralData (req, res){
         const deletedData = oldData.filter(data => !newData.includes(data));
 
         if (addedData.length > 0) {
-            console.log('adding data')
             for (let i = 0; i<addedData.length; i++){
                 if(addedData[i]){
                     const sql1 = `INSERT INTO ${table_name} (${DataType}_ID, Doctor_ID) VALUES (?,?)`;
@@ -176,7 +173,6 @@ export async function saveGeneralData (req, res){
             }
         }
         if (deletedData.length > 0) {
-            console.log('deleting data')
             for (let i = 0; i<deletedData.length; i++){
                 if(deletedData[i]){
                     const sql1 = `DELETE FROM ${table_name} WHERE ${DataType}_ID = ? AND Doctor_ID = ?`;
@@ -196,7 +192,6 @@ export async function saveGeneralData (req, res){
         return res.status(200).json(true);
       }
     else if (doctorData.length > 0){
-        console.log('adding data in else')
         for (let i=0; i<doctorData.length; i++){
             if(doctorData[i]){
                 const sql1 = `INSERT INTO ${table_name} (${DataType}_ID, Doctor_ID) VALUES (?,?)`;
@@ -215,7 +210,6 @@ export async function saveGeneralData (req, res){
         return res.status(200).json(true);
     }
     else{
-        console.log('elsed')
         return res.status(400).json(false)
     }
 };
@@ -224,7 +218,6 @@ export async function saveServicesData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID;
     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
     const ServicesData = req.body.ServicesData; //Array of Arrays
-    console.log('ServicesData from body request', ServicesData)
 
     const DB_name = 'DoctorDB';
     const table_name = `service_mapping`;
@@ -245,19 +238,13 @@ export async function saveServicesData (req, res){
         // Doctor already has data in the table
         // will be comparing array of arrays to array of arrays.
         const oldServicesData = results.map(obj => Object.values(obj).slice(1, -1));// Changes the results into an array of arrays, of the same form as EducationData
-        console.log('oldServicesData as an array of arrays',oldServicesData)
         const newServicesData = ServicesData;
 
         // Check for changes in data:
         const addedData = newServicesData.filter(arr1 => !oldServicesData.some(arr2 => JSON.stringify(arr1) === JSON.stringify(arr2)));
         const deletedData = oldServicesData.filter(arr1 => !newServicesData.some(arr2 => JSON.stringify(arr1) === JSON.stringify(arr2)));
 
-        console.log('addedData', addedData);
-        console.log('deletedData', deletedData)
-
         if(addedData.length > 0){
-            console.log('addedData.length',addedData.length)
-            console.log('adding data')
             let sql1;
             let values1;
 
@@ -266,7 +253,6 @@ export async function saveServicesData (req, res){
                 values1 = [addedData[i][0], addedData[i][1], addedData[i][2], DoctorID];
                 try{
                     await connection.execute(sql1, values1);
-                    console.log('successfuly added')
                 }catch(error){
                     console.log(`error in if ${saveServicesData.name}:`, error);
                     return res.status(400).json(false);
@@ -274,8 +260,6 @@ export async function saveServicesData (req, res){
             }
         }
         if(deletedData.length > 0){
-            console.log('deletedData.length',deletedData.length)
-            console.log('deleting data')
             let sql2;
             let values2;
 
@@ -293,14 +277,12 @@ export async function saveServicesData (req, res){
         return res.status(200).json(true);
     }else if (ServicesData.length > 0){
         //Can only get into here if formatted results.length not >0: no results from the DB - adding completely new data
-        console.log('adding data in else')
         let sql3;
         let values3;
         for (let i=0; i<ServicesData.length; i++){
             sql3 = `INSERT INTO ${table_name} (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?,?,?,?)`;
             values3 = [ServicesData[i][0], ServicesData[i][1], ServicesData[i][2], DoctorID];
             try{
-                console.log(values3)
                 await connection.execute(sql3, values3);
             }catch(error){
                 console.log(`error in if ${saveServicesData.name}:`, error);
@@ -310,7 +292,6 @@ export async function saveServicesData (req, res){
         return res.status(200).json(true);
     }else{
         //NO new data or queried results from DB.
-        console.log('elsed')
         return res.status(400).json(false)
     }
 };
@@ -320,7 +301,6 @@ export async function saveEducationData (req, res){
     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
     const EducationType = req.body.EducationType;//'pre_vet' or 'vet'
     const EducationData = req.body.EducationData; // array of arrays, to make comparing to sql easier.: ie: [[ 13, 56, 7, '1923-01-01', '1923-01-01' ],[ 698, 13, 9, '1923-01-01', '1923-01-01' ]]
-    console.log(EducationData)
     
     const DB_name = 'DoctorDB';
     const table_name = `${EducationType}_education_mapping`;
@@ -346,19 +326,13 @@ export async function saveEducationData (req, res){
         // Doctor already has data in the table
         // will be comparing array of arrays to array of arrays.
         const oldEducationData = formattedResults.map(obj => Object.values(obj).slice(1, -1));// Changes the results into an array of arrays, of the same form as EducationData
-        console.log('oldEducationData as an array of arrays',oldEducationData)
         const newEducationData = EducationData;
 
         // Check for changes in data:
         const addedData = newEducationData.filter(arr1 => !oldEducationData.some(arr2 => JSON.stringify(arr1) === JSON.stringify(arr2)));
         const deletedData = oldEducationData.filter(arr1 => !newEducationData.some(arr2 => JSON.stringify(arr1) === JSON.stringify(arr2)));
 
-        console.log('addedData', addedData);
-        console.log('deletedData', deletedData)
-
         if (addedData.length > 0) {
-            console.log('addedData.length',addedData.length)
-            console.log('adding data')
             let sql1;
             let values1;
             for (let i = 0; i<addedData.length; i++){
@@ -370,13 +344,12 @@ export async function saveEducationData (req, res){
                     sql1 = `INSERT INTO ${table_name} (School_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?,?,?,?,?)`;
                     values1 = [addedData[i][0], addedData[i][1], addedData[i][2], addedData[i][3], DoctorID];     
                 }else{
-                    console.log(`error in if ${saveEducationData.name}:`, error);
+                    console.log(`Education_type not defined ${saveEducationData.name}`);
                     return res.status(400).json(false);
                 }
 
                 try{
                     await connection.execute(sql1, values1);
-                    console.log('successfuly added')
                 }catch(error){
                     console.log(`error in if ${saveEducationData.name}:`, error);
                     return res.status(400).json(false);
@@ -384,8 +357,6 @@ export async function saveEducationData (req, res){
             }
         } 
         if (deletedData.length > 0) {
-            console.log('deletedData.length',deletedData.length)
-            console.log('deleting data')
             let sql2;
             let values2;
             for (let i = 0; i<deletedData.length; i++){
@@ -396,7 +367,7 @@ export async function saveEducationData (req, res){
                     sql2 = `DELETE FROM ${table_name} WHERE School_ID = ? AND Education_type_ID = ? AND Doctor_ID = ?`;
                     values2 = [deletedData[i][0], deletedData[i][1], DoctorID];    
                 }else{
-                    console.log(`error in if ${saveEducationData.name}:`, error);
+                    console.log(`Education_type not defined ${saveEducationData.name}`);
                     return res.status(400).json(false);
                 }
   
@@ -412,7 +383,6 @@ export async function saveEducationData (req, res){
       }
       else if (EducationData.length > 0){
         //Can only get into here if formatted results.length not >0: no results from the DB - adding completely new data
-        console.log('adding data in else')
         let sql3;
         let values3;
         for (let i=0; i<EducationData.length; i++){
@@ -424,11 +394,10 @@ export async function saveEducationData (req, res){
                 sql3 = `INSERT INTO ${table_name} (School_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?,?,?,?,?)`;
                 values3 = [EducationData[i][0], EducationData[i][1], EducationData[i][2], EducationData[i][3], DoctorID];
             }else{
-                console.log(`error in if ${saveEducationData.name}:`, error);
+                console.log(`Education_type not defined ${saveEducationData.name}`);
                 return res.status(400).json(false);
             }
             try{
-                console.log(values3)
                 await connection.execute(sql3, values3);
             }catch(error){
                 console.log(`error in if ${saveEducationData.name}:`, error);
@@ -439,7 +408,6 @@ export async function saveEducationData (req, res){
       }
       else{
         //NO new data or queried results from DB.
-        console.log('elsed')
         return res.status(400).json(false)
     }
 };
@@ -484,7 +452,6 @@ export async function saveAddressData (req, res){
         let returnedData = unchangedData; //initialize the data to return with the data that hasn't changed.
 
         if (addedData.length > 0) {
-            console.log('adding data')
             for (let i = 0; i<addedData.length; i++){
                 const sql1 = `INSERT INTO ${table_name1} (address_title, address_line_1, address_line_2, city, state, zip, country, address_priority, Doctor_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
                 const values1 = [addedData[i].address_title, addedData[i].address_line_1, addedData[i].address_line_2, addedData[i].city, addedData[i].state, addedData[i].zip, addedData[i].country, addedData[i].address_priority, DoctorID];
@@ -508,7 +475,6 @@ export async function saveAddressData (req, res){
             }
         }
         if (deletedData.length) {
-            console.log('deleting data')
             for (let i = 0; i<deletedData.length; i++){
                 //Automatically deletes data in the phone number table, since the two are linked via a cascade
                 const sql1 = `DELETE FROM ${table_name1} WHERE addresses_ID = ?`;
@@ -522,7 +488,6 @@ export async function saveAddressData (req, res){
             }
         }
         if(updatedData.length){
-            console.log('updating data')
             for (let i = 0; i<updatedData.length; i++){
                 const sql1 = `UPDATE ${table_name1} SET address_title = ?, address_line_1 = ?, address_line_2 = ?, city = ?, state = ?, zip = ?, country = ? WHERE addresses_ID = ?`;
                 const values1 = [updatedData[i].address_title, updatedData[i].address_line_1, updatedData[i].address_line_2, updatedData[i].city, updatedData[i].state, updatedData[i].zip, updatedData[i].country, updatedData[i].addresses_ID];
@@ -545,7 +510,6 @@ export async function saveAddressData (req, res){
         }
         return res.status(200).json(returnedData);
     } else if (AddressData.length > 0){
-        console.log('adding data in else')
         for (let i=0; i<AddressData.length; i++){
             const sql1 = `INSERT INTO ${table_name1} (address_title, address_line_1, address_line_2, city, state, zip, country, address_priority, Doctor_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
             const values1 = [AddressData[i].address_title, AddressData[i].address_line_1, AddressData[i].address_line_2, AddressData[i].city, AddressData[i].state, AddressData[i].zip, AddressData[i].country, AddressData[i].address_priority, DoctorID];
@@ -569,7 +533,6 @@ export async function saveAddressData (req, res){
         return res.status(200).json(AddressData);
     }
     else{
-        console.log('elsed')
         return res.status(400).json(false)
     }
 };

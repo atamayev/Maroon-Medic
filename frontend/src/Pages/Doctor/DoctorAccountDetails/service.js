@@ -86,8 +86,8 @@ function renderIsVetServices (props) {
           >
             Save</Button>
         <span className={`fade ${props.showSavedServicesMessage ? 'show' : ''}`}>Services saved!</span>
-        <span className={`fade ${props.showSameServicesMessage ? 'show' : ''}`}>Same Services data!</span>
-        <span className={`fade ${props.showSaveServicesProblemMessage ? 'show' : ''}`}>Problem Saving Service data!</span>
+        <span className={`fade ${props.showSameServicesMessage ? 'show' : ''}`}>Same Services!</span>
+        <span className={`fade ${props.showSaveServicesProblemMessage ? 'show' : ''}`}>Problem Saving Services!</span>
       </>
     )
   }

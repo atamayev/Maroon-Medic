@@ -262,7 +262,7 @@ export async function register (req, res){
       return res.status(500).send({ error: 'Problem with Data Encryption' });
     }
 
-    let sql_1
+    let sql_1;
     let values_1;
     if(register_type === 'Doctor'){
       sql_1 = `INSERT INTO ${table_name} (email, password, Created_at, verified, publiclyAvailable) VALUES (?, ?, ?, ?, ?)`;

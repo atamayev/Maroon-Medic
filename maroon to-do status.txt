@@ -1,11 +1,7 @@
 To-do:
 
 ASAP:
-Order the cards on the screen in teh same order as the variables.
-change showsavedPreVet to PreVetEd, and same for showSavedVet-->showSavedVetEd
 --if services gives the alert, it still goes to the db.
-IMPT:look back at all the places in code where i am selecting data right after inserting to get the ID - replace with results.insertId
-	ie in authCTRL
 
 need to figure out how to display saved service data
 make setmonth, year, startmonth, year, etc. into a single state
@@ -24,6 +20,7 @@ general simplification of account details needed.
 -- before saving email to db, make sure it is lowercase, so that when searching db, it is done in uniform way
 	save emails as lowercase. then, when logging in, email should be lowercased before searching the db.
 	-- figure out which data should be encrypted by the db. data at rest encryption
+
 
 Later:
 

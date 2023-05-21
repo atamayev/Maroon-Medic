@@ -48,7 +48,7 @@ function renderIsVetInsurance(props){
         Save</Button>
       <span className={`fade ${props.showSavedInsurancesMessage ? 'show' : ''}`}>Insurances saved!</span>
       <span className={`fade ${props.showSameInsurancesMessage ? 'show' : ''}`}>Same Insurance data!</span>
-      <span className={`fade ${props.showSaveInsurancesProblemMessage ? 'show' : ''}`}>Problem Saving Insurance data!</span>
+      <span className={`fade ${props.showSaveInsurancesProblemMessage ? 'show' : ''}`}>Problem Saving Insurances!</span>
     </>
     );
 };

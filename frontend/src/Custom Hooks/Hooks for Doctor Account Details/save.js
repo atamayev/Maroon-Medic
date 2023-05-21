@@ -1,69 +1,5 @@
-import { checkIfListsAreEqual, areArraysSame, arraysEqual} from "../lists-and-object-checks";
+import { checkIfListsAreEqual, areArraysSame, arraysEqual, convertDateForSql} from "../lists-and-object-checks";
 import PrivateDoctorDataService from "../../Services/private-doctor-data-service";
-
-export async function saveLanguages(spokenLanguages, setShowSavedLanguagesMessage, setShowSameLanguagesMessage, setShowSaveLanguagesProblemMessage){
-  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  const savedLanguages = DoctorAccountDetails?.[1] || []
-  const savedLanguagesIDs = savedLanguages.map(language => language.language_listID).sort((a,b)=>a-b);
-  const languageIds = spokenLanguages.map(lang => lang.language_listID).sort((a,b)=>a-b); // spoken languages are those that are on server side. state changes when languages added/deleted
-
-  let shouldSave = false;
-  if(!savedLanguagesIDs.length || !savedLanguagesIDs){
-    shouldSave = !!languageIds.length
-  }else if((!checkIfListsAreEqual(languageIds, savedLanguagesIDs))){
-    shouldSave = true;
-  }else{
-    setShowSameLanguagesMessage(true);
-  }
-
-  if(shouldSave){//checks if they are the same
-    try {
-      const response = await PrivateDoctorDataService.saveGeneralData(languageIds, 'Language')
-      if(response.status === 200){
-        DoctorAccountDetails[1] = spokenLanguages;
-        sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-        setShowSavedLanguagesMessage(true);
-      }
-    } catch(error) {
-      setShowSaveLanguagesProblemMessage(true);
-      console.log('error in saving languages', error)
-    }
-  }else{
-    setShowSameLanguagesMessage(true);
-  }
-};
-
-export async function saveSpecialies(doctorSpecialties, setShowSavedSpecialtiesMessage, setShowSameSpecialtiesMessage, setShowSaveSpecialtiesProblemMessage){
-  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  const savedSpecialties = DoctorAccountDetails?.[3] || []
-  const savedSpecialtyIDs = savedSpecialties.map(specialty => specialty.specialties_listID).sort((a,b)=>a-b);
-  const specialtyIds = doctorSpecialties.map(specialty => specialty.specialties_listID).sort((a,b)=>a-b); // spoken languages are those that are on server side. state changes when languages added/deleted
-
-  let shouldSave = false;
-  if(!savedSpecialtyIDs.length || !savedSpecialtyIDs){
-    shouldSave = !!specialtyIds.length
-  }else if((!checkIfListsAreEqual(specialtyIds, savedSpecialtyIDs))){
-    shouldSave = true;
-  }else{
-    setShowSameSpecialtiesMessage(true);
-  }
-
-  if(shouldSave){//checks if they are the same
-    try {
-      const response = await PrivateDoctorDataService.saveGeneralData(specialtyIds, 'Specialty')
-      if(response.status === 200){
-        DoctorAccountDetails[3] = doctorSpecialties;
-        sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-        setShowSavedSpecialtiesMessage(true);
-      }
-    } catch(error) {
-      setShowSaveSpecialtiesProblemMessage(true);
-      console.log('error in saving specialites', error)
-    }
-  }else{
-    setShowSameSpecialtiesMessage(true);
-  }
-};
 
 export async function saveInsurances(acceptedInsurances, setShowSavedInsurancesMessage, setShowSameInsurancesMessage, setShowSaveInsurancesProblemMessage){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
@@ -98,7 +34,40 @@ export async function saveInsurances(acceptedInsurances, setShowSavedInsurancesM
   }
 };
 
+export async function saveLanguages(spokenLanguages, setShowSavedLanguagesMessage, setShowSameLanguagesMessage, setShowSaveLanguagesProblemMessage){
+  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
+  const savedLanguages = DoctorAccountDetails?.[1] || []
+  const savedLanguagesIDs = savedLanguages.map(language => language.language_listID).sort((a,b)=>a-b);
+  const languageIds = spokenLanguages.map(lang => lang.language_listID).sort((a,b)=>a-b); // spoken languages are those that are on server side. state changes when languages added/deleted
+
+  let shouldSave = false;
+  if(!savedLanguagesIDs.length || !savedLanguagesIDs){
+    shouldSave = !!languageIds.length
+  }else if((!checkIfListsAreEqual(languageIds, savedLanguagesIDs))){
+    shouldSave = true;
+  }else{
+    setShowSameLanguagesMessage(true);
+  }
+
+  if(shouldSave){//checks if they are the same
+    try {
+      const response = await PrivateDoctorDataService.saveGeneralData(languageIds, 'Language')
+      if(response.status === 200){
+        DoctorAccountDetails[1] = spokenLanguages;
+        sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+        setShowSavedLanguagesMessage(true);
+      }
+    } catch(error) {
+      setShowSaveLanguagesProblemMessage(true);
+      console.log('error in saving languages', error)
+    }
+  }else{
+    setShowSameLanguagesMessage(true);
+  }
+};
+
 export async function saveServices(selectedServices, setShowSavedServicesMessage, setShowSameServicesMessage, setShowSaveServicesProblemMessage){
+  //NON-FUNCTIONAL
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
 
   //savedServices is an Array of Objects of currently saved Services
@@ -148,33 +117,114 @@ export async function saveServices(selectedServices, setShowSavedServicesMessage
   }
 };
 
-export async function saveDescription(description, setShowSavedDescriptionMessage, setShowSameDescriptionMessage, setShowSaveDescriptionProblemMessage){
+export async function saveSpecialies(doctorSpecialties, setShowSavedSpecialtiesMessage, setShowSameSpecialtiesMessage, setShowSaveSpecialtiesProblemMessage){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  const savedDescriptionData = DoctorAccountDetails[7].Description;
-  let shouldSave = false;
+  const savedSpecialties = DoctorAccountDetails?.[3] || []
+  const savedSpecialtyIDs = savedSpecialties.map(specialty => specialty.specialties_listID).sort((a,b)=>a-b);
+  const specialtyIds = doctorSpecialties.map(specialty => specialty.specialties_listID).sort((a,b)=>a-b); // spoken languages are those that are on server side. state changes when languages added/deleted
 
-  if (!savedDescriptionData || !savedDescriptionData.length) {
-    // If no Location Data exists, sets 
-    shouldSave = !!description.Description.length;
-  } else if (description.Description !== savedDescriptionData) {
-    // Data is different
+  let shouldSave = false;
+  if(!savedSpecialtyIDs.length || !savedSpecialtyIDs){
+    shouldSave = !!specialtyIds.length
+  }else if((!checkIfListsAreEqual(specialtyIds, savedSpecialtyIDs))){
     shouldSave = true;
+  }else{
+    setShowSameSpecialtiesMessage(true);
   }
 
-  if(shouldSave){//makes sure that it's only pushing to DB if description changed
+  if(shouldSave){//checks if they are the same
     try {
-      const response = await PrivateDoctorDataService.saveDescriptionData(description);
+      const response = await PrivateDoctorDataService.saveGeneralData(specialtyIds, 'Specialty')
       if(response.status === 200){
-        DoctorAccountDetails[7] = description;
+        DoctorAccountDetails[3] = doctorSpecialties;
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-        setShowSavedDescriptionMessage(true);
+        setShowSavedSpecialtiesMessage(true);
       }
     } catch(error) {
-      setShowSaveDescriptionProblemMessage(true);
-      console.log('error in saveDescription', error)
+      setShowSaveSpecialtiesProblemMessage(true);
+      console.log('error in saving specialites', error)
     }
   }else{
-    setShowSameDescriptionMessage(true);
+    setShowSameSpecialtiesMessage(true);
+  }
+};
+
+export async function savePreVetSchool(preVetEducation, listDetails, setShowSavedPreVetEducationMessage, setShowSamePreVetEducationMessage, setShowSavePreVetEducationProblemMessage){
+  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
+  const savedPreVetEducations = DoctorAccountDetails?.[4] || []
+  let shouldSave = false;
+
+  if (!savedPreVetEducations || !savedPreVetEducations.length) {
+    // If no Location Data exists
+    shouldSave = !!preVetEducation.length;
+  } else if (!areArraysSame(preVetEducation, savedPreVetEducations)) {
+    // Data is different
+    shouldSave = true;
+  } else {
+    // Data is the same
+    setShowSamePreVetEducationMessage(true);
+  }
+
+  if(shouldSave){
+    try {
+      const mappedArray = preVetEducation.map(obj => [
+        listDetails[4].find(school => school.School_name === obj.School_name)?.pre_vet_school_listID || null,
+        listDetails[6].find(major => major.Major_name === obj.Major_name)?.major_listID || null,
+        listDetails[5].find(educationType => educationType.Education_type === obj.Education_type)?.pre_vet_education_typeID || null,
+        convertDateForSql(obj.Start_Date),
+        convertDateForSql(obj.End_Date)
+      ]);
+      const response = await PrivateDoctorDataService.saveEducationData(mappedArray, 'pre_vet')
+      if(response.status === 200){
+        DoctorAccountDetails[4] = preVetEducation;
+        sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+        setShowSavedPreVetEducationMessage(true);
+      }
+    } catch(error) {
+      setShowSavePreVetEducationProblemMessage(true);
+      console.log('error in saving PreVets', error)
+    }
+  }else{
+    setShowSamePreVetEducationMessage(true);
+  }
+};
+
+export async function saveVetSchool(vetEducation, listDetails, setShowSavedVetEducationMessage, setShowSameVetEducationMessage, setShowSaveVetEducationProblemMessage){
+  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
+  const savedVetEducations = DoctorAccountDetails?.[5] || []
+  let shouldSave = false;
+
+  if (!savedVetEducations || !savedVetEducations.length) {
+    // If no Location Data exists
+    shouldSave = !!vetEducation.length;
+  } else if (!areArraysSame(vetEducation, savedVetEducations)) {
+    // Data is different
+    shouldSave = true;
+  } else {
+    // Data is the same
+    setShowSameVetEducationMessage(true);
+  }
+
+  if(shouldSave){//only saves if the educations changed
+    try {
+      const mappedArray = vetEducation.map(obj => [
+        listDetails[7].find(school => school.School_name === obj.School_name)?.vet_school_listID || null,
+        listDetails[8].find(educationType => educationType.Education_Type === obj.Education_Type)?.vet_education_typeID || null,
+        convertDateForSql(obj.Start_Date),
+        convertDateForSql(obj.End_Date)
+      ]);
+      const response = await PrivateDoctorDataService.saveEducationData(mappedArray, 'vet')
+      if(response.status === 200){
+        DoctorAccountDetails[5] = vetEducation;
+        sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+        setShowSavedVetEducationMessage(true);
+      }
+    } catch(error) {
+      setShowSaveVetEducationProblemMessage(true);
+      console.log('error in saving education', error)
+    }
+  }else{
+    setShowSameVetEducationMessage(true);
   }
 };
 
@@ -216,97 +266,33 @@ export async function saveLocation (addresses, setAddresses, setShowSavedLocatio
   }
 };
 
-function convertDateForSql(dateString) {
-  // Split the date string by '-'
-  const dateParts = dateString.split('-');
-
-  // Extract the year, month, and day
-  const year = dateParts[0];
-  const month = new Date(dateParts[1] + '-1-1').getMonth() + 1; // Get month index (0-11) and convert to month number (1-12)
-  const day = dateParts[2];
-
-  // Format the date as "YYYY-MM-DD"
-  const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.padStart(2, '0')}`;
-
-  return formattedDate;
-}
-
-export async function savePreVetSchool(preVetEducation, listDetails, setShowSavedPreVetMessage, setShowSamePreVetMessage, setShowSavePreVetProblemMessage){
+export async function saveDescription(description, setShowSavedDescriptionMessage, setShowSameDescriptionMessage, setShowSaveDescriptionProblemMessage){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  const savedPreVetEducations = DoctorAccountDetails?.[4] || []
+  const savedDescriptionData = DoctorAccountDetails[7].Description;
   let shouldSave = false;
 
-  if (!savedPreVetEducations || !savedPreVetEducations.length) {
-    // If no Location Data exists
-    shouldSave = !!preVetEducation.length;
-  } else if (!areArraysSame(preVetEducation, savedPreVetEducations)) {
+  if (!savedDescriptionData || !savedDescriptionData.length) {
+    // If no Location Data exists, sets 
+    shouldSave = !!description.Description.length;
+  } else if (description.Description !== savedDescriptionData) {
     // Data is different
     shouldSave = true;
-  } else {
-    // Data is the same
-    setShowSamePreVetMessage(true);
   }
 
-  if(shouldSave){
+  if(shouldSave){//makes sure that it's only pushing to DB if description changed
     try {
-      const mappedArray = preVetEducation.map(obj => [
-        listDetails[4].find(school => school.School_name === obj.School_name)?.pre_vet_school_listID || null,
-        listDetails[6].find(major => major.Major_name === obj.Major_name)?.major_listID || null,
-        listDetails[5].find(educationType => educationType.Education_type === obj.Education_type)?.pre_vet_education_typeID || null,
-        convertDateForSql(obj.Start_Date),
-        convertDateForSql(obj.End_Date)
-      ]);
-      const response = await PrivateDoctorDataService.saveEducationData(mappedArray, 'pre_vet')
+      const response = await PrivateDoctorDataService.saveDescriptionData(description);
       if(response.status === 200){
-        DoctorAccountDetails[4] = preVetEducation;
+        DoctorAccountDetails[7] = description;
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-        setShowSavedPreVetMessage(true);
+        setShowSavedDescriptionMessage(true);
       }
     } catch(error) {
-      setShowSavePreVetProblemMessage(true);
-      console.log('error in saving PreVets', error)
+      setShowSaveDescriptionProblemMessage(true);
+      console.log('error in saveDescription', error)
     }
   }else{
-    setShowSamePreVetMessage(true);
-  }
-};
-
-export async function saveVetSchool(vetEducation, listDetails, setShowSavedVetMessage, setShowSameVetMessage, setShowSaveVetProblemMessage){
-  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  const savedVetEducations = DoctorAccountDetails?.[5] || []
-  let shouldSave = false;
-
-  if (!savedVetEducations || !savedVetEducations.length) {
-    // If no Location Data exists
-    shouldSave = !!vetEducation.length;
-  } else if (!areArraysSame(vetEducation, savedVetEducations)) {
-    // Data is different
-    shouldSave = true;
-  } else {
-    // Data is the same
-    setShowSameVetMessage(true);
-  }
-
-  if(shouldSave){//only saves if the educations changed
-    try {
-      const mappedArray = vetEducation.map(obj => [
-        listDetails[7].find(school => school.School_name === obj.School_name)?.vet_school_listID || null,
-        listDetails[8].find(educationType => educationType.Education_Type === obj.Education_Type)?.vet_education_typeID || null,
-        convertDateForSql(obj.Start_Date),
-        convertDateForSql(obj.End_Date)
-      ]);
-      const response = await PrivateDoctorDataService.saveEducationData(mappedArray, 'vet')
-      if(response.status === 200){
-        DoctorAccountDetails[5] = vetEducation;
-        sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-        setShowSavedVetMessage(true);
-      }
-    } catch(error) {
-      setShowSaveVetProblemMessage(true);
-      console.log('error in saving education', error)
-    }
-  }else{
-    setShowSameVetMessage(true);
+    setShowSameDescriptionMessage(true);
   }
 };
 

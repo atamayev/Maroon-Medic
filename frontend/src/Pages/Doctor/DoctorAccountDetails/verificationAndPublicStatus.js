@@ -24,7 +24,7 @@ export default function RenderVerificationAndPublicStatusSection (props){
             Yes
           </ToggleButton>
       </ToggleButtonGroup>
-      <span className={`fade ${props.showSavedPubliclyAvalableMessage ? 'show' : ''}`}>Public Availability Status saved!</span>
+      <span className={`fade ${props.showSavedPubliclyAvalableMessage ? 'show' : ''}`}>Public Availability Status Saved!</span>
       <span className={`fade ${props.showSavePubliclyAvalableProblemMessage ? 'show' : ''}`}>Problem Saving Public Availability Status!</span>
       </Card.Body>
     </Card>
