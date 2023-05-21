@@ -4,6 +4,10 @@ export const handleDeleteInsurance = (insuranceToDelete, acceptedInsurances, set
     setAcceptedInsurances(acceptedInsurances.filter(insurance => insurance.insurance_listID !== insuranceToDelete.insurance_listID));
 };
 
+export const handleDeleteService = (serviceToDelete, selectedServices, setSelectedServices) => {
+    setSelectedServices(selectedServices.filter(service => service.service_and_category_listID !== serviceToDelete.service_and_category_listID));
+};
+
 export const handleDeleteLanguage = (language, spokenLanguages, setSpokenLanguages) => {
     setSpokenLanguages(spokenLanguages.filter(l => l !== language));
 };

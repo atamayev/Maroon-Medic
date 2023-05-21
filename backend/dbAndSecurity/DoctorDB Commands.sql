@@ -91,6 +91,23 @@ FOREIGN KEY (Service_and_Category_ID) REFERENCES service_and_category_list(servi
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 Select * from service_mapping;
+
+SELECT 
+  service_and_category_list.Category_name, 
+  service_and_category_list.Service_name, 
+  service_mapping.service_mapping_ID, 
+  service_mapping.Service_time, 
+  service_mapping.Service_price,
+  service_mapping.Service_and_Category_ID
+FROM 
+  service_and_category_list 
+JOIN 
+  service_mapping 
+ON 
+  service_and_category_list.service_and_category_listID = service_mapping.Service_and_Category_ID 
+WHERE 
+  service_mapping.Doctor_ID = '1000125';
+
     -- Important key constraint:
 	ALTER TABLE service_mapping
 	ADD CONSTRAINT service_mapping_constraint
@@ -209,6 +226,7 @@ Doctor_ID INT unsigned NOT NULL,
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 
 SELECT * FROM specialty_mapping;
+
 	ALTER TABLE specialty_mapping
 	ADD CONSTRAINT specialty_mapping_constraint
 	UNIQUE (Specialty_ID, Doctor_ID);

@@ -8,6 +8,15 @@ export const handleAddInsurance = (selectedInsurance, acceptedInsurances, setAcc
   }
 };
 
+export const handleAddService = (selectedService, acceptedServices, setAcceptedServices) => {
+  if(selectedService){
+    if(!acceptedServices.some(service => service.service_and_category_listID === selectedService.service_and_category_listID)){
+      const updatedService = {...selectedService, Service_price: null, Service_time: null}
+      setAcceptedServices([...acceptedServices, updatedService]);
+    }
+  }
+};
+
 export const handleAddLanguage = (selectedLanguage, spokenLanguages, setSpokenLanguages, setSelectedLanguage) => {
     if(selectedLanguage){
       if(spokenLanguages.length >0){

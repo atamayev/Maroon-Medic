@@ -50,7 +50,7 @@ export default function DoctorAccountDetails() {
   const [showSameLanguagesMessage, setShowSameLanguagesMessage] = useState(false);
   const [showSaveLanguagesProblemMessage, setShowSaveLanguagesProblemMessage] = useState(false);
 
-  const [selectedServices, setSelectedServices] = useState(DoctorAccountDetails?.[2] || []);
+  const [acceptedServices, setAcceptedServices] = useState(DoctorAccountDetails?.[2] || []);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [expandedCategories, setExpandedCategories] = useState([]);
   const [showSavedServicesMessage, setShowSavedServicesMessage] = useState(false);
@@ -181,7 +181,7 @@ export default function DoctorAccountDetails() {
             }
             if(response.data[2]){
               //console.log(response.data[2])
-              setSelectedServices(response.data[2])
+              setAcceptedServices(response.data[2])
             }
             if(response.data[3]){
               setDoctorSpecialties(response.data[3])
@@ -343,8 +343,8 @@ export default function DoctorAccountDetails() {
         listDetails = {listDetails}
         selectedCategories = {selectedCategories}
         setSelectedCategories = {setSelectedCategories}
-        selectedServices = {selectedServices}
-        setSelectedServices = {setSelectedServices}
+        acceptedServices = {acceptedServices}
+        setAcceptedServices = {setAcceptedServices}
         expandedCategories = {expandedCategories}
         setExpandedCategories = {setExpandedCategories}
         showSavedServicesMessage = {showSavedServicesMessage}

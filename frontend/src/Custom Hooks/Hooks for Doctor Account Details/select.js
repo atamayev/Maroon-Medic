@@ -27,27 +27,19 @@ export const handleLanguageChange = (event, listDetails, setSelectedLanguage) =>
     }
 };
 
-export const handleCategoryChange = (event, category, services, selectedCategories, setSelectedCategories, selectedServices, setSelectedServices, expandedCategories, setExpandedCategories) => {
-  if (event.target.checked) {
-    setSelectedCategories([...selectedCategories, category]);
-    const newServices = services.filter(service => !selectedServices.some(selectedService => selectedService.service_mapping_ID === service.service_and_category_listID));
-    setSelectedServices([...selectedServices, ...newServices]);
-    if(!expandedCategories.includes(category)){
-      setExpandedCategories(prev => [...prev, category]);
-    }
-  } else {
-    setSelectedCategories(selectedCategories.filter(c => c !== category));
-    setSelectedServices(selectedServices.filter(service => service.Category_name !== category));
-  }
-};
-
-export const handleServiceChange = (event, service, selectedServices, setSelectedServices) => {
-  if (event.target.checked) {
-    setSelectedServices([...selectedServices, service]);
-  } else {
-    setSelectedServices(selectedServices.filter(s => s.service_mapping_ID!== service.service_and_category_listID));
-  }
-};
+// export const handleCategoryChange = (event, category, services, selectedCategories, setSelectedCategories, acceptedServices, setAcceptedServices, expandedCategories, setExpandedCategories) => {
+//   if (event.target.checked) {
+//     setSelectedCategories([...selectedCategories, category]);
+//     const newServices = services.filter(service => !acceptedServices.some(selectedService => selectedService.service_mapping_ID === service.service_and_category_listID));
+//     setAcceptedServices([...acceptedServices, ...newServices]);
+//     if(!expandedCategories.includes(category)){
+//       setExpandedCategories(prev => [...prev, category]);
+//     }
+//   } else {
+//     setSelectedCategories(selectedCategories.filter(c => c !== category));
+//     setAcceptedServices(acceptedServices.filter(service => service.Category_name !== category));
+//   }
+// };
 
 export const handleSelectSpecialty = (event, listDetails, setSelectedSpecialties) => {
     try{

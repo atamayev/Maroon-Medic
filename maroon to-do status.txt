@@ -1,10 +1,12 @@
 To-do:
 
 ASAP:
---if services gives the alert, it still goes to the db.
+combine add/delete into a select for insruances, services. should be straightforward
+
+make sure services only save if time filled in
 
 need to figure out how to display saved service data
-make setmonth, year, startmonth, year, etc. into a single state
+make setmonth, year, startmonth, year, etc. into a single state (Education)
 
 
 Make the 'Add Address' Button Finalize a Location, make it within the accordion. 

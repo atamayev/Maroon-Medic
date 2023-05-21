@@ -4,6 +4,8 @@ import { handleCategoryChange } from "../../../Custom Hooks/Hooks for Doctor Acc
 import { handleToggleCategory } from "../../../Custom Hooks/Hooks for Doctor Account Details/select";
 import { handleServiceChange } from "../../../Custom Hooks/Hooks for Doctor Account Details/select";
 import { saveServices } from "../../../Custom Hooks/Hooks for Doctor Account Details/save";
+import { handleAddService } from "../../../Custom Hooks/Hooks for Doctor Account Details/add";
+import { handleDeleteService } from "../../../Custom Hooks/Hooks for Doctor Account Details/delete";
 
 export default function RenderServiceSection (props){
     return(
@@ -20,9 +22,6 @@ export default function RenderServiceSection (props){
 
 //Does not work as intended
 function renderIsVetServices (props) {
-  console.log('props.selectedServices',props.selectedServices)
-  console.log('props.selectedCategories',props.selectedCategories)
-
   const categories = {};
   if (props.listDetails[2]) {
     props.listDetails[2].forEach(service => {
@@ -32,19 +31,20 @@ function renderIsVetServices (props) {
       categories[service.Category_name].push(service);
     });
   }
+  console.log('props.acceptedServices',props.acceptedServices)
 
   if (Array.from(new Set(props.listDetails[2]?.map((item) => item.Category_name))).length) {
     return (
       <>
         {Object.entries(categories).map(([category, services]) => (
           <div key={category} style={{ marginBottom: '10px' }}>
-            <input
+            {/* <input
               type="checkbox"
               id={category}
               name="category"
               checked={props.selectedCategories.includes(category)}
-              onChange={event => handleCategoryChange(event, category, services, props.selectedCategories, props.setSelectedCategories, props.selectedServices, props.setSelectedServices, props.expandedCategories, props.setExpandedCategories)}
-            />
+              onChange={event => handleCategoryChange(event, category, services, props.selectedCategories, props.setSelectedCategories, props.acceptedServices, props.setAcceptedServices, props.expandedCategories, props.setExpandedCategories)}
+            /> */}
             <label htmlFor={category}>{category}</label>
             {services.length > 1 && (
               <Button onClick={() => handleToggleCategory(category, props.setExpandedCategories)}>Toggle</Button>
@@ -52,16 +52,23 @@ function renderIsVetServices (props) {
             {(services.length <= 1 || props.expandedCategories.includes(category)) && (
               <div>
                 {services.map(service => {
-                  const selectedService = props.selectedServices.find(s => s.Service_and_Category_ID === service.service_and_category_listID);
+                  const selectedService = props.acceptedServices.find(s => s.service_and_category_listID === service.service_and_category_listID);
                   return (
                     <div key={service.service_and_category_listID} style={{ paddingLeft: '20px' }}>
                       <input
                         type="checkbox"
-                        id={`${category}-${service.service_and_category_listID}`}
+                        id={`${category}-${service?.service_and_category_listID}`}
                         name="service"
-                        checked={selectedService !== undefined}
-                        onChange={event => handleServiceChange(event, service, props.selectedServices, props.setSelectedServices)}
-                      />
+                        value={service?.service_and_category_listID}
+                        checked={props.acceptedServices.find((accepted) => accepted.service_and_category_listID === service.service_and_category_listID) !== undefined}
+                        onChange={(event) => {
+                          if(event.target.checked){
+                            handleAddService(service, props.acceptedServices, props.setAcceptedServices);
+                          }else{
+                            handleDeleteService(service, props.acceptedServices, props.setAcceptedServices)
+                          }
+                        }}
+                        />
                       <label htmlFor={`${category}-${service.service_and_category_listID}`}>{service.Service_name}</label>
                       {selectedService && (
                         <>
@@ -71,12 +78,30 @@ function renderIsVetServices (props) {
                             id={`time-${service.service_and_category_listID}`}
                             required
                             value={selectedService?.Service_time || ""}
+                            onChange={(event) => {
+                              const updatedServices = props.acceptedServices.map(s => {
+                                if(s.service_and_category_listID === service.service_and_category_listID){
+                                  return {...s, Service_time: event.target.value};
+                                }
+                                return s;
+                              });
+                              props.setAcceptedServices(updatedServices);
+                            }}
                           />
                           <input
                             type="number"
                             placeholder="Service Price"
                             id={`price-${service.service_and_category_listID}`}
                             value={selectedService?.Service_price || ""}
+                            onChange={(event) => {
+                              const updatedServices = props.acceptedServices.map(s => {
+                                if(s.service_and_category_listID === service.service_and_category_listID){
+                                  return {...s, Service_price: event.target.value};
+                                }
+                                return s;
+                              });
+                              props.setAcceptedServices(updatedServices);
+                            }}
                           />
                         </>
                       )}
@@ -89,7 +114,7 @@ function renderIsVetServices (props) {
         ))}
         <Button 
           variant="success" 
-          onClick={() => saveServices(props.selectedServices, props.setShowSavedServicesMessage, props.setShowSameServicesMessage, props.setShowSaveServicesProblemMessage)}
+          onClick={() => saveServices(props.acceptedServices, props.setShowSavedServicesMessage, props.setShowSameServicesMessage, props.setShowSaveServicesProblemMessage)}
           >
             Save</Button>
         <span className={`fade ${props.showSavedServicesMessage ? 'show' : ''}`}>Services saved!</span>
