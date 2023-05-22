@@ -3,7 +3,6 @@ import {Routes, Route} from 'react-router-dom'
 import {Container} from 'react-bootstrap';
 import "./CSS/footer.css"
 //Publicly accessible:
-import Header from './Pages/header';
 import HomeDoctorsList from "./Pages/home-doctors-list"
 import SpecificDoctorsList from "./Pages/specific-doctors-list"
 import Doctor from './Pages/doctor';
@@ -19,6 +18,7 @@ import DoctorSettings from './Pages/Doctor/DoctorSettings/doctor-settings';
 import DoctorPersonalInfo from './Pages/Doctor/DoctorSettings/doctor-personal-info';
 import DoctorPrivacy from './Pages/Doctor/DoctorSettings/doctor-privacy';
 import DoctorLoginAndSecurity from './Pages/Doctor/DoctorSettings/doctor-login-and-security';
+import DoctorCalendar from './Pages/Doctor/calendar';
 
 //Patient Specific:
 import PatientLogin from './Pages/Patient/patient-login';
@@ -48,6 +48,7 @@ export default function App() {
           <Route exact path = '/vet-settings/personal-information' element = {<DoctorPersonalInfo/>} />
           <Route exact path = '/vet-settings/privacy' element = {<DoctorPrivacy/>} />
           <Route exact path = '/vet-settings/login-and-security' element = {<DoctorLoginAndSecurity/>} />
+          <Route exact path = '/vet-calendar' element = {<DoctorCalendar/>} />
 
           <Route exact path = '/patient-register' element = {<PatientRegister/>} />
           <Route exact path = '/patient-login' element = {<PatientLogin/>} />

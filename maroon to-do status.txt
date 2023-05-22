@@ -1,6 +1,8 @@
 To-do:
 
 ASAP:
+add working hours for each address
+think about where calendar should be (route-wise)
 make setmonth, year, startmonth, year, etc. into a single state (Education)
 
 
