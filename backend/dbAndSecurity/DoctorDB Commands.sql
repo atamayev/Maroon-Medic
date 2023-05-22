@@ -60,6 +60,27 @@ FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 select * from descriptions;
 SELECT * FROM specialties_list;
 
+
+
+CREATE TABLE insurance_list(
+-- Lookup Table
+insurance_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+Insurance_name VARCHAR(200));
+
+CREATE TABLE insurance_mapping(
+insurance_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+Insurance_ID INT unsigned NOT NULL, 
+FOREIGN KEY (Insurance_ID) REFERENCES insurance_list(insurance_listID),
+Doctor_ID INT unsigned NOT NULL, 
+FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
+
+    -- Important key constraint:
+	ALTER TABLE insurance_mapping
+	ADD CONSTRAINT insurance_mapping_constraint
+	UNIQUE (Insurance_ID, Doctor_ID);
+    
+SELECT * FROM insurance_mapping;
+
 CREATE TABLE profile_update_history(
 profile_update_historyID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Updated_at VARCHAR(150), 
@@ -257,31 +278,13 @@ SELECT * FROM doctor_addresses;
 SELECT * FROM  doctor_addresses JOIN phone_numbers ON  doctor_addresses.addresses_ID = phone_numbers.Address_ID WHERE  doctor_addresses.Doctor_ID = '1000125';
 DELETE FROM doctor_addresses WHERE Doctor_ID = '1000125' ;
 
-
-CREATE TABLE insurance_list(
--- Lookup Table
-insurance_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Insurance_name VARCHAR(200));
-
-CREATE TABLE insurance_mapping(
-insurance_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Insurance_ID INT unsigned NOT NULL, 
-FOREIGN KEY (Insurance_ID) REFERENCES insurance_list(insurance_listID),
-Doctor_ID INT unsigned NOT NULL, 
-FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
-
-    -- Important key constraint:
-	ALTER TABLE insurance_mapping
-	ADD CONSTRAINT insurance_mapping_constraint
-	UNIQUE (Insurance_ID, Doctor_ID);
-    
-SELECT * FROM insurance_mapping;
-
 CREATE TABLE booking_availability(
 booking_availabilityID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Day_of_week VARCHAR(150), -- wheather or not the doc takes on monday
 Day_of_week_Start_Time VARCHAR(150),
-Day_of_week_End_Time VARCHAR(150),	
+Day_of_week_End_Time VARCHAR(150),
+address_ID INT unsigned NOT NULL,
+FOREIGN KEY (address_ID) REFERENCES Doctor_addresses(addresses_ID) ON DELETE CASCADE,
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 

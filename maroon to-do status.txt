@@ -2,6 +2,8 @@ To-do:
 
 ASAP:
 add working hours for each address
+add an active/inactive button for each address, add the active/inactive to the addresses Db.
+
 think about where calendar should be (route-wise)
 make setmonth, year, startmonth, year, etc. into a single state (Education)
 
@@ -37,3 +39,6 @@ start using bootstrap or integrate tailwind css classes. tell chatgpt to make pa
 
 figure out phone_priority (address_data), currently sending it back as 0. Phone priority is for when one location has multiple phone numbers. So each object in the address list might have an object inside that contains phone numbers, link
 	See 5/19 commit
+	
+when saving data, should show in the same location as the same locations text, and as the problem saving text.
+	if save data, and then save again, same location should ovveride the initial save text
