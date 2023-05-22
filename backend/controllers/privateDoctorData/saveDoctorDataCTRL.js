@@ -1,6 +1,6 @@
 import { connection, useDB } from "../../dbAndSecurity/connect.js";
 import Crypto from "../../dbAndSecurity/crypto.js";
-import { getUnchangedRecords, getUpdatedRecords } from "../../dbAndSecurity/addressOperations.js";
+import { getUnchangedAddressRecords, getUpdatedAddressRecords } from "../../dbAndSecurity/addressOperations.js";
 import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
 
 /** savePersonalData is self-explanatory in name
@@ -222,8 +222,6 @@ export async function saveServicesData (req, res){
     const DB_name = 'DoctorDB';
     const table_name = `service_mapping`;
 
-    console.log('ServicesData',ServicesData)
-
     const sql = `SELECT * FROM  ${table_name} WHERE Doctor_ID = ?`
     const values = [DoctorID];
     let results;
@@ -238,23 +236,32 @@ export async function saveServicesData (req, res){
 
     if (results.length > 0 ){
         // Doctor already has data in the table
-        // will be comparing array of arrays to array of arrays.
-        const oldServicesData = results.map(obj => Object.values(obj).slice(1, -1));// Changes the results into an array of arrays, of the same form as EducationData
         const newServicesData = ServicesData;
-        console.log('oldServicesData',oldServicesData)
 
-        // Check for changes in data:
-        const addedData = newServicesData.filter(arr1 => !oldServicesData.some(arr2 => JSON.stringify(arr1) === JSON.stringify(arr2)));
-        const deletedData = oldServicesData.filter(arr1 => !newServicesData.some(arr2 => JSON.stringify(arr1) === JSON.stringify(arr2)));
-        //will have to add updated data, unchanged data. 
+        const resultIDs = new Set(results.map(result => result.Service_and_Category_ID));//Extracts the Service_and_Category_ID from the DB results
+
+        const addedData = newServicesData.filter(service => !resultIDs.has(service.service_and_category_listID));// Extracts the IDs that are in newServices that are not in resultsIDs
+
+        const serviceIDs = new Set(newServicesData.map(service => service.service_and_category_listID));
+
+        const deletedData = results.filter(result => !serviceIDs.has(result.Service_and_Category_ID));//Checks for IDs that are in results, but not in ServicesData (these will be deleted)
         
-        if(addedData.length > 0){
-            let sql1;
-            let values1;
+        const updatedData = [];
 
+        ServicesData.forEach(service => {
+            const matchingResult = results.find(result => result.Service_and_Category_ID === service.service_and_category_listID);
+
+            if (matchingResult) {
+                if (matchingResult.Service_time !== service.Service_time || matchingResult.Service_price !== service.Service_price) {
+                    updatedData.push(service);
+                }
+            }
+        });//Checks which results and ServicesData have the same IDs, but some other field has changed (ie. price, time). Adds those objects to updatedData
+
+        if(addedData.length > 0){
             for (let i = 0; i<addedData.length; i++){
-                sql1 = `INSERT INTO ${table_name} (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?,?,?,?)`;
-                values1 = [addedData[i].service_and_category_listID, addedData[i].Service_time, addedData[i].Service_price, DoctorID];
+                let sql1 = `INSERT INTO ${table_name} (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?,?,?,?)`;
+                let values1 = [addedData[i].service_and_category_listID, addedData[i].Service_time, addedData[i].Service_price, DoctorID];
                 try{
                     await connection.execute(sql1, values1);
                 }catch(error){
@@ -264,12 +271,21 @@ export async function saveServicesData (req, res){
             }
         }
         if(deletedData.length > 0){
-            let sql2;
-            let values2;
-
             for (let i = 0; i<deletedData.length; i++){
-                sql2 = `DELETE FROM ${table_name} WHERE Service_and_Category_ID = ? AND Doctor_ID = ?`;
-                values2 = [deletedData[i].service_and_category_listID, DoctorID];
+                let sql2 = `DELETE FROM ${table_name} WHERE Service_and_Category_ID = ? AND Doctor_ID = ?`;
+                let values2 = [deletedData[i].Service_and_Category_ID, DoctorID];
+                try{
+                    await connection.execute(sql2, values2);
+                }catch(error){
+                    console.log(`error in if ${saveServicesData.name}:`, error);
+                    return res.status(400).json(false);
+                }
+            }
+        }
+        if(updatedData.length > 0){
+            for (let i = 0; i<updatedData.length; i++){
+                let sql2 = `UPDATE ${table_name} SET Service_time = ?, Service_price = ? WHERE Doctor_ID = ?`;
+                let values2 = [updatedData[i].Service_time, updatedData[i].Service_price, DoctorID];
                 try{
                     await connection.execute(sql2, values2);
                 }catch(error){
@@ -281,11 +297,9 @@ export async function saveServicesData (req, res){
         return res.status(200).json(true);
     }else if (ServicesData.length > 0){
         //Can only get into here if formatted results.length not >0: no results from the DB - adding completely new data
-        let sql3;
-        let values3;
         for (let i=0; i<ServicesData.length; i++){
-            sql3 = `INSERT INTO ${table_name} (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?,?,?,?)`;
-            values3 = [ServicesData[i].service_and_category_listID, ServicesData[i].Service_time, ServicesData[i].Service_price, DoctorID];
+            let sql3 = `INSERT INTO ${table_name} (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?,?,?,?)`;
+            let values3 = [ServicesData[i].service_and_category_listID, ServicesData[i].Service_time, ServicesData[i].Service_price, DoctorID];
             try{
                 await connection.execute(sql3, values3);
             }catch(error){
@@ -449,9 +463,9 @@ export async function saveAddressData (req, res){
             .filter(result => !newData.some(data => data.addresses_ID === result.addresses_ID))
             .map(result => result.addresses_ID);
         
-        const updatedData = getUpdatedRecords(newData, results)
+        const updatedData = getUpdatedAddressRecords(newData, results)
 
-        const unchangedData = getUnchangedRecords(newData, results);
+        const unchangedData = getUnchangedAddressRecords(newData, results);
 
         let returnedData = unchangedData; //initialize the data to return with the data that hasn't changed.
 
@@ -466,6 +480,7 @@ export async function saveAddressData (req, res){
                     console.log(`error in adding address data ${saveAddressData.name}:`, error);
                     return res.status(400).json(false);
                 }
+                
                 const sql2 = `INSERT INTO ${table_name2} (phone, phone_priority, address_ID) VALUES (?, ?, ?)`
                 const values2 = [addedData[i].phone, addedData[i].phone_priority, insert_results.insertId];
                 try{

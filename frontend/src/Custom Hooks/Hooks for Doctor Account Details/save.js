@@ -1,4 +1,4 @@
-import { checkIfListsAreEqual, areArraysSame, arraysEqual, convertDateForSql} from "../lists-and-object-checks";
+import { checkIfListsAreEqual, areArraysSame, convertDateForSql} from "../lists-and-object-checks";
 import PrivateDoctorDataService from "../../Services/private-doctor-data-service";
 
 export async function saveInsurances(acceptedInsurances, setShowSavedInsurancesMessage, setShowSameInsurancesMessage, setShowSaveInsurancesProblemMessage){
@@ -69,22 +69,28 @@ export async function saveLanguages(spokenLanguages, setShowSavedLanguagesMessag
 export async function saveServices(acceptedServices, setShowSavedServicesMessage, setShowSameServicesMessage, setShowSaveServicesProblemMessage){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   const savedServices = DoctorAccountDetails?.[2] || [];
-  const savedServiceIDs = savedServices.map(service => service.service_and_category_listID).sort((a,b)=>a-b);
-  const serviceIds = acceptedServices.map(serv => serv.service_and_category_listID).sort((a,b)=>a-b); // list of all added insurances
+  const createServiceKey = (service) => `${service.service_and_category_listID}-${service.Service_price}-${service.Service_time}`;
+
+  const savedServiceKeys = savedServices.map(service => createServiceKey(service)).sort();
+  const serviceKeys = acceptedServices.map(service => createServiceKey(service)).sort();
   
   let shouldSave = false;
 
-  if(!savedServiceIDs.length || !savedServiceIDs){
-    shouldSave = !!serviceIds.length
-  }else if((!checkIfListsAreEqual(serviceIds, savedServiceIDs))){
+  if(!savedServiceKeys.length || !savedServiceKeys){
+    shouldSave = !!serviceKeys.length
+  }else if((!checkIfListsAreEqual(savedServiceKeys, serviceKeys))){
     shouldSave = true;
   }else{
     setShowSameServicesMessage(true);
   }
+  const updatedServices = acceptedServices.map(service => {
+    const { Service_name, Category_name, ...rest } = service;
+    return rest;
+  });//Only sends back the IDs, time, and price (cuts out unnecessary Service_name and category_name)
 
   if(shouldSave){//only saves if the insurances changed
     try {
-      const response = await PrivateDoctorDataService.saveServiceData(acceptedServices)//Make sure it's accepted services and not something else
+      const response = await PrivateDoctorDataService.saveServiceData(updatedServices)//Make sure it's accepted services and not something else
       if(response.status === 200){
         DoctorAccountDetails[2] = acceptedServices;
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));

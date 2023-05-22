@@ -1,11 +1,6 @@
 To-do:
 
 ASAP:
-combine add/delete into a select for insruances, services. should be straightforward
-
-make sure services only save if time filled in
-
-need to figure out how to display saved service data
 make setmonth, year, startmonth, year, etc. into a single state (Education)
 
 

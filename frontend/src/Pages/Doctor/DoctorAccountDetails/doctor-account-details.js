@@ -111,7 +111,10 @@ export default function DoctorAccountDetails() {
             const storedAccountDetails = sessionStorage.getItem("DoctorAccountDetails")
             if(!storedAccountDetails){
               FillDoctorAccountDetails();
+            }else{
+              setExpandedCategories(JSON.parse(storedAccountDetails)[2]?.map(service => service.Category_name))
             }
+            
             const storedListDetails = sessionStorage.getItem("ListDetails")
             if(storedListDetails){
               setListDetails(JSON.parse(storedListDetails));
@@ -180,8 +183,8 @@ export default function DoctorAccountDetails() {
               setSpokenLanguages(response.data[1])
             }
             if(response.data[2]){
-              //console.log(response.data[2])
               setAcceptedServices(response.data[2])
+              setExpandedCategories(response.data[2].map(service => service.Category_name));
             }
             if(response.data[3]){
               setDoctorSpecialties(response.data[3])

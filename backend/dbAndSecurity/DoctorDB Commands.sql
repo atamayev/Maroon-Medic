@@ -14,7 +14,6 @@ SELECT insurance_mapping.Doctor_ID, insurance_list.Insurance_name FROM insurance
 
 SELECT specialties_list.Organization_name, specialties_list.Specialty_name  FROM specialties_list JOIN specialty_mapping ON specialties_list.specialties_listID = specialty_mapping.specialty_mappingID WHERE specialty_mapping.Doctor_ID = '1000000';
 
--- drop table doctor_credentials;
 CREATE TABLE Doctor_credentials (
   DoctorID  INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY, # NVI
   email VARCHAR(150) NOT NULL,
@@ -48,7 +47,7 @@ Created_at VARCHAR(150) NOT NULL,
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID)
 );
--- drop table DoctorUUID_reference; 
+
 select * from DoctorUUID_reference;
 -- insert into DoctorUUID_reference (DoctorUUID, Doctor_ID) values
 -- ('123', '1000000');
@@ -80,7 +79,7 @@ CREATE TABLE service_and_category_list(
 service_and_category_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Category_name VARCHAR(250),
 Service_name VARCHAR(250));
-SELECT* FROM service_and_category_list;
+SELECT * FROM service_and_category_list;
 
 CREATE TABLE service_mapping(
 service_mapping_ID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -91,7 +90,7 @@ FOREIGN KEY (Service_and_Category_ID) REFERENCES service_and_category_list(servi
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 Select * from service_mapping;
-
+delete from service_mapping where Doctor_ID = '1000125';
 SELECT 
   service_and_category_list.Category_name, 
   service_and_category_list.Service_name, 
@@ -241,7 +240,6 @@ FOREIGN KEY (address_ID) REFERENCES Doctor_addresses(addresses_ID) ON DELETE CAS
 
 select * from phone_numbers;
 delete from phone_numbers where phone_numbersID between '1' and '1000';
-drop table phone_numbers;
 
 CREATE TABLE doctor_addresses(
 addresses_ID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,

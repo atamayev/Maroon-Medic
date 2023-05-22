@@ -1,4 +1,4 @@
-export function getUpdatedRecords(newData, results) {
+export function getUpdatedAddressRecords(newData, results) {
     const resultDataMap = new Map();
     let updatedRecords = [];
   
@@ -29,17 +29,13 @@ export function getUpdatedRecords(newData, results) {
           updatedRecords.push(newRecord);
         }
       } 
-      // else {
-      //   // If there's no matching record in the existing data, consider newRecord as an updated record
-      //   updatedRecords.push(newRecord);
-      // }
     }
  
     // Return array of updated records
     return updatedRecords;
 };
   
-export function getUnchangedRecords(newData, results) {
+export function getUnchangedAddressRecords(newData, results) {
   const resultDataMap = new Map();
   let unchangedData = [];
 

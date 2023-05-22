@@ -2,7 +2,6 @@ import React from "react";
 import { Card, Button} from "react-bootstrap";
 import { handleCategoryChange } from "../../../Custom Hooks/Hooks for Doctor Account Details/select";
 import { handleToggleCategory } from "../../../Custom Hooks/Hooks for Doctor Account Details/select";
-import { handleServiceChange } from "../../../Custom Hooks/Hooks for Doctor Account Details/select";
 import { saveServices } from "../../../Custom Hooks/Hooks for Doctor Account Details/save";
 import { handleAddService } from "../../../Custom Hooks/Hooks for Doctor Account Details/add";
 import { handleDeleteService } from "../../../Custom Hooks/Hooks for Doctor Account Details/delete";
@@ -35,8 +34,6 @@ function renderIsVetServices (props) {
     return services.every(service => service.Service_time !== null && service.Service_time !== "");
   }
   
-  console.log('props.acceptedServices',props.acceptedServices)
-
   if (Array.from(new Set(props.listDetails[2]?.map((item) => item.Category_name))).length) {
     return (
       <>
