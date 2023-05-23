@@ -1,6 +1,6 @@
 import { connection, useDB } from "../../dbAndSecurity/connect.js";
 import Crypto from "../../dbAndSecurity/crypto.js";
-import { getUnchangedAddressRecords, getUpdatedAddressRecords } from "../../dbAndSecurity/addressOperations.js";
+import { getUnchangedAddressRecords, getUpdatedAddressRecords, areTimeObjectsEqual } from "../../dbAndSecurity/addressOperations.js";
 import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
 
 /** savePersonalData is self-explanatory in name
@@ -436,24 +436,26 @@ export async function saveAddressData (req, res){
     
     const AddressData = req.body.AddressData;
     const TimesData = req.body.Times;
-    console.log(TimesData)
+    console.log('TimesData',TimesData)
 
     const table_name1 = 'doctor_addresses';
     const table_name2 = 'phone_numbers'; 
+    const table_name3 = 'booking_availability';
+
     const DB_name = 'DoctorDB';
 
     const sql = `SELECT * FROM ${table_name1} JOIN ${table_name2} ON ${table_name1}.addresses_ID = ${table_name2}.address_ID WHERE ${table_name1}.Doctor_ID = ?`;
     const values = [DoctorID];
-    let results;
+    let Address_results;
 
     await useDB(saveAddressData.name, DB_name, table_name1);
     try{
-        [results] = await connection.execute(sql, values);
+        [Address_results] = await connection.execute(sql, values);
     }catch(error){
         console.log(`error in ${saveAddressData.name}:`, error)
         return res.status(400).json(false);
     }
-    if (results.length) {
+    if (Address_results.length) {
         const newData = AddressData;
         // Check for changes in data:
         
@@ -461,15 +463,44 @@ export async function saveAddressData (req, res){
         const addedData = newData.filter(data => data.addresses_ID === 0);
 
         //Extracts just the IDs of the data that was in the DB, but is not in the new incoming Data
-        const deletedData = results
+        const deletedData = Address_results
             .filter(result => !newData.some(data => data.addresses_ID === result.addresses_ID))
             .map(result => result.addresses_ID);
         
-        const updatedData = getUpdatedAddressRecords(newData, results)
+        const updatedData = getUpdatedAddressRecords(newData, Address_results)
 
-        const unchangedData = getUnchangedAddressRecords(newData, results);
+        const unchangedData = getUnchangedAddressRecords(newData, Address_results);
 
         let returnedData = unchangedData; //initialize the data to return with the data that hasn't changed.
+        let returnedTimeData = [];
+
+        const sql = `SELECT * FROM ${table_name3} WHERE ${table_name3}.Doctor_ID = ?`;
+        const values = [DoctorID];
+        let timeDataResults;
+    
+        await useDB(saveAddressData.name, DB_name, table_name1);
+        try{
+            [timeDataResults] = await connection.execute(sql, values);
+        }catch(error){
+            console.log(`error in tiem data results${saveAddressData.name}:`, error)
+            return res.status(400).json(false);
+        }
+
+        const addedTimeData = TimesData.filter(
+            newObj => !timeDataResults.find(oldObj => areTimeObjectsEqual(newObj, oldObj))
+          );
+          
+        const deletedTimeData = timeDataResults.filter(
+        oldObj => !TimesData.find(newObj => areTimeObjectsEqual(newObj, oldObj))
+        );
+        
+        const unchangedTimeData = TimesData.filter(
+        newObj => timeDataResults.find(oldObj => areTimeObjectsEqual(newObj, oldObj))
+        );
+
+        console.log('addedTimeData', addedTimeData)
+        console.log('deletedTimeData', deletedTimeData)
+        console.log('unchangedTimeData', unchangedTimeData)
 
         if (addedData.length > 0) {
             for (let i = 0; i<addedData.length; i++){
@@ -529,7 +560,50 @@ export async function saveAddressData (req, res){
                 returnedData.push(updatedData[i])
             }
         }
-        return res.status(200).json(returnedData);
+        //After all address operations are complete, do the TimeData Operations:
+        if(returnedData.length){
+            if(addedTimeData.length){
+                for (let i = 0; i<addedTimeData.length; i++){
+                    if(addedTimeData[i]){
+                        const sql3 = `INSERT INTO ${table_name3} (Day_of_week, Start_Time, End_Time, address_ID, Doctor_ID) VALUES (?, ?, ?, ?, ?)`;
+                        const values3 = [addedTimeData[i].Day_of_week, addedTimeData[i].Start_Time, addedTimeData[i].End_Time, returnedData[i].addresses_ID ,DoctorID]
+                        try{
+                            await connection.execute(sql3, values3);
+                        }catch(error){
+                            console.log(`error in inserting phone info ${saveAddressData.name}:`, error);
+                            return res.status(400);  
+                        }
+                        //Update to account for times:
+                    }
+                    returnedTimeData.push(addedData[i])
+                }
+            }
+            if(deletedTimeData.length){
+                for (let i = 0; i<deletedTimeData.length; i++){
+                    if(deletedTimeData[i]){
+                        const sql3 = `DELETE FROM ${table_name3} WHERE Day_of_week = ? AND Start_Time = ? AND End_Time = ?`;
+                        const values3 = [deletedTimeData[i].Day_of_week, deletedTimeDatadeletedTimeData[i].Start_Time, addedTimeData[i].End_Time]
+                        try{
+                            await connection.execute(sql3, values3);
+                        }catch(error){
+                            console.log(`error in DELETING time info ${saveAddressData.name}:`, error);
+                            return res.status(400);  
+                        }
+                        //Update to account for times:
+                    }
+                }
+                //delete from the DB, update the returnedData
+                //check what happens when an entire address is deleted, might mess with this because of the delete cascade
+            }
+            if(unchangedTimeData){
+                returnedTimeData.push(unchangedData)
+            }
+            //find a way to combine returnedTimeData into returnedData.
+            return res.status(200).json(returnedData);
+        }else{
+            //if no addresses:
+            return res.status(200).json([])
+        }
     } else if (AddressData.length > 0){
         for (let i=0; i<AddressData.length; i++){
             const sql1 = `INSERT INTO ${table_name1} (address_title, address_line_1, address_line_2, city, state, zip, country, address_priority, Doctor_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;

@@ -1,10 +1,8 @@
 To-do:
 
 ASAP:
--when data first loads, weekDays is unhappy (async)
-will need to work on querying the times for each location within the fetch addresses fucntion, and save the times as an array of objects as one of the values in teh location obj.
-	ie:
-	[{Address_title:'', etc, times: [{Monday:'', Tuesday:''}]]
+major problems in saving time Data.
+	Time data needs to be in the correct order when being added, deleted, etc. currently, the added data, unchanged data will mess with the order of the times.
 
 add working hours for each address
 add an active/inactive button for each address, add the active/inactive to the addresses Db.

@@ -189,7 +189,6 @@ export default new class FetchDoctorAccountData{
         if(results.length){
             for(let i =0;i<results.length; i++){
                 const sql1 = `SELECT ${table_name3}.Day_of_week, ${table_name3}.Start_Time, ${table_name3}.End_Time FROM ${table_name3} WHERE ${table_name3}.address_ID = ?`;
-                console.log('results[i].addresses_ID',results[i].addresses_ID)
                 const values1 = [results[i].addresses_ID]
                 try{
                     const [results1] = await connection.execute(sql1, values1);

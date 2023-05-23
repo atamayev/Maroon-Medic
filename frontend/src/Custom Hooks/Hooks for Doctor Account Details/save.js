@@ -240,23 +240,22 @@ export async function saveLocation (addresses, setAddresses, setShowSavedLocatio
   }
 
   if (shouldSave) {
-    console.log('should saving')
-    // try {
-    //   const response = await PrivateDoctorDataService.saveAddressData(newAddresses, newTimes);
-    //   if (response.status === 200) {
-    //     const newAddressData = response.data;
-    //     DoctorAccountDetails[6] = newAddressData;
-    //     setAddresses(newAddressData);
-    //     sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-    //     setShowSavedLocationMessage(true);
-    //   } else {
-    //     console.log('problem saving data');
-    //     setShowSaveProblemMessage(true);
-    //   }
-    // } catch (error) {
-    //   console.log('error in saveLocation', error);
-    //   setShowSaveProblemMessage(true);
-    // }
+    try {
+      const response = await PrivateDoctorDataService.saveAddressData(newAddresses, newTimes);
+      if (response.status === 200) {
+        const newAddressData = response.data;
+        DoctorAccountDetails[6] = newAddressData;
+        setAddresses(newAddressData);
+        sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+        setShowSavedLocationMessage(true);
+      } else {
+        console.log('problem saving data');
+        setShowSaveProblemMessage(true);
+      }
+    } catch (error) {
+      console.log('error in saveLocation', error);
+      setShowSaveProblemMessage(true);
+    }
   }else{
     setShowSameLocationMessage(true);
   }

@@ -71,3 +71,11 @@ export function getUnchangedAddressRecords(newData, results) {
   // Return array of unchanged records
   return unchangedData;
 };
+
+export function areTimeObjectsEqual(obj1, obj2) {
+  return (
+    obj1['Day of Week'] === obj2['Day of Week'] &&
+    obj1['Start_time'] === obj2['Start_time'] &&
+    obj1['End_time'] === obj2['End_time']
+  );
+};
