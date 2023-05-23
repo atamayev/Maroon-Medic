@@ -1,6 +1,11 @@
 To-do:
 
 ASAP:
+will need to work on querying the times for each location within the fetch addresses fucntion, and save the times as an array of objects as one of the values in teh location obj.
+	ie:
+	[{Address_title:'', etc, times: [{Monday:'', Tuesday:''}]]
+change the allFieldsChecked in addresses to include the times of any checked off days
+
 add working hours for each address
 add an active/inactive button for each address, add the active/inactive to the addresses Db.
 

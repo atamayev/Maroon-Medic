@@ -37,8 +37,8 @@ export default new class PrivateDoctorDataService {
     async saveServiceData(ServicesData){
         return await http.post('/private-doctor-data/save-services-data', {ServicesData: ServicesData})
     }
-    async saveAddressData(AddressData){
-        return await http.post('/private-doctor-data/save-address-data', {AddressData: AddressData})
+    async saveAddressData(AddressData, times){
+        return await http.post('/private-doctor-data/save-address-data', {AddressData: AddressData, Times: times})
     }
     async fillCalendarDetails(){
         return await http.get('calendar/getDoctorCalendarDetails');

@@ -281,12 +281,14 @@ DELETE FROM doctor_addresses WHERE Doctor_ID = '1000125' ;
 CREATE TABLE booking_availability(
 booking_availabilityID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Day_of_week VARCHAR(150), -- wheather or not the doc takes on monday
-Day_of_week_Start_Time VARCHAR(150),
-Day_of_week_End_Time VARCHAR(150),
+Start_Time VARCHAR(10),
+End_Time VARCHAR(10),
 address_ID INT unsigned NOT NULL,
 FOREIGN KEY (address_ID) REFERENCES Doctor_addresses(addresses_ID) ON DELETE CASCADE,
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
+
+select * from booking_availability;
 
 CREATE TABLE detailed_booking_availability(
 detailed_booking_availabilityID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,

@@ -216,7 +216,7 @@ export async function saveVetSchool(vetEducation, listDetails, setShowSavedVetEd
   }
 };
 
-export async function saveLocation (addresses, setAddresses, setShowSavedLocationMessage, setShowSameLocationMessage, setShowSaveProblemMessage){
+export async function saveLocation (addresses, setAddresses, setShowSavedLocationMessage, setShowSameLocationMessage, setShowSaveProblemMessage, times){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   const savedLocationData = DoctorAccountDetails?.[6];
   let shouldSave = false;
@@ -224,7 +224,8 @@ export async function saveLocation (addresses, setAddresses, setShowSavedLocatio
   if (!savedLocationData || !savedLocationData.length) {
     // If no Location Data exists
     shouldSave = !!addresses.length;
-  } else if (!areArraysSame(addresses, savedLocationData)) {
+  } else if ((!areArraysSame(addresses, savedLocationData))) {
+//  } else if ((!areArraysSame(addresses, savedLocationData)) && (!areArraysSame(times, savedTimes))) {
     // Data is different
     shouldSave = true;
   } else {
@@ -234,7 +235,7 @@ export async function saveLocation (addresses, setAddresses, setShowSavedLocatio
 
   if (shouldSave) {
     try {
-      const response = await PrivateDoctorDataService.saveAddressData(addresses);
+      const response = await PrivateDoctorDataService.saveAddressData(addresses, times);
       if (response.status === 200) {
         const newAddressData = response.data;
         DoctorAccountDetails[6] = newAddressData;

@@ -177,20 +177,33 @@ export default new class FetchDoctorAccountData{
     
         const values = [DoctorID];
         await useDB(functionName, DB_name, table_name1);
+        let results
     
         try{
-            const [results] = await connection.execute(sql, values);
-            if (results.length === 0) {
-                console.log('DoctorAddressData Data does not exist');
-                return [];
-            } else {
-                // const decrypted = Crypto.decryptSingle(results[0]);
-                // return (decrypted);
-                return (results);
-            }
+            [results] = await connection.execute(sql, values);
         }catch(error){
             return (`error in ${functionName}:`, error);
         }
+
+        const table_name3 = 'booking_availability';
+        if(results.length){
+            for(let i =0;i<results.length; i++){
+                const sql1 = `SELECT ${table_name3}.Day_of_week, ${table_name3}.Start_Time, ${table_name3}.End_Time FROM ${table_name3} WHERE ${table_name3}.address_ID = ?`;
+                console.log('results[i].addresses_ID',results[i].addresses_ID)
+                const values1 = [results[i].addresses_ID]
+                try{
+                    const [results1] = await connection.execute(sql1, values1);
+                    results[i].times = results1;
+                }catch(error){
+                    return (`error in second try=catch ${functionName}:`, error);
+                }
+            }
+        }else{
+            //if there are no results.length
+            console.log('DoctorAddressData Data does not exist');
+            return results.serverStatus(400).json([])
+        }
+        return (results);
     };
 
     async FetchDescriptionData (DoctorID){

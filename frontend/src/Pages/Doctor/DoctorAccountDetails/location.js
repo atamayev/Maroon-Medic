@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Card, Accordion, Form, Button} from 'react-bootstrap';
 import FormGroup from "../../../Components/form-group";
 import { handleDeleteAccordion } from "../../../Custom Hooks/Hooks for Doctor Account Details/delete";
@@ -22,15 +22,13 @@ export default function RenderLocationSection(props){
   );
 };
 
-const WeekDays = () => {
+const WeekDays = ({ times, setTimes}) => {
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-
-  const [times, setTimes] = useState(daysOfWeek.reduce((acc, day) => ({...acc, [day]: null}), {}));
 
   const handleDayToggle = (day) => {
     setTimes(prevTimes => ({
       ...prevTimes,
-      [day]: prevTimes[day] ? null : {start: '00:00', end: '00:00'}
+      [day]: prevTimes[day] ? null : {start: null, end: '00:00'}
     }));
   }
 
@@ -73,6 +71,9 @@ const WeekDays = () => {
 }
 
 function AddressForm(props) {
+  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  const [times, setTimes] = useState(daysOfWeek.reduce((acc, day) => ({...acc, [day]: null}), {}));
+
   const handleInputChange = (event, address_priority) => {
     const newAddresses = props.addresses.map(address => {
       if (address.address_priority === address_priority) {
@@ -99,6 +100,10 @@ function AddressForm(props) {
     return true;
   }
 
+  useEffect(()=>{
+    console.log(times)
+  }, [times])
+
   return (
     <>
       <Accordion>
@@ -108,6 +113,8 @@ function AddressForm(props) {
           address={address} 
           handleInputChange={(e) => handleInputChange(e, address.address_priority)}
           handleDeleteAccordion={() => handleDeleteAccordion(address.address_priority, props.addresses, props.setAddresses)}
+          times = {times}
+          setTimes = {setTimes}
           />
         ))}
       </Accordion>
@@ -115,7 +122,7 @@ function AddressForm(props) {
       <Button 
         variant="success" 
         disabled = {!areAllFieldsValid(props.addresses)}
-        onClick={()=> saveLocation(props.addresses, props.setAddresses, props.setShowSavedLocationsMessage, props.setShowSameLocationsMessage, props.setShowSaveLocationsProblemMessage)}
+        onClick={()=> saveLocation(props.addresses, props.setAddresses, props.setShowSavedLocationsMessage, props.setShowSameLocationsMessage, props.setShowSaveLocationsProblemMessage, times)}
         >
         Save</Button>
       <span className={`fade ${props.showSavedLocationsMessage ? 'show' : ''}`}>Locations saved!</span>
@@ -125,7 +132,7 @@ function AddressForm(props) {
   );
 };
 
-const AddressAccordionItem = ({ address, handleInputChange, handleDeleteAccordion, addresses, setAddresses }) => (
+const AddressAccordionItem = ({ address, handleInputChange, handleDeleteAccordion, addresses, setAddresses, times, setTimes }) => (
   <Accordion.Item eventKey={address.address_priority}>
     <Accordion.Header>
       {address.address_title ? (address.address_title): ('Address #' + (address.address_priority + 1))}
@@ -239,8 +246,7 @@ const AddressAccordionItem = ({ address, handleInputChange, handleDeleteAccordio
             Google Maps Placeholder
           </div>
           <div className="col-md-6">
-            {/* test */}
-            <WeekDays />
+            <WeekDays times = {times} setTimes = {setTimes}/>
           </div>
         </div>
 

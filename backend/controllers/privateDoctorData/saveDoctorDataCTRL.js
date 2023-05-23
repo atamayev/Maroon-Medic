@@ -435,6 +435,7 @@ export async function saveAddressData (req, res){
     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
     
     const AddressData = req.body.AddressData;
+    const TimesData = req.body.Times;
 
     const table_name1 = 'doctor_addresses';
     const table_name2 = 'phone_numbers'; 
