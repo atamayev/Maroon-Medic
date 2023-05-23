@@ -216,16 +216,22 @@ export async function saveVetSchool(vetEducation, listDetails, setShowSavedVetEd
   }
 };
 
-export async function saveLocation (addresses, setAddresses, setShowSavedLocationMessage, setShowSameLocationMessage, setShowSaveProblemMessage, times){
+export async function saveLocation (addresses, setAddresses, setShowSavedLocationMessage, setShowSameLocationMessage, setShowSaveProblemMessage){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   const savedLocationData = DoctorAccountDetails?.[6];
+
+  const savedTimes = savedLocationData.map(location => location.times);
+  const savedAddresses = savedLocationData.map(({ times, ...rest }) => rest);
+  const newTimes = addresses.map(location => location.times);
+  const newAddresses = addresses.map(({ times, ...rest }) => rest);
+
+  //need a times variable, adress var
   let shouldSave = false;
 
   if (!savedLocationData || !savedLocationData.length) {
     // If no Location Data exists
     shouldSave = !!addresses.length;
-  } else if ((!areArraysSame(addresses, savedLocationData))) {
-//  } else if ((!areArraysSame(addresses, savedLocationData)) && (!areArraysSame(times, savedTimes))) {
+ } else if ((!areArraysSame(newAddresses, savedAddresses)) || (!areArraysSame(newTimes, savedTimes))) {
     // Data is different
     shouldSave = true;
   } else {
@@ -234,22 +240,23 @@ export async function saveLocation (addresses, setAddresses, setShowSavedLocatio
   }
 
   if (shouldSave) {
-    try {
-      const response = await PrivateDoctorDataService.saveAddressData(addresses, times);
-      if (response.status === 200) {
-        const newAddressData = response.data;
-        DoctorAccountDetails[6] = newAddressData;
-        setAddresses(newAddressData);
-        sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-        setShowSavedLocationMessage(true);
-      } else {
-        console.log('problem saving data');
-        setShowSaveProblemMessage(true);
-      }
-    } catch (error) {
-      console.log('error in saveLocation', error);
-      setShowSaveProblemMessage(true);
-    }
+    console.log('should saving')
+    // try {
+    //   const response = await PrivateDoctorDataService.saveAddressData(newAddresses, newTimes);
+    //   if (response.status === 200) {
+    //     const newAddressData = response.data;
+    //     DoctorAccountDetails[6] = newAddressData;
+    //     setAddresses(newAddressData);
+    //     sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+    //     setShowSavedLocationMessage(true);
+    //   } else {
+    //     console.log('problem saving data');
+    //     setShowSaveProblemMessage(true);
+    //   }
+    // } catch (error) {
+    //   console.log('error in saveLocation', error);
+    //   setShowSaveProblemMessage(true);
+    // }
   }else{
     setShowSameLocationMessage(true);
   }

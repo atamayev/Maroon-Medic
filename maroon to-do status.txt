@@ -1,15 +1,14 @@
 To-do:
 
 ASAP:
-outsource timesArray to DoctorAccountDetails
+-when data first loads, weekDays is unhappy (async)
 will need to work on querying the times for each location within the fetch addresses fucntion, and save the times as an array of objects as one of the values in teh location obj.
 	ie:
 	[{Address_title:'', etc, times: [{Monday:'', Tuesday:''}]]
-change the allFieldsChecked in addresses to include the times of any checked off days
 
 add working hours for each address
 add an active/inactive button for each address, add the active/inactive to the addresses Db.
-
+-make sure that the end time is after start time - or else will give issues
 make setmonth, year, startmonth, year, etc. into a single state (Education)
 
 Make the 'Add Address' Button Finalize a Location, make it within the accordion. 

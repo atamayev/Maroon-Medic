@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {Card, Accordion, Form, Button} from 'react-bootstrap';
 import FormGroup from "../../../Components/form-group";
 import { handleDeleteAccordion } from "../../../Custom Hooks/Hooks for Doctor Account Details/delete";
@@ -23,9 +23,6 @@ export default function RenderLocationSection(props){
 };
 
 function AddressForm(props) {
-  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-  const [times, setTimes] = useState(daysOfWeek.reduce((acc, day) => ({...acc, [day]: null}), {}));
-
   const handleInputChange = (event, address_priority) => {
     const newAddresses = props.addresses.map(address => {
       if (address.address_priority === address_priority) {
@@ -48,13 +45,21 @@ function AddressForm(props) {
       ) {
         return false;
       }
+  
+      // Check for days that are checked off (exist in times array)
+      for (let time of address.times) {
+        console.log(address.times);
+        if (!time.Start_time || !time.End_time) {
+          return false;
+        }
+      }
     }
     return true;
   }
 
   useEffect(()=>{
-    console.log(times)
-  }, [times])
+    console.log(props.addresses)
+  }, [props.addresses])
 
   return (
     <>
@@ -65,8 +70,6 @@ function AddressForm(props) {
           address={address} 
           handleInputChange={(e) => handleInputChange(e, address.address_priority)}
           handleDeleteAccordion={() => handleDeleteAccordion(address.address_priority, props.addresses, props.setAddresses)}
-          times = {times}
-          setTimes = {setTimes}
           />
         ))}
       </Accordion>
@@ -74,7 +77,7 @@ function AddressForm(props) {
       <Button 
         variant="success" 
         disabled = {!areAllFieldsValid(props.addresses)}
-        onClick={()=> saveLocation(props.addresses, props.setAddresses, props.setShowSavedLocationsMessage, props.setShowSameLocationsMessage, props.setShowSaveLocationsProblemMessage, times)}
+        onClick={()=> saveLocation(props.addresses, props.setAddresses, props.setShowSavedLocationsMessage, props.setShowSameLocationsMessage, props.setShowSaveLocationsProblemMessage)}
         >
         Save</Button>
       <span className={`fade ${props.showSavedLocationsMessage ? 'show' : ''}`}>Locations saved!</span>
@@ -84,7 +87,7 @@ function AddressForm(props) {
   );
 };
 
-const AddressAccordionItem = ({ address, handleInputChange, handleDeleteAccordion, addresses, setAddresses, times, setTimes }) => (
+const AddressAccordionItem = ({ address, handleInputChange, handleDeleteAccordion, addresses, setAddresses }) => (
   <Accordion.Item eventKey={address.address_priority}>
     <Accordion.Header>
       {address.address_title ? (address.address_title): ('Address #' + (address.address_priority))}
@@ -198,7 +201,7 @@ const AddressAccordionItem = ({ address, handleInputChange, handleDeleteAccordio
             Google Maps Placeholder
           </div>
           <div className="col-md-6">
-            <WeekDays times = {times} setTimes = {setTimes}/>
+          <WeekDays times={address.times} setTimes={(newTimes) => handleInputChange({ target: { name: 'times', value: newTimes } }, address.address_priority)} />
           </div>
         </div>
 
@@ -207,27 +210,32 @@ const AddressAccordionItem = ({ address, handleInputChange, handleDeleteAccordio
   </Accordion.Item>
 );
 
-
 const WeekDays = ({ times, setTimes}) => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(()=>{
+    setLoading(!times)
+    console.log(!!times);
+  }, [times])
+
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   const handleDayToggle = (day) => {
-    setTimes(prevTimes => ({
-      ...prevTimes,
-      [day]: prevTimes[day] ? null : {Start_time: null, End_Time: '00:00'}
-    }));
-  }
+    if (times.some(time => time.Day_of_week === day)) {
+      setTimes(times.filter(time => time.Day_of_week !== day));
+    } else {
+      setTimes([...times, { Day_of_week: day, Start_time: '', End_time: '' }]);
+    }
+  };
 
   const handleTimeChange = (day, timeType, newTime) => {
-    if (times[day]) {
-      setTimes(prevTimes => ({
-        ...prevTimes,
-        [day]: {
-          ...prevTimes[day],
-          [timeType]: newTime
-        }
-      }));
-    }
+    setTimes(times.map(time =>
+      time.Day_of_week === day ? { ...time, [timeType]: newTime } : time
+    ));
+  }
+  
+  if(loading){
+    return <div>Loading...</div>
   }
 
   return (
@@ -235,18 +243,18 @@ const WeekDays = ({ times, setTimes}) => {
       {daysOfWeek.map((day) => (
         <div key={day} className="mb-3 d-flex align-items-center">
           <label className="mr-3">{day}</label>
-          <Toggle id={day} checked={times[day] !== null} onChange={() => handleDayToggle(day)} />
-          {times[day] && (
+          <Toggle id={day} checked={times.some(time => time.Day_of_week === day)} onChange={() => handleDayToggle(day)} />
+          {times.find(time => time.Day_of_week === day) && (
             <>
               <TimePicker
                 className="ml-3"
                 onChange={(value) => handleTimeChange(day, 'Start_time', value)}
-                value={times[day].Start_time}
+                value={times.find(time => time.Day_of_week === day).Start_time}
               />-
               <TimePicker
                 className="ml-3"
-                onChange={(value) => handleTimeChange(day, 'End_Time', value)}
-                value={times[day].End_Time}
+                onChange={(value) => handleTimeChange(day, 'End_time', value)}
+                value={times.find(time => time.Day_of_week === day).End_time}
               />
             </>
           )}

@@ -436,6 +436,7 @@ export async function saveAddressData (req, res){
     
     const AddressData = req.body.AddressData;
     const TimesData = req.body.Times;
+    console.log(TimesData)
 
     const table_name1 = 'doctor_addresses';
     const table_name2 = 'phone_numbers'; 
