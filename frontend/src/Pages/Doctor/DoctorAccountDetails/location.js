@@ -22,54 +22,6 @@ export default function RenderLocationSection(props){
   );
 };
 
-const WeekDays = ({ times, setTimes}) => {
-  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-
-  const handleDayToggle = (day) => {
-    setTimes(prevTimes => ({
-      ...prevTimes,
-      [day]: prevTimes[day] ? null : {start: null, end: '00:00'}
-    }));
-  }
-
-  const handleTimeChange = (day, timeType, newTime) => {
-    if (times[day]) {
-      setTimes(prevTimes => ({
-        ...prevTimes,
-        [day]: {
-          ...prevTimes[day],
-          [timeType]: newTime
-        }
-      }));
-    }
-  }
-
-  return (
-    <div>
-      {daysOfWeek.map((day) => (
-        <div key={day} className="mb-3 d-flex align-items-center">
-          <label className="mr-3">{day}</label>
-          <Toggle id={day} checked={times[day] !== null} onChange={() => handleDayToggle(day)} />
-          {times[day] && (
-            <>
-              <TimePicker
-                className="ml-3"
-                onChange={(value) => handleTimeChange(day, 'start', value)}
-                value={times[day].start}
-              />-
-              <TimePicker
-                className="ml-3"
-                onChange={(value) => handleTimeChange(day, 'end', value)}
-                value={times[day].end}
-              />
-            </>
-          )}
-        </div>
-      ))}
-    </div>
-  )
-}
-
 function AddressForm(props) {
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   const [times, setTimes] = useState(daysOfWeek.reduce((acc, day) => ({...acc, [day]: null}), {}));
@@ -135,7 +87,7 @@ function AddressForm(props) {
 const AddressAccordionItem = ({ address, handleInputChange, handleDeleteAccordion, addresses, setAddresses, times, setTimes }) => (
   <Accordion.Item eventKey={address.address_priority}>
     <Accordion.Header>
-      {address.address_title ? (address.address_title): ('Address #' + (address.address_priority + 1))}
+      {address.address_title ? (address.address_title): ('Address #' + (address.address_priority))}
       <Button variant="danger" size="sm" onClick={() => handleDeleteAccordion(address.address_priority, addresses, setAddresses)} style={{ float: 'right' }}>X</Button>
     </Accordion.Header>
     <Accordion.Body>
@@ -254,3 +206,52 @@ const AddressAccordionItem = ({ address, handleInputChange, handleDeleteAccordio
     </Accordion.Body>
   </Accordion.Item>
 );
+
+
+const WeekDays = ({ times, setTimes}) => {
+  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+  const handleDayToggle = (day) => {
+    setTimes(prevTimes => ({
+      ...prevTimes,
+      [day]: prevTimes[day] ? null : {start: null, end: '00:00'}
+    }));
+  }
+
+  const handleTimeChange = (day, timeType, newTime) => {
+    if (times[day]) {
+      setTimes(prevTimes => ({
+        ...prevTimes,
+        [day]: {
+          ...prevTimes[day],
+          [timeType]: newTime
+        }
+      }));
+    }
+  }
+
+  return (
+    <div>
+      {daysOfWeek.map((day) => (
+        <div key={day} className="mb-3 d-flex align-items-center">
+          <label className="mr-3">{day}</label>
+          <Toggle id={day} checked={times[day] !== null} onChange={() => handleDayToggle(day)} />
+          {times[day] && (
+            <>
+              <TimePicker
+                className="ml-3"
+                onChange={(value) => handleTimeChange(day, 'start', value)}
+                value={times[day].start}
+              />-
+              <TimePicker
+                className="ml-3"
+                onChange={(value) => handleTimeChange(day, 'end', value)}
+                value={times[day].end}
+              />
+            </>
+          )}
+        </div>
+      ))}
+    </div>
+  )
+};

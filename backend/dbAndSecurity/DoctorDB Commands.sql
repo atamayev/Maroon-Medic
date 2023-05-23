@@ -288,6 +288,8 @@ FOREIGN KEY (address_ID) REFERENCES Doctor_addresses(addresses_ID) ON DELETE CAS
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 
+INSERT INTO booking_availability (Day_of_week, Start_Time, End_Time, address_ID, Doctor_ID) VALUES
+('wed', '12', '13', '22', '1000125');
 select * from booking_availability;
 
 CREATE TABLE detailed_booking_availability(

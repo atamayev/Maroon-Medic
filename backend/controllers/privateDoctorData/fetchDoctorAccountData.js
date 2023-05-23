@@ -201,7 +201,7 @@ export default new class FetchDoctorAccountData{
         }else{
             //if there are no results.length
             console.log('DoctorAddressData Data does not exist');
-            return results.serverStatus(400).json([])
+            return []
         }
         return (results);
     };
