@@ -214,7 +214,7 @@ const WeekDays = ({ times, setTimes}) => {
   const handleDayToggle = (day) => {
     setTimes(prevTimes => ({
       ...prevTimes,
-      [day]: prevTimes[day] ? null : {start: null, end: '00:00'}
+      [day]: prevTimes[day] ? null : {Start_time: null, End_Time: '00:00'}
     }));
   }
 
@@ -240,13 +240,13 @@ const WeekDays = ({ times, setTimes}) => {
             <>
               <TimePicker
                 className="ml-3"
-                onChange={(value) => handleTimeChange(day, 'start', value)}
-                value={times[day].start}
+                onChange={(value) => handleTimeChange(day, 'Start_time', value)}
+                value={times[day].Start_time}
               />-
               <TimePicker
                 className="ml-3"
-                onChange={(value) => handleTimeChange(day, 'end', value)}
-                value={times[day].end}
+                onChange={(value) => handleTimeChange(day, 'End_Time', value)}
+                value={times[day].End_Time}
               />
             </>
           )}
