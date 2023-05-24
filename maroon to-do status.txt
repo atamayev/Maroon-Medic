@@ -1,10 +1,6 @@
 To-do:
 
 ASAP:
-major problems in saving time Data.
-	Time data needs to be in the correct order when being added, deleted, etc. currently, the added data, unchanged data will mess with the order of the times.
-
-add working hours for each address
 add an active/inactive button for each address, add the active/inactive to the addresses Db.
 -make sure that the end time is after start time - or else will give issues
 make setmonth, year, startmonth, year, etc. into a single state (Education)
@@ -14,8 +10,7 @@ Make the 'Add Address' Button Finalize a Location, make it within the accordion.
 	Add a new 'Add new address' button to add a new acordion strip
 	
 think about where calendar should be (route-wise)
-
-
+Write documentation, especially for saveAddresses
 
 -- will likely need to simplify the select.js. what it's doing rn is redundant. inside account details, it's setting the value of the type of to the id. then, select has to find which type has that id.
 	for example, if select Lemonade insurance, instead of setting selected vet school to Lemondae, it first sends back lemonad'es id, and then converts it to the name

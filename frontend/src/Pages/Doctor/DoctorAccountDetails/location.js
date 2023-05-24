@@ -57,10 +57,6 @@ function AddressForm(props) {
     return true;
   }
 
-  useEffect(()=>{
-    console.log(props.addresses)
-  }, [props.addresses])
-
   return (
     <>
       <Accordion>

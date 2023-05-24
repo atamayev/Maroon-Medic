@@ -1,6 +1,6 @@
 import { connection, useDB } from "../../dbAndSecurity/connect.js";
 import Crypto from "../../dbAndSecurity/crypto.js";
-import { getUnchangedAddressRecords, getUpdatedAddressRecords, areTimeObjectsEqual } from "../../dbAndSecurity/addressOperations.js";
+import { getUnchangedAddressRecords, getUpdatedAddressRecords } from "../../dbAndSecurity/addressOperations.js";
 import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
 
 /** savePersonalData is self-explanatory in name
@@ -533,23 +533,28 @@ export async function saveAddressData (req, res){
         }
         //After all address operations are complete, do the TimeData Operations:
         if(returnedData.length){
+            console.log('returnedData in length', returnedData)
+
             // go into each element of the returnedData array.
             //for for the ith element in returnedData, find the corresponding times objects in TimesData (will be the ith element in the TimesData array)
             //compare each of the objects in that TimesData element to all of the data that a select * for that 
             //Select * from timedata table where addressID=returnedData[i].AddressID.
             //see which data is new, and which data is deleted. will be re-declaring addedTimeData, deletedTimeData inside of a loop (that iterates over all the address_IDs)
             //the addedData/deletedData will act inside of a loop, length of addedTimeDAta/deletedTimeData
-            for(let i; i<returnedData.length; i++){
+            for(let i =0; i<returnedData.length; i++){
                 const returnedDataData = returnedData[i];
                 const corespondingTimeData = TimesData[i];
-                
+                console.log('returnedDataData', returnedDataData)
+                console.log('corespondingTimeData', corespondingTimeData)
+
                 const sql = `SELECT * FROM ${table_name3} WHERE ${table_name3}.address_ID = ? AND ${table_name3}.Doctor_ID = ?`;
-                const values = [returnedDataData.address_ID, DoctorID];
+                const values = [returnedDataData.addresses_ID, DoctorID];
                 let timeDataResults;
-            
+
                 await useDB(saveAddressData.name, DB_name, table_name1);
                 try{
                     [timeDataResults] = await connection.execute(sql, values);
+                    console.log('timeDataResults',timeDataResults)
                 }catch(error){
                     console.log(`error in tiem data results${saveAddressData.name}:`, error)
                     return res.status(400).json(false);
@@ -565,13 +570,17 @@ export async function saveAddressData (req, res){
                     return (item.Day_of_week in oldDataDict) && 
                       (item.Start_time !== oldDataDict[item.Day_of_week].Start_time || 
                       item.End_time !== oldDataDict[item.Day_of_week].End_time);
-                  });
-                
+                });
+                console.log('addedTimeData',addedTimeData)
+                console.log('deletedTimeData',deletedTimeData)
+                console.log('updatedTimeData',updatedTimeData)
+
                 if(addedTimeData.length){
                     for (let j = 0; j<addedTimeData.length; j++){
                         if(addedTimeData[j]){
-                            const sql3 = `INSERT INTO ${table_name3} (Day_of_week, Start_Time, End_Time, address_ID, Doctor_ID) VALUES (?, ?, ?, ?, ?)`;
-                            const values3 = [addedTimeData[j].Day_of_week, addedTimeData[j].Start_Time, addedTimeData[j].End_Time, returnedDataData.addresses_ID, DoctorID]
+                            const sql3 = `INSERT INTO ${table_name3} (Day_of_week, Start_time, End_time, address_ID, Doctor_ID) VALUES (?, ?, ?, ?, ?)`;
+                            const values3 = [addedTimeData[j].Day_of_week, addedTimeData[j].Start_time, addedTimeData[j].End_time, returnedDataData.addresses_ID, DoctorID]
+                            console.log('values3',values3)
                             try{
                                 await connection.execute(sql3, values3);
                             }catch(error){
@@ -584,8 +593,8 @@ export async function saveAddressData (req, res){
                 if(deletedTimeData.length){
                     for (let j = 0; j<deletedTimeData.length; j++){
                         if(deletedTimeData[j]){
-                            const sql3 = `DELETE FROM ${table_name3} WHERE Day_of_week = ? AND Start_Time = ? AND End_Time = ?`;
-                            const values3 = [deletedTimeData[j].Day_of_week, deletedTimeData[j].Start_Time, deletedTimeData[j].End_Time]
+                            const sql3 = `DELETE FROM ${table_name3} WHERE Day_of_week = ? AND Start_time = ? AND End_time = ?`;
+                            const values3 = [deletedTimeData[j].Day_of_week, deletedTimeData[j].Start_time, deletedTimeData[j].End_time]
                             try{
                                 await connection.execute(sql3, values3);
                             }catch(error){
@@ -598,8 +607,8 @@ export async function saveAddressData (req, res){
                 if(updatedTimeData.length){
                     for (let j = 0; j<updatedTimeData.length; j++){
                         if(updatedTimeData[j]){
-                            const sql3 = `UPDATE ${table_name3} SET Start_Time = ?, End_Time = ? WHERE Day_of_week = ? AND address_ID = ?`;
-                            const values3 = [updatedTimeData[j].Start_Time, updatedTimeData[j].End_Time, updatedTimeData[j].Day_of_week, returnedDataData.addresses_ID]
+                            const sql3 = `UPDATE ${table_name3} SET Start_time = ?, End_time = ? WHERE Day_of_week = ? AND address_ID = ?`;
+                            const values3 = [updatedTimeData[j].Start_time, updatedTimeData[j].End_time, updatedTimeData[j].Day_of_week, returnedDataData.addresses_ID]
                             try{
                                 await connection.execute(sql3, values3);
                             }catch(error){
@@ -624,7 +633,7 @@ export async function saveAddressData (req, res){
                 [insert_results] = await connection.execute(sql, values);
             }catch(error){
                 console.log(`error in adding address data ${saveAddressData.name}:`, error);
-                return res.status(400).json(false);
+                return res.status(400);
             }
 
             const sql1 = `INSERT INTO ${table_name2} (phone, phone_priority, address_ID) VALUES (?, ?, ?)`
@@ -633,17 +642,17 @@ export async function saveAddressData (req, res){
                 await connection.execute(sql1, values1);
             }catch(error){
                 console.log(`error in inserting phone info ${saveAddressData.name}:`, error);
-                return res.status(400).json(false);  
+                return res.status(400);
             }
-
-            for(let j = 0; j<TimesData[j];j++){
-                const sql2 = `INSERT INTO ${table_name3} (Day_of_week, Start_Time, End_Time, address_ID, Doctor_ID) VALUES (?, ?, ?, ?, ?)`;
-                const values2 = [TimesData[i][j].Day_of_week, TimesData[i][j].Start_Time, TimesData[i][j].End_Time, insert_results.insertId, DoctorID]
+            
+            for(let j = 0; j<TimesData.length;j++){
+                const sql2 = `INSERT INTO ${table_name3} (Day_of_week, Start_time, End_time, address_ID, Doctor_ID) VALUES (?, ?, ?, ?, ?)`;
+                const values2 = [TimesData[i][j].Day_of_week, TimesData[i][j].Start_time, TimesData[i][j].End_time, insert_results.insertId, DoctorID]
                 try{
                     await connection.execute(sql2, values2);
                 }catch(error){
                     console.log(`error in inserting phone info ${saveAddressData.name}:`, error);
-                    return res.status(400).json(false);  
+                    return res.status(400);  
                 }
             }
             AddressData[i].addresses_ID = insert_results.insertId;
@@ -651,7 +660,7 @@ export async function saveAddressData (req, res){
         return res.status(200).json(AddressData);
     }
     else{
-        return res.status(400).json(false)
+        return res.status(400)
     }
 };
 
