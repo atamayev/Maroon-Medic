@@ -271,12 +271,13 @@ city VARCHAR(150) NOT NULL,
 state VARCHAR(150) NOT NULL,
 zip VARCHAR(10) NOT NULL,
 country VARCHAR(150) NOT NULL,
-address_priority INT,-- address number is the primary, secondary, etc. 
+address_priority INT,
+address_public_status BOOLEAN NOT NULL,
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 SELECT * FROM doctor_addresses;
 SELECT * FROM  doctor_addresses JOIN phone_numbers ON  doctor_addresses.addresses_ID = phone_numbers.Address_ID WHERE  doctor_addresses.Doctor_ID = '1000125';
-DELETE FROM doctor_addresses WHERE Doctor_ID = '1000125' ;
+DELETE FROM doctor_addresses WHERE Doctor_ID = '1000125';
 
 CREATE TABLE booking_availability(
 booking_availabilityID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,

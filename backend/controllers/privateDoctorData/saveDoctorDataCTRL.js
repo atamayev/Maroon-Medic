@@ -436,7 +436,6 @@ export async function saveAddressData (req, res){
     
     const AddressData = req.body.AddressData;
     const TimesData = req.body.Times;
-    console.log('TimesData',TimesData)
 
     const table_name1 = 'doctor_addresses';
     const table_name2 = 'phone_numbers'; 
@@ -475,8 +474,8 @@ export async function saveAddressData (req, res){
 
         if (addedData.length > 0) {
             for (let i = 0; i<addedData.length; i++){
-                const sql1 = `INSERT INTO ${table_name1} (address_title, address_line_1, address_line_2, city, state, zip, country, address_priority, Doctor_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-                const values1 = [addedData[i].address_title, addedData[i].address_line_1, addedData[i].address_line_2, addedData[i].city, addedData[i].state, addedData[i].zip, addedData[i].country, addedData[i].address_priority, DoctorID];
+                const sql1 = `INSERT INTO ${table_name1} (address_title, address_line_1, address_line_2, city, state, zip, country, address_public_status, address_priority, Doctor_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+                const values1 = [addedData[i].address_title, addedData[i].address_line_1, addedData[i].address_line_2, addedData[i].city, addedData[i].state, addedData[i].zip, addedData[i].country, addedData[i].address_public_status, addedData[i].address_priority, DoctorID];
                 let insert_results;
                 try{
                     [insert_results] = await connection.execute(sql1, values1);
@@ -512,8 +511,8 @@ export async function saveAddressData (req, res){
         }
         if(updatedData.length){
             for (let i = 0; i<updatedData.length; i++){
-                const sql1 = `UPDATE ${table_name1} SET address_title = ?, address_line_1 = ?, address_line_2 = ?, city = ?, state = ?, zip = ?, country = ? WHERE addresses_ID = ?`;
-                const values1 = [updatedData[i].address_title, updatedData[i].address_line_1, updatedData[i].address_line_2, updatedData[i].city, updatedData[i].state, updatedData[i].zip, updatedData[i].country, updatedData[i].addresses_ID];
+                const sql1 = `UPDATE ${table_name1} SET address_title = ?, address_line_1 = ?, address_line_2 = ?, city = ?, state = ?, zip = ?, country = ?, address_public_status = ? WHERE addresses_ID = ?`;
+                const values1 = [updatedData[i].address_title, updatedData[i].address_line_1, updatedData[i].address_line_2, updatedData[i].city, updatedData[i].state, updatedData[i].zip, updatedData[i].country, updatedData[i].address_public_status, updatedData[i].addresses_ID];
                 try{
                     await connection.execute(sql1, values1);
                 }catch(error){
@@ -533,8 +532,6 @@ export async function saveAddressData (req, res){
         }
         //After all address operations are complete, do the TimeData Operations:
         if(returnedData.length){
-            console.log('returnedData in length', returnedData)
-
             // go into each element of the returnedData array.
             //for for the ith element in returnedData, find the corresponding times objects in TimesData (will be the ith element in the TimesData array)
             //compare each of the objects in that TimesData element to all of the data that a select * for that 
@@ -544,8 +541,6 @@ export async function saveAddressData (req, res){
             for(let i =0; i<returnedData.length; i++){
                 const returnedDataData = returnedData[i];
                 const corespondingTimeData = TimesData[i];
-                console.log('returnedDataData', returnedDataData)
-                console.log('corespondingTimeData', corespondingTimeData)
 
                 const sql = `SELECT * FROM ${table_name3} WHERE ${table_name3}.address_ID = ? AND ${table_name3}.Doctor_ID = ?`;
                 const values = [returnedDataData.addresses_ID, DoctorID];
@@ -554,7 +549,6 @@ export async function saveAddressData (req, res){
                 await useDB(saveAddressData.name, DB_name, table_name1);
                 try{
                     [timeDataResults] = await connection.execute(sql, values);
-                    console.log('timeDataResults',timeDataResults)
                 }catch(error){
                     console.log(`error in tiem data results${saveAddressData.name}:`, error)
                     return res.status(400).json(false);
@@ -571,16 +565,12 @@ export async function saveAddressData (req, res){
                       (item.Start_time !== oldDataDict[item.Day_of_week].Start_time || 
                       item.End_time !== oldDataDict[item.Day_of_week].End_time);
                 });
-                console.log('addedTimeData',addedTimeData)
-                console.log('deletedTimeData',deletedTimeData)
-                console.log('updatedTimeData',updatedTimeData)
 
                 if(addedTimeData.length){
                     for (let j = 0; j<addedTimeData.length; j++){
                         if(addedTimeData[j]){
                             const sql3 = `INSERT INTO ${table_name3} (Day_of_week, Start_time, End_time, address_ID, Doctor_ID) VALUES (?, ?, ?, ?, ?)`;
                             const values3 = [addedTimeData[j].Day_of_week, addedTimeData[j].Start_time, addedTimeData[j].End_time, returnedDataData.addresses_ID, DoctorID]
-                            console.log('values3',values3)
                             try{
                                 await connection.execute(sql3, values3);
                             }catch(error){
@@ -626,8 +616,8 @@ export async function saveAddressData (req, res){
         }
     } else if (AddressData.length > 0){
         for (let i=0; i<AddressData.length; i++){
-            const sql = `INSERT INTO ${table_name1} (address_title, address_line_1, address_line_2, city, state, zip, country, address_priority, Doctor_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-            const values = [AddressData[i].address_title, AddressData[i].address_line_1, AddressData[i].address_line_2, AddressData[i].city, AddressData[i].state, AddressData[i].zip, AddressData[i].country, AddressData[i].address_priority, DoctorID];
+            const sql = `INSERT INTO ${table_name1} (address_title, address_line_1, address_line_2, city, state, zip, country, address_public_status, address_priority, Doctor_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+            const values = [AddressData[i].address_title, AddressData[i].address_line_1, AddressData[i].address_line_2, AddressData[i].city, AddressData[i].state, AddressData[i].zip, AddressData[i].country, AddressData[i].address_public_status, AddressData[i].address_priority, DoctorID];
             let insert_results;
             try{
                 [insert_results] = await connection.execute(sql, values);

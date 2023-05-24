@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Card, Accordion, Form, Button} from 'react-bootstrap';
+import {Card, Accordion, Form, Button, Container, Row, Col} from 'react-bootstrap';
 import FormGroup from "../../../Components/form-group";
 import { handleDeleteAccordion } from "../../../Custom Hooks/Hooks for Doctor Account Details/delete";
 import { handleAddAccordion } from "../../../Custom Hooks/Hooks for Doctor Account Details/add";
@@ -48,7 +48,6 @@ function AddressForm(props) {
   
       // Check for days that are checked off (exist in times array)
       for (let time of address.times) {
-        console.log(address.times);
         if (!time.Start_time || !time.End_time) {
           return false;
         }
@@ -66,6 +65,8 @@ function AddressForm(props) {
           address={address} 
           handleInputChange={(e) => handleInputChange(e, address.address_priority)}
           handleDeleteAccordion={() => handleDeleteAccordion(address.address_priority, props.addresses, props.setAddresses)}
+          addresses = {props.addresses}
+          setAddresses = {props.setAddresses}
           />
         ))}
       </Accordion>
@@ -83,135 +84,165 @@ function AddressForm(props) {
   );
 };
 
-const AddressAccordionItem = ({ address, handleInputChange, handleDeleteAccordion, addresses, setAddresses }) => (
-  <Accordion.Item eventKey={address.address_priority}>
-    <Accordion.Header>
-      {address.address_title ? (address.address_title): ('Address #' + (address.address_priority))}
-      <Button variant="danger" size="sm" onClick={() => handleDeleteAccordion(address.address_priority, addresses, setAddresses)} style={{ float: 'right' }}>X</Button>
-    </Accordion.Header>
-    <Accordion.Body>
-      <Form>
-        <div className="row">
-          <div className="col-md-3">
-            <FormGroup
+const AddressAccordionItem = ({ address, handleInputChange, handleDeleteAccordion, addresses, setAddresses }) => {
+  const handlePublicStatusToggleChange = (addressPriority) => {
+    // Create a copy of the addresses state
+    const updatedAddresses = [...addresses];
+    // Find the index of the address object with the matching priority
+    const addressIndex = updatedAddresses.findIndex(addr => addr.address_priority === addressPriority);
+    // Toggle the public status
+    updatedAddresses[addressIndex].address_public_status = updatedAddresses[addressIndex].address_public_status === 1 ? 0 : 1;
+    // Update the state
+    setAddresses(updatedAddresses);
+  };
+
+  return(
+    <Accordion.Item eventKey={address.address_priority}>
+      <Accordion.Header>
+        <Container>
+            <Row>
+              <Col xs={4}>
+                Public Status:
+                <div onClick={(event) => event.stopPropagation()}>
+                    <Toggle 
+                        id={address.address_priority} 
+                        checked={address.address_public_status === 1} 
+                        onChange={() => handlePublicStatusToggleChange(address.address_priority)} 
+                    />
+                </div>
+              </Col>
+              <Col xs={4} className="text-center font-weight-bold">
+                  {address.address_title ? (address.address_title): ('Address #' + (address.address_priority))}
+              </Col>
+              <Col xs={4} className="text-right">
+                  <Button variant="danger" size="sm" onClick={() => handleDeleteAccordion(address.address_priority, addresses, setAddresses)} style={{ float: 'right' }}>Delete Address</Button>
+              </Col>
+            </Row>
+        </Container>
+      </Accordion.Header>
+      <Accordion.Body>
+        <Form>
+          <div className="row">
+            <div className="col-md-3">
+              <FormGroup
+                  className="mb-3"
+                  label = "Address Title"
+                  type = "text"
+                  placeholder="Address Title" 
+                  required
+                  value={address.address_title}
+                  onChange={handleInputChange}
+                  name="address_title"
+              />
+            </div>
+            <div className="col-md-3">
+              <FormGroup
                 className="mb-3"
-                label = "Address Title"
+                label = "Address line 1"
                 type = "text"
-                placeholder="Address Title" 
+                placeholder="Address line 1" 
                 required
-                value={address.address_title}
+                value={address.address_line_1}
                 onChange={handleInputChange}
-                name="address_title"
-            />
+                name="address_line_1"
+              />
+            </div>
+            <div className="col-md-3">
+              <FormGroup
+                className="mb-3"
+                label = "Address line 2"
+                type = "text"
+                placeholder="Address line 2" 
+                value={address.address_line_2}
+                onChange={handleInputChange}
+                name="address_line_2"
+              />
+            </div>
+            <div className="col-md-3">
+              <FormGroup
+                className="mb-3"
+                label = "City"
+                type = "text"
+                placeholder="City" 
+                required
+                value={address.city}
+                onChange={handleInputChange}
+                name="city"
+              />
+            </div>
           </div>
-          <div className="col-md-3">
-            <FormGroup
-              className="mb-3"
-              label = "Address line 1"
-              type = "text"
-              placeholder="Address line 1" 
-              required
-              value={address.address_line_1}
-              onChange={handleInputChange}
-              name="address_line_1"
-            />
-          </div>
-          <div className="col-md-3">
-            <FormGroup
-              className="mb-3"
-              label = "Address line 2"
-              type = "text"
-              placeholder="Address line 2" 
-              value={address.address_line_2}
-              onChange={handleInputChange}
-              name="address_line_2"
-            />
-          </div>
-          <div className="col-md-3">
-            <FormGroup
-              className="mb-3"
-              label = "City"
-              type = "text"
-              placeholder="City" 
-              required
-              value={address.city}
-              onChange={handleInputChange}
-              name="city"
-            />
-          </div>
-        </div>
 
-        <div className="row">
-          <div className="col-md-3">
-            <FormGroup
+          <div className="row">
+            <div className="col-md-3">
+              <FormGroup
+                className="mb-3"
+                label = "State"
+                type = "text"
+                placeholder="State" 
+                required
+                value={address.state}
+                onChange={handleInputChange}
+                name="state"
+              />
+            </div>
+            <div className="col-md-3">
+              <FormGroup
               className="mb-3"
-              label = "State"
-              type = "text"
-              placeholder="State" 
-              required
-              value={address.state}
-              onChange={handleInputChange}
-              name="state"
-            />
-          </div>
-          <div className="col-md-3">
-            <FormGroup
-            className="mb-3"
-            label = "Zip Code"
-            type = "number"
-            placeholder="Zip Code" 
-            required
-            value={address.zip}
-            onChange={handleInputChange}
-            name="zip"
-          />   
-          </div>
-          <div className="col-md-3">
-            <FormGroup
-              className="mb-3"
-              label = "Country"
-              type = "text"
-              placeholder="Country" 
-              required
-              value={address.country}
-              onChange={handleInputChange}
-              name="country"
-            />  
-          </div>
-          <div className="col-md-3">
-            <FormGroup
-              className="mb-3"
-              label = "Phone Number"
+              label = "Zip Code"
               type = "number"
-              placeholder="Phone Number" 
+              placeholder="Zip Code" 
               required
-              value={address.phone}
+              value={address.zip}
               onChange={handleInputChange}
-              name="phone"
-            />
+              name="zip"
+            />   
+            </div>
+            <div className="col-md-3">
+              <FormGroup
+                className="mb-3"
+                label = "Country"
+                type = "text"
+                placeholder="Country" 
+                required
+                value={address.country}
+                onChange={handleInputChange}
+                name="country"
+              />  
+            </div>
+            <div className="col-md-3">
+              <FormGroup
+                className="mb-3"
+                label = "Phone Number"
+                type = "number"
+                placeholder="Phone Number" 
+                required
+                value={address.phone}
+                onChange={handleInputChange}
+                name="phone"
+              />
+            </div>
           </div>
-        </div>
 
-        <div className="row">
-          <div className="col-md-6">
-            Google Maps Placeholder
+          <div className="row">
+            <div className="col-md-6">
+              Google Maps Placeholder
+            </div>
+            <div className="col-md-6">
+            <WeekDays times={address.times} setTimes={(newTimes) => handleInputChange({ target: { name: 'times', value: newTimes } }, address.address_priority)} />
+            </div>
           </div>
-          <div className="col-md-6">
-          <WeekDays times={address.times} setTimes={(newTimes) => handleInputChange({ target: { name: 'times', value: newTimes } }, address.address_priority)} />
-          </div>
-        </div>
 
-      </Form>
-    </Accordion.Body>
-  </Accordion.Item>
-);
+        </Form>
+      </Accordion.Body>
+    </Accordion.Item>
+  );  
+};
 
 const WeekDays = ({ times, setTimes}) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(()=>{
     setLoading(!times)
-    console.log(!!times);
   }, [times])
 
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];

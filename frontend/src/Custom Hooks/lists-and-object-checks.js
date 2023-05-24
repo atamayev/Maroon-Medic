@@ -51,18 +51,40 @@ export function isObjectInArray(newObj, objectsArray) {
 }
 
 function objectsAreSame(x, y) {
-  for(let propertyName in x) {
-    if(x[propertyName] !== y[propertyName]) {
+  const xProps = Object.getOwnPropertyNames(x);
+  const yProps = Object.getOwnPropertyNames(y);
+  
+  if (xProps.length !== yProps.length) {
+    return false;
+  }
+
+  for(let i = 0; i < xProps.length; i++) {
+    const propName = xProps[i];
+    
+    if (x[propName] !== y[propName]) {
       return false;
     }
   }
+
   return true;
 }
 
-export function areArraysSame(arr1, arr2) {//Sees if 2 arrays of objects are the same
+export function areArraysSame(arr1, arr2) {
   if (arr1.length !== arr2.length) return false;
   
-  return arr1.every(obj1 => arr2.some(obj2 => objectsAreSame(obj1, obj2)));
+  for (let i = 0; i < arr1.length; i++) {
+    const val1 = arr1[i];
+    const val2 = arr2[i];
+    
+    const areObjects = typeof val1 === 'object' && val1 !== null && typeof val2 === 'object' && val2 !== null;
+    const areArrays = Array.isArray(val1) && Array.isArray(val2);
+    
+    if (areObjects && !areArrays && !objectsAreSame(val1, val2)) return false;
+    if (areArrays && !areArraysSame(val1, val2)) return false;
+    if (!areObjects && val1 !== val2) return false;
+  }
+  
+  return true;
 }
 
 // Function to compare two arrays

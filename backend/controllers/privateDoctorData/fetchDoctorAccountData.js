@@ -173,7 +173,7 @@ export default new class FetchDoctorAccountData{
         const table_name1 = 'phone_numbers';
         const table_name2 = 'doctor_addresses';
         const DB_name = 'DoctorDB';
-        const sql = `SELECT ${table_name2}.addresses_ID, ${table_name2}.address_priority, ${table_name2}.address_title, ${table_name2}.address_line_1, ${table_name2}.address_line_2, ${table_name2}.city, ${table_name2}.state, ${table_name2}.zip, ${table_name2}.country, ${table_name1}.phone_priority, ${table_name1}.phone FROM ${table_name2}, ${table_name1} WHERE ${table_name2}.addresses_ID = ${table_name1}.address_ID AND ${table_name2}.Doctor_ID = ?`;
+        const sql = `SELECT ${table_name2}.addresses_ID, ${table_name2}.address_priority, ${table_name2}.address_title, ${table_name2}.address_line_1, ${table_name2}.address_line_2, ${table_name2}.city, ${table_name2}.state, ${table_name2}.zip, ${table_name2}.country, ${table_name2}.address_public_status, ${table_name1}.phone_priority, ${table_name1}.phone FROM ${table_name2}, ${table_name1} WHERE ${table_name2}.addresses_ID = ${table_name1}.address_ID AND ${table_name2}.Doctor_ID = ?`;
     
         const values = [DoctorID];
         await useDB(functionName, DB_name, table_name1);

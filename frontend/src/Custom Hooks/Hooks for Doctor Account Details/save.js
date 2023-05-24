@@ -224,8 +224,6 @@ export async function saveLocation (addresses, setAddresses, setShowSavedLocatio
   const savedAddresses = savedLocationData.map(({ times, ...rest }) => rest);
   const newTimes = addresses.map(location => location.times);
   const newAddresses = addresses.map(({ times, ...rest }) => rest);
-
-  //need a times variable, adress var
   let shouldSave = false;
 
   if (!savedLocationData || !savedLocationData.length) {
@@ -247,10 +245,7 @@ export async function saveLocation (addresses, setAddresses, setShowSavedLocatio
         for (let i = 0; i < newAddressData.length; i++) {
           newAddressData[i]['times'] = newTimes[i];
         }
-        console.log('newAddressData',newAddressData);
         DoctorAccountDetails[6] = newAddressData;
-        //will need to manipulate newAddressData here to combine with newTimes.
-        // for each element in newAddressData, add a key called 'times', and fill it with newTimes[i]. 
         setAddresses(newAddressData);
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
         setShowSavedLocationMessage(true);

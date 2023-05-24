@@ -1,7 +1,7 @@
 To-do:
 
 ASAP:
-add an active/inactive button for each address, add the active/inactive to the addresses Db.
+
 -make sure that the end time is after start time - or else will give issues
 make setmonth, year, startmonth, year, etc. into a single state (Education)
 
