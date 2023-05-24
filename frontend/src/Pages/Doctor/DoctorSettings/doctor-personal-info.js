@@ -9,16 +9,16 @@ import { NonDoctorAccess } from '../../../Components/user-type-unauth.js';
 
 async function fetchPersonalInfoData(setPersonalInfo){
   try{
-      const response = await PrivateDoctorDataService.fillPersonalData()
-      if (response){
-          setPersonalInfo(response.data);
-          sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(response.data))
-      }else{
-        console.log('no response')
-      }
-    }catch(error){
-      console.log('unable to fill PersonalInfoData', error)
+    const response = await PrivateDoctorDataService.fillPersonalData()
+    if (response){
+        setPersonalInfo(response.data);
+        sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(response.data))
+    }else{
+      console.log('no response')
     }
+  }catch(error){
+    console.log('unable to fill PersonalInfoData', error)
+  }
 }
 
 const handleSave = async (e, personalInfo) =>{
@@ -112,24 +112,32 @@ export default function DoctorPersonalInfo() {
               defaultValue={personalInfo.Gender}
               onChange={(event) => setPersonalInfo({...personalInfo, Gender: event.target.value})}
             />
-            <FormGroup
-              id="DOB_month"
-              label="Birthmonth"
-              defaultValue={personalInfo.DOB_month}
-              onChange={(event) => setPersonalInfo({...personalInfo, DOB_month: event.target.value})}
-            />
-            <FormGroup
-              id="DOB_day"
-              label="Birthday"
-              defaultValue={personalInfo.DOB_day}
-              onChange={(event) => setPersonalInfo({...personalInfo, DOB_day: event.target.value})}
-            />
-            <FormGroup
-              id="DOB_year"
-              label="Birthyear"
-              defaultValue={personalInfo.DOB_year}
-              onChange={(event) => setPersonalInfo({...personalInfo, DOB_year: event.target.value})}
-            />
+            <div className='row'>
+              <div className='col-md-4'>
+                <FormGroup
+                  id="DOB_month"
+                  label="Birthmonth"
+                  defaultValue={personalInfo.DOB_month}
+                  onChange={(event) => setPersonalInfo({...personalInfo, DOB_month: event.target.value})}
+                />
+              </div>
+              <div className='col-md-4'>
+                <FormGroup
+                  id="DOB_day"
+                  label="Birthday"
+                  defaultValue={personalInfo.DOB_day}
+                  onChange={(event) => setPersonalInfo({...personalInfo, DOB_day: event.target.value})}
+                />
+              </div>
+              <div className='col-md-4'>
+                <FormGroup
+                  id="DOB_year"
+                  label="Birthyear"
+                  defaultValue={personalInfo.DOB_year}
+                  onChange={(event) => setPersonalInfo({...personalInfo, DOB_year: event.target.value})}
+                />
+              </div>
+            </div>
             <br/>
             <Button type = "submit" className="btn btn-primary w-100">Save</Button>
             </Form>

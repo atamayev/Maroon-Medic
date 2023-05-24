@@ -7,7 +7,7 @@ import { saveLocation } from "../../../Custom Hooks/Hooks for Doctor Account Det
 import Toggle from 'react-toggle'
 import TimePicker from 'react-time-picker'
 import "react-toggle/style.css"
-import "./test.css"
+import "./location.css"
 
 export default function RenderLocationSection(props){
   return(
@@ -15,9 +15,9 @@ export default function RenderLocationSection(props){
       <Card.Header>
         Locations
       </Card.Header>
-    <Card.Body>
-      {AddressForm(props)}
-    </Card.Body>
+      <Card.Body>
+        {AddressForm(props)}
+      </Card.Body>
     </Card>
   );
 };
@@ -56,6 +56,17 @@ function AddressForm(props) {
     return true;
   }
 
+  function areAllTimesValid(addresses) {
+    for (let address of addresses) {
+      for (let time of address.times) {
+        if (new Date(`1970-01-01T${time.End_time}:00`) <= new Date(`1970-01-01T${time.Start_time}:00`)) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   return (
     <>
       <Accordion>
@@ -73,10 +84,11 @@ function AddressForm(props) {
       <Button variant="primary" onClick={()=> handleAddAccordion(props.addresses, props.setAddresses)}>Add Address</Button>
       <Button 
         variant="success" 
-        disabled = {!areAllFieldsValid(props.addresses)}
+        disabled={!areAllFieldsValid(props.addresses) || !areAllTimesValid(props.addresses)} // Check for both field and time validity
         onClick={()=> saveLocation(props.addresses, props.setAddresses, props.setShowSavedLocationsMessage, props.setShowSameLocationsMessage, props.setShowSaveLocationsProblemMessage)}
         >
-        Save</Button>
+        Save
+      </Button>
       <span className={`fade ${props.showSavedLocationsMessage ? 'show' : ''}`}>Locations saved!</span>
       <span className={`fade ${props.showSameLocationsMessage ? 'show' : ''}`}>Same Location data!</span>
       <span className={`fade ${props.showSaveLocationsProblemMessage ? 'show' : ''}`}>Problem Saving Locations!</span>
@@ -101,13 +113,13 @@ const AddressAccordionItem = ({ address, handleInputChange, handleDeleteAccordio
       <Accordion.Header>
         <Container>
           <Row>
-            <Col xs={4}>
-              Public Status:
+            <Col xs={4} className="d-flex align-items-center">
+              <span>Public Status:</span>
               <div onClick={(event) => event.stopPropagation()}>
                 <Toggle 
-                    id={address.address_priority} 
-                    checked={address.address_public_status === 1} 
-                    onChange={() => handlePublicStatusToggleChange(address.address_priority)} 
+                  id={address.address_priority} 
+                  checked={address.address_public_status === 1} 
+                  onChange={() => handlePublicStatusToggleChange(address.address_priority)} 
                 />
               </div>
             </Col>
@@ -260,7 +272,7 @@ const WeekDays = ({ times, setTimes}) => {
       time.Day_of_week === day ? { ...time, [timeType]: newTime } : time
     ));
   }
-  
+
   if(loading){
     return <div>Loading...</div>
   }
@@ -274,12 +286,12 @@ const WeekDays = ({ times, setTimes}) => {
           {times.find(time => time.Day_of_week === day) && (
             <>
               <TimePicker
-                className="ml-3"
+                className = "ml-3"
                 onChange={(value) => handleTimeChange(day, 'Start_time', value)}
                 value={times.find(time => time.Day_of_week === day).Start_time}
               />-
               <TimePicker
-                className="ml-3"
+                className = "ml-3"
                 onChange={(value) => handleTimeChange(day, 'End_time', value)}
                 value={times.find(time => time.Day_of_week === day).End_time}
               />

@@ -1,0 +1,27 @@
+.react-time-picker__wrapper {
+    display: flex;
+    /* justify-content: space-between; */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    /* padding: 0.5em; */
+}
+  
+.react-time-picker__inputGroup__input {
+  width: 10%;
+  
+  border: none;
+  padding: 0.15em;
+  min-width: 50px !important; /* adjust width as needed */
+  min-height: 30px !important; /* adjust height as needed */
+
+}
+
+.react-time-picker__inputGroup__input::-webkit-inner-spin-button,
+.react-time-picker__inputGroup__input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.react-time-picker__clock-button {
+  display: none !important;
+}

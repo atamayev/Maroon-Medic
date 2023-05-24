@@ -2,8 +2,6 @@ To-do:
 
 ASAP:
 
--make sure that the end time is after start time - or else will give issues
-
 Make the 'Add Address' Button Finalize a Location, make it within the accordion. 
 	So when add address is pressed, it becomes a pretty-looking text (can edit it by pressing a pencil in the top right or something)
 	Add a new 'Add new address' button to add a new acordion strip
