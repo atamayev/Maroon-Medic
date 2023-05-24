@@ -244,7 +244,13 @@ export async function saveLocation (addresses, setAddresses, setShowSavedLocatio
       const response = await PrivateDoctorDataService.saveAddressData(newAddresses, newTimes);
       if (response.status === 200) {
         const newAddressData = response.data;
+        for (let i = 0; i < newAddressData.length; i++) {
+          newAddressData[i]['times'] = newTimes[i];
+        }
+        console.log('newAddressData',newAddressData);
         DoctorAccountDetails[6] = newAddressData;
+        //will need to manipulate newAddressData here to combine with newTimes.
+        // for each element in newAddressData, add a key called 'times', and fill it with newTimes[i]. 
         setAddresses(newAddressData);
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
         setShowSavedLocationMessage(true);
