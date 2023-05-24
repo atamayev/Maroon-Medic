@@ -96,10 +96,12 @@ export default function DoctorAccountDetails() {
   const [showSavePubliclyAvalableProblemMessage, setShowSavePubliclyAvalableProblemMessage] = useState(false);
 
   //Should make this into one state:
-  const [startYear, setStartYear] = useState(1923);
-  const [endYear, setEndYear] = useState(1923);
-  const [startMonth, setStartMonth] = useState('January');
-  const [endMonth, setEndMonth] = useState('January');
+  const [timeState, setTimeState] = useState({
+    startYear: 1923,
+    endYear: 1923,
+    startMonth: 'January',
+    endMonth: 'January',
+  })
 
   useEffect(()=>{
     user_verification()
@@ -238,14 +240,8 @@ export default function DoctorAccountDetails() {
         setSelectedMajor = {setSelectedMajor}
         selectedPreVetEducationType = {selectedPreVetEducationType}
         setSelectedPreVetEducationType = {setSelectedPreVetEducationType}
-        startMonth= {startMonth} 
-        setStartMonth = {setStartMonth}
-        endMonth = {endMonth}
-        setEndMonth = {setEndMonth}
-        startYear = {startYear}
-        setStartYear = {setStartYear}
-        endYear = {endYear}
-        setEndYear = {setEndYear}
+        timeState = {timeState}
+        setTimeState = {setTimeState}
         preVetEducation = {preVetEducation}
         setPreVetEducation = {setPreVetEducation}
         showSavedPreVetEducationMessage = {showSavedPreVetEducationMessage}
@@ -262,14 +258,8 @@ export default function DoctorAccountDetails() {
         setSelectedVetSchool = {setSelectedVetSchool}
         selectedVetEducationType = {selectedVetEducationType}
         setSelectedVetEducationType = {setSelectedVetEducationType}
-        startMonth= {startMonth}
-        setStartMonth = {setStartMonth}
-        endMonth = {endMonth}
-        setEndMonth = {setEndMonth}
-        startYear = {startYear}
-        setStartYear = {setStartYear}
-        endYear = {endYear}
-        setEndYear = {setEndYear}
+        timeState = {timeState}
+        setTimeState = {setTimeState}
         vetEducation = {vetEducation}
         setVetEducation = {setVetEducation}
         showSavedVetEducationMessage = {showSavedVetEducationMessage}

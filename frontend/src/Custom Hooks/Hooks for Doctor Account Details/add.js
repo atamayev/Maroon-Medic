@@ -52,28 +52,22 @@ export const handleAddPreVetEducation = (
     setSelectedPreVetSchool, 
     setSelectedMajor, 
     setSelectedPreVetEducationType,
-    startMonth,
-    setStartMonth, 
-    endMonth,
-    setEndMonth,
-    startYear,
-    setStartYear, 
-    endYear,
-    setEndYear
+    timeState, 
+    setTimeState
     ) => {
   if(selectedPreVetSchool && selectedMajor && selectedPreVetEducationType){
-    if(!startMonth){
-      startMonth = 'January'
+    if(!timeState.startMonth){
+      timeState.startMonth = 'January'
     }
-    if(!endMonth){
-      endMonth = 'January'
+    if(!timeState.endMonth){
+      timeState.endMonth = 'January'
     }
     const selectedEducationObj = {
       School_name: selectedPreVetSchool, 
       Education_type:selectedPreVetEducationType,
       Major_name: selectedMajor,
-      Start_Date: `${startYear}-${startMonth}-1`,
-      End_Date: `${endYear}-${endMonth}-1`,
+      Start_Date: `${timeState.startYear}-${timeState.startMonth}-1`,
+      End_Date: `${timeState.endYear}-${timeState.endMonth}-1`,
     }
     if(preVetEducation.length >0){
       if(!isObjectInArray(selectedEducationObj, preVetEducation)){
@@ -86,10 +80,12 @@ export const handleAddPreVetEducation = (
   setSelectedPreVetSchool('');
   setSelectedMajor('');
   setSelectedPreVetEducationType('');
-  setStartMonth('January')
-  setEndMonth('January')
-  setStartYear(1923)
-  setEndYear(1923)
+  setTimeState({
+    startYear: 1923,
+    endYear: 1923,
+    startMonth: 'January',
+    endMonth: 'January',
+  });
 };
 
 export const handleAddVetEducation = (
@@ -99,27 +95,21 @@ export const handleAddVetEducation = (
     setSelectedVetEducationType,
     vetEducation, 
     setVetEducation, 
-    startMonth,
-    setStartMonth, 
-    endMonth,
-    setEndMonth,
-    startYear,
-    setStartYear, 
-    endYear,
-    setEndYear
+    timeState, 
+    setTimeState
     ) => {
   if(selectedVetSchool && selectedVetEducationType){
-    if(!startMonth){
-      startMonth = 'January'
+    if(!timeState.startMonth){
+      timeState.startMonth = 'January'
     }
-    if(!endMonth){
-      endMonth = 'January'
+    if(!timeState.endMonth){
+      timeState.endMonth = 'January'
     }
     const selectedEducationObj = {
       School_name: selectedVetSchool, 
       Education_type: selectedVetEducationType,
-      Start_Date: `${startYear}-${startMonth}-1`,
-      End_Date: `${endYear}-${endMonth}-1`,
+      Start_Date: `${timeState.startYear}-${timeState.startMonth}-1`,
+      End_Date: `${timeState.endYear}-${timeState.endMonth}-1`,
     }
     if(vetEducation.length >0){
       if(!isObjectInArray(selectedEducationObj, vetEducation)){
@@ -131,10 +121,12 @@ export const handleAddVetEducation = (
   }
   setSelectedVetSchool('');
   setSelectedVetEducationType('');
-  setStartMonth('January')
-  setEndMonth('January')
-  setStartYear(1923)
-  setEndYear(1923)
+  setTimeState({
+    startYear: 1923,
+    endYear: 1923,
+    startMonth: 'January',
+    endMonth: 'January',
+  });
 };
 
 export const handleAddAccordion = (addresses, setAddresses) => {

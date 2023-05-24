@@ -59,14 +59,8 @@ function renderIsVetEducation(props){
               </select>
               {allChoicesFilled &&
                 <EducationTime 
-                startMonth= {props.startMonth} 
-                setStartMonth = {props.setStartMonth}
-                endMonth = {props.endMonth} 
-                setEndMonth = {props.setEndMonth}
-                startYear = {props.startYear} 
-                setStartYear = {props.setStartYear}
-                endYear = {props.endYear} 
-                setEndYear = {props.setEndYear}
+                timeState = {props.timeState}
+                setTimeState = {props.setTimeState}
                   /> }
                 {allChoicesFilled && (
                   <Button onClick={() => handleAddVetEducation(
@@ -75,15 +69,9 @@ function renderIsVetEducation(props){
                     props.selectedVetEducationType, 
                     props.setSelectedVetEducationType,
                     props.vetEducation, 
-                    props.setVetEducation, 
-                    props.startMonth,
-                    props.setStartMonth, 
-                    props.endMonth,
-                    props.setEndMonth,
-                    props.startYear,
-                    props.setStartYear, 
-                    props.endYear,
-                    props.setEndYear
+                    props.setVetEducation,
+                    props.timeState,
+                    props.setTimeState
                     )}>Add</Button>
                 )}
                 </>

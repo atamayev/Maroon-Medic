@@ -79,14 +79,8 @@ function renderIsPreVetEducation(props){
               </select>
               {allChoicesFilled &&
                 <EducationTime 
-                  startMonth= {props.startMonth} 
-                  setStartMonth = {props.setStartMonth}
-                  endMonth = {props.endMonth} 
-                  setEndMonth = {props.setEndMonth}
-                  startYear = {props.startYear} 
-                  setStartYear = {props.setStartYear}
-                  endYear = {props.endYear} 
-                  setEndYear = {props.setEndYear}
+                  timeState = {props.timeState}
+                  setTimeState = {props.setTimeState}
                   /> }
                 {allChoicesFilled && (
                   <Button onClick={() => handleAddPreVetEducation(
@@ -98,14 +92,8 @@ function renderIsPreVetEducation(props){
                     props.setSelectedPreVetSchool, 
                     props.setSelectedMajor, 
                     props.setSelectedPreVetEducationType, 
-                    props.startMonth,
-                    props.setStartMonth, 
-                    props.endMonth,
-                    props.setEndMonth,
-                    props.startYear,
-                    props.setStartYear, 
-                    props.endYear,
-                    props.setEndYear
+                    props.timeState,
+                    props.setTimeState
                     )}>Add</Button>
                 )}              
                 </>

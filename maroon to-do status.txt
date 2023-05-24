@@ -3,7 +3,6 @@ To-do:
 ASAP:
 
 -make sure that the end time is after start time - or else will give issues
-make setmonth, year, startmonth, year, etc. into a single state (Education)
 
 Make the 'Add Address' Button Finalize a Location, make it within the accordion. 
 	So when add address is pressed, it becomes a pretty-looking text (can edit it by pressing a pencil in the top right or something)
@@ -40,3 +39,5 @@ figure out phone_priority (address_data), currently sending it back as 0. Phone 
 	
 when saving data, should show in the same location as the same locations text, and as the problem saving text.
 	if save data, and then save again, same location should ovveride the initial save text
+
+after vet/prevet education queries from db, it doesn't show the month name, but the numerical representation of the month (instead of January, shows 1).

@@ -100,24 +100,24 @@ const AddressAccordionItem = ({ address, handleInputChange, handleDeleteAccordio
     <Accordion.Item eventKey={address.address_priority}>
       <Accordion.Header>
         <Container>
-            <Row>
-              <Col xs={4}>
-                Public Status:
-                <div onClick={(event) => event.stopPropagation()}>
-                    <Toggle 
-                        id={address.address_priority} 
-                        checked={address.address_public_status === 1} 
-                        onChange={() => handlePublicStatusToggleChange(address.address_priority)} 
-                    />
-                </div>
-              </Col>
-              <Col xs={4} className="text-center font-weight-bold">
-                  {address.address_title ? (address.address_title): ('Address #' + (address.address_priority))}
-              </Col>
-              <Col xs={4} className="text-right">
-                  <Button variant="danger" size="sm" onClick={() => handleDeleteAccordion(address.address_priority, addresses, setAddresses)} style={{ float: 'right' }}>Delete Address</Button>
-              </Col>
-            </Row>
+          <Row>
+            <Col xs={4}>
+              Public Status:
+              <div onClick={(event) => event.stopPropagation()}>
+                <Toggle 
+                    id={address.address_priority} 
+                    checked={address.address_public_status === 1} 
+                    onChange={() => handlePublicStatusToggleChange(address.address_priority)} 
+                />
+              </div>
+            </Col>
+            <Col xs={4} className="text-center font-weight-bold">
+                {address.address_title ? (address.address_title): ('Address #' + (address.address_priority))}
+            </Col>
+            <Col xs={4} className="text-right">
+                <Button variant="danger" size="sm" onClick={() => handleDeleteAccordion(address.address_priority, addresses, setAddresses)} style={{ float: 'right' }}>Delete Address</Button>
+            </Col>
+          </Row>
         </Container>
       </Accordion.Header>
       <Accordion.Body>
