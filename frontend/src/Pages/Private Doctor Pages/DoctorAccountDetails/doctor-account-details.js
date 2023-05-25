@@ -94,14 +94,15 @@ export default function DoctorAccountDetails() {
   const verified = DoctorAccountDetails?.[9][0].Verified || [];
   const [showSavedPubliclyAvalableMessage, setShowSavedPubliclyAvalableMessage] = useState(false);
   const [showSavePubliclyAvalableProblemMessage, setShowSavePubliclyAvalableProblemMessage] = useState(false);
+  const currentYear = new Date().getFullYear();
 
   //Should make this into one state:
   const [timeState, setTimeState] = useState({
-    startYear: 1923,
-    endYear: 1923,
-    startMonth: 'January',
-    endMonth: 'January',
-  })
+    startMonth: 'January', 
+    endMonth: 'January', 
+    startYear: currentYear, 
+    endYear: currentYear,
+});
 
   useEffect(()=>{
     user_verification()

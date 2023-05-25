@@ -1,21 +1,22 @@
 import React from 'react'
 
 const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
-  ];
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+];
 
-const years = [...Array(100).keys()].map(i => i + new Date().getFullYear() - 100);
+const currentYear = new Date().getFullYear();
+const years = [...Array(60).keys()].map(i => i + currentYear - 60).reverse();
 
 export default function EducationTime(props) {
   return (
@@ -39,7 +40,7 @@ export default function EducationTime(props) {
             value={props.timeState.startYear} 
             onChange = {e => props.setTimeState(prevState =>({...prevState, startYear: e.target.value}))}>
             {years.map(year => (
-              <option key={year} value={year}>{year}</option>
+              <option key={year + 1} value={year + 1}>{year + 1}</option>
             ))}
           </select>
         </label>
@@ -63,7 +64,7 @@ export default function EducationTime(props) {
             value={props.timeState.endYear} 
             onChange = {e => props.setTimeState(prevState =>({...prevState, endYear: e.target.value}))}>
             {years.map(year => (
-              <option key={year} value={year}>{year}</option>
+              <option key={year + 1} value={year + 1}>{year + 1}</option>
             ))}
           </select>
         </label>

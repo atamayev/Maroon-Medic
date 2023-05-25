@@ -101,7 +101,7 @@ function renderIsPreVetEducation(props){
         <ul>
           {props.preVetEducation.map((pre_vet_education) => (
             <li key={pre_vet_education.specialties_listID}>
-              {pre_vet_education.School_name}, {pre_vet_education.Major_name}, {pre_vet_education.Education_type}{" "}{pre_vet_education.Start_Date} --- {pre_vet_education.End_Date} 
+              {pre_vet_education.School_name}, {pre_vet_education.Education_type} in {pre_vet_education.Major_name}{": "}{pre_vet_education.Start_Date} --- {pre_vet_education.End_Date} 
               <Button onClick={() => handleDeletePreVetEducation(pre_vet_education, props.preVetEducation, props.setPreVetEducation)}>X</Button>
             </li>
           ))}

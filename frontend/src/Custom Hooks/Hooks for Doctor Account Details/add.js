@@ -55,6 +55,7 @@ export const handleAddPreVetEducation = (
     timeState, 
     setTimeState
     ) => {
+      console.log('timeState',timeState)
   if(selectedPreVetSchool && selectedMajor && selectedPreVetEducationType){
     if(!timeState.startMonth){
       timeState.startMonth = 'January'
@@ -77,14 +78,15 @@ export const handleAddPreVetEducation = (
       setPreVetEducation([selectedEducationObj]);
     }
   }
+  const currentYear = new Date().getFullYear();
   setSelectedPreVetSchool('');
   setSelectedMajor('');
   setSelectedPreVetEducationType('');
   setTimeState({
-    startYear: 1923,
-    endYear: 1923,
-    startMonth: 'January',
-    endMonth: 'January',
+    startMonth: 'January', 
+    endMonth: 'January', 
+    startYear: currentYear, 
+    endYear: currentYear,
   });
 };
 
@@ -119,13 +121,14 @@ export const handleAddVetEducation = (
       setVetEducation([selectedEducationObj]);
     }
   }
+  const currentYear = new Date().getFullYear();
   setSelectedVetSchool('');
   setSelectedVetEducationType('');
   setTimeState({
-    startYear: 1923,
-    endYear: 1923,
-    startMonth: 'January',
-    endMonth: 'January',
+    startMonth: 'January', 
+    endMonth: 'January', 
+    startYear: currentYear, 
+    endYear: currentYear,
   });
 };
 
