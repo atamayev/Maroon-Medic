@@ -8,11 +8,11 @@ export const handleAddInsurance = (selectedInsurance, acceptedInsurances, setAcc
   }
 };
 
-export const handleAddService = (selectedService, acceptedServices, setAcceptedServices) => {
+export const handleAddService = (selectedService, providedServices, setProvidedServices) => {
   if(selectedService){
-    if(!acceptedServices.some(service => service.service_and_category_listID === selectedService.service_and_category_listID)){
+    if(!providedServices.some(service => service.service_and_category_listID === selectedService.service_and_category_listID)){
       const updatedService = {...selectedService, Service_price: null, Service_time: null}
-      setAcceptedServices([...acceptedServices, updatedService]);
+      setProvidedServices([...providedServices, updatedService]);
     }
   }
 };

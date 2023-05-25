@@ -5,11 +5,11 @@ import PrivateDoctorDataService from '../../../Services/private-doctor-data-serv
 import Header from '../../header.js';
 import { NonDoctorAccess } from '../../../Components/user-type-unauth.js';
 import { useConfirmationTimeout } from '../../../Custom Hooks/Hooks for Doctor Account Details/savedMessageUseEffect.js';
-import RenderPreVetEducationSection from './preVetEducation.js';
-import RenderVetEducationSection from './vetEducation.js';
+import RenderPreVetEducationSection from './pre-vet-education.js';
+import RenderVetEducationSection from './vet-education.js';
 import RenderDescriptionSection from './description.js';
 //import RenderPicturesSection from './pictures.js';
-import RenderVerificationAndPublicStatusSection from './verificationAndPublicStatus.js';
+import RenderVerificationAndPublicStatusSection from './verification-and-public-status.js';
 import RenderPersonalInfoLinkSection from './personalInfoLink.js';
 import RenderInsuranceSection from './insurance.js';
 import RenderLanguageSection from './language.js';
@@ -50,7 +50,7 @@ export default function DoctorAccountDetails() {
   const [showSameLanguagesMessage, setShowSameLanguagesMessage] = useState(false);
   const [showSaveLanguagesProblemMessage, setShowSaveLanguagesProblemMessage] = useState(false);
 
-  const [acceptedServices, setAcceptedServices] = useState(DoctorAccountDetails?.[2] || []);
+  const [providedServices, setProvidedServices] = useState(DoctorAccountDetails?.[2] || []);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [expandedCategories, setExpandedCategories] = useState([]);
   const [showSavedServicesMessage, setShowSavedServicesMessage] = useState(false);
@@ -185,7 +185,7 @@ export default function DoctorAccountDetails() {
               setSpokenLanguages(response.data[1])
             }
             if(response.data[2]){
-              setAcceptedServices(response.data[2])
+              setProvidedServices(response.data[2])
               setExpandedCategories(response.data[2].map(service => service.Category_name));
             }
             if(response.data[3]){
@@ -336,8 +336,8 @@ export default function DoctorAccountDetails() {
         listDetails = {listDetails}
         selectedCategories = {selectedCategories}
         setSelectedCategories = {setSelectedCategories}
-        acceptedServices = {acceptedServices}
-        setAcceptedServices = {setAcceptedServices}
+        providedServices = {providedServices}
+        setProvidedServices = {setProvidedServices}
         expandedCategories = {expandedCategories}
         setExpandedCategories = {setExpandedCategories}
         showSavedServicesMessage = {showSavedServicesMessage}

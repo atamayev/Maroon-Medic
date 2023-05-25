@@ -27,17 +27,17 @@ export const handleLanguageChange = (event, listDetails, setSelectedLanguage) =>
     }
 };
 
-// export const handleCategoryChange = (event, category, services, selectedCategories, setSelectedCategories, acceptedServices, setAcceptedServices, expandedCategories, setExpandedCategories) => {
+// export const handleCategoryChange = (event, category, services, selectedCategories, setSelectedCategories, providedServices, setProvidedServices, expandedCategories, setExpandedCategories) => {
 //   if (event.target.checked) {
 //     setSelectedCategories([...selectedCategories, category]);
-//     const newServices = services.filter(service => !acceptedServices.some(selectedService => selectedService.service_mapping_ID === service.service_and_category_listID));
-//     setAcceptedServices([...acceptedServices, ...newServices]);
+//     const newServices = services.filter(service => !providedServices.some(selectedService => selectedService.service_mapping_ID === service.service_and_category_listID));
+//     setProvidedServices([...providedServices, ...newServices]);
 //     if(!expandedCategories.includes(category)){
 //       setExpandedCategories(prev => [...prev, category]);
 //     }
 //   } else {
 //     setSelectedCategories(selectedCategories.filter(c => c !== category));
-//     setAcceptedServices(acceptedServices.filter(service => service.Category_name !== category));
+//     setProvidedServices(providedServices.filter(service => service.Category_name !== category));
 //   }
 // };
 

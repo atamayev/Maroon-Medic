@@ -44,7 +44,7 @@ function renderIsVetServices (props) {
               id={category}
               name="category"
               checked={props.selectedCategories.includes(category)}
-              onChange={event => handleCategoryChange(event, category, services, props.selectedCategories, props.setSelectedCategories, props.acceptedServices, props.setAcceptedServices, props.expandedCategories, props.setExpandedCategories)}
+              onChange={event => handleCategoryChange(event, category, services, props.selectedCategories, props.setSelectedCategories, props.providedServices, props.setProvidedServices, props.expandedCategories, props.setExpandedCategories)}
             /> */}
             <label htmlFor={category}>{category}</label>
             {services.length > 1 && (
@@ -53,7 +53,7 @@ function renderIsVetServices (props) {
             {(services.length <= 1 || props.expandedCategories.includes(category)) && (
               <div>
                 {services.map(service => {
-                  const selectedService = props.acceptedServices.find(s => s.service_and_category_listID === service.service_and_category_listID);
+                  const selectedService = props.providedServices.find(s => s.service_and_category_listID === service.service_and_category_listID);
                   return (
                     <div key={service.service_and_category_listID} style={{ paddingLeft: '20px' }}>
                       <input
@@ -61,12 +61,12 @@ function renderIsVetServices (props) {
                         id={`${category}-${service?.service_and_category_listID}`}
                         name="service"
                         value={service?.service_and_category_listID}
-                        checked={props.acceptedServices.find((accepted) => accepted.service_and_category_listID === service.service_and_category_listID) !== undefined}
+                        checked={props.providedServices.find((provided) => provided.service_and_category_listID === service.service_and_category_listID) !== undefined}
                         onChange={(event) => {
                           if(event.target.checked){
-                            handleAddService(service, props.acceptedServices, props.setAcceptedServices);
+                            handleAddService(service, props.providedServices, props.setProvidedServices);
                           }else{
-                            handleDeleteService(service, props.acceptedServices, props.setAcceptedServices)
+                            handleDeleteService(service, props.providedServices, props.setProvidedServices)
                           }
                         }}
                         />
@@ -80,13 +80,13 @@ function renderIsVetServices (props) {
                             required
                             value={selectedService?.Service_time || ""}
                             onChange={(event) => {
-                              const updatedServices = props.acceptedServices.map(s => {
+                              const updatedServices = props.providedServices.map(s => {
                                 if(s.service_and_category_listID === service.service_and_category_listID){
                                   return {...s, Service_time: event.target.value};
                                 }
                                 return s;
                               });
-                              props.setAcceptedServices(updatedServices);
+                              props.setProvidedServices(updatedServices);
                             }}
                           />
                           <input
@@ -95,13 +95,13 @@ function renderIsVetServices (props) {
                             id={`price-${service.service_and_category_listID}`}
                             value={selectedService?.Service_price || ""}
                             onChange={(event) => {
-                              const updatedServices = props.acceptedServices.map(s => {
+                              const updatedServices = props.providedServices.map(s => {
                                 if(s.service_and_category_listID === service.service_and_category_listID){
                                   return {...s, Service_price: event.target.value};
                                 }
                                 return s;
                               });
-                              props.setAcceptedServices(updatedServices);
+                              props.setProvidedServices(updatedServices);
                             }}
                           />
                         </>
@@ -115,8 +115,8 @@ function renderIsVetServices (props) {
         ))}
         <Button 
           variant="success" 
-          disabled={!areAllTimesSet(props.acceptedServices)}
-          onClick={() => saveServices(props.acceptedServices, props.setShowSavedServicesMessage, props.setShowSameServicesMessage, props.setShowSaveServicesProblemMessage)}
+          disabled={!areAllTimesSet(props.providedServices)}
+          onClick={() => saveServices(props.providedServices, props.setShowSavedServicesMessage, props.setShowSameServicesMessage, props.setShowSaveServicesProblemMessage)}
         >
           Save
         </Button>

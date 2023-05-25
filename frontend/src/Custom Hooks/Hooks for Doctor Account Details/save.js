@@ -66,13 +66,13 @@ export async function saveLanguages(spokenLanguages, setShowSavedLanguagesMessag
   }
 };
 
-export async function saveServices(acceptedServices, setShowSavedServicesMessage, setShowSameServicesMessage, setShowSaveServicesProblemMessage){
+export async function saveServices(providedServices, setShowSavedServicesMessage, setShowSameServicesMessage, setShowSaveServicesProblemMessage){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   const savedServices = DoctorAccountDetails?.[2] || [];
   const createServiceKey = (service) => `${service.service_and_category_listID}-${service.Service_price}-${service.Service_time}`;
 
   const savedServiceKeys = savedServices.map(service => createServiceKey(service)).sort();
-  const serviceKeys = acceptedServices.map(service => createServiceKey(service)).sort();
+  const serviceKeys = providedServices.map(service => createServiceKey(service)).sort();
   
   let shouldSave = false;
 
@@ -83,7 +83,7 @@ export async function saveServices(acceptedServices, setShowSavedServicesMessage
   }else{
     setShowSameServicesMessage(true);
   }
-  const updatedServices = acceptedServices.map(service => {
+  const updatedServices = providedServices.map(service => {
     const { Service_name, Category_name, ...rest } = service;
     return rest;
   });//Only sends back the IDs, time, and price (cuts out unnecessary Service_name and category_name)
@@ -92,7 +92,7 @@ export async function saveServices(acceptedServices, setShowSavedServicesMessage
     try {
       const response = await PrivateDoctorDataService.saveServiceData(updatedServices)//Make sure it's accepted services and not something else
       if(response.status === 200){
-        DoctorAccountDetails[2] = acceptedServices;
+        DoctorAccountDetails[2] = providedServices;
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
         setShowSavedServicesMessage(true);
       }

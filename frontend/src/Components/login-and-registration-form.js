@@ -17,12 +17,12 @@ export default function LoginAndRegistrationForm({
     if (loginOrSignUp === 'Sign up'){
       return(
         <FormGroup
-        id = "confirm-password"
-        label = "Password Confirmation"
-        type = "password"
-        placeholder= "Confirm Password"
-        onChange={(event) => setPasswordConfirm(event.target.value)}
-        required
+          id = "confirm-password"
+          label = "Password Confirmation"
+          type = "password"
+          placeholder= "Confirm Password"
+          onChange={(event) => setPasswordConfirm(event.target.value)}
+          required
       />
       )
     }

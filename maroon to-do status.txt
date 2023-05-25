@@ -1,7 +1,7 @@
 To-do:
 
 ASAP:
-work on the public view of a doctor - make it very similar to DoctorAccountDetails, divide it into categories, etc.
+-make the years start at 2023, and go to current year-100.
 
 go through all of the functions that publicDoctorData is using, and make sure that none of them are giving anything extra. if they are, make new functions within the fetchPublicDoctorData class with the bare minimum	
 
@@ -21,7 +21,6 @@ general simplification of account details needed.
 -- before saving email to db, make sure it is lowercase, so that when searching db, it is done in uniform way
 	save emails as lowercase. then, when logging in, email should be lowercased before searching the db.
 	-- figure out which data should be encrypted by the db. data at rest encryption
-
 
 Later:
 Calendar
