@@ -6,7 +6,7 @@ import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Header from "../header";
 import DoctorHeader from "./doctor-header";
-import PrivateDoctorDataService from "../../Services/private-doctor-data-service";
+import CalendarDataService from "../../Services/calendar-data-service";
 
 const localizer = momentLocalizer(moment);
 
@@ -46,7 +46,7 @@ export default function DoctorCalendar () {
 
     async function FillDoctorCalendarDetails(){
         try{
-            const response = await PrivateDoctorDataService.fillCalendarDetails();
+            const response = await CalendarDataService.fillCalendarDetails();
             if (response){
                 console.log(response)
 
@@ -77,4 +77,3 @@ export default function DoctorCalendar () {
     </div>
     );
 };
-

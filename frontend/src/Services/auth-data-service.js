@@ -1,5 +1,5 @@
 import http from "../http-common"
-// this is where all the api calls are coming from
+
 export default new class AuthDataService {
     async logout(){
         return await http.post('auth/logout');

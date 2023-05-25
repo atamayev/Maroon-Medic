@@ -1,5 +1,5 @@
 import http from "../http-common"
-// this is where all the api calls are coming from
+
 export default new class PrivateDoctorDataService {
     async addingDoctorInfo(new_doctor_object){
         return await http.post(`private-doctor-data/new-doctor`, {new_doctor_object});
@@ -40,7 +40,5 @@ export default new class PrivateDoctorDataService {
     async saveAddressData(AddressData, times){
         return await http.post('/private-doctor-data/save-address-data', {AddressData: AddressData, Times: times})
     }
-    async fillCalendarDetails(){
-        return await http.get('calendar/getDoctorCalendarDetails');
-    }
+
 }();
