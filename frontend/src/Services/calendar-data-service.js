@@ -4,4 +4,4 @@ export default new class CalendarDataService {
     async fillCalendarDetails(){
         return await http.get('calendar/getDoctorCalendarDetails');
     }
-}();
+}(); 
