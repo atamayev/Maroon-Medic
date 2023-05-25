@@ -5,20 +5,20 @@ import "./CSS/footer.css"
 //Publicly accessible:
 import HomeDoctorsList from "./Pages/home-doctors-list"
 import SpecificDoctorsList from "./Pages/specific-doctors-list"
-import Doctor from './Pages/doctor';
+import Doctor from './Pages/Public Doctor Pages/doctor';
 import Footer from './Pages/footer';
 import Missing from './Pages/missing';
 //Vet Specific:
-import DoctorRegister from "./Pages/Doctor/doctor-register"
-import DoctorLogin from "./Pages/Doctor/doctor-login"
-import NewDoctor from "./Pages/Doctor/new-doctor"
-import DoctorDashboard from './Pages/Doctor/doctor-dashboard';
-import DoctorAccountDetails from './Pages/Doctor/DoctorAccountDetails/doctor-account-details';
-import DoctorSettings from './Pages/Doctor/DoctorSettings/doctor-settings';
-import DoctorPersonalInfo from './Pages/Doctor/DoctorSettings/doctor-personal-info';
-import DoctorPrivacy from './Pages/Doctor/DoctorSettings/doctor-privacy';
-import DoctorLoginAndSecurity from './Pages/Doctor/DoctorSettings/doctor-login-and-security';
-import DoctorCalendar from './Pages/Doctor/calendar';
+import DoctorRegister from "./Pages/Private Doctor Pages/doctor-register"
+import DoctorLogin from "./Pages/Private Doctor Pages/doctor-login"
+import NewDoctor from "./Pages/Private Doctor Pages/new-doctor"
+import DoctorDashboard from './Pages/Private Doctor Pages/doctor-dashboard';
+import DoctorAccountDetails from './Pages/Private Doctor Pages/DoctorAccountDetails/doctor-account-details';
+import DoctorSettings from './Pages/Private Doctor Pages/DoctorSettings/doctor-settings';
+import DoctorPersonalInfo from './Pages/Private Doctor Pages/DoctorSettings/doctor-personal-info';
+import DoctorPrivacy from './Pages/Private Doctor Pages/DoctorSettings/doctor-privacy';
+import DoctorLoginAndSecurity from './Pages/Private Doctor Pages/DoctorSettings/doctor-login-and-security';
+import DoctorCalendar from './Pages/Private Doctor Pages/calendar';
 
 //Patient Specific:
 import PatientLogin from './Pages/Patient/patient-login';

@@ -2,8 +2,8 @@ import React, { useState, useEffect} from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import {useParams} from "react-router-dom";
-import PublicDoctorDataService from '../Services/public-doctor-data-service.js';
-import Header from './header.js';
+import PublicDoctorDataService from '../../Services/public-doctor-data-service.js';
+import Header from '../header.js';
 
 async function getDoctor (id, setDoctorData, setError) {
   try{
