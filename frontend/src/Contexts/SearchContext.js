@@ -1,5 +1,6 @@
 import React, { createContext, useState } from 'react';
-import VetDataService from "../Services/data-service.js"
+import SearchDataService from '../Services/search-data-service.js';
+
 export const SearchContext = createContext();
 
 export const SearchContextProvider = (props) => {
@@ -10,7 +11,7 @@ export const SearchContextProvider = (props) => {
   async function fetchData (){
     if(pathname === '/'){
       try{
-        const result = await VetDataService.fetchAllUsers();
+        const result = await SearchDataService.fetchAllUsers();
         setItems(result.data);
       }
       catch(error){
@@ -20,7 +21,7 @@ export const SearchContextProvider = (props) => {
 
     if(pathname.startsWith('/s/')){
       try{
-        const result = await VetDataService.find(searchTerm);
+        const result = await SearchDataService.find(searchTerm);
         setItems(result.data);
       }
       catch(error){

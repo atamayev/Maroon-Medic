@@ -1,11 +1,12 @@
 import React, { createContext } from 'react';
-import DataService from '../Services/data-service';
+import AuthDataService from '../Services/auth-data-service';
+
 const VerifyContext = createContext();
 
 const VerifyContextProvider = (props) => {
   async function user_verification (){
     try{
-      const response = await DataService.verify();
+      const response = await AuthDataService.verify();
       if (response.data.isValid === true) {
         return {
           verified: true, 

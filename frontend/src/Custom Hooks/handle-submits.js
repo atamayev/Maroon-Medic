@@ -1,5 +1,6 @@
-import DataService from "../Services/data-service.js";
+import AuthDataService from "../Services/auth-data-service.js";
 import PrivateDoctorDataService from "../Services/private-doctor-data-service.js";
+import PrivatePatientDataService from "../Services/private-patient-data-service.js";
 
 export const handleLoginSubmit = async ({
     e,
@@ -13,7 +14,7 @@ export const handleLoginSubmit = async ({
         setError("")
         try {
             setLoading(true)
-            const response = await DataService.login(login_information_object);
+            const response = await AuthDataService.login(login_information_object);
             if (response.data === true){
                 navigate(`/${VetOrPatient.toLowerCase()}-dashboard`)
             }else{
@@ -41,7 +42,7 @@ export const handleRegisterSubmit = async ({
         }
         try {
             setLoading(true)
-            const response = await DataService.register(register_information_object);
+            const response = await AuthDataService.register(register_information_object);
             if (response.data === true){
                 navigate(`/new-${VetOrPatient.toLowerCase()}`)
             }else{
@@ -71,7 +72,7 @@ export const handleNewUserSubmit = async ({
             if (VetOrPatient === 'Vet'){
                 response = await PrivateDoctorDataService.addingDoctorInfo(newInfo);
             }else if (VetOrPatient === 'Patient'){
-                response = await DataService.addingPatientInfo(newInfo);
+                response = await PrivatePatientDataService.addingPatientInfo(newInfo);
             }
             if (response.data === true){
                 navigate(`/${VetOrPatient.toLowerCase()}-dashboard`)

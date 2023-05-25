@@ -1,13 +1,13 @@
 import React, {useEffect, useState, useContext} from 'react'
 import {Card} from 'react-bootstrap';
-import DataService from "../../Services/data-service.js"
+import PrivatePatientDataService from '../../Services/private-patient-data-service.js';
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import Header from '../header.js';
 import { NonPatientAccess } from '../../Components/user-type-unauth.js';
 
 async function fetchPatientDashboardData(setDashboardData){
   try{
-    const response = await DataService.fillPatientDashboard()
+    const response = await PrivatePatientDataService.fillPatientDashboard()
     if (response){
       setDashboardData(response.data);
       sessionStorage.setItem("PatientDashboardData", JSON.stringify(response.data))

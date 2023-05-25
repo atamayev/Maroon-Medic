@@ -8,7 +8,6 @@ export default function SpecificDoctorsList() {
   const {searchTerm, items, setSearchTerm, fetchData} = useContext(SearchContext)
   
   let { query } = useParams(); //the id of the current site (which user) --> used to set User
-  console.log(query)
  
   if (!query){
       window.location.href = '/';

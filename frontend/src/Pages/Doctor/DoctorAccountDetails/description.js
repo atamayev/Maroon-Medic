@@ -1,7 +1,6 @@
 import React from "react";
 import { Card, Button, Form } from "react-bootstrap";
 import FormGroup from '../../../Components/form-group.js';
-
 import { handleDescriptionChange } from "../../../Custom Hooks/Hooks for Doctor Account Details/select";
 import { saveDescription } from "../../../Custom Hooks/Hooks for Doctor Account Details/save";
 
@@ -25,7 +24,7 @@ function renderIsDescription(props){
   
   return(
       <Form> 
-      <FormGroup
+        <FormGroup
           id="Description" 
           value={props.description.Description} 
           onChange = {event => handleDescriptionChange(event, props.setDescription, props.setIsDescriptionOverLimit)}
@@ -33,12 +32,12 @@ function renderIsDescription(props){
           as="textarea" 
           rows={3}
         />
-          <div style={counterStyle}>Character Limit: {props.description.Description ? (<>{props.description.Description.length}</>):(<>0</>)} / 1000</div>
-      <Button 
-        variant="success" 
-        onClick={()=> saveDescription(props.description, props.setShowSavedDescriptionMessage, props.setShowSameDescriptionMessage, props.setShowSaveDescriptionProblemMessage)}
+        <div style={counterStyle}>Character Limit: {props.description.Description ? (<>{props.description.Description.length}</>):(<>0</>)} / 1000</div>
+        <Button 
+          variant="success" 
+          onClick={()=> saveDescription(props.description, props.setShowSavedDescriptionMessage, props.setShowSameDescriptionMessage, props.setShowSaveDescriptionProblemMessage)}
         >
-          Save</Button>
+        Save</Button>
       <span className={`fade ${props.showSavedDescriptionMessage ? 'show' : ''}`}>Description saved!</span>
       <span className={`fade ${props.showSameDescriptionMessage ? 'show' : ''}`}>Same Description!</span>
       <span className={`fade ${props.showSaveVetProblemMessage ? 'show' : ''}`}>Problem Saving Description!</span>

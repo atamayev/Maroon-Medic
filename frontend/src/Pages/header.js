@@ -1,12 +1,13 @@
 import React, {useCallback, useState, useEffect, useContext } from 'react'
 import {Dropdown} from "react-bootstrap";
 import {useLocation} from "react-router-dom";
-import logo from '../Images/logo.svg';
-import pic from '../Images/ProfileImage.jpg';
-import DataService from '../Services/data-service'
+import AuthDataService from '../Services/auth-data-service';  
+import PrivatePatientDataService from '../Services/private-patient-data-service';
 import PrivateDoctorDataService from '../Services/private-doctor-data-service'
 import { VerifyContext } from '../Contexts/VerifyContext.js';
 import { SearchContext } from '../Contexts/SearchContext';
+import logo from '../Images/logo.svg';
+import pic from '../Images/ProfileImage.jpg';
 
 const handleKeyUp = (event) => {
   if (event.key === 'Enter'){
@@ -98,7 +99,7 @@ export default function Header (props) {
       }
     }else if (type === 'Patient'){
       try{
-        response = await DataService.fillPatientPersonalData();
+        response = await PrivatePatientDataService.fillPatientPersonalData();
       }catch(error){
         console.log(`unable to fillPatientPersonalData`, error)
       }
@@ -117,7 +118,7 @@ export default function Header (props) {
   const handleLogout = async () => {
     try{
       sessionStorage.clear();
-      await DataService.logout();
+      await AuthDataService.logout();
     } catch(error){
       console.log('error',error)
     }

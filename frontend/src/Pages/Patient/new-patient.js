@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {useNavigate} from "react-router-dom";
-import DataService from "../../Services/data-service.js"
+import PrivatePatientDataService from '../../Services/private-patient-data-service.js';
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import NewAccountForm from '../../Components/new-account-form.js';
 import Header from '../header.js';
@@ -17,7 +17,7 @@ export default function NewPatient () {
   user_verification()
     .then(result => {
       if (result.verified === true && result.user_type === 'Patient') {
-        DataService.newPatientConfirmation()
+        PrivatePatientDataService.newPatientConfirmation()
         .then(result => {
           if (result.data === false) {
             navigate('patient-register');

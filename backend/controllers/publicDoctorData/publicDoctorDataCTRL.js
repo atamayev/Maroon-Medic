@@ -1,5 +1,5 @@
-import {connection, useDB} from "../dbAndSecurity/connect.js";
-import Crypto from "../dbAndSecurity/crypto.js";
+import {connection, useDB} from "../../dbAndSecurity/connect.js";
+import Crypto from "../../dbAndSecurity/crypto.js";
 
 /** returnDoctorPageData searches for a particular Doctor's data
  *  Used to fill in doctor screen (particular doctor)
