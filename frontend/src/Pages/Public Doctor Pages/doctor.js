@@ -10,6 +10,8 @@ import RenderSpecialtiesSection from "./public-doctor-specialties.js"
 import RenderPersonalInfoSection from "./public-doctor-personal-info.js"
 import RenderReviewsSection from "./public-doctor-reviews.js"
 import RenderLocationsSection from "./public-doctor-locations.js"
+import RenderBookingSection from './public-doctor-booking.js';
+import RenderDescriptionSection from './public-doctor-description.js';
 import "./card.css"
 
 export default function Doctor () {
@@ -79,8 +81,14 @@ export default function Doctor () {
     <>
       <Header dropdown = {true} search = {true}/>
       <RenderPersonalInfoSection
-        description = {description}
         personalData = {personalData}
+      />
+      <RenderBookingSection
+        providedServices = {providedServices}
+        addresses = {addresses}
+      />
+      <RenderDescriptionSection
+        description = {description}
       />
       <RenderLocationsSection
         addresses = {addresses}

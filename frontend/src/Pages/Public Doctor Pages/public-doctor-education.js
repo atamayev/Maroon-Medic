@@ -26,7 +26,7 @@ function renderEducation(educationList, hasMajor = false){
         {educationList.map((education, index) => (
           <p key={index}>
           {education.School_name}, {education.Education_type} 
-          {hasMajor ? ` in ${education.Major_name}` : ''} 
+          {hasMajor ? ` in ${education.Major_name}` : ''} {' '}
           ({education.Start_Date} - {education.End_Date})
           </p>
         ))}

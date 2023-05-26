@@ -218,7 +218,7 @@ export async function saveServicesData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID;
     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
     const ServicesData = req.body.ServicesData; //Array of Objects
-
+    
     const DB_name = 'DoctorDB';
     const table_name = `service_mapping`;
 
@@ -260,6 +260,7 @@ export async function saveServicesData (req, res){
 
         if(addedData.length > 0){
             for (let i = 0; i<addedData.length; i++){
+                // console.log('addedData[i]',addedData[i])
                 let sql1 = `INSERT INTO ${table_name} (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?,?,?,?)`;
                 let values1 = [addedData[i].service_and_category_listID, addedData[i].Service_time, addedData[i].Service_price, DoctorID];
                 try{
@@ -284,8 +285,8 @@ export async function saveServicesData (req, res){
         }
         if(updatedData.length > 0){
             for (let i = 0; i<updatedData.length; i++){
-                let sql2 = `UPDATE ${table_name} SET Service_time = ?, Service_price = ? WHERE Doctor_ID = ?`;
-                let values2 = [updatedData[i].Service_time, updatedData[i].Service_price, DoctorID];
+                let sql2 = `UPDATE ${table_name} SET Service_time = ?, Service_price = ? WHERE Service_and_Category_ID = ? AND Doctor_ID = ?`;
+                let values2 = [updatedData[i].Service_time, updatedData[i].Service_price, updatedData[i].service_and_category_listID, DoctorID];
                 try{
                     await connection.execute(sql2, values2);
                 }catch(error){
