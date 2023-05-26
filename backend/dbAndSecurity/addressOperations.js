@@ -22,6 +22,7 @@ export function getUpdatedAddressRecords(newData, results) {
           newRecord.zip !== existingRecord.zip ||
           newRecord.country !== existingRecord.country ||
           newRecord.address_priority !== existingRecord.address_priority ||
+          newRecord.address_public_status !== existingRecord.address_public_status ||
           newRecord.phone !== existingRecord.phone ||
           newRecord.phone_priority !== existingRecord.phone_priority
         ) {
@@ -59,6 +60,7 @@ export function getUnchangedAddressRecords(newData, results) {
         newRecord.zip === existingRecord.zip &&
         newRecord.country === existingRecord.country &&
         newRecord.address_priority === existingRecord.address_priority &&
+        newRecord.address_public_status === existingRecord.address_public_status &&
         newRecord.phone === existingRecord.phone &&
         newRecord.phone_priority === existingRecord.phone_priority
       ) {

@@ -9,6 +9,7 @@ import RenderEducationSection from "./public-doctor-education.js"
 import RenderSpecialtiesSection from "./public-doctor-specialties.js"
 import RenderPersonalInfoSection from "./public-doctor-personal-info.js"
 import RenderReviewsSection from "./public-doctor-reviews.js"
+import RenderLocationsSection from "./public-doctor-locations.js"
 import "./card.css"
 
 export default function Doctor () {
@@ -80,6 +81,9 @@ export default function Doctor () {
       <RenderPersonalInfoSection
         description = {description}
         personalData = {personalData}
+      />
+      <RenderLocationsSection
+        addresses = {addresses}
       />
       <RenderInsuranceSection
         acceptedInsurances = {acceptedInsurances}

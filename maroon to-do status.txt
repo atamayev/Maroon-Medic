@@ -1,6 +1,8 @@
 To-do:
 
 ASAP:
+locatoi for public doctor, bookings.
+
 go through all of the functions that publicDoctorData is using, and make sure that none of them are giving anything extra. if they are, make new functions within the fetchPublicDoctorData class with the bare minimum	
 
 Make the 'Add Address' Button Finalize a Location, make it within the accordion. 
