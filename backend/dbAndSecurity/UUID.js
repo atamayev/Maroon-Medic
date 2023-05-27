@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { connection, useDB } from './connect.js';
+import { connection, DB_Operation } from './connect.js';
 import moment from 'moment';
 import Crypto from './crypto.js';
 // These functions are made to not send the DoctorID back and forth from server to client.
@@ -14,7 +14,6 @@ import Crypto from './crypto.js';
 export async function ID_to_UUID(ID, type){
     const UUID = uuidv4();
     const table_name = `${type}UUID_reference`;
-    const DB_name = `${type}DB`;
     
     const date_ob = new Date();
     const format = "YYYY-MM-DD HH:mm:ss"
@@ -24,7 +23,7 @@ export async function ID_to_UUID(ID, type){
     }
     const encrypted_date_time = Crypto.encrypt_single_entry(dateTimeObj).Created_at
 
-    await useDB(ID_to_UUID.name, DB_name, `${table_name}`)
+    await DB_Operation(ID_to_UUID.name, table_name)
     const sql = `INSERT INTO ${table_name} (${type}UUID, Created_at, ${type}_ID) VALUES (?, ?, ?)`;
     const values = [UUID, encrypted_date_time, ID ];
   
@@ -44,16 +43,15 @@ export async function ID_to_UUID(ID, type){
  */
 export async function UUID_to_ID(UUID, type){
   const table_name = `${type}UUID_reference`;
-  const DB_name = `${type}DB`;
-
-  await useDB(UUID_to_ID.name, DB_name, table_name)
   const sql = `SELECT ${type}_ID FROM ${table_name} WHERE ${type}UUID = ?`;
   const values = [UUID];
 
+  await DB_Operation(UUID_to_ID.name, table_name)
+
   try {
-      const incomplete_ID = await connection.execute(sql, values)
-      const ID = incomplete_ID[0][0][`${type}_ID`];
-      return ID
+    const incomplete_ID = await connection.execute(sql, values)
+    const ID = incomplete_ID[0][0][`${type}_ID`];
+    return ID
   }catch(error){
     return (`error in ${UUID_to_ID.name}:`, error)
   }

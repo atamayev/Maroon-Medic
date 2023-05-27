@@ -1,4 +1,4 @@
-import { connection, useDB } from "../../dbAndSecurity/connect.js";
+import { connection, DB_Operation } from "../../dbAndSecurity/connect.js";
 import Crypto from "../../dbAndSecurity/crypto.js";
 import { getUnchangedAddressRecords, getUpdatedAddressRecords } from "../../dbAndSecurity/addressOperations.js";
 import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
@@ -19,15 +19,13 @@ export async function savePersonalData (req, res){
     const personalInfo = req.body.personalInfo;
     const encrypted_personalInfo = Crypto.encrypt_single_entry(personalInfo)
 
-    const DB_name = 'DoctorDB';
-
     const table_name = 'basic_Doctor_info';
     const sql = `SELECT * FROM  ${table_name} WHERE Doctor_ID = ?`
     const values = [DoctorID];
     let results;
     //this is upsert:
     
-    await useDB(savePersonalData.name, DB_name, table_name);
+    await DB_Operation(savePersonalData.name, table_name);
     try{
         [results] = await connection.execute(sql, values);
     }catch(error){
@@ -74,13 +72,12 @@ export async function saveDescriptionData (req, res){
     const encrypted_description = Crypto.encrypt_single_entry(description);
 
     const table_name = 'descriptions';
-    const DB_name = 'DoctorDB';
 
     const sql = `SELECT * FROM  ${table_name} WHERE Doctor_ID = ?`;
     const values = [DoctorID];
     let results;
     
-    await useDB(saveDescriptionData.name, DB_name, table_name);
+    await DB_Operation(saveDescriptionData.name, table_name);
     try{
         [results] = await connection.execute(sql, values);
     }catch(error){
@@ -131,14 +128,13 @@ export async function saveGeneralData (req, res){
     
     const doctorData = req.body.Data; // The Data is an array of the IDs of the DataType ([1,4,7,12], where each of these is a specific Language_ID)
 
-    const DB_name = 'DoctorDB';
     const table_name = `${DataTypelower}_mapping`;
 
     const sql = `SELECT * FROM  ${table_name} WHERE Doctor_ID = ?`
     const values = [DoctorID];
     let results;
 
-    await useDB(saveGeneralData.name, DB_name, table_name);
+    await DB_Operation(saveGeneralData.name, table_name);
     try{
         [results] = await connection.execute(sql, values);
     }catch(error){
@@ -219,14 +215,13 @@ export async function saveServicesData (req, res){
     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
     const ServicesData = req.body.ServicesData; //Array of Objects
     
-    const DB_name = 'DoctorDB';
     const table_name = `service_mapping`;
 
     const sql = `SELECT * FROM  ${table_name} WHERE Doctor_ID = ?`
     const values = [DoctorID];
     let results;
 
-    await useDB(saveServicesData.name, DB_name, table_name);
+    await DB_Operation(saveServicesData.name, table_name);
     try{
         [results] = await connection.execute(sql, values);
     }catch(error){
@@ -321,14 +316,13 @@ export async function saveEducationData (req, res){
     const EducationType = req.body.EducationType;//'pre_vet' or 'vet'
     const EducationData = req.body.EducationData; // array of arrays, to make comparing to sql easier.: ie: [[ 13, 56, 7, '1923-01-01', '1923-01-01' ],[ 698, 13, 9, '1923-01-01', '1923-01-01' ]]
     
-    const DB_name = 'DoctorDB';
     const table_name = `${EducationType}_education_mapping`;
 
     const sql = `SELECT * FROM  ${table_name} WHERE Doctor_ID = ?`
     const values = [DoctorID];
     let formattedResults;
 
-    await useDB(saveEducationData.name, DB_name, table_name);
+    await DB_Operation(saveEducationData.name, table_name);
     try{
         const [results] = await connection.execute(sql, values);
         formattedResults = results.map(obj => ({
@@ -442,13 +436,11 @@ export async function saveAddressData (req, res){
     const table_name2 = 'phone_numbers'; 
     const table_name3 = 'booking_availability';
 
-    const DB_name = 'DoctorDB';
-
     const sql = `SELECT * FROM ${table_name1} JOIN ${table_name2} ON ${table_name1}.addressesID = ${table_name2}.address_ID WHERE ${table_name1}.Doctor_ID = ?`;
     const values = [DoctorID];
     let Address_results;
 
-    await useDB(saveAddressData.name, DB_name, table_name1);
+    await DB_Operation(saveAddressData.name, table_name1);
     try{
         [Address_results] = await connection.execute(sql, values);
     }catch(error){
@@ -547,7 +539,7 @@ export async function saveAddressData (req, res){
                 const values = [returnedDataData.addressesID, DoctorID];
                 let timeDataResults;
 
-                await useDB(saveAddressData.name, DB_name, table_name1);
+                await DB_Operation(saveAddressData.name, table_name1);
                 try{
                     [timeDataResults] = await connection.execute(sql, values);
                 }catch(error){
@@ -668,12 +660,11 @@ export async function savePublicAvailibilityData (req, res){
     
     const publicAvailibility = req.body.PublicAvailibility;
     const table_name = 'Doctor_credentials';
-    const DB_name = 'DoctorDB';
 
     const sql = `UPDATE ${table_name} SET publiclyAvailable = ? WHERE DoctorID = ?`;
     const values = [publicAvailibility, DoctorID];
 
-    await useDB(savePublicAvailibilityData.name, DB_name, table_name);
+    await DB_Operation(savePublicAvailibilityData.name, table_name);
     try{
         await connection.execute(sql, values);
         return res.status(200).json();

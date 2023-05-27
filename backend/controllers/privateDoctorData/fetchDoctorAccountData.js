@@ -1,4 +1,4 @@
-import {connection, useDB} from "../../dbAndSecurity/connect.js"
+import {connection, DB_Operation} from "../../dbAndSecurity/connect.js"
 import Crypto from "../../dbAndSecurity/crypto.js";
 
 /** FetchDoctorAccountData is fairly self-explanatory
@@ -13,11 +13,10 @@ export default new class FetchDoctorAccountData{
 
         const table_name1 = 'insurance_mapping';
         const table_name2 = 'insurance_list'
-        const DB_name = 'DoctorDB';
     
         const sql = `SELECT ${table_name2}.Insurance_name, ${table_name2}.insurance_listID FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.insurance_listID = ${table_name1}.Insurance_ID WHERE ${table_name1}.Doctor_ID = ?`;
         const values = [DoctorID];
-        await useDB(functionName, DB_name, table_name1);
+        await DB_Operation(functionName, table_name1);
     
         try{
             const [results] = await connection.execute(sql, values);
@@ -37,11 +36,10 @@ export default new class FetchDoctorAccountData{
 
         const table_name1 = 'language_mapping';
         const table_name2 = 'language_list'
-        const DB_name = 'DoctorDB';
     
         const sql = `SELECT ${table_name2}.Language_name, ${table_name2}.language_listID FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.language_listID = ${table_name1}.Language_ID WHERE ${table_name1}.Doctor_ID = ?`;
         const values = [DoctorID];
-        await useDB(functionName, DB_name, table_name1);
+        await DB_Operation(functionName, table_name1);
     
         try{
             const [results] = await connection.execute(sql, values);
@@ -61,11 +59,10 @@ export default new class FetchDoctorAccountData{
 
         const table_name1 = 'service_mapping';
         const table_name2 = 'service_and_category_list';
-        const DB_name = 'DoctorDB';
     
         const sql = `SELECT ${table_name2}.Category_name, ${table_name2}.Service_name, ${table_name2}.service_and_category_listID, ${table_name1}.Service_time, ${table_name1}.Service_price FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.service_and_category_listID = ${table_name1}.Service_and_Category_ID WHERE ${table_name1}.Doctor_ID = ?`;
         const values = [DoctorID];
-        await useDB(functionName, DB_name, table_name1);
+        await DB_Operation(functionName, table_name1);
     
         try{
             const [results] = await connection.execute(sql, values);
@@ -85,11 +82,10 @@ export default new class FetchDoctorAccountData{
 
         const table_name1 = 'specialty_mapping';
         const table_name2 = 'specialties_list'
-        const DB_name = 'DoctorDB';
     
         const sql = `SELECT ${table_name2}.Organization_name, ${table_name2}.Specialty_name, ${table_name2}.specialties_listID FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.specialties_listID = ${table_name1}.specialty_ID WHERE ${table_name1}.Doctor_ID = ?`;
         const values = [DoctorID];
-        await useDB(functionName, DB_name, table_name1);
+        await DB_Operation(functionName, table_name1);
     
         try{
             const [results] = await connection.execute(sql, values);
@@ -112,11 +108,9 @@ export default new class FetchDoctorAccountData{
         const table_name3 = 'major_list'
         const table_name4 = 'pre_vet_education_type_list'
     
-        const DB_name = 'DoctorDB';
-    
         const sql = `SELECT ${table_name2}.School_name, ${table_name3}.Major_name, ${table_name4}.Education_type, ${table_name1}.Start_Date, ${table_name1}.End_Date FROM ${table_name1}, ${table_name2}, ${table_name3}, ${table_name4} WHERE ${table_name1}.School_ID = ${table_name2}.pre_vet_school_listID AND ${table_name1}.Major_ID = ${table_name3}.major_listID AND ${table_name1}.Education_type_ID = ${table_name4}.pre_vet_education_typeID AND ${table_name1}.Doctor_ID = ?`;
         const values = [DoctorID];
-        await useDB(functionName, DB_name, table_name1);
+        await DB_Operation(functionName, table_name1);
 
         try{
             const [results] = await connection.execute(sql, values);
@@ -143,11 +137,9 @@ export default new class FetchDoctorAccountData{
         const table_name2 = 'vet_school_list'
         const table_name3 = 'vet_education_type_list'
     
-        const DB_name = 'DoctorDB';
-    
         const sql = `SELECT ${table_name2}.School_name, ${table_name3}.Education_type, ${table_name1}.Start_Date, ${table_name1}.End_Date FROM ${table_name1}, ${table_name2}, ${table_name3} WHERE ${table_name1}.School_ID = ${table_name2}.vet_school_listID AND ${table_name1}.Education_type_ID = ${table_name3}.vet_education_typeID AND ${table_name1}.Doctor_ID = ?`;
         const values = [DoctorID];
-        await useDB(functionName, DB_name, table_name1);
+        await DB_Operation(functionName, table_name1);
 
         try{
             const [results] = await connection.execute(sql, values);
@@ -172,12 +164,12 @@ export default new class FetchDoctorAccountData{
 
         const table_name1 = 'phone_numbers';
         const table_name2 = 'doctor_addresses';
-        const DB_name = 'DoctorDB';
+
         const sql = `SELECT ${table_name2}.addressesID, ${table_name2}.address_priority, ${table_name2}.address_title, ${table_name2}.address_line_1, ${table_name2}.address_line_2, ${table_name2}.city, ${table_name2}.state, ${table_name2}.zip, ${table_name2}.country, ${table_name2}.address_public_status, ${table_name1}.phone_priority, ${table_name1}.phone FROM ${table_name2}, ${table_name1} WHERE ${table_name2}.addressesID = ${table_name1}.address_ID AND ${table_name2}.Doctor_ID = ?`;
-    
         const values = [DoctorID];
-        await useDB(functionName, DB_name, table_name1);
-        let results
+
+        await DB_Operation(functionName, table_name1);
+        let results;
     
         try{
             [results] = await connection.execute(sql, values);
@@ -209,11 +201,10 @@ export default new class FetchDoctorAccountData{
         const functionName = this.FetchDescriptionData.bind(this).name;
 
         const table_name = 'descriptions';
-        const DB_name = 'DoctorDB';
     
         const sql = `SELECT Description FROM ${table_name} WHERE Doctor_ID = ?`;
         const values = [DoctorID];
-        await useDB(functionName, DB_name, table_name);
+        await DB_Operation(functionName, table_name);
 
         try{
             const [results] = await connection.execute(sql, values);
@@ -233,11 +224,10 @@ export default new class FetchDoctorAccountData{
         const functionName = this.FetchDoctorPictures.bind(this).name;
 
         const table_name = 'pictures';
-        const DB_name = 'DoctorDB';
     
         const sql = `SELECT picture_link, picture_number FROM ${table_name} WHERE Doctor_ID = ?`;
         const values = [DoctorID];
-        await useDB(functionName, DB_name, table_name);
+        await DB_Operation(functionName, table_name);
     
         try{
             const [results] = await connection.execute(sql, values);// will need to return a list of picture links, and picture number (which one is first, second, etc.)
@@ -258,11 +248,10 @@ export default new class FetchDoctorAccountData{
         const functionName = this.FetchDescriptionData.bind(this).name;
 
         const table_name = 'Doctor_credentials';
-        const DB_name = 'DoctorDB';
     
         const sql = `SELECT publiclyAvailable, verified FROM ${table_name} WHERE DoctorID = ?`;
         const values = [DoctorID];
-        await useDB(functionName, DB_name, table_name);
+        await DB_Operation(functionName, table_name);
 
         try{
             const [results] = await connection.execute(sql, values);

@@ -1,4 +1,4 @@
-import {connection, useDB} from "../dbAndSecurity/connect.js";
+import {connection, DB_Operation} from "../dbAndSecurity/connect.js";
 import Crypto from "../dbAndSecurity/crypto.js";
 import jwt from "jsonwebtoken";
 import moment from 'moment';
@@ -53,10 +53,9 @@ export async function JWT_verify (req, res){
     return res.status(401).json(response);
   }else{
     const table_name = `${response.type}UUID_reference`
-    const DB_name = `${response.type}DB`;
     const sql = `SELECT * FROM ${table_name} WHERE ${response.type}UUID = ?`;
     const values = [decodedUUID];
-    await useDB(JWT_verify.name, DB_name, table_name)
+    await DB_Operation(JWT_verify.name, table_name)
     
     try{
       const [results] = await connection.execute(sql, values)
@@ -90,12 +89,10 @@ export async function JWT_verify (req, res){
 export async function login (req, res){
   const { email, password, login_type } = req.body.login_information_object;
   let table_name;
-  let DB_name;
+  
   if(login_type === 'Doctor' || login_type === 'Patient'){
     table_name = `${login_type}_credentials`;
-    DB_name = `${login_type}DB`;
   }else{
-    console.log('invalid user')
     return res.send('Invalid User Type') // If Type not Doctor or Patient
 
   }
@@ -107,14 +104,13 @@ export async function login (req, res){
   try{
     encrypted_email = Crypto.encrypt_single_entry(emailObj).email
   }catch(error){
-    console.log('Problem with Data Encryption')
     return res.status(500).send({ error: 'Problem with Data Encryption' });
   }
 
   const sql = `SELECT * FROM ${table_name} WHERE email = ?`;
   const values = [encrypted_email];
   
-  await useDB(login.name, DB_name, table_name)
+  await DB_Operation(login.name, table_name)
 
   let results;
   let hashed_password;
@@ -199,134 +195,132 @@ export async function login (req, res){
  *  DOCUMENTATION LAST UPDATED 3/14/23
  */
 export async function register (req, res){
-    const {email, password, register_type} = req.body.register_information_object // Takes out the decrypted_email from the request
-    let table_name;
-    let DB_name;
-    if(register_type === 'Doctor' || register_type === 'Patient'){
-      table_name = `${register_type}_credentials`;
-      DB_name = `${register_type}DB`;
-    }else{
-      console.log('invalid user')
-      return res.send('Invalid User Type') // If Type not Doctor or Patient
-    }
+  const {email, password, register_type} = req.body.register_information_object // Takes out the decrypted_email from the request
+  let table_name;
+  if(register_type === 'Doctor' || register_type === 'Patient'){
+    table_name = `${register_type}_credentials`;
+  }else{
+    console.log('invalid user')
+    return res.send('Invalid User Type') // If Type not Doctor or Patient
+  }
 
-    let emailObj = {
-      email: email
-    };
-    let encrypted_email;
+  let emailObj = {
+    email: email
+  };
+  let encrypted_email;
+  try{
+    encrypted_email = Crypto.encrypt_single_entry(emailObj).email
+  }catch(error){
+    console.log('Problem with Data Encryption')
+    return res.status(500).send({ error: 'Problem with Data Encryption' });
+  }
+
+  const sql = `SELECT * FROM ${table_name} WHERE email = ?`;
+  const values = [encrypted_email];
+
+  await DB_Operation(register.name, table_name)
+
+  let results;
+  try{
+    [results] = await connection.execute(sql, values)
+    if (results.length !== 0){
+      console.log('User already exists')
+      return res.status(400).json("User already exists!");
+    }
+  }catch(error){
+    console.log('Problem with existing email search')
+    return res.status(500).send({ error: 'Problem with existing email search' });
+  }
+
+  let hashed_password;
+  if(!results.length){
     try{
-      encrypted_email = Crypto.encrypt_single_entry(emailObj).email
+      hashed_password = await Hash.hash_credentials(password)
     }catch(error){
-      console.log('Problem with Data Encryption')
-      return res.status(500).send({ error: 'Problem with Data Encryption' });
+      console.log('Problem with Password Hashing')
+      return res.status(500).send({ error: 'Problem with Password Hashing' });
     }
+  }
 
-    const sql = `SELECT * FROM ${table_name} WHERE email = ?`;
-    const values = [encrypted_email];
+  const date_ob = new Date();
+  const format = "YYYY-MM-DD HH:mm:ss"
+  const dateTime = moment(date_ob).format(format);
+  const dateTimeObj = {
+    Created_at: `${dateTime}`
+  }
+  let encrypted_date_time;
+  try{
+    encrypted_date_time = Crypto.encrypt_single_entry(dateTimeObj).Created_at
+  }catch(error){
+    console.log('Problem with Data Encryption')
+    return res.status(500).send({ error: 'Problem with Data Encryption' });
+  }
 
-    await useDB(register.name, DB_name, table_name)
+  let sql_1;
+  let values_1;
+  if(register_type === 'Doctor'){
+    sql_1 = `INSERT INTO ${table_name} (email, password, Created_at, verified, publiclyAvailable) VALUES (?, ?, ?, ?, ?)`;
+    values_1 = [encrypted_email, hashed_password, encrypted_date_time, true, true];// in the future, will need to change this. Verified shouldn't be set to true by default, should require some kind of ID verification
+  }else if (register_type === 'Patient'){
+    sql_1 = `INSERT INTO ${table_name} (email, password, Created_at) VALUES (?, ?, ?)`;
+    values_1 = [encrypted_email, hashed_password, encrypted_date_time];
+  }else{
+    console.log('invalid user')
+    return res.send('Invalid User Type') // If Type not Doctor or Patient
+  }
+  try {
+    await connection.execute(sql_1, values_1)
+  }catch (error){
+    console.log('Problem with Data Insertion')
+    return res.status(500).send({ error: 'Problem with Data Insertion' });
+  }
 
-    let results;
-    try{
-      [results] = await connection.execute(sql, values)
-      if (results.length !== 0){
-        console.log('User already exists')
-        return res.status(400).json("User already exists!");
-      }
-    }catch(error){
-      console.log('Problem with existing email search')
-      return res.status(500).send({ error: 'Problem with existing email search' });
-    }
+  let results_1;
+  try{
+    [results_1] = await connection.execute(sql, values); // using same query as before, just now with the inserted email - this is to set the user after registering
+  }catch(error){
+    console.log('Problem with Data Selection')
+    return res.status(500).send({ error: 'Problem with Data Selection' });
+  }
 
-    let hashed_password;
-    if(!results.length){
-      try{
-        hashed_password = await Hash.hash_credentials(password)
-      }catch(error){
-        console.log('Problem with Password Hashing')
-        return res.status(500).send({ error: 'Problem with Password Hashing' });
-      }
-    }
+  const IDKey = `${register_type}ID`;
+  const ID = results_1[0][IDKey];
+  const UUID = await ID_to_UUID(ID, register_type)
 
-    const date_ob = new Date();
-    const format = "YYYY-MM-DD HH:mm:ss"
-    const dateTime = moment(date_ob).format(format);
-    const dateTimeObj = {
-      Created_at: `${dateTime}`
-    }
-    let encrypted_date_time;
-    try{
-      encrypted_date_time = Crypto.encrypt_single_entry(dateTimeObj).Created_at
-    }catch(error){
-      console.log('Problem with Data Encryption')
-      return res.status(500).send({ error: 'Problem with Data Encryption' });
-    }
+  const expiration_time = 20; // not using this right now.
+  const payload = {
+    [IDKey]: UUID,
+    // exp: Math.floor(Date.now()/1000) +expiration_time // temporarily taking out expiration to make sure system is running smoothly
+  }
+  const JWTKey = register_type === 'Patient' ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY;
+  let token;
+  try{
+    token = jwt.sign(payload, JWTKey);
+  }catch(error){
+    console.log('error in catching insert')
+    return res.status(500).send({ error: 'Problem with Data Selection' });
+  }
 
-    let sql_1;
-    let values_1;
-    if(register_type === 'Doctor'){
-      sql_1 = `INSERT INTO ${table_name} (email, password, Created_at, verified, publiclyAvailable) VALUES (?, ?, ?, ?, ?)`;
-      values_1 = [encrypted_email, hashed_password, encrypted_date_time, true, true];// in the future, will need to change this. Verified shouldn't be set to true by default, should require some kind of ID verification
-    }else if (register_type === 'Patient'){
-      sql_1 = `INSERT INTO ${table_name} (email, password, Created_at) VALUES (?, ?, ?)`;
-      values_1 = [encrypted_email, hashed_password, encrypted_date_time];
-    }else{
-      console.log('invalid user')
-      return res.send('Invalid User Type') // If Type not Doctor or Patient
-    }
-    try {
-      await connection.execute(sql_1, values_1)
-    }catch (error){
-      console.log('Problem with Data Insertion')
-      return res.status(500).send({ error: 'Problem with Data Insertion' });
-    }
+  const newUser_UUID = await ID_to_UUID(ID, register_type)
 
-    let results_1;
-    try{
-      [results_1] = await connection.execute(sql, values); // using same query as before, just now with the inserted email - this is to set the user after registering
-    }catch(error){
-      console.log('Problem with Data Selection')
-      return res.status(500).send({ error: 'Problem with Data Selection' });
-    }
-
-    const IDKey = `${register_type}ID`;
-    const ID = results_1[0][IDKey];
-    const UUID = await ID_to_UUID(ID, register_type)
-
-    const expiration_time = 20; // not using this right now.
-    const payload = {
-      [IDKey]: UUID,
-      // exp: Math.floor(Date.now()/1000) +expiration_time // temporarily taking out expiration to make sure system is running smoothly
-    }
-    const JWTKey = register_type === 'Patient' ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY;
-    let token;
-    try{
-      token = jwt.sign(payload, JWTKey);
-    }catch(error){
-      console.log('error in catching insert')
-      return res.status(500).send({ error: 'Problem with Data Selection' });
-    }
-
-    const newUser_UUID = await ID_to_UUID(ID, register_type)
-
-    return res
-      .cookie(`${register_type}AccessToken`, token, {
-        // expires,
-        // httpOnly: true,
-        // secure:true
-      })
-      .cookie(`${register_type}UUID`, UUID, {
-        // expires,
-        // httpOnly: true,
-        // secure:true
-      })
-      .cookie(`${register_type}New_User`, newUser_UUID, {
-        // expires,
-        // httpOnly: true,
-        // secure:true
-      })
-      .status(200)
-      .json(true);
+  return res
+    .cookie(`${register_type}AccessToken`, token, {
+      // expires,
+      // httpOnly: true,
+      // secure:true
+    })
+    .cookie(`${register_type}UUID`, UUID, {
+      // expires,
+      // httpOnly: true,
+      // secure:true
+    })
+    .cookie(`${register_type}New_User`, newUser_UUID, {
+      // expires,
+      // httpOnly: true,
+      // secure:true
+    })
+    .status(200)
+    .json(true);
 };
 
 /** logout is self-explanatory
@@ -361,11 +355,10 @@ export async function logout (req, res){
     }
   
     const table_name = `${type}UUID_reference`;
-    const DB_name = `${type}DB`;
     const sql = `DELETE FROM ${table_name} WHERE ${type}UUID = ?`;
     let values = [UUID];
   
-    await useDB(logout.name, DB_name, table_name)
+    await DB_Operation(logout.name, table_name)
     await connection.execute(sql, values)
     if(newUserUUID){
       values = [newUserUUID]

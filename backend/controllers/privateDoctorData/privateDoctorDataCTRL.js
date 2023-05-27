@@ -1,4 +1,4 @@
-import {connection, useDB} from "../../dbAndSecurity/connect.js";
+import {connection, DB_Operation} from "../../dbAndSecurity/connect.js";
 import Crypto from "../../dbAndSecurity/crypto.js";
 import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
 import FetchDoctorAccountData from "./fetchDoctorAccountData.js";
@@ -19,13 +19,12 @@ export async function newDoctor (req, res){
     const new_doctor_object = req.body.new_doctor_object
 
     const table_name = 'basic_Doctor_info'
-    const DB_name = 'DoctorDB'
     const encrypted = Crypto.encrypt_single_entry(new_doctor_object)
 
     const sql = `INSERT INTO ${table_name} (FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year, Doctor_ID) VALUES (?,?,?,?,?,?,?)`;
 
     const values = [encrypted.FirstName, encrypted.LastName, encrypted.Gender, encrypted.DOB_month, encrypted.DOB_day, encrypted.DOB_year, DoctorID];
-    await useDB(newDoctor.name, DB_name, table_name)
+    await DB_Operation(newDoctor.name, table_name)
     
     try{
         await connection.execute(sql, values)
@@ -53,10 +52,9 @@ export async function newDoctorConfirmation (req, res){
         return res.status(200).json(Doctor_permission);
     }
     const table_name = `DoctorUUID_reference`
-    const DB_name = `DoctorDB`;
     const sql = `SELECT * FROM ${table_name} WHERE DoctorUUID = ?`;
     let values = [newDoctorUUID];
-    await useDB(newDoctorConfirmation.name, DB_name, table_name)
+    await DB_Operation(newDoctorConfirmation.name, table_name)
 
     try{
       const [results] = await connection.execute(sql, values)
@@ -90,11 +88,10 @@ export async function fetchDashboardData (req, res){
     
     const table_name1 = 'Doctor_credentials';
     const table_name2 = 'basic_Doctor_info';
-    const DB_name = 'DoctorDB';
   
     const sql = `SELECT email, FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year FROM ${table_name1} LEFT JOIN ${table_name2} ON ${table_name1}.DoctorID = ${table_name2}.Doctor_ID WHERE ${table_name1}.DoctorID = ?`
     const values = [DoctorID];
-    await useDB(fetchDashboardData.name, DB_name, table_name1)
+    await DB_Operation(fetchDashboardData.name, table_name1)
 
     try{
         const [results] = await connection.execute(sql, values)
@@ -123,11 +120,10 @@ export async function fetchPersonalData (req, res){
     const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor') // converts DoctorUUID to docid
     
     const table_name = 'basic_Doctor_info';
-    const DB_name = 'DoctorDB';
   
     const sql = `SELECT FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year FROM ${table_name} WHERE Doctor_ID = ?`
     const values = [DoctorID];
-    await useDB(fetchPersonalData.name, DB_name, table_name)
+    await DB_Operation(fetchPersonalData.name, table_name)
 
     try{
         const [results] = await connection.execute(sql, values)

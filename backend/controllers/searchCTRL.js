@@ -1,5 +1,6 @@
-import {connection, useDB} from "../dbAndSecurity/connect.js";
+import {connection, DB_Operation} from "../dbAndSecurity/connect.js";
 import Crypto from "../dbAndSecurity/crypto.js";
+import fetchAllDoctorLists from "./privateDoctorData/fetchAllDoctorLists.js";
 
 /** searchByQuery returns all users that fit the client's search
  *  Upon first loading the site, there is no query. When there is no query, it is set to "ABCDEFGHIJKLMNOPQRSTUVWXYZ" 
@@ -12,8 +13,7 @@ import Crypto from "../dbAndSecurity/crypto.js";
 export async function searchByQuery (req, res){
     const table_name1 = 'basic_Doctor_info'
     const table_name2 = 'Doctor_credentials'
-    const DB_name = 'DoctorDB'
-    await useDB(searchByQuery.name, DB_name, table_name1)
+    await DB_Operation(searchByQuery.name, table_name1)
     const decrypted_query_object = {query: req.params.query}
 
     const encrypted_query_object = Crypto.encrypt_single_entry(decrypted_query_object)// this is done to encrypt the user's query, to then search the db (since all names in db are encrypted)
@@ -47,9 +47,8 @@ export async function fetchUsers (req, res){
     const table_name1 = 'basic_Doctor_info'
     const table_name2 = 'Doctor_credentials'
     const sql = `SELECT FirstName, LastName, Doctor_ID FROM ${table_name2} left JOIN ${table_name1} ON ${table_name2}.DoctorID = ${table_name1}.Doctor_ID WHERE verified = TRUE AND publiclyAvailable = TRUE`
-    const DB_name = 'DoctorDB'
 
-    await useDB(fetchUsers.name, DB_name, table_name1)
+    await DB_Operation(fetchUsers.name, table_name1)
     try{
         const [results] = await connection.execute(sql)
         const decrypted = Crypto.decrypt_multiple(results)
@@ -62,14 +61,9 @@ export async function fetchUsers (req, res){
 
 // The following three functions are here for filtering purposes. In the future, pts will be able to filter for docs by language_spoken, insurances, etc.
 export async function fetchAllLanguages (req, res){
-    const table_name = 'language_list'
-    const DB_name = 'DoctorDB'
-    const sql = `SELECT Language_name, language_listID FROM ${table_name}`;
-    await useDB(fetchAllLanguages.name, DB_name, table_name)
-    
     try{
-        const [results] = await connection.execute(sql)
-        return res.status(200).json(results);
+        const LanguageList = fetchAllDoctorLists.fetchAllLanguages();
+        return res.status(200).json(LanguageList);
     }catch(error){
         console.log(`error in ${fetchAllLanguages.name}`,error)
         return res.status(500).json(error);
@@ -77,14 +71,9 @@ export async function fetchAllLanguages (req, res){
 };
 
 export async function fetchAllServicesAndCategories (req, res){
-    const table_name = 'service_and_category_list'
-    const DB_name = 'DoctorDB'
-    const sql = `SELECT Service_name, Category_name FROM ${table_name}`;
-    await useDB(fetchAllServicesAndCategories.name, DB_name, table_name)
-    
     try{
-        const [results] = await connection.execute(sql)
-        return res.status(200).json(results);
+        const ServicesList = fetchAllDoctorLists.fetchAllServicesAndCategories();
+        return res.status(200).json(ServicesList);
     }catch(error){
         console.log(`error in ${fetchAllServicesAndCategories.name}`,error)
         return res.status(500).json(error);
@@ -92,14 +81,9 @@ export async function fetchAllServicesAndCategories (req, res){
 };
 
 export async function fetchAllInsurances (req, res){
-    const table_name = 'insurance_list'
-    const DB_name = 'DoctorDB'
-    const sql = `SELECT Insurance_name FROM ${table_name}`;
-    await useDB(fetchAllInsurances.name, DB_name, table_name)
-    
     try{
-        const [results] = await connection.execute(sql)
-        return res.status(200).json(results);
+        const InsurancesList = fetchAllDoctorLists.fetchAllInsurances();
+        return res.status(200).json(InsurancesList);
     }catch(error){
         console.log(`error in ${fetchAllInsurances.name}`,error)
         return res.status(500).json(error);
