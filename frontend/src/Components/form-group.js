@@ -14,7 +14,8 @@ export default function FormGroup({
   required,
   rows,
   type,
-  value
+  value,
+  children  // New prop for options
 }) {
 
   return (
@@ -32,7 +33,10 @@ export default function FormGroup({
         rows = {rows}
         type = {type}
         value = {value}
-      />
+      >
+        {children}  
+        {/* // Render specific options (like select) in children*/}
+      </Form.Control>
     </Form.Group>
   )
 }

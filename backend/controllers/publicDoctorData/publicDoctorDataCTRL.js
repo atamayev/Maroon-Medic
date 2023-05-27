@@ -13,13 +13,13 @@ export async function returnDoctorPageData (req, res){
     const DoctorID = req.params.id;
     let response = [];
     try{
-        response.push(await FetchDoctorAccountData.FetchDoctorInsurances(DoctorID));
-        response.push(await FetchDoctorAccountData.FetchDoctorLanguages(DoctorID)); 
+        response.push(await FetchPublicDoctorData.FetchDoctorInsurances(DoctorID));
+        response.push(await FetchPublicDoctorData.FetchDoctorLanguages(DoctorID));
         response.push(await FetchDoctorAccountData.FetchDoctorServices(DoctorID));
-        response.push(await FetchDoctorAccountData.FetchDoctorSpecialties(DoctorID));
+        response.push(await FetchPublicDoctorData.FetchDoctorSpecialties(DoctorID));
         response.push(await FetchDoctorAccountData.FetchPreVetEducation(DoctorID));
         response.push(await FetchDoctorAccountData.FetchVetEducation(DoctorID));
-        response.push(await FetchDoctorAccountData.FetchDoctorAddressData(DoctorID));
+        response.push(await FetchPublicDoctorData.FetchDoctorAddressData(DoctorID));
         response.push(await FetchDoctorAccountData.FetchDescriptionData(DoctorID)); 
         response.push(await FetchDoctorAccountData.FetchDoctorPictures(DoctorID));
         response.push(await FetchPublicDoctorData.FetchDoctorPersonalInfo(DoctorID));

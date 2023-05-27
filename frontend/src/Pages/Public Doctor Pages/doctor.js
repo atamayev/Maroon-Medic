@@ -86,6 +86,7 @@ export default function Doctor () {
       <RenderBookingSection
         providedServices = {providedServices}
         addresses = {addresses}
+        personalData = {personalData}
       />
       <RenderDescriptionSection
         description = {description}

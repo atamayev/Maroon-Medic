@@ -1,18 +1,15 @@
 To-do:
 
 ASAP:
-MAKE choosing times utilize formGroup
+-figure out how to choose a certain date instead of a day of week
+-create a bookings table, which has foreign keys of doctor_Id, patient_ID, service_name, location_ID, time, day
 there's a bug when the names of the locations are changed, which cause the times to switch
 	if both are titled 123, and the second one is changed to 'availble', the times assigned to them switch
 	
-locatoi for public doctor, bookings.
-
-go through all of the functions that publicDoctorData is using, and make sure that none of them are giving anything extra. if they are, make new functions within the fetchPublicDoctorData class with the bare minimum	
-
 Make the 'Add Address' Button Finalize a Location, make it within the accordion. 
 	So when add address is pressed, it becomes a pretty-looking text (can edit it by pressing a pencil in the top right or something)
 	Add a new 'Add new address' button to add a new acordion strip
-
+-figure out how to save public doctor data, if that is even necessary
 Write documentation, especially for saveAddresses
 
 Add a section in doctordetails for wheather or not the doc works for a practice/company (will neeed to create a lookup and mapping table for vet companies as options)

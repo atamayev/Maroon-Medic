@@ -8,6 +8,8 @@ import SpecificDoctorsList from "./Pages/specific-doctors-list"
 import Doctor from './Pages/Public Doctor Pages/doctor';
 import Footer from './Pages/footer';
 import Missing from './Pages/missing';
+import { FinalizeBookingPage } from './Pages/Public Doctor Pages/finalize-booking';
+
 //Vet Specific:
 import DoctorRegister from "./Pages/Private Doctor Pages/doctor-register"
 import DoctorLogin from "./Pages/Private Doctor Pages/doctor-login"
@@ -38,6 +40,7 @@ export default function App() {
           <Route exact path="/s/:query" element = {<SpecificDoctorsList/>} /> 
           <Route exact path="/s/" element = {<SpecificDoctorsList/>} />
           <Route exact path = '/vet/:id' element = {<Doctor/>} />
+          <Route exact path = "/finalize-booking" element = {<FinalizeBookingPage/>}/>
 
           <Route exact path = '/vet-register' element = {<DoctorRegister/>} />
           <Route exact path = '/vet-login' element = {<DoctorLogin/>} />

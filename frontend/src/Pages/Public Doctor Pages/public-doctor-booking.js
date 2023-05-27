@@ -1,6 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Form, Button } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 import moment from 'moment';
+import FormGroup from '../../Components/form-group';
+import { useNavigate } from "react-router-dom";
+
+const handleServiceChange = (event, providedServices, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime) => {
+  const value = event.target.value;
+  const selectedServiceObject = providedServices.find(service => service.service_and_category_listID.toString() === value);
+  setSelectedService(selectedServiceObject);
+  if (value === 'Select...') {
+    setSelectedLocation(null);
+    setSelectedDay(null);
+    setSelectedTime(null);
+  }
+};
+
+const handleLocationChange = (event, addresses, setSelectedLocation, setSelectedDay, setSelectedTime) => {
+  const value = event.target.value;
+  const selectedLocationObject = addresses.find(location => location.addresses_ID.toString() === value);
+  setSelectedLocation(selectedLocationObject);
+  if (value === 'Select...') {
+    setSelectedDay(null);
+    setSelectedTime(null);
+  }
+};
+
+const handleDayChange = (event, setSelectedDay, setSelectedTime) => {
+  const value = event.target.value;
+  setSelectedDay(value === 'Select...' ? null : value);
+  if (value === 'Select...') {
+    setSelectedTime(null);
+  }
+};
+
+const handleTimeChange = (event, setSelectedTime) => {
+  const value = event.target.value;
+  setSelectedTime(value === 'Select...' ? null : value);
+};
 
 export default function RenderBookingSection(props) {
   const [selectedService, setSelectedService] = useState(null);
@@ -8,22 +44,7 @@ export default function RenderBookingSection(props) {
   const [selectedDay, setSelectedDay] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [availableTimes, setAvailableTimes] = useState([]);
-
-  const handleServiceChange = (event) => {
-    setSelectedService(event.target.value);
-  };
-
-  const handleLocationChange = (event) => {
-    setSelectedLocation(event.target.value);
-  };
-
-  const handleDayChange = (event) => {
-    setSelectedDay(event.target.value);
-  };
-
-  const handleTimeChange = (event) => {
-    setSelectedTime(event.target.value);
-  };
+  const navigate = useNavigate();
 
   // Get selected service object
   const selectedServiceObject = props.providedServices.find(service => service.service_and_category_listID.toString() === selectedService);
@@ -34,9 +55,7 @@ export default function RenderBookingSection(props) {
   useEffect(() => {
     if (selectedDay && selectedLocationObject && selectedServiceObject) {
       // Get the working hours for the selected day
-      const workingHours = selectedLocationObject.times.find(time => time.Day_of_week === selectedDay);
-      //console.log('workingHours',workingHours)
-      console.log('selectedServiceObject',selectedServiceObject)
+      const workingHours = selectedLocationObject?.times.find(time => time.Day_of_week === selectedDay);
 
       if (workingHours) {
         let times = [];
@@ -51,79 +70,106 @@ export default function RenderBookingSection(props) {
           times.push(currentTime.format('HH:mm'));
           currentTime = currentTime.clone().add(Number(selectedServiceObject.Service_time), 'minutes');
         }
-        console.log(times)
         setAvailableTimes(times);
       }
     }
   }, [selectedDay, selectedLocationObject, selectedServiceObject]);
 
-
   return (
-    <Card className='card-bottom-margin'>
-      <Card.Header>Ready to make a booking?</Card.Header>
-      <Card.Body>
-        {props.providedServices.length ? (
-          <Form>
-            <Form.Group controlId='serviceSelect'>
-              <Form.Label>Select a service</Form.Label>
-              <Form.Control as='select' onChange={handleServiceChange}>
+    props.providedServices.length && props.addresses.length ? (
+      <Card className='card-bottom-margin'>
+        <Card.Header>Ready to make a booking?</Card.Header>
+        <Card.Body>
+          <div className='row'>
+            <div className="col-md-6">
+              <FormGroup 
+                as='select' 
+                id='serviceSelect' 
+                label='Select a service' 
+                onChange={(e) => handleServiceChange(e, props.providedServices, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime)}
+              >
                 <option>Select...</option>
                 {props.providedServices.map((service) => (
                   <option key={service.service_and_category_listID} value={service.service_and_category_listID}>
                     {service.Category_name} - {service.Service_name}
                   </option>
                 ))}
-              </Form.Control>
-            </Form.Group>
-            {selectedService && (
-              <Form.Group controlId='locationSelect'>
-                <Form.Label>Select a location</Form.Label>
-                <Form.Control as='select' onChange={handleLocationChange}>
+              </FormGroup>
+            </div>
+            <div className="col-md-6">
+              {selectedService && (
+                <FormGroup 
+                  as='select' 
+                  id='locationSelect' 
+                  label='Select a location' 
+                  onChange={(e)=> handleLocationChange(e, props.addresses, setSelectedLocation, setSelectedDay, setSelectedTime)}
+                >
                   <option>Select...</option>
-                  {props.addresses.map((address) => address.address_public_status === 1 && (
+                  {props.addresses.map((address) => (
                     <option key={address.addresses_ID} value={address.addresses_ID}>
                       {address.address_title}
                     </option>
                   ))}
-                </Form.Control>
-              </Form.Group>
-            )}
-            {selectedLocation && (
-              <Form.Group controlId='daySelect'>
-                <Form.Label>Select a day</Form.Label>
-                <Form.Control as='select' onChange={handleDayChange}>
+                </FormGroup>
+              )}
+            </div>
+          </div>
+          <div className='row'>
+            <div className="col-md-6">
+              {selectedService && selectedLocation && (
+                <FormGroup 
+                  as='select' 
+                  id='daySelect' 
+                  label='Select a day' 
+                  onChange={(e)=> handleDayChange(e, setSelectedDay, setSelectedTime)}
+                >
                   <option>Select...</option>
-                  {selectedLocationObject.times.map((time, index) => (
+                  {selectedLocationObject?.times.map((time, index) => (
                     <option key={index} value={time.Day_of_week}>
                       {time.Day_of_week}
                     </option>
                   ))}
-                </Form.Control>
-              </Form.Group>
-            )}
-            {selectedDay && (
-              <Form.Group controlId='timeSelect'>
-                <Form.Label>Select a time</Form.Label>
-                <Form.Control as='select' onChange={handleTimeChange}>
+                </FormGroup>
+              )}
+            </div>
+            <div className="col-md-6">
+              {selectedService && selectedDay && selectedLocation && (
+                <FormGroup 
+                  as='select' 
+                  id='timeSelect' 
+                  label='Select a time' 
+                  onChange={(e)=> handleTimeChange(e, setSelectedTime)}
+                >
                   <option>Select...</option>
                   {availableTimes.map((time, index) => (
                     <option key={index} value={time}>
                       {time}
                     </option>
                   ))}
-                </Form.Control>
-              </Form.Group>
-            )}
-            {selectedTime && (
-              <Button variant='primary' href='/finalize'>
-                Click to finalize booking
-              </Button>
-            )}
-          </Form>
-        ) : (
-          'This doctor does not currently offer any services.'
-        )}
-      </Card.Body>
-    </Card>
-  );
-}
+                </FormGroup>
+              )}
+            </div>
+          </div>
+          {console.log(selectedService)}
+          {console.log(selectedLocation)}
+          {console.log(selectedDay)}
+          {console.log(selectedTime)}
+
+          {selectedService && selectedLocation && selectedDay && selectedTime && (
+            <Button variant='primary' 
+              onClick={() => navigate('/finalize-booking', 
+                { state: { 
+                    selectedService: selectedService ? selectedService.Service_name : null, 
+                    selectedLocation: selectedLocation ? selectedLocation.address_title : null, 
+                    selectedDay, selectedTime, personalData: props.personalData }})} 
+              className='mt-3'>
+              Click to finalize booking
+            </Button>
+          )}
+        </Card.Body>
+      </Card>
+    ) : (
+      'This doctor does not currently offer any services.'
+    )
+  ); 
+};
