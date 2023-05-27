@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const handleServiceChange = (event, providedServices, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime) => {
   const value = event.target.value;
   const selectedServiceObject = providedServices.find(service => service.service_and_category_listID.toString() === value);
-  setSelectedService(selectedServiceObject);
+  setSelectedService(selectedServiceObject || null);
   if (value === 'Select...') {
     setSelectedLocation(null);
     setSelectedDay(null);
@@ -18,7 +18,7 @@ const handleServiceChange = (event, providedServices, setSelectedService, setSel
 const handleLocationChange = (event, addresses, setSelectedLocation, setSelectedDay, setSelectedTime) => {
   const value = event.target.value;
   const selectedLocationObject = addresses.find(location => location.addresses_ID.toString() === value);
-  setSelectedLocation(selectedLocationObject);
+  setSelectedLocation(selectedLocationObject || null);
   if (value === 'Select...') {
     setSelectedDay(null);
     setSelectedTime(null);
@@ -47,10 +47,10 @@ export default function RenderBookingSection(props) {
   const navigate = useNavigate();
 
   // Get selected service object
-  const selectedServiceObject = props.providedServices.find(service => service.service_and_category_listID.toString() === selectedService);
+  const selectedServiceObject = props.providedServices.find(service => service.service_and_category_listID === selectedService?.service_and_category_listID);
 
   // Get selected location object
-  const selectedLocationObject = props.addresses.find(location => location.addresses_ID.toString() === selectedLocation);
+  const selectedLocationObject = props.addresses.find(location => location.addresses_ID === selectedLocation?.addresses_ID);
 
   useEffect(() => {
     if (selectedDay && selectedLocationObject && selectedServiceObject) {
@@ -150,18 +150,14 @@ export default function RenderBookingSection(props) {
               )}
             </div>
           </div>
-          {console.log(selectedService)}
-          {console.log(selectedLocation)}
-          {console.log(selectedDay)}
-          {console.log(selectedTime)}
 
           {selectedService && selectedLocation && selectedDay && selectedTime && (
             <Button variant='primary' 
               onClick={() => navigate('/finalize-booking', 
                 { state: { 
-                    selectedService: selectedService ? selectedService.Service_name : null, 
-                    selectedLocation: selectedLocation ? selectedLocation.address_title : null, 
-                    selectedDay, selectedTime, personalData: props.personalData }})} 
+                  selectedService: selectedService ? selectedService : null, 
+                  selectedLocation: selectedLocation ? selectedLocation : null, 
+                  selectedDay, selectedTime, personalData: props.personalData }})} 
               className='mt-3'>
               Click to finalize booking
             </Button>
