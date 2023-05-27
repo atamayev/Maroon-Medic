@@ -6,16 +6,16 @@ import { handleDeleteSpecialty } from "../../../Custom Hooks/Hooks for Doctor Ac
 import { saveSpecialies } from "../../../Custom Hooks/Hooks for Doctor Account Details/save";
 
 export default function RenderSpecialtySection (props){
-    return(
-        <Card>
-          <Card.Header>
-              Specialties
-          </Card.Header>
-          <Card.Body>
-            {renderIsSpecialty(props)}
-          </Card.Body>
-        </Card>
-    )
+  return(
+      <Card>
+        <Card.Header>
+            Specialties
+        </Card.Header>
+        <Card.Body>
+          {renderIsSpecialty(props)}
+        </Card.Body>
+      </Card>
+  );
 };
 
 function renderIsSpecialty(props){
@@ -79,12 +79,12 @@ function renderIsSpecialty(props){
         </ul>
         <Button 
           variant = "success"
-          onClick={() => saveSpecialies(props.doctorSpecialties, props.setShowSavedSpecialtiesMessage, props.setShowSameSpecialtiesMessage, props.setShowSaveSpecialtiesProblemMessage)}
+          onClick={() => saveSpecialies(props.doctorSpecialties, props.setSpecialtiesConfirmation)}
           >
           Save</Button>
-        <span className={`fade ${props.showSavedSpecialtiesMessage ? 'show' : ''}`}>Specialties saved!</span>
-        <span className={`fade ${props.showSameSpecialtiesMessage ? 'show' : ''}`}>Same Specialty data!</span>
-        <span className={`fade ${props.showSaveSpecialtiesProblemMessage ? 'show' : ''}`}>Problem Saving Specialties!</span>
+        <span className={`fade ${props.specialtiesConfirmation.messageType === 'saved' ? 'show' : ''}`}>Specialties saved!</span>
+        <span className={`fade ${props.specialtiesConfirmation.messageType === 'same' ? 'show' : ''}`}>Same Specialty data!</span>
+        <span className={`fade ${props.specialtiesConfirmation.messageType === 'problem' ? 'show' : ''}`}>Problem Saving Specialties!</span> 
       </>
     )
   }else{

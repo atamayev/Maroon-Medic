@@ -7,16 +7,16 @@ import { handleAddService } from "../../../Custom Hooks/Hooks for Doctor Account
 import { handleDeleteService } from "../../../Custom Hooks/Hooks for Doctor Account Details/delete";
 
 export default function RenderServiceSection (props){
-    return(
-        <Card>
-        <Card.Header>
-          Vet Services
-        </Card.Header>
-        <Card.Body>
-          {renderIsVetServices(props)}
-        </Card.Body>
-      </Card>
-    )
+  return(
+      <Card>
+      <Card.Header>
+        Vet Services
+      </Card.Header>
+      <Card.Body>
+        {renderIsVetServices(props)}
+      </Card.Body>
+    </Card>
+  );
 };
 
 //Does not work as intended
@@ -116,14 +116,13 @@ function renderIsVetServices (props) {
         <Button 
           variant="success" 
           disabled={!areAllTimesSet(props.providedServices)}
-          onClick={() => saveServices(props.providedServices, props.setShowSavedServicesMessage, props.setShowSameServicesMessage, props.setShowSaveServicesProblemMessage)}
+          onClick={() => saveServices(props.providedServices, props.setServicesConfirmation)}
         >
           Save
         </Button>
-        <span className={`fade ${props.showSavedServicesMessage ? 'show' : ''}`}>Services saved!</span>
-        <span className={`fade ${props.showSameServicesMessage ? 'show' : ''}`}>Same Services!</span>
-        <span className={`fade ${props.showSaveServicesProblemMessage ? 'show' : ''}`}>Problem Saving Services!</span>
-      </>
+      <span className={`fade ${props.servicesConfirmation.messageType === 'saved' ? 'show' : ''}`}>Services saved!</span>
+      <span className={`fade ${props.servicesConfirmation.messageType === 'same' ? 'show' : ''}`}>Same Service data!</span>
+      <span className={`fade ${props.servicesConfirmation.messageType === 'problem' ? 'show' : ''}`}>Problem Saving Services!</span>      </>
     )
   }else{
     return(

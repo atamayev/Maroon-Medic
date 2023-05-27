@@ -34,7 +34,7 @@ export async function saveInsurances(acceptedInsurances, setInsurancesConfirmati
   }
 };
 
-export async function saveLanguages(spokenLanguages, setShowSavedLanguagesMessage, setShowSameLanguagesMessage, setShowSaveLanguagesProblemMessage){
+export async function saveLanguages(spokenLanguages, setLanguagesConfirmation){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   const savedLanguages = DoctorAccountDetails?.[1] || []
   const savedLanguagesIDs = savedLanguages.map(language => language.language_listID).sort((a,b)=>a-b);
@@ -46,7 +46,7 @@ export async function saveLanguages(spokenLanguages, setShowSavedLanguagesMessag
   }else if((!checkIfListsAreEqual(languageIds, savedLanguagesIDs))){
     shouldSave = true;
   }else{
-    setShowSameLanguagesMessage(true);
+    setLanguagesConfirmation({messageType: 'same'});
   }
 
   if(shouldSave){//checks if they are the same
@@ -55,18 +55,18 @@ export async function saveLanguages(spokenLanguages, setShowSavedLanguagesMessag
       if(response.status === 200){
         DoctorAccountDetails[1] = spokenLanguages;
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-        setShowSavedLanguagesMessage(true);
+        setLanguagesConfirmation({messageType: 'saved'});
       }
     } catch(error) {
-      setShowSaveLanguagesProblemMessage(true);
+      setLanguagesConfirmation({messageType: 'problem'});
       console.log('error in saving languages', error)
     }
   }else{
-    setShowSameLanguagesMessage(true);
+    setLanguagesConfirmation({messageType: 'same'});
   }
 };
 
-export async function saveServices(providedServices, setShowSavedServicesMessage, setShowSameServicesMessage, setShowSaveServicesProblemMessage){
+export async function saveServices(providedServices, setServicesConfirmation){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   const savedServices = DoctorAccountDetails?.[2] || [];
   const createServiceKey = (service) => `${service.service_and_category_listID}-${service.Service_price}-${service.Service_time}`;
@@ -81,7 +81,7 @@ export async function saveServices(providedServices, setShowSavedServicesMessage
   }else if((!checkIfListsAreEqual(savedServiceKeys, serviceKeys))){
     shouldSave = true;
   }else{
-    setShowSameServicesMessage(true);
+    setServicesConfirmation({messageType: 'same'});
   }
   const updatedServices = providedServices.map(service => {
     const { Service_name, Category_name, ...rest } = service;
@@ -94,18 +94,18 @@ export async function saveServices(providedServices, setShowSavedServicesMessage
       if(response.status === 200){
         DoctorAccountDetails[2] = providedServices;
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-        setShowSavedServicesMessage(true);
+        setServicesConfirmation({messageType: 'saved'});
       }
     } catch(error) {
-      setShowSaveServicesProblemMessage(true);
+      setServicesConfirmation({messageType: 'problem'});
       console.log('error in saving Services', error)
     }
   }else{
-    setShowSameServicesMessage(true);
+    setServicesConfirmation({messageType: 'same'});
   }
 };
 
-export async function saveSpecialies(doctorSpecialties, setShowSavedSpecialtiesMessage, setShowSameSpecialtiesMessage, setShowSaveSpecialtiesProblemMessage){
+export async function saveSpecialies(doctorSpecialties, setSpecialtiesConfirmation){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   const savedSpecialties = DoctorAccountDetails?.[3] || []
   const savedSpecialtyIDs = savedSpecialties.map(specialty => specialty.specialties_listID).sort((a,b)=>a-b);
@@ -117,7 +117,7 @@ export async function saveSpecialies(doctorSpecialties, setShowSavedSpecialtiesM
   }else if((!checkIfListsAreEqual(specialtyIds, savedSpecialtyIDs))){
     shouldSave = true;
   }else{
-    setShowSameSpecialtiesMessage(true);
+    setSpecialtiesConfirmation({messageType: 'same'});
   }
 
   if(shouldSave){//checks if they are the same
@@ -126,18 +126,18 @@ export async function saveSpecialies(doctorSpecialties, setShowSavedSpecialtiesM
       if(response.status === 200){
         DoctorAccountDetails[3] = doctorSpecialties;
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-        setShowSavedSpecialtiesMessage(true);
+        setSpecialtiesConfirmation({messageType: 'saved'});
       }
     } catch(error) {
-      setShowSaveSpecialtiesProblemMessage(true);
+      setSpecialtiesConfirmation({messageType: 'problem'});
       console.log('error in saving specialites', error)
     }
   }else{
-    setShowSameSpecialtiesMessage(true);
+    setSpecialtiesConfirmation({messageType: 'same'});
   }
 };
 
-export async function savePreVetSchool(preVetEducation, listDetails, setShowSavedPreVetEducationMessage, setShowSamePreVetEducationMessage, setShowSavePreVetEducationProblemMessage){
+export async function savePreVetSchool(preVetEducation, listDetails, setPreVetEducationConfirmation){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   const savedPreVetEducations = DoctorAccountDetails?.[4] || []
   let shouldSave = false;
@@ -150,7 +150,7 @@ export async function savePreVetSchool(preVetEducation, listDetails, setShowSave
     shouldSave = true;
   } else {
     // Data is the same
-    setShowSamePreVetEducationMessage(true);
+    setPreVetEducationConfirmation({messageType: 'same'});
   }
 
   if(shouldSave){
@@ -166,18 +166,18 @@ export async function savePreVetSchool(preVetEducation, listDetails, setShowSave
       if(response.status === 200){
         DoctorAccountDetails[4] = preVetEducation;
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-        setShowSavedPreVetEducationMessage(true);
+        setPreVetEducationConfirmation({messageType: 'saved'});
       }
     } catch(error) {
-      setShowSavePreVetEducationProblemMessage(true);
+      setPreVetEducationConfirmation({messageType: 'problem'});
       console.log('error in saving PreVets', error)
     }
   }else{
-    setShowSamePreVetEducationMessage(true);
+    setPreVetEducationConfirmation({messageType: 'same'});
   }
 };
 
-export async function saveVetSchool(vetEducation, listDetails, setShowSavedVetEducationMessage, setShowSameVetEducationMessage, setShowSaveVetEducationProblemMessage){
+export async function saveVetSchool(vetEducation, listDetails, setVetEducationConfirmation){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   const savedVetEducations = DoctorAccountDetails?.[5] || []
   let shouldSave = false;
@@ -190,7 +190,7 @@ export async function saveVetSchool(vetEducation, listDetails, setShowSavedVetEd
     shouldSave = true;
   } else {
     // Data is the same
-    setShowSameVetEducationMessage(true);
+    setVetEducationConfirmation({messageType: 'same'});
   }
 
   if(shouldSave){//only saves if the educations changed
@@ -205,18 +205,18 @@ export async function saveVetSchool(vetEducation, listDetails, setShowSavedVetEd
       if(response.status === 200){
         DoctorAccountDetails[5] = vetEducation;
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-        setShowSavedVetEducationMessage(true);
+        setVetEducationConfirmation({messageType: 'saved'});
       }
     } catch(error) {
-      setShowSaveVetEducationProblemMessage(true);
+      setVetEducationConfirmation({messageType: 'problem'});
       console.log('error in saving education', error)
     }
   }else{
-    setShowSameVetEducationMessage(true);
+    setVetEducationConfirmation({messageType: 'same'});
   }
 };
 
-export async function saveLocation (addresses, setAddresses, setShowSavedLocationMessage, setShowSameLocationMessage, setShowSaveProblemMessage){
+export async function saveLocation (addresses, setAddresses, setAddressesConfirmation){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   const savedLocationData = DoctorAccountDetails?.[6];
 
@@ -234,7 +234,7 @@ export async function saveLocation (addresses, setAddresses, setShowSavedLocatio
     shouldSave = true;
   } else {
     // Data is the same
-    setShowSameLocationMessage(true);
+    setAddressesConfirmation({messageType: 'same'});
   }
 
   if (shouldSave) {
@@ -248,21 +248,18 @@ export async function saveLocation (addresses, setAddresses, setShowSavedLocatio
         DoctorAccountDetails[6] = newAddressData;
         setAddresses(newAddressData);
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-        setShowSavedLocationMessage(true);
-      } else {
-        console.log('problem saving data');
-        setShowSaveProblemMessage(true);
+        setAddressesConfirmation({messageType: 'saved'});
       }
     } catch (error) {
+      setAddressesConfirmation({messageType: 'problem'});
       console.log('error in saveLocation', error);
-      setShowSaveProblemMessage(true);
     }
   }else{
-    setShowSameLocationMessage(true);
+    setAddressesConfirmation({messageType: 'same'});
   }
 };
 
-export async function saveDescription(description, setShowSavedDescriptionMessage, setShowSameDescriptionMessage, setShowSaveDescriptionProblemMessage){
+export async function saveDescription(description, setDescriptionConfirmation){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   const savedDescriptionData = DoctorAccountDetails[7].Description;
   let shouldSave = false;
@@ -273,6 +270,8 @@ export async function saveDescription(description, setShowSavedDescriptionMessag
   } else if (description.Description !== savedDescriptionData) {
     // Data is different
     shouldSave = true;
+  }else{
+    setDescriptionConfirmation({messageType: 'same'});
   }
 
   if(shouldSave){//makes sure that it's only pushing to DB if description changed
@@ -281,18 +280,18 @@ export async function saveDescription(description, setShowSavedDescriptionMessag
       if(response.status === 200){
         DoctorAccountDetails[7] = description;
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-        setShowSavedDescriptionMessage(true);
+        setDescriptionConfirmation({messageType: 'saved'});
       }
     } catch(error) {
-      setShowSaveDescriptionProblemMessage(true);
+      setDescriptionConfirmation({messageType: 'problem'});
       console.log('error in saveDescription', error)
     }
   }else{
-    setShowSameDescriptionMessage(true);
+    setDescriptionConfirmation({messageType: 'same'});
   }
 };
 
-export async function handlePublicAvailibilityToggle (value, setPubliclyAvailable, setShowSavedPubliclyAvalableMessage, setShowSavePubliclyAvalableProblemMessage) {
+export async function handlePublicAvailibilityToggle (value, setPubliclyAvailable, setPubliclyAvailableConfirmation) {
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   try{
     const response = await PrivateDoctorDataService.savePublicAvailibility(value);
@@ -300,10 +299,10 @@ export async function handlePublicAvailibilityToggle (value, setPubliclyAvailabl
       setPubliclyAvailable(value);
       DoctorAccountDetails[9][0].PubliclyAvailable = value;
       sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-      setShowSavedPubliclyAvalableMessage(true);
+      setPubliclyAvailableConfirmation({messageType: 'saved'});
     }
   }catch(error){
-    setShowSavePubliclyAvalableProblemMessage(true);
+    setPubliclyAvailableConfirmation({messageType: 'problem'});
     console.log('error in handlePublicAvailibilityToggle', error)
   }
 };

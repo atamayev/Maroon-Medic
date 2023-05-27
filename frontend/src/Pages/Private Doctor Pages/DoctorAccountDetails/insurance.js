@@ -14,7 +14,7 @@ export default function RenderInsuranceSection(props){
         {renderIsVetInsurance(props)}
       </Card.Body>
     </Card>
-  )
+  );
 };
 
 function renderIsVetInsurance(props){

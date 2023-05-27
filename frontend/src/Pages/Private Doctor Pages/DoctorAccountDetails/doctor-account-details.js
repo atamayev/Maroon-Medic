@@ -4,7 +4,7 @@ import DoctorHeader from '../doctor-header.js';
 import PrivateDoctorDataService from '../../../Services/private-doctor-data-service.js';
 import Header from '../../header.js';
 import { NonDoctorAccess } from '../../../Components/user-type-unauth.js';
-import { useConfirmationTimeout } from '../../../Custom Hooks/Hooks for Doctor Account Details/savedMessageUseEffect.js';
+import { useConfirmationMessage } from '../../../Custom Hooks/Hooks for Doctor Account Details/useConfirmationMessage.js';
 import RenderPreVetEducationSection from './pre-vet-education.js';
 import RenderVetEducationSection from './vet-education.js';
 import RenderDescriptionSection from './description.js';
@@ -16,7 +16,6 @@ import RenderLanguageSection from './language.js';
 import RenderServiceSection from './service.js';
 import RenderLocationSection from './location.js';
 import RenderSpecialtySection from './specialty.js';
-import { useConfirmationMessage } from '../../../Custom Hooks/Hooks for Doctor Account Details/useConfirmationMessage.js';
 
 async function FillLists(setListDetails){ 
   // this will be used to fill the lists in the db (insurances, languages, etc.) Should be one function that returns an object of arrays of hte different lists
@@ -45,56 +44,40 @@ export default function DoctorAccountDetails() {
 
   const [selectedLanguage, setSelectedLanguage] = useState('');
   const [spokenLanguages, setSpokenLanguages] = useState(DoctorAccountDetails?.[1] || []);
-  const [showSavedLanguagesMessage, setShowSavedLanguagesMessage] = useState(false);
-  const [showSameLanguagesMessage, setShowSameLanguagesMessage] = useState(false);
-  const [showSaveLanguagesProblemMessage, setShowSaveLanguagesProblemMessage] = useState(false);
+  const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage();
 
   const [providedServices, setProvidedServices] = useState(DoctorAccountDetails?.[2] || []);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [expandedCategories, setExpandedCategories] = useState([]);
-  const [showSavedServicesMessage, setShowSavedServicesMessage] = useState(false);
-  const [showSameServicesMessage, setShowSameServicesMessage] = useState(false);
-  const [showSaveServicesProblemMessage, setShowSaveServicesProblemMessage] = useState(false);
   const [servicesConfirmation, setServicesConfirmation] = useConfirmationMessage();
 
   const [selectedOrganization, setSelectedOrganization] = useState('');
   const [selectedSpecialty, setSelectedSpecialties] = useState('');
   const [doctorSpecialties, setDoctorSpecialties] = useState(DoctorAccountDetails?.[3] || []);
-  const [showSavedSpecialtiesMessage, setShowSavedSpecialtiesMessage] = useState(false);
-  const [showSameSpecialtiesMessage, setShowSameSpecialtiesMessage] = useState(false);
-  const [showSaveSpecialtiesProblemMessage, setShowSaveSpecialtiesProblemMessage] = useState(false);
   const [specialtiesConfirmation, setSpecialtiesConfirmation] = useConfirmationMessage();
 
   const [selectedPreVetSchool, setSelectedPreVetSchool] = useState('');
   const [selectedMajor, setSelectedMajor] = useState('');
   const [selectedPreVetEducationType, setSelectedPreVetEducationType] = useState('');
   const [preVetEducation, setPreVetEducation] = useState(DoctorAccountDetails?.[4] || []);
-  const [showSavedPreVetEducationMessage, setShowSavedPreVetEducationMessage] = useState(false);
-  const [showSamePreVetEducationMessage, setShowSamePreVetEducationMessage] = useState(false);
-  const [showSavePreVetEducationProblemMessage, setShowSavePreVetEducationProblemMessage] = useState(false);
+  const [preVetEducationConfirmation, setPreVetEducationConfirmation] = useConfirmationMessage();
 
   const [selectedVetSchool, setSelectedVetSchool] = useState('');
   const [selectedVetEducationType, setSelectedVetEducationType] = useState('');
   const [vetEducation, setVetEducation] = useState(DoctorAccountDetails?.[5] || []);
-  const [showSavedVetEducationMessage, setShowSavedVetEducationMessage] = useState(false);
-  const [showSameVetEducationMessage, setShowSameVetEducationMessage] = useState(false);
-  const [showSaveVetEducationProblemMessage, setShowSaveVetEducationProblemMessage] = useState(false);
+  const [vetEducationConfirmation, setVetEducationConfirmation] = useConfirmationMessage();
 
   const [addresses, setAddresses] = useState(DoctorAccountDetails?.[6] ||[{ address_priority: 0, addressesID: 0, address_title: '', address_line_1  : '', address_line_2: '', city: '', state: '', zip: '', country: '', phone_priority: 0, phone: '', address_public_status: 1, times:[]}]);
-  const [showSavedLocationsMessage, setShowSavedLocationsMessage] = useState(false);
-  const [showSameLocationsMessage, setShowSameLocationsMessage] = useState(false);
-  const [showSaveLocationsProblemMessage, setShowSaveLocationsProblemMessage] = useState(false);
+  const [addressesConfirmation, setAddressesConfirmation] = useConfirmationMessage();
 
   const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false);
   const [description, setDescription] = useState(DoctorAccountDetails?.[7] || {});
-  const [showSavedDescriptionMessage, setShowSavedDescriptionMessage] = useState(false);
-  const [showSameDescriptionMessage, setShowSameDescriptionMessage] = useState(false);
-  const [showSaveDescriptionProblemMessage, setShowSaveDescriptionProblemMessage] = useState(false);
+  const [descriptionConfirmation, setDescriptionConfirmation] = useConfirmationMessage();
 
   const [publiclyAvailable, setPubliclyAvailable] = useState(DoctorAccountDetails?.[9][0]?.PubliclyAvailable || 0);
   const verified = DoctorAccountDetails?.[9][0].Verified || [];
-  const [showSavedPubliclyAvalableMessage, setShowSavedPubliclyAvalableMessage] = useState(false);
-  const [showSavePubliclyAvalableProblemMessage, setShowSavePubliclyAvalableProblemMessage] = useState(false);
+  const [publiclyAvailableConfirmation, setPubliclyAvailableConfirmation] = useConfirmationMessage();
+
   const currentYear = new Date().getFullYear();
 
   const [timeState, setTimeState] = useState({
@@ -138,65 +121,20 @@ export default function DoctorAccountDetails() {
     });
   }, []);
 
-  useConfirmationTimeout(
-    showSavedLanguagesMessage, setShowSavedLanguagesMessage, 
-    showSameLanguagesMessage, setShowSameLanguagesMessage, 
-    showSaveLanguagesProblemMessage, setShowSaveLanguagesProblemMessage,
-    
-    showSavedServicesMessage, setShowSavedServicesMessage, 
-    showSameServicesMessage, setShowSameServicesMessage, 
-    showSaveServicesProblemMessage, setShowSaveServicesProblemMessage,
-    
-    showSavedSpecialtiesMessage, setShowSavedSpecialtiesMessage, 
-    showSameSpecialtiesMessage, setShowSameSpecialtiesMessage, 
-    showSaveSpecialtiesProblemMessage, setShowSaveSpecialtiesProblemMessage,
-    
-    showSavedPreVetEducationMessage, setShowSavedPreVetEducationMessage, 
-    showSamePreVetEducationMessage, setShowSamePreVetEducationMessage, 
-    showSavePreVetEducationProblemMessage, setShowSavePreVetEducationProblemMessage,
-    
-    showSavedVetEducationMessage, setShowSavedVetEducationMessage, 
-    showSameVetEducationMessage, setShowSameVetEducationMessage, 
-    showSaveVetEducationProblemMessage, setShowSaveVetEducationProblemMessage,
-    
-    showSavedLocationsMessage, setShowSavedLocationsMessage, 
-    showSameLocationsMessage, setShowSameLocationsMessage, 
-    showSaveLocationsProblemMessage, setShowSaveLocationsProblemMessage,
-    
-    showSavedDescriptionMessage, setShowSavedDescriptionMessage, 
-    showSameDescriptionMessage, setShowSameDescriptionMessage, 
-    showSaveDescriptionProblemMessage, setShowSaveDescriptionProblemMessage,  
-
-    showSavedPubliclyAvalableMessage, setShowSavedPubliclyAvalableMessage,
-    showSavePubliclyAvalableProblemMessage, setShowSavePubliclyAvalableProblemMessage
-  );
-
   async function FillDoctorAccountDetails(){
     try{
         const response = await PrivateDoctorDataService.fillAccountDetails();
         if (response){
-            if(response.data[0]){
-              setAcceptedInsurances(response.data[0])
-            }
-            if(response.data[1]){
-              setSpokenLanguages(response.data[1])
-            }
+            if(response.data[0]) setAcceptedInsurances(response.data[0]);
+            if(response.data[1]) setSpokenLanguages(response.data[1]);
             if(response.data[2]){
               setProvidedServices(response.data[2])
               setExpandedCategories(response.data[2].map(service => service.Category_name));
             }
-            if(response.data[3]){
-              setDoctorSpecialties(response.data[3])
-            }
-            if(response.data[4]){
-              setPreVetEducation(response.data[4])
-            }
-            if(response.data[5]){
-              setVetEducation(response.data[5])
-            }
-            if(response.data[6]){
-              setAddresses(response.data[6])
-            }
+            if(response.data[3]) setDoctorSpecialties(response.data[3]);
+            if(response.data[4]) setPreVetEducation(response.data[4]);
+            if(response.data[5]) setVetEducation(response.data[5]);
+            if(response.data[6]) setAddresses(response.data[6]);
             if(response.data[7] && Object.keys(response.data[7]).length > 0){
               setDescription(response.data[7]);
               if(response.data[7].Description.length === 1000){
@@ -206,9 +144,7 @@ export default function DoctorAccountDetails() {
             if(response.data[8]){
               //Somehow set pictures.
             }
-            if(response.data[9][0].PubliclyAvailable){
-              setPubliclyAvailable(response.data[9][0].PubliclyAvailable)
-            }
+            if(response.data[9][0].PubliclyAvailable) setPubliclyAvailable(response.data[9][0].PubliclyAvailable);
             sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(response.data));
         }else{
           console.log('no response');
@@ -241,12 +177,8 @@ export default function DoctorAccountDetails() {
         setTimeState = {setTimeState}
         preVetEducation = {preVetEducation}
         setPreVetEducation = {setPreVetEducation}
-        showSavedPreVetEducationMessage = {showSavedPreVetEducationMessage}
-        setShowSavedPreVetEducationMessage = {setShowSavedPreVetEducationMessage}
-        showSamePreVetEducationMessage = {showSamePreVetEducationMessage}
-        setShowSamePreVetEducationMessage = {setShowSamePreVetEducationMessage}
-        showSavePreVetEducationProblemMessage = {showSavePreVetEducationProblemMessage}
-        setShowSavePreVetEducationProblemMessage = {setShowSavePreVetEducationProblemMessage}
+        preVetEducationConfirmation = {preVetEducationConfirmation}
+        setPreVetEducationConfirmation = {setPreVetEducationConfirmation}
       />
       <br/>
       <RenderVetEducationSection
@@ -259,12 +191,8 @@ export default function DoctorAccountDetails() {
         setTimeState = {setTimeState}
         vetEducation = {vetEducation}
         setVetEducation = {setVetEducation}
-        showSavedVetEducationMessage = {showSavedVetEducationMessage}
-        setShowSavedVetEducationMessage = {setShowSavedVetEducationMessage}
-        showSameVetEducationMessage = {showSameVetEducationMessage}
-        setShowSameVetEducationMessage = {setShowSameVetEducationMessage}
-        showSaveVetEducationProblemMessage = {showSaveVetEducationProblemMessage}
-        setShowSaveVetEducationProblemMessage = {setShowSaveVetEducationProblemMessage}
+        vetEducationConfirmation = {vetEducationConfirmation}
+        setVetEducationConfirmation = {setVetEducationConfirmation}
       />
       <br/>
       <RenderDescriptionSection
@@ -272,12 +200,8 @@ export default function DoctorAccountDetails() {
         setDescription = {setDescription}
         isDescriptionOverLimit = {isDescriptionOverLimit}
         setIsDescriptionOverLimit = {setIsDescriptionOverLimit}
-        showSavedDescriptionMessage = {showSavedDescriptionMessage}
-        setShowSavedDescriptionMessage = {setShowSavedDescriptionMessage}
-        showSameDescriptionMessage = {showSameDescriptionMessage}
-        setShowSameDescriptionMessage = {setShowSameDescriptionMessage}
-        showSaveDescriptionProblemMessage = {showSaveDescriptionProblemMessage}
-        setShowSaveDescriptionProblemMessage = {setShowSaveDescriptionProblemMessage}
+        descriptionConfirmation = {descriptionConfirmation}
+        setDescriptionConfirmation = {setDescriptionConfirmation}
       />
       <br/>
       <RenderPersonalInfoLinkSection/>
@@ -295,12 +219,8 @@ export default function DoctorAccountDetails() {
         setSelectedSpecialties = {setSelectedSpecialties}
         doctorSpecialties = {doctorSpecialties}
         setDoctorSpecialties = {setDoctorSpecialties}
-        showSavedSpecialtiesMessage = {showSavedSpecialtiesMessage}
-        setShowSavedSpecialtiesMessage = {setShowSavedSpecialtiesMessage}
-        showSameSpecialtiesMessage = {showSameSpecialtiesMessage}
-        setShowSameSpecialtiesMessage = {setShowSameSpecialtiesMessage}
-        showSaveSpecialtiesProblemMessage = {showSaveSpecialtiesProblemMessage}
-        setShowSaveSpecialtiesProblemMessage = {setShowSaveSpecialtiesProblemMessage}
+        specialtiesConfirmation = {specialtiesConfirmation}
+        setSpecialtiesConfirmation = {setSpecialtiesConfirmation}
       />
       <br/>
       <RenderInsuranceSection
@@ -317,12 +237,8 @@ export default function DoctorAccountDetails() {
         setSelectedLanguage = {setSelectedLanguage}
         spokenLanguages = {spokenLanguages}
         setSpokenLanguages = {setSpokenLanguages}
-        showSavedLanguagesMessage = {showSavedLanguagesMessage}
-        setShowSavedLanguagesMessage = {setShowSavedLanguagesMessage}
-        showSameLanguagesMessage = {showSameLanguagesMessage}
-        setShowSameLanguagesMessage = {setShowSameLanguagesMessage}
-        showSaveLanguagesProblemMessage = {showSaveLanguagesProblemMessage}
-        setShowSaveLanguagesProblemMessage = {setShowSaveLanguagesProblemMessage}
+        languagesConfirmation = {languagesConfirmation}
+        setLanguagesConfirmation = {setLanguagesConfirmation}
       />
       <br/>
       <RenderServiceSection
@@ -333,34 +249,24 @@ export default function DoctorAccountDetails() {
         setProvidedServices = {setProvidedServices}
         expandedCategories = {expandedCategories}
         setExpandedCategories = {setExpandedCategories}
-        showSavedServicesMessage = {showSavedServicesMessage}
-        setShowSavedServicesMessage = {setShowSavedServicesMessage}
-        showSameServicesMessage = {showSameServicesMessage}
-        setShowSameServicesMessage = {setShowSameServicesMessage}
-        showSaveServicesProblemMessage = {showSaveServicesProblemMessage}
-        setShowSaveServicesProblemMessage = {setShowSaveServicesProblemMessage}
+        servicesConfirmation = {servicesConfirmation}
+        setServicesConfirmation = {setServicesConfirmation}
       />
       <br />
       <RenderLocationSection
         listDetails = {listDetails}
         addresses = {addresses}
         setAddresses = {setAddresses}
-        showSavedLocationsMessage = {showSavedLocationsMessage}
-        setShowSavedLocationsMessage = {setShowSavedLocationsMessage}
-        showSameLocationsMessage = {showSameLocationsMessage}
-        setShowSameLocationsMessage = {setShowSameLocationsMessage}
-        showSaveLocationsProblemMessage = {showSaveLocationsProblemMessage}
-        setShowSaveLocationsProblemMessage = {setShowSaveLocationsProblemMessage}
+        addressesConfirmation = {addressesConfirmation}
+        setAddressesConfirmation = {setAddressesConfirmation}
       />
       <br/>
       <RenderVerificationAndPublicStatusSection
         publiclyAvailable = {publiclyAvailable}
         setPubliclyAvailable = {setPubliclyAvailable}
         verified = {verified}
-        showSavedPubliclyAvalableMessage = {showSavedPubliclyAvalableMessage}
-        setShowSavedPubliclyAvalableMessage = {setShowSavedPubliclyAvalableMessage}
-        showSavePubliclyAvalableProblemMessage = {showSavePubliclyAvalableProblemMessage}
-        setShowSavePubliclyAvalableProblemMessage = {setShowSavePubliclyAvalableProblemMessage}
+        publiclyAvailableConfirmation = {publiclyAvailableConfirmation}
+        setPubliclyAvailableConfirmation = {setPubliclyAvailableConfirmation}
       />
   </div>
   )

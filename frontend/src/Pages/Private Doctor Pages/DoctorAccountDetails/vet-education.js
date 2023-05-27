@@ -86,12 +86,12 @@ function renderIsVetEducation(props){
         </ul>
         <Button 
           variant="success" 
-          onClick={()=>saveVetSchool(props.vetEducation, props.listDetails, props.setShowSavedVetEducationMessage, props.setShowSameVetEducationMessage, props.setShowSaveVetEducationProblemMessage)}
+          onClick={()=>saveVetSchool(props.vetEducation, props.listDetails, props.setVetEducationConfirmation)}
           >
             Save</Button>
-        <span className={`fade ${props.showSavedVetEducationMessage ? 'show' : ''}`}>Vet education Saved!</span>
-        <span className={`fade ${props.showSameVetEducationMessage ? 'show' : ''}`}>Same Vet Education data!</span>
-        <span className={`fade ${props.showSaveVetEducationProblemMessage ? 'show' : ''}`}>Problem Saving Vet Education data!</span>
+        <span className={`fade ${props.vetEducationConfirmation.messageType === 'saved' ? 'show' : ''}`}>Vet Education saved!</span>
+        <span className={`fade ${props.vetEducationConfirmation.messageType === 'same' ? 'show' : ''}`}>Same Vet Education data!</span>
+        <span className={`fade ${props.vetEducationConfirmation.messageType === 'problem' ? 'show' : ''}`}>Problem Saving Vet Education!</span>
       </>
     )
   }else{

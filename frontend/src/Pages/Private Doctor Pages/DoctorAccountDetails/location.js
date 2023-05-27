@@ -85,13 +85,13 @@ function AddressForm(props) {
       <Button 
         variant="success" 
         disabled={!areAllFieldsValid(props.addresses) || !areAllTimesValid(props.addresses)} // Check for both field and time validity
-        onClick={()=> saveLocation(props.addresses, props.setAddresses, props.setShowSavedLocationsMessage, props.setShowSameLocationsMessage, props.setShowSaveLocationsProblemMessage)}
+        onClick={()=> saveLocation(props.addresses, props.setAddresses, props.setAddressesConfirmation)}
       >
         Save
       </Button>
-      <span className={`fade ${props.showSavedLocationsMessage ? 'show' : ''}`}>Locations saved!</span>
-      <span className={`fade ${props.showSameLocationsMessage ? 'show' : ''}`}>Same Location data!</span>
-      <span className={`fade ${props.showSaveLocationsProblemMessage ? 'show' : ''}`}>Problem Saving Locations!</span>
+      <span className={`fade ${props.addressesConfirmation.messageType === 'saved' ? 'show' : ''}`}>Locations saved!</span>
+      <span className={`fade ${props.addressesConfirmation.messageType === 'same' ? 'show' : ''}`}>Same Location data!</span>
+      <span className={`fade ${props.addressesConfirmation.messageType === 'problem' ? 'show' : ''}`}>Problem Saving Locations!</span>
     </>
   );
 };

@@ -15,8 +15,8 @@ export default function RenderPreVetEducationSection(props){
       {renderIsPreVetEducation(props)}
     </Card.Body>
   </Card>
-  )
-}
+  );
+};
 
 function renderIsPreVetEducation(props){
   const allChoicesFilled = props.selectedPreVetSchool && props.selectedMajor && props.selectedPreVetEducationType;
@@ -108,13 +108,12 @@ function renderIsPreVetEducation(props){
         </ul>
         <Button 
           variant="success" 
-          onClick={()=>savePreVetSchool(props.preVetEducation, props.listDetails, props.setShowSavedPreVetEducationMessage, props.setShowSamePreVetEducationMessage, props.setShowSavePreVetEducationProblemMessage)}
+          onClick={()=>savePreVetSchool(props.preVetEducation, props.listDetails, props.setPreVetEducationConfirmation)}
           >
             Save</Button>
-        <span className={`fade ${props.showSavedPreVetEducationMessage ? 'show' : ''}`}>Pre-vet education saved!</span>
-        <span className={`fade ${props.showSamePreVetEducationMessage ? 'show' : ''}`}>Same Pre-Vet Education data!</span>
-        <span className={`fade ${props.showSavePreVetEducationProblemMessage ? 'show' : ''}`}>Problem Saving Pre-Vet Education data!</span>
-      </>
+        <span className={`fade ${props.preVetEducationConfirmation.messageType === 'saved' ? 'show' : ''}`}>Pre-Vet Education saved!</span>
+        <span className={`fade ${props.preVetEducationConfirmation.messageType === 'same' ? 'show' : ''}`}>Same Pre-Vet Education data!</span>
+        <span className={`fade ${props.preVetEducationConfirmation.messageType === 'problem' ? 'show' : ''}`}>Problem Saving Pre-Vet Education!</span>      </>
     )
   }else{
     return(

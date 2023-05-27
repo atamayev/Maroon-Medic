@@ -35,12 +35,12 @@ function renderIsDescription(props){
         <div style={counterStyle}>Character Limit: {props.description.Description ? (<>{props.description.Description.length}</>):(<>0</>)} / 1000</div>
         <Button 
           variant="success" 
-          onClick={()=> saveDescription(props.description, props.setShowSavedDescriptionMessage, props.setShowSameDescriptionMessage, props.setShowSaveDescriptionProblemMessage)}
+          onClick={()=> saveDescription(props.description, props.setDescriptionConfirmation)}
         >
         Save</Button>
-      <span className={`fade ${props.showSavedDescriptionMessage ? 'show' : ''}`}>Description saved!</span>
-      <span className={`fade ${props.showSameDescriptionMessage ? 'show' : ''}`}>Same Description!</span>
-      <span className={`fade ${props.showSaveVetProblemMessage ? 'show' : ''}`}>Problem Saving Description!</span>
+      <span className={`fade ${props.descriptionConfirmation.messageType === 'saved' ? 'show' : ''}`}>Description saved!</span>
+      <span className={`fade ${props.descriptionConfirmation.messageType === 'same' ? 'show' : ''}`}>Same Description data!</span>
+      <span className={`fade ${props.descriptionConfirmation.messageType === 'problem' ? 'show' : ''}`}>Problem Saving Description!</span>
     </Form>
   );
 };
