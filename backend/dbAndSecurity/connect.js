@@ -21,10 +21,11 @@ export const connection = await mysql.createConnection({
  * @param {string} table_name Which table is being accessed (non-functional, just for visibility)
  */
 export async function useDB (name_of_api, db_name, table_name){
-    try{
-      await connection.query(`use ${db_name}`)
-      console.log(`used API: ${name_of_api}, DB: ${db_name}, and Table: ${table_name}`);
-    } catch (err) {
-      console.log('useDB ERROR',err);
-  }
+  const DB_NAME = process.env.MYSQL_DATABASE;
+  try{
+    await connection.query(`use ${DB_NAME}`)
+    console.log(`used API: ${name_of_api}, DB: ${DB_NAME}, and Table: ${table_name}`);
+  } catch (err) {
+    console.log('useDB ERROR',err);
+}
 }

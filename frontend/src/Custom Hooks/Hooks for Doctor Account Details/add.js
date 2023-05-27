@@ -55,7 +55,6 @@ export const handleAddPreVetEducation = (
     timeState, 
     setTimeState
     ) => {
-      console.log('timeState',timeState)
   if(selectedPreVetSchool && selectedMajor && selectedPreVetEducationType){
     if(!timeState.startMonth){
       timeState.startMonth = 'January'
