@@ -627,15 +627,17 @@ export async function saveAddressData (req, res){
                 console.log(`error in inserting phone info ${saveAddressData.name}:`, error);
                 return res.status(400);
             }
-            
-            for(let j = 0; j<TimesData.length;j++){
-                const sql2 = `INSERT INTO ${table_name3} (Day_of_week, Start_time, End_time, address_ID, Doctor_ID) VALUES (?, ?, ?, ?, ?)`;
-                const values2 = [TimesData[i][j].Day_of_week, TimesData[i][j].Start_time, TimesData[i][j].End_time, insert_results.insertId, DoctorID]
-                try{
-                    await connection.execute(sql2, values2);
-                }catch(error){
-                    console.log(`error in inserting phone info ${saveAddressData.name}:`, error);
-                    return res.status(400);  
+
+            if(TimesData[i].length){//Makes sure that there is Time Data to save
+                for(let j = 0; j<TimesData.length;j++){
+                    const sql2 = `INSERT INTO ${table_name3} (Day_of_week, Start_time, End_time, address_ID, Doctor_ID) VALUES (?, ?, ?, ?, ?)`;
+                    const values2 = [TimesData[i][j].Day_of_week, TimesData[i][j].Start_time, TimesData[i][j].End_time, insert_results.insertId, DoctorID]
+                    try{
+                        await connection.execute(sql2, values2);
+                    }catch(error){
+                        console.log(`error in inserting phone info ${saveAddressData.name}:`, error);
+                        return res.status(400);  
+                    }
                 }
             }
             AddressData[i].addressesID = insert_results.insertId;

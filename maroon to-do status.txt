@@ -1,11 +1,12 @@
 To-do:
 
 ASAP:
--when saving address data, should be able to save with no times.
 -for the accoun-details, if there is no data, should say: no [insurances, languages, etc.] selected!
 -add a front-end 'saved' to the personal-infromation page
 -during registration, make the years reversed, from 1930
 in personal information, amke birthmonth, day, year, gender into dropdowns
+
+- go through all of the save.js functions, and see which of them rely on the status being true. for the ones that don't require true, delete returning true/false from the endpoint
 
 -figure out how to choose a certain date instead of a day of week
 -create a bookings table, which has foreign keys of doctor_Id, patient_ID, service_name, location_ID, time, day
