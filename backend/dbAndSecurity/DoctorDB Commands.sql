@@ -103,7 +103,7 @@ Service_name VARCHAR(250));
 SELECT * FROM service_and_category_list;
 
 CREATE TABLE service_mapping(
-service_mapping_ID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+service_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 Service_time VARCHAR(10) NOT NULL,
 Service_price VARCHAR(10),
 Service_and_Category_ID INT unsigned NOT NULL, 
@@ -115,7 +115,7 @@ delete from service_mapping where Doctor_ID = '1000125';
 SELECT 
   service_and_category_list.Category_name, 
   service_and_category_list.Service_name, 
-  service_mapping.service_mapping_ID, 
+  service_mapping.service_mappingID, 
   service_mapping.Service_time, 
   service_mapping.Service_price,
   service_mapping.Service_and_Category_ID
@@ -127,7 +127,7 @@ ON
   service_and_category_list.service_and_category_listID = service_mapping.Service_and_Category_ID 
 WHERE 
   service_mapping.Doctor_ID = '1000125';
-
+  
     -- Important key constraint:
 	ALTER TABLE service_mapping
 	ADD CONSTRAINT service_mapping_constraint
@@ -256,14 +256,13 @@ phone_numbersID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 phone VARCHAR(150),
 phone_priority INT, 
 address_ID INT unsigned NOT NULL,
-FOREIGN KEY (address_ID) REFERENCES Doctor_addresses(addresses_ID) ON DELETE CASCADE
+FOREIGN KEY (address_ID) REFERENCES Doctor_addresses(addressesID) ON DELETE CASCADE
 );
 
 select * from phone_numbers;
-delete from phone_numbers where phone_numbersID between '1' and '1000';
 
 CREATE TABLE doctor_addresses(
-addresses_ID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+addressesID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 address_title VARCHAR(200) NOT NULL,
 address_line_1 VARCHAR(200) NOT NULL,
 address_line_2 VARCHAR(200), -- apt, suite, etc.
@@ -276,8 +275,9 @@ address_public_status BOOLEAN NOT NULL,
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 
+
 SELECT * FROM doctor_addresses;
-SELECT * FROM  doctor_addresses JOIN phone_numbers ON  doctor_addresses.addresses_ID = phone_numbers.Address_ID WHERE  doctor_addresses.Doctor_ID = '1000125';
+SELECT * FROM  doctor_addresses JOIN phone_numbers ON  doctor_addresses.addressesID = phone_numbers.Address_ID WHERE  doctor_addresses.Doctor_ID = '1000125';
 SELECT * from doctor_addresses WHERE address_public_status = 1;
 
 CREATE TABLE booking_availability(
@@ -286,7 +286,7 @@ Day_of_week VARCHAR(150), -- wheather or not the doc takes on monday
 Start_time VARCHAR(10),
 End_time VARCHAR(10),
 address_ID INT unsigned NOT NULL,
-FOREIGN KEY (address_ID) REFERENCES Doctor_addresses(addresses_ID) ON DELETE CASCADE,
+FOREIGN KEY (address_ID) REFERENCES Doctor_addresses(addressesID) ON DELETE CASCADE,
 Doctor_ID INT unsigned NOT NULL, 
 FOREIGN KEY (Doctor_ID) REFERENCES Doctor_credentials(DoctorID));
 

@@ -4,12 +4,12 @@ export function getUpdatedAddressRecords(newData, results) {
   
     // Create a map of the existing data for quick lookup
     for (const record of results) {
-      resultDataMap.set(record.addresses_ID, record);
+      resultDataMap.set(record.addressesID, record);
     }
   
     // Iterate over the new data
     for (const newRecord of newData) {
-      const existingRecord = resultDataMap.get(newRecord.addresses_ID);
+      const existingRecord = resultDataMap.get(newRecord.addressesID);
   
       // If an existing record was found, compare the fields
       if (existingRecord) {
@@ -42,12 +42,12 @@ export function getUnchangedAddressRecords(newData, results) {
 
   // Create a map of the existing data for quick lookup
   for (const record of results) {
-    resultDataMap.set(record.addresses_ID, record);
+    resultDataMap.set(record.addressesID, record);
   }
 
   // Iterate over the new data
   for (const newRecord of newData) {
-    const existingRecord = resultDataMap.get(newRecord.addresses_ID);
+    const existingRecord = resultDataMap.get(newRecord.addressesID);
 
     // If an existing record was found, compare the fields
     if (existingRecord) {

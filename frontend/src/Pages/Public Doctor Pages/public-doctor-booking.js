@@ -17,7 +17,7 @@ const handleServiceChange = (event, providedServices, setSelectedService, setSel
 
 const handleLocationChange = (event, addresses, setSelectedLocation, setSelectedDay, setSelectedTime) => {
   const value = event.target.value;
-  const selectedLocationObject = addresses.find(location => location.addresses_ID.toString() === value);
+  const selectedLocationObject = addresses.find(location => location.addressesID.toString() === value);
   setSelectedLocation(selectedLocationObject || null);
   if (value === 'Select...') {
     setSelectedDay(null);
@@ -50,7 +50,7 @@ export default function RenderBookingSection(props) {
   const selectedServiceObject = props.providedServices.find(service => service.service_and_category_listID === selectedService?.service_and_category_listID);
 
   // Get selected location object
-  const selectedLocationObject = props.addresses.find(location => location.addresses_ID === selectedLocation?.addresses_ID);
+  const selectedLocationObject = props.addresses.find(location => location.addressesID === selectedLocation?.addressesID);
 
   useEffect(() => {
     if (selectedDay && selectedLocationObject && selectedServiceObject) {
@@ -106,7 +106,7 @@ export default function RenderBookingSection(props) {
                 >
                   <option>Select...</option>
                   {props.addresses.map((address) => (
-                    <option key={address.addresses_ID} value={address.addresses_ID}>
+                    <option key={address.addressesID} value={address.addressesID}>
                       {address.address_title}
                     </option>
                   ))}
