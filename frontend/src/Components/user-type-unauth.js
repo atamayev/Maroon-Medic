@@ -9,7 +9,7 @@ export function NonDoctorAccess(){
             <Header dropdown = {true} search = {true}/>
             <Card>
                 <Card.Body>
-                <p>You are not logged in as a Vet. Please make an account on login below</p>;
+                <p>You are not logged in as a Vet. Please make an account, or login below</p>;
                     <Link to= {'/vet-register'}>
                         <Button variant="primary">
                             <p>Register</p>
@@ -33,7 +33,7 @@ export function NonPatientAccess(){
         <Header dropdown = {true} search = {true}/>
         <Card>
             <Card.Body>
-            <p>You are not logged in as a patient. Please make an account on login below</p>;
+            <p>You are not logged in as a patient. Please make an account, or login below</p>;
             <Link to= {'/patient-register'}>
                 <Button variant="primary">
                     <p>Register</p>

@@ -38,9 +38,12 @@ function renderIsDescription(props){
           onClick={()=> saveDescription(props.description, props.setDescriptionConfirmation)}
         >
         Save</Button>
-      <span className={`fade ${props.descriptionConfirmation.messageType === 'saved' ? 'show' : ''}`}>Description saved!</span>
-      <span className={`fade ${props.descriptionConfirmation.messageType === 'same' ? 'show' : ''}`}>Same Description data!</span>
-      <span className={`fade ${props.descriptionConfirmation.messageType === 'problem' ? 'show' : ''}`}>Problem Saving Description!</span>
+        <span className={`fade ${props.descriptionConfirmation.messageType !== 'none' ? 'show' : ''}`}>
+          {props.descriptionConfirmation.messageType === 'saved' && 'Description saved!'}
+          {props.descriptionConfirmation.messageType === 'same' && 'Same Description data!'}
+          {props.descriptionConfirmation.messageType === 'problem' && 'Problem Saving Description!'}
+          {props.descriptionConfirmation.messageType === 'none' && 'No description selected'}
+        </span>
     </Form>
   );
 };

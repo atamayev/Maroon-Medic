@@ -120,9 +120,13 @@ function renderIsVetServices (props) {
         >
           Save
         </Button>
-      <span className={`fade ${props.servicesConfirmation.messageType === 'saved' ? 'show' : ''}`}>Services saved!</span>
-      <span className={`fade ${props.servicesConfirmation.messageType === 'same' ? 'show' : ''}`}>Same Service data!</span>
-      <span className={`fade ${props.servicesConfirmation.messageType === 'problem' ? 'show' : ''}`}>Problem Saving Services!</span>      </>
+        <span className={`fade ${props.servicesConfirmation.messageType !== 'none' ? 'show' : ''}`}>
+          {props.servicesConfirmation.messageType === 'saved' && 'Services saved!'}
+          {props.servicesConfirmation.messageType === 'same' && 'Same Service data!'}
+          {props.servicesConfirmation.messageType === 'problem' && 'Problem Saving Services!'}
+          {props.servicesConfirmation.messageType === 'none' && 'No services selected'}
+        </span>
+        </>
     )
   }else{
     return(

@@ -24,8 +24,10 @@ export default function RenderVerificationAndPublicStatusSection (props){
             Yes
           </ToggleButton>
       </ToggleButtonGroup>
-      <span className={`fade ${props.publiclyAvailableConfirmation.messageType === 'saved' ? 'show' : ''}`}>Publicly Available status saved!</span>
-      <span className={`fade ${props.publiclyAvailableConfirmation.messageType === 'problem' ? 'show' : ''}`}>Problem Saving Publicly Available status!</span>
+      <span className={`fade ${props.publiclyAvailableConfirmation.messageType ? 'show' : ''}`}>
+        {props.publiclyAvailableConfirmation.messageType === 'saved' && 'Publicly Available status saved!'}
+        {props.publiclyAvailableConfirmation.messageType === 'problem' && 'Problem Saving Publicly Available status!'}
+      </span>
       </Card.Body>
     </Card>
   );

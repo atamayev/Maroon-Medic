@@ -111,9 +111,13 @@ function renderIsPreVetEducation(props){
           onClick={()=>savePreVetSchool(props.preVetEducation, props.listDetails, props.setPreVetEducationConfirmation)}
           >
             Save</Button>
-        <span className={`fade ${props.preVetEducationConfirmation.messageType === 'saved' ? 'show' : ''}`}>Pre-Vet Education saved!</span>
-        <span className={`fade ${props.preVetEducationConfirmation.messageType === 'same' ? 'show' : ''}`}>Same Pre-Vet Education data!</span>
-        <span className={`fade ${props.preVetEducationConfirmation.messageType === 'problem' ? 'show' : ''}`}>Problem Saving Pre-Vet Education!</span>      </>
+            <span className={`fade ${props.preVetEducationConfirmation.messageType !== 'none' ? 'show' : ''}`}>
+              {props.preVetEducationConfirmation.messageType === 'saved' && 'Pre-Vet Education saved!'}
+              {props.preVetEducationConfirmation.messageType === 'same' && 'Same Pre-Vet Education data!'}
+              {props.preVetEducationConfirmation.messageType === 'problem' && 'Problem Saving Pre-Vet Education!'}
+              {props.preVetEducationConfirmation.messageType === 'none' && 'No Pre-Vet Education selected'}
+            </span>
+        </>
     )
   }else{
     return(

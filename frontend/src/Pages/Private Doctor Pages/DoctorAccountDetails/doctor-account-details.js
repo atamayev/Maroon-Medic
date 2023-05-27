@@ -20,16 +20,16 @@ import RenderSpecialtySection from './specialty.js';
 async function FillLists(setListDetails){ 
   // this will be used to fill the lists in the db (insurances, languages, etc.) Should be one function that returns an object of arrays of hte different lists
   try{
-      const response = await PrivateDoctorDataService.fillLists();
-      if (response){
-          setListDetails(response.data);
-          sessionStorage.setItem("ListDetails", JSON.stringify(response.data));
-      }else{
-        console.log('no response');
-      }
-    }catch(error){
-      console.log('unable to fill ListDetails', error)
+    const response = await PrivateDoctorDataService.fillLists();
+    if (response){
+        setListDetails(response.data);
+        sessionStorage.setItem("ListDetails", JSON.stringify(response.data));
+    }else{
+      console.log('no response');
     }
+  }catch(error){
+    console.log('unable to fill ListDetails', error)
+  }
 }
 
 export default function DoctorAccountDetails() {

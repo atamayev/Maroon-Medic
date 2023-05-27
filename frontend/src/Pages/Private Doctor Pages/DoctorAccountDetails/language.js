@@ -53,9 +53,12 @@ function renderIsVetLanguages(props){
         onClick={() => saveLanguages(props.spokenLanguages, props.setLanguagesConfirmation)}
         >
         Save</Button>
-      <span className={`fade ${props.languagesConfirmation.messageType === 'saved' ? 'show' : ''}`}>Languages saved!</span>
-      <span className={`fade ${props.languagesConfirmation.messageType === 'same' ? 'show' : ''}`}>Same Language data!</span>
-      <span className={`fade ${props.languagesConfirmation.messageType === 'problem' ? 'show' : ''}`}>Problem Saving Languages!</span>
+        <span className={`fade ${props.languagesConfirmation.messageType !== 'none' ? 'show' : ''}`}>
+          {props.languagesConfirmation.messageType === 'saved' && 'Languages saved!'}
+          {props.languagesConfirmation.messageType === 'same' && 'Same Language data!'}
+          {props.languagesConfirmation.messageType === 'problem' && 'Problem Saving Languages!'}
+          {props.languagesConfirmation.messageType === 'none' && 'No languages selected'}
+        </span>
     </div>
   );
 };

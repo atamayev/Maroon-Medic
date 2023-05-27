@@ -89,9 +89,12 @@ function AddressForm(props) {
       >
         Save
       </Button>
-      <span className={`fade ${props.addressesConfirmation.messageType === 'saved' ? 'show' : ''}`}>Locations saved!</span>
-      <span className={`fade ${props.addressesConfirmation.messageType === 'same' ? 'show' : ''}`}>Same Location data!</span>
-      <span className={`fade ${props.addressesConfirmation.messageType === 'problem' ? 'show' : ''}`}>Problem Saving Locations!</span>
+      <span className={`fade ${props.addressesConfirmation.messageType !== 'none' ? 'show' : ''}`}>
+        {props.addressesConfirmation.messageType === 'saved' && 'Locations saved!'}
+        {props.addressesConfirmation.messageType === 'same' && 'Same Location data!'}
+        {props.addressesConfirmation.messageType === 'problem' && 'Problem Saving Locations!'}
+        {props.addressesConfirmation.messageType === 'none' && 'No locations selected'}
+      </span>
     </>
   );
 };
