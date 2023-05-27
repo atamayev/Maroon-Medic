@@ -1,7 +1,7 @@
 import { checkIfListsAreEqual, areArraysSame, convertDateForSql} from "../lists-and-object-checks";
 import PrivateDoctorDataService from "../../Services/private-doctor-data-service";
 
-export async function saveInsurances(acceptedInsurances, setShowSavedInsurancesMessage, setShowSameInsurancesMessage, setShowSaveInsurancesProblemMessage){
+export async function saveInsurances(acceptedInsurances, setInsurancesConfirmation){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   const savedInsurances = DoctorAccountDetails?.[0] || [];
   const savedInsurancesIDs = savedInsurances.map(insurance => insurance.insurance_listID).sort((a,b)=>a-b);
@@ -14,7 +14,7 @@ export async function saveInsurances(acceptedInsurances, setShowSavedInsurancesM
   }else if((!checkIfListsAreEqual(insuranceIds, savedInsurancesIDs))){
     shouldSave = true;
   }else{
-    setShowSameInsurancesMessage(true);
+    setInsurancesConfirmation({messageType: 'same'});
   }
 
   if(shouldSave){//only saves if the insurances changed
@@ -23,14 +23,14 @@ export async function saveInsurances(acceptedInsurances, setShowSavedInsurancesM
       if(response.status === 200){
         DoctorAccountDetails[0] = acceptedInsurances;
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-        setShowSavedInsurancesMessage(true);
+        setInsurancesConfirmation({messageType: 'saved'});
       }
     } catch(error) {
-      setShowSaveInsurancesProblemMessage(true);
+      setInsurancesConfirmation({messageType: 'problem'});
       console.log('error in saving Insurances', error)
     }
   }else{
-    setShowSameInsurancesMessage(true);
+    setInsurancesConfirmation({messageType: 'same'});
   }
 };
 

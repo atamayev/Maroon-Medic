@@ -16,6 +16,7 @@ import RenderLanguageSection from './language.js';
 import RenderServiceSection from './service.js';
 import RenderLocationSection from './location.js';
 import RenderSpecialtySection from './specialty.js';
+import { useConfirmationMessage } from '../../../Custom Hooks/Hooks for Doctor Account Details/useConfirmationMessage.js';
 
 async function FillLists(setListDetails){ 
   // this will be used to fill the lists in the db (insurances, languages, etc.) Should be one function that returns an object of arrays of hte different lists
@@ -38,11 +39,9 @@ export default function DoctorAccountDetails() {
   const [user_type, setUser_type] = useState(null);
   //const [carouselIndex, setCarouselIndex] = useState(0);
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  
+
   const [acceptedInsurances, setAcceptedInsurances] = useState(DoctorAccountDetails?.[0] || []);
-  const [showSavedInsurancesMessage, setShowSavedInsurancesMessage] = useState(false);
-  const [showSameInsurancesMessage , setShowSameInsurancesMessage ] = useState(false);
-  const [showSaveInsurancesProblemMessage, setshowSaveInsurancesProblemMessage] = useState(false);
+  const [insurancesConfirmation, setInsurancesConfirmation] = useConfirmationMessage();
 
   const [selectedLanguage, setSelectedLanguage] = useState('');
   const [spokenLanguages, setSpokenLanguages] = useState(DoctorAccountDetails?.[1] || []);
@@ -56,13 +55,15 @@ export default function DoctorAccountDetails() {
   const [showSavedServicesMessage, setShowSavedServicesMessage] = useState(false);
   const [showSameServicesMessage, setShowSameServicesMessage] = useState(false);
   const [showSaveServicesProblemMessage, setShowSaveServicesProblemMessage] = useState(false);
-  
+  const [servicesConfirmation, setServicesConfirmation] = useConfirmationMessage();
+
   const [selectedOrganization, setSelectedOrganization] = useState('');
   const [selectedSpecialty, setSelectedSpecialties] = useState('');
   const [doctorSpecialties, setDoctorSpecialties] = useState(DoctorAccountDetails?.[3] || []);
   const [showSavedSpecialtiesMessage, setShowSavedSpecialtiesMessage] = useState(false);
   const [showSameSpecialtiesMessage, setShowSameSpecialtiesMessage] = useState(false);
   const [showSaveSpecialtiesProblemMessage, setShowSaveSpecialtiesProblemMessage] = useState(false);
+  const [specialtiesConfirmation, setSpecialtiesConfirmation] = useConfirmationMessage();
 
   const [selectedPreVetSchool, setSelectedPreVetSchool] = useState('');
   const [selectedMajor, setSelectedMajor] = useState('');
@@ -96,13 +97,12 @@ export default function DoctorAccountDetails() {
   const [showSavePubliclyAvalableProblemMessage, setShowSavePubliclyAvalableProblemMessage] = useState(false);
   const currentYear = new Date().getFullYear();
 
-  //Should make this into one state:
   const [timeState, setTimeState] = useState({
     startMonth: 'January', 
     endMonth: 'January', 
     startYear: currentYear, 
     endYear: currentYear,
-});
+  });
 
   useEffect(()=>{
     user_verification()
@@ -139,10 +139,6 @@ export default function DoctorAccountDetails() {
   }, []);
 
   useConfirmationTimeout(
-    showSavedInsurancesMessage, setShowSavedInsurancesMessage, 
-    showSameInsurancesMessage, setShowSameInsurancesMessage, 
-    showSaveInsurancesProblemMessage, setshowSaveInsurancesProblemMessage,
-    
     showSavedLanguagesMessage, setShowSavedLanguagesMessage, 
     showSameLanguagesMessage, setShowSameLanguagesMessage, 
     showSaveLanguagesProblemMessage, setShowSaveLanguagesProblemMessage,
@@ -311,12 +307,8 @@ export default function DoctorAccountDetails() {
         listDetails = {listDetails}
         acceptedInsurances = {acceptedInsurances}
         setAcceptedInsurances = {setAcceptedInsurances}
-        showSavedInsurancesMessage = {showSavedInsurancesMessage}
-        setShowSavedInsurancesMessage = {setShowSavedInsurancesMessage}
-        showSameInsurancesMessage = {showSameInsurancesMessage}
-        setShowSameInsurancesMessage = {setShowSameInsurancesMessage}
-        showSaveInsurancesProblemMessage = {showSaveInsurancesProblemMessage}
-        setshowSaveInsurancesProblemMessage = {setshowSaveInsurancesProblemMessage}
+        insurancesConfirmation = {insurancesConfirmation}
+        setInsurancesConfirmation = {setInsurancesConfirmation}
       />
       <br/>
       <RenderLanguageSection

@@ -43,12 +43,12 @@ function renderIsVetInsurance(props){
         ))}
       <Button 
         variant="success" 
-        onClick={() => saveInsurances(props.acceptedInsurances, props.setShowSavedInsurancesMessage, props.setShowSameInsurancesMessage, props.setshowSaveInsurancesProblemMessage)}
+        onClick={() => saveInsurances(props.acceptedInsurances, props.setInsurancesConfirmation)}
         >
         Save</Button>
-      <span className={`fade ${props.showSavedInsurancesMessage ? 'show' : ''}`}>Insurances saved!</span>
-      <span className={`fade ${props.showSameInsurancesMessage ? 'show' : ''}`}>Same Insurance data!</span>
-      <span className={`fade ${props.showSaveInsurancesProblemMessage ? 'show' : ''}`}>Problem Saving Insurances!</span>
+      <span className={`fade ${props.insurancesConfirmation.messageType === 'saved' ? 'show' : ''}`}>Insurances saved!</span>
+      <span className={`fade ${props.insurancesConfirmation.messageType === 'same' ? 'show' : ''}`}>Same Insurance data!</span>
+      <span className={`fade ${props.insurancesConfirmation.messageType === 'problem' ? 'show' : ''}`}>Problem Saving Insurances!</span>
     </>
     );
 };
