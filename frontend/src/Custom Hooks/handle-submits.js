@@ -73,7 +73,7 @@ export const handleNewUserSubmit = async ({
             }else if (VetOrPatient === 'Patient'){
                 response = await PrivatePatientDataService.addingPatientInfo(newInfo);
             }
-            if (response.data === true){
+            if (response.status === 200){
                 navigate(`/${VetOrPatient.toLowerCase()}-dashboard`)
             }else{
                 setError("newUser didn't work");

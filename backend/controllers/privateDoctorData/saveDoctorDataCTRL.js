@@ -6,10 +6,10 @@ import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
 /** savePersonalData is self-explanatory in name
  *  First, converts from UUID to ID. Then, checks if any records exist in basic_doctor_info.
  *  If records don't exist, then it inserts the data.
- *  if records do exist, the data is updated. depending on wheather the data is entered successfully or not, it returns true/false
+ *  if records do exist, the data is updated. depending on wheather the data is entered successfully or not, it returns 200/400
  * @param {String} req Cookie from client 
- * @param {Boolean} res True/False
- * @returns Returns true/false, depending on wheather the data was saved corretly
+ * @param {Boolean} res 200/400
+ * @returns Returns 200/400, depending on wheather the data was saved corretly
  *  DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function savePersonalData (req, res){
@@ -30,7 +30,7 @@ export async function savePersonalData (req, res){
         [results] = await connection.execute(sql, values);
     }catch(error){
         console.log(`error in ${savePersonalData.name}:`, error)
-        return res.status(400).json(false);
+        return res.status(400).json();
     }
 
     if (!results.length){// if no results, then insert.
@@ -38,30 +38,30 @@ export async function savePersonalData (req, res){
         const values1 = [encrypted_personalInfo.FirstName, encrypted_personalInfo.LastName, encrypted_personalInfo.Gender, encrypted_personalInfo.DOB_month, encrypted_personalInfo.DOB_day, encrypted_personalInfo.DOB_year, DoctorID];
         try{
             await connection.execute(sql1, values1);
-            return res.status(200).json(true);
+            return res.status(200).json();
         }catch(error){
             console.log(`error in if ${savePersonalData.name}:`, error);
-            return res.status(400).json(false);
+            return res.status(400).json();
         }
     }else{// if there are results, that means that the record exists, and needs to be altered
         const sql2 = `UPDATE ${table_name} SET FirstName = ?, LastName = ?, Gender = ?, DOB_month = ?, DOB_day = ?, DOB_year = ? WHERE Doctor_ID = ?`;
         const values2 = [encrypted_personalInfo.FirstName, encrypted_personalInfo.LastName, encrypted_personalInfo.Gender, encrypted_personalInfo.DOB_month, encrypted_personalInfo.DOB_day, encrypted_personalInfo.DOB_year, DoctorID];
         try{
             await connection.execute(sql2, values2);
-            return res.status(200).json(true);
+            return res.status(200).json();
         }catch(error){
             console.log(`error in else ${savePersonalData.name}:`, error);
-            return res.status(400).json(false);
+            return res.status(400).json();
         }
     }
 };
 /** saveDescriptionData is self-explanatory in name
  *  First, converts from UUID to ID. Then, checks if any records exist in descriptions.
  *  If records don't exist, then it inserts the data.
- *  if records do exist, the data is updated. depending on wheather the data is entered successfully or not, it returns true/false
+ *  if records do exist, the data is updated. depending on wheather the data is entered successfully or not, it returns 200/400
  * @param {String} req Cookie from client 
- * @param {Boolean} res True/False
- * @returns Returns true/false, depending on wheather the data was saved corretly
+ * @param {Boolean} res 200/400
+ * @returns Returns 200/400, depending on wheather the data was saved corretly
  *  DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function saveDescriptionData (req, res){
@@ -82,7 +82,7 @@ export async function saveDescriptionData (req, res){
         [results] = await connection.execute(sql, values);
     }catch(error){
         console.log(`error in ${saveDescriptionData.name}:`, error);
-        return res.status(400).json(false);
+        return res.status(400).json();
     }
 
     if (!results.length){// if no results, then insert.
@@ -90,20 +90,20 @@ export async function saveDescriptionData (req, res){
         const values1 = [encrypted_description.Description, DoctorID];
         try{
             await connection.execute(sql1, values1);
-            return res.status(200).json(true);
+            return res.status(200).json();
         }catch(error){
             console.log(`error in if ${saveDescriptionData.name}:`, error);
-            return res.status(400).json(false);
+            return res.status(400).json();
         }
     }else{// if there are results, that means that the record exists, and needs to be altered
         const sql2 = `UPDATE ${table_name} SET Description = ? WHERE Doctor_ID = ?`;
         const values2 = [encrypted_description.Description, DoctorID];
         try{
             await connection.execute(sql2, values2);
-            return res.status(200).json(true);
+            return res.status(200).json();
         }catch(error){
             console.log(`error in else ${saveDescriptionData.name}:`, error);
-            return res.status(400).json(false);
+            return res.status(400).json();
         }
     }
 };
@@ -116,8 +116,8 @@ export async function saveDescriptionData (req, res){
  *  If the difference is that data that were previously there are now deleted, then those data get deleted from the table (this is done via filtering in the code) 
  *  If there are no results found initially, that means the user never inputed data. The user's new data are inserted.
  * @param {String} req Cookie from client, type of data, list of data (ie list of insurances, languages, or specialties)
- * @param {Boolean} res True/False
- * @returns Returns true/false, depending on wheather the data was saved correctly
+ * @param {Boolean} res 200/400
+ * @returns Returns 200/400, depending on wheather the data was saved correctly
  *  DOCUMENTATION LAST UPDATED 4/1/23
  */
 export async function saveGeneralData (req, res){
@@ -139,7 +139,7 @@ export async function saveGeneralData (req, res){
         [results] = await connection.execute(sql, values);
     }catch(error){
         console.log(`error in ${saveGeneralData.name}:`, error)
-        return res.status(400).json(false);
+        return res.status(400).json();
     }
 
     if (results.length > 0) {
@@ -160,11 +160,11 @@ export async function saveGeneralData (req, res){
                         await connection.execute(sql1, values1);
                     }catch(error){
                         console.log(`error in if ${saveGeneralData.name}:`, error);
-                        return res.status(400).json(false);
+                        return res.status(400).json();
                     }
                 }else{
                     console.log(`problem in adding data ${saveGeneralData.name}: field ${i} is null`);
-                    return res.status(400).json(false);    
+                    return res.status(400).json();    
                 }
             }
         }
@@ -177,15 +177,15 @@ export async function saveGeneralData (req, res){
                         await connection.execute(sql1, values1);
                     }catch(error){
                         console.log(`error in if ${saveGeneralData.name}:`, error);
-                        return res.status(400).json(false);
+                        return res.status(400).json();
                     }
                 }else{
                     console.log(`problem in deleting ${saveGeneralData.name}: field ${i} is null`);
-                    return res.status(400).json(false);    
+                    return res.status(400).json();    
                 }
             }
         }
-        return res.status(200).json(true);
+        return res.status(200).json().json();
       }
     else if (doctorData.length > 0){
         for (let i=0; i<doctorData.length; i++){
@@ -196,17 +196,17 @@ export async function saveGeneralData (req, res){
                     await connection.execute(sql1, values1);
                 }catch(error){
                     console.log(`error in if ${saveGeneralData.name}:`, error);
-                    return res.status(400).json(false);
+                    return res.status(400).json();
                 }
             }else{
                 console.log(`problem in adding data in else ${saveGeneralData.name}: field ${i} is null`);
-                return res.status(400).json(false);   
+                return res.status(400).json();   
             }
         }
-        return res.status(200).json(true);
+        return res.status(200).json();
     }
     else{
-        return res.status(400).json(false)
+        return res.status(400).json();
     }
 };
 
@@ -226,7 +226,7 @@ export async function saveServicesData (req, res){
         [results] = await connection.execute(sql, values);
     }catch(error){
         console.log(`error in ${saveServicesData.name}:`, error)
-        return res.status(400).json(false);
+        return res.status(400).json();
     }
 
     if (results.length > 0 ){
@@ -262,7 +262,7 @@ export async function saveServicesData (req, res){
                     await connection.execute(sql1, values1);
                 }catch(error){
                     console.log(`error in if ${saveServicesData.name}:`, error);
-                    return res.status(400).json(false);
+                    return res.status(400).json();
                 }
             }
         }
@@ -274,7 +274,7 @@ export async function saveServicesData (req, res){
                     await connection.execute(sql2, values2);
                 }catch(error){
                     console.log(`error in if ${saveServicesData.name}:`, error);
-                    return res.status(400).json(false);
+                    return res.status(400).json();
                 }
             }
         }
@@ -286,11 +286,11 @@ export async function saveServicesData (req, res){
                     await connection.execute(sql2, values2);
                 }catch(error){
                     console.log(`error in if ${saveServicesData.name}:`, error);
-                    return res.status(400).json(false);
+                    return res.status(400).json();
                 }
             }
         }
-        return res.status(200).json(true);
+        return res.status(200).json();
     }else if (ServicesData.length > 0){
         //Can only get into here if formatted results.length not >0: no results from the DB - adding completely new data
         for (let i=0; i<ServicesData.length; i++){
@@ -300,13 +300,13 @@ export async function saveServicesData (req, res){
                 await connection.execute(sql3, values3);
             }catch(error){
                 console.log(`error in if ${saveServicesData.name}:`, error);
-                return res.status(400).json(false);
+                return res.status(400).json();
             }
         }
-        return res.status(200).json(true);
+        return res.status(200).json();
     }else{
         //NO new data or queried results from DB.
-        return res.status(400).json(false)
+        return res.status(400).json()
     }
 };
 
@@ -332,7 +332,7 @@ export async function saveEducationData (req, res){
           }));//Converts the dates from SQL to a proper format.
     }catch(error){
         console.log(`error in ${saveEducationData.name}:`, error)
-        return res.status(400).json(false);
+        return res.status(400).json();
     }
 
     if (formattedResults.length > 0) {
@@ -358,14 +358,14 @@ export async function saveEducationData (req, res){
                     values1 = [addedData[i][0], addedData[i][1], addedData[i][2], addedData[i][3], DoctorID];     
                 }else{
                     console.log(`Education_type not defined ${saveEducationData.name}`);
-                    return res.status(400).json(false);
+                    return res.status(400).json();
                 }
 
                 try{
                     await connection.execute(sql1, values1);
                 }catch(error){
                     console.log(`error in if ${saveEducationData.name}:`, error);
-                    return res.status(400).json(false);
+                    return res.status(400).json();
                 }
             }
         } 
@@ -381,18 +381,18 @@ export async function saveEducationData (req, res){
                     values2 = [deletedData[i][0], deletedData[i][1], DoctorID];    
                 }else{
                     console.log(`Education_type not defined ${saveEducationData.name}`);
-                    return res.status(400).json(false);
+                    return res.status(400).json();
                 }
   
                 try{
                     await connection.execute(sql2, values2);
                 }catch(error){
                     console.log(`error in if ${saveEducationData.name}:`, error);
-                    return res.status(400).json(false);
+                    return res.status(400).json();
                 }
             }
         }
-        return res.status(200).json(true);
+        return res.status(200).json();
       }
       else if (EducationData.length > 0){
         //Can only get into here if formatted results.length not >0: no results from the DB - adding completely new data
@@ -408,20 +408,20 @@ export async function saveEducationData (req, res){
                 values3 = [EducationData[i][0], EducationData[i][1], EducationData[i][2], EducationData[i][3], DoctorID];
             }else{
                 console.log(`Education_type not defined ${saveEducationData.name}`);
-                return res.status(400).json(false);
+                return res.status(400).json();
             }
             try{
                 await connection.execute(sql3, values3);
             }catch(error){
                 console.log(`error in if ${saveEducationData.name}:`, error);
-                return res.status(400).json(false);
+                return res.status(400).json();
             }
         }
-        return res.status(200).json(true);
+        return res.status(200).json();
       }
       else{
         //NO new data or queried results from DB.
-        return res.status(400).json(false)
+        return res.status(400).json()
     }
 };
 
@@ -445,7 +445,7 @@ export async function saveAddressData (req, res){
         [Address_results] = await connection.execute(sql, values);
     }catch(error){
         console.log(`error in ${saveAddressData.name}:`, error)
-        return res.status(400).json(false);
+        return res.status(400).json();
     }
     if (Address_results.length) {
         const newData = AddressData;
@@ -474,7 +474,7 @@ export async function saveAddressData (req, res){
                     [insert_results] = await connection.execute(sql1, values1);
                 }catch(error){
                     console.log(`error in adding address data ${saveAddressData.name}:`, error);
-                    return res.status(400).json(false);
+                    return res.status(400).json();
                 }
                 
                 const sql2 = `INSERT INTO ${table_name2} (phone, phone_priority, address_ID) VALUES (?, ?, ?)`
@@ -498,7 +498,7 @@ export async function saveAddressData (req, res){
                     await connection.execute(sql1, values1);
                 }catch(error){
                     console.log(`error in deleting address data ${saveAddressData.name}:`, error);
-                    return res.status(400).json(false);
+                    return res.status(400).json();
                 }
             }
         }
@@ -510,7 +510,7 @@ export async function saveAddressData (req, res){
                     await connection.execute(sql1, values1);
                 }catch(error){
                     console.log(`error in updatedData address data ${saveAddressData.name}:`, error);
-                    return res.status(400).json(false);
+                    return res.status(400).json();
                 }
                 const sql2 = `UPDATE ${table_name2} SET phone = ? WHERE address_ID = ?`;
                 const values2 = [updatedData[i].phone, updatedData[i].addressesID];
@@ -518,7 +518,7 @@ export async function saveAddressData (req, res){
                     await connection.execute(sql2, values2);
                 }catch(error){
                     console.log(`error in updatedData phone address data ${saveAddressData.name}:`, error);
-                    return res.status(400).json(false);
+                    return res.status(400).json();
                 }
                 returnedData.push(updatedData[i])
             }
@@ -544,7 +544,7 @@ export async function saveAddressData (req, res){
                     [timeDataResults] = await connection.execute(sql, values);
                 }catch(error){
                     console.log(`error in tiem data results${saveAddressData.name}:`, error)
-                    return res.status(400).json(false);
+                    return res.status(400).json();
                 }
 
                 let oldDataDict = Object.fromEntries(timeDataResults.map(item => [item.Day_of_week, item]));

@@ -27,7 +27,7 @@ export async function newPatient (req, res){
     
     try{
         await connection.execute(sql, values)
-        return res.status(200).json(true);
+        return res.status(200).json();
     }catch(error){
         console.log(`error in ${newPatient.name}`,error)
         return res.status(500).json(error);
