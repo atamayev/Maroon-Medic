@@ -49,9 +49,9 @@ export default function Header (props) {
   useEffect(()=>{
     if (location.pathname !== '/new-vet' && location.pathname !== '/new-patient'){
       try{
-        const name = JSON.parse(sessionStorage.getItem("DoctorPersonalInfo")).FirstName;
+        const name = JSON.parse(sessionStorage.getItem("DoctorPersonalInfo")).LastName;
         setUser_type('Doctor')
-        setHeaderData(name);
+        setHeaderData('Dr. '+ name);
         return;
       }catch(error){
       }
@@ -70,8 +70,13 @@ export default function Header (props) {
           if (result.verified === true) {
             setUser_type(result.user_type)
             try{
-              const name = JSON.parse(sessionStorage.getItem(`${result.user_type}PersonalInfo`)).FirstName;
-              setHeaderData(name);
+              if(result.user_type === 'Doctor'){
+                const name = JSON.parse(sessionStorage.getItem(`DoctorPersonalInfo`)).LastName;
+                setHeaderData('Dr. ' + name);
+              }else{
+                const name = JSON.parse(sessionStorage.getItem(`PatientPersonalInfo`)).FirstName;
+                setHeaderData(name); 
+              }
             }catch(error){
               if (error instanceof TypeError){
                 PersonalInfo(result.user_type);

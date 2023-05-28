@@ -82,7 +82,7 @@ function renderIsSpecialty(props){
           onClick={() => saveSpecialies(props.doctorSpecialties, props.setSpecialtiesConfirmation)}
           >
           Save</Button>
-          <span className={`fade ${props.specialtiesConfirmation.messageType !== 'none' ? 'show' : ''}`}>
+          <span className={`fade ${props.specialtiesConfirmation.messageType ? 'show' : ''}`}>
           {props.specialtiesConfirmation.messageType === 'saved' && 'Specialties saved!'}
           {props.specialtiesConfirmation.messageType === 'same' && 'Same Specialty data!'}
           {props.specialtiesConfirmation.messageType === 'problem' && 'Problem Saving Specialties!'}

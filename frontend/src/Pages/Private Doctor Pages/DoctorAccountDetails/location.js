@@ -89,7 +89,7 @@ function AddressForm(props) {
       >
         Save
       </Button>
-      <span className={`fade ${props.addressesConfirmation.messageType !== 'none' ? 'show' : ''}`}>
+      <span className={`fade ${props.addressesConfirmation.messageType ? 'show' : ''}`}>
         {props.addressesConfirmation.messageType === 'saved' && 'Locations saved!'}
         {props.addressesConfirmation.messageType === 'same' && 'Same Location data!'}
         {props.addressesConfirmation.messageType === 'problem' && 'Problem Saving Locations!'}

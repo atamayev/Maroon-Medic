@@ -1,7 +1,6 @@
 To-do:
 
 ASAP:
--for the accoun-details, if there is no data, should say: no [insurances, languages, etc.] selected!
 -add a front-end 'saved' to the personal-infromation page
 -during registration, make the years reversed, from 1930
 in personal information, amke birthmonth, day, year, gender into dropdowns
@@ -29,6 +28,8 @@ general simplification of account details needed.
 -- before saving email to db, make sure it is lowercase, so that when searching db, it is done in uniform way
 	save emails as lowercase. then, when logging in, email should be lowercased before searching the db.
 	-- figure out which data should be encrypted by the db. data at rest encryption
+
+-when login/register, make a show password button
 
 Later:
 Calendar

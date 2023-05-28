@@ -65,7 +65,6 @@ export const handleNewUserSubmit = async ({
     }) => {
         e.preventDefault();
         setError("")
-        console.log(newInfo)
         try {
             setLoading(true)
             let response;

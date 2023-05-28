@@ -269,5 +269,5 @@ export default function DoctorAccountDetails() {
         setPubliclyAvailableConfirmation = {setPubliclyAvailableConfirmation}
       />
   </div>
-  )
+  );
 };

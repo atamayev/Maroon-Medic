@@ -9,6 +9,12 @@ export async function saveInsurances(acceptedInsurances, setInsurancesConfirmati
   
   let shouldSave = false;
 
+  if(!savedInsurancesIDs.length && !insuranceIds.length) {
+    // Case where both arrays are empty
+    setInsurancesConfirmation({messageType: 'none'});
+    return;
+  }
+
   if(!savedInsurancesIDs.length || !savedInsurancesIDs){
     shouldSave = !!insuranceIds.length
   }else if((!checkIfListsAreEqual(insuranceIds, savedInsurancesIDs))){
@@ -41,6 +47,13 @@ export async function saveLanguages(spokenLanguages, setLanguagesConfirmation){
   const languageIds = spokenLanguages.map(lang => lang.language_listID).sort((a,b)=>a-b); // spoken languages are those that are on server side. state changes when languages added/deleted
 
   let shouldSave = false;
+
+  if(!savedLanguagesIDs.length && !languageIds.length) {
+    // Case where both arrays are empty
+    setLanguagesConfirmation({messageType: 'none'});
+    return;
+  }
+
   if(!savedLanguagesIDs.length || !savedLanguagesIDs){
     shouldSave = !!languageIds.length
   }else if((!checkIfListsAreEqual(languageIds, savedLanguagesIDs))){
@@ -75,6 +88,12 @@ export async function saveServices(providedServices, setServicesConfirmation){
   const serviceKeys = providedServices.map(service => createServiceKey(service)).sort();
   
   let shouldSave = false;
+
+  if(!savedServiceKeys.length && !serviceKeys.length) {
+    // Case where both arrays are empty
+    setServicesConfirmation({messageType: 'none'});
+    return;
+  }
 
   if(!savedServiceKeys.length || !savedServiceKeys){
     shouldSave = !!serviceKeys.length
@@ -112,6 +131,13 @@ export async function saveSpecialies(doctorSpecialties, setSpecialtiesConfirmati
   const specialtyIds = doctorSpecialties.map(specialty => specialty.specialties_listID).sort((a,b)=>a-b); // spoken languages are those that are on server side. state changes when languages added/deleted
 
   let shouldSave = false;
+
+  if(!savedSpecialtyIDs.length && !specialtyIds.length) {
+    // Case where both arrays are empty
+    setSpecialtiesConfirmation({messageType: 'none'});
+    return;
+  }
+  
   if(!savedSpecialtyIDs.length || !savedSpecialtyIDs){
     shouldSave = !!specialtyIds.length
   }else if((!checkIfListsAreEqual(specialtyIds, savedSpecialtyIDs))){
@@ -120,7 +146,7 @@ export async function saveSpecialies(doctorSpecialties, setSpecialtiesConfirmati
     setSpecialtiesConfirmation({messageType: 'same'});
   }
 
-  if(shouldSave){//checks if they are the same
+  if(shouldSave){
     try {
       const response = await PrivateDoctorDataService.saveGeneralData(specialtyIds, 'Specialty')
       if(response.status === 200){
@@ -140,7 +166,14 @@ export async function saveSpecialies(doctorSpecialties, setSpecialtiesConfirmati
 export async function savePreVetSchool(preVetEducation, listDetails, setPreVetEducationConfirmation){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   const savedPreVetEducations = DoctorAccountDetails?.[4] || []
+
   let shouldSave = false;
+
+  if(!savedPreVetEducations.length && !preVetEducation.length) {
+    // Case where both arrays are empty
+    setPreVetEducationConfirmation({messageType: 'none'});
+    return;
+  }
 
   if (!savedPreVetEducations || !savedPreVetEducations.length) {
     // If no Location Data exists
@@ -180,16 +213,20 @@ export async function savePreVetSchool(preVetEducation, listDetails, setPreVetEd
 export async function saveVetSchool(vetEducation, listDetails, setVetEducationConfirmation){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   const savedVetEducations = DoctorAccountDetails?.[5] || []
+
   let shouldSave = false;
 
+  if(!savedVetEducations.length && !vetEducation.length) {
+    // Case where both arrays are empty
+    setVetEducationConfirmation({messageType: 'none'});
+    return;
+  }
+
   if (!savedVetEducations || !savedVetEducations.length) {
-    // If no Location Data exists
     shouldSave = !!vetEducation.length;
   } else if (!areArraysSame(vetEducation, savedVetEducations)) {
-    // Data is different
     shouldSave = true;
   } else {
-    // Data is the same
     setVetEducationConfirmation({messageType: 'same'});
   }
 
@@ -224,16 +261,20 @@ export async function saveLocation (addresses, setAddresses, setAddressesConfirm
   const savedAddresses = savedLocationData.map(({ times, ...rest }) => rest);
   const newTimes = addresses.map(location => location.times);
   const newAddresses = addresses.map(({ times, ...rest }) => rest);
+
   let shouldSave = false;
 
+  if(!savedLocationData.length && !addresses.length) {
+    // Case where both arrays are empty
+    setAddressesConfirmation({messageType: 'none'});
+    return;
+  }
+
   if (!savedLocationData || !savedLocationData.length) {
-    // If no Location Data exists
     shouldSave = !!addresses.length;
  } else if ((!areArraysSame(newAddresses, savedAddresses)) || (!areArraysSame(newTimes, savedTimes))) {
-    // Data is different
     shouldSave = true;
   } else {
-    // Data is the same
     setAddressesConfirmation({messageType: 'same'});
   }
 
@@ -262,13 +303,18 @@ export async function saveLocation (addresses, setAddresses, setAddressesConfirm
 export async function saveDescription(description, setDescriptionConfirmation){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   const savedDescriptionData = DoctorAccountDetails[7].Description;
+
   let shouldSave = false;
 
+  if(!savedDescriptionData.length && !description.Description.length) {
+    // Case where both arrays are empty
+    setDescriptionConfirmation({messageType: 'none'});
+    return;
+  }
+
   if (!savedDescriptionData || !savedDescriptionData.length) {
-    // If no Location Data exists, sets 
     shouldSave = !!description.Description.length;
   } else if (description.Description !== savedDescriptionData) {
-    // Data is different
     shouldSave = true;
   }else{
     setDescriptionConfirmation({messageType: 'same'});
