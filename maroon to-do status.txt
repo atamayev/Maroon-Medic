@@ -5,6 +5,8 @@ ASAP:
 -during registration, make the years reversed, from 1930
 in personal information, amke birthmonth, day, year, gender into dropdowns
 
+after making a pt account after makign a booking, save service, location, day, time to session storage(cart)
+
 -figure out how to choose a certain date instead of a day of week
 -create a bookings table, which has foreign keys of doctor_Id, patient_ID, service_name, location_ID, time, day
 there's a bug when the names of the locations are changed, which cause the times to switch
@@ -29,9 +31,13 @@ simplification of pre-vet education needed.
 -when login/register, make a show password button
 
 Later:
+
 Calendar
 
-Encrypt address and phone number entry to the DB
+-Add an admin user type (manages/can see multiple doctor's activities)
+
+-Add an Administrator user Type (God-mode, for me to log into any account in a read-only mode)
+	assume someone's personality, not able to edit (read only)
 
 --while loading, dashboard, account details should be like this:
 	https://react-bootstrap.github.io/components/placeholder/
@@ -45,3 +51,7 @@ figure out phone_priority (address_data), currently sending it back as 0. Phone 
 	See 5/19 commit
 	
 after vet/prevet education queries from db, it doesn't show the month name, but the numerical representation of the month (instead of January, shows 1).
+
+-allow for entering multiple degrees from one college (without causing the education table to break (because of the constraint))
+
+inactivity logout ( 5 mins). implement on the verification level (in the jwt)
