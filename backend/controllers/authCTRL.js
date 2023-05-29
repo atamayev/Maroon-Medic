@@ -360,27 +360,18 @@ export async function logout (req, res){
     }
   
   try{
-    res
-    .clearCookie(`${type}AccessToken`, {
-      httpOnly:true,
-      secure:true,
-      sameSite:"none",
-      path: '/'
-    })
-    .clearCookie(`${type}UUID`, {
-      httpOnly:true,
-      secure:true,
-      sameSite:"none",
-      path: '/'
-    })
-    .clearCookie(`${type}New_User`, {
-      httpOnly:true,
-      secure:true,
-      sameSite:"none",
-      path: '/'
-    })
-    .status(200).json(`${type} has been logged out.`)
+    const cookieNames = ['AccessToken', 'UUID', 'New_User'];
+
+    cookieNames.forEach((cookieName) => {
+      res.clearCookie(`${type}${cookieName}`, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        path: '/'
+      });
+    });
     console.log(`logged out ${type}`)
+    return res.status(200).json(`${type} has been logged out.`)
   }catch (error){
     console.log(`error in logging ${type} out`)
     return res.status(500).send({ error: `Error in logging ${type} out` });

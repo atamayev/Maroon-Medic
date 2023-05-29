@@ -16,7 +16,18 @@ export const handleLoginSubmit = async ({
             setLoading(true)
             const response = await AuthDataService.login(login_information_object);
             if (response.status === 200){
-                navigate(`/${VetOrPatient.toLowerCase()}-dashboard`)
+                if ((sessionStorage.getItem('bookingDetails') !== null) && VetOrPatient === 'Patient') {
+                    let bookingDetails;
+                    try {
+                        bookingDetails = JSON.parse(sessionStorage.getItem('bookingDetails'));
+                    } catch (error) {
+                        console.error('Error parsing bookingDetails from sessionStorage', error);
+                    }
+                    navigate('/finalize-booking', { state: bookingDetails });
+                  }
+                  else{
+                    navigate(`/${VetOrPatient.toLowerCase()}-dashboard`)
+                  }
             }else{
                 setError("Login didn't work");
             }
@@ -74,7 +85,18 @@ export const handleNewUserSubmit = async ({
                 response = await PrivatePatientDataService.addingPatientInfo(newInfo);
             }
             if (response.status === 200){
-                navigate(`/${VetOrPatient.toLowerCase()}-dashboard`)
+                if ((sessionStorage.getItem('bookingDetails') !== null) && VetOrPatient === 'Patient') {
+                    let bookingDetails;
+                    try {
+                        bookingDetails = JSON.parse(sessionStorage.getItem('bookingDetails'));
+                    } catch (error) {
+                        console.error('Error parsing bookingDetails from sessionStorage', error);
+                    }
+                    navigate('/finalize-booking', { state: bookingDetails });
+                  }
+                  else{
+                    navigate(`/${VetOrPatient.toLowerCase()}-dashboard`)
+                  }
             }else{
                 setError("newUser didn't work");
             }

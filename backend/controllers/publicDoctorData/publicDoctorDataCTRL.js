@@ -15,17 +15,17 @@ export async function returnDoctorPageData (req, res){
     const table_name = 'Doctor_specific_info';
     const sql = `SELECT Doctor_ID FROM ${table_name} WHERE NVI = ?`;
     const values = [NVI];
-    let results;
+    let DoctorID;
 
     await DB_Operation(returnDoctorPageData.name, table_name);
     try{
-        [results] = await connection.execute(sql, values);
+        const [results] = await connection.execute(sql, values);
+        DoctorID = results[0].Doctor_ID
     }catch(error){
         console.log(`error in ${returnDoctorPageData.name}:`, error);
         return res.status(400).json();
     }
-    const DoctorID = results[0].Doctor_ID
-    
+   
     let response = [];
     try{
         response.push(await FetchPublicDoctorData.FetchDoctorInsurances(DoctorID));
@@ -38,6 +38,7 @@ export async function returnDoctorPageData (req, res){
         response.push(await FetchDoctorAccountData.FetchDescriptionData(DoctorID)); 
         response.push(await FetchDoctorAccountData.FetchDoctorPictures(DoctorID));
         response.push(await FetchPublicDoctorData.FetchDoctorPersonalInfo(DoctorID));
+        response[9]['NVI'] = NVI;
         return res.status(200).json(response);
     }catch(error){
         console.log('error in returnDoctorPageData', error);

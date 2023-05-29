@@ -38,6 +38,24 @@ const handleTimeChange = (event, setSelectedTime) => {
   setSelectedTime(value === 'Select...' ? null : value);
 };
 
+function finalizeBookingClick(e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData) {
+  e.preventDefault();
+  const bookingDetails = {
+      selectedService: selectedService ? selectedService : null,
+      selectedLocation: selectedLocation ? selectedLocation : null,
+      selectedDay,
+      selectedTime,
+      personalData: personalData
+  };
+  console.log('bookingDetails',bookingDetails)
+
+  // Store the current state into sessionStorage
+  sessionStorage.setItem('bookingDetails', JSON.stringify(bookingDetails));
+
+  // Navigate to the finalize-booking page with the state
+  navigate('/finalize-booking', { state: bookingDetails });
+};
+
 export default function RenderBookingSection(props) {
   const [selectedService, setSelectedService] = useState(null);
   const [selectedLocation, setSelectedLocation] = useState(null);
@@ -45,6 +63,7 @@ export default function RenderBookingSection(props) {
   const [selectedTime, setSelectedTime] = useState(null);
   const [availableTimes, setAvailableTimes] = useState([]);
   const navigate = useNavigate();
+  const [availableDates, setAvailableDates] = useState([]);
 
   // Get selected service object
   const selectedServiceObject = props.providedServices.find(service => service.service_and_category_listID === selectedService?.service_and_category_listID);
@@ -55,7 +74,8 @@ export default function RenderBookingSection(props) {
   useEffect(() => {
     if (selectedDay && selectedLocationObject && selectedServiceObject) {
       // Get the working hours for the selected day
-      const workingHours = selectedLocationObject?.times.find(time => time.Day_of_week === selectedDay);
+      const selectedDayOfWeek = moment(selectedDay, 'dddd, MMMM Do, YYYY').format('dddd');
+      const workingHours = selectedLocationObject?.times.find(time => time.Day_of_week === selectedDayOfWeek);
 
       if (workingHours) {
         let times = [];
@@ -74,6 +94,36 @@ export default function RenderBookingSection(props) {
       }
     }
   }, [selectedDay, selectedLocationObject, selectedServiceObject]);
+
+  useEffect(() => {
+    if (!selectedLocationObject) {
+      return;
+    }
+  
+    const daysOfWeek = selectedLocationObject?.times.map(time => {
+      switch (time.Day_of_week) {
+        case 'Sunday': return 0;
+        case 'Monday': return 1;
+        case 'Tuesday': return 2;
+        case 'Wednesday': return 3;
+        case 'Thursday': return 4;
+        case 'Friday': return 5;
+        case 'Saturday': return 6;
+        default: return null;
+      }
+    });
+    console.log('selectedLocationObject?.times',selectedLocationObject?.times)
+    console.log('daysOfWeek',daysOfWeek)
+    let dates = [];
+    let date = moment();
+    while (dates.length < 10) {
+      if (daysOfWeek.includes(date.day())) {
+        dates.push(date.format('dddd, MMMM Do, YYYY'));
+      }
+      date = date.clone().add(1, 'days');
+    }
+    setAvailableDates(dates);
+  }, [selectedLocationObject]);
 
   return (
     props.providedServices.length && props.addresses.length ? (
@@ -117,18 +167,18 @@ export default function RenderBookingSection(props) {
           <div className='row'>
             <div className="col-md-6">
               {selectedService && selectedLocation && (
-                <FormGroup 
-                  as='select' 
-                  id='daySelect' 
-                  label='Select a day' 
-                  onChange={(e)=> handleDayChange(e, setSelectedDay, setSelectedTime)}
-                >
-                  <option>Select...</option>
-                  {selectedLocationObject?.times.map((time, index) => (
-                    <option key={index} value={time.Day_of_week}>
-                      {time.Day_of_week}
-                    </option>
-                  ))}
+                  <FormGroup 
+                    as='select' 
+                    id='daySelect' 
+                    label='Select a date' 
+                    onChange={(e)=> handleDayChange(e, setSelectedDay, setSelectedTime)}
+                  >
+                    <option>Select...</option>
+                    {availableDates.map((date, index) => (
+                        <option key={index} value={date}>
+                            {date}
+                        </option>
+                    ))}
                 </FormGroup>
               )}
             </div>
@@ -152,12 +202,17 @@ export default function RenderBookingSection(props) {
           </div>
 
           {selectedService && selectedLocation && selectedDay && selectedTime && (
-            <Button variant='primary' 
-              onClick={() => navigate('/finalize-booking', 
-                { state: { 
-                  selectedService: selectedService ? selectedService : null, 
-                  selectedLocation: selectedLocation ? selectedLocation : null, 
-                  selectedDay, selectedTime, personalData: props.personalData }})} 
+            <Button 
+              variant='primary' 
+              onClick = {(e) => finalizeBookingClick(
+                e,
+                navigate, 
+                selectedService, 
+                selectedLocation,
+                selectedDay,
+                selectedTime,
+                props.personalData
+              )}
               className='mt-3'>
               Click to finalize booking
             </Button>

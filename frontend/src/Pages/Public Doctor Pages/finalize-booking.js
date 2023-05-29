@@ -4,12 +4,36 @@ import { useLocation } from "react-router-dom";
 import { NonPatientAccess } from '../../Components/user-type-unauth';
 import Header from '../header';
 import { Card, Button } from 'react-bootstrap';
+import { useNavigate } from "react-router-dom";
+import CalendarDataService from '../../Services/calendar-data-service';
+
+async function confirmBooking(e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData){
+  e.preventDefault();
+  let AppointmentObject = {
+    Service_mapping_ID: selectedService.service_and_category_listID,
+    appointment_date: selectedDay,
+    appointment_time: selectedTime,
+    NVI: personalData.NVI,
+    Addresses_ID: selectedLocation.addressesID
+  };
+
+  try{
+    const response = await CalendarDataService.makeAppointment(AppointmentObject);
+    if (response.status === 200){
+    sessionStorage.removeItem('bookingDetails');
+    navigate('/patient-dashboard');
+    }
+  }catch(error){
+    console.log(error)
+  }
+};
 
 export function FinalizeBookingPage() {
   const location = useLocation();
   const { selectedService, selectedLocation, selectedDay, selectedTime, personalData } = location.state;
   const {user_verification} = useContext(VerifyContext);
   const [user_type, setUser_type] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(()=>{
       user_verification()
@@ -31,7 +55,6 @@ export function FinalizeBookingPage() {
 
   if(user_type !== 'Patient'){
       return(
-          //Need to figure out how to ask the pt to make an account, and then re-direct to finalize booking
         <NonPatientAccess/>
       )
   }
@@ -53,7 +76,21 @@ export function FinalizeBookingPage() {
                   <strong>Day:</strong> {selectedDay} <br />
                   <strong>Time:</strong> {selectedTime} <br />
               </Card.Text>
-              <Button variant="primary">Confirm Booking</Button>
+              <Button 
+                variant="primary"
+                onClick={(e) =>{
+                  confirmBooking(
+                    e,
+                    navigate,
+                    selectedService, 
+                    selectedLocation,
+                    selectedDay,
+                    selectedTime,
+                    personalData
+                  )
+                }}
+              >Confirm Booking</Button>
+              When confirm pressed, should clear booking from session storage, re-direct to pt's dashboard.
               </Card.Body>
           </Card>
       </div>

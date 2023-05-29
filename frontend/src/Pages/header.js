@@ -78,12 +78,8 @@ export default function Header (props) {
                 setHeaderData(name); 
               }
             }catch(error){
-              if (error instanceof TypeError){
-                PersonalInfo(result.user_type);
-              }
-              else{
-                console.log('some other error')
-              }
+              if (error instanceof TypeError) PersonalInfo(result.user_type);
+              else console.log('some other error');
             } 
           }
         })
@@ -122,8 +118,8 @@ export default function Header (props) {
   
   const handleLogout = async () => {
     try{
-      sessionStorage.clear();
-      await AuthDataService.logout();
+      const response = await AuthDataService.logout();
+      if(response.status === 200) sessionStorage.clear();      
     } catch(error){
       console.log('error',error)
     }
@@ -131,11 +127,8 @@ export default function Header (props) {
   }
   
   const handleRefresh = useCallback(() => {
-    if (location.pathname === '/') {
-        window.location.reload();
-    } else {
-        window.location.href = '/';
-    }
+    if (location.pathname === '/') window.location.reload();
+    else window.location.href = '/';
   }, [location]);
 
   const renderDropdown = () => {

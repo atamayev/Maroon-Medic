@@ -2,6 +2,7 @@ import React, {useContext, useEffect} from 'react';
 import { SearchContext } from '../Contexts/SearchContext';
 import SearchResults from '../Components/search-results';
 import Header from './header';
+
 export default function HomeDoctorsList() {
   const {items, fetchData, setSearchTerm } = useContext(SearchContext)
   
