@@ -14,24 +14,24 @@ export default function NewPatient () {
   const navigate = useNavigate();
       
   useEffect(() => {
-  user_verification()
-    .then(result => {
-      if (result.verified === true && result.user_type === 'Patient') {
-        PrivatePatientDataService.newPatientConfirmation()
-        .then(result => {
-          if (result.data === false) {
-            navigate('patient-register');
-          }else if (result.data === true) {
-          }else{
-            navigate('/patient-register');
-          }
-        })
-      }
-      else if (result.verified === true && result.user_type === 'Doctor') {
-        navigate(`/vet-dashboard`);
-      }else{
-        navigate('/patient-register')
-      }
+    user_verification()
+      .then(result => {
+        if (result.verified === true && result.user_type === 'Patient') {
+          PrivatePatientDataService.newPatientConfirmation()
+          .then(result => {
+            if (result.data === false) {
+              navigate('patient-register');
+            }else if (result.data === true) {
+            }else{
+              navigate('/patient-register');
+            }
+          })
+        }
+        else if (result.verified === true && result.user_type === 'Doctor') {
+          navigate(`/vet-dashboard`);
+        }else{
+          navigate('/patient-register')
+        }
     })
   }, []);
 

@@ -329,30 +329,26 @@ export async function logout (req, res){
     let UUID;
     let newUserUUID;
   
-    if("DoctorAccessToken" in cookies){
+    if("DoctorUUID" in cookies || "DoctorAccessToken" in cookies){
       UUID = req.cookies.DoctorUUID
       type = 'Doctor';
       if("DoctorNew_User" in cookies){
         newUserUUID = req.cookies.DoctorNew_User
       }
-    }else if("PatientAccessToken" in cookies){
+    }else if("PatientUUID" in cookies || "PatientAccessToken" in cookies){
       UUID = req.cookies.PatientUUID
       type = 'Patient';
       if("PatientNew_User" in cookies){
         newUserUUID = req.cookies.PatientNew_User
       }
     }
-    else{
-      console.log('Invalid User Type in logout')
-      return res.send('Invalid User Type') // If Type not Doctor or Patient
-    }
   
     const table_name = 'UUID_reference';
     const sql = `DELETE FROM ${table_name} WHERE UUID = ?`;
     let values = [UUID];
   
-    await DB_Operation(logout.name, table_name)
-    await connection.execute(sql, values)
+    await DB_Operation(logout.name, table_name);
+    await connection.execute(sql, values);
     if(newUserUUID){
       //If the user is new, they will have an extra cookie. Need to delete that UUID upon logout as well
       values = [newUserUUID]
@@ -360,7 +356,7 @@ export async function logout (req, res){
     }
   }catch(error){
       console.log('Error in accessing DB', error)
-      return res.status(500).send({ error: `Error in accessing DB` });
+      // return res.status(500).send({ error: `Error in accessing DB` });
     }
   
   try{

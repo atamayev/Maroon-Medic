@@ -1,13 +1,7 @@
 To-do:
 
 ASAP:
-in new_account_form, transition from a Form.Group to FormGroup (see how children were previsouly implemented by GPT)
-	same in doctor-personal-information
-if delete personalInformation session object, and reload personal-information tab, the first and last names don't render
-	
 after making a pt account after makign a booking, save service, location, day, time to session storage(cart)
-
--when login/register, make a show password button
 
 -figure out how to choose a certain date instead of a day of week
 -create a bookings table, which has foreign keys of doctor_Id, patient_ID, service_name, location_ID, time, day
@@ -17,7 +11,6 @@ there's a bug when the names of the locations are changed, which cause the times
 Make the 'Add Address' Button Finalize a Location, make it within the accordion. 
 	So when add address is pressed, it becomes a pretty-looking text (can edit it by pressing a pencil in the top right or something)
 	Add a new 'Add new address' button to add a new acordion strip
--figure out how to save public doctor data, if that is even necessary
 Write documentation, especially for saveAddresses
 
 Add a section in doctordetails for wheather or not the doc works for a practice/company (will neeed to create a lookup and mapping table for vet companies as options)
@@ -25,10 +18,6 @@ Add a section in doctordetails for wheather or not the doc works for a practice/
 -- will likely need to simplify the select.js. what it's doing rn is redundant. inside account details, it's setting the value of the type of to the id. then, select has to find which type has that id.
 	for example, if select Lemonade insurance, instead of setting selected vet school to Lemondae, it first sends back lemonad'es id, and then converts it to the name
 simplification of pre-vet education needed.
-
--- before saving email to db, make sure it is lowercase, so that when searching db, it is done in uniform way
-	save emails as lowercase. then, when logging in, email should be lowercased before searching the db.
-	-- figure out which data should be encrypted by the db. data at rest encryption
 
 Later:
 
@@ -43,7 +32,6 @@ Calendar
 --while loading, dashboard, account details should be like this:
 	https://react-bootstrap.github.io/components/placeholder/
 
-figure out what to do when user not verified in the doctor/patient pages. can't just log unverified
 -- consider adding a verified row to patient_credneitals
 
 start using bootstrap or integrate tailwind css classes. tell chatgpt to make pages prettier (header, etc.)
@@ -56,3 +44,7 @@ after vet/prevet education queries from db, it doesn't show the month name, but 
 -allow for entering multiple degrees from one college (without causing the education table to break (because of the constraint))
 
 inactivity logout ( 5 mins). implement on the verification level (in the jwt)
+
+-- before saving email to db, make sure it is lowercase, so that when searching db, it is done in uniform way
+	save emails as lowercase. then, when logging in, email should be lowercased before searching the db.
+	-- figure out which data should be encrypted by the db. data at rest encryption

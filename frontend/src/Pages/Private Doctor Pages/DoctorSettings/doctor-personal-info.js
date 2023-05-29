@@ -120,26 +120,30 @@ export default function DoctorPersonalInfo() {
             <FormGroup
               id="FirstName"
               label="First Name"
-              defaultValue={personalInfo.FirstName}
+              value={personalInfo.FirstName}
               onChange={(event) => setPersonalInfo({...personalInfo, FirstName: event.target.value})}
               required
             />
             <FormGroup
               id="LastName"
               label="Last Name"
-              defaultValue={personalInfo.LastName}
+              value={personalInfo.LastName}
               onChange={(event) => setPersonalInfo({...personalInfo, LastName: event.target.value})}
               required
             />
-            <Form.Group id = "Gender">
-              <Form.Label> Gender: </Form.Label>
-              <select required defaultValue = "" value={personalInfo.Gender} onChange={(event) => setPersonalInfo({...personalInfo, Gender: event.target.value})}>
-                  <option value="" disabled>Select</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
-              </select>
-            </Form.Group>
+            <FormGroup
+              as="select"
+              id="Gender"
+              label="Gender:"
+              required={true}
+              value={personalInfo.Gender}
+              onChange={(event) => setPersonalInfo({...personalInfo, Gender: event.target.value})}
+            >
+              <option value="" disabled>Select</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </FormGroup>
 
             <div className='row'>
               <Form.Group id = "DOB">
@@ -183,34 +187,6 @@ export default function DoctorPersonalInfo() {
                   </select>
                 </label>
               </Form.Group>
-          
-              {/* <div className='col-md-4'>
-                <FormGroup
-                  id="DOB_month"
-                  label="Birthmonth"
-                  defaultValue={personalInfo.DOB_month}
-                  onChange={(event) => setPersonalInfo({...personalInfo, DOB_month: event.target.value})}
-                  required
-                />
-              </div>
-              <div className='col-md-4'>
-                <FormGroup
-                  id="DOB_day"
-                  label="Birthday"
-                  defaultValue={personalInfo.DOB_day}
-                  onChange={(event) => setPersonalInfo({...personalInfo, DOB_day: event.target.value})}
-                  required
-                />
-              </div>
-              <div className='col-md-4'>
-                <FormGroup
-                  id="DOB_year"
-                  label="Birthyear"
-                  defaultValue={personalInfo.DOB_year}
-                  onChange={(event) => setPersonalInfo({...personalInfo, DOB_year: event.target.value})}
-                  required
-                />
-              </div> */}
             </div>
             <br/>
             <Button type = "submit" className="btn btn-primary w-100">Save</Button>

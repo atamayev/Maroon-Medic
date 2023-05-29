@@ -10,6 +10,8 @@ export default function DoctorLogin() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+
   const type = "Vet"
 
   useVerifyForVets(); //Makes sure the user isn't logged in already. If so, re-directs
@@ -35,6 +37,8 @@ export default function DoctorLogin() {
         VetOrPatient = {type}
         loading = {loading}
         loginOrSignUp = 'Login'
+        showPassword = {showPassword}
+        setShowPassword = {setShowPassword}
       />
     </>
   )

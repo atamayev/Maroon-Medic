@@ -11,6 +11,7 @@ export default function PatientLogin() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   useVerifyForPatients(); //Makes sure the user isn't logged in already. If so, re-directs
 
@@ -35,6 +36,8 @@ export default function PatientLogin() {
         VetOrPatient = {type}
         loading = {loading}
         loginOrSignUp = 'Login'
+        showPassword = {showPassword}
+        setShowPassword = {setShowPassword}
       />
     </>
   )

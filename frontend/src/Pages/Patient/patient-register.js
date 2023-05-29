@@ -12,6 +12,7 @@ export default function PatietRegister() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   useVerifyForPatients(); //Makes sure the user isn't logged in already. If so, re-directs
 
@@ -39,6 +40,8 @@ export default function PatietRegister() {
         VetOrPatient = {type}
         loading = {loading}
         loginOrSignUp = 'Sign up'
+        showPassword = {showPassword}
+        setShowPassword = {setShowPassword}
       />
     </>
   )

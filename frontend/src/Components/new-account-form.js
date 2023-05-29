@@ -52,57 +52,61 @@ export default function NewAccountForm({
           />
           <br />
           
-          <Form.Group id = "Gender">
-          <Form.Label> Gender: </Form.Label>
-              <select required value={newInfo.Gender} onChange={event => setNewInfo({...newInfo, Gender: event.target.value})}>
-                  <option value="">Select</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
-              </select>
-          </Form.Group>
+          <FormGroup
+            as="select"
+            id="Gender"
+            label="Gender:"
+            required={true}
+            value={newInfo.Gender}
+            onChange={event => setNewInfo({...newInfo, Gender: event.target.value})}
+          >
+            <option value="">Select</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </FormGroup>
           <br />
 
           <Form.Group id = "DOB">
-          <label>
-          Month:
-          <select required defaultValue = "" value={newInfo.DOB_month} onChange={event => setNewInfo({...newInfo, DOB_month: event.target.value})}>
-            <option value="" disabled>
-              Select Month
-            </option>
-            {months.map(month => (
-              <option key={month} value={month}>
-                {month}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Day:
-          <select required defaultValue = "" value={newInfo.DOB_day} onChange={event => setNewInfo({...newInfo, DOB_day: event.target.value})}>
-            <option value="" disabled>
-              Select Day
-            </option>
-            {days.map(day => (
-              <option key={day} value={day}>
-                {day}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Year:
-          <select required defaultValue = "" value={newInfo.DOB_year} onChange={event => setNewInfo({...newInfo, DOB_year: event.target.value})}>
-            <option value="" disabled>
-              Select Year
-            </option>
-            {years.map(year => (
-              <option key={year + 1} value={year + 1}>
-                {year + 1}
-              </option>
-            ))}
-          </select>
-        </label>
+            <label>
+              Month:
+              <select required defaultValue = "" value={newInfo.DOB_month} onChange={event => setNewInfo({...newInfo, DOB_month: event.target.value})}>
+                <option value="" disabled>
+                  Select Month
+                </option>
+                {months.map(month => (
+                  <option key={month} value={month}>
+                    {month}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Day:
+              <select required defaultValue = "" value={newInfo.DOB_day} onChange={event => setNewInfo({...newInfo, DOB_day: event.target.value})}>
+                <option value="" disabled>
+                  Select Day
+                </option>
+                {days.map(day => (
+                  <option key={day} value={day}>
+                    {day}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Year:
+              <select required defaultValue = "" value={newInfo.DOB_year} onChange={event => setNewInfo({...newInfo, DOB_year: event.target.value})}>
+                <option value="" disabled>
+                  Select Year
+                </option>
+                {years.map(year => (
+                  <option key={year + 1} value={year + 1}>
+                    {year + 1}
+                  </option>
+                ))}
+              </select>
+            </label>
           </Form.Group>
           <br />
           
@@ -111,5 +115,6 @@ export default function NewAccountForm({
         </Card.Body>
       </Card>
     </div>
-  )
-}
+  );
+};
+

@@ -11,7 +11,9 @@ export default function LoginAndRegistrationForm({
   error,
   VetOrPatient,
   loginOrSignUp,
-  loading }) {
+  loading,
+  showPassword,
+  setShowPassword }) {
 
   const renderPasswordConfirm = ()=>{
     if (loginOrSignUp === 'Sign up'){
@@ -19,7 +21,7 @@ export default function LoginAndRegistrationForm({
         <FormGroup
           id = "confirm-password"
           label = "Password Confirmation"
-          type = "password"
+          type={showPassword ? "text" : "password"} // Switch input type based on showPassword state
           placeholder= "Confirm Password"
           onChange={(event) => setPasswordConfirm(event.target.value)}
           required
@@ -54,6 +56,22 @@ export default function LoginAndRegistrationForm({
     }  
   }
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  }
+
+  const renderShowPasswordButton = () =>{
+    if('password' in credentials){
+      if(credentials.password.length){
+        return(
+          <Button onClick={togglePasswordVisibility} className='mt-3'>
+            {showPassword ? "Hide Password" : "Show Password"}
+          </Button>
+        )
+      }
+    }
+  };
+
   return (
     <>
       <Card>
@@ -71,12 +89,13 @@ export default function LoginAndRegistrationForm({
             <FormGroup
               id = "password"
               label = "Password"
-              type = "password"
+              type={showPassword ? "text" : "password"} // Switch input type based on showPassword state
               placeholder= "Password"
               onChange={(event) => setCredentials({...credentials, password: event.target.value})}
               required
             />
             {renderPasswordConfirm()}
+            {renderShowPasswordButton()}
               <br/>
               {error && <Alert variant="danger">{error}</Alert>}
               <br/>
