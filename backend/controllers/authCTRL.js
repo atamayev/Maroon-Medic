@@ -52,8 +52,8 @@ export async function JWT_verify (req, res){
     console.log('Token expired', decodedUUID.exp)
     return res.status(401).json(response);
   }else{
-    const table_name = `${response.type}UUID_reference`
-    const sql = `SELECT * FROM ${table_name} WHERE ${response.type}UUID = ?`;
+    const table_name = 'UUID_reference';
+    const sql = `SELECT * FROM ${table_name} WHERE UUID = ?`;
     const values = [decodedUUID];
     await DB_Operation(JWT_verify.name, table_name)
     
@@ -88,13 +88,10 @@ export async function JWT_verify (req, res){
  */
 export async function login (req, res){
   const { email, password, login_type } = req.body.login_information_object;
-  let table_name;
+  let table_name = 'Credentials';
   
-  if(login_type === 'Doctor' || login_type === 'Patient'){
-    table_name = `${login_type}_credentials`;
-  }else{
+  if(login_type !== 'Doctor' && login_type !== 'Patient'){
     return res.send('Invalid User Type') // If Type not Doctor or Patient
-
   }
 
   let emailObj = {
@@ -107,8 +104,8 @@ export async function login (req, res){
     return res.status(500).send({ error: 'Problem with Data Encryption' });
   }
 
-  const sql = `SELECT * FROM ${table_name} WHERE email = ?`;
-  const values = [encrypted_email];
+  const sql = `SELECT * FROM ${table_name} WHERE email = ? AND User_type = ?`;
+  const values = [encrypted_email, login_type];
   
   await DB_Operation(login.name, table_name)
 
@@ -140,8 +137,8 @@ export async function login (req, res){
   
   if (bool === true) {
     const IDKey = `${login_type}ID`;
-    const ID = results[0][IDKey];
-    const UUID = await ID_to_UUID(ID, login_type)
+    const ID = results[0].UserID;
+    const UUID = await ID_to_UUID(ID);
     
     const expiration_time = 20; // not using this right now.
     
@@ -196,11 +193,9 @@ export async function login (req, res){
  */
 export async function register (req, res){
   const {email, password, register_type} = req.body.register_information_object // Takes out the decrypted_email from the request
-  let table_name;
-  if(register_type === 'Doctor' || register_type === 'Patient'){
-    table_name = `${register_type}_credentials`;
-  }else{
-    console.log('invalid user')
+  let table_name = 'Credentials';
+
+  if(register_type !== 'Doctor' && register_type !== 'Patient'){
     return res.send('Invalid User Type') // If Type not Doctor or Patient
   }
 
@@ -215,8 +210,8 @@ export async function register (req, res){
     return res.status(500).send({ error: 'Problem with Data Encryption' });
   }
 
-  const sql = `SELECT * FROM ${table_name} WHERE email = ?`;
-  const values = [encrypted_email];
+  const sql = `SELECT * FROM ${table_name} WHERE email = ? AND User_type = ? `;
+  const values = [encrypted_email, register_type];
 
   await DB_Operation(register.name, table_name)
 
@@ -256,36 +251,34 @@ export async function register (req, res){
     return res.status(500).send({ error: 'Problem with Data Encryption' });
   }
 
-  let sql_1;
-  let values_1;
-  if(register_type === 'Doctor'){
-    sql_1 = `INSERT INTO ${table_name} (email, password, Created_at, verified, publiclyAvailable) VALUES (?, ?, ?, ?, ?)`;
-    values_1 = [encrypted_email, hashed_password, encrypted_date_time, true, true];// in the future, will need to change this. Verified shouldn't be set to true by default, should require some kind of ID verification
-  }else if (register_type === 'Patient'){
-    sql_1 = `INSERT INTO ${table_name} (email, password, Created_at) VALUES (?, ?, ?)`;
-    values_1 = [encrypted_email, hashed_password, encrypted_date_time];
-  }else{
-    console.log('invalid user')
-    return res.send('Invalid User Type') // If Type not Doctor or Patient
-  }
+  const sql_1 = `INSERT INTO ${table_name} (email, password, Created_at, User_type) VALUES (?, ?, ?, ?)`;
+  const values_1 = [encrypted_email, hashed_password, encrypted_date_time, register_type];
+  let results_1;
   try {
-    await connection.execute(sql_1, values_1)
+    [results_1] = await connection.execute(sql_1, values_1)
   }catch (error){
     console.log('Problem with Data Insertion')
     return res.status(500).send({ error: 'Problem with Data Insertion' });
   }
 
-  let results_1;
-  try{
-    [results_1] = await connection.execute(sql, values); // using same query as before, just now with the inserted email - this is to set the user after registering
-  }catch(error){
-    console.log('Problem with Data Selection')
-    return res.status(500).send({ error: 'Problem with Data Selection' });
+  const User_ID = results_1.insertId
+
+  if(register_type === 'Doctor'){
+    const table_name2 = 'Doctor_specific_info';
+  
+    const sql_2 = `INSERT INTO ${table_name2} (verified, publiclyAvailable, Doctor_ID) VALUES (?, ?, ?)`;
+    const values_2 = [true, true, User_ID];
+  
+    try {
+      await connection.execute(sql_2, values_2)
+    }catch (error){
+      console.log('Problem with Data Insertion into DoctorSpecific Table')
+      return res.status(500).send({ error: 'Problem with Data Insertion' });
+    }
   }
 
   const IDKey = `${register_type}ID`;
-  const ID = results_1[0][IDKey];
-  const UUID = await ID_to_UUID(ID, register_type)
+  const UUID = await ID_to_UUID(User_ID)
 
   const expiration_time = 20; // not using this right now.
   const payload = {
@@ -301,7 +294,7 @@ export async function register (req, res){
     return res.status(500).send({ error: 'Problem with Data Selection' });
   }
 
-  const newUser_UUID = await ID_to_UUID(ID, register_type)
+  const newUser_UUID = await ID_to_UUID(User_ID)
 
   return res
     .cookie(`${register_type}AccessToken`, token, {
@@ -354,13 +347,14 @@ export async function logout (req, res){
       return res.send('Invalid User Type') // If Type not Doctor or Patient
     }
   
-    const table_name = `${type}UUID_reference`;
-    const sql = `DELETE FROM ${table_name} WHERE ${type}UUID = ?`;
+    const table_name = 'UUID_reference';
+    const sql = `DELETE FROM ${table_name} WHERE UUID = ?`;
     let values = [UUID];
   
     await DB_Operation(logout.name, table_name)
     await connection.execute(sql, values)
     if(newUserUUID){
+      //If the user is new, they will have an extra cookie. Need to delete that UUID upon logout as well
       values = [newUserUUID]
       await connection.execute(sql, values)
     }

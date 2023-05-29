@@ -43,8 +43,8 @@ export default new class Crypto {
         let decryptedData = encrypted_single;
         let keys = Object.keys(decryptedData);
         // The email element in the array is deleted since it's already decrypted (stored unencrypted in db)
-        keys = keys.filter(item => item !== 'Doctor_ID');
-        keys = keys.filter(item => item !== 'DoctorID');
+        keys = keys.filter(item => item !== 'User_ID');
+        keys = keys.filter(item => item !== 'UserID');
         try{
             for (const key of keys){
                 if(decryptedData[key]){
@@ -71,11 +71,12 @@ export default new class Crypto {
                 // console.log('record',record)
                 const iv = Buffer.from(process.env.ENCRYPTION_IV, 'hex');
                 const secretKey = Buffer.from(process.env.ENCRYPTION_SECRET_KEY, 'hex');
-        
+                
                 let decryptedData = record
                 let keys = Object.keys(decryptedData)
-                keys = keys.filter(item => item !== 'Doctor_ID');
-                
+                keys = keys.filter(item => item !== 'User_ID');
+                keys = keys.filter(item => item !== 'NVI');
+
                 for (const key of keys){
                     if(decryptedData[key]){
                         const decipher = createDecipheriv('aes-256-cbc', secretKey, iv);

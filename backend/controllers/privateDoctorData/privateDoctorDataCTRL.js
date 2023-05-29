@@ -14,16 +14,16 @@ import FetchAllDoctorLists from "./fetchAllDoctorLists.js";
  */
 export async function newDoctor (req, res){
     const DoctorUUID = req.cookies.DoctorUUID
-    const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor') // converts DoctorUUID to docid
+    const User_ID = await UUID_to_ID(DoctorUUID) // converts DoctorUUID to docid
 
     const new_doctor_object = req.body.new_doctor_object
 
-    const table_name = 'basic_Doctor_info'
+    const table_name = 'basic_user_info'
     const encrypted = Crypto.encrypt_single_entry(new_doctor_object)
 
-    const sql = `INSERT INTO ${table_name} (FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year, Doctor_ID) VALUES (?,?,?,?,?,?,?)`;
+    const sql = `INSERT INTO ${table_name} (FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year, User_ID) VALUES (?,?,?,?,?,?,?)`;
 
-    const values = [encrypted.FirstName, encrypted.LastName, encrypted.Gender, encrypted.DOB_month, encrypted.DOB_day, encrypted.DOB_year, DoctorID];
+    const values = [encrypted.FirstName, encrypted.LastName, encrypted.Gender, encrypted.DOB_month, encrypted.DOB_day, encrypted.DOB_year, User_ID];
     await DB_Operation(newDoctor.name, table_name)
     
     try{
@@ -51,17 +51,17 @@ export async function newDoctorConfirmation (req, res){
     if (!newDoctorUUID || !existingDoctorUUID){
         return res.status(200).json(Doctor_permission);
     }
-    const table_name = `DoctorUUID_reference`
-    const sql = `SELECT * FROM ${table_name} WHERE DoctorUUID = ?`;
-    let values = [newDoctorUUID];
+    const table_name = 'UUID_reference';
+    const sql = `SELECT UUID_referenceID FROM ${table_name} WHERE UUID = ?`;
+    const values1 = [newDoctorUUID];
+    const values2 = [existingDoctorUUID];
     await DB_Operation(newDoctorConfirmation.name, table_name)
 
     try{
-      const [results] = await connection.execute(sql, values)
-      values = [existingDoctorUUID]
-      const [results1] = await connection.execute(sql, values)
+      const [results1] = await connection.execute(sql, values1)
+      const [results2] = await connection.execute(sql, values2)
 
-      if (results.length === 1 && results1.length ===1) {
+      if (results1.length === 1 && results2.length === 1) {
         Doctor_permission = true;
         return res.status(200).json(Doctor_permission);
       } else {
@@ -84,12 +84,12 @@ export async function newDoctorConfirmation (req, res){
  */
 export async function fetchDashboardData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID
-    const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor') // converts DoctorUUID to docid
+    const DoctorID = await UUID_to_ID(DoctorUUID);
     
-    const table_name1 = 'Doctor_credentials';
-    const table_name2 = 'basic_Doctor_info';
+    const table_name1 = 'Credentials';
+    const table_name2 = 'basic_user_info';
   
-    const sql = `SELECT email, FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year FROM ${table_name1} LEFT JOIN ${table_name2} ON ${table_name1}.DoctorID = ${table_name2}.Doctor_ID WHERE ${table_name1}.DoctorID = ?`
+    const sql = `SELECT email, FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year FROM ${table_name1} LEFT JOIN ${table_name2} ON ${table_name1}.UserID = ${table_name2}.User_ID WHERE ${table_name1}.UserID = ?`
     const values = [DoctorID];
     await DB_Operation(fetchDashboardData.name, table_name1)
 
@@ -117,11 +117,11 @@ export async function fetchDashboardData (req, res){
  */
 export async function fetchPersonalData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID
-    const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor') // converts DoctorUUID to docid
+    const DoctorID = await UUID_to_ID(DoctorUUID) // converts DoctorUUID to docid
     
-    const table_name = 'basic_Doctor_info';
+    const table_name = 'basic_user_info';
   
-    const sql = `SELECT FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year FROM ${table_name} WHERE Doctor_ID = ?`
+    const sql = `SELECT FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year FROM ${table_name} WHERE User_ID = ?`
     const values = [DoctorID];
     await DB_Operation(fetchPersonalData.name, table_name)
 

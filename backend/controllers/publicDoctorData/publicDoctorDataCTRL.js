@@ -1,5 +1,6 @@
 import FetchPublicDoctorData from "./fetchPublicDoctorData.js";
 import FetchDoctorAccountData from "../privateDoctorData/fetchDoctorAccountData.js";
+import { DB_Operation, connection } from "../../dbAndSecurity/connect.js";
 
 /** returnDoctorPageData searches for a particular Doctor's data
  *  Used to fill in doctor screen (particular doctor)
@@ -10,7 +11,21 @@ import FetchDoctorAccountData from "../privateDoctorData/fetchDoctorAccountData.
  *  DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function returnDoctorPageData (req, res){
-    const DoctorID = req.params.id;
+    const NVI = req.params.id;
+    const table_name = 'Doctor_specific_info';
+    const sql = `SELECT Doctor_ID FROM ${table_name} WHERE NVI = ?`;
+    const values = [NVI];
+    let results;
+
+    await DB_Operation(returnDoctorPageData.name, table_name);
+    try{
+        [results] = await connection.execute(sql, values);
+    }catch(error){
+        console.log(`error in ${returnDoctorPageData.name}:`, error);
+        return res.status(400).json();
+    }
+    const DoctorID = results[0].Doctor_ID
+    
     let response = [];
     try{
         response.push(await FetchPublicDoctorData.FetchDoctorInsurances(DoctorID));

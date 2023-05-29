@@ -1,6 +1,14 @@
 To-do:
 
 ASAP:
+problems from slavik edits:
+	in UUID_to_ID, figure out why need to go from incomplete_ID to ID. what is the [0][0] stuff?
+	Change newDoctorConfirmation to not return true/false, but instead decide based on the status code. also, clear up the doctor_statusObj.is_new_doctor
+		same for login. CTRL f true/false within return statuses, just make everything work via status codes
+		
+	Combine many of the privatePatientData and doctorData CTRLs. many of the functions are identical
+	troubleshoot the searchByQuery function to see if it really only queries doctors
+	
 -add a front-end 'saved' to the personal-infromation page
 -during registration, make the years reversed, from 1930
 in personal information, amke birthmonth, day, year, gender into dropdowns

@@ -29,6 +29,7 @@ export default function DoctorDashboard() {
   useEffect(() => {
     user_verification()
     .then(result => {
+      console.log(result)
       if (result.verified === true) {
         setUser_type(result.user_type)
         if(result.user_type === 'Doctor'){

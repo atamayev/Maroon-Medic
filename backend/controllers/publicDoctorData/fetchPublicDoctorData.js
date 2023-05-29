@@ -2,14 +2,14 @@ import {connection, DB_Operation} from "../../dbAndSecurity/connect.js"
 import Crypto from "../../dbAndSecurity/crypto.js";
 
 export default new class FetchPublicDoctorData{
-    async FetchDoctorInsurances (DoctorID){
+    async FetchDoctorInsurances (User_ID){
         const functionName = this.FetchDoctorInsurances.bind(this).name;
 
         const table_name1 = 'insurance_mapping';
         const table_name2 = 'insurance_list'
     
-        const sql = `SELECT ${table_name2}.Insurance_name FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.insurance_listID = ${table_name1}.Insurance_ID WHERE ${table_name1}.Doctor_ID = ?`;
-        const values = [DoctorID];
+        const sql = `SELECT ${table_name2}.Insurance_name FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.insurance_listID = ${table_name1}.Insurance_ID WHERE ${table_name1}.User_ID = ?`;
+        const values = [User_ID];
         await DB_Operation(functionName, table_name1);
     
         try{
@@ -25,14 +25,14 @@ export default new class FetchPublicDoctorData{
         }
     };
 
-    async FetchDoctorLanguages (DoctorID){
+    async FetchDoctorLanguages (User_ID){
         const functionName = this.FetchDoctorLanguages.bind(this).name;
 
         const table_name1 = 'language_mapping';
         const table_name2 = 'language_list'
     
-        const sql = `SELECT ${table_name2}.Language_name FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.language_listID = ${table_name1}.Language_ID WHERE ${table_name1}.Doctor_ID = ?`;
-        const values = [DoctorID];
+        const sql = `SELECT ${table_name2}.Language_name FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.language_listID = ${table_name1}.Language_ID WHERE ${table_name1}.User_ID = ?`;
+        const values = [User_ID];
         await DB_Operation(functionName, table_name1);
     
         try{
@@ -48,14 +48,14 @@ export default new class FetchPublicDoctorData{
         }
     };
 
-    async FetchDoctorSpecialties (DoctorID){
+    async FetchDoctorSpecialties (User_ID){
         const functionName = this.FetchDoctorSpecialties.bind(this).name;
 
         const table_name1 = 'specialty_mapping';
         const table_name2 = 'specialties_list'
     
-        const sql = `SELECT ${table_name2}.Organization_name, ${table_name2}.Specialty_name FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.specialties_listID = ${table_name1}.specialty_ID WHERE ${table_name1}.Doctor_ID = ?`;
-        const values = [DoctorID];
+        const sql = `SELECT ${table_name2}.Organization_name, ${table_name2}.Specialty_name FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.specialties_listID = ${table_name1}.specialty_ID WHERE ${table_name1}.User_ID = ?`;
+        const values = [User_ID];
         await DB_Operation(functionName, table_name1);
     
         try{
@@ -74,9 +74,9 @@ export default new class FetchPublicDoctorData{
     async FetchDoctorAddressData (DoctorID){
         const functionName = this.FetchDoctorAddressData.bind(this).name;
 
-        const table_name1 = 'phone_numbers';
-        const table_name2 = 'doctor_addresses';
-        const sql = `SELECT ${table_name2}.addressesID, ${table_name2}.address_priority, ${table_name2}.address_title, ${table_name2}.address_line_1, ${table_name2}.address_line_2, ${table_name2}.city, ${table_name2}.state, ${table_name2}.zip, ${table_name2}.country, ${table_name1}.phone_priority, ${table_name1}.phone FROM ${table_name2}, ${table_name1} WHERE ${table_name2}.addressesID = ${table_name1}.address_ID AND ${table_name2}.Doctor_ID = ? AND ${table_name2}.address_public_status = 1`;
+        const table_name1 = 'phone';
+        const table_name2 = 'addresses';
+        const sql = `SELECT ${table_name2}.addressesID, ${table_name2}.address_title, ${table_name2}.address_line_1, ${table_name2}.address_line_2, ${table_name2}.city, ${table_name2}.state, ${table_name2}.zip, ${table_name2}.country, ${table_name2}.address_priority, ${table_name1}.Phone, ${table_name1}.phone_priority FROM ${table_name2}, ${table_name1} WHERE ${table_name2}.addressesID = ${table_name1}.address_ID AND ${table_name2}.Doctor_ID = ? AND ${table_name2}.address_public_status = 1`;
     
         const values = [DoctorID];
         await DB_Operation(functionName, table_name1);
@@ -108,12 +108,12 @@ export default new class FetchPublicDoctorData{
         return (results);
     };
 
-    async FetchDoctorPersonalInfo (DoctorID){
+    async FetchDoctorPersonalInfo (User_ID){
         const functionName = this.FetchDoctorPersonalInfo.bind(this).name;
 
-        const table_name = 'basic_Doctor_info';
-        const sql = `SELECT FirstName, LastName, Gender FROM ${table_name} WHERE Doctor_ID = ?`
-        const values = [DoctorID];
+        const table_name = 'basic_user_info';
+        const sql = `SELECT FirstName, LastName, Gender FROM ${table_name} WHERE User_ID = ?`
+        const values = [User_ID];
         await DB_Operation(functionName, table_name)
         
         try{

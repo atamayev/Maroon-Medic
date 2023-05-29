@@ -11,7 +11,7 @@ CREATE TABLE Credentials (
 );
 
 SELECT * FROM Credentials;
-
+-- delete from Credentials where UserID = '4';
 CREATE TABLE Doctor_specific_info(
 	NVI INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	verified BOOLEAN NOT NULL, 
@@ -228,13 +228,13 @@ CREATE TABLE specialty_mapping(
 	specialty_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	Specialty_ID INT unsigned NOT NULL, 
 	FOREIGN KEY (Specialty_ID) REFERENCES specialties_list(specialties_listID),
-	Doctor_ID INT unsigned NOT NULL, 
-	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
+	User_ID INT unsigned NOT NULL, 
+	FOREIGN KEY (User_ID) REFERENCES Credentials(UserID)
 );
 	-- Important key constraint:
 	ALTER TABLE specialty_mapping
 	ADD CONSTRAINT specialty_mapping_constraint
-	UNIQUE (Specialty_ID, Doctor_ID);
+	UNIQUE (Specialty_ID, User_ID);
 
 SELECT * FROM specialty_mapping;
 
@@ -268,7 +268,7 @@ SELECT * FROM phone;
 
 CREATE TABLE booking_availability(
 	booking_availabilityID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	Day_of_week VARCHAR(150),
+	Day_of_week VARCHAR(10),
 	Start_time VARCHAR(10),
 	End_time VARCHAR(10),
 	address_ID INT unsigned NOT NULL,

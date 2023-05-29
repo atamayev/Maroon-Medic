@@ -14,13 +14,13 @@ import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
  */
 export async function savePersonalData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID
-    const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor') // converts DoctorUUID to docid
+    const DoctorID = await UUID_to_ID(DoctorUUID) // converts DoctorUUID to docid
     
     const personalInfo = req.body.personalInfo;
     const encrypted_personalInfo = Crypto.encrypt_single_entry(personalInfo)
 
-    const table_name = 'basic_Doctor_info';
-    const sql = `SELECT * FROM  ${table_name} WHERE Doctor_ID = ?`
+    const table_name = 'basic_user_info';
+    const sql = `SELECT * FROM  ${table_name} WHERE User_ID = ?`
     const values = [DoctorID];
     let results;
     //this is upsert:
@@ -34,7 +34,7 @@ export async function savePersonalData (req, res){
     }
 
     if (!results.length){// if no results, then insert.
-        const sql1 = `INSERT INTO ${table_name} (FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year, Doctor_ID) VALUES (?,?,?,?,?,?,?)`;
+        const sql1 = `INSERT INTO ${table_name} (FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year, User_ID) VALUES (?,?,?,?,?,?,?)`;
         const values1 = [encrypted_personalInfo.FirstName, encrypted_personalInfo.LastName, encrypted_personalInfo.Gender, encrypted_personalInfo.DOB_month, encrypted_personalInfo.DOB_day, encrypted_personalInfo.DOB_year, DoctorID];
         try{
             await connection.execute(sql1, values1);
@@ -44,7 +44,7 @@ export async function savePersonalData (req, res){
             return res.status(400).json();
         }
     }else{// if there are results, that means that the record exists, and needs to be altered
-        const sql2 = `UPDATE ${table_name} SET FirstName = ?, LastName = ?, Gender = ?, DOB_month = ?, DOB_day = ?, DOB_year = ? WHERE Doctor_ID = ?`;
+        const sql2 = `UPDATE ${table_name} SET FirstName = ?, LastName = ?, Gender = ?, DOB_month = ?, DOB_day = ?, DOB_year = ? WHERE User_ID = ?`;
         const values2 = [encrypted_personalInfo.FirstName, encrypted_personalInfo.LastName, encrypted_personalInfo.Gender, encrypted_personalInfo.DOB_month, encrypted_personalInfo.DOB_day, encrypted_personalInfo.DOB_year, DoctorID];
         try{
             await connection.execute(sql2, values2);
@@ -66,7 +66,7 @@ export async function savePersonalData (req, res){
  */
 export async function saveDescriptionData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID;
-    const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
+    const DoctorID = await UUID_to_ID(DoctorUUID); // converts DoctorUUID to docid
     
     const description = req.body.Description;
     const encrypted_description = Crypto.encrypt_single_entry(description);
@@ -122,7 +122,7 @@ export async function saveDescriptionData (req, res){
  */
 export async function saveGeneralData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID;
-    const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
+    const DoctorID = await UUID_to_ID(DoctorUUID); // converts DoctorUUID to docid
     const DataType = req.body.DataType
     const DataTypelower = DataType.charAt(0).toLowerCase() + DataType.slice(1);
     
@@ -130,7 +130,7 @@ export async function saveGeneralData (req, res){
 
     const table_name = `${DataTypelower}_mapping`;
 
-    const sql = `SELECT * FROM  ${table_name} WHERE Doctor_ID = ?`
+    const sql = `SELECT * FROM  ${table_name} WHERE User_ID = ?`
     const values = [DoctorID];
     let results;
 
@@ -154,7 +154,7 @@ export async function saveGeneralData (req, res){
         if (addedData.length > 0) {
             for (let i = 0; i<addedData.length; i++){
                 if(addedData[i]){
-                    const sql1 = `INSERT INTO ${table_name} (${DataType}_ID, Doctor_ID) VALUES (?,?)`;
+                    const sql1 = `INSERT INTO ${table_name} (${DataType}_ID, User_ID) VALUES (?,?)`;
                     const values1 = [addedData[i], DoctorID];
                     try{
                         await connection.execute(sql1, values1);
@@ -171,7 +171,7 @@ export async function saveGeneralData (req, res){
         if (deletedData.length > 0) {
             for (let i = 0; i<deletedData.length; i++){
                 if(deletedData[i]){
-                    const sql1 = `DELETE FROM ${table_name} WHERE ${DataType}_ID = ? AND Doctor_ID = ?`;
+                    const sql1 = `DELETE FROM ${table_name} WHERE ${DataType}_ID = ? AND User_ID = ?`;
                     const values1 = [deletedData[i], DoctorID];
                     try{
                         await connection.execute(sql1, values1);
@@ -190,7 +190,7 @@ export async function saveGeneralData (req, res){
     else if (doctorData.length > 0){
         for (let i=0; i<doctorData.length; i++){
             if(doctorData[i]){
-                const sql1 = `INSERT INTO ${table_name} (${DataType}_ID, Doctor_ID) VALUES (?,?)`;
+                const sql1 = `INSERT INTO ${table_name} (${DataType}_ID, User_ID) VALUES (?,?)`;
                 const values1 = [doctorData[i], DoctorID];
                 try{
                     await connection.execute(sql1, values1);
@@ -212,7 +212,7 @@ export async function saveGeneralData (req, res){
 
 export async function saveServicesData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID;
-    const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
+    const DoctorID = await UUID_to_ID(DoctorUUID); // converts DoctorUUID to docid
     const ServicesData = req.body.ServicesData; //Array of Objects
     
     const table_name = `service_mapping`;
@@ -312,7 +312,7 @@ export async function saveServicesData (req, res){
 
 export async function saveEducationData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID;
-    const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
+    const DoctorID = await UUID_to_ID(DoctorUUID); // converts DoctorUUID to docid
     const EducationType = req.body.EducationType;//'pre_vet' or 'vet'
     const EducationData = req.body.EducationData; // array of arrays, to make comparing to sql easier.: ie: [[ 13, 56, 7, '1923-01-01', '1923-01-01' ],[ 698, 13, 9, '1923-01-01', '1923-01-01' ]]
     
@@ -427,13 +427,13 @@ export async function saveEducationData (req, res){
 
 export async function saveAddressData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID;
-    const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
+    const DoctorID = await UUID_to_ID(DoctorUUID); // converts DoctorUUID to docid
     
     const AddressData = req.body.AddressData;
     const TimesData = req.body.Times;
 
-    const table_name1 = 'doctor_addresses';
-    const table_name2 = 'phone_numbers'; 
+    const table_name1 = 'addresses';
+    const table_name2 = 'phone'; 
     const table_name3 = 'booking_availability';
 
     const sql = `SELECT * FROM ${table_name1} JOIN ${table_name2} ON ${table_name1}.addressesID = ${table_name2}.address_ID WHERE ${table_name1}.Doctor_ID = ?`;
@@ -477,7 +477,7 @@ export async function saveAddressData (req, res){
                     return res.status(400).json();
                 }
                 
-                const sql2 = `INSERT INTO ${table_name2} (phone, phone_priority, address_ID) VALUES (?, ?, ?)`
+                const sql2 = `INSERT INTO ${table_name2} (Phone, phone_priority, address_ID) VALUES (?, ?, ?)`
                 const values2 = [addedData[i].phone, addedData[i].phone_priority, insert_results.insertId];
                 try{
                     await connection.execute(sql2, values2);
@@ -512,7 +512,7 @@ export async function saveAddressData (req, res){
                     console.log(`error in updatedData address data ${saveAddressData.name}:`, error);
                     return res.status(400).json();
                 }
-                const sql2 = `UPDATE ${table_name2} SET phone = ? WHERE address_ID = ?`;
+                const sql2 = `UPDATE ${table_name2} SET Phone = ? WHERE address_ID = ?`;
                 const values2 = [updatedData[i].phone, updatedData[i].addressesID];
                 try{
                     await connection.execute(sql2, values2);
@@ -619,7 +619,7 @@ export async function saveAddressData (req, res){
                 return res.status(400);
             }
 
-            const sql1 = `INSERT INTO ${table_name2} (phone, phone_priority, address_ID) VALUES (?, ?, ?)`
+            const sql1 = `INSERT INTO ${table_name2} (Phone, phone_priority, address_ID) VALUES (?, ?, ?)`
             const values1 = [AddressData[i].phone, AddressData[i].phone_priority, insert_results.insertId];
             try{
                 await connection.execute(sql1, values1);
@@ -658,12 +658,12 @@ export async function saveAddressData (req, res){
  */
 export async function savePublicAvailibilityData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID;
-    const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor'); // converts DoctorUUID to docid
+    const DoctorID = await UUID_to_ID(DoctorUUID); // converts DoctorUUID to docid
     
     const publicAvailibility = req.body.PublicAvailibility;
-    const table_name = 'Doctor_credentials';
+    const table_name = 'Doctor_specific_info';
 
-    const sql = `UPDATE ${table_name} SET publiclyAvailable = ? WHERE DoctorID = ?`;
+    const sql = `UPDATE ${table_name} SET publiclyAvailable = ? WHERE Doctor_ID = ?`;
     const values = [publicAvailibility, DoctorID];
 
     await DB_Operation(savePublicAvailibilityData.name, table_name);
