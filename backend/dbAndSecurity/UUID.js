@@ -48,8 +48,8 @@ export async function UUID_to_ID(UUID){
   await DB_Operation(UUID_to_ID.name, table_name)
 
   try {
-    const incomplete_ID = await connection.execute(sql, values)
-    const ID = incomplete_ID[0][0]['User_ID'];
+    const [incomplete_ID] = await connection.execute(sql, values)
+    const ID = incomplete_ID[0]['User_ID'];
     return ID;
   }catch(error){
     return (`error in ${UUID_to_ID.name}:`, error)

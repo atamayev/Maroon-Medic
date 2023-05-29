@@ -155,7 +155,7 @@ export async function savePersonalData (req, res){
         [results] = await connection.execute(sql, values);
     }catch(error){
         console.log(`error in ${savePersonalData.name}:`, error)
-        return res.status(200).json(false);
+        return res.status(200).json();
     }
 
     if (!results.length){// if no results, then insert.
@@ -163,20 +163,20 @@ export async function savePersonalData (req, res){
         const values1 = [encrypted_personalInfo.FirstName, encrypted_personalInfo.LastName, encrypted_personalInfo.Gender, encrypted_personalInfo.DOB_month, encrypted_personalInfo.DOB_day, encrypted_personalInfo.DOB_year, PatientID];
         try{
             await connection.execute(sql1, values1);
-            return res.status(200).json(true);
+            return res.status(200).json();
         }catch(error){
             console.log(`error in if ${savePersonalData.name}:`, error);
-            return res.status(200).json(false);
+            return res.status(200).json();
         }
     }else{// if there are results, that means that the record exists, and needs to be altered
         const sql2 = `UPDATE ${table_name} SET FirstName = ?, LastName = ?, Gender = ?, DOB_month = ?, DOB_day = ?, DOB_year = ? WHERE User_ID = ?`;
         const values2 = [encrypted_personalInfo.FirstName, encrypted_personalInfo.LastName, encrypted_personalInfo.Gender, encrypted_personalInfo.DOB_month, encrypted_personalInfo.DOB_day, encrypted_personalInfo.DOB_year, PatientID];
         try{
             await connection.execute(sql2, values2);
-            return res.status(200).json(true);
+            return res.status(200).json();
         }catch(error){
             console.log(`error in else ${savePersonalData.name}:`, error);
-            return res.status(200).json(false);
+            return res.status(200).json();
         }
     }
 };

@@ -47,7 +47,7 @@ export default function DoctorCalendar () {
     async function FillDoctorCalendarDetails(){
         try{
             const response = await CalendarDataService.fillCalendarDetails();
-            if (response){
+            if (response.status === 200){
                 console.log(response)
 
                 //setEvents(response.data)

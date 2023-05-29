@@ -15,7 +15,7 @@ export const handleLoginSubmit = async ({
         try {
             setLoading(true)
             const response = await AuthDataService.login(login_information_object);
-            if (response.data === true){
+            if (response.status === 200){
                 navigate(`/${VetOrPatient.toLowerCase()}-dashboard`)
             }else{
                 setError("Login didn't work");
@@ -43,7 +43,7 @@ export const handleRegisterSubmit = async ({
         try {
             setLoading(true)
             const response = await AuthDataService.register(register_information_object);
-            if (response.data === true){
+            if (response.status === 200){
                 navigate(`/new-${VetOrPatient.toLowerCase()}`)
             }else{
                 setError("Registration didn't work");

@@ -7,7 +7,6 @@ const VerifyContextProvider = (props) => {
   async function user_verification (){
     try{
       const response = await AuthDataService.verify();
-      console.log('response.data',response.data)
       if (response.data.isValid === true) {
         return {
           verified: true, 

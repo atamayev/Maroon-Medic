@@ -1,19 +1,12 @@
 To-do:
 
 ASAP:
-problems from slavik edits:
-	in UUID_to_ID, figure out why need to go from incomplete_ID to ID. what is the [0][0] stuff?
-	Change newDoctorConfirmation to not return true/false, but instead decide based on the status code. also, clear up the doctor_statusObj.is_new_doctor
-		same for login. CTRL f true/false within return statuses, just make everything work via status codes
-		
-	Combine many of the privatePatientData and doctorData CTRLs. many of the functions are identical
-	troubleshoot the searchByQuery function to see if it really only queries doctors
-	
--add a front-end 'saved' to the personal-infromation page
 -during registration, make the years reversed, from 1930
 in personal information, amke birthmonth, day, year, gender into dropdowns
 
 after making a pt account after makign a booking, save service, location, day, time to session storage(cart)
+
+-when login/register, make a show password button
 
 -figure out how to choose a certain date instead of a day of week
 -create a bookings table, which has foreign keys of doctor_Id, patient_ID, service_name, location_ID, time, day
@@ -35,8 +28,6 @@ simplification of pre-vet education needed.
 -- before saving email to db, make sure it is lowercase, so that when searching db, it is done in uniform way
 	save emails as lowercase. then, when logging in, email should be lowercased before searching the db.
 	-- figure out which data should be encrypted by the db. data at rest encryption
-
--when login/register, make a show password button
 
 Later:
 

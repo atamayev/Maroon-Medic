@@ -259,7 +259,6 @@ export default new class FetchDoctorAccountData{
                 console.log('FetchPubliclyAvailable does not exist');
                 return [{PubliclyAvailable: false}, {Verified: false}];
             } else {
-                console.log('true')
                 return [{PubliclyAvailable: results[0].publiclyAvailable}, {Verified: results[0].publiclyAvailable}];
             }
         }catch(error){
