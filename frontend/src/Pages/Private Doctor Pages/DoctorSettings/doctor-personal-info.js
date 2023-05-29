@@ -57,6 +57,24 @@ export default function DoctorPersonalInfo() {
 
   const {user_verification} = useContext(VerifyContext)
   const [user_type, setUser_type] = useState(null);
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+  
+  const days = [...Array(31).keys()].map(i => i + 1);
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({length: 63}, (_, i) => currentYear - i - 18); // Renders an array from 18 years ago to 63 minus that year.  
 
   useEffect(()=>{
     user_verification()
@@ -113,15 +131,60 @@ export default function DoctorPersonalInfo() {
               onChange={(event) => setPersonalInfo({...personalInfo, LastName: event.target.value})}
               required
             />
-            <FormGroup
-              id="Gender"
-              label="Gender"
-              defaultValue={personalInfo.Gender}
-              onChange={(event) => setPersonalInfo({...personalInfo, Gender: event.target.value})}
-              required
-            />
+            <Form.Group id = "Gender">
+              <Form.Label> Gender: </Form.Label>
+              <select required defaultValue = "" value={personalInfo.Gender} onChange={(event) => setPersonalInfo({...personalInfo, Gender: event.target.value})}>
+                  <option value="" disabled>Select</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+              </select>
+            </Form.Group>
+
             <div className='row'>
-              <div className='col-md-4'>
+              <Form.Group id = "DOB">
+                  <label>
+                  Month:
+                  <select required defaultValue = "" value ={personalInfo.DOB_month} onChange={(event) => setPersonalInfo({...personalInfo, DOB_month: event.target.value})}>
+                    <option value="" disabled>
+                      Select Month
+                    </option>
+                    {months.map(month => (
+                      <option key={month} value={month}>
+                        {month}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  Day:
+                  <select required defaultValue = "" value={personalInfo.DOB_day} onChange={(event) => setPersonalInfo({...personalInfo, DOB_day: event.target.value})}>
+                    <option value="" disabled>
+                      Select Day
+                    </option>
+                    {days.map(day => (
+                      <option key={day} value={day}>
+                        {day}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  Year:
+                  <select required defaultValue = "" value={personalInfo.DOB_year} onChange={(event) => setPersonalInfo({...personalInfo, DOB_year: event.target.value})}>
+                    <option value="" disabled>
+                      Select Year
+                    </option>
+                    {years.map(year => (
+                      <option key={year + 1} value={year + 1}>
+                        {year + 1}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </Form.Group>
+          
+              {/* <div className='col-md-4'>
                 <FormGroup
                   id="DOB_month"
                   label="Birthmonth"
@@ -147,7 +210,7 @@ export default function DoctorPersonalInfo() {
                   onChange={(event) => setPersonalInfo({...personalInfo, DOB_year: event.target.value})}
                   required
                 />
-              </div>
+              </div> */}
             </div>
             <br/>
             <Button type = "submit" className="btn btn-primary w-100">Save</Button>

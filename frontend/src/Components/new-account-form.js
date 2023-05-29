@@ -24,8 +24,10 @@ export default function NewAccountForm({
     "November",
     "December"
   ];
+  
   const days = [...Array(31).keys()].map(i => i + 1);
-  const years = [...Array(100).keys()].map(i => i + new Date().getFullYear() - 100);
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({length: 63}, (_, i) => currentYear - i - 18); // Renders an array from 18 years ago to 63 minus that year.  
 
   return (
     <div>
@@ -95,8 +97,8 @@ export default function NewAccountForm({
               Select Year
             </option>
             {years.map(year => (
-              <option key={year} value={year}>
-                {year}
+              <option key={year + 1} value={year + 1}>
+                {year + 1}
               </option>
             ))}
           </select>

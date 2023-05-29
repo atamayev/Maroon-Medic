@@ -1,9 +1,10 @@
 To-do:
 
 ASAP:
--during registration, make the years reversed, from 1930
-in personal information, amke birthmonth, day, year, gender into dropdowns
-
+in new_account_form, transition from a Form.Group to FormGroup (see how children were previsouly implemented by GPT)
+	same in doctor-personal-information
+if delete personalInformation session object, and reload personal-information tab, the first and last names don't render
+	
 after making a pt account after makign a booking, save service, location, day, time to session storage(cart)
 
 -when login/register, make a show password button
@@ -32,6 +33,7 @@ simplification of pre-vet education needed.
 Later:
 
 Calendar
+- when registering as a patient, need to make it clear when the user is entering data regrading the human, and when about the pet
 
 -Add an admin user type (manages/can see multiple doctor's activities)
 
