@@ -145,7 +145,7 @@ export default function DoctorPersonalInfo() {
               <option value="other">Other</option>
             </FormGroup>
 
-            <div className='row'>
+            <div className='row mt-3 mb-3'>
               <Form.Group id = "DOB">
                   <label>
                   Month:
@@ -188,7 +188,6 @@ export default function DoctorPersonalInfo() {
                 </label>
               </Form.Group>
             </div>
-            <br/>
             <Button type = "submit" className="btn btn-primary w-100">Save</Button>
             <span className={`fade ${personalInfoConfirmation.messageType ? 'show' : ''}`}>
               {personalInfoConfirmation.messageType === 'saved' && 'Description saved!'}

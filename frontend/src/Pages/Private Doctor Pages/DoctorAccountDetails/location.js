@@ -11,7 +11,7 @@ import "./location.css"
 
 export default function RenderLocationSection(props){
   return(
-    <Card>
+    <Card className="mb-3">
       <Card.Header>
         Locations
       </Card.Header>

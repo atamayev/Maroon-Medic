@@ -6,7 +6,7 @@ import { saveInsurances } from "../../../Custom Hooks/Hooks for Doctor Account D
 
 export default function RenderInsuranceSection(props){
   return(
-    <Card>
+    <Card className="mb-3">
       <Card.Header>
         Insurances
       </Card.Header>

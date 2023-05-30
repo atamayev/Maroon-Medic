@@ -37,23 +37,24 @@ export default function NewAccountForm({
         <Form onSubmit={handleSubmit}>
           <FormGroup 
             id = "FirstName"
-            label = "First Name: "
+            className={'mb-3'}
+            label = "First Name:"
+            required
             type = "text"
             onChange={event => setNewInfo({...newInfo, FirstName: event.target.value})}
-            required
           />
-          <br />
           <FormGroup 
+            className={'mb-3'}
             id = "LastName"
-            label = "Last Name: "
+            label = "Last Name:"
             type = "text"
             onChange={event => setNewInfo({...newInfo, LastName: event.target.value})}
             required
           />
-          <br />
           
           <FormGroup
             as="select"
+            className={'mb-3'}
             id="Gender"
             label="Gender:"
             required={true}
@@ -65,9 +66,8 @@ export default function NewAccountForm({
             <option value="female">Female</option>
             <option value="other">Other</option>
           </FormGroup>
-          <br />
 
-          <Form.Group id = "DOB">
+          <Form.Group id = "DOB" className={'mb-3'}>
             <label>
               Month:
               <select required defaultValue = "" value={newInfo.DOB_month} onChange={event => setNewInfo({...newInfo, DOB_month: event.target.value})}>
@@ -108,7 +108,6 @@ export default function NewAccountForm({
               </select>
             </label>
           </Form.Group>
-          <br />
           
           <Button type="submit" className = "w-100" disabled = {loading}>Submit</Button>
         </Form>
@@ -117,4 +116,3 @@ export default function NewAccountForm({
     </div>
   );
 };
-

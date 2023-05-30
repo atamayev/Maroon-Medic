@@ -7,14 +7,14 @@ import { saveSpecialies } from "../../../Custom Hooks/Hooks for Doctor Account D
 
 export default function RenderSpecialtySection (props){
   return(
-      <Card>
-        <Card.Header>
-            Specialties
-        </Card.Header>
-        <Card.Body>
-          {renderIsSpecialty(props)}
-        </Card.Body>
-      </Card>
+    <Card className="mb-3">
+      <Card.Header>
+          Specialties
+      </Card.Header>
+      <Card.Body>
+        {renderIsSpecialty(props)}
+      </Card.Body>
+    </Card>
   );
 };
 

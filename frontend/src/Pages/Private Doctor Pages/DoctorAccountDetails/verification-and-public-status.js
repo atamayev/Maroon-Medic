@@ -4,7 +4,7 @@ import { handlePublicAvailibilityToggle } from "../../../Custom Hooks/Hooks for 
 
 export default function RenderVerificationAndPublicStatusSection (props){
   return(
-      <Card>
+    <Card>
       <Card.Header>
         Verification and Search Results
       </Card.Header>
@@ -13,27 +13,15 @@ export default function RenderVerificationAndPublicStatusSection (props){
         {renderIsVerification(props)}
         <br/>
         Would you like your profile to be Publicly Available?
-        <br/>
-        <ToggleButtonGroup type="radio" name="options" 
-        value={props.publiclyAvailable ?? 0} 
-        onChange={(value)=>handlePublicAvailibilityToggle(value, props.setPubliclyAvailable, props.setPubliclyAvailableConfirmation)}>
-          <ToggleButton id="tbg-radio-1" value = {0} style={{ backgroundColor: props.publiclyAvailable === 0 ? "red" : "white", color: props.publiclyAvailable === 0 ? "white" : "black", borderColor: "black"}}>
-            No
-          </ToggleButton>
-          <ToggleButton id="tbg-radio-2" value = {1} style={{ backgroundColor: props.publiclyAvailable === 1 ? "green" : "white", color: props.publiclyAvailable === 1 ? "white" : "black", borderColor: "black"}}>
-            Yes
-          </ToggleButton>
-      </ToggleButtonGroup>
-      <span className={`fade ${props.publiclyAvailableConfirmation.messageType ? 'show' : ''}`}>
-        {props.publiclyAvailableConfirmation.messageType === 'saved' && 'Publicly Available status saved!'}
-        {props.publiclyAvailableConfirmation.messageType === 'problem' && 'Problem Saving Publicly Available status!'}
-      </span>
+        {renderIsPubliclyAvailable(props)}
       </Card.Body>
     </Card>
   );
 };
 
 function renderIsVerification (props) {
+
+  
   if(props.verified){
     return(
       <Button
@@ -53,4 +41,25 @@ function renderIsVerification (props) {
       </Button>
     )
   }
+};
+
+function renderIsPubliclyAvailable (props){
+  return(
+    <div>
+      <ToggleButtonGroup type="radio" name="options" 
+        value={props.publiclyAvailable ?? 0} 
+        onChange={(value)=>handlePublicAvailibilityToggle(value, props.setPubliclyAvailable, props.setPubliclyAvailableConfirmation)}>
+          <ToggleButton id="tbg-radio-1" value = {0} style={{ backgroundColor: props.publiclyAvailable === 0 ? "red" : "white", color: props.publiclyAvailable === 0 ? "white" : "black", borderColor: "black"}}>
+            No
+          </ToggleButton>
+          <ToggleButton id="tbg-radio-2" value = {1} style={{ backgroundColor: props.publiclyAvailable === 1 ? "green" : "white", color: props.publiclyAvailable === 1 ? "white" : "black", borderColor: "black"}}>
+            Yes
+          </ToggleButton>
+      </ToggleButtonGroup>
+      <span className={`fade ${props.publiclyAvailableConfirmation.messageType ? 'show' : ''}`}>
+        {props.publiclyAvailableConfirmation.messageType === 'saved' && 'Publicly Available status saved!'}
+        {props.publiclyAvailableConfirmation.messageType === 'problem' && 'Problem Saving Publicly Available status!'}
+      </span>
+    </div>
+  )
 };

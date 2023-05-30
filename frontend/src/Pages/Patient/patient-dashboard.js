@@ -65,8 +65,8 @@ export default function PatientDashboard() {
           <Card.Body>
             <Card.Title>{dashboardData.FirstName} {dashboardData.LastName}</Card.Title>
             <Card.Text>
-                My Birthdate is: {dashboardData.DOB_month} {dashboardData.DOB_day}, {dashboardData.DOB_year}<br></br>
-                I am {dashboardData.Gender}<br></br>
+                My Birthdate is: {dashboardData.DOB_month} {dashboardData.DOB_day}, {dashboardData.DOB_year}<br/>
+                I am {dashboardData.Gender}<br/>
                 My email is {dashboardData.email}
               </Card.Text>
           </Card.Body>

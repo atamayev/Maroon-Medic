@@ -7,7 +7,7 @@ import { saveVetSchool } from "../../../Custom Hooks/Hooks for Doctor Account De
 
 export default function RenderVetEducationSection (props){
   return(
-    <Card>
+    <Card className="mb-3">
       <Card.Header>
           Vet Education
       </Card.Header>

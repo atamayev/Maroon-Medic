@@ -7,14 +7,14 @@ import { handleLanguageChange } from "../../../Custom Hooks/Hooks for Doctor Acc
 
 export default function RenderLanguageSection(props){
   return(
-    <Card>
-    <Card.Header>
-    Languages
-    </Card.Header>
-    <Card.Body>
-      {renderIsVetLanguages(props)}
-    </Card.Body>
-  </Card>
+    <Card className="mb-3">
+      <Card.Header>
+      Languages
+      </Card.Header>
+      <Card.Body>
+        {renderIsVetLanguages(props)}
+      </Card.Body>
+    </Card>
   );
 };
 

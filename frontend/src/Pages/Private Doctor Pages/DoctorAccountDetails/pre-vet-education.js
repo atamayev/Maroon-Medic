@@ -7,14 +7,14 @@ import { savePreVetSchool } from "../../../Custom Hooks/Hooks for Doctor Account
 
 export default function RenderPreVetEducationSection(props){
   return(
-    <Card>
-    <Card.Header>
-      Pre-vet education
-    </Card.Header>
-    <Card.Body>
-      {renderIsPreVetEducation(props)}
-    </Card.Body>
-  </Card>
+    <Card className="mb-3">
+      <Card.Header>
+        Pre-vet education
+      </Card.Header>
+      <Card.Body>
+        {renderIsPreVetEducation(props)}
+      </Card.Body>
+    </Card>
   );
 };
 
@@ -121,7 +121,7 @@ function renderIsPreVetEducation(props){
     )
   }else{
     return(
-      <p>Loading...</p>
+      <p> Loading... </p>
     )
   }
 };

@@ -15,16 +15,15 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
   <BrowserRouter>
-      <VerifyContextProvider>
-        <SearchContextProvider>
+    <VerifyContextProvider>
+      <SearchContextProvider>
 
-            <Routes>
-              <Route path = "/*" element = {<App/>} />
-            </Routes>
+          <Routes>
+            <Route path = "/*" element = {<App/>} />
+          </Routes>
 
-        </SearchContextProvider>
-      </VerifyContextProvider>
-    </BrowserRouter>
+      </SearchContextProvider>
+    </VerifyContextProvider>
+  </BrowserRouter>
   // </React.StrictMode>
 );
-

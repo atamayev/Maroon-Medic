@@ -180,7 +180,6 @@ export default function DoctorAccountDetails() {
         preVetEducationConfirmation = {preVetEducationConfirmation}
         setPreVetEducationConfirmation = {setPreVetEducationConfirmation}
       />
-      <br/>
       <RenderVetEducationSection
         listDetails = {listDetails}
         selectedVetSchool = {selectedVetSchool}
@@ -194,7 +193,6 @@ export default function DoctorAccountDetails() {
         vetEducationConfirmation = {vetEducationConfirmation}
         setVetEducationConfirmation = {setVetEducationConfirmation}
       />
-      <br/>
       <RenderDescriptionSection
         description = {description}
         setDescription = {setDescription}
@@ -203,14 +201,11 @@ export default function DoctorAccountDetails() {
         descriptionConfirmation = {descriptionConfirmation}
         setDescriptionConfirmation = {setDescriptionConfirmation}
       />
-      <br/>
       <RenderPersonalInfoLinkSection/>
-      <br/>
       {/* <RenderPicturesSection
         carouselIndex = {carouselIndex}
         setCarouselIndex = {setCarouselIndex}
-      />
-      <br/> */}
+      /> */}
       <RenderSpecialtySection 
         listDetails = {listDetails}
         selectedOrganization = {selectedOrganization}
@@ -222,7 +217,6 @@ export default function DoctorAccountDetails() {
         specialtiesConfirmation = {specialtiesConfirmation}
         setSpecialtiesConfirmation = {setSpecialtiesConfirmation}
       />
-      <br/>
       <RenderInsuranceSection
         listDetails = {listDetails}
         acceptedInsurances = {acceptedInsurances}
@@ -230,7 +224,6 @@ export default function DoctorAccountDetails() {
         insurancesConfirmation = {insurancesConfirmation}
         setInsurancesConfirmation = {setInsurancesConfirmation}
       />
-      <br/>
       <RenderLanguageSection
         listDetails = {listDetails}
         selectedLanguage = {selectedLanguage}
@@ -240,7 +233,6 @@ export default function DoctorAccountDetails() {
         languagesConfirmation = {languagesConfirmation}
         setLanguagesConfirmation = {setLanguagesConfirmation}
       />
-      <br/>
       <RenderServiceSection
         listDetails = {listDetails}
         selectedCategories = {selectedCategories}
@@ -252,7 +244,6 @@ export default function DoctorAccountDetails() {
         servicesConfirmation = {servicesConfirmation}
         setServicesConfirmation = {setServicesConfirmation}
       />
-      <br />
       <RenderLocationSection
         listDetails = {listDetails}
         addresses = {addresses}
@@ -260,7 +251,6 @@ export default function DoctorAccountDetails() {
         addressesConfirmation = {addressesConfirmation}
         setAddressesConfirmation = {setAddressesConfirmation}
       />
-      <br/>
       <RenderVerificationAndPublicStatusSection
         publiclyAvailable = {publiclyAvailable}
         setPubliclyAvailable = {setPubliclyAvailable}

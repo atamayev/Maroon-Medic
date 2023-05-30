@@ -4,7 +4,7 @@ import { Card, Button} from "react-bootstrap";
 
 export default function RenderPersonalInfoLinkSection(){
   return(
-    <Card>
+    <Card className="mb-3">
       <Card.Body>
         Looking to edit your Profile Information? {''} 
         <Link to= {'/vet-settings/personal-information'}>

@@ -8,7 +8,7 @@ import { handleDeleteService } from "../../../Custom Hooks/Hooks for Doctor Acco
 
 export default function RenderServiceSection (props){
   return(
-      <Card>
+    <Card className="mb-3">
       <Card.Header>
         Vet Services
       </Card.Header>

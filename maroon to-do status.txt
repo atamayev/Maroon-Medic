@@ -2,7 +2,6 @@ To-do:
 
 ASAP:
 
--delete all br's in front-end, replace with mt-3, or mb-3
 - go through all res in the back-end, make sure they are all returned.
 -go through all instances of values, and if values insidei of an if and an else are the same, pull them both outside the if/else
 -Figure out Doctor_confirmation status (should be 0 until doctor approves, unless instant book is on)
@@ -47,7 +46,7 @@ start using bootstrap or integrate tailwind css classes. tell chatgpt to make pa
 
 figure out phone_priority (address_data), currently sending it back as 0. Phone priority is for when one location has multiple phone numbers. So each object in the address list might have an object inside that contains phone numbers, link
 	See 5/19 commit
-	
+-consider bringing back selecting the entire category in vet services
 after vet/prevet education queries from db, it doesn't show the month name, but the numerical representation of the month (instead of January, shows 1).
 
 -allow for entering multiple degrees from one college (without causing the education table to break (because of the constraint))

@@ -5,16 +5,16 @@ import { handleDescriptionChange } from "../../../Custom Hooks/Hooks for Doctor 
 import { saveDescription } from "../../../Custom Hooks/Hooks for Doctor Account Details/save";
 
 export default function RenderDescriptionSection (props){
-    return(
-        <Card>
-          <Card.Header>
-            Description
-          </Card.Header>
-          <Card.Body>
-            {renderIsDescription(props)}
-          </Card.Body>
-        </Card>
-    )
+  return(
+    <Card className="mb-3">
+      <Card.Header>
+        Description
+      </Card.Header>
+      <Card.Body>
+        {renderIsDescription(props)}
+      </Card.Body>
+    </Card>
+  );
 };
 
 function renderIsDescription(props){
