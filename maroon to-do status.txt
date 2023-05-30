@@ -2,12 +2,15 @@ To-do:
 
 ASAP:
 
--add a constraint to the appointments table (can't be same time, with same doc, and pt)
-
+- Delete encryption, keep hashes, .
+	make sure to label the commit, so that when I come back to it when doing AWS, it's simple to understand how data at rest encryption works
+ 
 -Figure out Doctor_confirmation status (should be 0 until doctor approves, unless instant book is on)
 
 there's a bug when the names of the locations are changed, which cause the times to switch
 	if both are titled 123, and the second one is changed to 'availble', the times assigned to them switch
+--patient and doctor dashboard should have pending/confirmed appts.
+	for doctor, should go onto the calendar
 
 -go through all instances of select dropdowns, and make the 'select' options disabled
 

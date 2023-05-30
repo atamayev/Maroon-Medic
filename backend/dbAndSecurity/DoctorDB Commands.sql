@@ -11,7 +11,7 @@ CREATE TABLE Credentials (
 );
 
 SELECT * FROM Credentials;
--- delete from Credentials where UserID = '4';
+
 CREATE TABLE Doctor_specific_info(
 	NVI INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	verified BOOLEAN NOT NULL, 
@@ -65,30 +65,13 @@ SELECT * FROM insurance_list;
 CREATE TABLE insurance_mapping(
 	insurance_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	Insurance_ID INT unsigned NOT NULL, 
-	FOREIGN KEY (Insurance_ID) REFERENCES insurance_list(insurance_listID),
 	User_ID INT unsigned NOT NULL, 
-	FOREIGN KEY (User_ID) REFERENCES Credentials(UserID)
+	FOREIGN KEY (Insurance_ID) REFERENCES insurance_list(insurance_listID),
+	FOREIGN KEY (User_ID) REFERENCES Credentials(UserID),
+	UNIQUE (Insurance_ID, User_ID)
 );
-    -- Important key constraint:
-	ALTER TABLE insurance_mapping
-	ADD CONSTRAINT insurance_mapping_constraint
-	UNIQUE (Insurance_ID, User_ID);
-    
+
 SELECT * FROM insurance_mapping;
-
--- CREATE TABLE profile_update_history(
--- profile_update_historyID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
--- Updated_at VARCHAR(150), 
--- IP_Address INT unsigned,
--- Doctor_ID INT unsigned NOT NULL, 
--- FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID));
-
--- CREATE TABLE login_history(
--- login_historyID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
--- Login_at VARCHAR(150), 
--- IP_Address INT unsigned,
--- Doctor_ID INT unsigned NOT NULL, 
--- FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID));
 
 CREATE TABLE service_and_category_list(
 	service_and_category_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -103,14 +86,11 @@ CREATE TABLE service_mapping(
 	Service_time VARCHAR(10) NOT NULL,
 	Service_price VARCHAR(10),
 	Service_and_Category_ID INT unsigned NOT NULL, 
-	FOREIGN KEY (Service_and_Category_ID) REFERENCES service_and_category_list(service_and_category_listID),
 	Doctor_ID INT unsigned NOT NULL, 
-	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
+	FOREIGN KEY (Service_and_Category_ID) REFERENCES service_and_category_list(service_and_category_listID),
+	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID),
+	UNIQUE (Service_price, Service_and_Category_ID, Doctor_ID)
 );
-    -- Important key constraint:
-	ALTER TABLE service_mapping
-	ADD CONSTRAINT service_mapping_constraint
-	UNIQUE (Service_price, Service_and_Category_ID, Doctor_ID);
 
 SELECT * FROM service_mapping;
 
@@ -132,14 +112,11 @@ SELECT * FROM language_list;
 CREATE TABLE language_mapping(
 	language_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	Language_ID INT unsigned NOT NULL, 
-	FOREIGN KEY (Language_ID) REFERENCES language_list(language_listID),
 	User_ID INT unsigned NOT NULL, 
-	FOREIGN KEY (User_ID) REFERENCES Credentials(UserID)
+	FOREIGN KEY (Language_ID) REFERENCES language_list(language_listID),
+	FOREIGN KEY (User_ID) REFERENCES Credentials(UserID),
+	UNIQUE (Language_ID, User_ID)
 );
-    -- Important key constraint:
-	ALTER TABLE language_mapping
-	ADD CONSTRAINT language_mapping_constraint
-	UNIQUE (Language_ID, User_ID);
 
 SELECT * FROM language_mapping;
 
@@ -167,20 +144,17 @@ SELECT * FROM pre_vet_education_type_list;
 CREATE TABLE pre_vet_education_mapping(
 	pre_vet_education_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	School_ID INT unsigned NOT NULL, 
-	FOREIGN KEY (School_ID) REFERENCES pre_vet_school_list(pre_vet_school_listID),
 	Major_ID INT unsigned NOT NULL, 
-	FOREIGN KEY (Major_ID) REFERENCES major_list(major_listID),
 	Education_type_ID INT unsigned NOT NULL, 
-	FOREIGN KEY (Education_type_ID) REFERENCES pre_vet_education_type_list(pre_vet_education_typeID), 
 	Start_Date DATE NOT NULL,
 	End_Date DATE NOT NULL,
 	Doctor_ID INT unsigned NOT NULL, 
-	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
+	FOREIGN KEY (School_ID) REFERENCES pre_vet_school_list(pre_vet_school_listID),
+	FOREIGN KEY (Major_ID) REFERENCES major_list(major_listID),
+	FOREIGN KEY (Education_type_ID) REFERENCES pre_vet_education_type_list(pre_vet_education_typeID), 
+	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID),
+	UNIQUE (School_ID, Major_ID, Education_type_ID, Doctor_ID)
 );
-    -- Important key constraint:
-	ALTER TABLE pre_vet_education_mapping
-	ADD CONSTRAINT pre_vet_education_mapping_constraint
-	UNIQUE (School_ID, Major_ID, Education_type_ID, Doctor_ID);
     
 SELECT * FROM pre_vet_education_mapping;
 
@@ -201,18 +175,15 @@ SELECT * FROM vet_education_type_list;
 CREATE TABLE vet_education_mapping(
 	vet_education_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	School_ID INT unsigned NOT NULL, 
-	FOREIGN KEY (School_ID) REFERENCES vet_school_list(vet_school_listID),
 	Education_type_ID INT unsigned NOT NULL, 
-	FOREIGN KEY (Education_type_ID) REFERENCES vet_education_type_list(vet_education_typeID), 
 	Start_Date DATE NOT NULL, 
 	End_Date DATE NOT NULL,
 	Doctor_ID INT unsigned NOT NULL, 
-	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
+	FOREIGN KEY (School_ID) REFERENCES vet_school_list(vet_school_listID),
+	FOREIGN KEY (Education_type_ID) REFERENCES vet_education_type_list(vet_education_typeID), 
+	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID),
+	UNIQUE (School_ID, Education_type_ID, Doctor_ID)
 );
-	-- Important key constraint:
-	ALTER TABLE vet_education_mapping
-	ADD CONSTRAINT vet_education_mapping_constraint
-	UNIQUE (School_ID, Education_type_ID, Doctor_ID);
 
 SELECT * FROM vet_education_mapping;
 
@@ -227,14 +198,11 @@ SELECT * FROM specialties_list;
 CREATE TABLE specialty_mapping(
 	specialty_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	Specialty_ID INT unsigned NOT NULL, 
-	FOREIGN KEY (Specialty_ID) REFERENCES specialties_list(specialties_listID),
 	User_ID INT unsigned NOT NULL, 
-	FOREIGN KEY (User_ID) REFERENCES Credentials(UserID)
+	FOREIGN KEY (Specialty_ID) REFERENCES specialties_list(specialties_listID),
+	FOREIGN KEY (User_ID) REFERENCES Credentials(UserID),
+	UNIQUE (Specialty_ID, User_ID)
 );
-	-- Important key constraint:
-	ALTER TABLE specialty_mapping
-	ADD CONSTRAINT specialty_mapping_constraint
-	UNIQUE (Specialty_ID, User_ID);
 
 SELECT * FROM specialty_mapping;
 
@@ -272,8 +240,8 @@ CREATE TABLE booking_availability(
 	Start_time VARCHAR(10),
 	End_time VARCHAR(10),
 	address_ID INT unsigned NOT NULL,
-	FOREIGN KEY (address_ID) REFERENCES addresses(addressesID) ON DELETE CASCADE,
 	Doctor_ID INT unsigned NOT NULL, 
+	FOREIGN KEY (address_ID) REFERENCES addresses(addressesID) ON DELETE CASCADE,
 	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
 );
 
@@ -291,8 +259,16 @@ CREATE TABLE detailed_booking_availability(
 
 SELECT * FROM detailed_booking_availability;
 
-ALTER USER 'root' IDENTIFIED WITH mysql_native_password BY 'password';
+-- CREATE TABLE profile_update_history(
+-- profile_update_historyID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+-- Updated_at VARCHAR(150), 
+-- IP_Address INT unsigned,
+-- Doctor_ID INT unsigned NOT NULL, 
+-- FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID));
 
-flush privileges;
-
-ALTER USER 'root' IDENTIFIED WITH mysql_native_password BY 'your_new_password';
+-- CREATE TABLE login_history(
+-- login_historyID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+-- Login_at VARCHAR(150), 
+-- IP_Address INT unsigned,
+-- Doctor_ID INT unsigned NOT NULL, 
+-- FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID));
