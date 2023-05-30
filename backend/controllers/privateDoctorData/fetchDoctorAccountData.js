@@ -1,5 +1,4 @@
 import {connection, DB_Operation} from "../../dbAndSecurity/connect.js"
-import Crypto from "../../dbAndSecurity/crypto.js";
 
 /** FetchDoctorAccountData is fairly self-explanatory
  *  Here, each Doctor's particular data is fetched from the DB.
@@ -212,8 +211,8 @@ export default new class FetchDoctorAccountData{
                 console.log('DescriptionData does not exist');
                 return {Description: ''};
             } else {
-                const decrypted = Crypto.decryptSingle(results[0]);
-                return (decrypted);
+                const Description = results[0]
+                return (Description);
             }
         }catch(error){
             return (`error in ${functionName}:`, error);

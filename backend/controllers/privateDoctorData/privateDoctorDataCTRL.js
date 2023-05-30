@@ -1,12 +1,10 @@
 import {connection, DB_Operation} from "../../dbAndSecurity/connect.js";
-import Crypto from "../../dbAndSecurity/crypto.js";
 import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
 import FetchDoctorAccountData from "./fetchDoctorAccountData.js";
 import FetchAllDoctorLists from "./fetchAllDoctorLists.js";
 
 /** newDoctor registers the inputted user data into basic_Doctor_info table
  *  All necessary information is sent via the request (DoctorUUID, firname, lastname, etc.)
- *  This data is encrypted using Crypto, and then inserting into the table.
  * @param {Array} req 
  * @param {Array} res If the user data is successfully added to table, return true. If not, return error--> front end doesn't allow
  * @returns true/error
@@ -19,12 +17,9 @@ export async function newDoctor (req, res){
     const new_doctor_object = req.body.new_doctor_object
 
     const table_name = 'basic_user_info'
-    const encrypted = Crypto.encrypt_single_entry(new_doctor_object)
-
     const sql = `INSERT INTO ${table_name} (FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year, User_ID) VALUES (?,?,?,?,?,?,?)`;
 
-    const values = [encrypted.FirstName, encrypted.LastName, encrypted.Gender, encrypted.DOB_month, encrypted.DOB_day, encrypted.DOB_year, User_ID];
-    await DB_Operation(newDoctor.name, table_name)
+    const values = [new_doctor_object.FirstName, new_doctor_object.LastName, new_doctor_object.Gender, new_doctor_object.DOB_month, new_doctor_object.DOB_day, new_doctor_object.DOB_year, User_ID];    await DB_Operation(newDoctor.name, table_name)
     
     try{
         await connection.execute(sql, values)
@@ -61,16 +56,15 @@ export async function newDoctorConfirmation (req, res){
       const [results1] = await connection.execute(sql, values1)
       const [results2] = await connection.execute(sql, values2)
 
-      if (results1.length === 1 && results2.length === 1) {
-        Doctor_permission = true;
-        return res.status(200).json(Doctor_permission);
-      } else {
-        doctor_statusObj.is_new_doctor = false;
-        return res.status(500).json(Doctor_permission);
-      }
+        if (results1.length === 1 && results2.length === 1) {
+            Doctor_permission = true;
+            return res.status(200).json(Doctor_permission);
+        }
+        else {
+            return res.status(500).json(Doctor_permission);
+        }
     }catch(error){
         console.log(`error in ${newDoctorConfirmation.name}:`, error)
-        doctor_statusObj.is_new_doctor = false;
         return res.status(500).json(Doctor_permission);
     }
 };
@@ -78,8 +72,8 @@ export async function newDoctorConfirmation (req, res){
 /** fetchDashboardData retrieves the Doctor's dashboard data. Currently dummy.
  *  Takes the doctor's UUID, and converts to the doctorID. Then, joins necessary tables to retrieve dashboard data
  * @param {Cookies} req Contains the user's cookies (DoctorUUID)
- * @param {Array} res Decrypted, or error
- * @returns Decrypted user data.
+ * @param {Array} res User data, or error
+ * @returns User data.
  * DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function fetchDashboardData (req, res){
@@ -97,13 +91,13 @@ export async function fetchDashboardData (req, res){
         const [results] = await connection.execute(sql, values)
         if (results.length === 0) {
             console.log('User does not exist')
-            res.send('User does not exist');
+            return res.status(400).json('User does not exist');
         } else {
-            const decrypted = Crypto.decryptSingle(results[0])
-            return res.status(200).json(decrypted);
+            const DashboardData = results[0]
+            return res.status(200).json(DashboardData);
         }
     }catch(error){
-        return (`error in ${fetchDashboardData.name}:`, error)
+        return res.status(400).json(`error in ${fetchDashboardData.name}:`, error)
     }
 };
 
@@ -111,8 +105,8 @@ export async function fetchDashboardData (req, res){
  *  Currently almost identical to dashboard
  *  Takes the doctor's UUID, and converts to the doctorID. Then, joins necessary tables to retrieve dashboard data
  * @param {Cookies} req Contains the user's cookies (DoctorUUID)
- * @param {Array} res Decrypted, or error
- * @returns Decrypted user data.
+ * @param {Array} res User data, or error
+ * @returns User data.
  * DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function fetchPersonalData (req, res){
@@ -124,15 +118,15 @@ export async function fetchPersonalData (req, res){
     const sql = `SELECT FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year FROM ${table_name} WHERE User_ID = ?`
     const values = [DoctorID];
     await DB_Operation(fetchPersonalData.name, table_name)
+    let PersonalData = {};
 
     try{
         const [results] = await connection.execute(sql, values)
         if (results.length === 0) {
-            console.log('User does not exist')
-            res.send({});
+            return res.send(PersonalData);
         } else {
-            const decrypted = Crypto.decryptSingle(results[0])
-            return res.status(200).json(decrypted);
+            PersonalData = results[0];
+            return res.status(200).json(PersonalData);
         }
     }catch(error){
         return (`error in ${fetchPersonalData.name}:`, error)
@@ -144,7 +138,7 @@ export async function fetchPersonalData (req, res){
  *  Starts with an empty list, and appends objects from fetchDoctorAccountData. Each function contains a specific data type (desciriptions, languages, etc)
  * @param {Cookies} req Contains the user's cookies (DoctorUUID)
  * @param {Array} res List with user account details
- * @returns Decrypted user data.
+ * @returns User data.
  * DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function fetchAccountDetails (req, res){

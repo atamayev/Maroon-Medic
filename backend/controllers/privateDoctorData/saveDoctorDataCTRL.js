@@ -1,5 +1,4 @@
 import { connection, DB_Operation } from "../../dbAndSecurity/connect.js";
-import Crypto from "../../dbAndSecurity/crypto.js";
 import { getUnchangedAddressRecords, getUpdatedAddressRecords } from "../../dbAndSecurity/addressOperations.js";
 import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
 
@@ -17,7 +16,6 @@ export async function savePersonalData (req, res){
     const DoctorID = await UUID_to_ID(DoctorUUID) // converts DoctorUUID to docid
     
     const personalInfo = req.body.personalInfo;
-    const encrypted_personalInfo = Crypto.encrypt_single_entry(personalInfo)
 
     const table_name = 'basic_user_info';
     const sql = `SELECT * FROM  ${table_name} WHERE User_ID = ?`
@@ -33,9 +31,10 @@ export async function savePersonalData (req, res){
         return res.status(400).json();
     }
 
+    const values1 = [personalInfo.FirstName, personalInfo.LastName, personalInfo.Gender, personalInfo.DOB_month, personalInfo.DOB_day, personalInfo.DOB_year, DoctorID];
+
     if (!results.length){// if no results, then insert.
         const sql1 = `INSERT INTO ${table_name} (FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year, User_ID) VALUES (?,?,?,?,?,?,?)`;
-        const values1 = [encrypted_personalInfo.FirstName, encrypted_personalInfo.LastName, encrypted_personalInfo.Gender, encrypted_personalInfo.DOB_month, encrypted_personalInfo.DOB_day, encrypted_personalInfo.DOB_year, DoctorID];
         try{
             await connection.execute(sql1, values1);
             return res.status(200).json();
@@ -45,9 +44,8 @@ export async function savePersonalData (req, res){
         }
     }else{// if there are results, that means that the record exists, and needs to be altered
         const sql2 = `UPDATE ${table_name} SET FirstName = ?, LastName = ?, Gender = ?, DOB_month = ?, DOB_day = ?, DOB_year = ? WHERE User_ID = ?`;
-        const values2 = [encrypted_personalInfo.FirstName, encrypted_personalInfo.LastName, encrypted_personalInfo.Gender, encrypted_personalInfo.DOB_month, encrypted_personalInfo.DOB_day, encrypted_personalInfo.DOB_year, DoctorID];
         try{
-            await connection.execute(sql2, values2);
+            await connection.execute(sql2, values1);
             return res.status(200).json();
         }catch(error){
             console.log(`error in else ${savePersonalData.name}:`, error);
@@ -69,8 +67,6 @@ export async function saveDescriptionData (req, res){
     const DoctorID = await UUID_to_ID(DoctorUUID); // converts DoctorUUID to docid
     
     const description = req.body.Description;
-    const encrypted_description = Crypto.encrypt_single_entry(description);
-
     const table_name = 'descriptions';
 
     const sql = `SELECT * FROM  ${table_name} WHERE Doctor_ID = ?`;
@@ -84,10 +80,10 @@ export async function saveDescriptionData (req, res){
         console.log(`error in ${saveDescriptionData.name}:`, error);
         return res.status(400).json();
     }
+    const values1 = [description.Description, DoctorID];
 
     if (!results.length){// if no results, then insert.
         const sql1 = `INSERT INTO ${table_name} (Description, Doctor_ID) VALUES (?,?)`;
-        const values1 = [encrypted_description.Description, DoctorID];
         try{
             await connection.execute(sql1, values1);
             return res.status(200).json();
@@ -97,9 +93,8 @@ export async function saveDescriptionData (req, res){
         }
     }else{// if there are results, that means that the record exists, and needs to be altered
         const sql2 = `UPDATE ${table_name} SET Description = ? WHERE Doctor_ID = ?`;
-        const values2 = [encrypted_description.Description, DoctorID];
         try{
-            await connection.execute(sql2, values2);
+            await connection.execute(sql2, values1);
             return res.status(200).json();
         }catch(error){
             console.log(`error in else ${saveDescriptionData.name}:`, error);

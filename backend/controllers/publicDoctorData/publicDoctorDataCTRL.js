@@ -4,10 +4,10 @@ import { DB_Operation, connection } from "../../dbAndSecurity/connect.js";
 
 /** returnDoctorPageData searches for a particular Doctor's data
  *  Used to fill in doctor screen (particular doctor)
- *  Doctor_credentials & basic_Doctor_info are joined on the DocID, the data decrypted returned back to the client
+ *  Doctor_credentials & basic_Doctor_info are joined on the DocID, the data returned back to the client
  * @param {int} req: DocID is passed in
  * @param {*} res: The user's specific information from Doctor_credentials & basic_Doctor_info is joined and returned
- * @returns Decrypted doctor data from the db
+ * @returns Doctor data from the db
  *  DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function returnDoctorPageData (req, res){

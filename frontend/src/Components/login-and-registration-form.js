@@ -56,22 +56,6 @@ export default function LoginAndRegistrationForm({
     }  
   }
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  }
-
-  const renderShowPasswordButton = () =>{
-    if('password' in credentials){
-      if(credentials.password.length){
-        return(
-          <Button onClick={togglePasswordVisibility} className='mt-3'>
-            {showPassword ? "Hide Password" : "Show Password"}
-          </Button>
-        )
-      }
-    }
-  };
-
   return (
     <>
       <Card>
@@ -80,9 +64,9 @@ export default function LoginAndRegistrationForm({
           <Form onSubmit={handleSubmit}>
             <FormGroup
               id = "email"
-              label = "Email"
+              label = "Username"
               type = "email"
-              placeholder= "Username"
+              placeholder= "abc@123.com"
               onChange={(event) => setCredentials({...credentials, email: event.target.value})}
               required
             />
@@ -94,17 +78,22 @@ export default function LoginAndRegistrationForm({
               onChange={(event) => setCredentials({...credentials, password: event.target.value})}
               required
             />
+
             {renderPasswordConfirm()}
-            {renderShowPasswordButton()}
-              <br/>
-              {error && <Alert variant="danger">{error}</Alert>}
-              <br/>
-              <Button disabled = {loading} className = "w-100"type = "submit">{loginOrSignUp}</Button>
+            <Button onClick={e=> (setShowPassword(!showPassword))} className='mt-3'>
+              {showPassword ? "Hide Password" : "Show Password"}
+            </Button>
+
+            {error && <Alert variant="danger" className='mt-3 mb-0'>{error}</Alert>}
+
+            <Button disabled = {loading} className = "mt-3 w-100" type = "submit">
+              {loginOrSignUp}
+            </Button>
           </Form>
             {renderSubLoginInfo()}
             {renderSubRegisterInfo()}
         </Card.Body>
       </Card>
     </>
-  )
-}
+  );
+};

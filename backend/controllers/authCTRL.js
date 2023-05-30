@@ -1,5 +1,4 @@
 import {connection, DB_Operation} from "../dbAndSecurity/connect.js";
-import Crypto from "../dbAndSecurity/crypto.js";
 import jwt from "jsonwebtoken";
 import moment from 'moment';
 import Hash from "../dbAndSecurity/hash.js";
@@ -74,7 +73,7 @@ export async function JWT_verify (req, res){
 
 /** login checks if an existing user's credentials exist in the Doctor_credentials table. If they do, then UUID cookie and KWT sent to client
  *  First, deciphers what kind of user is trying to login based on the login_information object.
- *  The entered email is encrypted, and searched in the DB
+ *  The entered email is searched in the DB
  *  If that email exists, continue. If not, return Username not found
  *  If the email exists, extract the hashed password from the DB
  *  If hashed pass in DB matches the entered pass, start creating JWT key, and send the cookie. If not, means incorrect password
@@ -94,18 +93,8 @@ export async function login (req, res){
     return res.send('Invalid User Type') // If Type not Doctor or Patient
   }
 
-  let emailObj = {
-    email: email
-  };
-  let encrypted_email;
-  try{
-    encrypted_email = Crypto.encrypt_single_entry(emailObj).email
-  }catch(error){
-    return res.status(500).send({ error: 'Problem with Data Encryption' });
-  }
-
   const sql = `SELECT * FROM ${table_name} WHERE email = ? AND User_type = ?`;
-  const values = [encrypted_email, login_type];
+  const values = [email, login_type];
   
   await DB_Operation(login.name, table_name)
 
@@ -179,9 +168,9 @@ export async function login (req, res){
 /** 
  *  register adds a new user's credentials to the Doctor_credentials table, and sends a JSON response (along with a cookie) back to client depending on the results
  *  Register code is very similar to login. Read login documentation for a more in-depth review
-  * First, register checks if the username entered already exists in the DB
+  * First, register checks if the username entered already exists in the table
  *  If exists, then the user is unable to make an account. If doesn't exist, move on
- *  The password is hashed, and a dateTime object is created, and encrypted, before being entered into the credentials DB
+ *  The password is hashed, and a dateTime object is created, before being entered into the credentials table
  *  Depending on the user_type, the insert SQL change. If doctor, insert verification status (currently set to true by default).
  *  Verification is wheather the doctor's identity is confirmed (via some ID)
  *  The rest of the code is same as login.
@@ -192,26 +181,15 @@ export async function login (req, res){
  *  DOCUMENTATION LAST UPDATED 3/14/23
  */
 export async function register (req, res){
-  const {email, password, register_type} = req.body.register_information_object // Takes out the decrypted_email from the request
+  const {email, password, register_type} = req.body.register_information_object // Desctructures the request
   let table_name = 'Credentials';
 
   if(register_type !== 'Doctor' && register_type !== 'Patient'){
     return res.send('Invalid User Type') // If Type not Doctor or Patient
   }
 
-  let emailObj = {
-    email: email
-  };
-  let encrypted_email;
-  try{
-    encrypted_email = Crypto.encrypt_single_entry(emailObj).email
-  }catch(error){
-    console.log('Problem with Data Encryption')
-    return res.status(500).send({ error: 'Problem with Data Encryption' });
-  }
-
   const sql = `SELECT * FROM ${table_name} WHERE email = ? AND User_type = ? `;
-  const values = [encrypted_email, register_type];
+  const values = [email, register_type];
 
   await DB_Operation(register.name, table_name)
 
@@ -240,19 +218,9 @@ export async function register (req, res){
   const date_ob = new Date();
   const format = "YYYY-MM-DD HH:mm:ss"
   const dateTime = moment(date_ob).format(format);
-  const dateTimeObj = {
-    Created_at: `${dateTime}`
-  }
-  let encrypted_date_time;
-  try{
-    encrypted_date_time = Crypto.encrypt_single_entry(dateTimeObj).Created_at
-  }catch(error){
-    console.log('Problem with Data Encryption')
-    return res.status(500).send({ error: 'Problem with Data Encryption' });
-  }
 
   const sql_1 = `INSERT INTO ${table_name} (email, password, Created_at, User_type) VALUES (?, ?, ?, ?)`;
-  const values_1 = [encrypted_email, hashed_password, encrypted_date_time, register_type];
+  const values_1 = [email, hashed_password, dateTime, register_type];
   let results_1;
   try {
     [results_1] = await connection.execute(sql_1, values_1)

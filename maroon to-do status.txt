@@ -2,9 +2,9 @@ To-do:
 
 ASAP:
 
-- Delete encryption, keep hashes, .
-	make sure to label the commit, so that when I come back to it when doing AWS, it's simple to understand how data at rest encryption works
- 
+-delete all br's in front-end, replace with mt-3, or mb-3
+- go through all res in the back-end, make sure they are all returned.
+-go through all instances of values, and if values insidei of an if and an else are the same, pull them both outside the if/else
 -Figure out Doctor_confirmation status (should be 0 until doctor approves, unless instant book is on)
 
 there's a bug when the names of the locations are changed, which cause the times to switch

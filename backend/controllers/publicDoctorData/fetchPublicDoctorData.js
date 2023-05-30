@@ -1,5 +1,4 @@
 import {connection, DB_Operation} from "../../dbAndSecurity/connect.js"
-import Crypto from "../../dbAndSecurity/crypto.js";
 
 export default new class FetchPublicDoctorData{
     async FetchDoctorInsurances (User_ID){
@@ -122,8 +121,8 @@ export default new class FetchPublicDoctorData{
                 console.log('User does not exist')
                 return []
             } else {
-                const decrypted = Crypto.decryptSingle(results[0])
-                return (decrypted);
+                const DoctorPersonalInfo = results[0]
+                return (DoctorPersonalInfo);
             }
         }catch(error){
             console.log('error encountered in catching')

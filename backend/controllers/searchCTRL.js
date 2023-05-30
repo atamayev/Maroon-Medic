@@ -1,5 +1,4 @@
 import {connection, DB_Operation} from "../dbAndSecurity/connect.js";
-import Crypto from "../dbAndSecurity/crypto.js";
 import fetchAllDoctorLists from "./privateDoctorData/fetchAllDoctorLists.js";
 
 /** searchByQuery returns all users that fit the client's search
@@ -11,22 +10,19 @@ export async function searchByQuery (req, res){
     const table_name1 = 'Doctor_specific_info';
     const table_name2 = 'basic_user_info';
     await DB_Operation(searchByQuery.name, table_name1);
-    const decrypted_query_object = {query: req.params.query};
-
-    const encrypted_query_object = Crypto.encrypt_single_entry(decrypted_query_object)// this is done to encrypt the user's query, to then search the db (since all names in db are encrypted)
+    const query_object = {query: req.params.query};
 
     const sql = `SELECT NVI, FirstName, LastName FROM ${table_name2} LEFT JOIN ${table_name1} ON ${table_name2}.User_ID = ${table_name1}.Doctor_ID WHERE verified = TRUE AND publiclyAvailable = TRUE AND FirstName = ?`;
 
-    const values = [encrypted_query_object.query];
+    const values = [query_object.query];
     try{
         const [results] = await connection.execute(sql, values);
         
         if (results.length === 0) {
             console.log('User not found');
-            res.send('User not found');
+            return res.send('User not found');
         } else {
-            const decrypted = Crypto.decrypt_multiple(results);
-            return res.status(200).json(decrypted);
+            return res.status(200).json(results);
         }
     }catch(error){
         console.log('Search by Query Error', error);
@@ -49,11 +45,10 @@ export async function fetchUsers (req, res){
     await DB_Operation(fetchUsers.name, table_name1)
     try{
         const [results] = await connection.execute(sql);
-        const decrypted = Crypto.decrypt_multiple(results);
-        return res.status(200).json(decrypted);
+        return res.status(200).json(results);
     }catch(error){
         console.log('Fetch Users Error', error);
-        res.status(500).send({ error: 'Fetch Users Error' });
+        return res.status(500).send({ error: 'Fetch Users Error' });
     }
 };
 

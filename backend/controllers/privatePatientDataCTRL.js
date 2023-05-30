@@ -1,11 +1,9 @@
 import {connection, DB_Operation} from "../dbAndSecurity/connect.js";
-import Crypto from "../dbAndSecurity/crypto.js";
 import { UUID_to_ID } from "../dbAndSecurity/UUID.js";
 // all of the functions to add pt data, and pull it for necessary components on pt dashboard
 
 /** newPatient registers the inputted user data into basic_Patient_info table
  *  All necessary information is sent via the request (PatientUUID, firname, lastname, etc.)
- *  This data is encrypted using Crypto, and then inserting into the table.
  * @param {Array} req 
  * @param {Array} res If the user data is successfully added to table, return true. If not, return error--> front end doesn't allow
  * @returns true/error
@@ -18,11 +16,9 @@ export async function newPatient (req, res){
     const new_patient_object = req.body.new_patient_object
 
     const table_name = 'basic_user_info'
-    const encrypted = Crypto.encrypt_single_entry(new_patient_object)
-
     const sql = `INSERT INTO ${table_name} (FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year, User_ID) VALUES (?,?,?,?,?,?,?)`;
 
-    const values = [encrypted.FirstName, encrypted.LastName, encrypted.Gender, encrypted.DOB_month, encrypted.DOB_day, encrypted.DOB_year, User_ID];
+    const values = [new_patient_object.FirstName, new_patient_object.LastName, new_patient_object.Gender, new_patient_object.DOB_month, new_patient_object.DOB_day, new_patient_object.DOB_year, User_ID];
     await DB_Operation(newPatient.name, table_name)
     
     try{
@@ -77,8 +73,8 @@ export async function newPatientConfirmation (req, res){
 /** fetchDashboardData retrieves the Patient's dashboard data. Currently dummy.
  *  Takes the Patient's UUID, and converts to the PatientID. Then, joins necessary tables to retrieve dashboard data
  * @param {Cookies} req Contains the user's cookies (PatientUUID)
- * @param {Array} res Decrypted, or error
- * @returns Decrypted user data.
+ * @param {Array} res User data, or error
+ * @returns User data.
  * DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function fetchDashboardData (req, res){
@@ -96,10 +92,10 @@ export async function fetchDashboardData (req, res){
         const [results] = await connection.execute(sql, values)
         if (results.length === 0) {
             console.log('User does not exist')
-            res.send('User does not exist');
+            return res.send('User does not exist');
         } else {
-            const decrypted = Crypto.decryptSingle(results[0])
-            return res.status(200).json(decrypted);
+            const DashboradData = results[0];
+            return res.status(200).json(DashboradData);
         }
     }catch(error){
         return (`error in ${fetchDashboardData.name}:`, error)
@@ -124,14 +120,16 @@ export async function fetchPersonalData (req, res){
     const values = [PatientID];
     await DB_Operation(fetchPersonalData.name, table_name)
 
+    let PersonalData = {};
+
     try{
         const [results] = await connection.execute(sql, values)
         if (results.length === 0) {
             console.log('User does not exist')
-            res.send({});
+            return res.send(PersonalData);
         } else {
-            const decrypted = Crypto.decryptSingle(results[0])
-            return res.status(200).json(decrypted);
+            PersonalData = results[0];
+            return res.status(200).json(PersonalData);
         }
     }catch(error){
         return (`error in ${fetchPersonalData.name}:`, error)
@@ -143,7 +141,6 @@ export async function savePersonalData (req, res){
     const PatientID = await UUID_to_ID(PatientUUID) // converts PatientUUID to PatientID
     
     const personalInfo = req.body.personalInfo;
-    const encrypted_personalInfo = Crypto.encrypt_single_entry(personalInfo)
 
     const table_name = 'basic_user_info';
     const sql = `SELECT * FROM  ${table_name} WHERE User_ID = ?`
@@ -160,7 +157,7 @@ export async function savePersonalData (req, res){
 
     if (!results.length){// if no results, then insert.
         const sql1 = `INSERT INTO ${table_name} (FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year, User_ID) VALUES (?,?,?,?,?,?,?)`;
-        const values1 = [encrypted_personalInfo.FirstName, encrypted_personalInfo.LastName, encrypted_personalInfo.Gender, encrypted_personalInfo.DOB_month, encrypted_personalInfo.DOB_day, encrypted_personalInfo.DOB_year, PatientID];
+        const values1 = [personalInfo.FirstName, personalInfo.LastName, personalInfo.Gender, personalInfo.DOB_month, personalInfo.DOB_day, personalInfo.DOB_year, PatientID];
         try{
             await connection.execute(sql1, values1);
             return res.status(200).json();
@@ -170,7 +167,7 @@ export async function savePersonalData (req, res){
         }
     }else{// if there are results, that means that the record exists, and needs to be altered
         const sql2 = `UPDATE ${table_name} SET FirstName = ?, LastName = ?, Gender = ?, DOB_month = ?, DOB_day = ?, DOB_year = ? WHERE User_ID = ?`;
-        const values2 = [encrypted_personalInfo.FirstName, encrypted_personalInfo.LastName, encrypted_personalInfo.Gender, encrypted_personalInfo.DOB_month, encrypted_personalInfo.DOB_day, encrypted_personalInfo.DOB_year, PatientID];
+        const values2 = [personalInfo.FirstName, personalInfo.LastName, personalInfo.Gender, personalInfo.DOB_month, personalInfo.DOB_day, personalInfo.DOB_year, PatientID];
         try{
             await connection.execute(sql2, values2);
             return res.status(200).json();

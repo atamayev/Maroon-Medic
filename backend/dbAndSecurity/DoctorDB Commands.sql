@@ -6,7 +6,7 @@ CREATE TABLE Credentials (
 	UserID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	email VARCHAR(150) NOT NULL,
 	password VARCHAR(150) NOT NULL,
-	Created_at VARCHAR(150) NOT NULL,
+	Created_at DATETIME NOT NULL,
 	User_type VARCHAR(20) NOT NULL -- can be Doctor, Patient, admin, Administrator
 );
 
@@ -34,12 +34,12 @@ CREATE TABLE basic_user_info (
 	FOREIGN KEY (User_ID) REFERENCES Credentials(UserID)
 );
 
-SELECT * FROM basic_Doctor_info;
+SELECT * FROM basic_user_info;
 
 CREATE TABLE UUID_reference(
 	UUID_referenceID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	UUID VARCHAR(150) NOT NULL, 
-	Created_at VARCHAR(150) NOT NULL,
+	Created_at DATETIME NOT NULL,
 	User_ID INT unsigned NOT NULL, 
 	FOREIGN KEY (User_ID) REFERENCES Credentials(UserID)
 );
@@ -91,7 +91,6 @@ CREATE TABLE service_mapping(
 	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID),
 	UNIQUE (Service_price, Service_and_Category_ID, Doctor_ID)
 );
-
 SELECT * FROM service_mapping;
 
 CREATE TABLE pictures(
@@ -155,7 +154,7 @@ CREATE TABLE pre_vet_education_mapping(
 	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID),
 	UNIQUE (School_ID, Major_ID, Education_type_ID, Doctor_ID)
 );
-    
+
 SELECT * FROM pre_vet_education_mapping;
 
 CREATE TABLE vet_school_list(
@@ -247,28 +246,28 @@ CREATE TABLE booking_availability(
 
 SELECT * FROM booking_availability;
 
-CREATE TABLE detailed_booking_availability(
-	detailed_booking_availabilityID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	Hours_in_advance_scheduling VARCHAR(10),
-	Latest_Hours_before_booking VARCHAR(10),
-	Hours_in_advance_cancelation VARCHAR(10),
-	Appointment_time_slots VARCHAR(10),
-	Doctor_ID INT unsigned NOT NULL, 
-	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
-);
+-- CREATE TABLE detailed_booking_availability(
+-- 	detailed_booking_availabilityID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+-- 	Hours_in_advance_scheduling VARCHAR(10),
+-- 	Latest_Hours_before_booking VARCHAR(10),
+-- 	Hours_in_advance_cancelation VARCHAR(10),
+-- 	Appointment_time_slots VARCHAR(10),
+-- 	Doctor_ID INT unsigned NOT NULL, 
+-- 	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
+-- );
 
-SELECT * FROM detailed_booking_availability;
+-- SELECT * FROM detailed_booking_availability;
 
 -- CREATE TABLE profile_update_history(
 -- profile_update_historyID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 -- Updated_at VARCHAR(150), 
 -- IP_Address INT unsigned,
--- Doctor_ID INT unsigned NOT NULL, 
+-- User_ID INT unsigned NOT NULL, 
 -- FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID));
 
 -- CREATE TABLE login_history(
 -- login_historyID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 -- Login_at VARCHAR(150), 
 -- IP_Address INT unsigned,
--- Doctor_ID INT unsigned NOT NULL, 
+-- User_ID INT unsigned NOT NULL, 
 -- FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID));
