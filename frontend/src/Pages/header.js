@@ -61,6 +61,7 @@ export default function Header (props) {
         setHeaderData(name);
         return;
       }catch(error){
+
       }
   
       //sets the headerData when login/register:
@@ -78,7 +79,7 @@ export default function Header (props) {
                 setHeaderData(name); 
               }
             }catch(error){
-              if (error instanceof TypeError) PersonalInfo(result.user_type);
+              if (error instanceof TypeError) fetchPersonalInfo(result.user_type);
               else console.log('some other error');
             } 
           }
@@ -90,7 +91,7 @@ export default function Header (props) {
     }
   }, [cookie_monster]);
 
-  async function PersonalInfo (type){
+  async function fetchPersonalInfo (type){
     let response;
     if (type === 'Doctor'){
       try{
@@ -104,16 +105,12 @@ export default function Header (props) {
       }catch(error){
         console.log(`unable to fillPatientPersonalData`, error)
       }
-    }else{
-      console.log('no Type:', type)
-    }
+    }else console.log('no Type:', type);
 
     if (response){
       setHeaderData(response.data.FirstName);
       sessionStorage.setItem(`${type}PersonalInfo`, JSON.stringify(response.data))
-    }else{
-      console.log('no response')
-    }
+    }else console.log('no response');
   }; 
   
   const handleLogout = async () => {

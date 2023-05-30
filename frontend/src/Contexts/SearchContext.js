@@ -21,7 +21,7 @@ export const SearchContextProvider = (props) => {
 
     if(pathname.startsWith('/s/')){
       try{
-        const result = await SearchDataService.find(searchTerm);
+        const result = await SearchDataService.searchByQuery(searchTerm);
         setItems(result.data);
       }
       catch(error){
@@ -36,4 +36,3 @@ export const SearchContextProvider = (props) => {
     </SearchContext.Provider>
   );
 };
-

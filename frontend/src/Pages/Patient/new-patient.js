@@ -20,7 +20,7 @@ export default function NewPatient () {
           PrivatePatientDataService.newPatientConfirmation()
           .then(result => {
             if (result.data === false) {
-              navigate('patient-register');
+              navigate('/patient-register');
             }else if (result.data === true) {
             }else{
               navigate('/patient-register');

@@ -20,7 +20,7 @@ export default function NewDoctor () {
         PrivateDoctorDataService.newDoctorConfirmation()
           .then(result => {
             if (result.data === false) {
-              navigate('vet-register');
+              navigate('/vet-register');
             }else if (result.data === true) {
             }else{
               navigate('/vet-register');

@@ -2,8 +2,8 @@ To-do:
 
 ASAP:
 
-- go through all res in the back-end, make sure they are all returned.
--go through all instances of values, and if values insidei of an if and an else are the same, pull them both outside the if/else
+-think about how to structure the status codes, and the JSON data. is it better to 
+
 -Figure out Doctor_confirmation status (should be 0 until doctor approves, unless instant book is on)
 
 there's a bug when the names of the locations are changed, which cause the times to switch
@@ -53,6 +53,3 @@ after vet/prevet education queries from db, it doesn't show the month name, but 
 
 inactivity logout ( 5 mins). implement on the verification level (in the jwt)
 
--- before saving email to db, make sure it is lowercase, so that when searching db, it is done in uniform way
-	save emails as lowercase. then, when logging in, email should be lowercased before searching the db.
-	-- figure out which data should be encrypted by the db. data at rest encryption

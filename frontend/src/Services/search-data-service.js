@@ -1,7 +1,7 @@
 import http from "../http-common"
 
 export default new class SearchDataService {
-    async find(query){
+    async searchByQuery(query){
         return await http.get(`search/s/${query}`);
     }
     async fetchAllUsers(){

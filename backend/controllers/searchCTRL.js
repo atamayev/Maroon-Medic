@@ -10,23 +10,22 @@ export async function searchByQuery (req, res){
     const table_name1 = 'Doctor_specific_info';
     const table_name2 = 'basic_user_info';
     await DB_Operation(searchByQuery.name, table_name1);
-    const query_object = {query: req.params.query};
 
-    const sql = `SELECT NVI, FirstName, LastName FROM ${table_name2} LEFT JOIN ${table_name1} ON ${table_name2}.User_ID = ${table_name1}.Doctor_ID WHERE verified = TRUE AND publiclyAvailable = TRUE AND FirstName = ?`;
+    const sql = `SELECT NVI, FirstName, LastName FROM ${table_name2} LEFT JOIN ${table_name1} ON ${table_name2}.User_ID = ${table_name1}.Doctor_ID WHERE verified = TRUE AND publiclyAvailable = TRUE AND FirstName LIKE ?`;
 
-    const values = [query_object.query];
+    const values = [`${req.params.query}%`];
     try{
         const [results] = await connection.execute(sql, values);
         
         if (results.length === 0) {
             console.log('User not found');
-            return res.send('User not found');
+            return res.json('User not found');
         } else {
-            return res.status(200).json(results);
+            return res.json(results);
         }
     }catch(error){
         console.log('Search by Query Error', error);
-        return res.status(500).send({ error: 'Search by Query Error' });
+        return res.json({ error: 'Search by Query Error' });
     }
 };
 
@@ -45,10 +44,10 @@ export async function fetchUsers (req, res){
     await DB_Operation(fetchUsers.name, table_name1)
     try{
         const [results] = await connection.execute(sql);
-        return res.status(200).json(results);
+        return res.json(results);
     }catch(error){
         console.log('Fetch Users Error', error);
-        return res.status(500).send({ error: 'Fetch Users Error' });
+        return res.json({ error: 'Fetch Users Error' });
     }
 };
 

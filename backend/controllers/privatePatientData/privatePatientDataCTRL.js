@@ -1,5 +1,5 @@
-import {connection, DB_Operation} from "../dbAndSecurity/connect.js";
-import { UUID_to_ID } from "../dbAndSecurity/UUID.js";
+import {connection, DB_Operation} from "../../dbAndSecurity/connect.js";
+import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
 // all of the functions to add pt data, and pull it for necessary components on pt dashboard
 
 /** newPatient registers the inputted user data into basic_Patient_info table
@@ -57,15 +57,12 @@ export async function newPatientConfirmation (req, res){
         const [results2] = await connection.execute(sql, values2)
 
         if (results1.length === 1 && results2.length === 1) {
-            Patient_permission = true;
             return res.status(200).json(Patient_permission);
         } else {
-            Patient_statusObj.is_new_Patient = false;
             return res.status(500).json(Patient_permission);
         }
     }catch(error){
         console.log(`error in ${newPatientConfirmation.name}:`, error)
-        Patient_statusObj.is_new_Patient = false;
         return res.status(500).json(Patient_permission);
     }
 };
@@ -88,17 +85,28 @@ export async function fetchDashboardData (req, res){
     const values = [PatientID];
     await DB_Operation(fetchDashboardData.name, table_name1)
 
+    let DashboardData = {
+        email: '',
+        FirstName: '',
+        LastName: '',
+        Gender: '',
+        DOB_month: '',
+        DOB_day: '',
+        DOB_year: ''
+    };
+
     try{
         const [results] = await connection.execute(sql, values)
         if (results.length === 0) {
             console.log('User does not exist')
-            return res.send('User does not exist');
+            return res.json(DashboardData);
         } else {
-            const DashboradData = results[0];
-            return res.status(200).json(DashboradData);
+            DashboardData = results[0]
+            return res.json(DashboardData);
         }
     }catch(error){
-        return (`error in ${fetchDashboardData.name}:`, error)
+        console.log(`error in ${fetchDashboardData.name}:`, error );
+        return res.json(DashboardData);
     }
 };
 
@@ -120,60 +128,25 @@ export async function fetchPersonalData (req, res){
     const values = [PatientID];
     await DB_Operation(fetchPersonalData.name, table_name)
 
-    let PersonalData = {};
+    let PersonalData = {
+        FirstName: '',
+        LastName: '',
+        Gender: '',
+        DOB_month: '',
+        DOB_day: '',
+        DOB_year: ''
+    };
 
     try{
-        const [results] = await connection.execute(sql, values)
+        const [results] = await connection.execute(sql, values);
         if (results.length === 0) {
-            console.log('User does not exist')
-            return res.send(PersonalData);
+            return res.json(PersonalData);
         } else {
             PersonalData = results[0];
             return res.status(200).json(PersonalData);
         }
     }catch(error){
-        return (`error in ${fetchPersonalData.name}:`, error)
-    }
-};
-
-export async function savePersonalData (req, res){
-    const PatientUUID = req.cookies.PatientUUID
-    const PatientID = await UUID_to_ID(PatientUUID) // converts PatientUUID to PatientID
-    
-    const personalInfo = req.body.personalInfo;
-
-    const table_name = 'basic_user_info';
-    const sql = `SELECT * FROM  ${table_name} WHERE User_ID = ?`
-    const values = [PatientID];
-    let results;
-    
-    await DB_Operation(savePersonalData.name, table_name);
-    try{
-        [results] = await connection.execute(sql, values);
-    }catch(error){
-        console.log(`error in ${savePersonalData.name}:`, error)
-        return res.status(200).json();
-    }
-
-    if (!results.length){// if no results, then insert.
-        const sql1 = `INSERT INTO ${table_name} (FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year, User_ID) VALUES (?,?,?,?,?,?,?)`;
-        const values1 = [personalInfo.FirstName, personalInfo.LastName, personalInfo.Gender, personalInfo.DOB_month, personalInfo.DOB_day, personalInfo.DOB_year, PatientID];
-        try{
-            await connection.execute(sql1, values1);
-            return res.status(200).json();
-        }catch(error){
-            console.log(`error in if ${savePersonalData.name}:`, error);
-            return res.status(200).json();
-        }
-    }else{// if there are results, that means that the record exists, and needs to be altered
-        const sql2 = `UPDATE ${table_name} SET FirstName = ?, LastName = ?, Gender = ?, DOB_month = ?, DOB_day = ?, DOB_year = ? WHERE User_ID = ?`;
-        const values2 = [personalInfo.FirstName, personalInfo.LastName, personalInfo.Gender, personalInfo.DOB_month, personalInfo.DOB_day, personalInfo.DOB_year, PatientID];
-        try{
-            await connection.execute(sql2, values2);
-            return res.status(200).json();
-        }catch(error){
-            console.log(`error in else ${savePersonalData.name}:`, error);
-            return res.status(200).json();
-        }
+        console.log(`error in ${fetchPersonalData.name}:`, error);
+        return res.json(PersonalData);
     }
 };

@@ -4,8 +4,10 @@ import {
     fetchDashboardData, 
     fetchPersonalData, 
     newPatientConfirmation,
-    savePersonalData
-} from "../controllers/privatePatientDataCTRL.js";
+} from "../controllers/privatePatientData/privatePatientDataCTRL.js";
+import {
+    savePersonalData 
+} from "../controllers/privatePatientData/savePatientDataCTRL.js";
 
 const router = express.Router()
 

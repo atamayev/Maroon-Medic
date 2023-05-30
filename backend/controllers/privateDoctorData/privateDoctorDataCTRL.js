@@ -44,7 +44,7 @@ export async function newDoctorConfirmation (req, res){
     const existingDoctorUUID = req.cookies.DoctorUUID
 
     if (!newDoctorUUID || !existingDoctorUUID){
-        return res.status(200).json(Doctor_permission);
+        return res.json(Doctor_permission);
     }
     const table_name = 'UUID_reference';
     const sql = `SELECT UUID_referenceID FROM ${table_name} WHERE UUID = ?`;
@@ -58,14 +58,14 @@ export async function newDoctorConfirmation (req, res){
 
         if (results1.length === 1 && results2.length === 1) {
             Doctor_permission = true;
-            return res.status(200).json(Doctor_permission);
+            return res.json(Doctor_permission);
         }
         else {
-            return res.status(500).json(Doctor_permission);
+            return res.json(Doctor_permission);
         }
     }catch(error){
         console.log(`error in ${newDoctorConfirmation.name}:`, error)
-        return res.status(500).json(Doctor_permission);
+        return res.json(Doctor_permission);
     }
 };
 
@@ -87,17 +87,28 @@ export async function fetchDashboardData (req, res){
     const values = [DoctorID];
     await DB_Operation(fetchDashboardData.name, table_name1)
 
+    let DashboardData = {
+        email: '',
+        FirstName: '',
+        LastName: '',
+        Gender: '',
+        DOB_month: '',
+        DOB_day: '',
+        DOB_year: ''
+    };
+
     try{
-        const [results] = await connection.execute(sql, values)
+        const [results] = await connection.execute(sql, values);
         if (results.length === 0) {
             console.log('User does not exist')
-            return res.status(400).json('User does not exist');
+            return res.json(DashboardData);
         } else {
-            const DashboardData = results[0]
-            return res.status(200).json(DashboardData);
+            DashboardData = results[0]
+            return res.json(DashboardData);
         }
     }catch(error){
-        return res.status(400).json(`error in ${fetchDashboardData.name}:`, error)
+        console.log(`error in ${fetchDashboardData.name}:`, error );
+        return res.json(DashboardData);
     }
 };
 
@@ -117,19 +128,28 @@ export async function fetchPersonalData (req, res){
   
     const sql = `SELECT FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year FROM ${table_name} WHERE User_ID = ?`
     const values = [DoctorID];
-    await DB_Operation(fetchPersonalData.name, table_name)
-    let PersonalData = {};
+    await DB_Operation(fetchPersonalData.name, table_name);
+
+    let PersonalData = {
+        FirstName: '',
+        LastName: '',
+        Gender: '',
+        DOB_month: '',
+        DOB_day: '',
+        DOB_year: ''
+    };
 
     try{
-        const [results] = await connection.execute(sql, values)
+        const [results] = await connection.execute(sql, values);
         if (results.length === 0) {
-            return res.send(PersonalData);
+            return res.json(PersonalData);
         } else {
             PersonalData = results[0];
-            return res.status(200).json(PersonalData);
+            return res.json(PersonalData);
         }
     }catch(error){
-        return (`error in ${fetchPersonalData.name}:`, error)
+        console.log(`error in ${fetchPersonalData.name}:`, error);
+        return res.json(PersonalData);
     }
 };
 

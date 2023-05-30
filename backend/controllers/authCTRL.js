@@ -182,7 +182,7 @@ export async function login (req, res){
  */
 export async function register (req, res){
   const {email, password, register_type} = req.body.register_information_object // Desctructures the request
-  let table_name = 'Credentials';
+  const table_name = 'Credentials';
 
   if(register_type !== 'Doctor' && register_type !== 'Patient'){
     return res.send('Invalid User Type') // If Type not Doctor or Patient
@@ -338,8 +338,7 @@ export async function logout (req, res){
         path: '/'
       });
     });
-    console.log(`logged out ${type}`)
-    return res.status(200).json(`${type} has been logged out.`)
+    return res.status(200);
   }catch (error){
     console.log(`error in logging ${type} out`)
     return res.status(500).send({ error: `Error in logging ${type} out` });

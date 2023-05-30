@@ -4,7 +4,6 @@ import moment from "moment";
 
 export async function makeAppointment(req, res){
     const AppointmentObject = req.body.AppointmentObject
-    console.log('AppointmentObject',AppointmentObject)
     const NVI = AppointmentObject.NVI;
 
     const table_name1 = 'Doctor_specific_info'
