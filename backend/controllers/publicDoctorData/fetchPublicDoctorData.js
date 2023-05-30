@@ -4,21 +4,19 @@ export default new class FetchPublicDoctorData{
     async FetchDoctorInsurances (User_ID){
         const functionName = this.FetchDoctorInsurances.bind(this).name;
 
-        const table_name1 = 'insurance_mapping';
-        const table_name2 = 'insurance_list'
+        const [insurance_mapping, insurance_list] = ['insurance_mapping', 'insurance_list'];
     
-        const sql = `SELECT ${table_name2}.Insurance_name FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.insurance_listID = ${table_name1}.Insurance_ID WHERE ${table_name1}.User_ID = ?`;
+        const sql = `SELECT ${insurance_list}.Insurance_name 
+            FROM ${insurance_list} JOIN ${insurance_mapping} ON ${insurance_list}.insurance_listID = ${insurance_mapping}.Insurance_ID 
+            WHERE ${insurance_mapping}.User_ID = ?`;
+        
         const values = [User_ID];
-        await DB_Operation(functionName, table_name1);
+        await DB_Operation(functionName, insurance_mapping);
     
         try{
             const [results] = await connection.execute(sql, values);
-            if (results.length === 0) {
-                console.log('DoctorInsurances Data does not exist');
-                return [];
-            } else {
-                return (results);
-            }
+            if (!results.length) return [];
+            else return (results);
         }catch(error){
             return (`error in ${functionName}:`, error);
         }
@@ -26,22 +24,19 @@ export default new class FetchPublicDoctorData{
 
     async FetchDoctorLanguages (User_ID){
         const functionName = this.FetchDoctorLanguages.bind(this).name;
+        const [language_mapping, language_list] = ['language_mapping', 'language_list'];
 
-        const table_name1 = 'language_mapping';
-        const table_name2 = 'language_list'
-    
-        const sql = `SELECT ${table_name2}.Language_name FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.language_listID = ${table_name1}.Language_ID WHERE ${table_name1}.User_ID = ?`;
+        const sql = `SELECT ${language_list}.Language_name 
+            FROM ${language_list} JOIN ${language_mapping} ON ${language_list}.language_listID = ${language_mapping}.Language_ID 
+            WHERE ${language_mapping}.User_ID = ?`;
+        
         const values = [User_ID];
-        await DB_Operation(functionName, table_name1);
+        await DB_Operation(functionName, language_mapping);
     
         try{
             const [results] = await connection.execute(sql, values);
-            if (results.length === 0) {
-                console.log('DoctorLanguages Data does not exist');
-                return [];
-            } else {
-                return (results);
-            }
+            if (!results.length) return [];
+            else return (results);
         }catch(error){
             return (`error in ${functionName}:`, error);
         }
@@ -49,22 +44,19 @@ export default new class FetchPublicDoctorData{
 
     async FetchDoctorSpecialties (User_ID){
         const functionName = this.FetchDoctorSpecialties.bind(this).name;
-
-        const table_name1 = 'specialty_mapping';
-        const table_name2 = 'specialties_list'
+        const [service_mapping, service_and_category_list] = ['service_mapping', 'service_and_category_list'];
     
-        const sql = `SELECT ${table_name2}.Organization_name, ${table_name2}.Specialty_name FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.specialties_listID = ${table_name1}.specialty_ID WHERE ${table_name1}.User_ID = ?`;
+        const sql = `SELECT ${service_and_category_list}.Organization_name, ${service_and_category_list}.Specialty_name 
+            FROM ${service_and_category_list} JOIN ${service_mapping} ON ${service_and_category_list}.specialties_listID = ${service_mapping}.specialty_ID 
+            WHERE ${service_mapping}.User_ID = ?`;
+        
         const values = [User_ID];
-        await DB_Operation(functionName, table_name1);
+        await DB_Operation(functionName, service_mapping);
     
         try{
             const [results] = await connection.execute(sql, values);
-            if (results.length === 0) {
-                console.log('DoctorSpecialties Data does not exist');
-                return [];
-            } else {
-                return (results);
-            }
+            if (!results.length) return [];
+            else return results;
         }catch(error){
             return (`error in ${functionName}:`, error);
         }
@@ -72,13 +64,14 @@ export default new class FetchPublicDoctorData{
 
     async FetchDoctorAddressData (DoctorID){
         const functionName = this.FetchDoctorAddressData.bind(this).name;
+        const [phone, addresses, booking_availability] =  ['phone', 'addresses', 'booking_availability'];
 
-        const table_name1 = 'phone';
-        const table_name2 = 'addresses';
-        const sql = `SELECT ${table_name2}.addressesID, ${table_name2}.address_title, ${table_name2}.address_line_1, ${table_name2}.address_line_2, ${table_name2}.city, ${table_name2}.state, ${table_name2}.zip, ${table_name2}.country, ${table_name2}.address_priority, ${table_name1}.Phone, ${table_name1}.phone_priority FROM ${table_name2}, ${table_name1} WHERE ${table_name2}.addressesID = ${table_name1}.address_ID AND ${table_name2}.Doctor_ID = ? AND ${table_name2}.address_public_status = 1`;
+        const sql = `SELECT ${addresses}.addressesID, ${addresses}.address_title, ${addresses}.address_line_1, ${addresses}.address_line_2, ${addresses}.city, ${addresses}.state, ${addresses}.zip, ${addresses}.country, ${addresses}.address_priority, ${phone}.Phone, ${phone}.phone_priority 
+            FROM ${addresses}, ${phone} 
+            WHERE ${addresses}.addressesID = ${phone}.address_ID AND ${addresses}.Doctor_ID = ? AND ${addresses}.address_public_status = 1`;
     
         const values = [DoctorID];
-        await DB_Operation(functionName, table_name1);
+        await DB_Operation(functionName, addresses);
         let results
     
         try{
@@ -87,10 +80,9 @@ export default new class FetchPublicDoctorData{
             return (`error in ${functionName}:`, error);
         }
 
-        const table_name3 = 'booking_availability';
         if(results.length){
             for(let i =0;i<results.length; i++){
-                const sql1 = `SELECT ${table_name3}.Day_of_week, ${table_name3}.Start_time, ${table_name3}.End_time FROM ${table_name3} WHERE ${table_name3}.address_ID = ?`;
+                const sql1 = `SELECT ${booking_availability}.Day_of_week, ${booking_availability}.Start_time, ${booking_availability}.End_time FROM ${booking_availability} WHERE ${booking_availability}.address_ID = ?`;
                 const values1 = [results[i].addressesID]
                 try{
                     const [results1] = await connection.execute(sql1, values1);
@@ -110,17 +102,15 @@ export default new class FetchPublicDoctorData{
     async FetchDoctorPersonalInfo (User_ID){
         const functionName = this.FetchDoctorPersonalInfo.bind(this).name;
 
-        const table_name = 'basic_user_info';
-        const sql = `SELECT FirstName, LastName, Gender FROM ${table_name} WHERE User_ID = ?`
+        const basic_user_info = 'basic_user_info';
+        const sql = `SELECT FirstName, LastName, Gender FROM ${basic_user_info} WHERE User_ID = ?`
         const values = [User_ID];
-        await DB_Operation(functionName, table_name)
+        await DB_Operation(functionName, basic_user_info)
         
         try{
             const [results] = await connection.execute(sql, values)
-              if (results.length === 0) {
-                console.log('User does not exist')
-                return []
-            } else {
+            if (!results.length) return [];
+            else {
                 const DoctorPersonalInfo = results[0]
                 return (DoctorPersonalInfo);
             }

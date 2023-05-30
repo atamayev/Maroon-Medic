@@ -15,11 +15,13 @@ export async function newPatient (req, res){
     
     const new_patient_object = req.body.new_patient_object
 
-    const table_name = 'basic_user_info'
-    const sql = `INSERT INTO ${table_name} (FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year, User_ID) VALUES (?,?,?,?,?,?,?)`;
+    const basic_user_info = 'basic_user_info'
+    const sql = `INSERT INTO ${basic_user_info} 
+        (FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year, User_ID) 
+        VALUES (?,?,?,?,?,?,?)`;
 
     const values = [new_patient_object.FirstName, new_patient_object.LastName, new_patient_object.Gender, new_patient_object.DOB_month, new_patient_object.DOB_day, new_patient_object.DOB_year, User_ID];
-    await DB_Operation(newPatient.name, table_name)
+    await DB_Operation(newPatient.name, basic_user_info)
     
     try{
         await connection.execute(sql, values)
@@ -43,24 +45,21 @@ export async function newPatientConfirmation (req, res){
     const newPatientUUID = req.cookies.PatientNew_User
     const existingPatientUUID = req.cookies.PatientUUID
 
-    if (!newPatientUUID || !existingPatientUUID){
-        return res.status(200).json(Patient_permission);
-    }
-    const table_name = 'UUID_reference';
-    const sql = `SELECT UUID_referenceID FROM ${table_name} WHERE UUID = ?`;
+    if (!newPatientUUID || !existingPatientUUID) return res.status(200).json(Patient_permission);
+
+    const UUID_reference = 'UUID_reference';
+    const sql = `SELECT UUID_referenceID FROM ${UUID_reference} WHERE UUID = ?`;
     let values1 = [newPatientUUID];
     let values2 = [existingPatientUUID];
-    await DB_Operation(newPatientConfirmation.name, table_name)
+    await DB_Operation(newPatientConfirmation.name, UUID_reference)
 
     try{
         const [results1] = await connection.execute(sql, values1)
         const [results2] = await connection.execute(sql, values2)
 
-        if (results1.length === 1 && results2.length === 1) {
-            return res.status(200).json(Patient_permission);
-        } else {
-            return res.status(500).json(Patient_permission);
-        }
+        if (results1.length === 1 && results2.length === 1)return res.status(200).json(Patient_permission);
+        else return res.status(500).json(Patient_permission);
+
     }catch(error){
         console.log(`error in ${newPatientConfirmation.name}:`, error)
         return res.status(500).json(Patient_permission);
@@ -75,15 +74,16 @@ export async function newPatientConfirmation (req, res){
  * DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function fetchDashboardData (req, res){
-    const PatientUUID = req.cookies.PatientUUID
-    const PatientID = await UUID_to_ID(PatientUUID) // converts PatientUUID to docid
-    
-    const table_name1 = 'Credentials';
-    const table_name2 = 'basic_user_info';
-  
-    const sql = `SELECT email, FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year FROM ${table_name1} LEFT JOIN ${table_name2} ON ${table_name1}.UserID = ${table_name2}.User_ID WHERE ${table_name1}.UserID = ?`
+    const PatientUUID = req.cookies.PatientUUID;
+    const PatientID = await UUID_to_ID(PatientUUID); // converts PatientUUID to docid
+    const [Credentials, basic_user_info] = ['Credentials', 'basic_user_info'];
+
+    const sql = `SELECT email, FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year 
+        FROM ${Credentials} LEFT JOIN ${basic_user_info} ON ${Credentials}.UserID = ${basic_user_info}.User_ID 
+        WHERE ${Credentials}.UserID = ?`;
+
     const values = [PatientID];
-    await DB_Operation(fetchDashboardData.name, table_name1)
+    await DB_Operation(fetchDashboardData.name, Credentials);
 
     let DashboardData = {
         email: '',
@@ -97,13 +97,11 @@ export async function fetchDashboardData (req, res){
 
     try{
         const [results] = await connection.execute(sql, values)
-        if (results.length === 0) {
-            console.log('User does not exist')
-            return res.json(DashboardData);
-        } else {
+        if (results.length === 0) return res.json(DashboardData);
+        else{
             DashboardData = results[0]
             return res.json(DashboardData);
-        }
+        } 
     }catch(error){
         console.log(`error in ${fetchDashboardData.name}:`, error );
         return res.json(DashboardData);
@@ -122,11 +120,11 @@ export async function fetchPersonalData (req, res){
     const PatientUUID = req.cookies.PatientUUID
     const PatientID = await UUID_to_ID(PatientUUID) // converts PatientUUID to docid
     
-    const table_name = 'basic_user_info';
+    const basic_user_info = 'basic_user_info';
   
-    const sql = `SELECT FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year FROM ${table_name} WHERE User_ID = ?`
+    const sql = `SELECT FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year FROM ${basic_user_info} WHERE User_ID = ?`;
     const values = [PatientID];
-    await DB_Operation(fetchPersonalData.name, table_name)
+    await DB_Operation(fetchPersonalData.name, basic_user_info);
 
     let PersonalData = {
         FirstName: '',
@@ -139,9 +137,8 @@ export async function fetchPersonalData (req, res){
 
     try{
         const [results] = await connection.execute(sql, values);
-        if (results.length === 0) {
-            return res.json(PersonalData);
-        } else {
+        if (results.length === 0) return res.json(PersonalData);
+        else {
             PersonalData = results[0];
             return res.status(200).json(PersonalData);
         }

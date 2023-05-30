@@ -10,259 +10,242 @@ export default new class FetchDoctorAccountData{
     async FetchDoctorInsurances (User_ID){
         const functionName = this.FetchDoctorInsurances.bind(this).name;
 
-        const table_name1 = 'insurance_mapping';
-        const table_name2 = 'insurance_list'
-    
-        const sql = `SELECT ${table_name2}.Insurance_name, ${table_name2}.insurance_listID FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.insurance_listID = ${table_name1}.Insurance_ID WHERE ${table_name1}.User_ID = ?`;
+        const [insurance_mapping, insurance_list] = ['insurance_mapping', 'insurance_list'];
+
+        const sql = `SELECT ${insurance_list}.Insurance_name, ${insurance_list}.insurance_listID 
+            FROM ${insurance_list} JOIN ${insurance_mapping} ON ${insurance_list}.insurance_listID = ${insurance_mapping}.Insurance_ID 
+            WHERE ${insurance_mapping}.User_ID = ?`;
+        
         const values = [User_ID];
-        await DB_Operation(functionName, table_name1);
-    
+        await DB_Operation(functionName, insurance_mapping);
+
         try{
             const [results] = await connection.execute(sql, values);
-            if (results.length === 0) {
-                console.log('DoctorInsurances Data does not exist');
-                return [];
-            } else {
-                return (results);
-            }
+            return results;
         }catch(error){
-            return (`error in ${functionName}:`, error);
+            console.log(`error in ${functionName}:`, error)
+            return [];
         }
     };
 
     async FetchDoctorLanguages (User_ID){
         const functionName = this.FetchDoctorLanguages.bind(this).name;
+        const [language_mapping, language_list] = ['language_mapping', 'language_list'];
+    
+        const sql = `SELECT ${language_list}.Language_name, ${language_list}.language_listID 
+            FROM ${language_list} JOIN ${language_mapping} ON ${language_list}.language_listID = ${language_mapping}.Language_ID 
+            WHERE ${language_mapping}.User_ID = ?`;
 
-        const table_name1 = 'language_mapping';
-        const table_name2 = 'language_list'
-    
-        const sql = `SELECT ${table_name2}.Language_name, ${table_name2}.language_listID FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.language_listID = ${table_name1}.Language_ID WHERE ${table_name1}.User_ID = ?`;
         const values = [User_ID];
-        await DB_Operation(functionName, table_name1);
-    
+        await DB_Operation(functionName, language_mapping);
+
         try{
             const [results] = await connection.execute(sql, values);
-            if (results.length === 0) {
-                console.log('DoctorLanguages Data does not exist');
-                return [];
-            } else {
-                return (results);
-            }
+            return results;
         }catch(error){
-            return (`error in ${functionName}:`, error);
+            console.log(`error in ${functionName}:`, error)
+            return [];
         }
     };
 
     async FetchDoctorServices (Doctor_ID){
         const functionName = this.FetchDoctorServices.bind(this).name;
 
-        const table_name1 = 'service_mapping';
-        const table_name2 = 'service_and_category_list';
+        const [service_mapping, service_and_category_list] = ['service_mapping', 'service_and_category_list'];
     
-        const sql = `SELECT ${table_name2}.Category_name, ${table_name2}.Service_name, ${table_name2}.service_and_category_listID, ${table_name1}.Service_time, ${table_name1}.Service_price FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.service_and_category_listID = ${table_name1}.Service_and_Category_ID WHERE ${table_name1}.Doctor_ID = ?`;
+        const sql = `SELECT ${service_and_category_list}.Category_name, ${service_and_category_list}.Service_name, ${service_and_category_list}.service_and_category_listID, ${service_mapping}.Service_time, ${service_mapping}.Service_price 
+            FROM ${service_and_category_list} JOIN ${service_mapping} ON ${service_and_category_list}.service_and_category_listID = ${service_mapping}.Service_and_Category_ID 
+            WHERE ${service_mapping}.Doctor_ID = ?`;
+
         const values = [Doctor_ID];
-        await DB_Operation(functionName, table_name1);
+        await DB_Operation(functionName, service_mapping);
     
         try{
             const [results] = await connection.execute(sql, values);
-            if (results.length === 0) {
-                console.log('DoctorServices Data does not exist');
-                return [];
-            } else {
-                return (results);
-            }
+            return results;
         }catch(error){
-            return (`error in ${functionName}:`, error);
+            console.log(`error in ${functionName}:`, error)
+            return [];
         }
     };
 
     async FetchDoctorSpecialties (User_ID){
         const functionName = this.FetchDoctorSpecialties.bind(this).name;
 
-        const table_name1 = 'specialty_mapping';
-        const table_name2 = 'specialties_list'
+        const [specialty_mapping, specialties_list] = ['specialty_mapping', 'specialties_list'];
     
-        const sql = `SELECT ${table_name2}.Organization_name, ${table_name2}.Specialty_name, ${table_name2}.specialties_listID FROM ${table_name2} JOIN ${table_name1} ON ${table_name2}.specialties_listID = ${table_name1}.specialty_ID WHERE ${table_name1}.User_ID = ?`;
+        const sql = `SELECT ${specialties_list}.Organization_name, ${specialties_list}.Specialty_name, ${specialties_list}.specialties_listID 
+            FROM ${specialties_list} JOIN ${specialty_mapping} ON ${specialties_list}.specialties_listID = ${specialty_mapping}.specialty_ID 
+            WHERE ${specialty_mapping}.User_ID = ?`;
+
         const values = [User_ID];
-        await DB_Operation(functionName, table_name1);
+        await DB_Operation(functionName, specialty_mapping);
     
         try{
             const [results] = await connection.execute(sql, values);
-            if (results.length === 0) {
-                console.log('DoctorSpecialties Data does not exist');
-                return [];
-            } else {
-                return (results);
-            }
+            return results;
         }catch(error){
-            return (`error in ${functionName}:`, error);
+            console.log(`error in ${functionName}:`, error)
+            return [];
         }
     };
     
     async FetchPreVetEducation (Doctor_ID){
         const functionName = this.FetchPreVetEducation.bind(this).name;
-
-        const table_name1 = 'pre_vet_education_mapping';
-        const table_name2 = 'pre_vet_school_list'
-        const table_name3 = 'major_list'
-        const table_name4 = 'pre_vet_education_type_list'
+        const [pre_vet_education_mapping, pre_vet_school_list, major_list, pre_vet_education_type_list] = ['pre_vet_education_mapping', 'pre_vet_school_list', 'major_list', 'pre_vet_education_type_list' ];
     
-        const sql = `SELECT ${table_name2}.School_name, ${table_name3}.Major_name, ${table_name4}.Education_type, ${table_name1}.Start_Date, ${table_name1}.End_Date FROM ${table_name1}, ${table_name2}, ${table_name3}, ${table_name4} WHERE ${table_name1}.School_ID = ${table_name2}.pre_vet_school_listID AND ${table_name1}.Major_ID = ${table_name3}.major_listID AND ${table_name1}.Education_type_ID = ${table_name4}.pre_vet_education_typeID AND ${table_name1}.Doctor_ID = ?`;
+        const sql = `SELECT ${pre_vet_school_list}.School_name, ${major_list}.Major_name, ${pre_vet_education_type_list}.Education_type, ${pre_vet_education_mapping}.Start_Date, ${pre_vet_education_mapping}.End_Date 
+            FROM ${pre_vet_education_mapping}, ${pre_vet_school_list}, ${major_list}, ${pre_vet_education_type_list} 
+            WHERE ${pre_vet_education_mapping}.School_ID = ${pre_vet_school_list}.pre_vet_school_listID AND ${pre_vet_education_mapping}.Major_ID = ${major_list}.major_listID 
+            AND ${pre_vet_education_mapping}.Education_type_ID = ${pre_vet_education_type_list}.pre_vet_education_typeID AND ${pre_vet_education_mapping}.Doctor_ID = ?`;
+
         const values = [Doctor_ID];
-        await DB_Operation(functionName, table_name1);
+        await DB_Operation(functionName, pre_vet_education_mapping);
 
         try{
             const [results] = await connection.execute(sql, values);
-            if (results.length === 0) {
-                console.log('PreVetEducation Data does not exist');
-                return [];
-            } else {
-                const newResults = results.map(obj => ({
-                    ...obj,
-                    Start_Date: new Date(obj.Start_Date).toISOString().slice(0,10),
-                    End_Date: new Date(obj.End_Date).toISOString().slice(0,10)
-                  }));//Converts the dates to a proper format.
-                return (newResults);
-            }
+            const newResults = results.map(obj => ({
+                ...obj,
+                Start_Date: new Date(obj.Start_Date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+                End_Date: new Date(obj.End_Date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+            }));//Converts the dates to a proper format.
+            return newResults
         }catch(error){
-            return (`error in ${functionName}:`, error);
+            console.log(`error in ${functionName}:`, error)
+            return [];
         }
     };
 
     async FetchVetEducation (Doctor_ID){
         const functionName = this.FetchVetEducation.bind(this).name;
 
-        const table_name1 = 'vet_education_mapping';
-        const table_name2 = 'vet_school_list'
-        const table_name3 = 'vet_education_type_list'
+        const [vet_education_mapping, vet_school_list, vet_education_type_list] = ['vet_education_mapping', 'vet_school_list', 'vet_education_type_list'];
     
-        const sql = `SELECT ${table_name2}.School_name, ${table_name3}.Education_type, ${table_name1}.Start_Date, ${table_name1}.End_Date FROM ${table_name1}, ${table_name2}, ${table_name3} WHERE ${table_name1}.School_ID = ${table_name2}.vet_school_listID AND ${table_name1}.Education_type_ID = ${table_name3}.vet_education_typeID AND ${table_name1}.Doctor_ID = ?`;
+        const sql = `SELECT ${vet_school_list}.School_name, ${vet_education_type_list}.Education_type, ${vet_education_mapping}.Start_Date, ${vet_education_mapping}.End_Date 
+            FROM ${vet_education_mapping}, ${vet_school_list}, ${vet_education_type_list} 
+            WHERE ${vet_education_mapping}.School_ID = ${vet_school_list}.vet_school_listID 
+            AND ${vet_education_mapping}.Education_type_ID = ${vet_education_type_list}.vet_education_typeID 
+            AND ${vet_education_mapping}.Doctor_ID = ?`;
+        
         const values = [Doctor_ID];
-        await DB_Operation(functionName, table_name1);
+        await DB_Operation(functionName, vet_education_mapping);
 
         try{
             const [results] = await connection.execute(sql, values);
-            if (results.length === 0) {
-                console.log('VetEducation Data does not exist');
-                return [];
-            } else {
-                const newResults = results.map(obj => ({
-                    ...obj,
-                    Start_Date: new Date(obj.Start_Date).toISOString().slice(0,10),
-                    End_Date: new Date(obj.End_Date).toISOString().slice(0,10)
-                  }));//Converts the dates to a proper format.
-                return (newResults);
-            }
+            const newResults = results.map(obj => ({
+                ...obj,
+                Start_Date: new Date(obj.Start_Date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+                End_Date: new Date(obj.End_Date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+            }));//Converts the dates to a proper format.
+            return newResults
         }catch(error){
-            return (`error in ${functionName}:`, error);
+            console.log(`error in ${functionName}:`, error)
+            return [];
         }
     };
 
     async FetchDoctorAddressData (Doctor_ID){
         const functionName = this.FetchDoctorAddressData.bind(this).name;
 
-        const table_name1 = 'phone';
-        const table_name2 = 'addresses';
-
-        const sql = `SELECT ${table_name2}.addressesID, ${table_name2}.address_title, ${table_name2}.address_line_1, ${table_name2}.address_line_2, ${table_name2}.city, ${table_name2}.state, ${table_name2}.zip, ${table_name2}.country, ${table_name2}.address_priority, ${table_name2}.address_public_status, ${table_name1}.Phone, ${table_name1}.phone_priority FROM ${table_name2}, ${table_name1} WHERE ${table_name2}.addressesID = ${table_name1}.address_ID AND ${table_name2}.Doctor_ID = ?`;
+        const [phone, addresses, booking_availability] =  ['phone', 'addresses', 'booking_availability'];
+        
+        const sql = `SELECT ${addresses}.addressesID, ${addresses}.address_title, ${addresses}.address_line_1, 
+            ${addresses}.address_line_2, ${addresses}.city, ${addresses}.state, ${addresses}.zip, 
+            ${addresses}.country, ${addresses}.address_priority, ${addresses}.address_public_status, 
+            ${phone}.Phone, ${phone}.phone_priority 
+            FROM ${addresses}, ${phone} 
+            WHERE ${addresses}.addressesID = ${phone}.address_ID AND ${addresses}.Doctor_ID = ?`;
+        
         const values = [Doctor_ID];
 
-        await DB_Operation(functionName, table_name1);
-        let results;
-    
+        await DB_Operation(functionName, phone);
+   
         try{
-            [results] = await connection.execute(sql, values);
-        }catch(error){
-            return (`error in ${functionName}:`, error);
-        }
-
-        const table_name3 = 'booking_availability';
-        if(results.length){
-            for(let i =0;i<results.length; i++){
-                const sql1 = `SELECT ${table_name3}.Day_of_week, ${table_name3}.Start_time, ${table_name3}.End_time FROM ${table_name3} WHERE ${table_name3}.address_ID = ?`;
-                const values1 = [results[i].addressesID]
-                try{
-                    const [results1] = await connection.execute(sql1, values1);
-                    results[i].times = results1;
-                }catch(error){
-                    return (`error in second try=catch ${functionName}:`, error);
+            const [results] = await connection.execute(sql, values);
+            
+            if (results.length > 0) {
+                for (let result of results) {
+                    const sql1 = `SELECT ${booking_availability}.Day_of_week, ${booking_availability}.Start_time, ${booking_availability}.End_time 
+                        FROM ${booking_availability} 
+                        WHERE ${booking_availability}.address_ID = ?`;
+        
+                    const [times] = await connection.execute(sql1, [result.addressesID]);
+                    result.times = times;
                 }
             }
-        }else{
-            //if there are no results.length
-            console.log('DoctorAddressData Data does not exist');
-            return []
+        
+            return results;
+        }catch(error){
+            console.log(`error in ${functionName}:`, error)
+            return [];
         }
-        return (results);
     };
 
     async FetchDescriptionData (Doctor_ID){
         const functionName = this.FetchDescriptionData.bind(this).name;
 
-        const table_name = 'descriptions';
+        const [descriptions] = ['descriptions'];
     
-        const sql = `SELECT Description FROM ${table_name} WHERE Doctor_ID = ?`;
+        const sql = `SELECT Description 
+            FROM ${descriptions} 
+            WHERE Doctor_ID = ?`;
+        
         const values = [Doctor_ID];
-        await DB_Operation(functionName, table_name);
+        await DB_Operation(functionName, descriptions);
 
         try{
             const [results] = await connection.execute(sql, values);
-            if (results.length === 0) {
-                console.log('DescriptionData does not exist');
-                return {Description: ''};
-            } else {
+            if (results.length === 0) return {Description: ''};
+            else {
                 const Description = results[0]
                 return (Description);
             }
         }catch(error){
-            return (`error in ${functionName}:`, error);
+            console.log(`error in ${functionName}:`, error)
+            return {Description: ''};
         }
     };
 
     async FetchDoctorPictures (Doctor_ID){
         const functionName = this.FetchDoctorPictures.bind(this).name;
 
-        const table_name = 'pictures';
+        const [pictures] = ['pictures'];
     
-        const sql = `SELECT picture_link, picture_number FROM ${table_name} WHERE Doctor_ID = ?`;
+        const sql = `SELECT picture_link, picture_number 
+            FROM ${pictures} 
+            WHERE Doctor_ID = ?`;
+        
         const values = [Doctor_ID];
-        await DB_Operation(functionName, table_name);
+        await DB_Operation(functionName, pictures);
     
         try{
-            const [results] = await connection.execute(sql, values);// will need to return a list of picture links, and picture number (which one is first, second, etc.)
-            
-            if (results.length === 0) {
-                console.log('DoctorPictures Data does not exist');
-                return [];
-            } else {
-                //console.log(results);
-                return (results);
-            }
+            const [results] = await connection.execute(sql, values);
+            return results;
         }catch(error){
-            return (`error in ${functionName}:`, error);
+            console.log(`error in ${functionName}:`, error)
+            return [];
         }
     };
    
     async FetchPubliclyAvailable (Doctor_ID){
         const functionName = this.FetchDescriptionData.bind(this).name;
 
-        const table_name = 'Doctor_specific_info';
+        const [Doctor_specific_info] = ['Doctor_specific_info'];
     
-        const sql = `SELECT publiclyAvailable, verified FROM ${table_name} WHERE Doctor_ID = ?`;
+        const sql = `SELECT publiclyAvailable, verified 
+            FROM ${Doctor_specific_info} 
+            WHERE Doctor_ID = ?`;
+        
         const values = [Doctor_ID];
-        await DB_Operation(functionName, table_name);
+        await DB_Operation(functionName, Doctor_specific_info);
 
         try{
             const [results] = await connection.execute(sql, values);
-            if (results.length === 0) {
-                console.log('FetchPubliclyAvailable does not exist');
-                return [{PubliclyAvailable: false}, {Verified: false}];
-            } else {
-                return [{PubliclyAvailable: results[0].publiclyAvailable}, {Verified: results[0].publiclyAvailable}];
-            }
+            if (results.length === 0) return [{PubliclyAvailable: false}, {Verified: false}];
+            else return [{PubliclyAvailable: results[0].publiclyAvailable}, {Verified: results[0].publiclyAvailable}];
         }catch(error){
-            console.log(`error in ${functionName}`, error)
-            return (`error in ${functionName}:`, error);
+            console.log(`error in ${functionName}:`, error);
+            return [{PubliclyAvailable: false}, {Verified: false}];
         }
     };
 }();

@@ -24,14 +24,10 @@ export async function JWT_verify (req, res){
   };
   let decodedUUID;
 
-  if("DoctorAccessToken" in cookies){
-    response.type = 'Doctor';
-  }else if("PatientAccessToken" in cookies){
-    response.type = 'Patient';
-  }else{
-    console.log('Invalid User Type in JWT Verify')
-    return res.status(400).json('Invalid User Type');
-  }
+  if("DoctorAccessToken" in cookies) response.type = 'Doctor';
+  else if("PatientAccessToken" in cookies) response.type = 'Patient';
+  else return res.status(400).json('Invalid User Type');
+
 
   try{
     AccessToken = req.cookies[`${response.type}AccessToken`]
@@ -51,10 +47,10 @@ export async function JWT_verify (req, res){
     console.log('Token expired', decodedUUID.exp)
     return res.status(401).json(response);
   }else{
-    const table_name = 'UUID_reference';
-    const sql = `SELECT * FROM ${table_name} WHERE UUID = ?`;
+    const UUID_reference = 'UUID_reference';
+    const sql = `SELECT * FROM ${UUID_reference} WHERE UUID = ?`;
     const values = [decodedUUID];
-    await DB_Operation(JWT_verify.name, table_name)
+    await DB_Operation(JWT_verify.name, UUID_reference)
     
     try{
       const [results] = await connection.execute(sql, values)
@@ -87,32 +83,25 @@ export async function JWT_verify (req, res){
  */
 export async function login (req, res){
   const { email, password, login_type } = req.body.login_information_object;
-  let table_name = 'Credentials';
+  const Credentials = 'Credentials';
   
-  if(login_type !== 'Doctor' && login_type !== 'Patient'){
-    return res.send('Invalid User Type') // If Type not Doctor or Patient
-  }
+  if(login_type !== 'Doctor' && login_type !== 'Patient') return res.json('Invalid User Type'); // If Type not Doctor or Patient
 
-  const sql = `SELECT * FROM ${table_name} WHERE email = ? AND User_type = ?`;
+  const sql = `SELECT * FROM ${Credentials} WHERE email = ? AND User_type = ?`;
   const values = [email, login_type];
   
-  await DB_Operation(login.name, table_name)
+  await DB_Operation(login.name, Credentials)
 
   let results;
   let hashed_password;
 
   try{
     [results] = await connection.execute(sql, values);
-    if (!results.length){ 
-      // If no users exist with a certain first name, login error
-      console.log('Username not found');
-      return res.status(404).json("Username not found!");
-    }else{
-      hashed_password = results[0].password;
-    }
+    if (!results.length) return res.status(404).json("Username not found!");
+    else hashed_password = results[0].password;
   }catch(error){
     console.log('Problem with email selection', error)
-    return res.status(500).send({ error: 'Problem with email selection' });
+    return res.status(500).json({ error: 'Problem with email selection' });
   }
 
   let bool;
@@ -121,7 +110,7 @@ export async function login (req, res){
     bool = await Hash.checkPassword(password, hashed_password)
   }catch(error){
     console.log('Problem with checking password', error)
-    return res.status(500).send({ error: 'Problem with checking password' });
+    return res.status(500).json({ error: 'Problem with checking password' });
   }
   
   if (bool === true) {
@@ -142,7 +131,7 @@ export async function login (req, res){
       token = jwt.sign(payload, JWTKey);
     }catch(error){
       console.log('Problem with Signing JWT', error)
-      return res.status(500).send({ error: 'Problem with Signing JWT' });
+      return res.status(500).json({ error: 'Problem with Signing JWT' });
     }
 
     // const expires = new Date(Date.now() + expiration_time *1000)
@@ -182,27 +171,22 @@ export async function login (req, res){
  */
 export async function register (req, res){
   const {email, password, register_type} = req.body.register_information_object // Desctructures the request
-  const table_name = 'Credentials';
+  const Credentials = 'Credentials';
 
-  if(register_type !== 'Doctor' && register_type !== 'Patient'){
-    return res.send('Invalid User Type') // If Type not Doctor or Patient
-  }
+  if(register_type !== 'Doctor' && register_type !== 'Patient') return res.json('Invalid User Type'); // If Type not Doctor or Patient
 
-  const sql = `SELECT * FROM ${table_name} WHERE email = ? AND User_type = ? `;
+  const sql = `SELECT * FROM ${Credentials} WHERE email = ? AND User_type = ? `;
   const values = [email, register_type];
 
-  await DB_Operation(register.name, table_name)
+  await DB_Operation(register.name, Credentials)
 
   let results;
   try{
     [results] = await connection.execute(sql, values)
-    if (results.length !== 0){
-      console.log('User already exists')
-      return res.status(400).json("User already exists!");
-    }
+    if (results.length !== 0) return res.status(400).json("User already exists!");
   }catch(error){
     console.log('Problem with existing email search')
-    return res.status(500).send({ error: 'Problem with existing email search' });
+    return res.status(500).json({ error: 'Problem with existing email search' });
   }
 
   let hashed_password;
@@ -211,7 +195,7 @@ export async function register (req, res){
       hashed_password = await Hash.hash_credentials(password)
     }catch(error){
       console.log('Problem with Password Hashing')
-      return res.status(500).send({ error: 'Problem with Password Hashing' });
+      return res.status(500).json({ error: 'Problem with Password Hashing' });
     }
   }
 
@@ -219,29 +203,29 @@ export async function register (req, res){
   const format = "YYYY-MM-DD HH:mm:ss"
   const dateTime = moment(date_ob).format(format);
 
-  const sql_1 = `INSERT INTO ${table_name} (email, password, Created_at, User_type) VALUES (?, ?, ?, ?)`;
+  const sql_1 = `INSERT INTO ${Credentials} (email, password, Created_at, User_type) VALUES (?, ?, ?, ?)`;
   const values_1 = [email, hashed_password, dateTime, register_type];
   let results_1;
   try {
     [results_1] = await connection.execute(sql_1, values_1)
   }catch (error){
     console.log('Problem with Data Insertion')
-    return res.status(500).send({ error: 'Problem with Data Insertion' });
+    return res.status(500).json({ error: 'Problem with Data Insertion' });
   }
 
   const User_ID = results_1.insertId
 
   if(register_type === 'Doctor'){
-    const table_name2 = 'Doctor_specific_info';
+    const Doctor_specific_info = 'Doctor_specific_info';
   
-    const sql_2 = `INSERT INTO ${table_name2} (verified, publiclyAvailable, Doctor_ID) VALUES (?, ?, ?)`;
+    const sql_2 = `INSERT INTO ${Doctor_specific_info} (verified, publiclyAvailable, Doctor_ID) VALUES (?, ?, ?)`;
     const values_2 = [true, true, User_ID];
   
     try {
       await connection.execute(sql_2, values_2)
     }catch (error){
       console.log('Problem with Data Insertion into DoctorSpecific Table')
-      return res.status(500).send({ error: 'Problem with Data Insertion' });
+      return res.status(500).json({ error: 'Problem with Data Insertion' });
     }
   }
 
@@ -259,7 +243,7 @@ export async function register (req, res){
     token = jwt.sign(payload, JWTKey);
   }catch(error){
     console.log('error in catching insert')
-    return res.status(500).send({ error: 'Problem with Data Selection' });
+    return res.status(500).json({ error: 'Problem with Data Selection' });
   }
 
   const newUser_UUID = await ID_to_UUID(User_ID)
@@ -311,11 +295,11 @@ export async function logout (req, res){
       }
     }
   
-    const table_name = 'UUID_reference';
-    const sql = `DELETE FROM ${table_name} WHERE UUID = ?`;
+    const UUID_reference = 'UUID_reference';
+    const sql = `DELETE FROM ${UUID_reference} WHERE UUID = ?`;
     let values = [UUID];
   
-    await DB_Operation(logout.name, table_name);
+    await DB_Operation(logout.name, UUID_reference);
     await connection.execute(sql, values);
     if(newUserUUID){
       //If the user is new, they will have an extra cookie. Need to delete that UUID upon logout as well
@@ -324,8 +308,9 @@ export async function logout (req, res){
     }
   }catch(error){
       console.log('Error in accessing DB', error)
-      // return res.status(500).send({ error: `Error in accessing DB` });
+      // return res.status(500).json({ error: `Error in accessing DB` });
     }
+
   
   try{
     const cookieNames = ['AccessToken', 'UUID', 'New_User'];
@@ -338,9 +323,10 @@ export async function logout (req, res){
         path: '/'
       });
     });
-    return res.status(200);
+    console.log('logging out')
+    return res.status(200).json();
   }catch (error){
     console.log(`error in logging ${type} out`)
-    return res.status(500).send({ error: `Error in logging ${type} out` });
+    return res.status(500).json({ error: `Error in logging ${type} out` });
   }
 };

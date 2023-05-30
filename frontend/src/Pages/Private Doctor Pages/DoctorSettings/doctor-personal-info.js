@@ -190,9 +190,9 @@ export default function DoctorPersonalInfo() {
             </div>
             <Button type = "submit" className="btn btn-primary w-100">Save</Button>
             <span className={`fade ${personalInfoConfirmation.messageType ? 'show' : ''}`}>
-              {personalInfoConfirmation.messageType === 'saved' && 'Description saved!'}
-              {personalInfoConfirmation.messageType === 'same' && 'Same Description data!'}
-              {personalInfoConfirmation.messageType === 'problem' && 'Problem Saving Description!'}
+              {personalInfoConfirmation.messageType === 'saved' && 'Personal data saved'}
+              {personalInfoConfirmation.messageType === 'same' && 'Same Personal data!'}
+              {personalInfoConfirmation.messageType === 'problem' && 'Problem Saving Personal data!'}
             </span>
             </Form>
         </Card.Body>

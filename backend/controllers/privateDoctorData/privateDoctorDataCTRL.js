@@ -16,10 +16,11 @@ export async function newDoctor (req, res){
 
     const new_doctor_object = req.body.new_doctor_object
 
-    const table_name = 'basic_user_info'
-    const sql = `INSERT INTO ${table_name} (FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year, User_ID) VALUES (?,?,?,?,?,?,?)`;
+    const basic_user_info = 'basic_user_info'
+    const sql = `INSERT INTO ${basic_user_info} (FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year, User_ID) VALUES (?,?,?,?,?,?,?)`;
 
-    const values = [new_doctor_object.FirstName, new_doctor_object.LastName, new_doctor_object.Gender, new_doctor_object.DOB_month, new_doctor_object.DOB_day, new_doctor_object.DOB_year, User_ID];    await DB_Operation(newDoctor.name, table_name)
+    const values = [new_doctor_object.FirstName, new_doctor_object.LastName, new_doctor_object.Gender, new_doctor_object.DOB_month, new_doctor_object.DOB_day, new_doctor_object.DOB_year, User_ID];    
+    await DB_Operation(newDoctor.name, basic_user_info)
     
     try{
         await connection.execute(sql, values)
@@ -43,14 +44,13 @@ export async function newDoctorConfirmation (req, res){
     const newDoctorUUID = req.cookies.DoctorNew_User
     const existingDoctorUUID = req.cookies.DoctorUUID
 
-    if (!newDoctorUUID || !existingDoctorUUID){
-        return res.json(Doctor_permission);
-    }
-    const table_name = 'UUID_reference';
-    const sql = `SELECT UUID_referenceID FROM ${table_name} WHERE UUID = ?`;
+    if (!newDoctorUUID || !existingDoctorUUID) return res.json(Doctor_permission);
+
+    const UUID_reference = 'UUID_reference';
+    const sql = `SELECT UUID_referenceID FROM ${UUID_reference} WHERE UUID = ?`;
     const values1 = [newDoctorUUID];
     const values2 = [existingDoctorUUID];
-    await DB_Operation(newDoctorConfirmation.name, table_name)
+    await DB_Operation(newDoctorConfirmation.name, UUID_reference)
 
     try{
       const [results1] = await connection.execute(sql, values1)
@@ -60,9 +60,7 @@ export async function newDoctorConfirmation (req, res){
             Doctor_permission = true;
             return res.json(Doctor_permission);
         }
-        else {
-            return res.json(Doctor_permission);
-        }
+        else return res.json(Doctor_permission);
     }catch(error){
         console.log(`error in ${newDoctorConfirmation.name}:`, error)
         return res.json(Doctor_permission);
@@ -79,13 +77,13 @@ export async function newDoctorConfirmation (req, res){
 export async function fetchDashboardData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID
     const DoctorID = await UUID_to_ID(DoctorUUID);
-    
-    const table_name1 = 'Credentials';
-    const table_name2 = 'basic_user_info';
+    const [Credentials, basic_user_info] = ['Credentials', 'basic_user_info']
   
-    const sql = `SELECT email, FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year FROM ${table_name1} LEFT JOIN ${table_name2} ON ${table_name1}.UserID = ${table_name2}.User_ID WHERE ${table_name1}.UserID = ?`
+    const sql = `SELECT email, FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year 
+        FROM ${Credentials} LEFT JOIN ${basic_user_info} ON ${Credentials}.UserID = ${basic_user_info}.User_ID 
+        WHERE ${Credentials}.UserID = ?`
     const values = [DoctorID];
-    await DB_Operation(fetchDashboardData.name, table_name1)
+    await DB_Operation(fetchDashboardData.name, Credentials)
 
     let DashboardData = {
         email: '',
@@ -99,10 +97,8 @@ export async function fetchDashboardData (req, res){
 
     try{
         const [results] = await connection.execute(sql, values);
-        if (results.length === 0) {
-            console.log('User does not exist')
-            return res.json(DashboardData);
-        } else {
+        if (results.length === 0) return res.json(DashboardData);
+        else {
             DashboardData = results[0]
             return res.json(DashboardData);
         }
@@ -124,11 +120,11 @@ export async function fetchPersonalData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID
     const DoctorID = await UUID_to_ID(DoctorUUID) // converts DoctorUUID to docid
     
-    const table_name = 'basic_user_info';
+    const basic_user_info = 'basic_user_info';
   
-    const sql = `SELECT FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year FROM ${table_name} WHERE User_ID = ?`
+    const sql = `SELECT FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year FROM ${basic_user_info} WHERE User_ID = ?`
     const values = [DoctorID];
-    await DB_Operation(fetchPersonalData.name, table_name);
+    await DB_Operation(fetchPersonalData.name, basic_user_info);
 
     let PersonalData = {
         FirstName: '',
@@ -141,9 +137,8 @@ export async function fetchPersonalData (req, res){
 
     try{
         const [results] = await connection.execute(sql, values);
-        if (results.length === 0) {
-            return res.json(PersonalData);
-        } else {
+        if (results.length === 0) return res.json(PersonalData);
+        else {
             PersonalData = results[0];
             return res.json(PersonalData);
         }

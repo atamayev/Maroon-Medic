@@ -10,7 +10,7 @@ import CalendarDataService from '../../Services/calendar-data-service';
 async function confirmBooking(e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData){
   e.preventDefault();
   let AppointmentObject = {
-    Service_mapping_ID: selectedService.service_and_category_listID,
+    Service_and_category_list_ID: selectedService.service_and_category_listID,
     appointment_date: selectedDay,
     appointment_time: selectedTime,
     NVI: personalData.NVI,

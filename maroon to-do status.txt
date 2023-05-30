@@ -2,12 +2,13 @@ To-do:
 
 ASAP:
 
--think about how to structure the status codes, and the JSON data. is it better to 
-
--Figure out Doctor_confirmation status (should be 0 until doctor approves, unless instant book is on)
+-add an instant book option to each location. when isntant book is on, the appt is approved as soon as a pt makes an appt. 
+	when off, is first pending, then when doctor approves.
+	-Figure out Doctor_confirmation status (should be 0 until doctor approves, unless instant book is on)
 
 there's a bug when the names of the locations are changed, which cause the times to switch
 	if both are titled 123, and the second one is changed to 'availble', the times assigned to them switch
+
 --patient and doctor dashboard should have pending/confirmed appts.
 	for doctor, should go onto the calendar
 
@@ -19,7 +20,6 @@ Make the 'Add Address' Button Finalize a Location, make it within the accordion.
 
 Write documentation, especially for saveAddresses
 
-go through all if, else if, else, and if it's a one-liner, delete the {}, and make it on the same line
 
 Add a section in doctordetails for wheather or not the doc works for a practice/company (will neeed to create a lookup and mapping table for vet companies as options)
 
@@ -47,7 +47,6 @@ start using bootstrap or integrate tailwind css classes. tell chatgpt to make pa
 figure out phone_priority (address_data), currently sending it back as 0. Phone priority is for when one location has multiple phone numbers. So each object in the address list might have an object inside that contains phone numbers, link
 	See 5/19 commit
 -consider bringing back selecting the entire category in vet services
-after vet/prevet education queries from db, it doesn't show the month name, but the numerical representation of the month (instead of January, shows 1).
 
 -allow for entering multiple degrees from one college (without causing the education table to break (because of the constraint))
 

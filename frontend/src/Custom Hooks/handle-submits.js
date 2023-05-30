@@ -60,7 +60,6 @@ export const handleRegisterSubmit = async ({
                 setError("Registration didn't work");
             }
         } catch (err) {
-            console.log(err)
             setError(err.response.data);
         }
         setLoading(false)
@@ -101,7 +100,6 @@ export const handleNewUserSubmit = async ({
                 setError("newUser didn't work");
             }
         } catch (err) {
-            console.log(err)
             setError(err.response.data);
         }
         setLoading(false)

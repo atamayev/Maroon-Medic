@@ -11,14 +11,14 @@ import moment from 'moment';
  */
 export async function ID_to_UUID(User_ID){
   const UUID = uuidv4();
-  const table_name = 'UUID_reference';
+  const UUID_reference = 'UUID_reference';
   
   const date_ob = new Date();
   const format = "YYYY-MM-DD HH:mm:ss"
   const dateTime = moment(date_ob).format(format);
 
-  await DB_Operation(ID_to_UUID.name, table_name)
-  const sql = `INSERT INTO ${table_name} (UUID, Created_at, User_ID) VALUES (?, ?, ?)`;
+  await DB_Operation(ID_to_UUID.name, UUID_reference)
+  const sql = `INSERT INTO ${UUID_reference} (UUID, Created_at, User_ID) VALUES (?, ?, ?)`;
   const values = [UUID, dateTime, User_ID];
 
   try {
@@ -36,11 +36,11 @@ export async function ID_to_UUID(User_ID){
  * @returns Corresponding DoctorID
  */
 export async function UUID_to_ID(UUID){
-  const table_name = 'UUID_reference';
-  const sql = `SELECT User_ID FROM ${table_name} WHERE UUID = ?`;
+  const UUID_reference = 'UUID_reference';
+  const sql = `SELECT User_ID FROM ${UUID_reference} WHERE UUID = ?`;
   const values = [UUID];
 
-  await DB_Operation(UUID_to_ID.name, table_name)
+  await DB_Operation(UUID_to_ID.name, UUID_reference)
 
   try {
     const [incomplete_ID] = await connection.execute(sql, values)

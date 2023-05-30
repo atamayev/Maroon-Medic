@@ -6,12 +6,12 @@ export async function makeAppointment(req, res){
     const AppointmentObject = req.body.AppointmentObject
     const NVI = AppointmentObject.NVI;
 
-    const table_name1 = 'Doctor_specific_info'
-    const sql1 = `SELECT Doctor_ID FROM ${table_name1} WHERE NVI = ?`
+    const [Doctor_specific_info, Appointments] = ['Doctor_specific_info', 'Appointments']
+    const sql1 = `SELECT Doctor_ID FROM ${Doctor_specific_info} WHERE NVI = ?`
     const values1 = [NVI];
     let Doctor_ID;
 
-    await DB_Operation(makeAppointment.name, table_name1)
+    await DB_Operation(makeAppointment.name, Doctor_specific_info)
     try{
         const [results] = await connection.execute(sql1, values1)
         Doctor_ID = results[0].Doctor_ID
@@ -20,8 +20,8 @@ export async function makeAppointment(req, res){
         return res.status(500).json(error);
     }
 
-    const PatientUUID = req.cookies.PatientUUID
-    const Patient_ID = await UUID_to_ID(PatientUUID) // converts PatientUUID to docid
+    const PatientUUID = req.cookies.PatientUUID;
+    const Patient_ID = await UUID_to_ID(PatientUUID); // converts PatientUUID to docid
 
     // Combine date and time into a single string
     const dateTimeStr = `${AppointmentObject.appointment_date} ${AppointmentObject.appointment_time}`;
@@ -32,11 +32,13 @@ export async function makeAppointment(req, res){
     // If you need to format this date to a MySQL DATETIME format, you can do it like this:
     const mysqlDateTime = dateTime.format('YYYY-MM-DD HH:mm:ss');
 
-    const table_name2 = 'Appointments'
-    const sql2 = `INSERT INTO ${table_name2} (appointment_date, patient_message, Doctor_confirmation_status, Service_mapping_ID, Patient_ID, Doctor_ID, Addresses_ID) VALUES (?, ?,?,?,?,?,?)`;
-    const values2 = [mysqlDateTime, null, 1, AppointmentObject.Service_mapping_ID, Patient_ID, Doctor_ID, AppointmentObject.Addresses_ID];
+    const sql2 = `INSERT INTO ${Appointments}
+        (appointment_date, patient_message, Doctor_confirmation_status, Service_and_category_list_ID, Patient_ID, Doctor_ID, Addresses_ID) 
+        VALUES (?, ?,?,?,?,?,?)`;
+    const values2 = [mysqlDateTime, null, 1, AppointmentObject.Service_and_category_list_ID, Patient_ID, Doctor_ID, AppointmentObject.Addresses_ID];
+    console.log('values2',values2)
 
-    await DB_Operation(makeAppointment.name, table_name2)
+    await DB_Operation(makeAppointment.name, Appointments)
     
     try{
         await connection.execute(sql2, values2)
@@ -49,4 +51,4 @@ export async function makeAppointment(req, res){
 
 export async function getDoctorCalendarDetails(req, res){
     return res.status(200).json()
-}
+};

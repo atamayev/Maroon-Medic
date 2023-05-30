@@ -7,12 +7,12 @@ export async function savePersonalData (req, res){
     
     const personalInfo = req.body.personalInfo;
 
-    const table_name = 'basic_user_info';
-    const sql = `SELECT * FROM  ${table_name} WHERE User_ID = ?`
+    const basic_user_info = 'basic_user_info';
+    const sql = `SELECT * FROM  ${basic_user_info} WHERE User_ID = ?`
     const values = [PatientID];
     let results;
     
-    await DB_Operation(savePersonalData.name, table_name);
+    await DB_Operation(savePersonalData.name, basic_user_info);
     try{
         [results] = await connection.execute(sql, values);
     }catch(error){
@@ -21,7 +21,7 @@ export async function savePersonalData (req, res){
     }
 
     if (!results.length){// if no results, then insert.
-        const sql1 = `INSERT INTO ${table_name} (FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year, User_ID) VALUES (?,?,?,?,?,?,?)`;
+        const sql1 = `INSERT INTO ${basic_user_info} (FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year, User_ID) VALUES (?,?,?,?,?,?,?)`;
         const values1 = [personalInfo.FirstName, personalInfo.LastName, personalInfo.Gender, personalInfo.DOB_month, personalInfo.DOB_day, personalInfo.DOB_year, PatientID];
         try{
             await connection.execute(sql1, values1);
@@ -31,7 +31,7 @@ export async function savePersonalData (req, res){
             return res.status(400).json();
         }
     }else{// if there are results, that means that the record exists, and needs to be altered
-        const sql2 = `UPDATE ${table_name} SET FirstName = ?, LastName = ?, Gender = ?, DOB_month = ?, DOB_day = ?, DOB_year = ? WHERE User_ID = ?`;
+        const sql2 = `UPDATE ${basic_user_info} SET FirstName = ?, LastName = ?, Gender = ?, DOB_month = ?, DOB_day = ?, DOB_year = ? WHERE User_ID = ?`;
         const values2 = [personalInfo.FirstName, personalInfo.LastName, personalInfo.Gender, personalInfo.DOB_month, personalInfo.DOB_day, personalInfo.DOB_year, PatientID];
         try{
             await connection.execute(sql2, values2);

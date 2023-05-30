@@ -7,22 +7,21 @@ import fetchAllDoctorLists from "./privateDoctorData/fetchAllDoctorLists.js";
  * @returns Returns an array of users, depending on the outcome of the query
  */
 export async function searchByQuery (req, res){
-    const table_name1 = 'Doctor_specific_info';
-    const table_name2 = 'basic_user_info';
-    await DB_Operation(searchByQuery.name, table_name1);
+    const [Doctor_specific_info, basic_user_info] = ['Doctor_specific_info', 'basic_user_info'];
 
-    const sql = `SELECT NVI, FirstName, LastName FROM ${table_name2} LEFT JOIN ${table_name1} ON ${table_name2}.User_ID = ${table_name1}.Doctor_ID WHERE verified = TRUE AND publiclyAvailable = TRUE AND FirstName LIKE ?`;
+    const sql = `SELECT NVI, FirstName, LastName 
+        FROM ${basic_user_info} LEFT JOIN ${Doctor_specific_info} ON ${basic_user_info}.User_ID = ${Doctor_specific_info}.Doctor_ID 
+        WHERE verified = TRUE AND publiclyAvailable = TRUE AND FirstName LIKE ?`;
 
     const values = [`${req.params.query}%`];
+    await DB_Operation(fetchUsers.name, basic_user_info);
+
     try{
         const [results] = await connection.execute(sql, values);
         
-        if (results.length === 0) {
-            console.log('User not found');
-            return res.json('User not found');
-        } else {
-            return res.json(results);
-        }
+        if (results.length === 0) return res.json('User not found');
+        else return res.json(results);
+
     }catch(error){
         console.log('Search by Query Error', error);
         return res.json({ error: 'Search by Query Error' });
@@ -37,11 +36,13 @@ export async function searchByQuery (req, res){
  * @returns Either an array of results, or a message with an error
  */
 export async function fetchUsers (req, res){
-    const table_name1 = 'Doctor_specific_info';
-    const table_name2 = 'basic_user_info';
-    const sql = `SELECT NVI, FirstName, LastName FROM ${table_name2} LEFT JOIN ${table_name1} ON ${table_name2}.User_ID = ${table_name1}.Doctor_ID WHERE verified = TRUE AND publiclyAvailable = TRUE`;
+    const [Doctor_specific_info, basic_user_info] = ['Doctor_specific_info', 'basic_user_info'];
+
+    const sql = `SELECT NVI, FirstName, LastName 
+        FROM ${basic_user_info} JOIN ${Doctor_specific_info} ON ${basic_user_info}.User_ID = ${Doctor_specific_info}.Doctor_ID
+        WHERE verified = TRUE AND publiclyAvailable = TRUE`;
     
-    await DB_Operation(fetchUsers.name, table_name1)
+    await DB_Operation(fetchUsers.name, basic_user_info);
     try{
         const [results] = await connection.execute(sql);
         return res.json(results);

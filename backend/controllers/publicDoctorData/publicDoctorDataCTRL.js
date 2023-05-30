@@ -12,12 +12,12 @@ import { DB_Operation, connection } from "../../dbAndSecurity/connect.js";
  */
 export async function returnDoctorPageData (req, res){
     const NVI = req.params.id;
-    const table_name = 'Doctor_specific_info';
-    const sql = `SELECT Doctor_ID FROM ${table_name} WHERE NVI = ?`;
+    const Doctor_specific_info = 'Doctor_specific_info';
+    const sql = `SELECT Doctor_ID FROM ${Doctor_specific_info} WHERE NVI = ?`;
     const values = [NVI];
     let DoctorID;
 
-    await DB_Operation(returnDoctorPageData.name, table_name);
+    await DB_Operation(returnDoctorPageData.name, Doctor_specific_info);
     try{
         const [results] = await connection.execute(sql, values);
         DoctorID = results[0].Doctor_ID
