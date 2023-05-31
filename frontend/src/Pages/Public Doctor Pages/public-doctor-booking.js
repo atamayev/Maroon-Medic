@@ -18,10 +18,18 @@ const handleServiceChange = (event, providedServices, setSelectedService, setSel
 const handleLocationChange = (event, addresses, setSelectedLocation, setSelectedDay, setSelectedTime) => {
   const value = event.target.value;
   const selectedLocationObject = addresses.find(location => location.addressesID.toString() === value);
-  setSelectedLocation(selectedLocationObject || null);
-  if (value === 'Select...') {
-    setSelectedDay(null);
+  
+  
+  if (selectedLocationObject.times.length < 1) {
+    setSelectedLocation(null);
+    setSelectedDay("This doctor does not currently have any open appointments");
     setSelectedTime(null);
+  } else {
+    setSelectedLocation(selectedLocationObject || null);
+    if (value === 'Select...') {
+      setSelectedDay(null);
+      setSelectedTime(null);
+    }
   }
 };
 
@@ -63,6 +71,7 @@ export default function RenderBookingSection(props) {
   const [availableTimes, setAvailableTimes] = useState([]);
   const navigate = useNavigate();
   const [availableDates, setAvailableDates] = useState([]);
+  
   console.log('props.addresses',props.addresses)
 
   // Get selected service object
@@ -127,6 +136,12 @@ export default function RenderBookingSection(props) {
     setAvailableDates(dates);
   }, [selectedLocationObject]);
 
+  const anyLocationHasTimes = props.addresses.some(location => location.times && location.times.length > 0);
+
+  if (!anyLocationHasTimes) {
+    return 'This doctor does not currently have any open time slots for appointments.';
+  }
+
   return (
     props.providedServices.length && props.addresses.length ? (
       <Card className='card-bottom-margin'>
@@ -169,18 +184,22 @@ export default function RenderBookingSection(props) {
           <div className='row'>
             <div className="col-md-6">
               {selectedService && selectedLocation && (
-                  <FormGroup 
-                    as='select' 
-                    id='daySelect' 
-                    label='Select a date' 
-                    onChange={(e)=> handleDayChange(e, setSelectedDay, setSelectedTime)}
-                  >
+                <FormGroup 
+                  as='select' 
+                  id='daySelect' 
+                  label='Select a date' 
+                  onChange={(e)=> handleDayChange(e, setSelectedDay, setSelectedTime)}
+                >
                     <option>Select...</option>
-                    {availableDates.map((date, index) => (
-                        <option key={index} value={date}>
-                            {date}
-                        </option>
-                    ))}
+                    {selectedDay === "This doctor does not currently have any open appointments" ? (
+                        <option disabled>{selectedDay}</option>
+                    ) : (
+                        availableDates.map((date, index) => (
+                            <option key={index} value={date}>
+                                {date}
+                            </option>
+                        ))
+                    )}
                 </FormGroup>
               )}
             </div>
@@ -204,6 +223,7 @@ export default function RenderBookingSection(props) {
           </div>
 
           {selectedService && selectedLocation && selectedDay && selectedTime && (
+            
             <Button 
               variant='primary' 
               onClick = {(e) => finalizeBookingClick(

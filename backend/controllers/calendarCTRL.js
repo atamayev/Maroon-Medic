@@ -39,7 +39,7 @@ export async function makeAppointment(req, res){
     const sql2 = `INSERT INTO ${Appointments}
         (appointment_date, patient_message, Doctor_confirmation_status, Service_and_category_list_ID, Patient_ID, Doctor_ID, Addresses_ID, Created_at) 
         VALUES (?, ?,?,?,?,?,?, ?)`;
-    const values2 = [mysqlDateTime, null, 1, AppointmentObject.Service_and_category_list_ID, Patient_ID, Doctor_ID, AppointmentObject.Addresses_ID, createdAt];
+    const values2 = [mysqlDateTime, null, AppointmentObject.Instant_book, AppointmentObject.Service_and_category_list_ID, Patient_ID, Doctor_ID, AppointmentObject.Addresses_ID, createdAt];
 
     await DB_Operation(makeAppointment.name, Appointments)
     

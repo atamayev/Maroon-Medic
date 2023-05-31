@@ -1,17 +1,25 @@
 To-do:
 
 ASAP:
+
 -add an instant book option to each location. when isntant book is on, the appt is approved as soon as a pt makes an appt. 
 	when off, is first pending, then when doctor approves.
-	-Figure out Doctor_confirmation status (should be 0 until doctor approves, unless instant book is on)
+PatientDashboard:
+	1. Should only query upcoming appointments if there are upcoming appts
+	2. Should not just query the first appt from DB, but all of them (array of objects), and then display that properly on teh screen
+	3. Seperate by upcoming and past appts
+	4. Need to figure out when to ask the DB for the patientData (after an appointment is scheduled, dashboard data not refreshed.) also, if doctor approves an appt while pt logged in, session storage doesn't get reset.
+DoctorDashboard:
+	1. Add pending and confirmed appts to calendar (different colors)
+	2.Aprove appointments from the dashbboard--> sets confirmation_status to 1.
+
+-go through all instances of select dropdowns, and make the 'select' options disabled
+
+-fix issue where,if no times are seleected, locations don't render.
 
 there's a bug when the names of the locations are changed, which cause the times to switch
 	if both are titled 123, and the second one is changed to 'availble', the times assigned to them switch
 
---patient and doctor dashboard should have pending/confirmed appts.
-	for doctor, should go onto the calendar
-
--go through all instances of select dropdowns, and make the 'select' options disabled
 
 Make the 'Add Address' Button Finalize a Location, make it within the accordion. 
 	So when add address is pressed, it becomes a pretty-looking text (can edit it by pressing a pencil in the top right or something)

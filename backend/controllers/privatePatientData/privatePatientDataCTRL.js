@@ -1,5 +1,6 @@
 import {connection, DB_Operation} from "../../dbAndSecurity/connect.js";
 import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
+import moment from "moment";
 // all of the functions to add pt data, and pull it for necessary components on pt dashboard
 
 /** newPatient registers the inputted user data into basic_Patient_info table
@@ -76,37 +77,41 @@ export async function newPatientConfirmation (req, res){
 export async function fetchDashboardData (req, res){
     const PatientUUID = req.cookies.PatientUUID;
     const PatientID = await UUID_to_ID(PatientUUID); // converts PatientUUID to docid
-    const [Credentials, basic_user_info] = ['Credentials', 'basic_user_info'];
+    const [Appointments, service_and_category_list, addresses, basic_user_info] = 
+        ['Appointments', 'service_and_category_list', 'addresses', 'basic_user_info'];
 
-    const sql = `SELECT email, FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year 
-        FROM ${Credentials} LEFT JOIN ${basic_user_info} ON ${Credentials}.UserID = ${basic_user_info}.User_ID 
-        WHERE ${Credentials}.UserID = ?`;
+    const sql = `SELECT 
+            ${Appointments}.${Appointments}ID, ${Appointments}.appointment_date, ${Appointments}.patient_message, ${Appointments}.Doctor_confirmation_status, ${Appointments}.Created_at,
+            ${service_and_category_list}.Category_name, ${service_and_category_list}.Service_name, 
+            ${addresses}.address_title, ${addresses}.address_line_1, ${addresses}.address_line_2, ${addresses}.city, ${addresses}.state, ${addresses}.zip, ${addresses}.country,
+            ${basic_user_info}.FirstName AS Doctor_FirstName, ${basic_user_info}.LastName AS Doctor_LastName
+        FROM ${Appointments}
+            INNER JOIN ${service_and_category_list} ON ${Appointments}.${service_and_category_list}_ID = ${service_and_category_list}.${service_and_category_list}ID
+            INNER JOIN ${addresses} ON ${Appointments}.${addresses}_ID = ${addresses}.${addresses}ID AND ${addresses}.Doctor_ID = ${Appointments}.Doctor_ID
+            INNER JOIN ${basic_user_info} ON ${Appointments}.Doctor_ID = ${basic_user_info}.User_ID
+        WHERE
+            ${Appointments}.Patient_ID = ?`;
 
     const values = [PatientID];
-    await DB_Operation(fetchDashboardData.name, Credentials);
-
-    let DashboardData = {
-        email: '',
-        FirstName: '',
-        LastName: '',
-        Gender: '',
-        DOB_month: '',
-        DOB_day: '',
-        DOB_year: ''
-    };
+    await DB_Operation(fetchDashboardData.name, Appointments);
 
     try{
         const [results] = await connection.execute(sql, values)
-        if (results.length === 0) return res.json(DashboardData);
+        if (results.length === 0) return res.json([]);
         else{
-            DashboardData = results[0]
+            const DashboardData = results
+            for (let i = 0; i < DashboardData.length; i++){
+                DashboardData[i].appointment_date = moment(DashboardData[i].appointment_date).format('MMMM Do, YYYY');
+                DashboardData[i].Created_at = moment(DashboardData[i].Created_at).format('MMMM Do, YYYY');
+            }
             return res.json(DashboardData);
         } 
     }catch(error){
         console.log(`error in ${fetchDashboardData.name}:`, error );
-        return res.json(DashboardData);
+        return res.json([]);
     }
 };
+
 
 /** fetchPersonalData retrieves the Patient's personal data.
  *  Currently almost identical to dashboard

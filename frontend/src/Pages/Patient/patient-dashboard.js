@@ -1,5 +1,6 @@
 import React, {useEffect, useState, useContext} from 'react'
-import {Card} from 'react-bootstrap';
+import {Card, Badge , Tooltip } from 'react-bootstrap';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import PrivatePatientDataService from '../../Services/private-patient-data-service.js';
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import Header from '../header.js';
@@ -60,17 +61,40 @@ export default function PatientDashboard() {
   return (
     <div>
         <Header dropdown = {true} search = {true}/>
-        <p>This is the Patient Dashboard Page</p>
-        <Card style={{margin: '0 10px' }}>
-          <Card.Body>
-            <Card.Title>{dashboardData.FirstName} {dashboardData.LastName}</Card.Title>
-            <Card.Text>
-                My Birthdate is: {dashboardData.DOB_month} {dashboardData.DOB_day}, {dashboardData.DOB_year}<br/>
-                I am {dashboardData.Gender}<br/>
-                My email is {dashboardData.email}
-              </Card.Text>
-          </Card.Body>
-       </Card>
+        {dashboardData.length ?
+          <>
+          <h1>Upcoming Appointments</h1>
+            {dashboardData.map((appointment, index) => (
+              <Card key={index} style={{ margin: '0 10px', position: 'relative' }}>
+                <Card.Body>
+                  <Card.Title>
+                    Appointment with Dr. {appointment.Doctor_FirstName} {appointment.Doctor_LastName} on {appointment.appointment_date}
+                    {appointment.Doctor_confirmation_status === 0 ? (
+                      <OverlayTrigger
+                          placement="top"
+                          overlay={<Tooltip id={`tooltip-top`}>Dr. {appointment.Doctor_FirstName} has not yet approved your appointment.</Tooltip>}
+                      >
+                          <Badge pill style={{ position: 'absolute', top: '10px', right: '10px', border: '2px solid yellow' }}>
+                              Pending approval
+                          </Badge>
+                      </OverlayTrigger>
+                    ) : (
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={<Tooltip id={`tooltip-top`}>Dr. {appointment.Doctor_FirstName} is looking forward to the appointment.</Tooltip>}
+                        >
+                          <Badge pill variant="success" style={{ position: 'absolute', top: '10px', right: '10px' }}>
+                            Appointment approved
+                          </Badge>
+                      </OverlayTrigger>
+                      )}
+                  </Card.Title>
+                </Card.Body>
+              </Card>
+            ))}
+          </>   
+                : <p>No past or upcoming appointments</p> /* or whatever you want to show when dashboardData is not defined */
+            }
     </div>
-  )
+  );
 };

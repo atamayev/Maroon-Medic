@@ -73,6 +73,7 @@ function AddressForm(props) {
         {props.addresses.map((address, index) => (
           <AddressAccordionItem 
             key={index} 
+            index = {index}
             address={address} 
             handleInputChange={(e) => handleInputChange(e, address.address_priority)}
             handleDeleteAccordion={() => handleDeleteAccordion(address.address_priority, props.addresses, props.setAddresses)}
@@ -99,7 +100,7 @@ function AddressForm(props) {
   );
 };
 
-const AddressAccordionItem = ({ address, handleInputChange, handleDeleteAccordion, addresses, setAddresses }) => {
+const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteAccordion, addresses, setAddresses }) => {
   const handlePublicStatusToggleChange = (addressPriority) => {
     // Create a copy of the addresses state
     const updatedAddresses = [...addresses];
@@ -146,7 +147,7 @@ const AddressAccordionItem = ({ address, handleInputChange, handleDeleteAccordio
               </div>
             </Col>
             <Col xs={4} className="text-center font-weight-bold">
-                {address.address_title ? (address.address_title): ('Address #' + (address.address_priority))}
+                {address.address_title ? (address.address_title): ('Address #' + (index + 1))}
             </Col>
             <Col xs={4} className="text-right">
                 <Button variant="danger" size="sm" onClick={() => handleDeleteAccordion(address.address_priority, addresses, setAddresses)} style={{ float: 'right' }}>Delete Location</Button>

@@ -14,7 +14,8 @@ async function confirmBooking(e, navigate, selectedService, selectedLocation, se
     appointment_date: selectedDay,
     appointment_time: selectedTime,
     NVI: personalData.NVI,
-    Addresses_ID: selectedLocation.addressesID
+    Addresses_ID: selectedLocation.addressesID,
+    Instant_book: selectedLocation.instant_book
   };
 
   try{
@@ -34,6 +35,7 @@ export function FinalizeBookingPage() {
   const {user_verification} = useContext(VerifyContext);
   const [user_type, setUser_type] = useState(null);
   const navigate = useNavigate();
+  
 
   useEffect(()=>{
       user_verification()
