@@ -40,5 +40,8 @@ export default new class PrivateDoctorDataService {
     async saveAddressData(AddressData, times){
         return await http.post('/private-doctor-data/save-address-data', {AddressData: AddressData, Times: times})
     }
+    async confirmAppointment(AppointmentID){
+        return await http.post('/private-doctor-data/confirm-appointment', {AppointmentID: AppointmentID})
+    }
 
 }();

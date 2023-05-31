@@ -222,7 +222,7 @@ CREATE TABLE addresses(
 	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
 );
 
-SELECT * FROM addresses;
+SELECT * FROM addresses where isActive;
 
 CREATE TABLE phone(
 	phone_numbersID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,

@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useContext} from 'react'
-import {Card} from 'react-bootstrap';
+import {Card, Badge , Button } from 'react-bootstrap';
 import PrivateDoctorDataService from "../../Services/private-doctor-data-service.js"
 import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import DoctorHeader from './doctor-header.js';
@@ -22,7 +22,8 @@ async function fetchDoctorDashboardData(setDashboardData){
 
 export default function DoctorDashboard() {
   const {user_verification} = useContext(VerifyContext)
-  const [dashboardData, setDashboardData] = useState({});
+  const [personalInfo, setPersonalInfo] = useState(JSON.parse(sessionStorage.getItem('DoctorPersonalInfo')));
+  const [dashboardData, setDashboardData] = useState([]);
   const [user_type, setUser_type] = useState(null);
   const newDoctor = document.cookie.split(';').some((item) => item.trim().startsWith('DoctorNew_User'));
 
@@ -34,12 +35,12 @@ export default function DoctorDashboard() {
         if(result.user_type === 'Doctor'){
           try{
             setUser_type('Doctor')
-            const storedDashboardData = sessionStorage.getItem("DoctorDashboardData")
-            if (storedDashboardData){
-              setDashboardData(JSON.parse(storedDashboardData));
-            }else{
+            // const storedDashboardData = sessionStorage.getItem("DoctorDashboardData")
+            // if (storedDashboardData){
+            //   setDashboardData(JSON.parse(storedDashboardData));
+            // }else{
               fetchDoctorDashboardData(setDashboardData);
-            }
+            // }
           }catch(error){
             console.log(error)
           }
@@ -53,37 +54,107 @@ export default function DoctorDashboard() {
       console.error(error);
     });
   }, []);
- 
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const sessionInfo = sessionStorage.getItem('DoctorPersonalInfo');
+      if (sessionInfo) {
+        setPersonalInfo(JSON.parse(sessionInfo));
+      }
+    }, 10); // Check every 10 miliseconds
+
+    // Clean up interval on unmount
+    return () => clearInterval(interval);
+  }, []);
+
   if(user_type !== 'Doctor'){
     return(
       <NonDoctorAccess/>
     )
   }
 
-  const renderDashboardData = ()=>{
-    if(dashboardData){
-      return(
-        <div>
-        <Card.Title>Dr. {dashboardData.FirstName} {dashboardData.LastName}</Card.Title>
-          <Card.Text>
-              My Birthdate is: {dashboardData.DOB_month} {dashboardData.DOB_day}, {dashboardData.DOB_year}<br/>
-              I am {dashboardData.Gender}<br/>
-              My email is {dashboardData.email}
-          </Card.Text>
-        </div>
-      )
-    }else{
-      return(
-        <div>Loading...</div>
-      )
+  async function approveAppointment (setStatus, AppointmentsID) {
+    try{
+      const response = await PrivateDoctorDataService.confirmAppointment(AppointmentsID)
+      if (response.status === 200) {
+        // Update the Doctor_confirmation_status for the specific appointment
+        const updatedDashboardData = dashboardData.map(appointment => {
+          if (appointment.AppointmentsID === AppointmentsID) {
+            return { ...appointment, Doctor_confirmation_status: 1 };
+          }
+          return appointment;
+        });
+  
+        setDashboardData(updatedDashboardData);
+        setStatus('approved');
+      }else{
+        console.log('no response')
+        setStatus('pending');
+      }
+    }catch(error){
+      console.log('unable to fillDoctorDashboard', error)
+      setStatus('pending');
     }
-  }
+  };
+  
+
+  const AppointmentCard = ({ appointment, index }) => {
+    const [status, setStatus] = useState(appointment.Doctor_confirmation_status === 0 ? 'pending' : 'approved');
+  
+    return (
+      <Card key={index} style={{ margin: '0 10px', position: 'relative' }} className='mb-3'>
+        <Card.Body>
+          <Card.Title>
+            Appointment with {appointment.Patient_FirstName} {appointment.Patient_FirstName} on {appointment.appointment_date}
+            {status === 'pending' && (
+              <Button onClick={() => setStatus('confirming')}>Pending approval</Button>
+            )}
+            {status === 'confirming' && (
+              <div>
+                <Button variant="success" onClick={e => approveAppointment(setStatus, appointment.AppointmentsID)}>Check</Button>
+                <Button variant="danger" onClick={() => setStatus('pending')}>X</Button>
+              </div>
+            )}
+            {status === 'approved' && (
+              <Badge pill variant="success" style={{ position: 'absolute', top: '10px', right: '10px' }}>
+                Appointment approved
+              </Badge>
+            )}
+          </Card.Title>
+        </Card.Body>
+      </Card>
+    );
+  };
+
+  const renderDashboardData = () => {
+    if (dashboardData.length) {
+      // console.log(dashboardData);
+      return (
+        <>
+          <h1>Upcoming Appointments</h1>
+          {dashboardData.map((appointment, index) => (
+            <AppointmentCard key={index} appointment={appointment} index={index} />
+          ))}
+        </>
+      );
+    } else {
+      return (
+        <div>No upcoming appointments</div>
+      );
+    }
+  };  
 
   return (
     <>
       <Header dropdown = {true}/>
       <DoctorHeader/>
-        <p>Welcome{newDoctor?(<> to MaroonMedic</>):(<> back</>)}, Dr. {dashboardData.LastName}</p>
+      {personalInfo ? (<>
+        <p>Welcome{newDoctor?(<> to MaroonMedic</>):(<> back</>)}, Dr. {personalInfo.LastName}</p>
+        </>) : 
+        (<>
+          Loading...
+        </>)}
+        
         <Card style={{margin: '0 10px' }}>
           <Card.Body>
             {renderDashboardData()}

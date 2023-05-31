@@ -2,6 +2,7 @@ import {connection, DB_Operation} from "../../dbAndSecurity/connect.js";
 import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
 import FetchDoctorAccountData from "./fetchDoctorAccountData.js";
 import FetchAllDoctorLists from "./fetchAllDoctorLists.js";
+import moment from "moment";
 
 /** newDoctor registers the inputted user data into basic_Doctor_info table
  *  All necessary information is sent via the request (DoctorUUID, firname, lastname, etc.)
@@ -77,34 +78,38 @@ export async function newDoctorConfirmation (req, res){
 export async function fetchDashboardData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID
     const DoctorID = await UUID_to_ID(DoctorUUID);
-    const [Credentials, basic_user_info] = ['Credentials', 'basic_user_info']
-  
-    const sql = `SELECT email, FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year 
-        FROM ${Credentials} LEFT JOIN ${basic_user_info} ON ${Credentials}.UserID = ${basic_user_info}.User_ID 
-        WHERE ${Credentials}.UserID = ?`
-    const values = [DoctorID];
-    await DB_Operation(fetchDashboardData.name, Credentials)
+    const [Appointments, service_and_category_list, addresses, basic_user_info] = 
+        ['Appointments', 'service_and_category_list', 'addresses', 'basic_user_info'];
 
-    let DashboardData = {
-        email: '',
-        FirstName: '',
-        LastName: '',
-        Gender: '',
-        DOB_month: '',
-        DOB_day: '',
-        DOB_year: ''
-    };
+    const sql = `SELECT 
+            ${Appointments}.AppointmentsID, ${Appointments}.appointment_date, ${Appointments}.patient_message, ${Appointments}.Doctor_confirmation_status, ${Appointments}.Created_at,
+            ${service_and_category_list}.Category_name, ${service_and_category_list}.Service_name, 
+            ${addresses}.address_title, ${addresses}.address_line_1, ${addresses}.address_line_2, ${addresses}.city, ${addresses}.state, ${addresses}.zip, ${addresses}.country,
+            ${basic_user_info}.FirstName AS Patient_FirstName, ${basic_user_info}.LastName AS Patient_FirstName
+        FROM ${Appointments}
+            INNER JOIN ${service_and_category_list} ON ${Appointments}.${service_and_category_list}_ID = ${service_and_category_list}.${service_and_category_list}ID
+            INNER JOIN ${addresses} ON ${Appointments}.${addresses}_ID = ${addresses}.${addresses}ID AND ${addresses}.Doctor_ID = ${Appointments}.Doctor_ID
+            INNER JOIN ${basic_user_info} ON ${Appointments}.Patient_ID = ${basic_user_info}.User_ID
+        WHERE
+            ${Appointments}.Doctor_ID = ?`;
+
+    const values = [DoctorID];
+    await DB_Operation(fetchDashboardData.name, Appointments);
 
     try{
-        const [results] = await connection.execute(sql, values);
-        if (results.length === 0) return res.json(DashboardData);
-        else {
-            DashboardData = results[0]
+        const [results] = await connection.execute(sql, values)
+        if (results.length === 0) return res.json([]);
+        else{
+            const DashboardData = results
+            for (let i = 0; i < DashboardData.length; i++){
+                DashboardData[i].appointment_date = moment(DashboardData[i].appointment_date).format('MMMM Do, YYYY, h:mm A');
+                DashboardData[i].Created_at = moment(DashboardData[i].Created_at).format('MMMM Do, YYYY, h:mm A');                
+            }
             return res.json(DashboardData);
-        }
+        } 
     }catch(error){
         console.log(`error in ${fetchDashboardData.name}:`, error );
-        return res.json(DashboardData);
+        return res.json([]);
     }
 };
 
@@ -145,6 +150,21 @@ export async function fetchPersonalData (req, res){
     }catch(error){
         console.log(`error in ${fetchPersonalData.name}:`, error);
         return res.json(PersonalData);
+    }
+};
+
+export async function confirmAppointment (req, res){
+    const AppointmentID = req.body.AppointmentID;
+    const Appointments = 'Appointments'
+
+    const sql1 = `UPDATE ${Appointments} SET Doctor_confirmation_status = 1 WHERE appointmentsID = ?`
+    const values = [AppointmentID];
+    try{
+        await connection.execute(sql1, values);
+        return res.status(200).json();
+    }catch(error){
+        console.log(`error in confirming appointment ${confirmAppointment.name}:`, error);
+        return res.status(400).json();
     }
 };
 

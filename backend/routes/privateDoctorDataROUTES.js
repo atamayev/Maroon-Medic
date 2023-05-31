@@ -5,7 +5,8 @@ import {
     fetchPersonalData, 
     newDoctorConfirmation, 
     fetchAccountDetails,
-    FetchDoctorLists
+    FetchDoctorLists,
+    confirmAppointment
 }from "../controllers/privateDoctorData/privateDoctorDataCTRL.js";
 import{
     savePersonalData, 
@@ -25,6 +26,7 @@ router.get("/fetch-dashboard-data", fetchDashboardData)
 router.get("/fetch-personal-data", fetchPersonalData)
 router.get("/fetch-account-details-data", fetchAccountDetails)
 router.get("/fetch-all-lists", FetchDoctorLists)
+router.post("/confirm-appointment", confirmAppointment)
 
 router.post("/save-personal-data", savePersonalData)
 router.post("/save-description-data", saveDescriptionData)

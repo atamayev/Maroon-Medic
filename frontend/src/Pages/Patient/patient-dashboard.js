@@ -22,7 +22,7 @@ async function fetchPatientDashboardData(setDashboardData){
 
 export default function PatientDashboard() {
   const {user_verification} = useContext(VerifyContext)
-  const [dashboardData, setDashboardData] = useState({});
+  const [dashboardData, setDashboardData] = useState([]);
   const [user_type, setUser_type] = useState(null);
 
   useEffect(() => {
@@ -32,12 +32,12 @@ export default function PatientDashboard() {
         setUser_type(result.user_type)
         if(result.user_type === 'Patient'){
           try{
-            const storedDashboardData = sessionStorage.getItem("PatientDashboardData")
-            if (storedDashboardData){
-              setDashboardData(JSON.parse(storedDashboardData));
-            }else{
+            // const storedDashboardData = sessionStorage.getItem("PatientDashboardData")
+            // if (storedDashboardData){
+            //   setDashboardData(JSON.parse(storedDashboardData));
+            // }else{
               fetchPatientDashboardData(setDashboardData);
-            }
+            // }
           }catch(error){
             console.log(error)
           }
