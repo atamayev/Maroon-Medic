@@ -33,7 +33,7 @@ function renderIsSpecialty(props){
           value={props.selectedOrganization}
           onChange={(e) => props.setSelectedOrganization(e.target.value)}
         >
-          <option value="">Choose an organization</option>
+          <option value="" disabled>Choose an organization</option>
           {Array.from(new Set(props.listDetails[3]?.map((item) => item.Organization_name))).map(
             (organization, index) => (
               <option key={index} value={organization}>
@@ -51,7 +51,7 @@ function renderIsSpecialty(props){
               value={props.selectedSpecialty?.specialties_listID || ""}
               onChange={event => handleSelectSpecialty(event, props.listDetails, props.setSelectedSpecialties)}
             >
-              <option value="">Choose a specialty</option>
+              <option value="" disabled>Choose a specialty</option>
               {specialties
                 .filter(
                   (specialty) =>

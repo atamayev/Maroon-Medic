@@ -164,7 +164,6 @@ export default function DoctorAccountDetails() {
     <div>
       <Header dropdown = {true}/>
       <DoctorHeader/>
-      <p>This is the Account Details Page</p>
       <RenderPreVetEducationSection
         listDetails = {listDetails}
         selectedPreVetSchool = {selectedPreVetSchool}

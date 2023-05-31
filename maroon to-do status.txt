@@ -2,11 +2,7 @@ To-do:
 
 ASAP:
 
--go through all instances of select dropdowns, and make the 'select' options disabled
-
 -instead of re-rendering pateint dashboard each time, maybe there's a way to set the dashborad data from the back-end.
-
--fix issue where,if no times are seleected, locations don't render. think through how it should look
 
 there's a bug when the names of the locations are changed, which cause the times to switch
 	if both are titled 123, and the second one is changed to 'availble', the times assigned to them switch

@@ -27,7 +27,7 @@ function renderIsVetLanguages(props){
         value={props.selectedLanguage?.language_listID || ""}
         onChange={event =>handleLanguageChange(event, props.listDetails, props.setSelectedLanguage)}
       >
-        <option value="">Choose a language</option>
+        <option value="" disabled>Choose a language</option>
         {Array.isArray(props.listDetails[1]) &&
           props.listDetails[1].length > 0 &&
           props.listDetails[1]

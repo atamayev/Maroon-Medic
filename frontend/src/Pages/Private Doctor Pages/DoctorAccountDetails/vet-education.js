@@ -31,7 +31,7 @@ function renderIsVetEducation(props){
           value={props.selectedVetSchool}
           onChange={(e) => props.setSelectedVetSchool(e.target.value)}
         >
-          <option value="">Choose a School</option>
+          <option value="" disabled>Choose a School</option>
           {Array.from(new Set(props.listDetails[7]?.map((item) => item.School_name))).map(
             (school, index) => (
               <option key={index} value={school}>
@@ -49,7 +49,7 @@ function renderIsVetEducation(props){
                 value={props.selectedVetEducationType}
                 onChange={(event) => props.setSelectedVetEducationType(event.target.value)}
               >
-                <option value="">Choose an Education Type</option>
+                <option value="" disabled>Choose an Education Type</option>
                 {Array.from(new Set(props.listDetails[8]?.map((item) => item.Education_type))).map(
                   (VetEdType, index) => (
                     <option key={index} value={VetEdType}>

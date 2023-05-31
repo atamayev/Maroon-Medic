@@ -506,13 +506,15 @@ export async function saveAddressData (req, res){
                     console.log(`error in updatedData address data ${saveAddressData.name}:`, error);
                     return res.status(400).json();
                 }
-                const sql2 = `UPDATE ${phone} SET Phone = ? WHERE address_ID = ?`;
-                const values2 = [updatedData[i].phone, updatedData[i].addressesID];
-                try{
-                    await connection.execute(sql2, values2);
-                }catch(error){
-                    console.log(`error in updatedData phone address data ${saveAddressData.name}:`, error);
-                    return res.status(400).json();
+                if(updatedData[i].phone){
+                    const sql2 = `UPDATE ${phone} SET Phone = ? WHERE address_ID = ?`;
+                    const values2 = [updatedData[i].phone, updatedData[i].addressesID];
+                    try{
+                        await connection.execute(sql2, values2);
+                    }catch(error){
+                        console.log(`error in updatedData phone address data ${saveAddressData.name}:`, error);
+                        return res.status(400).json();
+                    }
                 }
                 returnedData.push(updatedData[i])
             }

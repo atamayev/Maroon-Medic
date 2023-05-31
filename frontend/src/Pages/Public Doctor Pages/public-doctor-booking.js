@@ -19,7 +19,6 @@ const handleLocationChange = (event, addresses, setSelectedLocation, setSelected
   const value = event.target.value;
   const selectedLocationObject = addresses.find(location => location.addressesID.toString() === value);
   
-  
   if (selectedLocationObject.times.length < 1) {
     setSelectedLocation(null);
     setSelectedDay("This doctor does not currently have any open appointments");
@@ -85,7 +84,7 @@ export default function RenderBookingSection(props) {
       // Get the working hours for the selected day
       const selectedDayOfWeek = moment(selectedDay, 'dddd, MMMM Do, YYYY').format('dddd');
       const workingHours = selectedLocationObject?.times.find(time => time.Day_of_week === selectedDayOfWeek);
-
+  
       if (workingHours) {
         let times = [];
         let start = workingHours.Start_time.split(':');
@@ -95,7 +94,7 @@ export default function RenderBookingSection(props) {
         let endTime = moment().hour(end[0]).minute(end[1]);
         
         while (currentTime.isBefore(endTime)) {
-          times.push(currentTime.format('HH:mm'));
+          times.push(currentTime.format('h:mm A')); // Change 'HH:mm' to 'h:mm A'
           currentTime = currentTime.clone().add(Number(selectedServiceObject.Service_time), 'minutes');
         }
         setAvailableTimes(times);
@@ -107,10 +106,6 @@ export default function RenderBookingSection(props) {
     if (!selectedLocationObject) {
       return;
     }
-    console.log(selectedLocationObject)
-    console.log(selectedLocationObject.times)
-
-
     const daysOfWeek = selectedLocationObject?.times.map(time => {
       switch (time.Day_of_week) {
         case 'Sunday': return 0;
@@ -123,8 +118,6 @@ export default function RenderBookingSection(props) {
         default: return null;
       }
     });
-    console.log('selectedLocationObject?.times',selectedLocationObject?.times)
-    console.log('daysOfWeek',daysOfWeek)
     let dates = [];
     let date = moment();
     while (dates.length < 10) {
@@ -139,7 +132,14 @@ export default function RenderBookingSection(props) {
   const anyLocationHasTimes = props.addresses.some(location => location.times && location.times.length > 0);
 
   if (!anyLocationHasTimes) {
-    return 'This doctor does not currently have any open time slots for appointments.';
+    return(
+      <Card className='card-bottom-margin'>
+        <Card.Header>Ready to make a booking?</Card.Header>
+        <Card.Body>
+        This doctor does not currently have any open time slots for appointments.
+        </Card.Body>
+      </Card>
+    )
   }
 
   return (
@@ -174,7 +174,7 @@ export default function RenderBookingSection(props) {
                   <option>Select...</option>
                   {props.addresses.map((address) => (
                     <option key={address.addressesID} value={address.addressesID}>
-                      {address.address_title}
+                      {address.address_title} ({address.address_line_1} {address.address_line_2}, {address.city}, {address.state}, {address.zip})
                     </option>
                   ))}
                 </FormGroup>
@@ -242,7 +242,12 @@ export default function RenderBookingSection(props) {
         </Card.Body>
       </Card>
     ) : (
-      'This doctor does not currently offer any services.'
+      <Card className='card-bottom-margin'>
+        <Card.Header>Ready to make a booking?</Card.Header>
+        <Card.Body>
+          This doctor does not currently offer any services.
+        </Card.Body>
+      </Card>
     )
   ); 
 };

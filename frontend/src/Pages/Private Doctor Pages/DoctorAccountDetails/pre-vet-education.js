@@ -7,7 +7,7 @@ import { savePreVetSchool } from "../../../Custom Hooks/Hooks for Doctor Account
 
 export default function RenderPreVetEducationSection(props){
   return(
-    <Card className="mb-3">
+    <Card className="mb-3 mt-3">
       <Card.Header>
         Pre-vet education
       </Card.Header>
@@ -31,7 +31,7 @@ function renderIsPreVetEducation(props){
           value={props.selectedPreVetSchool}
           onChange={(e) => props.setSelectedPreVetSchool(e.target.value)}
         >
-          <option value="">Choose a School</option>
+          <option value="" disabled>Choose a School</option>
           {Array.from(new Set(props.listDetails[4]?.map((item) => item.School_name))).map(
             (school, index) => (
               <option key={index} value={school}>
@@ -49,7 +49,7 @@ function renderIsPreVetEducation(props){
               value={props.selectedMajor}
               onChange = {(event) => props.setSelectedMajor(event.target.value)}
             >
-              <option value="">Choose a major</option>
+              <option value="" disabled>Choose a major</option>
               {Array.from(new Set(props.listDetails[6]?.map((item) => item.Major_name))).map(
             (major, index) => (
               <option key={index} value={major}>
@@ -69,7 +69,7 @@ function renderIsPreVetEducation(props){
                 value={props.selectedPreVetEducationType}
                 onChange={(event) => props.setSelectedPreVetEducationType(event.target.value)}
               >
-                <option value="">Choose an Education Type</option>
+                <option value="" disabled>Choose an Education Type</option>
                 {Array.from(new Set(props.listDetails[5]?.map((item) => item.Education_type))).map(
                   (preVetEdType, index) => (
                     <option key={index} value={preVetEdType}>
