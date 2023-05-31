@@ -105,7 +105,7 @@ export default function DoctorDashboard() {
       <Card key={index} style={{ margin: '0 10px', position: 'relative' }} className='mb-3'>
         <Card.Body>
           <Card.Title>
-            Appointment with {appointment.Patient_FirstName} {appointment.Patient_FirstName} on {appointment.appointment_date}
+            Appointment with {appointment.Patient_FirstName} {appointment.Patient_LastName} on {appointment.appointment_date}
             {status === 'pending' && (
               <Button onClick={() => setStatus('confirming')}>Pending approval</Button>
             )}

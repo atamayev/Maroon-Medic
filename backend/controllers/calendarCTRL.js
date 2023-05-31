@@ -53,5 +53,34 @@ export async function makeAppointment(req, res){
 }
 
 export async function getDoctorCalendarDetails(req, res){
-    return res.status(200).json()
+    const DoctorUUID = req.cookies.DoctorUUID
+    const DoctorID = await UUID_to_ID(DoctorUUID);
+
+    const [Appointments, service_and_category_list, service_mapping, addresses, basic_user_info] = 
+        ['Appointments', 'service_and_category_list', 'service_mapping', 'addresses', 'basic_user_info'];
+
+    const sql = `SELECT 
+            ${Appointments}.AppointmentsID, ${Appointments}.appointment_date, ${Appointments}.patient_message, ${Appointments}.Doctor_confirmation_status, ${Appointments}.Created_at,
+            ${service_and_category_list}.Category_name, ${service_and_category_list}.Service_name, 
+            ${service_mapping}.Service_time,
+            ${addresses}.address_title, ${addresses}.address_line_1, ${addresses}.address_line_2, ${addresses}.city, ${addresses}.state, ${addresses}.zip, ${addresses}.country,
+            ${basic_user_info}.FirstName AS Patient_FirstName, ${basic_user_info}.LastName AS Patient_LastName
+        FROM ${Appointments}
+            INNER JOIN ${service_and_category_list} ON ${Appointments}.${service_and_category_list}_ID = ${service_and_category_list}.${service_and_category_list}ID
+            INNER JOIN ${addresses} ON ${Appointments}.${addresses}_ID = ${addresses}.${addresses}ID AND ${addresses}.Doctor_ID = ${Appointments}.Doctor_ID
+            INNER JOIN ${basic_user_info} ON ${Appointments}.Patient_ID = ${basic_user_info}.User_ID
+            INNER JOIN service_mapping ${service_mapping} ON ${Appointments}.Service_and_category_list_ID = ${service_mapping}.Service_and_Category_ID AND ${Appointments}.Doctor_ID = ${service_mapping}.Doctor_ID
+        WHERE
+            ${Appointments}.Doctor_ID = ?`;
+
+    const values = [DoctorID];
+    await DB_Operation(getDoctorCalendarDetails.name, Appointments);
+
+    try{
+        const [results] = await connection.execute(sql, values);
+        return res.status(200).json(results);
+    }catch(error){
+        console.log(`error in ${getDoctorCalendarDetails.name}:`, error );
+        return res.status(400).json([]);
+    }
 };

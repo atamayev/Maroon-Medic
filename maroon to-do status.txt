@@ -8,8 +8,7 @@ PatientDashboard:
 	3. Seperate by upcoming and past appts
 	4. Need to figure out when to ask the DB for the patientData (after an appointment is scheduled, dashboard data not refreshed.) also, if doctor approves an appt while pt logged in, session storage doesn't get reset.
 DoctorDashboard:
-	1. Add pending and confirmed appts to calendar (different colors)
-	2.Aprove appointments from the dashbboard--> sets confirmation_status to 1.
+	1. Seperate by upcoming and past appts
 
 -go through all instances of select dropdowns, and make the 'select' options disabled
 

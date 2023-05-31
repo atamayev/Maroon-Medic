@@ -14,7 +14,6 @@ export default function RenderLanguageSection(props){
             </Card>
           )
     }
-
 }
 
 function renderSpokenLanguages(props){

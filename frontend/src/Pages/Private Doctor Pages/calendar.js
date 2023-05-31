@@ -7,73 +7,92 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import Header from "../header";
 import DoctorHeader from "./doctor-header";
 import CalendarDataService from "../../Services/calendar-data-service";
+import "./calendar.css";
 
 const localizer = momentLocalizer(moment);
 
+const CustomEvent = ({ event }) => {
+  return (
+    <div
+      className={event.Doctor_confirmation_status === 0 ? 'status-pending' : 'status-confirmed'}
+    >
+      {event.title}
+    </div>
+  );
+};
+
 export default function DoctorCalendar () {
-    const {user_verification} = useContext(VerifyContext);
-    const [user_type, setUser_type] = useState(null);
-    const [events, setEvents] = useState([    {
-        start: moment("2023-05-23 20:00", "YYYY-MM-DD HH:mm").toDate(),
-        end: moment("2023-05-23 21:00", "YYYY-MM-DD HH:mm").toDate(),
-        title: "Event Title",
-    },]);
+  const {user_verification} = useContext(VerifyContext);
+  const [user_type, setUser_type] = useState(null);
+  const [events, setEvents] = useState([]);
 
-    useEffect(()=>{
-        user_verification()
-        .then(result => {
-          if (result.verified === true) {
-            setUser_type(result.user_type)
-            if(result.user_type === 'Doctor'){
-              try{
-                const storedAccountDetails = sessionStorage.getItem("DoctorCalendarDetails")
-                if(!storedAccountDetails){
-                  FillDoctorCalendarDetails();
-                }
-              }catch(error){
-                console.log(error)
+  useEffect(()=>{
+      user_verification()
+      .then(result => {
+        if (result.verified === true) {
+          setUser_type(result.user_type)
+          if(result.user_type === 'Doctor'){
+            try{
+              const storedAccountDetails = sessionStorage.getItem("DoctorCalendarDetails")
+              if(!storedAccountDetails){
+                FillDoctorCalendarDetails();
               }
+            }catch(error){
+              console.log(error)
             }
           }
-          else{
-            console.log('Unverified')
-          }
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    }, []);
-
-    async function FillDoctorCalendarDetails(){
-        try{
-            const response = await CalendarDataService.fillCalendarDetails();
-            if (response.status === 200){
-                console.log(response)
-
-                //setEvents(response.data)
-            }
-        }catch(error){
-            console.log(error);
         }
-    }
+        else{
+          console.log('Unverified')
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
 
-    if(user_type !== 'Doctor'){
-        return(
-          <NonDoctorAccess/>
-        )
+  async function FillDoctorCalendarDetails(){
+    try{
+      const response = await CalendarDataService.fillCalendarDetails();
+      if (response.status === 200){
+        const events = response.data.map(appointment => {
+          const startTime = new Date(appointment.appointment_date);
+          const endTime = new Date(startTime);
+          endTime.setMinutes(startTime.getMinutes() + parseInt(appointment.Service_time));
+          return {
+            title: appointment.Service_name,
+            start: startTime,
+            end: endTime,
+            Doctor_confirmation_status: appointment.Doctor_confirmation_status
+          };
+        });
+        setEvents(events);
       }
+    }catch(error){
+        console.log(error);
+    }
+  }  
 
-    return (
+  if(user_type !== 'Doctor'){
+    return(
+      <NonDoctorAccess/>
+    )
+  }
+
+  return (
     <div>
-        <Header dropdown={true} />
-        <DoctorHeader />
-        <Calendar
+      <Header dropdown={true} />
+      <DoctorHeader />
+      <Calendar
         localizer={localizer}
         defaultDate={new Date()}
         defaultView="month"
         events={events}
         style={{ height: "100vh" }}
-        />
+        components={{
+          event: CustomEvent,
+        }}
+      />
     </div>
-    );
+  );
 };
