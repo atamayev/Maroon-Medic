@@ -2,23 +2,14 @@ To-do:
 
 ASAP:
 
-PatientDashboard:
-	1. Should only query upcoming appointments if there are upcoming appts
-	2. Should not just query the first appt from DB, but all of them (array of objects), and then display that properly on teh screen
-	3. Seperate by upcoming and past appts
-	4. Need to figure out when to ask the DB for the patientData (after an appointment is scheduled, dashboard data not refreshed.) also, if doctor approves an appt while pt logged in, session storage doesn't get reset.
-DoctorDashboard:
-	1. Seperate by upcoming and past appts
-
 -go through all instances of select dropdowns, and make the 'select' options disabled
 
 -instead of re-rendering pateint dashboard each time, maybe there's a way to set the dashborad data from the back-end.
 
--fix issue where,if no times are seleected, locations don't render.
+-fix issue where,if no times are seleected, locations don't render. think through how it should look
 
 there's a bug when the names of the locations are changed, which cause the times to switch
 	if both are titled 123, and the second one is changed to 'availble', the times assigned to them switch
-
 
 Make the 'Add Address' Button Finalize a Location, make it within the accordion. 
 	So when add address is pressed, it becomes a pretty-looking text (can edit it by pressing a pencil in the top right or something)
@@ -37,8 +28,10 @@ Later:
 
 Calendar
 - when registering as a patient, need to make it clear when the user is entering data regrading the human, and when about the pet
+
 Do the calculations for the next appointment dates on the back-end. Will need to figure out which dates/times area unavailable due to conflicting appointments.
 	Also, due to the detailed_booking_availblity fields (how far in advance to book, etc.)
+
 -Add an admin user type (manages/can see multiple doctor's activities)
 
 -Add an Administrator user Type (God-mode, for me to log into any account in a read-only mode)

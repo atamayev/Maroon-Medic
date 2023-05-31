@@ -5,6 +5,7 @@ import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import DoctorHeader from './doctor-header.js';
 import Header from '../header.js';
 import { NonDoctorAccess } from '../../Components/user-type-unauth.js';
+import moment from 'moment';
 
 async function fetchDoctorDashboardData(setDashboardData){
   try{
@@ -20,10 +21,36 @@ async function fetchDoctorDashboardData(setDashboardData){
   }
 }
 
+async function approveAppointment (setStatus, AppointmentsID, dashboardData, setDashboardData) {
+  try{
+    const response = await PrivateDoctorDataService.confirmAppointment(AppointmentsID)
+    if (response.status === 200) {
+      // Update the Doctor_confirmation_status for the specific appointment
+      const updatedDashboardData = dashboardData.map(appointment => {
+        if (appointment.AppointmentsID === AppointmentsID) {
+          return { ...appointment, Doctor_confirmation_status: 1 };
+        }
+        return appointment;
+      });
+
+      setDashboardData(updatedDashboardData);
+      setStatus('approved');
+    }else{
+      console.log('no response')
+      setStatus('pending');
+    }
+  }catch(error){
+    console.log('unable to fillDoctorDashboard', error)
+    setStatus('pending');
+  }
+};
+
 export default function DoctorDashboard() {
   const {user_verification} = useContext(VerifyContext)
   const [personalInfo, setPersonalInfo] = useState(JSON.parse(sessionStorage.getItem('DoctorPersonalInfo')));
   const [dashboardData, setDashboardData] = useState([]);
+  const [pastAppointments, setPastAppointments] = useState([]);
+  const [upcomingAppointments, setUpcomingAppointments] = useState([]);
   const [user_type, setUser_type] = useState(null);
   const newDoctor = document.cookie.split(';').some((item) => item.trim().startsWith('DoctorNew_User'));
 
@@ -60,12 +87,28 @@ export default function DoctorDashboard() {
       const sessionInfo = sessionStorage.getItem('DoctorPersonalInfo');
       if (sessionInfo) {
         setPersonalInfo(JSON.parse(sessionInfo));
+        clearInterval(interval); // Clear the interval once the data is set
       }
     }, 10); // Check every 10 miliseconds
-
+  
     // Clean up interval on unmount
     return () => clearInterval(interval);
   }, []);
+  
+  useEffect(() => {
+    if (dashboardData.length > 0) {
+      const now = moment();
+      const pastAppointments = dashboardData.filter(appointment =>
+        moment(appointment.appointment_date, "MMMM Do, YYYY, h:mm A") < now
+      );
+      const upcomingAppointments = dashboardData.filter(appointment =>
+        moment(appointment.appointment_date, "MMMM Do, YYYY, h:mm A") >= now
+      );
+  
+      setPastAppointments(pastAppointments);
+      setUpcomingAppointments(upcomingAppointments);
+    }
+  }, [dashboardData]);
 
   if(user_type !== 'Doctor'){
     return(
@@ -73,45 +116,20 @@ export default function DoctorDashboard() {
     )
   }
 
-  async function approveAppointment (setStatus, AppointmentsID) {
-    try{
-      const response = await PrivateDoctorDataService.confirmAppointment(AppointmentsID)
-      if (response.status === 200) {
-        // Update the Doctor_confirmation_status for the specific appointment
-        const updatedDashboardData = dashboardData.map(appointment => {
-          if (appointment.AppointmentsID === AppointmentsID) {
-            return { ...appointment, Doctor_confirmation_status: 1 };
-          }
-          return appointment;
-        });
-  
-        setDashboardData(updatedDashboardData);
-        setStatus('approved');
-      }else{
-        console.log('no response')
-        setStatus('pending');
-      }
-    }catch(error){
-      console.log('unable to fillDoctorDashboard', error)
-      setStatus('pending');
-    }
-  };
-  
-
-  const AppointmentCard = ({ appointment, index }) => {
+  const UpcomingAppointmentCard = ({ appointment, index }) => {
     const [status, setStatus] = useState(appointment.Doctor_confirmation_status === 0 ? 'pending' : 'approved');
-  
     return (
       <Card key={index} style={{ margin: '0 10px', position: 'relative' }} className='mb-3'>
         <Card.Body>
           <Card.Title>
             Appointment with {appointment.Patient_FirstName} {appointment.Patient_LastName} on {appointment.appointment_date}
+           
             {status === 'pending' && (
-              <Button onClick={() => setStatus('confirming')}>Pending approval</Button>
+              <Button onClick={() => {setStatus('confirming')}}>Pending approval</Button>
             )}
             {status === 'confirming' && (
               <div>
-                <Button variant="success" onClick={e => approveAppointment(setStatus, appointment.AppointmentsID)}>Check</Button>
+                <Button variant="success" onClick={e => approveAppointment(setStatus, appointment.AppointmentsID, dashboardData, setDashboardData)}>Approve Appointment</Button>
                 <Button variant="danger" onClick={() => setStatus('pending')}>X</Button>
               </div>
             )}
@@ -126,15 +144,75 @@ export default function DoctorDashboard() {
     );
   };
 
+  const PastAppointmentCard = ({ appointment, index }) => {
+    return (
+      <Card key={index} style={{ margin: '0 10px', position: 'relative' }} className='mb-3'>
+        <Card.Body>
+          <Card.Title>
+            Appointment with {appointment.Patient_FirstName} {appointment.Patient_LastName} on {appointment.appointment_date}
+          </Card.Title>
+        </Card.Body>
+      </Card>
+    );
+  };
+
+  const renderUpcomingAppointments = (upcomingAppointments) =>{
+    if (upcomingAppointments.length){
+      return(
+        <>
+          {upcomingAppointments.map((appointment, index) => (
+            <UpcomingAppointmentCard key={index} appointment={appointment} index={index} />
+          ))}
+        </>
+      )
+    }else{
+      return(
+        <>
+          No upcoming appointments
+        </>
+      )
+    }
+  }
+
+  const renderPastAppointments = (pastAppointments) =>{
+    if (pastAppointments.length){
+      return(
+        <>
+          {pastAppointments.map((appointment, index) => (
+            <PastAppointmentCard key={index} appointment={appointment} index={index} />
+          ))}
+        </>
+      )
+    }else{
+      return(
+        <>
+          No past appointments
+        </>
+      )
+    }
+  }
+
   const renderDashboardData = () => {
     if (dashboardData.length) {
-      // console.log(dashboardData);
       return (
         <>
-          <h1>Upcoming Appointments</h1>
-          {dashboardData.map((appointment, index) => (
-            <AppointmentCard key={index} appointment={appointment} index={index} />
-          ))}
+          <Card style={{margin: '0 10px' }}className='mb-3'>
+            <Card.Header>
+              <h1>Upcoming Appointments</h1>
+            </Card.Header>
+            <Card.Body>
+              {renderUpcomingAppointments(upcomingAppointments)}
+            </Card.Body>
+          </Card>
+
+          <Card style={{margin: '0 10px' }}>
+            <Card.Header>
+              <h1>Past Appointments</h1>
+            </Card.Header>
+            <Card.Body>
+              {renderPastAppointments(pastAppointments)}
+            </Card.Body>
+          </Card>
         </>
       );
     } else {
@@ -153,13 +231,8 @@ export default function DoctorDashboard() {
         </>) : 
         (<>
           Loading...
-        </>)}
-        
-        <Card style={{margin: '0 10px' }}>
-          <Card.Body>
-            {renderDashboardData()}
-          </Card.Body>
-       </Card>
+        </>)}  
+        {renderDashboardData()}
     </>
   )
 };
