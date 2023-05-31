@@ -151,10 +151,10 @@ export default new class FetchDoctorAccountData{
         
         const sql = `SELECT ${addresses}.addressesID, ${addresses}.address_title, ${addresses}.address_line_1, 
             ${addresses}.address_line_2, ${addresses}.city, ${addresses}.state, ${addresses}.zip, 
-            ${addresses}.country, ${addresses}.address_priority, ${addresses}.address_public_status, 
+            ${addresses}.country, ${addresses}.address_priority, ${addresses}.address_public_status, ${addresses}.instant_book, 
             ${phone}.Phone, ${phone}.phone_priority 
             FROM ${addresses}, ${phone} 
-            WHERE ${addresses}.addressesID = ${phone}.address_ID AND ${addresses}.Doctor_ID = ?`;
+            WHERE ${addresses}.addressesID = ${phone}.address_ID AND ${addresses}.Doctor_ID = ? AND ${addresses}.isActive = 1`;
         
         const values = [Doctor_ID];
 

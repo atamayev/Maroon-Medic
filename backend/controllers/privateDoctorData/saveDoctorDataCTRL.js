@@ -424,7 +424,7 @@ export async function saveAddressData (req, res){
     
     const AddressData = req.body.AddressData;
     const TimesData = req.body.Times;
-    [addresses, phone, booking_availability] = ['addresses', 'phone', 'booking_availability'];
+    const [addresses, phone, booking_availability] = ['addresses', 'phone', 'booking_availability'];
 
     const sql = `SELECT * FROM ${addresses} JOIN ${phone} ON ${addresses}.addressesID = ${phone}.address_ID WHERE ${addresses}.Doctor_ID = ?`;
     const values = [DoctorID];
@@ -458,9 +458,9 @@ export async function saveAddressData (req, res){
         if (addedData.length > 0) {
             for (let i = 0; i<addedData.length; i++){
                 const sql1 = `INSERT INTO ${addresses} 
-                    (address_title, address_line_1, address_line_2, city, state, zip, country, address_public_status, address_priority, Doctor_ID) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-                const values1 = [addedData[i].address_title, addedData[i].address_line_1, addedData[i].address_line_2, addedData[i].city, addedData[i].state, addedData[i].zip, addedData[i].country, addedData[i].address_public_status, addedData[i].address_priority, DoctorID];
+                    (address_title, address_line_1, address_line_2, city, state, zip, country, address_public_status, address_priority, instant_book, isActive, Doctor_ID) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+                const values1 = [addedData[i].address_title, addedData[i].address_line_1, addedData[i].address_line_2, addedData[i].city, addedData[i].state, addedData[i].zip, addedData[i].country, addedData[i].address_public_status, addedData[i].address_priority, addedData[i].instant_book, 1, DoctorID];
                 let insert_results;
                 try{
                     [insert_results] = await connection.execute(sql1, values1);
@@ -484,7 +484,7 @@ export async function saveAddressData (req, res){
         if (deletedData.length) {
             for (let i = 0; i<deletedData.length; i++){
                 //Automatically deletes data in the phone number table, since the two are linked via a cascade
-                const sql1 = `DELETE FROM ${addresses} WHERE addressesID = ?`;
+                const sql1 = `UPDATE ${addresses} SET isActive = 0 WHERE addressesID = ?`;
                 const values1 = [deletedData[i]];
                 try{
                     await connection.execute(sql1, values1);
@@ -497,9 +497,9 @@ export async function saveAddressData (req, res){
         if(updatedData.length){
             for (let i = 0; i<updatedData.length; i++){
                 const sql1 = `UPDATE ${addresses} 
-                    SET address_title = ?, address_line_1 = ?, address_line_2 = ?, city = ?, state = ?, zip = ?, country = ?, address_public_status = ? 
+                    SET address_title = ?, address_line_1 = ?, address_line_2 = ?, city = ?, state = ?, zip = ?, country = ?, address_public_status = ?, instant_book = ?
                     WHERE addressesID = ?`;
-                const values1 = [updatedData[i].address_title, updatedData[i].address_line_1, updatedData[i].address_line_2, updatedData[i].city, updatedData[i].state, updatedData[i].zip, updatedData[i].country, updatedData[i].address_public_status, updatedData[i].addressesID];
+                const values1 = [updatedData[i].address_title, updatedData[i].address_line_1, updatedData[i].address_line_2, updatedData[i].city, updatedData[i].state, updatedData[i].zip, updatedData[i].country, updatedData[i].address_public_status, updatedData[i].instant_book, updatedData[i].addressesID];
                 try{
                     await connection.execute(sql1, values1);
                 }catch(error){
@@ -604,9 +604,9 @@ export async function saveAddressData (req, res){
     } else if (AddressData.length > 0){
         for (let i=0; i<AddressData.length; i++){
             const sql = `INSERT INTO ${addresses} 
-                (address_title, address_line_1, address_line_2, city, state, zip, country, address_public_status, address_priority, Doctor_ID) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-            const values = [AddressData[i].address_title, AddressData[i].address_line_1, AddressData[i].address_line_2, AddressData[i].city, AddressData[i].state, AddressData[i].zip, AddressData[i].country, AddressData[i].address_public_status, AddressData[i].address_priority, DoctorID];
+                (address_title, address_line_1, address_line_2, city, state, zip, country, address_public_status, address_priority, instant_book, isActive, Doctor_ID) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+            const values = [AddressData[i].address_title, AddressData[i].address_line_1, AddressData[i].address_line_2, AddressData[i].city, AddressData[i].state, AddressData[i].zip, AddressData[i].country, AddressData[i].address_public_status, AddressData[i].address_priority, AddressData[i].instant_book, 1, DoctorID];
             let insert_results;
             try{
                 [insert_results] = await connection.execute(sql, values);

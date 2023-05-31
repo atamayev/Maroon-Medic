@@ -132,5 +132,5 @@ export const handleAddVetEducation = (
 };
 
 export const handleAddAccordion = (addresses, setAddresses) => {
-  setAddresses([...addresses, { address_priority: addresses.length+1, addressesID: 0, address_title: '', address_line_1: '', address_line_2: '', city: '', state: '', zip: '', country: '', phone_priority: 0, phone: '', address_public_status: 1, times:[]}]);
+  setAddresses([...addresses, { address_priority: addresses.length+1, addressesID: 0, address_title: '', address_line_1: '', address_line_2: '', city: '', state: '', zip: '', country: '', phone_priority: 0, phone: '', address_public_status: 1, instant_book: 0, times:[]}]);
 };

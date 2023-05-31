@@ -23,6 +23,10 @@ export async function makeAppointment(req, res){
     const PatientUUID = req.cookies.PatientUUID;
     const Patient_ID = await UUID_to_ID(PatientUUID); // converts PatientUUID to docid
 
+    const date_ob = new Date();
+    const format = "YYYY-MM-DD HH:mm:ss"
+    const createdAt = moment(date_ob).format(format);
+
     // Combine date and time into a single string
     const dateTimeStr = `${AppointmentObject.appointment_date} ${AppointmentObject.appointment_time}`;
 
@@ -33,10 +37,9 @@ export async function makeAppointment(req, res){
     const mysqlDateTime = dateTime.format('YYYY-MM-DD HH:mm:ss');
 
     const sql2 = `INSERT INTO ${Appointments}
-        (appointment_date, patient_message, Doctor_confirmation_status, Service_and_category_list_ID, Patient_ID, Doctor_ID, Addresses_ID) 
-        VALUES (?, ?,?,?,?,?,?)`;
-    const values2 = [mysqlDateTime, null, 1, AppointmentObject.Service_and_category_list_ID, Patient_ID, Doctor_ID, AppointmentObject.Addresses_ID];
-    console.log('values2',values2)
+        (appointment_date, patient_message, Doctor_confirmation_status, Service_and_category_list_ID, Patient_ID, Doctor_ID, Addresses_ID, Created_at) 
+        VALUES (?, ?,?,?,?,?,?, ?)`;
+    const values2 = [mysqlDateTime, null, 1, AppointmentObject.Service_and_category_list_ID, Patient_ID, Doctor_ID, AppointmentObject.Addresses_ID, createdAt];
 
     await DB_Operation(makeAppointment.name, Appointments)
     

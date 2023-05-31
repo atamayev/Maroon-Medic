@@ -67,7 +67,7 @@ export default function DoctorAccountDetails() {
   const [vetEducation, setVetEducation] = useState(DoctorAccountDetails?.[5] || []);
   const [vetEducationConfirmation, setVetEducationConfirmation] = useConfirmationMessage();
 
-  const [addresses, setAddresses] = useState(DoctorAccountDetails?.[6] ||[{ address_priority: 0, addressesID: 0, address_title: '', address_line_1  : '', address_line_2: '', city: '', state: '', zip: '', country: '', phone_priority: 0, phone: '', address_public_status: 1, times:[]}]);
+  const [addresses, setAddresses] = useState(DoctorAccountDetails?.[6] ||[{ address_priority: 0, addressesID: 0, address_title: '', address_line_1  : '', address_line_2: '', city: '', state: '', zip: '', country: '', phone_priority: 0, phone: '', address_public_status: 1, instant_book: 0, times:[]}]);
   const [addressesConfirmation, setAddressesConfirmation] = useConfirmationMessage();
 
   const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false);

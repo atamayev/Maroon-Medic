@@ -216,11 +216,13 @@ CREATE TABLE addresses(
 	country VARCHAR(150) NOT NULL,
 	address_priority INT,
 	address_public_status BOOLEAN NOT NULL,
+    instant_book BOOLEAN NOT NULL,
+    isActive BOOLEAN NOT NULL, -- set to 1 by default, when a doc deletes address, set to 0.
 	Doctor_ID INT unsigned NOT NULL, 
 	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
 );
 
-SELECT * FROM doctor_addresses;
+SELECT * FROM addresses;
 
 CREATE TABLE phone(
 	phone_numbersID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,

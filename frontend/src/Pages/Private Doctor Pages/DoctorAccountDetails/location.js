@@ -111,6 +111,17 @@ const AddressAccordionItem = ({ address, handleInputChange, handleDeleteAccordio
     setAddresses(updatedAddresses);
   };
 
+  const handleInstantBookToggleChange = (addressPriority) => {
+    // Create a copy of the addresses state
+    const updatedAddresses = [...addresses];
+    // Find the index of the address object with the matching priority
+    const addressIndex = updatedAddresses.findIndex(addr => addr.address_priority === addressPriority);
+    // Toggle the public status
+    updatedAddresses[addressIndex].instant_book = updatedAddresses[addressIndex].instant_book === 1 ? 0 : 1;
+    // Update the state
+    setAddresses(updatedAddresses);
+  };
+
   return(
     <Accordion.Item eventKey={address.address_priority} style={{ marginBottom: '10px' }}>
       <Accordion.Header>
@@ -123,6 +134,14 @@ const AddressAccordionItem = ({ address, handleInputChange, handleDeleteAccordio
                   id={address.address_priority} 
                   checked={address.address_public_status === 1} 
                   onChange={() => handlePublicStatusToggleChange(address.address_priority)} 
+                />
+              </div>
+              <span>Instant book:</span>
+              <div onClick={(event) => event.stopPropagation()}>
+                <Toggle 
+                  id={address.address_priority} 
+                  checked={address.instant_book === 1} 
+                  onChange={() => handleInstantBookToggleChange(address.address_priority)} 
                 />
               </div>
             </Col>

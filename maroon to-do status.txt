@@ -1,7 +1,6 @@
 To-do:
 
 ASAP:
-
 -add an instant book option to each location. when isntant book is on, the appt is approved as soon as a pt makes an appt. 
 	when off, is first pending, then when doctor approves.
 	-Figure out Doctor_confirmation status (should be 0 until doctor approves, unless instant book is on)

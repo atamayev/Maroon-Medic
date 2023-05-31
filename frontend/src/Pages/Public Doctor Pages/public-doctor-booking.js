@@ -47,7 +47,6 @@ function finalizeBookingClick(e, navigate, selectedService, selectedLocation, se
       selectedTime,
       personalData: personalData
   };
-  console.log('bookingDetails',bookingDetails)
 
   // Store the current state into sessionStorage
   sessionStorage.setItem('bookingDetails', JSON.stringify(bookingDetails));
@@ -64,6 +63,7 @@ export default function RenderBookingSection(props) {
   const [availableTimes, setAvailableTimes] = useState([]);
   const navigate = useNavigate();
   const [availableDates, setAvailableDates] = useState([]);
+  console.log('props.addresses',props.addresses)
 
   // Get selected service object
   const selectedServiceObject = props.providedServices.find(service => service.service_and_category_listID === selectedService?.service_and_category_listID);
@@ -85,7 +85,6 @@ export default function RenderBookingSection(props) {
         let currentTime = moment().hour(start[0]).minute(start[1]);
         let endTime = moment().hour(end[0]).minute(end[1]);
         
-        //console.log('currentTime',currentTime)
         while (currentTime.isBefore(endTime)) {
           times.push(currentTime.format('HH:mm'));
           currentTime = currentTime.clone().add(Number(selectedServiceObject.Service_time), 'minutes');
@@ -99,7 +98,10 @@ export default function RenderBookingSection(props) {
     if (!selectedLocationObject) {
       return;
     }
-  
+    console.log(selectedLocationObject)
+    console.log(selectedLocationObject.times)
+
+
     const daysOfWeek = selectedLocationObject?.times.map(time => {
       switch (time.Day_of_week) {
         case 'Sunday': return 0;

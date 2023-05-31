@@ -66,9 +66,11 @@ export default new class FetchPublicDoctorData{
         const functionName = this.FetchDoctorAddressData.bind(this).name;
         const [phone, addresses, booking_availability] =  ['phone', 'addresses', 'booking_availability'];
 
-        const sql = `SELECT ${addresses}.addressesID, ${addresses}.address_title, ${addresses}.address_line_1, ${addresses}.address_line_2, ${addresses}.city, ${addresses}.state, ${addresses}.zip, ${addresses}.country, ${addresses}.address_priority, ${phone}.Phone, ${phone}.phone_priority 
+        const sql = `SELECT ${addresses}.addressesID, ${addresses}.address_title, ${addresses}.address_line_1, ${addresses}.address_line_2, 
+            ${addresses}.city, ${addresses}.state, ${addresses}.zip, ${addresses}.country, ${addresses}.address_priority, ${addresses}.instant_book,
+            ${phone}.Phone, ${phone}.phone_priority 
             FROM ${addresses}, ${phone} 
-            WHERE ${addresses}.addressesID = ${phone}.address_ID AND ${addresses}.Doctor_ID = ? AND ${addresses}.address_public_status = 1`;
+            WHERE ${addresses}.addressesID = ${phone}.address_ID AND ${addresses}.Doctor_ID = ? AND ${addresses}.address_public_status = 1 AND ${addresses}.isActive = 1`;
     
         const values = [DoctorID];
         await DB_Operation(functionName, addresses);

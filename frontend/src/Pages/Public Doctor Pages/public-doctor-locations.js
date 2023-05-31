@@ -26,6 +26,7 @@ function renderLocations(addressesList){
                   <p>{address.address_line_1}</p>
                   <p>{address.address_line_2}</p>
                   <p>{address.city}, {address.state} {address.zip}, {address.country}</p>
+                  {address.instant_book ? (<>Instant book available</>) : (<>Instant book unavailable</>)}
                   <p>Phone: {address.phone}</p>
                   </div>
                   <div className="col-md-6">
