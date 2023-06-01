@@ -16,12 +16,12 @@ export async function newPatient (req, res){
     
     const new_patient_object = req.body.new_patient_object
 
-    const basic_user_info = 'basic_user_info'
-    const sql = `INSERT INTO ${basic_user_info} 
-        (FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year, User_ID) 
-        VALUES (?,?,?,?,?,?,?)`;
+    const dateOfBirth = moment(`${new_patient_object.DOB_month} ${new_patient_object.DOB_day} ${new_patient_object.DOB_year}`, 'MMMM D YYYY').format('YYYY-MM-DD');
 
-    const values = [new_patient_object.FirstName, new_patient_object.LastName, new_patient_object.Gender, new_patient_object.DOB_month, new_patient_object.DOB_day, new_patient_object.DOB_year, User_ID];
+    const basic_user_info = 'basic_user_info'
+    const sql = `INSERT INTO ${basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?,?,?,?,?)`;
+
+    const values = [new_patient_object.FirstName, new_patient_object.LastName, new_patient_object.Gender, dateOfBirth, User_ID];    
     await DB_Operation(newPatient.name, basic_user_info)
     
     try{
@@ -46,7 +46,7 @@ export async function newPatientConfirmation (req, res){
     const newPatientUUID = req.cookies.PatientNew_User
     const existingPatientUUID = req.cookies.PatientUUID
 
-    if (!newPatientUUID || !existingPatientUUID) return res.status(200).json(Patient_permission);
+    if (!newPatientUUID || !existingPatientUUID) return res.json(Patient_permission);
 
     const UUID_reference = 'UUID_reference';
     const sql = `SELECT UUID_referenceID FROM ${UUID_reference} WHERE UUID = ?`;
@@ -58,12 +58,14 @@ export async function newPatientConfirmation (req, res){
         const [results1] = await connection.execute(sql, values1)
         const [results2] = await connection.execute(sql, values2)
 
-        if (results1.length === 1 && results2.length === 1)return res.status(200).json(Patient_permission);
-        else return res.status(500).json(Patient_permission);
-
+        if (results1.length === 1 && results2.length === 1){
+            Patient_permission = true;
+            return res.json(Patient_permission);
+        }
+        else return res.json(Patient_permission);
     }catch(error){
         console.log(`error in ${newPatientConfirmation.name}:`, error)
-        return res.status(500).json(Patient_permission);
+        return res.json(Patient_permission);
     }
 };
 
@@ -127,7 +129,7 @@ export async function fetchPersonalData (req, res){
     
     const basic_user_info = 'basic_user_info';
   
-    const sql = `SELECT FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year FROM ${basic_user_info} WHERE User_ID = ?`;
+    const sql = `SELECT FirstName, LastName, Gender, DOB FROM ${basic_user_info} WHERE User_ID = ?`
     const values = [PatientID];
     await DB_Operation(fetchPersonalData.name, basic_user_info);
 
@@ -144,8 +146,16 @@ export async function fetchPersonalData (req, res){
         const [results] = await connection.execute(sql, values);
         if (results.length === 0) return res.json(PersonalData);
         else {
-            PersonalData = results[0];
-            return res.status(200).json(PersonalData);
+            let dob = moment(results[0].DOB);
+            PersonalData = {
+                FirstName: results[0].FirstName,
+                LastName: results[0].LastName,
+                Gender: results[0].Gender,
+                DOB_month: dob.format('MMMM'),  // getting month name
+                DOB_day: dob.date().toString(),  // getting day
+                DOB_year: dob.year().toString()  // getting year
+            };
+            return res.json(PersonalData);
         }
     }catch(error){
         console.log(`error in ${fetchPersonalData.name}:`, error);

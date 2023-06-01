@@ -1,6 +1,37 @@
 To-do:
 
+
 ASAP:
+Make a nav bar on the patient side. 
+	Should have: Dashboard, my pets (where users can input data about their pets), and my info (where they can update personal details (languages, insurances, etc.)
+move useConfirmationMessage to hooks/components - no longer just being used by doc account detials
+- if a certain location has no times selected, when that location is selected by hte pt, it should say something like: 'This doc has no available time slots'
+	BUG: if one of the locations has no availbale times, and is pressed, then all location show no available tiems
+	
+-In the checkout screen, ask: Do cyou have insurance, and are you cirious to know what your out of pocket cost will be for [Service_name] with Dr. [name]?
+	Only ask if user hasn't entered their insurance in the patient details. if they have, calculate it on the fly
+-Add self-pay as an option to the insruance list
+
+- when registering as a patient, need to make it clear when the user is entering data regrading the human, and when about the pet
+
+-Reviews:
+	Patient's able to make a review after the appointment date is completed, given that the appointment is approved by the doctor.
+
+
+Create a setting/privacy page for the pt.
+
+Also need to create the login history table and display it nicely to the user (both doc and pt). 
+
+On the vet dashboard, make the appointments clickable, shows the patients details, patient note, pet details, etc.
+	Should go to a newly created appointment page, which nicely lays out the appointment details. 
+	If that event is clicked on from calendar view, it should go to that link as well
+-Delete insurance from vet side, add a place for patients to enter their details
+-make appt price a req field.
+Add a section to the vets info where it asks which pets they service (checkboxes)
+-Figure out a good way to divide the vet screen into locations. Must be intuitive, and think of all the information that may differ bw practices, not just the address/phone numbers
+
+LATER:
+
 Make the 'Add Address' Button Finalize a Location, make it within the accordion. 
 	So when add address is pressed, it becomes a pretty-looking text (can edit it by pressing a pencil in the top right or something)
 	Add a new 'Add new address' button to add a new acordion strip
@@ -14,11 +45,6 @@ Add a section in doctordetails for wheather or not the doc works for a practice/
 -- will likely need to simplify the select.js. what it's doing rn is redundant. inside account details, it's setting the value of the type of to the id. then, select has to find which type has that id.
 	for example, if select Lemonade insurance, instead of setting selected vet school to Lemondae, it first sends back lemonad'es id, and then converts it to the name
 simplification of pre-vet education needed.
-
-Later:
-
-Calendar
-- when registering as a patient, need to make it clear when the user is entering data regrading the human, and when about the pet
 
 Do the calculations for the next appointment dates on the back-end. Will need to figure out which dates/times area unavailable due to conflicting appointments.
 	Also, due to the detailed_booking_availblity fields (how far in advance to book, etc.)
@@ -43,3 +69,6 @@ figure out phone_priority (address_data), currently sending it back as 0. Phone 
 
 inactivity logout ( 5 mins). implement on the verification level (in the jwt)
 
+-I think the real selling point for pts to use the platform is knowing ahead of time if their insurance provider will cover a certain service. Will either require a lot of research, or data searching. 
+	Ask Phil if insurances openly disclose what they will/won't cover for which type of pets. 
+	Figure out a way to make it really user for users to figure out if their insurance covers a certain procedure. 

@@ -179,9 +179,9 @@ export default new class FetchDoctorAccountData{
                     if(!phones.length){
                         result.phone = "";
                     }else{
-                        result.phone = phones[0];
+                        result.phone = phones[0].phone;
+                        result.phone_priority = phones[0].phone_priority;
                     }
-                    console.log(result)
                 }
             }
             return results;

@@ -24,17 +24,26 @@ SELECT * FROM Doctor_specific_info;
 
 CREATE TABLE basic_user_info (
 	basic_user_infoID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	FirstName VARCHAR(150) NULL,
-	LastName VARCHAR(150) NULL,
-	Gender VARCHAR(150) NULL,
-	DOB_month VARCHAR(150) NULL,
-	DOB_day VARCHAR(150) NULL,
-	DOB_year VARCHAR(150) NULL,
-	User_ID INT unsigned NULL, 
+	FirstName VARCHAR(150) NOT NULL,
+	LastName VARCHAR(150) NOT NULL,
+	Gender VARCHAR(150) NOT NULL,
+    DOB DATE NOT NULL,
+	User_ID INT unsigned NOT NULL, 
 	FOREIGN KEY (User_ID) REFERENCES Credentials(UserID)
 );
 
 SELECT * FROM basic_user_info;
+
+CREATE TABLE pet_info (
+	pet_infoID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	Name VARCHAR(150) NULL,
+	Gender VARCHAR(150) NULL,
+    DOB DATE,
+	Patient_ID INT unsigned NULL, 
+	FOREIGN KEY (Patient_ID) REFERENCES Credentials(UserID)
+);
+
+SELECT * FROM pet_info;
 
 CREATE TABLE UUID_reference(
 	UUID_referenceID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -221,12 +230,10 @@ CREATE TABLE addresses(
 	Doctor_ID INT unsigned NOT NULL, 
 	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
 );
+select * from addresses where isactive;
+SELECT * FROM addresses inner join phone on addresses.addressesID = phone.address_ID WHERE addresses.isactive;
+-- update addresses set isActive = 0 where Doctor_ID;
 
-SELECT * FROM addresses where isActive;
--- inner join phone on addresses.addressesID = phone.address_ID;
-update addresses set isActive = 0 where Doctor_ID;
-
-DELETE FROM addresses where Doctor_ID;
 CREATE TABLE phone(
 	phone_numbersID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	Phone VARCHAR(150),
@@ -237,6 +244,7 @@ CREATE TABLE phone(
 );
 
 SELECT * FROM phone;
+delete from phone where address_ID;
 
 CREATE TABLE booking_availability(
 	booking_availabilityID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -249,8 +257,8 @@ CREATE TABLE booking_availability(
 	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
 );
 
-SELECT * FROM booking_availability;
-
+SELECT * FROM booking_availability ;
+delete from booking_availability where Doctor_ID;
 -- CREATE TABLE detailed_booking_availability(
 -- 	detailed_booking_availabilityID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 -- 	Hours_in_advance_scheduling VARCHAR(10),

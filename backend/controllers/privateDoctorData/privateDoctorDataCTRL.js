@@ -16,11 +16,12 @@ export async function newDoctor (req, res){
     const User_ID = await UUID_to_ID(DoctorUUID) // converts DoctorUUID to docid
 
     const new_doctor_object = req.body.new_doctor_object
+    const dateOfBirth = moment(`${new_doctor_object.DOB_month} ${new_doctor_object.DOB_day} ${new_doctor_object.DOB_year}`, 'MMMM D YYYY').format('YYYY-MM-DD');
 
     const basic_user_info = 'basic_user_info'
-    const sql = `INSERT INTO ${basic_user_info} (FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year, User_ID) VALUES (?,?,?,?,?,?,?)`;
+    const sql = `INSERT INTO ${basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?,?,?,?,?)`;
 
-    const values = [new_doctor_object.FirstName, new_doctor_object.LastName, new_doctor_object.Gender, new_doctor_object.DOB_month, new_doctor_object.DOB_day, new_doctor_object.DOB_year, User_ID];    
+    const values = [new_doctor_object.FirstName, new_doctor_object.LastName, new_doctor_object.Gender, dateOfBirth, User_ID];    
     await DB_Operation(newDoctor.name, basic_user_info)
     
     try{
@@ -127,7 +128,7 @@ export async function fetchPersonalData (req, res){
     
     const basic_user_info = 'basic_user_info';
   
-    const sql = `SELECT FirstName, LastName, Gender, DOB_month, DOB_day, DOB_year FROM ${basic_user_info} WHERE User_ID = ?`
+    const sql = `SELECT FirstName, LastName, Gender, DOB FROM ${basic_user_info} WHERE User_ID = ?`
     const values = [DoctorID];
     await DB_Operation(fetchPersonalData.name, basic_user_info);
 
@@ -144,7 +145,15 @@ export async function fetchPersonalData (req, res){
         const [results] = await connection.execute(sql, values);
         if (results.length === 0) return res.json(PersonalData);
         else {
-            PersonalData = results[0];
+            let dob = moment(results[0].DOB);
+            PersonalData = {
+                FirstName: results[0].FirstName,
+                LastName: results[0].LastName,
+                Gender: results[0].Gender,
+                DOB_month: dob.format('MMMM'),  // getting month name
+                DOB_day: dob.date().toString(),  // getting day
+                DOB_year: dob.year().toString()  // getting year
+            };
             return res.json(PersonalData);
         }
     }catch(error){

@@ -65,34 +65,35 @@ export function FinalizeBookingPage() {
   const capitalizedLastName = personalData.LastName.charAt(0).toUpperCase() + personalData.LastName.slice(1);
 
   return (
+    
     <>
+    {console.log(selectedLocation)}
       <Header dropdown = {true} search = {true}/>
       <div className="container mt-5">
           <Card>
-              <Card.Header as="h2">Confirm Appointment</Card.Header>
+              <Card.Header as="h2">{selectedLocation.instant_book ? (<>Confirm</>) : (<>Request</>)} an Appointment</Card.Header>
               <Card.Body>
-              <Card.Title as="h3">Dr. {''} {capitalizedFirstName} {''} {capitalizedLastName}</Card.Title>
-              <Card.Text>
-                  <strong>Service:</strong> {selectedService.Service_name} <br />
-                  <strong>Location:</strong> {selectedLocation.address_title}:  {selectedLocation.address_line_1} {selectedLocation.address_line_2}<br />
-                  <strong>Day:</strong> {selectedDay} <br />
-                  <strong>Time:</strong> {selectedTime} <br />
-              </Card.Text>
-              <Button 
-                variant="primary"
-                onClick={(e) =>{
-                  confirmBooking(
-                    e,
-                    navigate,
-                    selectedService, 
-                    selectedLocation,
-                    selectedDay,
-                    selectedTime,
-                    personalData
-                  )
-                }}
-              >Confirm Booking</Button>
-              When confirm pressed, should clear booking from session storage, re-direct to pt's dashboard.
+                <Card.Title as="h3">Dr. {''} {capitalizedFirstName} {''} {capitalizedLastName}</Card.Title>
+                <Card.Text>
+                    <strong>Service:</strong> {selectedService.Service_name} <br />
+                    <strong>Location:</strong> {selectedLocation.address_title}:  {selectedLocation.address_line_1} {selectedLocation.address_line_2}<br />
+                    <strong>Day:</strong> {selectedDay} <br />
+                    <strong>Time:</strong> {selectedTime} <br />
+                </Card.Text>
+                <Button 
+                  variant="primary"
+                  onClick={(e) =>{
+                    confirmBooking(
+                      e,
+                      navigate,
+                      selectedService, 
+                      selectedLocation,
+                      selectedDay,
+                      selectedTime,
+                      personalData
+                    )
+                  }}
+                >{selectedLocation.instant_book ? (<>Confirm</>) : (<>Request</>)}</Button>
               </Card.Body>
           </Card>
       </div>

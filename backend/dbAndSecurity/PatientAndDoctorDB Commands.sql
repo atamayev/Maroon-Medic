@@ -18,7 +18,5 @@ CREATE TABLE Appointments(
 );
 
 SELECT * FROM appointments;
+UPDATE Appointments set Doctor_confirmation_status = 0 where Doctor_ID;
 delete from appointments where Doctor_ID;
-
-
-

@@ -71,8 +71,6 @@ export default function RenderBookingSection(props) {
   const navigate = useNavigate();
   const [availableDates, setAvailableDates] = useState([]);
   
-  console.log('props.addresses',props.addresses)
-
   // Get selected service object
   const selectedServiceObject = props.providedServices.find(service => service.service_and_category_listID === selectedService?.service_and_category_listID);
 
@@ -236,7 +234,7 @@ export default function RenderBookingSection(props) {
                 props.personalData
               )}
               className='mt-3'>
-              Click to finalize booking
+              Click to {selectedLocation.instant_book ? (<>Confirm</>) : (<>Request</>)} an appointment
             </Button>
           )}
         </Card.Body>

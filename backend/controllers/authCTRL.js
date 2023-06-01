@@ -173,7 +173,7 @@ export async function register (req, res){
   const {email, password, register_type} = req.body.register_information_object // Desctructures the request
   const Credentials = 'Credentials';
 
-  if(register_type !== 'Doctor' && register_type !== 'Patient') return res.json('Invalid User Type'); // If Type not Doctor or Patient
+  if(register_type !== 'Doctor' && register_type !== 'Patient') return res.status(400).json('Invalid User Type'); // If Type not Doctor or Patient
 
   const sql = `SELECT * FROM ${Credentials} WHERE email = ? AND User_type = ? `;
   const values = [email, register_type];
