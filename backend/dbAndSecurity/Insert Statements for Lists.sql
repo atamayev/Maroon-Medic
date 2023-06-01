@@ -12,6 +12,7 @@ INSERT INTO insurance_list (Insurance_name) VALUES
 ('Nationwide'),
 ('Pets Best'),
 ('Pumpkin'),
+('Self-pay'),
 ('Spot'),
 ('Trupanion');
 

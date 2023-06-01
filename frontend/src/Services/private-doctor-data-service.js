@@ -26,7 +26,7 @@ export default new class PrivateDoctorDataService {
         return await http.post('/private-doctor-data/save-general-data', {Data: Data, DataType: DataType})
     }
     async fillLists(){
-        return await http.get('/private-doctor-data/fetch-all-lists')
+        return await http.get('/private-doctor-data/fetch-doctor-lists')
     }
     async savePublicAvailibility(PublicAvailibility){
         return await http.post('/private-doctor-data/save-public-availibility-data', {PublicAvailibility})
@@ -43,5 +43,4 @@ export default new class PrivateDoctorDataService {
     async confirmAppointment(AppointmentID){
         return await http.post('/private-doctor-data/confirm-appointment', {AppointmentID: AppointmentID})
     }
-
 }();

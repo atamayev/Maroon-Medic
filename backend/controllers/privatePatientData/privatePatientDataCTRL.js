@@ -162,3 +162,16 @@ export async function fetchPersonalData (req, res){
         return res.json(PersonalData);
     }
 };
+
+export async function fetchPatientLists (req, res){
+    try{
+        let response = [];
+        response.push(await FetchAllLists.fetchAllInsurances());
+        response.push(await FetchAllLists.fetchAllLanguages());
+        return res.status(200).json(response);
+    }catch(error){
+        console.log('error in accountDetails', error);
+        const emptyResponse = [];
+        return res.status(400).json(emptyResponse);
+    }
+};

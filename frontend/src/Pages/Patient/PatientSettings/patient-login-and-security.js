@@ -12,4 +12,4 @@ export default function PatientLoginAndSecurity() {
         Add login history and update history here
     </>
   )
-}
+};

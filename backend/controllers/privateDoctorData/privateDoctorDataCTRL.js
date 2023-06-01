@@ -1,7 +1,7 @@
 import {connection, DB_Operation} from "../../dbAndSecurity/connect.js";
 import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
 import FetchDoctorAccountData from "./fetchDoctorAccountData.js";
-import FetchAllDoctorLists from "./fetchAllDoctorLists.js";
+import FetchAllLists from "../../dbAndSecurity/fetchAllLists.js";
 import moment from "moment";
 
 /** newDoctor registers the inputted user data into basic_Doctor_info table
@@ -215,18 +215,18 @@ export async function fetchAccountDetails (req, res){
  * @returns Objects from List data
  * DOCUMENTATION LAST UPDATED 3/16/23
  */
-export async function FetchDoctorLists (req, res){
+export async function fetchDoctorLists (req, res){
     try{
         let response = [];
-        response.push(await FetchAllDoctorLists.fetchAllInsurances());
-        response.push(await FetchAllDoctorLists.fetchAllLanguages());
-        response.push(await FetchAllDoctorLists.fetchAllServicesAndCategories());
-        response.push(await FetchAllDoctorLists.fetchAllSpecialties());
-        response.push(await FetchAllDoctorLists.fetchAllPreVetSchools());
-        response.push(await FetchAllDoctorLists.fetchAllPreVetEducationTypes());
-        response.push(await FetchAllDoctorLists.fetchAllMajors());
-        response.push(await FetchAllDoctorLists.fetchAllVetSchools());
-        response.push(await FetchAllDoctorLists.fetchAllVetEducationTypes());
+        response.push(await FetchAllLists.fetchAllInsurances());
+        response.push(await FetchAllLists.fetchAllLanguages());
+        response.push(await FetchAllLists.fetchAllServicesAndCategories());
+        response.push(await FetchAllLists.fetchAllSpecialties());
+        response.push(await FetchAllLists.fetchAllPreVetSchools());
+        response.push(await FetchAllLists.fetchAllPreVetEducationTypes());
+        response.push(await FetchAllLists.fetchAllMajors());
+        response.push(await FetchAllLists.fetchAllVetSchools());
+        response.push(await FetchAllLists.fetchAllVetEducationTypes());
         return res.status(200).json(response);
     }catch(error){
         console.log('error in accountDetails', error);

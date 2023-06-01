@@ -6,7 +6,7 @@ import { VerifyContext } from '../../../Contexts/VerifyContext.js';
 import Header from '../../header.js';
 import FormGroup from '../../../Components/form-group.js';
 import { NonDoctorAccess } from '../../../Components/user-type-unauth.js';
-import { useConfirmationMessage } from '../../../Custom Hooks/Hooks for Doctor Account Details/useConfirmationMessage.js';
+import { useConfirmationMessage } from '../../../Custom Hooks/useConfirmationMessage.js';
 
 async function fetchPersonalInfoData(setPersonalInfo){
   try{

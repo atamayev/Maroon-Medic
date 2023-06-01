@@ -1,5 +1,5 @@
 import {connection, DB_Operation} from "../dbAndSecurity/connect.js";
-import fetchAllDoctorLists from "./privateDoctorData/fetchAllDoctorLists.js";
+import FetchAllLists from "../dbAndSecurity/fetchAllLists.js";
 
 /** searchByQuery returns all users that fit the client's search
  * @param {String} req Query is passed in
@@ -55,7 +55,7 @@ export async function fetchUsers (req, res){
 // The following three functions are here for filtering purposes. In the future, pts will be able to filter for docs by language_spoken, insurances, etc.
 export async function fetchAllLanguages (req, res){
     try{
-        const LanguageList = fetchAllDoctorLists.fetchAllLanguages();
+        const LanguageList = FetchAllLists.fetchAllLanguages();
         return res.status(200).json(LanguageList);
     }catch(error){
         console.log(`error in ${fetchAllLanguages.name}`,error)
@@ -65,7 +65,7 @@ export async function fetchAllLanguages (req, res){
 
 export async function fetchAllServicesAndCategories (req, res){
     try{
-        const ServicesList = fetchAllDoctorLists.fetchAllServicesAndCategories();
+        const ServicesList = FetchAllLists.fetchAllServicesAndCategories();
         return res.status(200).json(ServicesList);
     }catch(error){
         console.log(`error in ${fetchAllServicesAndCategories.name}`,error)
@@ -75,7 +75,7 @@ export async function fetchAllServicesAndCategories (req, res){
 
 export async function fetchAllInsurances (req, res){
     try{
-        const InsurancesList = fetchAllDoctorLists.fetchAllInsurances();
+        const InsurancesList = FetchAllLists.fetchAllInsurances();
         return res.status(200).json(InsurancesList);
     }catch(error){
         console.log(`error in ${fetchAllInsurances.name}`,error)

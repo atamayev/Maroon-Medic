@@ -4,7 +4,7 @@ import DoctorHeader from '../doctor-header.js';
 import PrivateDoctorDataService from '../../../Services/private-doctor-data-service.js';
 import Header from '../../header.js';
 import { NonDoctorAccess } from '../../../Components/user-type-unauth.js';
-import { useConfirmationMessage } from '../../../Custom Hooks/Hooks for Doctor Account Details/useConfirmationMessage.js';
+import { useConfirmationMessage } from '../../../Custom Hooks/useConfirmationMessage.js';
 import RenderPreVetEducationSection from './pre-vet-education.js';
 import RenderVetEducationSection from './vet-education.js';
 import RenderDescriptionSection from './description.js';

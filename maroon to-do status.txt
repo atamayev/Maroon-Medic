@@ -3,13 +3,11 @@ To-do:
 
 ASAP:
 Add a languages, insurance section to the Patient Personal Info 
-move useConfirmationMessage to hooks/components - no longer just being used by doc account detials
 - if a certain location has no times selected, when that location is selected by hte pt, it should say something like: 'This doc has no available time slots'
 	BUG: if one of the locations has no availbale times, and is pressed, then all location show no available tiems
 	
 -In the checkout screen, ask: Do cyou have insurance, and are you cirious to know what your out of pocket cost will be for [Service_name] with Dr. [name]?
 	Only ask if user hasn't entered their insurance in the patient details. if they have, calculate it on the fly
--Add self-pay as an option to the insruance list
 
 - when registering as a patient, need to make it clear when the user is entering data regrading the human, and when about the pet
 

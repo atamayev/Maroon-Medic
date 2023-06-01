@@ -1,10 +1,10 @@
-import { connection, DB_Operation } from "../../dbAndSecurity/connect.js";
+import { connection, DB_Operation } from "./connect.js";
 
-/** FetchAllDoctorLists is fairly self-explanatory
- *  These lists are fetched from the DB for each doctor to fill in their respective information.
+/** FetchAllLists is fairly self-explanatory
+ *  These lists are fetched from the DB for each doctor/patient to fill in their respective information.
  *  DOCUMENTATION LAST UPDATED 3/16/23
  */
-export default new class FetchAllDoctorLists {
+export default new class FetchAllLists {
     async fetchAllInsurances() {
         const functionName = this.fetchAllInsurances.bind(this).name;
         const insurances = 'insurance_list';
