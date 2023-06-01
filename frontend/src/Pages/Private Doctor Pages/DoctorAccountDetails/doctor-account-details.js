@@ -39,39 +39,39 @@ export default function DoctorAccountDetails() {
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
 
   const [selectedLanguage, setSelectedLanguage] = useState('');
-  const [spokenLanguages, setSpokenLanguages] = useState(DoctorAccountDetails?.[1] || []);
+  const [spokenLanguages, setSpokenLanguages] = useState(DoctorAccountDetails?.[0] || []);
   const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage();
 
-  const [providedServices, setProvidedServices] = useState(DoctorAccountDetails?.[2] || []);
+  const [providedServices, setProvidedServices] = useState(DoctorAccountDetails?.[1] || []);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [expandedCategories, setExpandedCategories] = useState([]);
   const [servicesConfirmation, setServicesConfirmation] = useConfirmationMessage();
 
   const [selectedOrganization, setSelectedOrganization] = useState('');
   const [selectedSpecialty, setSelectedSpecialties] = useState('');
-  const [doctorSpecialties, setDoctorSpecialties] = useState(DoctorAccountDetails?.[3] || []);
+  const [doctorSpecialties, setDoctorSpecialties] = useState(DoctorAccountDetails?.[2] || []);
   const [specialtiesConfirmation, setSpecialtiesConfirmation] = useConfirmationMessage();
 
   const [selectedPreVetSchool, setSelectedPreVetSchool] = useState('');
   const [selectedMajor, setSelectedMajor] = useState('');
   const [selectedPreVetEducationType, setSelectedPreVetEducationType] = useState('');
-  const [preVetEducation, setPreVetEducation] = useState(DoctorAccountDetails?.[4] || []);
+  const [preVetEducation, setPreVetEducation] = useState(DoctorAccountDetails?.[3] || []);
   const [preVetEducationConfirmation, setPreVetEducationConfirmation] = useConfirmationMessage();
 
   const [selectedVetSchool, setSelectedVetSchool] = useState('');
   const [selectedVetEducationType, setSelectedVetEducationType] = useState('');
-  const [vetEducation, setVetEducation] = useState(DoctorAccountDetails?.[5] || []);
+  const [vetEducation, setVetEducation] = useState(DoctorAccountDetails?.[4] || []);
   const [vetEducationConfirmation, setVetEducationConfirmation] = useConfirmationMessage();
 
-  const [addresses, setAddresses] = useState(DoctorAccountDetails?.[6] ||[{ address_priority: 0, addressesID: 0, address_title: '', address_line_1  : '', address_line_2: '', city: '', state: '', zip: '', country: '', phone_priority: 0, phone: '', address_public_status: 1, instant_book: 0, times:[]}]);
+  const [addresses, setAddresses] = useState(DoctorAccountDetails?.[5] ||[{ address_priority: 0, addressesID: 0, address_title: '', address_line_1  : '', address_line_2: '', city: '', state: '', zip: '', country: '', phone_priority: 0, phone: '', address_public_status: 1, instant_book: 0, times:[]}]);
   const [addressesConfirmation, setAddressesConfirmation] = useConfirmationMessage();
 
   const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false);
-  const [description, setDescription] = useState(DoctorAccountDetails?.[7] || {});
+  const [description, setDescription] = useState(DoctorAccountDetails?.[6] || {});
   const [descriptionConfirmation, setDescriptionConfirmation] = useConfirmationMessage();
 
-  const [publiclyAvailable, setPubliclyAvailable] = useState(DoctorAccountDetails?.[9][0]?.PubliclyAvailable || 0);
-  const verified = DoctorAccountDetails?.[9][0].Verified || [];
+  const [publiclyAvailable, setPubliclyAvailable] = useState(DoctorAccountDetails?.[8][0]?.PubliclyAvailable || 0);
+  const verified = DoctorAccountDetails?.[8][0].Verified || [];
   const [publiclyAvailableConfirmation, setPubliclyAvailableConfirmation] = useConfirmationMessage();
 
   const currentYear = new Date().getFullYear();
@@ -94,7 +94,7 @@ export default function DoctorAccountDetails() {
             if(!storedAccountDetails){
               FillDoctorAccountDetails();
             }else{
-              setExpandedCategories(JSON.parse(storedAccountDetails)[2]?.map(service => service.Category_name))
+              setExpandedCategories(JSON.parse(storedAccountDetails)[1]?.map(service => service.Category_name))
             }
             
             const storedListDetails = sessionStorage.getItem("ListDetails")
@@ -121,25 +121,25 @@ export default function DoctorAccountDetails() {
     try{
         const response = await PrivateDoctorDataService.fillAccountDetails();
         if (response){
-            if(response.data[1]) setSpokenLanguages(response.data[1]);
-            if(response.data[2]){
-              setProvidedServices(response.data[2])
-              setExpandedCategories(response.data[2].map(service => service.Category_name));
+            if(response.data[0]) setSpokenLanguages(response.data[0]);
+            if(response.data[1]){
+              setProvidedServices(response.data[1])
+              setExpandedCategories(response.data[1].map(service => service.Category_name));
             }
-            if(response.data[3]) setDoctorSpecialties(response.data[3]);
-            if(response.data[4]) setPreVetEducation(response.data[4]);
-            if(response.data[5]) setVetEducation(response.data[5]);
-            if(response.data[6]) setAddresses(response.data[6]);
-            if(response.data[7] && Object.keys(response.data[7]).length > 0){
-              setDescription(response.data[7]);
-              if(response.data[7].Description.length === 1000){
+            if(response.data[2]) setDoctorSpecialties(response.data[2]);
+            if(response.data[3]) setPreVetEducation(response.data[3]);
+            if(response.data[4]) setVetEducation(response.data[4]);
+            if(response.data[5]) setAddresses(response.data[5]);
+            if(response.data[6] && Object.keys(response.data[6]).length > 0){
+              setDescription(response.data[6]);
+              if(response.data[6].Description.length === 1000){
                 setIsDescriptionOverLimit(true);
               }
             }
-            if(response.data[8]){
+            if(response.data[7]){
               //Somehow set pictures.
             }
-            if(response.data[9][0].PubliclyAvailable) setPubliclyAvailable(response.data[9][0].PubliclyAvailable);
+            if(response.data[8][0].PubliclyAvailable) setPubliclyAvailable(response.data[8][0].PubliclyAvailable);
             sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(response.data));
         }else{
           console.log('no response');
@@ -232,7 +232,6 @@ export default function DoctorAccountDetails() {
         setServicesConfirmation = {setServicesConfirmation}
       />
       <RenderLocationSection
-        listDetails = {listDetails}
         addresses = {addresses}
         setAddresses = {setAddresses}
         addressesConfirmation = {addressesConfirmation}

@@ -28,9 +28,9 @@ function renderIsVetLanguages(props){
         onChange={event =>handleLanguageChange(event, props.listDetails, props.setSelectedLanguage)}
       >
         <option value="" disabled>Choose a language</option>
-        {Array.isArray(props.listDetails[1]) &&
-          props.listDetails[1].length > 0 &&
-          props.listDetails[1]
+        {Array.isArray(props.listDetails[0]) &&
+          props.listDetails[0].length > 0 &&
+          props.listDetails[0]
             .filter((language) => !props.spokenLanguages.find((spoken) => spoken.language_listID === language.language_listID))
             .map((language) => (
               <option key={language?.language_listID} value={language?.language_listID}>

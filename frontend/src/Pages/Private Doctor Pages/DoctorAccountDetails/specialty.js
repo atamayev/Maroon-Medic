@@ -20,10 +20,10 @@ export default function RenderSpecialtySection (props){
 
 function renderIsSpecialty(props){
   const specialties = props.selectedOrganization
-  ? props.listDetails[3].filter((item) => item.Organization_name === props.selectedOrganization)
+  ? props.listDetails[2].filter((item) => item.Organization_name === props.selectedOrganization)
   : [];
 
-  if(Array.from(new Set(props.listDetails[3]?.map((item) => item.Organization_name))).length){
+  if(Array.from(new Set(props.listDetails[2]?.map((item) => item.Organization_name))).length){
     return(
       <>
         <label htmlFor="organization">Select an organization: </label>
@@ -34,7 +34,7 @@ function renderIsSpecialty(props){
           onChange={(e) => props.setSelectedOrganization(e.target.value)}
         >
           <option value="" disabled>Choose an organization</option>
-          {Array.from(new Set(props.listDetails[3]?.map((item) => item.Organization_name))).map(
+          {Array.from(new Set(props.listDetails[2]?.map((item) => item.Organization_name))).map(
             (organization, index) => (
               <option key={index} value={organization}>
                 {organization}

@@ -21,7 +21,7 @@ export default function RenderVetEducationSection (props){
 function renderIsVetEducation(props){
   const allChoicesFilled = props.selectedVetSchool && props.selectedVetEducationType;
 
-  if(Array.from(new Set(props.listDetails[7]?.map((item) => item.School_name))).length > 0){
+  if(Array.from(new Set(props.listDetails[6]?.map((item) => item.School_name))).length > 0){
     return(
       <>
         <label htmlFor="vet-school">Select a Veterinary School: </label>
@@ -32,7 +32,7 @@ function renderIsVetEducation(props){
           onChange={(e) => props.setSelectedVetSchool(e.target.value)}
         >
           <option value="" disabled>Choose a School</option>
-          {Array.from(new Set(props.listDetails[7]?.map((item) => item.School_name))).map(
+          {Array.from(new Set(props.listDetails[6]?.map((item) => item.School_name))).map(
             (school, index) => (
               <option key={index} value={school}>
                 {school}
@@ -50,7 +50,7 @@ function renderIsVetEducation(props){
                 onChange={(event) => props.setSelectedVetEducationType(event.target.value)}
               >
                 <option value="" disabled>Choose an Education Type</option>
-                {Array.from(new Set(props.listDetails[8]?.map((item) => item.Education_type))).map(
+                {Array.from(new Set(props.listDetails[7]?.map((item) => item.Education_type))).map(
                   (VetEdType, index) => (
                     <option key={index} value={VetEdType}>
                       {VetEdType}
@@ -78,7 +78,7 @@ function renderIsVetEducation(props){
               )}
         <ul>
           {props.vetEducation.map((vet_education) => (
-            <li key={vet_education.specialties_listID}>
+            <li key={vet_education.vet_education_mappingID}>
               {vet_education.School_name}, {vet_education.Education_type}{": "}{vet_education.Start_Date} --- {vet_education.End_Date} 
               <Button onClick={() => handleDeleteVetEducation(vet_education, props.vetEducation, props.setVetEducation)}>X</Button>
             </li>

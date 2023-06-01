@@ -1,23 +1,23 @@
 
-export const handleInsuranceChange = (event, listDetails, setSelectedInsurance) => {
-  try {
-    const insuranceId = parseInt(event.target.value);
-    if (insuranceId) {
-      const insurance = listDetails[0].find(ins => ins.insurance_listID === insuranceId);
-      setSelectedInsurance(insurance);
-    } else {
-      setSelectedInsurance(null);
-    }
-  } catch (error) {
-    console.log('error in handle insurance change', error)
-  }
-};
+// export const handleInsuranceChange = (event, listDetails, setSelectedInsurance) => {
+//   try {
+//     const insuranceId = parseInt(event.target.value);
+//     if (insuranceId) {
+//       const insurance = listDetails[0].find(ins => ins.insurance_listID === insuranceId);
+//       setSelectedInsurance(insurance);
+//     } else {
+//       setSelectedInsurance(null);
+//     }
+//   } catch (error) {
+//     console.log('error in handle insurance change', error)
+//   }
+// };
 
 export const handleLanguageChange = (event, listDetails, setSelectedLanguage) => {
     try{
       const languageId = parseInt(event.target.value);
       if (languageId) {
-        const language = listDetails[1].find(lang => lang.language_listID === languageId);
+        const language = listDetails[0].find(lang => lang.language_listID === languageId);
         setSelectedLanguage(language);
       } else {
         setSelectedLanguage(null);
@@ -45,7 +45,7 @@ export const handleSelectSpecialty = (event, listDetails, setSelectedSpecialties
     try{
       const specialtyId = parseInt(event.target.value);
       if (specialtyId) {
-        const specialty = listDetails[3].find((item) => item.specialties_listID === parseInt(event.target.value));
+        const specialty = listDetails[2].find((item) => item.specialties_listID === parseInt(event.target.value));
         setSelectedSpecialties(specialty);
       } else {
         setSelectedSpecialties(null);

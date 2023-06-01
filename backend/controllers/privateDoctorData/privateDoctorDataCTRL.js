@@ -190,7 +190,6 @@ export async function fetchAccountDetails (req, res){
     const DoctorID = await UUID_to_ID(DoctorUUID);
     let response = [];
     try{
-        response.push(await FetchDoctorAccountData.FetchDoctorInsurances(DoctorID));
         response.push(await FetchDoctorAccountData.FetchDoctorLanguages(DoctorID)); 
         response.push(await FetchDoctorAccountData.FetchDoctorServices(DoctorID));
         response.push(await FetchDoctorAccountData.FetchDoctorSpecialties(DoctorID));
@@ -218,7 +217,6 @@ export async function fetchAccountDetails (req, res){
 export async function fetchDoctorLists (req, res){
     try{
         let response = [];
-        response.push(await FetchAllLists.fetchAllInsurances());
         response.push(await FetchAllLists.fetchAllLanguages());
         response.push(await FetchAllLists.fetchAllServicesAndCategories());
         response.push(await FetchAllLists.fetchAllSpecialties());

@@ -15,4 +15,7 @@ export default new class AuthDataService {
         return await http.post("/auth/register", {register_information_object}, 
         {withCredentials: true})
     }
+    async fetchLoginHistry(){
+        return await http.get('/auth/fetch-login-history')
+    }
 }();

@@ -258,7 +258,16 @@ CREATE TABLE booking_availability(
 );
 
 SELECT * FROM booking_availability ;
-delete from booking_availability where Doctor_ID;
+
+CREATE TABLE login_history(
+login_historyID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+Login_at DATETIME NOT NULL, 
+IP_Address VARCHAR(15),
+User_ID INT unsigned NOT NULL, 
+FOREIGN KEY (User_ID) REFERENCES Credentials(UserID));
+
+SELECT * FROM login_history;
+
 -- CREATE TABLE detailed_booking_availability(
 -- 	detailed_booking_availabilityID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 -- 	Hours_in_advance_scheduling VARCHAR(10),
@@ -274,13 +283,6 @@ delete from booking_availability where Doctor_ID;
 -- CREATE TABLE profile_update_history(
 -- profile_update_historyID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 -- Updated_at VARCHAR(150), 
--- IP_Address INT unsigned,
--- User_ID INT unsigned NOT NULL, 
--- FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID));
-
--- CREATE TABLE login_history(
--- login_historyID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
--- Login_at VARCHAR(150), 
 -- IP_Address INT unsigned,
 -- User_ID INT unsigned NOT NULL, 
 -- FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID));

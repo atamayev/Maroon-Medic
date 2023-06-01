@@ -94,7 +94,7 @@ export default new class FetchDoctorAccountData{
         const functionName = this.FetchPreVetEducation.bind(this).name;
         const [pre_vet_education_mapping, pre_vet_school_list, major_list, pre_vet_education_type_list] = ['pre_vet_education_mapping', 'pre_vet_school_list', 'major_list', 'pre_vet_education_type_list' ];
     
-        const sql = `SELECT ${pre_vet_school_list}.School_name, ${major_list}.Major_name, ${pre_vet_education_type_list}.Education_type, ${pre_vet_education_mapping}.Start_Date, ${pre_vet_education_mapping}.End_Date 
+        const sql = `SELECT ${pre_vet_school_list}.School_name, ${major_list}.Major_name, ${pre_vet_education_type_list}.Education_type, ${pre_vet_education_mapping}.Start_Date, ${pre_vet_education_mapping}.End_Date, ${pre_vet_education_mapping}.pre_vet_education_mappingID 
             FROM ${pre_vet_education_mapping}, ${pre_vet_school_list}, ${major_list}, ${pre_vet_education_type_list} 
             WHERE ${pre_vet_education_mapping}.School_ID = ${pre_vet_school_list}.pre_vet_school_listID AND ${pre_vet_education_mapping}.Major_ID = ${major_list}.major_listID 
             AND ${pre_vet_education_mapping}.Education_type_ID = ${pre_vet_education_type_list}.pre_vet_education_typeID AND ${pre_vet_education_mapping}.Doctor_ID = ?`;
@@ -121,7 +121,7 @@ export default new class FetchDoctorAccountData{
 
         const [vet_education_mapping, vet_school_list, vet_education_type_list] = ['vet_education_mapping', 'vet_school_list', 'vet_education_type_list'];
     
-        const sql = `SELECT ${vet_school_list}.School_name, ${vet_education_type_list}.Education_type, ${vet_education_mapping}.Start_Date, ${vet_education_mapping}.End_Date 
+        const sql = `SELECT ${vet_school_list}.School_name, ${vet_education_type_list}.Education_type, ${vet_education_mapping}.Start_Date, ${vet_education_mapping}.End_Date, ${vet_education_mapping}.vet_education_mappingID
             FROM ${vet_education_mapping}, ${vet_school_list}, ${vet_education_type_list} 
             WHERE ${vet_education_mapping}.School_ID = ${vet_school_list}.vet_school_listID 
             AND ${vet_education_mapping}.Education_type_ID = ${vet_education_type_list}.vet_education_typeID 

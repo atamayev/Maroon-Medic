@@ -3,8 +3,9 @@ import jwt from "jsonwebtoken";
 import moment from 'moment';
 import Hash from "../dbAndSecurity/hash.js";
 import dotenv from "dotenv";
-import { ID_to_UUID } from "../dbAndSecurity/UUID.js";
+import { ID_to_UUID, UUID_to_ID } from "../dbAndSecurity/UUID.js";
 dotenv.config()
+import { login_history } from "../dbAndSecurity/accountTracker.js";
 
 /** JWT_verify verifies the user's token (held in cookie). 
  *  It does this in two steps. First, it checks if the DoctorAccessToken is valid (verification). If verified, the UUID is extracted from the Access Token. The UUID is then searched in the DB
@@ -134,6 +135,8 @@ export async function login (req, res){
       return res.status(500).json({ error: 'Problem with Signing JWT' });
     }
 
+    login_history(ID);
+
     // const expires = new Date(Date.now() + expiration_time *1000)
 
     return res
@@ -242,11 +245,13 @@ export async function register (req, res){
   try{
     token = jwt.sign(payload, JWTKey);
   }catch(error){
-    console.log('error in catching insert')
-    return res.status(500).json({ error: 'Problem with Data Selection' });
+    console.log('error in Signing JWT')
+    return res.status(500).json({ error: 'Problem with Signing JWT' });
   }
 
-  const newUser_UUID = await ID_to_UUID(User_ID)
+  const newUser_UUID = await ID_to_UUID(User_ID);
+
+  login_history(User_ID);
 
   return res
     .cookie(`${register_type}AccessToken`, token, {
@@ -268,6 +273,28 @@ export async function register (req, res){
     .json();
 };
 
+export async function fetchLoginHistory (req, res){
+  const cookies = req.cookies;
+  let UUID;
+
+  if("DoctorUUID" in cookies || "DoctorAccessToken" in cookies) UUID = cookies.DoctorUUID
+  else if("PatientUUID" in cookies || "PatientAccessToken" in cookies) UUID = cookies.PatientUUID
+  
+  const User_ID = await UUID_to_ID(UUID) // converts DoctorUUID to docid
+
+  const login_history = 'login_history'
+
+  const sql1 = `SELECT Login_at, IP_Address FROM ${login_history} WHERE User_ID = ?`
+  const values = [User_ID];
+  try{
+      const [results] = await connection.execute(sql1, values);
+      return res.status(200).json(results);
+  }catch(error){
+      console.log(`error in fetchLoginHistory ${fetchLoginHistory.name}:`, error);
+      return res.status(400).json();
+  }
+};
+
 /** logout is self-explanatory
  *  Depending on the type, deletes any cookie called "{type}AccessToken"--> whenever the user navigates to future pages, their token will not be verified (token cleared)
  *  Deletes UUID that was created for user to be able to send data back and forth.
@@ -282,16 +309,16 @@ export async function logout (req, res){
     let newUserUUID;
   
     if("DoctorUUID" in cookies || "DoctorAccessToken" in cookies){
-      UUID = req.cookies.DoctorUUID
+      UUID = cookies.DoctorUUID
       type = 'Doctor';
       if("DoctorNew_User" in cookies){
-        newUserUUID = req.cookies.DoctorNew_User
+        newUserUUID = cookies.DoctorNew_User
       }
     }else if("PatientUUID" in cookies || "PatientAccessToken" in cookies){
-      UUID = req.cookies.PatientUUID
+      UUID = cookies.PatientUUID
       type = 'Patient';
       if("PatientNew_User" in cookies){
-        newUserUUID = req.cookies.PatientNew_User
+        newUserUUID = cookies.PatientNew_User
       }
     }
   

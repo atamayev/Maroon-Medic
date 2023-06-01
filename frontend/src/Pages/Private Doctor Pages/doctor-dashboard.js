@@ -125,7 +125,7 @@ export default function DoctorDashboard() {
             Appointment with {appointment.Patient_FirstName} {appointment.Patient_LastName} on {appointment.appointment_date}
            
             {status === 'pending' && (
-              <Button onClick={() => {setStatus('confirming')}}>Pending approval</Button>
+              <Button variant='warning' onClick={() => {setStatus('confirming')}}>Pending approval</Button>
             )}
             {status === 'confirming' && (
               <div>

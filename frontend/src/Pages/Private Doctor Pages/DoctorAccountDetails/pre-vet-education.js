@@ -21,7 +21,7 @@ export default function RenderPreVetEducationSection(props){
 function renderIsPreVetEducation(props){
   const allChoicesFilled = props.selectedPreVetSchool && props.selectedMajor && props.selectedPreVetEducationType;
 
-  if(Array.from(new Set(props.listDetails[4]?.map((item) => item.School_name))).length > 0){
+  if(Array.from(new Set(props.listDetails[3]?.map((item) => item.School_name))).length > 0){
     return(
       <>
         <label htmlFor="pre-vet-school">Select a school: </label>
@@ -32,7 +32,7 @@ function renderIsPreVetEducation(props){
           onChange={(e) => props.setSelectedPreVetSchool(e.target.value)}
         >
           <option value="" disabled>Choose a School</option>
-          {Array.from(new Set(props.listDetails[4]?.map((item) => item.School_name))).map(
+          {Array.from(new Set(props.listDetails[3]?.map((item) => item.School_name))).map(
             (school, index) => (
               <option key={index} value={school}>
                 {school}
@@ -50,7 +50,7 @@ function renderIsPreVetEducation(props){
               onChange = {(event) => props.setSelectedMajor(event.target.value)}
             >
               <option value="" disabled>Choose a major</option>
-              {Array.from(new Set(props.listDetails[6]?.map((item) => item.Major_name))).map(
+              {Array.from(new Set(props.listDetails[5]?.map((item) => item.Major_name))).map(
             (major, index) => (
               <option key={index} value={major}>
                 {major}
@@ -70,7 +70,7 @@ function renderIsPreVetEducation(props){
                 onChange={(event) => props.setSelectedPreVetEducationType(event.target.value)}
               >
                 <option value="" disabled>Choose an Education Type</option>
-                {Array.from(new Set(props.listDetails[5]?.map((item) => item.Education_type))).map(
+                {Array.from(new Set(props.listDetails[4]?.map((item) => item.Education_type))).map(
                   (preVetEdType, index) => (
                     <option key={index} value={preVetEdType}>
                       {preVetEdType}
@@ -100,7 +100,7 @@ function renderIsPreVetEducation(props){
               )}
         <ul>
           {props.preVetEducation.map((pre_vet_education) => (
-            <li key={pre_vet_education.specialties_listID}>
+            <li key={pre_vet_education.pre_vet_education_mappingID}>
               {pre_vet_education.School_name}, {pre_vet_education.Education_type} in {pre_vet_education.Major_name}{": "}{pre_vet_education.Start_Date} --- {pre_vet_education.End_Date} 
               <Button onClick={() => handleDeletePreVetEducation(pre_vet_education, props.preVetEducation, props.setPreVetEducation)}>X</Button>
             </li>

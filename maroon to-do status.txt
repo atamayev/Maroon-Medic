@@ -2,14 +2,9 @@ To-do:
 
 
 ASAP:
-
--delete insruances from doctor-side.
-
-Also need to create the login history table and display it nicely to the user (both doc and pt). 
+Add a section to the vets info where it asks which pets they service (checkboxes) - make it whatever the current number for pictures is 
 
 - when registering as a patient, need to make it clear when the user is entering data regrading the human, and when about the pet
-
-Add a section to the vets info where it asks which pets they service (checkboxes)
 
 - if a certain location has no times selected, when that location is selected by hte pt, it should say something like: 'This doc has no available time slots'
 	BUG: if one of the locations has no availbale times, and is pressed, then all location show no available tiems
@@ -27,6 +22,8 @@ On the vet dashboard, make the appointments clickable, shows the patients detail
 -Figure out a good way to divide the vet screen into locations. Must be intuitive, and think of all the information that may differ bw practices, not just the address/phone numbers
 
 LATER:
+
+-figure out IP Address situation (for the login and security page). Also see if can figure out what kind of device the user has
 
 Make the 'Add Address' Button Finalize a Location, make it within the accordion. 
 	So when add address is pressed, it becomes a pretty-looking text (can edit it by pressing a pencil in the top right or something)

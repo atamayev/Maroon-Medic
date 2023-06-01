@@ -22,8 +22,8 @@ export default function RenderServiceSection (props){
 //Does not work as intended
 function renderIsVetServices (props) {
   const categories = {};
-  if (props.listDetails[2]) {
-    props.listDetails[2].forEach(service => {
+  if (props.listDetails[1]) {
+    props.listDetails[1].forEach(service => {
       if (!categories[service.Category_name]) {
         categories[service.Category_name] = [];
       }
@@ -37,7 +37,7 @@ function renderIsVetServices (props) {
     return services.every(service => service.Service_price !== null && service.Service_price !== "");
   }
   
-  if (Array.from(new Set(props.listDetails[2]?.map((item) => item.Category_name))).length) {
+  if (Array.from(new Set(props.listDetails[1]?.map((item) => item.Category_name))).length) {
     return (
       <>
         {Object.entries(categories).map(([category, services]) => (

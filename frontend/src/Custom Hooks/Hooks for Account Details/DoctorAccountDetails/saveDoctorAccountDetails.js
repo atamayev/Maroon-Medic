@@ -3,7 +3,7 @@ import PrivateDoctorDataService from "../../../Services/private-doctor-data-serv
 
 export async function saveLanguages(spokenLanguages, setLanguagesConfirmation){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  const savedLanguages = DoctorAccountDetails?.[1] || []
+  const savedLanguages = DoctorAccountDetails?.[0] || []
   const savedLanguagesIDs = savedLanguages.map(language => language.language_listID).sort((a,b)=>a-b);
   const languageIds = spokenLanguages.map(lang => lang.language_listID).sort((a,b)=>a-b); // spoken languages are those that are on server side. state changes when languages added/deleted
 
@@ -27,7 +27,7 @@ export async function saveLanguages(spokenLanguages, setLanguagesConfirmation){
     try {
       const response = await PrivateDoctorDataService.saveGeneralData(languageIds, 'Language')
       if(response.status === 200){
-        DoctorAccountDetails[1] = spokenLanguages;
+        DoctorAccountDetails[0] = spokenLanguages;
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
         setLanguagesConfirmation({messageType: 'saved'});
       }
@@ -42,7 +42,7 @@ export async function saveLanguages(spokenLanguages, setLanguagesConfirmation){
 
 export async function saveServices(providedServices, setServicesConfirmation){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  const savedServices = DoctorAccountDetails?.[2] || [];
+  const savedServices = DoctorAccountDetails?.[1] || [];
   const createServiceKey = (service) => `${service.service_and_category_listID}-${service.Service_price}-${service.Service_time}`;
 
   const savedServiceKeys = savedServices.map(service => createServiceKey(service)).sort();
@@ -72,7 +72,7 @@ export async function saveServices(providedServices, setServicesConfirmation){
     try {
       const response = await PrivateDoctorDataService.saveServiceData(updatedServices)//Make sure it's accepted services and not something else
       if(response.status === 200){
-        DoctorAccountDetails[2] = providedServices;
+        DoctorAccountDetails[1] = providedServices;
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
         setServicesConfirmation({messageType: 'saved'});
       }
@@ -87,7 +87,7 @@ export async function saveServices(providedServices, setServicesConfirmation){
 
 export async function saveSpecialies(doctorSpecialties, setSpecialtiesConfirmation){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  const savedSpecialties = DoctorAccountDetails?.[3] || []
+  const savedSpecialties = DoctorAccountDetails?.[2] || []
   const savedSpecialtyIDs = savedSpecialties.map(specialty => specialty.specialties_listID).sort((a,b)=>a-b);
   const specialtyIds = doctorSpecialties.map(specialty => specialty.specialties_listID).sort((a,b)=>a-b); // spoken languages are those that are on server side. state changes when languages added/deleted
 
@@ -111,7 +111,7 @@ export async function saveSpecialies(doctorSpecialties, setSpecialtiesConfirmati
     try {
       const response = await PrivateDoctorDataService.saveGeneralData(specialtyIds, 'Specialty')
       if(response.status === 200){
-        DoctorAccountDetails[3] = doctorSpecialties;
+        DoctorAccountDetails[2] = doctorSpecialties;
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
         setSpecialtiesConfirmation({messageType: 'saved'});
       }
@@ -126,7 +126,7 @@ export async function saveSpecialies(doctorSpecialties, setSpecialtiesConfirmati
 
 export async function savePreVetSchool(preVetEducation, listDetails, setPreVetEducationConfirmation){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  const savedPreVetEducations = DoctorAccountDetails?.[4] || []
+  const savedPreVetEducations = DoctorAccountDetails?.[3] || []
 
   let shouldSave = false;
 
@@ -150,15 +150,15 @@ export async function savePreVetSchool(preVetEducation, listDetails, setPreVetEd
   if(shouldSave){
     try {
       const mappedArray = preVetEducation.map(obj => [
-        listDetails[4].find(school => school.School_name === obj.School_name)?.pre_vet_school_listID || null,
-        listDetails[6].find(major => major.Major_name === obj.Major_name)?.major_listID || null,
-        listDetails[5].find(educationType => educationType.Education_type === obj.Education_type)?.pre_vet_education_typeID || null,
+        listDetails[3].find(school => school.School_name === obj.School_name)?.pre_vet_school_listID || null,
+        listDetails[5].find(major => major.Major_name === obj.Major_name)?.major_listID || null,
+        listDetails[4].find(educationType => educationType.Education_type === obj.Education_type)?.pre_vet_education_typeID || null,
         convertDateForSql(obj.Start_Date),
         convertDateForSql(obj.End_Date)
       ]);
       const response = await PrivateDoctorDataService.saveEducationData(mappedArray, 'pre_vet')
       if(response.status === 200){
-        DoctorAccountDetails[4] = preVetEducation;
+        DoctorAccountDetails[3] = preVetEducation;
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
         setPreVetEducationConfirmation({messageType: 'saved'});
       }
@@ -173,7 +173,7 @@ export async function savePreVetSchool(preVetEducation, listDetails, setPreVetEd
 
 export async function saveVetSchool(vetEducation, listDetails, setVetEducationConfirmation){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  const savedVetEducations = DoctorAccountDetails?.[5] || []
+  const savedVetEducations = DoctorAccountDetails?.[4] || []
 
   let shouldSave = false;
 
@@ -194,14 +194,14 @@ export async function saveVetSchool(vetEducation, listDetails, setVetEducationCo
   if(shouldSave){//only saves if the educations changed
     try {
       const mappedArray = vetEducation.map(obj => [
-        listDetails[7].find(school => school.School_name === obj.School_name)?.vet_school_listID || null,
-        listDetails[8].find(educationType => educationType.Education_Type === obj.Education_Type)?.vet_education_typeID || null,
+        listDetails[6].find(school => school.School_name === obj.School_name)?.vet_school_listID || null,
+        listDetails[7].find(educationType => educationType.Education_Type === obj.Education_Type)?.vet_education_typeID || null,
         convertDateForSql(obj.Start_Date),
         convertDateForSql(obj.End_Date)
       ]);
       const response = await PrivateDoctorDataService.saveEducationData(mappedArray, 'vet')
       if(response.status === 200){
-        DoctorAccountDetails[5] = vetEducation;
+        DoctorAccountDetails[4] = vetEducation;
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
         setVetEducationConfirmation({messageType: 'saved'});
       }
@@ -216,7 +216,7 @@ export async function saveVetSchool(vetEducation, listDetails, setVetEducationCo
 
 export async function saveLocation (addresses, setAddresses, setAddressesConfirmation){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  const savedLocationData = DoctorAccountDetails?.[6];
+  const savedLocationData = DoctorAccountDetails?.[5];
 
   const savedTimes = savedLocationData.map(location => location.times);
   const savedAddresses = savedLocationData.map(({ times, ...rest }) => rest);
@@ -247,7 +247,7 @@ export async function saveLocation (addresses, setAddresses, setAddressesConfirm
         for (let i = 0; i < newAddressData.length; i++) {
           newAddressData[i]['times'] = newTimes[i];
         }
-        DoctorAccountDetails[6] = newAddressData;
+        DoctorAccountDetails[5] = newAddressData;
         setAddresses(newAddressData);
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
         setAddressesConfirmation({messageType: 'saved'});
@@ -263,7 +263,7 @@ export async function saveLocation (addresses, setAddresses, setAddressesConfirm
 
 export async function saveDescription(description, setDescriptionConfirmation){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  const savedDescriptionData = DoctorAccountDetails[7].Description;
+  const savedDescriptionData = DoctorAccountDetails[6].Description;
 
   let shouldSave = false;
 
@@ -285,7 +285,7 @@ export async function saveDescription(description, setDescriptionConfirmation){
     try {
       const response = await PrivateDoctorDataService.saveDescriptionData(description);
       if(response.status === 200){
-        DoctorAccountDetails[7] = description;
+        DoctorAccountDetails[6] = description;
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
         setDescriptionConfirmation({messageType: 'saved'});
       }
@@ -304,7 +304,7 @@ export async function handlePublicAvailibilityToggle (value, setPubliclyAvailabl
     const response = await PrivateDoctorDataService.savePublicAvailibility(value);
     if(response.status === 200){
       setPubliclyAvailable(value);
-      DoctorAccountDetails[9][0].PubliclyAvailable = value;
+      DoctorAccountDetails[8][0].PubliclyAvailable = value;
       sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
       setPubliclyAvailableConfirmation({messageType: 'saved'});
     }
