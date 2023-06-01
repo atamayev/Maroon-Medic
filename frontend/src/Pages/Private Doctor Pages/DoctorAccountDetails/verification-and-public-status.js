@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, ToggleButton, ToggleButtonGroup, Button} from "react-bootstrap";
-import { handlePublicAvailibilityToggle } from "../../../Custom Hooks/Hooks for Doctor Account Details/save";
+import { handlePublicAvailibilityToggle } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails";
 
 export default function RenderVerificationAndPublicStatusSection (props){
   return(

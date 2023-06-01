@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {Card, Accordion, Form, Button, Container, Row, Col} from 'react-bootstrap';
 import FormGroup from "../../../Components/form-group";
-import { handleDeleteAccordion } from "../../../Custom Hooks/Hooks for Doctor Account Details/delete";
-import { handleAddAccordion } from "../../../Custom Hooks/Hooks for Doctor Account Details/add";
-import { saveLocation } from "../../../Custom Hooks/Hooks for Doctor Account Details/save";
+import { handleDeleteAccordion } from "../../../Custom Hooks/Hooks for Account Details/delete";
+import { handleAddAccordion } from "../../../Custom Hooks/Hooks for Account Details/add";
+import { saveLocation } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails";
 import Toggle from 'react-toggle'
 import TimePicker from 'react-time-picker'
 import "react-toggle/style.css"

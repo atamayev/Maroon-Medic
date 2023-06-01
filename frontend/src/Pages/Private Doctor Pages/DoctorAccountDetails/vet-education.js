@@ -1,9 +1,9 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
 import EducationTime from "./education-time";
-import { handleAddVetEducation } from "../../../Custom Hooks/Hooks for Doctor Account Details/add";
-import { handleDeleteVetEducation } from "../../../Custom Hooks/Hooks for Doctor Account Details/delete";
-import { saveVetSchool } from "../../../Custom Hooks/Hooks for Doctor Account Details/save";
+import { handleAddVetEducation } from "../../../Custom Hooks/Hooks for Account Details/add";
+import { handleDeleteVetEducation } from "../../../Custom Hooks/Hooks for Account Details/delete";
+import { saveVetSchool } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails";
 
 export default function RenderVetEducationSection (props){
   return(

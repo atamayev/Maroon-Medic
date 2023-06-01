@@ -1,8 +1,8 @@
 import React from "react";
 import { Card, Button} from "react-bootstrap";
-import { handleAddInsurance } from "../../../Custom Hooks/Hooks for Doctor Account Details/add";
-import { handleDeleteInsurance } from "../../../Custom Hooks/Hooks for Doctor Account Details/delete";
-import { saveInsurances } from "../../../Custom Hooks/Hooks for Doctor Account Details/save";
+import { handleAddInsurance } from "../../../Custom Hooks/Hooks for Account Details/add";
+import { handleDeleteInsurance } from "../../../Custom Hooks/Hooks for Account Details/delete";
+import { saveInsurances } from "../../../Custom Hooks/Hooks for Account Details/PatientAccountDetails/savePatientAccountDetails";
 
 export default function RenderInsuranceSection(props){
   return(

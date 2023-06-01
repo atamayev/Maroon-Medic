@@ -1,9 +1,9 @@
 import React from "react";
 import { Card, Button} from "react-bootstrap";
-import { handleAddLanguage } from "../../../Custom Hooks/Hooks for Doctor Account Details/add";
-import { handleDeleteLanguage } from "../../../Custom Hooks/Hooks for Doctor Account Details/delete";
-import { saveLanguages } from "../../../Custom Hooks/Hooks for Doctor Account Details/save";
-import { handleLanguageChange } from "../../../Custom Hooks/Hooks for Doctor Account Details/select";
+import { handleAddLanguage } from "../../../Custom Hooks/Hooks for Account Details/add";
+import { handleDeleteLanguage } from "../../../Custom Hooks/Hooks for Account Details/delete";
+import { saveLanguages } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails";
+import { handleLanguageChange } from "../../../Custom Hooks/Hooks for Account Details/select";
 
 export default function RenderLanguageSection(props){
   return(

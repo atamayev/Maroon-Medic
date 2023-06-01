@@ -1,8 +1,8 @@
 import React from "react";
 import { Card, Button, Form } from "react-bootstrap";
 import FormGroup from '../../../Components/form-group.js';
-import { handleDescriptionChange } from "../../../Custom Hooks/Hooks for Doctor Account Details/select";
-import { saveDescription } from "../../../Custom Hooks/Hooks for Doctor Account Details/save";
+import { handleDescriptionChange } from "../../../Custom Hooks/Hooks for Account Details/select.js";
+import { saveDescription } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails.js";
 
 export default function RenderDescriptionSection (props){
   return(

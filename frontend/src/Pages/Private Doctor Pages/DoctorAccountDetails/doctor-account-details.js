@@ -11,14 +11,13 @@ import RenderDescriptionSection from './description.js';
 //import RenderPicturesSection from './pictures.js';
 import RenderVerificationAndPublicStatusSection from './verification-and-public-status.js';
 import RenderPersonalInfoLinkSection from './personalInfoLink.js';
-import RenderInsuranceSection from './insurance.js';
 import RenderLanguageSection from './language.js';
 import RenderServiceSection from './service.js';
 import RenderLocationSection from './location.js';
 import RenderSpecialtySection from './specialty.js';
 
 async function FillLists(setListDetails){ 
-  // this will be used to fill the lists in the db (insurances, languages, etc.) Should be one function that returns an object of arrays of hte different lists
+  // this will be used to fill the lists in the db (languages, specialites, etc.) Should be one function that returns an object of arrays of hte different lists
   try{
     const response = await PrivateDoctorDataService.fillLists();
     if (response){
@@ -38,9 +37,6 @@ export default function DoctorAccountDetails() {
   const [user_type, setUser_type] = useState(null);
   //const [carouselIndex, setCarouselIndex] = useState(0);
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-
-  const [acceptedInsurances, setAcceptedInsurances] = useState(DoctorAccountDetails?.[0] || []);
-  const [insurancesConfirmation, setInsurancesConfirmation] = useConfirmationMessage();
 
   const [selectedLanguage, setSelectedLanguage] = useState('');
   const [spokenLanguages, setSpokenLanguages] = useState(DoctorAccountDetails?.[1] || []);
@@ -125,7 +121,6 @@ export default function DoctorAccountDetails() {
     try{
         const response = await PrivateDoctorDataService.fillAccountDetails();
         if (response){
-            if(response.data[0]) setAcceptedInsurances(response.data[0]);
             if(response.data[1]) setSpokenLanguages(response.data[1]);
             if(response.data[2]){
               setProvidedServices(response.data[2])
@@ -215,13 +210,6 @@ export default function DoctorAccountDetails() {
         setDoctorSpecialties = {setDoctorSpecialties}
         specialtiesConfirmation = {specialtiesConfirmation}
         setSpecialtiesConfirmation = {setSpecialtiesConfirmation}
-      />
-      <RenderInsuranceSection
-        listDetails = {listDetails}
-        acceptedInsurances = {acceptedInsurances}
-        setAcceptedInsurances = {setAcceptedInsurances}
-        insurancesConfirmation = {insurancesConfirmation}
-        setInsurancesConfirmation = {setInsurancesConfirmation}
       />
       <RenderLanguageSection
         listDetails = {listDetails}

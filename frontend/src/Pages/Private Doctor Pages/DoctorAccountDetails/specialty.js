@@ -1,9 +1,9 @@
 import React from "react";
 import { Card, Button} from "react-bootstrap";
-import { handleSelectSpecialty } from "../../../Custom Hooks/Hooks for Doctor Account Details/select";
-import { handleAddSpecialty } from "../../../Custom Hooks/Hooks for Doctor Account Details/add";
-import { handleDeleteSpecialty } from "../../../Custom Hooks/Hooks for Doctor Account Details/delete";
-import { saveSpecialies } from "../../../Custom Hooks/Hooks for Doctor Account Details/save";
+import { handleSelectSpecialty } from "../../../Custom Hooks/Hooks for Account Details/select";
+import { handleAddSpecialty } from "../../../Custom Hooks/Hooks for Account Details/add";
+import { handleDeleteSpecialty } from "../../../Custom Hooks/Hooks for Account Details/delete";
+import { saveSpecialies } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails";
 
 export default function RenderSpecialtySection (props){
   return(

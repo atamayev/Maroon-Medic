@@ -1,44 +1,5 @@
-import { checkIfListsAreEqual, areArraysSame, convertDateForSql} from "../lists-and-object-checks";
-import PrivateDoctorDataService from "../../Services/private-doctor-data-service";
-
-export async function saveInsurances(acceptedInsurances, setInsurancesConfirmation){
-  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  const savedInsurances = DoctorAccountDetails?.[0] || [];
-  const savedInsurancesIDs = savedInsurances.map(insurance => insurance.insurance_listID).sort((a,b)=>a-b);
-  const insuranceIds = acceptedInsurances.map(ins => ins.insurance_listID).sort((a,b)=>a-b); // list of all added insurances
-  
-  let shouldSave = false;
-
-  if(!savedInsurancesIDs.length && !insuranceIds.length) {
-    // Case where both arrays are empty
-    setInsurancesConfirmation({messageType: 'none'});
-    return;
-  }
-
-  if(!savedInsurancesIDs.length || !savedInsurancesIDs){
-    shouldSave = !!insuranceIds.length
-  }else if((!checkIfListsAreEqual(insuranceIds, savedInsurancesIDs))){
-    shouldSave = true;
-  }else{
-    setInsurancesConfirmation({messageType: 'same'});
-  }
-
-  if(shouldSave){//only saves if the insurances changed
-    try {
-      const response = await PrivateDoctorDataService.saveGeneralData(insuranceIds, 'Insurance')
-      if(response.status === 200){
-        DoctorAccountDetails[0] = acceptedInsurances;
-        sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-        setInsurancesConfirmation({messageType: 'saved'});
-      }
-    } catch(error) {
-      setInsurancesConfirmation({messageType: 'problem'});
-      console.log('error in saving Insurances', error)
-    }
-  }else{
-    setInsurancesConfirmation({messageType: 'same'});
-  }
-};
+import { checkIfListsAreEqual, areArraysSame, convertDateForSql} from "../../lists-and-object-checks";
+import PrivateDoctorDataService from "../../../Services/private-doctor-data-service";
 
 export async function saveLanguages(spokenLanguages, setLanguagesConfirmation){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));

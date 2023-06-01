@@ -8,7 +8,8 @@ import {
     fetchPatientLists
 } from "../controllers/privatePatientData/privatePatientDataCTRL.js";
 import {
-    savePersonalData 
+    savePersonalData,
+    saveGeneralData,
 } from "../controllers/privatePatientData/savePatientDataCTRL.js";
 
 const router = express.Router()
@@ -17,10 +18,10 @@ router.post("/new-patient", newPatient)
 router.get("/new-patient-confirmation", newPatientConfirmation)
 router.get("/fetch-dashboard-data", fetchDashboardData)
 router.get("/fetch-personal-data", fetchPersonalData)
-router.post("/save-personal-data", savePersonalData)
 router.get("/fetch-account-details-data", fetchAccountDetails)
-
-
 router.get("/fetch-patient-lists", fetchPatientLists)
+
+router.post("/save-personal-data", savePersonalData)
+router.post("/save-general-data", saveGeneralData)
 
 export default router

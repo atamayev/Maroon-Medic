@@ -22,4 +22,7 @@ export default new class PrivatePatientDataService {
     async fillAccountDetails(){
         return await http.get('/private-patient-data/fetch-account-details-data')
     }
+    async saveGeneralData(Data, DataType){ // for languages, and insurances
+        return await http.post('/private-patient-data/save-general-data', {Data: Data, DataType: DataType})
+    }
 }();

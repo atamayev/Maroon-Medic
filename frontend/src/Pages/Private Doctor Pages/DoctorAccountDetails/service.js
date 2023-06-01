@@ -1,10 +1,10 @@
 import React from "react";
 import { Card, Button} from "react-bootstrap";
-import { handleCategoryChange } from "../../../Custom Hooks/Hooks for Doctor Account Details/select";
-import { handleToggleCategory } from "../../../Custom Hooks/Hooks for Doctor Account Details/select";
-import { saveServices } from "../../../Custom Hooks/Hooks for Doctor Account Details/save";
-import { handleAddService } from "../../../Custom Hooks/Hooks for Doctor Account Details/add";
-import { handleDeleteService } from "../../../Custom Hooks/Hooks for Doctor Account Details/delete";
+import { handleCategoryChange } from "../../../Custom Hooks/Hooks for Account Details/select";
+import { handleToggleCategory } from "../../../Custom Hooks/Hooks for Account Details/select";
+import { saveServices } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails";
+import { handleAddService } from "../../../Custom Hooks/Hooks for Account Details/add";
+import { handleDeleteService } from "../../../Custom Hooks/Hooks for Account Details/delete";
 
 export default function RenderServiceSection (props){
   return(

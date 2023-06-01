@@ -2,9 +2,14 @@ To-do:
 
 
 ASAP:
-Add a languages, insurance section to the Patient Personal Info , will need to create save languages, insurances for pt as well. can copy over save general data
-will need to re-do the listDetails in all of the doctorAccountDetails, and doctor list details bc removing insruances
--will need to create a seperate front-end save data CTRL
+
+-delete insruances from doctor-side.
+
+Also need to create the login history table and display it nicely to the user (both doc and pt). 
+
+- when registering as a patient, need to make it clear when the user is entering data regrading the human, and when about the pet
+
+Add a section to the vets info where it asks which pets they service (checkboxes)
 
 - if a certain location has no times selected, when that location is selected by hte pt, it should say something like: 'This doc has no available time slots'
 	BUG: if one of the locations has no availbale times, and is pressed, then all location show no available tiems
@@ -12,18 +17,13 @@ will need to re-do the listDetails in all of the doctorAccountDetails, and docto
 -In the checkout screen, ask: Do cyou have insurance, and are you cirious to know what your out of pocket cost will be for [Service_name] with Dr. [name]?
 	Only ask if user hasn't entered their insurance in the patient details. if they have, calculate it on the fly
 
-- when registering as a patient, need to make it clear when the user is entering data regrading the human, and when about the pet
-
 -Reviews:
 	Patient's able to make a review after the appointment date is completed, given that the appointment is approved by the doctor.
-
-Also need to create the login history table and display it nicely to the user (both doc and pt). 
 
 On the vet dashboard, make the appointments clickable, shows the patients details, patient note, pet details, etc.
 	Should go to a newly created appointment page, which nicely lays out the appointment details. 
 	If that event is clicked on from calendar view, it should go to that link as well
 
-Add a section to the vets info where it asks which pets they service (checkboxes)
 -Figure out a good way to divide the vet screen into locations. Must be intuitive, and think of all the information that may differ bw practices, not just the address/phone numbers
 
 LATER:
