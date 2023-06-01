@@ -1,5 +1,7 @@
 import {connection, DB_Operation} from "../../dbAndSecurity/connect.js";
 import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
+import FetchPatientAccountData from "./fetchPatientAccountData.js";
+import FetchAllLists from "../../dbAndSecurity/fetchAllLists.js";
 import moment from "moment";
 // all of the functions to add pt data, and pull it for necessary components on pt dashboard
 
@@ -160,6 +162,29 @@ export async function fetchPersonalData (req, res){
     }catch(error){
         console.log(`error in ${fetchPersonalData.name}:`, error);
         return res.json(PersonalData);
+    }
+};
+
+/** fetchAccountDetails retrieves the Patient's Account Details
+ *  Takes the patient's UUID, and converts to the patientID.
+ *  Starts with an empty list, and appends objects from fetchPatientAccountData. Each function contains a specific data type (desciriptions, languages, etc)
+ * @param {Cookies} req Contains the user's cookies (PatientUUID)
+ * @param {Array} res List with user account details
+ * @returns User data.
+ * DOCUMENTATION LAST UPDATED 3/16/23
+ */
+export async function fetchAccountDetails (req, res){
+    const PatientUUID = req.cookies.PatientUUID;
+    const PatientID = await UUID_to_ID(PatientUUID);
+    let response = [];
+    try{
+        response.push(await FetchPatientAccountData.FetchPatientInsurances(PatientID));
+        response.push(await FetchPatientAccountData.FetchPatientLanguages(PatientID)); 
+        return res.status(200).json(response);
+    }catch(error){
+        console.log('error in accountDetails', error);
+        const emptyResponse = [];
+        return res.status(400).json(emptyResponse);
     }
 };
 

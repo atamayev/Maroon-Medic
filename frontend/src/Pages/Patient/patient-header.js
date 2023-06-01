@@ -19,8 +19,14 @@ export default function PatientHeader() {
         active={currentPath === '/my-pets'}
       />
       <AccountNavHeader
-        href="/patient-settings"
+        href="/patient-account-details"
         eventKey="link-3"
+        title="Account Details"
+        active={currentPath === '/patient-account-details'}
+      />
+      <AccountNavHeader
+        href="/patient-settings"
+        eventKey="link-4"
         title="Settings"
         active={currentPath === '/patient-settings'}
       />

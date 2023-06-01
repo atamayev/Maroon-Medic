@@ -19,4 +19,7 @@ export default new class PrivatePatientDataService {
     async fillLists(){
         return await http.get('/private-patient-data/fetch-patient-lists')
     }
+    async fillAccountDetails(){
+        return await http.get('/private-patient-data/fetch-account-details-data')
+    }
 }();

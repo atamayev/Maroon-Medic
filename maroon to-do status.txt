@@ -2,7 +2,10 @@ To-do:
 
 
 ASAP:
-Add a languages, insurance section to the Patient Personal Info 
+Add a languages, insurance section to the Patient Personal Info , will need to create save languages, insurances for pt as well. can copy over save general data
+will need to re-do the listDetails in all of the doctorAccountDetails, and doctor list details bc removing insruances
+-will need to create a seperate front-end save data CTRL
+
 - if a certain location has no times selected, when that location is selected by hte pt, it should say something like: 'This doc has no available time slots'
 	BUG: if one of the locations has no availbale times, and is pressed, then all location show no available tiems
 	

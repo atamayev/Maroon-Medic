@@ -187,7 +187,7 @@ export async function confirmAppointment (req, res){
  */
 export async function fetchAccountDetails (req, res){
     const DoctorUUID = req.cookies.DoctorUUID;
-    const DoctorID = await UUID_to_ID(DoctorUUID, 'Doctor');
+    const DoctorID = await UUID_to_ID(DoctorUUID);
     let response = [];
     try{
         response.push(await FetchDoctorAccountData.FetchDoctorInsurances(DoctorID));
