@@ -1,18 +1,13 @@
 To-do:
 
 ASAP:
-
--instead of re-rendering pateint dashboard each time, maybe there's a way to set the dashborad data from the back-end.
-
-there's a bug when the names of the locations are changed, which cause the times to switch
-	if both are titled 123, and the second one is changed to 'availble', the times assigned to them switch
-
 Make the 'Add Address' Button Finalize a Location, make it within the accordion. 
 	So when add address is pressed, it becomes a pretty-looking text (can edit it by pressing a pencil in the top right or something)
 	Add a new 'Add new address' button to add a new acordion strip
 
 Write documentation, especially for saveAddresses
 
+-instead of re-rendering pateint dashboard each time, maybe there's a way to set the dashborad data from the back-end.
 
 Add a section in doctordetails for wheather or not the doc works for a practice/company (will neeed to create a lookup and mapping table for vet companies as options)
 

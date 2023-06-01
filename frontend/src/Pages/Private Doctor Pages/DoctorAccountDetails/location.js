@@ -70,17 +70,17 @@ function AddressForm(props) {
   return (
     <>
       <Accordion >
-        {props.addresses.map((address, index) => (
-          <AddressAccordionItem 
-            key={index} 
-            index = {index}
-            address={address} 
-            handleInputChange={(e) => handleInputChange(e, address.address_priority)}
-            handleDeleteAccordion={() => handleDeleteAccordion(address.address_priority, props.addresses, props.setAddresses)}
-            addresses = {props.addresses}
-            setAddresses = {props.setAddresses}
-          />
-        ))}
+      {props.addresses.sort((a, b) => a.address_priority - b.address_priority).map((address, index) => (
+        <AddressAccordionItem 
+          key={index} 
+          index = {index}
+          address={address} 
+          handleInputChange={(e) => handleInputChange(e, address.address_priority)}
+          handleDeleteAccordion={() => handleDeleteAccordion(address.address_priority, props.addresses, props.setAddresses)}
+          addresses = {props.addresses}
+          setAddresses = {props.setAddresses}
+        />
+      ))}
       </Accordion>
       <Button variant="primary" onClick={()=> handleAddAccordion(props.addresses, props.setAddresses)} style={{ marginRight: '10px' }}>Add New Location</Button>
       <Button 

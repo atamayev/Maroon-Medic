@@ -25,7 +25,8 @@ export function getUpdatedAddressRecords(newData, results) {
           newRecord.address_public_status !== existingRecord.address_public_status ||
           newRecord.phone !== existingRecord.phone ||
           newRecord.phone_priority !== existingRecord.phone_priority || 
-          newRecord.instant_book !== existingRecord.instant_book
+          newRecord.instant_book !== existingRecord.instant_book ||
+          newRecord.isActive !== existingRecord.isActive
         ) {
           // If there are changes, add newRecord to updatedRecords array
           updatedRecords.push(newRecord);
@@ -64,7 +65,9 @@ export function getUnchangedAddressRecords(newData, results) {
         newRecord.address_public_status === existingRecord.address_public_status &&
         newRecord.phone === existingRecord.phone &&
         newRecord.phone_priority === existingRecord.phone_priority &&
-        newRecord.instant_book === existingRecord.instant_book
+        newRecord.instant_book === existingRecord.instant_book &&
+        newRecord.isActive === existingRecord.isActive
+
       ) {
         // If there are no changes, add newRecord to unchangedData array
         unchangedData.push(newRecord);

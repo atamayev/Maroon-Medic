@@ -151,19 +151,18 @@ export default new class FetchDoctorAccountData{
         
         const sql = `SELECT ${addresses}.addressesID, ${addresses}.address_title, ${addresses}.address_line_1, 
             ${addresses}.address_line_2, ${addresses}.city, ${addresses}.state, ${addresses}.zip, 
-            ${addresses}.country, ${addresses}.address_priority, ${addresses}.address_public_status, ${addresses}.instant_book, 
-            ${phone}.Phone, ${phone}.phone_priority 
-            FROM ${addresses}, ${phone} 
-            WHERE ${addresses}.addressesID = ${phone}.address_ID AND ${addresses}.Doctor_ID = ? AND ${addresses}.isActive = 1`;
+            ${addresses}.country, ${addresses}.address_priority, ${addresses}.address_public_status, ${addresses}.instant_book
+            FROM ${addresses}
+            WHERE ${addresses}.isActive = 1 AND ${addresses}.Doctor_ID = ? `;
         
         const values = [Doctor_ID];
 
-        await DB_Operation(functionName, phone);
+        await DB_Operation(functionName, addresses);
    
         try{
             const [results] = await connection.execute(sql, values);
             
-            if (results.length > 0) {
+            if (results.length) {
                 for (let result of results) {
                     const sql1 = `SELECT ${booking_availability}.Day_of_week, ${booking_availability}.Start_time, ${booking_availability}.End_time 
                         FROM ${booking_availability} 
@@ -171,9 +170,20 @@ export default new class FetchDoctorAccountData{
         
                     const [times] = await connection.execute(sql1, [result.addressesID]);
                     result.times = times;
+
+                    const sql2 = `SELECT ${phone}.Phone, ${phone}.phone_priority 
+                        FROM ${phone} 
+                        WHERE ${phone}.address_ID = ?`;
+        
+                    const [phones] = await connection.execute(sql2, [result.addressesID]);
+                    if(!phones.length){
+                        result.phone = "";
+                    }else{
+                        result.phone = phones[0];
+                    }
+                    console.log(result)
                 }
             }
-        
             return results;
         }catch(error){
             console.log(`error in ${functionName}:`, error)

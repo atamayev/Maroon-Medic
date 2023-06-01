@@ -426,7 +426,7 @@ export async function saveAddressData (req, res){
     const TimesData = req.body.Times;
     const [addresses, phone, booking_availability] = ['addresses', 'phone', 'booking_availability'];
 
-    const sql = `SELECT * FROM ${addresses} JOIN ${phone} ON ${addresses}.addressesID = ${phone}.address_ID WHERE ${addresses}.Doctor_ID = ?`;
+    const sql = `SELECT * FROM ${addresses} WHERE ${addresses}.isActive = 1 AND ${addresses}.Doctor_ID = ?`;
     const values = [DoctorID];
     let Address_results;
 
@@ -437,7 +437,20 @@ export async function saveAddressData (req, res){
         console.log(`error in ${saveAddressData.name}:`, error)
         return res.status(400).json();
     }
+
     if (Address_results.length) {
+        for (let Address_result of Address_results){
+            const sql2 = `SELECT ${phone}.Phone, ${phone}.phone_priority 
+            FROM ${phone} 
+            WHERE ${phone}.address_ID = ?`;
+
+            const [phones] = await connection.execute(sql2, [Address_result.addressesID]);
+            if(!phones.length){
+                Address_result.phone = "";
+            }else{
+                Address_result.phone = phones[0];
+            }
+        };
         const newData = AddressData;
         // Check for changes in data:
         
@@ -449,7 +462,7 @@ export async function saveAddressData (req, res){
             .filter(result => !newData.some(data => data.addressesID === result.addressesID))
             .map(result => result.addressesID);
         
-        const updatedData = getUpdatedAddressRecords(newData, Address_results)
+        const updatedData = getUpdatedAddressRecords(newData, Address_results);
 
         const unchangedData = getUnchangedAddressRecords(newData, Address_results);
 
@@ -468,14 +481,16 @@ export async function saveAddressData (req, res){
                     console.log(`error in adding address data ${saveAddressData.name}:`, error);
                     return res.status(400).json();
                 }
-                
-                const sql2 = `INSERT INTO ${phone} (Phone, phone_priority, address_ID) VALUES (?, ?, ?)`
-                const values2 = [addedData[i].phone, addedData[i].phone_priority, insert_results.insertId];
-                try{
-                    await connection.execute(sql2, values2);
-                }catch(error){
-                    console.log(`error in inserting phone info ${saveAddressData.name}:`, error);
-                    return res.status(400);  
+
+                if(addedData[i].phone){
+                    const sql2 = `INSERT INTO ${phone} (Phone, phone_priority, address_ID) VALUES (?, ?, ?)`
+                    const values2 = [addedData[i].phone, addedData[i].phone_priority, insert_results.insertId];
+                    try{
+                        await connection.execute(sql2, values2);
+                    }catch(error){
+                        console.log(`error in inserting phone info ${saveAddressData.name}:`, error);
+                        return res.status(400);  
+                    }
                 }
                 addedData[i].addressesID = insert_results.insertId;
                 returnedData.push(addedData[i])
@@ -506,15 +521,33 @@ export async function saveAddressData (req, res){
                     console.log(`error in updatedData address data ${saveAddressData.name}:`, error);
                     return res.status(400).json();
                 }
-                if(updatedData[i].phone){
-                    const sql2 = `UPDATE ${phone} SET Phone = ? WHERE address_ID = ?`;
-                    const values2 = [updatedData[i].phone, updatedData[i].addressesID];
+                const sql = `SELECT * FROM ${phone} where address_ID = ?`;
+                const values = [updatedData[i].addressesID];
+                let results;
+                try{
+                    [results] = await connection.execute(sql, values);
+                }catch(error){
+                    console.log(`error in updatedData phone address data ${saveAddressData.name}:`, error);
+                    return res.status(400).json();
+                }
+                if(results.length){
+                    const sql = `UPDATE ${phone} SET phone = ? WHERE address_ID = ?`;
+                    const values = [updatedData[i].phone, updatedData[i].addressesID];
                     try{
-                        await connection.execute(sql2, values2);
+                        await connection.execute(sql, values);
                     }catch(error){
                         console.log(`error in updatedData phone address data ${saveAddressData.name}:`, error);
                         return res.status(400).json();
-                    }
+                    } 
+                }else{
+                    const sql = `INSERT INTO ${phone} (Phone, phone_priority, address_ID) VALUES (?, ?, ?)`;
+                    const values = [updatedData[i].phone, 0, updatedData[i].addressesID];//need to figure out why phone_priority not in updatedData
+                    try{
+                        await connection.execute(sql, values);
+                    }catch(error){
+                        console.log(`error in updatedData phone address data ${saveAddressData.name}:`, error);
+                        return res.status(400).json();
+                    }     
                 }
                 returnedData.push(updatedData[i])
             }
@@ -527,7 +560,7 @@ export async function saveAddressData (req, res){
             //Select * from timedata table where addressID=returnedData[i].AddressID.
             //see which data is new, and which data is deleted. will be re-declaring addedTimeData, deletedTimeData inside of a loop (that iterates over all the address_IDs)
             //the addedData/deletedData will act inside of a loop, length of addedTimeDAta/deletedTimeData
-            for(let i =0; i<returnedData.length; i++){
+            for(let i = 0; i<returnedData.length; i++){
                 const returnedDataData = returnedData[i];
                 const corespondingTimeData = TimesData[i];
 
@@ -539,21 +572,25 @@ export async function saveAddressData (req, res){
                 try{
                     [timeDataResults] = await connection.execute(sql, values);
                 }catch(error){
-                    console.log(`error in tiem data results${saveAddressData.name}:`, error)
+                    console.log(`error in time data results${saveAddressData.name}:`, error)
                     return res.status(400).json();
                 }
 
-                let oldDataDict = Object.fromEntries(timeDataResults.map(item => [item.Day_of_week, item]));
-                let newDataDict = Object.fromEntries(corespondingTimeData.map(item => [item.Day_of_week, item]));
+                const oldDataDict = Object.fromEntries(timeDataResults.map(item => [item.Day_of_week, item]));
+                const newDataDict = Object.fromEntries(corespondingTimeData.map(item => [item.Day_of_week, item]));
 
-                let addedTimeData = Object.values(newDataDict).filter(item => !(item.Day_of_week in oldDataDict));
-                let deletedTimeData = Object.values(oldDataDict).filter(item => !(item.Day_of_week in newDataDict));
+                const addedTimeData = Object.values(newDataDict).filter(item => !(item.Day_of_week in oldDataDict));
+                const deletedTimeData = Object.values(oldDataDict).filter(item => !(item.Day_of_week in newDataDict));
 
-                let updatedTimeData = Object.values(newDataDict).filter(item => {
+                const updatedTimeData = Object.values(newDataDict).filter(item => {
                     return (item.Day_of_week in oldDataDict) && 
                       (item.Start_time !== oldDataDict[item.Day_of_week].Start_time || 
                       item.End_time !== oldDataDict[item.Day_of_week].End_time);
                 });
+
+                console.log('addedTimeData',addedTimeData)
+                console.log('deletedData',deletedData)
+                console.log('updatedTimeData',updatedTimeData)
 
                 if(addedTimeData.length){
                     for (let j = 0; j<addedTimeData.length; j++){
@@ -598,6 +635,7 @@ export async function saveAddressData (req, res){
                     }
                 }
             }
+            console.log(returnedData)
             return res.status(200).json(returnedData);
         }else{
             //if no addresses:
@@ -607,7 +645,7 @@ export async function saveAddressData (req, res){
         for (let i=0; i<AddressData.length; i++){
             const sql = `INSERT INTO ${addresses} 
                 (address_title, address_line_1, address_line_2, city, state, zip, country, address_public_status, address_priority, instant_book, isActive, Doctor_ID) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)`;
             const values = [AddressData[i].address_title, AddressData[i].address_line_1, AddressData[i].address_line_2, AddressData[i].city, AddressData[i].state, AddressData[i].zip, AddressData[i].country, AddressData[i].address_public_status, AddressData[i].address_priority, AddressData[i].instant_book, 1, DoctorID];
             let insert_results;
             try{
@@ -617,19 +655,20 @@ export async function saveAddressData (req, res){
                 return res.status(400).json();
             }
 
-            const sql1 = `INSERT INTO ${phone} (Phone, phone_priority, address_ID) VALUES (?, ?, ?)`
-            const values1 = [AddressData[i].phone, AddressData[i].phone_priority, insert_results.insertId];
-            try{
-                await connection.execute(sql1, values1);
-            }catch(error){
-                console.log(`error in inserting phone info ${saveAddressData.name}:`, error);
-                return res.status(400).json();
+            if(AddressData[i].phone){
+                const sql1 = `INSERT INTO ${phone} (Phone, phone_priority, address_ID) VALUES (?, ?, ?)`
+                const values1 = [AddressData[i].phone, AddressData[i].phone_priority, insert_results.insertId];
+                try{
+                    await connection.execute(sql1, values1);
+                }catch(error){
+                    console.log(`error in inserting phone info ${saveAddressData.name}:`, error);
+                    return res.status(400).json();
+                }
             }
-
             if(TimesData[i].length){//Makes sure that there is Time Data to save
                 for(let j = 0; j<TimesData.length;j++){
                     const sql2 = `INSERT INTO ${booking_availability} (Day_of_week, Start_time, End_time, address_ID, Doctor_ID) VALUES (?, ?, ?, ?, ?)`;
-                    const values2 = [TimesData[i][j].Day_of_week, TimesData[i][j].Start_time, TimesData[i][j].End_time, insert_results.insertId, DoctorID]
+                    const values2 = [TimesData[i][j].Day_of_week, TimesData[i][j].Start_time, TimesData[i][j].End_time, insert_results.insertId, DoctorID];
                     try{
                         await connection.execute(sql2, values2);
                     }catch(error){
@@ -643,7 +682,8 @@ export async function saveAddressData (req, res){
         return res.status(200).json(AddressData);
     }
     else{
-        return res.status(400).json()
+        console.log(`error in else  ${saveAddressData.name}:`);
+        return res.status(400).json();
     }
 };
 

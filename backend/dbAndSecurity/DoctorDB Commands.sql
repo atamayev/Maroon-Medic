@@ -223,7 +223,10 @@ CREATE TABLE addresses(
 );
 
 SELECT * FROM addresses where isActive;
+-- inner join phone on addresses.addressesID = phone.address_ID;
+update addresses set isActive = 0 where Doctor_ID;
 
+DELETE FROM addresses where Doctor_ID;
 CREATE TABLE phone(
 	phone_numbersID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	Phone VARCHAR(150),
