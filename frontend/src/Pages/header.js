@@ -101,7 +101,7 @@ export default function Header (props) {
       }
     }else if (type === 'Patient'){
       try{
-        response = await PrivatePatientDataService.fillPatientPersonalData();
+        response = await PrivatePatientDataService.fillPersonalData();
       }catch(error){
         console.log(`unable to fillPatientPersonalData`, error)
       }

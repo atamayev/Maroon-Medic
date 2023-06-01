@@ -2,7 +2,7 @@ import React from 'react'
 import { Nav } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
 
-export default function DoctorNavHeader(props) {
+export default function AccountNavHeader(props) {
   const location = useLocation();
   const isActive = location.pathname.startsWith(props.href);
 
@@ -13,4 +13,4 @@ export default function DoctorNavHeader(props) {
       </Nav.Link>
     </Nav.Item>
   )
-}
+};

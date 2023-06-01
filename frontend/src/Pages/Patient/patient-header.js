@@ -2,33 +2,27 @@ import React from 'react'
 import { Nav } from 'react-bootstrap';
 import AccountNavHeader from '../../Components/account-nav-header';
 
-export default function DoctorHeader() {
+export default function PatientHeader() {
   const currentPath = window.location.pathname;
   return (
     <Nav justify variant="pills" className="justify-content-center">
       <AccountNavHeader
-        href="/vet-dashboard"
+        href="/patient-dashboard"
         eventKey="link-1"
         title="Dashboard"
-        active={currentPath === '/vet-dashboard'}
+        active={currentPath === '/patient-dashboard'}
       />
       <AccountNavHeader
-        href="/vet-calendar"
+        href="/my-pets"
         eventKey="link-2"
-        title="Calendar"
-        active={currentPath === '/vet-calendar'}
+        title="My Pets"
+        active={currentPath === '/my-pets'}
       />
       <AccountNavHeader
-        href="/vet-account-details"
+        href="/patient-settings"
         eventKey="link-3"
-        title="Account Details"
-        active={currentPath === '/vet-account-details'}
-      />
-      <AccountNavHeader
-        href="/vet-settings"
-        eventKey="link-4"
         title="Settings"
-        active={currentPath === '/vet-settings'}
+        active={currentPath === '/patient-settings'}
       />
     </Nav>
   );

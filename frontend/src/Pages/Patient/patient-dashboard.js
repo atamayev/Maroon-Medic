@@ -6,10 +6,11 @@ import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import Header from '../header.js';
 import { NonPatientAccess } from '../../Components/user-type-unauth.js';
 import moment from 'moment';
+import PatientHeader from './patient-header.js';
 
 async function fetchPatientDashboardData(setDashboardData){
   try{
-    const response = await PrivatePatientDataService.fillPatientDashboard()
+    const response = await PrivatePatientDataService.fillDashboard()
     if (response){
       setDashboardData(response.data);
       sessionStorage.setItem("PatientDashboardData", JSON.stringify(response.data))
@@ -17,7 +18,7 @@ async function fetchPatientDashboardData(setDashboardData){
       console.log('no response')
     }
   }catch(error){
-    console.log('unable to fillPatientDashboard', error)
+    console.log('unable to fillDashboard', error)
   }
 }
 
@@ -190,6 +191,7 @@ export default function PatientDashboard() {
   return (
     <div>
       <Header dropdown={true} search={true} />
+      <PatientHeader />
       {personalInfo ? (<>
         <p>Welcome{newPatient?(<> to MaroonMedic</>):(<> back</>)}, {personalInfo.FirstName}</p>
         </>) : 

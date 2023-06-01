@@ -4,17 +4,16 @@ export default new class PrivatePatientDataService {
     async addingPatientInfo(new_patient_object){
         return await http.post(`private-patient-data/new-patient`, {new_patient_object});
     }
-    async fillPatientDashboard(){
+    async fillDashboard(){
         return await http.get('/private-patient-data/fetch-dashboard-data')
     }
     async newPatientConfirmation(){
         return await http.get(`private-patient-data/new-patient-confirmation`);
     }
-    async fillPatientPersonalData(){
+    async fillPersonalData(){
         return await http.get('/private-patient-data/fetch-personal-data')
     }
-    //UNTESTED:
-    // async savePatientPersonalData(personalInfo){
-    //     return await http.post('/private-patient-data/save-personal-data', {personalInfo})
-    // }
+    async savePersonalData(personalInfo){
+        return await http.post('/private-patient-data/save-personal-data', {personalInfo})
+    }
 }();

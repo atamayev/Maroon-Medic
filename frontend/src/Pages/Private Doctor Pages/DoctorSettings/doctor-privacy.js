@@ -1,7 +1,6 @@
 import React from 'react'
-import DoctorHeader from '../doctor-header.js';
-
 import Header from '../../header'
+import DoctorHeader from '../doctor-header.js';
 
 export default function DoctorPrivacy() {
   return (

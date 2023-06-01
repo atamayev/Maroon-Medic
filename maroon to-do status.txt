@@ -2,8 +2,7 @@ To-do:
 
 
 ASAP:
-Make a nav bar on the patient side. 
-	Should have: Dashboard, my pets (where users can input data about their pets), and my info (where they can update personal details (languages, insurances, etc.)
+Add a languages, insurance section to the Patient Personal Info 
 move useConfirmationMessage to hooks/components - no longer just being used by doc account detials
 - if a certain location has no times selected, when that location is selected by hte pt, it should say something like: 'This doc has no available time slots'
 	BUG: if one of the locations has no availbale times, and is pressed, then all location show no available tiems
@@ -17,16 +16,12 @@ move useConfirmationMessage to hooks/components - no longer just being used by d
 -Reviews:
 	Patient's able to make a review after the appointment date is completed, given that the appointment is approved by the doctor.
 
-
-Create a setting/privacy page for the pt.
-
 Also need to create the login history table and display it nicely to the user (both doc and pt). 
 
 On the vet dashboard, make the appointments clickable, shows the patients details, patient note, pet details, etc.
 	Should go to a newly created appointment page, which nicely lays out the appointment details. 
 	If that event is clicked on from calendar view, it should go to that link as well
--Delete insurance from vet side, add a place for patients to enter their details
--make appt price a req field.
+
 Add a section to the vets info where it asks which pets they service (checkboxes)
 -Figure out a good way to divide the vet screen into locations. Must be intuitive, and think of all the information that may differ bw practices, not just the address/phone numbers
 

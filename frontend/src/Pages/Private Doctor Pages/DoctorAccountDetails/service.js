@@ -33,6 +33,9 @@ function renderIsVetServices (props) {
   const areAllTimesSet = (services) => {
     return services.every(service => service.Service_time !== null && service.Service_time !== "");
   }
+  const areAllPricesSet = (services) =>{
+    return services.every(service => service.Service_price !== null && service.Service_price !== "");
+  }
   
   if (Array.from(new Set(props.listDetails[2]?.map((item) => item.Category_name))).length) {
     return (
@@ -75,7 +78,7 @@ function renderIsVetServices (props) {
                         <>
                           <input
                             type="number"
-                            placeholder="Service Time (req)"
+                            placeholder="Service Time (mins)"
                             id={`time-${service.service_and_category_listID}`}
                             required
                             value={selectedService?.Service_time || ""}
@@ -91,8 +94,9 @@ function renderIsVetServices (props) {
                           />
                           <input
                             type="number"
-                            placeholder="Service Price (opt)"
+                            placeholder="Service Price ($)"
                             id={`price-${service.service_and_category_listID}`}
+                            required
                             value={selectedService?.Service_price || ""}
                             onChange={(event) => {
                               const updatedServices = props.providedServices.map(s => {
@@ -115,7 +119,7 @@ function renderIsVetServices (props) {
         ))}
         <Button 
           variant="success" 
-          disabled={!areAllTimesSet(props.providedServices)}
+          disabled={!areAllTimesSet(props.providedServices) || !areAllPricesSet(props.providedServices)}
           onClick={() => saveServices(props.providedServices, props.setServicesConfirmation)}
         >
           Save
