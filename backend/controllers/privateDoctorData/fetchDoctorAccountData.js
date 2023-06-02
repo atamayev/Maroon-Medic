@@ -7,27 +7,6 @@ import {connection, DB_Operation} from "../../dbAndSecurity/connect.js"
  *  DOCUMENTATION LAST UPDATED 3/16/23
  */
 export default new class FetchDoctorAccountData{
-    async FetchDoctorInsurances (User_ID){
-        const functionName = this.FetchDoctorInsurances.bind(this).name;
-
-        const [insurance_mapping, insurance_list] = ['insurance_mapping', 'insurance_list'];
-
-        const sql = `SELECT ${insurance_list}.Insurance_name, ${insurance_list}.insurance_listID 
-            FROM ${insurance_list} JOIN ${insurance_mapping} ON ${insurance_list}.insurance_listID = ${insurance_mapping}.Insurance_ID 
-            WHERE ${insurance_mapping}.User_ID = ?`;
-        
-        const values = [User_ID];
-        await DB_Operation(functionName, insurance_mapping);
-
-        try{
-            const [results] = await connection.execute(sql, values);
-            return results;
-        }catch(error){
-            console.log(`error in ${functionName}:`, error)
-            return [];
-        }
-    };
-
     async FetchDoctorLanguages (User_ID){
         const functionName = this.FetchDoctorLanguages.bind(this).name;
         const [language_mapping, language_list] = ['language_mapping', 'language_list'];
@@ -69,16 +48,16 @@ export default new class FetchDoctorAccountData{
         }
     };
 
-    async FetchDoctorSpecialties (User_ID){
+    async FetchDoctorSpecialties (Doctor_ID){
         const functionName = this.FetchDoctorSpecialties.bind(this).name;
 
         const [specialty_mapping, specialties_list] = ['specialty_mapping', 'specialties_list'];
     
         const sql = `SELECT ${specialties_list}.Organization_name, ${specialties_list}.Specialty_name, ${specialties_list}.specialties_listID 
             FROM ${specialties_list} JOIN ${specialty_mapping} ON ${specialties_list}.specialties_listID = ${specialty_mapping}.specialty_ID 
-            WHERE ${specialty_mapping}.User_ID = ?`;
+            WHERE ${specialty_mapping}.Doctor_ID = ?`;
 
-        const values = [User_ID];
+        const values = [Doctor_ID];
         await DB_Operation(functionName, specialty_mapping);
     
         try{
@@ -216,18 +195,18 @@ export default new class FetchDoctorAccountData{
         }
     };
 
-    async FetchDoctorPictures (Doctor_ID){
-        const functionName = this.FetchDoctorPictures.bind(this).name;
+    async FetchServicedPets (Doctor_ID){
+        const functionName = this.FetchServicedPets.bind(this).name;
 
-        const [pictures] = ['pictures'];
+        const [pet_mapping, pet_list] = ['pet_mapping', 'pet_list'];
     
-        const sql = `SELECT picture_link, picture_number 
-            FROM ${pictures} 
-            WHERE Doctor_ID = ?`;
+        const sql = `SELECT ${pet_list}.pet, ${pet_list}.pet_type, ${pet_list}.pet_listID
+            FROM ${pet_list} JOIN ${pet_mapping} ON ${pet_list}.pet_listID = ${pet_mapping}.pet_ID 
+            WHERE ${pet_mapping}.Doctor_ID = ?`;
         
         const values = [Doctor_ID];
-        await DB_Operation(functionName, pictures);
-    
+        await DB_Operation(functionName, pet_mapping);
+
         try{
             const [results] = await connection.execute(sql, values);
             return results;
@@ -236,7 +215,7 @@ export default new class FetchDoctorAccountData{
             return [];
         }
     };
-   
+  
     async FetchPubliclyAvailable (Doctor_ID){
         const functionName = this.FetchDescriptionData.bind(this).name;
 
@@ -258,4 +237,26 @@ export default new class FetchDoctorAccountData{
             return [{PubliclyAvailable: false}, {Verified: false}];
         }
     };
+
+    async FetchDoctorPictures (Doctor_ID){
+        const functionName = this.FetchDoctorPictures.bind(this).name;
+
+        const [pictures] = ['pictures'];
+    
+        const sql = `SELECT picture_link, picture_number 
+            FROM ${pictures} 
+            WHERE Doctor_ID = ?`;
+        
+        const values = [Doctor_ID];
+        await DB_Operation(functionName, pictures);
+    
+        try{
+            const [results] = await connection.execute(sql, values);
+            return results;
+        }catch(error){
+            console.log(`error in ${functionName}:`, error)
+            return [];
+        }
+    };
+
 }();

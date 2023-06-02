@@ -8,6 +8,10 @@ export const handleDeleteService = (serviceToDelete, selectedServices, setSelect
     setSelectedServices(selectedServices.filter(service => service.service_and_category_listID !== serviceToDelete.service_and_category_listID));
 };
 
+export const handleDeletePet = (petToDelete, selectedPets, setSelectedPets) => {
+    setSelectedPets(selectedPets.filter(pet => pet.pet_listID !== petToDelete.pet_listID));
+};
+
 export const handleDeleteLanguage = (language, spokenLanguages, setSpokenLanguages) => {
     setSpokenLanguages(spokenLanguages.filter(l => l !== language));
 };

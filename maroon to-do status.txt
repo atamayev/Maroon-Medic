@@ -2,9 +2,10 @@ To-do:
 
 
 ASAP:
-Add a section to the vets info where it asks which pets they service (checkboxes) - make it whatever the current number for pictures is 
+-in the appointments table, will need to change patient_ID to pet_ID. then, on the front-end, you need to have a registered pet in order to make an appointment
 
 - when registering as a patient, need to make it clear when the user is entering data regrading the human, and when about the pet
+	make the patient-side area where the pt can enter pet details (based on the pet_list)
 
 - if a certain location has no times selected, when that location is selected by hte pt, it should say something like: 'This doc has no available time slots'
 	BUG: if one of the locations has no availbale times, and is pressed, then all location show no available tiems

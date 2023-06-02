@@ -65,6 +65,16 @@ export const handleToggleCategory = (category, setExpandedCategories) => {
   });
 };
 
+export const handleTogglePetType = (pet_type, setExpandedPetTypes) => {
+  setExpandedPetTypes(prevState => {
+    if (prevState.includes(pet_type)) {
+      return prevState.filter(pt => pt !== pet_type);
+    } else {
+      return [...prevState, pet_type];
+    }
+  });
+};
+
 export const handleDescriptionChange = (event, setDescription, setIsDescriptionOverLimit) =>{
   const value = event.target.value;
   setDescription({Description: value});

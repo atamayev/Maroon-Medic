@@ -197,8 +197,9 @@ export async function fetchAccountDetails (req, res){
         response.push(await FetchDoctorAccountData.FetchVetEducation(DoctorID));
         response.push(await FetchDoctorAccountData.FetchDoctorAddressData(DoctorID));
         response.push(await FetchDoctorAccountData.FetchDescriptionData(DoctorID)); 
-        response.push(await FetchDoctorAccountData.FetchDoctorPictures(DoctorID));
+        response.push(await FetchDoctorAccountData.FetchServicedPets(DoctorID));
         response.push(await FetchDoctorAccountData.FetchPubliclyAvailable(DoctorID));
+        response.push(await FetchDoctorAccountData.FetchDoctorPictures(DoctorID));
         return res.status(200).json(response);
     }catch(error){
         console.log('error in accountDetails', error);
@@ -225,6 +226,7 @@ export async function fetchDoctorLists (req, res){
         response.push(await FetchAllLists.fetchAllMajors());
         response.push(await FetchAllLists.fetchAllVetSchools());
         response.push(await FetchAllLists.fetchAllVetEducationTypes());
+        response.push(await FetchAllLists.fetchAllPets());
         return res.status(200).json(response);
     }catch(error){
         console.log('error in accountDetails', error);

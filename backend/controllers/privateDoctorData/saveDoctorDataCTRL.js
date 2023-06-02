@@ -106,14 +106,14 @@ export async function saveDescriptionData (req, res){
     }
 };
 
-/** saveGeneralData saves either Language, Specialty, or Insurance Data
+/** saveGeneralData saves either Language, Specialty, or Pets Data
  *  First, converts from UUID to ID. Then, checks if any records exist in the specific mapping with the user's id.
- *  The mapping file is chosen based on the DataType (can either be Specialty, Language, or Insurance)
+ *  The mapping file is chosen based on the DataType (can either be Specialty, Language, or Pets)
  *  If results exist in mappping table, then the 'difference' between the existing data in the table, and the new data are found.
  *  If the difference is only that new data were added, then those data are inserted into the table
  *  If the difference is that data that were previously there are now deleted, then those data get deleted from the table (this is done via filtering in the code) 
  *  If there are no results found initially, that means the user never inputed data. The user's new data are inserted.
- * @param {String} req Cookie from client, type of data, list of data (ie list of insurances, languages, or specialties)
+ * @param {String} req Cookie from client, type of data, list of data (ie list of Pets, languages, or specialties)
  * @param {Boolean} res 200/400
  * @returns Returns 200/400, depending on wheather the data was saved correctly
  *  DOCUMENTATION LAST UPDATED 4/1/23
@@ -123,12 +123,15 @@ export async function saveGeneralData (req, res){
     const DoctorID = await UUID_to_ID(DoctorUUID); // converts DoctorUUID to docid
     const DataType = req.body.DataType
     const DataTypelower = DataType.charAt(0).toLowerCase() + DataType.slice(1);
-    
+    let UserIDorDoctorID;
+    if(DataTypelower === 'language') UserIDorDoctorID = 'User_ID'
+    else UserIDorDoctorID = 'Doctor_ID'
+
     const doctorData = req.body.Data; // The Data is an array of the IDs of the DataType ([1,4,7,12], where each of these is a specific Language_ID)
 
     const table_name = `${DataTypelower}_mapping`;
 
-    const sql = `SELECT * FROM  ${table_name} WHERE User_ID = ?`
+    const sql = `SELECT * FROM  ${table_name} WHERE ${UserIDorDoctorID} = ?`
     const values = [DoctorID];
     let results;
 
@@ -152,7 +155,7 @@ export async function saveGeneralData (req, res){
         if (addedData.length > 0) {
             for (let i = 0; i<addedData.length; i++){
                 if(addedData[i]){
-                    const sql1 = `INSERT INTO ${table_name} (${DataType}_ID, User_ID) VALUES (?,?)`;
+                    const sql1 = `INSERT INTO ${table_name} (${DataType}_ID, ${UserIDorDoctorID}) VALUES (?,?)`;
                     const values1 = [addedData[i], DoctorID];
                     try{
                         await connection.execute(sql1, values1);
@@ -169,7 +172,7 @@ export async function saveGeneralData (req, res){
         if (deletedData.length > 0) {
             for (let i = 0; i<deletedData.length; i++){
                 if(deletedData[i]){
-                    const sql1 = `DELETE FROM ${table_name} WHERE ${DataType}_ID = ? AND User_ID = ?`;
+                    const sql1 = `DELETE FROM ${table_name} WHERE ${DataType}_ID = ? AND ${UserIDorDoctorID} = ?`;
                     const values1 = [deletedData[i], DoctorID];
                     try{
                         await connection.execute(sql1, values1);
@@ -188,7 +191,7 @@ export async function saveGeneralData (req, res){
     else if (doctorData.length > 0){
         for (let i=0; i<doctorData.length; i++){
             if(doctorData[i]){
-                const sql1 = `INSERT INTO ${table_name} (${DataType}_ID, User_ID) VALUES (?,?)`;
+                const sql1 = `INSERT INTO ${table_name} (${DataType}_ID, ${UserIDorDoctorID}) VALUES (?,?)`;
                 const values1 = [doctorData[i], DoctorID];
                 try{
                     await connection.execute(sql1, values1);

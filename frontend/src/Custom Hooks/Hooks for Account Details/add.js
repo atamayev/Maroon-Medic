@@ -17,6 +17,15 @@ export const handleAddService = (selectedService, providedServices, setProvidedS
   }
 };
 
+export const handleAddPet= (selectedPet, servicedPets, setServicedPets) => {
+  if(selectedPet){
+    if(!servicedPets.some(pet => pet.pet_listID === selectedPet.pet_listID)){
+      const updatedPet = {...selectedPet}
+      setServicedPets([...servicedPets, updatedPet]);
+    }
+  }
+};
+
 export const handleAddLanguage = (selectedLanguage, spokenLanguages, setSpokenLanguages, setSelectedLanguage) => {
     if(selectedLanguage){
       if(spokenLanguages.length >0){

@@ -16,7 +16,7 @@ CREATE TABLE Doctor_specific_info(
 	NVI INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	verified BOOLEAN NOT NULL, 
 	publiclyAvailable BOOLEAN NOT NULL, 
-	Doctor_ID INT unsigned NULL,
+	Doctor_ID INT unsigned NOT NULL,
 	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
 )AUTO_INCREMENT=1000000;
 
@@ -34,13 +34,34 @@ CREATE TABLE basic_user_info (
 
 SELECT * FROM basic_user_info;
 
-CREATE TABLE pet_info (
+CREATE TABLE pet_list(
+	pet_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    Pet VARCHAR(30) NOT NULL,
+    Pet_type VARCHAR(30) NOT NULL
+);
+
+SELECT * FROM pet_list;
+
+CREATE TABLE pet_mapping( -- which types of animals each vet services
+	pet_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	pet_ID INT unsigned NOT NULL, 
+	Doctor_ID INT unsigned NOT NULL, 
+	FOREIGN KEY (pet_ID) REFERENCES pet_list(pet_listID),
+	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID),
+	UNIQUE (pet_ID, Doctor_ID)
+);
+
+SELECT * FROM pet_mapping;
+
+CREATE TABLE pet_info ( -- specific info about each pet (from the Patient POV)
 	pet_infoID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	Name VARCHAR(150) NULL,
-	Gender VARCHAR(150) NULL,
+	Name VARCHAR(150) NOT NULL,
+	Gender VARCHAR(150) NOT NULL,
     DOB DATE,
-	Patient_ID INT unsigned NULL, 
-	FOREIGN KEY (Patient_ID) REFERENCES Credentials(UserID)
+	Patient_ID INT unsigned NOT NULL, 
+    pet_ID INT unsigned NOT NULL,
+    FOREIGN KEY (Patient_ID) REFERENCES Credentials(UserID),
+	FOREIGN KEY (pet_ID) REFERENCES pet_list(pet_listID)
 );
 
 SELECT * FROM pet_info;
@@ -206,10 +227,10 @@ SELECT * FROM specialties_list;
 CREATE TABLE specialty_mapping(
 	specialty_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	Specialty_ID INT unsigned NOT NULL, 
-	User_ID INT unsigned NOT NULL, 
+	Doctor_ID INT unsigned NOT NULL, 
 	FOREIGN KEY (Specialty_ID) REFERENCES specialties_list(specialties_listID),
-	FOREIGN KEY (User_ID) REFERENCES Credentials(UserID),
-	UNIQUE (Specialty_ID, User_ID)
+	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID),
+	UNIQUE (Specialty_ID, Doctor_ID)
 );
 
 SELECT * FROM specialty_mapping;

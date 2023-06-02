@@ -15,6 +15,7 @@ import RenderLanguageSection from './language.js';
 import RenderServiceSection from './service.js';
 import RenderLocationSection from './location.js';
 import RenderSpecialtySection from './specialty.js';
+import RenderPetsSection from './pets.js';
 
 async function FillLists(setListDetails){ 
   // this will be used to fill the lists in the db (languages, specialites, etc.) Should be one function that returns an object of arrays of hte different lists
@@ -69,6 +70,11 @@ export default function DoctorAccountDetails() {
   const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false);
   const [description, setDescription] = useState(DoctorAccountDetails?.[6] || {});
   const [descriptionConfirmation, setDescriptionConfirmation] = useConfirmationMessage();
+
+  const [servicedPets, setServicedPets] = useState(DoctorAccountDetails?.[7] || []);
+  const [selectedPetTypes, setSelectedPetTypes] = useState([]);
+  const [expandedPetTypes, setExpandedPetTypes] = useState([]);
+  const [petsConfirmation, setPetsConfirmation] = useConfirmationMessage();
 
   const [publiclyAvailable, setPubliclyAvailable] = useState(DoctorAccountDetails?.[8][0]?.PubliclyAvailable || 0);
   const verified = DoctorAccountDetails?.[8][0].Verified || [];
@@ -137,9 +143,12 @@ export default function DoctorAccountDetails() {
               }
             }
             if(response.data[7]){
+              setServicedPets(response.data[7])
+              setExpandedPetTypes(response.data[7].map(pet =>pet.pet_type));
               //Somehow set pictures.
             }
             if(response.data[8][0].PubliclyAvailable) setPubliclyAvailable(response.data[8][0].PubliclyAvailable);
+            if(response.data[9]) //set pictures;
             sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(response.data));
         }else{
           console.log('no response');
@@ -200,6 +209,17 @@ export default function DoctorAccountDetails() {
         carouselIndex = {carouselIndex}
         setCarouselIndex = {setCarouselIndex}
       /> */}
+      <RenderPetsSection
+        listDetails = {listDetails}
+        servicedPets = {servicedPets}
+        setServicedPets = {setServicedPets}
+        selectedPetTypes = {selectedPetTypes}
+        setSelectedPetTypes = {setSelectedPetTypes}
+        expandedPetTypes = {expandedPetTypes}
+        setExpandedPetTypes = {setExpandedPetTypes}
+        petsConfirmation = {petsConfirmation}
+        setPetsConfirmation = {setPetsConfirmation}
+      />
       <RenderSpecialtySection 
         listDetails = {listDetails}
         selectedOrganization = {selectedOrganization}

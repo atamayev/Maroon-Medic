@@ -139,4 +139,18 @@ export default new class FetchAllLists {
             return [];
         }
     }
+    async fetchAllPets() {
+        const functionName = this.fetchAllPets.bind(this).name;
+        const pet_list = 'pet_list';
+        const sql = `SELECT * FROM ${pet_list}`;
+        await DB_Operation(functionName, pet_list);
+
+        try {
+            const [results] = await connection.execute(sql);
+            return results;
+        } catch (error) {
+            console.log(`error in ${functionName}`, error);
+            return [];
+        }
+    } 
 }();
