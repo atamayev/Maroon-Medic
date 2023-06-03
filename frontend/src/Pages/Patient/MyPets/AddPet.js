@@ -37,7 +37,6 @@ const AddPet = (props) => {
     }
     return true;
   }
-  const lengthofPetData = props.petData.length
 
   return (
     <>
@@ -101,16 +100,16 @@ const AddPet = (props) => {
                 disabled={!areAllFieldsValid(props.petData)} // Check for both field validity
                 onClick={(e) => {
                   e.preventDefault();
-                  saveMyPets(props.petData, props.setPetData, props.setServicesConfirmation);
+                  saveMyPets(props.petData, props.setPetData, props.setServicesConfirmation, 'add');
                 }}
               >
-                Add Pet
+                Add {props.petData[0].Name ? (<>{props.petData[0].Name}</>) : (<>Pet</>)}
               </Button>
           </Form>
           <span className={`fade ${props.servicesConfirmation.messageType ? 'show' : ''}`}>
-            {props.servicesConfirmation.messageType === 'saved' && 'Locations saved!'}
-            {props.servicesConfirmation.messageType === 'same' && 'Same Location data!'}
-            {props.servicesConfirmation.messageType === 'problem' && 'Problem Saving Locations!'}
+            {props.servicesConfirmation.messageType === 'saved' && 'Pet Data saved!'}
+            {props.servicesConfirmation.messageType === 'same' && 'Same Pet Data!'}
+            {props.servicesConfirmation.messageType === 'problem' && 'Problem Saving Pet Data!'}
             {props.servicesConfirmation.messageType === 'none' && 'No Pet Data Entered'}
           </span>
         </Card.Body>

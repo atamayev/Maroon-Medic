@@ -60,6 +60,7 @@ CREATE TABLE pet_info ( -- specific info about each pet (from the Patient POV)
     DOB DATE,
 	Patient_ID INT unsigned NOT NULL, 
     pet_ID INT unsigned NOT NULL,
+	isActive BOOLEAN NOT NULL, -- set to 1 by default, when a patient deletes pet, set to 0.
     FOREIGN KEY (Patient_ID) REFERENCES Credentials(UserID),
 	FOREIGN KEY (pet_ID) REFERENCES pet_list(pet_listID)
 );

@@ -1,9 +1,9 @@
 import PrivatePatientDataService from "../../Services/private-patient-data-service";
 import { checkIfListsAreEqual } from "../lists-and-object-checks";
 
-export async function saveMyPets(petData, setPetData, setPetConfirmation){
+export async function saveMyPets(petData, setPetData, setPetConfirmation, addOrDelete){
   const savedPatientPetData = JSON.parse(sessionStorage.getItem("PatientPetData"));
-  
+   
   let shouldSave = false;
 
   if(!savedPatientPetData.length && !petData.length) {
@@ -22,7 +22,7 @@ export async function saveMyPets(petData, setPetData, setPetConfirmation){
 
   if(shouldSave){//only saves if the pet data changed
     try {
-      const response = await PrivatePatientDataService.savePetData(petData)
+      const response = await PrivatePatientDataService.savePetData(petData, addOrDelete)
       if(response.status === 200){
         const newPetData = response.data;
         setPetData(newPetData);

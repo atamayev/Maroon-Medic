@@ -11,11 +11,11 @@ import { useConfirmationMessage } from '../../../Custom Hooks/useConfirmationMes
 import { handleDeletePet } from '../../../Custom Hooks/Hooks for My Pets/delete'
 import { handleAddPet } from '../../../Custom Hooks/Hooks for My Pets/add'
 
-async function fetchPetData(setPetData){
+async function fetchPetData(setSavedPetData){
   try{
     const response = await PrivatePatientDataService.fetchPetData()
     if (response){
-      setPetData(response.data);
+      setSavedPetData(response.data);
       sessionStorage.setItem("PatientPetData", JSON.stringify(response.data))
     }else{
       console.log('no response')
@@ -57,9 +57,9 @@ export default function MyPets() {
           try{
             const storedPetData = sessionStorage.getItem("PatientPetData")
             if (storedPetData){
-              setPetData(JSON.parse(storedPetData));
+              setSavedPetData(JSON.parse(storedPetData));
             }else{
-              fetchPetData(setPetData);
+              fetchPetData(setSavedPetData);
             }
 
             const storedPetTypes = sessionStorage.getItem("PetTypes")
@@ -102,6 +102,7 @@ export default function MyPets() {
               <Card.Text>
                 <p>Gender: {pet.Gender}</p>
                 <p>Date of Birth: {pet.DOB}</p>
+                <p>Type of Animal: {pet.Pet}</p>
                 {/* Add other pet details as needed */}
               </Card.Text>
             </Card.Body>
