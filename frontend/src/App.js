@@ -27,7 +27,7 @@ import PatientLogin from './Pages/Patient/patient-login';
 import PatientRegister from './Pages/Patient/patient-register';
 import NewPatient from './Pages/Patient/new-patient';
 import PatientDashboard from "./Pages/Patient/patient-dashboard";
-import MyPets from "./Pages/Patient/my-pets";
+import MyPets from './Pages/Patient/MyPets/my-pets';
 import PatientAccountDetails from "./Pages/Patient/PatientAccountDetails/patient-account-details"
 import PatientSettingsCards from "./Pages/Patient/PatientSettings/patient-settings-cards";
 import PatientPersonalInfo from './Pages/Patient/PatientSettings/patient-personal-info';

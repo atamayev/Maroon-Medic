@@ -124,7 +124,7 @@ export async function saveGeneralData (req, res){
             }
         }
         return res.status(200).json();
-      }
+    }
     else if (patientData.length > 0){
         for (let i=0; i<patientData.length; i++){
             if(patientData[i]){
@@ -144,6 +144,87 @@ export async function saveGeneralData (req, res){
         return res.status(200).json();
     }
     else{
+        return res.status(400).json();
+    }
+};
+
+export async function savePetData (req, res){
+    const PatientUUID = req.cookies.PatientUUID;
+    const PatientID = await UUID_to_ID(PatientUUID); // converts PatientUUID to docid
+    const PetData = req.body.PetData
+
+    const pet_info = `pet_info`;
+
+    const sql = `SELECT * FROM  ${pet_info} WHERE Patient_ID = ?`
+    const values = [PatientID];
+    let results;
+
+    await DB_Operation(savePetData.name, table_name);
+    try{
+        [results] = await connection.execute(sql, values);
+    }catch(error){
+        console.log(`error in ${savePetData.name}:`, error)
+        return res.status(400).json();
+    }
+    if(results.length){
+        let addedData = PetData.filter(pet => pet.newPet === true);
+        let updatedData = PetData.filter(pet => pet.newPet === false); // this is updated, but also unchanged
+        //const deletedData = ;
+        //need to find the 
+        if(addedData.length){
+            for (let i=0; i<addedData.length; i++){
+                if(addedData[i]){
+                    const sql1 = `INSERT INTO ${PetData} (Name, Gender, DOB, Patient_ID, pet_ID) VALUES (?,?,?,?,?)`;
+                    const values1 = [addedData[i].Name, addedData[i].Gender, addedData[i].DOB, PatientID, addedData[i].pet_listID];
+                    try{
+                        await connection.execute(sql1, values1);
+                        addedData[i].newPet = false;
+                        returnedData.push(addedData[i])
+                    }catch(error){
+                        console.log(`error in if ${savePetData.name}:`, error);
+                        return res.status(400).json();
+                    }
+                }else{
+                    console.log(`problem in adding data in else ${savePetData.name}: field ${i} is null`);
+                    return res.status(400).json();   
+                }
+            }
+        }else if (updatedData.length){
+            for (let i=0; i<updatedData.length; i++){
+                if(updatedData[i]){
+                    const sql1 = `UPDATE ${PetData} SET Name = ?, Gender = ?, DOB = ?, pet_ID = ? WHERE Patient_ID = ?`;
+                    const values1 = [updatedData[i].Name, updatedData[i].Gender, updatedData[i].DOB, updatedData[i].pet_listID, PatientID];
+                    try{
+                        await connection.execute(sql1, values1);
+                        updatedData[i].newPet = false;
+                        returnedData.push(updatedData[i])
+                    }catch(error){
+                        console.log(`error in if ${savePetData.name}:`, error);
+                        return res.status(400).json();
+                    }
+                }else{
+                    console.log(`problem in adding data in else ${savePetData.name}: field ${i} is null`);
+                    return res.status(400).json();   
+                }
+            }
+        }else if (deletedData.length){
+
+        }
+        return res.status(200).json(returnedData);
+    }else if (PetData.length){
+        for (let i=0; i<PetData.length; i++){
+            const sql1 = `INSERT INTO ${PetData} (Name, Gender, DOB, Patient_ID, pet_ID) VALUES (?,?,?,?,?)`;
+            const values1 = [PetData[i].Name, PetData[i].Gender, PetData[i].DOB, PatientID, PetData[i].pet_listID];
+            try{
+                await connection.execute(sql1, values1);
+                PetData[i].newPet = false;
+            }catch(error){
+                console.log(`error in if ${savePetData.name}:`, error);
+                return res.status(400).json();
+            }
+        }
+        return res.status(200).json(PetData);
+    }else{
         return res.status(400).json();
     }
 };

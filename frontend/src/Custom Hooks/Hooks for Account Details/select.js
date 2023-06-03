@@ -1,18 +1,3 @@
-
-// export const handleInsuranceChange = (event, listDetails, setSelectedInsurance) => {
-//   try {
-//     const insuranceId = parseInt(event.target.value);
-//     if (insuranceId) {
-//       const insurance = listDetails[0].find(ins => ins.insurance_listID === insuranceId);
-//       setSelectedInsurance(insurance);
-//     } else {
-//       setSelectedInsurance(null);
-//     }
-//   } catch (error) {
-//     console.log('error in handle insurance change', error)
-//   }
-// };
-
 export const handleLanguageChange = (event, listDetails, setSelectedLanguage) => {
     try{
       const languageId = parseInt(event.target.value);

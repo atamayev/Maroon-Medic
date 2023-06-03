@@ -25,4 +25,13 @@ export default new class PrivatePatientDataService {
     async saveGeneralData(Data, DataType){ // for languages, and insurances
         return await http.post('/private-patient-data/save-general-data', {Data: Data, DataType: DataType})
     }
+    async fetchPetData(){
+        return await http.get('/private-patient-data/fetch-pet-data')
+    }
+    async fillPetTypes(){
+        return await http.get('/private-patient-data/fetch-pet-types')
+    }
+    async savePetData(PetData){
+        return await http.post('/private-patient-data/save-pet-data', {PetData})
+    }
 }();

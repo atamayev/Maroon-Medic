@@ -188,8 +188,8 @@ export async function confirmAppointment (req, res){
 export async function fetchAccountDetails (req, res){
     const DoctorUUID = req.cookies.DoctorUUID;
     const DoctorID = await UUID_to_ID(DoctorUUID);
-    let response = [];
     try{
+        let response = [];
         response.push(await FetchDoctorAccountData.FetchDoctorLanguages(DoctorID)); 
         response.push(await FetchDoctorAccountData.FetchDoctorServices(DoctorID));
         response.push(await FetchDoctorAccountData.FetchDoctorSpecialties(DoctorID));
@@ -203,8 +203,7 @@ export async function fetchAccountDetails (req, res){
         return res.status(200).json(response);
     }catch(error){
         console.log('error in accountDetails', error);
-        const emptyResponse = [];
-        return res.status(400).json(emptyResponse);
+        return res.status(400).json([]);
     }
 };
 
@@ -230,7 +229,6 @@ export async function fetchDoctorLists (req, res){
         return res.status(200).json(response);
     }catch(error){
         console.log('error in accountDetails', error);
-        const emptyResponse = [];
-        return res.status(400).json(emptyResponse);
+        return res.status(400).json([]);
     }
 };

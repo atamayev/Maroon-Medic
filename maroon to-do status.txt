@@ -2,6 +2,11 @@ To-do:
 
 
 ASAP:
+-add to the my pets section of the patient dashboard
+-do the date conversion from the DATE in pet_info into a readbale date on the front-end level, so that it's easier to check when going to save
+-Include the cost in the finalize booking screen
+--change all front-end select month, day, year into a 'date'
+
 -in the appointments table, will need to change patient_ID to pet_ID. then, on the front-end, you need to have a registered pet in order to make an appointment
 
 - when registering as a patient, need to make it clear when the user is entering data regrading the human, and when about the pet
@@ -12,6 +17,8 @@ ASAP:
 	
 -In the checkout screen, ask: Do cyou have insurance, and are you cirious to know what your out of pocket cost will be for [Service_name] with Dr. [name]?
 	Only ask if user hasn't entered their insurance in the patient details. if they have, calculate it on the fly
+Break the account-details page into sections in the settings page. (one card for education, languages, etc.) 
+	Make the current account-details page dedicated to Locations details
 
 -Reviews:
 	Patient's able to make a review after the appointment date is completed, given that the appointment is approved by the doctor.

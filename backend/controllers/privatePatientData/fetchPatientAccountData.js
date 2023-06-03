@@ -47,4 +47,25 @@ export default new class FetchPatientAccountData{
             return [];
         }
     };
+
+    async FetchPetData (User_ID){
+        const functionName = this.FetchPetData.bind(this).name;
+        const [pet_info, pet_list] = ['pet_info', 'pet_list'];
+    
+        const sql = `SELECT ${pet_info}.Name, ${pet_info}.Gender, ${pet_info}.DOB, ${pet_list}.Pet, ${pet_list}.Pet_type
+        FROM ${pet_info}
+        JOIN ${pet_list} ON ${pet_info}.pet_ID = ${pet_list}.pet_listID
+        WHERE ${pet_info}.Patient_ID = ?`;
+
+        const values = [User_ID];
+        await DB_Operation(functionName, pet_info);
+
+        try{
+            const [results] = await connection.execute(sql, values);
+            return results;
+        }catch(error){
+            console.log(`error in ${functionName}:`, error)
+            return [];
+        }
+    };
 }();

@@ -165,6 +165,28 @@ export async function fetchPersonalData (req, res){
     }
 };
 
+export async function fetchPetData (req, res){
+    const PatientUUID = req.cookies.PatientUUID;
+    const PatientID = await UUID_to_ID(PatientUUID);
+    try{
+        const response = await FetchPatientAccountData.FetchPetData(PatientID);
+        return res.status(200).json(response);
+    }catch(error){
+        console.log('error in fetchPetData', error);
+        return res.status(400).json([]);
+    }
+};
+
+export async function fetchPetTypes (req, res){
+    try{
+        const response = await FetchAllLists.fetchAllPets();
+        return res.status(200).json(response);
+    }catch(error){
+        console.log('error in fetchPetTypes', error);
+        return res.status(400).json([]);
+    }
+};
+
 /** fetchAccountDetails retrieves the Patient's Account Details
  *  Takes the patient's UUID, and converts to the patientID.
  *  Starts with an empty list, and appends objects from fetchPatientAccountData. Each function contains a specific data type (desciriptions, languages, etc)
@@ -183,8 +205,7 @@ export async function fetchAccountDetails (req, res){
         return res.status(200).json(response);
     }catch(error){
         console.log('error in accountDetails', error);
-        const emptyResponse = [];
-        return res.status(400).json(emptyResponse);
+        return res.status(400).json([]);
     }
 };
 
@@ -195,8 +216,7 @@ export async function fetchPatientLists (req, res){
         response.push(await FetchAllLists.fetchAllLanguages());
         return res.status(200).json(response);
     }catch(error){
-        console.log('error in accountDetails', error);
-        const emptyResponse = [];
-        return res.status(400).json(emptyResponse);
+        console.log('error in fetchPatientLists', error);
+        return res.status(400).json([]);
     }
 };
