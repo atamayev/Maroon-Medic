@@ -122,91 +122,43 @@ export async function saveGeneralData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID;
     const DoctorID = await UUID_to_ID(DoctorUUID); // converts DoctorUUID to docid
     const DataType = req.body.DataType
+    const operationType = req.body.operationType;
     const DataTypelower = DataType.charAt(0).toLowerCase() + DataType.slice(1);
+
     let UserIDorDoctorID;
+
     if(DataTypelower === 'language') UserIDorDoctorID = 'User_ID'
     else UserIDorDoctorID = 'Doctor_ID'
 
-    const doctorData = req.body.Data; // The Data is an array of the IDs of the DataType ([1,4,7,12], where each of these is a specific Language_ID)
+    const doctorData = req.body.Data; // The Data is an array of the ID of the DataType ([6]), which is a specific Language_ID)
 
     const table_name = `${DataTypelower}_mapping`;
 
-    const sql = `SELECT * FROM  ${table_name} WHERE ${UserIDorDoctorID} = ?`
-    const values = [DoctorID];
-    let results;
-
     await DB_Operation(saveGeneralData.name, table_name);
-    try{
-        [results] = await connection.execute(sql, values);
-    }catch(error){
-        console.log(`error in ${saveGeneralData.name}:`, error)
-        return res.status(400).json();
-    }
 
-    if (results.length > 0) {
-        // Doctor already has data in the table
-        const oldData = results.map(result => result[`${DataType}_ID`]); //An array of IDs, in the same form as the doctorData: ie [1,2,4,5]
-        const newData = doctorData;
-
-        // Check for changes in data:
-        const addedData = newData.filter(data => !oldData.includes(data)); //Filter the newData, check if there is anything new that wasn't in oldData
-        const deletedData = oldData.filter(data => !newData.includes(data));
-
-        if (addedData.length > 0) {
-            for (let i = 0; i<addedData.length; i++){
-                if(addedData[i]){
-                    const sql1 = `INSERT INTO ${table_name} (${DataType}_ID, ${UserIDorDoctorID}) VALUES (?,?)`;
-                    const values1 = [addedData[i], DoctorID];
-                    try{
-                        await connection.execute(sql1, values1);
-                    }catch(error){
-                        console.log(`error in if ${saveGeneralData.name}:`, error);
-                        return res.status(400).json();
-                    }
-                }else{
-                    console.log(`problem in adding data ${saveGeneralData.name}: field ${i} is null`);
-                    return res.status(400).json();    
-                }
-            }
+    if(operationType === 'add'){
+        const sql = `INSERT INTO ${table_name} (${DataType}_ID, ${UserIDorDoctorID}) VALUES (?,?)`;
+        const values = [doctorData, DoctorID];
+        
+        try{
+            await connection.execute(sql, values);
+            return res.status(200).json();
+        }catch(error){
+            console.log(`error in if ${saveGeneralData.name}:`, error);
+            return res.status(400).json();
         }
-        if (deletedData.length > 0) {
-            for (let i = 0; i<deletedData.length; i++){
-                if(deletedData[i]){
-                    const sql1 = `DELETE FROM ${table_name} WHERE ${DataType}_ID = ? AND ${UserIDorDoctorID} = ?`;
-                    const values1 = [deletedData[i], DoctorID];
-                    try{
-                        await connection.execute(sql1, values1);
-                    }catch(error){
-                        console.log(`error in if ${saveGeneralData.name}:`, error);
-                        return res.status(400).json();
-                    }
-                }else{
-                    console.log(`problem in deleting ${saveGeneralData.name}: field ${i} is null`);
-                    return res.status(400).json();    
-                }
-            }
+    }else if (operationType === 'delete'){
+        const sql = `DELETE FROM ${table_name} WHERE ${DataType}_ID = ? AND ${UserIDorDoctorID} = ?`;
+        const values = [doctorData, DoctorID];
+        try{
+            await connection.execute(sql, values);
+            return res.status(200).json();
+        }catch(error){
+            console.log(`error in if ${saveGeneralData.name}:`, error);
+            return res.status(400).json();
         }
-        return res.status(200).json();
-      }
-    else if (doctorData.length > 0){
-        for (let i=0; i<doctorData.length; i++){
-            if(doctorData[i]){
-                const sql1 = `INSERT INTO ${table_name} (${DataType}_ID, ${UserIDorDoctorID}) VALUES (?,?)`;
-                const values1 = [doctorData[i], DoctorID];
-                try{
-                    await connection.execute(sql1, values1);
-                }catch(error){
-                    console.log(`error in if ${saveGeneralData.name}:`, error);
-                    return res.status(400).json();
-                }
-            }else{
-                console.log(`problem in adding data in else ${saveGeneralData.name}: field ${i} is null`);
-                return res.status(400).json();   
-            }
-        }
-        return res.status(200).json();
-    }
-    else{
+    }else{
+        console.log('incorrect operation Type');
         return res.status(400).json();
     }
 };
@@ -313,115 +265,49 @@ export async function saveServicesData (req, res){
 export async function saveEducationData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID;
     const DoctorID = await UUID_to_ID(DoctorUUID); // converts DoctorUUID to docid
-    const EducationType = req.body.EducationType;//'pre_vet' or 'vet'
     const EducationData = req.body.EducationData; // array of arrays, to make comparing to sql easier.: ie: [[ 13, 56, 7, '1923-01-01', '1923-01-01' ],[ 698, 13, 9, '1923-01-01', '1923-01-01' ]]
-    
-    const table_name = `${EducationType}_education_mapping`;
+    const EducationType = req.body.EducationType;//'pre_vet' or 'vet'
+    const operationType = req.body.operationType;
 
-    const sql = `SELECT * FROM  ${table_name} WHERE Doctor_ID = ?`
-    const values = [DoctorID];
-    let formattedResults;
+    const table_name = `${EducationType}_education_mapping`;
+    let sql;
+    let values;
 
     await DB_Operation(saveEducationData.name, table_name);
-    try{
-        const [results] = await connection.execute(sql, values);
-        formattedResults = results.map(obj => ({
-            ...obj,
-            Start_Date: new Date(obj.Start_Date).toISOString().slice(0,10),
-            End_Date: new Date(obj.End_Date).toISOString().slice(0,10)
-          }));//Converts the dates from SQL to a proper format.
-    }catch(error){
-        console.log(`error in ${saveEducationData.name}:`, error)
+    if(operationType === 'add'){
+        if(EducationType === 'pre_vet'){
+            sql = `INSERT INTO ${table_name} (School_ID, Major_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?,?,?,?,?,?)`;
+            values = [EducationData[0], EducationData[1], EducationData[2], EducationData[3], EducationData[4], DoctorID];    
+        }else if (EducationType === 'vet'){
+            sql = `INSERT INTO ${table_name} (School_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?,?,?,?,?)`;
+            values = [EducationData[0], EducationData[1], EducationData[2], EducationData[3], DoctorID];    
+        }else{
+            console.log(`Education_type not defined ${saveEducationData.name}`);
+            return res.status(400).json();
+        }
+    }else if (operationType === 'delete'){
+        if(EducationType === 'pre_vet'){
+            sql = `DELETE FROM ${table_name} WHERE School_ID = ? AND Major_ID = ? AND Education_type_ID = ? AND Doctor_ID = ?`;
+            values = [EducationData[0], EducationData[1], EducationData[2], DoctorID];
+        }else if (EducationType === 'vet'){
+            sql = `DELETE FROM ${table_name} WHERE School_ID = ? AND Education_type_ID = ? AND Doctor_ID = ?`;
+            values = [EducationData[0], EducationData[1], DoctorID];
+        }else{
+            console.log(`Education_type not defined ${saveEducationData.name}`);
+            return res.status(400).json();
+        }
+    }else{
+        console.log('incorrect operation Type');
         return res.status(400).json();
     }
-
-    if (formattedResults.length > 0) {
-        // Doctor already has data in the table
-        // will be comparing array of arrays to array of arrays.
-        const oldEducationData = formattedResults.map(obj => Object.values(obj).slice(1, -1));// Changes the results into an array of arrays, of the same form as EducationData
-        const newEducationData = EducationData;
-
-        // Check for changes in data:
-        const addedData = newEducationData.filter(arr1 => !oldEducationData.some(arr2 => JSON.stringify(arr1) === JSON.stringify(arr2)));
-        const deletedData = oldEducationData.filter(arr1 => !newEducationData.some(arr2 => JSON.stringify(arr1) === JSON.stringify(arr2)));
-
-        if (addedData.length > 0) {
-            let sql1;
-            let values1;
-            for (let i = 0; i<addedData.length; i++){
-                if(EducationType === 'pre_vet'){
-                    sql1 = `INSERT INTO ${table_name} (School_ID, Major_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?,?,?,?,?,?)`;
-                    values1 = [addedData[i][0], addedData[i][1], addedData[i][2], addedData[i][3], addedData[i][4], DoctorID];    
-                }else if (EducationType === 'vet'){
-                    sql1 = `INSERT INTO ${table_name} (School_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?,?,?,?,?)`;
-                    values1 = [addedData[i][0], addedData[i][1], addedData[i][2], addedData[i][3], DoctorID];     
-                }else{
-                    console.log(`Education_type not defined ${saveEducationData.name}`);
-                    return res.status(400).json();
-                }
-
-                try{
-                    await connection.execute(sql1, values1);
-                }catch(error){
-                    console.log(`error in if ${saveEducationData.name}:`, error);
-                    return res.status(400).json();
-                }
-            }
-        } 
-        if (deletedData.length > 0) {
-            let sql2;
-            let values2;
-            for (let i = 0; i<deletedData.length; i++){
-                if(EducationType === 'pre_vet'){
-                    sql2 = `DELETE FROM ${table_name} WHERE School_ID = ? AND Major_ID = ? AND Education_type_ID = ? AND Doctor_ID = ?`;
-                    values2 = [deletedData[i][0], deletedData[i][1], deletedData[i][2], DoctorID];
-                }else if (EducationType === 'vet'){
-                    sql2 = `DELETE FROM ${table_name} WHERE School_ID = ? AND Education_type_ID = ? AND Doctor_ID = ?`;
-                    values2 = [deletedData[i][0], deletedData[i][1], DoctorID];    
-                }else{
-                    console.log(`Education_type not defined ${saveEducationData.name}`);
-                    return res.status(400).json();
-                }
-  
-                try{
-                    await connection.execute(sql2, values2);
-                }catch(error){
-                    console.log(`error in if ${saveEducationData.name}:`, error);
-                    return res.status(400).json();
-                }
-            }
-        }
+    
+    try{
+        await connection.execute(sql, values);
         return res.status(200).json();
-      }
-      else if (EducationData.length > 0){
-        //Can only get into here if formatted results.length not >0: no results from the DB - adding completely new data
-        let sql3;
-        let values3;
-        for (let i=0; i<EducationData.length; i++){
-            if(EducationType === 'pre_vet'){
-                sql3 = `INSERT INTO ${table_name} (School_ID, Major_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?,?,?,?,?,?)`;
-                values3 = [EducationData[i][0], EducationData[i][1], EducationData[i][2], EducationData[i][3], EducationData[i][4], DoctorID];
-            }else if (EducationType === 'vet'){
-                //Needs confirmation: is addedData[i][3] correct?
-                sql3 = `INSERT INTO ${table_name} (School_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?,?,?,?,?)`;
-                values3 = [EducationData[i][0], EducationData[i][1], EducationData[i][2], EducationData[i][3], DoctorID];
-            }else{
-                console.log(`Education_type not defined ${saveEducationData.name}`);
-                return res.status(400).json();
-            }
-            try{
-                await connection.execute(sql3, values3);
-            }catch(error){
-                console.log(`error in if ${saveEducationData.name}:`, error);
-                return res.status(400).json();
-            }
-        }
-        return res.status(200).json();
-      }
-      else{
-        //NO new data or queried results from DB.
-        return res.status(400).json()
-    }
+    }catch(error){
+        console.log(`error in if ${saveEducationData.name}:`, error);
+        return res.status(400).json();
+    }    
 };
 
 export async function saveAddressData (req, res){

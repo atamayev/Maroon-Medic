@@ -22,8 +22,8 @@ export default new class PrivateDoctorDataService {
     async saveDescriptionData(Description){
         return await http.post('/private-doctor-data/save-description-data', {Description})
     }
-    async saveGeneralData(Data, DataType){ // for languages, and specialties, pets
-        return await http.post('/private-doctor-data/save-general-data', {Data: Data, DataType: DataType})
+    async saveGeneralData(Data, DataType, operationType){ // for languages, and specialties, pets
+        return await http.post('/private-doctor-data/save-general-data', {Data: Data, DataType: DataType, operationType: operationType})
     }
     async fillLists(){
         return await http.get('/private-doctor-data/fetch-doctor-lists')

@@ -2,7 +2,8 @@ To-do:
 
 
 ASAP:
-
+-when adding education data, consider sending back the education_mapping_ID to client, to make deleting easier.
+-change the EducationData in saving vet education/pre-vet to be an object instead of array
 fix the 'select' attribute on the add my pet
 -add insurances on the add pets level.
 updating pet data has not been tested/implemented

@@ -1,42 +1,63 @@
 import { checkIfListsAreEqual, areArraysSame, convertDateForSql} from "../../lists-and-object-checks";
 import PrivateDoctorDataService from "../../../Services/private-doctor-data-service";
 
-export async function saveLanguages(spokenLanguages, setLanguagesConfirmation){
+// export async function saveLanguages(spokenLanguages, setLanguagesConfirmation){
+//   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
+//   const savedLanguages = DoctorAccountDetails?.[0] || []
+//   const savedLanguagesIDs = savedLanguages.map(language => language.language_listID).sort((a,b)=>a-b);
+//   const languageIds = spokenLanguages.map(lang => lang.language_listID).sort((a,b)=>a-b); // spoken languages are those that are on server side. state changes when languages added/deleted
+
+//   let shouldSave = false;
+
+//   if(!savedLanguagesIDs.length && !languageIds.length) {
+//     // Case where both arrays are empty
+//     setLanguagesConfirmation({messageType: 'none'});
+//     return;
+//   }
+
+//   if(!savedLanguagesIDs.length || !savedLanguagesIDs){
+//     shouldSave = !!languageIds.length
+//   }else if((!checkIfListsAreEqual(languageIds, savedLanguagesIDs))){
+//     shouldSave = true;
+//   }else{
+//     setLanguagesConfirmation({messageType: 'same'});
+//   }
+
+//   if(shouldSave){//checks if they are the same
+//     try {
+//       const response = await PrivateDoctorDataService.saveGeneralData(languageIds, 'Language')
+//       if(response.status === 200){
+//         DoctorAccountDetails[0] = spokenLanguages;
+//         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+//         setLanguagesConfirmation({messageType: 'saved'});
+//       }
+//     } catch(error) {
+//       setLanguagesConfirmation({messageType: 'problem'});
+//       console.log('error in saving languages', error)
+//     }
+//   }else{
+//     setLanguagesConfirmation({messageType: 'same'});
+//   }
+// };
+
+export async function saveLanguages(languageID, spokenLanguages, setLanguagesConfirmation, operationType){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  const savedLanguages = DoctorAccountDetails?.[0] || []
-  const savedLanguagesIDs = savedLanguages.map(language => language.language_listID).sort((a,b)=>a-b);
-  const languageIds = spokenLanguages.map(lang => lang.language_listID).sort((a,b)=>a-b); // spoken languages are those that are on server side. state changes when languages added/deleted
-
-  let shouldSave = false;
-
-  if(!savedLanguagesIDs.length && !languageIds.length) {
-    // Case where both arrays are empty
-    setLanguagesConfirmation({messageType: 'none'});
-    return;
+  console.log(languageID)
+  return;
+  let response;
+  try{
+    response = await PrivateDoctorDataService.saveGeneralData(languageID, 'Language', operationType)
+  }catch(error){
+    setLanguagesConfirmation({messageType: 'problem'});
+    console.log('error in saving languages', error)
   }
-
-  if(!savedLanguagesIDs.length || !savedLanguagesIDs){
-    shouldSave = !!languageIds.length
-  }else if((!checkIfListsAreEqual(languageIds, savedLanguagesIDs))){
-    shouldSave = true;
+  if(response.status === 200){
+    DoctorAccountDetails[0] = spokenLanguages;
+    sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+    setLanguagesConfirmation({messageType: 'saved'});
   }else{
-    setLanguagesConfirmation({messageType: 'same'});
-  }
-
-  if(shouldSave){//checks if they are the same
-    try {
-      const response = await PrivateDoctorDataService.saveGeneralData(languageIds, 'Language')
-      if(response.status === 200){
-        DoctorAccountDetails[0] = spokenLanguages;
-        sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-        setLanguagesConfirmation({messageType: 'saved'});
-      }
-    } catch(error) {
-      setLanguagesConfirmation({messageType: 'problem'});
-      console.log('error in saving languages', error)
-    }
-  }else{
-    setLanguagesConfirmation({messageType: 'same'});
+    setLanguagesConfirmation({messageType: 'problem'});
+    console.log('error in saving languages in else')
   }
 };
 

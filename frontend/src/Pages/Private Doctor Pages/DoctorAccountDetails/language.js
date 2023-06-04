@@ -19,14 +19,22 @@ export default function RenderLanguageSection(props){
 };
 
 function renderIsVetLanguages(props){
+  console.log(props.selectedLanguage)
   return(
     <div>
       <select
         id="language"
         name="language"
         value={props.selectedLanguage?.language_listID || ""}
-        onChange={event =>handleLanguageChange(event, props.listDetails, props.setSelectedLanguage)}
-      >
+        // Change the select's onChange event to this:
+        onChange={(e) => {
+          const selectedLanguageID = e.target.value;
+          const selectedLanguage = props.listDetails[0].find(lang => lang.language_listID === selectedLanguageID);
+          props.setSelectedLanguage(selectedLanguage);
+          handleAddLanguage(selectedLanguage, props.spokenLanguages, props.setSpokenLanguages, props.setSelectedLanguage, props.setLanguagesConfirmation);
+        }}
+
+    >
         <option value="" disabled>Choose a language</option>
         {Array.isArray(props.listDetails[0]) &&
           props.listDetails[0].length > 0 &&
@@ -38,21 +46,22 @@ function renderIsVetLanguages(props){
               </option>
             ))}
       </select>
-      <Button onClick={()=>handleAddLanguage(props.selectedLanguage, props.spokenLanguages, props.setSpokenLanguages, props.setSelectedLanguage)}>Add</Button>
+
+
       <ul>
         {Array.isArray(props.spokenLanguages) &&
           props.spokenLanguages.map((language) => (
             <li key={language.language_listID}>
               {language.Language_name}
-              <Button onClick={() => handleDeleteLanguage(language, props.spokenLanguages, props.setSpokenLanguages)}>x</Button>
+              <Button onClick={() => handleDeleteLanguage(language, props.spokenLanguages, props.setSpokenLanguages, props.setLanguagesConfirmation)}>x</Button>
             </li>
           ))}
       </ul>
-      <Button 
+      {/* <Button 
         variant="success" 
         onClick={() => saveLanguages(props.spokenLanguages, props.setLanguagesConfirmation)}
         >
-        Save</Button>
+        Save</Button> */}
         <span className={`fade ${props.languagesConfirmation.messageType ? 'show' : ''}`}>
           {props.languagesConfirmation.messageType === 'saved' && 'Languages saved!'}
           {props.languagesConfirmation.messageType === 'same' && 'Same Language data!'}

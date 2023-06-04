@@ -63,87 +63,36 @@ export async function saveGeneralData (req, res){
     const PatientID = await UUID_to_ID(PatientUUID); // converts PatientUUID to docid
     const DataType = req.body.DataType
     const DataTypelower = DataType.charAt(0).toLowerCase() + DataType.slice(1);
-    
-    const patientData = req.body.Data; // The Data is an array of the IDs of the DataType ([1,4,7,12], where each of these is a specific Language_ID)
+    const operationType = req.body.operationType;
+
+    const patientData = req.body.Data; // The Data is an array of the ID of the DataType ([6]), which is a specific Language_ID)
 
     const table_name = `${DataTypelower}_mapping`;
 
-    const sql = `SELECT * FROM  ${table_name} WHERE User_ID = ?`
-    const values = [PatientID];
-    let results;
-
     await DB_Operation(saveGeneralData.name, table_name);
-    try{
-        [results] = await connection.execute(sql, values);
-    }catch(error){
-        console.log(`error in ${saveGeneralData.name}:`, error)
-        return res.status(400).json();
-    }
 
-    if (results.length > 0) {
-        // Patient data already has data in the table
-        const oldData = results.map(result => result[`${DataType}_ID`]); //An array of IDs, in the same form as the patientData: ie [1,2,4,5]
-        const newData = patientData;
-
-        // Check for changes in data:
-        const addedData = newData.filter(data => !oldData.includes(data)); //Filter the newData, check if there is anything new that wasn't in oldData
-        const deletedData = oldData.filter(data => !newData.includes(data));
-
-        if (addedData.length > 0) {
-            for (let i = 0; i<addedData.length; i++){
-                if(addedData[i]){
-                    const sql1 = `INSERT INTO ${table_name} (${DataType}_ID, User_ID) VALUES (?,?)`;
-                    const values1 = [addedData[i], PatientID];
-                    try{
-                        await connection.execute(sql1, values1);
-                    }catch(error){
-                        console.log(`error in if ${saveGeneralData.name}:`, error);
-                        return res.status(400).json();
-                    }
-                }else{
-                    console.log(`problem in adding data ${saveGeneralData.name}: field ${i} is null`);
-                    return res.status(400).json();    
-                }
-            }
+    if(operationType === 'add'){
+        const sql = `INSERT INTO ${table_name} (${DataType}_ID, User_ID) VALUES (?,?)`;
+        const values = [patientData, PatientID];
+        try{
+            await connection.execute(sql, values);
+            return res.status(200).json();
+        }catch(error){
+            console.log(`error in if ${saveGeneralData.name}:`, error);
+            return res.status(400).json();
         }
-        if (deletedData.length > 0) {
-            for (let i = 0; i<deletedData.length; i++){
-                if(deletedData[i]){
-                    const sql1 = `DELETE FROM ${table_name} WHERE ${DataType}_ID = ? AND User_ID = ?`;
-                    const values1 = [deletedData[i], PatientID];
-                    try{
-                        await connection.execute(sql1, values1);
-                    }catch(error){
-                        console.log(`error in if ${saveGeneralData.name}:`, error);
-                        return res.status(400).json();
-                    }
-                }else{
-                    console.log(`problem in deleting ${saveGeneralData.name}: field ${i} is null`);
-                    return res.status(400).json();    
-                }
-            }
+    }else if (operationType = 'delete'){
+        const sql = `DELETE FROM ${table_name} WHERE ${DataType}_ID = ? AND User_ID = ?`;
+        const values = [patientData, PatientID];
+        try{
+            await connection.execute(sql, values);
+            return res.status(200).json();
+        }catch(error){
+            console.log(`error in if ${saveGeneralData.name}:`, error);
+            return res.status(400).json();
         }
-        return res.status(200).json();
-    }
-    else if (patientData.length > 0){
-        for (let i=0; i<patientData.length; i++){
-            if(patientData[i]){
-                const sql1 = `INSERT INTO ${table_name} (${DataType}_ID, User_ID) VALUES (?,?)`;
-                const values1 = [patientData[i], PatientID];
-                try{
-                    await connection.execute(sql1, values1);
-                }catch(error){
-                    console.log(`error in if ${saveGeneralData.name}:`, error);
-                    return res.status(400).json();
-                }
-            }else{
-                console.log(`problem in adding data in else ${saveGeneralData.name}: field ${i} is null`);
-                return res.status(400).json();   
-            }
-        }
-        return res.status(200).json();
-    }
-    else{
+    }else{
+        console.log('incorrect operation Type');
         return res.status(400).json();
     }
 };
@@ -190,83 +139,6 @@ export async function savePetData (req, res){
         }
     }else{
         console.log('incorrect operation Type');
-        return res.status(400).json();
-    }
-
-    const sql = `SELECT * FROM  ${pet_info} WHERE Patient_ID = ?`
-    const values = [PatientID];
-    let results;
-
-    await DB_Operation(savePetData.name, pet_info);
-    try{
-        [results] = await connection.execute(sql, values);
-    }catch(error){
-        console.log(`error in ${savePetData.name}:`, error)
-        return res.status(400).json();
-    }
-    if(results.length){
-        let addedData = PetData.filter(pet => pet.newPet === true);
-        let updatedData = PetData.filter(pet => pet.newPet === false); // this is updated, but also unchanged
-        //const deletedData = ;
-        //need to find the 
-        let returnedData = [];
-        if(addedData.length){
-            for (let i=0; i<addedData.length; i++){
-                if(addedData[i]){
-                    const sql1 = `INSERT INTO ${pet_info} (Name, Gender, DOB, Patient_ID, pet_ID, isActive) VALUES (?, ?, ?, ?, ?, ?)`;
-                    const values1 = [addedData[i].Name, addedData[i].Gender, addedData[i].DOB, PatientID, addedData[i].pet_listID, 1];
-                    try{
-                        await connection.execute(sql1, values1);
-                        addedData[i].newPet = false;
-                        returnedData.push(addedData[i])
-                    }catch(error){
-                        console.log(`error in if ${savePetData.name}:`, error);
-                        return res.status(400).json();
-                    }
-                }else{
-                    console.log(`problem in adding data in else ${savePetData.name}: field ${i} is null`);
-                    return res.status(400).json();   
-                }
-            }
-        }else if (updatedData.length){
-            for (let i=0; i<updatedData.length; i++){
-                if(updatedData[i]){
-                    const sql1 = `UPDATE ${pet_info} SET Name = ?, Gender = ?, DOB = ?, pet_ID = ? WHERE Patient_ID = ?`;
-                    const values1 = [updatedData[i].Name, updatedData[i].Gender, updatedData[i].DOB, updatedData[i].pet_listID, PatientID];
-                    try{
-                        await connection.execute(sql1, values1);
-                        updatedData[i].newPet = false;
-                        returnedData.push(updatedData[i])
-                    }catch(error){
-                        console.log(`error in if ${savePetData.name}:`, error);
-                        return res.status(400).json();
-                    }
-                }else{
-                    console.log(`problem in adding data in else ${savePetData.name}: field ${i} is null`);
-                    return res.status(400).json();   
-                }
-            }
-        }
-        // else if (deletedData.length){
-        //     //Fill this out
-        // }
-        return res.status(200).json(returnedData);
-    }else if (PetData.length){
-        for (let i=0; i<PetData.length; i++){
-            console.log('PetData',PetData)
-            const sql1 = `INSERT INTO ${pet_info} (Name, Gender, DOB, Patient_ID, pet_ID, isActive) VALUES (?, ?, ?, ?, ?, ?)`;
-            const values1 = [PetData[i].Name, PetData[i].Gender, PetData[i].DOB, PatientID, PetData[i].pet_listID, 1];
-            console.log(values1)
-            try{
-                await connection.execute(sql1, values1);
-                PetData[i].newPet = false;
-            }catch(error){
-                console.log(`error in if ${savePetData.name}:`, error);
-                return res.status(400).json();
-            }
-        }
-        return res.status(200).json(PetData);
-    }else{
         return res.status(400).json();
     }
 };

@@ -1,5 +1,6 @@
 import { isObjectsEqual } from "../lists-and-object-checks";
-  
+import { saveLanguages } from "./DoctorAccountDetails/saveDoctorAccountDetails";
+
 export const handleDeleteInsurance = (insuranceToDelete, acceptedInsurances, setAcceptedInsurances) => {
     setAcceptedInsurances(acceptedInsurances.filter(insurance => insurance.insurance_listID !== insuranceToDelete.insurance_listID));
 };
@@ -12,8 +13,10 @@ export const handleDeletePet = (petToDelete, selectedPets, setSelectedPets) => {
     setSelectedPets(selectedPets.filter(pet => pet.pet_listID !== petToDelete.pet_listID));
 };
 
-export const handleDeleteLanguage = (language, spokenLanguages, setSpokenLanguages) => {
+export const handleDeleteLanguage = (language, spokenLanguages, setSpokenLanguages, setLanguagesConfirmation) => {
     setSpokenLanguages(spokenLanguages.filter(l => l !== language));
+    saveLanguages(language.language_ID, spokenLanguages, setLanguagesConfirmation, 'delete')
+
 };
 
 export const handleDeleteSpecialty = (specialty, doctorSpecialties, setDoctorSpecialties) => {

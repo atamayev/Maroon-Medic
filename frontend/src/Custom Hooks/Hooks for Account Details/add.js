@@ -1,4 +1,5 @@
 import { isObjectInArray } from "../lists-and-object-checks";
+import { saveLanguages } from "./DoctorAccountDetails/saveDoctorAccountDetails";
 
 export const handleAddInsurance = (selectedInsurance, acceptedInsurances, setAcceptedInsurances) => {
   if(selectedInsurance){
@@ -26,17 +27,19 @@ export const handleAddPet= (selectedPet, servicedPets, setServicedPets) => {
   }
 };
 
-export const handleAddLanguage = (selectedLanguage, spokenLanguages, setSpokenLanguages, setSelectedLanguage) => {
-    if(selectedLanguage){
-      if(spokenLanguages.length >0){
-        if(!spokenLanguages.includes(selectedLanguage)){
-          setSpokenLanguages([...spokenLanguages, selectedLanguage]);
-        }
-      }else{
-        setSpokenLanguages([selectedLanguage]);
+export const handleAddLanguage = (selectedLanguage, spokenLanguages, setSpokenLanguages, setSelectedLanguage, setLanguagesConfirmation) => {
+  
+  if(selectedLanguage){
+    if(spokenLanguages.length >0){
+      if(!spokenLanguages.includes(selectedLanguage)){//not sure this if statement is necessary
+        setSpokenLanguages([...spokenLanguages, selectedLanguage]);
       }
+    }else{
+      setSpokenLanguages([selectedLanguage]);
     }
-    setSelectedLanguage('');
+    saveLanguages(selectedLanguage.language_listID, spokenLanguages, setLanguagesConfirmation, 'add')
+  }
+  setSelectedLanguage('');
 };
 
 export const handleAddSpecialty = (selectedSpecialty, doctorSpecialties, setDoctorSpecialties, setSelectedSpecialties) => {
