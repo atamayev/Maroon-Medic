@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Button, Card,Container, Row, Col } from 'react-bootstrap';
 import FormGroup from '../../../Components/form-group';
-import { saveMyPets } from '../../../Custom Hooks/Hooks for My Pets/saveMyPets';
+import { addMyPets } from '../../../Custom Hooks/Hooks for My Pets/saveMyPets';
 
 const AddPet = (props) => {
   const handleInputChange = (event) => {
@@ -10,14 +10,14 @@ const AddPet = (props) => {
     if(event.target.name === "petType") {
       let parsedValue = JSON.parse(value);
       let newPet = { 
-        ...props.petData, 
+        ...props.newPetData, 
         petType: parsedValue.petType, 
         pet_listID: parsedValue.pet_listID 
       };
-      props.setPetData(newPet);
+      props.setNewPetData(newPet);
     } else {
-      let newPet = { ...props.petData, [event.target.name]: value };
-      props.setPetData(newPet);
+      let newPet = { ...props.newPetData, [event.target.name]: value };
+      props.setNewPetData(newPet);
     }
   };
   
@@ -42,7 +42,7 @@ const AddPet = (props) => {
             <Col xs={4} className=''>
               <Button variant="danger" onClick={() => 
                 {
-                  props.setPetData({})
+                  props.setNewPetData({})
                   props.setShowAddPet(false)
                 }}
               >X</Button>
@@ -75,29 +75,48 @@ const AddPet = (props) => {
               name="DOB"
             />
               
-              <Form.Group id="formPetType">
-                <Form.Label>Type</Form.Label>
-                <Form.Control as="select" value={JSON.stringify({ pet_listID: props.petData?.pet_listID, petType: props.petData?.petType })} onChange={handleInputChange} name="petType">
-                  {props.petTypes.map((petType, index) => (
-                    <option key={index} value={JSON.stringify({ pet_listID: petType.pet_listID, petType: petType.Pet })}>{petType.Pet}</option>
-                  ))}
-                </Form.Control>
+            <Form.Group id="formPetType">
+              <Form.Label>Type</Form.Label>
+              <Form.Control
+                as="select"
+                value={JSON.stringify({
+                  pet_listID: props.newPetData?.pet_listID,
+                  petType: props.newPetData?.petType
+                })}
+                onChange={handleInputChange}
+                name="petType"
+                required
+              >
+                <option value="" disabled>
+                  Select
+                </option>
+                {props.petTypes.map((petType, index) => (
+                  <option
+                    key={index}
+                    value={JSON.stringify({
+                      pet_listID: petType.pet_listID,
+                      petType: petType.Pet
+                    })}
+                  >
+                    {petType.Pet}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
 
-              </Form.Group>
-              
               Upload image area <br/>
 
               <Button 
                 variant="primary" 
                 type="submit"
-                disabled={!areAllFieldsValid(props.petData)} // Check for both field validity
+                disabled={!areAllFieldsValid(props.newPetData)} // Check for both field validity
                 onClick={(e) => {
                   e.preventDefault();
-                  saveMyPets(props.petData, props.setPetData, props.setPetConfirmation, props.savedPetData, props.setSavedPetData, 'add', props.setShowAddPet);
+                  addMyPets(props.newPetData, props.setNewPetData, props.setPetConfirmation, props.savedPetData, props.setSavedPetData, props.setShowAddPet);
 
                 }}
               >
-                Add {props.petData.Name ? (<>{props.petData.Name}</>) : (<>Pet</>)}
+                Add {props.newPetData.Name ? (<>{props.newPetData.Name}</>) : (<>Pet</>)}
               </Button>
           </Form>
           <span className={`fade ${props.petConfirmation.messageType ? 'show' : ''}`}>

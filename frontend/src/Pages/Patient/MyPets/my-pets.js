@@ -8,7 +8,7 @@ import PatientHeader from '../patient-header'
 import Header from '../../header'
 import AddPet from './AddPet'
 import { useConfirmationMessage } from '../../../Custom Hooks/useConfirmationMessage'
-import { saveMyPets } from '../../../Custom Hooks/Hooks for My Pets/saveMyPets'
+import { deleteMyPets } from '../../../Custom Hooks/Hooks for My Pets/saveMyPets'
 
 async function fetchPetData(setSavedPetData){
   try{
@@ -42,7 +42,7 @@ async function FillPetTypes(setPetTypes){
 export default function MyPets() {
   const {user_verification} = useContext(VerifyContext);
   const [savedPetData, setSavedPetData] = useState(JSON.parse(sessionStorage.getItem("PatientPetData")) || [])
-  const [petData, setPetData] = useState({Name: '', Gender:'', DOB: '', petType:''});
+  const [newPetData, setNewPetData] = useState({Name: '', Gender:'', DOB: '', petType:''});
   const [user_type, setUser_type] = useState(null);
   const [petTypes, setPetTypes] = useState([]);
   const [petConfirmation, setPetConfirmation] = useConfirmationMessage();
@@ -96,12 +96,16 @@ export default function MyPets() {
             <Card.Body>
               <Card.Title>
                 {pet.Name}
-                <Button variant="danger" style={{ float: 'right' }} onClick={() => saveMyPets(petData, setPetData, setPetConfirmation, pet, setSavedPetData, 'delete')}>X</Button>
+                <Button 
+                  variant="danger" 
+                  style={{ float: 'right' }} 
+                  onClick={() => deleteMyPets(pet.pet_infoID, savedPetData, setSavedPetData, setPetConfirmation)}
+                  >X</Button>
               </Card.Title>
               <Card.Text>
                 <p>Gender: {pet.Gender}</p>
-                <p>Date of Birth: {pet.DOB}</p>
-                <p>Type of Animal: {pet.Pet}</p>
+                <p>Date of Birth: {moment(pet.DOB).format('MMMM Do, YYYY')}</p>
+                <p>Type of Animal: {pet.Pet ? (<>{pet.Pet}</>):(<>{pet.petType}</>)}</p>
                 {/* Add other pet details as needed */}
               </Card.Text>
             </Card.Body>
@@ -124,11 +128,10 @@ export default function MyPets() {
           </Button>
         </>
       )}
-
       {showAddPet && 
         <AddPet 
-          petData = {petData}
-          setPetData = {setPetData}
+          newPetData = {newPetData}
+          setNewPetData = {setNewPetData}
           petTypes = {petTypes}
           petConfirmation = {petConfirmation}
           setPetConfirmation = {setPetConfirmation}

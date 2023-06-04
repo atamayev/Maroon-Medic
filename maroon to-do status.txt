@@ -3,12 +3,11 @@ To-do:
 
 ASAP:
 
--make an isActive field for pets - instead of deleting, set isActive
-Make saving automatic for all fields. As soon as user changes something, it saves Major change to back-end, and front-end save functionality.
--deleting petData (comparing to DB)
-
--add to the my pets section of the patient dashboard
--do the date conversion from the DATE in pet_info into a readbale date on the front-end level, so that it's easier to check when going to save
+fix the 'select' attribute on the add my pet
+-add insurances on the add pets level.
+updating pet data has not been tested/implemented
+instead of just deleting a pet, need to first confirm with the user (don't delete right after hitting the X)
+Make saving automatic for all fields. As soon as user changes something, it saves. Requires major change to back-end, and front-end save functionality.
 -Include the cost in the finalize booking screen
 --change all front-end select month, day, year into a 'date'
 

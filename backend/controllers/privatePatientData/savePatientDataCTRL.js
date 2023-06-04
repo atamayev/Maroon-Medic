@@ -180,7 +180,7 @@ export async function savePetData (req, res){
         }
     }else if (operationType === 'delete'){
         const sql = `UPDATE ${pet_info} SET isActive = 0 WHERE pet_infoID = ?`;
-        const values = [PetData.pet_infoID];
+        const values = [PetData];
         try{
             await connection.execute(sql, values);
             return res.status(200).json();
