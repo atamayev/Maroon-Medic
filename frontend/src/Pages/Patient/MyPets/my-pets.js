@@ -8,13 +8,13 @@ import PatientHeader from '../patient-header'
 import Header from '../../header'
 import AddPet from './AddPet'
 import { useConfirmationMessage } from '../../../Custom Hooks/useConfirmationMessage'
-import { handleDeletePet } from '../../../Custom Hooks/Hooks for My Pets/delete'
-import { handleAddPet } from '../../../Custom Hooks/Hooks for My Pets/add'
+import { saveMyPets } from '../../../Custom Hooks/Hooks for My Pets/saveMyPets'
 
 async function fetchPetData(setSavedPetData){
   try{
     const response = await PrivatePatientDataService.fetchPetData()
     if (response){
+      console.log(response.data)
       setSavedPetData(response.data);
       sessionStorage.setItem("PatientPetData", JSON.stringify(response.data))
     }else{
@@ -40,12 +40,12 @@ async function FillPetTypes(setPetTypes){
 }
 
 export default function MyPets() {
-  const {user_verification} = useContext(VerifyContext)
+  const {user_verification} = useContext(VerifyContext);
   const [savedPetData, setSavedPetData] = useState(JSON.parse(sessionStorage.getItem("PatientPetData")) || [])
-  const [petData, setPetData] = useState([]);
+  const [petData, setPetData] = useState({Name: '', Gender:'', DOB: '', petType:''});
   const [user_type, setUser_type] = useState(null);
   const [petTypes, setPetTypes] = useState([]);
-  const [servicesConfirmation, setServicesConfirmation] = useConfirmationMessage();
+  const [petConfirmation, setPetConfirmation] = useConfirmationMessage();
   const [showAddPet, setShowAddPet] = useState(false);
 
   useEffect(() => {
@@ -89,7 +89,6 @@ export default function MyPets() {
     <>
       <Header dropdown = {true} search = {true}/>
       <PatientHeader/>
-      {console.log(petData)}
       {savedPetData.length ? (
         <>
           {savedPetData.map((pet, index) => (
@@ -97,7 +96,7 @@ export default function MyPets() {
             <Card.Body>
               <Card.Title>
                 {pet.Name}
-                <Button variant="danger" style={{ float: 'right' }} onClick={() => handleDeletePet(pet.pet_infoID, petData, setPetData)}>X</Button>
+                <Button variant="danger" style={{ float: 'right' }} onClick={() => saveMyPets(petData, setPetData, setPetConfirmation, pet, setSavedPetData, 'delete')}>X</Button>
               </Card.Title>
               <Card.Text>
                 <p>Gender: {pet.Gender}</p>
@@ -120,7 +119,6 @@ export default function MyPets() {
       (
         <>
           <Button variant="primary" onClick={() => {
-            handleAddPet(petData, setPetData);
             setShowAddPet(true);
           }}>Add a Pet
           </Button>
@@ -132,9 +130,11 @@ export default function MyPets() {
           petData = {petData}
           setPetData = {setPetData}
           petTypes = {petTypes}
-          servicesConfirmation = {servicesConfirmation}
-          setServicesConfirmation = {setServicesConfirmation}
+          petConfirmation = {petConfirmation}
+          setPetConfirmation = {setPetConfirmation}
           setShowAddPet = {setShowAddPet}
+          savedPetData = {savedPetData}
+          setSavedPetData = {setSavedPetData}
         />
       }
     </>

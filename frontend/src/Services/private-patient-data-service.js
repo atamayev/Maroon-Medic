@@ -31,7 +31,7 @@ export default new class PrivatePatientDataService {
     async fillPetTypes(){
         return await http.get('/private-patient-data/fetch-pet-types')
     }
-    async savePetData(PetData){
-        return await http.post('/private-patient-data/save-pet-data', {PetData})
+    async savePetData(PetData, operationType){
+        return await http.post('/private-patient-data/save-pet-data', {PetData: PetData, operationType: operationType})
     }
 }();

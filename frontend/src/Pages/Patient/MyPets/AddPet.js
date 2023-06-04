@@ -2,7 +2,6 @@ import React from 'react';
 import { Form, Button, Card,Container, Row, Col } from 'react-bootstrap';
 import FormGroup from '../../../Components/form-group';
 import { saveMyPets } from '../../../Custom Hooks/Hooks for My Pets/saveMyPets';
-import { handleDeletePet } from '../../../Custom Hooks/Hooks for My Pets/delete';
 
 const AddPet = (props) => {
   const handleInputChange = (event) => {
@@ -11,29 +10,25 @@ const AddPet = (props) => {
     if(event.target.name === "petType") {
       let parsedValue = JSON.parse(value);
       let newPet = { 
-        ...props.petData[0], 
+        ...props.petData, 
         petType: parsedValue.petType, 
         pet_listID: parsedValue.pet_listID 
       };
-      props.setPetData([newPet]);
+      props.setPetData(newPet);
     } else {
-      let newPet = { ...props.petData[0], [event.target.name]: value };
-      props.setPetData([newPet]);
+      let newPet = { ...props.petData, [event.target.name]: value };
+      props.setPetData(newPet);
     }
   };
   
   function areAllFieldsValid(petData) {
-    //console.log(petData)
-    if(!petData.length) return false
-    for (let pet of petData) {
-      if (
-        !pet.Name || 
-        !pet.Gender || 
-        !pet.DOB ||
-        !pet.petType
-      ) {
-        return false;
-      }
+    if (
+      !petData.Name || 
+      !petData.Gender || 
+      !petData.DOB ||
+      !petData.petType
+    ) {
+      return false;
     }
     return true;
   }
@@ -47,10 +42,10 @@ const AddPet = (props) => {
             <Col xs={4} className=''>
               <Button variant="danger" onClick={() => 
                 {
-                  handleDeletePet(props.petData[props.petData.length - 1].pet_infoID, props.petData, props.setPetData)
+                  props.setPetData({})
                   props.setShowAddPet(false)
                 }}
-                >X</Button>
+              >X</Button>
             </Col>
           </Row>
         </Container>
@@ -62,7 +57,6 @@ const AddPet = (props) => {
               label = "Pet Name:"
               type="text"
               onChange={handleInputChange}
-              //value={props.petData[0].name}
               name="Name"
             />
 
@@ -78,13 +72,12 @@ const AddPet = (props) => {
               label = "Date of Birth"
               type="date"
               onChange={handleInputChange}
-              //value={props.petData[0].DOB}
               name="DOB"
             />
               
               <Form.Group id="formPetType">
                 <Form.Label>Type</Form.Label>
-                <Form.Control as="select" value={JSON.stringify({ pet_listID: props.petData[0]?.pet_listID, petType: props.petData[0]?.petType })} onChange={handleInputChange} name="petType">
+                <Form.Control as="select" value={JSON.stringify({ pet_listID: props.petData?.pet_listID, petType: props.petData?.petType })} onChange={handleInputChange} name="petType">
                   {props.petTypes.map((petType, index) => (
                     <option key={index} value={JSON.stringify({ pet_listID: petType.pet_listID, petType: petType.Pet })}>{petType.Pet}</option>
                   ))}
@@ -100,17 +93,18 @@ const AddPet = (props) => {
                 disabled={!areAllFieldsValid(props.petData)} // Check for both field validity
                 onClick={(e) => {
                   e.preventDefault();
-                  saveMyPets(props.petData, props.setPetData, props.setServicesConfirmation, 'add');
+                  saveMyPets(props.petData, props.setPetData, props.setPetConfirmation, props.savedPetData, props.setSavedPetData, 'add', props.setShowAddPet);
+
                 }}
               >
-                Add {props.petData[0].Name ? (<>{props.petData[0].Name}</>) : (<>Pet</>)}
+                Add {props.petData.Name ? (<>{props.petData.Name}</>) : (<>Pet</>)}
               </Button>
           </Form>
-          <span className={`fade ${props.servicesConfirmation.messageType ? 'show' : ''}`}>
-            {props.servicesConfirmation.messageType === 'saved' && 'Pet Data saved!'}
-            {props.servicesConfirmation.messageType === 'same' && 'Same Pet Data!'}
-            {props.servicesConfirmation.messageType === 'problem' && 'Problem Saving Pet Data!'}
-            {props.servicesConfirmation.messageType === 'none' && 'No Pet Data Entered'}
+          <span className={`fade ${props.petConfirmation.messageType ? 'show' : ''}`}>
+            {props.petConfirmation.messageType === 'saved' && 'Pet Data saved!'}
+            {props.petConfirmation.messageType === 'same' && 'Same Pet Data!'}
+            {props.petConfirmation.messageType === 'problem' && 'Problem Saving Pet Data!'}
+            {props.petConfirmation.messageType === 'none' && 'No Pet Data Entered'}
           </span>
         </Card.Body>
       </Card>

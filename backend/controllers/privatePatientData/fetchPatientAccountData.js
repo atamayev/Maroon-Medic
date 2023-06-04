@@ -52,7 +52,7 @@ export default new class FetchPatientAccountData{
         const functionName = this.FetchPetData.bind(this).name;
         const [pet_info, pet_list] = ['pet_info', 'pet_list'];
     
-        const sql = `SELECT ${pet_info}.Name, ${pet_info}.Gender, ${pet_info}.DOB, ${pet_list}.Pet, ${pet_list}.Pet_type
+        const sql = `SELECT ${pet_info}.Name, ${pet_info}.Gender, ${pet_info}.DOB, ${pet_list}.Pet, ${pet_list}.Pet_type, ${pet_info}.pet_infoID
         FROM ${pet_info}
         JOIN ${pet_list} ON ${pet_info}.pet_ID = ${pet_list}.pet_listID
         WHERE ${pet_info}.isActive = 1 AND ${pet_info}.Patient_ID = ?`;
