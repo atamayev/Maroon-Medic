@@ -1,5 +1,7 @@
 import {connection, DB_Operation} from "../../dbAndSecurity/connect.js"
-
+/**
+ * FetchPublicDoctorData fetches all of a specific Doctor's data, concatenating all results as arrays to an array
+ */
 export default new class FetchPublicDoctorData{
     async FetchDoctorInsurances (User_ID){
         const functionName = this.FetchDoctorInsurances.bind(this).name;
@@ -84,10 +86,10 @@ export default new class FetchPublicDoctorData{
 
         if(results.length){
             for(let i =0;i<results.length; i++){
-                const sql1 = `SELECT ${booking_availability}.Day_of_week, ${booking_availability}.Start_time, ${booking_availability}.End_time FROM ${booking_availability} WHERE ${booking_availability}.address_ID = ?`;
-                const values1 = [results[i].addressesID]
+                const sql = `SELECT ${booking_availability}.Day_of_week, ${booking_availability}.Start_time, ${booking_availability}.End_time FROM ${booking_availability} WHERE ${booking_availability}.address_ID = ?`;
+                const values = [results[i].addressesID]
                 try{
-                    const [results1] = await connection.execute(sql1, values1);
+                    const [results1] = await connection.execute(sql, values);
                     results[i].times = results1;
                 }catch(error){
                     return (`error in second try=catch ${functionName}:`, error);

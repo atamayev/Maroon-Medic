@@ -69,12 +69,12 @@ export async function newDoctorConfirmation (req, res){
     }
 };
 
-/** fetchDashboardData retrieves the Doctor's dashboard data. Currently dummy.
+/** fetchDashboardData retrieves the upcoming appointments, services, and personal information (FirstName, LastName) .
  *  Takes the doctor's UUID, and converts to the doctorID. Then, joins necessary tables to retrieve dashboard data
  * @param {Cookies} req Contains the user's cookies (DoctorUUID)
  * @param {Array} res User data, or error
  * @returns User data.
- * DOCUMENTATION LAST UPDATED 3/16/23
+ * DOCUMENTATION LAST UPDATED 6/4/23
  */
 export async function fetchDashboardData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID
@@ -115,12 +115,12 @@ export async function fetchDashboardData (req, res){
 };
 
 /** fetchPersonalData retrieves the Doctor's personal data.
- *  Currently almost identical to dashboard
  *  Takes the doctor's UUID, and converts to the doctorID. Then, joins necessary tables to retrieve dashboard data
+ *  Converts the Time details to a readble format using moment
  * @param {Cookies} req Contains the user's cookies (DoctorUUID)
  * @param {Array} res User data, or error
  * @returns User data.
- * DOCUMENTATION LAST UPDATED 3/16/23
+ * DOCUMENTATION LAST UPDATED 6/423
  */
 export async function fetchPersonalData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID
@@ -162,14 +162,21 @@ export async function fetchPersonalData (req, res){
     }
 };
 
+/** confirmAppointment allows for a doctor to confirm an incoming pt appointment
+ *  Sets the Doctor_confirmation_status where the appointment ID is whatever is in the request
+ * @param {Cookies} req Contains the appointmentID
+ * @param {Array} res Status code (200: success, 400: failure)
+ * @returns Status code (200, 400)
+ * DOCUMENTATION LAST UPDATED 6/423
+ */
 export async function confirmAppointment (req, res){
     const AppointmentID = req.body.AppointmentID;
     const Appointments = 'Appointments'
 
-    const sql1 = `UPDATE ${Appointments} SET Doctor_confirmation_status = 1 WHERE appointmentsID = ?`
+    const sql = `UPDATE ${Appointments} SET Doctor_confirmation_status = 1 WHERE appointmentsID = ?`
     const values = [AppointmentID];
     try{
-        await connection.execute(sql1, values);
+        await connection.execute(sql, values);
         return res.status(200).json();
     }catch(error){
         console.log(`error in confirming appointment ${confirmAppointment.name}:`, error);

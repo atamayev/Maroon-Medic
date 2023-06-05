@@ -30,10 +30,11 @@ export async function searchByQuery (req, res){
 
 /** fetchUsers returns all records from the Doctor_credentials table
  *  fetchUsers is not directly called. It is called within the searchByQuery function in searchCTRL.js, if no query is received
- *  Used to fill the home screen
- * @param {*} req - Not application - no request
- * @param {array} res - result
+ *  Used to fill the home screen, only selects doctors that are verified, and publicly available
+ * @param {*} req - N/A
+ * @param {Array} res Array of Doctor Data Objects
  * @returns Either an array of results, or a message with an error
+ *  DOCUMENTATION LAST UPDATED 6/4/23
  */
 export async function fetchUsers (req, res){
     const [Doctor_specific_info, basic_user_info] = ['Doctor_specific_info', 'basic_user_info'];

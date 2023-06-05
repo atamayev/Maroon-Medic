@@ -273,6 +273,13 @@ export async function register (req, res){
     .json();
 };
 
+/** fetchLoginHistory is self-explanatory in name
+ *  Finds the UUID in the cookies, and returns the login history (all previous logged in times, IP_addresses) from the table
+ * @param {*} req Cookies
+ * @param {*} res Results, along with a 200/400 status code
+ * @returns Login Time and IP Address from the login_history table
+ *  DOCUMENTATION LAST UPDATED 6/4/23
+ */
 export async function fetchLoginHistory (req, res){
   const cookies = req.cookies;
   let UUID;
@@ -284,10 +291,10 @@ export async function fetchLoginHistory (req, res){
 
   const login_history = 'login_history'
 
-  const sql1 = `SELECT Login_at, IP_Address FROM ${login_history} WHERE User_ID = ?`
+  const sql = `SELECT Login_at, IP_Address FROM ${login_history} WHERE User_ID = ?`
   const values = [User_ID];
   try{
-      const [results] = await connection.execute(sql1, values);
+      const [results] = await connection.execute(sql, values);
       return res.status(200).json(results);
   }catch(error){
       console.log(`error in fetchLoginHistory ${fetchLoginHistory.name}:`, error);
@@ -300,6 +307,7 @@ export async function fetchLoginHistory (req, res){
  *  Deletes UUID that was created for user to be able to send data back and forth.
  * @param {*} req Type: doctor or patient
  * @param {Response} res Clears cookie, and informs that "User has been logged out"
+ *  DOCUMENTATION LAST UPDATED 6/4/23
  */
 export async function logout (req, res){
   let type;
@@ -324,7 +332,7 @@ export async function logout (req, res){
   
     const UUID_reference = 'UUID_reference';
     const sql = `DELETE FROM ${UUID_reference} WHERE UUID = ?`;
-    let values = [UUID];
+    const values = [UUID];
   
     await DB_Operation(logout.name, UUID_reference);
     await connection.execute(sql, values);

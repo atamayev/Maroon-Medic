@@ -2,6 +2,14 @@ import {connection, DB_Operation} from "../../dbAndSecurity/connect.js";
 import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
 import moment from "moment";
 
+/** savePersonalData is self-explanatory in name
+ *  First, checks if the patient already has saved data in the DB.
+ *  If there is no data saved, the data is added. If there is data, then it is updated
+ * @param {Array} req Contains Patient's UUID as a cookie, and the personalInfo
+ * @param {*} res 200/400 status code
+ * @returns 200/400 status code
+ *  DOCUMENTATION LAST UPDATED 6/4/23
+ */
 export async function savePersonalData (req, res){
     const PatientUUID = req.cookies.PatientUUID
     const PatientID = await UUID_to_ID(PatientUUID) // converts PatientUUID to PatientID
@@ -46,17 +54,13 @@ export async function savePersonalData (req, res){
     }
 };
 
-/** saveGeneralData saves either Language, Specialty, or Insurance Data
- *  First, converts from UUID to ID. Then, checks if any records exist in the specific mapping with the user's id.
- *  The mapping file is chosen based on the DataType (can either be Specialty, Language, or Insurance)
- *  If results exist in mappping table, then the 'difference' between the existing data in the table, and the new data are found.
- *  If the difference is only that new data were added, then those data are inserted into the table
- *  If the difference is that data that were previously there are now deleted, then those data get deleted from the table (this is done via filtering in the code) 
- *  If there are no results found initially, that means the user never inputed data. The user's new data are inserted.
- * @param {String} req Cookie from client, type of data, list of data (ie list of insurances, languages, or specialties)
+/** saveGeneralData saves either Language, or Insurance Data
+ *  First, converts from PatientUUID to PatientID. Then, performs operations depending on the operationType
+ *  The mapping file is chosen based on the DataType (can either be Specialty, or Language)
+ * @param {String} req Cookie from client, type of data, list of data (ie list of languages, or insurances)
  * @param {Boolean} res 200/400
  * @returns Returns 200/400, depending on wheather the data was saved correctly
- *  DOCUMENTATION LAST UPDATED 4/1/23
+ *  DOCUMENTATION LAST UPDATED 6/4/23
  */
 export async function saveGeneralData (req, res){
     const PatientUUID = req.cookies.PatientUUID;
@@ -97,6 +101,13 @@ export async function saveGeneralData (req, res){
     }
 };
 
+/** savePetData is self-explanatory in name
+ *  First, converts from PatientUUID to PatientID. Then, performs operations depending on the operationType
+ * @param {String} req Cookie from client, type of data, list of data (ie list of languages, or insurances)
+ * @param {Boolean} res 200/400
+ * @returns Returns 200/400, depending on wheather the data was saved correctly
+ *  DOCUMENTATION LAST UPDATED 6/4/23
+ */
 export async function savePetData (req, res){
     const PatientUUID = req.cookies.PatientUUID;
     const PatientID = await UUID_to_ID(PatientUUID); // converts PatientUUID to docid

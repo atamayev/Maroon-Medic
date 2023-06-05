@@ -3,14 +3,13 @@ import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
 import FetchPatientAccountData from "./fetchPatientAccountData.js";
 import FetchAllLists from "../../dbAndSecurity/fetchAllLists.js";
 import moment from "moment";
-// all of the functions to add pt data, and pull it for necessary components on pt dashboard
 
 /** newPatient registers the inputted user data into basic_Patient_info table
  *  All necessary information is sent via the request (PatientUUID, firname, lastname, etc.)
- * @param {Array} req 
- * @param {Array} res If the user data is successfully added to table, return true. If not, return error--> front end doesn't allow
- * @returns true/error
- * DOCUMENTATION LAST UPDATED 3/16/23
+ * @param {Array} req Patient's UUID cookie, new_patient_object
+ * @param {status} res If the user data is successfully added to table, return 200. If not, return 400--> front end will tell pt data not added
+ * @returns status code 200/400
+ * DOCUMENTATION LAST UPDATED 6/4/23
  */
 export async function newPatient (req, res){
     const PatientUUID = req.cookies.PatientUUID
@@ -71,10 +70,11 @@ export async function newPatientConfirmation (req, res){
     }
 };
 
-/** fetchDashboardData retrieves the Patient's dashboard data. Currently dummy.
+/** fetchDashboardData retrieves the Patient's dashboard data, which contains information about future appointments.
  *  Takes the Patient's UUID, and converts to the PatientID. Then, joins necessary tables to retrieve dashboard data
+ *  Retreieves the appointment details, which contain the service/category name, address information, and the doctor's personal information
  * @param {Cookies} req Contains the user's cookies (PatientUUID)
- * @param {Array} res User data, or error
+ * @param {Array} res User data, or nothing
  * @returns User data.
  * DOCUMENTATION LAST UPDATED 3/16/23
  */
@@ -116,14 +116,12 @@ export async function fetchDashboardData (req, res){
     }
 };
 
-
 /** fetchPersonalData retrieves the Patient's personal data.
- *  Currently almost identical to dashboard
- *  Takes the Patient's UUID, and converts to the PatientID. Then, joins necessary tables to retrieve dashboard data
+ *  Takes the Patient's UUID, and converts to the PatientID. Then, selects data from basic_user_info table where User_ID matches.
  * @param {Cookies} req Contains the user's cookies (PatientUUID)
- * @param {Array} res Decrypted, or error
- * @returns Decrypted user data.
- * DOCUMENTATION LAST UPDATED 3/16/23
+ * @param {Array} res PersonalData
+ * @returns PersonalData
+ * DOCUMENTATION LAST UPDATED 6/4/23
  */
 export async function fetchPersonalData (req, res){
     const PatientUUID = req.cookies.PatientUUID
@@ -165,6 +163,14 @@ export async function fetchPersonalData (req, res){
     }
 };
 
+/** fetchPetData retrieves all of the pet's that pretain to a pet parent. 
+ *  Takes the Patient's UUID, and converts to the PatientID. 
+ *  Selects all of each pet's details (name, gender, etc.), where isActive=1
+ * @param {Cookies} req Contains the user's cookies (PatientUUID)
+ * @param {Array} res PetData or nothing (if error)
+ * @returns PetData
+ * DOCUMENTATION LAST UPDATED 6/4/23
+ */
 export async function fetchPetData (req, res){
     const PatientUUID = req.cookies.PatientUUID;
     const PatientID = await UUID_to_ID(PatientUUID);
@@ -177,6 +183,12 @@ export async function fetchPetData (req, res){
     }
 };
 
+/** fetchPetTypes retrieves a list of all the petTypes from the DB
+ * @param {} req N/A
+ * @param {Array} res PetTypes or nothing (if error)
+ * @returns PetTypes
+ * DOCUMENTATION LAST UPDATED 6/4/23
+ */
 export async function fetchPetTypes (req, res){
     try{
         const response = await FetchAllLists.fetchAllPets();
@@ -208,7 +220,12 @@ export async function fetchAccountDetails (req, res){
         return res.status(400).json([]);
     }
 };
-
+ 
+/** Returns a list of insurances and languages
+ * @param {} req 
+ * @param {Array} res Array of 2 Arrays: Insurances, Languages
+ * @returns 
+ */
 export async function fetchPatientLists (req, res){
     try{
         let response = [];

@@ -4,7 +4,7 @@ import {connection, DB_Operation} from "../../dbAndSecurity/connect.js"
  *  Here, each Doctor's particular data is fetched from the DB.
  *  For the functions with multiple table names, joins are used to match a particular doctor's records with the actual name.
  *  For example, a table might have: {Bob, 3}, {Bob, 7}, and then a mapping table shows that 3 and 7 are actually English and French. This is done to keep the data in the mapping tables as small as possible
- *  DOCUMENTATION LAST UPDATED 3/16/23
+ *  DOCUMENTATION LAST UPDATED 6/4/23
  */
 export default new class FetchDoctorAccountData{
     async FetchDoctorLanguages (User_ID){
@@ -94,7 +94,7 @@ export default new class FetchDoctorAccountData{
             return [];
         }
     };
-
+    
     async FetchVetEducation (Doctor_ID){
         const functionName = this.FetchVetEducation.bind(this).name;
 
@@ -122,7 +122,7 @@ export default new class FetchDoctorAccountData{
             return [];
         }
     };
-
+    //Fetch Address Data first finds the addresses associated with a Doctor_ID, and then finds all of the times/days of week associated with each address.
     async FetchDoctorAddressData (Doctor_ID){
         const functionName = this.FetchDoctorAddressData.bind(this).name;
 

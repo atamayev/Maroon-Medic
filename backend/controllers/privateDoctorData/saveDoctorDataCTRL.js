@@ -46,9 +46,9 @@ export async function savePersonalData (req, res){
             return res.status(400).json();
         }
     }else{// if there are results, that means that the record exists, and needs to be altered
-        const sql2 = `UPDATE ${basic_user_info} SET FirstName = ?, LastName = ?, Gender = ?, DOB = ? WHERE User_ID = ?`;
+        const sql1 = `UPDATE ${basic_user_info} SET FirstName = ?, LastName = ?, Gender = ?, DOB = ? WHERE User_ID = ?`;
         try{
-            await connection.execute(sql2, values1);
+            await connection.execute(sql1, values1);
             return res.status(200).json();
         }catch(error){
             console.log(`error in else ${savePersonalData.name}:`, error);
@@ -56,6 +56,7 @@ export async function savePersonalData (req, res){
         }
     }
 };
+
 /** saveDescriptionData is self-explanatory in name
  *  First, converts from UUID to ID. Then, checks if any records exist in descriptions.
  *  If records don't exist, then it inserts the data.
@@ -95,9 +96,9 @@ export async function saveDescriptionData (req, res){
             return res.status(400).json();
         }
     }else{// if there are results, that means that the record exists, and needs to be altered
-        const sql2 = `UPDATE ${descriptions} SET Description = ? WHERE Doctor_ID = ?`;
+        const sql1 = `UPDATE ${descriptions} SET Description = ? WHERE Doctor_ID = ?`;
         try{
-            await connection.execute(sql2, values1);
+            await connection.execute(sql1, values1);
             return res.status(200).json();
         }catch(error){
             console.log(`error in else ${saveDescriptionData.name}:`, error);
@@ -106,17 +107,14 @@ export async function saveDescriptionData (req, res){
     }
 };
 
-/** saveGeneralData saves either Language, Specialty, or Pets Data
- *  First, converts from UUID to ID. Then, checks if any records exist in the specific mapping with the user's id.
- *  The mapping file is chosen based on the DataType (can either be Specialty, Language, or Pets)
- *  If results exist in mappping table, then the 'difference' between the existing data in the table, and the new data are found.
- *  If the difference is only that new data were added, then those data are inserted into the table
- *  If the difference is that data that were previously there are now deleted, then those data get deleted from the table (this is done via filtering in the code) 
- *  If there are no results found initially, that means the user never inputed data. The user's new data are inserted.
- * @param {String} req Cookie from client, type of data, list of data (ie list of Pets, languages, or specialties)
+/** saveGeneralData saves either Language, or Specialty Data
+ *  First, converts from DoctorUUID to DoctorID. Then, performs operations depending on the operationType
+ *  Need to set the userID or DoctorID because Languages are used by both Doctors and Patients (and the foreign key is thus User_ID)
+ *  The mapping file is chosen based on the DataType (can either be Specialty, or Language)
+ * @param {String} req Cookie from client, type of data, list of data (ie list of languages, or specialties)
  * @param {Boolean} res 200/400
  * @returns Returns 200/400, depending on wheather the data was saved correctly
- *  DOCUMENTATION LAST UPDATED 4/1/23
+ *  DOCUMENTATION LAST UPDATED 6/423
  */
 export async function saveGeneralData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID;
@@ -163,6 +161,15 @@ export async function saveGeneralData (req, res){
     }
 };
 
+/** saveServicesData saves the services that a doctor offers
+ *  First, converts from DoctorUUID to DoctorID. 
+ *  Searches the DB for existing service data.
+ *  Finds the difference between the incoming data and the saved data. Inserts/deletes/updates accordingly
+ * @param {String} req Cookie from client, list of Servicesdata
+ * @param {Boolean} res 200/400
+ * @returns Returns 200/400, depending on wheather the data was saved correctly
+ *  DOCUMENTATION LAST UPDATED 6/423
+ */
 export async function saveServicesData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID;
     const DoctorID = await UUID_to_ID(DoctorUUID); // converts DoctorUUID to docid
@@ -208,10 +215,10 @@ export async function saveServicesData (req, res){
 
         if(addedData.length > 0){
             for (let i = 0; i<addedData.length; i++){
-                let sql1 = `INSERT INTO ${service_mapping} (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?,?,?,?)`;
-                let values1 = [addedData[i].service_and_category_listID, addedData[i].Service_time, addedData[i].Service_price, DoctorID];
+                const sql = `INSERT INTO ${service_mapping} (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?,?,?,?)`;
+                const values = [addedData[i].service_and_category_listID, addedData[i].Service_time, addedData[i].Service_price, DoctorID];
                 try{
-                    await connection.execute(sql1, values1);
+                    await connection.execute(sql, values);
                 }catch(error){
                     console.log(`error in if ${saveServicesData.name}:`, error);
                     return res.status(400).json();
@@ -220,10 +227,10 @@ export async function saveServicesData (req, res){
         }
         if(deletedData.length > 0){
             for (let i = 0; i<deletedData.length; i++){
-                let sql2 = `DELETE FROM ${service_mapping} WHERE Service_and_Category_ID = ? AND Doctor_ID = ?`;
-                let values2 = [deletedData[i].Service_and_Category_ID, DoctorID];
+                const sql = `DELETE FROM ${service_mapping} WHERE Service_and_Category_ID = ? AND Doctor_ID = ?`;
+                const values = [deletedData[i].Service_and_Category_ID, DoctorID];
                 try{
-                    await connection.execute(sql2, values2);
+                    await connection.execute(sql, values);
                 }catch(error){
                     console.log(`error in if ${saveServicesData.name}:`, error);
                     return res.status(400).json();
@@ -232,10 +239,10 @@ export async function saveServicesData (req, res){
         }
         if(updatedData.length > 0){
             for (let i = 0; i<updatedData.length; i++){
-                let sql2 = `UPDATE ${service_mapping} SET Service_time = ?, Service_price = ? WHERE Service_and_Category_ID = ? AND Doctor_ID = ?`;
-                let values2 = [updatedData[i].Service_time, updatedData[i].Service_price, updatedData[i].service_and_category_listID, DoctorID];
+                const sql = `UPDATE ${service_mapping} SET Service_time = ?, Service_price = ? WHERE Service_and_Category_ID = ? AND Doctor_ID = ?`;
+                const values = [updatedData[i].Service_time, updatedData[i].Service_price, updatedData[i].service_and_category_listID, DoctorID];
                 try{
-                    await connection.execute(sql2, values2);
+                    await connection.execute(sql, values);
                 }catch(error){
                     console.log(`error in if ${saveServicesData.name}:`, error);
                     return res.status(400).json();
@@ -246,10 +253,10 @@ export async function saveServicesData (req, res){
     }else if (ServicesData.length > 0){
         //Can only get into here if formatted results.length not >0: no results from the DB - adding completely new data
         for (let i=0; i<ServicesData.length; i++){
-            let sql3 = `INSERT INTO ${service_mapping} (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?,?,?,?)`;
-            let values3 = [ServicesData[i].service_and_category_listID, ServicesData[i].Service_time, ServicesData[i].Service_price, DoctorID];
+            const sql = `INSERT INTO ${service_mapping} (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?,?,?,?)`;
+            const values = [ServicesData[i].service_and_category_listID, ServicesData[i].Service_time, ServicesData[i].Service_price, DoctorID];
             try{
-                await connection.execute(sql3, values3);
+                await connection.execute(sql, values);
             }catch(error){
                 console.log(`error in if ${saveServicesData.name}:`, error);
                 return res.status(400).json();
@@ -262,6 +269,14 @@ export async function saveServicesData (req, res){
     }
 };
 
+/** saveEducationData is self-explanatory in name
+ *  First, converts from DoctorUUID to DoctorID. Then, performs operations depending on the operationType
+ *  Depending on wheather the operationType is add or delete, different operations are performed (INSERT vs DELETE)
+ * @param {String} req Cookie from client, type of education data, operationType (add or delete), EducationData (ie pre-vet or vet)
+ * @param {Boolean} res 200/400
+ * @returns Returns 200/400, depending on wheather the data was saved correctly
+ *  DOCUMENTATION LAST UPDATED 6/423
+ */
 export async function saveEducationData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID;
     const DoctorID = await UUID_to_ID(DoctorUUID); // converts DoctorUUID to docid
@@ -310,6 +325,20 @@ export async function saveEducationData (req, res){
     }    
 };
 
+/** saveAddressData saves address, phone, and booking availbility data.
+ *  This is essentially three functions in one, since we have to operate on addresses, phones, and booking availiblity
+ *  First, checks if any address data already exists. If it doesn't, then just add the incoming data, no need to update/delete
+ *  If there exists saved data, need to determine if any of the past data has changed, or if data is just being added.
+ *  Filters are created which find which of the incoming data is new, updated, unchanged, or deleted (relative to the savedData)
+ *  After address/phone data are updated/added/deleted, we move on to operating on times. 
+ *  For each of the objects in the data that will be returned, we determine if the time data needs to be added, updated, or deleted.
+ *  After time operations are completed, the address data is returned to the client, to assign IDs to each of the addresses (so that when saving again, can know which addresses are new)
+ *  New addresses have their addressesID as 0
+ * @param {Array} req Cookie from client, AddressData, TimesData
+ * @param {Array} res 200/400, address data
+ * @returns Returns 200/400, depending on wheather the data was saved correctly. Also returns the address and times data
+ *  DOCUMENTATION LAST UPDATED 6/423
+ */
 export async function saveAddressData (req, res){
     const DoctorUUID = req.cookies.DoctorUUID;
     const DoctorID = await UUID_to_ID(DoctorUUID); // converts DoctorUUID to docid
@@ -362,23 +391,23 @@ export async function saveAddressData (req, res){
 
         if (addedData.length > 0) {
             for (let i = 0; i<addedData.length; i++){
-                const sql1 = `INSERT INTO ${addresses} 
+                const sql = `INSERT INTO ${addresses} 
                     (address_title, address_line_1, address_line_2, city, state, zip, country, address_public_status, address_priority, instant_book, isActive, Doctor_ID) 
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-                const values1 = [addedData[i].address_title, addedData[i].address_line_1, addedData[i].address_line_2, addedData[i].city, addedData[i].state, addedData[i].zip, addedData[i].country, addedData[i].address_public_status, addedData[i].address_priority, addedData[i].instant_book, 1, DoctorID];
+                const values = [addedData[i].address_title, addedData[i].address_line_1, addedData[i].address_line_2, addedData[i].city, addedData[i].state, addedData[i].zip, addedData[i].country, addedData[i].address_public_status, addedData[i].address_priority, addedData[i].instant_book, 1, DoctorID];
                 let insert_results;
                 try{
-                    [insert_results] = await connection.execute(sql1, values1);
+                    [insert_results] = await connection.execute(sql, values);
                 }catch(error){
                     console.log(`error in adding address data ${saveAddressData.name}:`, error);
                     return res.status(400).json();
                 }
 
                 if(addedData[i].phone){
-                    const sql2 = `INSERT INTO ${phone} (Phone, phone_priority, address_ID) VALUES (?, ?, ?)`
-                    const values2 = [addedData[i].phone, addedData[i].phone_priority, insert_results.insertId];
+                    const sql = `INSERT INTO ${phone} (Phone, phone_priority, address_ID) VALUES (?, ?, ?)`
+                    const values = [addedData[i].phone, addedData[i].phone_priority, insert_results.insertId];
                     try{
-                        await connection.execute(sql2, values2);
+                        await connection.execute(sql, values);
                     }catch(error){
                         console.log(`error in inserting phone info ${saveAddressData.name}:`, error);
                         return res.status(400);  
@@ -391,10 +420,10 @@ export async function saveAddressData (req, res){
         if (deletedData.length) {
             for (let i = 0; i<deletedData.length; i++){
                 //Automatically deletes data in the phone number table, since the two are linked via a cascade
-                const sql1 = `UPDATE ${addresses} SET isActive = 0 WHERE addressesID = ?`;
-                const values1 = [deletedData[i]];
+                const sql = `UPDATE ${addresses} SET isActive = 0 WHERE addressesID = ?`;
+                const values = [deletedData[i]];
                 try{
-                    await connection.execute(sql1, values1);
+                    await connection.execute(sql, values);
                 }catch(error){
                     console.log(`error in deleting address data ${saveAddressData.name}:`, error);
                     return res.status(400).json();
@@ -413,11 +442,12 @@ export async function saveAddressData (req, res){
                     console.log(`error in updatedData address data ${saveAddressData.name}:`, error);
                     return res.status(400).json();
                 }
-                const sql = `SELECT * FROM ${phone} where address_ID = ?`;
-                const values = [updatedData[i].addressesID];
+                const sql2 = `SELECT * FROM ${phone} where address_ID = ?`;
+                const values2 = [updatedData[i].addressesID];
                 let results;
+
                 try{
-                    [results] = await connection.execute(sql, values);
+                    [results] = await connection.execute(sql2, values2);
                 }catch(error){
                     console.log(`error in updatedData phone address data ${saveAddressData.name}:`, error);
                     return res.status(400).json();
@@ -483,10 +513,10 @@ export async function saveAddressData (req, res){
                 if(addedTimeData.length){
                     for (let j = 0; j<addedTimeData.length; j++){
                         if(addedTimeData[j]){
-                            const sql3 = `INSERT INTO ${booking_availability} (Day_of_week, Start_time, End_time, address_ID, Doctor_ID) VALUES (?, ?, ?, ?, ?)`;
-                            const values3 = [addedTimeData[j].Day_of_week, addedTimeData[j].Start_time, addedTimeData[j].End_time, returnedDataData.addressesID, DoctorID]
+                            const sql = `INSERT INTO ${booking_availability} (Day_of_week, Start_time, End_time, address_ID, Doctor_ID) VALUES (?, ?, ?, ?, ?)`;
+                            const values = [addedTimeData[j].Day_of_week, addedTimeData[j].Start_time, addedTimeData[j].End_time, returnedDataData.addressesID, DoctorID]
                             try{
-                                await connection.execute(sql3, values3);
+                                await connection.execute(sql, values);
                             }catch(error){
                                 console.log(`error in inserting phone info ${saveAddressData.name}:`, error);
                                 return res.status(400).json();  
@@ -497,10 +527,10 @@ export async function saveAddressData (req, res){
                 if(deletedTimeData.length){
                     for (let j = 0; j<deletedTimeData.length; j++){
                         if(deletedTimeData[j]){
-                            const sql3 = `DELETE FROM ${booking_availability} WHERE Day_of_week = ? AND Start_time = ? AND End_time = ?`;
-                            const values3 = [deletedTimeData[j].Day_of_week, deletedTimeData[j].Start_time, deletedTimeData[j].End_time]
+                            const sql = `DELETE FROM ${booking_availability} WHERE Day_of_week = ? AND Start_time = ? AND End_time = ?`;
+                            const values = [deletedTimeData[j].Day_of_week, deletedTimeData[j].Start_time, deletedTimeData[j].End_time]
                             try{
-                                await connection.execute(sql3, values3);
+                                await connection.execute(sql, values);
                             }catch(error){
                                 console.log(`error in DELETING time info ${saveAddressData.name}:`, error);
                                 return res.status(400).json();  
@@ -511,10 +541,10 @@ export async function saveAddressData (req, res){
                 if(updatedTimeData.length){
                     for (let j = 0; j<updatedTimeData.length; j++){
                         if(updatedTimeData[j]){
-                            const sql3 = `UPDATE ${booking_availability} SET Start_time = ?, End_time = ? WHERE Day_of_week = ? AND address_ID = ?`;
-                            const values3 = [updatedTimeData[j].Start_time, updatedTimeData[j].End_time, updatedTimeData[j].Day_of_week, returnedDataData.addressesID]
+                            const sql = `UPDATE ${booking_availability} SET Start_time = ?, End_time = ? WHERE Day_of_week = ? AND address_ID = ?`;
+                            const values = [updatedTimeData[j].Start_time, updatedTimeData[j].End_time, updatedTimeData[j].Day_of_week, returnedDataData.addressesID]
                             try{
-                                await connection.execute(sql3, values3);
+                                await connection.execute(sql, values);
                             }catch(error){
                                 console.log(`error in updating time info ${saveAddressData.name}:`, error);
                                 return res.status(400).json();  
@@ -543,10 +573,10 @@ export async function saveAddressData (req, res){
             }
 
             if(AddressData[i].phone){
-                const sql1 = `INSERT INTO ${phone} (Phone, phone_priority, address_ID) VALUES (?, ?, ?)`
-                const values1 = [AddressData[i].phone, AddressData[i].phone_priority, insert_results.insertId];
+                const sql = `INSERT INTO ${phone} (Phone, phone_priority, address_ID) VALUES (?, ?, ?)`
+                const values = [AddressData[i].phone, AddressData[i].phone_priority, insert_results.insertId];
                 try{
-                    await connection.execute(sql1, values1);
+                    await connection.execute(sql, values);
                 }catch(error){
                     console.log(`error in inserting phone info ${saveAddressData.name}:`, error);
                     return res.status(400).json();
@@ -554,10 +584,10 @@ export async function saveAddressData (req, res){
             }
             if(TimesData[i].length){//Makes sure that there is Time Data to save
                 for(let j = 0; j<TimesData.length;j++){
-                    const sql2 = `INSERT INTO ${booking_availability} (Day_of_week, Start_time, End_time, address_ID, Doctor_ID) VALUES (?, ?, ?, ?, ?)`;
-                    const values2 = [TimesData[i][j].Day_of_week, TimesData[i][j].Start_time, TimesData[i][j].End_time, insert_results.insertId, DoctorID];
+                    const sql = `INSERT INTO ${booking_availability} (Day_of_week, Start_time, End_time, address_ID, Doctor_ID) VALUES (?, ?, ?, ?, ?)`;
+                    const values = [TimesData[i][j].Day_of_week, TimesData[i][j].Start_time, TimesData[i][j].End_time, insert_results.insertId, DoctorID];
                     try{
-                        await connection.execute(sql2, values2);
+                        await connection.execute(sql, values);
                     }catch(error){
                         console.log(`error in inserting phone info ${saveAddressData.name}:`, error);
                         return res.status(400).json();  
@@ -577,8 +607,8 @@ export async function saveAddressData (req, res){
 /** savePublicAvailibilityData is a Doctor-controlled function that allows them to say wheather or not they want their profile accessible to patients
  *  First, converts from UUID to ID. Then, updates the doctor's avalibility to whatever they did on the front-end. The request is only allowed to happen if the new availiblty status is dfferent from the old one.
  * @param {String} req Cookie from client, PublicAvailibility status
- * @param {Boolean} res 
- * @returns Empty json
+ * @param {Boolean} res 200 or 400
+ * @returns status code 200 or 400
  *  DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function savePublicAvailibilityData (req, res){

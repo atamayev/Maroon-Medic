@@ -5,7 +5,7 @@ ASAP:
 -when adding education data, consider sending back the education_mapping_ID to client, to make deleting easier.
 -change the EducationData in saving vet education/pre-vet to be an object instead of array
 fix the 'select' attribute on the add my pet
--add insurances on the add pets level.
+-add insurances on the add pets level. (delete insurance mapping table, add insurance ID to the pet_info_table)
 updating pet data has not been tested/implemented
 instead of just deleting a pet, need to first confirm with the user (don't delete right after hitting the X)
 Make saving automatic for all fields. As soon as user changes something, it saves. Requires major change to back-end, and front-end save functionality.
