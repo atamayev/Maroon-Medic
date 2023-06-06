@@ -27,11 +27,9 @@ export const handleAddPet= (selectedPet, servicedPets, setServicedPets) => {
   }
 };
 
-export const handleAddLanguage = (selectedLanguage, spokenLanguages, setSpokenLanguages, setSelectedLanguage, setLanguagesConfirmation) => {
+export const handleAddLanguage = (selectedLanguage, spokenLanguages) => {
   const newSpokenLanguages = [...spokenLanguages, selectedLanguage];
-  setSpokenLanguages(newSpokenLanguages);
-  saveLanguages(selectedLanguage.language_listID, spokenLanguages, setLanguagesConfirmation, 'add')
-  setSelectedLanguage('');
+  return newSpokenLanguages;
 };
 
 export const handleAddSpecialty = (selectedSpecialty, doctorSpecialties, setDoctorSpecialties, setSelectedSpecialties) => {

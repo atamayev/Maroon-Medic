@@ -28,10 +28,22 @@ function renderIsVetLanguages(props){
         // Change the select's onChange event to this:
         onChange={(e) => {
           const selectedLanguageID = e.target.value;
-          const selectedLanguage = props.listDetails[0].find(lang => lang.language_listID === JSON.parse(selectedLanguageID));
+          const selectedLanguage = props.listDetails[0].find(
+            (lang) => lang.language_listID === JSON.parse(selectedLanguageID)
+          );
           props.setSelectedLanguage(selectedLanguage);
-          handleAddLanguage(selectedLanguage, props.spokenLanguages, props.setSpokenLanguages, props.setSelectedLanguage, props.setLanguagesConfirmation);
-        }}
+          const newSpokenLanguages = handleAddLanguage(
+            selectedLanguage,
+            props.spokenLanguages
+          );
+          props.setSpokenLanguages(newSpokenLanguages);
+          saveLanguages(
+            selectedLanguage.language_listID,
+            newSpokenLanguages,
+            props.setSelectedLanguage,
+            props.setLanguagesConfirmation,
+            'add'
+          )}}
     >
         <option value="" disabled>Choose a language</option>
         {Array.isArray(props.listDetails[0]) &&
@@ -50,7 +62,7 @@ function renderIsVetLanguages(props){
           props.spokenLanguages.map((language) => (
             <li key={language.language_listID}>
               {language.Language_name}
-              <Button onClick={() => handleDeleteLanguage(language, props.spokenLanguages, props.setSpokenLanguages, props.setLanguagesConfirmation)}>x</Button>
+              <Button onClick={() => handleDeleteLanguage(language, props.spokenLanguages, props.setSpokenLanguages, props.setSelectedLanguage, props.setLanguagesConfirmation)}>x</Button>
             </li>
           ))}
       </ul>

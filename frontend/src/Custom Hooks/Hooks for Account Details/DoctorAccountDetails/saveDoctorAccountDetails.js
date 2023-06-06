@@ -40,9 +40,8 @@ import PrivateDoctorDataService from "../../../Services/private-doctor-data-serv
 //   }
 // };
 
-export async function saveLanguages(languageID, spokenLanguages, setLanguagesConfirmation, operationType){
+export async function saveLanguages(languageID, spokenLanguages, setSelectedLanguage, setLanguagesConfirmation, operationType){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  console.log(languageID)
   let response;
   try{
     response = await PrivateDoctorDataService.saveGeneralData(languageID, 'Language', operationType)
@@ -59,6 +58,7 @@ export async function saveLanguages(languageID, spokenLanguages, setLanguagesCon
     setLanguagesConfirmation({messageType: 'problem'});
     console.log('error in saving languages in else')
   }
+  setSelectedLanguage('')
 };
 
 export async function saveServices(providedServices, setServicesConfirmation){

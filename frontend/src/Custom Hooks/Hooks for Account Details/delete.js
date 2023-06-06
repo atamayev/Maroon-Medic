@@ -13,10 +13,12 @@ export const handleDeletePet = (petToDelete, selectedPets, setSelectedPets) => {
     setSelectedPets(selectedPets.filter(pet => pet.pet_listID !== petToDelete.pet_listID));
 };
 
-export const handleDeleteLanguage = (language, spokenLanguages, setSpokenLanguages, setLanguagesConfirmation) => {
-    setSpokenLanguages(spokenLanguages.filter(l => l !== language));
-    saveLanguages(language.language_listID, spokenLanguages, setLanguagesConfirmation, 'delete');
+export const handleDeleteLanguage = (language, spokenLanguages, setSpokenLanguages, setSelectedLanguage, setLanguagesConfirmation) => {
+    const newSpokenLanguages = spokenLanguages.filter(l => l !== language);
+    setSpokenLanguages(newSpokenLanguages);
+    saveLanguages(language.language_listID, newSpokenLanguages, setSelectedLanguage, setLanguagesConfirmation, 'delete');
 };
+
 
 export const handleDeleteSpecialty = (specialty, doctorSpecialties, setDoctorSpecialties) => {
     setDoctorSpecialties(doctorSpecialties.filter(s => s !== specialty));
