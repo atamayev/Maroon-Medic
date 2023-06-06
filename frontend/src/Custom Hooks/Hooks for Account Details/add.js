@@ -28,17 +28,9 @@ export const handleAddPet= (selectedPet, servicedPets, setServicedPets) => {
 };
 
 export const handleAddLanguage = (selectedLanguage, spokenLanguages, setSpokenLanguages, setSelectedLanguage, setLanguagesConfirmation) => {
-  
-  if(selectedLanguage){
-    if(spokenLanguages.length >0){
-      if(!spokenLanguages.includes(selectedLanguage)){//not sure this if statement is necessary
-        setSpokenLanguages([...spokenLanguages, selectedLanguage]);
-      }
-    }else{
-      setSpokenLanguages([selectedLanguage]);
-    }
-    saveLanguages(selectedLanguage.language_listID, spokenLanguages, setLanguagesConfirmation, 'add')
-  }
+  const newSpokenLanguages = [...spokenLanguages, selectedLanguage];
+  setSpokenLanguages(newSpokenLanguages);
+  saveLanguages(selectedLanguage.language_listID, spokenLanguages, setLanguagesConfirmation, 'add')
   setSelectedLanguage('');
 };
 

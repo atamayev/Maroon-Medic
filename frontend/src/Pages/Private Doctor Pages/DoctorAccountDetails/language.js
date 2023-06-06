@@ -19,7 +19,6 @@ export default function RenderLanguageSection(props){
 };
 
 function renderIsVetLanguages(props){
-  console.log(props.selectedLanguage)
   return(
     <div>
       <select
@@ -29,11 +28,10 @@ function renderIsVetLanguages(props){
         // Change the select's onChange event to this:
         onChange={(e) => {
           const selectedLanguageID = e.target.value;
-          const selectedLanguage = props.listDetails[0].find(lang => lang.language_listID === selectedLanguageID);
+          const selectedLanguage = props.listDetails[0].find(lang => lang.language_listID === JSON.parse(selectedLanguageID));
           props.setSelectedLanguage(selectedLanguage);
           handleAddLanguage(selectedLanguage, props.spokenLanguages, props.setSpokenLanguages, props.setSelectedLanguage, props.setLanguagesConfirmation);
         }}
-
     >
         <option value="" disabled>Choose a language</option>
         {Array.isArray(props.listDetails[0]) &&
@@ -46,7 +44,6 @@ function renderIsVetLanguages(props){
               </option>
             ))}
       </select>
-
 
       <ul>
         {Array.isArray(props.spokenLanguages) &&

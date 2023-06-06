@@ -43,7 +43,6 @@ import PrivateDoctorDataService from "../../../Services/private-doctor-data-serv
 export async function saveLanguages(languageID, spokenLanguages, setLanguagesConfirmation, operationType){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   console.log(languageID)
-  return;
   let response;
   try{
     response = await PrivateDoctorDataService.saveGeneralData(languageID, 'Language', operationType)
@@ -52,6 +51,7 @@ export async function saveLanguages(languageID, spokenLanguages, setLanguagesCon
     console.log('error in saving languages', error)
   }
   if(response.status === 200){
+    console.log(spokenLanguages)
     DoctorAccountDetails[0] = spokenLanguages;
     sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
     setLanguagesConfirmation({messageType: 'saved'});

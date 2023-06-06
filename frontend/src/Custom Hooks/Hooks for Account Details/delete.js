@@ -15,8 +15,7 @@ export const handleDeletePet = (petToDelete, selectedPets, setSelectedPets) => {
 
 export const handleDeleteLanguage = (language, spokenLanguages, setSpokenLanguages, setLanguagesConfirmation) => {
     setSpokenLanguages(spokenLanguages.filter(l => l !== language));
-    saveLanguages(language.language_ID, spokenLanguages, setLanguagesConfirmation, 'delete')
-
+    saveLanguages(language.language_listID, spokenLanguages, setLanguagesConfirmation, 'delete');
 };
 
 export const handleDeleteSpecialty = (specialty, doctorSpecialties, setDoctorSpecialties) => {
