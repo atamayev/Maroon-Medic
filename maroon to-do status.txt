@@ -2,6 +2,7 @@ To-do:
 
 
 ASAP:
+-work on simplifying the add commands within the language, specialty, etc.
 -when adding education data, consider sending back the education_mapping_ID to client, to make deleting easier.
 -change the EducationData in saving vet education/pre-vet to be an object instead of array (instead of EducationData[0], should be EducationData.School_ID)
 fix the 'select' attribute on the add my pet
@@ -12,6 +13,7 @@ Make saving automatic for all fields. As soon as user changes something, it save
 -Include the cost in the finalize booking screen
 --change all front-end select month, day, year into a 'date'
 -after cleaning up saves in DoctorAccountDetails, go through all of the select.js,add.js, delete.js files to make sure all functions are being used
+
 -in the appointments table, will need to change patient_ID to pet_ID. then, on the front-end, you need to have a registered pet in order to make an appointment
 
 - when registering as a patient, need to make it clear when the user is entering data regrading the human, and when about the pet
@@ -35,7 +37,8 @@ On the vet dashboard, make the appointments clickable, shows the patients detail
 -Figure out a good way to divide the vet screen into locations. Must be intuitive, and think of all the information that may differ bw practices, not just the address/phone numbers
 
 LATER:
-
+-go through all code and make spacing cleaner. If returning a single line render in jsx, dont need return (), can just return <COmponent>.
+	Arrow function spacing, etc.
 -figure out IP Address situation (for the login and security page). Also see if can figure out what kind of device the user has
 
 Make the 'Add Address' Button Finalize a Location, make it within the accordion. 

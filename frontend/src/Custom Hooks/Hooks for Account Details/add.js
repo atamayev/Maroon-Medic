@@ -18,7 +18,7 @@ export const handleAddService = (selectedService, providedServices, setProvidedS
   }
 };
 
-export const handleAddPet= (selectedPet, servicedPets, setServicedPets) => {
+export const handleAddPet = (selectedPet, servicedPets, setServicedPets) => {
   if(selectedPet){
     if(!servicedPets.some(pet => pet.pet_listID === selectedPet.pet_listID)){
       const updatedPet = {...selectedPet}
@@ -32,17 +32,9 @@ export const handleAddLanguage = (selectedLanguage, spokenLanguages) => {
   return newSpokenLanguages;
 };
 
-export const handleAddSpecialty = (selectedSpecialty, doctorSpecialties, setDoctorSpecialties, setSelectedSpecialties) => {
-  if(selectedSpecialty){
-    if(doctorSpecialties.length >0){
-      if(!doctorSpecialties.includes(selectedSpecialty)){
-        setDoctorSpecialties([...doctorSpecialties, selectedSpecialty]);
-      }
-    }else{
-      setDoctorSpecialties([selectedSpecialty]);
-    }
-  }
-  setSelectedSpecialties('');
+export const handleAddSpecialty = (selectedSpecialty, doctorSpecialties) => {
+  const newDoctorSpecialties = [...doctorSpecialties, selectedSpecialty];
+  return newDoctorSpecialties;
 };
 
 export const handleAddPreVetEducation = (

@@ -33,10 +33,10 @@ function renderIsSpecialty(props){
           value={props.selectedOrganization}
           onChange={(e) => props.setSelectedOrganization(e.target.value)}
         >
-          <option value="" disabled>Choose an organization</option>
+          <option value = "" disabled>Choose an organization</option>
           {Array.from(new Set(props.listDetails[2]?.map((item) => item.Organization_name))).map(
             (organization, index) => (
-              <option key={index} value={organization}>
+              <option key = {index} value = {organization}>
                 {organization}
               </option>
             ))}
@@ -44,12 +44,30 @@ function renderIsSpecialty(props){
         <br />
         {props.selectedOrganization && (
           <>
-            <label htmlFor="specialty">Select a specialty: </label>
+            <label htmlFor = "specialty">Select a specialty: </label>
             <select
-              id="specialty"
-              name="specialty"
-              value={props.selectedSpecialty?.specialties_listID || ""}
-              onChange={event => handleSelectSpecialty(event, props.listDetails, props.setSelectedSpecialties)}
+              id = "specialty"
+              name = "specialty"
+              value = {props.selectedSpecialty?.specialties_listID || ""}
+              onChange = {(e) => {
+                const selectedSpecialityID = e.target.value;
+                const selectedSpecialty = props.listDetails[2].find(
+                  (spec) => spec.specialties_listID === JSON.parse(selectedSpecialityID)
+                );
+                props.setSelectedSpecialties(selectedSpecialty);
+                const newDoctorSpecialties = handleAddSpecialty (
+                  selectedSpecialty,
+                  props.doctorSpecialties
+                );
+                props.setDoctorSpecialties(newDoctorSpecialties);
+                saveSpecialies (
+                  selectedSpecialty.specialties_listID,
+                  newDoctorSpecialties,
+                  props.setSelectedSpecialties,
+                  props.setSelectedOrganization,
+                  props.setSpecialtiesConfirmation,
+                  'add'
+              )}}
             >
               <option value="" disabled>Choose a specialty</option>
               {specialties
@@ -66,22 +84,32 @@ function renderIsSpecialty(props){
                   </option>
                 ))}
             </select>
-            <Button onClick={()=> handleAddSpecialty(props.selectedSpecialty, props.doctorSpecialties, props.setDoctorSpecialties, props.setSelectedSpecialties)}>Add</Button>
+            {/* <Button onClick={()=> handleAddSpecialty(props.selectedSpecialty, props.doctorSpecialties, props.setDoctorSpecialties, props.setSelectedSpecialties)}>Add</Button> */}
           </>
         )}
         <ul>
           {props.doctorSpecialties.map((specialty) => (
             <li key={specialty.specialties_listID}>
               {specialty.Organization_name} - {specialty.Specialty_name}{" "}
-              <Button onClick={() => handleDeleteSpecialty(specialty, props.doctorSpecialties, props.setDoctorSpecialties)}>X</Button>
+              <Button 
+                onClick = {() => 
+                  handleDeleteSpecialty(
+                    specialty, 
+                    props.doctorSpecialties, 
+                    props.setDoctorSpecialties, 
+                    props.setSelectedSpecialties, 
+                    props.setSelectedOrganization, 
+                    props.setSpecialtiesConfirmation
+                  )}
+              >X</Button>
             </li>
           ))}
         </ul>
-        <Button 
+        {/* <Button 
           variant = "success"
           onClick={() => saveSpecialies(props.doctorSpecialties, props.setSpecialtiesConfirmation)}
           >
-          Save</Button>
+          Save</Button> */}
           <span className={`fade ${props.specialtiesConfirmation.messageType ? 'show' : ''}`}>
           {props.specialtiesConfirmation.messageType === 'saved' && 'Specialties saved!'}
           {props.specialtiesConfirmation.messageType === 'same' && 'Same Specialty data!'}

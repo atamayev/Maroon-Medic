@@ -1,45 +1,6 @@
 import { checkIfListsAreEqual, areArraysSame, convertDateForSql} from "../../lists-and-object-checks";
 import PrivateDoctorDataService from "../../../Services/private-doctor-data-service";
 
-// export async function saveLanguages(spokenLanguages, setLanguagesConfirmation){
-//   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-//   const savedLanguages = DoctorAccountDetails?.[0] || []
-//   const savedLanguagesIDs = savedLanguages.map(language => language.language_listID).sort((a,b)=>a-b);
-//   const languageIds = spokenLanguages.map(lang => lang.language_listID).sort((a,b)=>a-b); // spoken languages are those that are on server side. state changes when languages added/deleted
-
-//   let shouldSave = false;
-
-//   if(!savedLanguagesIDs.length && !languageIds.length) {
-//     // Case where both arrays are empty
-//     setLanguagesConfirmation({messageType: 'none'});
-//     return;
-//   }
-
-//   if(!savedLanguagesIDs.length || !savedLanguagesIDs){
-//     shouldSave = !!languageIds.length
-//   }else if((!checkIfListsAreEqual(languageIds, savedLanguagesIDs))){
-//     shouldSave = true;
-//   }else{
-//     setLanguagesConfirmation({messageType: 'same'});
-//   }
-
-//   if(shouldSave){//checks if they are the same
-//     try {
-//       const response = await PrivateDoctorDataService.saveGeneralData(languageIds, 'Language')
-//       if(response.status === 200){
-//         DoctorAccountDetails[0] = spokenLanguages;
-//         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-//         setLanguagesConfirmation({messageType: 'saved'});
-//       }
-//     } catch(error) {
-//       setLanguagesConfirmation({messageType: 'problem'});
-//       console.log('error in saving languages', error)
-//     }
-//   }else{
-//     setLanguagesConfirmation({messageType: 'same'});
-//   }
-// };
-
 export async function saveLanguages(languageID, spokenLanguages, setSelectedLanguage, setLanguagesConfirmation, operationType){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   let response;
@@ -50,7 +11,6 @@ export async function saveLanguages(languageID, spokenLanguages, setSelectedLang
     console.log('error in saving languages', error)
   }
   if(response.status === 200){
-    console.log(spokenLanguages)
     DoctorAccountDetails[0] = spokenLanguages;
     sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
     setLanguagesConfirmation({messageType: 'saved'});
@@ -106,43 +66,25 @@ export async function saveServices(providedServices, setServicesConfirmation){
   }
 };
 
-export async function saveSpecialies(doctorSpecialties, setSpecialtiesConfirmation){
+export async function saveSpecialies(specialtyID, doctorSpecialties, setSelectedSpecialties, setSelectedOrganization, setSpecialtiesConfirmation, operationType){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  const savedSpecialties = DoctorAccountDetails?.[2] || []
-  const savedSpecialtyIDs = savedSpecialties.map(specialty => specialty.specialties_listID).sort((a,b)=>a-b);
-  const specialtyIds = doctorSpecialties.map(specialty => specialty.specialties_listID).sort((a,b)=>a-b); // spoken languages are those that are on server side. state changes when languages added/deleted
-
-  let shouldSave = false;
-
-  if(!savedSpecialtyIDs.length && !specialtyIds.length) {
-    // Case where both arrays are empty
-    setSpecialtiesConfirmation({messageType: 'none'});
-    return;
+  let response;
+  try{
+    response = await PrivateDoctorDataService.saveGeneralData(specialtyID, 'Specialty', operationType)
+  }catch(error){
+    setSpecialtiesConfirmation({messageType: 'problem'});
+    console.log('error in saving specialties', error)
   }
-  
-  if(!savedSpecialtyIDs.length || !savedSpecialtyIDs){
-    shouldSave = !!specialtyIds.length
-  }else if((!checkIfListsAreEqual(specialtyIds, savedSpecialtyIDs))){
-    shouldSave = true;
+  if(response.status === 200){
+    DoctorAccountDetails[2] = doctorSpecialties;
+    sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+    setSpecialtiesConfirmation({messageType: 'saved'});
   }else{
-    setSpecialtiesConfirmation({messageType: 'same'});
+    setSpecialtiesConfirmation({messageType: 'problem'});
+    console.log('error in saving specialties in else')
   }
-
-  if(shouldSave){
-    try {
-      const response = await PrivateDoctorDataService.saveGeneralData(specialtyIds, 'Specialty')
-      if(response.status === 200){
-        DoctorAccountDetails[2] = doctorSpecialties;
-        sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-        setSpecialtiesConfirmation({messageType: 'saved'});
-      }
-    } catch(error) {
-      setSpecialtiesConfirmation({messageType: 'problem'});
-      console.log('error in saving specialites', error)
-    }
-  }else{
-    setSpecialtiesConfirmation({messageType: 'same'});
-  }
+  setSelectedOrganization('');
+  setSelectedSpecialties('')
 };
 
 export async function savePreVetSchool(preVetEducation, listDetails, setPreVetEducationConfirmation){
