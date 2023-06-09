@@ -102,15 +102,22 @@ function renderIsPreVetEducation(props){
           {props.preVetEducation.map((pre_vet_education) => (
             <li key={pre_vet_education.pre_vet_education_mappingID}>
               {pre_vet_education.School_name}, {pre_vet_education.Education_type} in {pre_vet_education.Major_name}{": "}{pre_vet_education.Start_Date} --- {pre_vet_education.End_Date} 
-              <Button onClick={() => handleDeletePreVetEducation(pre_vet_education, props.preVetEducation, props.setPreVetEducation)}>X</Button>
+              <Button onClick={() =>
+                handleDeletePreVetEducation(
+                  pre_vet_education, 
+                  props.preVetEducation, 
+                  props.setPreVetEducation, 
+                  props.listDetails, 
+                  props.setPreVetEducationConfirmation
+                )}>X</Button>
             </li>
           ))}
         </ul>
-        <Button 
-          variant="success" 
+        {/* <Button 
+          variant="success"
           onClick={()=>savePreVetSchool(props.preVetEducation, props.listDetails, props.setPreVetEducationConfirmation)}
           >
-            Save</Button>
+            Save</Button> */}
             <span className={`fade ${props.preVetEducationConfirmation.messageType ? 'show' : ''}`}>
               {props.preVetEducationConfirmation.messageType === 'saved' && 'Pre-Vet Education saved!'}
               {props.preVetEducationConfirmation.messageType === 'same' && 'Same Pre-Vet Education data!'}

@@ -45,7 +45,7 @@ function renderIsVetLanguages(props){
             'add'
         )}}
     >
-        <option value="" disabled>Choose a language</option>
+        <option value = "" disabled>Choose a language</option>
         {Array.isArray(props.listDetails[0]) &&
           props.listDetails[0].length > 0 &&
           props.listDetails[0]
@@ -62,15 +62,19 @@ function renderIsVetLanguages(props){
           props.spokenLanguages.map((language) => (
             <li key={language.language_listID}>
               {language.Language_name}
-              <Button onClick={() => handleDeleteLanguage(language, props.spokenLanguages, props.setSpokenLanguages, props.setSelectedLanguage, props.setLanguagesConfirmation)}>x</Button>
+              <Button 
+                onClick = {() => 
+                  handleDeleteLanguage(
+                    language, 
+                    props.spokenLanguages, 
+                    props.setSpokenLanguages, 
+                    props.setSelectedLanguage, 
+                    props.setLanguagesConfirmation
+                  )}
+              >X</Button>
             </li>
           ))}
       </ul>
-      {/* <Button 
-        variant="success" 
-        onClick={() => saveLanguages(props.spokenLanguages, props.setLanguagesConfirmation)}
-        >
-        Save</Button> */}
         <span className={`fade ${props.languagesConfirmation.messageType ? 'show' : ''}`}>
           {props.languagesConfirmation.messageType === 'saved' && 'Languages saved!'}
           {props.languagesConfirmation.messageType === 'same' && 'Same Language data!'}

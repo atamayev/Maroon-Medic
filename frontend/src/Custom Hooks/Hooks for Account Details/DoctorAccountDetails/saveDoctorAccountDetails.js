@@ -87,94 +87,140 @@ export async function saveSpecialies(specialtyID, doctorSpecialties, setSelected
   setSelectedSpecialties('')
 };
 
-export async function savePreVetSchool(preVetEducation, listDetails, setPreVetEducationConfirmation){
+export async function savePreVetSchool(preVetEducationObject, preVetEducation, listDetails, setPreVetEducationConfirmation, operationType){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  const savedPreVetEducations = DoctorAccountDetails?.[3] || []
-
-  let shouldSave = false;
-
-  if(!savedPreVetEducations.length && !preVetEducation.length) {
-    // Case where both arrays are empty
-    setPreVetEducationConfirmation({messageType: 'none'});
-    return;
+  let response;
+  try{
+    //currently converting a list of preVetEudcations, need to instead convert each of the parameter's IDs
+    const mappedPreVetEducationObject = {
+      School_name: listDetails[3].find(school => school.School_name === preVetEducationObject.School_name)?.pre_vet_school_listID || null,
+      Major_name: listDetails[5].find(major => major.Major_name === preVetEducationObject.Major_name)?.major_listID || null,
+      Education_type: listDetails[4].find(educationType => educationType.Education_type === preVetEducationObject.Education_type)?.pre_vet_education_typeID || null,
+      Start_date: convertDateForSql(preVetEducationObject.Start_Date),
+      End_date: convertDateForSql(preVetEducationObject.End_Date)
+    };
+    response = await PrivateDoctorDataService.saveEducationData(mappedPreVetEducationObject, 'pre_vet', operationType)
+  }catch(error){
+    setPreVetEducationConfirmation({messageType: 'problem'});
+    console.log('error in saving pre-vet education', error)
   }
-
-  if (!savedPreVetEducations || !savedPreVetEducations.length) {
-    // If no Location Data exists
-    shouldSave = !!preVetEducation.length;
-  } else if (!areArraysSame(preVetEducation, savedPreVetEducations)) {
-    // Data is different
-    shouldSave = true;
-  } else {
-    // Data is the same
-    setPreVetEducationConfirmation({messageType: 'same'});
-  }
-
-  if(shouldSave){
-    try {
-      const mappedArray = preVetEducation.map(obj => [
-        listDetails[3].find(school => school.School_name === obj.School_name)?.pre_vet_school_listID || null,
-        listDetails[5].find(major => major.Major_name === obj.Major_name)?.major_listID || null,
-        listDetails[4].find(educationType => educationType.Education_type === obj.Education_type)?.pre_vet_education_typeID || null,
-        convertDateForSql(obj.Start_Date),
-        convertDateForSql(obj.End_Date)
-      ]);
-      const response = await PrivateDoctorDataService.saveEducationData(mappedArray, 'pre_vet')
-      if(response.status === 200){
-        DoctorAccountDetails[3] = preVetEducation;
-        sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-        setPreVetEducationConfirmation({messageType: 'saved'});
-      }
-    } catch(error) {
-      setPreVetEducationConfirmation({messageType: 'problem'});
-      console.log('error in saving PreVets', error)
-    }
+  if(response.status === 200){
+    DoctorAccountDetails[3] = preVetEducation;
+    sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+    setPreVetEducationConfirmation({messageType: 'saved'});
   }else{
-    setPreVetEducationConfirmation({messageType: 'same'});
+    setPreVetEducationConfirmation({messageType: 'problem'});
+    console.log('error in saving prevet education in else')
   }
+
+  // const savedPreVetEducations = DoctorAccountDetails?.[3] || []
+
+  // let shouldSave = false;
+
+  // if(!savedPreVetEducations.length && !preVetEducation.length) {
+  //   // Case where both arrays are empty
+  //   setPreVetEducationConfirmation({messageType: 'none'});
+  //   return;
+  // }
+
+  // if (!savedPreVetEducations || !savedPreVetEducations.length) {
+  //   // If no Location Data exists
+  //   shouldSave = !!preVetEducation.length;
+  // } else if (!areArraysSame(preVetEducation, savedPreVetEducations)) {
+  //   // Data is different
+  //   shouldSave = true;
+  // } else {
+  //   // Data is the same
+  //   setPreVetEducationConfirmation({messageType: 'same'});
+  // }
+
+  // if(shouldSave){
+  //   try {
+  //     const mappedArray = preVetEducation.map(obj => [
+  //       listDetails[3].find(school => school.School_name === obj.School_name)?.pre_vet_school_listID || null,
+  //       listDetails[5].find(major => major.Major_name === obj.Major_name)?.major_listID || null,
+  //       listDetails[4].find(educationType => educationType.Education_type === obj.Education_type)?.pre_vet_education_typeID || null,
+  //       convertDateForSql(obj.Start_Date),
+  //       convertDateForSql(obj.End_Date)
+  //     ]);
+  //     const response = await PrivateDoctorDataService.saveEducationData(mappedArray, 'pre_vet', operationType)
+  //     if(response.status === 200){
+  //       DoctorAccountDetails[3] = preVetEducation;
+  //       sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+  //       setPreVetEducationConfirmation({messageType: 'saved'});
+  //     }
+  //   } catch(error) {
+  //     setPreVetEducationConfirmation({messageType: 'problem'});
+  //     console.log('error in saving PreVets', error)
+  //   }
+  // }else{
+  //   setPreVetEducationConfirmation({messageType: 'same'});
+  // }
 };
 
-export async function saveVetSchool(vetEducation, listDetails, setVetEducationConfirmation){
+export async function saveVetSchool(vetEducation, listDetails, setVetEducationConfirmation, operationType){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  const savedVetEducations = DoctorAccountDetails?.[4] || []
-
-  let shouldSave = false;
-
-  if(!savedVetEducations.length && !vetEducation.length) {
-    // Case where both arrays are empty
-    setVetEducationConfirmation({messageType: 'none'});
-    return;
+  let response;
+  try {
+    const mappedArray = vetEducation.map(obj => [
+      listDetails[6].find(school => school.School_name === obj.School_name)?.vet_school_listID || null,
+      listDetails[7].find(educationType => educationType.Education_Type === obj.Education_Type)?.vet_education_typeID || null,
+      convertDateForSql(obj.Start_Date),
+      convertDateForSql(obj.End_Date)
+    ]);
+    response = await PrivateDoctorDataService.saveEducationData(mappedArray, 'vet', operationType)
+  } catch(error) {
+    setVetEducationConfirmation({messageType: 'problem'});
+    console.log('error in saving education', error)
   }
-
-  if (!savedVetEducations || !savedVetEducations.length) {
-    shouldSave = !!vetEducation.length;
-  } else if (!areArraysSame(vetEducation, savedVetEducations)) {
-    shouldSave = true;
-  } else {
-    setVetEducationConfirmation({messageType: 'same'});
-  }
-
-  if(shouldSave){//only saves if the educations changed
-    try {
-      const mappedArray = vetEducation.map(obj => [
-        listDetails[6].find(school => school.School_name === obj.School_name)?.vet_school_listID || null,
-        listDetails[7].find(educationType => educationType.Education_Type === obj.Education_Type)?.vet_education_typeID || null,
-        convertDateForSql(obj.Start_Date),
-        convertDateForSql(obj.End_Date)
-      ]);
-      const response = await PrivateDoctorDataService.saveEducationData(mappedArray, 'vet')
-      if(response.status === 200){
-        DoctorAccountDetails[4] = vetEducation;
-        sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-        setVetEducationConfirmation({messageType: 'saved'});
-      }
-    } catch(error) {
-      setVetEducationConfirmation({messageType: 'problem'});
-      console.log('error in saving education', error)
-    }
+  if(response.status === 200){
+    DoctorAccountDetails[4] = vetEducation;
+    sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+    setVetEducationConfirmation({messageType: 'saved'});
   }else{
-    setVetEducationConfirmation({messageType: 'same'});
+    setVetEducationConfirmation({messageType: 'problem'});
+    console.log('error in saving education in else')
   }
+
+  // const savedVetEducations = DoctorAccountDetails?.[4] || []
+
+  // let shouldSave = false;
+
+  // if(!savedVetEducations.length && !vetEducation.length) {
+  //   // Case where both arrays are empty
+  //   setVetEducationConfirmation({messageType: 'none'});
+  //   return;
+  // }
+
+  // if (!savedVetEducations || !savedVetEducations.length) {
+  //   shouldSave = !!vetEducation.length;
+  // } else if (!areArraysSame(vetEducation, savedVetEducations)) {
+  //   shouldSave = true;
+  // } else {
+  //   setVetEducationConfirmation({messageType: 'same'});
+  // }
+
+  // if(shouldSave){//only saves if the educations changed
+  //   try {
+  //     const mappedArray = vetEducation.map(obj => [
+  //       listDetails[6].find(school => school.School_name === obj.School_name)?.vet_school_listID || null,
+  //       listDetails[7].find(educationType => educationType.Education_Type === obj.Education_Type)?.vet_education_typeID || null,
+  //       convertDateForSql(obj.Start_Date),
+  //       convertDateForSql(obj.End_Date)
+  //     ]);
+  //     const response = await PrivateDoctorDataService.saveEducationData(mappedArray, 'vet', operationType)
+  //     if(response.status === 200){
+  //       DoctorAccountDetails[4] = vetEducation;
+  //       sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+  //       setVetEducationConfirmation({messageType: 'saved'});
+  //     }
+  //   } catch(error) {
+  //     setVetEducationConfirmation({messageType: 'problem'});
+  //     console.log('error in saving education', error)
+  //   }
+  // }else{
+  //   setVetEducationConfirmation({messageType: 'same'});
+  // }
 };
 
 export async function saveLocation (addresses, setAddresses, setAddressesConfirmation){
