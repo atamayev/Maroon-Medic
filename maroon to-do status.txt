@@ -2,16 +2,22 @@ To-do:
 
 
 ASAP:
--work on simplifying the add commands within the language, specialty, etc.
--when adding education data, consider sending back the education_mapping_ID to client, to make deleting easier.
--change the EducationData in saving vet education/pre-vet to be an object instead of array (instead of EducationData[0], should be EducationData.School_ID)
+-work on simplifying the add commands within the language, specialty components (within the jsx), etc.
+
 fix the 'select' attribute on the add my pet
+
 -add insurances on the add pets level. (delete insurance mapping table, add insurance ID to the pet_info_table)
+
 updating pet data has not been tested/implemented
+
 instead of just deleting a pet, need to first confirm with the user (don't delete right after hitting the X)
+
 Make saving automatic for all fields. As soon as user changes something, it saves. Requires major change to back-end, and front-end save functionality.
+
 -Include the cost in the finalize booking screen
+
 --change all front-end select month, day, year into a 'date'
+
 -after cleaning up saves in DoctorAccountDetails, go through all of the select.js,add.js, delete.js files to make sure all functions are being used
 
 -in the appointments table, will need to change patient_ID to pet_ID. then, on the front-end, you need to have a registered pet in order to make an appointment

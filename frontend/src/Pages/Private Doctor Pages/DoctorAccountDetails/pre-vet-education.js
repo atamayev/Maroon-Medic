@@ -2,8 +2,7 @@ import React from "react";
 import { Card, Button } from "react-bootstrap";
 import EducationTime from "./education-time";
 import { handleAddPreVetEducation } from "../../../Custom Hooks/Hooks for Account Details/add";
-import { handleDeletePreVetEducation } from "../../../Custom Hooks/Hooks for Account Details/delete";
-import { savePreVetSchool } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails";
+import { savePreVetEducation } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails";
 
 export default function RenderPreVetEducationSection(props){
   return(
@@ -83,47 +82,54 @@ function renderIsPreVetEducation(props){
                   setTimeState = {props.setTimeState}
                   /> }
                 {allChoicesFilled && (
-                  <Button onClick={() => handleAddPreVetEducation(
-                    props.selectedPreVetSchool, 
-                    props.selectedMajor, 
-                    props.selectedPreVetEducationType, 
-                    props.preVetEducation, 
-                    props.setPreVetEducation, 
-                    props.setSelectedPreVetSchool, 
-                    props.setSelectedMajor, 
-                    props.setSelectedPreVetEducationType, 
-                    props.timeState,
-                    props.setTimeState
-                    )}>Add</Button>
-                )}              
-                </>
-              )}
+                  <Button 
+                    onClick = {() => {
+                      const selectedEducationObj = handleAddPreVetEducation(
+                        props.selectedPreVetSchool, 
+                        props.selectedMajor, 
+                        props.selectedPreVetEducationType, 
+                        props.preVetEducation, 
+                        props.setPreVetEducation, 
+                        props.setSelectedPreVetSchool, 
+                        props.setSelectedMajor, 
+                        props.setSelectedPreVetEducationType, 
+                        props.timeState,
+                        props.setTimeState
+                      )
+                      savePreVetEducation (
+                        selectedEducationObj,
+                        props.preVetEducation,
+                        props.setPreVetEducation,
+                        props.listDetails,
+                        props.setPreVetEducationConfirmation,
+                        'add'
+                      )
+                    }}>Add</Button>
+                )}
+            </>
+          )}
         <ul>
           {props.preVetEducation.map((pre_vet_education) => (
             <li key={pre_vet_education.pre_vet_education_mappingID}>
               {pre_vet_education.School_name}, {pre_vet_education.Education_type} in {pre_vet_education.Major_name}{": "}{pre_vet_education.Start_Date} --- {pre_vet_education.End_Date} 
               <Button onClick={() =>
-                handleDeletePreVetEducation(
-                  pre_vet_education, 
+                savePreVetEducation(
+                  pre_vet_education.pre_vet_education_mappingID, 
                   props.preVetEducation, 
-                  props.setPreVetEducation, 
+                  props.setPreVetEducation,
                   props.listDetails, 
-                  props.setPreVetEducationConfirmation
+                  props.setPreVetEducationConfirmation,
+                  'delete'
                 )}>X</Button>
             </li>
           ))}
         </ul>
-        {/* <Button 
-          variant="success"
-          onClick={()=>savePreVetSchool(props.preVetEducation, props.listDetails, props.setPreVetEducationConfirmation)}
-          >
-            Save</Button> */}
-            <span className={`fade ${props.preVetEducationConfirmation.messageType ? 'show' : ''}`}>
-              {props.preVetEducationConfirmation.messageType === 'saved' && 'Pre-Vet Education saved!'}
-              {props.preVetEducationConfirmation.messageType === 'same' && 'Same Pre-Vet Education data!'}
-              {props.preVetEducationConfirmation.messageType === 'problem' && 'Problem Saving Pre-Vet Education!'}
-              {props.preVetEducationConfirmation.messageType === 'none' && 'No Pre-Vet Education selected'}
-            </span>
+          <span className={`fade ${props.preVetEducationConfirmation.messageType ? 'show' : ''}`}>
+            {props.preVetEducationConfirmation.messageType === 'saved' && 'Pre-Vet Education saved!'}
+            {props.preVetEducationConfirmation.messageType === 'same' && 'Same Pre-Vet Education data!'}
+            {props.preVetEducationConfirmation.messageType === 'problem' && 'Problem Saving Pre-Vet Education!'}
+            {props.preVetEducationConfirmation.messageType === 'none' && 'No Pre-Vet Education selected'}
+          </span>
         </>
     )
   }else{

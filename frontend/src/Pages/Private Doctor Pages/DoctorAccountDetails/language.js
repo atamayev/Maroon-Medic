@@ -44,7 +44,7 @@ function renderIsVetLanguages(props){
             props.setLanguagesConfirmation,
             'add'
         )}}
-    >
+      >
         <option value = "" disabled>Choose a language</option>
         {Array.isArray(props.listDetails[0]) &&
           props.listDetails[0].length > 0 &&

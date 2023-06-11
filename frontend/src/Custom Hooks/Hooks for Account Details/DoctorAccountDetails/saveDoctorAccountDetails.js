@@ -1,5 +1,6 @@
 import { checkIfListsAreEqual, areArraysSame, convertDateForSql} from "../../lists-and-object-checks";
 import PrivateDoctorDataService from "../../../Services/private-doctor-data-service";
+import moment from "moment"
 
 export async function saveLanguages(languageID, spokenLanguages, setSelectedLanguage, setLanguagesConfirmation, operationType){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
@@ -8,7 +9,7 @@ export async function saveLanguages(languageID, spokenLanguages, setSelectedLang
     response = await PrivateDoctorDataService.saveGeneralData(languageID, 'Language', operationType)
   }catch(error){
     setLanguagesConfirmation({messageType: 'problem'});
-    console.log('error in saving languages', error)
+    return
   }
   if(response.status === 200){
     DoctorAccountDetails[0] = spokenLanguages;
@@ -16,7 +17,6 @@ export async function saveLanguages(languageID, spokenLanguages, setSelectedLang
     setLanguagesConfirmation({messageType: 'saved'});
   }else{
     setLanguagesConfirmation({messageType: 'problem'});
-    console.log('error in saving languages in else')
   }
   setSelectedLanguage('')
 };
@@ -59,7 +59,6 @@ export async function saveServices(providedServices, setServicesConfirmation){
       }
     } catch(error) {
       setServicesConfirmation({messageType: 'problem'});
-      console.log('error in saving Services', error)
     }
   }else{
     setServicesConfirmation({messageType: 'same'});
@@ -73,7 +72,7 @@ export async function saveSpecialies(specialtyID, doctorSpecialties, setSelected
     response = await PrivateDoctorDataService.saveGeneralData(specialtyID, 'Specialty', operationType)
   }catch(error){
     setSpecialtiesConfirmation({messageType: 'problem'});
-    console.log('error in saving specialties', error)
+    return
   }
   if(response.status === 200){
     DoctorAccountDetails[2] = doctorSpecialties;
@@ -81,146 +80,103 @@ export async function saveSpecialies(specialtyID, doctorSpecialties, setSelected
     setSpecialtiesConfirmation({messageType: 'saved'});
   }else{
     setSpecialtiesConfirmation({messageType: 'problem'});
-    console.log('error in saving specialties in else')
+    return
   }
   setSelectedOrganization('');
   setSelectedSpecialties('')
 };
 
-export async function savePreVetSchool(preVetEducationObject, preVetEducation, listDetails, setPreVetEducationConfirmation, operationType){
-  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  let response;
-  try{
-    //currently converting a list of preVetEudcations, need to instead convert each of the parameter's IDs
+export async function savePreVetEducation(preVetEducationObject, preVetEducation, setPreVetEducation, listDetails, setPreVetEducationConfirmation, operationType){
+  let newPreVetEducation;
+  if (operationType === 'delete') {
+    try {
+      const response = await PrivateDoctorDataService.saveEducationData(preVetEducationObject, 'pre_vet', operationType)
+      if (response.status = 200) {
+        newPreVetEducation = preVetEducation.filter(object => object.pre_vet_education_mappingID !== preVetEducationObject);
+        setPreVetEducation(newPreVetEducation)
+      }
+      else {
+        setPreVetEducationConfirmation({messageType: 'problem'});
+        return
+      }
+    } catch (error) {
+        setPreVetEducationConfirmation({messageType: 'problem'});
+        return
+    }
+  } else if (operationType === 'add') {
     const mappedPreVetEducationObject = {
-      School_name: listDetails[3].find(school => school.School_name === preVetEducationObject.School_name)?.pre_vet_school_listID || null,
-      Major_name: listDetails[5].find(major => major.Major_name === preVetEducationObject.Major_name)?.major_listID || null,
-      Education_type: listDetails[4].find(educationType => educationType.Education_type === preVetEducationObject.Education_type)?.pre_vet_education_typeID || null,
-      Start_date: convertDateForSql(preVetEducationObject.Start_Date),
-      End_date: convertDateForSql(preVetEducationObject.End_Date)
-    };
-    response = await PrivateDoctorDataService.saveEducationData(mappedPreVetEducationObject, 'pre_vet', operationType)
-  }catch(error){
-    setPreVetEducationConfirmation({messageType: 'problem'});
-    console.log('error in saving pre-vet education', error)
+      School_ID: listDetails[3].find(school => school.School_name === preVetEducationObject.School_name)?.pre_vet_school_listID || null,
+      Major_ID: listDetails[5].find(major => major.Major_name === preVetEducationObject.Major_name)?.major_listID || null,
+      Education_type_ID: listDetails[4].find(educationType => educationType.Education_type === preVetEducationObject.Education_type)?.pre_vet_education_typeID || null,
+      Start_date: moment(preVetEducationObject.Start_Date, "MMMM D, YYYY").format("YYYY-MM-DD"),
+      End_date: moment(preVetEducationObject.End_Date, "MMMM D, YYYY").format("YYYY-MM-DD")
+    }
+    try {
+      const response = await PrivateDoctorDataService.saveEducationData(mappedPreVetEducationObject, 'pre_vet', operationType)
+      if (response.status = 200) {
+        preVetEducationObject.pre_vet_education_mappingID = JSON.stringify(response.data)
+        newPreVetEducation = [...preVetEducation, preVetEducationObject]
+        setPreVetEducation(newPreVetEducation)
+      }
+      else{
+        setPreVetEducationConfirmation({messageType: 'problem'});
+        return
+      }
+    } catch (error) {
+        setPreVetEducationConfirmation({messageType: 'problem'});
+        return
+    }
   }
-  if(response.status === 200){
-    DoctorAccountDetails[3] = preVetEducation;
-    sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-    setPreVetEducationConfirmation({messageType: 'saved'});
-  }else{
-    setPreVetEducationConfirmation({messageType: 'problem'});
-    console.log('error in saving prevet education in else')
-  }
-
-  // const savedPreVetEducations = DoctorAccountDetails?.[3] || []
-
-  // let shouldSave = false;
-
-  // if(!savedPreVetEducations.length && !preVetEducation.length) {
-  //   // Case where both arrays are empty
-  //   setPreVetEducationConfirmation({messageType: 'none'});
-  //   return;
-  // }
-
-  // if (!savedPreVetEducations || !savedPreVetEducations.length) {
-  //   // If no Location Data exists
-  //   shouldSave = !!preVetEducation.length;
-  // } else if (!areArraysSame(preVetEducation, savedPreVetEducations)) {
-  //   // Data is different
-  //   shouldSave = true;
-  // } else {
-  //   // Data is the same
-  //   setPreVetEducationConfirmation({messageType: 'same'});
-  // }
-
-  // if(shouldSave){
-  //   try {
-  //     const mappedArray = preVetEducation.map(obj => [
-  //       listDetails[3].find(school => school.School_name === obj.School_name)?.pre_vet_school_listID || null,
-  //       listDetails[5].find(major => major.Major_name === obj.Major_name)?.major_listID || null,
-  //       listDetails[4].find(educationType => educationType.Education_type === obj.Education_type)?.pre_vet_education_typeID || null,
-  //       convertDateForSql(obj.Start_Date),
-  //       convertDateForSql(obj.End_Date)
-  //     ]);
-  //     const response = await PrivateDoctorDataService.saveEducationData(mappedArray, 'pre_vet', operationType)
-  //     if(response.status === 200){
-  //       DoctorAccountDetails[3] = preVetEducation;
-  //       sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-  //       setPreVetEducationConfirmation({messageType: 'saved'});
-  //     }
-  //   } catch(error) {
-  //     setPreVetEducationConfirmation({messageType: 'problem'});
-  //     console.log('error in saving PreVets', error)
-  //   }
-  // }else{
-  //   setPreVetEducationConfirmation({messageType: 'same'});
-  // }
+  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
+  DoctorAccountDetails[3] = newPreVetEducation;
+  sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+  setPreVetEducationConfirmation({messageType: 'saved'});
 };
 
-export async function saveVetSchool(vetEducation, listDetails, setVetEducationConfirmation, operationType){
+export async function saveVetEducation(vetEducationObject, vetEducation, setVetEducation, listDetails, setVetEducationConfirmation, operationType){
+  let newVetEducation;
+  if (operationType === 'delete') {
+    try {
+      const response = await PrivateDoctorDataService.saveEducationData(vetEducationObject, 'vet', operationType)
+      if (response.status = 200) {
+        newVetEducation = vetEducation.filter(object => object.vet_education_mappingID !== vetEducationObject);
+        setVetEducation(newVetEducation)
+      }
+      else {
+        setVetEducationConfirmation({messageType: 'problem'});
+        return
+      }
+    } catch (error) {
+        setVetEducationConfirmation({messageType: 'problem'});
+        return
+    }
+  } else if (operationType === 'add') {
+    const mappedVetEducationObject = {
+      School_ID: listDetails[6].find(school => school.School_name === vetEducationObject.School_name)?.vet_school_listID || null,
+      Education_type_ID: listDetails[7].find(educationType => educationType.Education_Type === vetEducationObject.Education_Type)?.vet_education_typeID || null,
+      Start_date: moment(vetEducationObject.Start_Date, "MMMM D, YYYY").format("YYYY-MM-DD"),
+      End_date: moment(vetEducationObject.End_Date, "MMMM D, YYYY").format("YYYY-MM-DD")
+    };
+    try {
+      const response = await PrivateDoctorDataService.saveEducationData(mappedVetEducationObject, 'vet', operationType)
+      if (response.status = 200) {
+        vetEducationObject.vet_education_mappingID = JSON.stringify(response.data)
+        newVetEducation = [...vetEducation, vetEducationObject]
+        setVetEducation(newVetEducation)
+      }
+      else {
+        setVetEducationConfirmation({messageType: 'problem'});
+        return
+      }
+    } catch (error) {
+        setVetEducationConfirmation({messageType: 'problem'});
+        return
+    }
+  }
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  let response;
-  try {
-    const mappedArray = vetEducation.map(obj => [
-      listDetails[6].find(school => school.School_name === obj.School_name)?.vet_school_listID || null,
-      listDetails[7].find(educationType => educationType.Education_Type === obj.Education_Type)?.vet_education_typeID || null,
-      convertDateForSql(obj.Start_Date),
-      convertDateForSql(obj.End_Date)
-    ]);
-    response = await PrivateDoctorDataService.saveEducationData(mappedArray, 'vet', operationType)
-  } catch(error) {
-    setVetEducationConfirmation({messageType: 'problem'});
-    console.log('error in saving education', error)
-  }
-  if(response.status === 200){
-    DoctorAccountDetails[4] = vetEducation;
-    sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-    setVetEducationConfirmation({messageType: 'saved'});
-  }else{
-    setVetEducationConfirmation({messageType: 'problem'});
-    console.log('error in saving education in else')
-  }
-
-  // const savedVetEducations = DoctorAccountDetails?.[4] || []
-
-  // let shouldSave = false;
-
-  // if(!savedVetEducations.length && !vetEducation.length) {
-  //   // Case where both arrays are empty
-  //   setVetEducationConfirmation({messageType: 'none'});
-  //   return;
-  // }
-
-  // if (!savedVetEducations || !savedVetEducations.length) {
-  //   shouldSave = !!vetEducation.length;
-  // } else if (!areArraysSame(vetEducation, savedVetEducations)) {
-  //   shouldSave = true;
-  // } else {
-  //   setVetEducationConfirmation({messageType: 'same'});
-  // }
-
-  // if(shouldSave){//only saves if the educations changed
-  //   try {
-  //     const mappedArray = vetEducation.map(obj => [
-  //       listDetails[6].find(school => school.School_name === obj.School_name)?.vet_school_listID || null,
-  //       listDetails[7].find(educationType => educationType.Education_Type === obj.Education_Type)?.vet_education_typeID || null,
-  //       convertDateForSql(obj.Start_Date),
-  //       convertDateForSql(obj.End_Date)
-  //     ]);
-  //     const response = await PrivateDoctorDataService.saveEducationData(mappedArray, 'vet', operationType)
-  //     if(response.status === 200){
-  //       DoctorAccountDetails[4] = vetEducation;
-  //       sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-  //       setVetEducationConfirmation({messageType: 'saved'});
-  //     }
-  //   } catch(error) {
-  //     setVetEducationConfirmation({messageType: 'problem'});
-  //     console.log('error in saving education', error)
-  //   }
-  // }else{
-  //   setVetEducationConfirmation({messageType: 'same'});
-  // }
+  DoctorAccountDetails[4] = newVetEducation;
+  sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+  setVetEducationConfirmation({ messageType: 'saved' });
 };
 
 export async function saveLocation (addresses, setAddresses, setAddressesConfirmation){
@@ -263,7 +219,6 @@ export async function saveLocation (addresses, setAddresses, setAddressesConfirm
       }
     } catch (error) {
       setAddressesConfirmation({messageType: 'problem'});
-      console.log('error in saveLocation', error);
     }
   }else{
     setAddressesConfirmation({messageType: 'same'});
@@ -300,7 +255,6 @@ export async function saveDescription(description, setDescriptionConfirmation){
       }
     } catch(error) {
       setDescriptionConfirmation({messageType: 'problem'});
-      console.log('error in saveDescription', error)
     }
   }else{
     setDescriptionConfirmation({messageType: 'same'});
@@ -339,7 +293,6 @@ export async function savePets(servicedPets, setPetsConfirmation){
       }
     } catch(error) {
       setPetsConfirmation({messageType: 'problem'});
-      console.log('error in saving pets', error)
     }
   }else{
     setPetsConfirmation({messageType: 'same'});
@@ -358,6 +311,5 @@ export async function handlePublicAvailibilityToggle (value, setPubliclyAvailabl
     }
   }catch(error){
     setPubliclyAvailableConfirmation({messageType: 'problem'});
-    console.log('error in handlePublicAvailibilityToggle', error)
   }
 };

@@ -2,8 +2,7 @@ import React from "react";
 import { Card, Button } from "react-bootstrap";
 import EducationTime from "./education-time";
 import { handleAddVetEducation } from "../../../Custom Hooks/Hooks for Account Details/add";
-import { handleDeleteVetEducation } from "../../../Custom Hooks/Hooks for Account Details/delete";
-import { saveVetSchool } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails";
+import { saveVetEducation } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails";
 
 export default function RenderVetEducationSection (props){
   return(
@@ -63,7 +62,8 @@ function renderIsVetEducation(props){
                 setTimeState = {props.setTimeState}
                   /> }
                 {allChoicesFilled && (
-                  <Button onClick={() => handleAddVetEducation(
+                  <Button onClick = {() => {
+                    const selectedEducationObj = handleAddVetEducation(
                     props.selectedVetSchool,
                     props.setSelectedVetSchool, 
                     props.selectedVetEducationType, 
@@ -72,7 +72,16 @@ function renderIsVetEducation(props){
                     props.setVetEducation,
                     props.timeState,
                     props.setTimeState
-                    )}>Add</Button>
+                    )
+                    saveVetEducation (
+                      selectedEducationObj,
+                      props.vetEducation,
+                      props.setVetEducation,
+                      props.listDetails,
+                      props.setVetEducationConfirmation,
+                      'add'
+                    )
+                  }}>Add</Button>
                 )}
                 </>
               )}
@@ -80,16 +89,19 @@ function renderIsVetEducation(props){
           {props.vetEducation.map((vet_education) => (
             <li key={vet_education.vet_education_mappingID}>
               {vet_education.School_name}, {vet_education.Education_type}{": "}{vet_education.Start_Date} --- {vet_education.End_Date} 
-              <Button onClick={() => handleDeleteVetEducation(vet_education, props.vetEducation, props.setVetEducation)}>X</Button>
+              <Button onClick={() => 
+                saveVetEducation(
+                  vet_education.vet_education_mappingID,
+                  props.vetEducation, 
+                  props.setVetEducation,
+                  props.listDetails,
+                  props.setVetEducationConfirmation,
+                  'delete'
+                )}>X</Button>
             </li>
           ))}
         </ul>
-        <Button 
-          variant="success" 
-          onClick={()=>saveVetSchool(props.vetEducation, props.listDetails, props.setVetEducationConfirmation)}
-          >
-            Save</Button>
-            <span className={`fade ${props.vetEducationConfirmation.messageType ? 'show' : ''}`}>
+          <span className={`fade ${props.vetEducationConfirmation.messageType ? 'show' : ''}`}>
             {props.vetEducationConfirmation.messageType === 'saved' && 'Vet Education saved!'}
             {props.vetEducationConfirmation.messageType === 'same' && 'Same Vet Education data!'}
             {props.vetEducationConfirmation.messageType === 'problem' && 'Problem Saving Vet Education!'}

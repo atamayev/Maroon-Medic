@@ -1,5 +1,4 @@
-import { isObjectsEqual } from "../lists-and-object-checks";
-import { saveLanguages, savePreVetSchool, saveSpecialies, saveVetSchool } from "./DoctorAccountDetails/saveDoctorAccountDetails";
+import { saveLanguages, saveSpecialies } from "./DoctorAccountDetails/saveDoctorAccountDetails";
 
 export const handleDeleteInsurance = (insuranceToDelete, acceptedInsurances, setAcceptedInsurances) => {
     setAcceptedInsurances(acceptedInsurances.filter(insurance => insurance.insurance_listID !== insuranceToDelete.insurance_listID));
@@ -23,16 +22,6 @@ export const handleDeleteSpecialty = (specialty, doctorSpecialties, setDoctorSpe
     const newDoctorSpecialties = doctorSpecialties.filter(s => s !== specialty);
     setDoctorSpecialties(newDoctorSpecialties);
     saveSpecialies(specialty.specialties_listID, newDoctorSpecialties, setSelectedSpecialties, setSelectedOrganization, setSpecialtiesConfirmation, 'delete');
-};
-
-export const handleDeletePreVetEducation = (preVetEducationObject, preVetEducation, setPreVetEducation, listDetails, setPreVetEducationConfirmation) => {
-    setPreVetEducation(preVetEducation.filter(obj => !isObjectsEqual(obj, preVetEducationObject)));
-    savePreVetSchool(preVetEducationObject, preVetEducation, listDetails, setPreVetEducationConfirmation, 'delete')
-};
-
-export const handleDeleteVetEducation = (vetEducationObject, vetEducation, setVetEducation, listDetails, setVetEducationConfirmation) => {
-    setVetEducation(vetEducation.filter(obj => !isObjectsEqual(obj, vetEducationObject)));
-    saveVetSchool(vetEducationObject, listDetails, setVetEducationConfirmation, 'delete')
 };
 
 export const handleDeleteAccordion = (address_priority, addresses, setAddresses) => {

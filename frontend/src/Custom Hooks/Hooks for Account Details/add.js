@@ -74,6 +74,7 @@ export const handleAddPreVetEducation = (
     startYear: currentYear, 
     endYear: currentYear,
   });
+  return selectedEducationObj
 };
 
 export const handleAddVetEducation = (
@@ -109,6 +110,7 @@ export const handleAddVetEducation = (
     startYear: currentYear, 
     endYear: currentYear,
   });
+  return selectedEducationObj
 };
 
 export const handleAddAccordion = (addresses, setAddresses) => {

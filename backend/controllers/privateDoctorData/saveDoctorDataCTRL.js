@@ -284,45 +284,43 @@ export async function saveEducationData (req, res){
     const EducationType = req.body.EducationType;//'pre_vet' or 'vet'
     const operationType = req.body.operationType;
 
-    console.log(EducationData);
-    return;
-
+    console.log('EducationData', EducationData)
     const table_name = `${EducationType}_education_mapping`;
     let sql;
     let values;
 
     await DB_Operation(saveEducationData.name, table_name);
-    if(operationType === 'add'){
-        if(EducationType === 'pre_vet'){
+    if (operationType === 'add') {
+        if (EducationType === 'pre_vet') {
             sql = `INSERT INTO ${table_name} (School_ID, Major_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?,?,?,?,?,?)`;
-            values = [EducationData[0], EducationData[1], EducationData[2], EducationData[3], EducationData[4], DoctorID];    
-        }else if (EducationType === 'vet'){
+            values = [EducationData.School_ID, EducationData.Major_ID, EducationData.Education_type_ID, EducationData.Start_date, EducationData.End_date, DoctorID];    
+        } else if (EducationType === 'vet') {
             sql = `INSERT INTO ${table_name} (School_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?,?,?,?,?)`;
-            values = [EducationData[0], EducationData[1], EducationData[2], EducationData[3], DoctorID];    
-        }else{
+            values = [EducationData.School_ID, EducationData.Education_type_ID, EducationData.Start_date, EducationData.End_date, DoctorID];    
+        } else {
             console.log(`Education_type not defined ${saveEducationData.name}`);
             return res.status(400).json();
         }
-    }else if (operationType === 'delete'){
-        if(EducationType === 'pre_vet'){
-            sql = `DELETE FROM ${table_name} WHERE School_ID = ? AND Major_ID = ? AND Education_type_ID = ? AND Doctor_ID = ?`;
-            values = [EducationData[0], EducationData[1], EducationData[2], DoctorID];
-        }else if (EducationType === 'vet'){
-            sql = `DELETE FROM ${table_name} WHERE School_ID = ? AND Education_type_ID = ? AND Doctor_ID = ?`;
-            values = [EducationData[0], EducationData[1], DoctorID];
-        }else{
+    }else if (operationType === 'delete') {
+        if (EducationType === 'pre_vet'){
+            sql = `DELETE FROM ${table_name} WHERE pre_vet_education_mappingID = ?`;
+            values = [EducationData];
+        } else if (EducationType === 'vet') {
+            sql = `DELETE FROM ${table_name} WHERE vet_education_mappingID = ?`;
+            values = [EducationData];
+        } else {
             console.log(`Education_type not defined ${saveEducationData.name}`);
             return res.status(400).json();
         }
-    }else{
+    } else {
         console.log('incorrect operation Type');
         return res.status(400).json();
     }
     
-    try{
-        await connection.execute(sql, values);
-        return res.status(200).json();
-    }catch(error){
+    try {
+        const [response] = await connection.execute(sql, values);
+        return res.status(200).json(response.insertId);
+    } catch (error) {
         console.log(`error in if ${saveEducationData.name}:`, error);
         return res.status(400).json();
     }    
