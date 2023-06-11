@@ -1,5 +1,4 @@
-import { isObjectInArray } from "../lists-and-object-checks";
-import { saveLanguages } from "./DoctorAccountDetails/saveDoctorAccountDetails";
+import { savePets } from "./DoctorAccountDetails/saveDoctorAccountDetails";
 
 export const handleAddInsurance = (selectedInsurance, acceptedInsurances, setAcceptedInsurances) => {
   if(selectedInsurance){
@@ -14,15 +13,6 @@ export const handleAddService = (selectedService, providedServices, setProvidedS
     if(!providedServices.some(service => service.service_and_category_listID === selectedService.service_and_category_listID)){
       const updatedService = {...selectedService, Service_price: null, Service_time: null}
       setProvidedServices([...providedServices, updatedService]);
-    }
-  }
-};
-
-export const handleAddPet = (selectedPet, servicedPets, setServicedPets) => {
-  if(selectedPet){
-    if(!servicedPets.some(pet => pet.pet_listID === selectedPet.pet_listID)){
-      const updatedPet = {...selectedPet}
-      setServicedPets([...servicedPets, updatedPet]);
     }
   }
 };

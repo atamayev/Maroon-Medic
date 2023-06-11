@@ -261,41 +261,22 @@ export async function saveDescription(description, setDescriptionConfirmation){
   }
 };
 
-export async function savePets(servicedPets, setPetsConfirmation){
+export async function savePets(petID, servicedPets, setPetsConfirmation, operationType){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  const savedPets = DoctorAccountDetails?.[7] || []
-  const savedPetsIDs = savedPets.map(pet => pet.pet_listID).sort((a,b)=>a-b);
-  const petIds = servicedPets.map(pet => pet.pet_listID).sort((a,b)=>a-b); // servicedPets are those that are on server side. state changes when languages added/deleted
-
-  let shouldSave = false;
-
-  if(!savedPetsIDs.length && !petIds.length) {
-    // Case where both arrays are empty
-    setPetsConfirmation({messageType: 'none'});
-    return;
+  let response;
+  try{
+    response = await PrivateDoctorDataService.saveGeneralData(petID, 'pet', operationType)
+  }catch(error){
+    setPetsConfirmation({messageType: 'problem'});
+    return
   }
-
-  if(!savedPetsIDs.length || !savedPetsIDs){
-    shouldSave = !!petIds.length
-  }else if((!checkIfListsAreEqual(petIds, savedPetsIDs))){
-    shouldSave = true;
+  if(response.status === 200){
+    DoctorAccountDetails[7] = servicedPets;
+    sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
+    setPetsConfirmation({messageType: 'saved'});
+    return ('saved')
   }else{
-    setPetsConfirmation({messageType: 'same'});
-  }
-
-  if(shouldSave){//checks if they are the same
-    try {
-      const response = await PrivateDoctorDataService.saveGeneralData(petIds, 'pet')
-      if(response.status === 200){
-        DoctorAccountDetails[7] = servicedPets;
-        sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-        setPetsConfirmation({messageType: 'saved'});
-      }
-    } catch(error) {
-      setPetsConfirmation({messageType: 'problem'});
-    }
-  }else{
-    setPetsConfirmation({messageType: 'same'});
+    setPetsConfirmation({messageType: 'problem'});
   }
 };
 

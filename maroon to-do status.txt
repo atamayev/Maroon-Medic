@@ -2,6 +2,9 @@ To-do:
 
 
 ASAP:
+
+- consider returning the petMapping ID to the client after adding pet data, to simplify deleting
+
 -work on simplifying the add commands within the language, specialty components (within the jsx), etc.
 
 fix the 'select' attribute on the add my pet

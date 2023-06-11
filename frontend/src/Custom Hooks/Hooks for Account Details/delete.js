@@ -1,4 +1,4 @@
-import { saveLanguages, saveSpecialies } from "./DoctorAccountDetails/saveDoctorAccountDetails";
+import { saveLanguages, savePets, saveSpecialies } from "./DoctorAccountDetails/saveDoctorAccountDetails";
 
 export const handleDeleteInsurance = (insuranceToDelete, acceptedInsurances, setAcceptedInsurances) => {
     setAcceptedInsurances(acceptedInsurances.filter(insurance => insurance.insurance_listID !== insuranceToDelete.insurance_listID));
@@ -6,10 +6,6 @@ export const handleDeleteInsurance = (insuranceToDelete, acceptedInsurances, set
 
 export const handleDeleteService = (serviceToDelete, selectedServices, setSelectedServices) => {
     setSelectedServices(selectedServices.filter(service => service.service_and_category_listID !== serviceToDelete.service_and_category_listID));
-};
-
-export const handleDeletePet = (petToDelete, selectedPets, setSelectedPets) => {
-    setSelectedPets(selectedPets.filter(pet => pet.pet_listID !== petToDelete.pet_listID));
 };
 
 export const handleDeleteLanguage = (language, spokenLanguages, setSpokenLanguages, setSelectedLanguage, setLanguagesConfirmation) => {

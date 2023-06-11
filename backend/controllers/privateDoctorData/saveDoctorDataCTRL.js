@@ -107,7 +107,7 @@ export async function saveDescriptionData (req, res){
     }
 };
 
-/** saveGeneralData saves either Language, or Specialty Data
+/** saveGeneralData saves either Language, Pet, or Specialty Data
  *  First, converts from DoctorUUID to DoctorID. Then, performs operations depending on the operationType
  *  Need to set the userID or DoctorID because Languages are used by both Doctors and Patients (and the foreign key is thus User_ID)
  *  The mapping file is chosen based on the DataType (can either be Specialty, or Language)

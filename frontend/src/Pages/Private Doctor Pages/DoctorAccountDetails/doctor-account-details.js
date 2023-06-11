@@ -72,7 +72,6 @@ export default function DoctorAccountDetails() {
   const [descriptionConfirmation, setDescriptionConfirmation] = useConfirmationMessage();
 
   const [servicedPets, setServicedPets] = useState(DoctorAccountDetails?.[7] || []);
-  const [selectedPetTypes, setSelectedPetTypes] = useState([]);
   const [expandedPetTypes, setExpandedPetTypes] = useState([]);
   const [petsConfirmation, setPetsConfirmation] = useConfirmationMessage();
 
@@ -213,8 +212,6 @@ export default function DoctorAccountDetails() {
         listDetails = {listDetails}
         servicedPets = {servicedPets}
         setServicedPets = {setServicedPets}
-        selectedPetTypes = {selectedPetTypes}
-        setSelectedPetTypes = {setSelectedPetTypes}
         expandedPetTypes = {expandedPetTypes}
         setExpandedPetTypes = {setExpandedPetTypes}
         petsConfirmation = {petsConfirmation}
