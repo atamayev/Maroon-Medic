@@ -85,7 +85,7 @@ export async function saveGeneralData (req, res){
             console.log(`error in if ${saveGeneralData.name}:`, error);
             return res.status(400).json();
         }
-    }else if (operationType = 'delete'){
+    }else if (operationType === 'delete'){
         const sql = `DELETE FROM ${table_name} WHERE ${DataType}_ID = ? AND User_ID = ?`;
         const values = [patientData, PatientID];
         try{
@@ -113,11 +113,12 @@ export async function savePetData (req, res){
     const PatientID = await UUID_to_ID(PatientUUID); // converts PatientUUID to docid
     const PetData = req.body.PetData
     const operationType = req.body.operationType;//adding, deleting, updating
-    console.log(PetData)
 
     const pet_info = `pet_info`;
+    
+    await DB_Operation(savePetData.name, pet_info);
 
-    if(operationType === 'add'){
+    if (operationType === 'add') {
         const sql = `INSERT INTO ${pet_info} (Name, Gender, DOB, Patient_ID, pet_ID, isActive) VALUES (?, ?, ?, ?, ?, ?)`;
         const values = [PetData.Name, PetData.Gender, PetData.DOB, PatientID, PetData.pet_listID, 1];
         try{
@@ -128,17 +129,7 @@ export async function savePetData (req, res){
             console.log(`error in if ${savePetData.name}:`, error);
             return res.status(400).json();
         }
-    }else if (operationType === 'update'){
-        const sql = `UPDATE ${pet_info} SET Name = ?, Gender = ?, DOB = ?, pet_ID = ? WHERE pet_infoID = ?`;
-        const values = [PetData.Name, PetData.Gender, PetData.DOB, PetData.pet_listID, PetData.pet_infoID];
-        try{
-            await connection.execute(sql, values);
-            return res.status(200).json();
-        }catch(error){
-            console.log(`error in if ${savePetData.name}:`, error);
-            return res.status(400).json();
-        }
-    }else if (operationType === 'delete'){
+    } else if (operationType === 'delete') {
         const sql = `UPDATE ${pet_info} SET isActive = 0 WHERE pet_infoID = ?`;
         const values = [PetData];
         try{
@@ -148,7 +139,7 @@ export async function savePetData (req, res){
             console.log(`error in if ${savePetData.name}:`, error);
             return res.status(400).json();
         }
-    }else{
+    } else {
         console.log('incorrect operation Type');
         return res.status(400).json();
     }

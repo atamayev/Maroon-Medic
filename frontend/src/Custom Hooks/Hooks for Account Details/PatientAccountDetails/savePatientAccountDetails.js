@@ -40,41 +40,20 @@ export async function saveInsurances(acceptedInsurances, setInsurancesConfirmati
   }
 };
 
-export async function saveLanguages(spokenLanguages, setLanguagesConfirmation){
+export async function savePatientLanguages(languageID, spokenLanguages, setLanguagesConfirmation, operationType){
   const PatientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails"));
-  const savedLanguages = PatientAccountDetails?.[1] || []
-  const savedLanguagesIDs = savedLanguages.map(language => language.language_listID).sort((a,b)=>a-b);
-  const languageIds = spokenLanguages.map(lang => lang.language_listID).sort((a,b)=>a-b); // spoken languages are those that are on server side. state changes when languages added/deleted
-
-  let shouldSave = false;
-
-  if(!savedLanguagesIDs.length && !languageIds.length) {
-    // Case where both arrays are empty
-    setLanguagesConfirmation({messageType: 'none'});
-    return;
+  let response;
+  try{
+    response = await PrivatePatientDataService.saveGeneralData(languageID, 'Language', operationType)
+  }catch(error){
+    setLanguagesConfirmation({messageType: 'problem'});
+    return
   }
-
-  if(!savedLanguagesIDs.length || !savedLanguagesIDs){
-    shouldSave = !!languageIds.length
-  }else if((!checkIfListsAreEqual(languageIds, savedLanguagesIDs))){
-    shouldSave = true;
+  if(response.status === 200){
+    PatientAccountDetails[1] = spokenLanguages;
+    sessionStorage.setItem("PatientAccountDetails", JSON.stringify(PatientAccountDetails));
+    setLanguagesConfirmation({messageType: 'saved'});
   }else{
-    setLanguagesConfirmation({messageType: 'same'});
-  }
-
-  if(shouldSave){//checks if they are the same
-    try {
-      const response = await PrivatePatientDataService.saveGeneralData(languageIds, 'Language')
-      if(response.status === 200){
-        PatientAccountDetails[1] = spokenLanguages;
-        sessionStorage.setItem("PatientAccountDetails", JSON.stringify(PatientAccountDetails));
-        setLanguagesConfirmation({messageType: 'saved'});
-      }
-    } catch(error) {
-      setLanguagesConfirmation({messageType: 'problem'});
-      console.log('error in saving languages', error)
-    }
-  }else{
-    setLanguagesConfirmation({messageType: 'same'});
+    setLanguagesConfirmation({messageType: 'problem'});
   }
 };

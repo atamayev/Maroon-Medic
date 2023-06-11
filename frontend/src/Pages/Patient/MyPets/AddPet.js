@@ -8,12 +8,14 @@ const AddPet = (props) => {
     let value = event.target.value;
   
     if(event.target.name === "petType") {
-      let parsedValue = JSON.parse(value);
-      let newPet = { 
+      // Find the selected pet type by its ID
+      let selectedPetType = props.petTypes.find(petType => petType.pet_listID === JSON.parse(value));
+      let newPet = {
         ...props.newPetData, 
-        petType: parsedValue.petType, 
-        pet_listID: parsedValue.pet_listID 
+        petType: selectedPetType.Pet, 
+        pet_listID: selectedPetType.pet_listID 
       };
+  
       props.setNewPetData(newPet);
     } else {
       let newPet = { ...props.newPetData, [event.target.name]: value };
@@ -75,34 +77,27 @@ const AddPet = (props) => {
               name="DOB"
             />
               
-            <Form.Group id="formPetType">
-              <Form.Label>Type</Form.Label>
-              <Form.Control
-                as="select"
-                value={JSON.stringify({
-                  pet_listID: props.newPetData?.pet_listID,
-                  petType: props.newPetData?.petType
-                })}
-                onChange={handleInputChange}
-                name="petType"
-                required
-              >
-                <option value="" disabled>
-                  Select
-                </option>
-                {props.petTypes.map((petType, index) => (
-                  <option
-                    key={index}
-                    value={JSON.stringify({
-                      pet_listID: petType.pet_listID,
-                      petType: petType.Pet
-                    })}
-                  >
-                    {petType.Pet}
-                  </option>
-                ))}
-              </Form.Control>
-            </Form.Group>
+              <Form.Group id="formPetType">
+                <Form.Label>Type of Pet</Form.Label>
+                <Form.Control
+                  as="select"
+                  defaultValue={""}
+                  onChange={handleInputChange}
+                  name="petType"
+                  required
+                >
+                  <option value="" disabled>Select</option>
+                  {props.petTypes.map((petType, index) => (
+                    <option
+                      key={index}
+                      value={petType.pet_listID}
+                    >
+                      {petType.Pet}
+                    </option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
+
 
               Upload image area <br/>
 

@@ -156,7 +156,7 @@ export async function saveGeneralData (req, res){
             return res.status(400).json();
         }
     }else{
-        console.log('incorrect operation Type');
+        console.log(`incorrect operation Type, received: ${operationType}`);
         return res.status(400).json();
     }
 };

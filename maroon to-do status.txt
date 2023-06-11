@@ -3,15 +3,9 @@ To-do:
 
 ASAP:
 
-fix the 'select' attribute on the add my pet
-
--save languages in savePatietnAccoutDetails
+instead of just deleting a pet, need to first confirm with the user (don't delete right after hitting the X)
 
 -add insurances on the add pets level. (delete insurance mapping table, add insurance ID to the pet_info_table)
-
-updating pet data has not been tested/implemented
-
-instead of just deleting a pet, need to first confirm with the user (don't delete right after hitting the X)
 
 Make saving automatic for all fields. As soon as user changes something, it saves. Requires major change to back-end, and front-end save functionality.
 	After doing this, go through all DoctorAccountDetails files, and make sure there are no unused/unnecsisarily imported files

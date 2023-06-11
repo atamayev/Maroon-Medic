@@ -32,7 +32,6 @@ export default function PatientAccountDetails() {
   const [acceptedInsurances, setAcceptedInsurances] = useState(PatientAccountDetails?.[0] || []);
   const [insurancesConfirmation, setInsurancesConfirmation] = useConfirmationMessage();
 
-  const [selectedLanguage, setSelectedLanguage] = useState('');
   const [spokenLanguages, setSpokenLanguages] = useState(PatientAccountDetails?.[1] || []);
   const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage();
 
@@ -100,17 +99,13 @@ export default function PatientAccountDetails() {
         insurancesConfirmation = {insurancesConfirmation}
         setInsurancesConfirmation = {setInsurancesConfirmation}
       />
-
       <RenderLanguageSection
         listDetails = {listDetails}
-        selectedLanguage = {selectedLanguage}
-        setSelectedLanguage = {setSelectedLanguage}
         spokenLanguages = {spokenLanguages}
         setSpokenLanguages = {setSpokenLanguages}
         languagesConfirmation = {languagesConfirmation}
         setLanguagesConfirmation = {setLanguagesConfirmation}
       />
-
     </div>
     )
 }

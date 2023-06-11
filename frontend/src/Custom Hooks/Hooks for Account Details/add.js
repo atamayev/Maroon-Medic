@@ -1,4 +1,5 @@
-import { saveLanguages, saveSpecialies } from "./DoctorAccountDetails/saveDoctorAccountDetails";
+import { saveDoctorLanguages, saveSpecialies } from "./DoctorAccountDetails/saveDoctorAccountDetails";
+import { savePatientLanguages } from "./PatientAccountDetails/savePatientAccountDetails";
 
 export const handleAddInsurance = (selectedInsurance, acceptedInsurances, setAcceptedInsurances) => {
   if(selectedInsurance){
@@ -17,11 +18,13 @@ export const handleAddService = (selectedService, providedServices, setProvidedS
   }
 };
 
-export const handleAddLanguage = (selectedLanguageID, spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation) => {
-  const selectedLanguage = listDetails[0].find((lang) => lang.language_listID === JSON.parse(selectedLanguageID));
+export const handleAddLanguage = (selectedLanguageID, spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, doctorOrPatient) => {
+  const selectedLanguage = listDetails[1].find((lang) => lang.language_listID === JSON.parse(selectedLanguageID));
   const newSpokenLanguages = [...spokenLanguages, selectedLanguage];
   setSpokenLanguages(newSpokenLanguages);
-  saveLanguages(selectedLanguageID, newSpokenLanguages, setLanguagesConfirmation, 'add')
+  if (doctorOrPatient === 'doctor') saveDoctorLanguages(selectedLanguageID, newSpokenLanguages, setLanguagesConfirmation, 'add')
+  else if (doctorOrPatient === 'patient') savePatientLanguages(selectedLanguageID, newSpokenLanguages, setLanguagesConfirmation, 'add')
+  
 };
 
 export const handleAddSpecialty = (selectedSpecialtyID, doctorSpecialties, setDoctorSpecialties, setSelectedOrganization, listDetails, setSpecialtiesConfirmation) => {

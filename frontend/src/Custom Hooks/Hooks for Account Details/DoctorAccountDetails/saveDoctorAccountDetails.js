@@ -2,7 +2,7 @@ import { checkIfListsAreEqual, areArraysSame} from "../../lists-and-object-check
 import PrivateDoctorDataService from "../../../Services/private-doctor-data-service";
 import moment from "moment"
 
-export async function saveLanguages(languageID, spokenLanguages, setLanguagesConfirmation, operationType){
+export async function saveDoctorLanguages(languageID, spokenLanguages, setLanguagesConfirmation, operationType){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   let response;
   try{

@@ -220,7 +220,7 @@ export async function fetchAccountDetails (req, res){
         return res.status(400).json([]);
     }
 };
- 
+
 /** Returns a list of insurances and languages
  * @param {} req 
  * @param {Array} res Array of 2 Arrays: Insurances, Languages

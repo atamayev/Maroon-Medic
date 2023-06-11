@@ -2,8 +2,6 @@ import React from "react";
 import { Card, Button} from "react-bootstrap";
 import { handleAddLanguage } from "../../../Custom Hooks/Hooks for Account Details/add";
 import { handleDeleteLanguage } from "../../../Custom Hooks/Hooks for Account Details/delete";
-import { saveLanguages } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails";
-import { handleLanguageChange } from "../../../Custom Hooks/Hooks for Account Details/select";
 
 export default function RenderLanguageSection(props){
   return(
@@ -31,7 +29,8 @@ function renderIsVetLanguages(props){
             props.spokenLanguages,
             props.setSpokenLanguages,
             props.listDetails,
-            props.setLanguagesConfirmation
+            props.setLanguagesConfirmation,
+            'doctor'
           )
         }
       >
@@ -46,7 +45,6 @@ function renderIsVetLanguages(props){
               </option>
             ))}
       </select>
-
       <ul>
         {Array.isArray(props.spokenLanguages) &&
           props.spokenLanguages.map((language) => (
@@ -58,7 +56,8 @@ function renderIsVetLanguages(props){
                     language, 
                     props.spokenLanguages, 
                     props.setSpokenLanguages, 
-                    props.setLanguagesConfirmation
+                    props.setLanguagesConfirmation,
+                    'doctor'
                   )}
               >X</Button>
             </li>
