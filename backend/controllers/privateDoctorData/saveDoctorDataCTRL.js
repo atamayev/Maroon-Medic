@@ -284,7 +284,6 @@ export async function saveEducationData (req, res){
     const EducationType = req.body.EducationType;//'pre_vet' or 'vet'
     const operationType = req.body.operationType;
 
-    console.log('EducationData', EducationData)
     const table_name = `${EducationType}_education_mapping`;
     let sql;
     let values;

@@ -14,7 +14,7 @@ async function fetchPatientDashboardData(setDashboardData){
     if (response){
       setDashboardData(response.data);
       sessionStorage.setItem("PatientDashboardData", JSON.stringify(response.data))
-    }else{
+    } else {
       console.log('no response')
     }
   }catch(error){
@@ -83,11 +83,7 @@ export default function PatientDashboard() {
     }
   }, [dashboardData]);
 
-  if(user_type !== 'Patient'){
-    return(
-      <NonPatientAccess/>
-    )
-  }
+  if(user_type !== 'Patient') return <NonPatientAccess/>
 
   const AppointmentCard = ({appointment, index}) =>{
     return(
@@ -98,12 +94,12 @@ export default function PatientDashboard() {
               Appointment with Dr. {appointment.Doctor_FirstName} {appointment.Doctor_LastName} on {appointment.appointment_date}
               {appointment.Doctor_confirmation_status === 0 ? (
                 <OverlayTrigger
-                    placement="top"
-                    overlay={<Tooltip id={`tooltip-top`}>Dr. {appointment.Doctor_FirstName} has not yet approved your appointment.</Tooltip>}
+                  placement="top"
+                  overlay={<Tooltip id={`tooltip-top`}>Dr. {appointment.Doctor_FirstName} has not yet approved your appointment.</Tooltip>}
                 >
-                    <Badge pill style={{ position: 'absolute', top: '10px', right: '10px', border: '2px solid yellow' }}>
-                        Pending approval
-                    </Badge>
+                  <Badge pill style={{ position: 'absolute', top: '10px', right: '10px', border: '2px solid yellow' }}>
+                    Pending approval
+                  </Badge>
                 </OverlayTrigger>
               ) : (
                 <OverlayTrigger
@@ -122,83 +118,69 @@ export default function PatientDashboard() {
     )
   };
 
-  const renderUpcomingAppointments = (upcomingAppointments) =>{
-    if (upcomingAppointments.length){
-      return(
-        <>
-          {upcomingAppointments.map((appointment, index) => (
-            <AppointmentCard key={index} appointment={appointment} index={index} />
-          ))}
-        </>
-      )
-    }else{
-      return(
-        <>
-          No upcoming appointments
-        </>
-      )
-    }
+  const renderUpcomingAppointments = (upcomingAppointments) => {
+    if (!upcomingAppointments.length) return <>No upcoming appointments</>
+    return (
+      <>
+        {upcomingAppointments.map((appointment, index) => (
+          <AppointmentCard key={index} appointment={appointment} index={index} />
+        ))}
+      </>
+    )
   }
 
-  const renderPastAppointments = (pastAppointments) =>{
-    if (pastAppointments.length){
-      return(
-        <>
-          {pastAppointments.map((appointment, index) => (
-            <AppointmentCard key={index} appointment={appointment} index={index} />
-          ))}
-        </>
-      )
-    }else{
-      return(
-        <>
-          No past appointments
-        </>
-      )
-    }
+  const renderPastAppointments = (pastAppointments) => {
+    if (!pastAppointments.length) return <>No past appointments</>
+    return (
+      <>
+        {pastAppointments.map((appointment, index) => (
+          <AppointmentCard key={index} appointment={appointment} index={index} />
+        ))}
+      </>
+    )
   }
 
   const renderDashboardData = () => {
-    if (dashboardData.length) {
-      return (
-        <>
-          <Card style={{margin: '0 10px' }}className='mb-3'>
-            <Card.Header>
-              <h1>Upcoming Appointments</h1>
-            </Card.Header>
-            <Card.Body>
-              {renderUpcomingAppointments(upcomingAppointments)}
-            </Card.Body>
-          </Card>
+    if (!dashboardData.length) return <>No upcoming appointments</>
+    return (
+      <>
+        <Card style={{margin: '0 10px' }}className='mb-3'>
+          <Card.Header>
+            <h1>Upcoming Appointments</h1>
+          </Card.Header>
+          <Card.Body>
+            {renderUpcomingAppointments(upcomingAppointments)}
+          </Card.Body>
+        </Card>
 
-          <Card style={{margin: '0 10px' }}>
-            <Card.Header>
-              <h1>Past Appointments</h1>
-            </Card.Header>
-            <Card.Body>
-              {renderPastAppointments(pastAppointments)}
-            </Card.Body>
-          </Card>
-        </>
-      );
-    } else {
-      return (
-        <div>No upcoming appointments</div>
-      );
-    }
-  };  
+        <Card style={{margin: '0 10px' }}>
+          <Card.Header>
+            <h1>Past Appointments</h1>
+          </Card.Header>
+          <Card.Body>
+            {renderPastAppointments(pastAppointments)}
+          </Card.Body>
+        </Card>
+      </>
+    );
+  };
+
+  const renderWelcomeOrBack = () => {
+    if (newPatient) return <> to MaroonMedic</>
+    return <> back</>
+  }
+
+  const renderisPersonalInfo = () => {
+    if (!personalInfo) return <>Loading...</>
+    return <p>Welcome{renderWelcomeOrBack()}, {personalInfo.FirstName}</p>
+  }
 
   return (
     <div>
       <Header dropdown={true} search={true} />
       <PatientHeader />
-      {personalInfo ? (<>
-        <p>Welcome{newPatient?(<> to MaroonMedic</>):(<> back</>)}, {personalInfo.FirstName}</p>
-        </>) : 
-        (<>
-          Loading...
-        </>)}
-        {renderDashboardData()}
+      {renderisPersonalInfo()}
+      {renderDashboardData()}
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, ToggleButton, ToggleButtonGroup, Button} from "react-bootstrap";
 import { handlePublicAvailibilityToggle } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails";
+import { useConfirmationMessage } from "../../../Custom Hooks/useConfirmationMessage";
 
 export default function RenderVerificationAndPublicStatusSection (props){
   return(
@@ -13,14 +14,13 @@ export default function RenderVerificationAndPublicStatusSection (props){
         {renderIsVerification(props)}
         <br/>
         Would you like your profile to be Publicly Available?
-        {renderIsPubliclyAvailable(props)}
+        {RenderIsPubliclyAvailable(props)}
       </Card.Body>
     </Card>
   );
 };
 
 function renderIsVerification (props) {
-
   
   if(props.verified){
     return(
@@ -43,12 +43,14 @@ function renderIsVerification (props) {
   }
 };
 
-function renderIsPubliclyAvailable (props){
+function RenderIsPubliclyAvailable (props){
+  const [publiclyAvailableConfirmation, setPubliclyAvailableConfirmation] = useConfirmationMessage();
+
   return(
     <div>
       <ToggleButtonGroup type="radio" name="options" 
         value={props.publiclyAvailable ?? 0} 
-        onChange={(value)=>handlePublicAvailibilityToggle(value, props.setPubliclyAvailable, props.setPubliclyAvailableConfirmation)}>
+        onChange={(value)=>handlePublicAvailibilityToggle(value, props.setPubliclyAvailable, setPubliclyAvailableConfirmation)}>
           <ToggleButton id="tbg-radio-1" value = {0} style={{ backgroundColor: props.publiclyAvailable === 0 ? "red" : "white", color: props.publiclyAvailable === 0 ? "white" : "black", borderColor: "black"}}>
             No
           </ToggleButton>
@@ -56,9 +58,9 @@ function renderIsPubliclyAvailable (props){
             Yes
           </ToggleButton>
       </ToggleButtonGroup>
-      <span className={`fade ${props.publiclyAvailableConfirmation.messageType ? 'show' : ''}`}>
-        {props.publiclyAvailableConfirmation.messageType === 'saved' && 'Publicly Available status saved!'}
-        {props.publiclyAvailableConfirmation.messageType === 'problem' && 'Problem Saving Publicly Available status!'}
+      <span className={`fade ${publiclyAvailableConfirmation.messageType ? 'show' : ''}`}>
+        {publiclyAvailableConfirmation.messageType === 'saved' && 'Publicly Available status saved!'}
+        {publiclyAvailableConfirmation.messageType === 'problem' && 'Problem Saving Publicly Available status!'}
       </span>
     </div>
   )

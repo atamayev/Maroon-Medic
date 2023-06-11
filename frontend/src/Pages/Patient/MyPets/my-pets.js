@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Card, Button } from 'react-bootstrap'
+import { Card, Button, Modal  } from 'react-bootstrap'
 import PrivatePatientDataService from '../../../Services/private-patient-data-service'
 import { VerifyContext } from '../../../Contexts/VerifyContext'
 import { NonPatientAccess } from '../../../Components/user-type-unauth'
@@ -47,7 +47,9 @@ export default function MyPets() {
   const [petTypes, setPetTypes] = useState([]);
   const [petConfirmation, setPetConfirmation] = useConfirmationMessage();
   const [showAddPet, setShowAddPet] = useState(false);
-
+  const [showModal, setShowModal] = useState(false);
+  const [petToDelete, setPetToDelete] = useState(null);
+  
   useEffect(() => {
     user_verification()
     .then(result => {
@@ -84,14 +86,20 @@ export default function MyPets() {
       <NonPatientAccess/>
     )
   }
+  const handleShowModal = (pet) => {
+    setPetToDelete(pet);
+    setShowModal(true);
+  };
+  
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
-  return (
-    <>
-      <Header dropdown = {true} search = {true}/>
-      <PatientHeader/>
-      {savedPetData.length ? (
-        <>
-          {savedPetData.map((pet, index) => (
+  const renderSavedPetData = () => {
+    if (!savedPetData.length) return <></>
+    return (
+      <>
+        {savedPetData.map((pet, index) => (
           <Card key={index} style={{ width: '18rem', marginTop: '10px' }} className='mb-3'>
             <Card.Body>
               <Card.Title>
@@ -99,8 +107,10 @@ export default function MyPets() {
                 <Button 
                   variant="danger" 
                   style={{ float: 'right' }} 
-                  onClick={() => deleteMyPets(pet.pet_infoID, savedPetData, setSavedPetData, setPetConfirmation)}
-                  >X</Button>
+                  onClick={() => handleShowModal(pet)}
+                >
+                  X
+                </Button>
               </Card.Title>
               <Card.Text>
                 <p>Gender: {pet.Gender}</p>
@@ -111,23 +121,50 @@ export default function MyPets() {
             </Card.Body>
           </Card>
         ))}
-        </>
-      ) : 
-      (<>
-      </>)}
-      {showAddPet ? (
-        <>
-        </>
-      )
-      :
-      (
-        <>
-          <Button variant="primary" onClick={() => {
-            setShowAddPet(true);
-          }}>Add a Pet
-          </Button>
-        </>
-      )}
+          <Modal show={showModal} onHide={handleCloseModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirm Deletion</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Are you sure you want to delete {petToDelete?.Name}?</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseModal}>
+              Close
+            </Button>
+            <Button 
+              variant="danger" 
+              onClick={() => {
+                deleteMyPets(petToDelete.pet_infoID, savedPetData, setSavedPetData, setPetConfirmation);
+                handleCloseModal();
+              }}
+            >
+              Delete
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
+    )
+  }
+
+  const renderShowAddPet = () => {
+    if(showAddPet) return <></>
+    return(
+      <>
+        <Button 
+          variant="primary" 
+          onClick={() => {setShowAddPet(true)}}
+        >Add a Pet
+        </Button>
+    </>
+    )
+  }
+  
+
+  return (
+    <>
+      <Header dropdown = {true} search = {true}/>
+      <PatientHeader/>
+      {renderSavedPetData()}
+      {renderShowAddPet()}
       {showAddPet && 
         <AddPet 
           newPetData = {newPetData}

@@ -1,8 +1,8 @@
 import React from "react";
 import { Card, Button, Form } from "react-bootstrap";
 import FormGroup from '../../../Components/form-group.js';
-import { handleDescriptionChange } from "../../../Custom Hooks/Hooks for Account Details/select.js";
 import { saveDescription } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails.js";
+import { useConfirmationMessage } from "../../../Custom Hooks/useConfirmationMessage.js";
 
 export default function RenderDescriptionSection (props){
   return(
@@ -11,39 +11,45 @@ export default function RenderDescriptionSection (props){
         Description
       </Card.Header>
       <Card.Body>
-        {renderIsDescription(props)}
+        {RenderIsDescription(props)}
       </Card.Body>
     </Card>
   );
 };
 
-function renderIsDescription(props){
+function RenderIsDescription(props){
+  const [descriptionConfirmation, setDescriptionConfirmation] = useConfirmationMessage();
+
   const counterStyle = {
     color: props.isDescriptionOverLimit ? "red" : "black",
   };
   
   return(
-      <Form> 
-        <FormGroup
-          id="Description" 
-          value={props.description.Description} 
-          onChange = {event => handleDescriptionChange(event, props.setDescription, props.setIsDescriptionOverLimit)}
-          maxLength={1000} // limit to 1000 characters
-          as="textarea" 
-          rows={3}
-        />
-        <div style={counterStyle}>Character Limit: {props.description.Description ? (<>{props.description.Description.length}</>):(<>0</>)} / 1000</div>
-        <Button 
-          variant="success" 
-          onClick={()=> saveDescription(props.description, props.setDescriptionConfirmation)}
-        >
-        Save</Button>
-        <span className={`fade ${props.descriptionConfirmation.messageType ? 'show' : ''}`}>
-          {props.descriptionConfirmation.messageType === 'saved' && 'Description saved!'}
-          {props.descriptionConfirmation.messageType === 'same' && 'Same Description data!'}
-          {props.descriptionConfirmation.messageType === 'problem' && 'Problem Saving Description!'}
-          {props.descriptionConfirmation.messageType === 'none' && 'No description selected'}
-        </span>
+    <Form> 
+      <FormGroup
+        id="Description" 
+        value={props.description.Description} 
+        onChange = {event => {
+          const value = event.target.value;
+          props.setDescription({Description: value});
+          props.setIsDescriptionOverLimit(value.length >= 1000);
+        }}
+        maxLength={1000} // limit to 1000 characters
+        as="textarea" 
+        rows={3}
+      />
+      <div style={counterStyle}>Character Limit: {props.description.Description ? (<>{props.description.Description.length}</>):(<>0</>)} / 1000</div>
+      <Button 
+        variant="success" 
+        onClick={()=> saveDescription(props.description, setDescriptionConfirmation)}
+      >
+      Save</Button>
+      <span className={`fade ${descriptionConfirmation.messageType ? 'show' : ''}`}>
+        {descriptionConfirmation.messageType === 'saved' && 'Description saved!'}
+        {descriptionConfirmation.messageType === 'same' && 'Same Description data!'}
+        {descriptionConfirmation.messageType === 'problem' && 'Problem Saving Description!'}
+        {descriptionConfirmation.messageType === 'none' && 'No description selected'}
+      </span>
     </Form>
   );
 };

@@ -2,6 +2,7 @@ import React from "react";
 import { Card, Button} from "react-bootstrap";
 import { handleAddLanguage } from "../../../Custom Hooks/Hooks for Account Details/add";
 import { handleDeleteLanguage } from "../../../Custom Hooks/Hooks for Account Details/delete";
+import { useConfirmationMessage } from "../../../Custom Hooks/useConfirmationMessage";
 
 export default function RenderLanguageSection(props){
   return(
@@ -10,13 +11,15 @@ export default function RenderLanguageSection(props){
       Languages
       </Card.Header>
       <Card.Body>
-        {renderIsPatientLanguages(props)}
+        {RenderIsPatientLanguages(props)}
       </Card.Body>
     </Card>
   );
 };
 
-function renderIsPatientLanguages(props){
+function RenderIsPatientLanguages(props){
+  const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage();
+
   return(
     <div>
       <select
@@ -29,7 +32,7 @@ function renderIsPatientLanguages(props){
             props.spokenLanguages,
             props.setSpokenLanguages,
             props.listDetails,
-            props.setLanguagesConfirmation,
+            setLanguagesConfirmation,
             'patient'
           )
         }
@@ -56,18 +59,18 @@ function renderIsPatientLanguages(props){
                     language, 
                     props.spokenLanguages, 
                     props.setSpokenLanguages, 
-                    props.setLanguagesConfirmation,
+                    setLanguagesConfirmation,
                     'patient'
                   )}
               >X</Button>
             </li>
           ))}
       </ul>
-      <span className={`fade ${props.languagesConfirmation.messageType ? 'show' : ''}`}>
-        {props.languagesConfirmation.messageType === 'saved' && 'Languages saved!'}
-        {props.languagesConfirmation.messageType === 'same' && 'Same Language data!'}
-        {props.languagesConfirmation.messageType === 'problem' && 'Problem Saving Languages!'}
-        {props.languagesConfirmation.messageType === 'none' && 'No languages selected'}
+      <span className={`fade ${languagesConfirmation.messageType ? 'show' : ''}`}>
+        {languagesConfirmation.messageType === 'saved' && 'Languages saved!'}
+        {languagesConfirmation.messageType === 'same' && 'Same Language data!'}
+        {languagesConfirmation.messageType === 'problem' && 'Problem Saving Languages!'}
+        {languagesConfirmation.messageType === 'none' && 'No languages selected'}
       </span>
     </div>
   );

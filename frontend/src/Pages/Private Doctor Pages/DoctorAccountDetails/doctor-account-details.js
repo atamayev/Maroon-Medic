@@ -4,7 +4,6 @@ import DoctorHeader from '../doctor-header.js';
 import PrivateDoctorDataService from '../../../Services/private-doctor-data-service.js';
 import Header from '../../header.js';
 import { NonDoctorAccess } from '../../../Components/user-type-unauth.js';
-import { useConfirmationMessage } from '../../../Custom Hooks/useConfirmationMessage.js';
 import RenderPreVetEducationSection from './pre-vet-education.js';
 import RenderVetEducationSection from './vet-education.js';
 import RenderDescriptionSection from './description.js';
@@ -18,7 +17,6 @@ import RenderSpecialtySection from './specialty.js';
 import RenderPetsSection from './pets.js';
 
 async function FillLists(setListDetails){ 
-  // this will be used to fill the lists in the db (languages, specialites, etc.) Should be one function that returns an object of arrays of hte different lists
   try{
     const response = await PrivateDoctorDataService.fillLists();
     if (response){
@@ -40,42 +38,33 @@ export default function DoctorAccountDetails() {
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
 
   const [spokenLanguages, setSpokenLanguages] = useState(DoctorAccountDetails?.[0] || []);
-  const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage();
 
   const [providedServices, setProvidedServices] = useState(DoctorAccountDetails?.[1] || []);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [expandedCategories, setExpandedCategories] = useState([]);
-  const [servicesConfirmation, setServicesConfirmation] = useConfirmationMessage();
 
   const [selectedOrganization, setSelectedOrganization] = useState('');
   const [doctorSpecialties, setDoctorSpecialties] = useState(DoctorAccountDetails?.[2] || []);
-  const [specialtiesConfirmation, setSpecialtiesConfirmation] = useConfirmationMessage();
 
   const [selectedPreVetSchool, setSelectedPreVetSchool] = useState('');
   const [selectedMajor, setSelectedMajor] = useState('');
   const [selectedPreVetEducationType, setSelectedPreVetEducationType] = useState('');
   const [preVetEducation, setPreVetEducation] = useState(DoctorAccountDetails?.[3] || []);
-  const [preVetEducationConfirmation, setPreVetEducationConfirmation] = useConfirmationMessage();
 
   const [selectedVetSchool, setSelectedVetSchool] = useState('');
   const [selectedVetEducationType, setSelectedVetEducationType] = useState('');
   const [vetEducation, setVetEducation] = useState(DoctorAccountDetails?.[4] || []);
-  const [vetEducationConfirmation, setVetEducationConfirmation] = useConfirmationMessage();
 
   const [addresses, setAddresses] = useState(DoctorAccountDetails?.[5] ||[{ address_priority: 0, addressesID: 0, address_title: '', address_line_1  : '', address_line_2: '', city: '', state: '', zip: '', country: '', phone_priority: 0, phone: '', address_public_status: 1, instant_book: 0, times:[]}]);
-  const [addressesConfirmation, setAddressesConfirmation] = useConfirmationMessage();
 
   const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false);
   const [description, setDescription] = useState(DoctorAccountDetails?.[6] || {});
-  const [descriptionConfirmation, setDescriptionConfirmation] = useConfirmationMessage();
 
   const [servicedPets, setServicedPets] = useState(DoctorAccountDetails?.[7] || []);
   const [expandedPetTypes, setExpandedPetTypes] = useState([]);
-  const [petsConfirmation, setPetsConfirmation] = useConfirmationMessage();
 
   const [publiclyAvailable, setPubliclyAvailable] = useState(DoctorAccountDetails?.[8][0]?.PubliclyAvailable || 0);
   const verified = DoctorAccountDetails?.[8][0].Verified || [];
-  const [publiclyAvailableConfirmation, setPubliclyAvailableConfirmation] = useConfirmationMessage();
 
   const currentYear = new Date().getFullYear();
 
@@ -177,8 +166,6 @@ export default function DoctorAccountDetails() {
         setTimeState = {setTimeState}
         preVetEducation = {preVetEducation}
         setPreVetEducation = {setPreVetEducation}
-        preVetEducationConfirmation = {preVetEducationConfirmation}
-        setPreVetEducationConfirmation = {setPreVetEducationConfirmation}
       />
       <RenderVetEducationSection
         listDetails = {listDetails}
@@ -190,16 +177,12 @@ export default function DoctorAccountDetails() {
         setTimeState = {setTimeState}
         vetEducation = {vetEducation}
         setVetEducation = {setVetEducation}
-        vetEducationConfirmation = {vetEducationConfirmation}
-        setVetEducationConfirmation = {setVetEducationConfirmation}
       />
       <RenderDescriptionSection
         description = {description}
         setDescription = {setDescription}
         isDescriptionOverLimit = {isDescriptionOverLimit}
         setIsDescriptionOverLimit = {setIsDescriptionOverLimit}
-        descriptionConfirmation = {descriptionConfirmation}
-        setDescriptionConfirmation = {setDescriptionConfirmation}
       />
       <RenderPersonalInfoLinkSection/>
       {/* <RenderPicturesSection
@@ -212,8 +195,6 @@ export default function DoctorAccountDetails() {
         setServicedPets = {setServicedPets}
         expandedPetTypes = {expandedPetTypes}
         setExpandedPetTypes = {setExpandedPetTypes}
-        petsConfirmation = {petsConfirmation}
-        setPetsConfirmation = {setPetsConfirmation}
       />
       <RenderSpecialtySection 
         listDetails = {listDetails}
@@ -221,15 +202,11 @@ export default function DoctorAccountDetails() {
         setSelectedOrganization = {setSelectedOrganization}
         doctorSpecialties = {doctorSpecialties}
         setDoctorSpecialties = {setDoctorSpecialties}
-        specialtiesConfirmation = {specialtiesConfirmation}
-        setSpecialtiesConfirmation = {setSpecialtiesConfirmation}
       />
       <RenderLanguageSection
         listDetails = {listDetails}
         spokenLanguages = {spokenLanguages}
         setSpokenLanguages = {setSpokenLanguages}
-        languagesConfirmation = {languagesConfirmation}
-        setLanguagesConfirmation = {setLanguagesConfirmation}
       />
       <RenderServiceSection
         listDetails = {listDetails}
@@ -239,21 +216,15 @@ export default function DoctorAccountDetails() {
         setProvidedServices = {setProvidedServices}
         expandedCategories = {expandedCategories}
         setExpandedCategories = {setExpandedCategories}
-        servicesConfirmation = {servicesConfirmation}
-        setServicesConfirmation = {setServicesConfirmation}
       />
       <RenderLocationSection
         addresses = {addresses}
         setAddresses = {setAddresses}
-        addressesConfirmation = {addressesConfirmation}
-        setAddressesConfirmation = {setAddressesConfirmation}
       />
       <RenderVerificationAndPublicStatusSection
         publiclyAvailable = {publiclyAvailable}
         setPubliclyAvailable = {setPubliclyAvailable}
         verified = {verified}
-        publiclyAvailableConfirmation = {publiclyAvailableConfirmation}
-        setPubliclyAvailableConfirmation = {setPubliclyAvailableConfirmation}
       />
   </div>
   );

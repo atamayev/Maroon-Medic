@@ -6,6 +6,7 @@ import { handleAddAccordion } from "../../../Custom Hooks/Hooks for Account Deta
 import { saveLocation } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails";
 import Toggle from 'react-toggle'
 import TimePicker from 'react-time-picker'
+import { useConfirmationMessage } from "../../../Custom Hooks/useConfirmationMessage";
 import "react-toggle/style.css"
 import "./location.css"
 
@@ -23,6 +24,8 @@ export default function RenderLocationSection(props){
 };
 
 function AddressForm(props) {
+  const [addressesConfirmation, setAddressesConfirmation] = useConfirmationMessage();
+
   const handleInputChange = (event, address_priority) => {
     const newAddresses = props.addresses.map(address => {
       if (address.address_priority === address_priority) {
@@ -76,7 +79,7 @@ function AddressForm(props) {
           index = {index}
           address={address} 
           handleInputChange={(e) => handleInputChange(e, address.address_priority)}
-          handleDeleteAccordion={() => handleDeleteAccordion(address.address_priority, props.addresses, props.setAddresses)}
+          handleDeleteAccordion={() => props.setAddresses(props.addresses.filter(addressf => addressf.address_priority !== address.address_priority))}
           addresses = {props.addresses}
           setAddresses = {props.setAddresses}
         />
@@ -86,15 +89,15 @@ function AddressForm(props) {
       <Button 
         variant="success" 
         disabled={!areAllFieldsValid(props.addresses) || !areAllTimesValid(props.addresses)} // Check for both field and time validity
-        onClick={()=> saveLocation(props.addresses, props.setAddresses, props.setAddressesConfirmation)}
+        onClick={()=> saveLocation(props.addresses, props.setAddresses, setAddressesConfirmation)}
       >
         Save
       </Button>
-      <span className={`fade ${props.addressesConfirmation.messageType ? 'show' : ''}`}>
-        {props.addressesConfirmation.messageType === 'saved' && 'Locations saved!'}
-        {props.addressesConfirmation.messageType === 'same' && 'Same Location data!'}
-        {props.addressesConfirmation.messageType === 'problem' && 'Problem Saving Locations!'}
-        {props.addressesConfirmation.messageType === 'none' && 'No locations selected'}
+      <span className={`fade ${addressesConfirmation.messageType ? 'show' : ''}`}>
+        {addressesConfirmation.messageType === 'saved' && 'Locations saved!'}
+        {addressesConfirmation.messageType === 'same' && 'Same Location data!'}
+        {addressesConfirmation.messageType === 'problem' && 'Problem Saving Locations!'}
+        {addressesConfirmation.messageType === 'none' && 'No locations selected'}
       </span>
     </>
   );

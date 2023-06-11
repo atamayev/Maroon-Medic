@@ -1,10 +1,8 @@
 import React from "react";
 import { Card, Button} from "react-bootstrap";
-import { handleCategoryChange } from "../../../Custom Hooks/Hooks for Account Details/select";
 import { handleToggleCategory } from "../../../Custom Hooks/Hooks for Account Details/select";
 import { saveServices } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails";
-import { handleAddService } from "../../../Custom Hooks/Hooks for Account Details/add";
-import { handleDeleteService } from "../../../Custom Hooks/Hooks for Account Details/delete";
+import { useConfirmationMessage } from "../../../Custom Hooks/useConfirmationMessage";
 
 export default function RenderServiceSection (props){
   return(
@@ -13,14 +11,15 @@ export default function RenderServiceSection (props){
         Vet Services
       </Card.Header>
       <Card.Body>
-        {renderIsVetServices(props)}
+        {RenderIsVetServices(props)}
       </Card.Body>
     </Card>
   );
 };
 
-//Does not work as intended
-function renderIsVetServices (props) {
+function RenderIsVetServices (props) {
+  const [servicesConfirmation, setServicesConfirmation] = useConfirmationMessage();
+
   const categories = {};
   if (props.listDetails[1]) {
     props.listDetails[1].forEach(service => {
@@ -37,106 +36,90 @@ function renderIsVetServices (props) {
     return services.every(service => service.Service_price !== null && service.Service_price !== "");
   }
   
-  if (Array.from(new Set(props.listDetails[1]?.map((item) => item.Category_name))).length) {
-    return (
-      <>
-        {Object.entries(categories).map(([category, services]) => (
-          <div key={category} style={{ marginBottom: '10px' }}>
-            {/* <input
-              type="checkbox"
-              id={category}
-              name="category"
-              checked={props.selectedCategories.includes(category)}
-              onChange={event => handleCategoryChange(event, category, services, props.selectedCategories, props.setSelectedCategories, props.providedServices, props.setProvidedServices, props.expandedCategories, props.setExpandedCategories)}
-            /> */}
-            <label htmlFor={category}>{category}</label>
-            {services.length > 1 && (
-              <Button onClick={() => handleToggleCategory(category, props.setExpandedCategories)}>Toggle</Button>
-            )}
-            {(services.length <= 1 || props.expandedCategories.includes(category)) && (
-              <div>
-                {services.map(service => {
-                  const selectedService = props.providedServices.find(s => s.service_and_category_listID === service.service_and_category_listID);
-                  return (
-                    <div key={service.service_and_category_listID} style={{ paddingLeft: '20px' }}>
-                      <input
-                        type="checkbox"
-                        id={`${category}-${service?.service_and_category_listID}`}
-                        name="service"
-                        value={service?.service_and_category_listID}
-                        checked={props.providedServices.find((provided) => provided.service_and_category_listID === service.service_and_category_listID) !== undefined}
-                        onChange={(event) => {
-                          if(event.target.checked){
-                            handleAddService(service, props.providedServices, props.setProvidedServices);
-                          }else{
-                            handleDeleteService(service, props.providedServices, props.setProvidedServices)
-                          }
-                        }}
+  if (!Array.from(new Set(props.listDetails[1]?.map((item) => item.Category_name))).length) return <>Loading...</>
+
+  return (
+    <>
+      {Object.entries(categories).map(([category, services]) => (
+        <div key={category} style={{ marginBottom: '10px' }}>
+          <label htmlFor={category}>{category}</label>
+          {services.length > 1 && (
+            <Button onClick={() => handleToggleCategory(category, props.setExpandedCategories)}>Toggle</Button>
+          )}
+          {(services.length <= 1 || props.expandedCategories.includes(category)) && (
+            <div>
+              {services.map(service => {
+                const selectedService = props.providedServices.find(s => s.service_and_category_listID === service.service_and_category_listID);
+                return (
+                  <div key={service.service_and_category_listID} style={{ paddingLeft: '20px' }}>
+                    <input
+                      type="checkbox"
+                      id={`${category}-${service?.service_and_category_listID}`}
+                      name="service"
+                      value={service?.service_and_category_listID}
+                      checked={props.providedServices.find((provided) => provided.service_and_category_listID === service.service_and_category_listID) !== undefined}
+                      onChange={(event) => {
+                        if(event.target.checked) props.setProvidedServices([...props.providedServices, {...service, Service_price: null, Service_time: null}])
+                        else props.setProvidedServices(props.providedServices.filter(servicef => servicef.service_and_category_listID !== service.service_and_category_listID))
+                      }}
+                      />
+                    <label htmlFor={`${category}-${service.service_and_category_listID}`}>{service.Service_name}</label>
+                    {selectedService && (
+                      <>
+                        <input
+                          type="number"
+                          placeholder="Service Time (mins)"
+                          id={`time-${service.service_and_category_listID}`}
+                          required
+                          value={selectedService?.Service_time || ""}
+                          onChange={(event) => {
+                            const updatedServices = props.providedServices.map(s => {
+                              if(s.service_and_category_listID === service.service_and_category_listID){
+                                return {...s, Service_time: event.target.value};
+                              }
+                              return s;
+                            });
+                            props.setProvidedServices(updatedServices);
+                          }}
                         />
-                      <label htmlFor={`${category}-${service.service_and_category_listID}`}>{service.Service_name}</label>
-                      {selectedService && (
-                        <>
-                          <input
-                            type="number"
-                            placeholder="Service Time (mins)"
-                            id={`time-${service.service_and_category_listID}`}
-                            required
-                            value={selectedService?.Service_time || ""}
-                            onChange={(event) => {
-                              const updatedServices = props.providedServices.map(s => {
-                                if(s.service_and_category_listID === service.service_and_category_listID){
-                                  return {...s, Service_time: event.target.value};
-                                }
-                                return s;
-                              });
-                              props.setProvidedServices(updatedServices);
-                            }}
-                          />
-                          <input
-                            type="number"
-                            placeholder="Service Price ($)"
-                            id={`price-${service.service_and_category_listID}`}
-                            required
-                            value={selectedService?.Service_price || ""}
-                            onChange={(event) => {
-                              const updatedServices = props.providedServices.map(s => {
-                                if(s.service_and_category_listID === service.service_and_category_listID){
-                                  return {...s, Service_price: event.target.value};
-                                }
-                                return s;
-                              });
-                              props.setProvidedServices(updatedServices);
-                            }}
-                          />
-                        </>
-                      )}
-                    </div>
-                  )
-                })}
-              </div>
-            )}
-          </div>
-        ))}
-        <Button 
-          variant="success" 
-          disabled={!areAllTimesSet(props.providedServices) || !areAllPricesSet(props.providedServices)}
-          onClick={() => saveServices(props.providedServices, props.setServicesConfirmation)}
-        >
-          Save
-        </Button>
-        <span className={`fade ${props.servicesConfirmation.messageType ? 'show' : ''}`}>
-          {props.servicesConfirmation.messageType === 'saved' && 'Services saved!'}
-          {props.servicesConfirmation.messageType === 'same' && 'Same Service data!'}
-          {props.servicesConfirmation.messageType === 'problem' && 'Problem Saving Services!'}
-          {props.servicesConfirmation.messageType === 'none' && 'No services selected'}
-        </span>
-        </>
-    )
-  }else{
-    return(
-      <>
-      Loading...
+                        <input
+                          type="number"
+                          placeholder="Service Price ($)"
+                          id={`price-${service.service_and_category_listID}`}
+                          required
+                          value={selectedService?.Service_price || ""}
+                          onChange={(event) => {
+                            const updatedServices = props.providedServices.map(s => {
+                              if(s.service_and_category_listID === service.service_and_category_listID){
+                                return {...s, Service_price: event.target.value};
+                              }
+                              return s;
+                            });
+                            props.setProvidedServices(updatedServices);
+                          }}
+                        />
+                      </>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          )}
+        </div>
+      ))}
+      <Button 
+        variant="success" 
+        disabled={!areAllTimesSet(props.providedServices) || !areAllPricesSet(props.providedServices)}
+        onClick={() => saveServices(props.providedServices, setServicesConfirmation)}
+      >
+        Save
+      </Button>
+      <span className={`fade ${servicesConfirmation.messageType ? 'show' : ''}`}>
+        {servicesConfirmation.messageType === 'saved' && 'Services saved!'}
+        {servicesConfirmation.messageType === 'same' && 'Same Service data!'}
+        {servicesConfirmation.messageType === 'problem' && 'Problem Saving Services!'}
+        {servicesConfirmation.messageType === 'none' && 'No services selected'}
+      </span>
       </>
-    )
-  }
+  )
 };

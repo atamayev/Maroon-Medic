@@ -2,18 +2,14 @@ To-do:
 
 
 ASAP:
-
-instead of just deleting a pet, need to first confirm with the user (don't delete right after hitting the X)
-
+-continue going through all front-end code, make if statments that return one liners return them on one line, look for places to trim code
+-make the <loading> return before the actual content (switch the if else)
+-when deleting, make all of teh parts of the account details require a delete confirmation. change the X delete button to red. when press delete, should plit into 2 buttons- confirm delete, or nevermind
 -add insurances on the add pets level. (delete insurance mapping table, add insurance ID to the pet_info_table)
 
-Make saving automatic for all fields. As soon as user changes something, it saves. Requires major change to back-end, and front-end save functionality.
-	After doing this, go through all DoctorAccountDetails files, and make sure there are no unused/unnecsisarily imported files
 -Include the cost in the finalize booking screen
 
 --change all front-end select month, day, year into a 'date'
-
--after cleaning up saves in DoctorAccountDetails, go through all of the select.js,add.js, delete.js files to make sure all functions are being used
 
 -in the appointments table, will need to change patient_ID to pet_ID. then, on the front-end, you need to have a registered pet in order to make an appointment
 

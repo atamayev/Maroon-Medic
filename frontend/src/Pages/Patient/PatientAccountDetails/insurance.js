@@ -1,8 +1,7 @@
 import React from "react";
 import { Card, Button} from "react-bootstrap";
-import { handleAddInsurance } from "../../../Custom Hooks/Hooks for Account Details/add";
-import { handleDeleteInsurance } from "../../../Custom Hooks/Hooks for Account Details/delete";
 import { saveInsurances } from "../../../Custom Hooks/Hooks for Account Details/PatientAccountDetails/savePatientAccountDetails";
+import { useConfirmationMessage } from "../../../Custom Hooks/useConfirmationMessage";
 
 export default function RenderInsuranceSection(props){
   return(
@@ -11,13 +10,15 @@ export default function RenderInsuranceSection(props){
         Insurances
       </Card.Header>
       <Card.Body>
-        {renderIsPatientInsurance(props)}
+        {RenderIsPatientInsurance(props)}
       </Card.Body>
     </Card>
   );
 };
 
-function renderIsPatientInsurance(props){
+function RenderIsPatientInsurance(props){
+  const [insurancesConfirmation, setInsurancesConfirmation] = useConfirmationMessage();
+
   return (
     <>
       {Array.isArray(props.listDetails[0]) &&
@@ -31,11 +32,8 @@ function renderIsPatientInsurance(props){
               value={insurance?.insurance_listID}
               checked={props.acceptedInsurances.find((accepted) => accepted.insurance_listID === insurance.insurance_listID) !== undefined}
               onChange={(event) => {
-                if (event.target.checked) {
-                  handleAddInsurance(insurance, props.acceptedInsurances, props.setAcceptedInsurances);
-                } else {
-                  handleDeleteInsurance(insurance, props.acceptedInsurances, props.setAcceptedInsurances);
-                }
+                if (event.target.checked) props.setAcceptedInsurances([...props.acceptedInsurances, insurance]);
+                else props.setAcceptedInsurances(props.acceptedInsurances.filter(insurancef => insurancef.insurance_listID !== insurance.insurance_listID));
               }}
             />
             <label htmlFor={insurance?.insurance_listID}>{insurance?.Insurance_name}</label>
@@ -43,14 +41,14 @@ function renderIsPatientInsurance(props){
         ))}
       <Button 
         variant="success" 
-        onClick={() => saveInsurances(props.acceptedInsurances, props.setInsurancesConfirmation)}
+        onClick={() => saveInsurances(props.acceptedInsurances, setInsurancesConfirmation)}
         >
         Save</Button>
-        <span className={`fade ${props.insurancesConfirmation.messageType ? 'show' : ''}`}>
-          {props.insurancesConfirmation.messageType === 'saved' && 'Insurances saved!'}
-          {props.insurancesConfirmation.messageType === 'same' && 'Same Insurance data!'}
-          {props.insurancesConfirmation.messageType === 'problem' && 'Problem Saving Insurances!'}
-          {props.insurancesConfirmation.messageType === 'none' && 'No insurances selected'}
+        <span className={`fade ${insurancesConfirmation.messageType ? 'show' : ''}`}>
+          {insurancesConfirmation.messageType === 'saved' && 'Insurances saved!'}
+          {insurancesConfirmation.messageType === 'same' && 'Same Insurance data!'}
+          {insurancesConfirmation.messageType === 'problem' && 'Problem Saving Insurances!'}
+          {insurancesConfirmation.messageType === 'none' && 'No insurances selected'}
         </span>
     </>
     );

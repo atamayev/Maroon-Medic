@@ -9,13 +9,9 @@ export const useVerifyForVets = ()=>{
     useEffect(()=>{
         user_verification()
             .then(result => {
-            if (result.verified === true && result.user_type === 'Doctor') {
-                navigate(`/vet-dashboard`);
-            }
-            else if (result.verified === true && result.user_type === 'Patient') {
-                navigate(`/patient-dashboard`);
-            }
-    })
+                if (result.verified === true && result.user_type === 'Doctor') navigate(`/vet-dashboard`)
+                else if (result.verified === true && result.user_type === 'Patient') navigate(`/patient-dashboard`)
+            })
     }, [])
 };
 
@@ -26,12 +22,8 @@ export const useVerifyForPatients = ()=>{
     useEffect(()=>{
         user_verification()
             .then(result => {
-            if (result.verified === true && result.user_type === 'Patient') {
-                navigate(`/patient-dashboard`);
-            }
-            else if (result.verified === true && result.user_type === 'Doctor') {
-                navigate(`/vet-dashboard`);
-            }
-        })
+                if (result.verified === true && result.user_type === 'Patient') navigate(`/patient-dashboard`)
+                else if (result.verified === true && result.user_type === 'Doctor') navigate(`/vet-dashboard`)
+            })
     }, [])
 };

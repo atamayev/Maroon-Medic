@@ -4,7 +4,6 @@ import PatientHeader from '../patient-header'
 import Header from '../../header'
 import PrivatePatientDataService from '../../../Services/private-patient-data-service';
 import { NonPatientAccess } from '../../../Components/user-type-unauth';
-import { useConfirmationMessage } from '../../../Custom Hooks/useConfirmationMessage';
 import RenderInsuranceSection from './insurance';
 import RenderLanguageSection from './language';
 
@@ -30,10 +29,8 @@ export default function PatientAccountDetails() {
   const PatientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails"));
   
   const [acceptedInsurances, setAcceptedInsurances] = useState(PatientAccountDetails?.[0] || []);
-  const [insurancesConfirmation, setInsurancesConfirmation] = useConfirmationMessage();
 
   const [spokenLanguages, setSpokenLanguages] = useState(PatientAccountDetails?.[1] || []);
-  const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage();
 
   useEffect(()=>{
     user_verification()
@@ -96,16 +93,12 @@ export default function PatientAccountDetails() {
         listDetails = {listDetails}
         acceptedInsurances = {acceptedInsurances}
         setAcceptedInsurances = {setAcceptedInsurances}
-        insurancesConfirmation = {insurancesConfirmation}
-        setInsurancesConfirmation = {setInsurancesConfirmation}
       />
       <RenderLanguageSection
         listDetails = {listDetails}
         spokenLanguages = {spokenLanguages}
         setSpokenLanguages = {setSpokenLanguages}
-        languagesConfirmation = {languagesConfirmation}
-        setLanguagesConfirmation = {setLanguagesConfirmation}
       />
     </div>
-    )
+  )
 }

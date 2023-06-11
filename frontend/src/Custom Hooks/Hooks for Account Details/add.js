@@ -1,23 +1,6 @@
 import { saveDoctorLanguages, saveSpecialies } from "./DoctorAccountDetails/saveDoctorAccountDetails";
 import { savePatientLanguages } from "./PatientAccountDetails/savePatientAccountDetails";
 
-export const handleAddInsurance = (selectedInsurance, acceptedInsurances, setAcceptedInsurances) => {
-  if(selectedInsurance){
-    if(!acceptedInsurances.some(insurance => insurance.insurance_listID === selectedInsurance.insurance_listID)){
-      setAcceptedInsurances([...acceptedInsurances, selectedInsurance]);
-    }
-  }
-};
-
-export const handleAddService = (selectedService, providedServices, setProvidedServices) => {
-  if(selectedService){
-    if(!providedServices.some(service => service.service_and_category_listID === selectedService.service_and_category_listID)){
-      const updatedService = {...selectedService, Service_price: null, Service_time: null}
-      setProvidedServices([...providedServices, updatedService]);
-    }
-  }
-};
-
 export const handleAddLanguage = (selectedLanguageID, spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, doctorOrPatient) => {
   const selectedLanguage = listDetails[1].find((lang) => lang.language_listID === JSON.parse(selectedLanguageID));
   const newSpokenLanguages = [...spokenLanguages, selectedLanguage];
