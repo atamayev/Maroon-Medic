@@ -1,9 +1,7 @@
 import React from "react";
 import { Card, Button} from "react-bootstrap";
-import { handleSelectSpecialty } from "../../../Custom Hooks/Hooks for Account Details/select";
 import { handleAddSpecialty } from "../../../Custom Hooks/Hooks for Account Details/add";
 import { handleDeleteSpecialty } from "../../../Custom Hooks/Hooks for Account Details/delete";
-import { saveSpecialies } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails";
 
 export default function RenderSpecialtySection (props){
   return(
@@ -48,26 +46,17 @@ function renderIsSpecialty(props){
             <select
               id = "specialty"
               name = "specialty"
-              value = {props.selectedSpecialty?.specialties_listID || ""}
-              onChange = {(e) => {
-                const selectedSpecialityID = e.target.value;
-                const selectedSpecialty = props.listDetails[2].find(
-                  (spec) => spec.specialties_listID === JSON.parse(selectedSpecialityID)
-                );
-                props.setSelectedSpecialties(selectedSpecialty);
-                const newDoctorSpecialties = handleAddSpecialty (
-                  selectedSpecialty,
-                  props.doctorSpecialties
-                );
-                props.setDoctorSpecialties(newDoctorSpecialties);
-                saveSpecialies (
-                  selectedSpecialty.specialties_listID,
-                  newDoctorSpecialties,
-                  props.setSelectedSpecialties,
+              value = {""}
+              onChange = {(e) =>
+                handleAddSpecialty(
+                  e.target.value,
+                  props.doctorSpecialties,
+                  props.setDoctorSpecialties,
                   props.setSelectedOrganization,
-                  props.setSpecialtiesConfirmation,
-                  'add'
-              )}}
+                  props.listDetails,
+                  props.setSpecialtiesConfirmation
+                )
+              }
             >
               <option value="" disabled>Choose a specialty</option>
               {specialties
@@ -84,7 +73,6 @@ function renderIsSpecialty(props){
                   </option>
                 ))}
             </select>
-            {/* <Button onClick={()=> handleAddSpecialty(props.selectedSpecialty, props.doctorSpecialties, props.setDoctorSpecialties, props.setSelectedSpecialties)}>Add</Button> */}
           </>
         )}
         <ul>
@@ -97,7 +85,6 @@ function renderIsSpecialty(props){
                     specialty, 
                     props.doctorSpecialties, 
                     props.setDoctorSpecialties, 
-                    props.setSelectedSpecialties, 
                     props.setSelectedOrganization, 
                     props.setSpecialtiesConfirmation
                   )}
@@ -105,11 +92,6 @@ function renderIsSpecialty(props){
             </li>
           ))}
         </ul>
-        {/* <Button 
-          variant = "success"
-          onClick={() => saveSpecialies(props.doctorSpecialties, props.setSpecialtiesConfirmation)}
-          >
-          Save</Button> */}
           <span className={`fade ${props.specialtiesConfirmation.messageType ? 'show' : ''}`}>
           {props.specialtiesConfirmation.messageType === 'saved' && 'Specialties saved!'}
           {props.specialtiesConfirmation.messageType === 'same' && 'Same Specialty data!'}

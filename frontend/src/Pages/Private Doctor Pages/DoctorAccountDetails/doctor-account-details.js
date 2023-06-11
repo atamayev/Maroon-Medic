@@ -39,7 +39,6 @@ export default function DoctorAccountDetails() {
   //const [carouselIndex, setCarouselIndex] = useState(0);
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
 
-  const [selectedLanguage, setSelectedLanguage] = useState('');
   const [spokenLanguages, setSpokenLanguages] = useState(DoctorAccountDetails?.[0] || []);
   const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage();
 
@@ -49,7 +48,6 @@ export default function DoctorAccountDetails() {
   const [servicesConfirmation, setServicesConfirmation] = useConfirmationMessage();
 
   const [selectedOrganization, setSelectedOrganization] = useState('');
-  const [selectedSpecialty, setSelectedSpecialties] = useState('');
   const [doctorSpecialties, setDoctorSpecialties] = useState(DoctorAccountDetails?.[2] || []);
   const [specialtiesConfirmation, setSpecialtiesConfirmation] = useConfirmationMessage();
 
@@ -221,8 +219,6 @@ export default function DoctorAccountDetails() {
         listDetails = {listDetails}
         selectedOrganization = {selectedOrganization}
         setSelectedOrganization = {setSelectedOrganization}
-        selectedSpecialty = {selectedSpecialty}
-        setSelectedSpecialties = {setSelectedSpecialties}
         doctorSpecialties = {doctorSpecialties}
         setDoctorSpecialties = {setDoctorSpecialties}
         specialtiesConfirmation = {specialtiesConfirmation}
@@ -230,8 +226,6 @@ export default function DoctorAccountDetails() {
       />
       <RenderLanguageSection
         listDetails = {listDetails}
-        selectedLanguage = {selectedLanguage}
-        setSelectedLanguage = {setSelectedLanguage}
         spokenLanguages = {spokenLanguages}
         setSpokenLanguages = {setSpokenLanguages}
         languagesConfirmation = {languagesConfirmation}

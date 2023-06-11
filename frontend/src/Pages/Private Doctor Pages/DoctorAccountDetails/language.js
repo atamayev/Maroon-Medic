@@ -24,26 +24,16 @@ function renderIsVetLanguages(props){
       <select
         id="language"
         name="language"
-        value={props.selectedLanguage?.language_listID || ""}
-        // Change the select's onChange event to this:
-        onChange={(e) => {
-          const selectedLanguageID = e.target.value;
-          const selectedLanguage = props.listDetails[0].find(
-            (lang) => lang.language_listID === JSON.parse(selectedLanguageID)
-          );
-          props.setSelectedLanguage(selectedLanguage);
-          const newSpokenLanguages = handleAddLanguage(
-            selectedLanguage,
-            props.spokenLanguages
-          );
-          props.setSpokenLanguages(newSpokenLanguages);
-          saveLanguages(
-            selectedLanguage.language_listID,
-            newSpokenLanguages,
-            props.setSelectedLanguage,
-            props.setLanguagesConfirmation,
-            'add'
-        )}}
+        value={""}
+        onChange={(e) => 
+          handleAddLanguage(
+            e.target.value,
+            props.spokenLanguages,
+            props.setSpokenLanguages,
+            props.listDetails,
+            props.setLanguagesConfirmation
+          )
+        }
       >
         <option value = "" disabled>Choose a language</option>
         {Array.isArray(props.listDetails[0]) &&
@@ -68,7 +58,6 @@ function renderIsVetLanguages(props){
                     language, 
                     props.spokenLanguages, 
                     props.setSpokenLanguages, 
-                    props.setSelectedLanguage, 
                     props.setLanguagesConfirmation
                   )}
               >X</Button>

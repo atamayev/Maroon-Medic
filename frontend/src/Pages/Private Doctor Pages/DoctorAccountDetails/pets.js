@@ -2,8 +2,6 @@ import React from "react";
 import { Card, Button} from "react-bootstrap";
 import { handleTogglePetType } from "../../../Custom Hooks/Hooks for Account Details/select";
 import { savePets } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails";
-import { handleAddPet } from "../../../Custom Hooks/Hooks for Account Details/add";
-import { handleDeletePet } from "../../../Custom Hooks/Hooks for Account Details/delete";
 
 export default function RenderPetsSection (props){
   return(
@@ -18,7 +16,6 @@ export default function RenderPetsSection (props){
   );
 };
 
-//Does not work as intended
 function renderIsPets (props) {
   const pet_types = {};
   if (props.listDetails[8]) {
@@ -52,9 +49,9 @@ function renderIsPets (props) {
                         checked={props.servicedPets.find((serviced) => serviced.pet_listID === pet.pet_listID) !== undefined}
                         onChange={(event) => {
                           if(event.target.checked){
-                            savePets(pet.pet_listID, props.servicedPets, props.setPetsConfirmation, 'add').then(
-                              result => {if (result === 'saved') props.setServicedPets([...props.servicedPets, pet])}
-                            )
+                            const newServicedPets = [...props.servicedPets, pet]
+                            props.setServicedPets([...props.servicedPets, pet])
+                            savePets(pet.pet_listID, newServicedPets, props.setPetsConfirmation, 'add')
                           }
                           else {
                             const newServicedPets = props.servicedPets.filter(p => p.pet_listID !== pet.pet_listID);

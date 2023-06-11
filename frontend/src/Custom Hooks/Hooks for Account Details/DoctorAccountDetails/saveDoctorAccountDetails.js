@@ -1,8 +1,8 @@
-import { checkIfListsAreEqual, areArraysSame, convertDateForSql} from "../../lists-and-object-checks";
+import { checkIfListsAreEqual, areArraysSame} from "../../lists-and-object-checks";
 import PrivateDoctorDataService from "../../../Services/private-doctor-data-service";
 import moment from "moment"
 
-export async function saveLanguages(languageID, spokenLanguages, setSelectedLanguage, setLanguagesConfirmation, operationType){
+export async function saveLanguages(languageID, spokenLanguages, setLanguagesConfirmation, operationType){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   let response;
   try{
@@ -18,7 +18,6 @@ export async function saveLanguages(languageID, spokenLanguages, setSelectedLang
   }else{
     setLanguagesConfirmation({messageType: 'problem'});
   }
-  setSelectedLanguage('')
 };
 
 export async function saveServices(providedServices, setServicesConfirmation){
@@ -65,7 +64,7 @@ export async function saveServices(providedServices, setServicesConfirmation){
   }
 };
 
-export async function saveSpecialies(specialtyID, doctorSpecialties, setSelectedSpecialties, setSelectedOrganization, setSpecialtiesConfirmation, operationType){
+export async function saveSpecialies(specialtyID, doctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation, operationType){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   let response;
   try{
@@ -82,8 +81,7 @@ export async function saveSpecialies(specialtyID, doctorSpecialties, setSelected
     setSpecialtiesConfirmation({messageType: 'problem'});
     return
   }
-  setSelectedOrganization('');
-  setSelectedSpecialties('')
+  if (operationType === 'add') setSelectedOrganization('');
 };
 
 export async function savePreVetEducation(preVetEducationObject, preVetEducation, setPreVetEducation, listDetails, setPreVetEducationConfirmation, operationType){
@@ -261,7 +259,7 @@ export async function saveDescription(description, setDescriptionConfirmation){
   }
 };
 
-export async function savePets(petID, servicedPets, setPetsConfirmation, operationType){
+export async function savePets(petID, newServicedPets, setPetsConfirmation, operationType){
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   let response;
   try{
@@ -271,12 +269,13 @@ export async function savePets(petID, servicedPets, setPetsConfirmation, operati
     return
   }
   if(response.status === 200){
-    DoctorAccountDetails[7] = servicedPets;
+    console.log('servicedPets',newServicedPets)
+    DoctorAccountDetails[7] = newServicedPets;
     sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
     setPetsConfirmation({messageType: 'saved'});
-    return ('saved')
   }else{
     setPetsConfirmation({messageType: 'problem'});
+    return
   }
 };
 

@@ -3,11 +3,9 @@ To-do:
 
 ASAP:
 
-- consider returning the petMapping ID to the client after adding pet data, to simplify deleting
-
--work on simplifying the add commands within the language, specialty components (within the jsx), etc.
-
 fix the 'select' attribute on the add my pet
+
+-save languages in savePatietnAccoutDetails
 
 -add insurances on the add pets level. (delete insurance mapping table, add insurance ID to the pet_info_table)
 
@@ -16,7 +14,7 @@ updating pet data has not been tested/implemented
 instead of just deleting a pet, need to first confirm with the user (don't delete right after hitting the X)
 
 Make saving automatic for all fields. As soon as user changes something, it saves. Requires major change to back-end, and front-end save functionality.
-
+	After doing this, go through all DoctorAccountDetails files, and make sure there are no unused/unnecsisarily imported files
 -Include the cost in the finalize booking screen
 
 --change all front-end select month, day, year into a 'date'

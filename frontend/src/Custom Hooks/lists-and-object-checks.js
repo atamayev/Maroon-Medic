@@ -91,18 +91,3 @@ export function areArraysSame(arr1, arr2) {
 export function arraysEqual(a, b) {
   return a.length === b.length && a.every((val, index) => val === b[index]);
 }
-
-export function convertDateForSql(dateString) {
-  // Split the date string by '-'
-  const dateParts = dateString.split('-');
-
-  // Extract the year, month, and day
-  const year = dateParts[0];
-  const month = new Date(dateParts[1] + '-1-1').getMonth() + 1; // Get month index (0-11) and convert to month number (1-12)
-  const day = dateParts[2];
-
-  // Format the date as "YYYY-MM-DD"
-  const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.padStart(2, '0')}`;
-
-  return formattedDate;
-};
