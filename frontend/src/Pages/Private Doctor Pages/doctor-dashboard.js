@@ -13,8 +13,6 @@ async function fetchDoctorDashboardData(setDashboardData){
     if (response){
       setDashboardData(response.data);
       sessionStorage.setItem("DoctorDashboardData", JSON.stringify(response.data))
-    }else{
-      console.log('no response')
     }
   }catch(error){
     console.log('unable to fillDoctorDashboard', error)
@@ -27,16 +25,12 @@ async function approveAppointment (setStatus, AppointmentsID, dashboardData, set
     if (response.status === 200) {
       // Update the Doctor_confirmation_status for the specific appointment
       const updatedDashboardData = dashboardData.map(appointment => {
-        if (appointment.AppointmentsID === AppointmentsID) {
-          return { ...appointment, Doctor_confirmation_status: 1 };
-        }
+        if (appointment.AppointmentsID === AppointmentsID) return { ...appointment, Doctor_confirmation_status: 1 };
         return appointment;
       });
-
       setDashboardData(updatedDashboardData);
       setStatus('approved');
     }else{
-      console.log('no response')
       setStatus('pending');
     }
   }catch(error){
@@ -73,9 +67,6 @@ export default function DoctorDashboard() {
           }
         }
       }
-      else{
-        console.log('Unverified')
-      }
     })
     .catch(error => {
       console.error(error);
@@ -110,11 +101,7 @@ export default function DoctorDashboard() {
     }
   }, [dashboardData]);
 
-  if(user_type !== 'Doctor'){
-    return(
-      <NonDoctorAccess/>
-    )
-  }
+  if(user_type !== 'Doctor') return <NonDoctorAccess/>
 
   const UpcomingAppointmentCard = ({ appointment, index }) => {
     const [status, setStatus] = useState(appointment.Doctor_confirmation_status === 0 ? 'pending' : 'approved');
@@ -156,83 +143,68 @@ export default function DoctorDashboard() {
     );
   };
 
-  const renderUpcomingAppointments = (upcomingAppointments) =>{
-    if (upcomingAppointments.length){
-      return(
-        <>
-          {upcomingAppointments.map((appointment, index) => (
-            <UpcomingAppointmentCard key={index} appointment={appointment} index={index} />
-          ))}
-        </>
-      )
-    }else{
-      return(
-        <>
-          No upcoming appointments
-        </>
-      )
-    }
+  const renderUpcomingAppointments = (upcomingAppointments) => {
+    if (!upcomingAppointments.length) return <> No upcoming appointments </>
+    return(
+      <>
+        {upcomingAppointments.map((appointment, index) => (
+          <UpcomingAppointmentCard key={index} appointment={appointment} index={index} />
+        ))}
+      </>
+    )
   }
 
-  const renderPastAppointments = (pastAppointments) =>{
-    if (pastAppointments.length){
-      return(
-        <>
-          {pastAppointments.map((appointment, index) => (
-            <PastAppointmentCard key={index} appointment={appointment} index={index} />
-          ))}
-        </>
-      )
-    }else{
-      return(
-        <>
-          No past appointments
-        </>
-      )
-    }
+  const renderPastAppointments = (pastAppointments) => {
+    if (!pastAppointments.length) return <>No past appointments </>
+    return(
+      <>
+        {pastAppointments.map((appointment, index) => (
+          <PastAppointmentCard key={index} appointment={appointment} index={index} />
+        ))}
+      </>
+    )
   }
 
   const renderDashboardData = () => {
-    if (dashboardData.length) {
-      return (
-        <>
-          <Card style={{margin: '0 10px' }}className='mb-3'>
-            <Card.Header>
-              <h1>Upcoming Appointments</h1>
-            </Card.Header>
-            <Card.Body>
-              {renderUpcomingAppointments(upcomingAppointments)}
-            </Card.Body>
-          </Card>
+    if (!dashboardData.length) return <div>No upcoming appointments</div>
+    return (
+      <>
+        <Card style={{margin: '0 10px' }}className='mb-3'>
+          <Card.Header>
+            <h1>Upcoming Appointments</h1>
+          </Card.Header>
+          <Card.Body>
+            {renderUpcomingAppointments(upcomingAppointments)}
+          </Card.Body>
+        </Card>
 
-          <Card style={{margin: '0 10px' }}>
-            <Card.Header>
-              <h1>Past Appointments</h1>
-            </Card.Header>
-            <Card.Body>
-              {renderPastAppointments(pastAppointments)}
-            </Card.Body>
-          </Card>
-        </>
-      );
-    } else {
-      return (
-        <div>No upcoming appointments</div>
-      );
-    }
-  };  
+        <Card style={{margin: '0 10px' }}>
+          <Card.Header>
+            <h1>Past Appointments</h1>
+          </Card.Header>
+          <Card.Body>
+            {renderPastAppointments(pastAppointments)}
+          </Card.Body>
+        </Card>
+      </>
+    )
+  }
+  const renderWelcomeOrBack = () => {
+    if (newDoctor) return <> to MaroonMedic</>
+    return <> back</>
+  }
+
+  const renderisPersonalInfo = () => {
+    if (!personalInfo) return <>Loading...</>
+    return <p>Welcome{renderWelcomeOrBack()}, Dr. {personalInfo.LastName}</p>
+  }
 
   return (
     <>
       <Header dropdown = {true}/>
       <DoctorHeader/>
-      {personalInfo ? (<>
-        <p>Welcome{newDoctor?(<> to MaroonMedic</>):(<> back</>)}, Dr. {personalInfo.LastName}</p>
-        </>) : 
-        (<>
-          Loading...
-        </>)}  
-        {renderDashboardData()}
+      {renderisPersonalInfo()}
+      {renderDashboardData()}
     </>
   )
 };

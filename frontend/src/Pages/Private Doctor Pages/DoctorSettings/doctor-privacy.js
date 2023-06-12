@@ -7,7 +7,7 @@ export default function DoctorPrivacy() {
     <>
       <Header dropdown = {true}/>
       <DoctorHeader/>
-        DoctorPrivacy
+      DoctorPrivacy
     </>
   )
 }

@@ -23,9 +23,7 @@ function RenderIsVetServices (props) {
   const categories = {};
   if (props.listDetails[1]) {
     props.listDetails[1].forEach(service => {
-      if (!categories[service.Category_name]) {
-        categories[service.Category_name] = [];
-      }
+      if (!categories[service.Category_name]) categories[service.Category_name] = [];
       categories[service.Category_name].push(service);
     });
   }
@@ -120,6 +118,6 @@ function RenderIsVetServices (props) {
         {servicesConfirmation.messageType === 'problem' && 'Problem Saving Services!'}
         {servicesConfirmation.messageType === 'none' && 'No services selected'}
       </span>
-      </>
+    </>
   )
 };

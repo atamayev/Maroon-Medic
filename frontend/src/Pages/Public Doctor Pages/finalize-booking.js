@@ -20,9 +20,9 @@ async function confirmBooking(e, navigate, selectedService, selectedLocation, se
 
   try{
     const response = await CalendarDataService.makeAppointment(AppointmentObject);
-    if (response.status === 200){
-    sessionStorage.removeItem('bookingDetails');
-    navigate('/patient-dashboard');
+    if (response.status === 200) {
+      sessionStorage.removeItem('bookingDetails');
+      navigate('/patient-dashboard');
     }
   }catch(error){
     console.log(error)
@@ -36,65 +36,50 @@ export function FinalizeBookingPage() {
   const [user_type, setUser_type] = useState(null);
   const navigate = useNavigate();
   
-
-  useEffect(()=>{
+  useEffect(() => {
       user_verification()
       .then(result => {
-        if (result.verified === true) {
-          setUser_type(result.user_type)
-          if(result.user_type !== 'Patient'){
-            console.log('not patient, need to re-direct')
-          }
-        }
-        else{
-          console.log('Unverified')
-        }
+        if (result.verified === true) setUser_type(result.user_type)
       })
       .catch(error => {
         console.error(error);
       });
   }, []);
 
-  if(user_type !== 'Patient'){
-      return(
-        <NonPatientAccess/>
-      )
-  }
+  if(user_type !== 'Patient') return <NonPatientAccess/>
 
   const capitalizedFirstName = personalData.FirstName.charAt(0).toUpperCase() + personalData.FirstName.slice(1);
   const capitalizedLastName = personalData.LastName.charAt(0).toUpperCase() + personalData.LastName.slice(1);
 
   return (
-    
     <>
-    {console.log(selectedLocation)}
       <Header dropdown = {true} search = {true}/>
       <div className="container mt-5">
           <Card>
-              <Card.Header as="h2">{selectedLocation.instant_book ? (<>Confirm</>) : (<>Request</>)} an Appointment</Card.Header>
-              <Card.Body>
-                <Card.Title as="h3">Dr. {''} {capitalizedFirstName} {''} {capitalizedLastName}</Card.Title>
-                <Card.Text>
-                    <strong>Service:</strong> {selectedService.Service_name} <br />
-                    <strong>Location:</strong> {selectedLocation.address_title}:  {selectedLocation.address_line_1} {selectedLocation.address_line_2}<br />
-                    <strong>Day:</strong> {selectedDay} <br />
-                    <strong>Time:</strong> {selectedTime} <br />
-                </Card.Text>
-                <Button 
-                  variant="primary"
-                  onClick={(e) =>{
-                    confirmBooking(
-                      e,
-                      navigate,
-                      selectedService, 
-                      selectedLocation,
-                      selectedDay,
-                      selectedTime,
-                      personalData
-                    )
-                  }}
-                >{selectedLocation.instant_book ? (<>Confirm</>) : (<>Request</>)}</Button>
-              </Card.Body>
+            <Card.Header as="h2">{selectedLocation.instant_book ? (<>Confirm</>) : (<>Request</>)} an Appointment</Card.Header>
+            <Card.Body>
+              <Card.Title as="h3">Dr. {''} {capitalizedFirstName} {''} {capitalizedLastName}</Card.Title>
+              <Card.Text>
+                <strong>Service:</strong> {selectedService.Service_name} <br />
+                <strong>Location:</strong> {selectedLocation.address_title}:  {selectedLocation.address_line_1} {selectedLocation.address_line_2}<br />
+                <strong>Day:</strong> {selectedDay} <br />
+                <strong>Time:</strong> {selectedTime} <br />
+              </Card.Text>
+              <Button 
+                variant="primary"
+                onClick={(e) => {
+                  confirmBooking(
+                    e,
+                    navigate,
+                    selectedService, 
+                    selectedLocation,
+                    selectedDay,
+                    selectedTime,
+                    personalData
+                  )
+                }}
+              >{selectedLocation.instant_book ? (<>Confirm</>) : (<>Request</>)}</Button>
+            </Card.Body>
           </Card>
       </div>
     </>

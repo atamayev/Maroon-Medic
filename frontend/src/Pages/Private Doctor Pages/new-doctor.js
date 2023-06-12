@@ -19,18 +19,13 @@ export default function NewDoctor () {
       if (result.verified === true && result.user_type === 'Doctor') {
         PrivateDoctorDataService.newDoctorConfirmation()
           .then(result => {
-            if (result.data === false) {
-              navigate('/vet-register');
-            }else if (result.data === true) {
-            }else{
-              navigate('/vet-register');
-            }
+            if (result.data === false) navigate('/vet-register');
+            else if (result.data === true) ;// do nothing
+            else navigate('/vet-register');
           })
-      }else if (result.verified === true && result.user_type === 'Patient') {
-        navigate('/patient-dashboard');
-      }else{
-        navigate('/vet-register');
       }
+      else if (result.verified === true && result.user_type === 'Patient') navigate('/patient-dashboard');
+      else navigate('/vet-register');
     })
   }, []);
 

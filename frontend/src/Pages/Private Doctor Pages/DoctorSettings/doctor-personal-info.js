@@ -84,18 +84,12 @@ export default function DoctorPersonalInfo() {
         if(result.user_type === 'Doctor'){
           try{
             const storedPersonalInfoData = sessionStorage.getItem("DoctorPersonalInfo")
-            if (storedPersonalInfoData){
-                setPersonalInfo(JSON.parse(storedPersonalInfoData));
-            }else{
-              fetchPersonalInfoData(setPersonalInfo);
-            }
+            if (storedPersonalInfoData) setPersonalInfo(JSON.parse(storedPersonalInfoData));
+            else fetchPersonalInfoData(setPersonalInfo);
           }catch(error){
             console.log(error)
           }
         }
-      }
-      else{
-        console.log('Unverified')
       }
     })
     .catch(error => {
@@ -104,11 +98,7 @@ export default function DoctorPersonalInfo() {
   }, [])
 
 
-  if(user_type !== 'Doctor'){
-    return(
-      <NonDoctorAccess/>
-    )
-  }
+  if(user_type !== 'Doctor') return <NonDoctorAccess/>
 
   return (
     <div>
@@ -116,7 +106,7 @@ export default function DoctorPersonalInfo() {
       <DoctorHeader/>
       <Card>
         <Card.Body>
-            <Form onSubmit = {e => handleSave(e, personalInfo, setPersonalInfoConfirmation)}>
+          <Form onSubmit = {e => handleSave(e, personalInfo, setPersonalInfoConfirmation)}>
             <FormGroup
               id="FirstName"
               label="First Name"
@@ -194,7 +184,7 @@ export default function DoctorPersonalInfo() {
               {personalInfoConfirmation.messageType === 'same' && 'Same Personal data!'}
               {personalInfoConfirmation.messageType === 'problem' && 'Problem Saving Personal data!'}
             </span>
-            </Form>
+          </Form>
         </Card.Body>
       </Card>
     </div>

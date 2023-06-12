@@ -19,11 +19,9 @@ import RenderPetsSection from './pets.js';
 async function FillLists(setListDetails){ 
   try{
     const response = await PrivateDoctorDataService.fillLists();
-    if (response){
-        setListDetails(response.data);
-        sessionStorage.setItem("ListDetails", JSON.stringify(response.data));
-    }else{
-      console.log('no response');
+    if (response) {  
+      setListDetails(response.data);
+      sessionStorage.setItem("ListDetails", JSON.stringify(response.data));
     }
   }catch(error){
     console.log('unable to fill ListDetails', error)
@@ -83,25 +81,16 @@ export default function DoctorAccountDetails() {
         if(result.user_type === 'Doctor'){
           try{
             const storedAccountDetails = sessionStorage.getItem("DoctorAccountDetails")
-            if(!storedAccountDetails){
-              FillDoctorAccountDetails();
-            }else{
-              setExpandedCategories(JSON.parse(storedAccountDetails)[1]?.map(service => service.Category_name))
-            }
+            if(!storedAccountDetails) FillDoctorAccountDetails();
+            else setExpandedCategories(JSON.parse(storedAccountDetails)[1]?.map(service => service.Category_name))
             
             const storedListDetails = sessionStorage.getItem("ListDetails")
-            if(storedListDetails){
-              setListDetails(JSON.parse(storedListDetails));
-            }else{
-              FillLists(setListDetails);
-            }
+            if(storedListDetails) setListDetails(JSON.parse(storedListDetails));
+            else FillLists(setListDetails);
           }catch(error){
             console.log(error)
           }
         }
-      }
-      else{
-        console.log('Unverified')
       }
     })
     .catch(error => {
@@ -111,44 +100,36 @@ export default function DoctorAccountDetails() {
 
   async function FillDoctorAccountDetails(){
     try{
-        const response = await PrivateDoctorDataService.fillAccountDetails();
-        if (response){
-            if(response.data[0]) setSpokenLanguages(response.data[0]);
-            if(response.data[1]){
-              setProvidedServices(response.data[1])
-              setExpandedCategories(response.data[1].map(service => service.Category_name));
-            }
-            if(response.data[2]) setDoctorSpecialties(response.data[2]);
-            if(response.data[3]) setPreVetEducation(response.data[3]);
-            if(response.data[4]) setVetEducation(response.data[4]);
-            if(response.data[5]) setAddresses(response.data[5]);
-            if(response.data[6] && Object.keys(response.data[6]).length > 0){
-              setDescription(response.data[6]);
-              if(response.data[6].Description.length === 1000){
-                setIsDescriptionOverLimit(true);
-              }
-            }
-            if(response.data[7]){
-              setServicedPets(response.data[7])
-              setExpandedPetTypes(response.data[7].map(pet =>pet.pet_type));
-              //Somehow set pictures.
-            }
-            if(response.data[8][0].PubliclyAvailable) setPubliclyAvailable(response.data[8][0].PubliclyAvailable);
-            if(response.data[9]) //set pictures;
-            sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(response.data));
-        }else{
-          console.log('no response');
+      const response = await PrivateDoctorDataService.fillAccountDetails();
+      if (response){
+        if(response.data[0]) setSpokenLanguages(response.data[0]);
+        if(response.data[1]){
+          setProvidedServices(response.data[1])
+          setExpandedCategories(response.data[1].map(service => service.Category_name));
         }
-      }catch(error){
-        console.log('unable to fill AccountDetails', error)
+        if(response.data[2]) setDoctorSpecialties(response.data[2]);
+        if(response.data[3]) setPreVetEducation(response.data[3]);
+        if(response.data[4]) setVetEducation(response.data[4]);
+        if(response.data[5]) setAddresses(response.data[5]);
+        if(response.data[6] && Object.keys(response.data[6]).length > 0){
+          setDescription(response.data[6]);
+          if(response.data[6].Description.length === 1000) setIsDescriptionOverLimit(true);
+        }
+        if(response.data[7]){
+          setServicedPets(response.data[7])
+          setExpandedPetTypes(response.data[7].map(pet =>pet.pet_type));
+          //Somehow set pictures.
+        }
+        if(response.data[8][0].PubliclyAvailable) setPubliclyAvailable(response.data[8][0].PubliclyAvailable);
+        if(response.data[9]) //set pictures;
+        sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(response.data));
       }
+    }catch(error){
+      console.log('unable to fill AccountDetails', error)
+    }
   }
   
-  if(user_type !== 'Doctor'){
-    return(
-      <NonDoctorAccess/>
-    )
-  }
+  if(user_type !== 'Doctor') return <NonDoctorAccess/>
 
   return (
     <div>

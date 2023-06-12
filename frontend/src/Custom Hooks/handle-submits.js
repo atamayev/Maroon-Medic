@@ -15,7 +15,7 @@ export const handleLoginSubmit = async ({
         try {
             setLoading(true)
             const response = await AuthDataService.login(login_information_object);
-            if (response.status === 200){
+            if (response.status === 200) {
                 if ((sessionStorage.getItem('bookingDetails') !== null) && VetOrPatient === 'Patient') {
                     let bookingDetails;
                     try {
@@ -25,14 +25,10 @@ export const handleLoginSubmit = async ({
                     }
                     navigate('/finalize-booking', { state: bookingDetails });
                   }
-                  else{
-                    navigate(`/${VetOrPatient.toLowerCase()}-dashboard`)
-                  }
-            }else{
-                setError("Login didn't work");
-            }
-        } catch (err) {
-            setError(err.response.data);
+                  else navigate(`/${VetOrPatient.toLowerCase()}-dashboard`)
+            } else setError("Login didn't work");
+        } catch (error) {
+            setError(error.response.data);
         }
         setLoading(false)
 };
@@ -48,19 +44,14 @@ export const handleRegisterSubmit = async ({
     }) => {
         e.preventDefault();
         setError("")
-        if (register_information_object.password !== passwordConfirm) {
-            return setError("Passwords do not match")
-        }
+        if (register_information_object.password !== passwordConfirm) return setError("Passwords do not match")
         try {
             setLoading(true)
             const response = await AuthDataService.register(register_information_object);
-            if (response.status === 200){
-                navigate(`/new-${VetOrPatient.toLowerCase()}`)
-            }else{
-                setError("Registration didn't work");
-            }
-        } catch (err) {
-            setError(err.response.data);
+            if (response.status === 200) navigate(`/new-${VetOrPatient.toLowerCase()}`)
+            else setError("Registration didn't work")
+        } catch (error) {
+            setError(error.response.data);
         }
         setLoading(false)
 };
@@ -78,12 +69,9 @@ export const handleNewUserSubmit = async ({
         try {
             setLoading(true)
             let response;
-            if (VetOrPatient === 'Vet'){
-                response = await PrivateDoctorDataService.addingDoctorInfo(newInfo);
-            }else if (VetOrPatient === 'Patient'){
-                response = await PrivatePatientDataService.addingPatientInfo(newInfo);
-            }
-            if (response.status === 200){
+            if (VetOrPatient === 'Vet') response = await PrivateDoctorDataService.addingDoctorInfo(newInfo);
+            else if (VetOrPatient === 'Patient') response = await PrivatePatientDataService.addingPatientInfo(newInfo);
+            if (response.status === 200) {
                 if ((sessionStorage.getItem('bookingDetails') !== null) && VetOrPatient === 'Patient') {
                     let bookingDetails;
                     try {
@@ -93,12 +81,8 @@ export const handleNewUserSubmit = async ({
                     }
                     navigate('/finalize-booking', { state: bookingDetails });
                   }
-                  else{
-                    navigate(`/${VetOrPatient.toLowerCase()}-dashboard`)
-                  }
-            }else{
-                setError("newUser didn't work");
-            }
+                  else navigate(`/${VetOrPatient.toLowerCase()}-dashboard`)
+            } else setError("newUser didn't work");
         } catch (err) {
             setError(err.response.data);
         }

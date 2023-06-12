@@ -93,24 +93,25 @@ export default function Header (props) {
 
   async function fetchPersonalInfo (type){
     let response;
-    if (type === 'Doctor'){
-      try{
+    if (type === 'Doctor') {
+      try {
         response = await PrivateDoctorDataService.fillPersonalData();
-      }catch(error){
+      } catch (error) {
         console.log(`unable to fillDoctorPersonalData`, error)
       }
-    }else if (type === 'Patient'){
-      try{
+     }
+     else if (type === 'Patient') {
+      try {
         response = await PrivatePatientDataService.fillPersonalData();
-      }catch(error){
+      } catch (error) {
         console.log(`unable to fillPatientPersonalData`, error)
       }
-    }else console.log('no Type:', type);
+    }
 
-    if (response){
+    if (response) {
       setHeaderData(response.data.FirstName);
       sessionStorage.setItem(`${type}PersonalInfo`, JSON.stringify(response.data))
-    }else console.log('no response');
+    }
   }; 
   
   const handleLogout = async () => {
@@ -229,7 +230,7 @@ export default function Header (props) {
             <li className="nav-item">{renderDropdown()}</li>
           </ul>
         </div>
-        </div>
+      </div>
       </nav>
     </header>
   )

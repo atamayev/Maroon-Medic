@@ -2,13 +2,7 @@ import React from "react";
 import { Card } from "react-bootstrap";
 
 export default function RenderDescriptionSection(props){
-    if(props.personalData || props.description){
-        return(
-            <>
-                {RenderDescription(props.description)}
-            </>
-        )
-    }
+    if(props.personalData || props.description) return <> {RenderDescription(props.description)} </>
 }
 
 function RenderDescription(props){

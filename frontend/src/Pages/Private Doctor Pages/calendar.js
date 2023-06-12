@@ -12,13 +12,7 @@ import "./calendar.css";
 const localizer = momentLocalizer(moment);
 
 const CustomEvent = ({ event }) => {
-  return (
-    <div
-      className={event.Doctor_confirmation_status === 0 ? 'status-pending' : 'status-confirmed'}
-    >
-      {event.title}
-    </div>
-  );
+  return <div className={event.Doctor_confirmation_status === 0 ? 'status-pending' : 'status-confirmed'}> {event.title} </div>
 };
 
 export default function DoctorCalendar () {
@@ -34,16 +28,11 @@ export default function DoctorCalendar () {
           if(result.user_type === 'Doctor'){
             try{
               const storedAccountDetails = sessionStorage.getItem("DoctorCalendarDetails")
-              if(!storedAccountDetails){
-                FillDoctorCalendarDetails();
-              }
+              if(!storedAccountDetails) FillDoctorCalendarDetails();
             }catch(error){
               console.log(error)
             }
           }
-        }
-        else{
-          console.log('Unverified')
         }
       })
       .catch(error => {
@@ -73,11 +62,7 @@ export default function DoctorCalendar () {
     }
   }  
 
-  if(user_type !== 'Doctor'){
-    return(
-      <NonDoctorAccess/>
-    )
-  }
+  if(user_type !== 'Doctor') return <NonDoctorAccess/>
 
   return (
     <div>

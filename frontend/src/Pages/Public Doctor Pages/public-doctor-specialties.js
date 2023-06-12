@@ -2,17 +2,17 @@ import React from "react";
 import { Card } from "react-bootstrap";
 
 export default function RenderSpecialtiesSection(props){
-    if(props.doctorSpecialties.length){
-        return(
+    if (props.doctorSpecialties.length) {
+        return (
             <Card className="card-bottom-margin">
-            <Card.Header>
-              Doctor Organizations and Specialites
-            </Card.Header>
-            <Card.Body>
-              {renderSpecialties(props)}
-            </Card.Body>
-          </Card>
-          )
+                <Card.Header>
+                    Doctor Organizations and Specialites
+                </Card.Header>
+                <Card.Body>
+                    {renderSpecialties(props)}
+                </Card.Body>
+            </Card>
+        )
     }
 }
 
@@ -20,9 +20,7 @@ function renderSpecialties(props){
     const organizations = {};
     if (props.doctorSpecialties) {
       props.doctorSpecialties.forEach(specialty => {
-        if (!organizations[specialty.Organization_name]) {
-            organizations[specialty.Organization_name] = [];
-        }
+        if (!organizations[specialty.Organization_name]) organizations[specialty.Organization_name] = [];
         organizations[specialty.Organization_name].push(specialty);
       });
     }

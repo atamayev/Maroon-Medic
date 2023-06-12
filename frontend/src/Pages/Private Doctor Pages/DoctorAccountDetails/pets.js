@@ -23,9 +23,7 @@ function RenderIsPets (props) {
   const pet_types = {};
   if (props.listDetails[8]) {
     props.listDetails[8].forEach(pet_type => {
-      if (!pet_types[pet_type.Pet_type]) {
-        pet_types[pet_type.Pet_type] = [];
-      }
+      if (!pet_types[pet_type.Pet_type]) pet_types[pet_type.Pet_type] = [];
       pet_types[pet_type.Pet_type].push(pet_type);
     });
   }
@@ -78,6 +76,6 @@ function RenderIsPets (props) {
         {petsConfirmation.messageType === 'problem' && 'Problem Saving Pets!'}
         {petsConfirmation.messageType === 'none' && 'No pets selected'}
       </span>
-      </>
+    </>
   )
 };

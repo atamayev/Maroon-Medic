@@ -17,8 +17,6 @@ async function fetchPetData(setSavedPetData){
       console.log(response.data)
       setSavedPetData(response.data);
       sessionStorage.setItem("PatientPetData", JSON.stringify(response.data))
-    }else{
-      console.log('no response')
     }
   }catch(error){
     console.log('unable to fillPet Data', error)
@@ -30,9 +28,7 @@ async function FillPetTypes(setPetTypes){
     const response = await PrivatePatientDataService.fillPetTypes();
     if (response){
       setPetTypes(response.data);
-        sessionStorage.setItem("PetTypes", JSON.stringify(response.data));
-    }else{
-      console.log('no response');
+      sessionStorage.setItem("PetTypes", JSON.stringify(response.data));
     }
   }catch(error){
     console.log('unable to fill PetTypes', error)
@@ -58,18 +54,12 @@ export default function MyPets() {
         if(result.user_type === 'Patient'){
           try{
             const storedPetData = sessionStorage.getItem("PatientPetData")
-            if (storedPetData){
-              setSavedPetData(JSON.parse(storedPetData));
-            }else{
-              fetchPetData(setSavedPetData);
-            }
+            if (storedPetData) setSavedPetData(JSON.parse(storedPetData));
+            else fetchPetData(setSavedPetData);
 
             const storedPetTypes = sessionStorage.getItem("PetTypes")
-            if(storedPetTypes){
-              setPetTypes(JSON.parse(storedPetTypes));
-            }else{
-              FillPetTypes(setPetTypes);
-            }
+            if(storedPetTypes) setPetTypes(JSON.parse(storedPetTypes));
+            else FillPetTypes(setPetTypes);
           }catch(error){
             console.log(error)
           }
@@ -81,11 +71,8 @@ export default function MyPets() {
     });
   }, []);
 
-  if(user_type !== 'Patient'){
-    return(
-      <NonPatientAccess/>
-    )
-  }
+  if(user_type !== 'Patient') return <NonPatientAccess/>
+
   const handleShowModal = (pet) => {
     setPetToDelete(pet);
     setShowModal(true);
@@ -154,7 +141,7 @@ export default function MyPets() {
           onClick={() => {setShowAddPet(true)}}
         >Add a Pet
         </Button>
-    </>
+     </>
     )
   }
   

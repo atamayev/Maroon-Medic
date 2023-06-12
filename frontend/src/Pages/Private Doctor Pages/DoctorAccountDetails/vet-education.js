@@ -25,7 +25,7 @@ function RenderIsVetEducation(props){
 
   if(!Array.from(new Set(props.listDetails[6]?.map((item) => item.School_name))).length) return <p>Loading...</p>
 
-  return(
+  return (
     <>
       <label htmlFor="vet-school">Select a Veterinary School: </label>
       <select

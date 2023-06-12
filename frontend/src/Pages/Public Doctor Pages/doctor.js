@@ -26,55 +26,30 @@ export default function Doctor () {
   const [description, setDescription] = useState({});
   const [personalData, setPersonalData] = useState({});
   
-  if (Number(id)){
-    id = Number(id)
-  }
-
+  if (Number(id)) id = Number(id)
+  
   async function FillDoctorData(id){
     try{
       const response = await PublicDoctorDataService.getSingleDoctor(id)
       if (response){
-        if(response.data[0]){
-          setAcceptedInsurances(response.data[0])
-        }
-        if(response.data[1]){
-          setSpokenLanguages(response.data[1])
-        }
-        if(response.data[2]){
-          setProvidedServices(response.data[2])
-        }
-        if(response.data[3]){
-          setDoctorSpecialties(response.data[3])
-        }
-        if(response.data[4]){
-          setPreVetEducation(response.data[4])
-        }
-        if(response.data[5]){
-          setVetEducation(response.data[5])
-        }
-        if(response.data[6]){
-          setAddresses(response.data[6])
-        }
-        if(response.data[7] && Object.keys(response.data[7]).length > 0){
-          setDescription(response.data[7]);
-        }
-        if(response.data[8]){
-          //Somehow set pictures.
-        }
-        if(response.data[9]){
-          setPersonalData(response.data[9])
-        }
-      }else{
-        console.log('no response');
+        if(response.data[0]) setAcceptedInsurances(response.data[0]);
+        if(response.data[1]) setSpokenLanguages(response.data[1]);
+        if(response.data[2]) setProvidedServices(response.data[2]);
+        if(response.data[3]) setDoctorSpecialties(response.data[3]);
+        if(response.data[4]) setPreVetEducation(response.data[4]);
+        if(response.data[5]) setVetEducation(response.data[5]);
+        if(response.data[6]) setAddresses(response.data[6]);
+        if(response.data[7] && Object.keys(response.data[7]).length) setDescription(response.data[7]);
+        if(response.data[8]) // Somehow set pictures.
+        if(response.data[9]) setPersonalData(response.data[9]);
       }
     }catch(error){
-        console.log(error)
-      }
+      console.log(error)
+    }
   }
 
   useEffect(() => {
     FillDoctorData(id);
-    console.log('using effect')
   }, []);
 
   return (

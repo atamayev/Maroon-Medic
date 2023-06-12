@@ -11,10 +11,8 @@ async function FillLists(setListDetails){
   try{
     const response = await PrivatePatientDataService.fillLists();
     if (response){
-        setListDetails(response.data);
-        sessionStorage.setItem("ListDetails", JSON.stringify(response.data));
-    }else{
-      console.log('no response');
+      setListDetails(response.data);
+      sessionStorage.setItem("ListDetails", JSON.stringify(response.data));
     }
   }catch(error){
     console.log('unable to fill ListDetails', error)
@@ -25,7 +23,6 @@ export default function PatientAccountDetails() {
   const [listDetails, setListDetails] = useState({});
   const {user_verification} = useContext(VerifyContext);
   const [user_type, setUser_type] = useState(null);
-  //const [carouselIndex, setCarouselIndex] = useState(0);
   const PatientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails"));
   
   const [acceptedInsurances, setAcceptedInsurances] = useState(PatientAccountDetails?.[0] || []);
@@ -40,22 +37,14 @@ export default function PatientAccountDetails() {
         if(result.user_type === 'Patient'){
           try{
             const storedAccountDetails = sessionStorage.getItem("PatientAccountDetails")
-            if(!storedAccountDetails){
-              FillPatientAccountDetails();
-            }            
+            if(!storedAccountDetails) FillPatientAccountDetails();
             const storedListDetails = sessionStorage.getItem("ListDetails")
-            if(storedListDetails){
-              setListDetails(JSON.parse(storedListDetails));
-            }else{
-              FillLists(setListDetails);
-            }
+            if(storedListDetails) setListDetails(JSON.parse(storedListDetails));
+            else FillLists(setListDetails);
           }catch(error){
             console.log(error)
           }
         }
-      }
-      else{
-        console.log('Unverified')
       }
     })
     .catch(error => {
@@ -65,24 +54,18 @@ export default function PatientAccountDetails() {
 
   async function FillPatientAccountDetails(){
     try{
-        const response = await PrivatePatientDataService.fillAccountDetails();
-        if (response){
-            if(response.data[0]) setAcceptedInsurances(response.data[0]);
-            if(response.data[1]) setSpokenLanguages(response.data[1]);
-            sessionStorage.setItem("PatientAccountDetails", JSON.stringify(response.data));
-        }else{
-          console.log('no response');
-        }
-      }catch(error){
-        console.log('unable to fill AccountDetails', error)
+      const response = await PrivatePatientDataService.fillAccountDetails();
+      if (response){
+        if(response.data[0]) setAcceptedInsurances(response.data[0]);
+        if(response.data[1]) setSpokenLanguages(response.data[1]);
+        sessionStorage.setItem("PatientAccountDetails", JSON.stringify(response.data));
       }
+    }catch(error){
+      console.log('unable to fill AccountDetails', error)
+    }
   }
 
-  if(user_type !== 'Patient'){
-    return(
-      <NonPatientAccess/>
-    )
-  }
+  if(user_type !== 'Patient') return <NonPatientAccess/>
 
   return (
     <div>

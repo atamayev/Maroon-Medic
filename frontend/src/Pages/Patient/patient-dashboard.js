@@ -11,11 +11,9 @@ import PatientHeader from './patient-header.js';
 async function fetchPatientDashboardData(setDashboardData){
   try{
     const response = await PrivatePatientDataService.fillDashboard()
-    if (response){
+    if (response) {
       setDashboardData(response.data);
       sessionStorage.setItem("PatientDashboardData", JSON.stringify(response.data))
-    } else {
-      console.log('no response')
     }
   }catch(error){
     console.log('unable to fillDashboard', error)
@@ -85,6 +83,31 @@ export default function PatientDashboard() {
 
   if(user_type !== 'Patient') return <NonPatientAccess/>
 
+  const renderAppointmentConfirmationStatus = (appointment) => {
+    if (appointment.Doctor_confirmation_status === 0) {
+      return (
+        <OverlayTrigger
+          placement="top"
+          overlay={<Tooltip id={`tooltip-top`}>Dr. {appointment.Doctor_FirstName} has not yet approved your appointment.</Tooltip>}
+        >
+          <Badge pill style={{ position: 'absolute', top: '10px', right: '10px', border: '2px solid yellow' }}>
+            Pending approval
+          </Badge>
+        </OverlayTrigger>
+      )
+    }
+    return (
+      <OverlayTrigger
+        placement="top"
+        overlay={<Tooltip id={`tooltip-top`}>Dr. {appointment.Doctor_FirstName} is looking forward to the appointment.</Tooltip>}
+      >
+        <Badge pill variant="success" style={{ position: 'absolute', top: '10px', right: '10px' }}>
+          Appointment approved
+        </Badge>
+    </OverlayTrigger>
+    )
+  }
+  
   const AppointmentCard = ({appointment, index}) =>{
     return(
       <>
@@ -92,25 +115,7 @@ export default function PatientDashboard() {
           <Card.Body>
             <Card.Title>
               Appointment with Dr. {appointment.Doctor_FirstName} {appointment.Doctor_LastName} on {appointment.appointment_date}
-              {appointment.Doctor_confirmation_status === 0 ? (
-                <OverlayTrigger
-                  placement="top"
-                  overlay={<Tooltip id={`tooltip-top`}>Dr. {appointment.Doctor_FirstName} has not yet approved your appointment.</Tooltip>}
-                >
-                  <Badge pill style={{ position: 'absolute', top: '10px', right: '10px', border: '2px solid yellow' }}>
-                    Pending approval
-                  </Badge>
-                </OverlayTrigger>
-              ) : (
-                <OverlayTrigger
-                  placement="top"
-                  overlay={<Tooltip id={`tooltip-top`}>Dr. {appointment.Doctor_FirstName} is looking forward to the appointment.</Tooltip>}
-                  >
-                    <Badge pill variant="success" style={{ position: 'absolute', top: '10px', right: '10px' }}>
-                      Appointment approved
-                    </Badge>
-                </OverlayTrigger>
-                )}
+              {renderAppointmentConfirmationStatus(appointment)}
             </Card.Title>
           </Card.Body>
         </Card>

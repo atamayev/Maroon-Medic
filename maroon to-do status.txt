@@ -2,6 +2,9 @@ To-do:
 
 
 ASAP:
+-change doctor account details/list details to an object instead of a list. this way, don't need to do listDetails[1], can just do listDetails.insurance
+-remove all console.logs from front-end -besides for errors
+	same for ternary operations
 -continue going through all front-end code, make if statments that return one liners return them on one line, look for places to trim code
 -make the <loading> return before the actual content (switch the if else)
 -when deleting, make all of teh parts of the account details require a delete confirmation. change the X delete button to red. when press delete, should plit into 2 buttons- confirm delete, or nevermind

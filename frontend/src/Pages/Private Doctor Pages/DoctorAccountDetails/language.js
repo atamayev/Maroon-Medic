@@ -8,7 +8,7 @@ export default function RenderLanguageSection(props){
   return(
     <Card className="mb-3">
       <Card.Header>
-      Languages
+        Languages
       </Card.Header>
       <Card.Body>
         {RenderIsVetLanguages(props)}
@@ -66,12 +66,12 @@ function RenderIsVetLanguages(props){
             </li>
           ))}
       </ul>
-        <span className={`fade ${languagesConfirmation.messageType ? 'show' : ''}`}>
-          {languagesConfirmation.messageType === 'saved' && 'Languages saved!'}
-          {languagesConfirmation.messageType === 'same' && 'Same Language data!'}
-          {languagesConfirmation.messageType === 'problem' && 'Problem Saving Languages!'}
-          {languagesConfirmation.messageType === 'none' && 'No languages selected'}
-        </span>
+      <span className={`fade ${languagesConfirmation.messageType ? 'show' : ''}`}>
+        {languagesConfirmation.messageType === 'saved' && 'Languages saved!'}
+        {languagesConfirmation.messageType === 'same' && 'Same Language data!'}
+        {languagesConfirmation.messageType === 'problem' && 'Problem Saving Languages!'}
+        {languagesConfirmation.messageType === 'none' && 'No languages selected'}
+      </span>
     </div>
   );
 };

@@ -2,9 +2,13 @@ import { saveDoctorLanguages, saveSpecialies } from "./DoctorAccountDetails/save
 import { savePatientLanguages } from "./PatientAccountDetails/savePatientAccountDetails";
 
 export const handleAddLanguage = (selectedLanguageID, spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, doctorOrPatient) => {
-  const selectedLanguage = listDetails[1].find((lang) => lang.language_listID === JSON.parse(selectedLanguageID));
+  let selectedLanguage;
+  if (doctorOrPatient === 'doctor') selectedLanguage = listDetails[0].find((lang) => lang.language_listID === JSON.parse(selectedLanguageID));
+  else if (doctorOrPatient === 'patient') selectedLanguage = listDetails[1].find((lang) => lang.language_listID === JSON.parse(selectedLanguageID));
+
   const newSpokenLanguages = [...spokenLanguages, selectedLanguage];
   setSpokenLanguages(newSpokenLanguages);
+  
   if (doctorOrPatient === 'doctor') saveDoctorLanguages(selectedLanguageID, newSpokenLanguages, setLanguagesConfirmation, 'add')
   else if (doctorOrPatient === 'patient') savePatientLanguages(selectedLanguageID, newSpokenLanguages, setLanguagesConfirmation, 'add')
   

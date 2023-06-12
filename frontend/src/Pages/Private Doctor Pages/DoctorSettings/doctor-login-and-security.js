@@ -16,8 +16,6 @@ async function fetchLoginHistory(setLoginHistory) {
         Login_at: moment(item.Login_at).format('MMMM Do, YYYY [at] h:mmA'),
       }));
       setLoginHistory(formattedData);
-    } else {
-      console.log('no response');
     }
   } catch (error) {
     console.log('unable to fetch login history', error);
@@ -43,20 +41,13 @@ export default function DoctorLoginAndSecurity() {
           }
         }
       }
-      else{
-        console.log('Unverified')
-      }
     })
     .catch(error => {
       console.error(error);
     });
   }, []);
 
-  if(user_type !== 'Doctor'){
-    return(
-      <NonDoctorAccess/>
-    )
-  }
+  if(user_type !== 'Doctor') return <NonDoctorAccess/>
 
   function LoginHistoryCard({ loginHistoryItem }) {
     return (

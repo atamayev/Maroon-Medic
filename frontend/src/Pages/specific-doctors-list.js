@@ -9,22 +9,18 @@ export default function SpecificDoctorsList() {
   
   let { query } = useParams(); //the id of the current site (which user) --> used to set User
  
-  if (!query){
-      window.location.href = '/';
-  }
+  if (!query) window.location.href = '/';
+  
   useEffect(()=>{
     setSearchTerm(query)
     fetchData()
   }, [searchTerm])
 
   const renderSearchResults = () => {
-    if (!items || items === 'User not found'){
-      return <div> No results</div>
-    }else{
+    if (!items || items === 'User not found') return <div> No results</div>
+    else {
       const data = items.slice(0, 1000); // This has no function rn, since there are less than 1000 vets. once there are more, only the first 100 will be returned
-      return(
-        <SearchResults data = {data}/>
-      )
+      return <SearchResults data = {data}/>
     }
   }
 

@@ -28,9 +28,7 @@ function AddressForm(props) {
 
   const handleInputChange = (event, address_priority) => {
     const newAddresses = props.addresses.map(address => {
-      if (address.address_priority === address_priority) {
-        return { ...address, [event.target.name]: event.target.value }
-      }
+      if (address.address_priority === address_priority) return { ...address, [event.target.name]: event.target.value } 
       return address;
     });
     props.setAddresses(newAddresses);
@@ -51,9 +49,7 @@ function AddressForm(props) {
   
       // Check for days that are checked off (exist in times array)
       for (let time of address.times) {
-        if (!time.Start_time || !time.End_time) {
-          return false;
-        }
+        if (!time.Start_time || !time.End_time) return false;
       }
     }
     return true;
@@ -62,9 +58,7 @@ function AddressForm(props) {
   function areAllTimesValid(addresses) {
     for (let address of addresses) {
       for (let time of address.times) {
-        if (new Date(`1970-01-01T${time.End_time}:00`) <= new Date(`1970-01-01T${time.Start_time}:00`)) {
-          return false;
-        }
+        if (new Date(`1970-01-01T${time.End_time}:00`) <= new Date(`1970-01-01T${time.Start_time}:00`)) return false;
       }
     }
     return true;
@@ -286,11 +280,8 @@ const WeekDays = ({ times, setTimes}) => {
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   const handleDayToggle = (day) => {
-    if (times.some(time => time.Day_of_week === day)) {
-      setTimes(times.filter(time => time.Day_of_week !== day));
-    } else {
-      setTimes([...times, { Day_of_week: day, Start_time: '', End_time: '' }]);
-    }
+    if (times.some(time => time.Day_of_week === day)) setTimes(times.filter(time => time.Day_of_week !== day));
+    else setTimes([...times, { Day_of_week: day, Start_time: '', End_time: '' }]);
   };
 
   const handleTimeChange = (day, timeType, newTime) => {
@@ -299,10 +290,8 @@ const WeekDays = ({ times, setTimes}) => {
     ));
   }
 
-  if(loading){
-    return <div>Loading...</div>
-  }
-
+  if(loading) return <div>Loading...</div>
+  
   return (
     <div>
       {daysOfWeek.map((day) => (

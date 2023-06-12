@@ -21,26 +21,8 @@ export default function RenderVerificationAndPublicStatusSection (props){
 };
 
 function renderIsVerification (props) {
-  
-  if(props.verified){
-    return(
-      <Button
-          variant="success"
-          disabled 
-        >
-        ✓ (Your identity is Verified)
-      </Button>
-    )
-  }else{
-    return(
-      <Button
-        variant="danger"
-        disabled
-        >
-        X (Your identity is Not Verified)
-      </Button>
-    )
-  }
+  if(props.verified) return <Button variant="success" disabled> ✓ (Your identity is Verified) </Button>
+  else return <Button variant="danger" disabled>X (Your identity is Not Verified)</Button>
 };
 
 function RenderIsPubliclyAvailable (props){

@@ -26,7 +26,7 @@ function RenderIsSpecialty(props){
 
   if(!Array.from(new Set(props.listDetails[2]?.map((item) => item.Organization_name))).length) return <p>Loading...</p>
 
-  return(
+  return (
     <>
       <label htmlFor="organization">Select an organization: </label>
       <select

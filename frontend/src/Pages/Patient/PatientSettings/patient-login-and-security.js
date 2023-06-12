@@ -16,8 +16,6 @@ async function fetchLoginHistory(setLoginHistory) {
         Login_at: moment(item.Login_at).format('MMMM Do, YYYY [at] h:mmA'),
       }));
       setLoginHistory(formattedData);
-    } else {
-      console.log('no response');
     }
   } catch (error) {
     console.log('unable to fetch login history', error);
@@ -31,32 +29,25 @@ export default function PatientLoginAndSecurity() {
 
   useEffect(() => {
     user_verification()
-    .then(result => {
-      if (result.verified === true) {
-        setUser_type(result.user_type)
-        if(result.user_type === 'Patient'){
-          try{
-            setUser_type('Patient')
-            fetchLoginHistory(setLoginHistory);
-          }catch(error){
-            console.log(error)
+      .then(result => {
+        if (result.verified === true) {
+          setUser_type(result.user_type)
+          if(result.user_type === 'Patient'){
+            try{
+              setUser_type('Patient')
+              fetchLoginHistory(setLoginHistory);
+            }catch(error){
+              console.log(error)
+            }
           }
         }
-      }
-      else{
-        console.log('Unverified')
-      }
-    })
-    .catch(error => {
-      console.error(error);
-    });
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }, []);
 
-  if(user_type !== 'Patient'){
-    return(
-      <NonPatientAccess/>
-    )
-  }
+  if(user_type !== 'Patient') return <NonPatientAccess/>
 
   function LoginHistoryCard({ loginHistoryItem }) {
     return (

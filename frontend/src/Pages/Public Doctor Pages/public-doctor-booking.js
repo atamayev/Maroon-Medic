@@ -35,9 +35,7 @@ const handleLocationChange = (event, addresses, setSelectedLocation, setSelected
 const handleDayChange = (event, setSelectedDay, setSelectedTime) => {
   const value = event.target.value;
   setSelectedDay(value === 'Select...' ? null : value);
-  if (value === 'Select...') {
-    setSelectedTime(null);
-  }
+  if (value === 'Select...') setSelectedTime(null);
 };
 
 const handleTimeChange = (event, setSelectedTime) => {
@@ -101,9 +99,8 @@ export default function RenderBookingSection(props) {
   }, [selectedDay, selectedLocationObject, selectedServiceObject]);
 
   useEffect(() => {
-    if (!selectedLocationObject) {
-      return;
-    }
+    if (!selectedLocationObject) return;
+
     const daysOfWeek = selectedLocationObject?.times.map(time => {
       switch (time.Day_of_week) {
         case 'Sunday': return 0;
@@ -119,9 +116,7 @@ export default function RenderBookingSection(props) {
     let dates = [];
     let date = moment();
     while (dates.length < 10) {
-      if (daysOfWeek.includes(date.day())) {
-        dates.push(date.format('dddd, MMMM Do, YYYY'));
-      }
+      if (daysOfWeek.includes(date.day())) dates.push(date.format('dddd, MMMM Do, YYYY'));
       date = date.clone().add(1, 'days');
     }
     setAvailableDates(dates);
@@ -193,9 +188,9 @@ export default function RenderBookingSection(props) {
                         <option disabled>{selectedDay}</option>
                     ) : (
                         availableDates.map((date, index) => (
-                            <option key={index} value={date}>
-                                {date}
-                            </option>
+                          <option key={index} value={date}>
+                            {date}
+                          </option>
                         ))
                     )}
                 </FormGroup>

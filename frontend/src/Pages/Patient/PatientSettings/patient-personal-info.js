@@ -12,10 +12,8 @@ async function fetchPersonalInfoData(setPersonalInfo){
   try{
     const response = await PrivatePatientDataService.fillPersonalData()
     if (response){
-        setPersonalInfo(response.data);
-        sessionStorage.setItem("PatientPersonalInfo", JSON.stringify(response.data))
-    }else{
-      console.log('no response')
+      setPersonalInfo(response.data);
+      sessionStorage.setItem("PatientPersonalInfo", JSON.stringify(response.data))
     }
   }catch(error){
     console.log('unable to fill PersonalInfoData', error)
@@ -28,26 +26,22 @@ const handleSave = async (e, personalInfo, setPersonalInfoConfirmation) =>{
   const stringifiedPersonalInfoData = JSON.stringify(personalInfo)
   try{
       if (stringifiedPersonalInfoData !== storedPersonalInfoData){// if there is a change, and handlesave is used:
-          try {
-              //create this:
-              const response = await PrivatePatientDataService.savePersonalData(personalInfo);
-              if (response.status === 200){
-                  // setPersonalInfo(personalInfo);
-                  sessionStorage.setItem("PatientPersonalInfo", JSON.stringify(personalInfo));
-                  setPersonalInfoConfirmation({messageType: 'saved'});
-              }else{
-                console.log('no response')
-              }
-          } catch (error) {
-            setPersonalInfoConfirmation({messageType: 'problem'});
-              console.log(error.response.data);
+        try {
+          const response = await PrivatePatientDataService.savePersonalData(personalInfo);
+          if (response.status === 200){
+              sessionStorage.setItem("PatientPersonalInfo", JSON.stringify(personalInfo));
+              setPersonalInfoConfirmation({messageType: 'saved'});
           }
-      }else{
+        } catch (error) {
+          setPersonalInfoConfirmation({messageType: 'problem'});
+          console.log(error.response.data);
+        }
+      } else {
         setPersonalInfoConfirmation({messageType: 'same'});
       }
   }catch(error){
     setPersonalInfoConfirmation({messageType: 'problem'});
-      console.log('unable to handleSave', error)
+    console.log('unable to handleSave', error)
   }
 };
 
@@ -84,18 +78,12 @@ export default function PatientPersonalInfo() {
         if(result.user_type === 'Patient'){
           try{
             const storedPersonalInfoData = sessionStorage.getItem("PatientPersonalInfo")
-            if (storedPersonalInfoData){
-                setPersonalInfo(JSON.parse(storedPersonalInfoData));
-            }else{
-              fetchPersonalInfoData(setPersonalInfo);
-            }
+            if (storedPersonalInfoData) setPersonalInfo(JSON.parse(storedPersonalInfoData));
+            else fetchPersonalInfoData(setPersonalInfo);
           }catch(error){
             console.log(error)
           }
         }
-      }
-      else{
-        console.log('Unverified')
       }
     })
     .catch(error => {
@@ -104,11 +92,7 @@ export default function PatientPersonalInfo() {
   }, [])
 
 
-  if(user_type !== 'Patient'){
-    return(
-      <NonPatientAccess/>
-    )
-  }
+  if(user_type !== 'Patient') return <NonPatientAccess/>
 
   return (
     <div>
@@ -116,7 +100,7 @@ export default function PatientPersonalInfo() {
       <PatientHeader/>
       <Card>
         <Card.Body>
-            <Form onSubmit = {e => handleSave(e, personalInfo, setPersonalInfoConfirmation)}>
+          <Form onSubmit = {e => handleSave(e, personalInfo, setPersonalInfoConfirmation)}>
             <FormGroup
               id="FirstName"
               label="First Name"
@@ -194,7 +178,7 @@ export default function PatientPersonalInfo() {
               {personalInfoConfirmation.messageType === 'same' && 'Same Personal data!'}
               {personalInfoConfirmation.messageType === 'problem' && 'Problem Saving Personal data!'}
             </span>
-            </Form>
+          </Form>
         </Card.Body>
       </Card>
     </div>
