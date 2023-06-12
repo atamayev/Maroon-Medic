@@ -34,7 +34,6 @@ async function approveAppointment (setStatus, AppointmentsID, dashboardData, set
       setStatus('pending');
     }
   }catch(error){
-    console.log('unable to fillDoctorDashboard', error)
     setStatus('pending');
   }
 };
@@ -103,8 +102,13 @@ export default function DoctorDashboard() {
 
   if(user_type !== 'Doctor') return <NonDoctorAccess/>
 
+  const returnDoctorConfirmationStatus = (appointment) => {
+    if (appointment.Doctor_confirmation_status === 0) return 'pending'
+    return 'approved'
+  }
+
   const UpcomingAppointmentCard = ({ appointment, index }) => {
-    const [status, setStatus] = useState(appointment.Doctor_confirmation_status === 0 ? 'pending' : 'approved');
+    const [status, setStatus] = useState(returnDoctorConfirmationStatus(appointment));
     return (
       <Card key={index} style={{ margin: '0 10px', position: 'relative' }} className='mb-3'>
         <Card.Body>
@@ -159,7 +163,7 @@ export default function DoctorDashboard() {
     return(
       <>
         {pastAppointments.map((appointment, index) => (
-          <PastAppointmentCard key={index} appointment={appointment} index={index} />
+          <PastAppointmentCard key = {index} appointment = {appointment} index = {index} />
         ))}
       </>
     )

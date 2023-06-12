@@ -95,11 +95,8 @@ export default new class FetchPublicDoctorData{
                     return (`error in second try=catch ${functionName}:`, error);
                 }
             }
-        }else{
-            //if there are no results.length
-            console.log('DoctorAddressData Data does not exist');
-            return []
-        }
+        } else return []
+
         return (results);
     };
 

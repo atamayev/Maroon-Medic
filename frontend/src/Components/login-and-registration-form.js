@@ -15,13 +15,17 @@ export default function LoginAndRegistrationForm({
   showPassword,
   setShowPassword }) {
 
-  const renderPasswordConfirm = ()=>{
-    if (loginOrSignUp === 'Sign up'){
+  const renderPasswordConfirm = ()=> {
+    const renderShowPassword = () => {
+      if (showPassword) return 'text'
+      return 'password'
+    }
+    if (loginOrSignUp === 'Sign up') {
       return(
         <FormGroup
           id = "confirm-password"
           label = "Password Confirmation"
-          type={showPassword ? "text" : "password"} // Switch input type based on showPassword state
+          type = {renderShowPassword()} // Switch input type based on showPassword state
           placeholder= "Confirm Password"
           onChange={(event) => setPasswordConfirm(event.target.value)}
           required
@@ -30,7 +34,7 @@ export default function LoginAndRegistrationForm({
     }
   }
 
-  const renderSubLoginInfo = ()=>{
+  const renderSubLoginInfo = () => {
     if (loginOrSignUp === 'Login'){
       return(
         <>
@@ -56,6 +60,16 @@ export default function LoginAndRegistrationForm({
     }  
   }
 
+  const renderShowPassword = () => {
+    if (showPassword) return 'text'
+    return 'password'
+  }
+
+  const renderHideOrShowPassword = () => {
+    if (showPassword) return 'Hide Password'
+    return 'Show Password'
+  }
+
   return (
     <>
       <Card>
@@ -73,15 +87,15 @@ export default function LoginAndRegistrationForm({
             <FormGroup
               id = "password"
               label = "Password"
-              type={showPassword ? "text" : "password"} // Switch input type based on showPassword state
-              placeholder= "Password"
-              onChange={(event) => setCredentials({...credentials, password: event.target.value})}
+              type = {renderShowPassword()} // Switch input type based on showPassword state
+              placeholder = "Password"
+              onChange = {(event) => setCredentials({...credentials, password: event.target.value})}
               required
             />
 
             {renderPasswordConfirm()}
-            <Button onClick={e=> (setShowPassword(!showPassword))} className='mt-3'>
-              {showPassword ? "Hide Password" : "Show Password"}
+            <Button onClick = {e=> (setShowPassword(!showPassword))} className='mt-3'>
+              {renderHideOrShowPassword()}
             </Button>
 
             {error && <Alert variant="danger" className='mt-3 mb-0'>{error}</Alert>}

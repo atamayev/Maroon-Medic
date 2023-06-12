@@ -341,11 +341,10 @@ export async function logout (req, res){
       values = [newUserUUID]
       await connection.execute(sql, values)
     }
-  }catch(error){
+  } catch(error){
       console.log('Error in accessing DB', error)
       // return res.status(500).json({ error: `Error in accessing DB` });
-    }
-
+  }
   
   try{
     const cookieNames = ['AccessToken', 'UUID', 'New_User'];
@@ -358,7 +357,6 @@ export async function logout (req, res){
         path: '/'
       });
     });
-    console.log('logging out')
     return res.status(200).json();
   }catch (error){
     console.log(`error in logging ${type} out`)

@@ -30,7 +30,6 @@ const VerifyContextProvider = (props) => {
         };
       }
       else {
-        console.log('false');
         return {
           verified: false
         };

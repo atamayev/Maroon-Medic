@@ -120,6 +120,11 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
     setAddresses(updatedAddresses);
   };
 
+  const renderAddressTitleSection = () =>{
+    if (address.address_title) return address.address_title
+    return ('Address #' + (index + 1))
+  }
+
   return(
     <Accordion.Item eventKey={address.address_priority} style={{ marginBottom: '10px' }}>
       <Accordion.Header>
@@ -144,7 +149,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
               </div>
             </Col>
             <Col xs={4} className="text-center font-weight-bold">
-                {address.address_title ? (address.address_title): ('Address #' + (index + 1))}
+                {renderAddressTitleSection()}
             </Col>
             <Col xs={4} className="text-right">
                 <Button variant="danger" size="sm" onClick={() => handleDeleteAccordion(address.address_priority, addresses, setAddresses)} style={{ float: 'right' }}>Delete Location</Button>

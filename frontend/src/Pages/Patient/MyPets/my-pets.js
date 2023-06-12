@@ -14,7 +14,6 @@ async function fetchPetData(setSavedPetData){
   try{
     const response = await PrivatePatientDataService.fetchPetData()
     if (response){
-      console.log(response.data)
       setSavedPetData(response.data);
       sessionStorage.setItem("PatientPetData", JSON.stringify(response.data))
     }
@@ -82,6 +81,11 @@ export default function MyPets() {
     setShowModal(false);
   };
 
+  const renderTypeOfPet = (pet) => {
+    if (pet.Pet) return <>{pet.Pet}</>
+    return <>{pet.petType}</>
+  }
+
   const renderSavedPetData = () => {
     if (!savedPetData.length) return <></>
     return (
@@ -102,13 +106,13 @@ export default function MyPets() {
               <Card.Text>
                 <p>Gender: {pet.Gender}</p>
                 <p>Date of Birth: {moment(pet.DOB).format('MMMM Do, YYYY')}</p>
-                <p>Type of Animal: {pet.Pet ? (<>{pet.Pet}</>):(<>{pet.petType}</>)}</p>
+                <p>{renderTypeOfPet(pet)}</p>
                 {/* Add other pet details as needed */}
               </Card.Text>
             </Card.Body>
           </Card>
         ))}
-          <Modal show={showModal} onHide={handleCloseModal}>
+          <Modal show = {showModal} onHide = {handleCloseModal}>
           <Modal.Header closeButton>
             <Modal.Title>Confirm Deletion</Modal.Title>
           </Modal.Header>

@@ -135,8 +135,36 @@ export default function RenderBookingSection(props) {
     )
   }
 
-  return (
-    props.providedServices.length && props.addresses.length ? (
+  const renderAvailableDates = () => {
+    if (selectedDay === "This doctor does not currently have any open appointments") {
+      return <option disabled>{selectedDay}</option>
+    }
+    return (
+      availableDates.map((date, index) => (
+        <option key={index} value={date}>
+          {date}
+        </option>
+      ))
+    )
+  }
+
+  const renderInstantBook = () => {
+    if (selectedLocation.instant_book) return <>Confirm</>
+    return <>Request</>
+  }
+
+  const renderMakeBooking = () => {
+    if(!(props.providedServices.length && props.addresses.length)){
+      return (
+        <Card className='card-bottom-margin'>
+        <Card.Header>Ready to make a booking?</Card.Header>
+        <Card.Body>
+          This doctor does not currently offer any services.
+        </Card.Body>
+      </Card>
+      )
+    }
+    return(
       <Card className='card-bottom-margin'>
         <Card.Header>Ready to make a booking?</Card.Header>
         <Card.Body>
@@ -183,16 +211,8 @@ export default function RenderBookingSection(props) {
                   label='Select a date' 
                   onChange={(e)=> handleDayChange(e, setSelectedDay, setSelectedTime)}
                 >
-                    <option>Select...</option>
-                    {selectedDay === "This doctor does not currently have any open appointments" ? (
-                        <option disabled>{selectedDay}</option>
-                    ) : (
-                        availableDates.map((date, index) => (
-                          <option key={index} value={date}>
-                            {date}
-                          </option>
-                        ))
-                    )}
+                  <option>Select...</option>
+                  {renderAvailableDates()}
                 </FormGroup>
               )}
             </div>
@@ -229,18 +249,17 @@ export default function RenderBookingSection(props) {
                 props.personalData
               )}
               className='mt-3'>
-              Click to {selectedLocation.instant_book ? (<>Confirm</>) : (<>Request</>)} an appointment
+              Click to {renderInstantBook()} an appointment
             </Button>
           )}
         </Card.Body>
       </Card>
-    ) : (
-      <Card className='card-bottom-margin'>
-        <Card.Header>Ready to make a booking?</Card.Header>
-        <Card.Body>
-          This doctor does not currently offer any services.
-        </Card.Body>
-      </Card>
     )
-  ); 
+  }
+
+  return (
+    <>
+      {renderMakeBooking()}
+    </>
+  )
 };

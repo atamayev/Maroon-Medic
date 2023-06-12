@@ -155,9 +155,8 @@ export default new class FetchDoctorAccountData{
                         WHERE ${phone}.address_ID = ?`;
         
                     const [phones] = await connection.execute(sql2, [result.addressesID]);
-                    if(!phones.length){
-                        result.phone = "";
-                    }else{
+                    if(!phones.length) result.phone = "";
+                    else{
                         result.phone = phones[0].phone;
                         result.phone_priority = phones[0].phone_priority;
                     }

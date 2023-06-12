@@ -34,14 +34,12 @@ const handleSave = async (e, personalInfo, setPersonalInfoConfirmation) =>{
           }
         } catch (error) {
           setPersonalInfoConfirmation({messageType: 'problem'});
-          console.log(error.response.data);
         }
       } else {
         setPersonalInfoConfirmation({messageType: 'same'});
       }
   }catch(error){
     setPersonalInfoConfirmation({messageType: 'problem'});
-    console.log('unable to handleSave', error)
   }
 };
 

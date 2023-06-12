@@ -207,9 +207,7 @@ export async function saveServicesData (req, res){
             const matchingResult = results.find(result => result.Service_and_Category_ID === service.service_and_category_listID);
 
             if (matchingResult) {
-                if (matchingResult.Service_time !== service.Service_time || matchingResult.Service_price !== service.Service_price) {
-                    updatedData.push(service);
-                }
+                if (matchingResult.Service_time !== service.Service_time || matchingResult.Service_price !== service.Service_price) updatedData.push(service);
             }
         });//Checks which results and ServicesData have the same IDs, but some other field has changed (ie. price, time). Adds those objects to updatedData
 
@@ -301,13 +299,10 @@ export async function saveEducationData (req, res){
             return res.status(400).json();
         }
     }else if (operationType === 'delete') {
-        if (EducationType === 'pre_vet'){
-            sql = `DELETE FROM ${table_name} WHERE pre_vet_education_mappingID = ?`;
-            values = [EducationData];
-        } else if (EducationType === 'vet') {
-            sql = `DELETE FROM ${table_name} WHERE vet_education_mappingID = ?`;
-            values = [EducationData];
-        } else {
+        values = [EducationData];
+        if (EducationType === 'pre_vet') sql = `DELETE FROM ${table_name} WHERE pre_vet_education_mappingID = ?`;
+        else if (EducationType === 'vet') sql = `DELETE FROM ${table_name} WHERE vet_education_mappingID = ?`;
+        else {
             console.log(`Education_type not defined ${saveEducationData.name}`);
             return res.status(400).json();
         }
@@ -453,14 +448,16 @@ export async function saveAddressData (req, res){
                     return res.status(400).json();
                 }
                 if(results.length){
-                    const sql = `UPDATE ${phone} SET phone = ? WHERE address_ID = ?`;
-                    const values = [updatedData[i].phone, updatedData[i].addressesID];
-                    try{
-                        await connection.execute(sql, values);
-                    }catch(error){
-                        console.log(`error in updatedData phone address data ${saveAddressData.name}:`, error);
-                        return res.status(400).json();
-                    } 
+                    if (updatedData[i].phone){
+                        const sql = `UPDATE ${phone} SET phone = ? WHERE address_ID = ?`;
+                        const values = [updatedData[i].phone, updatedData[i].addressesID];
+                        try{
+                            await connection.execute(sql, values);
+                        }catch(error){
+                            console.log(`error in updatedData phone address data ${saveAddressData.name}:`, error);
+                            return res.status(400).json();
+                        }
+                    }
                 }else{
                     const sql = `INSERT INTO ${phone} (Phone, phone_priority, address_ID) VALUES (?, ?, ?)`;
                     const values = [updatedData[i].phone, 0, updatedData[i].addressesID];//need to figure out why phone_priority not in updatedData

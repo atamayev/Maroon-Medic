@@ -20,9 +20,15 @@ export default function RenderDescriptionSection (props){
 function RenderIsDescription(props){
   const [descriptionConfirmation, setDescriptionConfirmation] = useConfirmationMessage();
 
-  const counterStyle = {
-    color: props.isDescriptionOverLimit ? "red" : "black",
-  };
+  const counterStyleLimit = () => {
+    if (props.isDescriptionOverLimit) return {color: 'red'}
+    return {color: 'black'}
+  }
+
+  const renderCharacterLimitFraction = () => {
+    if (!props.description.Description) return <>0</>
+    return <>{props.description.Description.length}</>
+  }
   
   return(
     <Form> 
@@ -38,7 +44,9 @@ function RenderIsDescription(props){
         as="textarea" 
         rows={3}
       />
-      <div style={counterStyle}>Character Limit: {props.description.Description ? (<>{props.description.Description.length}</>):(<>0</>)} / 1000</div>
+      <div style = {counterStyleLimit()}>
+        Character Limit: {renderCharacterLimitFraction()} / 1000
+      </div>
       <Button 
         variant="success" 
         onClick={()=> saveDescription(props.description, setDescriptionConfirmation)}

@@ -31,26 +31,26 @@ export default function PatientDashboard() {
 
   useEffect(() => {
     user_verification()
-    .then(result => {
-      if (result.verified === true) {
-        setUser_type(result.user_type)
-        if(result.user_type === 'Patient'){
-          try{
-            // const storedDashboardData = sessionStorage.getItem("PatientDashboardData")
-            // if (storedDashboardData){
-            //   setDashboardData(JSON.parse(storedDashboardData));
-            // }else{
-              fetchPatientDashboardData(setDashboardData);
-            // }
-          }catch(error){
-            console.log(error)
+      .then(result => {
+        if (result.verified === true) {
+          setUser_type(result.user_type)
+          if (result.user_type === 'Patient') {
+            try {
+              // const storedDashboardData = sessionStorage.getItem("PatientDashboardData")
+              // if (storedDashboardData){
+              //   setDashboardData(JSON.parse(storedDashboardData));
+              // }else{
+                fetchPatientDashboardData(setDashboardData);
+              // }
+            } catch(error) {
+              console.log(error)
+            }
           }
         }
-      }
-    })
-    .catch(error => {
-      console.error(error);
-    });
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }, []);
 
   useEffect(() => {

@@ -35,6 +35,11 @@ const AddPet = (props) => {
     return true;
   }
 
+  const renderNewPetName = () => {
+    if (!props.newPetData.Name) return <>Pet</>
+    return <>{props.newPetData.Name}</>
+  }
+
   return (
     <>
       <Card>
@@ -76,43 +81,39 @@ const AddPet = (props) => {
               onChange={handleInputChange}
               name="DOB"
             />
-              
-              <Form.Group id="formPetType">
-                <Form.Label>Type of Pet</Form.Label>
-                <Form.Control
-                  as="select"
-                  defaultValue={""}
-                  onChange={handleInputChange}
-                  name="petType"
-                  required
-                >
-                  <option value="" disabled>Select</option>
-                  {props.petTypes.map((petType, index) => (
-                    <option
-                      key={index}
-                      value={petType.pet_listID}
-                    >
-                      {petType.Pet}
-                    </option>
-                  ))}
-                </Form.Control>
-              </Form.Group>
-
-
-              Upload image area <br/>
-
-              <Button 
-                variant="primary" 
-                type="submit"
-                disabled={!areAllFieldsValid(props.newPetData)} // Check for both field validity
-                onClick={(e) => {
-                  e.preventDefault();
-                  addMyPets(props.newPetData, props.setNewPetData, props.setPetConfirmation, props.savedPetData, props.setSavedPetData, props.setShowAddPet);
-
-                }}
+            <Form.Group id="formPetType">
+              <Form.Label>Type of Pet</Form.Label>
+              <Form.Control
+                as="select"
+                defaultValue={""}
+                onChange={handleInputChange}
+                name="petType"
+                required
               >
-                Add {props.newPetData.Name ? (<>{props.newPetData.Name}</>) : (<>Pet</>)}
-              </Button>
+                <option value="" disabled>Select</option>
+                {props.petTypes.map((petType, index) => (
+                  <option
+                    key={index}
+                    value={petType.pet_listID}
+                  >
+                    {petType.Pet}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+            Upload image area 
+            <br/>
+            <Button 
+              variant="primary" 
+              type="submit"
+              disabled={!areAllFieldsValid(props.newPetData)} // Check for both field validity
+              onClick={(e) => {
+                e.preventDefault();
+                addMyPets(props.newPetData, props.setNewPetData, props.setPetConfirmation, props.savedPetData, props.setSavedPetData, props.setShowAddPet);
+              }}
+            > 
+              Add {renderNewPetName()}
+            </Button>
           </Form>
           <span className={`fade ${props.petConfirmation.messageType ? 'show' : ''}`}>
             {props.petConfirmation.messageType === 'saved' && 'Pet Data saved!'}

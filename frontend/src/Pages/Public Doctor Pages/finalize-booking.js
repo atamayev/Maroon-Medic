@@ -51,12 +51,17 @@ export function FinalizeBookingPage() {
   const capitalizedFirstName = personalData.FirstName.charAt(0).toUpperCase() + personalData.FirstName.slice(1);
   const capitalizedLastName = personalData.LastName.charAt(0).toUpperCase() + personalData.LastName.slice(1);
 
+  const renderInstantBook = () => {
+    if (selectedLocation.instant_book) return <>Confirm</>
+    return <>Request</>
+  }
+
   return (
     <>
       <Header dropdown = {true} search = {true}/>
       <div className="container mt-5">
           <Card>
-            <Card.Header as="h2">{selectedLocation.instant_book ? (<>Confirm</>) : (<>Request</>)} an Appointment</Card.Header>
+            <Card.Header as="h2">{renderInstantBook()} an Appointment</Card.Header>
             <Card.Body>
               <Card.Title as="h3">Dr. {''} {capitalizedFirstName} {''} {capitalizedLastName}</Card.Title>
               <Card.Text>
@@ -78,7 +83,7 @@ export function FinalizeBookingPage() {
                     personalData
                   )
                 }}
-              >{selectedLocation.instant_book ? (<>Confirm</>) : (<>Request</>)}</Button>
+              >{renderInstantBook()}</Button>
             </Card.Body>
           </Card>
       </div>

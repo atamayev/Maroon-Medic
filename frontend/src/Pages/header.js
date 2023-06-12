@@ -13,7 +13,6 @@ const handleKeyUp = (event) => {
   if (event.key === 'Enter'){
     const value = event.target.value
     if (!value){
-      console.log('searchName',value)
       sessionStorage.setItem("searchTerm", "")
       window.location.href = '/';
     }else{
@@ -129,6 +128,11 @@ export default function Header (props) {
     else window.location.href = '/';
   }, [location]);
 
+  const renderHeaderData = () => {
+    if (headerData) return headerData
+    return "Profile"
+  }
+
   const renderDropdown = () => {
     if (props.dropdown === true) {
       return (
@@ -138,7 +142,7 @@ export default function Header (props) {
             id="dropdown-basic"
             className="menu-trigger menu-active"
           >
-            {headerData ? headerData : "Profile"}
+            {renderHeaderData()}
             <img src={pic} alt="profile" height={20} className="ml-2" />
           </Dropdown.Toggle>
           <Dropdown.Menu>
@@ -184,25 +188,30 @@ export default function Header (props) {
       }
     }
   }
+
+  const searchDefaultValue = () =>{
+    if (location.pathname === '/') return ''
+    return searchTerm
+  }
   
-  const renderSearch = ()=>{
-    if(props.search === true){
-      return(
+  const renderSearch = () => {
+    if (props.search === true) {
+      return (
         <>
           <input
             type="search"
             id = "search-input"
-            className="form-control mr-sm-2"
-            placeholder="Search"
-            aria-label="Search"
-            defaultValue={location.pathname !== '/' ? searchTerm : ''}
-            onKeyUp={handleKeyUp}
+            className = "form-control mr-sm-2"
+            placeholder = "Search"
+            aria-label = "Search"
+            defaultValue = {searchDefaultValue()}
+            onKeyUp = {handleKeyUp}
           />
           <div className="input-group-append">
             <button
               className="btn btn-dark"
               type="button"
-              onClick={()=>handleSearch(document.getElementById("search-input").value, setSearchTerm)}>
+              onClick={() => handleSearch(document.getElementById("search-input").value, setSearchTerm)}>
               Search
             </button>
           </div>

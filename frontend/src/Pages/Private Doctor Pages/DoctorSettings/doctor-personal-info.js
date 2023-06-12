@@ -14,8 +14,6 @@ async function fetchPersonalInfoData(setPersonalInfo){
     if (response){
         setPersonalInfo(response.data);
         sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(response.data))
-    }else{
-      console.log('no response')
     }
   }catch(error){
     console.log('unable to fill PersonalInfoData', error)
@@ -27,27 +25,23 @@ const handleSave = async (e, personalInfo, setPersonalInfoConfirmation) =>{
   const storedPersonalInfoData = sessionStorage.getItem("DoctorPersonalInfo");
   const stringifiedPersonalInfoData = JSON.stringify(personalInfo)
   try{
-      if (stringifiedPersonalInfoData !== storedPersonalInfoData){// if there is a change, and handlesave is used:
-          try {
-              //create this:
-              const response = await PrivateDoctorDataService.savePersonalData(personalInfo);
-              if (response.status === 200){
-                  // setPersonalInfo(personalInfo);
-                  sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(personalInfo));
-                  setPersonalInfoConfirmation({messageType: 'saved'});
-              }else{
-                console.log('no response')
-              }
-          } catch (error) {
-            setPersonalInfoConfirmation({messageType: 'problem'});
-              console.log(error.response.data);
+    if (stringifiedPersonalInfoData !== storedPersonalInfoData){// if there is a change, and handlesave is used:
+        try {
+          const response = await PrivateDoctorDataService.savePersonalData(personalInfo);
+          if (response.status === 200){
+              // setPersonalInfo(personalInfo);
+              sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(personalInfo));
+              setPersonalInfoConfirmation({messageType: 'saved'});
           }
-      }else{
-        setPersonalInfoConfirmation({messageType: 'same'});
-      }
-  }catch(error){
+        } catch (error) {
+          setPersonalInfoConfirmation({messageType: 'problem'});
+          console.log(error.response.data);
+        }
+    } else {
+      setPersonalInfoConfirmation({messageType: 'same'});
+    }
+  } catch(error) {
     setPersonalInfoConfirmation({messageType: 'problem'});
-      console.log('unable to handleSave', error)
   }
 };
 
@@ -78,23 +72,23 @@ export default function DoctorPersonalInfo() {
 
   useEffect(()=>{
     user_verification()
-    .then(result => {
-      if (result.verified === true) {
-        setUser_type(result.user_type)
-        if(result.user_type === 'Doctor'){
-          try{
-            const storedPersonalInfoData = sessionStorage.getItem("DoctorPersonalInfo")
-            if (storedPersonalInfoData) setPersonalInfo(JSON.parse(storedPersonalInfoData));
-            else fetchPersonalInfoData(setPersonalInfo);
-          }catch(error){
-            console.log(error)
+      .then(result => {
+        if (result.verified === true) {
+          setUser_type(result.user_type)
+          if(result.user_type === 'Doctor'){
+            try{
+              const storedPersonalInfoData = sessionStorage.getItem("DoctorPersonalInfo")
+              if (storedPersonalInfoData) setPersonalInfo(JSON.parse(storedPersonalInfoData));
+              else fetchPersonalInfoData(setPersonalInfo);
+            }catch(error){
+              console.log(error)
+            }
           }
         }
-      }
-    })
-    .catch(error => {
-      console.error(error);
-    });
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }, [])
 
 

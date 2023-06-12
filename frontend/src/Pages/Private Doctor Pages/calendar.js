@@ -12,7 +12,10 @@ import "./calendar.css";
 const localizer = momentLocalizer(moment);
 
 const CustomEvent = ({ event }) => {
-  return <div className={event.Doctor_confirmation_status === 0 ? 'status-pending' : 'status-confirmed'}> {event.title} </div>
+  let CSS 
+  if (event.Doctor_confirmation_status === 0) CSS = 'status-pending'
+  else CSS = 'status-confirmed'
+  return <div className = {CSS}> {event.title} </div>
 };
 
 export default function DoctorCalendar () {

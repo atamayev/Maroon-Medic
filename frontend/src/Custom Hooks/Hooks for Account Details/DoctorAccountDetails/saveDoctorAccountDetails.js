@@ -269,7 +269,6 @@ export async function savePets(petID, newServicedPets, setPetsConfirmation, oper
     return
   }
   if(response.status === 200){
-    console.log('servicedPets',newServicedPets)
     DoctorAccountDetails[7] = newServicedPets;
     sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
     setPetsConfirmation({messageType: 'saved'});

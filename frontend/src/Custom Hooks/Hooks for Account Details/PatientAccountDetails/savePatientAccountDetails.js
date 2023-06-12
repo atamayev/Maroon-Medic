@@ -33,7 +33,6 @@ export async function saveInsurances(acceptedInsurances, setInsurancesConfirmati
       }
     } catch(error) {
       setInsurancesConfirmation({messageType: 'problem'});
-      console.log('error in saving Insurances', error)
     }
   }else{
     setInsurancesConfirmation({messageType: 'same'});
