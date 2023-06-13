@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 
-export default function RenderEducationSection(props){
+export default function RenderEducationSection(props) {
   if (props.preVetEducation.length && props.vetEducation.length) {
     return(
       <Card className="card-bottom-margin">

@@ -23,16 +23,16 @@ export default function DoctorCalendar () {
   const [user_type, setUser_type] = useState(null);
   const [events, setEvents] = useState([]);
 
-  useEffect(()=>{
+  useEffect(() => {
       user_verification()
       .then(result => {
         if (result.verified === true) {
           setUser_type(result.user_type)
-          if(result.user_type === 'Doctor'){
-            try{
+          if (result.user_type === 'Doctor') {
+            try {
               const storedAccountDetails = sessionStorage.getItem("DoctorCalendarDetails")
-              if(!storedAccountDetails) FillDoctorCalendarDetails();
-            }catch(error){
+              if (!storedAccountDetails) FillDoctorCalendarDetails();
+            } catch(error) {
               console.log(error)
             }
           }
@@ -43,10 +43,10 @@ export default function DoctorCalendar () {
       });
   }, []);
 
-  async function FillDoctorCalendarDetails(){
-    try{
+  async function FillDoctorCalendarDetails() {
+    try {
       const response = await CalendarDataService.fillCalendarDetails();
-      if (response.status === 200){
+      if (response.status === 200) {
         const events = response.data.map(appointment => {
           const startTime = new Date(appointment.appointment_date);
           const endTime = new Date(startTime);
@@ -60,12 +60,12 @@ export default function DoctorCalendar () {
         });
         setEvents(events);
       }
-    }catch(error){
+    } catch(error) {
         console.log(error);
     }
   }  
 
-  if(user_type !== 'Doctor') return <NonDoctorAccess/>
+  if (user_type !== 'Doctor') return <NonDoctorAccess/>
 
   return (
     <div>

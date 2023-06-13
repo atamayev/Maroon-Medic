@@ -5,7 +5,7 @@ import { handleAddVetEducation } from "../../../Custom Hooks/Hooks for Account D
 import { saveVetEducation } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails";
 import { useConfirmationMessage } from "../../../Custom Hooks/useConfirmationMessage";
 
-export default function RenderVetEducationSection (props){
+export default function RenderVetEducationSection (props) {
   return(
     <Card className="mb-3">
       <Card.Header>
@@ -18,12 +18,12 @@ export default function RenderVetEducationSection (props){
   );
 };
 
-function RenderIsVetEducation(props){
+function RenderIsVetEducation(props) {
   const [vetEducationConfirmation, setVetEducationConfirmation] = useConfirmationMessage();
 
   const allChoicesFilled = props.selectedVetSchool && props.selectedVetEducationType;
 
-  if(!Array.from(new Set(props.listDetails[6]?.map((item) => item.School_name))).length) return <p>Loading...</p>
+  if (!Array.from(new Set(props.listDetails[6]?.map((item) => item.School_name))).length) return <p>Loading...</p>
 
   return (
     <>

@@ -8,27 +8,27 @@ import FormGroup from '../../../Components/form-group.js';
 import { NonPatientAccess } from '../../../Components/user-type-unauth.js';
 import { useConfirmationMessage } from '../../../Custom Hooks/useConfirmationMessage.js';
 
-async function fetchPersonalInfoData(setPersonalInfo){
-  try{
+async function fetchPersonalInfoData(setPersonalInfo) {
+  try {
     const response = await PrivatePatientDataService.fillPersonalData()
-    if (response){
+    if (response) {
       setPersonalInfo(response.data);
       sessionStorage.setItem("PatientPersonalInfo", JSON.stringify(response.data))
     }
-  }catch(error){
+  } catch(error) {
     console.log('unable to fill PersonalInfoData', error)
   }
 }
 
-const handleSave = async (e, personalInfo, setPersonalInfoConfirmation) =>{
+const handleSave = async (e, personalInfo, setPersonalInfoConfirmation) => {
   e.preventDefault();
   const storedPersonalInfoData = sessionStorage.getItem("PatientPersonalInfo");
   const stringifiedPersonalInfoData = JSON.stringify(personalInfo)
-  try{
-      if (stringifiedPersonalInfoData !== storedPersonalInfoData){// if there is a change, and handlesave is used:
+  try {
+      if (stringifiedPersonalInfoData !== storedPersonalInfoData) {// if there is a change, and handlesave is used:
         try {
           const response = await PrivatePatientDataService.savePersonalData(personalInfo);
-          if (response.status === 200){
+          if (response.status === 200) {
               sessionStorage.setItem("PatientPersonalInfo", JSON.stringify(personalInfo));
               setPersonalInfoConfirmation({messageType: 'saved'});
           }
@@ -38,7 +38,7 @@ const handleSave = async (e, personalInfo, setPersonalInfoConfirmation) =>{
       } else {
         setPersonalInfoConfirmation({messageType: 'same'});
       }
-  }catch(error){
+  } catch(error) {
     setPersonalInfoConfirmation({messageType: 'problem'});
   }
 };
@@ -68,17 +68,17 @@ export default function PatientPersonalInfo() {
   const currentYear = new Date().getFullYear();
   const years = Array.from({length: 63}, (_, i) => currentYear - i - 18); // Renders an array from 18 years ago to 63 minus that year.  
 
-  useEffect(()=>{
+  useEffect(() => {
     user_verification()
     .then(result => {
       if (result.verified === true) {
         setUser_type(result.user_type)
-        if(result.user_type === 'Patient'){
-          try{
+        if (result.user_type === 'Patient') {
+          try {
             const storedPersonalInfoData = sessionStorage.getItem("PatientPersonalInfo")
             if (storedPersonalInfoData) setPersonalInfo(JSON.parse(storedPersonalInfoData));
             else fetchPersonalInfoData(setPersonalInfo);
-          }catch(error){
+          } catch(error) {
             console.log(error)
           }
         }
@@ -90,7 +90,7 @@ export default function PatientPersonalInfo() {
   }, [])
 
 
-  if(user_type !== 'Patient') return <NonPatientAccess/>
+  if (user_type !== 'Patient') return <NonPatientAccess/>
 
   return (
     <div>

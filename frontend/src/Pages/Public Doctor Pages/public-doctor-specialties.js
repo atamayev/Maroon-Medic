@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 
-export default function RenderSpecialtiesSection(props){
+export default function RenderSpecialtiesSection(props) {
     if (props.doctorSpecialties.length) {
         return (
             <Card className="card-bottom-margin">
@@ -16,7 +16,7 @@ export default function RenderSpecialtiesSection(props){
     }
 }
 
-function renderSpecialties(props){
+function renderSpecialties(props) {
     const organizations = {};
     if (props.doctorSpecialties) {
       props.doctorSpecialties.forEach(specialty => {

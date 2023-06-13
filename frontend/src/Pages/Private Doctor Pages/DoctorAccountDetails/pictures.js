@@ -3,7 +3,7 @@ import { Carousel} from "react-bootstrap";
 import { handleSelectCarousel } from "../../../Custom Hooks/Hooks for Doctor Account Details/select";
 
 //Non-functional, just here for completion
-export default function RenderPicturesSection (props){
+export default function RenderPicturesSection (props) {
   return(
     <>
       Edit Pictures:

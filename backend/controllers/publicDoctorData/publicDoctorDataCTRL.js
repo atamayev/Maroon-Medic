@@ -10,7 +10,7 @@ import { DB_Operation, connection } from "../../dbAndSecurity/connect.js";
  * @returns Doctor data from the db
  *  DOCUMENTATION LAST UPDATED 3/16/23
  */
-export async function returnDoctorPageData (req, res){
+export async function returnDoctorPageData (req, res) {
     const NVI = req.params.id;
     const Doctor_specific_info = 'Doctor_specific_info';
     const sql = `SELECT Doctor_ID FROM ${Doctor_specific_info} WHERE NVI = ?`;
@@ -18,16 +18,16 @@ export async function returnDoctorPageData (req, res){
     let DoctorID;
 
     await DB_Operation(returnDoctorPageData.name, Doctor_specific_info);
-    try{
+    try {
         const [results] = await connection.execute(sql, values);
         DoctorID = results[0].Doctor_ID
-    }catch(error){
+    } catch(error) {
         console.log(`error in ${returnDoctorPageData.name}:`, error);
         return res.status(400).json();
     }
    
     let response = [];
-    try{
+    try {
         response.push(await FetchPublicDoctorData.FetchDoctorInsurances(DoctorID));
         response.push(await FetchPublicDoctorData.FetchDoctorLanguages(DoctorID));
         response.push(await FetchDoctorAccountData.FetchDoctorServices(DoctorID));
@@ -40,7 +40,7 @@ export async function returnDoctorPageData (req, res){
         response.push(await FetchPublicDoctorData.FetchDoctorPersonalInfo(DoctorID));
         response[9]['NVI'] = NVI;
         return res.status(200).json(response);
-    }catch(error){
+    } catch(error) {
         console.log('error in returnDoctorPageData', error);
         const emptyResponse = [];
         return res.status(400).json(emptyResponse);

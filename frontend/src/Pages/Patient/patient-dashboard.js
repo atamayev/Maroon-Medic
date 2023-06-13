@@ -8,14 +8,14 @@ import { NonPatientAccess } from '../../Components/user-type-unauth.js';
 import moment from 'moment';
 import PatientHeader from './patient-header.js';
 
-async function fetchPatientDashboardData(setDashboardData){
-  try{
+async function fetchPatientDashboardData(setDashboardData) {
+  try {
     const response = await PrivatePatientDataService.fillDashboard()
     if (response) {
       setDashboardData(response.data);
       sessionStorage.setItem("PatientDashboardData", JSON.stringify(response.data))
     }
-  }catch(error){
+  } catch(error) {
     console.log('unable to fillDashboard', error)
   }
 }
@@ -37,9 +37,9 @@ export default function PatientDashboard() {
           if (result.user_type === 'Patient') {
             try {
               // const storedDashboardData = sessionStorage.getItem("PatientDashboardData")
-              // if (storedDashboardData){
+              // if (storedDashboardData) {
               //   setDashboardData(JSON.parse(storedDashboardData));
-              // }else{
+              // } else {
                 fetchPatientDashboardData(setDashboardData);
               // }
             } catch(error) {
@@ -81,7 +81,7 @@ export default function PatientDashboard() {
     }
   }, [dashboardData]);
 
-  if(user_type !== 'Patient') return <NonPatientAccess/>
+  if (user_type !== 'Patient') return <NonPatientAccess/>
 
   const renderAppointmentConfirmationStatus = (appointment) => {
     if (appointment.Doctor_confirmation_status === 0) {
@@ -108,7 +108,7 @@ export default function PatientDashboard() {
     )
   }
   
-  const AppointmentCard = ({appointment, index}) =>{
+  const AppointmentCard = ({appointment, index}) => {
     return(
       <>
         <Card key={index} style={{ margin: '0 10px', position: 'relative' }}>

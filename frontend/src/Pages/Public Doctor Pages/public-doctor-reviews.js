@@ -1,9 +1,9 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 
-export default function RenderReviewsSection(props){
+export default function RenderReviewsSection(props) {
 
-    // if(props.spokenLanguages.length){
+    // if (props.spokenLanguages.length) {
         return(
             <Card className="card-bottom-margin">
             <Card.Header>
@@ -18,7 +18,7 @@ export default function RenderReviewsSection(props){
 
 }
 
-function renderReviews(props){
+function renderReviews(props) {
     return(
         <>
         Reviews Section

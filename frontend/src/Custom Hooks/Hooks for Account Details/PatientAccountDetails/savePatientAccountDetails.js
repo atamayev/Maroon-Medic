@@ -1,7 +1,7 @@
 import { checkIfListsAreEqual} from "../../lists-and-object-checks";
 import PrivatePatientDataService from "../../../Services/private-patient-data-service";
 
-export async function saveInsurances(acceptedInsurances, setInsurancesConfirmation){
+export async function saveInsurances(acceptedInsurances, setInsurancesConfirmation) {
   const PatientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails"));
   const savedInsurances = PatientAccountDetails?.[0] || [];
   const savedInsurancesIDs = savedInsurances.map(insurance => insurance.insurance_listID).sort((a,b)=>a-b);
@@ -9,24 +9,24 @@ export async function saveInsurances(acceptedInsurances, setInsurancesConfirmati
   
   let shouldSave = false;
 
-  if(!savedInsurancesIDs.length && !insuranceIds.length) {
+  if (!savedInsurancesIDs.length && !insuranceIds.length) {
     // Case where both arrays are empty
     setInsurancesConfirmation({messageType: 'none'});
     return;
   }
 
-  if(!savedInsurancesIDs.length || !savedInsurancesIDs){
+  if (!savedInsurancesIDs.length || !savedInsurancesIDs) {
     shouldSave = !!insuranceIds.length
-  }else if((!checkIfListsAreEqual(insuranceIds, savedInsurancesIDs))){
+  } else if ((!checkIfListsAreEqual(insuranceIds, savedInsurancesIDs))) {
     shouldSave = true;
-  }else{
+  } else {
     setInsurancesConfirmation({messageType: 'same'});
   }
 
-  if(shouldSave){//only saves if the insurances changed
+  if (shouldSave) {//only saves if the insurances changed
     try {
       const response = await PrivatePatientDataService.saveGeneralData(insuranceIds, 'Insurance')
-      if(response.status === 200){
+      if (response.status === 200) {
         PatientAccountDetails[0] = acceptedInsurances;
         sessionStorage.setItem("PatientAccountDetails", JSON.stringify(PatientAccountDetails));
         setInsurancesConfirmation({messageType: 'saved'});
@@ -34,25 +34,25 @@ export async function saveInsurances(acceptedInsurances, setInsurancesConfirmati
     } catch(error) {
       setInsurancesConfirmation({messageType: 'problem'});
     }
-  }else{
+  } else {
     setInsurancesConfirmation({messageType: 'same'});
   }
 };
 
-export async function savePatientLanguages(languageID, spokenLanguages, setLanguagesConfirmation, operationType){
+export async function savePatientLanguages(languageID, spokenLanguages, setLanguagesConfirmation, operationType) {
   const PatientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails"));
   let response;
-  try{
+  try {
     response = await PrivatePatientDataService.saveGeneralData(languageID, 'Language', operationType)
-  }catch(error){
+  } catch(error) {
     setLanguagesConfirmation({messageType: 'problem'});
     return
   }
-  if(response.status === 200){
+  if (response.status === 200) {
     PatientAccountDetails[1] = spokenLanguages;
     sessionStorage.setItem("PatientAccountDetails", JSON.stringify(PatientAccountDetails));
     setLanguagesConfirmation({messageType: 'saved'});
-  }else{
+  } else {
     setLanguagesConfirmation({messageType: 'problem'});
   }
 };

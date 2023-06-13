@@ -4,7 +4,7 @@ import { handleAddSpecialty } from "../../../Custom Hooks/Hooks for Account Deta
 import { handleDeleteSpecialty } from "../../../Custom Hooks/Hooks for Account Details/delete";
 import { useConfirmationMessage } from "../../../Custom Hooks/useConfirmationMessage";
 
-export default function RenderSpecialtySection (props){
+export default function RenderSpecialtySection (props) {
   return(
     <Card className="mb-3">
       <Card.Header>
@@ -17,14 +17,14 @@ export default function RenderSpecialtySection (props){
   );
 };
 
-function RenderIsSpecialty(props){
+function RenderIsSpecialty(props) {
   const [specialtiesConfirmation, setSpecialtiesConfirmation] = useConfirmationMessage();
 
   const specialties = props.selectedOrganization
   ? props.listDetails[2].filter((item) => item.Organization_name === props.selectedOrganization)
   : [];
 
-  if(!Array.from(new Set(props.listDetails[2]?.map((item) => item.Organization_name))).length) return <p>Loading...</p>
+  if (!Array.from(new Set(props.listDetails[2]?.map((item) => item.Organization_name))).length) return <p>Loading...</p>
 
   return (
     <>

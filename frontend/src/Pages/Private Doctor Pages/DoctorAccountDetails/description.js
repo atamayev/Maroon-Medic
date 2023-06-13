@@ -4,7 +4,7 @@ import FormGroup from '../../../Components/form-group.js';
 import { saveDescription } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails.js";
 import { useConfirmationMessage } from "../../../Custom Hooks/useConfirmationMessage.js";
 
-export default function RenderDescriptionSection (props){
+export default function RenderDescriptionSection (props) {
   return(
     <Card className="mb-3">
       <Card.Header>
@@ -17,7 +17,7 @@ export default function RenderDescriptionSection (props){
   );
 };
 
-function RenderIsDescription(props){
+function RenderIsDescription(props) {
   const [descriptionConfirmation, setDescriptionConfirmation] = useConfirmationMessage();
 
   const counterStyleLimit = () => {

@@ -5,7 +5,7 @@ import { handleAddPreVetEducation } from "../../../Custom Hooks/Hooks for Accoun
 import { savePreVetEducation } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails";
 import { useConfirmationMessage } from "../../../Custom Hooks/useConfirmationMessage";
 
-export default function RenderPreVetEducationSection(props){
+export default function RenderPreVetEducationSection(props) {
   return(
     <Card className="mb-3 mt-3">
       <Card.Header>
@@ -18,12 +18,12 @@ export default function RenderPreVetEducationSection(props){
   );
 };
 
-function RenderIsPreVetEducation(props){
+function RenderIsPreVetEducation(props) {
   const [preVetEducationConfirmation, setPreVetEducationConfirmation] = useConfirmationMessage();
 
   const allChoicesFilled = props.selectedPreVetSchool && props.selectedMajor && props.selectedPreVetEducationType;
 
-  if(!Array.from(new Set(props.listDetails[3]?.map((item) => item.School_name))).length) return <p> Loading... </p>
+  if (!Array.from(new Set(props.listDetails[3]?.map((item) => item.School_name))).length) return <p> Loading... </p>
   return(
     <>
       <label htmlFor="pre-vet-school">Select a school: </label>

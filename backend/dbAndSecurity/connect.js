@@ -19,8 +19,8 @@ export const connection = await mysql.createConnection({
  * @param {string} name_of_api Name of API is always the name of the function that is calling useDB (non-functional, just for visibility)
  * @param {string} table_name Which table is being accessed (non-functional, just for visibility)
  */
-export async function DB_Operation (name_of_api, table_name){
-  try{
+export async function DB_Operation (name_of_api, table_name) {
+  try {
     //await connection.query(`use ${DB_NAME}`)
     console.log(`used API: ${name_of_api} and Table: ${table_name}`);
   } catch (err) {

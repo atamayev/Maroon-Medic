@@ -6,8 +6,8 @@ import {connection, DB_Operation} from "../../dbAndSecurity/connect.js"
  *  For example, a table might have: {Bob, 3}, {Bob, 7}, and then a mapping table shows that 3 and 7 are actually English and French. This is done to keep the data in the mapping tables as small as possible
  *  DOCUMENTATION LAST UPDATED 6/4/23
  */
-export default new class FetchDoctorAccountData{
-    async FetchDoctorLanguages (User_ID){
+export default new class FetchDoctorAccountData {
+    async FetchDoctorLanguages (User_ID) {
         const functionName = this.FetchDoctorLanguages.bind(this).name;
         const [language_mapping, language_list] = ['language_mapping', 'language_list'];
     
@@ -18,16 +18,16 @@ export default new class FetchDoctorAccountData{
         const values = [User_ID];
         await DB_Operation(functionName, language_mapping);
 
-        try{
+        try {
             const [results] = await connection.execute(sql, values);
             return results;
-        }catch(error){
+        } catch(error) {
             console.log(`error in ${functionName}:`, error)
             return [];
         }
     };
 
-    async FetchDoctorServices (Doctor_ID){
+    async FetchDoctorServices (Doctor_ID) {
         const functionName = this.FetchDoctorServices.bind(this).name;
 
         const [service_mapping, service_and_category_list] = ['service_mapping', 'service_and_category_list'];
@@ -39,16 +39,16 @@ export default new class FetchDoctorAccountData{
         const values = [Doctor_ID];
         await DB_Operation(functionName, service_mapping);
     
-        try{
+        try {
             const [results] = await connection.execute(sql, values);
             return results;
-        }catch(error){
+        } catch(error) {
             console.log(`error in ${functionName}:`, error)
             return [];
         }
     };
 
-    async FetchDoctorSpecialties (Doctor_ID){
+    async FetchDoctorSpecialties (Doctor_ID) {
         const functionName = this.FetchDoctorSpecialties.bind(this).name;
 
         const [specialty_mapping, specialties_list] = ['specialty_mapping', 'specialties_list'];
@@ -60,16 +60,16 @@ export default new class FetchDoctorAccountData{
         const values = [Doctor_ID];
         await DB_Operation(functionName, specialty_mapping);
     
-        try{
+        try {
             const [results] = await connection.execute(sql, values);
             return results;
-        }catch(error){
+        } catch(error) {
             console.log(`error in ${functionName}:`, error)
             return [];
         }
     };
     
-    async FetchPreVetEducation (Doctor_ID){
+    async FetchPreVetEducation (Doctor_ID) {
         const functionName = this.FetchPreVetEducation.bind(this).name;
         const [pre_vet_education_mapping, pre_vet_school_list, major_list, pre_vet_education_type_list] = ['pre_vet_education_mapping', 'pre_vet_school_list', 'major_list', 'pre_vet_education_type_list' ];
     
@@ -81,7 +81,7 @@ export default new class FetchDoctorAccountData{
         const values = [Doctor_ID];
         await DB_Operation(functionName, pre_vet_education_mapping);
 
-        try{
+        try {
             const [results] = await connection.execute(sql, values);
             const newResults = results.map(obj => ({
                 ...obj,
@@ -89,13 +89,13 @@ export default new class FetchDoctorAccountData{
                 End_Date: new Date(obj.End_Date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
             }));//Converts the dates to a proper format.
             return newResults
-        }catch(error){
+        } catch(error) {
             console.log(`error in ${functionName}:`, error)
             return [];
         }
     };
     
-    async FetchVetEducation (Doctor_ID){
+    async FetchVetEducation (Doctor_ID) {
         const functionName = this.FetchVetEducation.bind(this).name;
 
         const [vet_education_mapping, vet_school_list, vet_education_type_list] = ['vet_education_mapping', 'vet_school_list', 'vet_education_type_list'];
@@ -109,7 +109,7 @@ export default new class FetchDoctorAccountData{
         const values = [Doctor_ID];
         await DB_Operation(functionName, vet_education_mapping);
 
-        try{
+        try {
             const [results] = await connection.execute(sql, values);
             const newResults = results.map(obj => ({
                 ...obj,
@@ -117,13 +117,13 @@ export default new class FetchDoctorAccountData{
                 End_Date: new Date(obj.End_Date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
             }));//Converts the dates to a proper format.
             return newResults
-        }catch(error){
+        } catch(error) {
             console.log(`error in ${functionName}:`, error)
             return [];
         }
     };
     //Fetch Address Data first finds the addresses associated with a Doctor_ID, and then finds all of the times/days of week associated with each address.
-    async FetchDoctorAddressData (Doctor_ID){
+    async FetchDoctorAddressData (Doctor_ID) {
         const functionName = this.FetchDoctorAddressData.bind(this).name;
 
         const [phone, addresses, booking_availability] =  ['phone', 'addresses', 'booking_availability'];
@@ -138,7 +138,7 @@ export default new class FetchDoctorAccountData{
 
         await DB_Operation(functionName, addresses);
    
-        try{
+        try {
             const [results] = await connection.execute(sql, values);
             
             if (results.length) {
@@ -155,21 +155,21 @@ export default new class FetchDoctorAccountData{
                         WHERE ${phone}.address_ID = ?`;
         
                     const [phones] = await connection.execute(sql2, [result.addressesID]);
-                    if(!phones.length) result.phone = "";
-                    else{
+                    if (!phones.length) result.phone = "";
+                    else {
                         result.phone = phones[0].phone;
                         result.phone_priority = phones[0].phone_priority;
                     }
                 }
             }
             return results;
-        }catch(error){
+        } catch(error) {
             console.log(`error in ${functionName}:`, error)
             return [];
         }
     };
 
-    async FetchDescriptionData (Doctor_ID){
+    async FetchDescriptionData (Doctor_ID) {
         const functionName = this.FetchDescriptionData.bind(this).name;
 
         const [descriptions] = ['descriptions'];
@@ -181,20 +181,20 @@ export default new class FetchDoctorAccountData{
         const values = [Doctor_ID];
         await DB_Operation(functionName, descriptions);
 
-        try{
+        try {
             const [results] = await connection.execute(sql, values);
             if (results.length === 0) return {Description: ''};
             else {
                 const Description = results[0]
                 return (Description);
             }
-        }catch(error){
+        } catch(error) {
             console.log(`error in ${functionName}:`, error)
             return {Description: ''};
         }
     };
 
-    async FetchServicedPets (Doctor_ID){
+    async FetchServicedPets (Doctor_ID) {
         const functionName = this.FetchServicedPets.bind(this).name;
 
         const [pet_mapping, pet_list] = ['pet_mapping', 'pet_list'];
@@ -206,16 +206,16 @@ export default new class FetchDoctorAccountData{
         const values = [Doctor_ID];
         await DB_Operation(functionName, pet_mapping);
 
-        try{
+        try {
             const [results] = await connection.execute(sql, values);
             return results;
-        }catch(error){
+        } catch(error) {
             console.log(`error in ${functionName}:`, error)
             return [];
         }
     };
   
-    async FetchPubliclyAvailable (Doctor_ID){
+    async FetchPubliclyAvailable (Doctor_ID) {
         const functionName = this.FetchDescriptionData.bind(this).name;
 
         const [Doctor_specific_info] = ['Doctor_specific_info'];
@@ -227,17 +227,17 @@ export default new class FetchDoctorAccountData{
         const values = [Doctor_ID];
         await DB_Operation(functionName, Doctor_specific_info);
 
-        try{
+        try {
             const [results] = await connection.execute(sql, values);
             if (results.length === 0) return [{PubliclyAvailable: false}, {Verified: false}];
             else return [{PubliclyAvailable: results[0].publiclyAvailable}, {Verified: results[0].publiclyAvailable}];
-        }catch(error){
+        } catch(error) {
             console.log(`error in ${functionName}:`, error);
             return [{PubliclyAvailable: false}, {Verified: false}];
         }
     };
 
-    async FetchDoctorPictures (Doctor_ID){
+    async FetchDoctorPictures (Doctor_ID) {
         const functionName = this.FetchDoctorPictures.bind(this).name;
 
         const [pictures] = ['pictures'];
@@ -249,13 +249,12 @@ export default new class FetchDoctorAccountData{
         const values = [Doctor_ID];
         await DB_Operation(functionName, pictures);
     
-        try{
+        try {
             const [results] = await connection.execute(sql, values);
             return results;
-        }catch(error){
+        } catch(error) {
             console.log(`error in ${functionName}:`, error)
             return [];
         }
     };
-
 }();

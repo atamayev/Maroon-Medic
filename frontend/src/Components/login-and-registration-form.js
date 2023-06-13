@@ -35,7 +35,7 @@ export default function LoginAndRegistrationForm({
   }
 
   const renderSubLoginInfo = () => {
-    if (loginOrSignUp === 'Login'){
+    if (loginOrSignUp === 'Login') {
       return(
         <>
           <div className='w-100 text-center mt-3'>
@@ -50,8 +50,8 @@ export default function LoginAndRegistrationForm({
     }
   }
 
-  const renderSubRegisterInfo = ()=>{
-    if (loginOrSignUp === 'Sign up'){
+  const renderSubRegisterInfo = () => {
+    if (loginOrSignUp === 'Sign up') {
       return(
         <div className='w-100 text-center mt-2'>
           Already have an account? <Link to = {`/${VetOrPatient.toLowerCase()}-login`}>Log In</Link>

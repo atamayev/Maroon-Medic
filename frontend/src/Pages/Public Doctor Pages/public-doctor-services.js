@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 
-export default function RenderServiceSection(props){
+export default function RenderServiceSection(props) {
   if (props.providedServices.length) {
     return (
       <Card className="card-bottom-margin">
@@ -16,7 +16,7 @@ export default function RenderServiceSection(props){
   }
 }
 
-function renderProvidedServices(props){
+function renderProvidedServices(props) {
   const categories = {};
   if (props.providedServices) {
     props.providedServices.forEach(service => {

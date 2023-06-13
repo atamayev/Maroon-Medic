@@ -5,7 +5,7 @@ import moment from 'moment';
  * @param {Int} User_ID 
  * @returns N/A, saves the data to the DB
  */
-export async function login_history(User_ID){
+export async function login_history(User_ID) {
   const login_history = 'login_history';
 
   const date_ob = new Date();
@@ -17,10 +17,10 @@ export async function login_history(User_ID){
   
   await DB_Operation(login_history.name, login_history)
 
-  try{
+  try {
     await connection.execute(sql, values);
     return;
-  }catch(error){
+  } catch(error) {
     console.log('Problem with email selection', error)
     return ('Problem with email selection');
   }

@@ -7,7 +7,7 @@ import { Card, Button } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import CalendarDataService from '../../Services/calendar-data-service';
 
-async function confirmBooking(e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData){
+async function confirmBooking(e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData) {
   e.preventDefault();
   let AppointmentObject = {
     Service_and_category_list_ID: selectedService.service_and_category_listID,
@@ -18,13 +18,13 @@ async function confirmBooking(e, navigate, selectedService, selectedLocation, se
     Instant_book: selectedLocation.instant_book
   };
 
-  try{
+  try {
     const response = await CalendarDataService.makeAppointment(AppointmentObject);
     if (response.status === 200) {
       sessionStorage.removeItem('bookingDetails');
       navigate('/patient-dashboard');
     }
-  }catch(error){
+  } catch(error) {
     console.log(error)
   }
 };
@@ -46,7 +46,7 @@ export function FinalizeBookingPage() {
       });
   }, []);
 
-  if(user_type !== 'Patient') return <NonPatientAccess/>
+  if (user_type !== 'Patient') return <NonPatientAccess/>
 
   const capitalizedFirstName = personalData.FirstName.charAt(0).toUpperCase() + personalData.FirstName.slice(1);
   const capitalizedLastName = personalData.LastName.charAt(0).toUpperCase() + personalData.LastName.slice(1);

@@ -13,7 +13,7 @@ export default new class Hash {
         try {
             const hashedData = await _hash(dehashed_data, saltRounds);
             return (hashedData)
-        } catch(error){
+        } catch(error) {
             console.log('Error in hash_credentials', error);
         }
       };
@@ -28,7 +28,7 @@ export default new class Hash {
         try {
             const isMatch = await compare(plaintextPassword, hashedPassword);
             return isMatch;
-        } catch(error){
+        } catch(error) {
             console.log('Error in checkPassword', error);
             return false;
         }

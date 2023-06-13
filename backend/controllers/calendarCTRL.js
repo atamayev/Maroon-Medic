@@ -1,6 +1,8 @@
 import {connection, DB_Operation} from "../dbAndSecurity/connect.js";
 import { UUID_to_ID } from "../dbAndSecurity/UUID.js";
 import moment from "moment";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat.js"
 
 /** makeAppointment is called when a patient makes an appointment
  *  First, finds the Doctor_ID corresponding to the NVI of the appointment Doctor
@@ -10,7 +12,7 @@ import moment from "moment";
  * @returns 200/400 status code
  *  DOCUMENTATION LAST UPDATED 6/4/23
  */
-export async function makeAppointment(req, res){
+export async function makeAppointment(req, res) {
     const AppointmentObject = req.body.AppointmentObject
     const NVI = AppointmentObject.NVI;
 
@@ -20,10 +22,10 @@ export async function makeAppointment(req, res){
     let Doctor_ID;
 
     await DB_Operation(makeAppointment.name, Doctor_specific_info)
-    try{
+    try {
         const [results] = await connection.execute(sql, values)
         Doctor_ID = results[0].Doctor_ID
-    }catch(error){
+    } catch(error) {
         console.log(`error in finding Doctor_ID in ${makeAppointment.name}`,error)
         return res.status(500).json(error);
     }
@@ -33,7 +35,7 @@ export async function makeAppointment(req, res){
 
     const date_ob = new Date();
     const format = "YYYY-MM-DD HH:mm:ss"
-    const createdAt = moment(date_ob).format(format);
+    const createdAt = dayjs(date_ob).format(format);
 
     // Combine date and time into a single string
     const dateTimeStr = `${AppointmentObject.appointment_date} ${AppointmentObject.appointment_time}`;
@@ -51,10 +53,10 @@ export async function makeAppointment(req, res){
 
     await DB_Operation(makeAppointment.name, Appointments)
     
-    try{
+    try {
         await connection.execute(sql2, values2)
         return res.status(200).json();
-    }catch(error){
+    } catch(error) {
         console.log(`error in inserting Appointment ${makeAppointment.name}`,error)
         return res.status(500).json(error);
     }
@@ -68,7 +70,7 @@ export async function makeAppointment(req, res){
  * @returns Doctor's Calendar Details
  *  DOCUMENTATION LAST UPDATED 6/4/23
  */
-export async function getDoctorCalendarDetails(req, res){
+export async function getDoctorCalendarDetails(req, res) {
     const DoctorUUID = req.cookies.DoctorUUID
     const DoctorID = await UUID_to_ID(DoctorUUID);
 
@@ -92,10 +94,10 @@ export async function getDoctorCalendarDetails(req, res){
     const values = [DoctorID];
     await DB_Operation(getDoctorCalendarDetails.name, Appointments);
 
-    try{
+    try {
         const [results] = await connection.execute(sql, values);
         return res.status(200).json(results);
-    }catch(error){
+    } catch(error) {
         console.log(`error in ${getDoctorCalendarDetails.name}:`, error );
         return res.status(400).json([]);
     }

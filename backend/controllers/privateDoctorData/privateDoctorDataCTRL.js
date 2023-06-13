@@ -11,7 +11,7 @@ import moment from "moment";
  * @returns true/error
  * DOCUMENTATION LAST UPDATED 3/16/23
  */
-export async function newDoctor (req, res){
+export async function newDoctor (req, res) {
     const DoctorUUID = req.cookies.DoctorUUID
     const User_ID = await UUID_to_ID(DoctorUUID) // converts DoctorUUID to docid
 
@@ -24,10 +24,10 @@ export async function newDoctor (req, res){
     const values = [new_doctor_object.FirstName, new_doctor_object.LastName, new_doctor_object.Gender, dateOfBirth, User_ID];    
     await DB_Operation(newDoctor.name, basic_user_info)
     
-    try{
+    try {
         await connection.execute(sql, values)
         return res.status(200).json();
-    }catch(error){
+    } catch(error) {
         console.log(`error in ${newDoctor.name}`,error)
         return res.status(500).json(error);
     }
@@ -41,7 +41,7 @@ export async function newDoctor (req, res){
  * @returns true/false
  * DOCUMENTATION LAST UPDATED 3/16/23
  */
-export async function newDoctorConfirmation (req, res){
+export async function newDoctorConfirmation (req, res) {
     let Doctor_permission = false;
     const newDoctorUUID = req.cookies.DoctorNew_User
     const existingDoctorUUID = req.cookies.DoctorUUID
@@ -54,7 +54,7 @@ export async function newDoctorConfirmation (req, res){
     const values2 = [existingDoctorUUID];
     await DB_Operation(newDoctorConfirmation.name, UUID_reference)
 
-    try{
+    try {
       const [results1] = await connection.execute(sql, values1)
       const [results2] = await connection.execute(sql, values2)
 
@@ -63,7 +63,7 @@ export async function newDoctorConfirmation (req, res){
             return res.json(Doctor_permission);
         }
         else return res.json(Doctor_permission);
-    }catch(error){
+    } catch(error) {
         console.log(`error in ${newDoctorConfirmation.name}:`, error)
         return res.json(Doctor_permission);
     }
@@ -76,7 +76,7 @@ export async function newDoctorConfirmation (req, res){
  * @returns User data.
  * DOCUMENTATION LAST UPDATED 6/4/23
  */
-export async function fetchDashboardData (req, res){
+export async function fetchDashboardData (req, res) {
     const DoctorUUID = req.cookies.DoctorUUID
     const DoctorID = await UUID_to_ID(DoctorUUID);
     const [Appointments, service_and_category_list, addresses, basic_user_info] = 
@@ -97,18 +97,18 @@ export async function fetchDashboardData (req, res){
     const values = [DoctorID];
     await DB_Operation(fetchDashboardData.name, Appointments);
 
-    try{
+    try {
         const [results] = await connection.execute(sql, values)
         if (results.length === 0) return res.json([]);
         else{
             const DashboardData = results
-            for (let i = 0; i < DashboardData.length; i++){
+            for (let i = 0; i < DashboardData.length; i++) {
                 DashboardData[i].appointment_date = moment(DashboardData[i].appointment_date).format('MMMM Do, YYYY, h:mm A');
                 DashboardData[i].Created_at = moment(DashboardData[i].Created_at).format('MMMM Do, YYYY, h:mm A');                
             }
             return res.json(DashboardData);
         } 
-    }catch(error){
+    } catch(error) {
         console.log(`error in ${fetchDashboardData.name}:`, error );
         return res.json([]);
     }
@@ -122,7 +122,7 @@ export async function fetchDashboardData (req, res){
  * @returns User data.
  * DOCUMENTATION LAST UPDATED 6/423
  */
-export async function fetchPersonalData (req, res){
+export async function fetchPersonalData (req, res) {
     const DoctorUUID = req.cookies.DoctorUUID
     const DoctorID = await UUID_to_ID(DoctorUUID) // converts DoctorUUID to docid
     
@@ -141,7 +141,7 @@ export async function fetchPersonalData (req, res){
         DOB_year: ''
     };
 
-    try{
+    try {
         const [results] = await connection.execute(sql, values);
         if (results.length === 0) return res.json(PersonalData);
         else {
@@ -156,7 +156,7 @@ export async function fetchPersonalData (req, res){
             };
             return res.json(PersonalData);
         }
-    }catch(error){
+    } catch(error) {
         console.log(`error in ${fetchPersonalData.name}:`, error);
         return res.json(PersonalData);
     }
@@ -169,16 +169,16 @@ export async function fetchPersonalData (req, res){
  * @returns Status code (200, 400)
  * DOCUMENTATION LAST UPDATED 6/423
  */
-export async function confirmAppointment (req, res){
+export async function confirmAppointment (req, res) {
     const AppointmentID = req.body.AppointmentID;
     const Appointments = 'Appointments'
 
     const sql = `UPDATE ${Appointments} SET Doctor_confirmation_status = 1 WHERE appointmentsID = ?`
     const values = [AppointmentID];
-    try{
+    try {
         await connection.execute(sql, values);
         return res.status(200).json();
-    }catch(error){
+    } catch(error) {
         console.log(`error in confirming appointment ${confirmAppointment.name}:`, error);
         return res.status(400).json();
     }
@@ -192,10 +192,10 @@ export async function confirmAppointment (req, res){
  * @returns User data.
  * DOCUMENTATION LAST UPDATED 3/16/23
  */
-export async function fetchAccountDetails (req, res){
+export async function fetchAccountDetails (req, res) {
     const DoctorUUID = req.cookies.DoctorUUID;
     const DoctorID = await UUID_to_ID(DoctorUUID);
-    try{
+    try {
         let response = [];
         response.push(await FetchDoctorAccountData.FetchDoctorLanguages(DoctorID)); 
         response.push(await FetchDoctorAccountData.FetchDoctorServices(DoctorID));
@@ -208,7 +208,7 @@ export async function fetchAccountDetails (req, res){
         response.push(await FetchDoctorAccountData.FetchPubliclyAvailable(DoctorID));
         response.push(await FetchDoctorAccountData.FetchDoctorPictures(DoctorID));
         return res.status(200).json(response);
-    }catch(error){
+    } catch(error) {
         console.log('error in accountDetails', error);
         return res.status(400).json([]);
     }
@@ -221,8 +221,8 @@ export async function fetchAccountDetails (req, res){
  * @returns Objects from List data
  * DOCUMENTATION LAST UPDATED 3/16/23
  */
-export async function fetchDoctorLists (req, res){
-    try{
+export async function fetchDoctorLists (req, res) {
+    try {
         let response = [];
         response.push(await FetchAllLists.fetchAllLanguages());
         response.push(await FetchAllLists.fetchAllServicesAndCategories());
@@ -234,7 +234,7 @@ export async function fetchDoctorLists (req, res){
         response.push(await FetchAllLists.fetchAllVetEducationTypes());
         response.push(await FetchAllLists.fetchAllPets());
         return res.status(200).json(response);
-    }catch(error){
+    } catch(error) {
         console.log('error in accountDetails', error);
         return res.status(400).json([]);
     }

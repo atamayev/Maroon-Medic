@@ -2,7 +2,7 @@ import {Link} from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
 import Header from "../Pages/header";
 
-export function NonDoctorAccess(){
+export function NonDoctorAccess() {
     //for when a Doctor Page is accessed by a non-doctor
     return(
         <>
@@ -26,7 +26,7 @@ export function NonDoctorAccess(){
     )
 }
 
-export function NonPatientAccess(){
+export function NonPatientAccess() {
     //for when a Patient Page is accessed by a non-patient
     return(
         <>

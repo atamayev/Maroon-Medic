@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 
-export default function RenderLocationsSection(props){
+export default function RenderLocationsSection(props) {
   if (props.addresses.length) {
     return (
       <Card className="card-bottom-margin">
@@ -16,7 +16,7 @@ export default function RenderLocationsSection(props){
   }
 }
 
-function renderLocations(addressesList){
+function renderLocations(addressesList) {
   const renderInstantBook = (address) => {
     if (address.instant_book) return <>Instant book available</>
     return <>Instant book unavailable</>

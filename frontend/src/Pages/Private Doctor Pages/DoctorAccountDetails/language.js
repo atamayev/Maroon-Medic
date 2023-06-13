@@ -4,7 +4,7 @@ import { handleAddLanguage } from "../../../Custom Hooks/Hooks for Account Detai
 import { handleDeleteLanguage } from "../../../Custom Hooks/Hooks for Account Details/delete";
 import { useConfirmationMessage } from "../../../Custom Hooks/useConfirmationMessage";
 
-export default function RenderLanguageSection(props){
+export default function RenderLanguageSection(props) {
   return(
     <Card className="mb-3">
       <Card.Header>
@@ -17,7 +17,7 @@ export default function RenderLanguageSection(props){
   );
 };
 
-function RenderIsVetLanguages(props){
+function RenderIsVetLanguages(props) {
   const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage();
 
   return(

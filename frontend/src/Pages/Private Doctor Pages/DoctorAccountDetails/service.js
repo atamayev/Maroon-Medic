@@ -4,7 +4,7 @@ import { handleToggleCategory } from "../../../Custom Hooks/Hooks for Account De
 import { saveServices } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails";
 import { useConfirmationMessage } from "../../../Custom Hooks/useConfirmationMessage";
 
-export default function RenderServiceSection (props){
+export default function RenderServiceSection (props) {
   return(
     <Card className="mb-3">
       <Card.Header>
@@ -30,7 +30,7 @@ function RenderIsVetServices (props) {
   const areAllTimesSet = (services) => {
     return services.every(service => service.Service_time !== null && service.Service_time !== "");
   }
-  const areAllPricesSet = (services) =>{
+  const areAllPricesSet = (services) => {
     return services.every(service => service.Service_price !== null && service.Service_price !== "");
   }
   
@@ -57,7 +57,7 @@ function RenderIsVetServices (props) {
                       value={service?.service_and_category_listID}
                       checked={props.providedServices.find((provided) => provided.service_and_category_listID === service.service_and_category_listID) !== undefined}
                       onChange={(event) => {
-                        if(event.target.checked) props.setProvidedServices([...props.providedServices, {...service, Service_price: null, Service_time: null}])
+                        if (event.target.checked) props.setProvidedServices([...props.providedServices, {...service, Service_price: null, Service_time: null}])
                         else props.setProvidedServices(props.providedServices.filter(servicef => servicef.service_and_category_listID !== service.service_and_category_listID))
                       }}
                       />
@@ -72,7 +72,7 @@ function RenderIsVetServices (props) {
                           value={selectedService?.Service_time || ""}
                           onChange={(event) => {
                             const updatedServices = props.providedServices.map(s => {
-                              if(s.service_and_category_listID === service.service_and_category_listID){
+                              if (s.service_and_category_listID === service.service_and_category_listID) {
                                 return {...s, Service_time: event.target.value};
                               }
                               return s;
@@ -88,7 +88,7 @@ function RenderIsVetServices (props) {
                           value={selectedService?.Service_price || ""}
                           onChange={(event) => {
                             const updatedServices = props.providedServices.map(s => {
-                              if(s.service_and_category_listID === service.service_and_category_listID){
+                              if (s.service_and_category_listID === service.service_and_category_listID) {
                                 return {...s, Service_price: event.target.value};
                               }
                               return s;

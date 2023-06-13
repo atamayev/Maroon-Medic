@@ -7,14 +7,14 @@ import { NonPatientAccess } from '../../../Components/user-type-unauth';
 import RenderInsuranceSection from './insurance';
 import RenderLanguageSection from './language';
 
-async function FillLists(setListDetails){ 
-  try{
+async function FillLists(setListDetails) { 
+  try {
     const response = await PrivatePatientDataService.fillLists();
-    if (response){
+    if (response) {
       setListDetails(response.data);
       sessionStorage.setItem("ListDetails", JSON.stringify(response.data));
     }
-  }catch(error){
+  } catch(error) {
     console.log('unable to fill ListDetails', error)
   }
 }
@@ -29,19 +29,19 @@ export default function PatientAccountDetails() {
 
   const [spokenLanguages, setSpokenLanguages] = useState(PatientAccountDetails?.[1] || []);
 
-  useEffect(()=>{
+  useEffect(() => {
     user_verification()
     .then(result => {
       if (result.verified === true) {
         setUser_type(result.user_type)
-        if(result.user_type === 'Patient'){
-          try{
+        if (result.user_type === 'Patient') {
+          try {
             const storedAccountDetails = sessionStorage.getItem("PatientAccountDetails")
-            if(!storedAccountDetails) FillPatientAccountDetails();
+            if (!storedAccountDetails) FillPatientAccountDetails();
             const storedListDetails = sessionStorage.getItem("ListDetails")
-            if(storedListDetails) setListDetails(JSON.parse(storedListDetails));
+            if (storedListDetails) setListDetails(JSON.parse(storedListDetails));
             else FillLists(setListDetails);
-          }catch(error){
+          } catch(error) {
             console.log(error)
           }
         }
@@ -52,20 +52,20 @@ export default function PatientAccountDetails() {
     });
   }, []);
 
-  async function FillPatientAccountDetails(){
-    try{
+  async function FillPatientAccountDetails() {
+    try {
       const response = await PrivatePatientDataService.fillAccountDetails();
-      if (response){
-        if(response.data[0]) setAcceptedInsurances(response.data[0]);
-        if(response.data[1]) setSpokenLanguages(response.data[1]);
+      if (response) {
+        if (response.data[0]) setAcceptedInsurances(response.data[0]);
+        if (response.data[1]) setSpokenLanguages(response.data[1]);
         sessionStorage.setItem("PatientAccountDetails", JSON.stringify(response.data));
       }
-    }catch(error){
+    } catch(error) {
       console.log('unable to fill AccountDetails', error)
     }
   }
 
-  if(user_type !== 'Patient') return <NonPatientAccess/>
+  if (user_type !== 'Patient') return <NonPatientAccess/>
 
   return (
     <div>

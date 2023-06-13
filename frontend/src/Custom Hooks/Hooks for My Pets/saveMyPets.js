@@ -1,15 +1,15 @@
 import PrivatePatientDataService from "../../Services/private-patient-data-service";
 
-export async function addMyPets(petData, setPetData, setPetConfirmation, savedPetData, setSavedPetData, setShowAddPet){
+export async function addMyPets(petData, setPetData, setPetConfirmation, savedPetData, setSavedPetData, setShowAddPet) {
   let response;
 
   try {
     response = await PrivatePatientDataService.savePetData(petData, 'add')
-  }catch(error){
+  } catch(error) {
     setPetConfirmation({messageType: 'problem'});
   }
 
-  if(response.status === 200){
+  if (response.status === 200) {
     const newPetData = response.data;
     const updatedSavedPetData = [...savedPetData, newPetData];
     setSavedPetData(updatedSavedPetData);
@@ -17,49 +17,25 @@ export async function addMyPets(petData, setPetData, setPetConfirmation, savedPe
     setPetConfirmation({messageType: 'saved'});
     setPetData({});
     setShowAddPet(false);
-  }else{
+  } else {
     setPetConfirmation({messageType: 'problem'});
   }
 };
 
-// export async function updateMyPets(petData, setPetData, setPetConfirmation, savedPetData, setSavedPetData, setShowAddPet){
-//   let response;
-
-//   try {
-//     response = await PrivatePatientDataService.savePetData(savedPetData, 'update')
-//   }catch(error){
-//     setPetConfirmation({messageType: 'problem'});
-//   }
-
-//   if(response.status === 200){
-//     const savedPetInfoID = petData.pet_infoID;
-//     const updatedSavedPetData = savedPetData.map(item => {
-//       if (item.pet_infoID === savedPetInfoID) {
-//         return { ...petData };
-//       }
-//       return item;
-//     });
-//     setSavedPetData(updatedSavedPetData);
-//     sessionStorage.setItem("PatientPetData", JSON.stringify(updatedSavedPetData));
-//   }else{
-//     setPetConfirmation({messageType: 'problem'});
-//   }
-// };
-
-export async function deleteMyPets(petID, savedPetData, setSavedPetData, setPetConfirmation){
+export async function deleteMyPets(petID, savedPetData, setSavedPetData, setPetConfirmation) {
   let response;
 
   try {
     response = await PrivatePatientDataService.savePetData(petID, 'delete')
-  }catch(error){
+  } catch(error) {
     setPetConfirmation({messageType: 'problem'});
   }
 
-  if(response.status === 200){
+  if (response.status === 200) {
     const updatedSavedPetData = savedPetData.filter(item => item.pet_infoID !== petID);
     setSavedPetData(updatedSavedPetData);
     sessionStorage.setItem("PatientPetData", JSON.stringify(updatedSavedPetData));
-  }else{
+  } else {
     setPetConfirmation({messageType: 'problem'});
   }
 };

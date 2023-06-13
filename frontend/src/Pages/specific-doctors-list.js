@@ -11,7 +11,7 @@ export default function SpecificDoctorsList() {
  
   if (!query) window.location.href = '/';
   
-  useEffect(()=>{
+  useEffect(() => {
     setSearchTerm(query)
     fetchData()
   }, [searchTerm])

@@ -3,7 +3,7 @@ import {connection, DB_Operation} from "../../dbAndSecurity/connect.js"
  * FetchPublicDoctorData fetches all of a specific Doctor's data, concatenating all results as arrays to an array
  */
 export default new class FetchPublicDoctorData{
-    async FetchDoctorInsurances (User_ID){
+    async FetchDoctorInsurances (User_ID) {
         const functionName = this.FetchDoctorInsurances.bind(this).name;
 
         const [insurance_mapping, insurance_list] = ['insurance_mapping', 'insurance_list'];
@@ -15,16 +15,16 @@ export default new class FetchPublicDoctorData{
         const values = [User_ID];
         await DB_Operation(functionName, insurance_mapping);
     
-        try{
+        try {
             const [results] = await connection.execute(sql, values);
             if (!results.length) return [];
             else return (results);
-        }catch(error){
+        } catch(error) {
             return (`error in ${functionName}:`, error);
         }
     };
 
-    async FetchDoctorLanguages (User_ID){
+    async FetchDoctorLanguages (User_ID) {
         const functionName = this.FetchDoctorLanguages.bind(this).name;
         const [language_mapping, language_list] = ['language_mapping', 'language_list'];
 
@@ -35,16 +35,16 @@ export default new class FetchPublicDoctorData{
         const values = [User_ID];
         await DB_Operation(functionName, language_mapping);
     
-        try{
+        try {
             const [results] = await connection.execute(sql, values);
             if (!results.length) return [];
             else return (results);
-        }catch(error){
+        } catch(error) {
             return (`error in ${functionName}:`, error);
         }
     };
 
-    async FetchDoctorSpecialties (User_ID){
+    async FetchDoctorSpecialties (User_ID) {
         const functionName = this.FetchDoctorSpecialties.bind(this).name;
         const [service_mapping, service_and_category_list] = ['service_mapping', 'service_and_category_list'];
     
@@ -55,16 +55,16 @@ export default new class FetchPublicDoctorData{
         const values = [User_ID];
         await DB_Operation(functionName, service_mapping);
     
-        try{
+        try {
             const [results] = await connection.execute(sql, values);
             if (!results.length) return [];
             else return results;
-        }catch(error){
+        } catch(error) {
             return (`error in ${functionName}:`, error);
         }
     };
 
-    async FetchDoctorAddressData (DoctorID){
+    async FetchDoctorAddressData (DoctorID) {
         const functionName = this.FetchDoctorAddressData.bind(this).name;
         const [phone, addresses, booking_availability] =  ['phone', 'addresses', 'booking_availability'];
 
@@ -78,20 +78,20 @@ export default new class FetchPublicDoctorData{
         await DB_Operation(functionName, addresses);
         let results
     
-        try{
+        try {
             [results] = await connection.execute(sql, values);
-        }catch(error){
+        } catch(error) {
             return (`error in ${functionName}:`, error);
         }
 
-        if(results.length){
-            for(let i =0;i<results.length; i++){
+        if (results.length) {
+            for(let i =0;i<results.length; i++) {
                 const sql = `SELECT ${booking_availability}.Day_of_week, ${booking_availability}.Start_time, ${booking_availability}.End_time FROM ${booking_availability} WHERE ${booking_availability}.address_ID = ?`;
                 const values = [results[i].addressesID]
-                try{
+                try {
                     const [results1] = await connection.execute(sql, values);
                     results[i].times = results1;
-                }catch(error){
+                } catch(error) {
                     return (`error in second try=catch ${functionName}:`, error);
                 }
             }
@@ -100,7 +100,7 @@ export default new class FetchPublicDoctorData{
         return (results);
     };
 
-    async FetchDoctorPersonalInfo (User_ID){
+    async FetchDoctorPersonalInfo (User_ID) {
         const functionName = this.FetchDoctorPersonalInfo.bind(this).name;
 
         const basic_user_info = 'basic_user_info';
@@ -108,14 +108,14 @@ export default new class FetchPublicDoctorData{
         const values = [User_ID];
         await DB_Operation(functionName, basic_user_info)
         
-        try{
+        try {
             const [results] = await connection.execute(sql, values)
             if (!results.length) return [];
             else {
                 const DoctorPersonalInfo = results[0]
                 return (DoctorPersonalInfo);
             }
-        }catch(error){
+        } catch(error) {
             console.log('error encountered in catching')
             return [];
         }

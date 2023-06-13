@@ -7,7 +7,7 @@ import {connection, DB_Operation} from "../../dbAndSecurity/connect.js"
  *  DOCUMENTATION LAST UPDATED 3/16/23
  */
 export default new class FetchPatientAccountData{
-    async FetchPatientInsurances (User_ID){
+    async FetchPatientInsurances (User_ID) {
         const functionName = this.FetchPatientInsurances.bind(this).name;
 
         const [insurance_mapping, insurance_list] = ['insurance_mapping', 'insurance_list'];
@@ -19,16 +19,16 @@ export default new class FetchPatientAccountData{
         const values = [User_ID];
         await DB_Operation(functionName, insurance_mapping);
 
-        try{
+        try {
             const [results] = await connection.execute(sql, values);
             return results;
-        }catch(error){
+        } catch(error) {
             console.log(`error in ${functionName}:`, error)
             return [];
         }
     };
 
-    async FetchPatientLanguages (User_ID){
+    async FetchPatientLanguages (User_ID) {
         const functionName = this.FetchPatientLanguages.bind(this).name;
         const [language_mapping, language_list] = ['language_mapping', 'language_list'];
     
@@ -39,16 +39,16 @@ export default new class FetchPatientAccountData{
         const values = [User_ID];
         await DB_Operation(functionName, language_mapping);
 
-        try{
+        try {
             const [results] = await connection.execute(sql, values);
             return results;
-        }catch(error){
+        } catch(error) {
             console.log(`error in ${functionName}:`, error)
             return [];
         }
     };
 
-    async FetchPetData (User_ID){
+    async FetchPetData (User_ID) {
         const functionName = this.FetchPetData.bind(this).name;
         const [pet_info, pet_list] = ['pet_info', 'pet_list'];
     
@@ -60,10 +60,10 @@ export default new class FetchPatientAccountData{
         const values = [User_ID];
         await DB_Operation(functionName, pet_info);
 
-        try{
+        try {
             const [results] = await connection.execute(sql, values);
             return results;
-        }catch(error){
+        } catch(error) {
             console.log(`error in ${functionName}:`, error)
             return [];
         }

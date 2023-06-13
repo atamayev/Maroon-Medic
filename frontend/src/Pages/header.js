@@ -10,12 +10,12 @@ import logo from '../Images/logo.svg';
 import pic from '../Images/ProfileImage.jpg';
 
 const handleKeyUp = (event) => {
-  if (event.key === 'Enter'){
+  if (event.key === 'Enter') {
     const value = event.target.value
-    if (!value){
+    if (!value) {
       sessionStorage.setItem("searchTerm", "")
       window.location.href = '/';
-    }else{
+    } else {
       sessionStorage.setItem("searchTerm", value)
       window.location.href = `/s/${value}`;
     }
@@ -23,10 +23,10 @@ const handleKeyUp = (event) => {
 }
 
 const handleSearch = (value, setSearchTerm) => {
-  if (!value){
+  if (!value) {
     sessionStorage.setItem("searchTerm", "")
     window.location.href = '/';
-  }else{
+  } else {
     setSearchTerm(value);
     window.location.href = `/s/${value}`;
   }
@@ -45,39 +45,39 @@ export default function Header (props) {
   const {searchTerm, setSearchTerm} = useContext(SearchContext);
   const cookie_monster = document.cookie;
 
-  useEffect(()=>{
-    if (location.pathname !== '/new-vet' && location.pathname !== '/new-patient'){
-      try{
+  useEffect(() => {
+    if (location.pathname !== '/new-vet' && location.pathname !== '/new-patient') {
+      try {
         const name = JSON.parse(sessionStorage.getItem("DoctorPersonalInfo")).LastName;
         setUser_type('Doctor')
         setHeaderData('Dr. '+ name);
         return;
-      }catch(error){
+      } catch(error) {
       }
-      try{
+      try {
         const name = JSON.parse(sessionStorage.getItem("PatientPersonalInfo")).FirstName;
         setUser_type('Patient')
         setHeaderData(name);
         return;
-      }catch(error){
+      } catch(error) {
 
       }
   
       //sets the headerData when login/register:
-      if (!headerData){
+      if (!headerData) {
         user_verification()
         .then(result => {
           if (result.verified === true) {
             setUser_type(result.user_type)
-            try{
-              if(result.user_type === 'Doctor'){
+            try {
+              if (result.user_type === 'Doctor') {
                 const name = JSON.parse(sessionStorage.getItem(`DoctorPersonalInfo`)).LastName;
                 setHeaderData('Dr. ' + name);
-              }else{
+              } else {
                 const name = JSON.parse(sessionStorage.getItem(`PatientPersonalInfo`)).FirstName;
                 setHeaderData(name); 
               }
-            }catch(error){
+            } catch(error) {
               if (error instanceof TypeError) fetchPersonalInfo(result.user_type);
               else console.log('some other error');
             } 
@@ -90,7 +90,7 @@ export default function Header (props) {
     }
   }, [cookie_monster]);
 
-  async function fetchPersonalInfo (type){
+  async function fetchPersonalInfo (type) {
     let response;
     if (type === 'Doctor') {
       try {
@@ -114,10 +114,10 @@ export default function Header (props) {
   }; 
   
   const handleLogout = async () => {
-    try{
+    try {
       const response = await AuthDataService.logout();
-      if(response.status === 200) sessionStorage.clear();      
-    } catch(error){
+      if (response.status === 200) sessionStorage.clear();      
+    } catch(error) {
       console.log('error',error)
     }
     handleRefresh();
@@ -153,9 +153,9 @@ export default function Header (props) {
     }
   };
 
-  const renderDropdownItems = ()=>{
-    if(props.dropdown === true){
-      if(user_type === 'Doctor'){
+  const renderDropdownItems = () => {
+    if (props.dropdown === true) {
+      if (user_type === 'Doctor') {
         return(
           <div>
             <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
@@ -164,7 +164,7 @@ export default function Header (props) {
           </div>
         )
       }
-      else if (user_type === 'Patient'){
+      else if (user_type === 'Patient') {
         return(
           <div>
             <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
@@ -189,7 +189,7 @@ export default function Header (props) {
     }
   }
 
-  const searchDefaultValue = () =>{
+  const searchDefaultValue = () => {
     if (location.pathname === '/') return ''
     return searchTerm
   }

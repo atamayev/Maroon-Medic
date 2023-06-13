@@ -17,7 +17,7 @@ const port = process.env.PORT || 8000
 
 // Confirmation of DB Connection
 connection.connect((err) => {
-    if(err) throw err;
+  if (err) throw err;
 })
 
 const app = express();
@@ -52,6 +52,6 @@ app.use("/api/calendar", calendarRoutes);
 app.use("*", (req, res) => res.status(404).json({ error: "Route not found"})) // any link that was not previously designated is 404
 
 // Initialization of server:
-app.listen(port, ()=>{
+app.listen(port, () => {
     console.log(`listening on port ${port}`)
 })

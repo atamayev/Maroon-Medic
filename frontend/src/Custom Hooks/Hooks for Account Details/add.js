@@ -33,10 +33,10 @@ export const handleAddPreVetEducation = (
   timeState, 
   setTimeState
   ) => {
-  if(!timeState.startMonth){
+  if (!timeState.startMonth) {
     timeState.startMonth = 'January'
   }
-  if(!timeState.endMonth){
+  if (!timeState.endMonth) {
     timeState.endMonth = 'January'
   }
   const selectedEducationObj = {
@@ -71,10 +71,10 @@ export const handleAddVetEducation = (
   timeState, 
   setTimeState
   ) => {
-  if(!timeState.startMonth){
+  if (!timeState.startMonth) {
     timeState.startMonth = 'January'
   }
-  if(!timeState.endMonth){
+  if (!timeState.endMonth) {
     timeState.endMonth = 'January'
   }
   const selectedEducationObj = {

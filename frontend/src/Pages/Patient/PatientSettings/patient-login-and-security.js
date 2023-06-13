@@ -32,11 +32,11 @@ export default function PatientLoginAndSecurity() {
       .then(result => {
         if (result.verified === true) {
           setUser_type(result.user_type)
-          if(result.user_type === 'Patient'){
-            try{
+          if (result.user_type === 'Patient') {
+            try {
               setUser_type('Patient')
               fetchLoginHistory(setLoginHistory);
-            }catch(error){
+            } catch(error) {
               console.log(error)
             }
           }
@@ -47,7 +47,7 @@ export default function PatientLoginAndSecurity() {
       });
   }, []);
 
-  if(user_type !== 'Patient') return <NonPatientAccess/>
+  if (user_type !== 'Patient') return <NonPatientAccess/>
 
   function LoginHistoryCard({ loginHistoryItem }) {
     return (

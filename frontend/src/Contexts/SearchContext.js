@@ -8,23 +8,23 @@ export const SearchContextProvider = (props) => {
   const [items, setItems] = useState([]);
   const pathname = window.location.pathname;
 
-  async function fetchData (){
-    if(pathname === '/'){
-      try{
+  async function fetchData () {
+    if (pathname === '/') {
+      try {
         const result = await SearchDataService.fetchAllUsers();
         setItems(result.data);
       }
-      catch(error){
+      catch(error) {
         console.log('error in search context',error)
       }
     }
 
-    if(pathname.startsWith('/s/')){
-      try{
+    if (pathname.startsWith('/s/')) {
+      try {
         const result = await SearchDataService.searchByQuery(searchTerm);
         setItems(result.data);
       }
-      catch(error){
+      catch(error) {
         console.log('error in search context',error)
       }
     }

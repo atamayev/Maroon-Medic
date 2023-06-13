@@ -3,7 +3,7 @@ import { Card, Button} from "react-bootstrap";
 import { saveInsurances } from "../../../Custom Hooks/Hooks for Account Details/PatientAccountDetails/savePatientAccountDetails";
 import { useConfirmationMessage } from "../../../Custom Hooks/useConfirmationMessage";
 
-export default function RenderInsuranceSection(props){
+export default function RenderInsuranceSection(props) {
   return(
     <Card className="mb-3 mt-3">
       <Card.Header>
@@ -16,7 +16,7 @@ export default function RenderInsuranceSection(props){
   );
 };
 
-function RenderIsPatientInsurance(props){
+function RenderIsPatientInsurance(props) {
   const [insurancesConfirmation, setInsurancesConfirmation] = useConfirmationMessage();
 
   return (

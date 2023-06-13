@@ -154,7 +154,7 @@ export default function RenderBookingSection(props) {
   }
 
   const renderMakeBooking = () => {
-    if(!(props.providedServices.length && props.addresses.length)){
+    if (!(props.providedServices.length && props.addresses.length)) {
       return (
         <Card className='card-bottom-margin'>
         <Card.Header>Ready to make a booking?</Card.Header>

@@ -3,7 +3,7 @@ import { Card, ToggleButton, ToggleButtonGroup, Button} from "react-bootstrap";
 import { handlePublicAvailibilityToggle } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails";
 import { useConfirmationMessage } from "../../../Custom Hooks/useConfirmationMessage";
 
-export default function RenderVerificationAndPublicStatusSection (props){
+export default function RenderVerificationAndPublicStatusSection (props) {
   return(
     <Card>
       <Card.Header>
@@ -21,11 +21,11 @@ export default function RenderVerificationAndPublicStatusSection (props){
 };
 
 function renderIsVerification (props) {
-  if(props.verified) return <Button variant="success" disabled> ✓ (Your identity is Verified) </Button>
+  if (props.verified) return <Button variant="success" disabled> ✓ (Your identity is Verified) </Button>
   else return <Button variant="danger" disabled>X (Your identity is Not Verified)</Button>
 };
 
-function RenderIsPubliclyAvailable (props){
+function RenderIsPubliclyAvailable (props) {
   const [publiclyAvailableConfirmation, setPubliclyAvailableConfirmation] = useConfirmationMessage();
 
   return(

@@ -4,7 +4,7 @@ import { handleTogglePetType } from "../../../Custom Hooks/Hooks for Account Det
 import { savePets } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails";
 import { useConfirmationMessage } from "../../../Custom Hooks/useConfirmationMessage";
 
-export default function RenderPetsSection (props){
+export default function RenderPetsSection (props) {
   return(
     <Card className="mb-3">
       <Card.Header>
@@ -50,7 +50,7 @@ function RenderIsPets (props) {
                       value={pet?.pet_listID}
                       checked={props.servicedPets.find((serviced) => serviced.pet_listID === pet.pet_listID) !== undefined}
                       onChange={(event) => {
-                        if(event.target.checked){
+                        if (event.target.checked) {
                           const newServicedPets = [...props.servicedPets, pet]
                           props.setServicedPets([...props.servicedPets, pet])
                           savePets(pet.pet_listID, newServicedPets, setPetsConfirmation, 'add')

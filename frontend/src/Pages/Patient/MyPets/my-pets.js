@@ -10,26 +10,26 @@ import AddPet from './AddPet'
 import { useConfirmationMessage } from '../../../Custom Hooks/useConfirmationMessage'
 import { deleteMyPets } from '../../../Custom Hooks/Hooks for My Pets/saveMyPets'
 
-async function fetchPetData(setSavedPetData){
-  try{
+async function fetchPetData(setSavedPetData) {
+  try {
     const response = await PrivatePatientDataService.fetchPetData()
-    if (response){
+    if (response) {
       setSavedPetData(response.data);
       sessionStorage.setItem("PatientPetData", JSON.stringify(response.data))
     }
-  }catch(error){
+  } catch(error) {
     console.log('unable to fillPet Data', error)
   }
 }
 
-async function FillPetTypes(setPetTypes){ 
-  try{
+async function FillPetTypes(setPetTypes) { 
+  try {
     const response = await PrivatePatientDataService.fillPetTypes();
-    if (response){
+    if (response) {
       setPetTypes(response.data);
       sessionStorage.setItem("PetTypes", JSON.stringify(response.data));
     }
-  }catch(error){
+  } catch(error) {
     console.log('unable to fill PetTypes', error)
   }
 }
@@ -50,16 +50,16 @@ export default function MyPets() {
     .then(result => {
       if (result.verified === true) {
         setUser_type(result.user_type)
-        if(result.user_type === 'Patient'){
-          try{
+        if (result.user_type === 'Patient') {
+          try {
             const storedPetData = sessionStorage.getItem("PatientPetData")
             if (storedPetData) setSavedPetData(JSON.parse(storedPetData));
             else fetchPetData(setSavedPetData);
 
             const storedPetTypes = sessionStorage.getItem("PetTypes")
-            if(storedPetTypes) setPetTypes(JSON.parse(storedPetTypes));
+            if (storedPetTypes) setPetTypes(JSON.parse(storedPetTypes));
             else FillPetTypes(setPetTypes);
-          }catch(error){
+          } catch(error) {
             console.log(error)
           }
         }
@@ -70,7 +70,7 @@ export default function MyPets() {
     });
   }, []);
 
-  if(user_type !== 'Patient') return <NonPatientAccess/>
+  if (user_type !== 'Patient') return <NonPatientAccess/>
 
   const handleShowModal = (pet) => {
     setPetToDelete(pet);
@@ -137,7 +137,7 @@ export default function MyPets() {
   }
 
   const renderShowAddPet = () => {
-    if(showAddPet) return <></>
+    if (showAddPet) return <></>
     return(
       <>
         <Button 

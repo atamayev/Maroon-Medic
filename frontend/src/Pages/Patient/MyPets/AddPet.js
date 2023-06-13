@@ -7,7 +7,7 @@ const AddPet = (props) => {
   const handleInputChange = (event) => {
     let value = event.target.value;
   
-    if(event.target.name === "petType") {
+    if (event.target.name === "petType") {
       // Find the selected pet type by its ID
       let selectedPetType = props.petTypes.find(petType => petType.pet_listID === JSON.parse(value));
       let newPet = {

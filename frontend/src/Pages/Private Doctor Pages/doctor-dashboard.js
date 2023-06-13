@@ -7,20 +7,20 @@ import Header from '../header.js';
 import { NonDoctorAccess } from '../../Components/user-type-unauth.js';
 import moment from 'moment';
 
-async function fetchDoctorDashboardData(setDashboardData){
-  try{
+async function fetchDoctorDashboardData(setDashboardData) {
+  try {
     const response = await PrivateDoctorDataService.fillDashboard()
-    if (response){
+    if (response) {
       setDashboardData(response.data);
       sessionStorage.setItem("DoctorDashboardData", JSON.stringify(response.data))
     }
-  }catch(error){
+  } catch(error) {
     console.log('unable to fillDoctorDashboard', error)
   }
 }
 
 async function approveAppointment (setStatus, AppointmentsID, dashboardData, setDashboardData) {
-  try{
+  try {
     const response = await PrivateDoctorDataService.confirmAppointment(AppointmentsID)
     if (response.status === 200) {
       // Update the Doctor_confirmation_status for the specific appointment
@@ -30,10 +30,10 @@ async function approveAppointment (setStatus, AppointmentsID, dashboardData, set
       });
       setDashboardData(updatedDashboardData);
       setStatus('approved');
-    }else{
+    } else {
       setStatus('pending');
     }
-  }catch(error){
+  } catch(error) {
     setStatus('pending');
   }
 };
@@ -52,16 +52,16 @@ export default function DoctorDashboard() {
     .then(result => {
       if (result.verified === true) {
         setUser_type(result.user_type)
-        if(result.user_type === 'Doctor'){
-          try{
+        if (result.user_type === 'Doctor') {
+          try {
             setUser_type('Doctor')
             // const storedDashboardData = sessionStorage.getItem("DoctorDashboardData")
-            // if (storedDashboardData){
+            // if (storedDashboardData) {
             //   setDashboardData(JSON.parse(storedDashboardData));
-            // }else{
+            // } else {
               fetchDoctorDashboardData(setDashboardData);
             // }
-          }catch(error){
+          } catch(error) {
             console.log(error)
           }
         }
@@ -100,7 +100,7 @@ export default function DoctorDashboard() {
     }
   }, [dashboardData]);
 
-  if(user_type !== 'Doctor') return <NonDoctorAccess/>
+  if (user_type !== 'Doctor') return <NonDoctorAccess/>
 
   const returnDoctorConfirmationStatus = (appointment) => {
     if (appointment.Doctor_confirmation_status === 0) return 'pending'

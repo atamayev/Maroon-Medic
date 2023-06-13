@@ -10,7 +10,7 @@ import { useConfirmationMessage } from "../../../Custom Hooks/useConfirmationMes
 import "react-toggle/style.css"
 import "./location.css"
 
-export default function RenderLocationSection(props){
+export default function RenderLocationSection(props) {
   return(
     <Card className="mb-3">
       <Card.Header>
@@ -120,7 +120,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
     setAddresses(updatedAddresses);
   };
 
-  const renderAddressTitleSection = () =>{
+  const renderAddressTitleSection = () => {
     if (address.address_title) return address.address_title
     return ('Address #' + (index + 1))
   }
@@ -278,7 +278,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
 const WeekDays = ({ times, setTimes}) => {
   const [loading, setLoading] = useState(true);
 
-  useEffect(()=>{
+  useEffect(() => {
     setLoading(!times)
   }, [times])
 
@@ -295,7 +295,7 @@ const WeekDays = ({ times, setTimes}) => {
     ));
   }
 
-  if(loading) return <div>Loading...</div>
+  if (loading) return <div>Loading...</div>
   
   return (
     <div>

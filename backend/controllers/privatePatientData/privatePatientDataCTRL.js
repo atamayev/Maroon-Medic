@@ -11,7 +11,7 @@ import moment from "moment";
  * @returns status code 200/400
  * DOCUMENTATION LAST UPDATED 6/4/23
  */
-export async function newPatient (req, res){
+export async function newPatient (req, res) {
     const PatientUUID = req.cookies.PatientUUID
     const User_ID = await UUID_to_ID(PatientUUID) // converts PatientUUID to docid
     
@@ -25,10 +25,10 @@ export async function newPatient (req, res){
     const values = [new_patient_object.FirstName, new_patient_object.LastName, new_patient_object.Gender, dateOfBirth, User_ID];    
     await DB_Operation(newPatient.name, basic_user_info)
     
-    try{
+    try {
         await connection.execute(sql, values)
         return res.status(200).json();
-    }catch(error){
+    } catch(error) {
         console.log(`error in ${newPatient.name}`,error)
         return res.status(500).json(error);
     }
@@ -42,7 +42,7 @@ export async function newPatient (req, res){
  * @returns true/false
  * DOCUMENTATION LAST UPDATED 3/16/23
  */
-export async function newPatientConfirmation (req, res){
+export async function newPatientConfirmation (req, res) {
     let Patient_permission = false;
     const newPatientUUID = req.cookies.PatientNew_User
     const existingPatientUUID = req.cookies.PatientUUID
@@ -55,16 +55,16 @@ export async function newPatientConfirmation (req, res){
     let values2 = [existingPatientUUID];
     await DB_Operation(newPatientConfirmation.name, UUID_reference)
 
-    try{
+    try {
         const [results1] = await connection.execute(sql, values1)
         const [results2] = await connection.execute(sql, values2)
 
-        if (results1.length === 1 && results2.length === 1){
+        if (results1.length === 1 && results2.length === 1) {
             Patient_permission = true;
             return res.json(Patient_permission);
         }
         else return res.json(Patient_permission);
-    }catch(error){
+    } catch(error) {
         console.log(`error in ${newPatientConfirmation.name}:`, error)
         return res.json(Patient_permission);
     }
@@ -78,7 +78,7 @@ export async function newPatientConfirmation (req, res){
  * @returns User data.
  * DOCUMENTATION LAST UPDATED 3/16/23
  */
-export async function fetchDashboardData (req, res){
+export async function fetchDashboardData (req, res) {
     const PatientUUID = req.cookies.PatientUUID;
     const PatientID = await UUID_to_ID(PatientUUID); // converts PatientUUID to docid
     const [Appointments, service_and_category_list, addresses, basic_user_info] = 
@@ -99,18 +99,18 @@ export async function fetchDashboardData (req, res){
     const values = [PatientID];
     await DB_Operation(fetchDashboardData.name, Appointments);
 
-    try{
+    try {
         const [results] = await connection.execute(sql, values)
         if (results.length === 0) return res.json([]);
         else{
             const DashboardData = results
-            for (let i = 0; i < DashboardData.length; i++){
+            for (let i = 0; i < DashboardData.length; i++) {
                 DashboardData[i].appointment_date = moment(DashboardData[i].appointment_date).format('MMMM Do, YYYY, h:mm A');
                 DashboardData[i].Created_at = moment(DashboardData[i].Created_at).format('MMMM Do, YYYY, h:mm A');                
             }
             return res.json(DashboardData);
         } 
-    }catch(error){
+    } catch(error) {
         console.log(`error in ${fetchDashboardData.name}:`, error );
         return res.json([]);
     }
@@ -123,7 +123,7 @@ export async function fetchDashboardData (req, res){
  * @returns PersonalData
  * DOCUMENTATION LAST UPDATED 6/4/23
  */
-export async function fetchPersonalData (req, res){
+export async function fetchPersonalData (req, res) {
     const PatientUUID = req.cookies.PatientUUID
     const PatientID = await UUID_to_ID(PatientUUID) // converts PatientUUID to docid
     
@@ -142,7 +142,7 @@ export async function fetchPersonalData (req, res){
         DOB_year: ''
     };
 
-    try{
+    try {
         const [results] = await connection.execute(sql, values);
         if (results.length === 0) return res.json(PersonalData);
         else {
@@ -157,7 +157,7 @@ export async function fetchPersonalData (req, res){
             };
             return res.json(PersonalData);
         }
-    }catch(error){
+    } catch(error) {
         console.log(`error in ${fetchPersonalData.name}:`, error);
         return res.json(PersonalData);
     }
@@ -171,13 +171,13 @@ export async function fetchPersonalData (req, res){
  * @returns PetData
  * DOCUMENTATION LAST UPDATED 6/4/23
  */
-export async function fetchPetData (req, res){
+export async function fetchPetData (req, res) {
     const PatientUUID = req.cookies.PatientUUID;
     const PatientID = await UUID_to_ID(PatientUUID);
-    try{
+    try {
         const response = await FetchPatientAccountData.FetchPetData(PatientID);
         return res.status(200).json(response);
-    }catch(error){
+    } catch(error) {
         console.log('error in fetchPetData', error);
         return res.status(400).json([]);
     }
@@ -189,11 +189,11 @@ export async function fetchPetData (req, res){
  * @returns PetTypes
  * DOCUMENTATION LAST UPDATED 6/4/23
  */
-export async function fetchPetTypes (req, res){
-    try{
+export async function fetchPetTypes (req, res) {
+    try {
         const response = await FetchAllLists.fetchAllPets();
         return res.status(200).json(response);
-    }catch(error){
+    } catch(error) {
         console.log('error in fetchPetTypes', error);
         return res.status(400).json([]);
     }
@@ -207,15 +207,15 @@ export async function fetchPetTypes (req, res){
  * @returns User data.
  * DOCUMENTATION LAST UPDATED 3/16/23
  */
-export async function fetchAccountDetails (req, res){
+export async function fetchAccountDetails (req, res) {
     const PatientUUID = req.cookies.PatientUUID;
     const PatientID = await UUID_to_ID(PatientUUID);
     let response = [];
-    try{
+    try {
         response.push(await FetchPatientAccountData.FetchPatientInsurances(PatientID));
         response.push(await FetchPatientAccountData.FetchPatientLanguages(PatientID)); 
         return res.status(200).json(response);
-    }catch(error){
+    } catch(error) {
         console.log('error in accountDetails', error);
         return res.status(400).json([]);
     }
@@ -226,13 +226,13 @@ export async function fetchAccountDetails (req, res){
  * @param {Array} res Array of 2 Arrays: Insurances, Languages
  * @returns 
  */
-export async function fetchPatientLists (req, res){
-    try{
+export async function fetchPatientLists (req, res) {
+    try {
         let response = [];
         response.push(await FetchAllLists.fetchAllInsurances());
         response.push(await FetchAllLists.fetchAllLanguages());
         return res.status(200).json(response);
-    }catch(error){
+    } catch(error) {
         console.log('error in fetchPatientLists', error);
         return res.status(400).json([]);
     }

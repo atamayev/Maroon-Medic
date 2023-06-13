@@ -8,20 +8,20 @@ function checkCookie(name) {
 }
 
 const VerifyContextProvider = (props) => {
-  async function user_verification (){
-    try{
-      if(!checkCookie('DoctorAccessToken') &&  !checkCookie('PatientAccessToken')){
+  async function user_verification () {
+    try {
+      if (!checkCookie('DoctorAccessToken') &&  !checkCookie('PatientAccessToken')) {
         return {
           verified: false
         };
       }
-    }catch(error){
+    } catch(error) {
       return {
         verified: false
       };
     }
 
-    try{
+    try {
       const response = await AuthDataService.verify();
       if (response.data.isValid === true) {
         return {
@@ -34,7 +34,7 @@ const VerifyContextProvider = (props) => {
           verified: false
         };
       }
-    }catch(error){
+    } catch(error) {
       return {
         verified: false
       };

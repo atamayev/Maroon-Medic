@@ -6,7 +6,7 @@ import FetchAllLists from "../dbAndSecurity/fetchAllLists.js";
  * @param {Array} res 
  * @returns Returns an array of users, depending on the outcome of the query
  */
-export async function searchByQuery (req, res){
+export async function searchByQuery (req, res) {
     const [Doctor_specific_info, basic_user_info] = ['Doctor_specific_info', 'basic_user_info'];
 
     const sql = `SELECT NVI, FirstName, LastName 
@@ -16,13 +16,11 @@ export async function searchByQuery (req, res){
     const values = [`${req.params.query}%`];
     await DB_Operation(fetchUsers.name, basic_user_info);
 
-    try{
+    try {
         const [results] = await connection.execute(sql, values);
-        
         if (results.length === 0) return res.json('User not found');
         else return res.json(results);
-
-    }catch(error){
+    } catch(error) {
         console.log('Search by Query Error', error);
         return res.json({ error: 'Search by Query Error' });
     }
@@ -36,7 +34,7 @@ export async function searchByQuery (req, res){
  * @returns Either an array of results, or a message with an error
  *  DOCUMENTATION LAST UPDATED 6/4/23
  */
-export async function fetchUsers (req, res){
+export async function fetchUsers (req, res) {
     const [Doctor_specific_info, basic_user_info] = ['Doctor_specific_info', 'basic_user_info'];
 
     const sql = `SELECT NVI, FirstName, LastName 
@@ -44,41 +42,41 @@ export async function fetchUsers (req, res){
         WHERE verified = TRUE AND publiclyAvailable = TRUE`;
     
     await DB_Operation(fetchUsers.name, basic_user_info);
-    try{
+    try {
         const [results] = await connection.execute(sql);
         return res.json(results);
-    }catch(error){
+    } catch(error) {
         console.log('Fetch Users Error', error);
         return res.json({ error: 'Fetch Users Error' });
     }
 };
 
 // The following three functions are here for filtering purposes. In the future, pts will be able to filter for docs by language_spoken, insurances, etc.
-export async function fetchAllLanguages (req, res){
-    try{
+export async function fetchAllLanguages (req, res) {
+    try {
         const LanguageList = FetchAllLists.fetchAllLanguages();
         return res.status(200).json(LanguageList);
-    }catch(error){
+    } catch(error) {
         console.log(`error in ${fetchAllLanguages.name}`,error)
         return res.status(500).json(error);
     }
 };
 
-export async function fetchAllServicesAndCategories (req, res){
-    try{
+export async function fetchAllServicesAndCategories (req, res) {
+    try {
         const ServicesList = FetchAllLists.fetchAllServicesAndCategories();
         return res.status(200).json(ServicesList);
-    }catch(error){
+    } catch(error) {
         console.log(`error in ${fetchAllServicesAndCategories.name}`,error)
         return res.status(500).json(error);
     }
 };
 
-export async function fetchAllInsurances (req, res){
-    try{
+export async function fetchAllInsurances (req, res) {
+    try {
         const InsurancesList = FetchAllLists.fetchAllInsurances();
         return res.status(200).json(InsurancesList);
-    }catch(error){
+    } catch(error) {
         console.log(`error in ${fetchAllInsurances.name}`,error)
         return res.status(500).json(error);
     }

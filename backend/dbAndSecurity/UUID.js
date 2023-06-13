@@ -9,7 +9,7 @@ import moment from 'moment';
  * @param {Int} ID User_ID
  * @returns Randomly generated UUID
  */
-export async function ID_to_UUID(User_ID){
+export async function ID_to_UUID(User_ID) {
   const UUID = uuidv4();
   const UUID_reference = 'UUID_reference';
   
@@ -24,7 +24,7 @@ export async function ID_to_UUID(User_ID){
   try {
     await connection.execute(sql, values)
     return UUID;
-  }catch(error){
+  } catch(error) {
     return (`error in ${ID_to_UUID.name}:`, error)
   }
 };
@@ -35,7 +35,7 @@ export async function ID_to_UUID(User_ID){
  * @param {*} UUID DoctorID
  * @returns Corresponding DoctorID
  */
-export async function UUID_to_ID(UUID){
+export async function UUID_to_ID(UUID) {
   const UUID_reference = 'UUID_reference';
   const sql = `SELECT User_ID FROM ${UUID_reference} WHERE UUID = ?`;
   const values = [UUID];
@@ -46,7 +46,7 @@ export async function UUID_to_ID(UUID){
     const [incomplete_ID] = await connection.execute(sql, values)
     const ID = incomplete_ID[0]['User_ID'];
     return ID;
-  }catch(error){
+  } catch(error) {
     return (`error in ${UUID_to_ID.name}:`, error)
   }
 };

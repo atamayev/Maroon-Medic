@@ -6,7 +6,7 @@ import Header from './header';
 export default function HomeDoctorsList() {
   const {items, fetchData, setSearchTerm } = useContext(SearchContext)
   
-  useEffect(()=>{
+  useEffect(() => {
     setSearchTerm("")
     fetchData();
   }, [])

@@ -1,6 +1,6 @@
 import {connection, DB_Operation} from "../dbAndSecurity/connect.js";
 import jwt from "jsonwebtoken";
-import moment from 'moment';
+import dayjs from "dayjs"
 import Hash from "../dbAndSecurity/hash.js";
 import dotenv from "dotenv";
 import { ID_to_UUID, UUID_to_ID } from "../dbAndSecurity/UUID.js";
@@ -16,7 +16,7 @@ import { login_history } from "../dbAndSecurity/accountTracker.js";
  * @returns Returns true/false, depending on wheather the cookie is verified, and if the contents of the cookie are valid
  *  DOCUMENTATION LAST UPDATED 3/14/23
  */
-export async function JWT_verify (req, res){
+export async function JWT_verify (req, res) {
   const cookies = req.cookies;
   let AccessToken;
   let response = {
@@ -25,20 +25,20 @@ export async function JWT_verify (req, res){
   };
   let decodedUUID;
 
-  if("DoctorAccessToken" in cookies) response.type = 'Doctor';
-  else if("PatientAccessToken" in cookies) response.type = 'Patient';
+  if ("DoctorAccessToken" in cookies) response.type = 'Doctor';
+  else if ("PatientAccessToken" in cookies) response.type = 'Patient';
   else return res.status(400).json('Invalid User Type');
 
 
-  try{
+  try {
     AccessToken = req.cookies[`${response.type}AccessToken`]
     const JWTKey = response.type === 'Patient' ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY;
     decodedUUID = jwt.verify(AccessToken, JWTKey)[`${response.type}ID`];
-  }catch(error){
-    if(error.name === "TokenExpiredError"){
+  } catch(error) {
+    if (error.name === "TokenExpiredError") {
       console.log('Token expired', error.name)
       return res.status(402).json(response);
-    }else{
+    } else {
       console.log('error in token verification', error);
       return res.status(500).json(response); 
     }
@@ -47,13 +47,13 @@ export async function JWT_verify (req, res){
   if (Date.now() >= decodedUUID.exp * 1000) {
     console.log('Token expired', decodedUUID.exp)
     return res.status(401).json(response);
-  }else{
+  } else {
     const UUID_reference = 'UUID_reference';
     const sql = `SELECT * FROM ${UUID_reference} WHERE UUID = ?`;
     const values = [decodedUUID];
     await DB_Operation(JWT_verify.name, UUID_reference)
     
-    try{
+    try {
       const [results] = await connection.execute(sql, values)
       if (results.length === 1) {
         response.isValid = true;
@@ -62,7 +62,7 @@ export async function JWT_verify (req, res){
         response.isValid = false;
         return res.status(500).json(response);
       }
-    }catch(error){
+    } catch(error) {
         return (`error in ${JWT_verify.name}:`, error)
     }
   }
@@ -82,11 +82,11 @@ export async function JWT_verify (req, res){
  * @returns An error, or a json response, depending on wheather the credentials exist in the DB
  *  DOCUMENTATION LAST UPDATED 3/14/23
  */
-export async function login (req, res){
+export async function login (req, res) {
   const { email, password, login_type } = req.body.login_information_object;
   const Credentials = 'Credentials';
   
-  if(login_type !== 'Doctor' && login_type !== 'Patient') return res.json('Invalid User Type'); // If Type not Doctor or Patient
+  if (login_type !== 'Doctor' && login_type !== 'Patient') return res.json('Invalid User Type'); // If Type not Doctor or Patient
 
   const sql = `SELECT * FROM ${Credentials} WHERE email = ? AND User_type = ?`;
   const values = [email, login_type];
@@ -96,20 +96,20 @@ export async function login (req, res){
   let results;
   let hashed_password;
 
-  try{
+  try {
     [results] = await connection.execute(sql, values);
     if (!results.length) return res.status(404).json("Username not found!");
     else hashed_password = results[0].password;
-  }catch(error){
+  } catch(error) {
     console.log('Problem with email selection', error)
     return res.status(500).json({ error: 'Problem with email selection' });
   }
 
   let bool;
 
-  try{
+  try {
     bool = await Hash.checkPassword(password, hashed_password)
-  }catch(error){
+  } catch(error) {
     console.log('Problem with checking password', error)
     return res.status(500).json({ error: 'Problem with checking password' });
   }
@@ -128,9 +128,9 @@ export async function login (req, res){
     const JWTKey = login_type === 'Patient' ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY;
     
     let token;
-    try{
+    try {
       token = jwt.sign(payload, JWTKey);
-    }catch(error){
+    } catch(error) {
       console.log('Problem with Signing JWT', error)
       return res.status(500).json({ error: 'Problem with Signing JWT' });
     }
@@ -172,11 +172,11 @@ export async function login (req, res){
  * @returns An error, or a json response, depending on wheather the credentials are able to be registered
  *  DOCUMENTATION LAST UPDATED 3/14/23
  */
-export async function register (req, res){
+export async function register (req, res) {
   const {email, password, register_type} = req.body.register_information_object // Desctructures the request
   const Credentials = 'Credentials';
 
-  if(register_type !== 'Doctor' && register_type !== 'Patient') return res.status(400).json('Invalid User Type'); // If Type not Doctor or Patient
+  if (register_type !== 'Doctor' && register_type !== 'Patient') return res.status(400).json('Invalid User Type'); // If Type not Doctor or Patient
 
   const sql = `SELECT * FROM ${Credentials} WHERE email = ? AND User_type = ? `;
   const values = [email, register_type];
@@ -184,19 +184,19 @@ export async function register (req, res){
   await DB_Operation(register.name, Credentials)
 
   let results;
-  try{
+  try {
     [results] = await connection.execute(sql, values)
     if (results.length !== 0) return res.status(400).json("User already exists!");
-  }catch(error){
+  } catch(error) {
     console.log('Problem with existing email search')
     return res.status(500).json({ error: 'Problem with existing email search' });
   }
 
   let hashed_password;
-  if(!results.length){
-    try{
+  if (!results.length) {
+    try {
       hashed_password = await Hash.hash_credentials(password)
-    }catch(error){
+    } catch(error) {
       console.log('Problem with Password Hashing')
       return res.status(500).json({ error: 'Problem with Password Hashing' });
     }
@@ -204,21 +204,21 @@ export async function register (req, res){
 
   const date_ob = new Date();
   const format = "YYYY-MM-DD HH:mm:ss"
-  const dateTime = moment(date_ob).format(format);
+  const dateTime = dayjs(date_ob).format(format);
 
   const sql_1 = `INSERT INTO ${Credentials} (email, password, Created_at, User_type) VALUES (?, ?, ?, ?)`;
   const values_1 = [email, hashed_password, dateTime, register_type];
   let results_1;
   try {
     [results_1] = await connection.execute(sql_1, values_1)
-  }catch (error){
+  } catch(error) {
     console.log('Problem with Data Insertion')
     return res.status(500).json({ error: 'Problem with Data Insertion' });
   }
 
   const User_ID = results_1.insertId
 
-  if(register_type === 'Doctor'){
+  if (register_type === 'Doctor') {
     const Doctor_specific_info = 'Doctor_specific_info';
   
     const sql_2 = `INSERT INTO ${Doctor_specific_info} (verified, publiclyAvailable, Doctor_ID) VALUES (?, ?, ?)`;
@@ -226,7 +226,7 @@ export async function register (req, res){
   
     try {
       await connection.execute(sql_2, values_2)
-    }catch (error){
+    } catch(error) {
       console.log('Problem with Data Insertion into DoctorSpecific Table')
       return res.status(500).json({ error: 'Problem with Data Insertion' });
     }
@@ -242,9 +242,9 @@ export async function register (req, res){
   }
   const JWTKey = register_type === 'Patient' ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY;
   let token;
-  try{
+  try {
     token = jwt.sign(payload, JWTKey);
-  }catch(error){
+  } catch(error) {
     console.log('error in Signing JWT')
     return res.status(500).json({ error: 'Problem with Signing JWT' });
   }
@@ -280,12 +280,12 @@ export async function register (req, res){
  * @returns Login Time and IP Address from the login_history table
  *  DOCUMENTATION LAST UPDATED 6/4/23
  */
-export async function fetchLoginHistory (req, res){
+export async function fetchLoginHistory (req, res) {
   const cookies = req.cookies;
   let UUID;
 
-  if("DoctorUUID" in cookies || "DoctorAccessToken" in cookies) UUID = cookies.DoctorUUID
-  else if("PatientUUID" in cookies || "PatientAccessToken" in cookies) UUID = cookies.PatientUUID
+  if ("DoctorUUID" in cookies || "DoctorAccessToken" in cookies) UUID = cookies.DoctorUUID
+  else if ("PatientUUID" in cookies || "PatientAccessToken" in cookies) UUID = cookies.PatientUUID
   
   const User_ID = await UUID_to_ID(UUID) // converts DoctorUUID to docid
 
@@ -293,12 +293,12 @@ export async function fetchLoginHistory (req, res){
 
   const sql = `SELECT Login_at, IP_Address FROM ${login_history} WHERE User_ID = ?`
   const values = [User_ID];
-  try{
-      const [results] = await connection.execute(sql, values);
-      return res.status(200).json(results);
-  }catch(error){
-      console.log(`error in fetchLoginHistory ${fetchLoginHistory.name}:`, error);
-      return res.status(400).json();
+  try {
+    const [results] = await connection.execute(sql, values);
+    return res.status(200).json(results);
+  } catch(error) {
+    console.log(`error in fetchLoginHistory ${fetchLoginHistory.name}:`, error);
+    return res.status(400).json();
   }
 };
 
@@ -309,23 +309,23 @@ export async function fetchLoginHistory (req, res){
  * @param {Response} res Clears cookie, and informs that "User has been logged out"
  *  DOCUMENTATION LAST UPDATED 6/4/23
  */
-export async function logout (req, res){
+export async function logout (req, res) {
   let type;
-  try{
+  try {
     const cookies = req.cookies
     let UUID;
     let newUserUUID;
   
-    if("DoctorUUID" in cookies || "DoctorAccessToken" in cookies){
+    if ("DoctorUUID" in cookies || "DoctorAccessToken" in cookies) {
       UUID = cookies.DoctorUUID
       type = 'Doctor';
-      if("DoctorNew_User" in cookies){
+      if ("DoctorNew_User" in cookies) {
         newUserUUID = cookies.DoctorNew_User
       }
-    }else if("PatientUUID" in cookies || "PatientAccessToken" in cookies){
+    } else if ("PatientUUID" in cookies || "PatientAccessToken" in cookies) {
       UUID = cookies.PatientUUID
       type = 'Patient';
-      if("PatientNew_User" in cookies){
+      if ("PatientNew_User" in cookies) {
         newUserUUID = cookies.PatientNew_User
       }
     }
@@ -336,17 +336,17 @@ export async function logout (req, res){
   
     await DB_Operation(logout.name, UUID_reference);
     await connection.execute(sql, values);
-    if(newUserUUID){
+    if (newUserUUID) {
       //If the user is new, they will have an extra cookie. Need to delete that UUID upon logout as well
       values = [newUserUUID]
       await connection.execute(sql, values)
     }
-  } catch(error){
+  } catch(error) {
       console.log('Error in accessing DB', error)
       // return res.status(500).json({ error: `Error in accessing DB` });
   }
   
-  try{
+  try {
     const cookieNames = ['AccessToken', 'UUID', 'New_User'];
 
     cookieNames.forEach((cookieName) => {
@@ -358,7 +358,7 @@ export async function logout (req, res){
       });
     });
     return res.status(200).json();
-  }catch (error){
+  } catch(error) {
     console.log(`error in logging ${type} out`)
     return res.status(500).json({ error: `Error in logging ${type} out` });
   }
