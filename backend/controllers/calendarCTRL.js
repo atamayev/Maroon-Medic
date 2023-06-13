@@ -1,8 +1,8 @@
 import {connection, DB_Operation} from "../dbAndSecurity/connect.js";
 import { UUID_to_ID } from "../dbAndSecurity/UUID.js";
-import moment from "moment";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat.js"
+dayjs.extend(customParseFormat); // extend Day.js with the plugin
 
 /** makeAppointment is called when a patient makes an appointment
  *  First, finds the Doctor_ID corresponding to the NVI of the appointment Doctor
@@ -39,16 +39,16 @@ export async function makeAppointment(req, res) {
 
     // Combine date and time into a single string
     const dateTimeStr = `${AppointmentObject.appointment_date} ${AppointmentObject.appointment_time}`;
-
+    
     // Convert the string to a DateTime object
-    const dateTime = moment(dateTimeStr, 'dddd, MMMM Do, YYYY HH:mm');
-
+    const dateTime = dayjs(dateTimeStr, 'dddd, MMMM D, YYYY HH:mm'); // 'D' instead of 'Do'
+    
     // If you need to format this date to a MySQL DATETIME format, you can do it like this:
     const mysqlDateTime = dateTime.format('YYYY-MM-DD HH:mm:ss');
 
     const sql2 = `INSERT INTO ${Appointments}
         (appointment_date, patient_message, Doctor_confirmation_status, Service_and_category_list_ID, Patient_ID, Doctor_ID, Addresses_ID, Created_at) 
-        VALUES (?, ?,?,?,?,?,?, ?)`;
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
     const values2 = [mysqlDateTime, null, AppointmentObject.Instant_book, AppointmentObject.Service_and_category_list_ID, Patient_ID, Doctor_ID, AppointmentObject.Addresses_ID, createdAt];
 
     await DB_Operation(makeAppointment.name, Appointments)

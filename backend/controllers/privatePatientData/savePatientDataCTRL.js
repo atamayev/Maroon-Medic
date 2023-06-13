@@ -1,6 +1,7 @@
 import {connection, DB_Operation} from "../../dbAndSecurity/connect.js";
 import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
-import moment from "moment";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat.js"
 
 /** savePersonalData is self-explanatory in name
  *  First, checks if the patient already has saved data in the DB.
@@ -29,12 +30,18 @@ export async function savePersonalData (req, res) {
         return res.status(400).json();
     }
 
-    const dateOfBirth = moment(`${personalInfo.DOB_month} ${personalInfo.DOB_day} ${personalInfo.DOB_year}`, 'MMMM D YYYY').format('YYYY-MM-DD');
+    dayjs.extend(customParseFormat); // extend Day.js with the plugin
+
+    // Combine date parts into a single string
+    const dateOfBirthStr = `${personalInfo.DOB_month} ${personalInfo.DOB_day} ${personalInfo.DOB_year}`;
+
+    // Convert the string to a Date object and format it
+    const dateOfBirth = dayjs(dateOfBirthStr, 'MMMM D YYYY').format('YYYY-MM-DD');
 
     const values1 = [personalInfo.FirstName, personalInfo.LastName, personalInfo.Gender, dateOfBirth, PatientID];
 
     if (!results.length) {// if no results, then insert.
-        const sql1 = `INSERT INTO ${basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?,?,?,?,?)`;
+        const sql1 = `INSERT INTO ${basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?, ?, ?, ?, ?)`;
         try {
             await connection.execute(sql1, values1);
             return res.status(200).json();
@@ -76,7 +83,7 @@ export async function saveGeneralData (req, res) {
     await DB_Operation(saveGeneralData.name, table_name);
 
     if (operationType === 'add') {
-        const sql = `INSERT INTO ${table_name} (${DataType}_ID, User_ID) VALUES (?,?)`;
+        const sql = `INSERT INTO ${table_name} (${DataType}_ID, User_ID) VALUES (?, ?)`;
         const values = [patientData, PatientID];
         try {
             await connection.execute(sql, values);

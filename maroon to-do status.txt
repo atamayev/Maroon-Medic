@@ -2,12 +2,9 @@ To-do:
 
 
 ASAP:
--Transition from momentjs to dayjs
 -change doctor account details/list details to an object instead of a list. this way, don't need to do listDetails[1], can just do listDetails.insurance
 -when deleting, make all of teh parts of the account details require a delete confirmation. change the X delete button to red. when press delete, should plit into 2 buttons- confirm delete, or nevermind
 -add insurances on the add pets level. (delete insurance mapping table, add insurance ID to the pet_info_table)
-
-Arrow function spacing, if else spacing, etc
 
 -Include the cost in the finalize booking screen
 

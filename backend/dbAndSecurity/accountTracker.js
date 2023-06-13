@@ -1,5 +1,5 @@
 import { DB_Operation, connection } from "./connect.js";
-import moment from 'moment';
+import dayjs from "dayjs";
 
 /** login_history saves the date and IP Address of a certain user 
  * @param {Int} User_ID 
@@ -10,7 +10,7 @@ export async function login_history(User_ID) {
 
   const date_ob = new Date();
   const format = "YYYY-MM-DD HH:mm:ss"
-  const dateTime = moment(date_ob).format(format);
+  const dateTime = dayjs(date_ob).format(format);
   
   const sql = `INSERT INTO ${login_history} (Login_at, IP_Address, User_ID) VALUES (?, ?, ?)`;
   const values = [dateTime, 0, User_ID];

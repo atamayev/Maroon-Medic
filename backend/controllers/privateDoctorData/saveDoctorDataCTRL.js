@@ -1,7 +1,8 @@
 import { connection, DB_Operation } from "../../dbAndSecurity/connect.js";
 import { getUnchangedAddressRecords, getUpdatedAddressRecords } from "../../dbAndSecurity/addressOperations.js";
 import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
-import moment from "moment";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat.js"
 
 /** savePersonalData is self-explanatory in name
  *  First, converts from UUID to ID. Then, checks if any records exist in basic_doctor_info.
@@ -31,13 +32,18 @@ export async function savePersonalData (req, res) {
         console.log(`error in ${savePersonalData.name}:`, error)
         return res.status(400).json();
     }
-    
-    const dateOfBirth = moment(`${personalInfo.DOB_month} ${personalInfo.DOB_day} ${personalInfo.DOB_year}`, 'MMMM D YYYY').format('YYYY-MM-DD');
 
+    dayjs.extend(customParseFormat); // extend Day.js with the plugin
+
+    // Combine date parts into a single string
+    const dateOfBirthStr = `${personalInfo.DOB_month} ${personalInfo.DOB_day} ${personalInfo.DOB_year}`;
+
+    // Convert the string to a Date object and format it
+    const dateOfBirth = dayjs(dateOfBirthStr, 'MMMM D YYYY').format('YYYY-MM-DD');
     const values1 = [personalInfo.FirstName, personalInfo.LastName, personalInfo.Gender, dateOfBirth, DoctorID];
 
     if (!results.length) {// if no results, then insert.
-        const sql1 = `INSERT INTO ${basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?,?,?,?,?)`;
+        const sql1 = `INSERT INTO ${basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?, ?, ?, ?, ?)`;
         try {
             await connection.execute(sql1, values1);
             return res.status(200).json();
@@ -87,7 +93,7 @@ export async function saveDescriptionData (req, res) {
     const values1 = [description.Description, DoctorID];
 
     if (!results.length) {// if no results, then insert.
-        const sql1 = `INSERT INTO ${descriptions} (Description, Doctor_ID) VALUES (?,?)`;
+        const sql1 = `INSERT INTO ${descriptions} (Description, Doctor_ID) VALUES (?, ?)`;
         try {
             await connection.execute(sql1, values1);
             return res.status(200).json();
@@ -135,7 +141,7 @@ export async function saveGeneralData (req, res) {
     await DB_Operation(saveGeneralData.name, table_name);
 
     if (operationType === 'add') {
-        const sql = `INSERT INTO ${table_name} (${DataType}_ID, ${UserIDorDoctorID}) VALUES (?,?)`;
+        const sql = `INSERT INTO ${table_name} (${DataType}_ID, ${UserIDorDoctorID}) VALUES (?, ?)`;
         const values = [doctorData, DoctorID];
         
         try {
@@ -213,7 +219,7 @@ export async function saveServicesData (req, res) {
 
         if (addedData.length > 0) {
             for (let i = 0; i<addedData.length; i++) {
-                const sql = `INSERT INTO ${service_mapping} (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?,?,?,?)`;
+                const sql = `INSERT INTO ${service_mapping} (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?, ?, ?, ?)`;
                 const values = [addedData[i].service_and_category_listID, addedData[i].Service_time, addedData[i].Service_price, DoctorID];
                 try {
                     await connection.execute(sql, values);
@@ -251,7 +257,7 @@ export async function saveServicesData (req, res) {
     } else if (ServicesData.length > 0) {
         //Can only get into here if formatted results.length not >0: no results from the DB - adding completely new data
         for (let i=0; i<ServicesData.length; i++) {
-            const sql = `INSERT INTO ${service_mapping} (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?,?,?,?)`;
+            const sql = `INSERT INTO ${service_mapping} (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?, ?, ?, ?)`;
             const values = [ServicesData[i].service_and_category_listID, ServicesData[i].Service_time, ServicesData[i].Service_price, DoctorID];
             try {
                 await connection.execute(sql, values);
@@ -289,10 +295,10 @@ export async function saveEducationData (req, res) {
     await DB_Operation(saveEducationData.name, table_name);
     if (operationType === 'add') {
         if (EducationType === 'pre_vet') {
-            sql = `INSERT INTO ${table_name} (School_ID, Major_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?,?,?,?,?,?)`;
+            sql = `INSERT INTO ${table_name} (School_ID, Major_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?, ?, ?, ?, ?, ?)`;
             values = [EducationData.School_ID, EducationData.Major_ID, EducationData.Education_type_ID, EducationData.Start_date, EducationData.End_date, DoctorID];    
         } else if (EducationType === 'vet') {
-            sql = `INSERT INTO ${table_name} (School_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?,?,?,?,?)`;
+            sql = `INSERT INTO ${table_name} (School_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?, ?, ?, ?, ?)`;
             values = [EducationData.School_ID, EducationData.Education_type_ID, EducationData.Start_date, EducationData.End_date, DoctorID];    
         } else {
             console.log(`Education_type not defined ${saveEducationData.name}`);
@@ -559,7 +565,7 @@ export async function saveAddressData (req, res) {
         for (let i=0; i<AddressData.length; i++) {
             const sql = `INSERT INTO ${addresses} 
                 (address_title, address_line_1, address_line_2, city, state, zip, country, address_public_status, address_priority, instant_book, isActive, Doctor_ID) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)`;
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
             const values = [AddressData[i].address_title, AddressData[i].address_line_1, AddressData[i].address_line_2, AddressData[i].city, AddressData[i].state, AddressData[i].zip, AddressData[i].country, AddressData[i].address_public_status, AddressData[i].address_priority, AddressData[i].instant_book, 1, DoctorID];
             let insert_results;
             try {

@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { connection, DB_Operation } from './connect.js';
-import moment from 'moment';
+import dayjs from 'dayjs';
+
 // These functions are made to not send the ID back and forth from server to client.
 // Instead, a UUID (Universally Unique Identifier) is created, which matches to a ID, and is sent back and forth
 
@@ -15,7 +16,7 @@ export async function ID_to_UUID(User_ID) {
   
   const date_ob = new Date();
   const format = "YYYY-MM-DD HH:mm:ss"
-  const dateTime = moment(date_ob).format(format);
+  const dateTime = dayjs(date_ob).format(format);
 
   await DB_Operation(ID_to_UUID.name, UUID_reference)
   const sql = `INSERT INTO ${UUID_reference} (UUID, Created_at, User_ID) VALUES (?, ?, ?)`;

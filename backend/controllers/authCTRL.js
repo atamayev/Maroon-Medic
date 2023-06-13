@@ -332,7 +332,7 @@ export async function logout (req, res) {
   
     const UUID_reference = 'UUID_reference';
     const sql = `DELETE FROM ${UUID_reference} WHERE UUID = ?`;
-    const values = [UUID];
+    let values = [UUID];
   
     await DB_Operation(logout.name, UUID_reference);
     await connection.execute(sql, values);

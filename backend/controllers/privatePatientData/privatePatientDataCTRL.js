@@ -2,7 +2,9 @@ import {connection, DB_Operation} from "../../dbAndSecurity/connect.js";
 import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
 import FetchPatientAccountData from "./fetchPatientAccountData.js";
 import FetchAllLists from "../../dbAndSecurity/fetchAllLists.js";
-import moment from "moment";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat.js"
+dayjs.extend(customParseFormat); // extend Day.js with the plugin
 
 /** newPatient registers the inputted user data into basic_Patient_info table
  *  All necessary information is sent via the request (PatientUUID, firname, lastname, etc.)
@@ -17,10 +19,14 @@ export async function newPatient (req, res) {
     
     const new_patient_object = req.body.new_patient_object
 
-    const dateOfBirth = moment(`${new_patient_object.DOB_month} ${new_patient_object.DOB_day} ${new_patient_object.DOB_year}`, 'MMMM D YYYY').format('YYYY-MM-DD');
+    // Combine date parts into a single string
+    const dateOfBirthStr = `${new_patient_object.DOB_month} ${new_patient_object.DOB_day} ${new_patient_object.DOB_year}`;
+
+    // Convert the string to a Date object and format it
+    const dateOfBirth = dayjs(dateOfBirthStr, 'MMMM D YYYY').format('YYYY-MM-DD');
 
     const basic_user_info = 'basic_user_info'
-    const sql = `INSERT INTO ${basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?,?,?,?,?)`;
+    const sql = `INSERT INTO ${basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?, ?, ?, ?, ?)`;
 
     const values = [new_patient_object.FirstName, new_patient_object.LastName, new_patient_object.Gender, dateOfBirth, User_ID];    
     await DB_Operation(newPatient.name, basic_user_info)
@@ -105,8 +111,8 @@ export async function fetchDashboardData (req, res) {
         else{
             const DashboardData = results
             for (let i = 0; i < DashboardData.length; i++) {
-                DashboardData[i].appointment_date = moment(DashboardData[i].appointment_date).format('MMMM Do, YYYY, h:mm A');
-                DashboardData[i].Created_at = moment(DashboardData[i].Created_at).format('MMMM Do, YYYY, h:mm A');                
+                DashboardData[i].appointment_date = dayjs(DashboardData[i].appointment_date).format('MMMM Do, YYYY, h:mm A');
+                DashboardData[i].Created_at = dayjs(DashboardData[i].Created_at).format('MMMM Do, YYYY, h:mm A');                
             }
             return res.json(DashboardData);
         } 
@@ -146,7 +152,7 @@ export async function fetchPersonalData (req, res) {
         const [results] = await connection.execute(sql, values);
         if (results.length === 0) return res.json(PersonalData);
         else {
-            let dob = moment(results[0].DOB);
+            let dob = dayjs(results[0].DOB);
             PersonalData = {
                 FirstName: results[0].FirstName,
                 LastName: results[0].LastName,
