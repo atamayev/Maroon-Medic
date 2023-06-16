@@ -1,5 +1,6 @@
 import {connection, DB_Operation} from "../dbAndSecurity/connect.js";
 import FetchAllLists from "../dbAndSecurity/fetchAllLists.js";
+import _ from "lodash"
 
 /** searchByQuery returns all users that fit the client's search
  * @param {String} req Query is passed in
@@ -18,7 +19,7 @@ export async function searchByQuery (req, res) {
 
     try {
         const [results] = await connection.execute(sql, values);
-        if (results.length === 0) return res.json('User not found');
+        if (_.isEmpty(results)) return res.json('User not found');
         else return res.json(results);
     } catch(error) {
         console.log('Search by Query Error', error);

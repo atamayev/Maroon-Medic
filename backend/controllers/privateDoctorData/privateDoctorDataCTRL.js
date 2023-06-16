@@ -5,6 +5,7 @@ import FetchAllLists from "../../dbAndSecurity/fetchAllLists.js";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat.js"
 dayjs.extend(customParseFormat); // extend Day.js with the plugin
+import _ from "lodash"
 
 /** newDoctor registers the inputted user data into basic_Doctor_info table
  *  All necessary information is sent via the request (DoctorUUID, firname, lastname, etc.)
@@ -105,7 +106,7 @@ export async function fetchDashboardData (req, res) {
 
     try {
         const [results] = await connection.execute(sql, values)
-        if (results.length === 0) return res.json([]);
+        if (_.isEmpty(results)) return res.json([]);
         else{
             const DashboardData = results
             for (let i = 0; i < DashboardData.length; i++) {
@@ -149,7 +150,7 @@ export async function fetchPersonalData (req, res) {
 
     try {
         const [results] = await connection.execute(sql, values);
-        if (results.length === 0) return res.json(PersonalData);
+        if (_.isEmpty(results)) return res.json(PersonalData);
         else {
             let dob = dayjs(results[0].DOB);
             PersonalData = {

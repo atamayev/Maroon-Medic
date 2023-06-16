@@ -2,6 +2,7 @@ import React from "react";
 import { Card, Button} from "react-bootstrap";
 import { saveInsurances } from "../../../Custom Hooks/Hooks for Account Details/PatientAccountDetails/savePatientAccountDetails";
 import { useConfirmationMessage } from "../../../Custom Hooks/useConfirmationMessage";
+import _ from "lodash"
 
 export default function RenderInsuranceSection(props) {
   return(
@@ -21,8 +22,8 @@ function RenderIsPatientInsurance(props) {
 
   return (
     <>
-      {Array.isArray(props.listDetails[0]) &&
-        props.listDetails[0].length > 0 &&
+      {_.isArray(props.listDetails[0]) &&
+        !_.isEmpty(props.listDetails[0]) &&
         props.listDetails[0].map((insurance) => (
           <div key={insurance?.insurance_listID}>
             <input

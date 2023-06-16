@@ -1,5 +1,6 @@
 import { checkIfListsAreEqual} from "../../lists-and-object-checks";
 import PrivatePatientDataService from "../../../Services/private-patient-data-service";
+import _ from "lodash"
 
 export async function saveInsurances(acceptedInsurances, setInsurancesConfirmation) {
   const PatientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails"));
@@ -9,14 +10,14 @@ export async function saveInsurances(acceptedInsurances, setInsurancesConfirmati
   
   let shouldSave = false;
 
-  if (!savedInsurancesIDs.length && !insuranceIds.length) {
+  if (_.isEmpty(savedInsurancesIDs) && _.isEmpty(insuranceIds)) {
     // Case where both arrays are empty
     setInsurancesConfirmation({messageType: 'none'});
     return;
   }
 
-  if (!savedInsurancesIDs.length || !savedInsurancesIDs) {
-    shouldSave = !!insuranceIds.length
+  if (!savedInsurancesIDs || _.isEmpty(savedInsurancesIDs)) {
+    shouldSave = !_.isEmpty(insuranceIds);
   } else if ((!checkIfListsAreEqual(insuranceIds, savedInsurancesIDs))) {
     shouldSave = true;
   } else {

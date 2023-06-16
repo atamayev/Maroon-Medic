@@ -1,8 +1,9 @@
 import React from "react";
 import { Card } from "react-bootstrap";
+import _ from "lodash"
 
 export default function RenderLanguageSection(props) {
-    if (props.spokenLanguages.length) {
+    if (!_.isEmpty(props.spokenLanguages)) {
         return (
             <Card className="card-bottom-margin">
                 <Card.Header>

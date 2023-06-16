@@ -13,6 +13,7 @@ import RenderLocationsSection from "./public-doctor-locations.js"
 import RenderBookingSection from './public-doctor-booking.js';
 import RenderDescriptionSection from './public-doctor-description.js';
 import "./card.css"
+import _ from "lodash"
 
 export default function Doctor () {
   let { id } = useParams(); //the id of the current site (which doctorData) --> used to set User
@@ -39,7 +40,7 @@ export default function Doctor () {
         if (response.data[4]) setPreVetEducation(response.data[4]);
         if (response.data[5]) setVetEducation(response.data[5]);
         if (response.data[6]) setAddresses(response.data[6]);
-        if (response.data[7] && Object.keys(response.data[7]).length) setDescription(response.data[7]);
+        if (response.data[7] && !_.isEmpty(Object.keys(response.data[7]))) setDescription(response.data[7]);
         if (response.data[8]) // Somehow set pictures.
         if (response.data[9]) setPersonalData(response.data[9]);
       }

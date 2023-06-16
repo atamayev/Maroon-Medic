@@ -6,6 +6,7 @@ import DoctorHeader from './doctor-header.js';
 import Header from '../header.js';
 import { NonDoctorAccess } from '../../Components/user-type-unauth.js';
 import moment from 'moment';
+import _ from "lodash"
 
 async function fetchDoctorDashboardData(setDashboardData) {
   try {
@@ -86,7 +87,7 @@ export default function DoctorDashboard() {
   }, []);
   
   useEffect(() => {
-    if (dashboardData.length > 0) {
+    if (!_.isEmpty(dashboardData)) {
       const now = moment();
       const pastAppointments = dashboardData.filter(appointment =>
         moment(appointment.appointment_date, "MMMM Do, YYYY, h:mm A") < now
@@ -148,7 +149,7 @@ export default function DoctorDashboard() {
   };
 
   const renderUpcomingAppointments = (upcomingAppointments) => {
-    if (!upcomingAppointments.length) return <> No upcoming appointments </>
+    if (_.isEmpty(upcomingAppointments)) return <>No upcoming appointments</>
     return(
       <>
         {upcomingAppointments.map((appointment, index) => (
@@ -159,7 +160,7 @@ export default function DoctorDashboard() {
   }
 
   const renderPastAppointments = (pastAppointments) => {
-    if (!pastAppointments.length) return <>No past appointments </>
+    if (_.isEmpty(pastAppointments)) return <>No past appointments</>
     return(
       <>
         {pastAppointments.map((appointment, index) => (
@@ -170,7 +171,7 @@ export default function DoctorDashboard() {
   }
 
   const renderDashboardData = () => {
-    if (!dashboardData.length) return <div>No upcoming appointments</div>
+    if (_.isEmpty(dashboardData)) return <>No upcoming appointments</>
     return (
       <>
         <Card style={{margin: '0 10px' }}className='mb-3'>

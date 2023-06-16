@@ -3,6 +3,7 @@ import { Card, Button } from 'react-bootstrap';
 import moment from 'moment';
 import FormGroup from '../../Components/form-group';
 import { useNavigate } from "react-router-dom";
+import _ from "lodash"
 
 const handleServiceChange = (event, providedServices, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime) => {
   const value = event.target.value;
@@ -19,7 +20,7 @@ const handleLocationChange = (event, addresses, setSelectedLocation, setSelected
   const value = event.target.value;
   const selectedLocationObject = addresses.find(location => location.addressesID.toString() === value);
   
-  if (selectedLocationObject.times.length < 1) {
+  if (_.isEmpty(selectedLocationObject.times)) {
     setSelectedLocation(null);
     setSelectedDay("This doctor does not currently have any open appointments");
     setSelectedTime(null);
@@ -122,7 +123,7 @@ export default function RenderBookingSection(props) {
     setAvailableDates(dates);
   }, [selectedLocationObject]);
 
-  const anyLocationHasTimes = props.addresses.some(location => location.times && location.times.length > 0);
+  const anyLocationHasTimes = props.addresses.some(location => location.times && !_.isEmpty(location.times));
 
   if (!anyLocationHasTimes) {
     return(
@@ -154,13 +155,11 @@ export default function RenderBookingSection(props) {
   }
 
   const renderMakeBooking = () => {
-    if (!(props.providedServices.length && props.addresses.length)) {
+    if (_.isEmpty(props.providedServices) || _.isEmpty(props.addresses)) {
       return (
         <Card className='card-bottom-margin'>
-        <Card.Header>Ready to make a booking?</Card.Header>
-        <Card.Body>
-          This doctor does not currently offer any services.
-        </Card.Body>
+          <Card.Header>Ready to make a booking?</Card.Header>
+          <Card.Body>This doctor does not currently offer any services.</Card.Body>
       </Card>
       )
     }

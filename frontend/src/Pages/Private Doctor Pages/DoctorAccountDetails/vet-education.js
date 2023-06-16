@@ -4,6 +4,7 @@ import EducationTime from "./education-time";
 import { handleAddVetEducation } from "../../../Custom Hooks/Hooks for Account Details/add";
 import { saveVetEducation } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails";
 import { useConfirmationMessage } from "../../../Custom Hooks/useConfirmationMessage";
+import _ from "lodash"
 
 export default function RenderVetEducationSection (props) {
   return(
@@ -23,7 +24,7 @@ function RenderIsVetEducation(props) {
 
   const allChoicesFilled = props.selectedVetSchool && props.selectedVetEducationType;
 
-  if (!Array.from(new Set(props.listDetails[6]?.map((item) => item.School_name))).length) return <p>Loading...</p>
+  if (_.isEmpty(_.uniq(props.listDetails[6]?.map((item) => item.School_name)))) return <p>Loading...</p>
 
   return (
     <>

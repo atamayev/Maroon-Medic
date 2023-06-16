@@ -3,6 +3,7 @@ import { getUnchangedAddressRecords, getUpdatedAddressRecords } from "../../dbAn
 import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat.js"
+import _ from "lodash"
 
 /** savePersonalData is self-explanatory in name
  *  First, converts from UUID to ID. Then, checks if any records exist in basic_doctor_info.
@@ -42,7 +43,7 @@ export async function savePersonalData (req, res) {
     const dateOfBirth = dayjs(dateOfBirthStr, 'MMMM D YYYY').format('YYYY-MM-DD');
     const values1 = [personalInfo.FirstName, personalInfo.LastName, personalInfo.Gender, dateOfBirth, DoctorID];
 
-    if (!results.length) {// if no results, then insert.
+    if (_.isEmpty(results)) {// if no results, then insert.
         const sql1 = `INSERT INTO ${basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?, ?, ?, ?, ?)`;
         try {
             await connection.execute(sql1, values1);
@@ -92,7 +93,7 @@ export async function saveDescriptionData (req, res) {
     }
     const values1 = [description.Description, DoctorID];
 
-    if (!results.length) {// if no results, then insert.
+    if (_.isEmpty(results)) {// if no results, then insert.
         const sql1 = `INSERT INTO ${descriptions} (Description, Doctor_ID) VALUES (?, ?)`;
         try {
             await connection.execute(sql1, values1);
@@ -195,7 +196,7 @@ export async function saveServicesData (req, res) {
         return res.status(400).json();
     }
 
-    if (results.length > 0 ) {
+    if (!_.isEmpty(results)) {
         // Doctor already has data in the table
         const newServicesData = ServicesData;
 
@@ -217,7 +218,7 @@ export async function saveServicesData (req, res) {
             }
         });//Checks which results and ServicesData have the same IDs, but some other field has changed (ie. price, time). Adds those objects to updatedData
 
-        if (addedData.length > 0) {
+        if (!_.isEmpty(addedData)) {
             for (let i = 0; i<addedData.length; i++) {
                 const sql = `INSERT INTO ${service_mapping} (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?, ?, ?, ?)`;
                 const values = [addedData[i].service_and_category_listID, addedData[i].Service_time, addedData[i].Service_price, DoctorID];
@@ -229,7 +230,7 @@ export async function saveServicesData (req, res) {
                 }
             }
         }
-        if (deletedData.length > 0) {
+        if (!_.isEmpty(deletedData)) {
             for (let i = 0; i<deletedData.length; i++) {
                 const sql = `DELETE FROM ${service_mapping} WHERE Service_and_Category_ID = ? AND Doctor_ID = ?`;
                 const values = [deletedData[i].Service_and_Category_ID, DoctorID];
@@ -241,7 +242,7 @@ export async function saveServicesData (req, res) {
                 }
             }
         }
-        if (updatedData.length > 0) {
+        if (!_.isEmpty(updatedData)) {
             for (let i = 0; i<updatedData.length; i++) {
                 const sql = `UPDATE ${service_mapping} SET Service_time = ?, Service_price = ? WHERE Service_and_Category_ID = ? AND Doctor_ID = ?`;
                 const values = [updatedData[i].Service_time, updatedData[i].Service_price, updatedData[i].service_and_category_listID, DoctorID];
@@ -254,8 +255,7 @@ export async function saveServicesData (req, res) {
             }
         }
         return res.status(200).json();
-    } else if (ServicesData.length > 0) {
-        //Can only get into here if formatted results.length not >0: no results from the DB - adding completely new data
+    } else if (!_.isEmpty(ServicesData)) {
         for (let i=0; i<ServicesData.length; i++) {
             const sql = `INSERT INTO ${service_mapping} (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?, ?, ?, ?)`;
             const values = [ServicesData[i].service_and_category_listID, ServicesData[i].Service_time, ServicesData[i].Service_price, DoctorID];
@@ -360,14 +360,14 @@ export async function saveAddressData (req, res) {
         return res.status(400).json();
     }
 
-    if (Address_results.length) {
+    if (!_.isEmpty(Address_results)) {
         for (let Address_result of Address_results) {
             const sql2 = `SELECT ${phone}.Phone, ${phone}.phone_priority 
             FROM ${phone} 
             WHERE ${phone}.address_ID = ?`;
 
             const [phones] = await connection.execute(sql2, [Address_result.addressesID]);
-            if (!phones.length) {
+            if (_.isEmpty(phones)) {
                 Address_result.phone = "";
             } else {
                 Address_result.phone = phones[0];
@@ -390,7 +390,7 @@ export async function saveAddressData (req, res) {
 
         let returnedData = unchangedData; //initialize the data to return with the data that hasn't changed.
 
-        if (addedData.length > 0) {
+        if (!_.isEmpty(addedData)) {
             for (let i = 0; i<addedData.length; i++) {
                 const sql = `INSERT INTO ${addresses} 
                     (address_title, address_line_1, address_line_2, city, state, zip, country, address_public_status, address_priority, instant_book, isActive, Doctor_ID) 
@@ -418,7 +418,7 @@ export async function saveAddressData (req, res) {
                 returnedData.push(addedData[i])
             }
         }
-        if (deletedData.length) {
+        if (!_.isEmpty(deletedData)) {
             for (let i = 0; i<deletedData.length; i++) {
                 //Automatically deletes data in the phone number table, since the two are linked via a cascade
                 const sql = `UPDATE ${addresses} SET isActive = 0 WHERE addressesID = ?`;
@@ -431,7 +431,7 @@ export async function saveAddressData (req, res) {
                 }
             }
         }
-        if (updatedData.length) {
+        if (!_.isEmpty(updatedData)) {
             for (let i = 0; i<updatedData.length; i++) {
                 const sql1 = `UPDATE ${addresses} 
                     SET address_title = ?, address_line_1 = ?, address_line_2 = ?, city = ?, state = ?, zip = ?, country = ?, address_public_status = ?, instant_book = ?
@@ -453,7 +453,7 @@ export async function saveAddressData (req, res) {
                     console.log(`error in updatedData phone address data ${saveAddressData.name}:`, error);
                     return res.status(400).json();
                 }
-                if (results.length) {
+                if (!_.isEmpty(results)) {
                     if (updatedData[i].phone) {
                         const sql = `UPDATE ${phone} SET phone = ? WHERE address_ID = ?`;
                         const values = [updatedData[i].phone, updatedData[i].addressesID];
@@ -478,7 +478,7 @@ export async function saveAddressData (req, res) {
             }
         }
         //After all address operations are complete, do the TimeData Operations:
-        if (returnedData.length) {
+        if (!_.isEmpty(returnedData)) {
             // go into each element of the returnedData array.
             //for for the ith element in returnedData, find the corresponding times objects in TimesData (will be the ith element in the TimesData array)
             //compare each of the objects in that TimesData element to all of the data that a select * for that 
@@ -513,7 +513,7 @@ export async function saveAddressData (req, res) {
                       item.End_time !== oldDataDict[item.Day_of_week].End_time);
                 });
 
-                if (addedTimeData.length) {
+                if (!_.isEmpty(addedTimeData)) {
                     for (let j = 0; j<addedTimeData.length; j++) {
                         if (addedTimeData[j]) {
                             const sql = `INSERT INTO ${booking_availability} (Day_of_week, Start_time, End_time, address_ID, Doctor_ID) VALUES (?, ?, ?, ?, ?)`;
@@ -527,7 +527,7 @@ export async function saveAddressData (req, res) {
                         }
                     }
                 }
-                if (deletedTimeData.length) {
+                if (!_.isEmpty(deletedTimeData)) {
                     for (let j = 0; j<deletedTimeData.length; j++) {
                         if (deletedTimeData[j]) {
                             const sql = `DELETE FROM ${booking_availability} WHERE Day_of_week = ? AND Start_time = ? AND End_time = ?`;
@@ -541,7 +541,7 @@ export async function saveAddressData (req, res) {
                         }
                     }
                 }
-                if (updatedTimeData.length) {
+                if (!_.isEmpty(updatedTimeData)) {
                     for (let j = 0; j<updatedTimeData.length; j++) {
                         if (updatedTimeData[j]) {
                             const sql = `UPDATE ${booking_availability} SET Start_time = ?, End_time = ? WHERE Day_of_week = ? AND address_ID = ?`;
@@ -561,7 +561,7 @@ export async function saveAddressData (req, res) {
             //if no addresses:
             return res.status(200).json([])
         }
-    } else if (AddressData.length > 0) {
+    } else if (!_.isEmpty(AddressData)) {
         for (let i=0; i<AddressData.length; i++) {
             const sql = `INSERT INTO ${addresses} 
                 (address_title, address_line_1, address_line_2, city, state, zip, country, address_public_status, address_priority, instant_book, isActive, Doctor_ID) 
@@ -585,7 +585,7 @@ export async function saveAddressData (req, res) {
                     return res.status(400).json();
                 }
             }
-            if (TimesData[i].length) {//Makes sure that there is Time Data to save
+            if (!_.isEmpty(TimesData[i])) {//Makes sure that there is Time Data to save
                 for(let j = 0; j<TimesData.length;j++) {
                     const sql = `INSERT INTO ${booking_availability} (Day_of_week, Start_time, End_time, address_ID, Doctor_ID) VALUES (?, ?, ?, ?, ?)`;
                     const values = [TimesData[i][j].Day_of_week, TimesData[i][j].Start_time, TimesData[i][j].End_time, insert_results.insertId, DoctorID];

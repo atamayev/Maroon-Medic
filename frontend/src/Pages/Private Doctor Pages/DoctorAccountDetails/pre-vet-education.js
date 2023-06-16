@@ -4,6 +4,7 @@ import EducationTime from "./education-time";
 import { handleAddPreVetEducation } from "../../../Custom Hooks/Hooks for Account Details/add";
 import { savePreVetEducation } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails";
 import { useConfirmationMessage } from "../../../Custom Hooks/useConfirmationMessage";
+import _ from "lodash"
 
 export default function RenderPreVetEducationSection(props) {
   return(
@@ -23,7 +24,8 @@ function RenderIsPreVetEducation(props) {
 
   const allChoicesFilled = props.selectedPreVetSchool && props.selectedMajor && props.selectedPreVetEducationType;
 
-  if (!Array.from(new Set(props.listDetails[3]?.map((item) => item.School_name))).length) return <p> Loading... </p>
+  if (_.isEmpty(_.uniq(props.listDetails[3]?.map((item) => item.School_name)))) return <p> Loading... </p>
+
   return(
     <>
       <label htmlFor="pre-vet-school">Select a school: </label>
@@ -42,25 +44,25 @@ function RenderIsPreVetEducation(props) {
           ))}
       </select>
       <br />
-      {props.selectedPreVetSchool && (
-        <>
-          <label htmlFor="major">Select a Major: </label>
-          <select
-            id="major"
-            name="major"
-            value={props.selectedMajor}
-            onChange = {(event) => props.setSelectedMajor(event.target.value)}
-          >
-            <option value="" disabled>Choose a major</option>
-            {Array.from(new Set(props.listDetails[5]?.map((item) => item.Major_name))).map(
-          (major, index) => (
-            <option key={index} value={major}>
-              {major}
-            </option>
-          ))}
-          </select>
-        </>
-      )}
+        {props.selectedPreVetSchool && (
+          <>
+            <label htmlFor="major">Select a Major: </label>
+            <select
+              id="major"
+              name="major"
+              value={props.selectedMajor}
+              onChange = {(event) => props.setSelectedMajor(event.target.value)}
+            >
+              <option value="" disabled>Choose a major</option>
+              {_.uniq(props.listDetails[5]?.map((item) => item.Major_name)).map(
+            (major, index) => (
+              <option key={index} value={major}>
+                {major}
+              </option>
+            ))}
+            </select>
+          </>
+        )}
       <br/>
         {props.selectedMajor && (
           <>

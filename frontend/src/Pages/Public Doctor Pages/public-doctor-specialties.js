@@ -1,8 +1,9 @@
 import React from "react";
 import { Card } from "react-bootstrap";
+import _ from "lodash"
 
 export default function RenderSpecialtiesSection(props) {
-    if (props.doctorSpecialties.length) {
+    if (!_.isEmpty(props.doctorSpecialties)) {
         return (
             <Card className="card-bottom-margin">
                 <Card.Header>

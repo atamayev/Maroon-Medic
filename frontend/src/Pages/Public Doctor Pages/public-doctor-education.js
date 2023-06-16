@@ -1,8 +1,9 @@
 import React from "react";
 import { Card } from "react-bootstrap";
+import _ from "lodash"
 
 export default function RenderEducationSection(props) {
-  if (props.preVetEducation.length && props.vetEducation.length) {
+  if (!_.isEmpty(props.preVetEducation) && !_.isEmpty(props.vetEducation)) {
     return(
       <Card className="card-bottom-margin">
         <Card.Header>

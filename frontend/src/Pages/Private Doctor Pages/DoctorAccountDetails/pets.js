@@ -3,12 +3,13 @@ import { Card, Button} from "react-bootstrap";
 import { handleTogglePetType } from "../../../Custom Hooks/Hooks for Account Details/select";
 import { savePets } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails";
 import { useConfirmationMessage } from "../../../Custom Hooks/useConfirmationMessage";
+import _ from "lodash"
 
 export default function RenderPetsSection (props) {
   return(
     <Card className="mb-3">
       <Card.Header>
-        Services Pets
+        Serviced Pets
       </Card.Header>
       <Card.Body>
         {RenderIsPets(props)}
@@ -28,7 +29,7 @@ function RenderIsPets (props) {
     });
   }
   
-  if (!Array.from(new Set(props.listDetails[8]?.map((item) => item.Category_name))).length) return <>Loading...</>
+  if (_.isEmpty(_.uniq(props.listDetails[8]?.map((item) => item.Category_name)))) return <>Loading...</>
 
   return (
     <>

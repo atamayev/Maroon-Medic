@@ -3,6 +3,7 @@ import { Card, Button} from "react-bootstrap";
 import { handleAddSpecialty } from "../../../Custom Hooks/Hooks for Account Details/add";
 import { handleDeleteSpecialty } from "../../../Custom Hooks/Hooks for Account Details/delete";
 import { useConfirmationMessage } from "../../../Custom Hooks/useConfirmationMessage";
+import _ from "lodash"
 
 export default function RenderSpecialtySection (props) {
   return(
@@ -24,7 +25,7 @@ function RenderIsSpecialty(props) {
   ? props.listDetails[2].filter((item) => item.Organization_name === props.selectedOrganization)
   : [];
 
-  if (!Array.from(new Set(props.listDetails[2]?.map((item) => item.Organization_name))).length) return <p>Loading...</p>
+  if (_.isEmpty(_.uniq(props.listDetails[2]?.map((item) => item.Organization_name)))) return <p>Loading...</p>
 
   return (
     <>

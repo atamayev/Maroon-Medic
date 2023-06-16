@@ -1,4 +1,6 @@
 import {connection, DB_Operation} from "../../dbAndSecurity/connect.js"
+import _ from "lodash"
+
 /**
  * FetchPublicDoctorData fetches all of a specific Doctor's data, concatenating all results as arrays to an array
  */
@@ -17,7 +19,7 @@ export default new class FetchPublicDoctorData{
     
         try {
             const [results] = await connection.execute(sql, values);
-            if (!results.length) return [];
+            if (_.isEmpty(results)) return [];
             else return (results);
         } catch(error) {
             return (`error in ${functionName}:`, error);
@@ -37,7 +39,7 @@ export default new class FetchPublicDoctorData{
     
         try {
             const [results] = await connection.execute(sql, values);
-            if (!results.length) return [];
+            if (_.isEmpty(results)) return [];
             else return (results);
         } catch(error) {
             return (`error in ${functionName}:`, error);
@@ -57,7 +59,7 @@ export default new class FetchPublicDoctorData{
     
         try {
             const [results] = await connection.execute(sql, values);
-            if (!results.length) return [];
+            if (_.isEmpty(results)) return [];
             else return results;
         } catch(error) {
             return (`error in ${functionName}:`, error);
@@ -84,7 +86,7 @@ export default new class FetchPublicDoctorData{
             return (`error in ${functionName}:`, error);
         }
 
-        if (results.length) {
+        if (!_.isEmpty(results)) {
             for(let i =0;i<results.length; i++) {
                 const sql = `SELECT ${booking_availability}.Day_of_week, ${booking_availability}.Start_time, ${booking_availability}.End_time FROM ${booking_availability} WHERE ${booking_availability}.address_ID = ?`;
                 const values = [results[i].addressesID]
@@ -110,7 +112,7 @@ export default new class FetchPublicDoctorData{
         
         try {
             const [results] = await connection.execute(sql, values)
-            if (!results.length) return [];
+            if (_.isEmpty(results)) return [];
             else {
                 const DoctorPersonalInfo = results[0]
                 return (DoctorPersonalInfo);

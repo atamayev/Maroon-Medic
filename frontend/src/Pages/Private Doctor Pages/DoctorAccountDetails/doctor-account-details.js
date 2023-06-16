@@ -15,6 +15,7 @@ import RenderServiceSection from './service.js';
 import RenderLocationSection from './location.js';
 import RenderSpecialtySection from './specialty.js';
 import RenderPetsSection from './pets.js';
+import _ from "lodash"
 
 async function FillLists(setListDetails) { 
   try {
@@ -111,7 +112,7 @@ export default function DoctorAccountDetails() {
         if (response.data[3]) setPreVetEducation(response.data[3]);
         if (response.data[4]) setVetEducation(response.data[4]);
         if (response.data[5]) setAddresses(response.data[5]);
-        if (response.data[6] && Object.keys(response.data[6]).length > 0) {
+        if (response.data[6] && !_.isEmpty(Object.keys(response.data[6]))) {
           setDescription(response.data[6]);
           if (response.data[6].Description.length === 1000) setIsDescriptionOverLimit(true);
         }

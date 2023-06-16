@@ -3,6 +3,7 @@ import { Card, Button} from "react-bootstrap";
 import { handleToggleCategory } from "../../../Custom Hooks/Hooks for Account Details/select";
 import { saveServices } from "../../../Custom Hooks/Hooks for Account Details/DoctorAccountDetails/saveDoctorAccountDetails";
 import { useConfirmationMessage } from "../../../Custom Hooks/useConfirmationMessage";
+import _ from "lodash"
 
 export default function RenderServiceSection (props) {
   return(
@@ -34,7 +35,7 @@ function RenderIsVetServices (props) {
     return services.every(service => service.Service_price !== null && service.Service_price !== "");
   }
   
-  if (!Array.from(new Set(props.listDetails[1]?.map((item) => item.Category_name))).length) return <>Loading...</>
+  if (_.isEmpty(_.uniq(props.listDetails[1]?.map((item) => item.Category_name)))) return <>Loading...</>
 
   return (
     <>

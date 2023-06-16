@@ -1,4 +1,5 @@
 import {connection, DB_Operation} from "../../dbAndSecurity/connect.js"
+import _ from "lodash"
 
 /** FetchDoctorAccountData is fairly self-explanatory
  *  Here, each Doctor's particular data is fetched from the DB.
@@ -141,7 +142,7 @@ export default new class FetchDoctorAccountData {
         try {
             const [results] = await connection.execute(sql, values);
             
-            if (results.length) {
+            if (!_.isEmpty(results)) {
                 for (let result of results) {
                     const sql1 = `SELECT ${booking_availability}.Day_of_week, ${booking_availability}.Start_time, ${booking_availability}.End_time 
                         FROM ${booking_availability} 
@@ -155,7 +156,7 @@ export default new class FetchDoctorAccountData {
                         WHERE ${phone}.address_ID = ?`;
         
                     const [phones] = await connection.execute(sql2, [result.addressesID]);
-                    if (!phones.length) result.phone = "";
+                    if (_.isEmpty(phones)) result.phone = "";
                     else {
                         result.phone = phones[0].phone;
                         result.phone_priority = phones[0].phone_priority;
@@ -183,7 +184,7 @@ export default new class FetchDoctorAccountData {
 
         try {
             const [results] = await connection.execute(sql, values);
-            if (results.length === 0) return {Description: ''};
+            if (_.isEmpty(results)) return {Description: ''};
             else {
                 const Description = results[0]
                 return (Description);
@@ -229,7 +230,7 @@ export default new class FetchDoctorAccountData {
 
         try {
             const [results] = await connection.execute(sql, values);
-            if (results.length === 0) return [{PubliclyAvailable: false}, {Verified: false}];
+            if (_.isEmpty(results)) return [{PubliclyAvailable: false}, {Verified: false}];
             else return [{PubliclyAvailable: results[0].publiclyAvailable}, {Verified: results[0].publiclyAvailable}];
         } catch(error) {
             console.log(`error in ${functionName}:`, error);

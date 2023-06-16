@@ -9,6 +9,7 @@ import Header from '../../header'
 import AddPet from './AddPet'
 import { useConfirmationMessage } from '../../../Custom Hooks/useConfirmationMessage'
 import { deleteMyPets } from '../../../Custom Hooks/Hooks for My Pets/saveMyPets'
+import _ from "lodash"
 
 async function fetchPetData(setSavedPetData) {
   try {
@@ -87,7 +88,7 @@ export default function MyPets() {
   }
 
   const renderSavedPetData = () => {
-    if (!savedPetData.length) return <></>
+    if (_.isEmpty(savedPetData)) return <></>
     return (
       <>
         {savedPetData.map((pet, index) => (

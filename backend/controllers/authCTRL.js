@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import { ID_to_UUID, UUID_to_ID } from "../dbAndSecurity/UUID.js";
 dotenv.config()
 import { login_history } from "../dbAndSecurity/accountTracker.js";
+import _ from "lodash"
 
 /** JWT_verify verifies the user's token (held in cookie). 
  *  It does this in two steps. First, it checks if the DoctorAccessToken is valid (verification). If verified, the UUID is extracted from the Access Token. The UUID is then searched in the DB
@@ -98,7 +99,7 @@ export async function login (req, res) {
 
   try {
     [results] = await connection.execute(sql, values);
-    if (!results.length) return res.status(404).json("Username not found!");
+    if (_.isEmpty(results)) return res.status(404).json("Username not found!");
     else hashed_password = results[0].password;
   } catch(error) {
     console.log('Problem with email selection', error)
@@ -186,14 +187,14 @@ export async function register (req, res) {
   let results;
   try {
     [results] = await connection.execute(sql, values)
-    if (results.length !== 0) return res.status(400).json("User already exists!");
+    if (!_.isEmpty(results)) return res.status(400).json("User already exists!");
   } catch(error) {
     console.log('Problem with existing email search')
     return res.status(500).json({ error: 'Problem with existing email search' });
   }
 
   let hashed_password;
-  if (!results.length) {
+  if (_.isEmpty(results)) {
     try {
       hashed_password = await Hash.hash_credentials(password)
     } catch(error) {

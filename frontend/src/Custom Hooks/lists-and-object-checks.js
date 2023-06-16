@@ -1,3 +1,5 @@
+import _ from "lodash"
+
 export function checkIfListsAreEqual(list1, list2) {//Sees if two arrays of arrays are the same
   // Convert each list to a set
   const set1 = new Set(list1);
@@ -23,7 +25,6 @@ export function isObjectsEqual(obj1, obj2) {
 
   if (keys1.length !== keys2.length) return false;
   
-
   for (let i = 0; i < keys1.length; i++) {
     const key1 = keys1[i];
     const key2 = keys2[i];
@@ -63,7 +64,7 @@ export function areArraysSame(arr1, arr2) {
     const val2 = arr2[i];
     
     const areObjects = typeof val1 === 'object' && val1 !== null && typeof val2 === 'object' && val2 !== null;
-    const areArrays = Array.isArray(val1) && Array.isArray(val2);
+    const areArrays = _.isArray(val1) && _.isArray(val2);
     
     if (areObjects && !areArrays && !objectsAreSame(val1, val2)) return false;
     if (areArrays && !areArraysSame(val1, val2)) return false;

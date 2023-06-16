@@ -2,6 +2,7 @@ import {connection, DB_Operation} from "../../dbAndSecurity/connect.js";
 import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat.js"
+import _ from "lodash"
 
 /** savePersonalData is self-explanatory in name
  *  First, checks if the patient already has saved data in the DB.
@@ -40,7 +41,7 @@ export async function savePersonalData (req, res) {
 
     const values1 = [personalInfo.FirstName, personalInfo.LastName, personalInfo.Gender, dateOfBirth, PatientID];
 
-    if (!results.length) {// if no results, then insert.
+    if (_.isEmpty(results)) {// if no results, then insert.
         const sql1 = `INSERT INTO ${basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?, ?, ?, ?, ?)`;
         try {
             await connection.execute(sql1, values1);

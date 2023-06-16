@@ -1,6 +1,7 @@
 import { checkIfListsAreEqual, areArraysSame} from "../../lists-and-object-checks";
 import PrivateDoctorDataService from "../../../Services/private-doctor-data-service";
 import moment from "moment"
+import _ from "lodash"
 
 export async function saveDoctorLanguages(languageID, spokenLanguages, setLanguagesConfirmation, operationType) {
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
@@ -30,14 +31,14 @@ export async function saveServices(providedServices, setServicesConfirmation) {
   
   let shouldSave = false;
 
-  if (!savedServiceKeys.length && !serviceKeys.length) {
+  if (_.isEmpty(savedServiceKeys) && _.isEmpty(serviceKeys)) {
     // Case where both arrays are empty
     setServicesConfirmation({messageType: 'none'});
     return;
   }
 
-  if (!savedServiceKeys.length || !savedServiceKeys) {
-    shouldSave = !!serviceKeys.length
+  if (_.isEmpty(savedServiceKeys) || _.isEmpty(savedServiceKeys)) {
+    shouldSave = !_.isEmpty(serviceKeys);
   } else if ((!checkIfListsAreEqual(savedServiceKeys, serviceKeys))) {
     shouldSave = true;
   } else {
@@ -188,15 +189,15 @@ export async function saveLocation (addresses, setAddresses, setAddressesConfirm
 
   let shouldSave = false;
 
-  if (!savedLocationData.length && !addresses.length) {
+  if (_.isEmpty(savedLocationData) && _.isEmpty(addresses)) {
     // Case where both arrays are empty
     setAddressesConfirmation({messageType: 'none'});
     return;
   }
 
-  if (!savedLocationData || !savedLocationData.length) {
-    shouldSave = !!addresses.length;
- } else if ((!areArraysSame(newAddresses, savedAddresses)) || (!areArraysSame(newTimes, savedTimes))) {
+  if (!savedLocationData || _.isEmpty(savedLocationData)) {
+    shouldSave = !_.isEmpty(addresses);
+  } else if ((!areArraysSame(newAddresses, savedAddresses)) || (!areArraysSame(newTimes, savedTimes))) {
     shouldSave = true;
   } else {
     setAddressesConfirmation({messageType: 'same'});
@@ -229,14 +230,14 @@ export async function saveDescription(description, setDescriptionConfirmation) {
 
   let shouldSave = false;
 
-  if (!savedDescriptionData.length && !description.Description.length) {
+  if (_.isEmpty(savedDescriptionData) && _.isEmpty(description.Description)) {
     // Case where both arrays are empty
     setDescriptionConfirmation({messageType: 'none'});
     return;
   }
 
-  if (!savedDescriptionData || !savedDescriptionData.length) {
-    shouldSave = !!description.Description.length;
+  if (!savedDescriptionData || _.isEmpty(savedDescriptionData)) {
+    shouldSave = !_.isEmpty(description.Description);
   } else if (description.Description !== savedDescriptionData) {
     shouldSave = true;
   } else {

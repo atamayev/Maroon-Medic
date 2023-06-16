@@ -3,6 +3,7 @@ import { Card, Button} from "react-bootstrap";
 import { handleAddLanguage } from "../../../Custom Hooks/Hooks for Account Details/add";
 import { handleDeleteLanguage } from "../../../Custom Hooks/Hooks for Account Details/delete";
 import { useConfirmationMessage } from "../../../Custom Hooks/useConfirmationMessage";
+import _ from "lodash"
 
 export default function RenderLanguageSection(props) {
   return(
@@ -38,8 +39,8 @@ function RenderIsVetLanguages(props) {
         }
       >
         <option value = "" disabled>Choose a language</option>
-        {Array.isArray(props.listDetails[0]) &&
-          props.listDetails[0].length > 0 &&
+        {_.isArray(props.listDetails[0]) &&
+          !_.isEmpty(props.listDetails[0]) &&
           props.listDetails[0]
             .filter((language) => !props.spokenLanguages.find((spoken) => spoken.language_listID === language.language_listID))
             .map((language) => (
@@ -49,7 +50,7 @@ function RenderIsVetLanguages(props) {
             ))}
       </select>
       <ul>
-        {Array.isArray(props.spokenLanguages) &&
+        {_.isArray(props.spokenLanguages) &&
           props.spokenLanguages.map((language) => (
             <li key={language.language_listID}>
               {language.Language_name}
