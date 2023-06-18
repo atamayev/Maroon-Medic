@@ -22,8 +22,7 @@ export async function newPatient (req, res) {
         User_ID = await UUID_to_ID(PatientUUID);
     } catch (error) {
         console.log('Error in UUID to ID conversion')
-        clearCookies('Doctor', res)
-        return res.status(500).json();
+        return clearCookies(res, 'Patient', true)
     }
     
     const new_patient_object = req.body.new_patient_object
@@ -100,8 +99,7 @@ export async function fetchDashboardData (req, res) {
         PatientID = await UUID_to_ID(PatientUUID);
     } catch (error) {
         console.log('Error in UUID to ID conversion')
-        clearCookies('Doctor', res)
-        return res.status(500).json();
+        return clearCookies(res, 'Patient', true)
     }
 
     const [Appointments, service_and_category_list, addresses, basic_user_info] = 
@@ -153,8 +151,7 @@ export async function fetchPersonalData (req, res) {
         PatientID = await UUID_to_ID(PatientUUID);
     } catch (error) {
         console.log('Error in UUID to ID conversion')
-        clearCookies('Doctor', res)
-        return res.status(500).json();
+        return clearCookies(res, 'Patient', true)
     }
     
     const basic_user_info = 'basic_user_info';
@@ -208,8 +205,7 @@ export async function fetchPetData (req, res) {
         PatientID = await UUID_to_ID(PatientUUID);
     } catch (error) {
         console.log('Error in UUID to ID conversion')
-        clearCookies('Doctor', res)
-        return res.status(500).json();
+        return clearCookies(res, 'Patient', true)
     }
 
     try {
@@ -252,8 +248,7 @@ export async function fetchAccountDetails (req, res) {
         PatientID = await UUID_to_ID(PatientUUID);
     } catch (error) {
         console.log('Error in UUID to ID conversion')
-        clearCookies('Doctor', res)
-        return res.status(500).json();
+        return clearCookies(res, 'Patient', true)
     }
 
     let response = [];

@@ -27,7 +27,6 @@ export async function makeAppointment(req, res) {
         const [results] = await connection.execute(sql, values)
         Doctor_ID = results[0].Doctor_ID
     } catch(error) {
-        console.log(`error in finding Doctor_ID in ${makeAppointment.name}`,error)
         return res.status(500).json(error);
     }
 
@@ -36,9 +35,7 @@ export async function makeAppointment(req, res) {
     try {
         Patient_ID = await UUID_to_ID(PatientUUID);
     } catch (error) {
-        console.log('Error in UUID to ID conversion')
-        clearCookies('Patient', res)
-        return res.status(500).json();
+        return clearCookies(res, 'Patient', true)
     }
 
     const date_ob = new Date();
@@ -86,8 +83,8 @@ export async function getDoctorCalendarDetails(req, res) {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
         console.log('Error in UUID to ID conversion')
-        clearCookies('Doctor', res)
-        return res.status(500).json();
+        clearCookies(res, 'Doctor', true)
+        return
     }
 
     const [Appointments, service_and_category_list, service_mapping, addresses, basic_user_info] = 

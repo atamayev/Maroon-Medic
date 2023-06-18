@@ -23,7 +23,7 @@ export async function newDoctor (req, res) {
         User_ID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
         console.log('Error in UUID to ID conversion')
-        clearCookies('Doctor', res)
+        clearCookies(res, 'Doctor', true)
         return res.status(500).json();
     }
 
@@ -100,8 +100,7 @@ export async function fetchDashboardData (req, res) {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
         console.log('Error in UUID to ID conversion')
-        clearCookies('Doctor', res)
-        return res.status(500).json();
+        return clearCookies(res, 'Doctor', true)
     }
 
     const [Appointments, service_and_category_list, addresses, basic_user_info] = 
@@ -154,8 +153,7 @@ export async function fetchPersonalData (req, res) {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
         console.log('Error in UUID to ID conversion')
-        clearCookies('Doctor', res)
-        return res.status(500).json();
+        return clearCookies(res, 'Doctor', true)
     }
 
     const basic_user_info = 'basic_user_info';
@@ -231,12 +229,9 @@ export async function fetchAccountDetails (req, res) {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
         console.log('Error in UUID to ID conversion', error)
-        clearCookies('Doctor', res)
-        return res.status(500).json();
+        return clearCookies(res, 'Doctor', true)
     }
-
-    console.log('DoctorID',DoctorID)
-    
+   
     try {
         let response = [];
         response.push(await FetchDoctorAccountData.FetchDoctorLanguages(DoctorID)); 

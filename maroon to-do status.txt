@@ -2,11 +2,15 @@ To-do:
 
 
 ASAP:
+-make a .then redirect for all front-end functions that utilize UUID to ID
+remove all console.logs, everywhere.
 -if the UUID isn't found in UUID_to_ID, then delete the current UUID cookie from the user (like deleting the JWT).
 	if there is no UUID recieved, then delete all cookies, and re-direct to login screen.
 	-if no JWT recieved, or if JWT is invalid, also clear all cookies, and re-direct to login screen.
+combine clearCookies, clearCookiesAndRedirect. make the third parameter wheather or not to redirect, true by default
+
 - look through all select * in the code - only make it select what it needs
--add to cookie operations - setting cookies when login, etc.
+-add to cookie operations file - setting cookies when login, etc.
 -site crashes when go to a public doctor page
 -in the verify context provider, make it so that when there are no cookies with the DoctorAccessToken or PatientAccessToken, session storage is cleared.
 - put all of the UUID_to_ID calls into a try catch. if UUID_to_ID throws an error, delete all the cookies

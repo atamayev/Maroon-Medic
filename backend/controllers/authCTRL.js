@@ -30,8 +30,8 @@ export async function JWT_verify (req, res) {
   if ("DoctorAccessToken" in cookies) response.type = 'Doctor';
   else if ("PatientAccessToken" in cookies) response.type = 'Patient';
   else {
-    clearCookies(type, res)
-    return res.status(400).json('Invalid User Type');
+    return clearCookies(res, undefined, true)
+    // return res.status(400).json('Invalid User Type');
   }
 
   try {
@@ -40,9 +40,7 @@ export async function JWT_verify (req, res) {
     decodedUUID = jwt.verify(AccessToken, JWTKey)[`${response.type}ID`];
 
     if (Date.now() >= decodedUUID.exp * 1000) {
-      console.log('Token expired', decodedUUID.exp)
-      clearCookies(type, res)
-      return res.status(401).json(response);
+      return clearCookies(res, undefined, false)
     } else {
       const UUID_reference = 'UUID_reference';
       const sql = `SELECT UUID FROM ${UUID_reference} WHERE UUID = ?`;
@@ -55,18 +53,11 @@ export async function JWT_verify (req, res) {
         return res.status(200).json(response);
       } else {
         response.isValid = false;
-        return res.status(500).json(response);
+        return clearCookies(res, undefined, true)
       }
     }
   } catch(error) {
-    clearCookies(type, res)
-    if (error.name === "TokenExpiredError") {
-      console.log('Token expired', error.name)
-      return res.status(402).json(response);
-    } else {
-      console.log('error in token verification', error);
-      return res.status(500).json(response); 
-    }
+    return clearCookies(res, undefined, false)
   }
 };
 
@@ -139,7 +130,7 @@ export async function login (req, res) {
 
     login_history(ID);
 
-    clearCookies(login_type, res)
+    clearCookies(res, login_type, false)
 
     // const expires = new Date(Date.now() + expiration_time *1000)
 
@@ -257,7 +248,7 @@ export async function register (req, res) {
 
   login_history(User_ID);
 
-  clearCookies(register_type, res)
+  clearCookies(res, register_type, false)
 
   return res
     .cookie(`${register_type}AccessToken`, token, {
@@ -309,9 +300,7 @@ export async function fetchLoginHistory (req, res) {
     const [results] = await connection.execute(sql, values);
     return res.status(200).json(results);
   } catch(error) {
-    clearCookies(type, res)
-    console.log(`error in fetchLoginHistory ${fetchLoginHistory.name}:`, error);
-    return res.status(400).json();
+    return clearCookies(res, type, true)
   }
 };
 
@@ -365,8 +354,7 @@ export async function logout (req, res) {
   }
   
   try {
-    clearCookies(type, res)
-    return res.status(200).json();
+    return clearCookies(res, type, false, 200)
   } catch(error) {
     console.log(`error in logging ${type} out`)
     return res.status(500).json({ error: `Error in logging ${type} out` });

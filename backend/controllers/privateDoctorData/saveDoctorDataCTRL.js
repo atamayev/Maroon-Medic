@@ -22,8 +22,7 @@ export async function savePersonalData (req, res) {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
         console.log('Error in UUID to ID conversion')
-        clearCookies('Doctor', res)
-        return res.status(500).json();
+        return clearCookies(res, 'Doctor', true)
     }
 
     const personalInfo = req.body.personalInfo;
@@ -88,8 +87,7 @@ export async function saveDescriptionData (req, res) {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
         console.log('Error in UUID to ID conversion')
-        clearCookies('Doctor', res)
-        return res.status(500).json();
+        return clearCookies(res, 'Doctor', true)
     }
 
     const description = req.body.Description;
@@ -145,8 +143,7 @@ export async function saveGeneralData (req, res) {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
         console.log('Error in UUID to ID conversion')
-        clearCookies('Doctor', res)
-        return res.status(500).json();
+        return clearCookies(res, 'Doctor', true)
     }
 
     const DataType = req.body.DataType
@@ -207,8 +204,7 @@ export async function saveServicesData (req, res) {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
         console.log('Error in UUID to ID conversion')
-        clearCookies('Doctor', res)
-        return res.status(500).json();
+        return clearCookies(res, 'Doctor', true)
     }
     
     const ServicesData = req.body.ServicesData; //Array of Objects
@@ -319,8 +315,7 @@ export async function saveEducationData (req, res) {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
         console.log('Error in UUID to ID conversion')
-        clearCookies('Doctor', res)
-        return res.status(500).json();
+        return clearCookies(res, 'Doctor', true)
     }
 
     const EducationData = req.body.EducationData; // array of arrays, to make comparing to sql easier.: ie: [[ 13, 56, 7, '1923-01-01', '1923-01-01' ],[ 698, 13, 9, '1923-01-01', '1923-01-01' ]]
@@ -386,8 +381,7 @@ export async function saveAddressData (req, res) {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
         console.log('Error in UUID to ID conversion')
-        clearCookies('Doctor', res)
-        return res.status(500).json();
+        return clearCookies(res, 'Doctor', true)
     }
     
     const AddressData = req.body.AddressData;
@@ -667,8 +661,7 @@ export async function savePublicAvailibilityData (req, res) {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
         console.log('Error in UUID to ID conversion')
-        clearCookies('Doctor', res)
-        return res.status(500).json();
+        return clearCookies(res, 'Doctor', true)
     }
     
     const publicAvailibility = req.body.PublicAvailibility;

@@ -20,8 +20,7 @@ export async function savePersonalData (req, res) {
         PatientID = await UUID_to_ID(PatientUUID);
     } catch (error) {
         console.log('Error in UUID to ID conversion')
-        clearCookies('Doctor', res)
-        return res.status(500).json();
+        return clearCookies(res, 'Patient', true)
     }
     
     const personalInfo = req.body.personalInfo;
@@ -85,8 +84,7 @@ export async function saveGeneralData (req, res) {
         PatientID = await UUID_to_ID(PatientUUID);
     } catch (error) {
         console.log('Error in UUID to ID conversion')
-        clearCookies('Doctor', res)
-        return res.status(500).json();
+        return clearCookies(res, 'Patient', true)
     }
 
     const DataType = req.body.DataType
@@ -139,8 +137,7 @@ export async function savePetData (req, res) {
         PatientID = await UUID_to_ID(PatientUUID);
     } catch (error) {
         console.log('Error in UUID to ID conversion')
-        clearCookies('Doctor', res)
-        return res.status(500).json();
+        return clearCookies(res, 'Patient', true)
     }
 
     const PetData = req.body.PetData
