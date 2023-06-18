@@ -5,7 +5,7 @@ import Hash from "../dbAndSecurityAndHelperFunctions/hash.js";
 import dotenv from "dotenv";
 import { ID_to_UUID, UUID_to_ID } from "../dbAndSecurityAndHelperFunctions/UUID.js";
 dotenv.config()
-import { login_history } from "../dbAndSecurityAndHelperFunctions/accountTracker.js";
+import { loginHistory } from "../dbAndSecurityAndHelperFunctions/accountTracker.js";
 import _ from "lodash"
 import { clearCookies } from "../dbAndSecurityAndHelperFunctions/cookieOperations.js";
 
@@ -125,7 +125,7 @@ export async function login (req, res) {
       return res.status(500).json({ error: 'Problem with Signing JWT' });
     }
 
-    login_history(ID);
+    loginHistory(ID);
 
     clearCookies(res, login_type, false)
 
@@ -238,7 +238,7 @@ export async function register (req, res) {
 
   const newUser_UUID = await ID_to_UUID(User_ID);
 
-  login_history(User_ID);
+  loginHistory(User_ID);
 
   clearCookies(res, register_type, false)
 
@@ -266,7 +266,7 @@ export async function register (req, res) {
  *  Finds the UUID in the cookies, and returns the login history (all previous logged in times, IP_addresses) from the table
  * @param {*} req Cookies
  * @param {*} res Results, along with a 200/400 status code
- * @returns Login Time and IP Address from the login_history table
+ * @returns Login Time and IP Address from the loginHistory table
  *  DOCUMENTATION LAST UPDATED 6/4/23
  */
 export async function fetchLoginHistory (req, res) {
@@ -340,7 +340,7 @@ export async function logout (req, res) {
       await connection.execute(sql, values)
     }
   } catch(error) {
-      // return res.status(500).json({ error: `Error in accessing DB` });
+    // return res.status(500).json({ error: `Error in accessing DB` });
   }
   
   try {

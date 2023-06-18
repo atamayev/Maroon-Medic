@@ -5,7 +5,6 @@ export function clearCookies(res, type = ['Doctor', 'Patient'], shouldRedirect, 
   // ensure type is always an array
   if (typeof type === 'string') type = [type];
 
-  let redirectURL = '';
   type.forEach(t => {
     cookieNames.forEach((cookieName) => {
       res.clearCookie(`${t}${cookieName}`, {
@@ -15,14 +14,15 @@ export function clearCookies(res, type = ['Doctor', 'Patient'], shouldRedirect, 
         path: '/'
       });
     });
-    if (shouldRedirect) {
-      if (t === 'Doctor') redirectURL = '/vet-login';
-      else if (t === 'Patient') redirectURL = '/patient-login';
-      else redirectURL = '/';
-    }
   });
 
+  let redirectURL = '';
   if (shouldRedirect) {
-    res.status(401).json({ shouldRedirect: true, redirectURL });
+    if (type.includes('Doctor')) redirectURL = '/vet-login';
+    else if (type.includes('Patient')) redirectURL = '/patient-login';
+    else redirectURL = '/';
+    res.status(status_code).json({ shouldRedirect: true, redirectURL });
+  } else {
+    res.status(status_code).json();
   }
 }

@@ -5,7 +5,7 @@ import dayjs from "dayjs";
  * @param {Int} User_ID 
  * @returns N/A, saves the data to the DB
  */
-export async function login_history(User_ID) {
+export async function loginHistory(User_ID) {
   const login_history = 'login_history';
 
   const date_ob = new Date();
@@ -15,7 +15,7 @@ export async function login_history(User_ID) {
   const sql = `INSERT INTO ${login_history} (Login_at, IP_Address, User_ID) VALUES (?, ?, ?)`;
   const values = [dateTime, 0, User_ID];
   
-  await DB_Operation(login_history.name, login_history)
+  await DB_Operation(loginHistory.name, login_history)
 
   try {
     await connection.execute(sql, values);

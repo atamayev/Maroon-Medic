@@ -2,6 +2,7 @@ To-do:
 
 
 ASAP:
+-make all fcns camelCase
 -make a .then redirect for all front-end functions that utilize UUID to ID
 -if the UUID isn't found in UUID_to_ID, then delete the current UUID cookie from the user (like deleting the JWT).
 	if there is no UUID recieved, then delete all cookies, and re-direct to login screen.
