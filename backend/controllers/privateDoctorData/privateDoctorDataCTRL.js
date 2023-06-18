@@ -1,11 +1,12 @@
-import {connection, DB_Operation} from "../../dbAndSecurity/connect.js";
-import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
+import {connection, DB_Operation} from "../../dbAndSecurityAndHelperFunctions/connect.js";
+import { UUID_to_ID } from "../../dbAndSecurityAndHelperFunctions/UUID.js";
 import FetchDoctorAccountData from "./fetchDoctorAccountData.js";
-import FetchAllLists from "../../dbAndSecurity/fetchAllLists.js";
+import FetchAllLists from "../../dbAndSecurityAndHelperFunctions/fetchAllLists.js";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat.js"
 dayjs.extend(customParseFormat); // extend Day.js with the plugin
 import _ from "lodash"
+import { clearCookies } from "../../dbAndSecurityAndHelperFunctions/cookieOperations.js";
 
 /** newDoctor registers the inputted user data into basic_Doctor_info table
  *  All necessary information is sent via the request (DoctorUUID, firname, lastname, etc.)
@@ -16,7 +17,16 @@ import _ from "lodash"
  */
 export async function newDoctor (req, res) {
     const DoctorUUID = req.cookies.DoctorUUID
-    const User_ID = await UUID_to_ID(DoctorUUID) // converts DoctorUUID to docid
+    let User_ID;
+
+    try {
+        User_ID = await UUID_to_ID(DoctorUUID);
+    } catch (error) {
+        console.log('Error in UUID to ID conversion')
+        clearCookies('Doctor', res)
+        return res.status(500).json();
+    }
+
     const new_doctor_object = req.body.new_doctor_object
 
     // Combine date parts into a single string
@@ -85,7 +95,14 @@ export async function newDoctorConfirmation (req, res) {
  */
 export async function fetchDashboardData (req, res) {
     const DoctorUUID = req.cookies.DoctorUUID
-    const DoctorID = await UUID_to_ID(DoctorUUID);
+    let DoctorID;
+    try {
+        DoctorID = await UUID_to_ID(DoctorUUID);
+    } catch (error) {
+        console.log('Error in UUID to ID conversion')
+        clearCookies('Doctor', res)
+        return res.status(500).json();
+    }
 
     const [Appointments, service_and_category_list, addresses, basic_user_info] = 
         ['Appointments', 'service_and_category_list', 'addresses', 'basic_user_info'];
@@ -132,8 +149,15 @@ export async function fetchDashboardData (req, res) {
  */
 export async function fetchPersonalData (req, res) {
     const DoctorUUID = req.cookies.DoctorUUID
-    const DoctorID = await UUID_to_ID(DoctorUUID) // converts DoctorUUID to docid
-    
+    let DoctorID;
+    try {
+        DoctorID = await UUID_to_ID(DoctorUUID);
+    } catch (error) {
+        console.log('Error in UUID to ID conversion')
+        clearCookies('Doctor', res)
+        return res.status(500).json();
+    }
+
     const basic_user_info = 'basic_user_info';
   
     const sql = `SELECT FirstName, LastName, Gender, DOB FROM ${basic_user_info} WHERE User_ID = ?`
@@ -202,7 +226,17 @@ export async function confirmAppointment (req, res) {
  */
 export async function fetchAccountDetails (req, res) {
     const DoctorUUID = req.cookies.DoctorUUID;
-    const DoctorID = await UUID_to_ID(DoctorUUID);
+    let DoctorID;
+    try {
+        DoctorID = await UUID_to_ID(DoctorUUID);
+    } catch (error) {
+        console.log('Error in UUID to ID conversion', error)
+        clearCookies('Doctor', res)
+        return res.status(500).json();
+    }
+
+    console.log('DoctorID',DoctorID)
+    
     try {
         let response = [];
         response.push(await FetchDoctorAccountData.FetchDoctorLanguages(DoctorID)); 

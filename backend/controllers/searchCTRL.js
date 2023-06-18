@@ -1,5 +1,5 @@
-import {connection, DB_Operation} from "../dbAndSecurity/connect.js";
-import FetchAllLists from "../dbAndSecurity/fetchAllLists.js";
+import {connection, DB_Operation} from "../dbAndSecurityAndHelperFunctions/connect.js";
+import FetchAllLists from "../dbAndSecurityAndHelperFunctions/fetchAllLists.js";
 import _ from "lodash"
 
 /** searchByQuery returns all users that fit the client's search

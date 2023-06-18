@@ -1,9 +1,10 @@
-import { connection, DB_Operation } from "../../dbAndSecurity/connect.js";
-import { getUnchangedAddressRecords, getUpdatedAddressRecords } from "../../dbAndSecurity/addressOperations.js";
-import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
+import { connection, DB_Operation } from "../../dbAndSecurityAndHelperFunctions/connect.js";
+import { getUnchangedAddressRecords, getUpdatedAddressRecords } from "../../dbAndSecurityAndHelperFunctions/addressOperations.js";
+import { UUID_to_ID } from "../../dbAndSecurityAndHelperFunctions/UUID.js";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat.js"
 import _ from "lodash"
+import { clearCookies } from "../../dbAndSecurityAndHelperFunctions/cookieOperations.js";
 
 /** savePersonalData is self-explanatory in name
  *  First, converts from UUID to ID. Then, checks if any records exist in basic_doctor_info.
@@ -16,8 +17,15 @@ import _ from "lodash"
  */
 export async function savePersonalData (req, res) {
     const DoctorUUID = req.cookies.DoctorUUID
-    const DoctorID = await UUID_to_ID(DoctorUUID) // converts DoctorUUID to docid
-    
+    let DoctorID;
+    try {
+        DoctorID = await UUID_to_ID(DoctorUUID);
+    } catch (error) {
+        console.log('Error in UUID to ID conversion')
+        clearCookies('Doctor', res)
+        return res.status(500).json();
+    }
+
     const personalInfo = req.body.personalInfo;
 
     const basic_user_info = 'basic_user_info';
@@ -75,8 +83,15 @@ export async function savePersonalData (req, res) {
  */
 export async function saveDescriptionData (req, res) {
     const DoctorUUID = req.cookies.DoctorUUID;
-    const DoctorID = await UUID_to_ID(DoctorUUID); // converts DoctorUUID to docid
-    
+    let DoctorID;
+    try {
+        DoctorID = await UUID_to_ID(DoctorUUID);
+    } catch (error) {
+        console.log('Error in UUID to ID conversion')
+        clearCookies('Doctor', res)
+        return res.status(500).json();
+    }
+
     const description = req.body.Description;
     const descriptions = 'descriptions';
 
@@ -125,7 +140,15 @@ export async function saveDescriptionData (req, res) {
  */
 export async function saveGeneralData (req, res) {
     const DoctorUUID = req.cookies.DoctorUUID;
-    const DoctorID = await UUID_to_ID(DoctorUUID); // converts DoctorUUID to docid
+    let DoctorID;
+    try {
+        DoctorID = await UUID_to_ID(DoctorUUID);
+    } catch (error) {
+        console.log('Error in UUID to ID conversion')
+        clearCookies('Doctor', res)
+        return res.status(500).json();
+    }
+
     const DataType = req.body.DataType
     const operationType = req.body.operationType;
     const DataTypelower = DataType.charAt(0).toLowerCase() + DataType.slice(1);
@@ -179,7 +202,15 @@ export async function saveGeneralData (req, res) {
  */
 export async function saveServicesData (req, res) {
     const DoctorUUID = req.cookies.DoctorUUID;
-    const DoctorID = await UUID_to_ID(DoctorUUID); // converts DoctorUUID to docid
+    let DoctorID;
+    try {
+        DoctorID = await UUID_to_ID(DoctorUUID);
+    } catch (error) {
+        console.log('Error in UUID to ID conversion')
+        clearCookies('Doctor', res)
+        return res.status(500).json();
+    }
+    
     const ServicesData = req.body.ServicesData; //Array of Objects
     
     const service_mapping = `service_mapping`;
@@ -283,7 +314,15 @@ export async function saveServicesData (req, res) {
  */
 export async function saveEducationData (req, res) {
     const DoctorUUID = req.cookies.DoctorUUID;
-    const DoctorID = await UUID_to_ID(DoctorUUID); // converts DoctorUUID to docid
+    let DoctorID;
+    try {
+        DoctorID = await UUID_to_ID(DoctorUUID);
+    } catch (error) {
+        console.log('Error in UUID to ID conversion')
+        clearCookies('Doctor', res)
+        return res.status(500).json();
+    }
+
     const EducationData = req.body.EducationData; // array of arrays, to make comparing to sql easier.: ie: [[ 13, 56, 7, '1923-01-01', '1923-01-01' ],[ 698, 13, 9, '1923-01-01', '1923-01-01' ]]
     const EducationType = req.body.EducationType;//'pre_vet' or 'vet'
     const operationType = req.body.operationType;
@@ -342,7 +381,14 @@ export async function saveEducationData (req, res) {
  */
 export async function saveAddressData (req, res) {
     const DoctorUUID = req.cookies.DoctorUUID;
-    const DoctorID = await UUID_to_ID(DoctorUUID); // converts DoctorUUID to docid
+    let DoctorID;
+    try {
+        DoctorID = await UUID_to_ID(DoctorUUID);
+    } catch (error) {
+        console.log('Error in UUID to ID conversion')
+        clearCookies('Doctor', res)
+        return res.status(500).json();
+    }
     
     const AddressData = req.body.AddressData;
     const TimesData = req.body.Times;
@@ -616,7 +662,14 @@ export async function saveAddressData (req, res) {
  */
 export async function savePublicAvailibilityData (req, res) {
     const DoctorUUID = req.cookies.DoctorUUID;
-    const DoctorID = await UUID_to_ID(DoctorUUID); // converts DoctorUUID to docid
+    let DoctorID;
+    try {
+        DoctorID = await UUID_to_ID(DoctorUUID);
+    } catch (error) {
+        console.log('Error in UUID to ID conversion')
+        clearCookies('Doctor', res)
+        return res.status(500).json();
+    }
     
     const publicAvailibility = req.body.PublicAvailibility;
     const Doctor_specific_info = 'Doctor_specific_info';

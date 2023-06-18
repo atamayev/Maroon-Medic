@@ -1,8 +1,9 @@
-import {connection, DB_Operation} from "../../dbAndSecurity/connect.js";
-import { UUID_to_ID } from "../../dbAndSecurity/UUID.js";
+import {connection, DB_Operation} from "../../dbAndSecurityAndHelperFunctions/connect.js";
+import { UUID_to_ID } from "../../dbAndSecurityAndHelperFunctions/UUID.js";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat.js"
 import _ from "lodash"
+import { clearCookies } from "../../dbAndSecurityAndHelperFunctions/cookieOperations.js";
 
 /** savePersonalData is self-explanatory in name
  *  First, checks if the patient already has saved data in the DB.
@@ -14,7 +15,14 @@ import _ from "lodash"
  */
 export async function savePersonalData (req, res) {
     const PatientUUID = req.cookies.PatientUUID
-    const PatientID = await UUID_to_ID(PatientUUID) // converts PatientUUID to PatientID
+    let PatientID;
+    try {
+        PatientID = await UUID_to_ID(PatientUUID);
+    } catch (error) {
+        console.log('Error in UUID to ID conversion')
+        clearCookies('Doctor', res)
+        return res.status(500).json();
+    }
     
     const personalInfo = req.body.personalInfo;
 
@@ -72,7 +80,15 @@ export async function savePersonalData (req, res) {
  */
 export async function saveGeneralData (req, res) {
     const PatientUUID = req.cookies.PatientUUID;
-    const PatientID = await UUID_to_ID(PatientUUID); // converts PatientUUID to docid
+    let PatientID;
+    try {
+        PatientID = await UUID_to_ID(PatientUUID);
+    } catch (error) {
+        console.log('Error in UUID to ID conversion')
+        clearCookies('Doctor', res)
+        return res.status(500).json();
+    }
+
     const DataType = req.body.DataType
     const DataTypelower = DataType.charAt(0).toLowerCase() + DataType.slice(1);
     const operationType = req.body.operationType;
@@ -118,7 +134,15 @@ export async function saveGeneralData (req, res) {
  */
 export async function savePetData (req, res) {
     const PatientUUID = req.cookies.PatientUUID;
-    const PatientID = await UUID_to_ID(PatientUUID); // converts PatientUUID to docid
+    let PatientID;
+    try {
+        PatientID = await UUID_to_ID(PatientUUID);
+    } catch (error) {
+        console.log('Error in UUID to ID conversion')
+        clearCookies('Doctor', res)
+        return res.status(500).json();
+    }
+
     const PetData = req.body.PetData
     const operationType = req.body.operationType;//adding, deleting, updating
 

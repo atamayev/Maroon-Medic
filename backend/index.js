@@ -2,7 +2,7 @@ import dotenv from "dotenv"
 import express from "express"
 import cors from "cors"
 import cookieParser from "cookie-parser";
-import { connection } from "./dbAndSecurity/connect.js";
+import { connection } from "./dbAndSecurityAndHelperFunctions/connect.js";
 //ROUTES:
 import authRoutes from "./routes/authROUTES.js";
 import privateDoctorDataRoutes from "./routes/privateDoctorDataROUTES.js";

@@ -1,12 +1,13 @@
-import {connection, DB_Operation} from "../dbAndSecurity/connect.js";
+import {connection, DB_Operation} from "../dbAndSecurityAndHelperFunctions/connect.js";
 import jwt from "jsonwebtoken";
 import dayjs from "dayjs"
-import Hash from "../dbAndSecurity/hash.js";
+import Hash from "../dbAndSecurityAndHelperFunctions/hash.js";
 import dotenv from "dotenv";
-import { ID_to_UUID, UUID_to_ID } from "../dbAndSecurity/UUID.js";
+import { ID_to_UUID, UUID_to_ID } from "../dbAndSecurityAndHelperFunctions/UUID.js";
 dotenv.config()
-import { login_history } from "../dbAndSecurity/accountTracker.js";
+import { login_history } from "../dbAndSecurityAndHelperFunctions/accountTracker.js";
 import _ from "lodash"
+import { clearCookies } from "../dbAndSecurityAndHelperFunctions/cookieOperations.js";
 
 /** JWT_verify verifies the user's token (held in cookie). 
  *  It does this in two steps. First, it checks if the DoctorAccessToken is valid (verification). If verified, the UUID is extracted from the Access Token. The UUID is then searched in the DB
@@ -28,38 +29,26 @@ export async function JWT_verify (req, res) {
 
   if ("DoctorAccessToken" in cookies) response.type = 'Doctor';
   else if ("PatientAccessToken" in cookies) response.type = 'Patient';
-  else return res.status(400).json('Invalid User Type');
+  else {
+    clearCookies(type, res)
+    return res.status(400).json('Invalid User Type');
+  }
 
   try {
     AccessToken = req.cookies[`${response.type}AccessToken`]
     const JWTKey = response.type === 'Patient' ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY;
     decodedUUID = jwt.verify(AccessToken, JWTKey)[`${response.type}ID`];
-  } catch(error) {
-    if (error.name === "TokenExpiredError") {
-      console.log('Token expired', error.name)
-      return res.status(402).json(response);
-    } else {
-      res.clearCookie(`${response.type}AccessToken`, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-        path: '/'
-      });
-      console.log('error in token verification', error);
-      return res.status(500).json(response); 
-    }
-  }
 
-  if (Date.now() >= decodedUUID.exp * 1000) {
-    console.log('Token expired', decodedUUID.exp)
-    return res.status(401).json(response);
-  } else {
-    const UUID_reference = 'UUID_reference';
-    const sql = `SELECT * FROM ${UUID_reference} WHERE UUID = ?`;
-    const values = [decodedUUID];
-    await DB_Operation(JWT_verify.name, UUID_reference)
-    
-    try {
+    if (Date.now() >= decodedUUID.exp * 1000) {
+      console.log('Token expired', decodedUUID.exp)
+      clearCookies(type, res)
+      return res.status(401).json(response);
+    } else {
+      const UUID_reference = 'UUID_reference';
+      const sql = `SELECT UUID FROM ${UUID_reference} WHERE UUID = ?`;
+      const values = [decodedUUID];
+      await DB_Operation(JWT_verify.name, UUID_reference)
+
       const [results] = await connection.execute(sql, values)
       if (results.length === 1) {
         response.isValid = true;
@@ -68,8 +57,15 @@ export async function JWT_verify (req, res) {
         response.isValid = false;
         return res.status(500).json(response);
       }
-    } catch(error) {
-        return (`error in ${JWT_verify.name}:`, error)
+    }
+  } catch(error) {
+    clearCookies(type, res)
+    if (error.name === "TokenExpiredError") {
+      console.log('Token expired', error.name)
+      return res.status(402).json(response);
+    } else {
+      console.log('error in token verification', error);
+      return res.status(500).json(response); 
     }
   }
 };
@@ -143,16 +139,7 @@ export async function login (req, res) {
 
     login_history(ID);
 
-    const cookieNames = ['AccessToken', 'UUID', 'New_User'];
-
-    cookieNames.forEach((cookieName) => {
-      res.clearCookie(`${login_type}${cookieName}`, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-        path: '/'
-      });
-    });
+    clearCookies(login_type, res)
 
     // const expires = new Date(Date.now() + expiration_time *1000)
 
@@ -169,7 +156,7 @@ export async function login (req, res) {
       })
       .status(200)
       .json();
-  }else {
+  } else {
     return res.status(400).json("Wrong Username or Password!");
   }
 };
@@ -270,16 +257,7 @@ export async function register (req, res) {
 
   login_history(User_ID);
 
-  const cookieNames = ['AccessToken', 'UUID', 'New_User'];
-
-  cookieNames.forEach((cookieName) => {
-    res.clearCookie(`${login_type}${cookieName}`, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      path: '/'
-    });
-  });
+  clearCookies(register_type, res)
 
   return res
     .cookie(`${register_type}AccessToken`, token, {
@@ -311,10 +289,16 @@ export async function register (req, res) {
 export async function fetchLoginHistory (req, res) {
   const cookies = req.cookies;
   let UUID;
+  let type;
 
-  if ("DoctorUUID" in cookies || "DoctorAccessToken" in cookies) UUID = cookies.DoctorUUID
-  else if ("PatientUUID" in cookies || "PatientAccessToken" in cookies) UUID = cookies.PatientUUID
-  
+  if ("DoctorUUID" in cookies || "DoctorAccessToken" in cookies){
+    UUID = cookies.DoctorUUID
+    type = 'Doctor'
+  } 
+  else if ("PatientUUID" in cookies || "PatientAccessToken" in cookies){
+    UUID = cookies.PatientUUID
+    type = 'Patient'
+  }
   const login_history = 'login_history'
   await DB_Operation(fetchLoginHistory.name, login_history);
 
@@ -325,6 +309,7 @@ export async function fetchLoginHistory (req, res) {
     const [results] = await connection.execute(sql, values);
     return res.status(200).json(results);
   } catch(error) {
+    clearCookies(type, res)
     console.log(`error in fetchLoginHistory ${fetchLoginHistory.name}:`, error);
     return res.status(400).json();
   }
@@ -364,9 +349,7 @@ export async function logout (req, res) {
   
     await DB_Operation(logout.name, UUID_reference);
     try {
-      if(UUID) {
-        await connection.execute(sql, values);
-      }
+      if(UUID) await connection.execute(sql, values);
     } catch(error) {
       console.log('Error in accessing DB', error)
     }
@@ -382,16 +365,7 @@ export async function logout (req, res) {
   }
   
   try {
-    const cookieNames = ['AccessToken', 'UUID', 'New_User'];
-
-    cookieNames.forEach((cookieName) => {
-      res.clearCookie(`${type}${cookieName}`, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-        path: '/'
-      });
-    });
+    clearCookies(type, res)
     return res.status(200).json();
   } catch(error) {
     console.log(`error in logging ${type} out`)

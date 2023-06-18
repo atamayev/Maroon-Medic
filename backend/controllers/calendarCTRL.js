@@ -1,8 +1,9 @@
-import {connection, DB_Operation} from "../dbAndSecurity/connect.js";
-import { UUID_to_ID } from "../dbAndSecurity/UUID.js";
+import {connection, DB_Operation} from "../dbAndSecurityAndHelperFunctions/connect.js";
+import { UUID_to_ID } from "../dbAndSecurityAndHelperFunctions/UUID.js";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat.js"
 dayjs.extend(customParseFormat); // extend Day.js with the plugin
+import { clearCookies } from "../dbAndSecurityAndHelperFunctions/cookieOperations.js";
 
 /** makeAppointment is called when a patient makes an appointment
  *  First, finds the Doctor_ID corresponding to the NVI of the appointment Doctor
@@ -31,7 +32,14 @@ export async function makeAppointment(req, res) {
     }
 
     const PatientUUID = req.cookies.PatientUUID;
-    const Patient_ID = await UUID_to_ID(PatientUUID); // converts PatientUUID to docid
+    let Patient_ID
+    try {
+        Patient_ID = await UUID_to_ID(PatientUUID);
+    } catch (error) {
+        console.log('Error in UUID to ID conversion')
+        clearCookies('Patient', res)
+        return res.status(500).json();
+    }
 
     const date_ob = new Date();
     const format = "YYYY-MM-DD HH:mm:ss"
@@ -72,7 +80,15 @@ export async function makeAppointment(req, res) {
  */
 export async function getDoctorCalendarDetails(req, res) {
     const DoctorUUID = req.cookies.DoctorUUID
-    const DoctorID = await UUID_to_ID(DoctorUUID);
+    let DoctorID
+
+    try {
+        DoctorID = await UUID_to_ID(DoctorUUID);
+    } catch (error) {
+        console.log('Error in UUID to ID conversion')
+        clearCookies('Doctor', res)
+        return res.status(500).json();
+    }
 
     const [Appointments, service_and_category_list, service_mapping, addresses, basic_user_info] = 
         ['Appointments', 'service_and_category_list', 'service_mapping', 'addresses', 'basic_user_info'];

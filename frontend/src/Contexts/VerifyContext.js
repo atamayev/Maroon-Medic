@@ -42,7 +42,7 @@ const VerifyContextProvider = (props) => {
   }
 
   return (
-    <VerifyContext.Provider value={{ user_verification }}>
+    <VerifyContext.Provider value = {{ user_verification }}>
       {props.children}
     </VerifyContext.Provider>
   );

@@ -37,12 +37,7 @@ export async function ID_to_UUID(User_ID) {
  * @returns Corresponding DoctorID
  */
 export async function UUID_to_ID(UUID) {
-  try {
-    if (!UUID) throw new Error(`no UUID recieved in ${UUID_to_ID.name}`);
-  } catch (error) {
-    console.log(`no UUID recieved in ${UUID_to_ID.name}`)
-    return
-  }
+  if (!UUID) throw new Error(`no UUID received in ${UUID_to_ID.name}`);
 
   const UUID_reference = 'UUID_reference';
   const sql = `SELECT User_ID FROM ${UUID_reference} WHERE UUID = ?`;
@@ -52,11 +47,11 @@ export async function UUID_to_ID(UUID) {
 
   try {
     const [incomplete_ID] = await connection.execute(sql, values)
-    if (_.isEmpty(incomplete_ID)) throw new Error(`No User_ID found for UUID: ${UUID_to_ID.name}`);
+    if (_.isEmpty(incomplete_ID)) throw new Error(`No User_ID found for UUID: ${UUID}`);
     const ID = incomplete_ID[0].User_ID;
     return ID;
   } catch(error) {
     console.log(`error in ${UUID_to_ID.name}:`, error)
-    return
+    throw new Error(`No User_ID found for UUID: ${UUID}`);
   }
 };

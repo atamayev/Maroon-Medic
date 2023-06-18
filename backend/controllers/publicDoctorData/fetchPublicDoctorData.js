@@ -1,4 +1,4 @@
-import {connection, DB_Operation} from "../../dbAndSecurity/connect.js"
+import {connection, DB_Operation} from "../../dbAndSecurityAndHelperFunctions/connect.js"
 import _ from "lodash"
 
 /**
