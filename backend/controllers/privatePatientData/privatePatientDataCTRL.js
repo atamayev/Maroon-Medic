@@ -112,8 +112,8 @@ export async function fetchDashboardData (req, res) {
         else{
             const DashboardData = results
             for (let i = 0; i < DashboardData.length; i++) {
-                DashboardData[i].appointment_date = dayjs(DashboardData[i].appointment_date).format('MMMM Do, YYYY, h:mm A');
-                DashboardData[i].Created_at = dayjs(DashboardData[i].Created_at).format('MMMM Do, YYYY, h:mm A');                
+                DashboardData[i].appointment_date = dayjs(DashboardData[i].appointment_date).format('MMMM D, YYYY, h:mm A');
+                DashboardData[i].Created_at = dayjs(DashboardData[i].Created_at).format('MMMM D, YYYY, h:mm A');                
             }
             return res.json(DashboardData);
         } 

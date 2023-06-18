@@ -86,6 +86,7 @@ export async function newDoctorConfirmation (req, res) {
 export async function fetchDashboardData (req, res) {
     const DoctorUUID = req.cookies.DoctorUUID
     const DoctorID = await UUID_to_ID(DoctorUUID);
+
     const [Appointments, service_and_category_list, addresses, basic_user_info] = 
         ['Appointments', 'service_and_category_list', 'addresses', 'basic_user_info'];
 

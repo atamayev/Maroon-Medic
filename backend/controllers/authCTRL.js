@@ -30,7 +30,6 @@ export async function JWT_verify (req, res) {
   else if ("PatientAccessToken" in cookies) response.type = 'Patient';
   else return res.status(400).json('Invalid User Type');
 
-
   try {
     AccessToken = req.cookies[`${response.type}AccessToken`]
     const JWTKey = response.type === 'Patient' ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY;
@@ -40,6 +39,12 @@ export async function JWT_verify (req, res) {
       console.log('Token expired', error.name)
       return res.status(402).json(response);
     } else {
+      res.clearCookie(`${response.type}AccessToken`, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        path: '/'
+      });
       console.log('error in token verification', error);
       return res.status(500).json(response); 
     }
@@ -137,6 +142,17 @@ export async function login (req, res) {
     }
 
     login_history(ID);
+
+    const cookieNames = ['AccessToken', 'UUID', 'New_User'];
+
+    cookieNames.forEach((cookieName) => {
+      res.clearCookie(`${login_type}${cookieName}`, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        path: '/'
+      });
+    });
 
     // const expires = new Date(Date.now() + expiration_time *1000)
 
@@ -254,6 +270,17 @@ export async function register (req, res) {
 
   login_history(User_ID);
 
+  const cookieNames = ['AccessToken', 'UUID', 'New_User'];
+
+  cookieNames.forEach((cookieName) => {
+    res.clearCookie(`${login_type}${cookieName}`, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      path: '/'
+    });
+  });
+
   return res
     .cookie(`${register_type}AccessToken`, token, {
       // expires,
@@ -288,13 +315,13 @@ export async function fetchLoginHistory (req, res) {
   if ("DoctorUUID" in cookies || "DoctorAccessToken" in cookies) UUID = cookies.DoctorUUID
   else if ("PatientUUID" in cookies || "PatientAccessToken" in cookies) UUID = cookies.PatientUUID
   
-  const User_ID = await UUID_to_ID(UUID) // converts DoctorUUID to docid
-
   const login_history = 'login_history'
+  await DB_Operation(fetchLoginHistory.name, login_history);
 
-  const sql = `SELECT Login_at, IP_Address FROM ${login_history} WHERE User_ID = ?`
-  const values = [User_ID];
   try {
+    const User_ID = await UUID_to_ID(UUID) // converts DoctorUUID to docid
+    const sql = `SELECT Login_at, IP_Address FROM ${login_history} WHERE User_ID = ?`
+    const values = [User_ID];
     const [results] = await connection.execute(sql, values);
     return res.status(200).json(results);
   } catch(error) {
@@ -336,7 +363,14 @@ export async function logout (req, res) {
     let values = [UUID];
   
     await DB_Operation(logout.name, UUID_reference);
-    await connection.execute(sql, values);
+    try {
+      if(UUID) {
+        await connection.execute(sql, values);
+      }
+    } catch(error) {
+      console.log('Error in accessing DB', error)
+    }
+
     if (newUserUUID) {
       //If the user is new, they will have an extra cookie. Need to delete that UUID upon logout as well
       values = [newUserUUID]

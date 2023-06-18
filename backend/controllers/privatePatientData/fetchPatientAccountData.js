@@ -6,7 +6,7 @@ import {connection, DB_Operation} from "../../dbAndSecurity/connect.js"
  *  For example, a table might have: {Bob, 3}, {Bob, 7}, and then a mapping table shows that 3 and 7 are actually English and French. This is done to keep the data in the mapping tables as small as possible
  *  DOCUMENTATION LAST UPDATED 3/16/23
  */
-export default new class FetchPatientAccountData{
+export default new class FetchPatientAccountData {
     async FetchPatientInsurances (User_ID) {
         const functionName = this.FetchPatientInsurances.bind(this).name;
 

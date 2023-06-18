@@ -24,6 +24,6 @@ export async function DB_Operation (name_of_api, table_name) {
     //await connection.query(`use ${DB_NAME}`)
     console.log(`used API: ${name_of_api} and Table: ${table_name}`);
   } catch (err) {
-    console.log('useDB ERROR',err);
+    console.log('useDB ERROR', err);
   }
 };
