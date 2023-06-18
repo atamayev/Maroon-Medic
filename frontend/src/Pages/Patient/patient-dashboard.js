@@ -17,7 +17,6 @@ async function fetchPatientDashboardData(setDashboardData) {
       sessionStorage.setItem("PatientDashboardData", JSON.stringify(response.data))
     }
   } catch(error) {
-    console.log('unable to fillDashboard', error)
   }
 }
 
@@ -44,7 +43,6 @@ export default function PatientDashboard() {
                 fetchPatientDashboardData(setDashboardData);
               // }
             } catch(error) {
-              console.log(error)
             }
           }
         }

@@ -15,7 +15,6 @@ export const SearchContextProvider = (props) => {
         setItems(result.data);
       }
       catch(error) {
-        console.log('error in search context',error)
       }
     }
 
@@ -25,7 +24,6 @@ export const SearchContextProvider = (props) => {
         setItems(result.data);
       }
       catch(error) {
-        console.log('error in search context',error)
       }
     }
   }

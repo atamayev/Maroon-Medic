@@ -19,7 +19,6 @@ export async function savePersonalData (req, res) {
     try {
         PatientID = await UUID_to_ID(PatientUUID);
     } catch (error) {
-        console.log('Error in UUID to ID conversion')
         return clearCookies(res, 'Patient', true)
     }
     
@@ -34,7 +33,6 @@ export async function savePersonalData (req, res) {
     try {
         [results] = await connection.execute(sql, values);
     } catch(error) {
-        console.log(`error in ${savePersonalData.name}:`, error)
         return res.status(400).json();
     }
 
@@ -54,7 +52,6 @@ export async function savePersonalData (req, res) {
             await connection.execute(sql1, values1);
             return res.status(200).json();
         } catch(error) {
-            console.log(`error in if ${savePersonalData.name}:`, error);
             return res.status(400).json();
         }
     } else {// if there are results, that means that the record exists, and needs to be altered
@@ -63,7 +60,6 @@ export async function savePersonalData (req, res) {
             await connection.execute(sql2, values1);
             return res.status(200).json();
         } catch(error) {
-            console.log(`error in else ${savePersonalData.name}:`, error);
             return res.status(400).json();
         }
     }
@@ -83,7 +79,6 @@ export async function saveGeneralData (req, res) {
     try {
         PatientID = await UUID_to_ID(PatientUUID);
     } catch (error) {
-        console.log('Error in UUID to ID conversion')
         return clearCookies(res, 'Patient', true)
     }
 
@@ -104,7 +99,6 @@ export async function saveGeneralData (req, res) {
             await connection.execute(sql, values);
             return res.status(200).json();
         } catch(error) {
-            console.log(`error in if ${saveGeneralData.name}:`, error);
             return res.status(400).json();
         }
     } else if (operationType === 'delete') {
@@ -114,11 +108,9 @@ export async function saveGeneralData (req, res) {
             await connection.execute(sql, values);
             return res.status(200).json();
         } catch(error) {
-            console.log(`error in if ${saveGeneralData.name}:`, error);
             return res.status(400).json();
         }
     } else {
-        console.log('incorrect operation Type');
         return res.status(400).json();
     }
 };
@@ -136,7 +128,6 @@ export async function savePetData (req, res) {
     try {
         PatientID = await UUID_to_ID(PatientUUID);
     } catch (error) {
-        console.log('Error in UUID to ID conversion')
         return clearCookies(res, 'Patient', true)
     }
 
@@ -155,7 +146,6 @@ export async function savePetData (req, res) {
             PetData.pet_infoID = result.insertId;
             return res.status(200).json(PetData);
         } catch(error) {
-            console.log(`error in if ${savePetData.name}:`, error);
             return res.status(400).json();
         }
     } else if (operationType === 'delete') {
@@ -165,11 +155,9 @@ export async function savePetData (req, res) {
             await connection.execute(sql, values);
             return res.status(200).json();
         } catch(error) {
-            console.log(`error in if ${savePetData.name}:`, error);
             return res.status(400).json();
         }
     } else {
-        console.log('incorrect operation Type');
         return res.status(400).json();
     }
 };

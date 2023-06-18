@@ -18,7 +18,6 @@ async function fetchLoginHistory(setLoginHistory) {
       setLoginHistory(formattedData);
     }
   } catch (error) {
-    console.log('unable to fetch login history', error);
   }
 }
 
@@ -37,13 +36,11 @@ export default function PatientLoginAndSecurity() {
               setUser_type('Patient')
               fetchLoginHistory(setLoginHistory);
             } catch(error) {
-              console.log(error)
             }
           }
         }
       })
       .catch(error => {
-        console.error(error);
       });
   }, []);
 

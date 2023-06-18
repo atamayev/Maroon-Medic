@@ -12,11 +12,10 @@ async function fetchPersonalInfoData(setPersonalInfo) {
   try {
     const response = await PrivateDoctorDataService.fillPersonalData()
     if (response) {
-        setPersonalInfo(response.data);
-        sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(response.data))
+      setPersonalInfo(response.data);
+      sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(response.data))
     }
   } catch(error) {
-    console.log('unable to fill PersonalInfoData', error)
   }
 }
 
@@ -29,13 +28,12 @@ const handleSave = async (e, personalInfo, setPersonalInfoConfirmation) => {
         try {
           const response = await PrivateDoctorDataService.savePersonalData(personalInfo);
           if (response.status === 200) {
-              // setPersonalInfo(personalInfo);
-              sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(personalInfo));
-              setPersonalInfoConfirmation({messageType: 'saved'});
+            // setPersonalInfo(personalInfo);
+            sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(personalInfo));
+            setPersonalInfoConfirmation({messageType: 'saved'});
           }
         } catch (error) {
           setPersonalInfoConfirmation({messageType: 'problem'});
-          console.log(error.response.data);
         }
     } else {
       setPersonalInfoConfirmation({messageType: 'same'});
@@ -81,13 +79,11 @@ export default function DoctorPersonalInfo() {
               if (storedPersonalInfoData) setPersonalInfo(JSON.parse(storedPersonalInfoData));
               else fetchPersonalInfoData(setPersonalInfo);
             } catch(error) {
-              console.log(error)
             }
           }
         }
       })
       .catch(error => {
-        console.error(error);
       });
   }, [])
 

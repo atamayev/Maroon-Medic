@@ -23,7 +23,6 @@ export default new class FetchDoctorAccountData {
             const [results] = await connection.execute(sql, values);
             return results;
         } catch(error) {
-            console.log(`error in ${functionName}:`, error)
             return [];
         }
     };
@@ -44,7 +43,6 @@ export default new class FetchDoctorAccountData {
             const [results] = await connection.execute(sql, values);
             return results;
         } catch(error) {
-            console.log(`error in ${functionName}:`, error)
             return [];
         }
     };
@@ -65,7 +63,6 @@ export default new class FetchDoctorAccountData {
             const [results] = await connection.execute(sql, values);
             return results;
         } catch(error) {
-            console.log(`error in ${functionName}:`, error)
             return [];
         }
     };
@@ -91,7 +88,6 @@ export default new class FetchDoctorAccountData {
             }));//Converts the dates to a proper format.
             return newResults
         } catch(error) {
-            console.log(`error in ${functionName}:`, error)
             return [];
         }
     };
@@ -119,7 +115,6 @@ export default new class FetchDoctorAccountData {
             }));//Converts the dates to a proper format.
             return newResults
         } catch(error) {
-            console.log(`error in ${functionName}:`, error)
             return [];
         }
     };
@@ -165,7 +160,6 @@ export default new class FetchDoctorAccountData {
             }
             return results;
         } catch(error) {
-            console.log(`error in ${functionName}:`, error)
             return [];
         }
     };
@@ -190,7 +184,6 @@ export default new class FetchDoctorAccountData {
                 return (Description);
             }
         } catch(error) {
-            console.log(`error in ${functionName}:`, error)
             return {Description: ''};
         }
     };
@@ -211,7 +204,6 @@ export default new class FetchDoctorAccountData {
             const [results] = await connection.execute(sql, values);
             return results;
         } catch(error) {
-            console.log(`error in ${functionName}:`, error)
             return [];
         }
     };
@@ -233,7 +225,6 @@ export default new class FetchDoctorAccountData {
             if (_.isEmpty(results)) return [{PubliclyAvailable: false}, {Verified: false}];
             else return [{PubliclyAvailable: results[0].publiclyAvailable}, {Verified: results[0].publiclyAvailable}];
         } catch(error) {
-            console.log(`error in ${functionName}:`, error);
             return [{PubliclyAvailable: false}, {Verified: false}];
         }
     };
@@ -254,7 +245,6 @@ export default new class FetchDoctorAccountData {
             const [results] = await connection.execute(sql, values);
             return results;
         } catch(error) {
-            console.log(`error in ${functionName}:`, error)
             return [];
         }
     };

@@ -79,7 +79,6 @@ export default function Header (props) {
               }
             } catch(error) {
               if (error instanceof TypeError) fetchPersonalInfo(result.user_type);
-              else console.log('some other error');
             } 
           }
         })
@@ -96,14 +95,12 @@ export default function Header (props) {
       try {
         response = await PrivateDoctorDataService.fillPersonalData();
       } catch (error) {
-        console.log(`unable to fillDoctorPersonalData`, error)
       }
      }
      else if (type === 'Patient') {
       try {
         response = await PrivatePatientDataService.fillPersonalData();
       } catch (error) {
-        console.log(`unable to fillPatientPersonalData`, error)
       }
     }
 
@@ -118,7 +115,6 @@ export default function Header (props) {
       const response = await AuthDataService.logout();
       if (response.status === 200) sessionStorage.clear();      
     } catch(error) {
-      console.log('error',error)
     }
     handleRefresh();
   }

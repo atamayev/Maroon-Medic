@@ -22,8 +22,7 @@ export default new class FetchPatientAccountData {
         try {
             const [results] = await connection.execute(sql, values);
             return results;
-        } catch(error) {
-            console.log(`error in ${functionName}:`, error)
+        } catch (error) {
             return [];
         }
     };
@@ -42,8 +41,7 @@ export default new class FetchPatientAccountData {
         try {
             const [results] = await connection.execute(sql, values);
             return results;
-        } catch(error) {
-            console.log(`error in ${functionName}:`, error)
+        } catch (error) {
             return [];
         }
     };
@@ -63,8 +61,7 @@ export default new class FetchPatientAccountData {
         try {
             const [results] = await connection.execute(sql, values);
             return results;
-        } catch(error) {
-            console.log(`error in ${functionName}:`, error)
+        } catch (error) {
             return [];
         }
     };

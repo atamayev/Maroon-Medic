@@ -25,7 +25,6 @@ async function confirmBooking(e, navigate, selectedService, selectedLocation, se
       navigate('/patient-dashboard');
     }
   } catch(error) {
-    console.log(error)
   }
 };
 

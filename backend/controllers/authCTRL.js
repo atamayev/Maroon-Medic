@@ -94,7 +94,6 @@ export async function login (req, res) {
     if (_.isEmpty(results)) return res.status(404).json("Username not found!");
     else hashed_password = results[0].password;
   } catch(error) {
-    console.log('Problem with email selection', error)
     return res.status(500).json({ error: 'Problem with email selection' });
   }
 
@@ -103,7 +102,6 @@ export async function login (req, res) {
   try {
     bool = await Hash.checkPassword(password, hashed_password)
   } catch(error) {
-    console.log('Problem with checking password', error)
     return res.status(500).json({ error: 'Problem with checking password' });
   }
   
@@ -124,7 +122,6 @@ export async function login (req, res) {
     try {
       token = jwt.sign(payload, JWTKey);
     } catch(error) {
-      console.log('Problem with Signing JWT', error)
       return res.status(500).json({ error: 'Problem with Signing JWT' });
     }
 
@@ -183,7 +180,6 @@ export async function register (req, res) {
     [results] = await connection.execute(sql, values)
     if (!_.isEmpty(results)) return res.status(400).json("User already exists!");
   } catch(error) {
-    console.log('Problem with existing email search')
     return res.status(500).json({ error: 'Problem with existing email search' });
   }
 
@@ -192,7 +188,6 @@ export async function register (req, res) {
     try {
       hashed_password = await Hash.hash_credentials(password)
     } catch(error) {
-      console.log('Problem with Password Hashing')
       return res.status(500).json({ error: 'Problem with Password Hashing' });
     }
   }
@@ -207,7 +202,6 @@ export async function register (req, res) {
   try {
     [results_1] = await connection.execute(sql_1, values_1)
   } catch(error) {
-    console.log('Problem with Data Insertion')
     return res.status(500).json({ error: 'Problem with Data Insertion' });
   }
 
@@ -222,7 +216,6 @@ export async function register (req, res) {
     try {
       await connection.execute(sql_2, values_2)
     } catch(error) {
-      console.log('Problem with Data Insertion into DoctorSpecific Table')
       return res.status(500).json({ error: 'Problem with Data Insertion' });
     }
   }
@@ -240,7 +233,6 @@ export async function register (req, res) {
   try {
     token = jwt.sign(payload, JWTKey);
   } catch(error) {
-    console.log('error in Signing JWT')
     return res.status(500).json({ error: 'Problem with Signing JWT' });
   }
 
@@ -282,11 +274,11 @@ export async function fetchLoginHistory (req, res) {
   let UUID;
   let type;
 
-  if ("DoctorUUID" in cookies || "DoctorAccessToken" in cookies){
+  if ("DoctorUUID" in cookies || "DoctorAccessToken" in cookies) {
     UUID = cookies.DoctorUUID
     type = 'Doctor'
   } 
-  else if ("PatientUUID" in cookies || "PatientAccessToken" in cookies){
+  else if ("PatientUUID" in cookies || "PatientAccessToken" in cookies) {
     UUID = cookies.PatientUUID
     type = 'Patient'
   }
@@ -340,7 +332,6 @@ export async function logout (req, res) {
     try {
       if(UUID) await connection.execute(sql, values);
     } catch(error) {
-      console.log('Error in accessing DB', error)
     }
 
     if (newUserUUID) {
@@ -349,14 +340,12 @@ export async function logout (req, res) {
       await connection.execute(sql, values)
     }
   } catch(error) {
-      console.log('Error in accessing DB', error)
       // return res.status(500).json({ error: `Error in accessing DB` });
   }
   
   try {
     return clearCookies(res, type, false, 200)
   } catch(error) {
-    console.log(`error in logging ${type} out`)
     return res.status(500).json({ error: `Error in logging ${type} out` });
   }
 };

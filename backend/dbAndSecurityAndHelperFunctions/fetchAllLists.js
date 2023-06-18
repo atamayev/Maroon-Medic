@@ -15,7 +15,6 @@ export default new class FetchAllLists {
             const [results] = await connection.execute(sql);
             return results;
         } catch (error) {
-            console.log(`error in ${functionName}`, error);
             return [];
         }
     }
@@ -30,7 +29,6 @@ export default new class FetchAllLists {
             const [results] = await connection.execute(sql);
             return results;
         } catch (error) {
-            console.log(`error in ${functionName}`, error);
             return [];
         }
     }
@@ -45,7 +43,6 @@ export default new class FetchAllLists {
             const [results] = await connection.execute(sql);
             return results;
         } catch (error) {
-            console.log(`error in ${functionName}`, error);
             return [];
         }
     }
@@ -60,7 +57,6 @@ export default new class FetchAllLists {
             const [results] = await connection.execute(sql);
             return results;
         } catch (error) {
-            console.log(`error in ${functionName}`, error);
             return [];
         }
     }
@@ -75,7 +71,6 @@ export default new class FetchAllLists {
             const [results] = await connection.execute(sql);
             return results;
         } catch (error) {
-            console.log(`error in ${functionName}`, error);
             return [];
         }
     }
@@ -90,7 +85,6 @@ export default new class FetchAllLists {
             const [results] = await connection.execute(sql);
             return results;
         } catch (error) {
-            console.log(`error in ${functionName}`, error);
             return [];
         }
     }
@@ -105,7 +99,6 @@ export default new class FetchAllLists {
             const [results] = await connection.execute(sql);
             return results;
         } catch (error) {
-            console.log(`error in ${functionName}`, error);
             return [];
         }
     }
@@ -120,7 +113,6 @@ export default new class FetchAllLists {
             const [results] = await connection.execute(sql);
             return results;
         } catch (error) {
-            console.log(`error in ${functionName}`, error);
             return [];
         }
     }
@@ -135,7 +127,6 @@ export default new class FetchAllLists {
             const [results] = await connection.execute(sql);
             return results;
         } catch (error) {
-            console.log(`error in ${functionName}`, error);
             return [];
         }
     }
@@ -149,7 +140,6 @@ export default new class FetchAllLists {
             const [results] = await connection.execute(sql);
             return results;
         } catch (error) {
-            console.log(`error in ${functionName}`, error);
             return [];
         }
     } 

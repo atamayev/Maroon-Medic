@@ -62,7 +62,6 @@ export async function makeAppointment(req, res) {
         await connection.execute(sql2, values2)
         return res.status(200).json();
     } catch(error) {
-        console.log(`error in inserting Appointment ${makeAppointment.name}`,error)
         return res.status(500).json(error);
     }
 };
@@ -82,7 +81,6 @@ export async function getDoctorCalendarDetails(req, res) {
     try {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
-        console.log('Error in UUID to ID conversion')
         clearCookies(res, 'Doctor', true)
         return
     }
@@ -111,7 +109,6 @@ export async function getDoctorCalendarDetails(req, res) {
         const [results] = await connection.execute(sql, values);
         return res.status(200).json(results);
     } catch(error) {
-        console.log(`error in ${getDoctorCalendarDetails.name}:`, error );
         return res.status(400).json([]);
     }
 };

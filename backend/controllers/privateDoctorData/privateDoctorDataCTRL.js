@@ -22,7 +22,6 @@ export async function newDoctor (req, res) {
     try {
         User_ID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
-        console.log('Error in UUID to ID conversion')
         clearCookies(res, 'Doctor', true)
         return res.status(500).json();
     }
@@ -45,7 +44,6 @@ export async function newDoctor (req, res) {
         await connection.execute(sql, values)
         return res.status(200).json();
     } catch(error) {
-        console.log(`error in ${newDoctor.name}`,error)
         return res.status(500).json(error);
     }
 };
@@ -81,7 +79,6 @@ export async function newDoctorConfirmation (req, res) {
         }
         else return res.json(Doctor_permission);
     } catch(error) {
-        console.log(`error in ${newDoctorConfirmation.name}:`, error)
         return res.json(Doctor_permission);
     }
 };
@@ -99,7 +96,6 @@ export async function fetchDashboardData (req, res) {
     try {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
-        console.log('Error in UUID to ID conversion')
         return clearCookies(res, 'Doctor', true)
     }
 
@@ -133,7 +129,6 @@ export async function fetchDashboardData (req, res) {
             return res.json(DashboardData);
         } 
     } catch(error) {
-        console.log(`error in ${fetchDashboardData.name}:`, error );
         return res.json([]);
     }
 };
@@ -152,7 +147,6 @@ export async function fetchPersonalData (req, res) {
     try {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
-        console.log('Error in UUID to ID conversion')
         return clearCookies(res, 'Doctor', true)
     }
 
@@ -187,7 +181,6 @@ export async function fetchPersonalData (req, res) {
             return res.json(PersonalData);
         }
     } catch(error) {
-        console.log(`error in ${fetchPersonalData.name}:`, error);
         return res.json(PersonalData);
     }
 };
@@ -209,7 +202,6 @@ export async function confirmAppointment (req, res) {
         await connection.execute(sql, values);
         return res.status(200).json();
     } catch(error) {
-        console.log(`error in confirming appointment ${confirmAppointment.name}:`, error);
         return res.status(400).json();
     }
 };
@@ -228,7 +220,6 @@ export async function fetchAccountDetails (req, res) {
     try {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
-        console.log('Error in UUID to ID conversion', error)
         return clearCookies(res, 'Doctor', true)
     }
    
@@ -246,7 +237,6 @@ export async function fetchAccountDetails (req, res) {
         response.push(await FetchDoctorAccountData.FetchDoctorPictures(DoctorID));
         return res.status(200).json(response);
     } catch(error) {
-        console.log('error in accountDetails', error);
         return res.status(400).json([]);
     }
 };
@@ -272,7 +262,6 @@ export async function fetchDoctorLists (req, res) {
         response.push(await FetchAllLists.fetchAllPets());
         return res.status(200).json(response);
     } catch(error) {
-        console.log('error in accountDetails', error);
         return res.status(400).json([]);
     }
 };

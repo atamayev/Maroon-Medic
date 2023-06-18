@@ -21,7 +21,6 @@ export async function savePersonalData (req, res) {
     try {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
-        console.log('Error in UUID to ID conversion')
         return clearCookies(res, 'Doctor', true)
     }
 
@@ -37,7 +36,6 @@ export async function savePersonalData (req, res) {
     try {
         [results] = await connection.execute(sql, values);
     } catch(error) {
-        console.log(`error in ${savePersonalData.name}:`, error)
         return res.status(400).json();
     }
 
@@ -56,7 +54,6 @@ export async function savePersonalData (req, res) {
             await connection.execute(sql1, values1);
             return res.status(200).json();
         } catch(error) {
-            console.log(`error in if ${savePersonalData.name}:`, error);
             return res.status(400).json();
         }
     } else {// if there are results, that means that the record exists, and needs to be altered
@@ -65,7 +62,6 @@ export async function savePersonalData (req, res) {
             await connection.execute(sql1, values1);
             return res.status(200).json();
         } catch(error) {
-            console.log(`error in else ${savePersonalData.name}:`, error);
             return res.status(400).json();
         }
     }
@@ -86,7 +82,6 @@ export async function saveDescriptionData (req, res) {
     try {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
-        console.log('Error in UUID to ID conversion')
         return clearCookies(res, 'Doctor', true)
     }
 
@@ -101,7 +96,6 @@ export async function saveDescriptionData (req, res) {
     try {
         [results] = await connection.execute(sql, values);
     } catch(error) {
-        console.log(`error in ${saveDescriptionData.name}:`, error);
         return res.status(400).json();
     }
     const values1 = [description.Description, DoctorID];
@@ -112,7 +106,6 @@ export async function saveDescriptionData (req, res) {
             await connection.execute(sql1, values1);
             return res.status(200).json();
         } catch(error) {
-            console.log(`error in if ${saveDescriptionData.name}:`, error);
             return res.status(400).json();
         }
     } else {// if there are results, that means that the record exists, and needs to be altered
@@ -121,7 +114,6 @@ export async function saveDescriptionData (req, res) {
             await connection.execute(sql1, values1);
             return res.status(200).json();
         } catch(error) {
-            console.log(`error in else ${saveDescriptionData.name}:`, error);
             return res.status(400).json();
         }
     }
@@ -142,7 +134,6 @@ export async function saveGeneralData (req, res) {
     try {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
-        console.log('Error in UUID to ID conversion')
         return clearCookies(res, 'Doctor', true)
     }
 
@@ -169,7 +160,6 @@ export async function saveGeneralData (req, res) {
             await connection.execute(sql, values);
             return res.status(200).json();
         } catch(error) {
-            console.log(`error in if ${saveGeneralData.name}:`, error);
             return res.status(400).json();
         }
     } else if (operationType === 'delete') {
@@ -179,11 +169,9 @@ export async function saveGeneralData (req, res) {
             await connection.execute(sql, values);
             return res.status(200).json();
         } catch(error) {
-            console.log(`error in if ${saveGeneralData.name}:`, error);
             return res.status(400).json();
         }
     } else {
-        console.log(`incorrect operation Type, received: ${operationType}`);
         return res.status(400).json();
     }
 };
@@ -203,7 +191,6 @@ export async function saveServicesData (req, res) {
     try {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
-        console.log('Error in UUID to ID conversion')
         return clearCookies(res, 'Doctor', true)
     }
     
@@ -219,7 +206,6 @@ export async function saveServicesData (req, res) {
     try {
         [results] = await connection.execute(sql, values);
     } catch(error) {
-        console.log(`error in ${saveServicesData.name}:`, error)
         return res.status(400).json();
     }
 
@@ -252,7 +238,6 @@ export async function saveServicesData (req, res) {
                 try {
                     await connection.execute(sql, values);
                 } catch(error) {
-                    console.log(`error in if ${saveServicesData.name}:`, error);
                     return res.status(400).json();
                 }
             }
@@ -264,7 +249,6 @@ export async function saveServicesData (req, res) {
                 try {
                     await connection.execute(sql, values);
                 } catch(error) {
-                    console.log(`error in if ${saveServicesData.name}:`, error);
                     return res.status(400).json();
                 }
             }
@@ -276,7 +260,6 @@ export async function saveServicesData (req, res) {
                 try {
                     await connection.execute(sql, values);
                 } catch(error) {
-                    console.log(`error in if ${saveServicesData.name}:`, error);
                     return res.status(400).json();
                 }
             }
@@ -289,7 +272,6 @@ export async function saveServicesData (req, res) {
             try {
                 await connection.execute(sql, values);
             } catch(error) {
-                console.log(`error in if ${saveServicesData.name}:`, error);
                 return res.status(400).json();
             }
         }
@@ -314,7 +296,6 @@ export async function saveEducationData (req, res) {
     try {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
-        console.log('Error in UUID to ID conversion')
         return clearCookies(res, 'Doctor', true)
     }
 
@@ -335,7 +316,6 @@ export async function saveEducationData (req, res) {
             sql = `INSERT INTO ${table_name} (School_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?, ?, ?, ?, ?)`;
             values = [EducationData.School_ID, EducationData.Education_type_ID, EducationData.Start_date, EducationData.End_date, DoctorID];    
         } else {
-            console.log(`Education_type not defined ${saveEducationData.name}`);
             return res.status(400).json();
         }
     } else if (operationType === 'delete') {
@@ -343,11 +323,9 @@ export async function saveEducationData (req, res) {
         if (EducationType === 'pre_vet') sql = `DELETE FROM ${table_name} WHERE pre_vet_education_mappingID = ?`;
         else if (EducationType === 'vet') sql = `DELETE FROM ${table_name} WHERE vet_education_mappingID = ?`;
         else {
-            console.log(`Education_type not defined ${saveEducationData.name}`);
             return res.status(400).json();
         }
     } else {
-        console.log('incorrect operation Type');
         return res.status(400).json();
     }
     
@@ -355,7 +333,6 @@ export async function saveEducationData (req, res) {
         const [response] = await connection.execute(sql, values);
         return res.status(200).json(response.insertId);
     } catch (error) {
-        console.log(`error in if ${saveEducationData.name}:`, error);
         return res.status(400).json();
     }    
 };
@@ -380,7 +357,6 @@ export async function saveAddressData (req, res) {
     try {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
-        console.log('Error in UUID to ID conversion')
         return clearCookies(res, 'Doctor', true)
     }
     
@@ -396,7 +372,6 @@ export async function saveAddressData (req, res) {
     try {
         [Address_results] = await connection.execute(sql, values);
     } catch(error) {
-        console.log(`error in ${saveAddressData.name}:`, error)
         return res.status(400).json();
     }
 
@@ -407,11 +382,8 @@ export async function saveAddressData (req, res) {
             WHERE ${phone}.address_ID = ?`;
 
             const [phones] = await connection.execute(sql2, [Address_result.addressesID]);
-            if (_.isEmpty(phones)) {
-                Address_result.phone = "";
-            } else {
-                Address_result.phone = phones[0];
-            }
+            if (_.isEmpty(phones)) Address_result.phone = "";
+            else Address_result.phone = phones[0];
         };
         const newData = AddressData;
         // Check for changes in data:
@@ -440,7 +412,6 @@ export async function saveAddressData (req, res) {
                 try {
                     [insert_results] = await connection.execute(sql, values);
                 } catch(error) {
-                    console.log(`error in adding address data ${saveAddressData.name}:`, error);
                     return res.status(400).json();
                 }
 
@@ -450,7 +421,6 @@ export async function saveAddressData (req, res) {
                     try {
                         await connection.execute(sql, values);
                     } catch(error) {
-                        console.log(`error in inserting phone info ${saveAddressData.name}:`, error);
                         return res.status(400);  
                     }
                 }
@@ -466,7 +436,6 @@ export async function saveAddressData (req, res) {
                 try {
                     await connection.execute(sql, values);
                 } catch(error) {
-                    console.log(`error in deleting address data ${saveAddressData.name}:`, error);
                     return res.status(400).json();
                 }
             }
@@ -480,9 +449,9 @@ export async function saveAddressData (req, res) {
                 try {
                     await connection.execute(sql1, values1);
                 } catch(error) {
-                    console.log(`error in updatedData address data ${saveAddressData.name}:`, error);
                     return res.status(400).json();
                 }
+
                 const sql2 = `SELECT * FROM ${phone} where address_ID = ?`;
                 const values2 = [updatedData[i].addressesID];
                 let results;
@@ -490,7 +459,6 @@ export async function saveAddressData (req, res) {
                 try {
                     [results] = await connection.execute(sql2, values2);
                 } catch(error) {
-                    console.log(`error in updatedData phone address data ${saveAddressData.name}:`, error);
                     return res.status(400).json();
                 }
                 if (!_.isEmpty(results)) {
@@ -500,7 +468,6 @@ export async function saveAddressData (req, res) {
                         try {
                             await connection.execute(sql, values);
                         } catch(error) {
-                            console.log(`error in updatedData phone address data ${saveAddressData.name}:`, error);
                             return res.status(400).json();
                         }
                     }
@@ -510,7 +477,6 @@ export async function saveAddressData (req, res) {
                     try {
                         await connection.execute(sql, values);
                     } catch(error) {
-                        console.log(`error in updatedData phone address data ${saveAddressData.name}:`, error);
                         return res.status(400).json();
                     }     
                 }
@@ -537,7 +503,6 @@ export async function saveAddressData (req, res) {
                 try {
                     [timeDataResults] = await connection.execute(sql, values);
                 } catch(error) {
-                    console.log(`error in time data results${saveAddressData.name}:`, error)
                     return res.status(400).json();
                 }
 
@@ -561,7 +526,6 @@ export async function saveAddressData (req, res) {
                             try {
                                 await connection.execute(sql, values);
                             } catch(error) {
-                                console.log(`error in inserting phone info ${saveAddressData.name}:`, error);
                                 return res.status(400).json();  
                             }
                         }
@@ -575,7 +539,6 @@ export async function saveAddressData (req, res) {
                             try {
                                 await connection.execute(sql, values);
                             } catch(error) {
-                                console.log(`error in DELETING time info ${saveAddressData.name}:`, error);
                                 return res.status(400).json();  
                             }
                         }
@@ -589,7 +552,6 @@ export async function saveAddressData (req, res) {
                             try {
                                 await connection.execute(sql, values);
                             } catch(error) {
-                                console.log(`error in updating time info ${saveAddressData.name}:`, error);
                                 return res.status(400).json();  
                             }
                         }
@@ -611,7 +573,6 @@ export async function saveAddressData (req, res) {
             try {
                 [insert_results] = await connection.execute(sql, values);
             } catch(error) {
-                console.log(`error in adding address data ${saveAddressData.name}:`, error);
                 return res.status(400).json();
             }
 
@@ -621,7 +582,6 @@ export async function saveAddressData (req, res) {
                 try {
                     await connection.execute(sql, values);
                 } catch(error) {
-                    console.log(`error in inserting phone info ${saveAddressData.name}:`, error);
                     return res.status(400).json();
                 }
             }
@@ -632,7 +592,6 @@ export async function saveAddressData (req, res) {
                     try {
                         await connection.execute(sql, values);
                     } catch(error) {
-                        console.log(`error in inserting phone info ${saveAddressData.name}:`, error);
                         return res.status(400).json();  
                     }
                 }
@@ -642,7 +601,6 @@ export async function saveAddressData (req, res) {
         return res.status(200).json(AddressData);
     }
     else{
-        console.log(`error in else  ${saveAddressData.name}:`);
         return res.status(400).json();
     }
 };
@@ -660,7 +618,6 @@ export async function savePublicAvailibilityData (req, res) {
     try {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
-        console.log('Error in UUID to ID conversion')
         return clearCookies(res, 'Doctor', true)
     }
     
@@ -675,7 +632,6 @@ export async function savePublicAvailibilityData (req, res) {
         await connection.execute(sql, values);
         return res.status(200).json();
     } catch(error) {
-        console.log(`error in ${savePublicAvailibilityData.name}:`, error);
         return res.status(400).json();
     }
 };

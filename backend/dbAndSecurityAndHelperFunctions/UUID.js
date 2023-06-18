@@ -51,7 +51,6 @@ export async function UUID_to_ID(UUID) {
     const ID = incomplete_ID[0].User_ID;
     return ID;
   } catch(error) {
-    console.log(`error in ${UUID_to_ID.name}:`, error)
     throw new Error(`No User_ID found for UUID: ${UUID}`);
   }
 };

@@ -22,7 +22,6 @@ export async function returnDoctorPageData (req, res) {
         const [results] = await connection.execute(sql, values);
         DoctorID = results[0].Doctor_ID
     } catch(error) {
-        console.log(`error in ${returnDoctorPageData.name}:`, error);
         return res.status(400).json();
     }
    
@@ -41,7 +40,6 @@ export async function returnDoctorPageData (req, res) {
         response[9]['NVI'] = NVI;
         return res.status(200).json(response);
     } catch(error) {
-        console.log('error in returnDoctorPageData', error);
         const emptyResponse = [];
         return res.status(400).json(emptyResponse);
     }

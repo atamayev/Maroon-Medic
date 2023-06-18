@@ -22,7 +22,6 @@ export async function searchByQuery (req, res) {
         if (_.isEmpty(results)) return res.json('User not found');
         else return res.json(results);
     } catch(error) {
-        console.log('Search by Query Error', error);
         return res.json({ error: 'Search by Query Error' });
     }
 };
@@ -47,7 +46,6 @@ export async function fetchUsers (req, res) {
         const [results] = await connection.execute(sql);
         return res.json(results);
     } catch(error) {
-        console.log('Fetch Users Error', error);
         return res.json({ error: 'Fetch Users Error' });
     }
 };
@@ -58,7 +56,6 @@ export async function fetchAllLanguages (req, res) {
         const LanguageList = FetchAllLists.fetchAllLanguages();
         return res.status(200).json(LanguageList);
     } catch(error) {
-        console.log(`error in ${fetchAllLanguages.name}`,error)
         return res.status(500).json(error);
     }
 };
@@ -68,7 +65,6 @@ export async function fetchAllServicesAndCategories (req, res) {
         const ServicesList = FetchAllLists.fetchAllServicesAndCategories();
         return res.status(200).json(ServicesList);
     } catch(error) {
-        console.log(`error in ${fetchAllServicesAndCategories.name}`,error)
         return res.status(500).json(error);
     }
 };
@@ -78,7 +74,6 @@ export async function fetchAllInsurances (req, res) {
         const InsurancesList = FetchAllLists.fetchAllInsurances();
         return res.status(200).json(InsurancesList);
     } catch(error) {
-        console.log(`error in ${fetchAllInsurances.name}`,error)
         return res.status(500).json(error);
     }
 };

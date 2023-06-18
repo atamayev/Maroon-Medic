@@ -33,13 +33,11 @@ export default function DoctorCalendar () {
               const storedAccountDetails = sessionStorage.getItem("DoctorCalendarDetails")
               if (!storedAccountDetails) FillDoctorCalendarDetails();
             } catch(error) {
-              console.log(error)
             }
           }
         }
       })
       .catch(error => {
-        console.error(error);
       });
   }, []);
 
@@ -61,7 +59,6 @@ export default function DoctorCalendar () {
         setEvents(events);
       }
     } catch(error) {
-        console.log(error);
     }
   }  
 

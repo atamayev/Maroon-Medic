@@ -19,7 +19,6 @@ async function fetchPetData(setSavedPetData) {
       sessionStorage.setItem("PatientPetData", JSON.stringify(response.data))
     }
   } catch(error) {
-    console.log('unable to fillPet Data', error)
   }
 }
 
@@ -31,7 +30,6 @@ async function FillPetTypes(setPetTypes) {
       sessionStorage.setItem("PetTypes", JSON.stringify(response.data));
     }
   } catch(error) {
-    console.log('unable to fill PetTypes', error)
   }
 }
 
@@ -61,7 +59,6 @@ export default function MyPets() {
             if (storedPetTypes) setPetTypes(JSON.parse(storedPetTypes));
             else FillPetTypes(setPetTypes);
           } catch(error) {
-            console.log(error)
           }
         }
       }

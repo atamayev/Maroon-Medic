@@ -45,7 +45,6 @@ export default function Doctor () {
         if (response.data[9]) setPersonalData(response.data[9]);
       }
     } catch(error) {
-      console.log(error)
     }
   }
 

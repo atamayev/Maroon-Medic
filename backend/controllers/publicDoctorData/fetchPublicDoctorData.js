@@ -118,7 +118,6 @@ export default new class FetchPublicDoctorData{
                 return (DoctorPersonalInfo);
             }
         } catch(error) {
-            console.log('error encountered in catching')
             return [];
         }
     };

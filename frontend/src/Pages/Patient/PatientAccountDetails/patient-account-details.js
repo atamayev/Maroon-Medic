@@ -15,7 +15,6 @@ async function FillLists(setListDetails) {
       sessionStorage.setItem("ListDetails", JSON.stringify(response.data));
     }
   } catch(error) {
-    console.log('unable to fill ListDetails', error)
   }
 }
 
@@ -42,7 +41,6 @@ export default function PatientAccountDetails() {
             if (storedListDetails) setListDetails(JSON.parse(storedListDetails));
             else FillLists(setListDetails);
           } catch(error) {
-            console.log(error)
           }
         }
       }
@@ -61,7 +59,6 @@ export default function PatientAccountDetails() {
         sessionStorage.setItem("PatientAccountDetails", JSON.stringify(response.data));
       }
     } catch(error) {
-      console.log('unable to fill AccountDetails', error)
     }
   }
 

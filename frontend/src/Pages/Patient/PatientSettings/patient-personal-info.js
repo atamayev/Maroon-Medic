@@ -16,7 +16,6 @@ async function fetchPersonalInfoData(setPersonalInfo) {
       sessionStorage.setItem("PatientPersonalInfo", JSON.stringify(response.data))
     }
   } catch(error) {
-    console.log('unable to fill PersonalInfoData', error)
   }
 }
 
@@ -79,7 +78,6 @@ export default function PatientPersonalInfo() {
             if (storedPersonalInfoData) setPersonalInfo(JSON.parse(storedPersonalInfoData));
             else fetchPersonalInfoData(setPersonalInfo);
           } catch(error) {
-            console.log(error)
           }
         }
       }

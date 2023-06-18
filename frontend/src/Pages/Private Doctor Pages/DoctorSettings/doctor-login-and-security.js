@@ -18,7 +18,6 @@ async function fetchLoginHistory(setLoginHistory) {
       setLoginHistory(formattedData);
     }
   } catch (error) {
-    console.log('unable to fetch login history', error);
   }
 }
 
@@ -37,7 +36,6 @@ export default function DoctorLoginAndSecurity() {
             setUser_type('Doctor')
             fetchLoginHistory(setLoginHistory);
           } catch(error) {
-            console.log(error)
           }
         }
       }

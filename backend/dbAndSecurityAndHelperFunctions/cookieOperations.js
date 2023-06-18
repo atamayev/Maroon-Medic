@@ -23,6 +23,6 @@ export function clearCookies(res, type = ['Doctor', 'Patient'], shouldRedirect, 
   });
 
   if (shouldRedirect) {
-    res.status(status_code).json({ shouldRedirect: true, redirectURL });
+    res.status(401).json({ shouldRedirect: true, redirectURL });
   }
 }
