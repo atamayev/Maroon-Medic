@@ -21,7 +21,8 @@ export async function savePersonalData (req, res) {
     try {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
-        return clearCookies(res, 'Doctor', true)
+        clearCookies(res, 'Doctor')
+        return res.status(401).json({ shouldRedirect: true, redirectURL: '/vet-login' }); 
     }
 
     const personalInfo = req.body.personalInfo;
@@ -82,7 +83,8 @@ export async function saveDescriptionData (req, res) {
     try {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
-        return clearCookies(res, 'Doctor', true)
+        clearCookies(res, 'Doctor')
+        return res.status(401).json({ shouldRedirect: true, redirectURL: '/vet-login' }); 
     }
 
     const description = req.body.Description;
@@ -134,7 +136,8 @@ export async function saveGeneralData (req, res) {
     try {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
-        return clearCookies(res, 'Doctor', true)
+        clearCookies(res, 'Doctor')
+        return res.status(401).json({ shouldRedirect: true, redirectURL: '/vet-login' }); 
     }
 
     const DataType = req.body.DataType
@@ -191,7 +194,8 @@ export async function saveServicesData (req, res) {
     try {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
-        return clearCookies(res, 'Doctor', true)
+        clearCookies(res, 'Doctor')
+        return res.status(401).json({ shouldRedirect: true, redirectURL: '/vet-login' }); 
     }
     
     const ServicesData = req.body.ServicesData; //Array of Objects
@@ -296,7 +300,8 @@ export async function saveEducationData (req, res) {
     try {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
-        return clearCookies(res, 'Doctor', true)
+        clearCookies(res, 'Doctor')
+        return res.status(401).json({ shouldRedirect: true, redirectURL: '/vet-login' }); 
     }
 
     const EducationData = req.body.EducationData; // array of arrays, to make comparing to sql easier.: ie: [[ 13, 56, 7, '1923-01-01', '1923-01-01' ],[ 698, 13, 9, '1923-01-01', '1923-01-01' ]]
@@ -357,7 +362,8 @@ export async function saveAddressData (req, res) {
     try {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
-        return clearCookies(res, 'Doctor', true)
+        clearCookies(res, 'Doctor')
+        return res.status(401).json({ shouldRedirect: true, redirectURL: '/vet-login' }); 
     }
     
     const AddressData = req.body.AddressData;
@@ -618,7 +624,8 @@ export async function savePublicAvailibilityData (req, res) {
     try {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
-        return clearCookies(res, 'Doctor', true)
+        clearCookies(res, 'Doctor')
+        return res.status(401).json({ shouldRedirect: true, redirectURL: '/vet-login' }); 
     }
     
     const publicAvailibility = req.body.PublicAvailibility;

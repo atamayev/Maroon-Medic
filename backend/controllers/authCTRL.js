@@ -6,8 +6,8 @@ import dotenv from "dotenv";
 import { ID_to_UUID, UUID_to_ID } from "../dbAndSecurityAndHelperFunctions/UUID.js";
 dotenv.config()
 import { loginHistory } from "../dbAndSecurityAndHelperFunctions/accountTracker.js";
-import _ from "lodash"
 import { clearCookies } from "../dbAndSecurityAndHelperFunctions/cookieOperations.js";
+import _ from "lodash"
 
 /** JWT_verify verifies the user's token (held in cookie). 
  *  It does this in two steps. First, it checks if the DoctorAccessToken is valid (verification). If verified, the UUID is extracted from the Access Token. The UUID is then searched in the DB
@@ -30,8 +30,8 @@ export async function JWT_verify (req, res) {
   if ("DoctorAccessToken" in cookies) response.type = 'Doctor';
   else if ("PatientAccessToken" in cookies) response.type = 'Patient';
   else {
-    return clearCookies(res, undefined, true)
-    // return res.status(400).json('Invalid User Type');
+    clearCookies(res, undefined)
+    return res.status(401).json({ shouldRedirect: true, redirectURL: '/' }); 
   }
 
   try {
@@ -40,7 +40,11 @@ export async function JWT_verify (req, res) {
     decodedUUID = jwt.verify(AccessToken, JWTKey)[`${response.type}ID`];
 
     if (Date.now() >= decodedUUID.exp * 1000) {
-      return clearCookies(res, undefined, false)
+      let redirectURL
+      if (response.type === 'Doctor') redirectURL = '/vet-login'
+      else if (response.type === 'Patient') redirectURL = '/patient-login'
+      clearCookies(res, undefined)
+      return res.status(401).json({ shouldRedirect: true, redirectURL: redirectURL });
     } else {
       const UUID_reference = 'UUID_reference';
       const sql = `SELECT UUID FROM ${UUID_reference} WHERE UUID = ?`;
@@ -53,11 +57,13 @@ export async function JWT_verify (req, res) {
         return res.status(200).json(response);
       } else {
         response.isValid = false;
-        return clearCookies(res, undefined, true)
+        clearCookies(res, undefined)
+        return res.status(400).json({ shouldRedirect: true, redirectURL: '/' })
       }
     }
   } catch(error) {
-    return clearCookies(res, undefined, false)
+    clearCookies(res, undefined)
+    return res.status(401).json()  
   }
 };
 
@@ -127,7 +133,7 @@ export async function login (req, res) {
 
     loginHistory(ID);
 
-    clearCookies(res, login_type, false)
+    clearCookies(res, login_type)
 
     // const expires = new Date(Date.now() + expiration_time *1000)
 
@@ -240,7 +246,7 @@ export async function register (req, res) {
 
   loginHistory(User_ID);
 
-  clearCookies(res, register_type, false)
+  clearCookies(res, register_type)
 
   return res
     .cookie(`${register_type}AccessToken`, token, {
@@ -292,7 +298,8 @@ export async function fetchLoginHistory (req, res) {
     const [results] = await connection.execute(sql, values);
     return res.status(200).json(results);
   } catch(error) {
-    return clearCookies(res, type, true)
+    clearCookies(res, type)
+    return res.status(401).json({ shouldRedirect: true, redirectURL: '/' })
   }
 };
 
@@ -344,7 +351,8 @@ export async function logout (req, res) {
   }
   
   try {
-    return clearCookies(res, type, false, 200)
+    clearCookies(res, type)
+    return res.status(200).json({ shouldRedirect: true, redirectURL: '/' }); 
   } catch(error) {
     return res.status(500).json({ error: `Error in logging ${type} out` });
   }

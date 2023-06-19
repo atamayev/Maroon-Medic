@@ -35,7 +35,8 @@ export async function makeAppointment(req, res) {
     try {
         Patient_ID = await UUID_to_ID(PatientUUID);
     } catch (error) {
-        return clearCookies(res, 'Patient', true)
+        clearCookies(res, 'Patient')
+        return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' }); 
     }
 
     const date_ob = new Date();
@@ -81,8 +82,8 @@ export async function getDoctorCalendarDetails(req, res) {
     try {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
-        clearCookies(res, 'Doctor', true)
-        return
+        clearCookies(res, 'Doctor')
+        return res.status(401).json({ shouldRedirect: true, redirectURL: '/vet-login' }); 
     }
 
     const [Appointments, service_and_category_list, service_mapping, addresses, basic_user_info] = 

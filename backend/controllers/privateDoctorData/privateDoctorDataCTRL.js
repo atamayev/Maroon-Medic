@@ -22,8 +22,8 @@ export async function newDoctor (req, res) {
     try {
         User_ID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
-        clearCookies(res, 'Doctor', true)
-        return res.status(500).json();
+        clearCookies(res, 'Doctor')
+        return res.status(401).json({ shouldRedirect: true, redirectURL: '/vet-login' }); 
     }
 
     const new_doctor_object = req.body.new_doctor_object
@@ -96,7 +96,8 @@ export async function fetchDashboardData (req, res) {
     try {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
-        return clearCookies(res, 'Doctor', true)
+        clearCookies(res, 'Doctor')
+        return res.status(401).json({ shouldRedirect: true, redirectURL: '/vet-login' }); 
     }
 
     const [Appointments, service_and_category_list, addresses, basic_user_info] = 
@@ -147,7 +148,8 @@ export async function fetchPersonalData (req, res) {
     try {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
-        return clearCookies(res, 'Doctor', true)
+        clearCookies(res, 'Doctor')
+        return res.status(401).json({ shouldRedirect: true, redirectURL: '/vet-login' }); 
     }
 
     const basic_user_info = 'basic_user_info';
@@ -220,7 +222,8 @@ export async function fetchAccountDetails (req, res) {
     try {
         DoctorID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
-        return clearCookies(res, 'Doctor', true)
+        clearCookies(res, 'Doctor')
+        return res.status(401).json({ shouldRedirect: true, redirectURL: '/vet-login' }); 
     }
    
     try {

@@ -2,8 +2,10 @@ To-do:
 
 
 ASAP:
+-in the front-end for logout, make it detect shouldRedirect from the back-end
 -make all fcns camelCase
--make a .then redirect for all front-end functions that utilize UUID to ID
+-re-order all imports, make the imports for teh functions/files i made second to the libary imports
+-make a .then redirect for all front-end functions that utilize UUID to ID - also clear session storage when re-directing to login
 -if the UUID isn't found in UUID_to_ID, then delete the current UUID cookie from the user (like deleting the JWT).
 	if there is no UUID recieved, then delete all cookies, and re-direct to login screen.
 	-if no JWT recieved, or if JWT is invalid, also clear all cookies, and re-direct to login screen.
@@ -17,9 +19,11 @@ combine clearCookies, clearCookiesAndRedirect. make the third parameter wheather
 -test registration after the new implementation where all cookies are cleared
 -delete all catches for verify context. handling error inside of verify context
 -change doctor account details/list details to an object instead of a list. this way, don't need to do listDetails[1], can just do listDetails.insurance
+	same for public doctor data
 -when deleting, make all of teh parts of the account details require a delete confirmation. change the X delete button to red. when press delete, should plit into 2 buttons- confirm delete, or nevermind
 -add insurances on the add pets level. (delete insurance mapping table, add insurance ID to the pet_info_table)
-
+-delete fetch doctor insurances from pulic doctor data.
+-put verify context on vet settings page - check all pages that don't have verify context.
 -Include the cost in the finalize booking screen
 
 --change all front-end select month, day, year into a 'date'

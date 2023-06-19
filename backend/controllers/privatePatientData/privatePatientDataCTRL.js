@@ -21,7 +21,8 @@ export async function newPatient (req, res) {
     try {
         User_ID = await UUID_to_ID(PatientUUID);
     } catch (error) {
-        return clearCookies(res, 'Patient', true)
+        clearCookies(res, 'Patient')
+        return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' }); 
     }
     
     const new_patient_object = req.body.new_patient_object
@@ -95,7 +96,8 @@ export async function fetchDashboardData (req, res) {
     try {
         PatientID = await UUID_to_ID(PatientUUID);
     } catch (error) {
-        return clearCookies(res, 'Patient', true)
+        clearCookies(res, 'Patient')
+        return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' }); 
     }
 
     const [Appointments, service_and_category_list, addresses, basic_user_info] = 
@@ -145,7 +147,8 @@ export async function fetchPersonalData (req, res) {
     try {
         PatientID = await UUID_to_ID(PatientUUID);
     } catch (error) {
-        return clearCookies(res, 'Patient', true)
+        clearCookies(res, 'Patient')
+        return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' }); 
     }
     
     const basic_user_info = 'basic_user_info';
@@ -197,7 +200,8 @@ export async function fetchPetData (req, res) {
     try {
         PatientID = await UUID_to_ID(PatientUUID);
     } catch (error) {
-        return clearCookies(res, 'Patient', true)
+        clearCookies(res, 'Patient')
+        return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' }); 
     }
 
     try {
@@ -237,7 +241,8 @@ export async function fetchAccountDetails (req, res) {
     try {
         PatientID = await UUID_to_ID(PatientUUID);
     } catch (error) {
-        return clearCookies(res, 'Patient', true)
+        clearCookies(res, 'Patient')
+        return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' }); 
     }
 
     let response = [];

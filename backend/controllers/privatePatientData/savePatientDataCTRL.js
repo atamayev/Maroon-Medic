@@ -19,7 +19,8 @@ export async function savePersonalData (req, res) {
     try {
         PatientID = await UUID_to_ID(PatientUUID);
     } catch (error) {
-        return clearCookies(res, 'Patient', true)
+        clearCookies(res, 'Patient')
+        return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' }); 
     }
     
     const personalInfo = req.body.personalInfo;
@@ -79,7 +80,8 @@ export async function saveGeneralData (req, res) {
     try {
         PatientID = await UUID_to_ID(PatientUUID);
     } catch (error) {
-        return clearCookies(res, 'Patient', true)
+        clearCookies(res, 'Patient')
+        return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' }); 
     }
 
     const DataType = req.body.DataType
@@ -128,7 +130,8 @@ export async function savePetData (req, res) {
     try {
         PatientID = await UUID_to_ID(PatientUUID);
     } catch (error) {
-        return clearCookies(res, 'Patient', true)
+        clearCookies(res, 'Patient')
+        return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' }); 
     }
 
     const PetData = req.body.PetData
