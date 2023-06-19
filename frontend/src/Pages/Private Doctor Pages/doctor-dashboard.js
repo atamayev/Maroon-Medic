@@ -7,6 +7,7 @@ import Header from '../header.js';
 import { NonDoctorAccess } from '../../Components/user-type-unauth.js';
 import moment from 'moment';
 import _ from "lodash"
+import { invalidUserAction } from '../../Custom Hooks/user-verification-snippets.js';
 
 async function fetchDoctorDashboardData(setDashboardData) {
   try {
@@ -16,6 +17,7 @@ async function fetchDoctorDashboardData(setDashboardData) {
       sessionStorage.setItem("DoctorDashboardData", JSON.stringify(response.data))
     }
   } catch(error) {
+    if (error.response.status === 401) invalidUserAction(error.response.data)
   }
 }
 
@@ -34,7 +36,8 @@ async function approveAppointment (setStatus, AppointmentsID, dashboardData, set
       setStatus('pending');
     }
   } catch(error) {
-    setStatus('pending');
+    if (error.response.status === 401) invalidUserAction(error.response.data)
+    else setStatus('pending');
   }
 };
 
@@ -67,7 +70,6 @@ export default function DoctorDashboard() {
       }
     })
     .catch(error => {
-      console.error(error);
     });
   }, []);
 

@@ -8,6 +8,7 @@ import { VerifyContext } from '../Contexts/VerifyContext.js';
 import { SearchContext } from '../Contexts/SearchContext';
 import logo from '../Images/logo.svg';
 import pic from '../Images/ProfileImage.jpg';
+import { invalidUserAction } from '../Custom Hooks/user-verification-snippets';
 
 const handleKeyUp = (event) => {
   if (event.key === 'Enter') {
@@ -83,7 +84,6 @@ export default function Header (props) {
           }
         })
         .catch(error => {
-          console.error(error);
         });
       }
     }
@@ -95,12 +95,15 @@ export default function Header (props) {
       try {
         response = await PrivateDoctorDataService.fillPersonalData();
       } catch (error) {
+        if (error.response.status === 401) invalidUserAction(error.response.data)
+
       }
      }
      else if (type === 'Patient') {
       try {
         response = await PrivatePatientDataService.fillPersonalData();
       } catch (error) {
+        if (error.response.status === 401) invalidUserAction(error.response.data)
       }
     }
 
@@ -113,7 +116,7 @@ export default function Header (props) {
   const handleLogout = async () => {
     try {
       const response = await AuthDataService.logout();
-      if (response.status === 200) sessionStorage.clear();      
+      if (response.status === 200) sessionStorage.clear();
     } catch(error) {
     }
     handleRefresh();

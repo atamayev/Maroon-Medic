@@ -8,6 +8,7 @@ import { NonPatientAccess } from '../../Components/user-type-unauth.js';
 import moment from 'moment';
 import PatientHeader from './patient-header.js';
 import _ from "lodash"
+import { invalidUserAction } from '../../Custom Hooks/user-verification-snippets.js';
 
 async function fetchPatientDashboardData(setDashboardData) {
   try {
@@ -17,6 +18,7 @@ async function fetchPatientDashboardData(setDashboardData) {
       sessionStorage.setItem("PatientDashboardData", JSON.stringify(response.data))
     }
   } catch(error) {
+    if (error.response.status === 401) invalidUserAction(error.response.data)
   }
 }
 
@@ -48,7 +50,6 @@ export default function PatientDashboard() {
         }
       })
       .catch(error => {
-        console.error(error);
       });
   }, []);
 

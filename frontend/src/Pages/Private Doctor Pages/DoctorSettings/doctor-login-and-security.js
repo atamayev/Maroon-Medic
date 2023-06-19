@@ -6,6 +6,7 @@ import { Card } from 'react-bootstrap';
 import { NonDoctorAccess } from '../../../Components/user-type-unauth';
 import { VerifyContext } from '../../../Contexts/VerifyContext';
 import moment from 'moment';
+import { invalidUserAction } from '../../../Custom Hooks/user-verification-snippets';
 
 async function fetchLoginHistory(setLoginHistory) {
   try {
@@ -18,6 +19,7 @@ async function fetchLoginHistory(setLoginHistory) {
       setLoginHistory(formattedData);
     }
   } catch (error) {
+    if (error.response.status === 401) invalidUserAction(error.response.data)
   }
 }
 
@@ -41,7 +43,6 @@ export default function DoctorLoginAndSecurity() {
       }
     })
     .catch(error => {
-      console.error(error);
     });
   }, []);
 

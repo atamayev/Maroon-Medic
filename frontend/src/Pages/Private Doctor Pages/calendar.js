@@ -8,6 +8,7 @@ import Header from "../header";
 import DoctorHeader from "./doctor-header";
 import CalendarDataService from "../../Services/calendar-data-service";
 import "./calendar.css";
+import { invalidUserAction } from "../../Custom Hooks/user-verification-snippets";
 
 const localizer = momentLocalizer(moment);
 
@@ -59,6 +60,7 @@ export default function DoctorCalendar () {
         setEvents(events);
       }
     } catch(error) {
+      if (error.response.status === 401) invalidUserAction(error.response.data)
     }
   }  
 

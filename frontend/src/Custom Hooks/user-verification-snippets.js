@@ -27,3 +27,11 @@ export const useVerifyForPatients = () => {
             })
     }, [])
 };
+
+
+export const invalidUserAction = (responseData) => {
+    if (responseData.shouldRedirect) {
+        sessionStorage.clear();
+        window.location.href = responseData.redirectURL;
+    }
+}

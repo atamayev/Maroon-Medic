@@ -7,6 +7,7 @@ import Header from '../../header.js';
 import FormGroup from '../../../Components/form-group.js';
 import { NonPatientAccess } from '../../../Components/user-type-unauth.js';
 import { useConfirmationMessage } from '../../../Custom Hooks/useConfirmationMessage.js';
+import { invalidUserAction } from '../../../Custom Hooks/user-verification-snippets.js';
 
 async function fetchPersonalInfoData(setPersonalInfo) {
   try {
@@ -16,6 +17,7 @@ async function fetchPersonalInfoData(setPersonalInfo) {
       sessionStorage.setItem("PatientPersonalInfo", JSON.stringify(response.data))
     }
   } catch(error) {
+    if (error.response.status === 401) invalidUserAction(error.response.data)
   }
 }
 
@@ -24,19 +26,20 @@ const handleSave = async (e, personalInfo, setPersonalInfoConfirmation) => {
   const storedPersonalInfoData = sessionStorage.getItem("PatientPersonalInfo");
   const stringifiedPersonalInfoData = JSON.stringify(personalInfo)
   try {
-      if (stringifiedPersonalInfoData !== storedPersonalInfoData) {// if there is a change, and handlesave is used:
-        try {
-          const response = await PrivatePatientDataService.savePersonalData(personalInfo);
-          if (response.status === 200) {
-              sessionStorage.setItem("PatientPersonalInfo", JSON.stringify(personalInfo));
-              setPersonalInfoConfirmation({messageType: 'saved'});
-          }
-        } catch (error) {
-          setPersonalInfoConfirmation({messageType: 'problem'});
+    if (stringifiedPersonalInfoData !== storedPersonalInfoData) {// if there is a change, and handlesave is used:
+      try {
+        const response = await PrivatePatientDataService.savePersonalData(personalInfo);
+        if (response.status === 200) {
+          sessionStorage.setItem("PatientPersonalInfo", JSON.stringify(personalInfo));
+          setPersonalInfoConfirmation({messageType: 'saved'});
         }
-      } else {
-        setPersonalInfoConfirmation({messageType: 'same'});
+      } catch (error) {
+        if (error.response.status === 401) invalidUserAction(error.response.data)
+        else setPersonalInfoConfirmation({messageType: 'problem'});
       }
+    } else {
+      setPersonalInfoConfirmation({messageType: 'same'});
+    }
   } catch(error) {
     setPersonalInfoConfirmation({messageType: 'problem'});
   }
@@ -83,7 +86,6 @@ export default function PatientPersonalInfo() {
       }
     })
     .catch(error => {
-      console.error(error);
     });
   }, [])
 

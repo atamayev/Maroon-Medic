@@ -5,6 +5,7 @@ import { VerifyContext } from '../../Contexts/VerifyContext.js';
 import NewAccountForm from '../../Components/new-account-form.js';
 import Header from '../header.js';
 import {handleNewUserSubmit} from "../../Custom Hooks/handle-submits.js"
+import { invalidUserAction } from '../../Custom Hooks/user-verification-snippets.js';
 
 export default function NewPatient () {
   const [newPatientInfo, setNewPatientInfo] = useState({});
@@ -18,11 +19,14 @@ export default function NewPatient () {
       .then(result => {
         if (result.verified === true && result.user_type === 'Patient') {
           PrivatePatientDataService.newPatientConfirmation()
-          .then(result => {
-            if (result.data === false) navigate('/patient-register')
-            else if (result.data === true) ;//do nothing
-            else navigate('/patient-register')
-          })
+            .then(result => {
+              if (result.data === false) navigate('/patient-register')
+              else if (result.data === true) ;//do nothing
+              else navigate('/patient-register')
+            })
+            .catch (error => {
+              if (error.response.status === 401) invalidUserAction(error.response.data)
+            })
         }
         else if (result.verified === true && result.user_type === 'Doctor') navigate(`/vet-dashboard`)
         else navigate('/patient-register')

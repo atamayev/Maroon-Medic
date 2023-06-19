@@ -1,4 +1,5 @@
 import PrivatePatientDataService from "../../Services/private-patient-data-service";
+import { invalidUserAction } from "../user-verification-snippets";
 
 export async function addMyPets(petData, setPetData, setPetConfirmation, savedPetData, setSavedPetData, setShowAddPet) {
   let response;
@@ -6,7 +7,8 @@ export async function addMyPets(petData, setPetData, setPetConfirmation, savedPe
   try {
     response = await PrivatePatientDataService.savePetData(petData, 'add')
   } catch(error) {
-    setPetConfirmation({messageType: 'problem'});
+    if (error.response.status === 401) invalidUserAction(error.response.data)
+    else setPetConfirmation({messageType: 'problem'});
   }
 
   if (response.status === 200) {
@@ -28,7 +30,8 @@ export async function deleteMyPets(petID, savedPetData, setSavedPetData, setPetC
   try {
     response = await PrivatePatientDataService.savePetData(petID, 'delete')
   } catch(error) {
-    setPetConfirmation({messageType: 'problem'});
+    if (error.response.status === 401) invalidUserAction(error.response.data)
+    else setPetConfirmation({messageType: 'problem'});
   }
 
   if (response.status === 200) {

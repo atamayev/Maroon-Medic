@@ -7,6 +7,7 @@ import Header from '../../header.js';
 import FormGroup from '../../../Components/form-group.js';
 import { NonDoctorAccess } from '../../../Components/user-type-unauth.js';
 import { useConfirmationMessage } from '../../../Custom Hooks/useConfirmationMessage.js';
+import { invalidUserAction } from '../../../Custom Hooks/user-verification-snippets.js';
 
 async function fetchPersonalInfoData(setPersonalInfo) {
   try {
@@ -16,6 +17,7 @@ async function fetchPersonalInfoData(setPersonalInfo) {
       sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(response.data))
     }
   } catch(error) {
+    if (error.response.status === 401) invalidUserAction(error.response.data)
   }
 }
 
@@ -33,7 +35,8 @@ const handleSave = async (e, personalInfo, setPersonalInfoConfirmation) => {
             setPersonalInfoConfirmation({messageType: 'saved'});
           }
         } catch (error) {
-          setPersonalInfoConfirmation({messageType: 'problem'});
+          if (error.response.status === 401) invalidUserAction(error.response.data)
+          else setPersonalInfoConfirmation({messageType: 'problem'});
         }
     } else {
       setPersonalInfoConfirmation({messageType: 'same'});

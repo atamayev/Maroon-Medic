@@ -6,6 +6,7 @@ import PrivatePatientDataService from '../../../Services/private-patient-data-se
 import { NonPatientAccess } from '../../../Components/user-type-unauth';
 import RenderInsuranceSection from './insurance';
 import RenderLanguageSection from './language';
+import { invalidUserAction } from '../../../Custom Hooks/user-verification-snippets';
 
 async function FillLists(setListDetails) { 
   try {
@@ -15,6 +16,7 @@ async function FillLists(setListDetails) {
       sessionStorage.setItem("ListDetails", JSON.stringify(response.data));
     }
   } catch(error) {
+    if (error.response.status === 401) invalidUserAction(error.response.data)
   }
 }
 
@@ -46,7 +48,6 @@ export default function PatientAccountDetails() {
       }
     })
     .catch(error => {
-      console.error(error);
     });
   }, []);
 
@@ -59,6 +60,7 @@ export default function PatientAccountDetails() {
         sessionStorage.setItem("PatientAccountDetails", JSON.stringify(response.data));
       }
     } catch(error) {
+      if (error.response.status === 401) invalidUserAction(error.response.data)
     }
   }
 

@@ -10,6 +10,7 @@ import AddPet from './AddPet'
 import { useConfirmationMessage } from '../../../Custom Hooks/useConfirmationMessage'
 import { deleteMyPets } from '../../../Custom Hooks/Hooks for My Pets/saveMyPets'
 import _ from "lodash"
+import { invalidUserAction } from '../../../Custom Hooks/user-verification-snippets'
 
 async function fetchPetData(setSavedPetData) {
   try {
@@ -19,6 +20,7 @@ async function fetchPetData(setSavedPetData) {
       sessionStorage.setItem("PatientPetData", JSON.stringify(response.data))
     }
   } catch(error) {
+    if (error.response.status === 401) invalidUserAction(error.response.data)
   }
 }
 
@@ -30,6 +32,7 @@ async function FillPetTypes(setPetTypes) {
       sessionStorage.setItem("PetTypes", JSON.stringify(response.data));
     }
   } catch(error) {
+    if (error.response.status === 401) invalidUserAction(error.response.data)
   }
 }
 
@@ -64,7 +67,6 @@ export default function MyPets() {
       }
     })
     .catch(error => {
-      console.error(error);
     });
   }, []);
 

@@ -1,6 +1,7 @@
 import AuthDataService from "../Services/auth-data-service.js";
 import PrivateDoctorDataService from "../Services/private-doctor-data-service.js";
 import PrivatePatientDataService from "../Services/private-patient-data-service.js";
+import { invalidUserAction } from "./user-verification-snippets.js";
 
 export const handleLoginSubmit = async ({
     e,
@@ -21,14 +22,14 @@ export const handleLoginSubmit = async ({
                     try {
                         bookingDetails = JSON.parse(sessionStorage.getItem('bookingDetails'));
                     } catch (error) {
-                        console.error('Error parsing bookingDetails from sessionStorage', error);
                     }
                     navigate('/finalize-booking', { state: bookingDetails });
                   }
                   else navigate(`/${VetOrPatient.toLowerCase()}-dashboard`)
             } else setError("Login didn't work");
         } catch (error) {
-            setError(error.response.data);
+            if (error.response.status === 401) invalidUserAction(error.response.data)
+            else setError(error.response.data);
         }
         setLoading(false)
 };
@@ -51,7 +52,8 @@ export const handleRegisterSubmit = async ({
             if (response.status === 200) navigate(`/new-${VetOrPatient.toLowerCase()}`)
             else setError("Registration didn't work")
         } catch (error) {
-            setError(error.response.data);
+            if (error.response.status === 401) invalidUserAction(error.response.data)
+            else setError(error.response.data);
         }
         setLoading(false)
 };
@@ -77,14 +79,14 @@ export const handleNewUserSubmit = async ({
                     try {
                         bookingDetails = JSON.parse(sessionStorage.getItem('bookingDetails'));
                     } catch (error) {
-                        console.error('Error parsing bookingDetails from sessionStorage', error);
                     }
                     navigate('/finalize-booking', { state: bookingDetails });
                   }
                   else navigate(`/${VetOrPatient.toLowerCase()}-dashboard`)
             } else setError("newUser didn't work");
-        } catch (err) {
-            setError(err.response.data);
+        } catch (error) {
+            if (error.response.status === 401) invalidUserAction(error.response.data)
+            else setError(error.response.data);
         }
         setLoading(false)
 };

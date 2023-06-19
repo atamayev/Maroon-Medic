@@ -27,8 +27,8 @@ export async function JWT_verify (req, res) {
   };
   let decodedUUID;
 
-  if ("DoctorAccessToken" in cookies) response.type = 'Doctor';
-  else if ("PatientAccessToken" in cookies) response.type = 'Patient';
+  if ("DoctorAccessToken" in cookies && "DoctorUUID" in cookies) response.type = 'Doctor';
+  else if ("PatientAccessToken" in cookies && "PatientUUID" in cookies) response.type = 'Patient';
   else {
     clearCookies(res, undefined)
     return res.status(401).json({ shouldRedirect: true, redirectURL: '/' }); 
@@ -56,14 +56,19 @@ export async function JWT_verify (req, res) {
         response.isValid = true;
         return res.status(200).json(response);
       } else {
-        response.isValid = false;
+        let redirectURL
+        if (response.type === 'Doctor') redirectURL = '/vet-login'
+        else if (response.type === 'Patient') redirectURL = '/patient-login'
         clearCookies(res, undefined)
-        return res.status(400).json({ shouldRedirect: true, redirectURL: '/' })
+        return res.status(401).json({ shouldRedirect: true, redirectURL: redirectURL });
       }
     }
   } catch(error) {
+    let redirectURL
+    if (response.type === 'Doctor') redirectURL = '/vet-login'
+    else if (response.type === 'Patient') redirectURL = '/patient-login'
     clearCookies(res, undefined)
-    return res.status(401).json()  
+    return res.status(401).json({ shouldRedirect: true, redirectURL: redirectURL });
   }
 };
 
@@ -352,7 +357,7 @@ export async function logout (req, res) {
   
   try {
     clearCookies(res, type)
-    return res.status(200).json({ shouldRedirect: true, redirectURL: '/' }); 
+    return res.status(200).json()
   } catch(error) {
     return res.status(500).json({ error: `Error in logging ${type} out` });
   }

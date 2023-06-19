@@ -2,6 +2,7 @@ import { checkIfListsAreEqual, areArraysSame} from "../../lists-and-object-check
 import PrivateDoctorDataService from "../../../Services/private-doctor-data-service";
 import moment from "moment"
 import _ from "lodash"
+import { invalidUserAction } from "../../user-verification-snippets";
 
 export async function saveDoctorLanguages(languageID, spokenLanguages, setLanguagesConfirmation, operationType) {
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
@@ -9,7 +10,8 @@ export async function saveDoctorLanguages(languageID, spokenLanguages, setLangua
   try {
     response = await PrivateDoctorDataService.saveGeneralData(languageID, 'Language', operationType)
   } catch(error) {
-    setLanguagesConfirmation({messageType: 'problem'});
+    if (error.response.status === 401) invalidUserAction(error.response.data)
+    else setLanguagesConfirmation({messageType: 'problem'});
     return
   }
   if (response.status === 200) {
@@ -58,7 +60,8 @@ export async function saveServices(providedServices, setServicesConfirmation) {
         setServicesConfirmation({messageType: 'saved'});
       }
     } catch(error) {
-      setServicesConfirmation({messageType: 'problem'});
+      if (error.response.status === 401) invalidUserAction(error.response.data)
+      else setServicesConfirmation({messageType: 'problem'});
     }
   } else {
     setServicesConfirmation({messageType: 'same'});
@@ -71,7 +74,8 @@ export async function saveSpecialies(specialtyID, doctorSpecialties, setSelected
   try {
     response = await PrivateDoctorDataService.saveGeneralData(specialtyID, 'Specialty', operationType)
   } catch(error) {
-    setSpecialtiesConfirmation({messageType: 'problem'});
+    if (error.response.status === 401) invalidUserAction(error.response.data)
+    else setSpecialtiesConfirmation({messageType: 'problem'});
     return
   }
   if (response.status === 200) {
@@ -99,8 +103,9 @@ export async function savePreVetEducation(preVetEducationObject, preVetEducation
         return
       }
     } catch (error) {
-        setPreVetEducationConfirmation({messageType: 'problem'});
-        return
+      if (error.response.status === 401) invalidUserAction(error.response.data)
+      else setPreVetEducationConfirmation({messageType: 'problem'});
+      return
     }
   } else if (operationType === 'add') {
     const mappedPreVetEducationObject = {
@@ -122,8 +127,9 @@ export async function savePreVetEducation(preVetEducationObject, preVetEducation
         return
       }
     } catch (error) {
-        setPreVetEducationConfirmation({messageType: 'problem'});
-        return
+      if (error.response.status === 401) invalidUserAction(error.response.data)
+      else setPreVetEducationConfirmation({messageType: 'problem'});
+      return
     }
   }
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
@@ -146,8 +152,9 @@ export async function saveVetEducation(vetEducationObject, vetEducation, setVetE
         return
       }
     } catch (error) {
-        setVetEducationConfirmation({messageType: 'problem'});
-        return
+      if (error.response.status === 401) invalidUserAction(error.response.data)
+      else setVetEducationConfirmation({messageType: 'problem'});
+      return
     }
   } else if (operationType === 'add') {
     const mappedVetEducationObject = {
@@ -168,8 +175,9 @@ export async function saveVetEducation(vetEducationObject, vetEducation, setVetE
         return
       }
     } catch (error) {
-        setVetEducationConfirmation({messageType: 'problem'});
-        return
+      if (error.response.status === 401) invalidUserAction(error.response.data)
+      else setVetEducationConfirmation({messageType: 'problem'});
+      return
     }
   }
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
@@ -217,7 +225,8 @@ export async function saveLocation (addresses, setAddresses, setAddressesConfirm
         setAddressesConfirmation({messageType: 'saved'});
       }
     } catch (error) {
-      setAddressesConfirmation({messageType: 'problem'});
+      if (error.response.status === 401) invalidUserAction(error.response.data)
+      else setAddressesConfirmation({messageType: 'problem'});
     }
   } else {
     setAddressesConfirmation({messageType: 'same'});
@@ -253,7 +262,8 @@ export async function saveDescription(description, setDescriptionConfirmation) {
         setDescriptionConfirmation({messageType: 'saved'});
       }
     } catch(error) {
-      setDescriptionConfirmation({messageType: 'problem'});
+      if (error.response.status === 401) invalidUserAction(error.response.data)
+      else setDescriptionConfirmation({messageType: 'problem'});
     }
   } else {
     setDescriptionConfirmation({messageType: 'same'});
@@ -266,7 +276,8 @@ export async function savePets(petID, newServicedPets, setPetsConfirmation, oper
   try {
     response = await PrivateDoctorDataService.saveGeneralData(petID, 'pet', operationType)
   } catch(error) {
-    setPetsConfirmation({messageType: 'problem'});
+    if (error.response.status === 401) invalidUserAction(error.response.data)
+    else setPetsConfirmation({messageType: 'problem'});
     return
   }
   if (response.status === 200) {
@@ -290,6 +301,7 @@ export async function handlePublicAvailibilityToggle (value, setPubliclyAvailabl
       setPubliclyAvailableConfirmation({messageType: 'saved'});
     }
   } catch(error) {
-    setPubliclyAvailableConfirmation({messageType: 'problem'});
+    if (error.response.status === 401) invalidUserAction(error.response.data)
+    else setPubliclyAvailableConfirmation({messageType: 'problem'});
   }
 };

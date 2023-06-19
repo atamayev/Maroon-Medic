@@ -1,6 +1,7 @@
 import { checkIfListsAreEqual} from "../../lists-and-object-checks";
 import PrivatePatientDataService from "../../../Services/private-patient-data-service";
 import _ from "lodash"
+import { invalidUserAction} from "../../user-verification-snippets";
 
 export async function saveInsurances(acceptedInsurances, setInsurancesConfirmation) {
   const PatientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails"));
@@ -33,7 +34,8 @@ export async function saveInsurances(acceptedInsurances, setInsurancesConfirmati
         setInsurancesConfirmation({messageType: 'saved'});
       }
     } catch(error) {
-      setInsurancesConfirmation({messageType: 'problem'});
+      if (error.response.status === 401) invalidUserAction(error.response.data)
+      else setInsurancesConfirmation({messageType: 'problem'});
     }
   } else {
     setInsurancesConfirmation({messageType: 'same'});
@@ -46,7 +48,8 @@ export async function savePatientLanguages(languageID, spokenLanguages, setLangu
   try {
     response = await PrivatePatientDataService.saveGeneralData(languageID, 'Language', operationType)
   } catch(error) {
-    setLanguagesConfirmation({messageType: 'problem'});
+    if (error.response.status === 401) invalidUserAction(error.response.data)
+    else setLanguagesConfirmation({messageType: 'problem'});
     return
   }
   if (response.status === 200) {

@@ -6,6 +6,7 @@ import Header from '../header';
 import { Card, Button } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import CalendarDataService from '../../Services/calendar-data-service';
+import { invalidUserAction } from '../../Custom Hooks/user-verification-snippets';
 
 async function confirmBooking(e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData) {
   e.preventDefault();
@@ -25,6 +26,7 @@ async function confirmBooking(e, navigate, selectedService, selectedLocation, se
       navigate('/patient-dashboard');
     }
   } catch(error) {
+    if (error.response.status === 401) invalidUserAction(error.response.data)
   }
 };
 
@@ -41,7 +43,6 @@ export function FinalizeBookingPage() {
         if (result.verified === true) setUser_type(result.user_type)
       })
       .catch(error => {
-        console.error(error);
       });
   }, []);
 
