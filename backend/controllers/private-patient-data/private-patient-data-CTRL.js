@@ -1,12 +1,12 @@
-import {connection, DB_Operation} from "../../db-and-security-and-helper-functions/connect.js";
-import { UUID_to_ID } from "../../db-and-security-and-helper-functions/UUID.js";
-import FetchPatientAccountData from "../../db-and-security-and-helper-functions/fetch-data/fetch-patient-account-data.js";
-import FetchAllLists from "../../db-and-security-and-helper-functions/fetch-all-lists.js";
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat.js"
-dayjs.extend(customParseFormat); // extend Day.js with the plugin
 import _ from "lodash"
+import dayjs from "dayjs";
+dayjs.extend(customParseFormat); // extend Day.js with the plugin
+import customParseFormat from "dayjs/plugin/customParseFormat.js"
+import { UUID_to_ID } from "../../db-and-security-and-helper-functions/UUID.js";
+import FetchAllLists from "../../db-and-security-and-helper-functions/fetch-all-lists.js";
+import {connection, DB_Operation} from "../../db-and-security-and-helper-functions/connect.js";
 import { clearCookies } from "../../db-and-security-and-helper-functions/cookie-operations.js";
+import FetchPatientAccountData from "../../db-and-security-and-helper-functions/fetch-data/fetch-patient-account-data.js";
 
 /** newPatient registers the inputted user data into basic_Patient_info table
  *  All necessary information is sent via the request (PatientUUID, firname, lastname, etc.)
@@ -205,7 +205,7 @@ export async function fetchPetData (req, res) {
     }
 
     try {
-        const response = await FetchPatientAccountData.FetchPetData(PatientID);
+        const response = await FetchPatientAccountData.fetchPetData(PatientID);
         return res.status(200).json(response);
     } catch(error) {
         return res.status(400).json([]);
@@ -247,8 +247,8 @@ export async function fetchAccountDetails (req, res) {
 
     let response = [];
     try {
-        response.push(await FetchPatientAccountData.FetchPatientInsurances(PatientID));
-        response.push(await FetchPatientAccountData.FetchPatientLanguages(PatientID)); 
+        response.push(await FetchPatientAccountData.fetchPatientInsurances(PatientID));
+        response.push(await FetchPatientAccountData.fetchPatientLanguages(PatientID)); 
         return res.status(200).json(response);
     } catch(error) {
         return res.status(400).json([]);

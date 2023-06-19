@@ -7,8 +7,8 @@ import { connection, DB_Operation } from "../connect.js";
  *  DOCUMENTATION LAST UPDATED 3/16/23
  */
 export default new class FetchPatientAccountData {
-    async FetchPatientInsurances (User_ID) {
-        const functionName = this.FetchPatientInsurances.bind(this).name;
+    async fetchPatientInsurances (User_ID) {
+        const functionName = this.fetchPatientInsurances.bind(this).name;
 
         const [insurance_mapping, insurance_list] = ['insurance_mapping', 'insurance_list'];
 
@@ -27,8 +27,8 @@ export default new class FetchPatientAccountData {
         }
     };
 
-    async FetchPatientLanguages (User_ID) {
-        const functionName = this.FetchPatientLanguages.bind(this).name;
+    async fetchPatientLanguages (User_ID) {
+        const functionName = this.fetchPatientLanguages.bind(this).name;
         const [language_mapping, language_list] = ['language_mapping', 'language_list'];
     
         const sql = `SELECT ${language_list}.Language_name, ${language_list}.language_listID 
@@ -46,8 +46,8 @@ export default new class FetchPatientAccountData {
         }
     };
 
-    async FetchPetData (User_ID) {
-        const functionName = this.FetchPetData.bind(this).name;
+    async fetchPetData (User_ID) {
+        const functionName = this.fetchPetData.bind(this).name;
         const [pet_info, pet_list] = ['pet_info', 'pet_list'];
     
         const sql = `SELECT ${pet_info}.Name, ${pet_info}.Gender, ${pet_info}.DOB, ${pet_list}.Pet, ${pet_list}.Pet_type, ${pet_info}.pet_infoID

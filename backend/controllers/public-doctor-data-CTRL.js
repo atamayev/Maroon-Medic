@@ -1,6 +1,6 @@
+import { DB_Operation, connection } from "../db-and-security-and-helper-functions/connect.js";
 import FetchPublicDoctorData from "../db-and-security-and-helper-functions/fetch-data/fetch-public-doctor-data.js";
 import FetchDoctorAccountData from "../db-and-security-and-helper-functions/fetch-data/fetch-doctor-account-data.js";
-import { DB_Operation, connection } from "../db-and-security-and-helper-functions/connect.js";
 
 /** returnDoctorPageData searches for a particular Doctor's data
  *  Used to fill in doctor screen (particular doctor)
@@ -27,16 +27,16 @@ export async function returnDoctorPageData (req, res) {
    
     let response = [];
     try {
-        response.push(await FetchPublicDoctorData.FetchDoctorInsurances(DoctorID));
-        response.push(await FetchPublicDoctorData.FetchDoctorLanguages(DoctorID));
-        response.push(await FetchDoctorAccountData.FetchDoctorServices(DoctorID));
-        response.push(await FetchPublicDoctorData.FetchDoctorSpecialties(DoctorID));
-        response.push(await FetchDoctorAccountData.FetchPreVetEducation(DoctorID));
-        response.push(await FetchDoctorAccountData.FetchVetEducation(DoctorID));
-        response.push(await FetchPublicDoctorData.FetchDoctorAddressData(DoctorID));
-        response.push(await FetchDoctorAccountData.FetchDescriptionData(DoctorID)); 
-        response.push(await FetchDoctorAccountData.FetchDoctorPictures(DoctorID));
-        response.push(await FetchPublicDoctorData.FetchDoctorPersonalInfo(DoctorID));
+        response.push(await FetchPublicDoctorData.fetchDoctorInsurances(DoctorID));
+        response.push(await FetchPublicDoctorData.fetchDoctorLanguages(DoctorID));
+        response.push(await FetchDoctorAccountData.fetchDoctorServices(DoctorID));
+        response.push(await FetchPublicDoctorData.fetchDoctorSpecialties(DoctorID));
+        response.push(await FetchDoctorAccountData.fetchPreVetEducation(DoctorID));
+        response.push(await FetchDoctorAccountData.fetchVetEducation(DoctorID));
+        response.push(await FetchPublicDoctorData.fetchDoctorAddressData(DoctorID));
+        response.push(await FetchDoctorAccountData.fetchDescriptionData(DoctorID)); 
+        response.push(await FetchDoctorAccountData.fetchDoctorPictures(DoctorID));
+        response.push(await FetchPublicDoctorData.fetchDoctorPersonalInfo(DoctorID));
         response[9]['NVI'] = NVI;
         return res.status(200).json(response);
     } catch(error) {

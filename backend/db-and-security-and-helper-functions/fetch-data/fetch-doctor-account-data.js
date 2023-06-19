@@ -1,5 +1,5 @@
-import {connection, DB_Operation} from "../connect.js"
 import _ from "lodash"
+import {connection, DB_Operation} from "../connect.js"
 
 /** FetchDoctorAccountData is fairly self-explanatory
  *  Here, each Doctor's particular data is fetched from the DB.
@@ -8,8 +8,8 @@ import _ from "lodash"
  *  DOCUMENTATION LAST UPDATED 6/4/23
  */
 export default new class FetchDoctorAccountData {
-    async FetchDoctorLanguages (User_ID) {
-        const functionName = this.FetchDoctorLanguages.bind(this).name;
+    async fetchDoctorLanguages (User_ID) {
+        const functionName = this.fetchDoctorLanguages.bind(this).name;
         const [language_mapping, language_list] = ['language_mapping', 'language_list'];
     
         const sql = `SELECT ${language_list}.Language_name, ${language_list}.language_listID 
@@ -27,8 +27,8 @@ export default new class FetchDoctorAccountData {
         }
     };
 
-    async FetchDoctorServices (Doctor_ID) {
-        const functionName = this.FetchDoctorServices.bind(this).name;
+    async fetchDoctorServices (Doctor_ID) {
+        const functionName = this.fetchDoctorServices.bind(this).name;
 
         const [service_mapping, service_and_category_list] = ['service_mapping', 'service_and_category_list'];
     
@@ -47,8 +47,8 @@ export default new class FetchDoctorAccountData {
         }
     };
 
-    async FetchDoctorSpecialties (Doctor_ID) {
-        const functionName = this.FetchDoctorSpecialties.bind(this).name;
+    async fetchDoctorSpecialties (Doctor_ID) {
+        const functionName = this.fetchDoctorSpecialties.bind(this).name;
 
         const [specialty_mapping, specialties_list] = ['specialty_mapping', 'specialties_list'];
     
@@ -67,8 +67,8 @@ export default new class FetchDoctorAccountData {
         }
     };
     
-    async FetchPreVetEducation (Doctor_ID) {
-        const functionName = this.FetchPreVetEducation.bind(this).name;
+    async fetchPreVetEducation (Doctor_ID) {
+        const functionName = this.fetchPreVetEducation.bind(this).name;
         const [pre_vet_education_mapping, pre_vet_school_list, major_list, pre_vet_education_type_list] = ['pre_vet_education_mapping', 'pre_vet_school_list', 'major_list', 'pre_vet_education_type_list' ];
     
         const sql = `SELECT ${pre_vet_school_list}.School_name, ${major_list}.Major_name, ${pre_vet_education_type_list}.Education_type, ${pre_vet_education_mapping}.Start_Date, ${pre_vet_education_mapping}.End_Date, ${pre_vet_education_mapping}.pre_vet_education_mappingID 
@@ -92,8 +92,8 @@ export default new class FetchDoctorAccountData {
         }
     };
     
-    async FetchVetEducation (Doctor_ID) {
-        const functionName = this.FetchVetEducation.bind(this).name;
+    async fetchVetEducation (Doctor_ID) {
+        const functionName = this.fetchVetEducation.bind(this).name;
 
         const [vet_education_mapping, vet_school_list, vet_education_type_list] = ['vet_education_mapping', 'vet_school_list', 'vet_education_type_list'];
     
@@ -119,8 +119,8 @@ export default new class FetchDoctorAccountData {
         }
     };
     //Fetch Address Data first finds the addresses associated with a Doctor_ID, and then finds all of the times/days of week associated with each address.
-    async FetchDoctorAddressData (Doctor_ID) {
-        const functionName = this.FetchDoctorAddressData.bind(this).name;
+    async fetchDoctorAddressData (Doctor_ID) {
+        const functionName = this.fetchDoctorAddressData.bind(this).name;
 
         const [phone, addresses, booking_availability] =  ['phone', 'addresses', 'booking_availability'];
         
@@ -164,8 +164,8 @@ export default new class FetchDoctorAccountData {
         }
     };
 
-    async FetchDescriptionData (Doctor_ID) {
-        const functionName = this.FetchDescriptionData.bind(this).name;
+    async fetchDescriptionData (Doctor_ID) {
+        const functionName = this.fetchDescriptionData.bind(this).name;
 
         const [descriptions] = ['descriptions'];
     
@@ -188,8 +188,8 @@ export default new class FetchDoctorAccountData {
         }
     };
 
-    async FetchServicedPets (Doctor_ID) {
-        const functionName = this.FetchServicedPets.bind(this).name;
+    async fetchServicedPets (Doctor_ID) {
+        const functionName = this.fetchServicedPets.bind(this).name;
 
         const [pet_mapping, pet_list] = ['pet_mapping', 'pet_list'];
     
@@ -208,8 +208,8 @@ export default new class FetchDoctorAccountData {
         }
     };
   
-    async FetchPubliclyAvailable (Doctor_ID) {
-        const functionName = this.FetchDescriptionData.bind(this).name;
+    async fetchPubliclyAvailable (Doctor_ID) {
+        const functionName = this.fetchDescriptionData.bind(this).name;
 
         const [Doctor_specific_info] = ['Doctor_specific_info'];
     
@@ -229,8 +229,8 @@ export default new class FetchDoctorAccountData {
         }
     };
 
-    async FetchDoctorPictures (Doctor_ID) {
-        const functionName = this.FetchDoctorPictures.bind(this).name;
+    async fetchDoctorPictures (Doctor_ID) {
+        const functionName = this.fetchDoctorPictures.bind(this).name;
 
         const [pictures] = ['pictures'];
     

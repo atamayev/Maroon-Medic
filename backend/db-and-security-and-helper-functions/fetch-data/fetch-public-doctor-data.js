@@ -5,8 +5,8 @@ import { connection, DB_Operation } from "../connect.js";
  * FetchPublicDoctorData fetches all of a specific Doctor's data, concatenating all results as arrays to an array
  */
 export default new class FetchPublicDoctorData {
-    async FetchDoctorInsurances (User_ID) {
-        const functionName = this.FetchDoctorInsurances.bind(this).name;
+    async fetchDoctorInsurances (User_ID) {
+        const functionName = this.fetchDoctorInsurances.bind(this).name;
 
         const [insurance_mapping, insurance_list] = ['insurance_mapping', 'insurance_list'];
     
@@ -26,8 +26,8 @@ export default new class FetchPublicDoctorData {
         }
     };
 
-    async FetchDoctorLanguages (User_ID) {
-        const functionName = this.FetchDoctorLanguages.bind(this).name;
+    async fetchDoctorLanguages (User_ID) {
+        const functionName = this.fetchDoctorLanguages.bind(this).name;
         const [language_mapping, language_list] = ['language_mapping', 'language_list'];
 
         const sql = `SELECT ${language_list}.Language_name 
@@ -46,8 +46,8 @@ export default new class FetchPublicDoctorData {
         }
     };
 
-    async FetchDoctorSpecialties (User_ID) {
-        const functionName = this.FetchDoctorSpecialties.bind(this).name;
+    async fetchDoctorSpecialties (User_ID) {
+        const functionName = this.fetchDoctorSpecialties.bind(this).name;
         const [service_mapping, service_and_category_list] = ['service_mapping', 'service_and_category_list'];
     
         const sql = `SELECT ${service_and_category_list}.Organization_name, ${service_and_category_list}.Specialty_name 
@@ -66,8 +66,8 @@ export default new class FetchPublicDoctorData {
         }
     };
 
-    async FetchDoctorAddressData (DoctorID) {
-        const functionName = this.FetchDoctorAddressData.bind(this).name;
+    async fetchDoctorAddressData (DoctorID) {
+        const functionName = this.fetchDoctorAddressData.bind(this).name;
         const [phone, addresses, booking_availability] =  ['phone', 'addresses', 'booking_availability'];
 
         const sql = `SELECT ${addresses}.addressesID, ${addresses}.address_title, ${addresses}.address_line_1, ${addresses}.address_line_2, 
@@ -102,8 +102,8 @@ export default new class FetchPublicDoctorData {
         return (results);
     };
 
-    async FetchDoctorPersonalInfo (User_ID) {
-        const functionName = this.FetchDoctorPersonalInfo.bind(this).name;
+    async fetchDoctorPersonalInfo (User_ID) {
+        const functionName = this.fetchDoctorPersonalInfo.bind(this).name;
 
         const basic_user_info = 'basic_user_info';
         const sql = `SELECT FirstName, LastName, Gender FROM ${basic_user_info} WHERE User_ID = ?`

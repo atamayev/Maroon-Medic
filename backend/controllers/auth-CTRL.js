@@ -1,15 +1,15 @@
-import {connection, DB_Operation} from "../db-and-security-and-helper-functions/connect.js";
+import dotenv from "dotenv";
+dotenv.config()
+import _ from "lodash"
 import jwt from "jsonwebtoken";
 import dayjs from "dayjs"
 import Hash from "../db-and-security-and-helper-functions/hash.js";
-import dotenv from "dotenv";
 import { ID_to_UUID, UUID_to_ID } from "../db-and-security-and-helper-functions/UUID.js";
-dotenv.config()
+import {connection, DB_Operation} from "../db-and-security-and-helper-functions/connect.js";
 import { loginHistory } from "../db-and-security-and-helper-functions/account-tracker.js";
 import { clearCookies } from "../db-and-security-and-helper-functions/cookie-operations.js";
-import _ from "lodash"
 
-/** JWT_verify verifies the user's token (held in cookie). 
+/** jwtVerify verifies the user's token (held in cookie). 
  *  It does this in two steps. First, it checks if the DoctorAccessToken is valid (verification). If verified, the UUID is extracted from the Access Token. The UUID is then searched in the DB
  *  If the user's UUID is in the UUID_reference table, and the JWT was verified successfully, set isValid to true,
  *  If there is a user's whose credentials match what was verified/queried, set verified to true. Any other case, set verified to false.
@@ -18,7 +18,7 @@ import _ from "lodash"
  * @returns Returns true/false, depending on wheather the cookie is verified, and if the contents of the cookie are valid
  *  DOCUMENTATION LAST UPDATED 3/14/23
  */
-export async function JWT_verify (req, res) {
+export async function jwtVerify (req, res) {
   const cookies = req.cookies;
   let AccessToken;
   let response = {
@@ -49,7 +49,7 @@ export async function JWT_verify (req, res) {
       const UUID_reference = 'UUID_reference';
       const sql = `SELECT UUID FROM ${UUID_reference} WHERE UUID = ?`;
       const values = [decodedUUID];
-      await DB_Operation(JWT_verify.name, UUID_reference)
+      await DB_Operation(jwtVerify.name, UUID_reference)
 
       const [results] = await connection.execute(sql, values)
       if (results.length === 1) {

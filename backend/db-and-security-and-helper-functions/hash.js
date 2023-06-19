@@ -1,6 +1,6 @@
-import { hash as _hash, compare } from 'bcrypt';
 import dotenv from "dotenv"
 dotenv.config()
+import { hash as _hash, compare } from 'bcrypt';
 
 export default new class Hash {
     /** hash_credentials: Async function which hashes the user's password
