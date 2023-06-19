@@ -1,14 +1,14 @@
 import React, {useCallback, useState, useEffect, useContext } from 'react'
 import {Dropdown} from "react-bootstrap";
 import {useLocation} from "react-router-dom";
-import AuthDataService from '../Services/auth-data-service';  
-import PrivatePatientDataService from '../Services/private-patient-data-service';
-import PrivateDoctorDataService from '../Services/private-doctor-data-service'
-import { VerifyContext } from '../Contexts/VerifyContext.js';
-import { SearchContext } from '../Contexts/SearchContext';
-import logo from '../Images/logo.svg';
-import pic from '../Images/ProfileImage.jpg';
-import { invalidUserAction } from '../Custom Hooks/user-verification-snippets';
+import AuthDataService from '../services/auth-data-service';  
+import PrivatePatientDataService from '../services/private-patient-data-service';
+import PrivateDoctorDataService from '../services/private-doctor-data-service'
+import { VerifyContext } from '../contexts/verify-context.js';
+import { SearchContext } from '../contexts/search-context';
+import logo from "../images/logo.svg"
+import pic from '../images/ProfileImage.jpg';
+import { invalidUserAction } from '../custom-hooks/user-verification-snippets';
 
 const handleKeyUp = (event) => {
   if (event.key === 'Enter') {

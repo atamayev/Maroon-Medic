@@ -1,5 +1,5 @@
 import http from "../http-common"
-// this is where all the api calls are coming from
+
 export default new class PrivatePatientDataService {
     async addingPatientInfo(new_patient_object) {
         return await http.post(`private-patient-data/new-patient`, {new_patient_object})

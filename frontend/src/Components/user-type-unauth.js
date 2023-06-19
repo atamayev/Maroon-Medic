@@ -1,6 +1,6 @@
 import {Link} from "react-router-dom";
 import {Button, Card} from 'react-bootstrap';
-import Header from "../Pages/header";
+import Header from "../pages/header";
 
 export function NonDoctorAccess() {
     //for when a Doctor Page is accessed by a non-doctor

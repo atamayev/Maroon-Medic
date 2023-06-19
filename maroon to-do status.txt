@@ -2,15 +2,11 @@ To-do:
 
 
 ASAP:
--make all fcns camelCase, make all file names, folder names kebab case.
-	components, contexts are ThisCase
-	all other functions are camel
+-re-order all imports, make the imports for teh functions/files i made second to the libary imports
+
 -newpatient.js, newdoctor.js needs testing for when error.response.status===401
 move handleSave in patient-personal-info to save patient details.
 change all the .then, .catches inside the useEffects into try, catch blocks, await the function
-
--re-order all imports, make the imports for teh functions/files i made second to the libary imports
-
 
 - look through all select * in the code - only make it select what it needs
 -add to cookie operations file - setting cookies when login, etc.

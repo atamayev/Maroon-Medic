@@ -1,5 +1,5 @@
 import React from 'react';
-import "../CSS/footer.css"
+import "../styles/footer.css"
 import { MDBFooter, MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 
 export default function Footer() {
