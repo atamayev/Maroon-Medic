@@ -2,8 +2,6 @@ To-do:
 
 
 ASAP:
--re-order all imports, make the imports for teh functions/files i made second to the libary imports
-
 -newpatient.js, newdoctor.js needs testing for when error.response.status===401
 move handleSave in patient-personal-info to save patient details.
 change all the .then, .catches inside the useEffects into try, catch blocks, await the function

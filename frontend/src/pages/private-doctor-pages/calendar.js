@@ -1,14 +1,14 @@
+import moment from "moment";
 import React, {useEffect, useState, useContext} from "react";
+import { Calendar, momentLocalizer } from "react-big-calendar";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import "../../styles/calendar.css"
 import { VerifyContext } from "../../contexts/verify-context";
 import { NonDoctorAccess } from "../../components/user-type-unauth";
-import { Calendar, momentLocalizer } from "react-big-calendar";
-import moment from "moment";
-import "react-big-calendar/lib/css/react-big-calendar.css";
+import CalendarDataService from "../../services/calendar-data-service";
+import { invalidUserAction } from "../../custom-hooks/user-verification-snippets";
 import Header from "../header";
 import DoctorHeader from "./doctor-header";
-import CalendarDataService from "../../services/calendar-data-service";
-import "../../styles/calendar.css"
-import { invalidUserAction } from "../../custom-hooks/user-verification-snippets";
 
 const localizer = momentLocalizer(moment);
 

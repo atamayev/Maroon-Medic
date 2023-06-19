@@ -1,14 +1,14 @@
+import _ from "lodash"
+import moment from 'moment';
 import React, {useEffect, useState, useContext} from 'react'
 import {Card, Badge , Tooltip } from 'react-bootstrap';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import PrivatePatientDataService from '../../services/private-patient-data-service.js';
 import { VerifyContext } from '../../contexts/verify-context.js';
-import Header from '../header.js';
 import { NonPatientAccess } from '../../components/user-type-unauth.js';
-import moment from 'moment';
-import PatientHeader from './patient-header.js';
-import _ from "lodash"
 import { invalidUserAction } from '../../custom-hooks/user-verification-snippets.js';
+import PrivatePatientDataService from '../../services/private-patient-data-service.js';
+import Header from '../header.js';
+import PatientHeader from './patient-header.js';
 
 async function fetchPatientDashboardData(setDashboardData) {
   try {

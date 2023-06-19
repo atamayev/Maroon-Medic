@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {useNavigate} from "react-router-dom";
-import PrivateDoctorDataService from "../../services/private-doctor-data-service.js"
 import { VerifyContext } from '../../contexts/verify-context.js';
 import NewAccountForm from '../../components/new-account-form.js';
-import Header from '../header.js';
 import {handleNewUserSubmit} from "../../custom-hooks/handle-submits.js"
+import PrivateDoctorDataService from "../../services/private-doctor-data-service.js"
 import { invalidUserAction } from '../../custom-hooks/user-verification-snippets.js';
+import Header from '../header.js';
 
 export default function NewDoctor () {
   const [newDoctorInfo, setNewDoctorInfo] = useState({});

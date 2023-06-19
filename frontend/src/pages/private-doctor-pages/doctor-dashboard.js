@@ -1,13 +1,13 @@
-import React, {useEffect, useState, useContext} from 'react'
-import {Card, Badge , Button } from 'react-bootstrap';
-import PrivateDoctorDataService from "../../services/private-doctor-data-service.js"
-import { VerifyContext } from '../../contexts/verify-context.js';
-import DoctorHeader from './doctor-header.js';
-import Header from '../header.js';
-import { NonDoctorAccess } from '../../components/user-type-unauth.js';
-import moment from 'moment';
 import _ from "lodash"
+import moment from 'moment';
+import React, {useEffect, useState, useContext} from 'react'
+import { Card, Badge, Button } from 'react-bootstrap';
+import { VerifyContext } from '../../contexts/verify-context.js';
+import { NonDoctorAccess } from '../../components/user-type-unauth.js';
+import PrivateDoctorDataService from "../../services/private-doctor-data-service.js"
 import { invalidUserAction } from '../../custom-hooks/user-verification-snippets.js';
+import Header from '../header.js';
+import DoctorHeader from './doctor-header.js';
 
 async function fetchDoctorDashboardData(setDashboardData) {
   try {

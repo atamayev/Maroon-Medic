@@ -1,9 +1,9 @@
+import _ from "lodash"
+import moment from 'moment';
 import React, { useState, useEffect } from 'react';
 import { Card, Button } from 'react-bootstrap';
-import moment from 'moment';
-import FormGroup from '../../components/form-group';
 import { useNavigate } from "react-router-dom";
-import _ from "lodash"
+import FormGroup from '../../components/form-group';
 
 const handleServiceChange = (event, providedServices, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime) => {
   const value = event.target.value;

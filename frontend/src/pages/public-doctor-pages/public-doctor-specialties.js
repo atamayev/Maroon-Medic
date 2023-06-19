@@ -1,6 +1,6 @@
+import _ from "lodash"
 import React from "react";
 import { Card } from "react-bootstrap";
-import _ from "lodash"
 
 export default function RenderSpecialtiesSection(props) {
     if (!_.isEmpty(props.doctorSpecialties)) {

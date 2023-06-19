@@ -1,12 +1,12 @@
 import React, {useEffect, useState, useContext} from 'react'
 import { VerifyContext } from '../../../contexts/verify-context';
-import PatientHeader from '../patient-header'
-import Header from '../../header';
-import PrivatePatientDataService from '../../../services/private-patient-data-service';
 import { NonPatientAccess } from '../../../components/user-type-unauth';
-import RenderInsuranceSection from './insurance';
-import RenderLanguageSection from './language';
 import { invalidUserAction } from '../../../custom-hooks/user-verification-snippets';
+import PrivatePatientDataService from '../../../services/private-patient-data-service';
+import Header from '../../header';
+import PatientHeader from '../patient-header'
+import RenderLanguageSection from './language';
+import RenderInsuranceSection from './insurance';
 
 async function FillLists(setListDetails) { 
   try {

@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useContext} from 'react';
-import { VerifyContext } from '../../contexts/verify-context';
-import { useLocation } from "react-router-dom";
-import { NonPatientAccess } from '../../components/user-type-unauth';
-import Header from '../header';
 import { Card, Button } from 'react-bootstrap';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { VerifyContext } from '../../contexts/verify-context';
+import { NonPatientAccess } from '../../components/user-type-unauth';
 import CalendarDataService from '../../services/calendar-data-service';
 import { invalidUserAction } from '../../custom-hooks/user-verification-snippets';
+import Header from '../header';
 
 async function confirmBooking(e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData) {
   e.preventDefault();

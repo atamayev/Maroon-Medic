@@ -1,9 +1,9 @@
 import React, {useState} from 'react'
 import {useNavigate} from "react-router-dom";
-import Header from '../header.js';
-import LoginAndRegistrationForm from '../../components/login-and-registration-form.js';
 import {handleRegisterSubmit} from "../../custom-hooks/handle-submits.js"
+import LoginAndRegistrationForm from '../../components/login-and-registration-form.js';
 import { useVerifyForPatients } from '../../custom-hooks/user-verification-snippets.js';
+import Header from '../header.js';
 
 export default function PatietRegister() {
   const type = "Patient"

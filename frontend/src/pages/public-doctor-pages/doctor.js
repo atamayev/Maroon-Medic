@@ -1,19 +1,19 @@
+import _ from "lodash"
 import React, { useState, useEffect} from 'react';
 import {useParams} from "react-router-dom";
 import PublicDoctorDataService from '../../services/public-doctor-data-service.js';
-import RenderInsuranceSection from "./public-doctor-insurances.js"
-import RenderLanguageSection from "./public-doctor-languages.js"
+import RenderBookingSection from './public-doctor-booking.js'
+import RenderReviewsSection from "./public-doctor-reviews.js"
 import RenderServiceSection from "./public-doctor-services.js"
+import RenderLanguageSection from "./public-doctor-languages.js"
+import RenderLocationsSection from "./public-doctor-locations.js"
 import RenderEducationSection from "./public-doctor-education.js"
+import RenderInsuranceSection from "./public-doctor-insurances.js"
 import RenderSpecialtiesSection from "./public-doctor-specialties.js"
 import RenderPersonalInfoSection from "./public-doctor-personal-info.js"
-import RenderReviewsSection from "./public-doctor-reviews.js"
-import RenderLocationsSection from "./public-doctor-locations.js"
-import RenderBookingSection from './public-doctor-booking.js';
 import RenderDescriptionSection from './public-doctor-description.js';
-import "./card.css"
-import _ from "lodash"
 import Header from '../header.js';
+import "./card.css"
 
 export default function Doctor () {
   let { id } = useParams(); //the id of the current site (which doctorData) --> used to set User

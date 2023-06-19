@@ -1,16 +1,16 @@
+import _ from "lodash"
+import moment from 'moment'
 import React, { useState, useEffect, useContext } from 'react'
 import { Card, Button, Modal  } from 'react-bootstrap'
-import PrivatePatientDataService from '../../../services/private-patient-data-service'
 import { VerifyContext } from '../../../contexts/verify-context'
 import { NonPatientAccess } from '../../../components/user-type-unauth'
-import moment from 'moment'
-import PatientHeader from '../patient-header'
-import Header from '../../header'
-import AddPet from './add-pet'
-import { useConfirmationMessage } from '../../../custom-hooks/use-confirmation-message'
 import { deleteMyPets } from '../../../custom-hooks/my-pets-hooks/save-my-pets'
-import _ from "lodash"
 import { invalidUserAction } from '../../../custom-hooks/user-verification-snippets'
+import PrivatePatientDataService from '../../../services/private-patient-data-service'
+import { useConfirmationMessage } from '../../../custom-hooks/use-confirmation-message'
+import Header from '../../header'
+import PatientHeader from '../patient-header'
+import AddPet from './add-pet'
 
 async function fetchPetData(setSavedPetData) {
   try {

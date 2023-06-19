@@ -1,13 +1,13 @@
 import React, {useCallback, useState, useEffect, useContext } from 'react'
 import {Dropdown} from "react-bootstrap";
 import {useLocation} from "react-router-dom";
-import AuthDataService from '../services/auth-data-service';  
-import PrivatePatientDataService from '../services/private-patient-data-service';
-import PrivateDoctorDataService from '../services/private-doctor-data-service'
-import { VerifyContext } from '../contexts/verify-context.js';
-import { SearchContext } from '../contexts/search-context';
 import logo from "../images/logo.svg"
 import pic from '../images/ProfileImage.jpg';
+import { SearchContext } from '../contexts/search-context';
+import AuthDataService from '../services/auth-data-service';  
+import { VerifyContext } from '../contexts/verify-context.js';
+import PrivatePatientDataService from '../services/private-patient-data-service';
+import PrivateDoctorDataService from '../services/private-doctor-data-service'
 import { invalidUserAction } from '../custom-hooks/user-verification-snippets';
 
 const handleKeyUp = (event) => {

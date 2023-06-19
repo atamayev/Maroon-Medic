@@ -1,8 +1,8 @@
 import React from 'react'
-import DoctorHeader from '../doctor-header.js';
 import { CardGroup } from 'react-bootstrap'
 import SettingsLinks from '../../../components/settings-links.js';
 import Header from '../../header.js';
+import DoctorHeader from '../doctor-header.js';
 
 export default function DoctorSettingsCards() {
   return (

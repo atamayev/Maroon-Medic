@@ -1,6 +1,6 @@
-import { VerifyContext } from "../contexts/verify-context";
 import {useContext, useEffect} from 'react'
 import {useNavigate} from "react-router-dom";
+import { VerifyContext } from "../contexts/verify-context";
 
 export const useVerifyForVets = () => {
     const {user_verification} = useContext(VerifyContext);

@@ -1,8 +1,8 @@
 import React from 'react'
-import PatientHeader from '../patient-header'
-import Header from '../../header'
 import { CardGroup } from 'react-bootstrap'
 import SettingsLinks from '../../../components/settings-links';
+import Header from '../../header'
+import PatientHeader from '../patient-header'
 
 export default function PatientSettings() {
   return (

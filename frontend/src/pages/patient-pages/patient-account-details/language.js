@@ -2,8 +2,8 @@ import _ from "lodash"
 import React from "react";
 import { Card, Button} from "react-bootstrap";
 import { handleAddLanguage } from "../../../custom-hooks/account-details-hooks/add";
-import { handleDeleteLanguage } from "../../../custom-hooks/account-details-hooks/delete";
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
+import { handleDeleteLanguage } from "../../../custom-hooks/account-details-hooks/delete";
 
 export default function RenderLanguageSection(props) {
   return(

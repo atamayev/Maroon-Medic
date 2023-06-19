@@ -1,9 +1,11 @@
+import _ from "lodash"
 import React, {useEffect, useContext, useState} from 'react'
 import { VerifyContext } from '../../../contexts/verify-context.js';
-import DoctorHeader from '../doctor-header.js';
-import PrivateDoctorDataService from '../../../services/private-doctor-data-service.js';
-import Header from '../../header.js';
 import { NonDoctorAccess } from '../../../components/user-type-unauth.js';
+import PrivateDoctorDataService from '../../../services/private-doctor-data-service.js';
+import { invalidUserAction } from '../../../custom-hooks/user-verification-snippets.js';
+import Header from '../../header.js';
+import DoctorHeader from '../doctor-header.js';
 import RenderPreVetEducationSection from './pre-vet-education.js';
 import RenderVetEducationSection from './vet-education.js';
 import RenderDescriptionSection from './description.js';
@@ -15,8 +17,6 @@ import RenderServiceSection from './service.js';
 import RenderLocationSection from './location.js';
 import RenderSpecialtySection from './specialty.js';
 import RenderPetsSection from './pets.js';
-import _ from "lodash"
-import { invalidUserAction } from '../../../custom-hooks/user-verification-snippets.js';
 
 async function FillLists(setListDetails) { 
   try {

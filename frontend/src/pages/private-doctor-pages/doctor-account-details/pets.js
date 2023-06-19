@@ -1,9 +1,9 @@
 import _ from "lodash"
 import React from "react";
 import { Card, Button} from "react-bootstrap";
-import { savePets } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details";
-import { handleTogglePetType } from "../../../custom-hooks/account-details-hooks/select";
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
+import { handleTogglePetType } from "../../../custom-hooks/account-details-hooks/select";
+import { savePets } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details";
 
 export default function RenderPetsSection (props) {
   return(

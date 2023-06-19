@@ -1,13 +1,13 @@
 import React, {useState, useEffect, useContext} from 'react'
 import {Card, Button, Form } from 'react-bootstrap'
-import PatientHeader from '../patient-header.js';
-import PrivatePatientDataService from '../../../services/private-patient-data-service.js';
-import { VerifyContext } from '../../../contexts/verify-context.js';
-import Header from '../../header.js';
 import FormGroup from '../../../components/form-group.js';
+import { VerifyContext } from '../../../contexts/verify-context.js';
 import { NonPatientAccess } from '../../../components/user-type-unauth.js';
+import PrivatePatientDataService from '../../../services/private-patient-data-service.js';
 import { useConfirmationMessage } from '../../../custom-hooks/use-confirmation-message.js';
 import { invalidUserAction } from '../../../custom-hooks/user-verification-snippets.js';
+import Header from '../../header.js';
+import PatientHeader from '../patient-header.js';
 
 async function fetchPersonalInfoData(setPersonalInfo) {
   try {

@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, ToggleButton, ToggleButtonGroup, Button} from "react-bootstrap";
-import { handlePublicAvailibilityToggle } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details";
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
+import { handlePublicAvailibilityToggle } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details";
 
 export default function RenderVerificationAndPublicStatusSection (props) {
   return(

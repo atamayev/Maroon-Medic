@@ -1,5 +1,5 @@
-import React from "react";
 import _ from "lodash"
+import React from "react";
 
 export default function RenderPersonalInfoSection(props) {
     if (props.personalData || props.description) return <h3> {RenderPersonalInfo(props.personalData)} </h3>

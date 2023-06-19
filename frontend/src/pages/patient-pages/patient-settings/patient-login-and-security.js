@@ -1,12 +1,12 @@
+import moment from 'moment';
 import React, {useEffect, useState, useContext} from 'react'
+import { Card } from 'react-bootstrap';
+import { VerifyContext } from '../../../contexts/verify-context';
+import AuthDataService from '../../../services/auth-data-service';
+import { NonPatientAccess } from '../../../components/user-type-unauth';
+import { invalidUserAction } from '../../../custom-hooks/user-verification-snippets';
 import Header from '../../header';
 import PatientHeader from '../patient-header.js';
-import AuthDataService from '../../../services/auth-data-service';
-import { Card } from 'react-bootstrap';
-import { NonPatientAccess } from '../../../components/user-type-unauth';
-import { VerifyContext } from '../../../contexts/verify-context';
-import moment from 'moment';
-import { invalidUserAction } from '../../../custom-hooks/user-verification-snippets';
 
 async function fetchLoginHistory(setLoginHistory) {
   try {

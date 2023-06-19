@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from "react";
 import {Card, Accordion, Form, Button, Container, Row, Col} from 'react-bootstrap';
-import FormGroup from "../../../components/form-group";
-// import { handleDeleteAccordion } from "../../../Custom Hooks/Hooks for Account Details/delete";
-import { handleAddAccordion } from "../../../custom-hooks/account-details-hooks/add";
-import { saveLocation } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details";
 import Toggle from 'react-toggle'
-import TimePicker from 'react-time-picker'
 import "react-toggle/style.css"
 import "../../../styles/location.css"
+import TimePicker from 'react-time-picker'
+import FormGroup from "../../../components/form-group";
+import { handleAddAccordion } from "../../../custom-hooks/account-details-hooks/add";
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
+// import { handleDeleteAccordion } from "../../../Custom Hooks/Hooks for Account Details/delete";
+import { saveLocation } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details";
 
 export default function RenderLocationSection(props) {
   return(

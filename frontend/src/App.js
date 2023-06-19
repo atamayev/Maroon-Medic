@@ -1,7 +1,6 @@
 import React from 'react';
 import {Routes, Route} from 'react-router-dom'
 import {Container} from 'react-bootstrap';
-import "./styles/footer.css"
 //Publicly accessible:
 import HomeDoctorsList from "./pages/home-doctors-list"
 import SpecificDoctorsList from "./pages/specific-doctors-list"

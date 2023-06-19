@@ -1,8 +1,8 @@
 import _ from "lodash"
 import moment from "moment"
 import PrivateDoctorDataService from "../../services/private-doctor-data-service";
-import { checkIfListsAreEqual, areArraysSame} from "../lists-and-object-checks";
 import { invalidUserAction } from "../user-verification-snippets";
+import { checkIfListsAreEqual, areArraysSame} from "../lists-and-object-checks";
 
 export async function saveDoctorLanguages(languageID, spokenLanguages, setLanguagesConfirmation, operationType) {
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
