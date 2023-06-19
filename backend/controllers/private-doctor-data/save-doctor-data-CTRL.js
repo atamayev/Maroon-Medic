@@ -28,7 +28,7 @@ export async function savePersonalData (req, res) {
     const personalInfo = req.body.personalInfo;
 
     const basic_user_info = 'basic_user_info';
-    const sql = `SELECT * FROM  ${basic_user_info} WHERE User_ID = ?`
+    const sql = `SELECT basic_user_infoID FROM  ${basic_user_info} WHERE User_ID = ?`
     const values = [DoctorID];
     let results;
     //this is upsert:
@@ -90,7 +90,7 @@ export async function saveDescriptionData (req, res) {
     const description = req.body.Description;
     const descriptions = 'descriptions';
 
-    const sql = `SELECT * FROM  ${descriptions} WHERE Doctor_ID = ?`;
+    const sql = `SELECT descriptionsID FROM  ${descriptions} WHERE Doctor_ID = ?`;
     const values = [DoctorID];
     let results;
     
@@ -202,7 +202,7 @@ export async function saveServicesData (req, res) {
     
     const service_mapping = `service_mapping`;
 
-    const sql = `SELECT * FROM  ${service_mapping} WHERE Doctor_ID = ?`
+    const sql = `SELECT Service_and_Category_ID FROM  ${service_mapping} WHERE Doctor_ID = ?`
     const values = [DoctorID];
     let results;
 
@@ -365,12 +365,12 @@ export async function saveAddressData (req, res) {
         clearCookies(res, 'Doctor')
         return res.status(401).json({ shouldRedirect: true, redirectURL: '/vet-login' }); 
     }
-    
+
     const AddressData = req.body.AddressData;
     const TimesData = req.body.Times;
     const [addresses, phone, booking_availability] = ['addresses', 'phone', 'booking_availability'];
 
-    const sql = `SELECT * FROM ${addresses} WHERE ${addresses}.isActive = 1 AND ${addresses}.Doctor_ID = ?`;
+    const sql = `SELECT addressesID FROM ${addresses} WHERE ${addresses}.isActive = 1 AND ${addresses}.Doctor_ID = ?`;
     const values = [DoctorID];
     let Address_results;
 
@@ -458,7 +458,7 @@ export async function saveAddressData (req, res) {
                     return res.status(400).json();
                 }
 
-                const sql2 = `SELECT * FROM ${phone} where address_ID = ?`;
+                const sql2 = `SELECT phone_numbersID FROM ${phone} where address_ID = ?`;
                 const values2 = [updatedData[i].addressesID];
                 let results;
 
@@ -493,15 +493,15 @@ export async function saveAddressData (req, res) {
         if (!_.isEmpty(returnedData)) {
             // go into each element of the returnedData array.
             //for for the ith element in returnedData, find the corresponding times objects in TimesData (will be the ith element in the TimesData array)
-            //compare each of the objects in that TimesData element to all of the data that a select * for that 
-            //Select * from timedata table where addressID=returnedData[i].AddressID.
+            //compare each of the objects in that TimesData element to all of the data that a select Day_of_week, Start_time, End_time for that 
+            //Select Day_of_week, Start_time, End_time from timedata table where addressID=returnedData[i].AddressID.
             //see which data is new, and which data is deleted. will be re-declaring addedTimeData, deletedTimeData inside of a loop (that iterates over all the address_IDs)
             //the addedData/deletedData will act inside of a loop, length of addedTimeDAta/deletedTimeData
             for(let i = 0; i<returnedData.length; i++) {
                 const returnedDataData = returnedData[i];
                 const corespondingTimeData = TimesData[i];
 
-                const sql = `SELECT * FROM ${booking_availability} WHERE ${booking_availability}.address_ID = ? AND ${booking_availability}.Doctor_ID = ?`;
+                const sql = `SELECT Day_of_week, Start_time, End_time FROM ${booking_availability} WHERE ${booking_availability}.address_ID = ? AND ${booking_availability}.Doctor_ID = ?`;
                 const values = [returnedDataData.addressesID, DoctorID];
                 let timeDataResults;
 

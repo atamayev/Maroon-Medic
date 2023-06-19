@@ -26,7 +26,7 @@ export async function savePersonalData (req, res) {
     const personalInfo = req.body.personalInfo;
 
     const basic_user_info = 'basic_user_info';
-    const sql = `SELECT * FROM  ${basic_user_info} WHERE User_ID = ?`
+    const sql = `SELECT basic_user_infoID FROM  ${basic_user_info} WHERE User_ID = ?`
     const values = [PatientID];
     let results;
     

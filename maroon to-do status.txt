@@ -6,7 +6,6 @@ ASAP:
 move handleSave in patient-personal-info to save patient details.
 change all the .then, .catches inside the useEffects into try, catch blocks, await the function
 
-- look through all select * in the code - only make it select what it needs
 -add to cookie operations file - setting cookies when login, etc.
 -site crashes when go to a public doctor page
 -test registration after the new implementation where all cookies are cleared

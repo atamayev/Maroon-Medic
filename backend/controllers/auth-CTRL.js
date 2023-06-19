@@ -92,7 +92,7 @@ export async function login (req, res) {
   
   if (login_type !== 'Doctor' && login_type !== 'Patient') return res.json('Invalid User Type'); // If Type not Doctor or Patient
 
-  const sql = `SELECT * FROM ${Credentials} WHERE email = ? AND User_type = ?`;
+  const sql = `SELECT UserID, password FROM ${Credentials} WHERE email = ? AND User_type = ?`;
   const values = [email, login_type];
   
   await DB_Operation(login.name, Credentials)
@@ -181,7 +181,7 @@ export async function register (req, res) {
 
   if (register_type !== 'Doctor' && register_type !== 'Patient') return res.status(400).json('Invalid User Type'); // If Type not Doctor or Patient
 
-  const sql = `SELECT * FROM ${Credentials} WHERE email = ? AND User_type = ? `;
+  const sql = `SELECT UserID FROM ${Credentials} WHERE email = ? AND User_type = ? `;
   const values = [email, register_type];
 
   await DB_Operation(register.name, Credentials)
@@ -189,7 +189,6 @@ export async function register (req, res) {
   let results;
   try {
     [results] = await connection.execute(sql, values)
-    if (!_.isEmpty(results)) return res.status(400).json("User already exists!");
   } catch(error) {
     return res.status(500).json({ error: 'Problem with existing email search' });
   }
@@ -201,7 +200,7 @@ export async function register (req, res) {
     } catch(error) {
       return res.status(500).json({ error: 'Problem with Password Hashing' });
     }
-  }
+  } else return res.status(400).json("User already exists!");
 
   const date_ob = new Date();
   const format = "YYYY-MM-DD HH:mm:ss"
