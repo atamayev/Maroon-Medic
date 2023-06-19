@@ -1,12 +1,12 @@
-import {connection, DB_Operation} from "../dbAndSecurityAndHelperFunctions/connect.js";
+import {connection, DB_Operation} from "../db-and-security-and-helper-functions/connect.js";
 import jwt from "jsonwebtoken";
 import dayjs from "dayjs"
-import Hash from "../dbAndSecurityAndHelperFunctions/hash.js";
+import Hash from "../db-and-security-and-helper-functions/hash.js";
 import dotenv from "dotenv";
-import { ID_to_UUID, UUID_to_ID } from "../dbAndSecurityAndHelperFunctions/UUID.js";
+import { ID_to_UUID, UUID_to_ID } from "../db-and-security-and-helper-functions/UUID.js";
 dotenv.config()
-import { loginHistory } from "../dbAndSecurityAndHelperFunctions/accountTracker.js";
-import { clearCookies } from "../dbAndSecurityAndHelperFunctions/cookieOperations.js";
+import { loginHistory } from "../db-and-security-and-helper-functions/account-tracker.js";
+import { clearCookies } from "../db-and-security-and-helper-functions/cookie-operations.js";
 import _ from "lodash"
 
 /** JWT_verify verifies the user's token (held in cookie). 

@@ -2,11 +2,13 @@ To-do:
 
 
 ASAP:
+-make all fcns camelCase, make all file names, folder names kebab case.
+	components, contexts are ThisCase
+	all other functions are camel
 -newpatient.js, newdoctor.js needs testing for when error.response.status===401
 move handleSave in patient-personal-info to save patient details.
 change all the .then, .catches inside the useEffects into try, catch blocks, await the function
--in the front-end for logout, make it detect shouldRedirect from the back-end
--make all fcns camelCase, make all file names kebab case
+
 -re-order all imports, make the imports for teh functions/files i made second to the libary imports
 
 

@@ -6,7 +6,7 @@ import {
     JWT_verify,
     fetchLoginHistory,
 
-} from "../controllers/authCTRL.js";
+} from "../controllers/auth-CTRL.js";
 
 const router = express.Router()
 

@@ -2,14 +2,14 @@ import dotenv from "dotenv"
 import express from "express"
 import cors from "cors"
 import cookieParser from "cookie-parser";
-import { connection } from "./dbAndSecurityAndHelperFunctions/connect.js";
+import { connection } from "./db-and-security-and-helper-functions/connect.js";
 //ROUTES:
-import authRoutes from "./routes/authROUTES.js";
-import privateDoctorDataRoutes from "./routes/privateDoctorDataROUTES.js";
-import privatePatientDataRoutes from "./routes/privatePatientDataROUTES.js"
-import publicDoctorDataRoutes from "./routes/publicDoctorDataROUTES.js";
-import searchRoutes from "./routes/searchROUTES.js";
-import calendarRoutes from "./routes/calendarROUTES.js"
+import authRoutes from "./routes/auth-ROUTES.js";
+import privateDoctorDataRoutes from "./routes/private-doctor-data-ROUTES.js";
+import privatePatientDataRoutes from "./routes/private-patient-data-ROUTES.js"
+import publicDoctorDataRoutes from "./routes/public-doctor-data-ROUTES.js";
+import searchRoutes from "./routes/search-ROUTES.js";
+import calendarRoutes from "./routes/calendar-ROUTES.js"
 
 dotenv.config()
 

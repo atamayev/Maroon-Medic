@@ -1,10 +1,10 @@
-import {connection, DB_Operation} from "../../dbAndSecurityAndHelperFunctions/connect.js"
 import _ from "lodash"
+import { connection, DB_Operation } from "../connect.js";
 
 /**
  * FetchPublicDoctorData fetches all of a specific Doctor's data, concatenating all results as arrays to an array
  */
-export default new class FetchPublicDoctorData{
+export default new class FetchPublicDoctorData {
     async FetchDoctorInsurances (User_ID) {
         const functionName = this.FetchDoctorInsurances.bind(this).name;
 

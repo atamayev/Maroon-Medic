@@ -2,7 +2,7 @@ import express from "express";
 import { 
     getDoctorCalendarDetails,
     makeAppointment
-} from "../controllers/calendarCTRL.js";
+} from "../controllers/calendar-CTRL.js";
 
 const router = express.Router()
 

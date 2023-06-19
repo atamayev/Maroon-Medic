@@ -7,7 +7,7 @@ import {
     fetchAccountDetails,
     fetchDoctorLists,
     confirmAppointment
-}from "../controllers/privateDoctorData/privateDoctorDataCTRL.js";
+}from "../controllers/private-doctor-data/private-doctor-data-CTRL.js";
 import{
     savePersonalData, 
     saveDescriptionData,
@@ -16,7 +16,7 @@ import{
     saveEducationData,
     saveServicesData,
     saveAddressData
-}from "../controllers/privateDoctorData/saveDoctorDataCTRL.js";
+}from "../controllers/private-doctor-data/save-doctor-data-CTRL.js";
 
 const router = express.Router()
 

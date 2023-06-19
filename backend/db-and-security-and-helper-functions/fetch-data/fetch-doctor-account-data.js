@@ -1,4 +1,4 @@
-import {connection, DB_Operation} from "../../dbAndSecurityAndHelperFunctions/connect.js"
+import {connection, DB_Operation} from "../connect.js"
 import _ from "lodash"
 
 /** FetchDoctorAccountData is fairly self-explanatory

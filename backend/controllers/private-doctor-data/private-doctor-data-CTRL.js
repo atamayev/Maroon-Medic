@@ -1,12 +1,12 @@
-import {connection, DB_Operation} from "../../dbAndSecurityAndHelperFunctions/connect.js";
-import { UUID_to_ID } from "../../dbAndSecurityAndHelperFunctions/UUID.js";
-import FetchDoctorAccountData from "./fetchDoctorAccountData.js";
-import FetchAllLists from "../../dbAndSecurityAndHelperFunctions/fetchAllLists.js";
+import {connection, DB_Operation} from "../../db-and-security-and-helper-functions/connect.js";
+import { UUID_to_ID } from "../../db-and-security-and-helper-functions/UUID.js";
+import FetchDoctorAccountData from "../../db-and-security-and-helper-functions/fetch-data/fetch-doctor-account-data.js";
+import FetchAllLists from "../../db-and-security-and-helper-functions/fetch-all-lists.js";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat.js"
 dayjs.extend(customParseFormat); // extend Day.js with the plugin
 import _ from "lodash"
-import { clearCookies } from "../../dbAndSecurityAndHelperFunctions/cookieOperations.js";
+import { clearCookies } from "../../db-and-security-and-helper-functions/cookie-operations.js";
 
 /** newDoctor registers the inputted user data into basic_Doctor_info table
  *  All necessary information is sent via the request (DoctorUUID, firname, lastname, etc.)

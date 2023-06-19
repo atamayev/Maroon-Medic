@@ -8,12 +8,12 @@ import {
     fetchPatientLists,
     fetchPetData,
     fetchPetTypes,
-} from "../controllers/privatePatientData/privatePatientDataCTRL.js";
+} from "../controllers/private-patient-data/private-patient-data-CTRL.js";
 import {
     savePersonalData,
     saveGeneralData,
     savePetData,
-} from "../controllers/privatePatientData/savePatientDataCTRL.js";
+} from "../controllers/private-patient-data/save-patient-data-CTRL.js";
 
 const router = express.Router()
 

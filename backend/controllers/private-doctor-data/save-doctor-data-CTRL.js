@@ -1,10 +1,10 @@
-import { connection, DB_Operation } from "../../dbAndSecurityAndHelperFunctions/connect.js";
-import { getUnchangedAddressRecords, getUpdatedAddressRecords } from "../../dbAndSecurityAndHelperFunctions/addressOperations.js";
-import { UUID_to_ID } from "../../dbAndSecurityAndHelperFunctions/UUID.js";
+import { connection, DB_Operation } from "../../db-and-security-and-helper-functions/connect.js";
+import { getUnchangedAddressRecords, getUpdatedAddressRecords } from "../../db-and-security-and-helper-functions/address-operations.js";
+import { UUID_to_ID } from "../../db-and-security-and-helper-functions/UUID.js";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat.js"
 import _ from "lodash"
-import { clearCookies } from "../../dbAndSecurityAndHelperFunctions/cookieOperations.js";
+import { clearCookies } from "../../db-and-security-and-helper-functions/cookie-operations.js";
 
 /** savePersonalData is self-explanatory in name
  *  First, converts from UUID to ID. Then, checks if any records exist in basic_doctor_info.

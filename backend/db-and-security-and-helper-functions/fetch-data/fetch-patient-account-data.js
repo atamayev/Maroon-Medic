@@ -1,4 +1,4 @@
-import {connection, DB_Operation} from "../../dbAndSecurityAndHelperFunctions/connect.js"
+import { connection, DB_Operation } from "../connect.js";
 
 /** FetchPatientAccountData is fairly self-explanatory
  *  Here, each Patient's particular data is fetched from the DB.

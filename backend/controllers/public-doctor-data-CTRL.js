@@ -1,6 +1,6 @@
-import FetchPublicDoctorData from "./fetchPublicDoctorData.js";
-import FetchDoctorAccountData from "../privateDoctorData/fetchDoctorAccountData.js";
-import { DB_Operation, connection } from "../../dbAndSecurityAndHelperFunctions/connect.js";
+import FetchPublicDoctorData from "../db-and-security-and-helper-functions/fetch-data/fetch-public-doctor-data.js";
+import FetchDoctorAccountData from "../db-and-security-and-helper-functions/fetch-data/fetch-doctor-account-data.js";
+import { DB_Operation, connection } from "../db-and-security-and-helper-functions/connect.js";
 
 /** returnDoctorPageData searches for a particular Doctor's data
  *  Used to fill in doctor screen (particular doctor)
