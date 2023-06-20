@@ -28,22 +28,22 @@ export default function PatientLoginAndSecurity() {
   const [user_type, setUser_type] = useState(null);
   const [loginHistory, setLoginHistory] = useState([]);
 
-  useEffect(() => {
-    user_verification()
-      .then(result => {
-        if (result.verified === true) {
-          setUser_type(result.user_type)
-          if (result.user_type === 'Patient') {
-            try {
-              setUser_type('Patient')
-              fetchLoginHistory(setLoginHistory);
-            } catch(error) {
-            }
-          }
+  const verifyAndSetLoginHistory = async () => {
+    const result = await user_verification();
+    if (result.verified === true) {
+      setUser_type(result.user_type)
+      if (result.user_type === 'Patient') {
+        try {
+          setUser_type('Patient')
+          fetchLoginHistory(setLoginHistory);
+        } catch(error) {
         }
-      })
-      .catch(error => {
-      });
+      }
+    }
+  };
+
+  useEffect(() => {
+    verifyAndSetLoginHistory();
   }, []);
 
   if (user_type !== 'Patient') return <NonPatientAccess/>

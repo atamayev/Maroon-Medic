@@ -2,9 +2,9 @@ To-do:
 
 
 ASAP:
+-consider making the Login History for both patients + docs into one file
 -newpatient.js, newdoctor.js needs testing for when error.response.status===401
 move handleSave in patient-personal-info to save patient details.
-change all the .then, .catches inside the useEffects into try, catch blocks, await the function
 
 -add to cookie operations file - setting cookies when login, etc.
 -site crashes when go to a public doctor page

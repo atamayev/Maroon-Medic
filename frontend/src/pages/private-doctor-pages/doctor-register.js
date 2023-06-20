@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {useNavigate} from "react-router-dom";
 import {handleRegisterSubmit} from "../../custom-hooks/handle-submits.js"
-import { useVerifyForVets } from '../../custom-hooks/user-verification-snippets.js';
+import { useConfirmNotLoggedIn } from '../../custom-hooks/user-verification-snippets.js';
 import LoginAndRegistrationForm from '../../components/login-and-registration-form.js';
 import Header from '../header.js';
 
@@ -14,7 +14,7 @@ export default function DoctorRegister() {
   const type = "Vet"
   const [showPassword, setShowPassword] = useState(false);
 
-  useVerifyForVets();//Makes sure the user isn't logged in already. If so, re-directs
+  useConfirmNotLoggedIn();
 
   return (
     <>

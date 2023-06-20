@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {useNavigate} from "react-router-dom";
 import {handleLoginSubmit} from "../../custom-hooks/handle-submits.js"
 import LoginAndRegistrationForm from '../../components/login-and-registration-form.js';
-import { useVerifyForPatients } from '../../custom-hooks/user-verification-snippets.js';
+import { useConfirmNotLoggedIn } from '../../custom-hooks/user-verification-snippets.js';
 import Header from '../header.js';
 
 export default function PatientLogin() {
@@ -13,7 +13,7 @@ export default function PatientLogin() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
-  useVerifyForPatients(); //Makes sure the user isn't logged in already. If so, re-directs
+  useConfirmNotLoggedIn(); 
 
   return (
     <>

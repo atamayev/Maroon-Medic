@@ -24,22 +24,22 @@ export default function DoctorCalendar () {
   const [user_type, setUser_type] = useState(null);
   const [events, setEvents] = useState([]);
 
-  useEffect(() => {
-      user_verification()
-      .then(result => {
-        if (result.verified === true) {
-          setUser_type(result.user_type)
-          if (result.user_type === 'Doctor') {
-            try {
-              const storedAccountDetails = sessionStorage.getItem("DoctorCalendarDetails")
-              if (!storedAccountDetails) FillDoctorCalendarDetails();
-            } catch(error) {
-            }
-          }
+  const verifyAndSetCalendarData = async () => {
+    const result = await user_verification();
+    if (result.verified === true) {
+      setUser_type(result.user_type)
+      if (result.user_type === 'Doctor') {
+        try {
+          const storedAccountDetails = sessionStorage.getItem("DoctorCalendarDetails")
+          if (!storedAccountDetails) FillDoctorCalendarDetails();
+        } catch(error) {
         }
-      })
-      .catch(error => {
-      });
+      }
+    }
+  };
+
+  useEffect(() => {
+    verifyAndSetCalendarData()
   }, []);
 
   async function FillDoctorCalendarDetails() {

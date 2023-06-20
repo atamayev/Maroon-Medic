@@ -46,46 +46,48 @@ export default function Header (props) {
   const {searchTerm, setSearchTerm} = useContext(SearchContext);
   const cookie_monster = document.cookie;
 
+  const verifyAndSetHeaderData = async () => {
+    const result = await user_verification();
+    if (result.verified === true) {
+        setUser_type(result.user_type)
+        try {
+            let name;
+            if (result.user_type === 'Doctor') {
+                name = JSON.parse(sessionStorage.getItem(`DoctorPersonalInfo`)).LastName;
+                setHeaderData('Dr. ' + name);
+            } else {
+                name = JSON.parse(sessionStorage.getItem(`PatientPersonalInfo`)).FirstName;
+                setHeaderData(name);
+            }
+        } catch (error) {
+            if (error instanceof TypeError) fetchPersonalInfo(result.user_type);
+        }
+    }
+  }
+
+  const retrieveNameFromStorage = () => {
+    try {
+      const name = JSON.parse(sessionStorage.getItem("DoctorPersonalInfo")).LastName;
+      setUser_type('Doctor')
+      setHeaderData('Dr. '+ name);
+      return;
+    } catch(error) {
+    }
+    try {
+      const name = JSON.parse(sessionStorage.getItem("PatientPersonalInfo")).FirstName;
+      setUser_type('Patient')
+      setHeaderData(name);
+      return;
+    } catch(error) {
+    }
+  }
+
   useEffect(() => {
     if (location.pathname !== '/new-vet' && location.pathname !== '/new-patient') {
-      try {
-        const name = JSON.parse(sessionStorage.getItem("DoctorPersonalInfo")).LastName;
-        setUser_type('Doctor')
-        setHeaderData('Dr. '+ name);
-        return;
-      } catch(error) {
-      }
-      try {
-        const name = JSON.parse(sessionStorage.getItem("PatientPersonalInfo")).FirstName;
-        setUser_type('Patient')
-        setHeaderData(name);
-        return;
-      } catch(error) {
+      retrieveNameFromStorage()
 
-      }
-  
       //sets the headerData when login/register:
-      if (!headerData) {
-        user_verification()
-        .then(result => {
-          if (result.verified === true) {
-            setUser_type(result.user_type)
-            try {
-              if (result.user_type === 'Doctor') {
-                const name = JSON.parse(sessionStorage.getItem(`DoctorPersonalInfo`)).LastName;
-                setHeaderData('Dr. ' + name);
-              } else {
-                const name = JSON.parse(sessionStorage.getItem(`PatientPersonalInfo`)).FirstName;
-                setHeaderData(name); 
-              }
-            } catch(error) {
-              if (error instanceof TypeError) fetchPersonalInfo(result.user_type);
-            } 
-          }
-        })
-        .catch(error => {
-        });
-      }
+      if (!headerData) verifyAndSetHeaderData()
     }
   }, [cookie_monster]);
 
@@ -96,7 +98,6 @@ export default function Header (props) {
         response = await PrivateDoctorDataService.fillPersonalData();
       } catch (error) {
         if (error.response.status === 401) invalidUserAction(error.response.data)
-
       }
      }
      else if (type === 'Patient') {

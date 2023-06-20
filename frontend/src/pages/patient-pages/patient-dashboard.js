@@ -31,27 +31,27 @@ export default function PatientDashboard() {
   const [user_type, setUser_type] = useState(null);
   const newPatient = document.cookie.split(';').some((item) => item.trim().startsWith('PatientNew_User'));
 
-  useEffect(() => {
-    user_verification()
-      .then(result => {
-        if (result.verified === true) {
-          setUser_type(result.user_type)
-          if (result.user_type === 'Patient') {
-            try {
-              // const storedDashboardData = sessionStorage.getItem("PatientDashboardData")
-              // if (storedDashboardData) {
-              //   setDashboardData(JSON.parse(storedDashboardData));
-              // } else {
-                fetchPatientDashboardData(setDashboardData);
-              // }
-            } catch(error) {
-            }
-          }
+  const verifyAndSetDashboardData = async () => {
+    const result = await user_verification();
+    if (result.verified === true) {
+      setUser_type(result.user_type);
+      if (result.user_type === 'Patient') {
+        try {
+          // const storedDashboardData = sessionStorage.getItem("PatientDashboardData")
+          // if (storedDashboardData) {
+          //     setDashboardData(JSON.parse(storedDashboardData));
+          // } else {
+          fetchPatientDashboardData(setDashboardData);
+          // }
+        } catch (error) {
         }
-      })
-      .catch(error => {
-      });
-  }, []);
+      }
+    }
+  };
+
+  useEffect(() => {
+    verifyAndSetDashboardData();
+  }, [])
 
   useEffect(() => {
     const interval = setInterval(() => {

@@ -70,25 +70,24 @@ export default function PatientPersonalInfo() {
   const currentYear = new Date().getFullYear();
   const years = Array.from({length: 63}, (_, i) => currentYear - i - 18); // Renders an array from 18 years ago to 63 minus that year.  
 
-  useEffect(() => {
-    user_verification()
-    .then(result => {
-      if (result.verified === true) {
-        setUser_type(result.user_type)
-        if (result.user_type === 'Patient') {
-          try {
-            const storedPersonalInfoData = sessionStorage.getItem("PatientPersonalInfo")
-            if (storedPersonalInfoData) setPersonalInfo(JSON.parse(storedPersonalInfoData));
-            else fetchPersonalInfoData(setPersonalInfo);
-          } catch(error) {
-          }
+  const verifyAndSetPersonalInfo = async () => {
+    const result = await user_verification();
+    if (result.verified === true) {
+      setUser_type(result.user_type)
+      if (result.user_type === 'Patient') {
+        try {
+          const storedPersonalInfoData = sessionStorage.getItem("PatientPersonalInfo")
+          if (storedPersonalInfoData) setPersonalInfo(JSON.parse(storedPersonalInfoData));
+          else fetchPersonalInfoData(setPersonalInfo);
+        } catch(error) {
         }
       }
-    })
-    .catch(error => {
-    });
-  }, [])
+    }
+  };
 
+  useEffect(() => {
+    verifyAndSetPersonalInfo()
+  }, [])
 
   if (user_type !== 'Patient') return <NonPatientAccess/>
 

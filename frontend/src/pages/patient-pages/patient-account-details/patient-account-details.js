@@ -30,26 +30,28 @@ export default function PatientAccountDetails() {
 
   const [spokenLanguages, setSpokenLanguages] = useState(PatientAccountDetails?.[1] || []);
 
-  useEffect(() => {
-    user_verification()
-    .then(result => {
-      if (result.verified === true) {
-        setUser_type(result.user_type)
-        if (result.user_type === 'Patient') {
-          try {
-            const storedAccountDetails = sessionStorage.getItem("PatientAccountDetails")
-            if (!storedAccountDetails) FillPatientAccountDetails();
-            const storedListDetails = sessionStorage.getItem("ListDetails")
-            if (storedListDetails) setListDetails(JSON.parse(storedListDetails));
-            else FillLists(setListDetails);
-          } catch(error) {
-          }
+  const verifyAndSetAccountDetails = async () => {
+    const result = await user_verification();
+    if (result.verified === true) {
+      setUser_type(result.user_type);
+      if (result.user_type === 'Patient') {
+        try {
+          const storedAccountDetails = sessionStorage.getItem("PatientAccountDetails");
+          if (!storedAccountDetails) FillPatientAccountDetails();
+
+          let storedListDetails = sessionStorage.getItem("ListDetails");
+          if (storedListDetails) setListDetails(JSON.parse(storedListDetails));
+          else FillLists(setListDetails);
+        } catch (error) {
         }
       }
-    })
-    .catch(error => {
-    });
+    }
+  };
+
+  useEffect(() => {
+    verifyAndSetAccountDetails();
   }, []);
+
 
   async function FillPatientAccountDetails() {
     try {

@@ -14,23 +14,24 @@ export default function NewDoctor () {
   const {user_verification} = useContext(VerifyContext);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    user_verification()
-    .then(result => {
-      if (result.verified === true && result.user_type === 'Doctor') {
-        PrivateDoctorDataService.newDoctorConfirmation()
-          .then(result => {
-            if (result.data === false) navigate('/vet-register');
-            else if (result.data === true) ;// do nothing
-            else navigate('/vet-register');
-          })
-          .catch(error => {
-            if (error.response.status === 401) invalidUserAction(error.response.data)
-          })
+  const verifyNewDoctor = async () => {
+    const result = await user_verification();
+    if (result.verified === true && result.user_type === 'Doctor') {
+      try {
+        const doctorResult = PrivateDoctorDataService.newDoctorConfirmation()
+        if (doctorResult.data === false) navigate('/vet-register');
+        else if (doctorResult.data === true) ;// do nothing
+        else navigate('/vet-register');
+      } catch (error) {
+        if (error.response.status === 401) invalidUserAction(error.response.data)
       }
-      else if (result.verified === true && result.user_type === 'Patient') navigate('/patient-dashboard');
-      else navigate('/vet-register');
-    })
+    }
+    else if (result.verified === true && result.user_type === 'Patient') navigate('/patient-dashboard');
+    else navigate('/vet-register');
+  }
+
+  useEffect(() => {
+    verifyNewDoctor()
   }, []);
 
   return (

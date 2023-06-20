@@ -47,27 +47,27 @@ export default function MyPets() {
   const [showModal, setShowModal] = useState(false);
   const [petToDelete, setPetToDelete] = useState(null);
   
-  useEffect(() => {
-    user_verification()
-    .then(result => {
-      if (result.verified === true) {
-        setUser_type(result.user_type)
-        if (result.user_type === 'Patient') {
-          try {
-            const storedPetData = sessionStorage.getItem("PatientPetData")
-            if (storedPetData) setSavedPetData(JSON.parse(storedPetData));
-            else fetchPetData(setSavedPetData);
-
-            const storedPetTypes = sessionStorage.getItem("PetTypes")
-            if (storedPetTypes) setPetTypes(JSON.parse(storedPetTypes));
-            else FillPetTypes(setPetTypes);
-          } catch(error) {
-          }
+  const verifyAndSetPetData = async () => {
+    const result = await user_verification();
+    if (result.verified === true) {
+      setUser_type(result.user_type);
+      if (result.user_type === 'Patient') {
+        try {
+          const storedPetData = sessionStorage.getItem("PatientPetData");
+          if (storedPetData) setSavedPetData(JSON.parse(storedPetData));
+          else fetchPetData(setSavedPetData);
+        
+          const storedPetTypes = sessionStorage.getItem("PetTypes");
+          if (storedPetTypes) setPetTypes(JSON.parse(storedPetTypes));
+          else FillPetTypes(setPetTypes);
+        } catch (error) {
         }
       }
-    })
-    .catch(error => {
-    });
+    }
+  };
+
+  useEffect(() => {
+    verifyAndSetPetData();
   }, []);
 
   if (user_type !== 'Patient') return <NonPatientAccess/>

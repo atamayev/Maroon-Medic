@@ -75,27 +75,27 @@ export default function DoctorAccountDetails() {
     endYear: currentYear,
   });
 
-  useEffect(() => {
-    user_verification()
-    .then(result => {
-      if (result.verified === true) {
-        setUser_type(result.user_type)
-        if (result.user_type === 'Doctor') {
-          try {
-            const storedAccountDetails = sessionStorage.getItem("DoctorAccountDetails")
-            if (!storedAccountDetails) FillDoctorAccountDetails();
-            else setExpandedCategories(JSON.parse(storedAccountDetails)[1]?.map(service => service.Category_name))
-            
-            const storedListDetails = sessionStorage.getItem("ListDetails")
-            if (storedListDetails) setListDetails(JSON.parse(storedListDetails));
-            else FillLists(setListDetails);
-          } catch(error) {
-          }
+  const verifyDoctorAndSetAccountDetails = async () => {
+    const result = await user_verification();
+    if (result.verified === true) {
+      setUser_type(result.user_type)
+      if (result.user_type === 'Doctor') {
+        try {
+          const storedAccountDetails = sessionStorage.getItem("DoctorAccountDetails")
+          if (!storedAccountDetails) FillDoctorAccountDetails();
+          else setExpandedCategories(JSON.parse(storedAccountDetails)[1]?.map(service => service.Category_name))
+
+          const storedListDetails = sessionStorage.getItem("ListDetails")
+          if (storedListDetails) setListDetails(JSON.parse(storedListDetails));
+          else FillLists(setListDetails);
+        } catch(error) {
         }
       }
-    })
-    .catch(error => {
-    });
+    }
+  }
+
+  useEffect(() => {
+    verifyDoctorAndSetAccountDetails()
   }, []);
 
   async function FillDoctorAccountDetails() {

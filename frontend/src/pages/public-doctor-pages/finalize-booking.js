@@ -35,14 +35,15 @@ export function FinalizeBookingPage() {
   const {user_verification} = useContext(VerifyContext);
   const [user_type, setUser_type] = useState(null);
   const navigate = useNavigate();
+
   
   useEffect(() => {
-      user_verification()
-      .then(result => {
-        if (result.verified === true) setUser_type(result.user_type)
-      })
-      .catch(error => {
-      });
+    const verifyAndSetUserType= async () => {
+      const result = await user_verification();
+      if (result.verified === true) setUser_type(result.user_type)
+    }
+
+    verifyAndSetUserType()
   }, []);
 
   if (user_type !== 'Patient') return <NonPatientAccess/>

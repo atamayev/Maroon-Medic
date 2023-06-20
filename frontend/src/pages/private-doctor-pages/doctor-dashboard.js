@@ -50,27 +50,27 @@ export default function DoctorDashboard() {
   const [user_type, setUser_type] = useState(null);
   const newDoctor = document.cookie.split(';').some((item) => item.trim().startsWith('DoctorNew_User'));
 
-  useEffect(() => {
-    user_verification()
-    .then(result => {
-      if (result.verified === true) {
-        setUser_type(result.user_type)
-        if (result.user_type === 'Doctor') {
-          try {
-            setUser_type('Doctor')
-            // const storedDashboardData = sessionStorage.getItem("DoctorDashboardData")
-            // if (storedDashboardData) {
-            //   setDashboardData(JSON.parse(storedDashboardData));
-            // } else {
-              fetchDoctorDashboardData(setDashboardData);
-            // }
-          } catch(error) {
-          }
+  const verifyAndSetDashboardData = async () => {
+    const result = await user_verification();
+    if (result.verified === true) {
+      setUser_type(result.user_type)
+      if (result.user_type === 'Doctor') {
+        try {
+          setUser_type('Doctor')
+          // const storedDashboardData = sessionStorage.getItem("DoctorDashboardData")
+          // if (storedDashboardData) {
+          //   setDashboardData(JSON.parse(storedDashboardData));
+          // } else {
+            fetchDoctorDashboardData(setDashboardData);
+          // }
+        } catch(error) {
         }
       }
-    })
-    .catch(error => {
-    });
+    }
+  };
+
+  useEffect(() => {
+    verifyAndSetDashboardData()
   }, []);
 
   useEffect(() => {
