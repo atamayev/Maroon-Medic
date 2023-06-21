@@ -37,34 +37,34 @@ export default function DoctorAccountDetails() {
   //const [carouselIndex, setCarouselIndex] = useState(0);
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
 
-  const [spokenLanguages, setSpokenLanguages] = useState(DoctorAccountDetails?.[0] || []);
+  const [spokenLanguages, setSpokenLanguages] = useState(DoctorAccountDetails?.languages || []);
 
-  const [providedServices, setProvidedServices] = useState(DoctorAccountDetails?.[1] || []);
+  const [providedServices, setProvidedServices] = useState(DoctorAccountDetails?.services || []);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [expandedCategories, setExpandedCategories] = useState([]);
 
   const [selectedOrganization, setSelectedOrganization] = useState('');
-  const [doctorSpecialties, setDoctorSpecialties] = useState(DoctorAccountDetails?.[2] || []);
+  const [doctorSpecialties, setDoctorSpecialties] = useState(DoctorAccountDetails?.specialties || []);
 
   const [selectedPreVetSchool, setSelectedPreVetSchool] = useState('');
   const [selectedMajor, setSelectedMajor] = useState('');
   const [selectedPreVetEducationType, setSelectedPreVetEducationType] = useState('');
-  const [preVetEducation, setPreVetEducation] = useState(DoctorAccountDetails?.[3] || []);
+  const [preVetEducation, setPreVetEducation] = useState(DoctorAccountDetails?.preVetEducation || []);
 
   const [selectedVetSchool, setSelectedVetSchool] = useState('');
   const [selectedVetEducationType, setSelectedVetEducationType] = useState('');
-  const [vetEducation, setVetEducation] = useState(DoctorAccountDetails?.[4] || []);
+  const [vetEducation, setVetEducation] = useState(DoctorAccountDetails?.vetEducation || []);
 
-  const [addresses, setAddresses] = useState(DoctorAccountDetails?.[5] ||[{ address_priority: 0, addressesID: 0, address_title: '', address_line_1  : '', address_line_2: '', city: '', state: '', zip: '', country: '', phone_priority: 0, phone: '', address_public_status: 1, instant_book: 0, times:[]}]);
+  const [addresses, setAddresses] = useState(DoctorAccountDetails?.addressData ||[{ address_priority: 0, addressesID: 0, address_title: '', address_line_1  : '', address_line_2: '', city: '', state: '', zip: '', country: '', phone_priority: 0, phone: '', address_public_status: 1, instant_book: 0, times:[]}]);
 
   const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false);
-  const [description, setDescription] = useState(DoctorAccountDetails?.[6] || {});
+  const [description, setDescription] = useState(DoctorAccountDetails?.descriptionData || {});
 
-  const [servicedPets, setServicedPets] = useState(DoctorAccountDetails?.[7] || []);
+  const [servicedPets, setServicedPets] = useState(DoctorAccountDetails?.servicedPets || []);
   const [expandedPetTypes, setExpandedPetTypes] = useState([]);
 
-  const [publiclyAvailable, setPubliclyAvailable] = useState(DoctorAccountDetails?.[8][0]?.PubliclyAvailable || 0);
-  const verified = DoctorAccountDetails?.[8][0].Verified || [];
+  const [publiclyAvailable, setPubliclyAvailable] = useState(DoctorAccountDetails?.publiclyAvailable[0]?.PubliclyAvailable || 0);
+  const verified = DoctorAccountDetails?.publiclyAvailable[0].Verified || [];
 
   const currentYear = new Date().getFullYear();
 
@@ -83,7 +83,7 @@ export default function DoctorAccountDetails() {
         try {
           const storedAccountDetails = sessionStorage.getItem("DoctorAccountDetails")
           if (!storedAccountDetails) FillDoctorAccountDetails();
-          else setExpandedCategories(JSON.parse(storedAccountDetails)[1]?.map(service => service.Category_name))
+          else setExpandedCategories(JSON.parse(storedAccountDetails).services?.map(service => service.Category_name))
 
           const storedListDetails = sessionStorage.getItem("ListDetails")
           if (storedListDetails) setListDetails(JSON.parse(storedListDetails));
@@ -102,26 +102,26 @@ export default function DoctorAccountDetails() {
     try {
       const response = await PrivateDoctorDataService.fillAccountDetails();
       if (response) {
-        if (response.data[0]) setSpokenLanguages(response.data[0]);
-        if (response.data[1]) {
-          setProvidedServices(response.data[1])
-          setExpandedCategories(response.data[1].map(service => service.Category_name));
+        if (response.data.languages) setSpokenLanguages(response.data.languages);
+        if (response.data.services) {
+          setProvidedServices(response.data.services)
+          setExpandedCategories(response.data.services.map(service => service.Category_name));
         }
-        if (response.data[2]) setDoctorSpecialties(response.data[2]);
-        if (response.data[3]) setPreVetEducation(response.data[3]);
-        if (response.data[4]) setVetEducation(response.data[4]);
-        if (response.data[5]) setAddresses(response.data[5]);
-        if (response.data[6] && !_.isEmpty(Object.keys(response.data[6]))) {
-          setDescription(response.data[6]);
-          if (response.data[6].Description.length === 1000) setIsDescriptionOverLimit(true);
+        if (response.data.specialties) setDoctorSpecialties(response.data.specialties);
+        if (response.data.preVetEducation) setPreVetEducation(response.data.preVetEducation);
+        if (response.data.vetEducation) setVetEducation(response.data.vetEducation);
+        if (response.data.addressData) setAddresses(response.data.addressData);
+        if (response.data.descriptionData && !_.isEmpty(Object.keys(response.data.descriptionData))) {
+          setDescription(response.data.descriptionData);
+          if (response.data.descriptionData.Description.length === 1000) setIsDescriptionOverLimit(true);
         }
-        if (response.data[7]) {
-          setServicedPets(response.data[7])
-          setExpandedPetTypes(response.data[7].map(pet =>pet.pet_type));
+        if (response.data.servicedPets) {
+          setServicedPets(response.data.servicedPets)
+          setExpandedPetTypes(response.data.servicedPets.map(pet =>pet.pet_type));
           //Somehow set pictures.
         }
-        if (response.data[8][0].PubliclyAvailable) setPubliclyAvailable(response.data[8][0].PubliclyAvailable);
-        if (response.data[9]) //set pictures;
+        if (response.data.publiclyAvailable[0].PubliclyAvailable) setPubliclyAvailable(response.data.publiclyAvailable[0].PubliclyAvailable);
+        if (response.data.pictures) //set pictures;
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(response.data));
       }
     } catch(error) {

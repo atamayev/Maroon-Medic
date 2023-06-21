@@ -20,8 +20,6 @@ export default function NewDoctor () {
       try {
         const doctorResult = PrivateDoctorDataService.newDoctorConfirmation()
         if (doctorResult.data === false) navigate('/vet-register');
-        else if (doctorResult.data === true) ;// do nothing
-        else navigate('/vet-register');
       } catch (error) {
         if (error.response.status === 401) invalidUserAction(error.response.data)
       }

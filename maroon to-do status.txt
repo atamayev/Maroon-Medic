@@ -2,16 +2,17 @@ To-do:
 
 
 ASAP:
+- add if (_.isEmpty(results)) return []; to all the fetch doctor-account-details fcns
+in the fethc-public doctor-data, if error, should return empty array.
+-see if can change the format of description. currently in acct details, need to do:
+	        if (response.data.descriptionData && !_.isEmpty(Object.keys(response.data.descriptionData))) {
+          setDescription(response.data.descriptionData);
+          if (response.data.descriptionData.Description.length === 1000) setIsDescriptionOverLimit(true);
+        }
 -consider making the Login History for both patients + docs into one file
--newpatient.js, newdoctor.js needs testing for when error.response.status===401
 move handleSave in patient-personal-info to save patient details.
 
--add to cookie operations file - setting cookies when login, etc.
 -site crashes when go to a public doctor page
--test registration after the new implementation where all cookies are cleared
--delete all catches for verify context. handling error inside of verify context
--change doctor account details/list details to an object instead of a list. this way, don't need to do listDetails[1], can just do listDetails.insurance
-	same for public doctor data
 -when deleting, make all of teh parts of the account details require a delete confirmation. change the X delete button to red. when press delete, should plit into 2 buttons- confirm delete, or nevermind
 -add insurances on the add pets level. (delete insurance mapping table, add insurance ID to the pet_info_table)
 -delete fetch doctor insurances from pulic doctor data.

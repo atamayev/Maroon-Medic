@@ -25,6 +25,7 @@ function renderSpecialties(props) {
         organizations[specialty.Organization_name].push(specialty);
       });
     }
+    
     return(
         <>
             {Object.entries(organizations).map(([organization, specialties]) => (

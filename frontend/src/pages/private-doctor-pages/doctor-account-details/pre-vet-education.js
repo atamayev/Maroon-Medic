@@ -24,7 +24,7 @@ function RenderIsPreVetEducation(props) {
 
   const allChoicesFilled = props.selectedPreVetSchool && props.selectedMajor && props.selectedPreVetEducationType;
 
-  if (_.isEmpty(_.uniq(props.listDetails[3]?.map((item) => item.School_name)))) return <p> Loading... </p>
+  if (_.isEmpty(_.uniq(props.listDetails.preVetSchools?.map((item) => item.School_name)))) return <p> Loading... </p>
 
   return(
     <>
@@ -36,7 +36,7 @@ function RenderIsPreVetEducation(props) {
         onChange={(e) => props.setSelectedPreVetSchool(e.target.value)}
       >
         <option value="" disabled>Choose a School</option>
-        {Array.from(new Set(props.listDetails[3]?.map((item) => item.School_name))).map(
+        {Array.from(new Set(props.listDetails.preVetSchools?.map((item) => item.School_name))).map(
           (school, index) => (
             <option key={index} value={school}>
               {school}
@@ -54,7 +54,7 @@ function RenderIsPreVetEducation(props) {
               onChange = {(event) => props.setSelectedMajor(event.target.value)}
             >
               <option value="" disabled>Choose a major</option>
-              {_.uniq(props.listDetails[5]?.map((item) => item.Major_name)).map(
+              {_.uniq(props.listDetails.majors?.map((item) => item.Major_name)).map(
             (major, index) => (
               <option key={index} value={major}>
                 {major}
@@ -74,7 +74,7 @@ function RenderIsPreVetEducation(props) {
               onChange={(event) => props.setSelectedPreVetEducationType(event.target.value)}
             >
               <option value="" disabled>Choose an Education Type</option>
-              {Array.from(new Set(props.listDetails[4]?.map((item) => item.Education_type))).map(
+              {Array.from(new Set(props.listDetails.preVetEducationTypes?.map((item) => item.Education_type))).map(
                 (preVetEdType, index) => (
                   <option key={index} value={preVetEdType}>
                     {preVetEdType}

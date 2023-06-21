@@ -15,7 +15,7 @@ export async function saveDoctorLanguages(languageID, spokenLanguages, setLangua
     return
   }
   if (response.status === 200) {
-    DoctorAccountDetails[0] = spokenLanguages;
+    DoctorAccountDetails.languages = spokenLanguages;
     sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
     setLanguagesConfirmation({messageType: 'saved'});
   } else {
@@ -25,7 +25,7 @@ export async function saveDoctorLanguages(languageID, spokenLanguages, setLangua
 
 export async function saveServices(providedServices, setServicesConfirmation) {
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  const savedServices = DoctorAccountDetails?.[1] || [];
+  const savedServices = DoctorAccountDetails?.services || [];
   const createServiceKey = (service) => `${service.service_and_category_listID}-${service.Service_price}-${service.Service_time}`;
 
   const savedServiceKeys = savedServices.map(service => createServiceKey(service)).sort();
@@ -55,7 +55,7 @@ export async function saveServices(providedServices, setServicesConfirmation) {
     try {
       const response = await PrivateDoctorDataService.saveServiceData(updatedServices)//Make sure it's accepted services and not something else
       if (response.status === 200) {
-        DoctorAccountDetails[1] = providedServices;
+        DoctorAccountDetails.services = providedServices;
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
         setServicesConfirmation({messageType: 'saved'});
       }
@@ -79,7 +79,7 @@ export async function saveSpecialies(specialtyID, doctorSpecialties, setSelected
     return
   }
   if (response.status === 200) {
-    DoctorAccountDetails[2] = doctorSpecialties;
+    DoctorAccountDetails.specialties = doctorSpecialties;
     sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
     setSpecialtiesConfirmation({messageType: 'saved'});
   } else {
@@ -109,9 +109,9 @@ export async function savePreVetEducation(preVetEducationObject, preVetEducation
     }
   } else if (operationType === 'add') {
     const mappedPreVetEducationObject = {
-      School_ID: listDetails[3].find(school => school.School_name === preVetEducationObject.School_name)?.pre_vet_school_listID || null,
-      Major_ID: listDetails[5].find(major => major.Major_name === preVetEducationObject.Major_name)?.major_listID || null,
-      Education_type_ID: listDetails[4].find(educationType => educationType.Education_type === preVetEducationObject.Education_type)?.pre_vet_education_typeID || null,
+      School_ID: listDetails.preVetSchools.find(school => school.School_name === preVetEducationObject.School_name)?.pre_vet_school_listID || null,
+      Major_ID: listDetails.majors.find(major => major.Major_name === preVetEducationObject.Major_name)?.major_listID || null,
+      Education_type_ID: listDetails.preVetEducationTypes.find(educationType => educationType.Education_type === preVetEducationObject.Education_type)?.pre_vet_education_typeID || null,
       Start_date: moment(preVetEducationObject.Start_Date, "MMMM D, YYYY").format("YYYY-MM-DD"),
       End_date: moment(preVetEducationObject.End_Date, "MMMM D, YYYY").format("YYYY-MM-DD")
     }
@@ -133,7 +133,7 @@ export async function savePreVetEducation(preVetEducationObject, preVetEducation
     }
   }
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  DoctorAccountDetails[3] = newPreVetEducation;
+  DoctorAccountDetails.preVetEducation = newPreVetEducation;
   sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
   setPreVetEducationConfirmation({messageType: 'saved'});
 };
@@ -158,8 +158,8 @@ export async function saveVetEducation(vetEducationObject, vetEducation, setVetE
     }
   } else if (operationType === 'add') {
     const mappedVetEducationObject = {
-      School_ID: listDetails[6].find(school => school.School_name === vetEducationObject.School_name)?.vet_school_listID || null,
-      Education_type_ID: listDetails[7].find(educationType => educationType.Education_Type === vetEducationObject.Education_Type)?.vet_education_typeID || null,
+      School_ID: listDetails.vetSchools.find(school => school.School_name === vetEducationObject.School_name)?.vet_school_listID || null,
+      Education_type_ID: listDetails.vetEducationTypes.find(educationType => educationType.Education_Type === vetEducationObject.Education_Type)?.vet_education_typeID || null,
       Start_date: moment(vetEducationObject.Start_Date, "MMMM D, YYYY").format("YYYY-MM-DD"),
       End_date: moment(vetEducationObject.End_Date, "MMMM D, YYYY").format("YYYY-MM-DD")
     };
@@ -181,14 +181,14 @@ export async function saveVetEducation(vetEducationObject, vetEducation, setVetE
     }
   }
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  DoctorAccountDetails[4] = newVetEducation;
+  DoctorAccountDetails.vetEducation = newVetEducation;
   sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
   setVetEducationConfirmation({ messageType: 'saved' });
 };
 
 export async function saveLocation (addresses, setAddresses, setAddressesConfirmation) {
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  const savedLocationData = DoctorAccountDetails?.[5];
+  const savedLocationData = DoctorAccountDetails?.addressData;
 
   const savedTimes = savedLocationData.map(location => location.times);
   const savedAddresses = savedLocationData.map(({ times, ...rest }) => rest);
@@ -219,7 +219,7 @@ export async function saveLocation (addresses, setAddresses, setAddressesConfirm
         for (let i = 0; i < newAddressData.length; i++) {
           newAddressData[i]['times'] = newTimes[i];
         }
-        DoctorAccountDetails[5] = newAddressData;
+        DoctorAccountDetails.addressData = newAddressData;
         setAddresses(newAddressData);
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
         setAddressesConfirmation({messageType: 'saved'});
@@ -235,7 +235,7 @@ export async function saveLocation (addresses, setAddresses, setAddressesConfirm
 
 export async function saveDescription(description, setDescriptionConfirmation) {
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  const savedDescriptionData = DoctorAccountDetails[6].Description;
+  const savedDescriptionData = DoctorAccountDetails.descriptionData.Description;
 
   let shouldSave = false;
 
@@ -257,7 +257,7 @@ export async function saveDescription(description, setDescriptionConfirmation) {
     try {
       const response = await PrivateDoctorDataService.saveDescriptionData(description);
       if (response.status === 200) {
-        DoctorAccountDetails[6] = description;
+        DoctorAccountDetails.descriptionData = description;
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
         setDescriptionConfirmation({messageType: 'saved'});
       }
@@ -281,7 +281,7 @@ export async function savePets(petID, newServicedPets, setPetsConfirmation, oper
     return
   }
   if (response.status === 200) {
-    DoctorAccountDetails[7] = newServicedPets;
+    DoctorAccountDetails.servicedPets = newServicedPets;
     sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
     setPetsConfirmation({messageType: 'saved'});
   } else {
@@ -296,7 +296,7 @@ export async function handlePublicAvailibilityToggle (value, setPubliclyAvailabl
     const response = await PrivateDoctorDataService.savePublicAvailibility(value);
     if (response.status === 200) {
       setPubliclyAvailable(value);
-      DoctorAccountDetails[8][0].PubliclyAvailable = value;
+      DoctorAccountDetails.publiclyAvailable[0].PubliclyAvailable = value;
       sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
       setPubliclyAvailableConfirmation({messageType: 'saved'});
     }

@@ -49,7 +49,6 @@ export default new class FetchDoctorAccountData {
 
     async fetchDoctorSpecialties (Doctor_ID) {
         const functionName = this.fetchDoctorSpecialties.bind(this).name;
-
         const [specialty_mapping, specialties_list] = ['specialty_mapping', 'specialties_list'];
     
         const sql = `SELECT ${specialties_list}.Organization_name, ${specialties_list}.Specialty_name, ${specialties_list}.specialties_listID 

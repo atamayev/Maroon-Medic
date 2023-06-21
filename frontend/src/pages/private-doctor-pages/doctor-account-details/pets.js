@@ -22,14 +22,14 @@ function RenderIsPets (props) {
   const [petsConfirmation, setPetsConfirmation] = useConfirmationMessage();
 
   const pet_types = {};
-  if (props.listDetails[8]) {
-    props.listDetails[8].forEach(pet_type => {
+  if (props.listDetails.pets) {
+    props.listDetails.pets.forEach(pet_type => {
       if (!pet_types[pet_type.Pet_type]) pet_types[pet_type.Pet_type] = [];
       pet_types[pet_type.Pet_type].push(pet_type);
     });
   }
   
-  if (_.isEmpty(_.uniq(props.listDetails[8]?.map((item) => item.Category_name)))) return <>Loading...</>
+  if (_.isEmpty(_.uniq(props.listDetails.pets?.map((item) => item.Category_name)))) return <>Loading...</>
 
   return (
     <>

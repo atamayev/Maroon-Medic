@@ -25,19 +25,19 @@ export async function returnDoctorPageData (req, res) {
         return res.status(400).json();
     }
    
-    let response = [];
     try {
-        response.push(await FetchPublicDoctorData.fetchDoctorInsurances(DoctorID));
-        response.push(await FetchPublicDoctorData.fetchDoctorLanguages(DoctorID));
-        response.push(await FetchDoctorAccountData.fetchDoctorServices(DoctorID));
-        response.push(await FetchPublicDoctorData.fetchDoctorSpecialties(DoctorID));
-        response.push(await FetchDoctorAccountData.fetchPreVetEducation(DoctorID));
-        response.push(await FetchDoctorAccountData.fetchVetEducation(DoctorID));
-        response.push(await FetchPublicDoctorData.fetchDoctorAddressData(DoctorID));
-        response.push(await FetchDoctorAccountData.fetchDescriptionData(DoctorID)); 
-        response.push(await FetchDoctorAccountData.fetchDoctorPictures(DoctorID));
-        response.push(await FetchPublicDoctorData.fetchDoctorPersonalInfo(DoctorID));
-        response[9]['NVI'] = NVI;
+        let response = {};
+        response.doctorInsurances          = await FetchPublicDoctorData.fetchDoctorInsurances(DoctorID);
+        response.doctorLanguages           = await FetchPublicDoctorData.fetchDoctorLanguages(DoctorID);
+        response.doctorServices            = await FetchDoctorAccountData.fetchDoctorServices(DoctorID);
+        response.doctorSpecialties         = await FetchPublicDoctorData.fetchDoctorSpecialties(DoctorID);
+        response.doctorPreVetEducation     = await FetchDoctorAccountData.fetchPreVetEducation(DoctorID);
+        response.doctorVetEducation        = await FetchDoctorAccountData.fetchVetEducation(DoctorID);
+        response.doctorAddressData         = await FetchPublicDoctorData.fetchDoctorAddressData(DoctorID);
+        response.doctorDescriptionData     = await FetchDoctorAccountData.fetchDescriptionData(DoctorID);
+        response.doctorPictures            = await FetchDoctorAccountData.fetchDoctorPictures(DoctorID);
+        response.doctorPersonalInfo        = await FetchPublicDoctorData.fetchDoctorPersonalInfo(DoctorID);
+        response.doctorPersonalInfo['NVI'] = NVI;
         return res.status(200).json(response);
     } catch(error) {
         const emptyResponse = [];

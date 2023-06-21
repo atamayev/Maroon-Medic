@@ -227,17 +227,17 @@ export async function fetchAccountDetails (req, res) {
     }
    
     try {
-        let response = [];
-        response.push(await FetchDoctorAccountData.fetchDoctorLanguages(DoctorID)); 
-        response.push(await FetchDoctorAccountData.fetchDoctorServices(DoctorID));
-        response.push(await FetchDoctorAccountData.fetchDoctorSpecialties(DoctorID));
-        response.push(await FetchDoctorAccountData.fetchPreVetEducation(DoctorID));
-        response.push(await FetchDoctorAccountData.fetchVetEducation(DoctorID));
-        response.push(await FetchDoctorAccountData.fetchDoctorAddressData(DoctorID));
-        response.push(await FetchDoctorAccountData.fetchDescriptionData(DoctorID)); 
-        response.push(await FetchDoctorAccountData.fetchServicedPets(DoctorID));
-        response.push(await FetchDoctorAccountData.fetchPubliclyAvailable(DoctorID));
-        response.push(await FetchDoctorAccountData.fetchDoctorPictures(DoctorID));
+        let response = {};
+        response.languages         = await FetchDoctorAccountData.fetchDoctorLanguages(DoctorID);
+        response.services          = await FetchDoctorAccountData.fetchDoctorServices(DoctorID);
+        response.specialties       = await FetchDoctorAccountData.fetchDoctorSpecialties(DoctorID);
+        response.preVetEducation   = await FetchDoctorAccountData.fetchPreVetEducation(DoctorID);
+        response.vetEducation      = await FetchDoctorAccountData.fetchVetEducation(DoctorID);
+        response.addressData       = await FetchDoctorAccountData.fetchDoctorAddressData(DoctorID);
+        response.descriptionData   = await FetchDoctorAccountData.fetchDescriptionData(DoctorID);
+        response.servicedPets      = await FetchDoctorAccountData.fetchServicedPets(DoctorID);
+        response.publiclyAvailable = await FetchDoctorAccountData.fetchPubliclyAvailable(DoctorID);
+        response.pictures          = await FetchDoctorAccountData.fetchDoctorPictures(DoctorID);
         return res.status(200).json(response);
     } catch(error) {
         return res.status(400).json([]);
@@ -253,16 +253,16 @@ export async function fetchAccountDetails (req, res) {
  */
 export async function fetchDoctorLists (req, res) {
     try {
-        let response = [];
-        response.push(await FetchAllLists.fetchAllLanguages());
-        response.push(await FetchAllLists.fetchAllServicesAndCategories());
-        response.push(await FetchAllLists.fetchAllSpecialties());
-        response.push(await FetchAllLists.fetchAllPreVetSchools());
-        response.push(await FetchAllLists.fetchAllPreVetEducationTypes());
-        response.push(await FetchAllLists.fetchAllMajors());
-        response.push(await FetchAllLists.fetchAllVetSchools());
-        response.push(await FetchAllLists.fetchAllVetEducationTypes());
-        response.push(await FetchAllLists.fetchAllPets());
+        let response = {};
+        response.languages             = await FetchAllLists.fetchAllLanguages();
+        response.servicesAndCategories = await FetchAllLists.fetchAllServicesAndCategories();
+        response.specialties           = await FetchAllLists.fetchAllSpecialties();
+        response.preVetSchools         = await FetchAllLists.fetchAllPreVetSchools();
+        response.preVetEducationTypes  = await FetchAllLists.fetchAllPreVetEducationTypes();
+        response.majors                = await FetchAllLists.fetchAllMajors();
+        response.vetSchools            = await FetchAllLists.fetchAllVetSchools();
+        response.vetEducationTypes     = await FetchAllLists.fetchAllVetEducationTypes();
+        response.pets                  = await FetchAllLists.fetchAllPets();
         return res.status(200).json(response);
     } catch(error) {
         return res.status(400).json([]);

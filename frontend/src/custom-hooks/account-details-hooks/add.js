@@ -3,19 +3,18 @@ import { saveDoctorLanguages, saveSpecialies } from "./save-doctor-account-detai
 
 export const handleAddLanguage = (selectedLanguageID, spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, doctorOrPatient) => {
   let selectedLanguage;
-  if (doctorOrPatient === 'doctor') selectedLanguage = listDetails[0].find((lang) => lang.language_listID === JSON.parse(selectedLanguageID));
-  else if (doctorOrPatient === 'patient') selectedLanguage = listDetails[1].find((lang) => lang.language_listID === JSON.parse(selectedLanguageID));
+  if (doctorOrPatient === 'doctor') selectedLanguage = listDetails.languages.find((lang) => lang.language_listID === JSON.parse(selectedLanguageID));
+  else if (doctorOrPatient === 'patient') selectedLanguage = listDetails.languages.find((lang) => lang.language_listID === JSON.parse(selectedLanguageID));
 
   const newSpokenLanguages = [...spokenLanguages, selectedLanguage];
   setSpokenLanguages(newSpokenLanguages);
   
   if (doctorOrPatient === 'doctor') saveDoctorLanguages(selectedLanguageID, newSpokenLanguages, setLanguagesConfirmation, 'add')
   else if (doctorOrPatient === 'patient') savePatientLanguages(selectedLanguageID, newSpokenLanguages, setLanguagesConfirmation, 'add')
-  
 };
 
 export const handleAddSpecialty = (selectedSpecialtyID, doctorSpecialties, setDoctorSpecialties, setSelectedOrganization, listDetails, setSpecialtiesConfirmation) => {
-  const selectedSpecialty = listDetails[2].find((spec) => spec.specialties_listID === JSON.parse(selectedSpecialtyID));
+  const selectedSpecialty = listDetails.specialties.find((spec) => spec.specialties_listID === JSON.parse(selectedSpecialtyID));
   const newDoctorSpecialties = [...doctorSpecialties, selectedSpecialty];
   setDoctorSpecialties(newDoctorSpecialties)
   saveSpecialies(selectedSpecialtyID, newDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation, 'add')

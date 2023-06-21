@@ -38,7 +38,7 @@ export async function jwtVerify (req, res) {
     AccessToken = req.cookies[`${response.type}AccessToken`]
     const JWTKey = response.type === 'Patient' ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY;
     decodedUUID = jwt.verify(AccessToken, JWTKey)[`${response.type}ID`];
-
+    
     if (Date.now() >= decodedUUID.exp * 1000) {
       let redirectURL
       if (response.type === 'Doctor') redirectURL = '/vet-login'

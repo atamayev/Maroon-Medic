@@ -20,12 +20,13 @@ export default function NewPatient () {
     if (result.verified === true && result.user_type === 'Patient') {
       try {
         const patientResult = await PrivatePatientDataService.newPatientConfirmation();
-        if (patientResult.data === false || patientResult.data !== true) navigate('/patient-register');
+        if (patientResult.data === false) navigate('/patient-register');
       } catch (error) {
         if (error.response.status === 401) invalidUserAction(error.response.data);
       }
-    } else if (result.verified === true && result.user_type === 'Doctor') navigate(`/vet-dashboard`);
-      else navigate('/patient-register');
+    } 
+    else if (result.verified === true && result.user_type === 'Doctor') navigate(`/vet-dashboard`);
+    else navigate('/patient-register');
   }
       
   useEffect(() => {

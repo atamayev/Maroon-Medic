@@ -24,7 +24,7 @@ function RenderIsVetEducation(props) {
 
   const allChoicesFilled = props.selectedVetSchool && props.selectedVetEducationType;
 
-  if (_.isEmpty(_.uniq(props.listDetails[6]?.map((item) => item.School_name)))) return <p>Loading...</p>
+  if (_.isEmpty(_.uniq(props.listDetails.vetSchools?.map((item) => item.School_name)))) return <p>Loading...</p>
 
   return (
     <>
@@ -36,7 +36,7 @@ function RenderIsVetEducation(props) {
         onChange={(e) => props.setSelectedVetSchool(e.target.value)}
       >
         <option value="" disabled>Choose a School</option>
-        {Array.from(new Set(props.listDetails[6]?.map((item) => item.School_name))).map(
+        {Array.from(new Set(props.listDetails.vetSchools?.map((item) => item.School_name))).map(
           (school, index) => (
             <option key={index} value={school}>
               {school}
@@ -54,7 +54,7 @@ function RenderIsVetEducation(props) {
               onChange={(event) => props.setSelectedVetEducationType(event.target.value)}
             >
               <option value="" disabled>Choose an Education Type</option>
-              {Array.from(new Set(props.listDetails[7]?.map((item) => item.Education_type))).map(
+              {Array.from(new Set(props.listDetails.vetEducationTypes?.map((item) => item.Education_type))).map(
                 (VetEdType, index) => (
                   <option key={index} value={VetEdType}>
                     {VetEdType}

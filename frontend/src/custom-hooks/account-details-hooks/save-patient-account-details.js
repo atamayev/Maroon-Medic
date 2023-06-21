@@ -29,7 +29,7 @@ export async function saveInsurances(acceptedInsurances, setInsurancesConfirmati
     try {
       const response = await PrivatePatientDataService.saveGeneralData(insuranceIds, 'Insurance')
       if (response.status === 200) {
-        PatientAccountDetails[0] = acceptedInsurances;
+        PatientAccountDetails.insurances = acceptedInsurances;
         sessionStorage.setItem("PatientAccountDetails", JSON.stringify(PatientAccountDetails));
         setInsurancesConfirmation({messageType: 'saved'});
       }
@@ -53,7 +53,7 @@ export async function savePatientLanguages(languageID, spokenLanguages, setLangu
     return
   }
   if (response.status === 200) {
-    PatientAccountDetails[1] = spokenLanguages;
+    PatientAccountDetails.languages = spokenLanguages;
     sessionStorage.setItem("PatientAccountDetails", JSON.stringify(PatientAccountDetails));
     setLanguagesConfirmation({messageType: 'saved'});
   } else {

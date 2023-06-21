@@ -22,10 +22,10 @@ function RenderIsSpecialty(props) {
   const [specialtiesConfirmation, setSpecialtiesConfirmation] = useConfirmationMessage();
 
   const specialties = props.selectedOrganization
-  ? props.listDetails[2].filter((item) => item.Organization_name === props.selectedOrganization)
+  ? props.listDetails.specialties.filter((item) => item.Organization_name === props.selectedOrganization)
   : [];
 
-  if (_.isEmpty(_.uniq(props.listDetails[2]?.map((item) => item.Organization_name)))) return <p>Loading...</p>
+  if (_.isEmpty(_.uniq(props.listDetails.specialties?.map((item) => item.Organization_name)))) return <p>Loading...</p>
 
   return (
     <>
@@ -37,7 +37,7 @@ function RenderIsSpecialty(props) {
         onChange={(e) => props.setSelectedOrganization(e.target.value)}
       >
         <option value = "" disabled>Choose an organization</option>
-        {Array.from(new Set(props.listDetails[2]?.map((item) => item.Organization_name))).map(
+        {Array.from(new Set(props.listDetails.specialties?.map((item) => item.Organization_name))).map(
           (organization, index) => (
             <option key = {index} value = {organization}>
               {organization}

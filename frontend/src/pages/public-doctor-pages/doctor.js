@@ -33,16 +33,16 @@ export default function Doctor () {
     try {
       const response = await PublicDoctorDataService.getSingleDoctor(id)
       if (response) {
-        if (response.data[0]) setAcceptedInsurances(response.data[0]);
-        if (response.data[1]) setSpokenLanguages(response.data[1]);
-        if (response.data[2]) setProvidedServices(response.data[2]);
-        if (response.data[3]) setDoctorSpecialties(response.data[3]);
-        if (response.data[4]) setPreVetEducation(response.data[4]);
-        if (response.data[5]) setVetEducation(response.data[5]);
-        if (response.data[6]) setAddresses(response.data[6]);
-        if (response.data[7] && !_.isEmpty(Object.keys(response.data[7]))) setDescription(response.data[7]);
-        if (response.data[8]) // Somehow set pictures.
-        if (response.data[9]) setPersonalData(response.data[9]);
+        if (response.data.doctorInsurances) setAcceptedInsurances(response.data.doctorInsurances);
+        if (response.data.doctorLanguages) setSpokenLanguages(response.data.doctorLanguages);
+        if (response.data.doctorServices) setProvidedServices(response.data.doctorServices);
+        if (response.data.doctorSpecialties) setDoctorSpecialties(response.data.doctorSpecialties);
+        if (response.data.doctorPreVetEducation) setPreVetEducation(response.data.doctorPreVetEducation);
+        if (response.data.doctorVetEducation) setVetEducation(response.data.doctorVetEducation);
+        if (response.data.doctorAddressData) setAddresses(response.data.doctorAddressData);
+        if (response.data.doctorDescriptionData && !_.isEmpty(Object.keys(response.data.doctorDescriptionData))) setDescription(response.data.doctorDescriptionData);
+        if (response.data.doctorPictures) // Somehow set pictures.
+        if (response.data.doctorPersonalInfo) setPersonalData(response.data.doctorPersonalInfo);
       }
     } catch(error) {
     }

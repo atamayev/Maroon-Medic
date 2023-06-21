@@ -48,14 +48,14 @@ export default new class FetchPublicDoctorData {
 
     async fetchDoctorSpecialties (User_ID) {
         const functionName = this.fetchDoctorSpecialties.bind(this).name;
-        const [service_mapping, service_and_category_list] = ['service_mapping', 'service_and_category_list'];
+        const [specialty_mapping, specialties_list] = ['specialty_mapping', 'specialties_list'];
     
-        const sql = `SELECT ${service_and_category_list}.Organization_name, ${service_and_category_list}.Specialty_name 
-            FROM ${service_and_category_list} JOIN ${service_mapping} ON ${service_and_category_list}.specialties_listID = ${service_mapping}.specialty_ID 
-            WHERE ${service_mapping}.User_ID = ?`;
+        const sql = `SELECT ${specialties_list}.Organization_name, ${specialties_list}.Specialty_name 
+            FROM ${specialties_list} JOIN ${specialty_mapping} ON ${specialties_list}.specialties_listID = ${specialty_mapping}.specialty_ID 
+            WHERE ${specialty_mapping}.Doctor_ID = ?`;
         
         const values = [User_ID];
-        await DB_Operation(functionName, service_mapping);
+        await DB_Operation(functionName, specialty_mapping);
     
         try {
             const [results] = await connection.execute(sql, values);

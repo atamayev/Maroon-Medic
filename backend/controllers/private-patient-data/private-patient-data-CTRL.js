@@ -245,10 +245,10 @@ export async function fetchAccountDetails (req, res) {
         return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' }); 
     }
 
-    let response = [];
     try {
-        response.push(await FetchPatientAccountData.fetchPatientInsurances(PatientID));
-        response.push(await FetchPatientAccountData.fetchPatientLanguages(PatientID)); 
+        let response = {}
+        response.insurances = await FetchPatientAccountData.fetchPatientInsurances(PatientID)
+        response.languages  = await FetchPatientAccountData.fetchPatientLanguages(PatientID)
         return res.status(200).json(response);
     } catch(error) {
         return res.status(400).json([]);
@@ -262,9 +262,9 @@ export async function fetchAccountDetails (req, res) {
  */
 export async function fetchPatientLists (req, res) {
     try {
-        let response = [];
-        response.push(await FetchAllLists.fetchAllInsurances());
-        response.push(await FetchAllLists.fetchAllLanguages());
+        let response = {};
+        response.insurances = await FetchAllLists.fetchAllInsurances()
+        response.languages  = await FetchAllLists.fetchAllLanguages()
         return res.status(200).json(response);
     } catch(error) {
         return res.status(400).json([]);

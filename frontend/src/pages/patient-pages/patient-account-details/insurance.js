@@ -22,9 +22,9 @@ function RenderIsPatientInsurance(props) {
 
   return (
     <>
-      {_.isArray(props.listDetails[0]) &&
-        !_.isEmpty(props.listDetails[0]) &&
-        props.listDetails[0].map((insurance) => (
+      {_.isArray(props.listDetails.insurances) &&
+        !_.isEmpty(props.listDetails.insurances) &&
+        props.listDetails.insurances.map((insurance) => (
           <div key={insurance?.insurance_listID}>
             <input
               type="checkbox"

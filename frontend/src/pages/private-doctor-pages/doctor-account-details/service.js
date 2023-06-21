@@ -22,8 +22,8 @@ function RenderIsVetServices (props) {
   const [servicesConfirmation, setServicesConfirmation] = useConfirmationMessage();
 
   const categories = {};
-  if (props.listDetails[1]) {
-    props.listDetails[1].forEach(service => {
+  if (props.listDetails.servicesAndCategories) {
+    props.listDetails.servicesAndCategories.forEach(service => {
       if (!categories[service.Category_name]) categories[service.Category_name] = [];
       categories[service.Category_name].push(service);
     });
@@ -35,7 +35,7 @@ function RenderIsVetServices (props) {
     return services.every(service => service.Service_price !== null && service.Service_price !== "");
   }
   
-  if (_.isEmpty(_.uniq(props.listDetails[1]?.map((item) => item.Category_name)))) return <>Loading...</>
+  if (_.isEmpty(_.uniq(props.listDetails.servicesAndCategories?.map((item) => item.Category_name)))) return <>Loading...</>
 
   return (
     <>
