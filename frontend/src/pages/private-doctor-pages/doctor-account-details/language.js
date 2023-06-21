@@ -21,6 +21,17 @@ export default function RenderLanguageSection(props) {
 function RenderIsVetLanguages(props) {
   const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage();
 
+  const renderMessageSection = () => {
+    return (
+      <span className={`fade ${languagesConfirmation.messageType ? 'show' : ''}`}>
+        {languagesConfirmation.messageType === 'saved' && 'Languages saved!'}
+        {languagesConfirmation.messageType === 'same' && 'Same Language data!'}
+        {languagesConfirmation.messageType === 'problem' && 'Problem Saving Languages!'}
+        {languagesConfirmation.messageType === 'none' && 'No languages selected'}
+      </span>
+    )
+  }
+  
   return(
     <div>
       <select
@@ -67,12 +78,7 @@ function RenderIsVetLanguages(props) {
             </li>
           ))}
       </ul>
-      <span className={`fade ${languagesConfirmation.messageType ? 'show' : ''}`}>
-        {languagesConfirmation.messageType === 'saved' && 'Languages saved!'}
-        {languagesConfirmation.messageType === 'same' && 'Same Language data!'}
-        {languagesConfirmation.messageType === 'problem' && 'Problem Saving Languages!'}
-        {languagesConfirmation.messageType === 'none' && 'No languages selected'}
-      </span>
+      {renderMessageSection()}
     </div>
   );
 };

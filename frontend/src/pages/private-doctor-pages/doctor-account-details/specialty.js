@@ -27,6 +27,16 @@ function RenderIsSpecialty(props) {
 
   if (_.isEmpty(_.uniq(props.listDetails.specialties?.map((item) => item.Organization_name)))) return <p>Loading...</p>
 
+  const renderMessageSection = () => {
+    return (
+      <span className={`fade ${specialtiesConfirmation.messageType ? 'show' : ''}`}>
+        {specialtiesConfirmation.messageType === 'saved' && 'Specialties saved!'}
+        {specialtiesConfirmation.messageType === 'same' && 'Same Specialty data!'}
+        {specialtiesConfirmation.messageType === 'problem' && 'Problem Saving Specialties!'}
+        {specialtiesConfirmation.messageType === 'none' && 'No specialties selected'}
+      </span>
+    )
+  }
   return (
     <>
       <label htmlFor="organization">Select an organization: </label>
@@ -97,12 +107,7 @@ function RenderIsSpecialty(props) {
           </li>
         ))}
       </ul>
-        <span className={`fade ${specialtiesConfirmation.messageType ? 'show' : ''}`}>
-        {specialtiesConfirmation.messageType === 'saved' && 'Specialties saved!'}
-        {specialtiesConfirmation.messageType === 'same' && 'Same Specialty data!'}
-        {specialtiesConfirmation.messageType === 'problem' && 'Problem Saving Specialties!'}
-        {specialtiesConfirmation.messageType === 'none' && 'No specialties selected'}
-      </span>
+      {renderMessageSection()}
     </>
   )
 };

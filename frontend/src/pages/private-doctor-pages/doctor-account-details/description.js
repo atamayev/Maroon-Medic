@@ -29,6 +29,17 @@ function RenderIsDescription(props) {
     if (!props.description.Description) return <>0</>
     return <>{props.description.Description.length}</>
   }
+
+  const renderMessageSection = () => {
+    return (
+      <span className={`fade ${descriptionConfirmation.messageType ? 'show' : ''}`}>
+        {descriptionConfirmation.messageType === 'saved' && 'Description saved!'}
+        {descriptionConfirmation.messageType === 'same' && 'Same Description data!'}
+        {descriptionConfirmation.messageType === 'problem' && 'Problem Saving Description!'}
+        {descriptionConfirmation.messageType === 'none' && 'No description selected'}
+      </span>
+    )
+  }
   
   return(
     <Form> 
@@ -52,12 +63,7 @@ function RenderIsDescription(props) {
         onClick={()=> saveDescription(props.description, setDescriptionConfirmation)}
       >
       Save</Button>
-      <span className={`fade ${descriptionConfirmation.messageType ? 'show' : ''}`}>
-        {descriptionConfirmation.messageType === 'saved' && 'Description saved!'}
-        {descriptionConfirmation.messageType === 'same' && 'Same Description data!'}
-        {descriptionConfirmation.messageType === 'problem' && 'Problem Saving Description!'}
-        {descriptionConfirmation.messageType === 'none' && 'No description selected'}
-      </span>
+      {renderMessageSection()}
     </Form>
   );
 };

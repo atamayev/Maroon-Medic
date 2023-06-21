@@ -25,7 +25,18 @@ function RenderIsPreVetEducation(props) {
   const allChoicesFilled = props.selectedPreVetSchool && props.selectedMajor && props.selectedPreVetEducationType;
 
   if (_.isEmpty(_.uniq(props.listDetails.preVetSchools?.map((item) => item.School_name)))) return <p> Loading... </p>
-
+  
+  const renderMessageSection = () => {
+    return (
+      <span className={`fade ${preVetEducationConfirmation.messageType ? 'show' : ''}`}>
+        {preVetEducationConfirmation.messageType === 'saved' && 'Pre-Vet Education saved!'}
+        {preVetEducationConfirmation.messageType === 'same' && 'Same Pre-Vet Education data!'}
+        {preVetEducationConfirmation.messageType === 'problem' && 'Problem Saving Pre-Vet Education!'}
+        {preVetEducationConfirmation.messageType === 'none' && 'No Pre-Vet Education selected'}
+      </span>
+    )
+  }
+  
   return(
     <>
       <label htmlFor="pre-vet-school">Select a school: </label>
@@ -129,12 +140,7 @@ function RenderIsPreVetEducation(props) {
           </li>
         ))}
       </ul>
-        <span className={`fade ${preVetEducationConfirmation.messageType ? 'show' : ''}`}>
-          {preVetEducationConfirmation.messageType === 'saved' && 'Pre-Vet Education saved!'}
-          {preVetEducationConfirmation.messageType === 'same' && 'Same Pre-Vet Education data!'}
-          {preVetEducationConfirmation.messageType === 'problem' && 'Problem Saving Pre-Vet Education!'}
-          {preVetEducationConfirmation.messageType === 'none' && 'No Pre-Vet Education selected'}
-        </span>
+      {renderMessageSection()}
       </>
   )
 };

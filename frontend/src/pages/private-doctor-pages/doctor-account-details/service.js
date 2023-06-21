@@ -37,6 +37,17 @@ function RenderIsVetServices (props) {
   
   if (_.isEmpty(_.uniq(props.listDetails.servicesAndCategories?.map((item) => item.Category_name)))) return <>Loading...</>
 
+  const renderMessageSection = () => {
+    return (
+      <span className={`fade ${servicesConfirmation.messageType ? 'show' : ''}`}>
+        {servicesConfirmation.messageType === 'saved' && 'Services saved!'}
+        {servicesConfirmation.messageType === 'same' && 'Same Service data!'}
+        {servicesConfirmation.messageType === 'problem' && 'Problem Saving Services!'}
+        {servicesConfirmation.messageType === 'none' && 'No services selected'}
+      </span>
+    )
+  }
+
   return (
     <>
       {Object.entries(categories).map(([category, services]) => (
@@ -113,12 +124,7 @@ function RenderIsVetServices (props) {
       >
         Save
       </Button>
-      <span className={`fade ${servicesConfirmation.messageType ? 'show' : ''}`}>
-        {servicesConfirmation.messageType === 'saved' && 'Services saved!'}
-        {servicesConfirmation.messageType === 'same' && 'Same Service data!'}
-        {servicesConfirmation.messageType === 'problem' && 'Problem Saving Services!'}
-        {servicesConfirmation.messageType === 'none' && 'No services selected'}
-      </span>
+      {renderMessageSection()}
     </>
   )
 };

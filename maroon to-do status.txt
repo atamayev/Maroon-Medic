@@ -2,7 +2,8 @@ To-do:
 
 
 ASAP:
--make all of the <span ...> into their own mini-components
+-break up all the account details sections into smaller components sections. ie: seperate where you add and display the spoken languages
+	make a renderAddSpokenlanuages, and a renderShowSpokenLanguages
 -see if can change the format of description. currently in acct details, need to do:
 	        if (response.data.descriptionData && !_.isEmpty(Object.keys(response.data.descriptionData))) {
           setDescription(response.data.descriptionData);

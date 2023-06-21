@@ -31,6 +31,17 @@ function RenderIsPets (props) {
   
   if (_.isEmpty(_.uniq(props.listDetails.pets?.map((item) => item.Category_name)))) return <>Loading...</>
 
+  const renderMessageSection = () => {
+    return (
+      <span className={`fade ${petsConfirmation.messageType ? 'show' : ''}`}>
+        {petsConfirmation.messageType === 'saved' && 'Pets saved!'}
+        {petsConfirmation.messageType === 'same' && 'Same Pet data!'}
+        {petsConfirmation.messageType === 'problem' && 'Problem Saving Pets!'}
+        {petsConfirmation.messageType === 'none' && 'No pets selected'}
+      </span>
+    )
+  }
+
   return (
     <>
       {Object.entries(pet_types).map(([pet_type, pets]) => (
@@ -71,12 +82,7 @@ function RenderIsPets (props) {
           )}
         </div>
       ))}
-      <span className={`fade ${petsConfirmation.messageType ? 'show' : ''}`}>
-        {petsConfirmation.messageType === 'saved' && 'Pets saved!'}
-        {petsConfirmation.messageType === 'same' && 'Same Pet data!'}
-        {petsConfirmation.messageType === 'problem' && 'Problem Saving Pets!'}
-        {petsConfirmation.messageType === 'none' && 'No pets selected'}
-      </span>
+      {renderMessageSection()}
     </>
   )
 };

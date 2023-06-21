@@ -138,6 +138,17 @@ export const AddPet = (props) => {
     )
   }
 
+  const renderMessageSection = () => {
+    return (
+      <span className={`fade ${props.petConfirmation.messageType ? 'show' : ''}`}>
+        {props.petConfirmation.messageType === 'saved' && 'Pet Data saved!'}
+        {props.petConfirmation.messageType === 'same' && 'Same Pet Data!'}
+        {props.petConfirmation.messageType === 'problem' && 'Problem Saving Pet Data!'}
+        {props.petConfirmation.messageType === 'none' && 'No Pet Data Entered'}
+      </span>
+    )
+  }
+
   return (
     <>
       <Card>
@@ -180,12 +191,7 @@ export const AddPet = (props) => {
               Add {renderNewPetName()}
             </Button>
           </Form>
-          <span className={`fade ${props.petConfirmation.messageType ? 'show' : ''}`}>
-            {props.petConfirmation.messageType === 'saved' && 'Pet Data saved!'}
-            {props.petConfirmation.messageType === 'same' && 'Same Pet Data!'}
-            {props.petConfirmation.messageType === 'problem' && 'Problem Saving Pet Data!'}
-            {props.petConfirmation.messageType === 'none' && 'No Pet Data Entered'}
-          </span>
+          {renderMessageSection()}
         </Card.Body>
       </Card>
     </>

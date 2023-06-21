@@ -121,7 +121,7 @@ export default function DoctorAccountDetails() {
           //Somehow set pictures.
         }
         if (response.data.publiclyAvailable[0].PubliclyAvailable) setPubliclyAvailable(response.data.publiclyAvailable[0].PubliclyAvailable);
-        if (response.data.pictures) //set pictures;
+        if (response.data.pictures) ; //set pictures;
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(response.data));
       }
     } catch(error) {

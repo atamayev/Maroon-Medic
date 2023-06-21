@@ -28,6 +28,15 @@ function renderIsVerification (props) {
 function RenderIsPubliclyAvailable (props) {
   const [publiclyAvailableConfirmation, setPubliclyAvailableConfirmation] = useConfirmationMessage();
 
+  const renderMessageSection = () => {
+    return (
+      <span className={`fade ${publiclyAvailableConfirmation.messageType ? 'show' : ''}`}>
+        {publiclyAvailableConfirmation.messageType === 'saved' && 'Publicly Available status saved!'}
+        {publiclyAvailableConfirmation.messageType === 'problem' && 'Problem Saving Publicly Available status!'}
+      </span>
+    )
+  }
+
   return(
     <div>
       <ToggleButtonGroup type="radio" name="options" 
@@ -40,10 +49,7 @@ function RenderIsPubliclyAvailable (props) {
             Yes
           </ToggleButton>
       </ToggleButtonGroup>
-      <span className={`fade ${publiclyAvailableConfirmation.messageType ? 'show' : ''}`}>
-        {publiclyAvailableConfirmation.messageType === 'saved' && 'Publicly Available status saved!'}
-        {publiclyAvailableConfirmation.messageType === 'problem' && 'Problem Saving Publicly Available status!'}
-      </span>
+      {renderMessageSection()}
     </div>
   )
 };
