@@ -2,8 +2,9 @@ To-do:
 
 
 ASAP:
+ctrl f shouldsave
+-change insurance table to be Patient_ID
 - add if (_.isEmpty(results)) return []; to all the fetch doctor-account-details fcns
-in the fethc-public doctor-data, if error, should return empty array.
 -see if can change the format of description. currently in acct details, need to do:
 	        if (response.data.descriptionData && !_.isEmpty(Object.keys(response.data.descriptionData))) {
           setDescription(response.data.descriptionData);
@@ -12,10 +13,8 @@ in the fethc-public doctor-data, if error, should return empty array.
 -consider making the Login History for both patients + docs into one file
 move handleSave in patient-personal-info to save patient details.
 
--site crashes when go to a public doctor page
 -when deleting, make all of teh parts of the account details require a delete confirmation. change the X delete button to red. when press delete, should plit into 2 buttons- confirm delete, or nevermind
 -add insurances on the add pets level. (delete insurance mapping table, add insurance ID to the pet_info_table)
--delete fetch doctor insurances from pulic doctor data.
 -put verify context on vet settings page - check all pages that don't have verify context.
 -Include the cost in the finalize booking screen
 

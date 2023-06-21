@@ -5,27 +5,6 @@ import { connection, DB_Operation } from "../connect.js";
  * FetchPublicDoctorData fetches all of a specific Doctor's data, concatenating all results as arrays to an array
  */
 export default new class FetchPublicDoctorData {
-    async fetchDoctorInsurances (User_ID) {
-        const functionName = this.fetchDoctorInsurances.bind(this).name;
-
-        const [insurance_mapping, insurance_list] = ['insurance_mapping', 'insurance_list'];
-    
-        const sql = `SELECT ${insurance_list}.Insurance_name 
-            FROM ${insurance_list} JOIN ${insurance_mapping} ON ${insurance_list}.insurance_listID = ${insurance_mapping}.Insurance_ID 
-            WHERE ${insurance_mapping}.User_ID = ?`;
-        
-        const values = [User_ID];
-        await DB_Operation(functionName, insurance_mapping);
-    
-        try {
-            const [results] = await connection.execute(sql, values);
-            if (_.isEmpty(results)) return [];
-            else return (results);
-        } catch(error) {
-            return (`error in ${functionName}:`, error);
-        }
-    };
-
     async fetchDoctorLanguages (User_ID) {
         const functionName = this.fetchDoctorLanguages.bind(this).name;
         const [language_mapping, language_list] = ['language_mapping', 'language_list'];
@@ -33,16 +12,15 @@ export default new class FetchPublicDoctorData {
         const sql = `SELECT ${language_list}.Language_name 
             FROM ${language_list} JOIN ${language_mapping} ON ${language_list}.language_listID = ${language_mapping}.Language_ID 
             WHERE ${language_mapping}.User_ID = ?`;
-        
+
         const values = [User_ID];
         await DB_Operation(functionName, language_mapping);
     
         try {
             const [results] = await connection.execute(sql, values);
-            if (_.isEmpty(results)) return [];
-            else return (results);
+            return (results);
         } catch(error) {
-            return (`error in ${functionName}:`, error);
+            return []
         }
     };
 
@@ -59,10 +37,9 @@ export default new class FetchPublicDoctorData {
     
         try {
             const [results] = await connection.execute(sql, values);
-            if (_.isEmpty(results)) return [];
-            else return results;
+            return results;
         } catch(error) {
-            return (`error in ${functionName}:`, error);
+            return [];
         }
     };
 
@@ -83,23 +60,22 @@ export default new class FetchPublicDoctorData {
         try {
             [results] = await connection.execute(sql, values);
         } catch(error) {
-            return (`error in ${functionName}:`, error);
+            return [];
         }
 
         if (!_.isEmpty(results)) {
-            for(let i =0;i<results.length; i++) {
+            for(let i = 0; i < results.length; i++) {
                 const sql = `SELECT ${booking_availability}.Day_of_week, ${booking_availability}.Start_time, ${booking_availability}.End_time FROM ${booking_availability} WHERE ${booking_availability}.address_ID = ?`;
                 const values = [results[i].addressesID]
                 try {
                     const [results1] = await connection.execute(sql, values);
                     results[i].times = results1;
                 } catch(error) {
-                    return (`error in second try=catch ${functionName}:`, error);
+                    return []
                 }
             }
-        } else return []
-
-        return (results);
+        }
+        return results;
     };
 
     async fetchDoctorPersonalInfo (User_ID) {
@@ -112,11 +88,8 @@ export default new class FetchPublicDoctorData {
         
         try {
             const [results] = await connection.execute(sql, values)
-            if (_.isEmpty(results)) return [];
-            else {
-                const DoctorPersonalInfo = results[0]
-                return (DoctorPersonalInfo);
-            }
+            const DoctorPersonalInfo = results[0]
+            return (DoctorPersonalInfo);
         } catch(error) {
             return [];
         }

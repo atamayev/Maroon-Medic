@@ -5,7 +5,7 @@ import { invalidUserAction} from "../user-verification-snippets";
 
 export async function saveInsurances(acceptedInsurances, setInsurancesConfirmation) {
   const PatientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails"));
-  const savedInsurances = PatientAccountDetails?.[0] || [];
+  const savedInsurances = PatientAccountDetails?.insurances || [];
   const savedInsurancesIDs = savedInsurances.map(insurance => insurance.insurance_listID).sort((a,b)=>a-b);
   const insuranceIds = acceptedInsurances.map(ins => ins.insurance_listID).sort((a,b)=>a-b); // list of all added insurances
   

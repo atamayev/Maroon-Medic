@@ -21,7 +21,7 @@ export async function loginHistory(User_ID) {
     await connection.execute(sql, values);
     return;
   } catch(error) {
-    return ('Problem with email selection');
+    console.log('Problem with adding login history');
   }
 };
 

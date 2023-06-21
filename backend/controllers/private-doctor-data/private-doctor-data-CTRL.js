@@ -1,7 +1,7 @@
 import _ from "lodash"
 import dayjs from "dayjs";
-dayjs.extend(customParseFormat); // extend Day.js with the plugin
 import customParseFormat from "dayjs/plugin/customParseFormat.js"
+dayjs.extend(customParseFormat); // extend Day.js with the plugin
 import { UUID_to_ID } from "../../db-and-security-and-helper-functions/UUID.js";
 import FetchAllLists from "../../db-and-security-and-helper-functions/fetch-all-lists.js";
 import {connection, DB_Operation} from "../../db-and-security-and-helper-functions/connect.js";
@@ -237,7 +237,7 @@ export async function fetchAccountDetails (req, res) {
         response.descriptionData   = await FetchDoctorAccountData.fetchDescriptionData(DoctorID);
         response.servicedPets      = await FetchDoctorAccountData.fetchServicedPets(DoctorID);
         response.publiclyAvailable = await FetchDoctorAccountData.fetchPubliclyAvailable(DoctorID);
-        response.pictures          = await FetchDoctorAccountData.fetchDoctorPictures(DoctorID);
+        //response.pictures          = await FetchDoctorAccountData.fetchDoctorPictures(DoctorID);
         return res.status(200).json(response);
     } catch(error) {
         return res.status(400).json([]);

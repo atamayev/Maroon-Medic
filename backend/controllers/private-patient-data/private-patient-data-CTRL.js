@@ -1,7 +1,7 @@
 import _ from "lodash"
 import dayjs from "dayjs";
-dayjs.extend(customParseFormat); // extend Day.js with the plugin
 import customParseFormat from "dayjs/plugin/customParseFormat.js"
+dayjs.extend(customParseFormat); // extend Day.js with the plugin
 import { UUID_to_ID } from "../../db-and-security-and-helper-functions/UUID.js";
 import FetchAllLists from "../../db-and-security-and-helper-functions/fetch-all-lists.js";
 import {connection, DB_Operation} from "../../db-and-security-and-helper-functions/connect.js";

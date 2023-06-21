@@ -2,22 +2,20 @@ import _ from "lodash"
 import React, { useState, useEffect} from 'react';
 import {useParams} from "react-router-dom";
 import PublicDoctorDataService from '../../services/public-doctor-data-service.js';
+import Header from '../header.js';
+import "./card.css"
 import RenderBookingSection from './public-doctor-booking.js'
 import RenderReviewsSection from "./public-doctor-reviews.js"
 import RenderServiceSection from "./public-doctor-services.js"
 import RenderLanguageSection from "./public-doctor-languages.js"
 import RenderLocationsSection from "./public-doctor-locations.js"
 import RenderEducationSection from "./public-doctor-education.js"
-import RenderInsuranceSection from "./public-doctor-insurances.js"
 import RenderSpecialtiesSection from "./public-doctor-specialties.js"
 import RenderPersonalInfoSection from "./public-doctor-personal-info.js"
 import RenderDescriptionSection from './public-doctor-description.js';
-import Header from '../header.js';
-import "./card.css"
 
 export default function Doctor () {
   let { id } = useParams(); //the id of the current site (which doctorData) --> used to set User
-  const [acceptedInsurances, setAcceptedInsurances] = useState([]);
   const [spokenLanguages, setSpokenLanguages] = useState([]);
   const [providedServices, setProvidedServices] = useState([]);
   const [doctorSpecialties, setDoctorSpecialties] = useState([]);
@@ -33,7 +31,6 @@ export default function Doctor () {
     try {
       const response = await PublicDoctorDataService.getSingleDoctor(id)
       if (response) {
-        if (response.data.doctorInsurances) setAcceptedInsurances(response.data.doctorInsurances);
         if (response.data.doctorLanguages) setSpokenLanguages(response.data.doctorLanguages);
         if (response.data.doctorServices) setProvidedServices(response.data.doctorServices);
         if (response.data.doctorSpecialties) setDoctorSpecialties(response.data.doctorSpecialties);
@@ -68,9 +65,6 @@ export default function Doctor () {
       />
       <RenderLocationsSection
         addresses = {addresses}
-      />
-      <RenderInsuranceSection
-        acceptedInsurances = {acceptedInsurances}
       />
       <RenderLanguageSection
         spokenLanguages = {spokenLanguages}

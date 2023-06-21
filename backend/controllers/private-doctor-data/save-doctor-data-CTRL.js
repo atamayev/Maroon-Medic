@@ -1,6 +1,7 @@
 import _ from "lodash"
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat.js"
+dayjs.extend(customParseFormat); // extend Day.js with the plugin
 import { UUID_to_ID } from "../../db-and-security-and-helper-functions/UUID.js";
 import { connection, DB_Operation } from "../../db-and-security-and-helper-functions/connect.js";
 import { clearCookies } from "../../db-and-security-and-helper-functions/cookie-operations.js";
@@ -39,8 +40,6 @@ export async function savePersonalData (req, res) {
     } catch(error) {
         return res.status(400).json();
     }
-
-    dayjs.extend(customParseFormat); // extend Day.js with the plugin
 
     // Combine date parts into a single string
     const dateOfBirthStr = `${personalInfo.DOB_month} ${personalInfo.DOB_day} ${personalInfo.DOB_year}`;

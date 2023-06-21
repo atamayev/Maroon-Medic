@@ -160,10 +160,10 @@ export default function RenderBookingSection(props) {
         <Card className='card-bottom-margin'>
           <Card.Header>Ready to make a booking?</Card.Header>
           <Card.Body>This doctor does not currently offer any services.</Card.Body>
-      </Card>
+        </Card>
       )
     }
-    return(
+    return (
       <Card className='card-bottom-margin'>
         <Card.Header>Ready to make a booking?</Card.Header>
         <Card.Body>

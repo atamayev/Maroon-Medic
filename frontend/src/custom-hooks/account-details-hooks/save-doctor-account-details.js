@@ -51,7 +51,7 @@ export async function saveServices(providedServices, setServicesConfirmation) {
     return rest;
   });//Only sends back the IDs, time, and price (cuts out unnecessary Service_name and category_name)
 
-  if (shouldSave) {//only saves if the insurances changed
+  if (shouldSave) {//only saves if the services changed
     try {
       const response = await PrivateDoctorDataService.saveServiceData(updatedServices)//Make sure it's accepted services and not something else
       if (response.status === 200) {

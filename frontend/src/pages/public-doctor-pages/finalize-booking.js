@@ -35,7 +35,7 @@ export function FinalizeBookingPage() {
   const {user_verification} = useContext(VerifyContext);
   const [user_type, setUser_type] = useState(null);
   const navigate = useNavigate();
-
+  console.log(location.state)
   
   useEffect(() => {
     const verifyAndSetUserType= async () => {

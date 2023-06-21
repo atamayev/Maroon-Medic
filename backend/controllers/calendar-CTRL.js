@@ -1,6 +1,4 @@
 import dayjs from "dayjs";
-dayjs.extend(customParseFormat); // extend Day.js with the plugin
-import customParseFormat from "dayjs/plugin/customParseFormat.js"
 import { UUID_to_ID } from "../db-and-security-and-helper-functions/UUID.js";
 import {connection, DB_Operation} from "../db-and-security-and-helper-functions/connect.js";
 import { clearCookies } from "../db-and-security-and-helper-functions/cookie-operations.js";
@@ -43,26 +41,34 @@ export async function makeAppointment(req, res) {
     const format = "YYYY-MM-DD HH:mm:ss"
     const createdAt = dayjs(date_ob).format(format);
 
+    // Remove 'th', 'st', 'nd', 'rd' from the date
+    const dateStr = AppointmentObject.appointment_date.replace(/\b(\d+)(th|st|nd|rd)\b/g, '$1');
+    const timeStr = AppointmentObject.appointment_time;
+
     // Combine date and time into a single string
-    const dateTimeStr = `${AppointmentObject.appointment_date} ${AppointmentObject.appointment_time}`;
-    
-    // Convert the string to a DateTime object
-    const dateTime = dayjs(dateTimeStr, 'dddd, MMMM D, YYYY HH:mm'); // 'D' instead of 'Do'
-    
-    // If you need to format this date to a MySQL DATETIME format, you can do it like this:
-    const mysqlDateTime = dateTime.format('YYYY-MM-DD HH:mm:ss');
+    const dateTimeStr = `${dateStr} ${timeStr}`;
+
+    // Parse the dateTimeStr into a Date object
+    const dateTime = new Date(dateTimeStr);
+
+    // Format the Date object into MySQL DATETIME format
+    const mysqlDateTime = dateTime.toISOString().slice(0, 19).replace('T', ' ');
+
+    console.log(mysqlDateTime);
 
     const sql2 = `INSERT INTO ${Appointments}
         (appointment_date, patient_message, Doctor_confirmation_status, Service_and_category_list_ID, Patient_ID, Doctor_ID, Addresses_ID, Created_at) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
     const values2 = [mysqlDateTime, null, AppointmentObject.Instant_book, AppointmentObject.Service_and_category_list_ID, Patient_ID, Doctor_ID, AppointmentObject.Addresses_ID, createdAt];
-
-    await DB_Operation(makeAppointment.name, Appointments)
     
+    console.log(values2)
+    
+    await DB_Operation(makeAppointment.name, Appointments)
     try {
         await connection.execute(sql2, values2)
         return res.status(200).json();
     } catch(error) {
+        // console.log(error)
         return res.status(500).json(error);
     }
 };
