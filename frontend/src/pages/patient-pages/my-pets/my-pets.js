@@ -10,7 +10,7 @@ import PrivatePatientDataService from '../../../services/private-patient-data-se
 import { useConfirmationMessage } from '../../../custom-hooks/use-confirmation-message'
 import Header from '../../header'
 import PatientHeader from '../patient-header'
-import AddPet from './add-pet'
+import { AddPet } from './add-pet'
 
 async function fetchPetData(setSavedPetData) {
   try {
@@ -36,12 +36,25 @@ async function FillPetTypes(setPetTypes) {
   }
 }
 
+async function FillInsurances(setInsurances) { 
+  try {
+    const response = await PrivatePatientDataService.fillInsurances();
+    if (response) {
+      setInsurances(response.data);
+      sessionStorage.setItem("Insurances", JSON.stringify(response.data));
+    }
+  } catch(error) {
+    if (error.response.status === 401) invalidUserAction(error.response.data)
+  }
+}
+
 export default function MyPets() {
   const {user_verification} = useContext(VerifyContext);
   const [savedPetData, setSavedPetData] = useState(JSON.parse(sessionStorage.getItem("PatientPetData")) || [])
-  const [newPetData, setNewPetData] = useState({Name: '', Gender:'', DOB: '', petType:''});
+  const [newPetData, setNewPetData] = useState({Name: '', Gender:'', DOB: '', petType: '', insuranceName: ''});
   const [user_type, setUser_type] = useState(null);
   const [petTypes, setPetTypes] = useState([]);
+  const [insurances, setInsurances] = useState([]);
   const [petConfirmation, setPetConfirmation] = useConfirmationMessage();
   const [showAddPet, setShowAddPet] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -60,6 +73,10 @@ export default function MyPets() {
           const storedPetTypes = sessionStorage.getItem("PetTypes");
           if (storedPetTypes) setPetTypes(JSON.parse(storedPetTypes));
           else FillPetTypes(setPetTypes);
+
+          const storedInsurances = sessionStorage.getItem("Insurances");
+          if (storedInsurances) setInsurances(JSON.parse(storedInsurances));
+          else FillInsurances(setInsurances);
         } catch (error) {
         }
       }
@@ -106,7 +123,8 @@ export default function MyPets() {
               <Card.Text>
                 <p>Gender: {pet.Gender}</p>
                 <p>Date of Birth: {moment(pet.DOB).format('MMMM Do, YYYY')}</p>
-                <p>{renderTypeOfPet(pet)}</p>
+                <p>{pet.petType}</p>
+                <p>Insurance Name: {pet.insuranceName}</p>
                 {/* Add other pet details as needed */}
               </Card.Text>
             </Card.Body>
@@ -138,7 +156,7 @@ export default function MyPets() {
 
   const renderShowAddPet = () => {
     if (showAddPet) return <></>
-    return(
+    return (
       <>
         <Button 
           variant="primary" 
@@ -149,7 +167,6 @@ export default function MyPets() {
     )
   }
   
-
   return (
     <>
       <Header dropdown = {true} search = {true}/>
@@ -161,6 +178,7 @@ export default function MyPets() {
           newPetData = {newPetData}
           setNewPetData = {setNewPetData}
           petTypes = {petTypes}
+          insurances = {insurances}
           petConfirmation = {petConfirmation}
           setPetConfirmation = {setPetConfirmation}
           setShowAddPet = {setShowAddPet}

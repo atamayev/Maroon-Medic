@@ -2,9 +2,7 @@ To-do:
 
 
 ASAP:
-ctrl f shouldsave
--change insurance table to be Patient_ID
-- add if (_.isEmpty(results)) return []; to all the fetch doctor-account-details fcns
+-make all of the <span ...> into their own mini-components
 -see if can change the format of description. currently in acct details, need to do:
 	        if (response.data.descriptionData && !_.isEmpty(Object.keys(response.data.descriptionData))) {
           setDescription(response.data.descriptionData);
@@ -14,7 +12,6 @@ ctrl f shouldsave
 move handleSave in patient-personal-info to save patient details.
 
 -when deleting, make all of teh parts of the account details require a delete confirmation. change the X delete button to red. when press delete, should plit into 2 buttons- confirm delete, or nevermind
--add insurances on the add pets level. (delete insurance mapping table, add insurance ID to the pet_info_table)
 -put verify context on vet settings page - check all pages that don't have verify context.
 -Include the cost in the finalize booking screen
 

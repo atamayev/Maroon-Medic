@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { connection, DB_Operation } from "../connect.js";
 
 /** FetchPatientAccountData is fairly self-explanatory
@@ -7,16 +8,16 @@ import { connection, DB_Operation } from "../connect.js";
  *  DOCUMENTATION LAST UPDATED 3/16/23
  */
 export default new class FetchPatientAccountData {
-    async fetchPatientInsurances (User_ID) {
+    async fetchPatientInsurances (Pet_info_ID) {
         const functionName = this.fetchPatientInsurances.bind(this).name;
 
         const [insurance_mapping, insurance_list] = ['insurance_mapping', 'insurance_list'];
 
         const sql = `SELECT ${insurance_list}.Insurance_name, ${insurance_list}.insurance_listID 
             FROM ${insurance_list} JOIN ${insurance_mapping} ON ${insurance_list}.insurance_listID = ${insurance_mapping}.Insurance_ID 
-            WHERE ${insurance_mapping}.User_ID = ?`;
+            WHERE ${insurance_mapping}.pet_info_ID = ?`;
         
-        const values = [User_ID];
+        const values = [Pet_info_ID];
         await DB_Operation(functionName, insurance_mapping);
 
         try {
@@ -59,9 +60,26 @@ export default new class FetchPatientAccountData {
         await DB_Operation(functionName, pet_info);
 
         try {
-            const [results] = await connection.execute(sql, values);
-            return results;
+            const [petResults] = await connection.execute(sql, values);
+
+            if (!_.isEmpty(petResults)) {
+                for (let pet of petResults) {
+                    const [insurance_mapping, insurance_list] = ['insurance_mapping', 'insurance_list'];
+
+                    const sql = `SELECT ${insurance_list}.Insurance_name, ${insurance_list}.insurance_listID 
+                        FROM ${insurance_list} JOIN ${insurance_mapping} ON ${insurance_list}.insurance_listID = ${insurance_mapping}.Insurance_ID 
+                        WHERE ${insurance_mapping}.pet_info_ID = ?`;
+
+                    await DB_Operation(functionName, insurance_mapping);
+                    const [insuranceResults] = await connection.execute(sql, [pet.pet_infoID]);
+                    console.log('insuranceResults',insuranceResults)
+                    if (!_.isEmpty(insuranceResults)) pet.insurance = insuranceResults[0]
+                    else pet.insurance = []
+                }
+            }
+            return petResults;
         } catch (error) {
+            console.log(error)
             return [];
         }
     };

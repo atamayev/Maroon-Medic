@@ -3,7 +3,7 @@ import { Form, Button, Card,Container, Row, Col } from 'react-bootstrap';
 import FormGroup from '../../../components/form-group';
 import { addMyPets } from '../../../custom-hooks/my-pets-hooks/save-my-pets';
 
-const AddPet = (props) => {
+export const AddPet = (props) => {
   const handleInputChange = (event) => {
     let value = event.target.value;
   
@@ -17,7 +17,18 @@ const AddPet = (props) => {
       };
   
       props.setNewPetData(newPet);
-    } else {
+    } else if (event.target.name === "insurance") {
+      // Find the selected pet type by its ID
+      let selectedInsurance = props.insurances.find(insurance => insurance.insurance_listID === JSON.parse(value));
+      let newPet = {
+        ...props.newPetData, 
+        insuranceName: selectedInsurance.Insurance_name, 
+        insurance_listID: selectedInsurance.insurance_listID 
+      };
+  
+      props.setNewPetData(newPet);
+    } 
+    else {
       let newPet = { ...props.newPetData, [event.target.name]: value };
       props.setNewPetData(newPet);
     }
@@ -28,7 +39,8 @@ const AddPet = (props) => {
       !petData.Name || 
       !petData.Gender || 
       !petData.DOB ||
-      !petData.petType
+      !petData.petType ||
+      !petData.insuranceName
     ) {
       return false;
     }
@@ -38,6 +50,92 @@ const AddPet = (props) => {
   const renderNewPetName = () => {
     if (!props.newPetData.Name) return <>Pet</>
     return <>{props.newPetData.Name}</>
+  }
+
+  const renderNameSection = () => {
+    return (
+      <FormGroup
+        id="formPetName"
+        className={'mb-3'}
+        label = "Pet Name:"
+        type="text"
+        onChange={handleInputChange}
+        name="Name"
+    />
+    )
+  }
+
+  const renderGenderSection = () => {
+    return (
+      <Form.Group id="formPetGender">
+        <Form.Label>Gender</Form.Label>
+        <Form.Check type="radio" label="Male" name="Gender" value="Male" onChange={handleInputChange} />
+        <Form.Check type="radio" label="Female" name="Gender" value="Female" onChange={handleInputChange} />
+      </Form.Group>
+    )
+  }
+
+  const renderDOBSection = () => {
+    return (
+      <FormGroup
+      id="formPetDob"
+      className={'mb-3'}
+      label = "Date of Birth"
+      type="date"
+      onChange={handleInputChange}
+      name="DOB"
+    />
+    )
+  }
+
+  const renderPetTypeSection = () => {
+    return (
+      <Form.Group id="formPetType">
+        <Form.Label>Type of Pet</Form.Label>
+        <Form.Control
+          as="select"
+          defaultValue={""}
+          onChange={handleInputChange}
+          name="petType"
+          required
+        >
+          <option value="" disabled>Select</option>
+          {props.petTypes.map((petType, index) => (
+            <option
+              key={index}
+              value={petType.pet_listID}
+            >
+              {petType.Pet}
+            </option>
+          ))}
+        </Form.Control>
+      </Form.Group>
+    )
+  }
+
+  const renderInsuranceSection = () => {
+    return (
+      <Form.Group id="formInsurance">
+        <Form.Label>Insurance</Form.Label>
+        <Form.Control
+          as = "select"
+          defaultValue = {""}
+          onChange = {handleInputChange}
+          name = "insurance"
+          required
+        >
+          <option value="" disabled>Select</option>
+          {props.insurances.map((insurance, index) => (
+            <option
+              key = {index}
+              value = {insurance.insurance_listID}
+            >
+              {insurance.Insurance_name}
+            </option>
+          ))}
+        </Form.Control>
+      </Form.Group>
+    )
   }
 
   return (
@@ -58,49 +156,16 @@ const AddPet = (props) => {
         </Container>
         <Card.Body>
           <Form>
-            <FormGroup
-              id="formPetName"
-              className={'mb-3'}
-              label = "Pet Name:"
-              type="text"
-              onChange={handleInputChange}
-              name="Name"
-            />
+            {renderNameSection()}
 
-            <Form.Group id="formPetGender">
-              <Form.Label>Gender</Form.Label>
-              <Form.Check type="radio" label="Male" name="Gender" value="Male" onChange={handleInputChange} />
-              <Form.Check type="radio" label="Female" name="Gender" value="Female" onChange={handleInputChange} />
-            </Form.Group>
+            {renderGenderSection()}
 
-            <FormGroup
-              id="formPetDob"
-              className={'mb-3'}
-              label = "Date of Birth"
-              type="date"
-              onChange={handleInputChange}
-              name="DOB"
-            />
-            <Form.Group id="formPetType">
-              <Form.Label>Type of Pet</Form.Label>
-              <Form.Control
-                as="select"
-                defaultValue={""}
-                onChange={handleInputChange}
-                name="petType"
-                required
-              >
-                <option value="" disabled>Select</option>
-                {props.petTypes.map((petType, index) => (
-                  <option
-                    key={index}
-                    value={petType.pet_listID}
-                  >
-                    {petType.Pet}
-                  </option>
-                ))}
-              </Form.Control>
-            </Form.Group>
+            {renderDOBSection()}
+            
+            {renderPetTypeSection()}
+
+            {renderInsuranceSection()}
+            
             Upload image area 
             <br/>
             <Button 
@@ -126,5 +191,3 @@ const AddPet = (props) => {
     </>
   );
 };
-
-export default AddPet;

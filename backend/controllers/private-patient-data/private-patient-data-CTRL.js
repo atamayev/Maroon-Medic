@@ -227,6 +227,15 @@ export async function fetchPetTypes (req, res) {
     }
 };
 
+export async function fetchInsurances (req, res) {
+    try {
+        const response = await FetchAllLists.fetchAllInsurances();
+        return res.status(200).json(response);
+    } catch(error) {
+        return res.status(400).json([]);
+    }
+};
+
 /** fetchAccountDetails retrieves the Patient's Account Details
  *  Takes the patient's UUID, and converts to the patientID.
  *  Starts with an empty list, and appends objects from fetchPatientAccountData. Each function contains a specific data type (desciriptions, languages, etc)
@@ -247,7 +256,6 @@ export async function fetchAccountDetails (req, res) {
 
     try {
         let response = {}
-        response.insurances = await FetchPatientAccountData.fetchPatientInsurances(PatientID)
         response.languages  = await FetchPatientAccountData.fetchPatientLanguages(PatientID)
         return res.status(200).json(response);
     } catch(error) {
@@ -263,7 +271,6 @@ export async function fetchAccountDetails (req, res) {
 export async function fetchPatientLists (req, res) {
     try {
         let response = {};
-        response.insurances = await FetchAllLists.fetchAllInsurances()
         response.languages  = await FetchAllLists.fetchAllLanguages()
         return res.status(200).json(response);
     } catch(error) {

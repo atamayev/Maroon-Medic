@@ -8,10 +8,11 @@ import {
     fetchPatientLists,
     fetchPetData,
     fetchPetTypes,
+    fetchInsurances
 } from "../controllers/private-patient-data/private-patient-data-CTRL.js";
 import {
     savePersonalData,
-    saveGeneralData,
+    saveLanguageData,
     savePetData,
 } from "../controllers/private-patient-data/save-patient-data-CTRL.js";
 
@@ -25,9 +26,10 @@ router.get("/fetch-account-details-data", fetchAccountDetails)
 router.get("/fetch-patient-lists", fetchPatientLists)
 router.get("/fetch-pet-data", fetchPetData)
 router.get("/fetch-pet-types", fetchPetTypes)
+router.get("/fetch-insurances", fetchInsurances)
 
 router.post("/save-personal-data", savePersonalData)
-router.post("/save-general-data", saveGeneralData)
+router.post("/save-language-data", saveLanguageData)
 router.post("/save-pet-data", savePetData)
 
 export default router

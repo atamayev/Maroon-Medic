@@ -46,7 +46,7 @@ export async function savePatientLanguages(languageID, spokenLanguages, setLangu
   const PatientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails"));
   let response;
   try {
-    response = await PrivatePatientDataService.saveGeneralData(languageID, 'Language', operationType)
+    response = await PrivatePatientDataService.saveLanguageData(languageID, operationType)
   } catch(error) {
     if (error.response.status === 401) invalidUserAction(error.response.data)
     else setLanguagesConfirmation({messageType: 'problem'});

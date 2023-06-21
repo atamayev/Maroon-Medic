@@ -65,7 +65,7 @@ export async function savePersonalData (req, res) {
     }
 };
 
-/** saveGeneralData saves either Language, or Insurance Data
+/** saveLanguageData saves either Language
  *  First, converts from PatientUUID to PatientID. Then, performs operations depending on the operationType
  *  The mapping file is chosen based on the DataType (can either be Specialty, or Language)
  * @param {String} req Cookie from client, type of data, list of data (ie list of languages, or insurances)
@@ -73,7 +73,7 @@ export async function savePersonalData (req, res) {
  * @returns Returns 200/400, depending on wheather the data was saved correctly
  *  DOCUMENTATION LAST UPDATED 6/4/23
  */
-export async function saveGeneralData (req, res) {
+export async function saveLanguageData (req, res) {
     const PatientUUID = req.cookies.PatientUUID;
     let PatientID;
     try {
@@ -83,18 +83,16 @@ export async function saveGeneralData (req, res) {
         return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' }); 
     }
 
-    const DataType = req.body.DataType
-    const DataTypelower = DataType.charAt(0).toLowerCase() + DataType.slice(1);
     const operationType = req.body.operationType;
 
     const patientData = req.body.Data; // The Data is an array of the ID of the DataType ([6]), which is a specific Language_ID)
 
-    const table_name = `${DataTypelower}_mapping`;
+    const language_mapping = 'language_mapping';
 
-    await DB_Operation(saveGeneralData.name, table_name);
+    await DB_Operation(saveLanguageData.name, language_mapping);
 
     if (operationType === 'add') {
-        const sql = `INSERT INTO ${table_name} (${DataType}_ID, User_ID) VALUES (?, ?)`;
+        const sql = `INSERT INTO ${language_mapping} (Language_ID, User_ID) VALUES (?, ?)`;
         const values = [patientData, PatientID];
         try {
             await connection.execute(sql, values);
@@ -103,7 +101,7 @@ export async function saveGeneralData (req, res) {
             return res.status(400).json();
         }
     } else if (operationType === 'delete') {
-        const sql = `DELETE FROM ${table_name} WHERE ${DataType}_ID = ? AND User_ID = ?`;
+        const sql = `DELETE FROM ${language_mapping} WHERE Language_ID = ? AND User_ID = ?`;
         const values = [patientData, PatientID];
         try {
             await connection.execute(sql, values);
@@ -133,7 +131,7 @@ export async function savePetData (req, res) {
         return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' }); 
     }
 
-    const PetData = req.body.PetData
+    let PetData = req.body.PetData
     const operationType = req.body.operationType;//adding, deleting, updating
 
     const pet_info = `pet_info`;
@@ -143,11 +141,25 @@ export async function savePetData (req, res) {
     if (operationType === 'add') {
         const sql = `INSERT INTO ${pet_info} (Name, Gender, DOB, Patient_ID, pet_ID, isActive) VALUES (?, ?, ?, ?, ?, ?)`;
         const values = [PetData.Name, PetData.Gender, PetData.DOB, PatientID, PetData.pet_listID, 1];
+        let result;
         try {
-            const [result] = await connection.execute(sql, values);
+            [result] = await connection.execute(sql, values);
             PetData.pet_infoID = result.insertId;
+        } catch(error) {
+            console.log(error)
+            return res.status(400).json();
+        }
+        const insurance_mapping = 'insurance_mapping';
+
+        await DB_Operation(saveLanguageData.name, insurance_mapping);
+    
+        const sql1 = `INSERT INTO ${insurance_mapping} (Insurance_ID, pet_info_ID) VALUES (?, ?)`;
+        const values1 = [PetData.insurance_listID, PetData.pet_infoID];
+        try {
+            await connection.execute(sql1, values1);
             return res.status(200).json(PetData);
         } catch(error) {
+            console.log(error)
             return res.status(400).json();
         }
     } else if (operationType === 'delete') {
@@ -157,9 +169,12 @@ export async function savePetData (req, res) {
             await connection.execute(sql, values);
             return res.status(200).json();
         } catch(error) {
+            console.log(error)
             return res.status(400).json();
         }
+
     } else {
+        console.log(error)
         return res.status(400).json();
     }
 };

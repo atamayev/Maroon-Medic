@@ -96,10 +96,10 @@ SELECT * FROM insurance_list;
 CREATE TABLE insurance_mapping(
 	insurance_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	Insurance_ID INT unsigned NOT NULL, 
-	User_ID INT unsigned NOT NULL, 
+	pet_info_ID INT unsigned NOT NULL, 
 	FOREIGN KEY (Insurance_ID) REFERENCES insurance_list(insurance_listID),
-	FOREIGN KEY (User_ID) REFERENCES Credentials(UserID),
-	UNIQUE (Insurance_ID, User_ID)
+	FOREIGN KEY (pet_info_ID) REFERENCES pet_info(pet_infoID),
+	UNIQUE (Insurance_ID, pet_info_ID)
 );
 
 SELECT * FROM insurance_mapping;

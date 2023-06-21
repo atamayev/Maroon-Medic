@@ -6,7 +6,6 @@ import PrivatePatientDataService from '../../../services/private-patient-data-se
 import Header from '../../header';
 import PatientHeader from '../patient-header'
 import RenderLanguageSection from './language';
-import RenderInsuranceSection from './insurance';
 
 async function FillLists(setListDetails) { 
   try {
@@ -26,9 +25,7 @@ export default function PatientAccountDetails() {
   const [user_type, setUser_type] = useState(null);
   const PatientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails"));
   
-  const [acceptedInsurances, setAcceptedInsurances] = useState(PatientAccountDetails?.[0] || []);
-
-  const [spokenLanguages, setSpokenLanguages] = useState(PatientAccountDetails?.[1] || []);
+  const [spokenLanguages, setSpokenLanguages] = useState(PatientAccountDetails?.lanauges || []);
 
   const verifyAndSetAccountDetails = async () => {
     const result = await user_verification();
@@ -57,8 +54,7 @@ export default function PatientAccountDetails() {
     try {
       const response = await PrivatePatientDataService.fillAccountDetails();
       if (response) {
-        if (response.data[0]) setAcceptedInsurances(response.data[0]);
-        if (response.data[1]) setSpokenLanguages(response.data[1]);
+        if (response.data.languages) setSpokenLanguages(response.data.languages);
         sessionStorage.setItem("PatientAccountDetails", JSON.stringify(response.data));
       }
     } catch(error) {
@@ -72,12 +68,6 @@ export default function PatientAccountDetails() {
     <div>
       <Header dropdown={true} search={true} />
       <PatientHeader/>
-
-      <RenderInsuranceSection
-        listDetails = {listDetails}
-        acceptedInsurances = {acceptedInsurances}
-        setAcceptedInsurances = {setAcceptedInsurances}
-      />
       <RenderLanguageSection
         listDetails = {listDetails}
         spokenLanguages = {spokenLanguages}
