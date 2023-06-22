@@ -26,70 +26,91 @@ function RenderIsVetEducation(props) {
 
   if (_.isEmpty(_.uniq(props.listDetails.vetSchools?.map((item) => item.School_name)))) return <p>Loading...</p>
 
-  return (
-    <>
-      <label htmlFor="vet-school">Select a Veterinary School: </label>
-      <select
-        id="vet-school"
-        name="vet-school"
-        value={props.selectedVetSchool}
-        onChange={(e) => props.setSelectedVetSchool(e.target.value)}
+  const renderSelectSchool = () => {
+    return (
+      <div>
+        <label htmlFor="vet-school">Select a Veterinary School: </label>
+        <select
+          id="vet-school"
+          name="vet-school"
+          value={props.selectedVetSchool}
+          onChange={(e) => props.setSelectedVetSchool(e.target.value)}
+        >
+          <option value="" disabled>Choose a School</option>
+          {Array.from(new Set(props.listDetails.vetSchools?.map((item) => item.School_name))).map(
+            (school, index) => (
+              <option key={index} value={school}>
+                {school}
+              </option>
+            ))}
+        </select>
+      </div>
+    )
+  }
+
+  const renderSelectEducationType = () => {
+    return (
+      <div>
+        <label htmlFor="education-type">Select a Type of Veterinary Education: </label>
+          <select
+            id="vet-education"
+            name="vet-education"
+            value={props.selectedVetEducationType}
+            onChange={(event) => props.setSelectedVetEducationType(event.target.value)}
+          >
+            <option value="" disabled>Choose an Education Type</option>
+            {Array.from(new Set(props.listDetails.vetEducationTypes?.map((item) => item.Education_type))).map(
+              (VetEdType, index) => (
+                <option key={index} value={VetEdType}>
+                  {VetEdType}
+                </option>
+              ))}
+          </select>
+      </div>
+    )
+  }
+  const renderEducationTime = () => {
+    return (
+      <>
+        {allChoicesFilled &&
+          <EducationTime 
+            timeState = {props.timeState}
+            setTimeState = {props.setTimeState}
+          />
+        }
+      </>
+    )
+  }
+  const renderAddAndSaveButton = () => {
+    return (
+      <Button onClick = {() => {
+        const selectedEducationObj = handleAddVetEducation(
+        props.selectedVetSchool,
+        props.setSelectedVetSchool, 
+        props.selectedVetEducationType, 
+        props.setSelectedVetEducationType,
+        props.vetEducation, 
+        props.setVetEducation,
+        props.timeState,
+        props.setTimeState
+        )
+        saveVetEducation (
+          selectedEducationObj,
+          props.vetEducation,
+          props.setVetEducation,
+          props.listDetails,
+          setVetEducationConfirmation,
+          'add'
+        )
+      }}
       >
-        <option value="" disabled>Choose a School</option>
-        {Array.from(new Set(props.listDetails.vetSchools?.map((item) => item.School_name))).map(
-          (school, index) => (
-            <option key={index} value={school}>
-              {school}
-            </option>
-          ))}
-      </select>
-      <br />
-      {props.selectedVetSchool && (
-          <>
-          <label htmlFor="education-type">Select a Type of Veterinary Education: </label>
-            <select
-              id="vet-education"
-              name="vet-education"
-              value={props.selectedVetEducationType}
-              onChange={(event) => props.setSelectedVetEducationType(event.target.value)}
-            >
-              <option value="" disabled>Choose an Education Type</option>
-              {Array.from(new Set(props.listDetails.vetEducationTypes?.map((item) => item.Education_type))).map(
-                (VetEdType, index) => (
-                  <option key={index} value={VetEdType}>
-                    {VetEdType}
-                  </option>
-                ))}
-            </select>
-            {allChoicesFilled &&
-              <EducationTime 
-              timeState = {props.timeState}
-              setTimeState = {props.setTimeState}
-                /> }
-              {allChoicesFilled && (
-                <Button onClick = {() => {
-                  const selectedEducationObj = handleAddVetEducation(
-                  props.selectedVetSchool,
-                  props.setSelectedVetSchool, 
-                  props.selectedVetEducationType, 
-                  props.setSelectedVetEducationType,
-                  props.vetEducation, 
-                  props.setVetEducation,
-                  props.timeState,
-                  props.setTimeState
-                  )
-                  saveVetEducation (
-                    selectedEducationObj,
-                    props.vetEducation,
-                    props.setVetEducation,
-                    props.listDetails,
-                    setVetEducationConfirmation,
-                    'add'
-                  )
-                }}>Add</Button>
-              )}
-              </>
-            )}
+        Add
+      </Button>
+    )
+  }
+
+  const renderSavedEducationList = () => {
+    return (
       <ul>
         {props.vetEducation.map((vet_education) => (
           <li key={vet_education.vet_education_mappingID}>
@@ -106,12 +127,39 @@ function RenderIsVetEducation(props) {
           </li>
         ))}
       </ul>
-        <span className={`fade ${vetEducationConfirmation.messageType ? 'show' : ''}`}>
-          {vetEducationConfirmation.messageType === 'saved' && 'Vet Education saved!'}
-          {vetEducationConfirmation.messageType === 'same' && 'Same Vet Education data!'}
-          {vetEducationConfirmation.messageType === 'problem' && 'Problem Saving Vet Education!'}
-          {vetEducationConfirmation.messageType === 'none' && 'No Vet Education selected'}
-        </span>
+    )
+  }
+  
+  const renderMessageSection = () => {
+    return (
+      <span className={`fade ${vetEducationConfirmation.messageType ? 'show' : ''}`}>
+        {vetEducationConfirmation.messageType === 'saved' && 'Vet Education saved!'}
+        {vetEducationConfirmation.messageType === 'same' && 'Same Vet Education data!'}
+        {vetEducationConfirmation.messageType === 'problem' && 'Problem Saving Vet Education!'}
+        {vetEducationConfirmation.messageType === 'none' && 'No Vet Education selected'}
+      </span>
+    )
+  }
+
+  return (
+    <>
+      {renderSelectSchool()}
+
+      {props.selectedVetSchool && 
+        renderSelectEducationType()
+      }
+
+      {allChoicesFilled &&
+        renderEducationTime()
+      }
+
+      {allChoicesFilled && 
+        renderAddAndSaveButton()
+      }
+
+      {renderSavedEducationList()}
+
+      {renderMessageSection()}
     </>
   )
 };

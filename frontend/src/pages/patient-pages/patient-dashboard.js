@@ -149,7 +149,7 @@ export default function PatientDashboard() {
     if (_.isEmpty(dashboardData)) return <>No upcoming appointments</>
     return (
       <>
-        <Card style={{margin: '0 10px' }}className='mb-3'>
+        <Card style = {{margin: '0 10px' }} className = 'mb-3'>
           <Card.Header>
             <h1>Upcoming Appointments</h1>
           </Card.Header>

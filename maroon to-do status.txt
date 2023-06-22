@@ -3,6 +3,7 @@ To-do:
 
 ASAP:
 continue going through all components: if the component doesn't fit onto one page, break it up
+-in edudcation time, make the default selection be: choose a year, month. make it disabled. make the add button only appear when it is selected
 -break up all the account details sections into smaller components sections. ie: seperate where you add and display the spoken languages
 	make a renderAddSpokenlanuages, and a renderShowSpokenLanguages
 -see if can change the format of description. currently in acct details, need to do:

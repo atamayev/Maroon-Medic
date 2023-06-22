@@ -25,59 +25,57 @@ function RenderIsPreVetEducation(props) {
   const allChoicesFilled = props.selectedPreVetSchool && props.selectedMajor && props.selectedPreVetEducationType;
 
   if (_.isEmpty(_.uniq(props.listDetails.preVetSchools?.map((item) => item.School_name)))) return <p> Loading... </p>
-  
-  const renderMessageSection = () => {
+
+  const renderSelectSchool = () => {
     return (
-      <span className={`fade ${preVetEducationConfirmation.messageType ? 'show' : ''}`}>
-        {preVetEducationConfirmation.messageType === 'saved' && 'Pre-Vet Education saved!'}
-        {preVetEducationConfirmation.messageType === 'same' && 'Same Pre-Vet Education data!'}
-        {preVetEducationConfirmation.messageType === 'problem' && 'Problem Saving Pre-Vet Education!'}
-        {preVetEducationConfirmation.messageType === 'none' && 'No Pre-Vet Education selected'}
-      </span>
-    )
-  }
-  
-  return(
-    <>
-      <label htmlFor="pre-vet-school">Select a school: </label>
-      <select
-        id="pre-vet-school"
-        name="pre-vet-school"
-        value={props.selectedPreVetSchool}
-        onChange={(e) => props.setSelectedPreVetSchool(e.target.value)}
-      >
-        <option value="" disabled>Choose a School</option>
-        {Array.from(new Set(props.listDetails.preVetSchools?.map((item) => item.School_name))).map(
-          (school, index) => (
-            <option key={index} value={school}>
-              {school}
-            </option>
-          ))}
-      </select>
-      <br />
-        {props.selectedPreVetSchool && (
-          <>
-            <label htmlFor="major">Select a Major: </label>
-            <select
-              id="major"
-              name="major"
-              value={props.selectedMajor}
-              onChange = {(event) => props.setSelectedMajor(event.target.value)}
-            >
-              <option value="" disabled>Choose a major</option>
-              {_.uniq(props.listDetails.majors?.map((item) => item.Major_name)).map(
-            (major, index) => (
-              <option key={index} value={major}>
-                {major}
+      <div>
+        <label htmlFor="pre-vet-school">Select a school: </label>
+        <select
+          id="pre-vet-school"
+          name="pre-vet-school"
+          value={props.selectedPreVetSchool}
+          onChange={(e) => props.setSelectedPreVetSchool(e.target.value)}
+        >
+          <option value="" disabled>Choose a School</option>
+          {Array.from(new Set(props.listDetails.preVetSchools?.map((item) => item.School_name))).map(
+            (school, index) => (
+              <option key={index} value={school}>
+                {school}
               </option>
             ))}
-            </select>
-          </>
-        )}
-      <br/>
+        </select>
+      </div>
+    )
+  }
+
+  const renderSelectMajor = () => {
+    return (
+      <>
+        <label htmlFor="major">Select a Major: </label>
+        <select
+          id="major"
+          name="major"
+          value={props.selectedMajor}
+          onChange = {(event) => props.setSelectedMajor(event.target.value)}
+        >
+          <option value="" disabled>Choose a major</option>
+          {_.uniq(props.listDetails.majors?.map((item) => item.Major_name)).map(
+        (major, index) => (
+          <option key={index} value={major}>
+            {major}
+          </option>
+        ))}
+        </select>
+      </>
+    )
+  }
+
+  const renderSelectEducationType = () => {
+    return (
+      <div>
         {props.selectedMajor && (
           <>
-          <label htmlFor="education-type">Select a Type of Education: </label>
+            <label htmlFor="education-type">Select a Type of Education: </label>
             <select
               id="education-type"
               name="education-type"
@@ -92,38 +90,60 @@ function RenderIsPreVetEducation(props) {
                   </option>
                 ))}
             </select>
-            {allChoicesFilled &&
-              <EducationTime 
-                timeState = {props.timeState}
-                setTimeState = {props.setTimeState}
-                /> }
-              {allChoicesFilled && (
-                <Button 
-                  onClick = {() => {
-                    const selectedEducationObj = handleAddPreVetEducation(
-                      props.selectedPreVetSchool, 
-                      props.selectedMajor, 
-                      props.selectedPreVetEducationType, 
-                      props.preVetEducation, 
-                      props.setPreVetEducation, 
-                      props.setSelectedPreVetSchool, 
-                      props.setSelectedMajor, 
-                      props.setSelectedPreVetEducationType, 
-                      props.timeState,
-                      props.setTimeState
-                    )
-                    savePreVetEducation (
-                      selectedEducationObj,
-                      props.preVetEducation,
-                      props.setPreVetEducation,
-                      props.listDetails,
-                      setPreVetEducationConfirmation,
-                      'add'
-                    )
-                  }}>Add</Button>
-              )}
           </>
         )}
+      </div>
+    )
+  }
+
+  const renderEducationTime = () => {
+    return (
+      <>
+        {allChoicesFilled &&
+          <EducationTime 
+            timeState = {props.timeState}
+            setTimeState = {props.setTimeState}
+          />
+        }
+      </>
+    )
+  }
+
+  const renderAddAndSaveButton = () => {
+    return (
+      <>
+        <Button 
+          onClick = {() => {
+            const selectedEducationObj = handleAddPreVetEducation(
+              props.selectedPreVetSchool, 
+              props.selectedMajor, 
+              props.selectedPreVetEducationType, 
+              props.preVetEducation, 
+              props.setPreVetEducation, 
+              props.setSelectedPreVetSchool, 
+              props.setSelectedMajor, 
+              props.setSelectedPreVetEducationType, 
+              props.timeState,
+              props.setTimeState
+              )
+              savePreVetEducation (
+                selectedEducationObj,
+              props.preVetEducation,
+              props.setPreVetEducation,
+              props.listDetails,
+              setPreVetEducationConfirmation,
+              'add'
+              )
+            }}
+          >
+            Add
+          </Button>
+        </>
+    )
+  }
+
+  const renderSavedEducationList = () => {
+    return (
       <ul>
         {props.preVetEducation.map((pre_vet_education) => (
           <li key={pre_vet_education.pre_vet_education_mappingID}>
@@ -140,6 +160,42 @@ function RenderIsPreVetEducation(props) {
           </li>
         ))}
       </ul>
+    )
+  }
+  
+  const renderMessageSection = () => {
+    return (
+      <span className={`fade ${preVetEducationConfirmation.messageType ? 'show' : ''}`}>
+        {preVetEducationConfirmation.messageType === 'saved' && 'Pre-Vet Education saved!'}
+        {preVetEducationConfirmation.messageType === 'same' && 'Same Pre-Vet Education data!'}
+        {preVetEducationConfirmation.messageType === 'problem' && 'Problem Saving Pre-Vet Education!'}
+        {preVetEducationConfirmation.messageType === 'none' && 'No Pre-Vet Education selected'}
+      </span>
+    )
+  }
+  
+  return (
+    <>
+      {renderSelectSchool()}
+
+      {props.selectedPreVetSchool &&
+        renderSelectMajor()
+      }
+
+      {props.selectedMajor && 
+        renderSelectEducationType()
+      }
+
+      {allChoicesFilled && 
+        renderEducationTime()
+      }
+
+      {allChoicesFilled && 
+        renderAddAndSaveButton()
+      }
+      
+      {renderSavedEducationList()}
+      
       {renderMessageSection()}
     </>
   )
