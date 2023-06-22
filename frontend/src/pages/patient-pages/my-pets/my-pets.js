@@ -98,13 +98,7 @@ export default function MyPets() {
     setShowModal(false);
   };
 
-  const renderTypeOfPet = (pet) => {
-    if (pet.Pet) return <>{pet.Pet}</>
-    return <>{pet.petType}</>
-  }
-
-  const renderSavedPetData = () => {
-    if (_.isEmpty(savedPetData)) return <></>
+  const renderSavedPetDataMap = () => {
     return (
       <>
         {savedPetData.map((pet, index) => (
@@ -116,7 +110,7 @@ export default function MyPets() {
                   variant="danger" 
                   style={{ float: 'right' }} 
                   onClick={() => handleShowModal(pet)}
-                >
+                  >
                   X
                 </Button>
               </Card.Title>
@@ -130,26 +124,41 @@ export default function MyPets() {
             </Card.Body>
           </Card>
         ))}
-          <Modal show = {showModal} onHide = {handleCloseModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>Confirm Deletion</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Are you sure you want to delete {petToDelete?.Name}?</Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseModal}>
-              Close
-            </Button>
-            <Button 
-              variant="danger" 
-              onClick={() => {
-                deleteMyPets(petToDelete.pet_infoID, savedPetData, setSavedPetData, setPetConfirmation);
-                handleCloseModal();
-              }}
-            >
-              Delete
-            </Button>
-          </Modal.Footer>
-        </Modal>
+      </>
+    )
+  }
+
+  const renderModal = () => {
+    return (
+      <Modal show = {showModal} onHide = {handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Deletion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete {petToDelete?.Name}?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+          <Button 
+            variant="danger" 
+            onClick={() => {
+              deleteMyPets(petToDelete.pet_infoID, savedPetData, setSavedPetData, setPetConfirmation);
+              handleCloseModal();
+            }}
+          >
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    )
+  }
+
+  const renderSavedPetData = () => {
+    if (_.isEmpty(savedPetData)) return <></>
+    return (
+      <>
+        {renderSavedPetDataMap()}
+        {renderModal()}
       </>
     )
   }

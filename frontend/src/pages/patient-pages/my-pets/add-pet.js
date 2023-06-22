@@ -52,6 +52,17 @@ export const AddPet = (props) => {
     return <>{props.newPetData.Name}</>
   }
 
+  const renderDeleteButton = () => {
+    return (
+      <Button variant="danger" onClick={() => 
+        {
+          props.setNewPetData({})
+          props.setShowAddPet(false)
+        }}
+      >X</Button>
+    )
+  }
+
   const renderNameSection = () => {
     return (
       <FormGroup
@@ -138,6 +149,22 @@ export const AddPet = (props) => {
     )
   }
 
+  const renderAddButton = () => {
+    return (
+      <Button 
+        variant="primary" 
+        type="submit"
+        disabled={!areAllFieldsValid(props.newPetData)} // Check for both field validity
+        onClick={(e) => {
+          e.preventDefault();
+          addMyPets(props.newPetData, props.setNewPetData, props.setPetConfirmation, props.savedPetData, props.setSavedPetData, props.setShowAddPet);
+        }}
+      > 
+        Add {renderNewPetName()}
+      </Button>
+    )
+  }
+
   const renderMessageSection = () => {
     return (
       <span className={`fade ${props.petConfirmation.messageType ? 'show' : ''}`}>
@@ -156,12 +183,7 @@ export const AddPet = (props) => {
           <Row>
             <Col xs={8}></Col>
             <Col xs={4} className=''>
-              <Button variant="danger" onClick={() => 
-                {
-                  props.setNewPetData({})
-                  props.setShowAddPet(false)
-                }}
-              >X</Button>
+              {renderDeleteButton()}
             </Col>
           </Row>
         </Container>
@@ -179,17 +201,7 @@ export const AddPet = (props) => {
             
             Upload image area 
             <br/>
-            <Button 
-              variant="primary" 
-              type="submit"
-              disabled={!areAllFieldsValid(props.newPetData)} // Check for both field validity
-              onClick={(e) => {
-                e.preventDefault();
-                addMyPets(props.newPetData, props.setNewPetData, props.setPetConfirmation, props.savedPetData, props.setSavedPetData, props.setShowAddPet);
-              }}
-            > 
-              Add {renderNewPetName()}
-            </Button>
+            {renderAddButton()}
           </Form>
           {renderMessageSection()}
         </Card.Body>

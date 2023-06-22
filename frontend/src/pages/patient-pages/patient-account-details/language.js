@@ -32,8 +32,8 @@ function RenderIsPatientLanguages(props) {
     )
   }
 
-  return(
-    <div>
+  const renderSelectLanguageSection = () => {
+    return (
       <select
         id="language"
         name="language"
@@ -60,6 +60,11 @@ function RenderIsPatientLanguages(props) {
               </option>
             ))}
       </select>
+    )
+  }
+
+  const renderSavedLanguageList = () => {
+    return (
       <ul>
         {_.isArray(props.spokenLanguages) &&
           props.spokenLanguages.map((language) => (
@@ -78,6 +83,13 @@ function RenderIsPatientLanguages(props) {
             </li>
           ))}
       </ul>
+    )
+  }
+
+  return(
+    <div>
+      {renderSelectLanguageSection()}
+      {renderSavedLanguageList()}
       {renderMessageSection()}
     </div>
   );

@@ -141,6 +141,6 @@ function RenderIsPreVetEducation(props) {
         ))}
       </ul>
       {renderMessageSection()}
-      </>
+    </>
   )
 };

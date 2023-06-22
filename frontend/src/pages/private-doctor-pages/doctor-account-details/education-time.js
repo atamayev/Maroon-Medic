@@ -19,8 +19,9 @@ const currentYear = new Date().getFullYear();
 const years = [...Array(60).keys()].map(i => i + currentYear - 60).reverse();
 
 export default function EducationTime(props) {
-  return (
-    <div>
+
+  const renderStartMonthSection = () => {
+    return (
       <label>
         Start Month:
         <select 
@@ -32,7 +33,11 @@ export default function EducationTime(props) {
           ))}
         </select>
       </label>
-      <br />
+    )
+  }
+
+  const renderStartYearSection = () => {
+    return (
       <label>
         Start Year:
         <select 
@@ -44,7 +49,11 @@ export default function EducationTime(props) {
           ))}
         </select>
       </label>
-      <br />
+    )
+  }
+
+  const renderEndMonthSection = () => {
+    return (
       <label>
         End Month:
         <select 
@@ -56,7 +65,11 @@ export default function EducationTime(props) {
           ))}
         </select>
       </label>
-      <br />
+    )
+  }
+
+  const renderEndYearSection = () => {
+    return (
       <label>
         End Year:
         <select 
@@ -68,6 +81,18 @@ export default function EducationTime(props) {
           ))}
         </select>
       </label>
+    )
+  }
+
+  return (
+    <div>
+      {renderStartMonthSection()}
+      <br />
+      {renderStartYearSection()}
+      <br />
+      {renderEndMonthSection()}
+      <br />
+      {renderEndYearSection()}
       <br />
     </div>
   )

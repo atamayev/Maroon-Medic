@@ -2,6 +2,7 @@ To-do:
 
 
 ASAP:
+continue going through all components: if the component doesn't fit onto one page, break it up
 -break up all the account details sections into smaller components sections. ie: seperate where you add and display the spoken languages
 	make a renderAddSpokenlanuages, and a renderShowSpokenLanguages
 -see if can change the format of description. currently in acct details, need to do:
@@ -9,6 +10,8 @@ ASAP:
           setDescription(response.data.descriptionData);
           if (response.data.descriptionData.Description.length === 1000) setIsDescriptionOverLimit(true);
         }
+-further simplicciation of location.js needed
+
 -consider making the Login History for both patients + docs into one file
 move handleSave in patient-personal-info to save patient details.
 

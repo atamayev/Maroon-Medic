@@ -30,6 +30,41 @@ function RenderIsDescription(props) {
     return <>{props.description.Description.length}</>
   }
 
+  const renderDescriptionInput = () => {
+    return (
+      <FormGroup
+        id="Description" 
+        value={props.description.Description} 
+        onChange = {event => {
+          const value = event.target.value;
+          props.setDescription({Description: value});
+          props.setIsDescriptionOverLimit(value.length >= 1000);
+        }}
+        maxLength={1000} // limit to 1000 characters
+        as="textarea" 
+        rows={3}
+      />
+    )
+  }
+
+  const renderCharacterLimit = () => {
+    return (
+      <div style = {counterStyleLimit()}>
+        Character Limit: {renderCharacterLimitFraction()} / 1000
+      </div>
+    )
+  }
+
+  const renderSaveButton = () => {
+    return (
+      <Button 
+        variant="success" 
+        onClick={()=> saveDescription(props.description, setDescriptionConfirmation)}
+      >
+      Save</Button>
+    )
+  }
+
   const renderMessageSection = () => {
     return (
       <span className={`fade ${descriptionConfirmation.messageType ? 'show' : ''}`}>
@@ -43,26 +78,9 @@ function RenderIsDescription(props) {
   
   return(
     <Form> 
-      <FormGroup
-        id="Description" 
-        value={props.description.Description} 
-        onChange = {event => {
-          const value = event.target.value;
-          props.setDescription({Description: value});
-          props.setIsDescriptionOverLimit(value.length >= 1000);
-        }}
-        maxLength={1000} // limit to 1000 characters
-        as="textarea" 
-        rows={3}
-      />
-      <div style = {counterStyleLimit()}>
-        Character Limit: {renderCharacterLimitFraction()} / 1000
-      </div>
-      <Button 
-        variant="success" 
-        onClick={()=> saveDescription(props.description, setDescriptionConfirmation)}
-      >
-      Save</Button>
+      {renderDescriptionInput()}
+      {renderCharacterLimit()}
+      {renderSaveButton()}
       {renderMessageSection()}
     </Form>
   );

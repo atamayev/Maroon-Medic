@@ -31,9 +31,9 @@ function RenderIsVetLanguages(props) {
       </span>
     )
   }
-  
-  return(
-    <div>
+
+  const renderSelectLanguageSection = () => {
+    return (
       <select
         id="language"
         name="language"
@@ -59,7 +59,12 @@ function RenderIsVetLanguages(props) {
                 {language?.Language_name}
               </option>
             ))}
-      </select>
+        </select>
+    )
+  }
+
+  const renderSavedLanguageList = () => {
+    return (
       <ul>
         {_.isArray(props.spokenLanguages) &&
           props.spokenLanguages.map((language) => (
@@ -78,6 +83,13 @@ function RenderIsVetLanguages(props) {
             </li>
           ))}
       </ul>
+    )
+  }
+  
+  return(
+    <div>
+      {renderSelectLanguageSection()}
+      {renderSavedLanguageList()}
       {renderMessageSection()}
     </div>
   );
