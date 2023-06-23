@@ -6,10 +6,7 @@ import { addMyPets } from '../../../custom-hooks/my-pets-hooks/save-my-pets';
 export const AddPet = (props) => {
   const { newPetData, setNewPetData, petTypes, insurances, petConfirmation, setPetConfirmation, setShowAddPet, savedPetData, setSavedPetData } = props;
   
-  const handleInputChange = (event) => {
-    let value = event.target.value;
-  
-    if (event.target.name === "petType") {
+  const ifPetTypeSelected = (value) => {
       // Find the selected pet type by its ID
       let selectedPetType = petTypes.find(petType => petType.pet_listID === JSON.parse(value));
       let newPet = {
@@ -19,8 +16,10 @@ export const AddPet = (props) => {
       };
   
       setNewPetData(newPet);
-    } else if (event.target.name === "insurance") {
-      // Find the selected pet type by its ID
+  }
+
+  const ifInsuranceSelected = (value) => {
+      // Find the selected insurance by its ID
       let selectedInsurance = insurances.find(insurance => insurance.insurance_listID === JSON.parse(value));
       let newPet = {
         ...newPetData, 
@@ -29,7 +28,13 @@ export const AddPet = (props) => {
       };
   
       setNewPetData(newPet);
-    } 
+  }
+
+  const handleInputChange = (event) => {
+    let value = event.target.value;
+  
+    if (event.target.name === "petType") ifPetTypeSelected(value)
+    else if (event.target.name === "insurance") ifInsuranceSelected(value)
     else {
       let newPet = { ...newPetData, [event.target.name]: value };
       setNewPetData(newPet);
