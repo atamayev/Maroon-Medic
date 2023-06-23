@@ -154,6 +154,104 @@ export default function RenderBookingSection(props) {
     return <>Request</>
   }
 
+  const renderSelectService = () => {
+    return (
+      <div className="col-md-6">
+        <FormGroup 
+          as='select' 
+          id='serviceSelect' 
+          label='Select a service' 
+          onChange={(e) => handleServiceChange(e, props.providedServices, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime)}
+        >
+          <option>Select...</option>
+          {props.providedServices.map((service) => (
+            <option key={service.service_and_category_listID} value={service.service_and_category_listID}>
+              {service.Category_name} - {service.Service_name}
+            </option>
+          ))}
+        </FormGroup>
+      </div>
+    )
+  }
+
+  const renderSelectLocation = () => {
+    return (
+      <div className="col-md-6">
+        <FormGroup 
+          as='select' 
+          id='locationSelect' 
+          label='Select a location' 
+          onChange={(e)=> handleLocationChange(e, props.addresses, setSelectedLocation, setSelectedDay, setSelectedTime)}
+        >
+          <option>Select...</option>
+          {props.addresses.map((address) => (
+            <option key={address.addressesID} value={address.addressesID}>
+              {address.address_title}: ({address.address_line_1} {address.address_line_2}, {address.city}, {address.state}, {address.zip})
+            </option>
+          ))}
+        </FormGroup>
+      </div>
+    )
+  }
+
+  const renderSelectDay = () => {
+    return (
+      <div className="col-md-6">
+        <FormGroup 
+          as='select' 
+          id='daySelect' 
+          label='Select a date' 
+          onChange={(e)=> handleDayChange(e, setSelectedDay, setSelectedTime)}
+        >
+          <option>Select...</option>
+          {renderAvailableDates()}
+        </FormGroup>
+      </div>
+    )
+  }
+
+  const renderSelectTime = () => {
+    return (
+      <div className="col-md-6">
+        <FormGroup 
+          as='select' 
+          id='timeSelect' 
+          label='Select a time' 
+          onChange={(e)=> handleTimeChange(e, setSelectedTime)}
+        >
+          <option>Select...</option>
+          {availableTimes.map((time, index) => (
+            <option key={index} value={time}>
+              {time}
+            </option>
+          ))}
+        </FormGroup>
+      </div>
+    )
+  }
+
+  const renderFinalizeBookingButton = () => {
+    return (
+      <>
+        <Button 
+          variant='primary' 
+          onClick = {(e) => finalizeBookingClick(
+            e,
+            navigate, 
+            selectedService, 
+            selectedLocation,
+            selectedDay,
+            selectedTime,
+            props.personalData
+          )}
+          className='mt-3'
+        >
+          Click to {renderInstantBook()} an appointment
+        </Button>
+      </>
+    )
+  }
+
   const renderMakeBooking = () => {
     if (_.isEmpty(props.providedServices) || _.isEmpty(props.addresses)) {
       return (
@@ -163,93 +261,31 @@ export default function RenderBookingSection(props) {
         </Card>
       )
     }
+
     return (
       <Card className='card-bottom-margin'>
         <Card.Header>Ready to make a booking?</Card.Header>
         <Card.Body>
           <div className='row'>
-            <div className="col-md-6">
-              <FormGroup 
-                as='select' 
-                id='serviceSelect' 
-                label='Select a service' 
-                onChange={(e) => handleServiceChange(e, props.providedServices, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime)}
-              >
-                <option>Select...</option>
-                {props.providedServices.map((service) => (
-                  <option key={service.service_and_category_listID} value={service.service_and_category_listID}>
-                    {service.Category_name} - {service.Service_name}
-                  </option>
-                ))}
-              </FormGroup>
-            </div>
-            <div className="col-md-6">
-              {selectedService && (
-                <FormGroup 
-                  as='select' 
-                  id='locationSelect' 
-                  label='Select a location' 
-                  onChange={(e)=> handleLocationChange(e, props.addresses, setSelectedLocation, setSelectedDay, setSelectedTime)}
-                >
-                  <option>Select...</option>
-                  {props.addresses.map((address) => (
-                    <option key={address.addressesID} value={address.addressesID}>
-                      {address.address_title} ({address.address_line_1} {address.address_line_2}, {address.city}, {address.state}, {address.zip})
-                    </option>
-                  ))}
-                </FormGroup>
-              )}
-            </div>
+            {renderSelectService()}
+
+            {selectedService && 
+              renderSelectLocation()
+            }
           </div>
+          
           <div className='row'>
-            <div className="col-md-6">
-              {selectedService && selectedLocation && (
-                <FormGroup 
-                  as='select' 
-                  id='daySelect' 
-                  label='Select a date' 
-                  onChange={(e)=> handleDayChange(e, setSelectedDay, setSelectedTime)}
-                >
-                  <option>Select...</option>
-                  {renderAvailableDates()}
-                </FormGroup>
-              )}
-            </div>
-            <div className="col-md-6">
-              {selectedService && selectedDay && selectedLocation && (
-                <FormGroup 
-                  as='select' 
-                  id='timeSelect' 
-                  label='Select a time' 
-                  onChange={(e)=> handleTimeChange(e, setSelectedTime)}
-                >
-                  <option>Select...</option>
-                  {availableTimes.map((time, index) => (
-                    <option key={index} value={time}>
-                      {time}
-                    </option>
-                  ))}
-                </FormGroup>
-              )}
-            </div>
+            {selectedService && selectedLocation &&
+              renderSelectDay()
+            }
+
+            {selectedService && selectedDay && selectedLocation && (
+              renderSelectTime()
+            )}
           </div>
 
           {selectedService && selectedLocation && selectedDay && selectedTime && (
-            
-            <Button 
-              variant='primary' 
-              onClick = {(e) => finalizeBookingClick(
-                e,
-                navigate, 
-                selectedService, 
-                selectedLocation,
-                selectedDay,
-                selectedTime,
-                props.personalData
-              )}
-              className='mt-3'>
-              Click to {renderInstantBook()} an appointment
-            </Button>
+            renderFinalizeBookingButton()
           )}
         </Card.Body>
       </Card>

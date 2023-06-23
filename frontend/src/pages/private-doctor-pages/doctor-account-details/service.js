@@ -20,10 +20,11 @@ export default function RenderServiceSection (props) {
 
 function RenderIsVetServices (props) {
   const [servicesConfirmation, setServicesConfirmation] = useConfirmationMessage();
+  const { listDetails, providedServices, setProvidedServices, expandedCategories, setExpandedCategories } = props;
 
   const categories = {};
-  if (props.listDetails.servicesAndCategories) {
-    props.listDetails.servicesAndCategories.forEach(service => {
+  if (listDetails.servicesAndCategories) {
+    listDetails.servicesAndCategories.forEach(service => {
       if (!categories[service.Category_name]) categories[service.Category_name] = [];
       categories[service.Category_name].push(service);
     });
@@ -35,15 +36,40 @@ function RenderIsVetServices (props) {
     return services.every(service => service.Service_price !== null && service.Service_price !== "");
   }
   
-  if (_.isEmpty(_.uniq(props.listDetails.servicesAndCategories?.map((item) => item.Category_name)))) return <>Loading...</>
+  if (_.isEmpty(_.uniq(listDetails.servicesAndCategories?.map((item) => item.Category_name)))) return <>Loading...</>
 
   const renderToggleCategory = (category) => {
     return (
       <Button 
-        onClick = {() => handleToggleCategory(category, props.setExpandedCategories)}
+        onClick = {() => handleToggleCategory(category, setExpandedCategories)}
       >
         Toggle
       </Button>
+    )
+  }
+
+  const renderServices = (category, services) => {
+    return (
+      <div>
+        {(services.length <= 1 || expandedCategories.includes(category)) && (
+            <div>
+              {services.map(service => {
+                const selectedService = providedServices.find(s => s.service_and_category_listID === service.service_and_category_listID);
+                return (
+                  <div key={service.service_and_category_listID} style={{ paddingLeft: '20px' }}>
+                    {renderServiceCheckbox(service, category)}
+                    {selectedService && (
+                      <>
+                        {renderServiceTimeInput(service, selectedService)}
+                        {renderServicePriceInput(service, selectedService)}
+                      </>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          )}
+      </div>
     )
   }
 
@@ -55,10 +81,10 @@ function RenderIsVetServices (props) {
           id={`${category}-${service?.service_and_category_listID}`}
           name="service"
           value={service?.service_and_category_listID}
-          checked={props.providedServices.find((provided) => provided.service_and_category_listID === service.service_and_category_listID) !== undefined}
+          checked={providedServices.find((provided) => provided.service_and_category_listID === service.service_and_category_listID) !== undefined}
           onChange={(event) => {
-            if (event.target.checked) props.setProvidedServices([...props.providedServices, {...service, Service_price: null, Service_time: null}])
-            else props.setProvidedServices(props.providedServices.filter(servicef => servicef.service_and_category_listID !== service.service_and_category_listID))
+            if (event.target.checked) setProvidedServices([...providedServices, {...service, Service_price: null, Service_time: null}])
+            else setProvidedServices(providedServices.filter(servicef => servicef.service_and_category_listID !== service.service_and_category_listID))
           }}
           />
         <label htmlFor={`${category}-${service.service_and_category_listID}`}>{service.Service_name}</label>
@@ -75,13 +101,13 @@ function RenderIsVetServices (props) {
         required
         value={selectedService?.Service_price || ""}
         onChange={(event) => {
-          const updatedServices = props.providedServices.map(s => {
+          const updatedServices = providedServices.map(s => {
             if (s.service_and_category_listID === service.service_and_category_listID) {
               return {...s, Service_price: event.target.value};
             }
             return s;
           });
-          props.setProvidedServices(updatedServices);
+          setProvidedServices(updatedServices);
         }}
       />
     )
@@ -96,13 +122,13 @@ function RenderIsVetServices (props) {
         required
         value={selectedService?.Service_time || ""}
         onChange={(event) => {
-          const updatedServices = props.providedServices.map(s => {
+          const updatedServices = providedServices.map(s => {
             if (s.service_and_category_listID === service.service_and_category_listID) {
               return {...s, Service_time: event.target.value};
             }
             return s;
           });
-          props.setProvidedServices(updatedServices);
+          setProvidedServices(updatedServices);
         }}
       />
     )
@@ -112,8 +138,8 @@ function RenderIsVetServices (props) {
     return (
       <Button 
         variant="success" 
-        disabled={!areAllTimesSet(props.providedServices) || !areAllPricesSet(props.providedServices)}
-        onClick={() => saveServices(props.providedServices, setServicesConfirmation)}
+        disabled={!areAllTimesSet(providedServices) || !areAllPricesSet(providedServices)}
+        onClick={() => saveServices(providedServices, setServicesConfirmation)}
       >
         Save
       </Button>
@@ -139,24 +165,9 @@ function RenderIsVetServices (props) {
           {services.length > 1 && 
             renderToggleCategory(category)
           }
-          {(services.length <= 1 || props.expandedCategories.includes(category)) && (
-            <div>
-              {services.map(service => {
-                const selectedService = props.providedServices.find(s => s.service_and_category_listID === service.service_and_category_listID);
-                return (
-                  <div key={service.service_and_category_listID} style={{ paddingLeft: '20px' }}>
-                    {renderServiceCheckbox(service, category)}
-                    {selectedService && (
-                      <>
-                        {renderServiceTimeInput(service, selectedService)}
-                        {renderServicePriceInput(service, selectedService)}
-                      </>
-                    )}
-                  </div>
-                )
-              })}
-            </div>
-          )}
+
+          {renderServices(category, services)}
+
         </div>
       ))}
       {renderSaveButton()}

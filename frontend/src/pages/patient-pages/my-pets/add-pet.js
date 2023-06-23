@@ -59,7 +59,9 @@ export const AddPet = (props) => {
           props.setNewPetData({})
           props.setShowAddPet(false)
         }}
-      >X</Button>
+      >
+        X
+      </Button>
     )
   }
 
@@ -72,7 +74,7 @@ export const AddPet = (props) => {
         type="text"
         onChange={handleInputChange}
         name="Name"
-    />
+      />
     )
   }
 
@@ -89,13 +91,13 @@ export const AddPet = (props) => {
   const renderDOBSection = () => {
     return (
       <FormGroup
-      id="formPetDob"
-      className={'mb-3'}
-      label = "Date of Birth"
-      type="date"
-      onChange={handleInputChange}
-      name="DOB"
-    />
+        id="formPetDob"
+        className={'mb-3'}
+        label = "Date of Birth"
+        type="date"
+        onChange={handleInputChange}
+        name="DOB"
+      />
     )
   }
 
@@ -151,17 +153,19 @@ export const AddPet = (props) => {
 
   const renderAddButton = () => {
     return (
-      <Button 
-        variant="primary" 
-        type="submit"
-        disabled={!areAllFieldsValid(props.newPetData)} // Check for both field validity
-        onClick={(e) => {
-          e.preventDefault();
-          addMyPets(props.newPetData, props.setNewPetData, props.setPetConfirmation, props.savedPetData, props.setSavedPetData, props.setShowAddPet);
-        }}
-      > 
-        Add {renderNewPetName()}
-      </Button>
+      <div>
+        <Button 
+          variant="primary" 
+          type="submit"
+          disabled={!areAllFieldsValid(props.newPetData)} // Check for both field validity
+          onClick={(e) => {
+            e.preventDefault();
+            addMyPets(props.newPetData, props.setNewPetData, props.setPetConfirmation, props.savedPetData, props.setSavedPetData, props.setShowAddPet);
+          }}
+        > 
+          Add {renderNewPetName()}
+        </Button>
+      </div>
     )
   }
 
@@ -199,8 +203,7 @@ export const AddPet = (props) => {
 
             {renderInsuranceSection()}
             
-            Upload image area 
-            <br/>
+            Upload image area
             {renderAddButton()}
           </Form>
           {renderMessageSection()}

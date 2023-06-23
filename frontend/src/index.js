@@ -7,11 +7,10 @@ import App from './App';
 import { VerifyContextProvider } from './contexts/verify-context';
 import { SearchContextProvider } from './contexts/search-context';
 
-if (process.env.NODE_ENV === 'production') {
-  disableReactDevTools();
-}
+if (process.env.NODE_ENV === 'production') disableReactDevTools();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   // <React.StrictMode>
   <BrowserRouter>

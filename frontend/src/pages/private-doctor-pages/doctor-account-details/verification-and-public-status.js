@@ -21,12 +21,14 @@ export default function RenderVerificationAndPublicStatusSection (props) {
 };
 
 function renderIsVerification (props) {
-  if (props.verified) return <Button variant="success" disabled> ✓ (Your identity is Verified) </Button>
+  const { verified } = props;
+  if (verified) return <Button variant="success" disabled> ✓ (Your identity is Verified) </Button>
   else return <Button variant="danger" disabled>X (Your identity is Not Verified)</Button>
 };
 
 function RenderIsPubliclyAvailable (props) {
   const [publiclyAvailableConfirmation, setPubliclyAvailableConfirmation] = useConfirmationMessage();
+  const { publiclyAvailable, setPubliclyAvailable } = props;
 
   const renderMessageSection = () => {
     return (
@@ -37,17 +39,42 @@ function RenderIsPubliclyAvailable (props) {
     )
   }
 
+  const renderNotPubliclyAvailableButton = () => {
+    return (
+      <>
+        <ToggleButton 
+          id="tbg-radio-1" 
+          value = {0} 
+          style={{ backgroundColor: publiclyAvailable === 0 ? "red" : "white", color: publiclyAvailable === 0 ? "white" : "black", borderColor: "black"}}
+        >
+          No
+        </ToggleButton>
+      </>
+    )
+  }
+
+  const renderIsPubliclyAvailableButton = () => {
+    return (
+      <>
+          <ToggleButton 
+            id="tbg-radio-2" 
+            value = {1} 
+            style={{ backgroundColor: publiclyAvailable === 1 ? "green" : "white", color: publiclyAvailable === 1 ? "white" : "black", borderColor: "black"}}
+          >
+            Yes
+          </ToggleButton>
+      </>
+    )
+  }
+
   return(
     <div>
       <ToggleButtonGroup type="radio" name="options" 
-        value={props.publiclyAvailable ?? 0} 
-        onChange={(value)=>handlePublicAvailibilityToggle(value, props.setPubliclyAvailable, setPubliclyAvailableConfirmation)}>
-          <ToggleButton id="tbg-radio-1" value = {0} style={{ backgroundColor: props.publiclyAvailable === 0 ? "red" : "white", color: props.publiclyAvailable === 0 ? "white" : "black", borderColor: "black"}}>
-            No
-          </ToggleButton>
-          <ToggleButton id="tbg-radio-2" value = {1} style={{ backgroundColor: props.publiclyAvailable === 1 ? "green" : "white", color: props.publiclyAvailable === 1 ? "white" : "black", borderColor: "black"}}>
-            Yes
-          </ToggleButton>
+        value={publiclyAvailable ?? 0} 
+        onChange={(value)=>handlePublicAvailibilityToggle(value, setPubliclyAvailable, setPubliclyAvailableConfirmation)}
+      >
+        {renderNotPubliclyAvailableButton()}
+        {renderIsPubliclyAvailableButton()}
       </ToggleButtonGroup>
       {renderMessageSection()}
     </div>

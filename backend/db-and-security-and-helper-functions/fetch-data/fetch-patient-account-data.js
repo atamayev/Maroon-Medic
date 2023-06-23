@@ -66,20 +66,18 @@ export default new class FetchPatientAccountData {
                 for (let pet of petResults) {
                     const [insurance_mapping, insurance_list] = ['insurance_mapping', 'insurance_list'];
 
-                    const sql = `SELECT ${insurance_list}.Insurance_name, ${insurance_list}.insurance_listID 
+                    const sql = `SELECT ${insurance_list}.Insurance_name
                         FROM ${insurance_list} JOIN ${insurance_mapping} ON ${insurance_list}.insurance_listID = ${insurance_mapping}.Insurance_ID 
                         WHERE ${insurance_mapping}.pet_info_ID = ?`;
 
                     await DB_Operation(functionName, insurance_mapping);
                     const [insuranceResults] = await connection.execute(sql, [pet.pet_infoID]);
-                    console.log('insuranceResults',insuranceResults)
-                    if (!_.isEmpty(insuranceResults)) pet.insurance = insuranceResults[0]
-                    else pet.insurance = []
+                    if (!_.isEmpty(insuranceResults)) pet.insuranceName = insuranceResults[0].Insurance_name
+                    else pet.insuranceName = ''
                 }
             }
             return petResults;
         } catch (error) {
-            console.log(error)
             return [];
         }
     };

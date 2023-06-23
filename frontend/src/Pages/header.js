@@ -220,26 +220,32 @@ export default function Header (props) {
     }
   }
 
+  const renderLogo = () => {
+    return (
+      <img 
+        src = {logo} 
+        alt = "Logo" 
+        width= {50}
+        height = {50} 
+        onClick = {handleHome}
+        style={{ cursor: "pointer" }} 
+        className="mr-2"
+      />
+    )
+  }
+
   return (
     <header>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <div className="container">
-          <img 
-            src = {logo} 
-            alt = "Logo" 
-            width= {50}
-            height = {50} 
-            onClick = {handleHome}
-            style={{ cursor: "pointer" }} 
-            className="mr-2"
-            />
-        <div className="navbar-collapse" id="navbarSupportedContent">
-          {renderSearch()}
-          <ul className="navbar-nav ml-auto">
-            <li className="nav-item">{renderDropdown()}</li>
-          </ul>
+        <div className="container">
+          {renderLogo()}
+          <div className="navbar-collapse" id="navbarSupportedContent">
+            {renderSearch()}
+            <ul className="navbar-nav ml-auto">
+              <li className="nav-item">{renderDropdown()}</li>
+            </ul>
+          </div>
         </div>
-      </div>
       </nav>
     </header>
   )

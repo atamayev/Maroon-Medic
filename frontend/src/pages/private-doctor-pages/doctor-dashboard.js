@@ -108,28 +108,52 @@ export default function DoctorDashboard() {
     return 'approved'
   }
 
+  const renderPendingAppointment = (status, setStatus) => {
+    return (
+      <>
+        {status === 'pending' && (
+          <Button variant='warning' onClick={() => {setStatus('confirming')}}>Pending approval</Button>
+          )}
+      </>
+    )
+  }
+
+  const renderConfirmedAppointment = (status, setStatus, appointment) => {
+    return (
+      <>
+        {status === 'confirming' && (
+          <div>
+            <Button variant="success" onClick={e => approveAppointment(setStatus, appointment.AppointmentsID, dashboardData, setDashboardData)}>Approve Appointment</Button>
+            <Button variant="danger" onClick={() => setStatus('pending')}>X</Button>
+          </div>
+        )}
+      </>
+    )
+  }
+
+  const renderApprovedAppointment = (status) => {
+    return (
+      <>
+        {status === 'approved' && (
+          <Badge pill variant="success" style={{ position: 'absolute', top: '10px', right: '10px' }}>
+            Appointment approved
+          </Badge>
+        )}
+      </>
+    )
+  }
+
   const UpcomingAppointmentCard = ({ appointment, index }) => {
     const [status, setStatus] = useState(returnDoctorConfirmationStatus(appointment));
+
     return (
       <Card key={index} style={{ margin: '0 10px', position: 'relative' }} className='mb-3'>
         <Card.Body>
           <Card.Title>
             Appointment with {appointment.Patient_FirstName} {appointment.Patient_LastName} on {appointment.appointment_date}
-           
-            {status === 'pending' && (
-              <Button variant='warning' onClick={() => {setStatus('confirming')}}>Pending approval</Button>
-            )}
-            {status === 'confirming' && (
-              <div>
-                <Button variant="success" onClick={e => approveAppointment(setStatus, appointment.AppointmentsID, dashboardData, setDashboardData)}>Approve Appointment</Button>
-                <Button variant="danger" onClick={() => setStatus('pending')}>X</Button>
-              </div>
-            )}
-            {status === 'approved' && (
-              <Badge pill variant="success" style={{ position: 'absolute', top: '10px', right: '10px' }}>
-                Appointment approved
-              </Badge>
-            )}
+            {renderPendingAppointment(status, setStatus)}
+            {renderConfirmedAppointment(status, setStatus, appointment)}
+            {renderApprovedAppointment(status)}
           </Card.Title>
         </Card.Body>
       </Card>
@@ -170,8 +194,7 @@ export default function DoctorDashboard() {
     )
   }
 
-  const renderDashboardData = () => {
-    if (_.isEmpty(dashboardData)) return <>No upcoming appointments</>
+  const renderUpcomingAppointmentsCard = () => {
     return (
       <>
         <Card style={{margin: '0 10px' }}className='mb-3'>
@@ -182,7 +205,13 @@ export default function DoctorDashboard() {
             {renderUpcomingAppointments(upcomingAppointments)}
           </Card.Body>
         </Card>
+      </>
+    )
+  }
 
+  const renderPastAppointmentsCard = () => {
+    return (
+      <>
         <Card style={{margin: '0 10px' }}>
           <Card.Header>
             <h1>Past Appointments</h1>
@@ -194,6 +223,18 @@ export default function DoctorDashboard() {
       </>
     )
   }
+  
+
+  const renderDashboardData = () => {
+    if (_.isEmpty(dashboardData)) return <>No upcoming appointments</>
+    return (
+      <>
+        {renderUpcomingAppointmentsCard()}
+        {renderPastAppointmentsCard()}
+      </>
+    )
+  }
+  
   const renderWelcomeOrBack = () => {
     if (newDoctor) return <> to MaroonMedic</>
     return <> back</>

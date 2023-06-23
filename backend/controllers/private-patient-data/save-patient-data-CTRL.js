@@ -135,7 +135,8 @@ export async function savePetData (req, res) {
     const operationType = req.body.operationType;//adding, deleting, updating
 
     const pet_info = `pet_info`;
-    
+    const insurance_mapping = 'insurance_mapping';
+
     await DB_Operation(savePetData.name, pet_info);
 
     if (operationType === 'add') {
@@ -146,12 +147,10 @@ export async function savePetData (req, res) {
             [result] = await connection.execute(sql, values);
             PetData.pet_infoID = result.insertId;
         } catch(error) {
-            console.log(error)
-            return res.status(400).json();
+            return res.status(400).json(error);
         }
-        const insurance_mapping = 'insurance_mapping';
 
-        await DB_Operation(saveLanguageData.name, insurance_mapping);
+        await DB_Operation(savePetData.name, insurance_mapping);
     
         const sql1 = `INSERT INTO ${insurance_mapping} (Insurance_ID, pet_info_ID) VALUES (?, ?)`;
         const values1 = [PetData.insurance_listID, PetData.pet_infoID];
@@ -159,22 +158,20 @@ export async function savePetData (req, res) {
             await connection.execute(sql1, values1);
             return res.status(200).json(PetData);
         } catch(error) {
-            console.log(error)
-            return res.status(400).json();
+            return res.status(400).json(error);
         }
     } else if (operationType === 'delete') {
         const sql = `UPDATE ${pet_info} SET isActive = 0 WHERE pet_infoID = ?`;
         const values = [PetData];
+        await DB_Operation(savePetData.name, insurance_mapping);
+
         try {
             await connection.execute(sql, values);
             return res.status(200).json();
         } catch(error) {
-            console.log(error)
-            return res.status(400).json();
+            return res.status(400).json(error);
         }
-
     } else {
-        console.log(error)
         return res.status(400).json();
     }
 };

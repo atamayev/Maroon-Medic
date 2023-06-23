@@ -31,12 +31,25 @@ async function confirmBooking(e, navigate, selectedService, selectedLocation, se
 
 export function FinalizeBookingPage() {
   const location = useLocation();
-  const { selectedService, selectedLocation, selectedDay, selectedTime, personalData } = location.state;
+  const navigate = useNavigate();
   const {user_verification} = useContext(VerifyContext);
   const [user_type, setUser_type] = useState(null);
-  const navigate = useNavigate();
-  console.log(location.state)
-  
+
+  let selectedService, selectedLocation, selectedDay, selectedTime, personalData;
+  const sessionBookingDetails = JSON.parse(sessionStorage.getItem('bookingDetails'));
+
+  if (location.state) {
+    ({ selectedService, selectedLocation, selectedDay, selectedTime, personalData } = location.state);
+  } else if (sessionBookingDetails) {
+    ({ selectedService, selectedLocation, selectedDay, selectedTime, personalData } = sessionBookingDetails);
+  }
+
+  useEffect(() => {
+    if (!location.state  && !sessionBookingDetails) {
+      window.location.href = "/"
+    }
+  }, [location]);
+
   useEffect(() => {
     const verifyAndSetUserType= async () => {
       const result = await user_verification();
@@ -46,14 +59,59 @@ export function FinalizeBookingPage() {
     verifyAndSetUserType()
   }, []);
 
+  if (!location.state && !sessionBookingDetails) {
+    return null; // or render some kind of loading spinner
+  }
+
   if (user_type !== 'Patient') return <NonPatientAccess/>
-
+  
   const capitalizedFirstName = personalData.FirstName.charAt(0).toUpperCase() + personalData.FirstName.slice(1);
-  const capitalizedLastName = personalData.LastName.charAt(0).toUpperCase() + personalData.LastName.slice(1);
 
-  const renderInstantBook = () => {
+  const capitalizedLastName = personalData.LastName.charAt(0).toUpperCase() + personalData.LastName.slice(1);
+  
+  const renderConfirmOrRequestBook = () => {
     if (selectedLocation.instant_book) return <>Confirm</>
     return <>Request</>
+  }
+
+  const renderCardText = () => {
+    return (
+      <Card.Text>
+        <div>
+          <strong>Service:</strong> {selectedService.Service_name}
+        </div>
+        <div>
+          <strong>Location:</strong> {selectedLocation.address_title}:  {selectedLocation.address_line_1} {selectedLocation.address_line_2}
+        </div>
+        <div>
+          <strong>Day:</strong> {selectedDay}
+        </div>
+        <div>
+          <strong>Time:</strong> {selectedTime}
+        </div>
+      </Card.Text>
+    )
+  }
+
+  const renderConfirmBookingButton = () => {
+    return (
+      <>
+        <Button 
+          variant="primary"
+          onClick={(e) => {
+            confirmBooking(
+              e,
+              navigate,
+              selectedService, 
+              selectedLocation,
+              selectedDay,
+              selectedTime,
+              personalData
+            )
+          }}
+        >{renderConfirmOrRequestBook()}</Button>
+      </>
+    )
   }
 
   return (
@@ -61,29 +119,11 @@ export function FinalizeBookingPage() {
       <Header dropdown = {true} search = {true}/>
       <div className="container mt-5">
           <Card>
-            <Card.Header as="h2">{renderInstantBook()} an Appointment</Card.Header>
+            <Card.Header as="h2">{renderConfirmOrRequestBook()} an Appointment</Card.Header>
             <Card.Body>
               <Card.Title as="h3">Dr. {''} {capitalizedFirstName} {''} {capitalizedLastName}</Card.Title>
-              <Card.Text>
-                <strong>Service:</strong> {selectedService.Service_name} <br />
-                <strong>Location:</strong> {selectedLocation.address_title}:  {selectedLocation.address_line_1} {selectedLocation.address_line_2}<br />
-                <strong>Day:</strong> {selectedDay} <br />
-                <strong>Time:</strong> {selectedTime} <br />
-              </Card.Text>
-              <Button 
-                variant="primary"
-                onClick={(e) => {
-                  confirmBooking(
-                    e,
-                    navigate,
-                    selectedService, 
-                    selectedLocation,
-                    selectedDay,
-                    selectedTime,
-                    personalData
-                  )
-                }}
-              >{renderInstantBook()}</Button>
+                {renderCardText()}
+                {renderConfirmBookingButton()}
             </Card.Body>
           </Card>
       </div>

@@ -115,9 +115,9 @@ export default function MyPets() {
                 </Button>
               </Card.Title>
               <Card.Text>
+                <p>{pet.Pet}</p>
                 <p>Gender: {pet.Gender}</p>
                 <p>Date of Birth: {moment(pet.DOB).format('MMMM Do, YYYY')}</p>
-                <p>{pet.petType}</p>
                 <p>Insurance Name: {pet.insuranceName}</p>
                 {/* Add other pet details as needed */}
               </Card.Text>

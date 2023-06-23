@@ -38,7 +38,7 @@ export default function Doctor () {
         if (response.data.doctorVetEducation) setVetEducation(response.data.doctorVetEducation);
         if (response.data.doctorAddressData) setAddresses(response.data.doctorAddressData);
         if (response.data.doctorDescriptionData && !_.isEmpty(Object.keys(response.data.doctorDescriptionData))) setDescription(response.data.doctorDescriptionData);
-        if (response.data.doctorPictures) // Somehow set pictures.
+        if (response.data.doctorPictures) ;// Somehow set pictures.
         if (response.data.doctorPersonalInfo) setPersonalData(response.data.doctorPersonalInfo);
       }
     } catch(error) {

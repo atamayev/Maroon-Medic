@@ -404,6 +404,26 @@ const WeekDays = ({ times, setTimes}) => {
   }
 
   if (loading) return <div>Loading...</div>
+
+  const renderPickStartTime = (day) => {
+    return (
+      <TimePicker
+        className = "ml-3"
+        onChange={(value) => handleTimeChange(day, 'Start_time', value)}
+        value={times.find(time => time.Day_of_week === day).Start_time}
+      />
+    )
+  }
+
+  const renderPickEndTime = (day) => {
+    return (
+      <TimePicker
+        className = "ml-3"
+        onChange={(value) => handleTimeChange(day, 'End_time', value)}
+        value={times.find(time => time.Day_of_week === day).End_time}
+      />
+    )
+  }
   
   return (
     <div>
@@ -413,16 +433,9 @@ const WeekDays = ({ times, setTimes}) => {
           <Toggle id={day} checked={times.some(time => time.Day_of_week === day)} onChange={() => handleDayToggle(day)} />
           {times.find(time => time.Day_of_week === day) && (
             <>
-              <TimePicker
-                className = "ml-3"
-                onChange={(value) => handleTimeChange(day, 'Start_time', value)}
-                value={times.find(time => time.Day_of_week === day).Start_time}
-              />-
-              <TimePicker
-                className = "ml-3"
-                onChange={(value) => handleTimeChange(day, 'End_time', value)}
-                value={times.find(time => time.Day_of_week === day).End_time}
-              />
+            {renderPickStartTime(day)}
+              -
+            {renderPickEndTime(day)}
             </>
           )}
         </div>

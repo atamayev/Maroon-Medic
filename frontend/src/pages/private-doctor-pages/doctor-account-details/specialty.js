@@ -27,69 +27,80 @@ function RenderIsSpecialty(props) {
 
   if (_.isEmpty(_.uniq(props.listDetails.specialties?.map((item) => item.Organization_name)))) return <p>Loading...</p>
 
-  const renderMessageSection = () => {
+  const renderSelectOrganization = () => {
     return (
-      <span className={`fade ${specialtiesConfirmation.messageType ? 'show' : ''}`}>
-        {specialtiesConfirmation.messageType === 'saved' && 'Specialties saved!'}
-        {specialtiesConfirmation.messageType === 'same' && 'Same Specialty data!'}
-        {specialtiesConfirmation.messageType === 'problem' && 'Problem Saving Specialties!'}
-        {specialtiesConfirmation.messageType === 'none' && 'No specialties selected'}
-      </span>
+      <div>
+        <label htmlFor="organization">Select an organization: </label>
+        <select
+          id="organization"
+          name="organization"
+          value={props.selectedOrganization}
+          onChange={(e) => props.setSelectedOrganization(e.target.value)}
+          >
+          <option value = "" disabled>Choose an organization</option>
+          {Array.from(new Set(props.listDetails.specialties?.map((item) => item.Organization_name))).map(
+            (organization, index) => (
+              <option key = {index} value = {organization}>
+                {organization}
+              </option>
+            ))}
+        </select>
+      </div>
     )
   }
-  return (
-    <>
-      <label htmlFor="organization">Select an organization: </label>
-      <select
-        id="organization"
-        name="organization"
-        value={props.selectedOrganization}
-        onChange={(e) => props.setSelectedOrganization(e.target.value)}
-      >
-        <option value = "" disabled>Choose an organization</option>
-        {Array.from(new Set(props.listDetails.specialties?.map((item) => item.Organization_name))).map(
-          (organization, index) => (
-            <option key = {index} value = {organization}>
-              {organization}
-            </option>
-          ))}
-      </select>
-      <br />
-      {props.selectedOrganization && (
-        <>
-          <label htmlFor = "specialty">Select a specialty: </label>
-          <select
-            id = "specialty"
-            name = "specialty"
-            value = {""}
-            onChange = {(e) =>
-              handleAddSpecialty(
-                e.target.value,
-                props.doctorSpecialties,
-                props.setDoctorSpecialties,
-                props.setSelectedOrganization,
-                props.listDetails,
-                setSpecialtiesConfirmation
+
+  const renderShowSpecificSpecialties = () => {
+    return (
+      <>
+        {specialties
+          .filter(
+            (specialty) =>
+            !props.doctorSpecialties.find(
+              (doctorSpecialty) =>
+              doctorSpecialty.specialties_listID === specialty.specialties_listID
               )
-            }
-          >
-            <option value="" disabled>Choose a specialty</option>
-            {specialties
-              .filter(
-                (specialty) =>
-                  !props.doctorSpecialties.find(
-                    (doctorSpecialty) =>
-                      doctorSpecialty.specialties_listID === specialty.specialties_listID
-                  )
               )
               .map((specialty) => (
                 <option key={specialty.specialties_listID} value={specialty.specialties_listID}>
-                  {specialty.Specialty_name}
-                </option>
-              ))}
-          </select>
-        </>
-      )}
+              {specialty.Specialty_name}
+            </option>
+          ))}
+      </>
+    )
+  }
+
+  const renderSelectSpecialty = () => {
+    return (
+      <div>
+        {props.selectedOrganization && (
+          <>
+            <label htmlFor = "specialty">Select a specialty: </label>
+            <select
+              id = "specialty"
+              name = "specialty"
+              value = {""}
+              onChange = {(e) =>
+                handleAddSpecialty(
+                  e.target.value,
+                  props.doctorSpecialties,
+                  props.setDoctorSpecialties,
+                  props.setSelectedOrganization,
+                  props.listDetails,
+                  setSpecialtiesConfirmation
+                  )
+                }
+                >
+              <option value="" disabled>Choose a specialty</option>
+              {renderShowSpecificSpecialties()}
+            </select>
+          </>
+        )}
+      </div>
+    )
+  }
+
+  const renderShowSavedSpecialties = () => {
+    return (
       <ul>
         {props.doctorSpecialties.map((specialty) => (
           <li key={specialty.specialties_listID}>
@@ -107,6 +118,25 @@ function RenderIsSpecialty(props) {
           </li>
         ))}
       </ul>
+    )
+  }
+
+  const renderMessageSection = () => {
+    return (
+      <span className={`fade ${specialtiesConfirmation.messageType ? 'show' : ''}`}>
+        {specialtiesConfirmation.messageType === 'saved' && 'Specialties saved!'}
+        {specialtiesConfirmation.messageType === 'same' && 'Same Specialty data!'}
+        {specialtiesConfirmation.messageType === 'problem' && 'Problem Saving Specialties!'}
+        {specialtiesConfirmation.messageType === 'none' && 'No specialties selected'}
+      </span>
+    )
+  }
+
+  return (
+    <>
+      {renderSelectOrganization()}
+      {renderSelectSpecialty()}
+      {renderShowSavedSpecialties()}
       {renderMessageSection()}
     </>
   )

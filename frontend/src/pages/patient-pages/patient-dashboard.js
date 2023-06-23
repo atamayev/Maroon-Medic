@@ -145,8 +145,7 @@ export default function PatientDashboard() {
     )
   }
 
-  const renderDashboardData = () => {
-    if (_.isEmpty(dashboardData)) return <>No upcoming appointments</>
+  const renderUpcomingAppointmentsCard = () => {
     return (
       <>
         <Card style = {{margin: '0 10px' }} className = 'mb-3'>
@@ -157,7 +156,13 @@ export default function PatientDashboard() {
             {renderUpcomingAppointments(upcomingAppointments)}
           </Card.Body>
         </Card>
+      </>
+    )
+  }
 
+  const renderPastAppointmentsCard = () => {
+    return (
+      <>
         <Card style={{margin: '0 10px' }}>
           <Card.Header>
             <h1>Past Appointments</h1>
@@ -166,6 +171,16 @@ export default function PatientDashboard() {
             {renderPastAppointments(pastAppointments)}
           </Card.Body>
         </Card>
+      </>
+    )
+  }
+
+  const renderDashboardData = () => {
+    if (_.isEmpty(dashboardData)) return <>No upcoming appointments</>
+    return (
+      <>
+        {renderUpcomingAppointmentsCard()}
+        {renderPastAppointmentsCard()}
       </>
     );
   };

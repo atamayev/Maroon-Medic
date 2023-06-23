@@ -54,15 +54,11 @@ export async function makeAppointment(req, res) {
     // Format the Date object into MySQL DATETIME format
     const mysqlDateTime = dateTime.toISOString().slice(0, 19).replace('T', ' ');
 
-    console.log(mysqlDateTime);
-
     const sql2 = `INSERT INTO ${Appointments}
         (appointment_date, patient_message, Doctor_confirmation_status, Service_and_category_list_ID, Patient_ID, Doctor_ID, Addresses_ID, Created_at) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
     const values2 = [mysqlDateTime, null, AppointmentObject.Instant_book, AppointmentObject.Service_and_category_list_ID, Patient_ID, Doctor_ID, AppointmentObject.Addresses_ID, createdAt];
-    
-    console.log(values2)
-    
+      
     await DB_Operation(makeAppointment.name, Appointments)
     try {
         await connection.execute(sql2, values2)

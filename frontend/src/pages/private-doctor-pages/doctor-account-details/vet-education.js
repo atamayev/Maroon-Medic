@@ -149,14 +149,15 @@ function RenderIsVetEducation(props) {
         renderSelectEducationType()
       }
 
-      {allChoicesFilled &&
-        renderEducationTime()
-      }
-
       {allChoicesFilled && 
-        renderAddAndSaveButton()
+        (
+          <>
+            {renderEducationTime()}
+            {renderAddAndSaveButton()}
+          </>
+        )
       }
-
+      
       {renderSavedEducationList()}
 
       {renderMessageSection()}
