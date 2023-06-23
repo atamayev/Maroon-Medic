@@ -13,8 +13,7 @@ continue going through all components: if the component doesn't fit onto one pag
           if (response.data.descriptionData.Description.length === 1000) setIsDescriptionOverLimit(true);
         }
 -further simplicciation of location.js needed
-
--consider making the Login History for both patients + docs into one file - make a singular component, like registration form
+-get rid of all underscores for variable names. should be camelcase
 move handleSave in patient-personal-info to save patient details.
 
 -when deleting, make all of teh parts of the account details require a delete confirmation. change the X delete button to red. when press delete, should plit into 2 buttons- confirm delete, or nevermind

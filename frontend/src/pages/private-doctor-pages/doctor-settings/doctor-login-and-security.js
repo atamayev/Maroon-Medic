@@ -1,27 +1,10 @@
 import React, {useEffect, useState, useContext} from 'react'
-import { Card } from 'react-bootstrap';
-import moment from 'moment';
-import AuthDataService from '../../../services/auth-data-service';
-import { NonDoctorAccess } from '../../../components/user-type-unauth';
+import LoginHistory from '../../../components/login-history';
 import { VerifyContext } from '../../../contexts/verify-context';
-import { invalidUserAction } from '../../../custom-hooks/user-verification-snippets';
+import { NonDoctorAccess } from '../../../components/user-type-unauth';
+import { fetchLoginHistory } from '../../../custom-hooks/fetch-login-history';
 import Header from '../../header'
 import DoctorHeader from '../doctor-header.js';
-
-async function fetchLoginHistory(setLoginHistory) {
-  try {
-    const response = await AuthDataService.fetchLoginHistry();
-    if (response) {
-      const formattedData = response.data.map((item) => ({
-        ...item,
-        Login_at: moment(item.Login_at).format('MMMM Do, YYYY [at] h:mmA'),
-      }));
-      setLoginHistory(formattedData);
-    }
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
-  }
-}
 
 export default function DoctorLoginAndSecurity() {
   const {user_verification} = useContext(VerifyContext)
@@ -34,7 +17,9 @@ export default function DoctorLoginAndSecurity() {
       setUser_type(result.user_type)
       if (result.user_type === 'Doctor') {
         try {
-          fetchLoginHistory(setLoginHistory);
+          const storedLoginHistory = sessionStorage.getItem("LoginHistory");
+          if (storedLoginHistory) setLoginHistory(JSON.parse(storedLoginHistory));
+          else fetchLoginHistory(setLoginHistory);
         } catch(error) {
         }
       }
@@ -47,26 +32,13 @@ export default function DoctorLoginAndSecurity() {
 
   if (user_type !== 'Doctor') return <NonDoctorAccess/>
 
-  function LoginHistoryCard({ loginHistoryItem }) {
-    return (
-      <Card className = 'mb-3'>
-        <Card.Body>
-          <Card.Title>Login Time: {loginHistoryItem.Login_at} </Card.Title>
-            <Card.Text>
-              IP Address: {loginHistoryItem.IP_Address}
-            </Card.Text>
-        </Card.Body>
-      </Card>
-    );
-  }
-
   return (
     <>
       <Header dropdown = {true}/>
       <DoctorHeader/>
       <h1>Login History</h1>
       {loginHistory.map((item, index) => (
-        <LoginHistoryCard key = {index} loginHistoryItem = {item} />
+        <LoginHistory key = {index} loginHistoryItem = {item} />
       ))}
       {/* Later add update history here as well */}
     </>

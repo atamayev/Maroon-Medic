@@ -36,7 +36,7 @@ export default function PatientAccountDetails() {
           const storedAccountDetails = sessionStorage.getItem("PatientAccountDetails");
           if (!storedAccountDetails) FillPatientAccountDetails();
 
-          let storedListDetails = sessionStorage.getItem("ListDetails");
+          const storedListDetails = sessionStorage.getItem("ListDetails");
           if (storedListDetails) setListDetails(JSON.parse(storedListDetails));
           else FillLists(setListDetails);
         } catch (error) {
