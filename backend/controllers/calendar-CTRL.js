@@ -18,32 +18,32 @@ export async function makeAppointment(req, res) {
     const [Doctor_specific_info, Appointments] = ['Doctor_specific_info', 'Appointments']
     const sql = `SELECT Doctor_ID FROM ${Doctor_specific_info} WHERE NVI = ?`
     const values = [NVI];
-    let Doctor_ID;
+    let DoctorID;
 
     await DB_Operation(makeAppointment.name, Doctor_specific_info)
     try {
         const [results] = await connection.execute(sql, values)
-        Doctor_ID = results[0].Doctor_ID
+        DoctorID = results[0].Doctor_ID
     } catch(error) {
         return res.status(500).json(error);
     }
 
     const PatientUUID = req.cookies.PatientUUID;
-    let Patient_ID
+    let PatientID;
     try {
-        Patient_ID = await UUID_to_ID(PatientUUID);
+        PatientID = await UUID_to_ID(PatientUUID);
     } catch (error) {
         clearCookies(res, 'Patient')
         return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' }); 
     }
 
-    const date_ob = new Date();
+    const newDateObject = new Date();
     const format = "YYYY-MM-DD HH:mm:ss"
-    const createdAt = dayjs(date_ob).format(format);
+    const createdAt = dayjs(newDateObject).format(format);
 
     // Remove 'th', 'st', 'nd', 'rd' from the date
-    const dateStr = AppointmentObject.appointment_date.replace(/\b(\d+)(th|st|nd|rd)\b/g, '$1');
-    const timeStr = AppointmentObject.appointment_time;
+    const dateStr = AppointmentObject.appointmentDate.replace(/\b(\d+)(th|st|nd|rd)\b/g, '$1');
+    const timeStr = AppointmentObject.appointmentTime;
 
     // Combine date and time into a single string
     const dateTimeStr = `${dateStr} ${timeStr}`;
@@ -57,13 +57,14 @@ export async function makeAppointment(req, res) {
     const sql2 = `INSERT INTO ${Appointments}
         (appointment_date, patient_message, Doctor_confirmation_status, Service_and_category_list_ID, Patient_ID, Doctor_ID, Addresses_ID, Created_at) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
-    const values2 = [mysqlDateTime, null, AppointmentObject.Instant_book, AppointmentObject.Service_and_category_list_ID, Patient_ID, Doctor_ID, AppointmentObject.Addresses_ID, createdAt];
+    const values2 = [mysqlDateTime, null, AppointmentObject.InstantBook, AppointmentObject.Service_and_category_list_ID, PatientID, DoctorID, AppointmentObject.AddressesID, createdAt];
       
     await DB_Operation(makeAppointment.name, Appointments)
     try {
         await connection.execute(sql2, values2)
         return res.status(200).json();
     } catch(error) {
+        console.log(error)
         return res.status(500).json(error);
     }
 };

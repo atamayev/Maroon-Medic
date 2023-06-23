@@ -82,7 +82,7 @@ export default function RenderBookingSection(props) {
       // Get the working hours for the selected day
       const selectedDayOfWeek = moment(selectedDay, 'dddd, MMMM Do, YYYY').format('dddd');
       const workingHours = selectedLocationObject?.times.find(time => time.Day_of_week === selectedDayOfWeek);
-  
+
       if (workingHours) {
         let times = [];
         let start = workingHours.Start_time.split(':');

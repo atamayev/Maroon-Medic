@@ -15,9 +15,9 @@ export async function ID_to_UUID(User_ID) {
   const UUID = uuidv4();
   const UUID_reference = 'UUID_reference';
   
-  const date_ob = new Date();
+  const newDateObject = new Date();
   const format = "YYYY-MM-DD HH:mm:ss"
-  const dateTime = dayjs(date_ob).format(format);
+  const dateTime = dayjs(newDateObject).format(format);
 
   await DB_Operation(ID_to_UUID.name, UUID_reference)
   const sql = `INSERT INTO ${UUID_reference} (UUID, Created_at, User_ID) VALUES (?, ?, ?)`;
@@ -46,9 +46,9 @@ export async function UUID_to_ID(UUID) {
   await DB_Operation(UUID_to_ID.name, UUID_reference)
 
   try {
-    const [incomplete_ID] = await connection.execute(sql, values)
-    if (_.isEmpty(incomplete_ID)) throw new Error(`No User_ID found for UUID: ${UUID}`);
-    const ID = incomplete_ID[0].User_ID;
+    const [incompleteID] = await connection.execute(sql, values)
+    if (_.isEmpty(incompleteID)) throw new Error(`No User_ID found for UUID: ${UUID}`);
+    const ID = incompleteID[0].User_ID;
     return ID;
   } catch(error) {
     throw new Error(`No User_ID found for UUID: ${UUID}`);

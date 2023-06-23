@@ -9,7 +9,7 @@ function checkCookie(name) {
 }
 
 const VerifyContextProvider = (props) => {
-  async function user_verification () {
+  async function userVerification () {
     try {
       if (!checkCookie('DoctorAccessToken') &&  !checkCookie('PatientAccessToken')) {
         sessionStorage.clear();
@@ -29,7 +29,7 @@ const VerifyContextProvider = (props) => {
       if (response.data.isValid === true) {
         return {
           verified: true, 
-          user_type: response.data.type
+          userType: response.data.type
         };
       }
       else {
@@ -44,7 +44,7 @@ const VerifyContextProvider = (props) => {
   }
 
   return (
-    <VerifyContext.Provider value = {{ user_verification }}>
+    <VerifyContext.Provider value = {{ userVerification }}>
       {props.children}
     </VerifyContext.Provider>
   );

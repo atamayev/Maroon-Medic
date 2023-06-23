@@ -7,15 +7,15 @@ import Header from '../../header'
 import DoctorHeader from '../doctor-header.js';
 
 export default function DoctorLoginAndSecurity() {
-  const {user_verification} = useContext(VerifyContext)
-  const [user_type, setUser_type] = useState(null);
+  const {userVerification} = useContext(VerifyContext)
+  const [userType, setUserType] = useState(null);
   const [loginHistory, setLoginHistory] = useState([]);
 
   const verifyAndSetLoginHistory = async () => {
-    const result = await user_verification();
+    const result = await userVerification();
     if (result.verified === true) {
-      setUser_type(result.user_type)
-      if (result.user_type === 'Doctor') {
+      setUserType(result.userType)
+      if (result.userType === 'Doctor') {
         try {
           const storedLoginHistory = sessionStorage.getItem("LoginHistory");
           if (storedLoginHistory) setLoginHistory(JSON.parse(storedLoginHistory));
@@ -30,7 +30,7 @@ export default function DoctorLoginAndSecurity() {
     verifyAndSetLoginHistory()
   }, []);
 
-  if (user_type !== 'Doctor') return <NonDoctorAccess/>
+  if (userType !== 'Doctor') return <NonDoctorAccess/>
 
   return (
     <>

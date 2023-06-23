@@ -49,8 +49,8 @@ export default function PatientPersonalInfo() {
   const [personalInfo, setPersonalInfo] = useState({});
   const [personalInfoConfirmation, setPersonalInfoConfirmation] = useConfirmationMessage();
 
-  const {user_verification} = useContext(VerifyContext)
-  const [user_type, setUser_type] = useState(null);
+  const {userVerification} = useContext(VerifyContext)
+  const [userType, setUserType] = useState(null);
   const months = [
     "January",
     "February",
@@ -71,10 +71,10 @@ export default function PatientPersonalInfo() {
   const years = Array.from({length: 63}, (_, i) => currentYear - i - 18); // Renders an array from 18 years ago to 63 minus that year.  
 
   const verifyAndSetPersonalInfo = async () => {
-    const result = await user_verification();
+    const result = await userVerification();
     if (result.verified === true) {
-      setUser_type(result.user_type)
-      if (result.user_type === 'Patient') {
+      setUserType(result.userType)
+      if (result.userType === 'Patient') {
         try {
           const storedPersonalInfoData = sessionStorage.getItem("PatientPersonalInfo")
           if (storedPersonalInfoData) setPersonalInfo(JSON.parse(storedPersonalInfoData));
@@ -89,7 +89,7 @@ export default function PatientPersonalInfo() {
     verifyAndSetPersonalInfo()
   }, [])
 
-  if (user_type !== 'Patient') return <NonPatientAccess/>
+  if (userType !== 'Patient') return <NonPatientAccess/>
 
   const renderFirstNameSection = () => {
     return (

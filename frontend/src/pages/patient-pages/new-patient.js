@@ -11,13 +11,13 @@ export default function NewPatient () {
   const [newPatientInfo, setNewPatientInfo] = useState({});
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
-  const {user_verification} = useContext(VerifyContext);
+  const {userVerification} = useContext(VerifyContext);
   const navigate = useNavigate();
 
   const verifyNewPatient = async () => {
-    const result = await user_verification();
+    const result = await userVerification();
 
-    if (result.verified === true && result.user_type === 'Patient') {
+    if (result.verified === true && result.userType === 'Patient') {
       try {
         const patientResult = await PrivatePatientDataService.newPatientConfirmation();
         if (patientResult.data === false) navigate('/patient-register');
@@ -25,7 +25,7 @@ export default function NewPatient () {
         if (error.response.status === 401) invalidUserAction(error.response.data);
       }
     } 
-    else if (result.verified === true && result.user_type === 'Doctor') navigate(`/vet-dashboard`);
+    else if (result.verified === true && result.userType === 'Doctor') navigate(`/vet-dashboard`);
     else navigate('/patient-register');
   }
       

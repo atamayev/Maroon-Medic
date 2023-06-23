@@ -65,17 +65,6 @@ function AddressForm(props) {
     return true;
   }
 
-  const renderMessageSection = () => {
-    return (
-      <span className = {`fade ${addressesConfirmation.messageType ? 'show' : ''}`}>
-        {addressesConfirmation.messageType === 'saved' && 'Locations saved!'}
-        {addressesConfirmation.messageType === 'same' && 'Same Location data!'}
-        {addressesConfirmation.messageType === 'problem' && 'Problem Saving Locations!'}
-        {addressesConfirmation.messageType === 'none' && 'No locations selected'}
-      </span>
-    )
-  }
-
   const renderAddressAccordionItems = () => {
     return (
       <>
@@ -115,6 +104,17 @@ function AddressForm(props) {
       >
         Save
       </Button>
+    )
+  }
+  
+  const renderMessageSection = () => {
+    return (
+      <span className = {`fade ${addressesConfirmation.messageType ? 'show' : ''}`}>
+        {addressesConfirmation.messageType === 'saved' && 'Locations saved!'}
+        {addressesConfirmation.messageType === 'same' && 'Same Location data!'}
+        {addressesConfirmation.messageType === 'problem' && 'Problem Saving Locations!'}
+        {addressesConfirmation.messageType === 'none' && 'No locations selected'}
+      </span>
     )
   }
 

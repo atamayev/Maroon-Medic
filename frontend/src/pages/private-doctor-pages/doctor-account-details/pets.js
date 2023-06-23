@@ -22,11 +22,11 @@ function RenderIsPets (props) {
   const { listDetails, servicedPets, expandedPetTypes, setServicedPets, setExpandedPetTypes } = props;
   const [petsConfirmation, setPetsConfirmation] = useConfirmationMessage();
 
-  const pet_types = {};
+  const petTypes = {};
   if (listDetails.pets) {
     listDetails.pets.forEach(pet_type => {
-      if (!pet_types[pet_type.Pet_type]) pet_types[pet_type.Pet_type] = [];
-      pet_types[pet_type.Pet_type].push(pet_type);
+      if (!petTypes[pet_type.Pet_type]) petTypes[pet_type.Pet_type] = [];
+      petTypes[pet_type.Pet_type].push(pet_type);
     });
   }
   
@@ -82,7 +82,7 @@ function RenderIsPets (props) {
 
   return (
     <>
-      {Object.entries(pet_types).map(([pet_type, pets]) => (
+      {Object.entries(petTypes).map(([pet_type, pets]) => (
         <div key = {pet_type} style = {{ marginBottom: '10px' }}>
           <label htmlFor = {pet_type}>{pet_type}</label>
           {pets.length > 1 && (

@@ -42,18 +42,18 @@ export default function Header (props) {
   const {dropdown, search} = props;
   const location = useLocation();
   const [headerData, setHeaderData] = useState('');
-  const {user_verification} = useContext(VerifyContext);
-  const [user_type, setUser_type] = useState(null);
+  const {userVerification} = useContext(VerifyContext);
+  const [userType, setUserType] = useState(null);
   const {searchTerm, setSearchTerm} = useContext(SearchContext);
-  const cookie_monster = document.cookie;
+  const cookieMonster = document.cookie;
 
   const verifyAndSetHeaderData = async () => {
-    const result = await user_verification();
+    const result = await userVerification();
     if (result.verified === true) {
-        setUser_type(result.user_type)
+        setUserType(result.userType)
         try {
             let name;
-            if (result.user_type === 'Doctor') {
+            if (result.userType === 'Doctor') {
                 name = JSON.parse(sessionStorage.getItem(`DoctorPersonalInfo`)).LastName;
                 setHeaderData('Dr. ' + name);
             } else {
@@ -61,7 +61,7 @@ export default function Header (props) {
                 setHeaderData(name);
             }
         } catch (error) {
-            if (error instanceof TypeError) fetchPersonalInfo(result.user_type);
+            if (error instanceof TypeError) fetchPersonalInfo(result.userType);
         }
     }
   }
@@ -69,14 +69,14 @@ export default function Header (props) {
   const retrieveNameFromStorage = () => {
     try {
       const name = JSON.parse(sessionStorage.getItem("DoctorPersonalInfo")).LastName;
-      setUser_type('Doctor')
+      setUserType('Doctor')
       setHeaderData('Dr. '+ name);
       return;
     } catch(error) {
     }
     try {
       const name = JSON.parse(sessionStorage.getItem("PatientPersonalInfo")).FirstName;
-      setUser_type('Patient')
+      setUserType('Patient')
       setHeaderData(name);
       return;
     } catch(error) {
@@ -90,7 +90,7 @@ export default function Header (props) {
       //sets the headerData when login/register:
       if (!headerData) verifyAndSetHeaderData()
     }
-  }, [cookie_monster]);
+  }, [cookieMonster]);
 
   async function fetchPersonalInfo (type) {
     let response;
@@ -156,7 +156,7 @@ export default function Header (props) {
 
   const renderDropdownItems = () => {
     if (dropdown === true) {
-      if (user_type === 'Doctor') {
+      if (userType === 'Doctor') {
         return(
           <div>
             <Dropdown.Item onClick = {handleLogout}>Sign out</Dropdown.Item>
@@ -165,7 +165,7 @@ export default function Header (props) {
           </div>
         )
       }
-      else if (user_type === 'Patient') {
+      else if (userType === 'Patient') {
         return(
           <div>
             <Dropdown.Item onClick = {handleLogout}>Sign out</Dropdown.Item>

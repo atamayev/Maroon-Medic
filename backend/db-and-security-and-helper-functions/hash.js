@@ -3,15 +3,15 @@ dotenv.config()
 import { hash as _hash, compare } from 'bcrypt';
 
 export default new class Hash {
-    /** hash_credentials: Async function which hashes the user's password
+    /** hashCredentials: Async function which hashes the user's password
      *  Async function because hashing takes time, and breaks the program if not async
-     * @param {String} dehashed_data Password
+     * @param {String} unhashedData Password
      * @returns hashedData: Hashed Password
      */
-    async hash_credentials(dehashed_data) {
+    async hashCredentials(unhashedData) {
         const saltRounds = parseInt(process.env.SALT_ROUNDS, 10);
         try {
-            const hashedData = await _hash(dehashed_data, saltRounds);
+            const hashedData = await _hash(unhashedData, saltRounds);
             return (hashedData)
         } catch (error) {
         }

@@ -21,17 +21,17 @@ async function FillLists(setListDetails) {
 
 export default function PatientAccountDetails() {
   const [listDetails, setListDetails] = useState({});
-  const {user_verification} = useContext(VerifyContext);
-  const [user_type, setUser_type] = useState(null);
+  const {userVerification} = useContext(VerifyContext);
+  const [userType, setUserType] = useState(null);
   const PatientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails"));
   
   const [spokenLanguages, setSpokenLanguages] = useState(PatientAccountDetails?.lanauges || []);
 
   const verifyAndSetAccountDetails = async () => {
-    const result = await user_verification();
+    const result = await userVerification();
     if (result.verified === true) {
-      setUser_type(result.user_type);
-      if (result.user_type === 'Patient') {
+      setUserType(result.userType);
+      if (result.userType === 'Patient') {
         try {
           const storedAccountDetails = sessionStorage.getItem("PatientAccountDetails");
           if (!storedAccountDetails) FillPatientAccountDetails();
@@ -62,7 +62,7 @@ export default function PatientAccountDetails() {
     }
   }
 
-  if (user_type !== 'Patient') return <NonPatientAccess/>
+  if (userType !== 'Patient') return <NonPatientAccess/>
 
   return (
     <div>

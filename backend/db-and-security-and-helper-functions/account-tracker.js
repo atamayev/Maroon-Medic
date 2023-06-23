@@ -8,9 +8,9 @@ import { DB_Operation, connection } from "./connect.js";
 export async function loginHistory(User_ID) {
   const login_history = 'login_history';
 
-  const date_ob = new Date();
+  const newDateObject = new Date();
   const format = "YYYY-MM-DD HH:mm:ss"
-  const dateTime = dayjs(date_ob).format(format);
+  const dateTime = dayjs(newDateObject).format(format);
   
   const sql = `INSERT INTO ${login_history} (Login_at, IP_Address, User_ID) VALUES (?, ?, ?)`;
   const values = [dateTime, 0, User_ID];

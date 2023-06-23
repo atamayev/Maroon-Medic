@@ -71,6 +71,7 @@ function RenderIsVetEducation(props) {
       </div>
     )
   }
+
   const renderEducationTime = () => {
     return (
       <>
@@ -83,6 +84,7 @@ function RenderIsVetEducation(props) {
       </>
     )
   }
+
   const renderAddAndSaveButton = () => {
     return (
       <Button onClick = {() => {
@@ -125,7 +127,10 @@ function RenderIsVetEducation(props) {
                 listDetails,
                 setVetEducationConfirmation,
                 'delete'
-              )}>X</Button>
+              )}
+            >
+              X
+            </Button>
           </li>
         ))}
       </ul>

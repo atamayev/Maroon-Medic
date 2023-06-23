@@ -49,10 +49,10 @@ async function FillInsurances(setInsurances) {
 }
 
 export default function MyPets() {
-  const {user_verification} = useContext(VerifyContext);
+  const {userVerification} = useContext(VerifyContext);
   const [savedPetData, setSavedPetData] = useState(JSON.parse(sessionStorage.getItem("PatientPetData")) || [])
   const [newPetData, setNewPetData] = useState({Name: '', Gender:'', DOB: '', petType: '', insuranceName: ''});
-  const [user_type, setUser_type] = useState(null);
+  const [userType, setUserType] = useState(null);
   const [petTypes, setPetTypes] = useState([]);
   const [insurances, setInsurances] = useState([]);
   const [petConfirmation, setPetConfirmation] = useConfirmationMessage();
@@ -61,10 +61,10 @@ export default function MyPets() {
   const [petToDelete, setPetToDelete] = useState(null);
   
   const verifyAndSetPetData = async () => {
-    const result = await user_verification();
+    const result = await userVerification();
     if (result.verified === true) {
-      setUser_type(result.user_type);
-      if (result.user_type === 'Patient') {
+      setUserType(result.userType);
+      if (result.userType === 'Patient') {
         try {
           const storedPetData = sessionStorage.getItem("PatientPetData");
           if (storedPetData) setSavedPetData(JSON.parse(storedPetData));
@@ -87,7 +87,7 @@ export default function MyPets() {
     verifyAndSetPetData();
   }, []);
 
-  if (user_type !== 'Patient') return <NonPatientAccess/>
+  if (userType !== 'Patient') return <NonPatientAccess/>
 
   const handleShowModal = (pet) => {
     setPetToDelete(pet);
@@ -98,29 +98,41 @@ export default function MyPets() {
     setShowModal(false);
   };
 
+  const renderSavedPetDataTitle = (pet) => {
+    return (
+      <Card.Title>
+        {pet.Name}
+        <Button 
+          variant = "danger" 
+          style = {{ float: 'right' }} 
+          onClick = {() => handleShowModal(pet)}
+        >
+          X
+        </Button>
+      </Card.Title>
+    )
+  }
+
+  const renderSavedPetDataText = (pet) => {
+    return (
+      <Card.Text>
+        <p>{pet.Pet}</p>
+        <p>Gender: {pet.Gender}</p>
+        <p>Date of Birth: {moment(pet.DOB).format('MMMM Do, YYYY')}</p>
+        <p>Insurance Name: {pet.insuranceName}</p>
+        {/* Add other pet details as needed */}
+      </Card.Text>
+    )
+  }
+
   const renderSavedPetDataMap = () => {
     return (
       <>
         {savedPetData.map((pet, index) => (
           <Card key = {index} style = {{ width: '18rem', marginTop: '10px' }} className = 'mb-3'>
             <Card.Body>
-              <Card.Title>
-                {pet.Name}
-                <Button 
-                  variant = "danger" 
-                  style = {{ float: 'right' }} 
-                  onClick = {() => handleShowModal(pet)}
-                  >
-                  X
-                </Button>
-              </Card.Title>
-              <Card.Text>
-                <p>{pet.Pet}</p>
-                <p>Gender: {pet.Gender}</p>
-                <p>Date of Birth: {moment(pet.DOB).format('MMMM Do, YYYY')}</p>
-                <p>Insurance Name: {pet.insuranceName}</p>
-                {/* Add other pet details as needed */}
-              </Card.Text>
+              {renderSavedPetDataTitle(pet)}
+              {renderSavedPetDataText(pet)}
             </Card.Body>
           </Card>
         ))}

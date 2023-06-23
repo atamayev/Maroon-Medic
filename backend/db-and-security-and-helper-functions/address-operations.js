@@ -37,7 +37,7 @@ export function getUpdatedAddressRecords(newData, results) {
     // Return array of updated records
     return updatedRecords;
 };
-  
+
 export function getUnchangedAddressRecords(newData, results) {
   const resultDataMap = new Map();
   let unchangedData = [];

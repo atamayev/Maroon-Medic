@@ -135,11 +135,11 @@ function RenderIsPreVetEducation(props) {
               setPreVetEducationConfirmation,
               'add'
               )
-            }}
-          >
-            Add
-          </Button>
-        </>
+          }}
+        >
+          Add
+        </Button>
+      </>
     )
   }
 
@@ -157,7 +157,10 @@ function RenderIsPreVetEducation(props) {
                 listDetails, 
                 setPreVetEducationConfirmation,
                 'delete'
-              )}>X</Button>
+              )}
+            >
+              X
+            </Button>
           </li>
         ))}
       </ul>

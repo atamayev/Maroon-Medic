@@ -1,8 +1,8 @@
 import http from "../http-common"
 
 export default new class PrivateDoctorDataService {
-    async addingDoctorInfo(new_doctor_object) {
-        return await http.post(`private-doctor-data/new-doctor`, {new_doctor_object});
+    async addingDoctorInfo(newDoctorObject) {
+        return await http.post(`private-doctor-data/new-doctor`, {newDoctorObject});
     }
     async newDoctorConfirmation() {
         return await http.get(`private-doctor-data/new-doctor-confirmation`);

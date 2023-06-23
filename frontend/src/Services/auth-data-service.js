@@ -7,12 +7,12 @@ export default new class AuthDataService {
     async verify() {
         return await http.post('/auth/verify')
     }
-    async login(login_information_object) {
-        return await http.post("/auth/login", {login_information_object}, 
+    async login(loginInformationObject) {
+        return await http.post("/auth/login", {loginInformationObject}, 
         {withCredentials: true})
     }
-    async register(register_information_object) {
-        return await http.post("/auth/register", {register_information_object}, 
+    async register(registerInformationObject) {
+        return await http.post("/auth/register", {registerInformationObject},
         {withCredentials: true})
     }
     async fetchLoginHistry() {

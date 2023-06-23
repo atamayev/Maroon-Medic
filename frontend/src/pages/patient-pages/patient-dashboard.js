@@ -23,19 +23,19 @@ async function fetchPatientDashboardData(setDashboardData) {
 }
 
 export default function PatientDashboard() {
-  const {user_verification} = useContext(VerifyContext)
+  const {userVerification} = useContext(VerifyContext)
   const [personalInfo, setPersonalInfo] = useState(JSON.parse(sessionStorage.getItem('PatientPersonalInfo')));
   const [dashboardData, setDashboardData] = useState([]);
   const [pastAppointments, setPastAppointments] = useState([]);
   const [upcomingAppointments, setUpcomingAppointments] = useState([]);
-  const [user_type, setUser_type] = useState(null);
-  const newPatient = document.cookie.split(';').some((item) => item.trim().startsWith('PatientNew_User'));
+  const [userType, setUserType] = useState(null);
+  const newPatient = document.cookie.split(';').some((item) => item.trim().startsWith('PatientNewUser'));
 
   const verifyAndSetDashboardData = async () => {
-    const result = await user_verification();
+    const result = await userVerification();
     if (result.verified === true) {
-      setUser_type(result.user_type);
-      if (result.user_type === 'Patient') {
+      setUserType(result.userType);
+      if (result.userType === 'Patient') {
         try {
           // const storedDashboardData = sessionStorage.getItem("PatientDashboardData")
           // if (storedDashboardData) {
@@ -81,7 +81,7 @@ export default function PatientDashboard() {
     }
   }, [dashboardData]);
 
-  if (user_type !== 'Patient') return <NonPatientAccess/>
+  if (userType !== 'Patient') return <NonPatientAccess/>
 
   const renderAppointmentConfirmationStatus = (appointment) => {
     if (appointment.Doctor_confirmation_status === 0) {

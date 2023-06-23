@@ -6,7 +6,7 @@ import LoginAndRegistrationForm from '../../components/login-and-registration-fo
 import Header from '../header.js';
 
 export default function DoctorRegister() {
-  const [register_information_object, setRegister_information_object] = useState({register_type: 'Doctor'});
+  const [registerInformationObject, setRegisterInformationObject] = useState({registerType: 'Doctor'});
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -24,7 +24,7 @@ export default function DoctorRegister() {
           handleRegisterSubmit(
             {
               e,
-              register_information_object,
+              registerInformationObject,
               passwordConfirm,
               navigate,
               setError,
@@ -32,8 +32,8 @@ export default function DoctorRegister() {
               VetOrPatient: type
             }
         )}
-        credentials = {register_information_object}
-        setCredentials = {setRegister_information_object}
+        credentials = {registerInformationObject}
+        setCredentials = {setRegisterInformationObject}
         passwordConfirm = {passwordConfirm}
         setPasswordConfirm = {setPasswordConfirm}
         error = {error}

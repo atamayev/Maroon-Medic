@@ -3,13 +3,13 @@ import {useNavigate} from "react-router-dom";
 import { VerifyContext } from "../contexts/verify-context";
 
 export const useConfirmNotLoggedIn = () => {
-    const {user_verification} = useContext(VerifyContext);
+    const {userVerification} = useContext(VerifyContext);
     const navigate = useNavigate();
 
     const verifyUser = async () => {
-        const result = await user_verification();
-        if (result.verified === true && result.user_type === 'Patient') navigate(`/patient-dashboard`);
-        else if (result.verified === true && result.user_type === 'Doctor') navigate(`/vet-dashboard`);
+        const result = await userVerification();
+        if (result.verified === true && result.userType === 'Patient') navigate(`/patient-dashboard`);
+        else if (result.verified === true && result.userType === 'Doctor') navigate(`/vet-dashboard`);
     }
     
     useEffect(() => {

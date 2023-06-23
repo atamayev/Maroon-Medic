@@ -150,12 +150,12 @@ export async function saveGeneralData (req, res) {
 
     const doctorData = req.body.Data; // The Data is an array of the ID of the DataType ([6]), which is a specific Language_ID)
 
-    const table_name = `${DataTypelower}_mapping`;
+    const tableName = `${DataTypelower}_mapping`;
 
-    await DB_Operation(saveGeneralData.name, table_name);
+    await DB_Operation(saveGeneralData.name, tableName);
 
     if (operationType === 'add') {
-        const sql = `INSERT INTO ${table_name} (${DataType}_ID, ${UserIDorDoctorID}) VALUES (?, ?)`;
+        const sql = `INSERT INTO ${tableName} (${DataType}_ID, ${UserIDorDoctorID}) VALUES (?, ?)`;
         const values = [doctorData, DoctorID];
         
         try {
@@ -165,7 +165,7 @@ export async function saveGeneralData (req, res) {
             return res.status(400).json();
         }
     } else if (operationType === 'delete') {
-        const sql = `DELETE FROM ${table_name} WHERE ${DataType}_ID = ? AND ${UserIDorDoctorID} = ?`;
+        const sql = `DELETE FROM ${tableName} WHERE ${DataType}_ID = ? AND ${UserIDorDoctorID} = ?`;
         const values = [doctorData, DoctorID];
         try {
             await connection.execute(sql, values);
@@ -307,25 +307,25 @@ export async function saveEducationData (req, res) {
     const EducationType = req.body.EducationType;//'pre_vet' or 'vet'
     const operationType = req.body.operationType;
 
-    const table_name = `${EducationType}_education_mapping`;
+    const tableName = `${EducationType}_education_mapping`;
     let sql;
     let values;
 
-    await DB_Operation(saveEducationData.name, table_name);
+    await DB_Operation(saveEducationData.name, tableName);
     if (operationType === 'add') {
         if (EducationType === 'pre_vet') {
-            sql = `INSERT INTO ${table_name} (School_ID, Major_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?, ?, ?, ?, ?, ?)`;
+            sql = `INSERT INTO ${tableName} (School_ID, Major_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?, ?, ?, ?, ?, ?)`;
             values = [EducationData.School_ID, EducationData.Major_ID, EducationData.Education_type_ID, EducationData.Start_date, EducationData.End_date, DoctorID];    
         } else if (EducationType === 'vet') {
-            sql = `INSERT INTO ${table_name} (School_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?, ?, ?, ?, ?)`;
+            sql = `INSERT INTO ${tableName} (School_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?, ?, ?, ?, ?)`;
             values = [EducationData.School_ID, EducationData.Education_type_ID, EducationData.Start_date, EducationData.End_date, DoctorID];    
         } else {
             return res.status(400).json();
         }
     } else if (operationType === 'delete') {
         values = [EducationData];
-        if (EducationType === 'pre_vet') sql = `DELETE FROM ${table_name} WHERE pre_vet_education_mappingID = ?`;
-        else if (EducationType === 'vet') sql = `DELETE FROM ${table_name} WHERE vet_education_mappingID = ?`;
+        if (EducationType === 'pre_vet') sql = `DELETE FROM ${tableName} WHERE pre_vet_education_mappingID = ?`;
+        else if (EducationType === 'vet') sql = `DELETE FROM ${tableName} WHERE vet_education_mappingID = ?`;
         else {
             return res.status(400).json();
         }
@@ -371,24 +371,24 @@ export async function saveAddressData (req, res) {
 
     const sql = `SELECT addressesID FROM ${addresses} WHERE ${addresses}.isActive = 1 AND ${addresses}.Doctor_ID = ?`;
     const values = [DoctorID];
-    let Address_results;
+    let addressResults;
 
     await DB_Operation(saveAddressData.name, addresses);
     try {
-        [Address_results] = await connection.execute(sql, values);
+        [addressResults] = await connection.execute(sql, values);
     } catch(error) {
         return res.status(400).json();
     }
 
-    if (!_.isEmpty(Address_results)) {
-        for (let Address_result of Address_results) {
+    if (!_.isEmpty(addressResults)) {
+        for (let addressResult of addressResults) {
             const sql2 = `SELECT ${phone}.Phone, ${phone}.phone_priority 
             FROM ${phone} 
             WHERE ${phone}.address_ID = ?`;
 
-            const [phones] = await connection.execute(sql2, [Address_result.addressesID]);
-            if (_.isEmpty(phones)) Address_result.phone = "";
-            else Address_result.phone = phones[0];
+            const [phones] = await connection.execute(sql2, [addressResult.addressesID]);
+            if (_.isEmpty(phones)) addressResult.phone = "";
+            else addressResult.phone = phones[0];
         };
         const newData = AddressData;
         // Check for changes in data:
@@ -397,13 +397,13 @@ export async function saveAddressData (req, res) {
         const addedData = newData.filter(data => data.addressesID === 0);
 
         //Extracts just the IDs of the data that was in the DB, but is not in the new incoming Data
-        const deletedData = Address_results
+        const deletedData = addressResults
             .filter(result => !newData.some(data => data.addressesID === result.addressesID))
             .map(result => result.addressesID);
         
-        const updatedData = getUpdatedAddressRecords(newData, Address_results);
+        const updatedData = getUpdatedAddressRecords(newData, addressResults);
 
-        const unchangedData = getUnchangedAddressRecords(newData, Address_results);
+        const unchangedData = getUnchangedAddressRecords(newData, addressResults);
 
         let returnedData = unchangedData; //initialize the data to return with the data that hasn't changed.
 

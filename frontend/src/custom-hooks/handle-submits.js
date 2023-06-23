@@ -5,7 +5,7 @@ import { invalidUserAction } from "./user-verification-snippets.js";
 
 export const handleLoginSubmit = async ({
     e,
-    login_information_object, 
+    loginInformationObject, 
     navigate, 
     setError, 
     setLoading, 
@@ -15,7 +15,7 @@ export const handleLoginSubmit = async ({
         setError("")
         try {
             setLoading(true)
-            const response = await AuthDataService.login(login_information_object);
+            const response = await AuthDataService.login(loginInformationObject);
             if (response.status === 200) {
                 if ((sessionStorage.getItem('bookingDetails') !== null) && VetOrPatient === 'Patient') {
                     let bookingDetails;
@@ -36,7 +36,7 @@ export const handleLoginSubmit = async ({
 
 export const handleRegisterSubmit = async ({
     e,
-    register_information_object, 
+    registerInformationObject, 
     passwordConfirm,
     navigate, 
     setError, 
@@ -45,10 +45,10 @@ export const handleRegisterSubmit = async ({
     }) => {
         e.preventDefault();
         setError("")
-        if (register_information_object.password !== passwordConfirm) return setError("Passwords do not match")
+        if (registerInformationObject.password !== passwordConfirm) return setError("Passwords do not match")
         try {
             setLoading(true)
-            const response = await AuthDataService.register(register_information_object);
+            const response = await AuthDataService.register(registerInformationObject);
             if (response.status === 200) navigate(`/new-${VetOrPatient.toLowerCase()}`)
             else setError("Registration didn't work")
         } catch (error) {

@@ -87,23 +87,23 @@ export async function jwtVerify (req, res) {
  *  DOCUMENTATION LAST UPDATED 3/14/23
  */
 export async function login (req, res) {
-  const { email, password, login_type } = req.body.login_information_object;
+  const { email, password, loginType } = req.body.loginInformationObject;
   const Credentials = 'Credentials';
   
-  if (login_type !== 'Doctor' && login_type !== 'Patient') return res.json('Invalid User Type'); // If Type not Doctor or Patient
+  if (loginType !== 'Doctor' && loginType !== 'Patient') return res.json('Invalid User Type'); // If Type not Doctor or Patient
 
   const sql = `SELECT UserID, password FROM ${Credentials} WHERE email = ? AND User_type = ?`;
-  const values = [email, login_type];
+  const values = [email, loginType];
   
   await DB_Operation(login.name, Credentials)
 
   let results;
-  let hashed_password;
+  let hashedPassword;
 
   try {
     [results] = await connection.execute(sql, values);
     if (_.isEmpty(results)) return res.status(404).json("Username not found!");
-    else hashed_password = results[0].password;
+    else hashedPassword = results[0].password;
   } catch(error) {
     return res.status(500).json({ error: 'Problem with email selection' });
   }
@@ -111,23 +111,23 @@ export async function login (req, res) {
   let bool;
 
   try {
-    bool = await Hash.checkPassword(password, hashed_password)
+    bool = await Hash.checkPassword(password, hashedPassword)
   } catch(error) {
     return res.status(500).json({ error: 'Problem with checking password' });
   }
   
   if (bool === true) {
-    const IDKey = `${login_type}ID`;
+    const IDKey = `${loginType}ID`;
     const ID = results[0].UserID;
     const UUID = await ID_to_UUID(ID);
     
-    const expiration_time = 20; // not using this right now.
+    const expirationTime = 20; // not using this right now.
     
     const payload = {
       [IDKey]: UUID,
-      // exp: Math.floor(Date.now()/1000) +expiration_time // temporarily taking out expiration to make sure system is running smoothly
+      // exp: Math.floor(Date.now()/1000) +expirationTime // temporarily taking out expiration to make sure system is running smoothly
     }
-    const JWTKey = login_type === 'Patient' ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY;
+    const JWTKey = loginType === 'Patient' ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY;
     
     let token;
     try {
@@ -138,17 +138,17 @@ export async function login (req, res) {
 
     loginHistory(ID);
 
-    clearCookies(res, login_type)
+    clearCookies(res, loginType)
 
-    // const expires = new Date(Date.now() + expiration_time *1000)
+    // const expires = new Date(Date.now() + expirationTime *1000)
 
     return res
-      .cookie(`${login_type}AccessToken`, token, {
+      .cookie(`${loginType}AccessToken`, token, {
         // expires,
         // httpOnly: true,
         // secure:true
       })
-      .cookie(`${login_type}UUID`, UUID, {
+      .cookie(`${loginType}UUID`, UUID, {
         // expires,
         // httpOnly: true,
         // secure:true
@@ -166,7 +166,7 @@ export async function login (req, res) {
   * First, register checks if the username entered already exists in the table
  *  If exists, then the user is unable to make an account. If doesn't exist, move on
  *  The password is hashed, and a dateTime object is created, before being entered into the credentials table
- *  Depending on the user_type, the insert SQL change. If doctor, insert verification status (currently set to true by default).
+ *  Depending on the userType, the insert SQL change. If doctor, insert verification status (currently set to true by default).
  *  Verification is wheather the doctor's identity is confirmed (via some ID)
  *  The rest of the code is same as login.
  *  However, an extra newUser cookie is sent during registration. This is done to give the new user permission to certain pages that non-new users shouldn't have access to (new-doctor, patient)
@@ -176,13 +176,13 @@ export async function login (req, res) {
  *  DOCUMENTATION LAST UPDATED 3/14/23
  */
 export async function register (req, res) {
-  const {email, password, register_type} = req.body.register_information_object // Desctructures the request
+  const {email, password, registerType} = req.body.registerInformationObject // Desctructures the request
   const Credentials = 'Credentials';
 
-  if (register_type !== 'Doctor' && register_type !== 'Patient') return res.status(400).json('Invalid User Type'); // If Type not Doctor or Patient
+  if (registerType !== 'Doctor' && registerType !== 'Patient') return res.status(400).json('Invalid User Type'); // If Type not Doctor or Patient
 
   const sql = `SELECT UserID FROM ${Credentials} WHERE email = ? AND User_type = ? `;
-  const values = [email, register_type];
+  const values = [email, registerType];
 
   await DB_Operation(register.name, Credentials)
 
@@ -193,52 +193,52 @@ export async function register (req, res) {
     return res.status(500).json({ error: 'Problem with existing email search' });
   }
 
-  let hashed_password;
+  let hashedPassword;
   if (_.isEmpty(results)) {
     try {
-      hashed_password = await Hash.hash_credentials(password)
+      hashedPassword = await Hash.hashCredentials(password)
     } catch(error) {
       return res.status(500).json({ error: 'Problem with Password Hashing' });
     }
   } else return res.status(400).json("User already exists!");
 
-  const date_ob = new Date();
+  const newDateObject = new Date();
   const format = "YYYY-MM-DD HH:mm:ss"
-  const dateTime = dayjs(date_ob).format(format);
+  const dateTime = dayjs(newDateObject).format(format);
 
-  const sql_1 = `INSERT INTO ${Credentials} (email, password, Created_at, User_type) VALUES (?, ?, ?, ?)`;
-  const values_1 = [email, hashed_password, dateTime, register_type];
-  let results_1;
+  const sql1 = `INSERT INTO ${Credentials} (email, password, Created_at, User_type) VALUES (?, ?, ?, ?)`;
+  const values1 = [email, hashedPassword, dateTime, registerType];
+  let results1;
   try {
-    [results_1] = await connection.execute(sql_1, values_1)
+    [results1] = await connection.execute(sql1, values1)
   } catch(error) {
     return res.status(500).json({ error: 'Problem with Data Insertion' });
   }
 
-  const User_ID = results_1.insertId
+  const UserID = results1.insertId
 
-  if (register_type === 'Doctor') {
+  if (registerType === 'Doctor') {
     const Doctor_specific_info = 'Doctor_specific_info';
   
-    const sql_2 = `INSERT INTO ${Doctor_specific_info} (verified, publiclyAvailable, Doctor_ID) VALUES (?, ?, ?)`;
-    const values_2 = [true, true, User_ID];
+    const sql2 = `INSERT INTO ${Doctor_specific_info} (verified, publiclyAvailable, Doctor_ID) VALUES (?, ?, ?)`;
+    const values2 = [true, true, UserID];
   
     try {
-      await connection.execute(sql_2, values_2)
+      await connection.execute(sql2, values2)
     } catch(error) {
       return res.status(500).json({ error: 'Problem with Data Insertion' });
     }
   }
 
-  const IDKey = `${register_type}ID`;
-  const UUID = await ID_to_UUID(User_ID)
+  const IDKey = `${registerType}ID`;
+  const UUID = await ID_to_UUID(UserID)
 
-  const expiration_time = 20; // not using this right now.
+  const expirationTime = 20; // not using this right now.
   const payload = {
     [IDKey]: UUID,
-    // exp: Math.floor(Date.now()/1000) +expiration_time // temporarily taking out expiration to make sure system is running smoothly
+    // exp: Math.floor(Date.now()/1000) +expirationTime // temporarily taking out expiration to make sure system is running smoothly
   }
-  const JWTKey = register_type === 'Patient' ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY;
+  const JWTKey = registerType === 'Patient' ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY;
   let token;
   try {
     token = jwt.sign(payload, JWTKey);
@@ -246,24 +246,24 @@ export async function register (req, res) {
     return res.status(500).json({ error: 'Problem with Signing JWT' });
   }
 
-  const newUser_UUID = await ID_to_UUID(User_ID);
+  const newUserUUID = await ID_to_UUID(UserID);
 
-  loginHistory(User_ID);
+  loginHistory(UserID);
 
-  clearCookies(res, register_type)
+  clearCookies(res, registerType)
 
   return res
-    .cookie(`${register_type}AccessToken`, token, {
+    .cookie(`${registerType}AccessToken`, token, {
       // expires,
       // httpOnly: true,
       // secure:true
     })
-    .cookie(`${register_type}UUID`, UUID, {
+    .cookie(`${registerType}UUID`, UUID, {
       // expires,
       // httpOnly: true,
       // secure:true
     })
-    .cookie(`${register_type}New_User`, newUser_UUID, {
+    .cookie(`${registerType}NewUser`, newUserUUID, {
       // expires,
       // httpOnly: true,
       // secure:true
@@ -324,14 +324,14 @@ export async function logout (req, res) {
     if ("DoctorUUID" in cookies || "DoctorAccessToken" in cookies) {
       UUID = cookies.DoctorUUID
       type = 'Doctor';
-      if ("DoctorNew_User" in cookies) {
-        newUserUUID = cookies.DoctorNew_User
+      if ("DoctorNewUser" in cookies) {
+        newUserUUID = cookies.DoctorNewUser
       }
     } else if ("PatientUUID" in cookies || "PatientAccessToken" in cookies) {
       UUID = cookies.PatientUUID
       type = 'Patient';
-      if ("PatientNew_User" in cookies) {
-        newUserUUID = cookies.PatientNew_User
+      if ("PatientNewUser" in cookies) {
+        newUserUUID = cookies.PatientNewUser
       }
     }
   

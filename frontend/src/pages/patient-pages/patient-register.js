@@ -7,7 +7,7 @@ import Header from '../header.js';
 
 export default function PatietRegister() {
   const type = "Patient"
-  const [register_information_object, setRegister_information_object] = useState({register_type: type});
+  const [registerInformationObject, setRegisterInformationObject] = useState({registerType: type});
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -24,7 +24,7 @@ export default function PatietRegister() {
           handleRegisterSubmit(
             {
               e,
-              register_information_object,
+              registerInformationObject,
               passwordConfirm,
               navigate,
               setError,
@@ -32,8 +32,8 @@ export default function PatietRegister() {
               VetOrPatient: type
             }
         )}
-        credentials = {register_information_object}
-        setCredentials = {setRegister_information_object}
+        credentials = {registerInformationObject}
+        setCredentials = {setRegisterInformationObject}
         passwordConfirm = {passwordConfirm}
         setPasswordConfirm = {setPasswordConfirm}
         error = {error}

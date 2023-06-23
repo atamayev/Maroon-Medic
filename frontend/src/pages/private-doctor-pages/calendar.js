@@ -20,15 +20,15 @@ const CustomEvent = ({ event }) => {
 };
 
 export default function DoctorCalendar () {
-  const {user_verification} = useContext(VerifyContext);
-  const [user_type, setUser_type] = useState(null);
+  const {userVerification} = useContext(VerifyContext);
+  const [userType, setUserType] = useState(null);
   const [events, setEvents] = useState([]);
 
   const verifyAndSetCalendarData = async () => {
-    const result = await user_verification();
+    const result = await userVerification();
     if (result.verified === true) {
-      setUser_type(result.user_type)
-      if (result.user_type === 'Doctor') {
+      setUserType(result.userType)
+      if (result.userType === 'Doctor') {
         try {
           const storedAccountDetails = sessionStorage.getItem("DoctorCalendarDetails")
           if (!storedAccountDetails) FillDoctorCalendarDetails();
@@ -64,7 +64,7 @@ export default function DoctorCalendar () {
     }
   }  
 
-  if (user_type !== 'Doctor') return <NonDoctorAccess/>
+  if (userType !== 'Doctor') return <NonDoctorAccess/>
 
   return (
     <div>

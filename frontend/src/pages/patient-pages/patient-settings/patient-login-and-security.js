@@ -2,20 +2,20 @@ import React, {useEffect, useState, useContext} from 'react'
 import LoginHistory from '../../../components/login-history';
 import { VerifyContext } from '../../../contexts/verify-context';
 import { NonPatientAccess } from '../../../components/user-type-unauth';
+import { fetchLoginHistory } from '../../../custom-hooks/fetch-login-history';
 import Header from '../../header';
 import PatientHeader from '../patient-header.js';
-import { fetchLoginHistory } from '../../../custom-hooks/fetch-login-history';
 
 export default function PatientLoginAndSecurity() {
-  const {user_verification} = useContext(VerifyContext)
-  const [user_type, setUser_type] = useState(null);
+  const {userVerification} = useContext(VerifyContext)
+  const [userType, setUserType] = useState(null);
   const [loginHistory, setLoginHistory] = useState([]);
 
   const verifyAndSetLoginHistory = async () => {
-    const result = await user_verification();
+    const result = await userVerification();
     if (result.verified === true) {
-      setUser_type(result.user_type)
-      if (result.user_type === 'Patient') {
+      setUserType(result.userType)
+      if (result.userType === 'Patient') {
         try {
           const storedLoginHistory = sessionStorage.getItem("LoginHistory");
           if (storedLoginHistory) setLoginHistory(JSON.parse(storedLoginHistory));
@@ -30,7 +30,7 @@ export default function PatientLoginAndSecurity() {
     verifyAndSetLoginHistory();
   }, []);
 
-  if (user_type !== 'Patient') return <NonPatientAccess/>
+  if (userType !== 'Patient') return <NonPatientAccess/>
 
   return (
     <>

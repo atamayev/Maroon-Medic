@@ -1,6 +1,6 @@
 //Type is either Doctor or Patient
 export function clearCookies(res, type = ['Doctor', 'Patient']) {
-  const cookieNames = ['AccessToken', 'UUID', 'New_User'];
+  const cookieNames = ['AccessToken', 'UUID', 'NewUser'];
 
   // ensure type is always an array
   if (typeof type === 'string') type = [type];

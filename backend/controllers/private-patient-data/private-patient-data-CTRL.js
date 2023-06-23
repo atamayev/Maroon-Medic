@@ -17,9 +17,9 @@ import FetchPatientAccountData from "../../db-and-security-and-helper-functions/
  */
 export async function newPatient (req, res) {
     const PatientUUID = req.cookies.PatientUUID
-    let User_ID;
+    let UserID;
     try {
-        User_ID = await UUID_to_ID(PatientUUID);
+        UserID = await UUID_to_ID(PatientUUID);
     } catch (error) {
         clearCookies(res, 'Patient')
         return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' }); 
@@ -36,7 +36,7 @@ export async function newPatient (req, res) {
     const basic_user_info = 'basic_user_info'
     const sql = `INSERT INTO ${basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?, ?, ?, ?, ?)`;
 
-    const values = [new_patient_object.FirstName, new_patient_object.LastName, new_patient_object.Gender, dateOfBirth, User_ID];    
+    const values = [new_patient_object.FirstName, new_patient_object.LastName, new_patient_object.Gender, dateOfBirth, UserID];    
     await DB_Operation(newPatient.name, basic_user_info)
     
     try {
@@ -56,11 +56,11 @@ export async function newPatient (req, res) {
  * DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function newPatientConfirmation (req, res) {
-    let Patient_permission = false;
-    const newPatientUUID = req.cookies.PatientNew_User
+    let patientPermission = false;
+    const newPatientUUID = req.cookies.PatientNewUser
     const existingPatientUUID = req.cookies.PatientUUID
 
-    if (!newPatientUUID || !existingPatientUUID) return res.json(Patient_permission);
+    if (!newPatientUUID || !existingPatientUUID) return res.json(patientPermission);
 
     const UUID_reference = 'UUID_reference';
     const sql = `SELECT UUID_referenceID FROM ${UUID_reference} WHERE UUID = ?`;
@@ -73,12 +73,12 @@ export async function newPatientConfirmation (req, res) {
         const [results2] = await connection.execute(sql, values2)
 
         if (results1.length === 1 && results2.length === 1) {
-            Patient_permission = true;
-            return res.json(Patient_permission);
+            patientPermission = true;
+            return res.json(patientPermission);
         }
-        else return res.json(Patient_permission);
+        else return res.json(patientPermission);
     } catch(error) {
-        return res.json(Patient_permission);
+        return res.json(patientPermission);
     }
 };
 

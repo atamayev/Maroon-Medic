@@ -7,7 +7,7 @@ import Header from '../header.js';
 
 export default function PatientLogin() {
   const type = "Patient"
-  const [login_information_object, setLogin_information_object] = useState({login_type: type});
+  const [loginInformationObject, setLoginInformationObject] = useState({loginType: type});
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -23,15 +23,15 @@ export default function PatientLogin() {
           handleLoginSubmit(
             {
               e,
-              login_information_object,
+              loginInformationObject,
               navigate,
               setError,
               setLoading,
               VetOrPatient: type
             }
         )}
-        credentials = {login_information_object}
-        setCredentials = {setLogin_information_object}
+        credentials = {loginInformationObject}
+        setCredentials = {setLoginInformationObject}
         error = {error}
         VetOrPatient = {type}
         loading = {loading}

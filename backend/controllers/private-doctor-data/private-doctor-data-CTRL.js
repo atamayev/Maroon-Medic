@@ -17,19 +17,19 @@ import FetchDoctorAccountData from "../../db-and-security-and-helper-functions/f
  */
 export async function newDoctor (req, res) {
     const DoctorUUID = req.cookies.DoctorUUID
-    let User_ID;
+    let UserID;
 
     try {
-        User_ID = await UUID_to_ID(DoctorUUID);
+        UserID = await UUID_to_ID(DoctorUUID);
     } catch (error) {
         clearCookies(res, 'Doctor')
         return res.status(401).json({ shouldRedirect: true, redirectURL: '/vet-login' }); 
     }
 
-    const new_doctor_object = req.body.new_doctor_object
+    const newDoctorObject = req.body.newDoctorObject
 
     // Combine date parts into a single string
-    const dateOfBirthStr = `${new_doctor_object.DOB_month} ${new_doctor_object.DOB_day} ${new_doctor_object.DOB_year}`;
+    const dateOfBirthStr = `${newDoctorObject.DOB_month} ${newDoctorObject.DOB_day} ${newDoctorObject.DOB_year}`;
 
     // Convert the string to a Date object and format it
     const dateOfBirth = dayjs(dateOfBirthStr, 'MMMM D YYYY').format('YYYY-MM-DD');
@@ -37,7 +37,7 @@ export async function newDoctor (req, res) {
     const basic_user_info = 'basic_user_info'
     const sql = `INSERT INTO ${basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?, ?, ?, ?, ?)`;
 
-    const values = [new_doctor_object.FirstName, new_doctor_object.LastName, new_doctor_object.Gender, dateOfBirth, User_ID];    
+    const values = [newDoctorObject.FirstName, newDoctorObject.LastName, newDoctorObject.Gender, dateOfBirth, UserID];    
     await DB_Operation(newDoctor.name, basic_user_info)
     
     try {
@@ -57,11 +57,11 @@ export async function newDoctor (req, res) {
  * DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function newDoctorConfirmation (req, res) {
-    let Doctor_permission = false;
-    const newDoctorUUID = req.cookies.DoctorNew_User
+    let doctorPermission = false;
+    const newDoctorUUID = req.cookies.DoctorNewUser
     const existingDoctorUUID = req.cookies.DoctorUUID
 
-    if (!newDoctorUUID || !existingDoctorUUID) return res.json(Doctor_permission);
+    if (!newDoctorUUID || !existingDoctorUUID) return res.json(doctorPermission);
 
     const UUID_reference = 'UUID_reference';
     const sql = `SELECT UUID_referenceID FROM ${UUID_reference} WHERE UUID = ?`;
@@ -74,12 +74,12 @@ export async function newDoctorConfirmation (req, res) {
       const [results2] = await connection.execute(sql, values2)
 
         if (results1.length === 1 && results2.length === 1) {
-            Doctor_permission = true;
-            return res.json(Doctor_permission);
+            doctorPermission = true;
+            return res.json(doctorPermission);
         }
-        else return res.json(Doctor_permission);
+        else return res.json(doctorPermission);
     } catch(error) {
-        return res.json(Doctor_permission);
+        return res.json(doctorPermission);
     }
 };
 

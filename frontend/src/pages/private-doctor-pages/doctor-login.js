@@ -6,7 +6,7 @@ import LoginAndRegistrationForm from '../../components/login-and-registration-fo
 import Header from '../header.js';
 
 export default function DoctorLogin() {
-  const [login_information_object, setLogin_information_object] = useState({login_type: 'Doctor'});
+  const [loginInformationObject, setLoginInformationObject] = useState({loginType: 'Doctor'});
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -24,15 +24,15 @@ export default function DoctorLogin() {
           handleLoginSubmit(
             {
               e,
-              login_information_object,
+              loginInformationObject,
               navigate,
               setError,
               setLoading,
               VetOrPatient: type
             }
         )}
-        credentials = {login_information_object}
-        setCredentials = {setLogin_information_object}
+        credentials = {loginInformationObject}
+        setCredentials = {setLoginInformationObject}
         error = {error}
         VetOrPatient = {type}
         loading = {loading}

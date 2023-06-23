@@ -11,11 +11,11 @@ async function confirmBooking(e, navigate, selectedService, selectedLocation, se
   e.preventDefault();
   let AppointmentObject = {
     Service_and_category_list_ID: selectedService.service_and_category_listID,
-    appointment_date: selectedDay,
-    appointment_time: selectedTime,
+    appointmentDate: selectedDay,
+    appointmentTime: selectedTime,
     NVI: personalData.NVI,
-    Addresses_ID: selectedLocation.addressesID,
-    Instant_book: selectedLocation.instant_book
+    AddressesID: selectedLocation.addressesID,
+    InstantBook: selectedLocation.instant_book
   };
 
   try {
@@ -32,8 +32,8 @@ async function confirmBooking(e, navigate, selectedService, selectedLocation, se
 export function FinalizeBookingPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const {user_verification} = useContext(VerifyContext);
-  const [user_type, setUser_type] = useState(null);
+  const {userVerification} = useContext(VerifyContext);
+  const [userType, setUserType] = useState(null);
 
   let selectedService, selectedLocation, selectedDay, selectedTime, personalData;
   const sessionBookingDetails = JSON.parse(sessionStorage.getItem('bookingDetails'));
@@ -52,8 +52,8 @@ export function FinalizeBookingPage() {
 
   useEffect(() => {
     const verifyAndSetUserType = async () => {
-      const result = await user_verification();
-      if (result.verified === true) setUser_type(result.user_type)
+      const result = await userVerification();
+      if (result.verified === true) setUserType(result.userType)
     }
 
     verifyAndSetUserType()
@@ -63,7 +63,7 @@ export function FinalizeBookingPage() {
     return null; // or render some kind of loading spinner
   }
 
-  if (user_type !== 'Patient') return <NonPatientAccess/>
+  if (userType !== 'Patient') return <NonPatientAccess/>
   
   const capitalizedFirstName = personalData.FirstName.charAt(0).toUpperCase() + personalData.FirstName.slice(1);
 
