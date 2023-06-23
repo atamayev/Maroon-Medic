@@ -1,10 +1,11 @@
+import "react-toggle/style.css"
+import Toggle from 'react-toggle'
+import TimePicker from 'react-time-picker'
 import React, {useEffect, useState} from "react";
 import {Card, Accordion, Form, Button, Container, Row, Col} from 'react-bootstrap';
-import Toggle from 'react-toggle'
-import "react-toggle/style.css"
 import "../../../styles/location.css"
-import TimePicker from 'react-time-picker'
 import FormGroup from "../../../components/form-group";
+import { daysOfWeek } from "../../../components/constants";
 import { handleAddAccordion } from "../../../custom-hooks/account-details-hooks/add";
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
 // import { handleDeleteAccordion } from "../../../Custom Hooks/Hooks for Account Details/delete";
@@ -390,8 +391,6 @@ const WeekDays = ({ times, setTimes}) => {
   useEffect(() => {
     setLoading(!times)
   }, [times])
-
-  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   const handleDayToggle = (day) => {
     if (times.some(time => time.Day_of_week === day)) setTimes(times.filter(time => time.Day_of_week !== day));

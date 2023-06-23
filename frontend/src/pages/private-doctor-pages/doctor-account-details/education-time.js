@@ -1,22 +1,5 @@
 import React from 'react'
-
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December"
-];
-
-const currentYear = new Date().getFullYear();
-const years = [...Array(60).keys()].map(i => i + currentYear - 60).reverse();
+import { months, years } from '../../../components/constants';
 
 export default function EducationTime(props) {
   const { timeState, setTimeState } = props;

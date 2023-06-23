@@ -35,4 +35,3 @@ function renderEducation(educationList, hasMajor = false) {
     </>
   )
 };
-  
