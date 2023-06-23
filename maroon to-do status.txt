@@ -2,7 +2,6 @@ To-do:
 
 
 ASAP:
--make the input into personal data for the first/last name only be text, no numbers. change in the personal data tab, and in the registration tab
 - if patient not logged in when making appointment, and then logs in, should be re-directed to finish appt
 continue going through all components: if the component doesn't fit onto one page, break it up
 -in edudcation time, make the default selection be: choose a year, month. make it disabled. make the add button only appear when it is selected
@@ -15,7 +14,7 @@ continue going through all components: if the component doesn't fit onto one pag
         }
 -further simplicciation of location.js needed
 
--consider making the Login History for both patients + docs into one file
+-consider making the Login History for both patients + docs into one file - make a singular component, like registration form
 move handleSave in patient-personal-info to save patient details.
 
 -when deleting, make all of teh parts of the account details require a delete confirmation. change the X delete button to red. when press delete, should plit into 2 buttons- confirm delete, or nevermind

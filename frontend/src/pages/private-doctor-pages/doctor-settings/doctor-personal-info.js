@@ -97,11 +97,14 @@ export default function DoctorPersonalInfo() {
   const renderFirstNameSection = () => {
     return (
       <FormGroup
-        id="FirstName"
-        label="First Name"
-        value={personalInfo.FirstName}
-        onChange={(event) => setPersonalInfo({...personalInfo, FirstName: event.target.value})}
+        id = "FirstName"
+        label = "First Name"
+        onChange = {event => setPersonalInfo({...personalInfo, FirstName: event.target.value})}
+        pattern = "[A-Za-z]*"
+        placeholder = "First Name"
         required
+        type = "text"
+        value = {personalInfo.FirstName}
       />
     )
   }
@@ -109,11 +112,14 @@ export default function DoctorPersonalInfo() {
   const renderLastNameSection = () => {
     return (
       <FormGroup
-        id="LastName"
-        label="Last Name"
-        value={personalInfo.LastName}
-        onChange={(event) => setPersonalInfo({...personalInfo, LastName: event.target.value})}
+        id = "LastName"
+        label = "Last Name"
+        onChange = {event => setPersonalInfo({...personalInfo, LastName: event.target.value})}
+        pattern = "[A-Za-z]*"
+        placeholder = "Last Name"
         required
+        type = "text"
+        value={personalInfo.LastName}
       />
     )
   }

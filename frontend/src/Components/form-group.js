@@ -10,6 +10,7 @@ export default function FormGroup({
   maxLength,
   name,
   onChange,
+  pattern,
   placeholder,
   required,
   rows,
@@ -28,6 +29,7 @@ export default function FormGroup({
         maxLength = {maxLength}
         name = {name}
         onChange = {onChange}
+        pattern = {pattern}
         placeholder= {placeholder}
         required = {required}
         rows = {rows}

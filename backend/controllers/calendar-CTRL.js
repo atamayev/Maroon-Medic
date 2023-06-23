@@ -64,7 +64,6 @@ export async function makeAppointment(req, res) {
         await connection.execute(sql2, values2)
         return res.status(200).json();
     } catch(error) {
-        // console.log(error)
         return res.status(500).json(error);
     }
 };

@@ -147,7 +147,7 @@ export async function savePetData (req, res) {
             [result] = await connection.execute(sql, values);
             PetData.pet_infoID = result.insertId;
         } catch(error) {
-            return res.status(400).json(error);
+            return res.status(400).json();
         }
 
         await DB_Operation(savePetData.name, insurance_mapping);
@@ -158,7 +158,7 @@ export async function savePetData (req, res) {
             await connection.execute(sql1, values1);
             return res.status(200).json(PetData);
         } catch(error) {
-            return res.status(400).json(error);
+            return res.status(400).json();
         }
     } else if (operationType === 'delete') {
         const sql = `UPDATE ${pet_info} SET isActive = 0 WHERE pet_infoID = ?`;
@@ -169,7 +169,7 @@ export async function savePetData (req, res) {
             await connection.execute(sql, values);
             return res.status(200).json();
         } catch(error) {
-            return res.status(400).json(error);
+            return res.status(400).json();
         }
     } else {
         return res.status(400).json();
