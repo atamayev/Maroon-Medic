@@ -20,11 +20,13 @@ export default function RenderVetEducationSection (props) {
 };
 
 function RenderIsVetEducation(props) {
+  const { listDetails, selectedVetSchool, setSelectedVetSchool, selectedVetEducationType, setSelectedVetEducationType, timeState, setTimeState, vetEducation, setVetEducation } = props;
+
   const [vetEducationConfirmation, setVetEducationConfirmation] = useConfirmationMessage();
 
-  const allChoicesFilled = props.selectedVetSchool && props.selectedVetEducationType;
+  const allChoicesFilled = selectedVetSchool && selectedVetEducationType;
 
-  if (_.isEmpty(_.uniq(props.listDetails.vetSchools?.map((item) => item.School_name)))) return <p>Loading...</p>
+  if (_.isEmpty(_.uniq(listDetails.vetSchools?.map((item) => item.School_name)))) return <p>Loading...</p>
 
   const renderSelectSchool = () => {
     return (
@@ -33,11 +35,11 @@ function RenderIsVetEducation(props) {
         <select
           id="vet-school"
           name="vet-school"
-          value={props.selectedVetSchool}
-          onChange={(e) => props.setSelectedVetSchool(e.target.value)}
+          value={selectedVetSchool}
+          onChange={(e) => setSelectedVetSchool(e.target.value)}
         >
           <option value="" disabled>Choose a School</option>
-          {Array.from(new Set(props.listDetails.vetSchools?.map((item) => item.School_name))).map(
+          {Array.from(new Set(listDetails.vetSchools?.map((item) => item.School_name))).map(
             (school, index) => (
               <option key={index} value={school}>
                 {school}
@@ -55,11 +57,11 @@ function RenderIsVetEducation(props) {
           <select
             id="vet-education"
             name="vet-education"
-            value={props.selectedVetEducationType}
-            onChange={(event) => props.setSelectedVetEducationType(event.target.value)}
+            value={selectedVetEducationType}
+            onChange={(event) => setSelectedVetEducationType(event.target.value)}
           >
             <option value="" disabled>Choose an Education Type</option>
-            {Array.from(new Set(props.listDetails.vetEducationTypes?.map((item) => item.Education_type))).map(
+            {Array.from(new Set(listDetails.vetEducationTypes?.map((item) => item.Education_type))).map(
               (VetEdType, index) => (
                 <option key={index} value={VetEdType}>
                   {VetEdType}
@@ -74,8 +76,8 @@ function RenderIsVetEducation(props) {
       <>
         {allChoicesFilled &&
           <EducationTime 
-            timeState = {props.timeState}
-            setTimeState = {props.setTimeState}
+            timeState = {timeState}
+            setTimeState = {setTimeState}
           />
         }
       </>
@@ -85,20 +87,20 @@ function RenderIsVetEducation(props) {
     return (
       <Button onClick = {() => {
         const selectedEducationObj = handleAddVetEducation(
-        props.selectedVetSchool,
-        props.setSelectedVetSchool, 
-        props.selectedVetEducationType, 
-        props.setSelectedVetEducationType,
-        props.vetEducation, 
-        props.setVetEducation,
-        props.timeState,
-        props.setTimeState
+        selectedVetSchool,
+        setSelectedVetSchool, 
+        selectedVetEducationType, 
+        setSelectedVetEducationType,
+        vetEducation, 
+        setVetEducation,
+        timeState,
+        setTimeState
         )
         saveVetEducation (
           selectedEducationObj,
-          props.vetEducation,
-          props.setVetEducation,
-          props.listDetails,
+          vetEducation,
+          setVetEducation,
+          listDetails,
           setVetEducationConfirmation,
           'add'
         )
@@ -112,15 +114,15 @@ function RenderIsVetEducation(props) {
   const renderSavedEducationList = () => {
     return (
       <ul>
-        {props.vetEducation.map((vet_education) => (
+        {vetEducation.map((vet_education) => (
           <li key={vet_education.vet_education_mappingID}>
             {vet_education.School_name}, {vet_education.Education_type}{": "}{vet_education.Start_Date} --- {vet_education.End_Date} 
             <Button onClick={() => 
               saveVetEducation(
                 vet_education.vet_education_mappingID,
-                props.vetEducation, 
-                props.setVetEducation,
-                props.listDetails,
+                vetEducation, 
+                setVetEducation,
+                listDetails,
                 setVetEducationConfirmation,
                 'delete'
               )}>X</Button>
@@ -145,7 +147,7 @@ function RenderIsVetEducation(props) {
     <>
       {renderSelectSchool()}
 
-      {props.selectedVetSchool && 
+      {selectedVetSchool && 
         renderSelectEducationType()
       }
 

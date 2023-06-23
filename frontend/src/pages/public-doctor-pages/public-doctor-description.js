@@ -2,11 +2,12 @@ import React from "react";
 import { Card } from "react-bootstrap";
 
 export default function RenderDescriptionSection(props) {
-    if (props.personalData || props.description) return <> {RenderDescription(props.description)} </>
+    const { description, personalData } = props;
+    if (personalData || description) return <> {RenderDescription(description.Description)} </>
 }
 
-function RenderDescription(props) {
-    if (props.Description) {
+function RenderDescription(Description) {
+    if (Description) {
         return(
             <>
                 <Card className="card-bottom-margin"> 
@@ -14,7 +15,7 @@ function RenderDescription(props) {
                         Description
                     </Card.Header>
                     <Card.Body>
-                        {props.Description}
+                        {Description}
                     </Card.Body>
                 </Card>
             </>

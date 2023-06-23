@@ -18,27 +18,28 @@ export default function RenderDescriptionSection (props) {
 };
 
 function RenderIsDescription(props) {
+  const { description, setDescription, isDescriptionOverLimit, setIsDescriptionOverLimit } = props;
   const [descriptionConfirmation, setDescriptionConfirmation] = useConfirmationMessage();
 
   const counterStyleLimit = () => {
-    if (props.isDescriptionOverLimit) return {color: 'red'}
+    if (isDescriptionOverLimit) return {color: 'red'}
     return {color: 'black'}
   }
 
   const renderCharacterLimitFraction = () => {
-    if (!props.description.Description) return <>0</>
-    return <>{props.description.Description.length}</>
+    if (!description.Description) return <>0</>
+    return <>{description.Description.length}</>
   }
 
   const renderDescriptionInput = () => {
     return (
       <FormGroup
         id="Description" 
-        value={props.description.Description} 
+        value={description.Description} 
         onChange = {event => {
           const value = event.target.value;
-          props.setDescription({Description: value});
-          props.setIsDescriptionOverLimit(value.length >= 1000);
+          setDescription({Description: value});
+          setIsDescriptionOverLimit(value.length >= 1000);
         }}
         maxLength={1000} // limit to 1000 characters
         as="textarea" 
@@ -59,7 +60,7 @@ function RenderIsDescription(props) {
     return (
       <Button 
         variant="success" 
-        onClick={()=> saveDescription(props.description, setDescriptionConfirmation)}
+        onClick={()=> saveDescription(description, setDescriptionConfirmation)}
       >
       Save</Button>
     )

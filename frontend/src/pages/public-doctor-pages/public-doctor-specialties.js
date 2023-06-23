@@ -3,24 +3,25 @@ import React from "react";
 import { Card } from "react-bootstrap";
 
 export default function RenderSpecialtiesSection(props) {
-    if (!_.isEmpty(props.doctorSpecialties)) {
+    const { doctorSpecialties } = props;
+    if (!_.isEmpty(doctorSpecialties)) {
         return (
             <Card className="card-bottom-margin">
                 <Card.Header>
                     Doctor Organizations and Specialites
                 </Card.Header>
                 <Card.Body>
-                    {renderSpecialties(props)}
+                    {renderSpecialties(doctorSpecialties)}
                 </Card.Body>
             </Card>
         )
     }
 }
 
-function renderSpecialties(props) {
+function renderSpecialties(doctorSpecialties) {
     const organizations = {};
-    if (props.doctorSpecialties) {
-      props.doctorSpecialties.forEach(specialty => {
+    if (doctorSpecialties) {
+        doctorSpecialties.forEach(specialty => {
         if (!organizations[specialty.Organization_name]) organizations[specialty.Organization_name] = [];
         organizations[specialty.Organization_name].push(specialty);
       });

@@ -3,8 +3,9 @@ import React from "react";
 import { Card } from "react-bootstrap";
 
 export default function RenderReviewsSection(props) {
+  // const { spokenLanguages } = props;
 
-// if (!_.isEmpty(props.spokenLanguages)) {
+// if (!_.isEmpty(spokenLanguages)) {
     return(
       <Card className="card-bottom-margin">
       <Card.Header>

@@ -4,10 +4,11 @@ import { handleSelectCarousel } from "../../../Custom Hooks/Hooks for Doctor Acc
 
 //Non-functional, just here for completion
 export default function RenderPicturesSection (props) {
+  const { carouselIndex, setCarouselIndex } = props;
   return(
     <>
       Edit Pictures:
-      <Carousel activeIndex={props.carouselIndex} onSelect={()=>handleSelectCarousel(props.carouselIndex, props.setCarouselIndex)}>
+      <Carousel activeIndex={carouselIndex} onSelect={()=>handleSelectCarousel(carouselIndex, setCarouselIndex)}>
       <Carousel.Item>
         <img
           className="d-block w-100"

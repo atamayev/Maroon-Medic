@@ -3,14 +3,15 @@ import React from "react";
 import { Card } from "react-bootstrap";
 
 export default function RenderLocationsSection(props) {
-  if (!_.isEmpty(props.addresses)) {
+  const { addresses } = props;
+  if (!_.isEmpty(addresses)) {
     return (
       <Card className="card-bottom-margin">
         <Card.Header>
           Locations
         </Card.Header>
         <Card.Body>
-          {renderLocations(props.addresses)}
+          {renderLocations(addresses)}
         </Card.Body>
       </Card>
     )

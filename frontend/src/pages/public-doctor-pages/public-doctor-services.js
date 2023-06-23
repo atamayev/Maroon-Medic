@@ -3,24 +3,25 @@ import React from "react";
 import { Card } from "react-bootstrap";
 
 export default function RenderServiceSection(props) {
-  if (!_.isEmpty(props.providedServices)) {
+  const { providedServices } = props;
+  if (!_.isEmpty(providedServices)) {
     return (
       <Card className="card-bottom-margin">
         <Card.Header>
           Provided Services
         </Card.Header>
         <Card.Body>
-          {renderProvidedServices(props)}
+          {renderProvidedServices(providedServices)}
         </Card.Body>
       </Card>
     )
   }
 }
 
-function renderProvidedServices(props) {
+function renderProvidedServices(providedServices) {
   const categories = {};
-  if (props.providedServices) {
-    props.providedServices.forEach(service => {
+  if (providedServices) {
+    providedServices.forEach(service => {
       if (!categories[service.Category_name]) categories[service.Category_name] = [];
       categories[service.Category_name].push(service);
     });

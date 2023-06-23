@@ -62,6 +62,7 @@ function finalizeBookingClick(e, navigate, selectedService, selectedLocation, se
 };
 
 export default function RenderBookingSection(props) {
+  const { providedServices, addresses, personalData } = props;
   const [selectedService, setSelectedService] = useState(null);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedDay, setSelectedDay] = useState(null);
@@ -71,10 +72,10 @@ export default function RenderBookingSection(props) {
   const [availableDates, setAvailableDates] = useState([]);
   
   // Get selected service object
-  const selectedServiceObject = props.providedServices.find(service => service.service_and_category_listID === selectedService?.service_and_category_listID);
+  const selectedServiceObject = providedServices.find(service => service.service_and_category_listID === selectedService?.service_and_category_listID);
 
   // Get selected location object
-  const selectedLocationObject = props.addresses.find(location => location.addressesID === selectedLocation?.addressesID);
+  const selectedLocationObject = addresses.find(location => location.addressesID === selectedLocation?.addressesID);
 
   useEffect(() => {
     if (selectedDay && selectedLocationObject && selectedServiceObject) {
@@ -123,7 +124,7 @@ export default function RenderBookingSection(props) {
     setAvailableDates(dates);
   }, [selectedLocationObject]);
 
-  const anyLocationHasTimes = props.addresses.some(location => location.times && !_.isEmpty(location.times));
+  const anyLocationHasTimes = addresses.some(location => location.times && !_.isEmpty(location.times));
 
   if (!anyLocationHasTimes) {
     return(
@@ -161,10 +162,10 @@ export default function RenderBookingSection(props) {
           as='select' 
           id='serviceSelect' 
           label='Select a service' 
-          onChange={(e) => handleServiceChange(e, props.providedServices, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime)}
+          onChange={(e) => handleServiceChange(e, providedServices, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime)}
         >
           <option>Select...</option>
-          {props.providedServices.map((service) => (
+          {providedServices.map((service) => (
             <option key={service.service_and_category_listID} value={service.service_and_category_listID}>
               {service.Category_name} - {service.Service_name}
             </option>
@@ -181,10 +182,10 @@ export default function RenderBookingSection(props) {
           as='select' 
           id='locationSelect' 
           label='Select a location' 
-          onChange={(e)=> handleLocationChange(e, props.addresses, setSelectedLocation, setSelectedDay, setSelectedTime)}
+          onChange={(e)=> handleLocationChange(e, addresses, setSelectedLocation, setSelectedDay, setSelectedTime)}
         >
           <option>Select...</option>
-          {props.addresses.map((address) => (
+          {addresses.map((address) => (
             <option key={address.addressesID} value={address.addressesID}>
               {address.address_title}: ({address.address_line_1} {address.address_line_2}, {address.city}, {address.state}, {address.zip})
             </option>
@@ -242,7 +243,7 @@ export default function RenderBookingSection(props) {
             selectedLocation,
             selectedDay,
             selectedTime,
-            props.personalData
+            personalData
           )}
           className='mt-3'
         >
@@ -253,7 +254,7 @@ export default function RenderBookingSection(props) {
   }
 
   const renderMakeBooking = () => {
-    if (_.isEmpty(props.providedServices) || _.isEmpty(props.addresses)) {
+    if (_.isEmpty(providedServices) || _.isEmpty(addresses)) {
       return (
         <Card className='card-bottom-margin'>
           <Card.Header>Ready to make a booking?</Card.Header>

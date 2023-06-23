@@ -39,6 +39,7 @@ const handleHome = () => {
 }
 
 export default function Header (props) {
+  const {dropdown, search} = props;
   const location = useLocation();
   const [headerData, setHeaderData] = useState('');
   const {user_verification} = useContext(VerifyContext);
@@ -134,7 +135,7 @@ export default function Header (props) {
   }
 
   const renderDropdown = () => {
-    if (props.dropdown === true) {
+    if (dropdown === true) {
       return (
         <Dropdown className="menu-container">
           <Dropdown.Toggle
@@ -154,7 +155,7 @@ export default function Header (props) {
   };
 
   const renderDropdownItems = () => {
-    if (props.dropdown === true) {
+    if (dropdown === true) {
       if (user_type === 'Doctor') {
         return(
           <div>
@@ -195,7 +196,7 @@ export default function Header (props) {
   }
   
   const renderSearch = () => {
-    if (props.search === true) {
+    if (search === true) {
       return (
         <>
           <input

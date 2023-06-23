@@ -3,7 +3,8 @@ import React from "react";
 import { Card } from "react-bootstrap";
 
 export default function RenderEducationSection(props) {
-  if (!_.isEmpty(props.preVetEducation) && !_.isEmpty(props.vetEducation)) {
+  const { preVetEducation, vetEducation } = props;
+  if (!_.isEmpty(preVetEducation) && !_.isEmpty(vetEducation)) {
     return(
       <Card className="card-bottom-margin">
         <Card.Header>
@@ -11,10 +12,10 @@ export default function RenderEducationSection(props) {
         </Card.Header>
         <Card.Body>
           <h3>Pre-Veterinary Education</h3>
-          {renderEducation(props.preVetEducation, true)}
+          {renderEducation(preVetEducation, true)}
 
           <h3>Veterinary Education</h3>
-          {renderEducation(props.vetEducation)}
+          {renderEducation(vetEducation)}
         </Card.Body>
       </Card>
     )

@@ -4,33 +4,35 @@ import FormGroup from '../../../components/form-group';
 import { addMyPets } from '../../../custom-hooks/my-pets-hooks/save-my-pets';
 
 export const AddPet = (props) => {
+  const { newPetData, setNewPetData, petTypes, insurances, petConfirmation, setPetConfirmation, setShowAddPet, savedPetData, setSavedPetData } = props;
+  
   const handleInputChange = (event) => {
     let value = event.target.value;
   
     if (event.target.name === "petType") {
       // Find the selected pet type by its ID
-      let selectedPetType = props.petTypes.find(petType => petType.pet_listID === JSON.parse(value));
+      let selectedPetType = petTypes.find(petType => petType.pet_listID === JSON.parse(value));
       let newPet = {
-        ...props.newPetData, 
+        ...newPetData, 
         petType: selectedPetType.Pet, 
         pet_listID: selectedPetType.pet_listID 
       };
   
-      props.setNewPetData(newPet);
+      setNewPetData(newPet);
     } else if (event.target.name === "insurance") {
       // Find the selected pet type by its ID
-      let selectedInsurance = props.insurances.find(insurance => insurance.insurance_listID === JSON.parse(value));
+      let selectedInsurance = insurances.find(insurance => insurance.insurance_listID === JSON.parse(value));
       let newPet = {
-        ...props.newPetData, 
+        ...newPetData, 
         insuranceName: selectedInsurance.Insurance_name, 
         insurance_listID: selectedInsurance.insurance_listID 
       };
   
-      props.setNewPetData(newPet);
+      setNewPetData(newPet);
     } 
     else {
-      let newPet = { ...props.newPetData, [event.target.name]: value };
-      props.setNewPetData(newPet);
+      let newPet = { ...newPetData, [event.target.name]: value };
+      setNewPetData(newPet);
     }
   };
   
@@ -48,16 +50,16 @@ export const AddPet = (props) => {
   }
 
   const renderNewPetName = () => {
-    if (!props.newPetData.Name) return <>Pet</>
-    return <>{props.newPetData.Name}</>
+    if (!newPetData.Name) return <>Pet</>
+    return <>{newPetData.Name}</>
   }
 
   const renderDeleteButton = () => {
     return (
       <Button variant="danger" onClick={() => 
         {
-          props.setNewPetData({})
-          props.setShowAddPet(false)
+          setNewPetData({})
+          setShowAddPet(false)
         }}
       >
         X
@@ -113,7 +115,7 @@ export const AddPet = (props) => {
           required
         >
           <option value="" disabled>Select</option>
-          {props.petTypes.map((petType, index) => (
+          {petTypes.map((petType, index) => (
             <option
               key={index}
               value={petType.pet_listID}
@@ -138,7 +140,7 @@ export const AddPet = (props) => {
           required
         >
           <option value="" disabled>Select</option>
-          {props.insurances.map((insurance, index) => (
+          {insurances.map((insurance, index) => (
             <option
               key = {index}
               value = {insurance.insurance_listID}
@@ -157,10 +159,10 @@ export const AddPet = (props) => {
         <Button 
           variant="primary" 
           type="submit"
-          disabled={!areAllFieldsValid(props.newPetData)} // Check for both field validity
+          disabled={!areAllFieldsValid(newPetData)} // Check for both field validity
           onClick={(e) => {
             e.preventDefault();
-            addMyPets(props.newPetData, props.setNewPetData, props.setPetConfirmation, props.savedPetData, props.setSavedPetData, props.setShowAddPet);
+            addMyPets(newPetData, setNewPetData, setPetConfirmation, savedPetData, setSavedPetData, setShowAddPet);
           }}
         > 
           Add {renderNewPetName()}
@@ -171,11 +173,11 @@ export const AddPet = (props) => {
 
   const renderMessageSection = () => {
     return (
-      <span className={`fade ${props.petConfirmation.messageType ? 'show' : ''}`}>
-        {props.petConfirmation.messageType === 'saved' && 'Pet Data saved!'}
-        {props.petConfirmation.messageType === 'same' && 'Same Pet Data!'}
-        {props.petConfirmation.messageType === 'problem' && 'Problem Saving Pet Data!'}
-        {props.petConfirmation.messageType === 'none' && 'No Pet Data Entered'}
+      <span className={`fade ${petConfirmation.messageType ? 'show' : ''}`}>
+        {petConfirmation.messageType === 'saved' && 'Pet Data saved!'}
+        {petConfirmation.messageType === 'same' && 'Same Pet Data!'}
+        {petConfirmation.messageType === 'problem' && 'Problem Saving Pet Data!'}
+        {petConfirmation.messageType === 'none' && 'No Pet Data Entered'}
       </span>
     )
   }

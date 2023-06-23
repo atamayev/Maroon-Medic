@@ -19,6 +19,7 @@ export default function RenderLanguageSection(props) {
 };
 
 function RenderIsVetLanguages(props) {
+  const {listDetails, spokenLanguages, setSpokenLanguages} = props;
   const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage();
 
   const renderMessageSection = () => {
@@ -41,19 +42,19 @@ function RenderIsVetLanguages(props) {
         onChange={(e) => 
           handleAddLanguage(
             e.target.value,
-            props.spokenLanguages,
-            props.setSpokenLanguages,
-            props.listDetails,
+            spokenLanguages,
+            setSpokenLanguages,
+            listDetails,
             setLanguagesConfirmation,
             'doctor'
           )
         }
       >
       <option value = "" disabled>Choose a language</option>
-      {_.isArray(props.listDetails.languages) &&
-        !_.isEmpty(props.listDetails.languages) &&
-        props.listDetails.languages
-          .filter((language) => !props.spokenLanguages.find((spoken) => spoken.language_listID === language.language_listID))
+      {_.isArray(listDetails.languages) &&
+        !_.isEmpty(listDetails.languages) &&
+        listDetails.languages
+          .filter((language) => !spokenLanguages.find((spoken) => spoken.language_listID === language.language_listID))
           .map((language) => (
             <option key={language?.language_listID} value={language?.language_listID}>
               {language?.Language_name}
@@ -66,16 +67,16 @@ function RenderIsVetLanguages(props) {
   const renderSavedLanguageList = () => {
     return (
       <ul>
-        {_.isArray(props.spokenLanguages) &&
-          props.spokenLanguages.map((language) => (
+        {_.isArray(spokenLanguages) &&
+          spokenLanguages.map((language) => (
             <li key={language.language_listID}>
               {language.Language_name}
               <Button 
                 onClick = {() => 
                   handleDeleteLanguage(
                     language, 
-                    props.spokenLanguages, 
-                    props.setSpokenLanguages, 
+                    spokenLanguages, 
+                    setSpokenLanguages, 
                     setLanguagesConfirmation,
                     'doctor'
                   )}

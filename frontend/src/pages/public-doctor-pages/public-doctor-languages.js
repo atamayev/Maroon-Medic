@@ -3,24 +3,25 @@ import React from "react";
 import { Card } from "react-bootstrap";
 
 export default function RenderLanguageSection(props) {
-    if (!_.isEmpty(props.spokenLanguages)) {
+    const { spokenLanguages } = props;
+    if (!_.isEmpty(spokenLanguages)) {
         return (
             <Card className="card-bottom-margin">
                 <Card.Header>
                     Spoken Languages
                 </Card.Header>
                 <Card.Body>
-                    {renderSpokenLanguages(props)}
+                    {renderSpokenLanguages(spokenLanguages)}
                 </Card.Body>
             </Card>
         )
     }
 }
 
-function renderSpokenLanguages(props) {
+function renderSpokenLanguages(spokenLanguages) {
     return (
         <>
-            {props.spokenLanguages.map((language, index) => (
+            {spokenLanguages.map((language, index) => (
                 <p key={index}>{language.Language_name}</p>
                 ))
             }

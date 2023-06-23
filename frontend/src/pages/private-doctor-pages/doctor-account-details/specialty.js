@@ -19,13 +19,14 @@ export default function RenderSpecialtySection (props) {
 };
 
 function RenderIsSpecialty(props) {
+  const {listDetails, selectedOrganization, setSelectedOrganization, doctorSpecialties, setDoctorSpecialties} = props;
   const [specialtiesConfirmation, setSpecialtiesConfirmation] = useConfirmationMessage();
 
-  const specialties = props.selectedOrganization
-  ? props.listDetails.specialties.filter((item) => item.Organization_name === props.selectedOrganization)
+  const specialties = selectedOrganization
+  ? listDetails.specialties.filter((item) => item.Organization_name === selectedOrganization)
   : [];
 
-  if (_.isEmpty(_.uniq(props.listDetails.specialties?.map((item) => item.Organization_name)))) return <p>Loading...</p>
+  if (_.isEmpty(_.uniq(listDetails.specialties?.map((item) => item.Organization_name)))) return <p>Loading...</p>
 
   const renderSelectOrganization = () => {
     return (
@@ -34,11 +35,11 @@ function RenderIsSpecialty(props) {
         <select
           id="organization"
           name="organization"
-          value={props.selectedOrganization}
-          onChange={(e) => props.setSelectedOrganization(e.target.value)}
+          value={selectedOrganization}
+          onChange={(e) => setSelectedOrganization(e.target.value)}
           >
           <option value = "" disabled>Choose an organization</option>
-          {Array.from(new Set(props.listDetails.specialties?.map((item) => item.Organization_name))).map(
+          {Array.from(new Set(listDetails.specialties?.map((item) => item.Organization_name))).map(
             (organization, index) => (
               <option key = {index} value = {organization}>
                 {organization}
@@ -55,7 +56,7 @@ function RenderIsSpecialty(props) {
         {specialties
           .filter(
             (specialty) =>
-            !props.doctorSpecialties.find(
+            !doctorSpecialties.find(
               (doctorSpecialty) =>
               doctorSpecialty.specialties_listID === specialty.specialties_listID
               )
@@ -72,7 +73,7 @@ function RenderIsSpecialty(props) {
   const renderSelectSpecialty = () => {
     return (
       <div>
-        {props.selectedOrganization && (
+        {selectedOrganization && (
           <>
             <label htmlFor = "specialty">Select a specialty: </label>
             <select
@@ -82,10 +83,10 @@ function RenderIsSpecialty(props) {
               onChange = {(e) =>
                 handleAddSpecialty(
                   e.target.value,
-                  props.doctorSpecialties,
-                  props.setDoctorSpecialties,
-                  props.setSelectedOrganization,
-                  props.listDetails,
+                  doctorSpecialties,
+                  setDoctorSpecialties,
+                  setSelectedOrganization,
+                  listDetails,
                   setSpecialtiesConfirmation
                   )
                 }
@@ -102,16 +103,16 @@ function RenderIsSpecialty(props) {
   const renderShowSavedSpecialties = () => {
     return (
       <ul>
-        {props.doctorSpecialties.map((specialty) => (
+        {doctorSpecialties.map((specialty) => (
           <li key={specialty.specialties_listID}>
             {specialty.Organization_name} - {specialty.Specialty_name}{" "}
             <Button 
               onClick = {() => 
                 handleDeleteSpecialty(
                   specialty, 
-                  props.doctorSpecialties, 
-                  props.setDoctorSpecialties, 
-                  props.setSelectedOrganization, 
+                  doctorSpecialties, 
+                  setDoctorSpecialties, 
+                  setSelectedOrganization, 
                   setSpecialtiesConfirmation
                 )}
             >X</Button>

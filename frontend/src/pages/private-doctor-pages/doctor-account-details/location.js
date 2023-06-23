@@ -24,14 +24,15 @@ export default function RenderLocationSection(props) {
 };
 
 function AddressForm(props) {
+  const { addresses, setAddresses } = props;
   const [addressesConfirmation, setAddressesConfirmation] = useConfirmationMessage();
 
   const handleInputChange = (event, address_priority) => {
-    const newAddresses = props.addresses.map(address => {
+    const newAddresses = addresses.map(address => {
       if (address.address_priority === address_priority) return { ...address, [event.target.name]: event.target.value } 
       return address;
     });
-    props.setAddresses(newAddresses);
+    setAddresses(newAddresses);
   };
 
   function areAllFieldsValid(addresses) {
@@ -78,15 +79,15 @@ function AddressForm(props) {
   const renderAddressAccordionItems = () => {
     return (
       <>
-        {props.addresses.sort((a, b) => a.address_priority - b.address_priority).map((address, index) => (
+        {addresses.sort((a, b) => a.address_priority - b.address_priority).map((address, index) => (
           <AddressAccordionItem 
             key={index} 
             index = {index}
             address={address} 
             handleInputChange={(e) => handleInputChange(e, address.address_priority)}
-            handleDeleteAccordion={() => props.setAddresses(props.addresses.filter(addressf => addressf.address_priority !== address.address_priority))}
-            addresses = {props.addresses}
-            setAddresses = {props.setAddresses}
+            handleDeleteAccordion={() => setAddresses(addresses.filter(addressf => addressf.address_priority !== address.address_priority))}
+            addresses = {addresses}
+            setAddresses = {setAddresses}
           />
         ))}
       </>
@@ -97,7 +98,7 @@ function AddressForm(props) {
     return (
       <Button 
         variant="primary" 
-        onClick={()=> handleAddAccordion(props.addresses, props.setAddresses)} 
+        onClick={()=> handleAddAccordion(addresses, setAddresses)} 
         style={{ marginRight: '10px' }}
       >
         Add New Location
@@ -109,8 +110,8 @@ function AddressForm(props) {
     return (
       <Button 
         variant="success" 
-        disabled={!areAllFieldsValid(props.addresses) || !areAllTimesValid(props.addresses)} // Check for both field and time validity
-        onClick={()=> saveLocation(props.addresses, props.setAddresses, setAddressesConfirmation)}
+        disabled={!areAllFieldsValid(addresses) || !areAllTimesValid(addresses)} // Check for both field and time validity
+        onClick={()=> saveLocation(addresses, setAddresses, setAddressesConfirmation)}
       >
         Save
       </Button>

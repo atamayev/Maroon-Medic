@@ -20,11 +20,12 @@ export default function RenderPreVetEducationSection(props) {
 };
 
 function RenderIsPreVetEducation(props) {
+  const { listDetails, selectedPreVetSchool, setSelectedPreVetSchool, selectedMajor, setSelectedMajor, selectedPreVetEducationType, setSelectedPreVetEducationType, timeState, setTimeState, preVetEducation, setPreVetEducation } = props;
   const [preVetEducationConfirmation, setPreVetEducationConfirmation] = useConfirmationMessage();
 
-  const allChoicesFilled = props.selectedPreVetSchool && props.selectedMajor && props.selectedPreVetEducationType;
+  const allChoicesFilled = selectedPreVetSchool && selectedMajor && selectedPreVetEducationType;
 
-  if (_.isEmpty(_.uniq(props.listDetails.preVetSchools?.map((item) => item.School_name)))) return <p> Loading... </p>
+  if (_.isEmpty(_.uniq(listDetails.preVetSchools?.map((item) => item.School_name)))) return <p> Loading... </p>
 
   const renderSelectSchool = () => {
     return (
@@ -33,11 +34,11 @@ function RenderIsPreVetEducation(props) {
         <select
           id="pre-vet-school"
           name="pre-vet-school"
-          value={props.selectedPreVetSchool}
-          onChange={(e) => props.setSelectedPreVetSchool(e.target.value)}
+          value={selectedPreVetSchool}
+          onChange={(e) => setSelectedPreVetSchool(e.target.value)}
         >
           <option value="" disabled>Choose a School</option>
-          {Array.from(new Set(props.listDetails.preVetSchools?.map((item) => item.School_name))).map(
+          {Array.from(new Set(listDetails.preVetSchools?.map((item) => item.School_name))).map(
             (school, index) => (
               <option key={index} value={school}>
                 {school}
@@ -55,11 +56,11 @@ function RenderIsPreVetEducation(props) {
         <select
           id="major"
           name="major"
-          value={props.selectedMajor}
-          onChange = {(event) => props.setSelectedMajor(event.target.value)}
+          value={selectedMajor}
+          onChange = {(event) => setSelectedMajor(event.target.value)}
         >
           <option value="" disabled>Choose a major</option>
-          {_.uniq(props.listDetails.majors?.map((item) => item.Major_name)).map(
+          {_.uniq(listDetails.majors?.map((item) => item.Major_name)).map(
         (major, index) => (
           <option key={index} value={major}>
             {major}
@@ -73,17 +74,17 @@ function RenderIsPreVetEducation(props) {
   const renderSelectEducationType = () => {
     return (
       <div>
-        {props.selectedMajor && (
+        {selectedMajor && (
           <>
             <label htmlFor="education-type">Select a Type of Education: </label>
             <select
               id="education-type"
               name="education-type"
-              value={props.selectedPreVetEducationType}
-              onChange={(event) => props.setSelectedPreVetEducationType(event.target.value)}
+              value={selectedPreVetEducationType}
+              onChange={(event) => setSelectedPreVetEducationType(event.target.value)}
             >
               <option value="" disabled>Choose an Education Type</option>
-              {Array.from(new Set(props.listDetails.preVetEducationTypes?.map((item) => item.Education_type))).map(
+              {Array.from(new Set(listDetails.preVetEducationTypes?.map((item) => item.Education_type))).map(
                 (preVetEdType, index) => (
                   <option key={index} value={preVetEdType}>
                     {preVetEdType}
@@ -101,8 +102,8 @@ function RenderIsPreVetEducation(props) {
       <>
         {allChoicesFilled &&
           <EducationTime 
-            timeState = {props.timeState}
-            setTimeState = {props.setTimeState}
+            timeState = {timeState}
+            setTimeState = {setTimeState}
           />
         }
       </>
@@ -115,22 +116,22 @@ function RenderIsPreVetEducation(props) {
         <Button 
           onClick = {() => {
             const selectedEducationObj = handleAddPreVetEducation(
-              props.selectedPreVetSchool, 
-              props.selectedMajor, 
-              props.selectedPreVetEducationType, 
-              props.preVetEducation, 
-              props.setPreVetEducation, 
-              props.setSelectedPreVetSchool, 
-              props.setSelectedMajor, 
-              props.setSelectedPreVetEducationType, 
-              props.timeState,
-              props.setTimeState
+              selectedPreVetSchool, 
+              selectedMajor, 
+              selectedPreVetEducationType, 
+              preVetEducation, 
+              setPreVetEducation, 
+              setSelectedPreVetSchool, 
+              setSelectedMajor, 
+              setSelectedPreVetEducationType, 
+              timeState,
+              setTimeState
               )
               savePreVetEducation (
                 selectedEducationObj,
-              props.preVetEducation,
-              props.setPreVetEducation,
-              props.listDetails,
+              preVetEducation,
+              setPreVetEducation,
+              listDetails,
               setPreVetEducationConfirmation,
               'add'
               )
@@ -145,15 +146,15 @@ function RenderIsPreVetEducation(props) {
   const renderSavedEducationList = () => {
     return (
       <ul>
-        {props.preVetEducation.map((pre_vet_education) => (
+        {preVetEducation.map((pre_vet_education) => (
           <li key={pre_vet_education.pre_vet_education_mappingID}>
             {pre_vet_education.School_name}, {pre_vet_education.Education_type} in {pre_vet_education.Major_name}{": "}{pre_vet_education.Start_Date} --- {pre_vet_education.End_Date} 
             <Button onClick={() =>
               savePreVetEducation(
                 pre_vet_education.pre_vet_education_mappingID, 
-                props.preVetEducation, 
-                props.setPreVetEducation,
-                props.listDetails, 
+                preVetEducation, 
+                setPreVetEducation,
+                listDetails, 
                 setPreVetEducationConfirmation,
                 'delete'
               )}>X</Button>
@@ -178,11 +179,11 @@ function RenderIsPreVetEducation(props) {
     <>
       {renderSelectSchool()}
 
-      {props.selectedPreVetSchool &&
+      {selectedPreVetSchool &&
         renderSelectMajor()
       }
 
-      {props.selectedMajor && 
+      {selectedMajor && 
         renderSelectEducationType()
       }
 

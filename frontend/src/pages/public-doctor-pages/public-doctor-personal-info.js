@@ -2,13 +2,15 @@ import _ from "lodash"
 import React from "react";
 
 export default function RenderPersonalInfoSection(props) {
-    if (props.personalData || props.description) return <h3> {RenderPersonalInfo(props.personalData)} </h3>
+    const { personalData, description } = props;
+    if (personalData || description) return <h3> {RenderPersonalInfo(personalData)} </h3>
 }
 
 function RenderPersonalInfo(props) {
+    const {FirstName, LastName} = props
     if (!_.isEmpty(props)) {
-        const capitalizedFirstName = props.FirstName.charAt(0).toUpperCase() + props.FirstName.slice(1);
-        const capitalizedLastName = props.LastName.charAt(0).toUpperCase() + props.LastName.slice(1);
+        const capitalizedFirstName = FirstName.charAt(0).toUpperCase() + FirstName.slice(1);
+        const capitalizedLastName = LastName.charAt(0).toUpperCase() + LastName.slice(1);
         return<> Dr. {''} {capitalizedFirstName} {''} {capitalizedLastName} </>
     }
 };
