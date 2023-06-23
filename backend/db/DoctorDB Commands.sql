@@ -18,7 +18,7 @@ CREATE TABLE Doctor_specific_info(
 	publiclyAvailable BOOLEAN NOT NULL, 
 	Doctor_ID INT unsigned NOT NULL,
 	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
-)AUTO_INCREMENT=1000000;
+)AUTO_INCREMENT = 1000000;
 
 SELECT * FROM Doctor_specific_info;
 

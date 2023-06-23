@@ -98,7 +98,7 @@ export default function PatientPersonalInfo() {
         label = "First Name"
         onChange = {event => setPersonalInfo({...personalInfo, FirstName: event.target.value})}
         pattern = "[A-Za-z]*"
-        placeholder= "First Name"
+        placeholder = "First Name"
         required
         type = "text"
         value = {personalInfo.FirstName}
@@ -109,14 +109,14 @@ export default function PatientPersonalInfo() {
   const renderLastNameSection = () => {
     return (
       <FormGroup
-        id="LastName"
-        label="Last Name"
-        onChange={event => setPersonalInfo({...personalInfo, LastName: event.target.value})}
-        pattern={"[A-Za-z]*"}
-        placeholder={"Last Name"}
+        id = "LastName"
+        label = "Last Name"
+        onChange = {event => setPersonalInfo({...personalInfo, LastName: event.target.value})}
+        pattern = {"[A-Za-z]*"}
+        placeholder = {"Last Name"}
         required
         type = {"text"}
-        value={personalInfo.LastName}
+        value = {personalInfo.LastName}
       />
     )
   }
@@ -124,17 +124,17 @@ export default function PatientPersonalInfo() {
   const renderGenderSection = () => {
     return (
       <FormGroup
-        as="select"
-        id="Gender"
-        label="Gender:"
-        required={true}
-        value={personalInfo.Gender}
-        onChange={(event) => setPersonalInfo({...personalInfo, Gender: event.target.value})}
+        as = "select"
+        id = "Gender"
+        label = "Gender:"
+        required = {true}
+        value = {personalInfo.Gender}
+        onChange = {(event) => setPersonalInfo({...personalInfo, Gender: event.target.value})}
       >
-        <option value="" disabled>Select</option>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="other">Other</option>
+        <option value = "" disabled>Select</option>
+        <option value = "male">Male</option>
+        <option value = "female">Female</option>
+        <option value = "other">Other</option>
       </FormGroup>
     )
   }
@@ -144,12 +144,12 @@ export default function PatientPersonalInfo() {
       <>
         <label>
           Month:
-          <select required defaultValue = "" value ={personalInfo.DOB_month} onChange={(event) => setPersonalInfo({...personalInfo, DOB_month: event.target.value})}>
-            <option value="" disabled>
+          <select required defaultValue = "" value = {personalInfo.DOB_month} onChange = {(event) => setPersonalInfo({...personalInfo, DOB_month: event.target.value})}>
+            <option value = "" disabled>
               Select Month
             </option>
             {months.map(month => (
-              <option key={month} value={month}>
+              <option key = {month} value = {month}>
                 {month}
               </option>
             ))}
@@ -164,12 +164,12 @@ export default function PatientPersonalInfo() {
       <>
         <label>
           Day:
-          <select required defaultValue = "" value={personalInfo.DOB_day} onChange={(event) => setPersonalInfo({...personalInfo, DOB_day: event.target.value})}>
-            <option value="" disabled>
+          <select required defaultValue = "" value = {personalInfo.DOB_day} onChange = {(event) => setPersonalInfo({...personalInfo, DOB_day: event.target.value})}>
+            <option value = "" disabled>
               Select Day
             </option>
             {days.map(day => (
-              <option key={day} value={day}>
+              <option key = {day} value = {day}>
                 {day}
               </option>
             ))}
@@ -184,12 +184,12 @@ export default function PatientPersonalInfo() {
       <>
         <label>
           Year:
-          <select required defaultValue = "" value={personalInfo.DOB_year} onChange={(event) => setPersonalInfo({...personalInfo, DOB_year: event.target.value})}>
-            <option value="" disabled>
+          <select required defaultValue = "" value = {personalInfo.DOB_year} onChange = {(event) => setPersonalInfo({...personalInfo, DOB_year: event.target.value})}>
+            <option value = "" disabled>
               Select Year
             </option>
             {years.map(year => (
-              <option key={year + 1} value={year + 1}>
+              <option key = {year + 1} value = {year + 1}>
                 {year + 1}
               </option>
             ))}
@@ -201,7 +201,7 @@ export default function PatientPersonalInfo() {
 
   const renderDOBSection = () => {
     return (
-      <div className='row mt-3 mb-3'>
+      <div className = 'row mt-3 mb-3'>
         <Form.Group id = "DOB">
           {renderSelectMonth()}
           {renderSelectDay()}
@@ -213,7 +213,7 @@ export default function PatientPersonalInfo() {
 
   const renderMessageSection = () => {
     return (
-      <span className={`fade ${personalInfoConfirmation.messageType ? 'show' : ''}`}>
+      <span className = {`fade ${personalInfoConfirmation.messageType ? 'show' : ''}`}>
         {personalInfoConfirmation.messageType === 'saved' && 'Personal data saved'}
         {personalInfoConfirmation.messageType === 'same' && 'Same Personal data!'}
         {personalInfoConfirmation.messageType === 'problem' && 'Problem Saving Personal data!'}
@@ -232,7 +232,7 @@ export default function PatientPersonalInfo() {
             {renderLastNameSection()}
             {renderGenderSection()}
             {renderDOBSection()}
-            <Button type = "submit" className="btn btn-primary w-100">Save</Button>
+            <Button type = "submit" className = "btn btn-primary w-100">Save</Button>
             {renderMessageSection()}
           </Form>
         </Card.Body>

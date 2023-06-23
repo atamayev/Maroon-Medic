@@ -8,7 +8,7 @@ export default function AccountNavHeader(props) {
 
   return (
     <Nav.Item>
-      <Nav.Link href={props.href} eventKey={props.eventKey} active={isActive}>
+      <Nav.Link href = {props.href} eventKey = {props.eventKey} active = {isActive}>
         {props.title}
       </Nav.Link>
     </Nav.Item>

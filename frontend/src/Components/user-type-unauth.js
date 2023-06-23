@@ -10,13 +10,13 @@ export function NonDoctorAccess() {
             <Card>
                 <Card.Body>
                     <p>You are not logged in as a Vet. Please make an account, or login below</p>;
-                    <Link to= {'/vet-register'}>
-                        <Button variant="primary">
+                    <Link to = {'/vet-register'}>
+                        <Button variant = "primary">
                             <p>Register</p>
                         </Button>
                     </Link>
-                    <Link to= {'/vet-login'}>
-                        <Button variant="primary">
+                    <Link to = {'/vet-login'}>
+                        <Button variant = "primary">
                             <p>Login</p>
                         </Button>
                     </Link>
@@ -34,13 +34,13 @@ export function NonPatientAccess() {
             <Card>
                 <Card.Body>
                     <p>You are not logged in as a patient. Please make an account, or login below</p>;
-                    <Link to= {'/patient-register'}>
-                        <Button variant="primary">
+                    <Link to = {'/patient-register'}>
+                        <Button variant = "primary">
                             <p>Register</p>
                         </Button>
                     </Link>
-                    <Link to= {'/patient-login'}>
-                        <Button variant="primary">
+                    <Link to = {'/patient-login'}>
+                        <Button variant = "primary">
                             <p>Login</p>
                         </Button>
                     </Link>

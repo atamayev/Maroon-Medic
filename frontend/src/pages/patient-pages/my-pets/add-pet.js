@@ -61,7 +61,7 @@ export const AddPet = (props) => {
 
   const renderDeleteButton = () => {
     return (
-      <Button variant="danger" onClick={() => 
+      <Button variant = "danger" onClick = {() => 
         {
           setNewPetData({})
           setShowAddPet(false)
@@ -75,22 +75,22 @@ export const AddPet = (props) => {
   const renderNameSection = () => {
     return (
       <FormGroup
-        id="formPetName"
-        className={'mb-3'}
+        id = "formPetName"
+        className = {'mb-3'}
         label = "Pet Name:"
-        type="text"
-        onChange={handleInputChange}
-        name="Name"
+        type = "text"
+        onChange = {handleInputChange}
+        name = "Name"
       />
     )
   }
 
   const renderGenderSection = () => {
     return (
-      <Form.Group id="formPetGender">
+      <Form.Group id = "formPetGender">
         <Form.Label>Gender</Form.Label>
-        <Form.Check type="radio" label="Male" name="Gender" value="Male" onChange={handleInputChange} />
-        <Form.Check type="radio" label="Female" name="Gender" value="Female" onChange={handleInputChange} />
+        <Form.Check type = "radio" label = "Male" name = "Gender" value = "Male" onChange = {handleInputChange} />
+        <Form.Check type = "radio" label = "Female" name = "Gender" value = "Female" onChange = {handleInputChange} />
       </Form.Group>
     )
   }
@@ -98,32 +98,32 @@ export const AddPet = (props) => {
   const renderDOBSection = () => {
     return (
       <FormGroup
-        id="formPetDob"
-        className={'mb-3'}
+        id = "formPetDob"
+        className = {'mb-3'}
         label = "Date of Birth"
-        type="date"
-        onChange={handleInputChange}
-        name="DOB"
+        type = "date"
+        onChange = {handleInputChange}
+        name = "DOB"
       />
     )
   }
 
   const renderPetTypeSection = () => {
     return (
-      <Form.Group id="formPetType">
+      <Form.Group id = "formPetType">
         <Form.Label>Type of Pet</Form.Label>
         <Form.Control
-          as="select"
-          defaultValue={""}
-          onChange={handleInputChange}
-          name="petType"
+          as = "select"
+          defaultValue = {""}
+          onChange = {handleInputChange}
+          name = "petType"
           required
         >
-          <option value="" disabled>Select</option>
+          <option value = "" disabled>Select</option>
           {petTypes.map((petType, index) => (
             <option
-              key={index}
-              value={petType.pet_listID}
+              key = {index}
+              value = {petType.pet_listID}
             >
               {petType.Pet}
             </option>
@@ -135,7 +135,7 @@ export const AddPet = (props) => {
 
   const renderInsuranceSection = () => {
     return (
-      <Form.Group id="formInsurance">
+      <Form.Group id = "formInsurance">
         <Form.Label>Insurance</Form.Label>
         <Form.Control
           as = "select"
@@ -144,7 +144,7 @@ export const AddPet = (props) => {
           name = "insurance"
           required
         >
-          <option value="" disabled>Select</option>
+          <option value = "" disabled>Select</option>
           {insurances.map((insurance, index) => (
             <option
               key = {index}
@@ -162,10 +162,10 @@ export const AddPet = (props) => {
     return (
       <div>
         <Button 
-          variant="primary" 
-          type="submit"
-          disabled={!areAllFieldsValid(newPetData)} // Check for both field validity
-          onClick={(e) => {
+          variant = "primary" 
+          type = "submit"
+          disabled = {!areAllFieldsValid(newPetData)} // Check for both field validity
+          onClick = {(e) => {
             e.preventDefault();
             addMyPets(newPetData, setNewPetData, setPetConfirmation, savedPetData, setSavedPetData, setShowAddPet);
           }}
@@ -178,7 +178,7 @@ export const AddPet = (props) => {
 
   const renderMessageSection = () => {
     return (
-      <span className={`fade ${petConfirmation.messageType ? 'show' : ''}`}>
+      <span className = {`fade ${petConfirmation.messageType ? 'show' : ''}`}>
         {petConfirmation.messageType === 'saved' && 'Pet Data saved!'}
         {petConfirmation.messageType === 'same' && 'Same Pet Data!'}
         {petConfirmation.messageType === 'problem' && 'Problem Saving Pet Data!'}
@@ -192,8 +192,8 @@ export const AddPet = (props) => {
       <Card>
         <Container>
           <Row>
-            <Col xs={8}></Col>
-            <Col xs={4} className=''>
+            <Col xs = {8}></Col>
+            <Col xs = {4} className = ''>
               {renderDeleteButton()}
             </Col>
           </Row>

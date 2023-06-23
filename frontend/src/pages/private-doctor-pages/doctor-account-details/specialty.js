@@ -7,7 +7,7 @@ import { handleDeleteSpecialty } from "../../../custom-hooks/account-details-hoo
 
 export default function RenderSpecialtySection (props) {
   return(
-    <Card className="mb-3">
+    <Card className = "mb-3">
       <Card.Header>
           Specialties
       </Card.Header>
@@ -31,12 +31,12 @@ function RenderIsSpecialty(props) {
   const renderSelectOrganization = () => {
     return (
       <div>
-        <label htmlFor="organization">Select an organization: </label>
+        <label htmlFor = "organization">Select an organization: </label>
         <select
-          id="organization"
-          name="organization"
-          value={selectedOrganization}
-          onChange={(e) => setSelectedOrganization(e.target.value)}
+          id = "organization"
+          name = "organization"
+          value = {selectedOrganization}
+          onChange = {(e) => setSelectedOrganization(e.target.value)}
           >
           <option value = "" disabled>Choose an organization</option>
           {Array.from(new Set(listDetails.specialties?.map((item) => item.Organization_name))).map(
@@ -62,7 +62,7 @@ function RenderIsSpecialty(props) {
               )
               )
               .map((specialty) => (
-                <option key={specialty.specialties_listID} value={specialty.specialties_listID}>
+                <option key = {specialty.specialties_listID} value = {specialty.specialties_listID}>
               {specialty.Specialty_name}
             </option>
           ))}
@@ -91,7 +91,7 @@ function RenderIsSpecialty(props) {
                   )
                 }
                 >
-              <option value="" disabled>Choose a specialty</option>
+              <option value = "" disabled>Choose a specialty</option>
               {renderShowSpecificSpecialties()}
             </select>
           </>
@@ -104,7 +104,7 @@ function RenderIsSpecialty(props) {
     return (
       <ul>
         {doctorSpecialties.map((specialty) => (
-          <li key={specialty.specialties_listID}>
+          <li key = {specialty.specialties_listID}>
             {specialty.Organization_name} - {specialty.Specialty_name}{" "}
             <Button 
               onClick = {() => 
@@ -124,7 +124,7 @@ function RenderIsSpecialty(props) {
 
   const renderMessageSection = () => {
     return (
-      <span className={`fade ${specialtiesConfirmation.messageType ? 'show' : ''}`}>
+      <span className = {`fade ${specialtiesConfirmation.messageType ? 'show' : ''}`}>
         {specialtiesConfirmation.messageType === 'saved' && 'Specialties saved!'}
         {specialtiesConfirmation.messageType === 'same' && 'Same Specialty data!'}
         {specialtiesConfirmation.messageType === 'problem' && 'Problem Saving Specialties!'}

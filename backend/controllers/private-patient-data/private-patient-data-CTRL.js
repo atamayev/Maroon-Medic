@@ -188,7 +188,7 @@ export async function fetchPersonalData (req, res) {
 
 /** fetchPetData retrieves all of the pet's that pretain to a pet parent. 
  *  Takes the Patient's UUID, and converts to the PatientID. 
- *  Selects all of each pet's details (name, gender, etc.), where isActive=1
+ *  Selects all of each pet's details (name, gender, etc.), where isActive = 1
  * @param {Cookies} req Contains the user's cookies (PatientUUID)
  * @param {Array} res PetData or nothing (if error)
  * @returns PetData

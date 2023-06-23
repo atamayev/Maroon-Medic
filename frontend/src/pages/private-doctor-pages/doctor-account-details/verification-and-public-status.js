@@ -22,8 +22,8 @@ export default function RenderVerificationAndPublicStatusSection (props) {
 
 function renderIsVerification (props) {
   const { verified } = props;
-  if (verified) return <Button variant="success" disabled> ✓ (Your identity is Verified) </Button>
-  else return <Button variant="danger" disabled>X (Your identity is Not Verified)</Button>
+  if (verified) return <Button variant = "success" disabled> ✓ (Your identity is Verified) </Button>
+  else return <Button variant = "danger" disabled>X (Your identity is Not Verified)</Button>
 };
 
 function RenderIsPubliclyAvailable (props) {
@@ -32,7 +32,7 @@ function RenderIsPubliclyAvailable (props) {
 
   const renderMessageSection = () => {
     return (
-      <span className={`fade ${publiclyAvailableConfirmation.messageType ? 'show' : ''}`}>
+      <span className = {`fade ${publiclyAvailableConfirmation.messageType ? 'show' : ''}`}>
         {publiclyAvailableConfirmation.messageType === 'saved' && 'Publicly Available status saved!'}
         {publiclyAvailableConfirmation.messageType === 'problem' && 'Problem Saving Publicly Available status!'}
       </span>
@@ -43,9 +43,9 @@ function RenderIsPubliclyAvailable (props) {
     return (
       <>
         <ToggleButton 
-          id="tbg-radio-1" 
+          id = "tbg-radio-1" 
           value = {0} 
-          style={{ backgroundColor: publiclyAvailable === 0 ? "red" : "white", color: publiclyAvailable === 0 ? "white" : "black", borderColor: "black"}}
+          style = {{ backgroundColor: publiclyAvailable === 0 ? "red" : "white", color: publiclyAvailable === 0 ? "white" : "black", borderColor: "black"}}
         >
           No
         </ToggleButton>
@@ -57,9 +57,9 @@ function RenderIsPubliclyAvailable (props) {
     return (
       <>
           <ToggleButton 
-            id="tbg-radio-2" 
+            id = "tbg-radio-2" 
             value = {1} 
-            style={{ backgroundColor: publiclyAvailable === 1 ? "green" : "white", color: publiclyAvailable === 1 ? "white" : "black", borderColor: "black"}}
+            style = {{ backgroundColor: publiclyAvailable === 1 ? "green" : "white", color: publiclyAvailable === 1 ? "white" : "black", borderColor: "black"}}
           >
             Yes
           </ToggleButton>
@@ -69,9 +69,9 @@ function RenderIsPubliclyAvailable (props) {
 
   return(
     <div>
-      <ToggleButtonGroup type="radio" name="options" 
-        value={publiclyAvailable ?? 0} 
-        onChange={(value)=>handlePublicAvailibilityToggle(value, setPubliclyAvailable, setPubliclyAvailableConfirmation)}
+      <ToggleButtonGroup type = "radio" name = "options" 
+        value = {publiclyAvailable ?? 0} 
+        onChange = {(value) =>handlePublicAvailibilityToggle(value, setPubliclyAvailable, setPubliclyAvailableConfirmation)}
       >
         {renderNotPubliclyAvailableButton()}
         {renderIsPubliclyAvailableButton()}

@@ -87,10 +87,10 @@ export default function PatientDashboard() {
     if (appointment.Doctor_confirmation_status === 0) {
       return (
         <OverlayTrigger
-          placement="top"
-          overlay={<Tooltip id={`tooltip-top`}>Dr. {appointment.Doctor_FirstName} has not yet approved your appointment.</Tooltip>}
+          placement = "top"
+          overlay = {<Tooltip id = {`tooltip-top`}>Dr. {appointment.Doctor_FirstName} has not yet approved your appointment.</Tooltip>}
         >
-          <Badge pill style={{ position: 'absolute', top: '10px', right: '10px', border: '2px solid yellow' }}>
+          <Badge pill style = {{ position: 'absolute', top: '10px', right: '10px', border: '2px solid yellow' }}>
             Pending approval
           </Badge>
         </OverlayTrigger>
@@ -98,10 +98,10 @@ export default function PatientDashboard() {
     }
     return (
       <OverlayTrigger
-        placement="top"
-        overlay={<Tooltip id={`tooltip-top`}>Dr. {appointment.Doctor_FirstName} is looking forward to the appointment.</Tooltip>}
+        placement = "top"
+        overlay = {<Tooltip id = {`tooltip-top`}>Dr. {appointment.Doctor_FirstName} is looking forward to the appointment.</Tooltip>}
       >
-        <Badge pill variant="success" style={{ position: 'absolute', top: '10px', right: '10px' }}>
+        <Badge pill variant = "success" style = {{ position: 'absolute', top: '10px', right: '10px' }}>
           Appointment approved
         </Badge>
     </OverlayTrigger>
@@ -111,7 +111,7 @@ export default function PatientDashboard() {
   const AppointmentCard = ({appointment, index}) => {
     return(
       <>
-        <Card key={index} style={{ margin: '0 10px', position: 'relative' }}>
+        <Card key = {index} style = {{ margin: '0 10px', position: 'relative' }}>
           <Card.Body>
             <Card.Title>
               Appointment with Dr. {appointment.Doctor_FirstName} {appointment.Doctor_LastName} on {appointment.appointment_date}
@@ -128,7 +128,7 @@ export default function PatientDashboard() {
     return (
       <>
         {upcomingAppointments.map((appointment, index) => (
-          <AppointmentCard key={index} appointment={appointment} index={index} />
+          <AppointmentCard key = {index} appointment = {appointment} index = {index} />
         ))}
       </>
     )
@@ -139,7 +139,7 @@ export default function PatientDashboard() {
     return (
       <>
         {pastAppointments.map((appointment, index) => (
-          <AppointmentCard key={index} appointment={appointment} index={index} />
+          <AppointmentCard key = {index} appointment = {appointment} index = {index} />
         ))}
       </>
     )
@@ -163,7 +163,7 @@ export default function PatientDashboard() {
   const renderPastAppointmentsCard = () => {
     return (
       <>
-        <Card style={{margin: '0 10px' }}>
+        <Card style = {{margin: '0 10px' }}>
           <Card.Header>
             <h1>Past Appointments</h1>
           </Card.Header>
@@ -197,7 +197,7 @@ export default function PatientDashboard() {
 
   return (
     <div>
-      <Header dropdown={true} search={true} />
+      <Header dropdown = {true} search = {true} />
       <PatientHeader />
       {renderisPersonalInfo()}
       {renderDashboardData()}

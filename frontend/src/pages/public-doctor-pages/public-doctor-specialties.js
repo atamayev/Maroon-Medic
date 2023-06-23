@@ -6,7 +6,7 @@ export default function RenderSpecialtiesSection(props) {
     const { doctorSpecialties } = props;
     if (!_.isEmpty(doctorSpecialties)) {
         return (
-            <Card className="card-bottom-margin">
+            <Card className = "card-bottom-margin">
                 <Card.Header>
                     Doctor Organizations and Specialites
                 </Card.Header>
@@ -30,10 +30,10 @@ function renderSpecialties(doctorSpecialties) {
     return(
         <>
             {Object.entries(organizations).map(([organization, specialties]) => (
-                <div key={organization} style={{ marginBottom: '10px' }}>
+                <div key = {organization} style = {{ marginBottom: '10px' }}>
                     <h3>{organization}</h3>
                     {specialties.map(specialty => (
-                        <p key={specialty.specialties_listID}>
+                        <p key = {specialty.specialties_listID}>
                             {specialty.Specialty_name}
                         </p>
                     ))}

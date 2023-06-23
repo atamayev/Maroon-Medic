@@ -51,7 +51,7 @@ export function FinalizeBookingPage() {
   }, [location]);
 
   useEffect(() => {
-    const verifyAndSetUserType= async () => {
+    const verifyAndSetUserType = async () => {
       const result = await user_verification();
       if (result.verified === true) setUser_type(result.user_type)
     }
@@ -97,8 +97,8 @@ export function FinalizeBookingPage() {
     return (
       <>
         <Button 
-          variant="primary"
-          onClick={(e) => {
+          variant = "primary"
+          onClick = {(e) => {
             confirmBooking(
               e,
               navigate,
@@ -117,11 +117,11 @@ export function FinalizeBookingPage() {
   return (
     <>
       <Header dropdown = {true} search = {true}/>
-      <div className="container mt-5">
+      <div className = "container mt-5">
           <Card>
-            <Card.Header as="h2">{renderConfirmOrRequestBook()} an Appointment</Card.Header>
+            <Card.Header as = "h2">{renderConfirmOrRequestBook()} an Appointment</Card.Header>
             <Card.Body>
-              <Card.Title as="h3">Dr. {''} {capitalizedFirstName} {''} {capitalizedLastName}</Card.Title>
+              <Card.Title as = "h3">Dr. {''} {capitalizedFirstName} {''} {capitalizedLastName}</Card.Title>
                 {renderCardText()}
                 {renderConfirmBookingButton()}
             </Card.Body>

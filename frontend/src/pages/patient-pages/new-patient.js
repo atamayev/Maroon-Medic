@@ -37,7 +37,7 @@ export default function NewPatient () {
     <>
       <Header/>
       <NewAccountForm
-        handleSubmit={(e) =>
+        handleSubmit = {(e) =>
           handleNewUserSubmit(
             {
               e,
@@ -49,7 +49,7 @@ export default function NewPatient () {
             }
         )}
         newInfo = {newPatientInfo}
-        setNewInfo= {setNewPatientInfo}
+        setNewInfo = {setNewPatientInfo}
         error = {error}
         loading = {loading}
       />

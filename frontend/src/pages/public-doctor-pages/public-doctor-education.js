@@ -6,7 +6,7 @@ export default function RenderEducationSection(props) {
   const { preVetEducation, vetEducation } = props;
   if (!_.isEmpty(preVetEducation) && !_.isEmpty(vetEducation)) {
     return(
-      <Card className="card-bottom-margin">
+      <Card className = "card-bottom-margin">
         <Card.Header>
           Where did Dr. [] go to school?
         </Card.Header>
@@ -26,7 +26,7 @@ function renderEducation(educationList, hasMajor = false) {
   return (
     <>
       {educationList.map((education, index) => (
-        <p key={index}>
+        <p key = {index}>
         {education.School_name}, {education.Education_type} 
         {hasMajor ? ` in ${education.Major_name}` : ''} {' '}
         ({education.Start_Date} - {education.End_Date})

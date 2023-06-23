@@ -36,7 +36,7 @@ export default function NewDoctor () {
     <>
       <Header/>
       <NewAccountForm
-        handleSubmit={(e) =>
+        handleSubmit = {(e) =>
           handleNewUserSubmit(
             {
               e,

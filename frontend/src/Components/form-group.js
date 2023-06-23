@@ -30,7 +30,7 @@ export default function FormGroup({
         name = {name}
         onChange = {onChange}
         pattern = {pattern}
-        placeholder= {placeholder}
+        placeholder = {placeholder}
         required = {required}
         rows = {rows}
         type = {type}

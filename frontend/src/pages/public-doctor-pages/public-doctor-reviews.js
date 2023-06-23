@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React from "react";
 import { Card } from "react-bootstrap";
 
@@ -7,7 +6,7 @@ export default function RenderReviewsSection(props) {
 
 // if (!_.isEmpty(spokenLanguages)) {
     return(
-      <Card className="card-bottom-margin">
+      <Card className = "card-bottom-margin">
       <Card.Header>
         Reviews
       </Card.Header>

@@ -34,7 +34,6 @@ export default function PatientLoginAndSecurity() {
       setUser_type(result.user_type)
       if (result.user_type === 'Patient') {
         try {
-          setUser_type('Patient')
           fetchLoginHistory(setLoginHistory);
         } catch(error) {
         }
@@ -50,7 +49,7 @@ export default function PatientLoginAndSecurity() {
 
   function LoginHistoryCard({ loginHistoryItem }) {
     return (
-      <Card className='mb-3'>
+      <Card className = 'mb-3'>
         <Card.Body>
           <Card.Title>Login Time: {loginHistoryItem.Login_at} </Card.Title>
             <Card.Text>
@@ -67,7 +66,7 @@ export default function PatientLoginAndSecurity() {
       <PatientHeader/>
       <h1>Login History</h1>
       {loginHistory.map((item, index) => (
-        <LoginHistoryCard key={index} loginHistoryItem={item} />
+        <LoginHistoryCard key = {index} loginHistoryItem = {item} />
       ))}
       {/* Later add update history here as well */}
     </>

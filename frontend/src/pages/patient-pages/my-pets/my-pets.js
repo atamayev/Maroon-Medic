@@ -102,14 +102,14 @@ export default function MyPets() {
     return (
       <>
         {savedPetData.map((pet, index) => (
-          <Card key={index} style={{ width: '18rem', marginTop: '10px' }} className='mb-3'>
+          <Card key = {index} style = {{ width: '18rem', marginTop: '10px' }} className = 'mb-3'>
             <Card.Body>
               <Card.Title>
                 {pet.Name}
                 <Button 
-                  variant="danger" 
-                  style={{ float: 'right' }} 
-                  onClick={() => handleShowModal(pet)}
+                  variant = "danger" 
+                  style = {{ float: 'right' }} 
+                  onClick = {() => handleShowModal(pet)}
                   >
                   X
                 </Button>
@@ -136,12 +136,12 @@ export default function MyPets() {
         </Modal.Header>
         <Modal.Body>Are you sure you want to delete {petToDelete?.Name}?</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
+          <Button variant = "secondary" onClick = {handleCloseModal}>
             Close
           </Button>
           <Button 
-            variant="danger" 
-            onClick={() => {
+            variant = "danger" 
+            onClick = {() => {
               deleteMyPets(petToDelete.pet_infoID, savedPetData, setSavedPetData, setPetConfirmation);
               handleCloseModal();
             }}
@@ -168,8 +168,8 @@ export default function MyPets() {
     return (
       <>
         <Button 
-          variant="primary" 
-          onClick={() => {setShowAddPet(true)}}
+          variant = "primary" 
+          onClick = {() => {setShowAddPet(true)}}
         >Add a Pet
         </Button>
      </>

@@ -112,7 +112,7 @@ export default function DoctorDashboard() {
     return (
       <>
         {status === 'pending' && (
-          <Button variant='warning' onClick={() => {setStatus('confirming')}}>Pending approval</Button>
+          <Button variant = 'warning' onClick = {() => {setStatus('confirming')}}>Pending approval</Button>
           )}
       </>
     )
@@ -123,8 +123,8 @@ export default function DoctorDashboard() {
       <>
         {status === 'confirming' && (
           <div>
-            <Button variant="success" onClick={e => approveAppointment(setStatus, appointment.AppointmentsID, dashboardData, setDashboardData)}>Approve Appointment</Button>
-            <Button variant="danger" onClick={() => setStatus('pending')}>X</Button>
+            <Button variant = "success" onClick = {e => approveAppointment(setStatus, appointment.AppointmentsID, dashboardData, setDashboardData)}>Approve Appointment</Button>
+            <Button variant = "danger" onClick = {() => setStatus('pending')}>X</Button>
           </div>
         )}
       </>
@@ -135,7 +135,7 @@ export default function DoctorDashboard() {
     return (
       <>
         {status === 'approved' && (
-          <Badge pill variant="success" style={{ position: 'absolute', top: '10px', right: '10px' }}>
+          <Badge pill variant = "success" style = {{ position: 'absolute', top: '10px', right: '10px' }}>
             Appointment approved
           </Badge>
         )}
@@ -147,7 +147,7 @@ export default function DoctorDashboard() {
     const [status, setStatus] = useState(returnDoctorConfirmationStatus(appointment));
 
     return (
-      <Card key={index} style={{ margin: '0 10px', position: 'relative' }} className='mb-3'>
+      <Card key = {index} style = {{ margin: '0 10px', position: 'relative' }} className = 'mb-3'>
         <Card.Body>
           <Card.Title>
             Appointment with {appointment.Patient_FirstName} {appointment.Patient_LastName} on {appointment.appointment_date}
@@ -162,7 +162,7 @@ export default function DoctorDashboard() {
 
   const PastAppointmentCard = ({ appointment, index }) => {
     return (
-      <Card key={index} style={{ margin: '0 10px', position: 'relative' }} className='mb-3'>
+      <Card key = {index} style = {{ margin: '0 10px', position: 'relative' }} className = 'mb-3'>
         <Card.Body>
           <Card.Title>
             Appointment with {appointment.Patient_FirstName} {appointment.Patient_LastName} on {appointment.appointment_date}
@@ -177,7 +177,7 @@ export default function DoctorDashboard() {
     return(
       <>
         {upcomingAppointments.map((appointment, index) => (
-          <UpcomingAppointmentCard key={index} appointment={appointment} index={index} />
+          <UpcomingAppointmentCard key = {index} appointment = {appointment} index = {index} />
         ))}
       </>
     )
@@ -197,7 +197,7 @@ export default function DoctorDashboard() {
   const renderUpcomingAppointmentsCard = () => {
     return (
       <>
-        <Card style={{margin: '0 10px' }}className='mb-3'>
+        <Card style = {{margin: '0 10px' }}className = 'mb-3'>
           <Card.Header>
             <h1>Upcoming Appointments</h1>
           </Card.Header>
@@ -212,7 +212,7 @@ export default function DoctorDashboard() {
   const renderPastAppointmentsCard = () => {
     return (
       <>
-        <Card style={{margin: '0 10px' }}>
+        <Card style = {{margin: '0 10px' }}>
           <Card.Header>
             <h1>Past Appointments</h1>
           </Card.Header>

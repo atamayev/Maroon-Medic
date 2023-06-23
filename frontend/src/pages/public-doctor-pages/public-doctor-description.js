@@ -10,7 +10,7 @@ function RenderDescription(Description) {
     if (Description) {
         return(
             <>
-                <Card className="card-bottom-margin"> 
+                <Card className = "card-bottom-margin"> 
                     <Card.Header>
                         Description
                     </Card.Header>

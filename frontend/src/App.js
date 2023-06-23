@@ -37,12 +37,12 @@ export default function App() {
   return (
     <>
       <Container className = "d-flex" style = {{minHeight: "100vh"}}>
-        <div className="w-100" style = {{maxWidth: "4000px"}}>
+        <div className = "w-100" style = {{maxWidth: "4000px"}}>
           <Routes>
-            <Route exact path="/" element = {<HomeDoctorsList/>} />
+            <Route exact path = "/" element = {<HomeDoctorsList/>} />
             {/* Specific Doctors List both for if there is a query, and if there isnt: next line */}
-            <Route exact path="/s/:query" element = {<SpecificDoctorsList/>} /> 
-            <Route exact path="/s/" element = {<SpecificDoctorsList/>} />
+            <Route exact path = "/s/:query" element = {<SpecificDoctorsList/>} /> 
+            <Route exact path = "/s/" element = {<SpecificDoctorsList/>} />
             <Route exact path = '/vet/:id' element = {<Doctor/>} />
             <Route exact path = "/finalize-booking" element = {<FinalizeBookingPage/>}/>
 

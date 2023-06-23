@@ -7,7 +7,7 @@ import { saveServices } from "../../../custom-hooks/account-details-hooks/save-d
 
 export default function RenderServiceSection (props) {
   return(
-    <Card className="mb-3">
+    <Card className = "mb-3">
       <Card.Header>
         Vet Services
       </Card.Header>
@@ -56,7 +56,7 @@ function RenderIsVetServices (props) {
               {services.map(service => {
                 const selectedService = providedServices.find(s => s.service_and_category_listID === service.service_and_category_listID);
                 return (
-                  <div key={service.service_and_category_listID} style={{ paddingLeft: '20px' }}>
+                  <div key = {service.service_and_category_listID} style = {{ paddingLeft: '20px' }}>
                     {renderServiceCheckbox(service, category)}
                     {selectedService && (
                       <>
@@ -77,17 +77,17 @@ function RenderIsVetServices (props) {
     return (
       <>
         <input
-          type="checkbox"
-          id={`${category}-${service?.service_and_category_listID}`}
-          name="service"
-          value={service?.service_and_category_listID}
-          checked={providedServices.find((provided) => provided.service_and_category_listID === service.service_and_category_listID) !== undefined}
-          onChange={(event) => {
+          type = "checkbox"
+          id = {`${category}-${service?.service_and_category_listID}`}
+          name = "service"
+          value = {service?.service_and_category_listID}
+          checked = {providedServices.find((provided) => provided.service_and_category_listID === service.service_and_category_listID) !== undefined}
+          onChange = {(event) => {
             if (event.target.checked) setProvidedServices([...providedServices, {...service, Service_price: null, Service_time: null}])
             else setProvidedServices(providedServices.filter(servicef => servicef.service_and_category_listID !== service.service_and_category_listID))
           }}
           />
-        <label htmlFor={`${category}-${service.service_and_category_listID}`}>{service.Service_name}</label>
+        <label htmlFor = {`${category}-${service.service_and_category_listID}`}>{service.Service_name}</label>
       </>
     )
   }
@@ -95,12 +95,12 @@ function RenderIsVetServices (props) {
   const renderServiceTimeInput = (service, selectedService) => {
     return (
       <input
-        type="number"
-        placeholder="Service Price ($)"
-        id={`price-${service.service_and_category_listID}`}
+        type = "number"
+        placeholder = "Service Price ($)"
+        id = {`price-${service.service_and_category_listID}`}
         required
-        value={selectedService?.Service_price || ""}
-        onChange={(event) => {
+        value = {selectedService?.Service_price || ""}
+        onChange = {(event) => {
           const updatedServices = providedServices.map(s => {
             if (s.service_and_category_listID === service.service_and_category_listID) {
               return {...s, Service_price: event.target.value};
@@ -116,12 +116,12 @@ function RenderIsVetServices (props) {
   const renderServicePriceInput = (service, selectedService) => {
     return (
       <input
-        type="number"
-        placeholder="Service Time (mins)"
-        id={`time-${service.service_and_category_listID}`}
+        type = "number"
+        placeholder = "Service Time (mins)"
+        id = {`time-${service.service_and_category_listID}`}
         required
-        value={selectedService?.Service_time || ""}
-        onChange={(event) => {
+        value = {selectedService?.Service_time || ""}
+        onChange = {(event) => {
           const updatedServices = providedServices.map(s => {
             if (s.service_and_category_listID === service.service_and_category_listID) {
               return {...s, Service_time: event.target.value};
@@ -137,9 +137,9 @@ function RenderIsVetServices (props) {
   const renderSaveButton = () => {
     return (
       <Button 
-        variant="success" 
-        disabled={!areAllTimesSet(providedServices) || !areAllPricesSet(providedServices)}
-        onClick={() => saveServices(providedServices, setServicesConfirmation)}
+        variant = "success" 
+        disabled = {!areAllTimesSet(providedServices) || !areAllPricesSet(providedServices)}
+        onClick = {() => saveServices(providedServices, setServicesConfirmation)}
       >
         Save
       </Button>
@@ -148,7 +148,7 @@ function RenderIsVetServices (props) {
 
   const renderMessageSection = () => {
     return (
-      <span className={`fade ${servicesConfirmation.messageType ? 'show' : ''}`}>
+      <span className = {`fade ${servicesConfirmation.messageType ? 'show' : ''}`}>
         {servicesConfirmation.messageType === 'saved' && 'Services saved!'}
         {servicesConfirmation.messageType === 'same' && 'Same Service data!'}
         {servicesConfirmation.messageType === 'problem' && 'Problem Saving Services!'}
@@ -160,8 +160,8 @@ function RenderIsVetServices (props) {
   return (
     <>
       {Object.entries(categories).map(([category, services]) => (
-        <div key={category} style={{ marginBottom: '10px' }}>
-          <label htmlFor={category}>{category}</label>
+        <div key = {category} style = {{ marginBottom: '10px' }}>
+          <label htmlFor = {category}>{category}</label>
           {services.length > 1 && 
             renderToggleCategory(category)
           }

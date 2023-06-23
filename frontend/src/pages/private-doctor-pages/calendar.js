@@ -68,15 +68,15 @@ export default function DoctorCalendar () {
 
   return (
     <div>
-      <Header dropdown={true} />
+      <Header dropdown = {true} />
       <DoctorHeader />
       <Calendar
-        localizer={localizer}
-        defaultDate={new Date()}
-        defaultView="month"
-        events={events}
-        style={{ height: "100vh" }}
-        components={{
+        localizer = {localizer}
+        defaultDate = {new Date()}
+        defaultView = "month"
+        events = {events}
+        style = {{ height: "100vh" }}
+        components = {{
           event: CustomEvent,
         }}
       />

@@ -19,7 +19,7 @@ export default function PatientLogin() {
     <>
       <Header dropdown = {true} search = {true}/>
       <LoginAndRegistrationForm
-        handleSubmit={(e) =>
+        handleSubmit = {(e) =>
           handleLoginSubmit(
             {
               e,

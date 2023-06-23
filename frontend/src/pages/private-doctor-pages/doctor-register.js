@@ -20,7 +20,7 @@ export default function DoctorRegister() {
     <>
       <Header dropdown = {true} search = {true}/>
       <LoginAndRegistrationForm
-        handleSubmit={(e) =>
+        handleSubmit = {(e) =>
           handleRegisterSubmit(
             {
               e,
@@ -32,11 +32,11 @@ export default function DoctorRegister() {
               VetOrPatient: type
             }
         )}
-        credentials={register_information_object}
-        setCredentials={setRegister_information_object}
+        credentials = {register_information_object}
+        setCredentials = {setRegister_information_object}
         passwordConfirm = {passwordConfirm}
         setPasswordConfirm = {setPasswordConfirm}
-        error= {error}
+        error = {error}
         VetOrPatient = {type}
         loading = {loading}
         loginOrSignUp = 'Sign up'

@@ -6,7 +6,7 @@ export default function RenderLanguageSection(props) {
     const { spokenLanguages } = props;
     if (!_.isEmpty(spokenLanguages)) {
         return (
-            <Card className="card-bottom-margin">
+            <Card className = "card-bottom-margin">
                 <Card.Header>
                     Spoken Languages
                 </Card.Header>
@@ -22,7 +22,7 @@ function renderSpokenLanguages(spokenLanguages) {
     return (
         <>
             {spokenLanguages.map((language, index) => (
-                <p key={index}>{language.Language_name}</p>
+                <p key = {index}>{language.Language_name}</p>
                 ))
             }
         </>

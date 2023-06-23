@@ -25,11 +25,11 @@ export default function EducationTime(props) {
       <label>
         Start Month:
         <select 
-          name="startMonth" 
+          name = "startMonth" 
           value = {timeState.startMonth} 
           onChange = {e => setTimeState(prevState =>({...prevState, startMonth: e.target.value}))}>
           {months.map(month => (
-            <option key={month} value={month}>{month}</option>
+            <option key = {month} value = {month}>{month}</option>
           ))}
         </select>
       </label>
@@ -42,10 +42,10 @@ export default function EducationTime(props) {
         Start Year:
         <select 
           name = "startYear"
-          value={timeState.startYear} 
+          value = {timeState.startYear} 
           onChange = {e => setTimeState(prevState =>({...prevState, startYear: e.target.value}))}>
           {years.map(year => (
-            <option key={year + 1} value={year + 1}>{year + 1}</option>
+            <option key = {year + 1} value = {year + 1}>{year + 1}</option>
           ))}
         </select>
       </label>
@@ -57,11 +57,11 @@ export default function EducationTime(props) {
       <label>
         End Month:
         <select 
-          name="endMonth" 
+          name = "endMonth" 
           value = {timeState.endMonth} 
           onChange = {e => setTimeState(prevState =>({...prevState, endMonth: e.target.value}))}>
           {months.map(month => (
-            <option key={month} value={month}>{month}</option>
+            <option key = {month} value = {month}>{month}</option>
           ))}
         </select>
       </label>
@@ -74,10 +74,10 @@ export default function EducationTime(props) {
         End Year:
         <select 
           name = "endYear"
-          value={timeState.endYear} 
+          value = {timeState.endYear} 
           onChange = {e => setTimeState(prevState =>({...prevState, endYear: e.target.value}))}>
           {years.map(year => (
-            <option key={year + 1} value={year + 1}>{year + 1}</option>
+            <option key = {year + 1} value = {year + 1}>{year + 1}</option>
           ))}
         </select>
       </label>

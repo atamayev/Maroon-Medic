@@ -6,7 +6,7 @@ import { saveDescription } from "../../../custom-hooks/account-details-hooks/sav
 
 export default function RenderDescriptionSection (props) {
   return(
-    <Card className="mb-3">
+    <Card className = "mb-3">
       <Card.Header>
         Description
       </Card.Header>
@@ -34,16 +34,16 @@ function RenderIsDescription(props) {
   const renderDescriptionInput = () => {
     return (
       <FormGroup
-        id="Description" 
-        value={description.Description} 
+        id = "Description" 
+        value = {description.Description} 
         onChange = {event => {
           const value = event.target.value;
           setDescription({Description: value});
           setIsDescriptionOverLimit(value.length >= 1000);
         }}
-        maxLength={1000} // limit to 1000 characters
-        as="textarea" 
-        rows={3}
+        maxLength = {1000} // limit to 1000 characters
+        as = "textarea" 
+        rows = {3}
       />
     )
   }
@@ -59,8 +59,8 @@ function RenderIsDescription(props) {
   const renderSaveButton = () => {
     return (
       <Button 
-        variant="success" 
-        onClick={()=> saveDescription(description, setDescriptionConfirmation)}
+        variant = "success" 
+        onClick = {() => saveDescription(description, setDescriptionConfirmation)}
       >
       Save</Button>
     )
@@ -68,7 +68,7 @@ function RenderIsDescription(props) {
 
   const renderMessageSection = () => {
     return (
-      <span className={`fade ${descriptionConfirmation.messageType ? 'show' : ''}`}>
+      <span className = {`fade ${descriptionConfirmation.messageType ? 'show' : ''}`}>
         {descriptionConfirmation.messageType === 'saved' && 'Description saved!'}
         {descriptionConfirmation.messageType === 'same' && 'Same Description data!'}
         {descriptionConfirmation.messageType === 'problem' && 'Problem Saving Description!'}

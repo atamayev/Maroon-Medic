@@ -269,7 +269,7 @@ export async function saveServicesData (req, res) {
         }
         return res.status(200).json();
     } else if (!_.isEmpty(ServicesData)) {
-        for (let i=0; i<ServicesData.length; i++) {
+        for (let i = 0; i<ServicesData.length; i++) {
             const sql = `INSERT INTO ${service_mapping} (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?, ?, ?, ?)`;
             const values = [ServicesData[i].service_and_category_listID, ServicesData[i].Service_time, ServicesData[i].Service_price, DoctorID];
             try {
@@ -493,7 +493,7 @@ export async function saveAddressData (req, res) {
             // go into each element of the returnedData array.
             //for for the ith element in returnedData, find the corresponding times objects in TimesData (will be the ith element in the TimesData array)
             //compare each of the objects in that TimesData element to all of the data that a select Day_of_week, Start_time, End_time for that 
-            //Select Day_of_week, Start_time, End_time from timedata table where addressID=returnedData[i].AddressID.
+            //Select Day_of_week, Start_time, End_time from timedata table where addressID = returnedData[i].AddressID.
             //see which data is new, and which data is deleted. will be re-declaring addedTimeData, deletedTimeData inside of a loop (that iterates over all the address_IDs)
             //the addedData/deletedData will act inside of a loop, length of addedTimeDAta/deletedTimeData
             for(let i = 0; i<returnedData.length; i++) {
@@ -569,7 +569,7 @@ export async function saveAddressData (req, res) {
             return res.status(200).json([])
         }
     } else if (!_.isEmpty(AddressData)) {
-        for (let i=0; i<AddressData.length; i++) {
+        for (let i = 0; i<AddressData.length; i++) {
             const sql = `INSERT INTO ${addresses} 
                 (address_title, address_line_1, address_line_2, city, state, zip, country, address_public_status, address_priority, instant_book, isActive, Doctor_ID) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;

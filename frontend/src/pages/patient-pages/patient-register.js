@@ -20,7 +20,7 @@ export default function PatietRegister() {
     <>
       <Header dropdown = {true} search = {true}/>
       <LoginAndRegistrationForm
-        handleSubmit={(e) =>
+        handleSubmit = {(e) =>
           handleRegisterSubmit(
             {
               e,

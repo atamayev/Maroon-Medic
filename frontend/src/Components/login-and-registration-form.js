@@ -15,7 +15,7 @@ export default function LoginAndRegistrationForm({
   showPassword,
   setShowPassword }) {
 
-  const renderPasswordConfirm = ()=> {
+  const renderPasswordConfirm = () => {
     const renderShowPassword = () => {
       if (showPassword) return 'text'
       return 'password'
@@ -26,8 +26,8 @@ export default function LoginAndRegistrationForm({
           id = "confirm-password"
           label = "Password Confirmation"
           type = {renderShowPassword()} // Switch input type based on showPassword state
-          placeholder= "Confirm Password"
-          onChange={(event) => setPasswordConfirm(event.target.value)}
+          placeholder = "Confirm Password"
+          onChange = {(event) => setPasswordConfirm(event.target.value)}
           required
       />
       )
@@ -38,10 +38,10 @@ export default function LoginAndRegistrationForm({
     if (loginOrSignUp === 'Login') {
       return(
         <>
-          <div className='w-100 text-center mt-3'>
+          <div className = 'w-100 text-center mt-3'>
             <Link to = {`/${VetOrPatient.toLowerCase()}-forgot-password`}>Forgot Password?</Link>
           </div>
-          <div className='w-100 text-center mt-2'>
+          <div className = 'w-100 text-center mt-2'>
             Need an account? <Link to = {`/${VetOrPatient.toLowerCase()}-register`}>Sign Up</Link> 
           </div>
         </>
@@ -53,7 +53,7 @@ export default function LoginAndRegistrationForm({
   const renderSubRegisterInfo = () => {
     if (loginOrSignUp === 'Sign up') {
       return(
-        <div className='w-100 text-center mt-2'>
+        <div className = 'w-100 text-center mt-2'>
           Already have an account? <Link to = {`/${VetOrPatient.toLowerCase()}-login`}>Log In</Link>
         </div>
       )
@@ -75,13 +75,13 @@ export default function LoginAndRegistrationForm({
       <Card>
         <Card.Body>
           <h2 className = "text-center mb-4">{VetOrPatient} {loginOrSignUp}</h2>
-          <Form onSubmit={handleSubmit}>
+          <Form onSubmit = {handleSubmit}>
             <FormGroup
               id = "email"
               label = "Username"
               type = "email"
-              placeholder= "abc@123.com"
-              onChange={(event) => setCredentials({...credentials, email: event.target.value})}
+              placeholder = "abc@123.com"
+              onChange = {(event) => setCredentials({...credentials, email: event.target.value})}
               required
             />
             <FormGroup
@@ -94,11 +94,11 @@ export default function LoginAndRegistrationForm({
             />
 
             {renderPasswordConfirm()}
-            <Button onClick = {e=> (setShowPassword(!showPassword))} className='mt-3'>
+            <Button onClick = {e => (setShowPassword(!showPassword))} className = 'mt-3'>
               {renderHideOrShowPassword()}
             </Button>
 
-            {error && <Alert variant="danger" className='mt-3 mb-0'>{error}</Alert>}
+            {error && <Alert variant = "danger" className = 'mt-3 mb-0'>{error}</Alert>}
 
             <Button disabled = {loading} className = "mt-3 w-100" type = "submit">
               {loginOrSignUp}

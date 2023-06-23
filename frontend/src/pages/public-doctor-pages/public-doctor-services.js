@@ -6,7 +6,7 @@ export default function RenderServiceSection(props) {
   const { providedServices } = props;
   if (!_.isEmpty(providedServices)) {
     return (
-      <Card className="card-bottom-margin">
+      <Card className = "card-bottom-margin">
         <Card.Header>
           Provided Services
         </Card.Header>
@@ -29,10 +29,10 @@ function renderProvidedServices(providedServices) {
   return(
       <>
         {Object.entries(categories).map(([category, services]) => (
-          <div key={category} style={{ marginBottom: '10px' }}>
+          <div key = {category} style = {{ marginBottom: '10px' }}>
             <h3>{category}</h3>
             {services.map(service => (
-              <p key={service.service_and_category_listID}>
+              <p key = {service.service_and_category_listID}>
                 {service.Service_name} - {service.Service_time} minutes, ${service.Service_price}
               </p>
             ))}

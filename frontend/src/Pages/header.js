@@ -137,14 +137,14 @@ export default function Header (props) {
   const renderDropdown = () => {
     if (dropdown === true) {
       return (
-        <Dropdown className="menu-container">
+        <Dropdown className = "menu-container">
           <Dropdown.Toggle
-            variant="dark"
-            id="dropdown-basic"
-            className="menu-trigger menu-active"
+            variant = "dark"
+            id = "dropdown-basic"
+            className = "menu-trigger menu-active"
           >
             {renderHeaderData()}
-            <img src={pic} alt="profile" height={20} className="ml-2" />
+            <img src = {pic} alt = "profile" height = {20} className = "ml-2" />
           </Dropdown.Toggle>
           <Dropdown.Menu>
             {renderDropdownItems()}
@@ -159,31 +159,31 @@ export default function Header (props) {
       if (user_type === 'Doctor') {
         return(
           <div>
-            <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
-            <Dropdown.Item href="/vet-dashboard">Vet Dashboard</Dropdown.Item>
-            <Dropdown.Item href="/vet-account-details">Account Details</Dropdown.Item>
+            <Dropdown.Item onClick = {handleLogout}>Sign out</Dropdown.Item>
+            <Dropdown.Item href = "/vet-dashboard">Vet Dashboard</Dropdown.Item>
+            <Dropdown.Item href = "/vet-account-details">Account Details</Dropdown.Item>
           </div>
         )
       }
       else if (user_type === 'Patient') {
         return(
           <div>
-            <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
-            <Dropdown.Item href="/patient-dashboard">Patient Dashboard</Dropdown.Item>
-            <Dropdown.Item href="/patient-account-details">Account Settings</Dropdown.Item>
+            <Dropdown.Item onClick = {handleLogout}>Sign out</Dropdown.Item>
+            <Dropdown.Item href = "/patient-dashboard">Patient Dashboard</Dropdown.Item>
+            <Dropdown.Item href = "/patient-account-details">Account Settings</Dropdown.Item>
           </div>
         )
       }
       else{
         return(
           <div>
-            <Dropdown.Item href="/vet-register" className='fw-bold'>Vet Sign up</Dropdown.Item>
-            <Dropdown.Item href="/vet-login">Vet Log In</Dropdown.Item>
-            <Dropdown.Item href="/patient-register" className='fw-bold'>Patient Sign up</Dropdown.Item>
-            <Dropdown.Item href="/patient-login">Patient Log In</Dropdown.Item>
+            <Dropdown.Item href = "/vet-register" className = 'fw-bold'>Vet Sign up</Dropdown.Item>
+            <Dropdown.Item href = "/vet-login">Vet Log In</Dropdown.Item>
+            <Dropdown.Item href = "/patient-register" className = 'fw-bold'>Patient Sign up</Dropdown.Item>
+            <Dropdown.Item href = "/patient-login">Patient Log In</Dropdown.Item>
       
             <Dropdown.Divider />
-            <Dropdown.Item href="/help">Help</Dropdown.Item>
+            <Dropdown.Item href = "/help">Help</Dropdown.Item>
           </div>
         )
       }
@@ -200,7 +200,7 @@ export default function Header (props) {
       return (
         <>
           <input
-            type="search"
+            type = "search"
             id = "search-input"
             className = "form-control mr-sm-2"
             placeholder = "Search"
@@ -208,11 +208,11 @@ export default function Header (props) {
             defaultValue = {searchDefaultValue()}
             onKeyUp = {handleKeyUp}
           />
-          <div className="input-group-append">
+          <div className = "input-group-append">
             <button
-              className="btn btn-dark"
-              type="button"
-              onClick={() => handleSearch(document.getElementById("search-input").value, setSearchTerm)}>
+              className = "btn btn-dark"
+              type = "button"
+              onClick = {() => handleSearch(document.getElementById("search-input").value, setSearchTerm)}>
               Search
             </button>
           </div>
@@ -226,24 +226,24 @@ export default function Header (props) {
       <img 
         src = {logo} 
         alt = "Logo" 
-        width= {50}
+        width = {50}
         height = {50} 
         onClick = {handleHome}
-        style={{ cursor: "pointer" }} 
-        className="mr-2"
+        style = {{ cursor: "pointer" }} 
+        className = "mr-2"
       />
     )
   }
 
   return (
     <header>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <div className="container">
+      <nav className = "navbar navbar-expand-lg navbar-light bg-light">
+        <div className = "container">
           {renderLogo()}
-          <div className="navbar-collapse" id="navbarSupportedContent">
+          <div className = "navbar-collapse" id = "navbarSupportedContent">
             {renderSearch()}
-            <ul className="navbar-nav ml-auto">
-              <li className="nav-item">{renderDropdown()}</li>
+            <ul className = "navbar-nav ml-auto">
+              <li className = "nav-item">{renderDropdown()}</li>
             </ul>
           </div>
         </div>

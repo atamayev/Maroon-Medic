@@ -7,7 +7,7 @@ import { savePets } from "../../../custom-hooks/account-details-hooks/save-docto
 
 export default function RenderPetsSection (props) {
   return(
-    <Card className="mb-3">
+    <Card className = "mb-3">
       <Card.Header>
         Serviced Pets
       </Card.Header>
@@ -34,7 +34,7 @@ function RenderIsPets (props) {
 
   const renderMessageSection = () => {
     return (
-      <span className={`fade ${petsConfirmation.messageType ? 'show' : ''}`}>
+      <span className = {`fade ${petsConfirmation.messageType ? 'show' : ''}`}>
         {petsConfirmation.messageType === 'saved' && 'Pets saved!'}
         {petsConfirmation.messageType === 'same' && 'Same Pet data!'}
         {petsConfirmation.messageType === 'problem' && 'Problem Saving Pets!'}
@@ -50,14 +50,14 @@ function RenderIsPets (props) {
           <div>
             {pets.map(pet => {
               return (
-                <div key={pet.pet_listID} style={{ paddingLeft: '20px' }}>
+                <div key = {pet.pet_listID} style = {{ paddingLeft: '20px' }}>
                   <input
-                    type="checkbox"
-                    id={`${pet_type}-${pet?.pet_listID}`}
-                    name="pet"
-                    value={pet?.pet_listID}
-                    checked={servicedPets.find((serviced) => serviced.pet_listID === pet.pet_listID) !== undefined}
-                    onChange={(event) => {
+                    type = "checkbox"
+                    id = {`${pet_type}-${pet?.pet_listID}`}
+                    name = "pet"
+                    value = {pet?.pet_listID}
+                    checked = {servicedPets.find((serviced) => serviced.pet_listID === pet.pet_listID) !== undefined}
+                    onChange = {(event) => {
                       if (event.target.checked) {
                         const newServicedPets = [...servicedPets, pet]
                         setServicedPets([...servicedPets, pet])
@@ -70,7 +70,7 @@ function RenderIsPets (props) {
                       }
                     }}
                     />
-                  <label htmlFor={`${pet_type}-${pet.pet_listID}`}>{pet.Pet}</label>
+                  <label htmlFor = {`${pet_type}-${pet.pet_listID}`}>{pet.Pet}</label>
                 </div>
               )
             })}
@@ -83,10 +83,10 @@ function RenderIsPets (props) {
   return (
     <>
       {Object.entries(pet_types).map(([pet_type, pets]) => (
-        <div key={pet_type} style={{ marginBottom: '10px' }}>
-          <label htmlFor={pet_type}>{pet_type}</label>
+        <div key = {pet_type} style = {{ marginBottom: '10px' }}>
+          <label htmlFor = {pet_type}>{pet_type}</label>
           {pets.length > 1 && (
-            <Button onClick={() => handleTogglePetType(pet_type, setExpandedPetTypes)}>Toggle</Button>
+            <Button onClick = {() => handleTogglePetType(pet_type, setExpandedPetTypes)}>Toggle</Button>
           )}
       {renderShowPetsSection(pet_type, pets)}
         </div>

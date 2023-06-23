@@ -128,7 +128,7 @@ export default function RenderBookingSection(props) {
 
   if (!anyLocationHasTimes) {
     return(
-      <Card className='card-bottom-margin'>
+      <Card className = 'card-bottom-margin'>
         <Card.Header>Ready to make a booking?</Card.Header>
         <Card.Body>
         This doctor does not currently have any open time slots for appointments.
@@ -143,7 +143,7 @@ export default function RenderBookingSection(props) {
     }
     return (
       availableDates.map((date, index) => (
-        <option key={index} value={date}>
+        <option key = {index} value = {date}>
           {date}
         </option>
       ))
@@ -157,16 +157,16 @@ export default function RenderBookingSection(props) {
 
   const renderSelectService = () => {
     return (
-      <div className="col-md-6">
+      <div className = "col-md-6">
         <FormGroup 
-          as='select' 
-          id='serviceSelect' 
-          label='Select a service' 
-          onChange={(e) => handleServiceChange(e, providedServices, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime)}
+          as = 'select' 
+          id = 'serviceSelect' 
+          label = 'Select a service' 
+          onChange = {(e) => handleServiceChange(e, providedServices, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime)}
         >
           <option>Select...</option>
           {providedServices.map((service) => (
-            <option key={service.service_and_category_listID} value={service.service_and_category_listID}>
+            <option key = {service.service_and_category_listID} value = {service.service_and_category_listID}>
               {service.Category_name} - {service.Service_name}
             </option>
           ))}
@@ -177,16 +177,16 @@ export default function RenderBookingSection(props) {
 
   const renderSelectLocation = () => {
     return (
-      <div className="col-md-6">
+      <div className = "col-md-6">
         <FormGroup 
-          as='select' 
-          id='locationSelect' 
-          label='Select a location' 
-          onChange={(e)=> handleLocationChange(e, addresses, setSelectedLocation, setSelectedDay, setSelectedTime)}
+          as = 'select' 
+          id = 'locationSelect' 
+          label = 'Select a location' 
+          onChange = {(e) => handleLocationChange(e, addresses, setSelectedLocation, setSelectedDay, setSelectedTime)}
         >
           <option>Select...</option>
           {addresses.map((address) => (
-            <option key={address.addressesID} value={address.addressesID}>
+            <option key = {address.addressesID} value = {address.addressesID}>
               {address.address_title}: ({address.address_line_1} {address.address_line_2}, {address.city}, {address.state}, {address.zip})
             </option>
           ))}
@@ -197,12 +197,12 @@ export default function RenderBookingSection(props) {
 
   const renderSelectDay = () => {
     return (
-      <div className="col-md-6">
+      <div className = "col-md-6">
         <FormGroup 
-          as='select' 
-          id='daySelect' 
-          label='Select a date' 
-          onChange={(e)=> handleDayChange(e, setSelectedDay, setSelectedTime)}
+          as = 'select' 
+          id = 'daySelect' 
+          label = 'Select a date' 
+          onChange = {(e) => handleDayChange(e, setSelectedDay, setSelectedTime)}
         >
           <option>Select...</option>
           {renderAvailableDates()}
@@ -213,16 +213,16 @@ export default function RenderBookingSection(props) {
 
   const renderSelectTime = () => {
     return (
-      <div className="col-md-6">
+      <div className = "col-md-6">
         <FormGroup 
-          as='select' 
-          id='timeSelect' 
-          label='Select a time' 
-          onChange={(e)=> handleTimeChange(e, setSelectedTime)}
+          as = 'select' 
+          id = 'timeSelect' 
+          label = 'Select a time' 
+          onChange = {(e) => handleTimeChange(e, setSelectedTime)}
         >
           <option>Select...</option>
           {availableTimes.map((time, index) => (
-            <option key={index} value={time}>
+            <option key = {index} value = {time}>
               {time}
             </option>
           ))}
@@ -235,7 +235,7 @@ export default function RenderBookingSection(props) {
     return (
       <>
         <Button 
-          variant='primary' 
+          variant = 'primary' 
           onClick = {(e) => finalizeBookingClick(
             e,
             navigate, 
@@ -245,7 +245,7 @@ export default function RenderBookingSection(props) {
             selectedTime,
             personalData
           )}
-          className='mt-3'
+          className = 'mt-3'
         >
           Click to {renderInstantBook()} an appointment
         </Button>
@@ -256,7 +256,7 @@ export default function RenderBookingSection(props) {
   const renderMakeBooking = () => {
     if (_.isEmpty(providedServices) || _.isEmpty(addresses)) {
       return (
-        <Card className='card-bottom-margin'>
+        <Card className = 'card-bottom-margin'>
           <Card.Header>Ready to make a booking?</Card.Header>
           <Card.Body>This doctor does not currently offer any services.</Card.Body>
         </Card>
@@ -264,10 +264,10 @@ export default function RenderBookingSection(props) {
     }
 
     return (
-      <Card className='card-bottom-margin'>
+      <Card className = 'card-bottom-margin'>
         <Card.Header>Ready to make a booking?</Card.Header>
         <Card.Body>
-          <div className='row'>
+          <div className = 'row'>
             {renderSelectService()}
 
             {selectedService && 
@@ -275,7 +275,7 @@ export default function RenderBookingSection(props) {
             }
           </div>
           
-          <div className='row'>
+          <div className = 'row'>
             {selectedService && selectedLocation &&
               renderSelectDay()
             }

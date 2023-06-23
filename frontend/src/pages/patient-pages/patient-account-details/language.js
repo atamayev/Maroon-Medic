@@ -7,7 +7,7 @@ import { handleDeleteLanguage } from "../../../custom-hooks/account-details-hook
 
 export default function RenderLanguageSection(props) {
   return(
-    <Card className="mb-3">
+    <Card className = "mb-3">
       <Card.Header>
         Languages
       </Card.Header>
@@ -24,7 +24,7 @@ function RenderIsPatientLanguages(props) {
 
   const renderMessageSection = () => {
     return (
-      <span className={`fade ${languagesConfirmation.messageType ? 'show' : ''}`}>
+      <span className = {`fade ${languagesConfirmation.messageType ? 'show' : ''}`}>
         {languagesConfirmation.messageType === 'saved' && 'Languages saved!'}
         {languagesConfirmation.messageType === 'same' && 'Same Language data!'}
         {languagesConfirmation.messageType === 'problem' && 'Problem Saving Languages!'}
@@ -36,10 +36,10 @@ function RenderIsPatientLanguages(props) {
   const renderSelectLanguageSection = () => {
     return (
       <select
-        id="language"
-        name="language"
-        value={""}
-        onChange={(e) => 
+        id = "language"
+        name = "language"
+        value = {""}
+        onChange = {(e) => 
           handleAddLanguage(
             e.target.value,
             spokenLanguages,
@@ -56,7 +56,7 @@ function RenderIsPatientLanguages(props) {
           listDetails.languages
             .filter((language) => !spokenLanguages.find((spoken) => spoken.language_listID === language.language_listID))
             .map((language) => (
-              <option key={language?.language_listID} value={language?.language_listID}>
+              <option key = {language?.language_listID} value = {language?.language_listID}>
                 {language?.Language_name}
               </option>
             ))}
@@ -69,7 +69,7 @@ function RenderIsPatientLanguages(props) {
       <ul>
         {_.isArray(spokenLanguages) &&
           spokenLanguages.map((language) => (
-            <li key={language.language_listID}>
+            <li key = {language.language_listID}>
               {language.Language_name}
               <Button 
                 onClick = {() => 

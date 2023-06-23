@@ -66,7 +66,7 @@ export default function PatientAccountDetails() {
 
   return (
     <div>
-      <Header dropdown={true} search={true} />
+      <Header dropdown = {true} search = {true} />
       <PatientHeader/>
       <RenderLanguageSection
         listDetails = {listDetails}

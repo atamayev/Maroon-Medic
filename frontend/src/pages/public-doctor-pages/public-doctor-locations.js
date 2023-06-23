@@ -6,7 +6,7 @@ export default function RenderLocationsSection(props) {
   const { addresses } = props;
   if (!_.isEmpty(addresses)) {
     return (
-      <Card className="card-bottom-margin">
+      <Card className = "card-bottom-margin">
         <Card.Header>
           Locations
         </Card.Header>
@@ -37,10 +37,10 @@ function renderLocations(addressesList) {
 
   const renderTimesSection = (address) => {
     return (
-      <div className="col-md-6">
+      <div className = "col-md-6">
           <h5>Working hours:</h5>
           {address.times.map((time, index) => (
-          <p key={index}>{time.Day_of_week}: {time.Start_time} - {time.End_time}</p>
+          <p key = {index}>{time.Day_of_week}: {time.Start_time} - {time.End_time}</p>
           ))}
       </div>
     )
@@ -48,9 +48,9 @@ function renderLocations(addressesList) {
 
   return addressesList.map((address, index) => {
     return (
-      <div key={index}>
-        <div className="row">
-          <div className="col-md-6">
+      <div key = {index}>
+        <div className = "row">
+          <div className = "col-md-6">
             {renderAddressSection(address)}
             {renderInstantBook(address)}
             <p>Phone: {address.phone}</p>

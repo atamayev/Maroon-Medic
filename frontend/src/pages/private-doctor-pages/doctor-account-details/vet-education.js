@@ -8,7 +8,7 @@ import EducationTime from "./education-time";
 
 export default function RenderVetEducationSection (props) {
   return(
-    <Card className="mb-3">
+    <Card className = "mb-3">
       <Card.Header>
           Vet Education
       </Card.Header>
@@ -31,17 +31,17 @@ function RenderIsVetEducation(props) {
   const renderSelectSchool = () => {
     return (
       <div>
-        <label htmlFor="vet-school">Select a Veterinary School: </label>
+        <label htmlFor = "vet-school">Select a Veterinary School: </label>
         <select
-          id="vet-school"
-          name="vet-school"
-          value={selectedVetSchool}
-          onChange={(e) => setSelectedVetSchool(e.target.value)}
+          id = "vet-school"
+          name = "vet-school"
+          value = {selectedVetSchool}
+          onChange = {(e) => setSelectedVetSchool(e.target.value)}
         >
-          <option value="" disabled>Choose a School</option>
+          <option value = "" disabled>Choose a School</option>
           {Array.from(new Set(listDetails.vetSchools?.map((item) => item.School_name))).map(
             (school, index) => (
-              <option key={index} value={school}>
+              <option key = {index} value = {school}>
                 {school}
               </option>
             ))}
@@ -53,17 +53,17 @@ function RenderIsVetEducation(props) {
   const renderSelectEducationType = () => {
     return (
       <div>
-        <label htmlFor="education-type">Select a Type of Veterinary Education: </label>
+        <label htmlFor = "education-type">Select a Type of Veterinary Education: </label>
           <select
-            id="vet-education"
-            name="vet-education"
-            value={selectedVetEducationType}
-            onChange={(event) => setSelectedVetEducationType(event.target.value)}
+            id = "vet-education"
+            name = "vet-education"
+            value = {selectedVetEducationType}
+            onChange = {(event) => setSelectedVetEducationType(event.target.value)}
           >
-            <option value="" disabled>Choose an Education Type</option>
+            <option value = "" disabled>Choose an Education Type</option>
             {Array.from(new Set(listDetails.vetEducationTypes?.map((item) => item.Education_type))).map(
               (VetEdType, index) => (
-                <option key={index} value={VetEdType}>
+                <option key = {index} value = {VetEdType}>
                   {VetEdType}
                 </option>
               ))}
@@ -115,9 +115,9 @@ function RenderIsVetEducation(props) {
     return (
       <ul>
         {vetEducation.map((vet_education) => (
-          <li key={vet_education.vet_education_mappingID}>
+          <li key = {vet_education.vet_education_mappingID}>
             {vet_education.School_name}, {vet_education.Education_type}{": "}{vet_education.Start_Date} --- {vet_education.End_Date} 
-            <Button onClick={() => 
+            <Button onClick = {() => 
               saveVetEducation(
                 vet_education.vet_education_mappingID,
                 vetEducation, 
@@ -134,7 +134,7 @@ function RenderIsVetEducation(props) {
   
   const renderMessageSection = () => {
     return (
-      <span className={`fade ${vetEducationConfirmation.messageType ? 'show' : ''}`}>
+      <span className = {`fade ${vetEducationConfirmation.messageType ? 'show' : ''}`}>
         {vetEducationConfirmation.messageType === 'saved' && 'Vet Education saved!'}
         {vetEducationConfirmation.messageType === 'same' && 'Same Vet Education data!'}
         {vetEducationConfirmation.messageType === 'problem' && 'Problem Saving Vet Education!'}
