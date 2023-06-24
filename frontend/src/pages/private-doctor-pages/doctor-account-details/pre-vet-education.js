@@ -1,4 +1,5 @@
 import _ from "lodash"
+import { useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import { handleAddPreVetEducation } from "../../../custom-hooks/account-details-hooks/add";
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
@@ -19,7 +20,10 @@ export default function RenderPreVetEducationSection(props) {
 };
 
 function RenderIsPreVetEducation(props) {
-  const { listDetails, selectedPreVetSchool, setSelectedPreVetSchool, selectedMajor, setSelectedMajor, selectedPreVetEducationType, setSelectedPreVetEducationType, timeState, setTimeState, preVetEducation, setPreVetEducation } = props;
+  const [selectedPreVetSchool, setSelectedPreVetSchool] = useState('');
+  const [selectedMajor, setSelectedMajor] = useState('');
+  const [selectedPreVetEducationType, setSelectedPreVetEducationType] = useState('');
+  const { listDetails, timeState, setTimeState, preVetEducation, setPreVetEducation } = props;
   const [preVetEducationConfirmation, setPreVetEducationConfirmation] = useConfirmationMessage();
 
   const allChoicesFilled = selectedPreVetSchool && selectedMajor && selectedPreVetEducationType;

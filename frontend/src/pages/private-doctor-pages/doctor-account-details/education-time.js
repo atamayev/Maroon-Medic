@@ -1,4 +1,4 @@
-import { months, years } from '../../../components/constants';
+import { months, educationYears } from '../../../components/constants';
 
 export default function EducationTime(props) {
   const { timeState, setTimeState } = props;
@@ -26,7 +26,7 @@ export default function EducationTime(props) {
           name = "startYear"
           value = {timeState.startYear} 
           onChange = {e => setTimeState(prevState =>({...prevState, startYear: e.target.value}))}>
-          {years.map(year => (
+          {educationYears.map(year => (
             <option key = {year + 1} value = {year + 1}>{year + 1}</option>
           ))}
         </select>
@@ -58,7 +58,7 @@ export default function EducationTime(props) {
           name = "endYear"
           value = {timeState.endYear} 
           onChange = {e => setTimeState(prevState =>({...prevState, endYear: e.target.value}))}>
-          {years.map(year => (
+          {educationYears.map(year => (
             <option key = {year + 1} value = {year + 1}>{year + 1}</option>
           ))}
         </select>

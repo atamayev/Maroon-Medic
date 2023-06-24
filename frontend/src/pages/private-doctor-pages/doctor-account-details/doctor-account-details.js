@@ -1,10 +1,10 @@
 import _ from "lodash"
-import {useEffect, useContext, useState} from 'react'
-import { VerifyContext } from '../../../contexts/verify-context.js';
+import { useEffect, useState } from 'react'
 import { NonDoctorAccess } from '../../../components/user-type-unauth.js';
 import PrivateDoctorDataService from '../../../services/private-doctor-data-service.js';
 import { invalidUserAction } from '../../../custom-hooks/user-verification-snippets.js';
 import Header from '../../header.js';
+import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification.js";
 import DoctorHeader from '../doctor-header.js';
 import RenderPreVetEducationSection from './pre-vet-education.js';
 import RenderVetEducationSection from './vet-education.js';
@@ -30,104 +30,133 @@ async function FillLists(setListDetails) {
   }
 }
 
+async function FillDoctorAccountDetails(
+  setSpokenLanguages,
+  setProvidedServices,
+  setExpandedCategories,
+  setDoctorSpecialties,
+  setPreVetEducation,
+  setVetEducation,
+  setAddresses,
+  setDescription,
+  setServicedPets,
+  setExpandedPetTypes,
+  setPubliclyAvailable
+  ) {
+  try {
+    const response = await PrivateDoctorDataService.fillAccountDetails();
+    if (response) {
+      if (response.data.languages) setSpokenLanguages(response.data.languages);
+      if (response.data.services) {
+        setProvidedServices(response.data.services)
+        setExpandedCategories(response.data.services.map(service => service.Category_name));
+      }
+      if (response.data.specialties) setDoctorSpecialties(response.data.specialties);
+      if (response.data.preVetEducation) setPreVetEducation(response.data.preVetEducation);
+      if (response.data.vetEducation) setVetEducation(response.data.vetEducation);
+      if (response.data.addressData) setAddresses(response.data.addressData);
+      if (response.data.descriptionData && !_.isEmpty(Object.keys(response.data.descriptionData))) {
+        setDescription(response.data.descriptionData);
+      }
+      if (response.data.servicedPets) {
+        setServicedPets(response.data.servicedPets)
+        setExpandedPetTypes(response.data.servicedPets.map(pet =>pet.pet_type));
+        //Somehow set pictures.
+      }
+      if (response.data.publiclyAvailable[0].PubliclyAvailable) setPubliclyAvailable(response.data.publiclyAvailable[0].PubliclyAvailable);
+      if (response.data.pictures) ; //set pictures;
+      sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(response.data));
+    }
+  } catch(error) {
+    if (error.response.status === 401) invalidUserAction(error.response.data)
+  }
+}
+
+function useDoctorAccountDetails(
+  userType,
+  setListDetails,
+  setSpokenLanguages,
+  setProvidedServices,
+  setExpandedCategories,
+  setDoctorSpecialties,
+  setPreVetEducation,
+  setVetEducation,
+  setAddresses,
+  setDescription,
+  setServicedPets,
+  setExpandedPetTypes,
+  setPubliclyAvailable
+  ) {
+
+  const getDoctorAccountDetails = async () => {
+    if (userType === 'Doctor') {
+      try {
+        const storedAccountDetails = sessionStorage.getItem("DoctorAccountDetails");
+        if (!storedAccountDetails) {
+          FillDoctorAccountDetails(  
+            setSpokenLanguages,
+            setProvidedServices,
+            setExpandedCategories,
+            setDoctorSpecialties,
+            setPreVetEducation,
+            setVetEducation,
+            setAddresses,
+            setDescription,
+            setServicedPets,
+            setExpandedPetTypes,
+            setPubliclyAvailable);
+        } else setExpandedCategories(JSON.parse(storedAccountDetails).services?.map(service => service.Category_name));  
+
+        const storedListDetails = sessionStorage.getItem("ListDetails");
+        if (storedListDetails) setListDetails(JSON.parse(storedListDetails));
+        else FillLists(setListDetails);
+      } catch (error) {
+      }
+    }
+  };
+
+  useEffect(() => {
+    getDoctorAccountDetails();
+  }, [userType]);
+}
+
 export default function DoctorAccountDetails() {
+  const { userType } = useSimpleUserVerification();
   const [listDetails, setListDetails] = useState({});
-  const {userVerification} = useContext(VerifyContext);
-  const [userType, setUserType] = useState(null);
   //const [carouselIndex, setCarouselIndex] = useState(0);
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-
+  
   const [spokenLanguages, setSpokenLanguages] = useState(DoctorAccountDetails?.languages || []);
-
+  
   const [providedServices, setProvidedServices] = useState(DoctorAccountDetails?.services || []);
-  const [selectedCategories, setSelectedCategories] = useState([]);
   const [expandedCategories, setExpandedCategories] = useState([]);
-
-  const [selectedOrganization, setSelectedOrganization] = useState('');
+  
   const [doctorSpecialties, setDoctorSpecialties] = useState(DoctorAccountDetails?.specialties || []);
-
-  const [selectedPreVetSchool, setSelectedPreVetSchool] = useState('');
-  const [selectedMajor, setSelectedMajor] = useState('');
-  const [selectedPreVetEducationType, setSelectedPreVetEducationType] = useState('');
+  
   const [preVetEducation, setPreVetEducation] = useState(DoctorAccountDetails?.preVetEducation || []);
-
-  const [selectedVetSchool, setSelectedVetSchool] = useState('');
-  const [selectedVetEducationType, setSelectedVetEducationType] = useState('');
+  
   const [vetEducation, setVetEducation] = useState(DoctorAccountDetails?.vetEducation || []);
-
+  
   const [addresses, setAddresses] = useState(DoctorAccountDetails?.addressData ||[{ address_priority: 0, addressesID: 0, address_title: '', address_line_1  : '', address_line_2: '', city: '', state: '', zip: '', country: '', phone_priority: 0, phone: '', address_public_status: 1, instant_book: 0, times:[]}]);
-
-  const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false);
+  
   const [description, setDescription] = useState(DoctorAccountDetails?.descriptionData || {});
-
+  
   const [servicedPets, setServicedPets] = useState(DoctorAccountDetails?.servicedPets || []);
   const [expandedPetTypes, setExpandedPetTypes] = useState([]);
-
+  
   const [publiclyAvailable, setPubliclyAvailable] = useState(DoctorAccountDetails?.publiclyAvailable[0]?.PubliclyAvailable || 0);
   const verified = DoctorAccountDetails?.publiclyAvailable[0].Verified || [];
 
   const currentYear = new Date().getFullYear();
-
+  
   const [timeState, setTimeState] = useState({
     startMonth: 'January', 
     endMonth: 'January', 
     startYear: currentYear, 
     endYear: currentYear,
   });
-
-  const verifyDoctorAndSetAccountDetails = async () => {
-    const result = await userVerification();
-    if (result.verified === true) {
-      setUserType(result.userType)
-      if (result.userType === 'Doctor') {
-        try {
-          const storedAccountDetails = sessionStorage.getItem("DoctorAccountDetails")
-          if (!storedAccountDetails) FillDoctorAccountDetails();
-          else setExpandedCategories(JSON.parse(storedAccountDetails).services?.map(service => service.Category_name))
-
-          const storedListDetails = sessionStorage.getItem("ListDetails")
-          if (storedListDetails) setListDetails(JSON.parse(storedListDetails));
-          else FillLists(setListDetails);
-        } catch(error) {
-        }
-      }
-    }
-  }
-
-  useEffect(() => {
-    verifyDoctorAndSetAccountDetails()
-  }, []);
-
-  async function FillDoctorAccountDetails() {
-    try {
-      const response = await PrivateDoctorDataService.fillAccountDetails();
-      if (response) {
-        if (response.data.languages) setSpokenLanguages(response.data.languages);
-        if (response.data.services) {
-          setProvidedServices(response.data.services)
-          setExpandedCategories(response.data.services.map(service => service.Category_name));
-        }
-        if (response.data.specialties) setDoctorSpecialties(response.data.specialties);
-        if (response.data.preVetEducation) setPreVetEducation(response.data.preVetEducation);
-        if (response.data.vetEducation) setVetEducation(response.data.vetEducation);
-        if (response.data.addressData) setAddresses(response.data.addressData);
-        if (response.data.descriptionData && !_.isEmpty(Object.keys(response.data.descriptionData))) {
-          setDescription(response.data.descriptionData);
-          if (response.data.descriptionData.Description.length === 1000) setIsDescriptionOverLimit(true);
-        }
-        if (response.data.servicedPets) {
-          setServicedPets(response.data.servicedPets)
-          setExpandedPetTypes(response.data.servicedPets.map(pet =>pet.pet_type));
-          //Somehow set pictures.
-        }
-        if (response.data.publiclyAvailable[0].PubliclyAvailable) setPubliclyAvailable(response.data.publiclyAvailable[0].PubliclyAvailable);
-        if (response.data.pictures) ; //set pictures;
-        sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(response.data));
-      }
-    } catch(error) {
-      if (error.response.status === 401) invalidUserAction(error.response.data)
-    }
-  }
+  
+  useDoctorAccountDetails(userType, setListDetails, setSpokenLanguages, setProvidedServices, setExpandedCategories, setDoctorSpecialties, setPreVetEducation, setVetEducation, setAddresses, setDescription, setServicedPets, setExpandedPetTypes, setPubliclyAvailable);
   
   if (userType !== 'Doctor') return <NonDoctorAccess/>
 
@@ -137,12 +166,6 @@ export default function DoctorAccountDetails() {
       <DoctorHeader/>
       <RenderPreVetEducationSection
         listDetails = {listDetails}
-        selectedPreVetSchool = {selectedPreVetSchool}
-        setSelectedPreVetSchool = {setSelectedPreVetSchool}
-        selectedMajor = {selectedMajor}
-        setSelectedMajor = {setSelectedMajor}
-        selectedPreVetEducationType = {selectedPreVetEducationType}
-        setSelectedPreVetEducationType = {setSelectedPreVetEducationType}
         timeState = {timeState}
         setTimeState = {setTimeState}
         preVetEducation = {preVetEducation}
@@ -150,10 +173,6 @@ export default function DoctorAccountDetails() {
       />
       <RenderVetEducationSection
         listDetails = {listDetails}
-        selectedVetSchool = {selectedVetSchool}
-        setSelectedVetSchool = {setSelectedVetSchool}
-        selectedVetEducationType = {selectedVetEducationType}
-        setSelectedVetEducationType = {setSelectedVetEducationType}
         timeState = {timeState}
         setTimeState = {setTimeState}
         vetEducation = {vetEducation}
@@ -162,8 +181,6 @@ export default function DoctorAccountDetails() {
       <RenderDescriptionSection
         description = {description}
         setDescription = {setDescription}
-        isDescriptionOverLimit = {isDescriptionOverLimit}
-        setIsDescriptionOverLimit = {setIsDescriptionOverLimit}
       />
       <RenderPersonalInfoLinkSection/>
       {/* <RenderPicturesSection
@@ -179,8 +196,6 @@ export default function DoctorAccountDetails() {
       />
       <RenderSpecialtySection 
         listDetails = {listDetails}
-        selectedOrganization = {selectedOrganization}
-        setSelectedOrganization = {setSelectedOrganization}
         doctorSpecialties = {doctorSpecialties}
         setDoctorSpecialties = {setDoctorSpecialties}
       />
@@ -191,8 +206,6 @@ export default function DoctorAccountDetails() {
       />
       <RenderServiceSection
         listDetails = {listDetails}
-        selectedCategories = {selectedCategories}
-        setSelectedCategories = {setSelectedCategories}
         providedServices = {providedServices}
         setProvidedServices = {setProvidedServices}
         expandedCategories = {expandedCategories}

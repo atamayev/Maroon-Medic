@@ -1,13 +1,13 @@
 import _ from "lodash"
 import moment from 'moment'
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect } from 'react'
 import { Card, Button, Modal  } from 'react-bootstrap'
-import { VerifyContext } from '../../../contexts/verify-context'
 import { NonPatientAccess } from '../../../components/user-type-unauth'
 import { deleteMyPets } from '../../../custom-hooks/my-pets-hooks/save-my-pets'
 import { invalidUserAction } from '../../../custom-hooks/user-verification-snippets'
 import PrivatePatientDataService from '../../../services/private-patient-data-service'
 import { useConfirmationMessage } from '../../../custom-hooks/use-confirmation-message'
+import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import Header from '../../header'
 import PatientHeader from '../patient-header'
 import { AddPet } from './add-pet'
@@ -48,45 +48,46 @@ async function FillInsurances(setInsurances) {
   }
 }
 
-export default function MyPets() {
-  const {userVerification} = useContext(VerifyContext);
+function usePetData(userType) {
   const [savedPetData, setSavedPetData] = useState(JSON.parse(sessionStorage.getItem("PatientPetData")) || [])
-  const [newPetData, setNewPetData] = useState({Name: '', Gender:'', DOB: '', petType: '', insuranceName: ''});
-  const [userType, setUserType] = useState(null);
   const [petTypes, setPetTypes] = useState([]);
   const [insurances, setInsurances] = useState([]);
-  const [petConfirmation, setPetConfirmation] = useConfirmationMessage();
-  const [showAddPet, setShowAddPet] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [petToDelete, setPetToDelete] = useState(null);
-  
-  const verifyAndSetPetData = async () => {
-    const result = await userVerification();
-    if (result.verified === true) {
-      setUserType(result.userType);
-      if (result.userType === 'Patient') {
-        try {
-          const storedPetData = sessionStorage.getItem("PatientPetData");
-          if (storedPetData) setSavedPetData(JSON.parse(storedPetData));
-          else fetchPetData(setSavedPetData);
 
-          const storedPetTypes = sessionStorage.getItem("PetTypes");
-          if (storedPetTypes) setPetTypes(JSON.parse(storedPetTypes));
-          else FillPetTypes(setPetTypes);
+  const fetchAndSetPetData = async () => {
+    if (userType === 'Patient') {
+      try {
+        const storedPetData = sessionStorage.getItem("PatientPetData");
+        if (storedPetData) setSavedPetData(JSON.parse(storedPetData));
+        else fetchPetData(setSavedPetData);
 
-          const storedInsurances = sessionStorage.getItem("Insurances");
-          if (storedInsurances) setInsurances(JSON.parse(storedInsurances));
-          else FillInsurances(setInsurances);
-        } catch (error) {
-        }
+        const storedPetTypes = sessionStorage.getItem("PetTypes");
+        if (storedPetTypes) setPetTypes(JSON.parse(storedPetTypes));
+        else FillPetTypes(setPetTypes);
+
+        const storedInsurances = sessionStorage.getItem("Insurances");
+        if (storedInsurances) setInsurances(JSON.parse(storedInsurances));
+        else FillInsurances(setInsurances);
+      } catch (error) {
       }
     }
   };
 
   useEffect(() => {
-    verifyAndSetPetData();
-  }, []);
+    fetchAndSetPetData();
+  }, [userType]);
 
+  return { savedPetData, setSavedPetData, petTypes, insurances };
+}
+
+export default function MyPets() {
+  const { userType } = useSimpleUserVerification();
+  const { savedPetData, setSavedPetData, petTypes, insurances } = usePetData(userType);
+  const [petConfirmation, setPetConfirmation] = useConfirmationMessage();
+  const [newPetData, setNewPetData] = useState({Name: '', Gender:'', DOB: '', petType: '', insuranceName: ''});
+  const [showAddPet, setShowAddPet] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [petToDelete, setPetToDelete] = useState(null);
+  
   if (userType !== 'Patient') return <NonPatientAccess/>
 
   const handleShowModal = (pet) => {

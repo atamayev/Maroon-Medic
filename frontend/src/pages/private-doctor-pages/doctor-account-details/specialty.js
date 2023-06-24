@@ -1,4 +1,5 @@
 import _ from "lodash"
+import { useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import { handleAddSpecialty } from "../../../custom-hooks/account-details-hooks/add";
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
@@ -18,7 +19,8 @@ export default function RenderSpecialtySection (props) {
 };
 
 function RenderIsSpecialty(props) {
-  const {listDetails, selectedOrganization, setSelectedOrganization, doctorSpecialties, setDoctorSpecialties} = props;
+  const [selectedOrganization, setSelectedOrganization] = useState('');
+  const {listDetails, doctorSpecialties, setDoctorSpecialties} = props;
   const [specialtiesConfirmation, setSpecialtiesConfirmation] = useConfirmationMessage();
 
   const specialties = selectedOrganization

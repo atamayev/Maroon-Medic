@@ -1,10 +1,10 @@
-import {useState, useEffect, useContext} from 'react'
-import {Card, Button, Form } from 'react-bootstrap'
-import { VerifyContext } from '../../../contexts/verify-context.js';
+import { useState, useEffect } from 'react'
+import { Card, Button, Form } from 'react-bootstrap'
 import { NonPatientAccess } from '../../../components/user-type-unauth.js';
 import { invalidUserAction } from '../../../custom-hooks/user-verification-snippets.js';
 import PrivatePatientDataService from '../../../services/private-patient-data-service.js';
 import { useConfirmationMessage } from '../../../custom-hooks/use-confirmation-message.js';
+import useSimpleUserVerification from '../../../custom-hooks/use-simple-user-verification.js';
 import { renderFirstNameSection, renderLastNameSection, renderDOBSection, renderGenderSection, renderMessageSection } from '../../../components/personal-info-inputs.js';
 import Header from '../../header.js';
 import PatientHeader from '../patient-header.js';
@@ -45,32 +45,33 @@ const handleSave = async (e, personalInfo, setPersonalInfoConfirmation) => {
   }
 };
 
-export default function PatientPersonalInfo() {
+function usePersonalInfo(userType) {
   const [personalInfo, setPersonalInfo] = useState({});
-  const [personalInfoConfirmation, setPersonalInfoConfirmation] = useConfirmationMessage();
-  const {userVerification} = useContext(VerifyContext)
-  const [userType, setUserType] = useState(null);
 
-  const verifyAndSetPersonalInfo = async () => {
-    const result = await userVerification();
-    if (result.verified === true) {
-      setUserType(result.userType)
-      if (result.userType === 'Patient') {
-        try {
-          const storedPersonalInfoData = sessionStorage.getItem("PatientPersonalInfo")
-          if (storedPersonalInfoData) setPersonalInfo(JSON.parse(storedPersonalInfoData));
-          else fetchPersonalInfoData(setPersonalInfo);
-        } catch(error) {
-        }
+  const fetchAndSetPersonalInfo = async () => {
+    if (userType === 'Patient') {
+      try {
+        const storedPersonalInfoData = sessionStorage.getItem("PatientPersonalInfo")
+        if (storedPersonalInfoData) setPersonalInfo(JSON.parse(storedPersonalInfoData));
+        else fetchPersonalInfoData(setPersonalInfo);
+      } catch(error) {
       }
     }
   };
 
   useEffect(() => {
-    verifyAndSetPersonalInfo()
-  }, [])
+    fetchAndSetPersonalInfo()
+  }, [userType]);
 
-  if (userType !== 'Patient') return <NonPatientAccess/>
+  return {personalInfo, setPersonalInfo};
+}
+
+export default function PatientPersonalInfo() {
+  const { userType } = useSimpleUserVerification();
+  const {personalInfo, setPersonalInfo} = usePersonalInfo(userType);
+  const [personalInfoConfirmation, setPersonalInfoConfirmation] = useConfirmationMessage();
+
+  if (userType !== 'Patient') return <NonPatientAccess/>;
 
   return (
     <div>

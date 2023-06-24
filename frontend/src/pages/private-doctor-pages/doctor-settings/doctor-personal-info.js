@@ -1,10 +1,10 @@
-import {useState, useEffect, useContext} from 'react'
+import {useState, useEffect } from 'react'
 import {Card, Button, Form } from 'react-bootstrap'
-import { VerifyContext } from '../../../contexts/verify-context.js';
 import { NonDoctorAccess } from '../../../components/user-type-unauth.js';
 import PrivateDoctorDataService from '../../../services/private-doctor-data-service.js';
 import { useConfirmationMessage } from '../../../custom-hooks/use-confirmation-message.js';
 import { invalidUserAction } from '../../../custom-hooks/user-verification-snippets.js';
+import useSimpleUserVerification from '../../../custom-hooks/use-simple-user-verification.js';
 import { renderFirstNameSection, renderLastNameSection, renderDOBSection, renderGenderSection, renderMessageSection } from '../../../components/personal-info-inputs.js';
 import Header from '../../header.js';
 import DoctorHeader from '../doctor-header.js';
@@ -46,30 +46,31 @@ const handleSave = async (e, personalInfo, setPersonalInfoConfirmation) => {
   }
 };
 
-export default function DoctorPersonalInfo() {
+function usePersonalInfo(userType) {
   const [personalInfo, setPersonalInfo] = useState({});
-  const [personalInfoConfirmation, setPersonalInfoConfirmation] = useConfirmationMessage();
-  const {userVerification} = useContext(VerifyContext)
-  const [userType, setUserType] = useState(null);
 
-  const verifyAndSetPersonalInfo = async () => {
-    const result = await userVerification();
-    if (result.verified === true) {
-      setUserType(result.userType)
-      if (result.userType === 'Doctor') {
-        try {
-          const storedPersonalInfoData = sessionStorage.getItem("DoctorPersonalInfo")
-          if (storedPersonalInfoData) setPersonalInfo(JSON.parse(storedPersonalInfoData));
-          else fetchPersonalInfoData(setPersonalInfo);
-        } catch(error) {
-        }
+  const fetchAndSetPersonalInfo = async () => {
+    if (userType === 'Doctor') {
+      try {
+        const storedPersonalInfoData = sessionStorage.getItem("DoctorPersonalInfo")
+        if (storedPersonalInfoData) setPersonalInfo(JSON.parse(storedPersonalInfoData));
+        else fetchPersonalInfoData(setPersonalInfo);
+      } catch(error) {
       }
     }
-  }
+  };
 
   useEffect(() => {
-    verifyAndSetPersonalInfo()
-  }, [])
+    fetchAndSetPersonalInfo()
+  }, [userType]);
+
+  return {personalInfo, setPersonalInfo};
+}
+
+export default function DoctorPersonalInfo() {
+  const { userType } = useSimpleUserVerification();
+  const {personalInfo, setPersonalInfo} = usePersonalInfo(userType);  
+  const [personalInfoConfirmation, setPersonalInfoConfirmation] = useConfirmationMessage();
 
   if (userType !== 'Doctor') return <NonDoctorAccess/>
   

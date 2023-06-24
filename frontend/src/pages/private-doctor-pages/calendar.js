@@ -1,12 +1,12 @@
 import moment from "moment";
-import {useEffect, useState, useContext} from "react";
+import { useEffect, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "../../styles/calendar.css"
-import { VerifyContext } from "../../contexts/verify-context";
 import { NonDoctorAccess } from "../../components/user-type-unauth";
 import CalendarDataService from "../../services/calendar-data-service";
 import { invalidUserAction } from "../../custom-hooks/user-verification-snippets";
+import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification";
 import Header from "../header";
 import DoctorHeader from "./doctor-header";
 
@@ -19,52 +19,53 @@ const CustomEvent = ({ event }) => {
   return <div className = {CSS}> {event.title} </div>
 };
 
-export default function DoctorCalendar () {
-  const {userVerification} = useContext(VerifyContext);
-  const [userType, setUserType] = useState(null);
+async function FillDoctorCalendarDetails(setEvents) {
+  try {
+    const response = await CalendarDataService.fillCalendarDetails();
+    if (response.status === 200) {
+      const events = response.data.map(appointment => {
+        const startTime = new Date(appointment.appointment_date);
+        const endTime = new Date(startTime);
+        endTime.setMinutes(startTime.getMinutes() + parseInt(appointment.Service_time));
+        return {
+          title: appointment.Service_name,
+          start: startTime,
+          end: endTime,
+          Doctor_confirmation_status: appointment.Doctor_confirmation_status
+        };
+      });
+      setEvents(events);
+    }
+  } catch(error) {
+    if (error.response.status === 401) invalidUserAction(error.response.data)
+  }
+}
+
+function useDoctorCalendarData(userType) {
   const [events, setEvents] = useState([]);
 
-  const verifyAndSetCalendarData = async () => {
-    const result = await userVerification();
-    if (result.verified === true) {
-      setUserType(result.userType)
-      if (result.userType === 'Doctor') {
-        try {
-          const storedAccountDetails = sessionStorage.getItem("DoctorCalendarDetails")
-          if (!storedAccountDetails) FillDoctorCalendarDetails();
-        } catch(error) {
-        }
+  const fetchAndSetCalendarData = async () => {
+    if (userType === 'Doctor') {
+      try {
+        const storedCalendarData = sessionStorage.getItem("DoctorCalendarDetails");
+        if (!storedCalendarData) FillDoctorCalendarDetails(setEvents);
+      } catch(error) {
       }
     }
   };
 
   useEffect(() => {
-    verifyAndSetCalendarData()
-  }, []);
+    fetchAndSetCalendarData();
+  }, [userType]);
 
-  async function FillDoctorCalendarDetails() {
-    try {
-      const response = await CalendarDataService.fillCalendarDetails();
-      if (response.status === 200) {
-        const events = response.data.map(appointment => {
-          const startTime = new Date(appointment.appointment_date);
-          const endTime = new Date(startTime);
-          endTime.setMinutes(startTime.getMinutes() + parseInt(appointment.Service_time));
-          return {
-            title: appointment.Service_name,
-            start: startTime,
-            end: endTime,
-            Doctor_confirmation_status: appointment.Doctor_confirmation_status
-          };
-        });
-        setEvents(events);
-      }
-    } catch(error) {
-      if (error.response.status === 401) invalidUserAction(error.response.data)
-    }
-  }  
+  return events;
+}
 
-  if (userType !== 'Doctor') return <NonDoctorAccess/>
+export default function DoctorCalendar() {
+  const { userType } = useSimpleUserVerification();
+  const events = useDoctorCalendarData(userType);
+
+  if (userType !== 'Doctor') return <NonDoctorAccess/>;
 
   return (
     <div>

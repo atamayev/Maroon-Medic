@@ -5,6 +5,7 @@ import { VerifyContext } from '../../contexts/verify-context';
 import { NonPatientAccess } from '../../components/user-type-unauth';
 import CalendarDataService from '../../services/calendar-data-service';
 import { invalidUserAction } from '../../custom-hooks/user-verification-snippets';
+import useSimpleUserVerification from '../../custom-hooks/use-simple-user-verification';
 import Header from '../header';
 
 async function confirmBooking(e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData) {
@@ -32,8 +33,7 @@ async function confirmBooking(e, navigate, selectedService, selectedLocation, se
 export function FinalizeBookingPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const {userVerification} = useContext(VerifyContext);
-  const [userType, setUserType] = useState(null);
+  const { userType } = useSimpleUserVerification();
 
   let selectedService, selectedLocation, selectedDay, selectedTime, personalData;
   const sessionBookingDetails = JSON.parse(sessionStorage.getItem('bookingDetails'));
@@ -49,15 +49,6 @@ export function FinalizeBookingPage() {
       window.location.href = "/"
     }
   }, [location]);
-
-  useEffect(() => {
-    const verifyAndSetUserType = async () => {
-      const result = await userVerification();
-      if (result.verified === true) setUserType(result.userType)
-    }
-
-    verifyAndSetUserType()
-  }, []);
 
   if (!location.state && !sessionBookingDetails) {
     return null; // or render some kind of loading spinner

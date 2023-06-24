@@ -22,8 +22,7 @@ async function fetchPatientDashboardData(setDashboardData) {
   }
 }
 
-function useDashboardData() {
-  const { userType } = useSimpleUserVerification();
+function useDashboardData(userType) {
   const [dashboardData, setDashboardData] = useState(null);
 
   const fetchAndSetDashboardData = async () => {
@@ -49,7 +48,7 @@ function useDashboardData() {
 
 export default function PatientDashboard() {
   const { userType } = useSimpleUserVerification();
-  const dashboardData = useDashboardData();
+  const dashboardData = useDashboardData(userType);
   const [personalInfo, setPersonalInfo] = useState(JSON.parse(sessionStorage.getItem('PatientPersonalInfo')));
   const [pastAppointments, setPastAppointments] = useState([]);
   const [upcomingAppointments, setUpcomingAppointments] = useState([]);

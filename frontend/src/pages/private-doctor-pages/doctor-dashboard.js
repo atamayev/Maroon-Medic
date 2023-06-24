@@ -1,11 +1,11 @@
 import _ from "lodash"
 import moment from 'moment';
-import {useEffect, useState, useContext} from 'react'
+import { useEffect, useState } from 'react'
 import { Card, Badge, Button } from 'react-bootstrap';
-import { VerifyContext } from '../../contexts/verify-context.js';
 import { NonDoctorAccess } from '../../components/user-type-unauth.js';
 import PrivateDoctorDataService from "../../services/private-doctor-data-service.js"
 import { invalidUserAction } from '../../custom-hooks/user-verification-snippets.js';
+import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification.js";
 import Header from '../header.js';
 import DoctorHeader from './doctor-header.js';
 
@@ -41,37 +41,37 @@ async function approveAppointment (setStatus, AppointmentsID, dashboardData, set
   }
 };
 
-export default function DoctorDashboard() {
-  const {userVerification} = useContext(VerifyContext)
-  const [personalInfo, setPersonalInfo] = useState(JSON.parse(sessionStorage.getItem('DoctorPersonalInfo')));
-  const [dashboardData, setDashboardData] = useState([]);
-  const [pastAppointments, setPastAppointments] = useState([]);
-  const [upcomingAppointments, setUpcomingAppointments] = useState([]);
-  const [userType, setUserType] = useState(null);
-  const newDoctor = document.cookie.split(';').some((item) => item.trim().startsWith('DoctorNewUser'));
+function useDashboardData(userType) {
+  const [dashboardData, setDashboardData] = useState(null);
 
-  const verifyAndSetDashboardData = async () => {
-    const result = await userVerification();
-    if (result.verified === true) {
-      setUserType(result.userType)
-      if (result.userType === 'Doctor') {
-        try {
-          setUserType('Doctor')
-          // const storedDashboardData = sessionStorage.getItem("DoctorDashboardData")
-          // if (storedDashboardData) {
-          //   setDashboardData(JSON.parse(storedDashboardData));
-          // } else {
-            fetchDoctorDashboardData(setDashboardData);
-          // }
-        } catch(error) {
-        }
+  const fetchAndSetDashboardData = async () => {
+    if (userType === 'Doctor') {
+      try {
+        // const storedDashboardData = sessionStorage.getItem("DoctorDashboardData")
+        // if (storedDashboardData) {
+        //     setDashboardData(JSON.parse(storedDashboardData));
+        // } else {
+          fetchDoctorDashboardData(setDashboardData);
+        // }
+      } catch (error) {
       }
     }
   };
 
   useEffect(() => {
-    verifyAndSetDashboardData()
-  }, []);
+    fetchAndSetDashboardData();
+  }, [userType]);
+
+  return {dashboardData, setDashboardData}
+}
+
+export default function DoctorDashboard() {
+  const { userType } = useSimpleUserVerification();
+  const {dashboardData, setDashboardData} = useDashboardData(userType);
+  const [personalInfo, setPersonalInfo] = useState(JSON.parse(sessionStorage.getItem('DoctorPersonalInfo')));
+  const [pastAppointments, setPastAppointments] = useState([]);
+  const [upcomingAppointments, setUpcomingAppointments] = useState([]);
+  const newDoctor = document.cookie.split(';').some((item) => item.trim().startsWith('DoctorNewUser'));
 
   useEffect(() => {
     const interval = setInterval(() => {

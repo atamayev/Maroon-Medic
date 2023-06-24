@@ -1,8 +1,8 @@
-import {useEffect, useState, useContext} from 'react'
-import { VerifyContext } from '../../../contexts/verify-context';
+import { useEffect, useState } from 'react'
 import { NonPatientAccess } from '../../../components/user-type-unauth';
 import { invalidUserAction } from '../../../custom-hooks/user-verification-snippets';
 import PrivatePatientDataService from '../../../services/private-patient-data-service';
+import useSimpleUserVerification from '../../../custom-hooks/use-simple-user-verification';
 import Header from '../../header';
 import PatientHeader from '../patient-header'
 import RenderLanguageSection from './language';
@@ -19,50 +19,50 @@ async function FillLists(setListDetails) {
   }
 }
 
-export default function PatientAccountDetails() {
-  const [listDetails, setListDetails] = useState({});
-  const {userVerification} = useContext(VerifyContext);
-  const [userType, setUserType] = useState(null);
+async function FillPatientAccountDetails(setSpokenLanguages) {
+  try {
+    const response = await PrivatePatientDataService.fillAccountDetails();
+    if (response) {
+      if (response.data.languages) setSpokenLanguages(response.data.languages);
+      sessionStorage.setItem("PatientAccountDetails", JSON.stringify(response.data));
+    }
+  } catch(error) {
+    if (error.response.status === 401) invalidUserAction(error.response.data)
+  }
+}
+
+function useAccountDetails(userType) {
   const PatientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails"));
-  
   const [spokenLanguages, setSpokenLanguages] = useState(PatientAccountDetails?.lanauges || []);
+  const [listDetails, setListDetails] = useState({});
 
-  const verifyAndSetAccountDetails = async () => {
-    const result = await userVerification();
-    if (result.verified === true) {
-      setUserType(result.userType);
-      if (result.userType === 'Patient') {
-        try {
-          const storedAccountDetails = sessionStorage.getItem("PatientAccountDetails");
-          if (!storedAccountDetails) FillPatientAccountDetails();
+  const fetchAndSetAccountDetails = async () => {
+    if (userType === 'Patient') {
+      try {
+        const storedAccountDetails = sessionStorage.getItem("PatientAccountDetails");
+        if (!storedAccountDetails) FillPatientAccountDetails(setSpokenLanguages);
 
-          const storedListDetails = sessionStorage.getItem("ListDetails");
-          if (storedListDetails) setListDetails(JSON.parse(storedListDetails));
-          else FillLists(setListDetails);
-        } catch (error) {
-        }
+        const storedListDetails = sessionStorage.getItem("ListDetails");
+        if (storedListDetails) setListDetails(JSON.parse(storedListDetails));
+        else FillLists(setListDetails);
+      } catch (error) {
       }
     }
   };
 
   useEffect(() => {
-    verifyAndSetAccountDetails();
-  }, []);
+    fetchAndSetAccountDetails();
+  }, [userType]);
+
+  return { spokenLanguages, setSpokenLanguages, listDetails };
+}
 
 
-  async function FillPatientAccountDetails() {
-    try {
-      const response = await PrivatePatientDataService.fillAccountDetails();
-      if (response) {
-        if (response.data.languages) setSpokenLanguages(response.data.languages);
-        sessionStorage.setItem("PatientAccountDetails", JSON.stringify(response.data));
-      }
-    } catch(error) {
-      if (error.response.status === 401) invalidUserAction(error.response.data)
-    }
-  }
+export default function PatientAccountDetails() {
+  const { userType } = useSimpleUserVerification();
+  const { spokenLanguages, setSpokenLanguages, listDetails } = useAccountDetails(userType);
 
-  if (userType !== 'Patient') return <NonPatientAccess/>
+  if (userType !== 'Patient') return <NonPatientAccess/>;
 
   return (
     <div>

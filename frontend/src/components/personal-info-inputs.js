@@ -1,6 +1,6 @@
 import { Form } from 'react-bootstrap'
 import FormGroup from './form-group'
-import { months, days, years } from './constants'
+import { months, days, birthYears } from './constants'
 
 export const renderFirstNameSection = (personalInfo, setPersonalInfo) => {
     return (
@@ -99,7 +99,7 @@ const renderSelectYear = (personalInfo, setPersonalInfo) => {
             <option value = "" disabled>
                 Select Year
             </option>
-            {years.map(year => (
+            {birthYears.map(year => (
                 <option key = {year + 1} value = {year + 1}>
                 {year + 1}
                 </option>

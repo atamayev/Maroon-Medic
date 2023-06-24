@@ -2,7 +2,7 @@ To-do:
 
 
 ASAP:
-
+- appointment date not saving properly in DB
 -see if can outsource all of the userVerification snippets, all custom hoooks into their own places. make the pages files bare-bones
 - if patient not logged in when making appointment, and then logs in, should be re-directed to finish appt
 -in edudcation time, make the default selection be: choose a year, month. make it disabled. make the add button only appear when it is selected

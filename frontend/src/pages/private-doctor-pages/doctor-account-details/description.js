@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Card, Button, Form } from "react-bootstrap";
 import FormGroup from '../../../components/form-group.js';
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message.js";
@@ -17,9 +18,10 @@ export default function RenderDescriptionSection (props) {
 };
 
 function RenderIsDescription(props) {
-  const { description, setDescription, isDescriptionOverLimit, setIsDescriptionOverLimit } = props;
+  const { description, setDescription } = props;
+  const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(description.length >= 1000);
   const [descriptionConfirmation, setDescriptionConfirmation] = useConfirmationMessage();
-
+  
   const counterStyleLimit = () => {
     if (isDescriptionOverLimit) return {color: 'red'}
     return {color: 'black'}

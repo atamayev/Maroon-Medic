@@ -1,4 +1,5 @@
 import _ from "lodash"
+import { useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
 import { handleAddVetEducation } from "../../../custom-hooks/account-details-hooks/add";
@@ -19,7 +20,9 @@ export default function RenderVetEducationSection (props) {
 };
 
 function RenderIsVetEducation(props) {
-  const { listDetails, selectedVetSchool, setSelectedVetSchool, selectedVetEducationType, setSelectedVetEducationType, timeState, setTimeState, vetEducation, setVetEducation } = props;
+  const { listDetails, timeState, setTimeState, vetEducation, setVetEducation } = props;
+  const [selectedVetSchool, setSelectedVetSchool] = useState('');
+  const [selectedVetEducationType, setSelectedVetEducationType] = useState('');
 
   const [vetEducationConfirmation, setVetEducationConfirmation] = useConfirmationMessage();
 
