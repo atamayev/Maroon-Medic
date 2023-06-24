@@ -7,6 +7,21 @@ import PrivatePatientDataService from '../../services/private-patient-data-servi
 import useSimpleUserVerification from '../../custom-hooks/use-simple-user-verification.js';
 import Header from '../header.js';
 
+const verifyNewPatient = async (userType, navigate) => {
+  if (userType === 'Patient') {
+    try {
+      const patientResult = await PrivatePatientDataService.newPatientConfirmation();
+      if (patientResult.data === false) navigate('/patient-register');
+    } catch (error) {
+      if (error.response.status === 401) invalidUserAction(error.response.data);
+    }
+  } else if (userType === 'Doctor') {
+    navigate(`/vet-dashboard`);
+  } else {
+    navigate('/patient-register');
+  }
+};
+
 export default function NewPatient () {
   const [newPatientInfo, setNewPatientInfo] = useState({});
   const [error, setError] = useState("")
@@ -14,23 +29,8 @@ export default function NewPatient () {
   const { userType } = useSimpleUserVerification();
   const navigate = useNavigate();
 
-  const verifyNewPatient = async () => {
-    if (userType === 'Patient') {
-      try {
-        const patientResult = await PrivatePatientDataService.newPatientConfirmation();
-        if (patientResult.data === false) navigate('/patient-register');
-      } catch (error) {
-        if (error.response.status === 401) invalidUserAction(error.response.data);
-      }
-    } else if (userType === 'Doctor') {
-      navigate(`/vet-dashboard`);
-    } else {
-      navigate('/patient-register');
-    }
-  };
-
   useEffect(() => {
-    verifyNewPatient();
+    verifyNewPatient(userType, navigate);
   }, [userType, navigate]);
 
   return (

@@ -1,34 +1,15 @@
-import { useState, useEffect, useContext} from 'react';
+import { useEffect } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { useNavigate, useLocation } from "react-router-dom";
-import { VerifyContext } from '../../contexts/verify-context';
 import { NonPatientAccess } from '../../components/user-type-unauth';
-import CalendarDataService from '../../services/calendar-data-service';
-import { invalidUserAction } from '../../custom-hooks/user-verification-snippets';
+import { confirmBooking } from '../../custom-hooks/public-doctor-hooks/confirm-booking';
 import useSimpleUserVerification from '../../custom-hooks/use-simple-user-verification';
 import Header from '../header';
 
-async function confirmBooking(e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData) {
+const handleConfirmBooking = (e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData) => {
   e.preventDefault();
-  let AppointmentObject = {
-    Service_and_category_list_ID: selectedService.service_and_category_listID,
-    appointmentDate: selectedDay,
-    appointmentTime: selectedTime,
-    NVI: personalData.NVI,
-    AddressesID: selectedLocation.addressesID,
-    InstantBook: selectedLocation.instant_book
-  };
-
-  try {
-    const response = await CalendarDataService.makeAppointment(AppointmentObject);
-    if (response.status === 200) {
-      sessionStorage.removeItem('bookingDetails');
-      navigate('/patient-dashboard');
-    }
-  } catch(error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
-  }
-};
+  confirmBooking(navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData)
+}
 
 export function FinalizeBookingPage() {
   const location = useLocation();
@@ -90,7 +71,7 @@ export function FinalizeBookingPage() {
         <Button 
           variant = "primary"
           onClick = {(e) => {
-            confirmBooking(
+            handleConfirmBooking(
               e,
               navigate,
               selectedService, 
@@ -100,7 +81,9 @@ export function FinalizeBookingPage() {
               personalData
             )
           }}
-        >{renderConfirmOrRequestBook()}</Button>
+        >
+          {renderConfirmOrRequestBook()}
+        </Button>
       </>
     )
   }

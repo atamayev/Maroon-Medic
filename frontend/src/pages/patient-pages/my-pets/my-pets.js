@@ -4,49 +4,12 @@ import { useState, useEffect } from 'react'
 import { Card, Button, Modal  } from 'react-bootstrap'
 import { NonPatientAccess } from '../../../components/user-type-unauth'
 import { deleteMyPets } from '../../../custom-hooks/my-pets-hooks/save-my-pets'
-import { invalidUserAction } from '../../../custom-hooks/user-verification-snippets'
-import PrivatePatientDataService from '../../../services/private-patient-data-service'
 import { useConfirmationMessage } from '../../../custom-hooks/use-confirmation-message'
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
+import { FillInsurances, FillPetTypes, fetchPetData } from "../../../custom-hooks/my-pets-hooks/my-pets"
 import Header from '../../header'
 import PatientHeader from '../patient-header'
 import { AddPet } from './add-pet'
-
-async function fetchPetData(setSavedPetData) {
-  try {
-    const response = await PrivatePatientDataService.fetchPetData()
-    if (response) {
-      setSavedPetData(response.data);
-      sessionStorage.setItem("PatientPetData", JSON.stringify(response.data))
-    }
-  } catch(error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
-  }
-}
-
-async function FillPetTypes(setPetTypes) { 
-  try {
-    const response = await PrivatePatientDataService.fillPetTypes();
-    if (response) {
-      setPetTypes(response.data);
-      sessionStorage.setItem("PetTypes", JSON.stringify(response.data));
-    }
-  } catch(error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
-  }
-}
-
-async function FillInsurances(setInsurances) { 
-  try {
-    const response = await PrivatePatientDataService.fillInsurances();
-    if (response) {
-      setInsurances(response.data);
-      sessionStorage.setItem("Insurances", JSON.stringify(response.data));
-    }
-  } catch(error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
-  }
-}
 
 function usePetData(userType) {
   const [savedPetData, setSavedPetData] = useState(JSON.parse(sessionStorage.getItem("PatientPetData")) || [])
@@ -79,6 +42,15 @@ function usePetData(userType) {
   return { savedPetData, setSavedPetData, petTypes, insurances };
 }
 
+const handleShowModal = (pet, setPetToDelete, setShowModal) => {
+  setPetToDelete(pet);
+  setShowModal(true);
+};
+
+const handleCloseModal = (setShowModal) => {
+  setShowModal(false);
+};
+
 export default function MyPets() {
   const { userType } = useSimpleUserVerification();
   const { savedPetData, setSavedPetData, petTypes, insurances } = usePetData(userType);
@@ -90,15 +62,6 @@ export default function MyPets() {
   
   if (userType !== 'Patient') return <NonPatientAccess/>
 
-  const handleShowModal = (pet) => {
-    setPetToDelete(pet);
-    setShowModal(true);
-  };
-  
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
   const renderSavedPetDataTitle = (pet) => {
     return (
       <Card.Title>
@@ -106,7 +69,7 @@ export default function MyPets() {
         <Button 
           variant = "danger" 
           style = {{ float: 'right' }} 
-          onClick = {() => handleShowModal(pet)}
+          onClick = {() => handleShowModal(pet, setPetToDelete, setShowModal)}
         >
           X
         </Button>
@@ -143,20 +106,20 @@ export default function MyPets() {
 
   const renderModal = () => {
     return (
-      <Modal show = {showModal} onHide = {handleCloseModal}>
+      <Modal show = {showModal} onHide = {() => handleCloseModal(setShowModal)}>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Deletion</Modal.Title>
         </Modal.Header>
         <Modal.Body>Are you sure you want to delete {petToDelete?.Name}?</Modal.Body>
         <Modal.Footer>
-          <Button variant = "secondary" onClick = {handleCloseModal}>
+          <Button variant = "secondary" onClick = {() => handleCloseModal(setShowModal)}>
             Close
           </Button>
           <Button 
             variant = "danger" 
             onClick = {() => {
               deleteMyPets(petToDelete.pet_infoID, savedPetData, setSavedPetData, setPetConfirmation);
-              handleCloseModal();
+              handleCloseModal(setShowModal);
             }}
           >
             Delete

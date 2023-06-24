@@ -4,62 +4,13 @@ import { useState, useEffect } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import FormGroup from '../../components/form-group';
+import { finalizeBookingClick } from "../../custom-hooks/public-doctor-hooks/booking-page-hooks";
+import { handleServiceChange, handleLocationChange, handleDayChange, handleTimeChange } from "../../custom-hooks/public-doctor-hooks/booking-page-hooks";
 
-const handleServiceChange = (event, providedServices, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime) => {
-  const value = event.target.value;
-  const selectedServiceObject = providedServices.find(service => service.service_and_category_listID.toString() === value);
-  setSelectedService(selectedServiceObject || null);
-  if (value === 'Select...') {
-    setSelectedLocation(null);
-    setSelectedDay(null);
-    setSelectedTime(null);
-  }
-};
-
-const handleLocationChange = (event, addresses, setSelectedLocation, setSelectedDay, setSelectedTime) => {
-  const value = event.target.value;
-  const selectedLocationObject = addresses.find(location => location.addressesID.toString() === value);
-  
-  if (_.isEmpty(selectedLocationObject.times)) {
-    setSelectedLocation(null);
-    setSelectedDay("This doctor does not currently have any open appointments");
-    setSelectedTime(null);
-  } else {
-    setSelectedLocation(selectedLocationObject || null);
-    if (value === 'Select...') {
-      setSelectedDay(null);
-      setSelectedTime(null);
-    }
-  }
-};
-
-const handleDayChange = (event, setSelectedDay, setSelectedTime) => {
-  const value = event.target.value;
-  setSelectedDay(value === 'Select...' ? null : value);
-  if (value === 'Select...') setSelectedTime(null);
-};
-
-const handleTimeChange = (event, setSelectedTime) => {
-  const value = event.target.value;
-  setSelectedTime(value === 'Select...' ? null : value);
-};
-
-function finalizeBookingClick(e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData) {
+const handleBookingClick = (e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData) => {
   e.preventDefault();
-  const bookingDetails = {
-      selectedService: selectedService ? selectedService : null,
-      selectedLocation: selectedLocation ? selectedLocation : null,
-      selectedDay,
-      selectedTime,
-      personalData: personalData
-  };
-
-  // Store the current state into sessionStorage
-  sessionStorage.setItem('bookingDetails', JSON.stringify(bookingDetails));
-
-  // Navigate to the finalize-booking page with the state
-  navigate('/finalize-booking', { state: bookingDetails });
-};
+  finalizeBookingClick(navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData)
+}
 
 export default function RenderBookingSection(props) {
   const { providedServices, addresses, personalData } = props;
@@ -236,7 +187,7 @@ export default function RenderBookingSection(props) {
       <>
         <Button 
           variant = 'primary' 
-          onClick = {(e) => finalizeBookingClick(
+          onClick = {(e) => handleBookingClick(
             e,
             navigate, 
             selectedService, 

@@ -3,7 +3,6 @@ To-do:
 
 ASAP:
 - appointment date not saving properly in DB
--see if can outsource all of the userVerification snippets, all custom hoooks into their own places. make the pages files bare-bones
 - if patient not logged in when making appointment, and then logs in, should be re-directed to finish appt
 -in edudcation time, make the default selection be: choose a year, month. make it disabled. make the add button only appear when it is selected
 -see if can change the format of description. currently in acct details, need to do:
@@ -13,11 +12,7 @@ ASAP:
         }
 -further simplicciation of location.js, pets.js needed
 
-move handleSave in patient-personal-info to save patient details.
-
 -when deleting, make all of teh parts of the account details require a delete confirmation. change the X delete button to red. when press delete, should plit into 2 buttons- confirm delete, or nevermind
-
--put verify context on vet settings page - check all pages that don't have verify context.
 
 -Include the cost in the finalize booking screen
 

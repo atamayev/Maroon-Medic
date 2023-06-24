@@ -5,21 +5,10 @@ import { Card, Badge, Button } from 'react-bootstrap';
 import { NonDoctorAccess } from '../../components/user-type-unauth.js';
 import PrivateDoctorDataService from "../../services/private-doctor-data-service.js"
 import { invalidUserAction } from '../../custom-hooks/user-verification-snippets.js';
+import { useDashboardData } from "../../custom-hooks/fetch-and-use-dashboard-info.js";
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification.js";
 import Header from '../header.js';
 import DoctorHeader from './doctor-header.js';
-
-async function fetchDoctorDashboardData(setDashboardData) {
-  try {
-    const response = await PrivateDoctorDataService.fillDashboard()
-    if (response) {
-      setDashboardData(response.data);
-      sessionStorage.setItem("DoctorDashboardData", JSON.stringify(response.data))
-    }
-  } catch(error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
-  }
-}
 
 async function approveAppointment (setStatus, AppointmentsID, dashboardData, setDashboardData) {
   try {
@@ -41,33 +30,9 @@ async function approveAppointment (setStatus, AppointmentsID, dashboardData, set
   }
 };
 
-function useDashboardData(userType) {
-  const [dashboardData, setDashboardData] = useState(null);
-
-  const fetchAndSetDashboardData = async () => {
-    if (userType === 'Doctor') {
-      try {
-        // const storedDashboardData = sessionStorage.getItem("DoctorDashboardData")
-        // if (storedDashboardData) {
-        //     setDashboardData(JSON.parse(storedDashboardData));
-        // } else {
-          fetchDoctorDashboardData(setDashboardData);
-        // }
-      } catch (error) {
-      }
-    }
-  };
-
-  useEffect(() => {
-    fetchAndSetDashboardData();
-  }, [userType]);
-
-  return {dashboardData, setDashboardData}
-}
-
 export default function DoctorDashboard() {
   const { userType } = useSimpleUserVerification();
-  const {dashboardData, setDashboardData} = useDashboardData(userType);
+  const { dashboardData, setDashboardData } = useDashboardData(userType);
   const [personalInfo, setPersonalInfo] = useState(JSON.parse(sessionStorage.getItem('DoctorPersonalInfo')));
   const [pastAppointments, setPastAppointments] = useState([]);
   const [upcomingAppointments, setUpcomingAppointments] = useState([]);

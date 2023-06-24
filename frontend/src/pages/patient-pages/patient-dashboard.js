@@ -4,51 +4,14 @@ import { useEffect, useState } from 'react'
 import { Card, Badge , Tooltip } from 'react-bootstrap';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import { NonPatientAccess } from '../../components/user-type-unauth.js';
-import { invalidUserAction } from '../../custom-hooks/user-verification-snippets.js';
-import PrivatePatientDataService from '../../services/private-patient-data-service.js';
+import { useDashboardData } from "../../custom-hooks/fetch-and-use-dashboard-info.js";
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification.js";
 import Header from '../header.js';
 import PatientHeader from './patient-header.js';
 
-async function fetchPatientDashboardData(setDashboardData) {
-  try {
-    const response = await PrivatePatientDataService.fillDashboard()
-    if (response) {
-      setDashboardData(response.data);
-      sessionStorage.setItem("PatientDashboardData", JSON.stringify(response.data))
-    }
-  } catch(error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
-  }
-}
-
-function useDashboardData(userType) {
-  const [dashboardData, setDashboardData] = useState(null);
-
-  const fetchAndSetDashboardData = async () => {
-    if (userType === 'Patient') {
-      try {
-        // const storedDashboardData = sessionStorage.getItem("PatientDashboardData")
-        // if (storedDashboardData) {
-        //     setDashboardData(JSON.parse(storedDashboardData));
-        // } else {
-        fetchPatientDashboardData(setDashboardData);
-        // }
-      } catch (error) {
-      }
-    }
-  };
-
-  useEffect(() => {
-    fetchAndSetDashboardData();
-  }, [userType]);
-
-  return dashboardData;
-}
-
 export default function PatientDashboard() {
   const { userType } = useSimpleUserVerification();
-  const dashboardData = useDashboardData(userType);
+  const { dashboardData } = useDashboardData(userType);
   const [personalInfo, setPersonalInfo] = useState(JSON.parse(sessionStorage.getItem('PatientPersonalInfo')));
   const [pastAppointments, setPastAppointments] = useState([]);
   const [upcomingAppointments, setUpcomingAppointments] = useState([]);

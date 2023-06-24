@@ -1,35 +1,10 @@
 import { useEffect, useState } from 'react'
 import { NonPatientAccess } from '../../../components/user-type-unauth';
-import { invalidUserAction } from '../../../custom-hooks/user-verification-snippets';
-import PrivatePatientDataService from '../../../services/private-patient-data-service';
 import useSimpleUserVerification from '../../../custom-hooks/use-simple-user-verification';
+import { FillLists, FillPatientAccountDetails } from '../../../custom-hooks/account-details-hooks/fetch-patient-data';
 import Header from '../../header';
 import PatientHeader from '../patient-header'
 import RenderLanguageSection from './language';
-
-async function FillLists(setListDetails) { 
-  try {
-    const response = await PrivatePatientDataService.fillLists();
-    if (response) {
-      setListDetails(response.data);
-      sessionStorage.setItem("ListDetails", JSON.stringify(response.data));
-    }
-  } catch(error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
-  }
-}
-
-async function FillPatientAccountDetails(setSpokenLanguages) {
-  try {
-    const response = await PrivatePatientDataService.fillAccountDetails();
-    if (response) {
-      if (response.data.languages) setSpokenLanguages(response.data.languages);
-      sessionStorage.setItem("PatientAccountDetails", JSON.stringify(response.data));
-    }
-  } catch(error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
-  }
-}
 
 function useAccountDetails(userType) {
   const PatientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails"));
@@ -56,7 +31,6 @@ function useAccountDetails(userType) {
 
   return { spokenLanguages, setSpokenLanguages, listDetails };
 }
-
 
 export default function PatientAccountDetails() {
   const { userType } = useSimpleUserVerification();

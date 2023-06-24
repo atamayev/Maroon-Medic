@@ -39,19 +39,19 @@ function areAllFieldsValid(petData) {
   return true;
 }
 
+const handleInputChange = (event, petTypes, insurances, newPetData, setNewPetData) => {
+  let value = event.target.value;
+
+  if (event.target.name === "petType") ifPetTypeSelected(value, petTypes, newPetData, setNewPetData)
+  else if (event.target.name === "insurance") ifInsuranceSelected(value, insurances, newPetData, setNewPetData)
+  else {
+    let newPet = { ...newPetData, [event.target.name]: value };
+    setNewPetData(newPet);
+  }
+};
+
 export const AddPet = (props) => {
   const { newPetData, setNewPetData, petTypes, insurances, petConfirmation, setPetConfirmation, setShowAddPet, savedPetData, setSavedPetData } = props;
-  
-  const handleInputChange = (event) => {
-    let value = event.target.value;
-  
-    if (event.target.name === "petType") ifPetTypeSelected(value, petTypes, newPetData, setNewPetData)
-    else if (event.target.name === "insurance") ifInsuranceSelected(value, insurances, newPetData, setNewPetData)
-    else {
-      let newPet = { ...newPetData, [event.target.name]: value };
-      setNewPetData(newPet);
-    }
-  };
   
   const renderNewPetName = () => {
     if (!newPetData.Name) return <>Pet</>
@@ -78,7 +78,7 @@ export const AddPet = (props) => {
         className = {'mb-3'}
         label = "Pet Name:"
         type = "text"
-        onChange = {handleInputChange}
+        onChange = {(e) => handleInputChange (e, petTypes, insurances, newPetData, setNewPetData)}
         name = "Name"
       />
     )
@@ -88,8 +88,8 @@ export const AddPet = (props) => {
     return (
       <Form.Group id = "formPetGender">
         <Form.Label>Gender</Form.Label>
-        <Form.Check type = "radio" label = "Male" name = "Gender" value = "Male" onChange = {handleInputChange} />
-        <Form.Check type = "radio" label = "Female" name = "Gender" value = "Female" onChange = {handleInputChange} />
+        <Form.Check type = "radio" label = "Male" name = "Gender" value = "Male" onChange = {(e) => handleInputChange (e, petTypes, insurances, newPetData, setNewPetData)} />
+        <Form.Check type = "radio" label = "Female" name = "Gender" value = "Female" onChange = {(e) => handleInputChange (e, petTypes, insurances, newPetData, setNewPetData)} />
       </Form.Group>
     )
   }
@@ -101,7 +101,7 @@ export const AddPet = (props) => {
         className = {'mb-3'}
         label = "Date of Birth"
         type = "date"
-        onChange = {handleInputChange}
+        onChange = {(e) => handleInputChange (e, petTypes, insurances, newPetData, setNewPetData)}
         name = "DOB"
       />
     )
@@ -114,7 +114,7 @@ export const AddPet = (props) => {
         <Form.Control
           as = "select"
           defaultValue = {""}
-          onChange = {handleInputChange}
+          onChange = {(e) => handleInputChange (e, petTypes, insurances, newPetData, setNewPetData)}
           name = "petType"
           required
         >
@@ -139,7 +139,7 @@ export const AddPet = (props) => {
         <Form.Control
           as = "select"
           defaultValue = {""}
-          onChange = {handleInputChange}
+          onChange = {(e) => handleInputChange (e, petTypes, insurances, newPetData, setNewPetData)}
           name = "insurance"
           required
         >

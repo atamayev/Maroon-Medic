@@ -5,10 +5,10 @@ import logo from "../images/logo.svg"
 import pic from '../images/ProfileImage.jpg';
 import { SearchContext } from '../contexts/search-context';
 import AuthDataService from '../services/auth-data-service';  
-import { VerifyContext } from '../contexts/verify-context.js';
-import PrivatePatientDataService from '../services/private-patient-data-service';
+import { invalidUserAction } from '../custom-hooks/user-verification-snippets'
 import PrivateDoctorDataService from '../services/private-doctor-data-service'
-import { invalidUserAction } from '../custom-hooks/user-verification-snippets';
+import PrivatePatientDataService from '../services/private-patient-data-service';
+import useSimpleUserVerification from '../custom-hooks/use-simple-user-verification';
 
 const handleKeyUp = (event) => {
   if (event.key === 'Enter') {
@@ -38,83 +38,83 @@ const handleHome = () => {
   window.location.href = '/';
 }
 
-export default function Header (props) {
-  const {dropdown, search} = props;
-  const location = useLocation();
+function useSetHeaderData(userType) {
   const [headerData, setHeaderData] = useState('');
-  const {userVerification} = useContext(VerifyContext);
-  const [userType, setUserType] = useState(null);
-  const {searchTerm, setSearchTerm} = useContext(SearchContext);
-  const cookieMonster = document.cookie;
-
-  const verifyAndSetHeaderData = async () => {
-    const result = await userVerification();
-    if (result.verified === true) {
-        setUserType(result.userType)
-        try {
-            let name;
-            if (result.userType === 'Doctor') {
-                name = JSON.parse(sessionStorage.getItem(`DoctorPersonalInfo`)).LastName;
-                setHeaderData('Dr. ' + name);
-            } else {
-                name = JSON.parse(sessionStorage.getItem(`PatientPersonalInfo`)).FirstName;
-                setHeaderData(name);
-            }
-        } catch (error) {
-            if (error instanceof TypeError) fetchPersonalInfo(result.userType);
-        }
-    }
-  }
-
-  const retrieveNameFromStorage = () => {
+  
+  const getHeaderData = async () => {
+    if (!userType) return;
     try {
-      const name = JSON.parse(sessionStorage.getItem("DoctorPersonalInfo")).LastName;
-      setUserType('Doctor')
-      setHeaderData('Dr. '+ name);
-      return;
-    } catch(error) {
-    }
-    try {
-      const name = JSON.parse(sessionStorage.getItem("PatientPersonalInfo")).FirstName;
-      setUserType('Patient')
-      setHeaderData(name);
-      return;
-    } catch(error) {
+      let name;
+      if (userType === 'Doctor') {
+        name = JSON.parse(sessionStorage.getItem('DoctorPersonalInfo')).LastName;
+        setHeaderData('Dr. ' + name);
+      } else {
+        name = JSON.parse(sessionStorage.getItem('PatientPersonalInfo')).FirstName;
+        setHeaderData(name);
+      }
+    } catch (error) {
+      if (error instanceof TypeError) await fetchPersonalInfo(userType, setHeaderData);
     }
   }
 
   useEffect(() => {
+    getHeaderData();
+  }, [userType]);
+
+  return {headerData, setHeaderData};
+}
+
+async function fetchPersonalInfo (type, setHeaderData) {
+  let response;
+  if (type === 'Doctor') {
+    try {
+      response = await PrivateDoctorDataService.fillPersonalData();
+    } catch (error) {
+      if (error.response.status === 401) invalidUserAction(error.response.data)
+    }
+   }
+   else if (type === 'Patient') {
+    try {
+      response = await PrivatePatientDataService.fillPersonalData();
+    } catch (error) {
+      if (error.response.status === 401) invalidUserAction(error.response.data)
+    }
+  }
+
+  if (response) {
+    setHeaderData(response.data.FirstName);
+    sessionStorage.setItem(`${type}PersonalInfo`, JSON.stringify(response.data))
+  }
+};
+
+const retrieveNameFromStorage = (setHeaderData) => {
+  try {
+    const name = JSON.parse(sessionStorage.getItem("DoctorPersonalInfo")).LastName;
+    setHeaderData('Dr. '+ name);
+    return;
+  } catch(error) {
+  }
+  try {
+    const name = JSON.parse(sessionStorage.getItem("PatientPersonalInfo")).FirstName;
+    setHeaderData(name);
+    return;
+  } catch(error) {
+  }
+}
+
+export default function Header (props) {
+  const { dropdown, search } = props;
+  const location = useLocation();
+  const { userType } = useSimpleUserVerification();
+  const { headerData, setHeaderData } = useSetHeaderData(userType);
+  const { searchTerm, setSearchTerm } = useContext(SearchContext);
+
+  useEffect(() => {
     if (location.pathname !== '/new-vet' && location.pathname !== '/new-patient') {
-      retrieveNameFromStorage()
-
-      //sets the headerData when login/register:
-      if (!headerData) verifyAndSetHeaderData()
+      retrieveNameFromStorage(setHeaderData)
     }
-  }, [cookieMonster]);
-
-  async function fetchPersonalInfo (type) {
-    let response;
-    if (type === 'Doctor') {
-      try {
-        response = await PrivateDoctorDataService.fillPersonalData();
-      } catch (error) {
-        if (error.response.status === 401) invalidUserAction(error.response.data)
-      }
-     }
-     else if (type === 'Patient') {
-      try {
-        response = await PrivatePatientDataService.fillPersonalData();
-      } catch (error) {
-        if (error.response.status === 401) invalidUserAction(error.response.data)
-      }
-    }
-
-    if (response) {
-      setHeaderData(response.data.FirstName);
-      sessionStorage.setItem(`${type}PersonalInfo`, JSON.stringify(response.data))
-    }
-  }; 
-  
+  }, []);
+ 
   const handleLogout = async () => {
     try {
       const response = await AuthDataService.logout();
@@ -174,7 +174,7 @@ export default function Header (props) {
           </div>
         )
       }
-      else{
+      else {
         return(
           <div>
             <Dropdown.Item href = "/vet-register" className = 'fw-bold'>Vet Sign up</Dropdown.Item>

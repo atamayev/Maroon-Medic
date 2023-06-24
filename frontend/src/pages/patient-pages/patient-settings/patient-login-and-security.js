@@ -1,9 +1,9 @@
 import LoginHistory from '../../../components/login-history';
+import { useLoginHistory } from '../../../custom-hooks/login-history';
 import { NonPatientAccess } from '../../../components/user-type-unauth';
 import useSimpleUserVerification from '../../../custom-hooks/use-simple-user-verification';
 import Header from '../../header';
 import PatientHeader from '../patient-header.js';
-import { useLoginHistory } from '../../../custom-hooks/login-history';
 
 export default function PatientLoginAndSecurity() {
   const { userType } = useSimpleUserVerification();
