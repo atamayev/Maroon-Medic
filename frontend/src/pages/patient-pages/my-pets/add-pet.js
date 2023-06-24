@@ -1,4 +1,3 @@
-import React from 'react';
 import { Form, Button, Card,Container, Row, Col } from 'react-bootstrap';
 import FormGroup from '../../../components/form-group';
 import { addMyPets } from '../../../custom-hooks/my-pets-hooks/save-my-pets';

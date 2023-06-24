@@ -1,4 +1,3 @@
-import React from 'react'
 import { Nav } from 'react-bootstrap';
 import AccountNavHeader from '../../components/account-nav-header';
 

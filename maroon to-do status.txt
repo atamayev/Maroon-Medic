@@ -2,6 +2,7 @@ To-do:
 
 
 ASAP:
+-see if can outsource all of the userVerification snippets
 - if patient not logged in when making appointment, and then logs in, should be re-directed to finish appt
 -in edudcation time, make the default selection be: choose a year, month. make it disabled. make the add button only appear when it is selected
 -see if can change the format of description. currently in acct details, need to do:
@@ -14,10 +15,12 @@ ASAP:
 move handleSave in patient-personal-info to save patient details.
 
 -when deleting, make all of teh parts of the account details require a delete confirmation. change the X delete button to red. when press delete, should plit into 2 buttons- confirm delete, or nevermind
+
 -put verify context on vet settings page - check all pages that don't have verify context.
+
 -Include the cost in the finalize booking screen
 
---change all front-end select month, day, year into a 'date'
+--change all front-end select month, day, year into a 'date', like in pets.js
 
 -in the appointments table, will need to change patient_ID to pet_ID. then, on the front-end, you need to have a registered pet in order to make an appointment
 
@@ -29,8 +32,6 @@ move handleSave in patient-personal-info to save patient details.
 	
 -In the checkout screen, ask: Do cyou have insurance, and are you cirious to know what your out of pocket cost will be for [Service_name] with Dr. [name]?
 	Only ask if user hasn't entered their insurance in the patient details. if they have, calculate it on the fly
-Break the account-details page into sections in the settings page. (one card for education, languages, etc.) 
-	Make the current account-details page dedicated to Locations details
 
 -Reviews:
 	Patient's able to make a review after the appointment date is completed, given that the appointment is approved by the doctor.
@@ -39,8 +40,8 @@ On the vet dashboard, make the appointments clickable, shows the patients detail
 	Should go to a newly created appointment page, which nicely lays out the appointment details. 
 	If that event is clicked on from calendar view, it should go to that link as well
 
--Figure out a good way to divide the vet screen into locations. Must be intuitive, and think of all the information that may differ bw practices, not just the address/phone numbers
 - go throgh DoctorDashboard Layout txt file
+
 LATER:
 -figure out IP Address situation (for the login and security page). Also see if can figure out what kind of device the user has
 

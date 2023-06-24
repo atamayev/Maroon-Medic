@@ -1,5 +1,4 @@
-import React from 'react'
-import {Card, Button, Form, Alert } from 'react-bootstrap'
+import { Card, Button, Form, Alert } from 'react-bootstrap'
 import { renderFirstNameSection, renderLastNameSection, renderGenderSection, renderDOBSection } from './personal-info-inputs';
 
 export default function NewAccountForm({

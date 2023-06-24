@@ -1,6 +1,5 @@
-import React from 'react'
-import {Card} from 'react-bootstrap'
-import {Link} from "react-router-dom";
+import { Card } from 'react-bootstrap'
+import { Link } from "react-router-dom";
 
 export default function SettingsLinks(props) {
   return (

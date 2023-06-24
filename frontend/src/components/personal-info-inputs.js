@@ -1,4 +1,3 @@
-import React from 'react'
 import { Form } from 'react-bootstrap'
 import FormGroup from './form-group'
 import { months, days, years } from './constants'

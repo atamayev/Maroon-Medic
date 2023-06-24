@@ -1,9 +1,7 @@
-import React from 'react';
 import { MDBFooter, MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import "../styles/footer.css"
 
 export default function Footer() {
-
   const renderLeftFooterColumn = () => {
     return (
       <MDBCol md = "3" lg = "4" xl = "3" className = 'mx-auto mb-4'>

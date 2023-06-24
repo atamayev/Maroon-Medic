@@ -1,4 +1,3 @@
-import React from 'react'
 import { months, years } from '../../../components/constants';
 
 export default function EducationTime(props) {

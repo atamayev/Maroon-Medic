@@ -1,6 +1,5 @@
-import React from 'react'
-import {Card, Button, Form, Alert } from 'react-bootstrap'
-import {Link} from "react-router-dom";
+import { Card, Button, Form, Alert } from 'react-bootstrap'
+import { Link } from "react-router-dom";
 import FormGroup from './form-group';
 
 export default function LoginAndRegistrationForm({ 
