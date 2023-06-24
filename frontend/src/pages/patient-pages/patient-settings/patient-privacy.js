@@ -4,7 +4,7 @@ import { NonPatientAccess } from '../../../components/user-type-unauth';
 import useSimpleUserVerification from '../../../custom-hooks/use-simple-user-verification';
 
 export default function PatientPrivacy() {
-  const userType = useSimpleUserVerification();
+  const { userType } = useSimpleUserVerification();
 
   if (userType !== 'Patient') return <NonPatientAccess/>;
 

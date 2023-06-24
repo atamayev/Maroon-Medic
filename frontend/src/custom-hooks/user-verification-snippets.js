@@ -1,22 +1,17 @@
-import {useContext, useEffect} from 'react'
-import {useNavigate} from "react-router-dom";
-import { VerifyContext } from "../contexts/verify-context";
+import { useEffect } from 'react'
+import { useNavigate } from "react-router-dom";
+import useSimpleUserVerification from './use-simple-user-verification';
 
 export const useConfirmNotLoggedIn = () => {
-    const {userVerification} = useContext(VerifyContext);
+    const { userType } = useSimpleUserVerification();
     const navigate = useNavigate();
 
-    const verifyUser = async () => {
-        const result = await userVerification();
-        if (result.verified === true && result.userType === 'Patient') navigate(`/patient-dashboard`);
-        else if (result.verified === true && result.userType === 'Doctor') navigate(`/vet-dashboard`);
-    }
-    
     useEffect(() => {
-        verifyUser();
-    }, [])
-
+        if (userType === 'Patient') navigate(`/patient-dashboard`);
+        else if (userType === 'Doctor') navigate(`/vet-dashboard`);
+    }, [userType, navigate])
 };
+
 
 export const invalidUserAction = (responseData) => {
     if (responseData.shouldRedirect) {

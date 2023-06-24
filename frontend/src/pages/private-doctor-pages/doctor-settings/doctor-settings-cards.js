@@ -6,7 +6,7 @@ import Header from '../../header.js';
 import DoctorHeader from '../doctor-header.js';
 
 export default function DoctorSettingsCards() {
-  const userType = useSimpleUserVerification();
+  const { userType } = useSimpleUserVerification();
 
   if (userType !== 'Doctor') return <NonDoctorAccess/>;
 

@@ -1,12 +1,12 @@
 import _ from "lodash"
 import moment from 'moment';
-import {useEffect, useState, useContext} from 'react'
-import {Card, Badge , Tooltip } from 'react-bootstrap';
+import { useEffect, useState } from 'react'
+import { Card, Badge , Tooltip } from 'react-bootstrap';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import { VerifyContext } from '../../contexts/verify-context.js';
 import { NonPatientAccess } from '../../components/user-type-unauth.js';
 import { invalidUserAction } from '../../custom-hooks/user-verification-snippets.js';
 import PrivatePatientDataService from '../../services/private-patient-data-service.js';
+import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification.js";
 import Header from '../header.js';
 import PatientHeader from './patient-header.js';
 
@@ -22,36 +22,38 @@ async function fetchPatientDashboardData(setDashboardData) {
   }
 }
 
-export default function PatientDashboard() {
-  const {userVerification} = useContext(VerifyContext)
-  const [personalInfo, setPersonalInfo] = useState(JSON.parse(sessionStorage.getItem('PatientPersonalInfo')));
-  const [dashboardData, setDashboardData] = useState([]);
-  const [pastAppointments, setPastAppointments] = useState([]);
-  const [upcomingAppointments, setUpcomingAppointments] = useState([]);
-  const [userType, setUserType] = useState(null);
-  const newPatient = document.cookie.split(';').some((item) => item.trim().startsWith('PatientNewUser'));
+function useDashboardData() {
+  const { userType } = useSimpleUserVerification();
+  const [dashboardData, setDashboardData] = useState(null);
 
-  const verifyAndSetDashboardData = async () => {
-    const result = await userVerification();
-    if (result.verified === true) {
-      setUserType(result.userType);
-      if (result.userType === 'Patient') {
-        try {
-          // const storedDashboardData = sessionStorage.getItem("PatientDashboardData")
-          // if (storedDashboardData) {
-          //     setDashboardData(JSON.parse(storedDashboardData));
-          // } else {
-          fetchPatientDashboardData(setDashboardData);
-          // }
-        } catch (error) {
-        }
+  const fetchAndSetDashboardData = async () => {
+    if (userType === 'Patient') {
+      try {
+        // const storedDashboardData = sessionStorage.getItem("PatientDashboardData")
+        // if (storedDashboardData) {
+        //     setDashboardData(JSON.parse(storedDashboardData));
+        // } else {
+        fetchPatientDashboardData(setDashboardData);
+        // }
+      } catch (error) {
       }
     }
   };
 
   useEffect(() => {
-    verifyAndSetDashboardData();
-  }, [])
+    fetchAndSetDashboardData();
+  }, [userType]);
+
+  return dashboardData;
+}
+
+export default function PatientDashboard() {
+  const { userType } = useSimpleUserVerification();
+  const dashboardData = useDashboardData();
+  const [personalInfo, setPersonalInfo] = useState(JSON.parse(sessionStorage.getItem('PatientPersonalInfo')));
+  const [pastAppointments, setPastAppointments] = useState([]);
+  const [upcomingAppointments, setUpcomingAppointments] = useState([]);
+  const newPatient = document.cookie.split(';').some((item) => item.trim().startsWith('PatientNewUser'));
 
   useEffect(() => {
     const interval = setInterval(() => {

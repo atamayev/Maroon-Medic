@@ -6,7 +6,7 @@ import Header from '../../header'
 import DoctorHeader from '../doctor-header.js';
 
 export default function DoctorLoginAndSecurity() {
-  const userType = useSimpleUserVerification();
+  const { userType } = useSimpleUserVerification();
   const loginHistory = useLoginHistory(userType, 'Doctor');
 
   if (userType !== 'Doctor') return <NonDoctorAccess/>;

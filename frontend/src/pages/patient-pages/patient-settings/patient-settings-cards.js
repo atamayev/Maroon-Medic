@@ -6,7 +6,7 @@ import Header from '../../header'
 import PatientHeader from '../patient-header'
 
 export default function PatientSettings() {
-  const userType = useSimpleUserVerification();
+  const { userType } = useSimpleUserVerification();
 
   if (userType !== 'Patient') return <NonPatientAccess/>;
 

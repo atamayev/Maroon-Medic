@@ -14,5 +14,5 @@ export default function useSimpleUserVerification() {
     verify();
   }, []);
 
-  return userType;
+  return {userVerification, userType};
 }

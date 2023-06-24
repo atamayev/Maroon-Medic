@@ -6,7 +6,7 @@ import PatientHeader from '../patient-header.js';
 import { useLoginHistory } from '../../../custom-hooks/login-history';
 
 export default function PatientLoginAndSecurity() {
-  const userType = useSimpleUserVerification();
+  const { userType } = useSimpleUserVerification();
   const loginHistory = useLoginHistory(userType, 'Patient');
 
   if (userType !== 'Patient') return <NonPatientAccess/>;
