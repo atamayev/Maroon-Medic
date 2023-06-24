@@ -1,5 +1,5 @@
 import moment from "moment";
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import AuthDataService from "../services/auth-data-service";
 import { invalidUserAction } from "./user-verification-snippets";
 

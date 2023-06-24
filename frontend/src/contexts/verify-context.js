@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import { createContext } from 'react';
 import AuthDataService from '../services/auth-data-service';
 import { invalidUserAction } from '../custom-hooks/user-verification-snippets';
 

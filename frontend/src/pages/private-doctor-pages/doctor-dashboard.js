@@ -1,6 +1,6 @@
 import _ from "lodash"
 import moment from 'moment';
-import React, {useEffect, useState, useContext} from 'react'
+import {useEffect, useState, useContext} from 'react'
 import { Card, Badge, Button } from 'react-bootstrap';
 import { VerifyContext } from '../../contexts/verify-context.js';
 import { NonDoctorAccess } from '../../components/user-type-unauth.js';

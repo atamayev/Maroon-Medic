@@ -1,5 +1,5 @@
 import _ from "lodash"
-import React, {useEffect, useContext, useState} from 'react'
+import {useEffect, useContext, useState} from 'react'
 import { VerifyContext } from '../../../contexts/verify-context.js';
 import { NonDoctorAccess } from '../../../components/user-type-unauth.js';
 import PrivateDoctorDataService from '../../../services/private-doctor-data-service.js';

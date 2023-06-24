@@ -2,57 +2,57 @@ import { Form, Button, Card,Container, Row, Col } from 'react-bootstrap';
 import FormGroup from '../../../components/form-group';
 import { addMyPets } from '../../../custom-hooks/my-pets-hooks/save-my-pets';
 
+const ifPetTypeSelected = (value, petTypes, newPetData, setNewPetData) => {
+    // Find the selected pet type by its ID
+    let selectedPetType = petTypes.find(petType => petType.pet_listID === JSON.parse(value));
+    let newPet = {
+      ...newPetData, 
+      petType: selectedPetType.Pet, 
+      pet_listID: selectedPetType.pet_listID 
+    };
+
+    setNewPetData(newPet);
+}
+
+const ifInsuranceSelected = (value, insurances, newPetData, setNewPetData) => {
+    // Find the selected insurance by its ID
+    let selectedInsurance = insurances.find(insurance => insurance.insurance_listID === JSON.parse(value));
+    let newPet = {
+      ...newPetData, 
+      insuranceName: selectedInsurance.Insurance_name, 
+      insurance_listID: selectedInsurance.insurance_listID 
+    };
+
+    setNewPetData(newPet);
+}
+
+function areAllFieldsValid(petData) {
+  if (
+    !petData.Name || 
+    !petData.Gender || 
+    !petData.DOB ||
+    !petData.petType ||
+    !petData.insuranceName
+  ) {
+    return false;
+  }
+  return true;
+}
+
 export const AddPet = (props) => {
   const { newPetData, setNewPetData, petTypes, insurances, petConfirmation, setPetConfirmation, setShowAddPet, savedPetData, setSavedPetData } = props;
   
-  const ifPetTypeSelected = (value) => {
-      // Find the selected pet type by its ID
-      let selectedPetType = petTypes.find(petType => petType.pet_listID === JSON.parse(value));
-      let newPet = {
-        ...newPetData, 
-        petType: selectedPetType.Pet, 
-        pet_listID: selectedPetType.pet_listID 
-      };
-  
-      setNewPetData(newPet);
-  }
-
-  const ifInsuranceSelected = (value) => {
-      // Find the selected insurance by its ID
-      let selectedInsurance = insurances.find(insurance => insurance.insurance_listID === JSON.parse(value));
-      let newPet = {
-        ...newPetData, 
-        insuranceName: selectedInsurance.Insurance_name, 
-        insurance_listID: selectedInsurance.insurance_listID 
-      };
-  
-      setNewPetData(newPet);
-  }
-
   const handleInputChange = (event) => {
     let value = event.target.value;
   
-    if (event.target.name === "petType") ifPetTypeSelected(value)
-    else if (event.target.name === "insurance") ifInsuranceSelected(value)
+    if (event.target.name === "petType") ifPetTypeSelected(value, petTypes, newPetData, setNewPetData)
+    else if (event.target.name === "insurance") ifInsuranceSelected(value, insurances, newPetData, setNewPetData)
     else {
       let newPet = { ...newPetData, [event.target.name]: value };
       setNewPetData(newPet);
     }
   };
   
-  function areAllFieldsValid(petData) {
-    if (
-      !petData.Name || 
-      !petData.Gender || 
-      !petData.DOB ||
-      !petData.petType ||
-      !petData.insuranceName
-    ) {
-      return false;
-    }
-    return true;
-  }
-
   const renderNewPetName = () => {
     if (!newPetData.Name) return <>Pet</>
     return <>{newPetData.Name}</>

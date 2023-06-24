@@ -1,5 +1,4 @@
 import _ from "lodash"
-import React from "react";
 import { Card } from "react-bootstrap";
 
 export default function RenderSpecialtiesSection(props) {
@@ -27,7 +26,7 @@ function renderSpecialties(doctorSpecialties) {
       });
     }
     
-    return(
+    return (
         <>
             {Object.entries(organizations).map(([organization, specialties]) => (
                 <div key = {organization} style = {{ marginBottom: '10px' }}>

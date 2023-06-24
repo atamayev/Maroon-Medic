@@ -1,6 +1,6 @@
 import _ from "lodash"
 import moment from 'moment';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import FormGroup from '../../components/form-group';

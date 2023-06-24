@@ -1,5 +1,5 @@
 import _ from "lodash"
-import React, { useState, useEffect} from 'react';
+import { useState, useEffect} from 'react';
 import {useParams} from "react-router-dom";
 import PublicDoctorDataService from '../../services/public-doctor-data-service.js';
 import Header from '../header.js';

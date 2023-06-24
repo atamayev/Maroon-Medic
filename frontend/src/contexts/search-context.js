@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import { createContext, useState } from 'react';
 import SearchDataService from '../services/search-data-service.js';
 
 export const SearchContext = createContext();

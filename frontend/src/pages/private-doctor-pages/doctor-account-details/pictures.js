@@ -1,5 +1,4 @@
-import React from "react";
-import { Carousel} from "react-bootstrap";
+import { Carousel } from "react-bootstrap";
 import { handleSelectCarousel } from "../../../Custom Hooks/Hooks for Doctor Account Details/select";
 
 //Non-functional, just here for completion

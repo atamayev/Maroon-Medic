@@ -1,5 +1,4 @@
-import React from "react";
-import { Card, ToggleButton, ToggleButtonGroup, Button} from "react-bootstrap";
+import { Card, ToggleButton, ToggleButtonGroup, Button } from "react-bootstrap";
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
 import { handlePublicAvailibilityToggle } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details";
 

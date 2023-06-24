@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react'
+import {useState, useEffect, useContext} from 'react'
 import {Card, Button, Form } from 'react-bootstrap'
 import { VerifyContext } from '../../../contexts/verify-context.js';
 import { NonDoctorAccess } from '../../../components/user-type-unauth.js';

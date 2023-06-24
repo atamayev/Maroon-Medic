@@ -1,5 +1,5 @@
-import React, {useContext, useEffect} from 'react';
-import {useParams} from "react-router-dom";
+import { useContext, useEffect } from 'react';
+import { useParams } from "react-router-dom";
 import { SearchContext } from '../contexts/search-context';
 import SearchResults from '../components/search-results';
 import Header from './header';

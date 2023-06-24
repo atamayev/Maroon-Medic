@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from 'react'
+import {useEffect, useState, useContext} from 'react'
 import { VerifyContext } from '../../../contexts/verify-context';
 import { NonPatientAccess } from '../../../components/user-type-unauth';
 import { invalidUserAction } from '../../../custom-hooks/user-verification-snippets';

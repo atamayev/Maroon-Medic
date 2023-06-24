@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext} from 'react';
+import { useState, useEffect, useContext} from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { useNavigate, useLocation } from "react-router-dom";
 import { VerifyContext } from '../../contexts/verify-context';

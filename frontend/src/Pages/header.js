@@ -1,4 +1,4 @@
-import React, {useCallback, useState, useEffect, useContext } from 'react'
+import {useCallback, useState, useEffect, useContext } from 'react'
 import {Dropdown} from "react-bootstrap";
 import {useLocation} from "react-router-dom";
 import logo from "../images/logo.svg"

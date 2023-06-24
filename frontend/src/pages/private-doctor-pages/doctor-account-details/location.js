@@ -1,7 +1,7 @@
 import "react-toggle/style.css"
 import Toggle from 'react-toggle'
 import TimePicker from 'react-time-picker'
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {Card, Accordion, Form, Button, Container, Row, Col} from 'react-bootstrap';
 import "../../../styles/location.css"
 import FormGroup from "../../../components/form-group";

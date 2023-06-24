@@ -1,6 +1,6 @@
 import _ from "lodash"
 import moment from 'moment'
-import React, { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Card, Button, Modal  } from 'react-bootstrap'
 import { VerifyContext } from '../../../contexts/verify-context'
 import { NonPatientAccess } from '../../../components/user-type-unauth'
@@ -69,7 +69,7 @@ export default function MyPets() {
           const storedPetData = sessionStorage.getItem("PatientPetData");
           if (storedPetData) setSavedPetData(JSON.parse(storedPetData));
           else fetchPetData(setSavedPetData);
-        
+
           const storedPetTypes = sessionStorage.getItem("PetTypes");
           if (storedPetTypes) setPetTypes(JSON.parse(storedPetTypes));
           else FillPetTypes(setPetTypes);

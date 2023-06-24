@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {useNavigate} from "react-router-dom";
 import { VerifyContext } from '../../contexts/verify-context.js';
 import NewAccountForm from '../../components/new-account-form.js';

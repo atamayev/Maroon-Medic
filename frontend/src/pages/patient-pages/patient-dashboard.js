@@ -1,6 +1,6 @@
 import _ from "lodash"
 import moment from 'moment';
-import React, {useEffect, useState, useContext} from 'react'
+import {useEffect, useState, useContext} from 'react'
 import {Card, Badge , Tooltip } from 'react-bootstrap';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import { VerifyContext } from '../../contexts/verify-context.js';
