@@ -12,7 +12,6 @@ export const useConfirmNotLoggedIn = () => {
     }, [userType, navigate])
 };
 
-
 export const invalidUserAction = (responseData) => {
     if (responseData.shouldRedirect) {
         sessionStorage.clear();

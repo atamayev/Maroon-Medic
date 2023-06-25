@@ -177,13 +177,13 @@ export default new class FetchDoctorAccountData {
 
         try {
             const [results] = await connection.execute(sql, values);
-            if (_.isEmpty(results)) return {Description: ''};
+            if (_.isEmpty(results)) return ('');
             else {
-                const Description = results[0]
+                const Description = results[0].Description
                 return (Description);
             }
         } catch(error) {
-            return {Description: ''};
+            return ('');
         }
     };
 

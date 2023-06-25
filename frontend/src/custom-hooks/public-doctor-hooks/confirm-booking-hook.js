@@ -18,6 +18,6 @@ export async function confirmBooking(navigate, selectedService, selectedLocation
         navigate('/patient-dashboard');
       }
     } catch(error) {
-      if (error.response.status === 401) invalidUserAction(error.response.data)
+      // if (error.response.status === 401) invalidUserAction(error.response.data)
     }
 };

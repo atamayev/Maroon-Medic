@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { useNavigate, useLocation } from "react-router-dom";
 import { NonPatientAccess } from '../../components/user-type-unauth';
-import { confirmBooking } from '../../custom-hooks/public-doctor-hooks/confirm-booking';
+import { confirmBooking } from '../../custom-hooks/public-doctor-hooks/confirm-booking-hook';
 import useSimpleUserVerification from '../../custom-hooks/use-simple-user-verification';
 import Header from '../header';
 

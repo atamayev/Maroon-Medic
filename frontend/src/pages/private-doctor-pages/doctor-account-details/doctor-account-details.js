@@ -55,13 +55,10 @@ async function FillDoctorAccountDetails(
       if (response.data.preVetEducation) setPreVetEducation(response.data.preVetEducation);
       if (response.data.vetEducation) setVetEducation(response.data.vetEducation);
       if (response.data.addressData) setAddresses(response.data.addressData);
-      if (response.data.descriptionData && !_.isEmpty(Object.keys(response.data.descriptionData))) {
-        setDescription(response.data.descriptionData);
-      }
+      if (response.data.description) setDescription(response.data.description);
       if (response.data.servicedPets) {
         setServicedPets(response.data.servicedPets)
         setExpandedPetTypes(response.data.servicedPets.map(pet =>pet.pet_type));
-        //Somehow set pictures.
       }
       if (response.data.publiclyAvailable[0].PubliclyAvailable) setPubliclyAvailable(response.data.publiclyAvailable[0].PubliclyAvailable);
       if (response.data.pictures) ; //set pictures;
@@ -139,21 +136,19 @@ export default function DoctorAccountDetails() {
   
   const [addresses, setAddresses] = useState(DoctorAccountDetails?.addressData ||[{ address_priority: 0, addressesID: 0, address_title: '', address_line_1  : '', address_line_2: '', city: '', state: '', zip: '', country: '', phone_priority: 0, phone: '', address_public_status: 1, instant_book: 0, times:[]}]);
   
-  const [description, setDescription] = useState(DoctorAccountDetails?.descriptionData || {});
+  const [description, setDescription] = useState(DoctorAccountDetails?.description || '');
   
   const [servicedPets, setServicedPets] = useState(DoctorAccountDetails?.servicedPets || []);
   const [expandedPetTypes, setExpandedPetTypes] = useState([]);
   
   const [publiclyAvailable, setPubliclyAvailable] = useState(DoctorAccountDetails?.publiclyAvailable[0]?.PubliclyAvailable || 0);
   const verified = DoctorAccountDetails?.publiclyAvailable[0].Verified || [];
-
-  const currentYear = new Date().getFullYear();
-  
+ 
   const [timeState, setTimeState] = useState({
-    startMonth: 'January', 
-    endMonth: 'January', 
-    startYear: currentYear, 
-    endYear: currentYear,
+    startMonth: '', 
+    endMonth: '', 
+    startYear: '', 
+    endYear: '',
   });
   
   useDoctorAccountDetails(userType, setListDetails, setSpokenLanguages, setProvidedServices, setExpandedCategories, setDoctorSpecialties, setPreVetEducation, setVetEducation, setAddresses, setDescription, setServicedPets, setExpandedPetTypes, setPubliclyAvailable);

@@ -33,7 +33,7 @@ export async function returnDoctorPageData (req, res) {
         response.doctorPreVetEducation     = await FetchDoctorAccountData.fetchPreVetEducation(DoctorID);
         response.doctorVetEducation        = await FetchDoctorAccountData.fetchVetEducation(DoctorID);
         response.doctorAddressData         = await FetchPublicDoctorData.fetchDoctorAddressData(DoctorID);
-        response.doctorDescriptionData     = await FetchDoctorAccountData.fetchDescriptionData(DoctorID);
+        response.description               = await FetchDoctorAccountData.fetchDescriptionData(DoctorID);
         //response.doctorPictures            = await FetchDoctorAccountData.fetchDoctorPictures(DoctorID);
         response.doctorPersonalInfo        = await FetchPublicDoctorData.fetchDoctorPersonalInfo(DoctorID);
         response.doctorPersonalInfo['NVI'] = NVI;

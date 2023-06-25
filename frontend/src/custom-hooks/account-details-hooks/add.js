@@ -44,15 +44,14 @@ export const handleAddPreVetEducation = (
   }
   setPreVetEducation([...preVetEducation, selectedEducationObj]);
 
-  const currentYear = new Date().getFullYear();
   setSelectedPreVetSchool('');
   setSelectedMajor('');
   setSelectedPreVetEducationType('');
   setTimeState({
-    startMonth: 'January', 
-    endMonth: 'January', 
-    startYear: currentYear, 
-    endYear: currentYear,
+    startMonth: '', 
+    endMonth: '', 
+    startYear: '', 
+    endYear: '',
   });
   return selectedEducationObj
 };
@@ -82,10 +81,10 @@ export const handleAddVetEducation = (
   setSelectedVetSchool('');
   setSelectedVetEducationType('');
   setTimeState({
-    startMonth: 'January', 
-    endMonth: 'January', 
-    startYear: currentYear, 
-    endYear: currentYear,
+    startMonth: '', 
+    endMonth: '', 
+    startYear: '', 
+    endYear: '',
   });
   return selectedEducationObj
 };

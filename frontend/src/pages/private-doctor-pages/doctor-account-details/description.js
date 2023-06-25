@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Button, Form } from "react-bootstrap";
 import FormGroup from '../../../components/form-group.js';
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message.js";
@@ -19,28 +19,26 @@ export default function RenderDescriptionSection (props) {
 
 function RenderIsDescription(props) {
   const { description, setDescription } = props;
-  const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(description.length >= 1000);
+  const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false);
   const [descriptionConfirmation, setDescriptionConfirmation] = useConfirmationMessage();
   
+  useEffect(() => {
+    if (description || description === "") setIsDescriptionOverLimit(description.length >= 1000)
+  }, [description])
+
   const counterStyleLimit = () => {
     if (isDescriptionOverLimit) return {color: 'red'}
     return {color: 'black'}
-  }
-
-  const renderCharacterLimitFraction = () => {
-    if (!description.Description) return <>0</>
-    return <>{description.Description.length}</>
   }
 
   const renderDescriptionInput = () => {
     return (
       <FormGroup
         id = "Description" 
-        value = {description.Description} 
+        value = {description} 
         onChange = {event => {
           const value = event.target.value;
-          setDescription({Description: value});
-          setIsDescriptionOverLimit(value.length >= 1000);
+          setDescription(value);
         }}
         maxLength = {1000} // limit to 1000 characters
         as = "textarea" 
@@ -52,7 +50,7 @@ function RenderIsDescription(props) {
   const renderCharacterLimit = () => {
     return (
       <div style = {counterStyleLimit()}>
-        Character Limit: {renderCharacterLimitFraction()} / 1000
+        Character Limit: {description.length} / 1000
       </div>
     )
   }
@@ -63,7 +61,8 @@ function RenderIsDescription(props) {
         variant = "success" 
         onClick = {() => saveDescription(description, setDescriptionConfirmation)}
       >
-      Save</Button>
+        Save
+      </Button>
     )
   }
 

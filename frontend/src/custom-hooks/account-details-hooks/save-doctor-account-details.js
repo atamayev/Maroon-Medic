@@ -235,19 +235,19 @@ export async function saveLocation (addresses, setAddresses, setAddressesConfirm
 
 export async function saveDescription(description, setDescriptionConfirmation) {
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  const savedDescriptionData = DoctorAccountDetails.descriptionData.Description;
+  const savedDescriptionData = DoctorAccountDetails.description;
 
   let shouldSave = false;
 
-  if (_.isEmpty(savedDescriptionData) && _.isEmpty(description.Description)) {
+  if (_.isEmpty(savedDescriptionData) && _.isEmpty(description)) {
     // Case where both arrays are empty
     setDescriptionConfirmation({messageType: 'none'});
     return;
   }
 
   if (!savedDescriptionData || _.isEmpty(savedDescriptionData)) {
-    shouldSave = !_.isEmpty(description.Description);
-  } else if (description.Description !== savedDescriptionData) {
+    shouldSave = !_.isEmpty(description);
+  } else if (description !== savedDescriptionData) {
     shouldSave = true;
   } else {
     setDescriptionConfirmation({messageType: 'same'});
@@ -257,7 +257,7 @@ export async function saveDescription(description, setDescriptionConfirmation) {
     try {
       const response = await PrivateDoctorDataService.saveDescriptionData(description);
       if (response.status === 200) {
-        DoctorAccountDetails.descriptionData = description;
+        DoctorAccountDetails.description = description;
         sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
         setDescriptionConfirmation({messageType: 'saved'});
       }

@@ -234,7 +234,7 @@ export async function fetchAccountDetails (req, res) {
         response.preVetEducation   = await FetchDoctorAccountData.fetchPreVetEducation(DoctorID);
         response.vetEducation      = await FetchDoctorAccountData.fetchVetEducation(DoctorID);
         response.addressData       = await FetchDoctorAccountData.fetchDoctorAddressData(DoctorID);
-        response.descriptionData   = await FetchDoctorAccountData.fetchDescriptionData(DoctorID);
+        response.description       = await FetchDoctorAccountData.fetchDescriptionData(DoctorID);
         response.servicedPets      = await FetchDoctorAccountData.fetchServicedPets(DoctorID);
         response.publiclyAvailable = await FetchDoctorAccountData.fetchPubliclyAvailable(DoctorID);
         //response.pictures          = await FetchDoctorAccountData.fetchDoctorPictures(DoctorID);

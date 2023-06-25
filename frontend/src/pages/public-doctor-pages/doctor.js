@@ -22,7 +22,7 @@ export default function Doctor () {
   const [preVetEducation, setPreVetEducation] = useState([]);
   const [vetEducation, setVetEducation] = useState([]);
   const [addresses, setAddresses] = useState([{ address_priority: 0, addressesID: 0, address_title: '', address_line_1  : '', address_line_2: '', city: '', state: '', zip: '', country: '', phone_priority: 0, phone: '', address_public_status: 1, instant_book: 0, times:[]}]);
-  const [description, setDescription] = useState({});
+  const [description, setDescription] = useState('');
   const [personalData, setPersonalData] = useState({});
   
   if (Number(id)) id = Number(id)
@@ -37,7 +37,7 @@ export default function Doctor () {
         if (response.data.doctorPreVetEducation) setPreVetEducation(response.data.doctorPreVetEducation);
         if (response.data.doctorVetEducation) setVetEducation(response.data.doctorVetEducation);
         if (response.data.doctorAddressData) setAddresses(response.data.doctorAddressData);
-        if (response.data.doctorDescriptionData && !_.isEmpty(Object.keys(response.data.doctorDescriptionData))) setDescription(response.data.doctorDescriptionData);
+        if (response.data.description) setDescription(response.data.description);
         if (response.data.doctorPictures) ;// Somehow set pictures.
         if (response.data.doctorPersonalInfo) setPersonalData(response.data.doctorPersonalInfo);
       }

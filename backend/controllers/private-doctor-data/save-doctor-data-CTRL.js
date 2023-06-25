@@ -99,7 +99,7 @@ export async function saveDescriptionData (req, res) {
     } catch(error) {
         return res.status(400).json();
     }
-    const values1 = [description.Description, DoctorID];
+    const values1 = [description, DoctorID];
 
     if (_.isEmpty(results)) {// if no results, then insert.
         const sql1 = `INSERT INTO ${descriptions} (Description, Doctor_ID) VALUES (?, ?)`;
