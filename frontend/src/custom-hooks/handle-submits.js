@@ -74,7 +74,8 @@ export const handleNewUserSubmit = async ({
             if (VetOrPatient === 'Vet') response = await PrivateDoctorDataService.addingDoctorInfo(newInfo);
             else if (VetOrPatient === 'Patient') response = await PrivatePatientDataService.addingPatientInfo(newInfo);
             if (response.status === 200) {
-                sessionStorage.setItem(`${VetOrPatient}PersonalInfo`, JSON.stringify(newInfo))
+                if (VetOrPatient === 'Vet') sessionStorage.setItem('DoctorPersonalInfo', JSON.stringify(newInfo))
+                else if (VetOrPatient === 'Patient') sessionStorage.setItem('PatientPersonalInfo', JSON.stringify(newInfo))
                 if ((sessionStorage.getItem('bookingDetails') !== null) && VetOrPatient === 'Patient') {
                     let bookingDetails;
                     try {
