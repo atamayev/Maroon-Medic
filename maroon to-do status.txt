@@ -2,15 +2,14 @@ To-do:
 
 
 ASAP:
-- appointment date not saving properly in DB
 - if patient not logged in when making appointment, and then logs in, should be re-directed to finish appt
+	same for registration
 -in edudcation time, make the default selection be: choose a year, month. make it disabled. make the add button only appear when it is selected
 -see if can change the format of description. currently in acct details, need to do:
 	        if (response.data.descriptionData && !_.isEmpty(Object.keys(response.data.descriptionData))) {
           setDescription(response.data.descriptionData);
           if (response.data.descriptionData.Description.length === 1000) setIsDescriptionOverLimit(true);
         }
--further simplicciation of location.js, pets.js needed
 
 -when deleting, make all of teh parts of the account details require a delete confirmation. change the X delete button to red. when press delete, should plit into 2 buttons- confirm delete, or nevermind
 

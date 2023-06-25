@@ -61,7 +61,7 @@ export const handleRegisterSubmit = async ({
 export const handleNewUserSubmit = async ({
     e,
     newInfo, 
-    navigate, 
+    navigate,
     setError, 
     setLoading, 
     VetOrPatient
@@ -74,6 +74,7 @@ export const handleNewUserSubmit = async ({
             if (VetOrPatient === 'Vet') response = await PrivateDoctorDataService.addingDoctorInfo(newInfo);
             else if (VetOrPatient === 'Patient') response = await PrivatePatientDataService.addingPatientInfo(newInfo);
             if (response.status === 200) {
+                sessionStorage.setItem(`${VetOrPatient}PersonalInfo`, JSON.stringify(newInfo))
                 if ((sessionStorage.getItem('bookingDetails') !== null) && VetOrPatient === 'Patient') {
                     let bookingDetails;
                     try {

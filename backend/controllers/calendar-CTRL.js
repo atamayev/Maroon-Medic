@@ -48,23 +48,24 @@ export async function makeAppointment(req, res) {
     // Combine date and time into a single string
     const dateTimeStr = `${dateStr} ${timeStr}`;
 
-    // Parse the dateTimeStr into a Date object
-    const dateTime = new Date(dateTimeStr);
+    const dateTimeStrFormatted = dateTimeStr.split(", ").slice(1).join(" ");
 
-    // Format the Date object into MySQL DATETIME format
-    const mysqlDateTime = dateTime.toISOString().slice(0, 19).replace('T', ' ');
+    // Create a new Dayjs object from the string
+    const dateTime = dayjs(dateTimeStrFormatted);
+    
+    // Format the Dayjs object into MySQL DATETIME format
+    const mysqlDateTime = dateTime.format('YYYY-MM-DD HH:mm:ss');
 
     const sql2 = `INSERT INTO ${Appointments}
         (appointment_date, patient_message, Doctor_confirmation_status, Service_and_category_list_ID, Patient_ID, Doctor_ID, Addresses_ID, Created_at) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
     const values2 = [mysqlDateTime, null, AppointmentObject.InstantBook, AppointmentObject.Service_and_category_list_ID, PatientID, DoctorID, AppointmentObject.AddressesID, createdAt];
-      
+
     await DB_Operation(makeAppointment.name, Appointments)
     try {
         await connection.execute(sql2, values2)
         return res.status(200).json();
     } catch(error) {
-        console.log(error)
         return res.status(500).json(error);
     }
 };

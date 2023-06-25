@@ -1,38 +1,37 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {useNavigate} from "react-router-dom";
+import { VerifyContext } from '../../contexts/verify-context.js';
 import NewAccountForm from '../../components/new-account-form.js';
 import {handleNewUserSubmit} from "../../custom-hooks/handle-submits.js"
 import { invalidUserAction } from '../../custom-hooks/user-verification-snippets.js';
 import PrivatePatientDataService from '../../services/private-patient-data-service.js';
-import useSimpleUserVerification from '../../custom-hooks/use-simple-user-verification.js';
 import Header from '../header.js';
-
-const verifyNewPatient = async (userType, navigate) => {
-  if (userType === 'Patient') {
-    try {
-      const patientResult = await PrivatePatientDataService.newPatientConfirmation();
-      if (patientResult.data === false) navigate('/patient-register');
-    } catch (error) {
-      if (error.response.status === 401) invalidUserAction(error.response.data);
-    }
-  } else if (userType === 'Doctor') {
-    navigate(`/vet-dashboard`);
-  } else {
-    navigate('/patient-register');
-  }
-};
 
 export default function NewPatient () {
   const [newPatientInfo, setNewPatientInfo] = useState({});
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
-  const { userType } = useSimpleUserVerification();
+  const {userVerification} = useContext(VerifyContext);
   const navigate = useNavigate();
+  
+  const verifyNewPatient = async () => {
+    const result = await userVerification();
+    if (result.verified === true && result.userType === 'Patient') {
+      try {
+        const patientResult = await PrivatePatientDataService.newPatientConfirmation();
+        if (patientResult.data === false) navigate('/patient-register');
+      } catch (error) {
+        if (error.response.status === 401) invalidUserAction(error.response.data);
+      }
+    } 
+    else if (result.verified === true && result.userType === 'Doctor') navigate(`/vet-dashboard`);
+    else navigate('/patient-register');
+  }
 
   useEffect(() => {
-    verifyNewPatient(userType, navigate);
-  }, [userType, navigate]);
-
+    verifyNewPatient();
+  }, []);
+  
   return (
     <>
       <Header/>

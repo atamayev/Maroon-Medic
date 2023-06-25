@@ -33,21 +33,21 @@ export const renderLastNameSection = (personalInfo, setPersonalInfo) => {
 }
 
 export const renderGenderSection = (personalInfo, setPersonalInfo) => {
-    return (
-      <FormGroup
-        as = "select"
-        id = "Gender"
-        label = "Gender:"
-        required = {true}
-        value = {personalInfo.Gender}
-        onChange = {(event) => setPersonalInfo({...personalInfo, Gender: event.target.value})}
-      >
-        <option value = "" disabled>Select</option>
-        <option value = "male">Male</option>
-        <option value = "female">Female</option>
-        <option value = "other">Other</option>
-      </FormGroup>
-    )
+  return (
+    <FormGroup
+      as = "select"
+      id = "Gender"
+      label = "Gender:"
+      required = {true}
+      value = {personalInfo.Gender || ""}
+      onChange = {(event) => setPersonalInfo({...personalInfo, Gender: event.target.value})}
+    >
+      <option value = "" disabled>Select</option>
+      <option value = "female">Female</option>
+      <option value = "male">Male</option>
+      <option value = "other">Other</option>
+    </FormGroup>
+  )
 }
 
 const renderSelectMonth = (personalInfo, setPersonalInfo) => {

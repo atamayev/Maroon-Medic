@@ -3,7 +3,7 @@ import PrivateDoctorDataService from "../services/private-doctor-data-service";
 import PrivatePatientDataService from "../services/private-patient-data-service";
 import { invalidUserAction } from "./user-verification-snippets";
 
-export async function fetchPersonalInfoData(setPersonalInfo, userType) {
+async function fetchPersonalInfoData(setPersonalInfo, userType) {
     if (userType === 'Doctor' || userType === 'Patient') {
         try {
             let response;
@@ -69,5 +69,4 @@ export function usePersonalInfo(userType) {
     }, [userType]);
   
     return {personalInfo, setPersonalInfo};
-  }
-  
+}
