@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { useState } from "react";
 import { Card, Button } from "react-bootstrap";
-import { handleAddPreVetEducation } from "../../../custom-hooks/account-details-hooks/add";
+import { handleAddEducation } from "../../../custom-hooks/account-details-hooks/add";
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
 import { savePreVetEducation } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details";
 import EducationTime from "./education-time";
@@ -26,7 +26,8 @@ function RenderIsPreVetEducation(props) {
   const { listDetails, timeState, setTimeState, preVetEducation, setPreVetEducation } = props;
   const [preVetEducationConfirmation, setPreVetEducationConfirmation] = useConfirmationMessage();
 
-  const allChoicesFilled = selectedPreVetSchool && selectedMajor && selectedPreVetEducationType;
+  const allChoicesFilled = selectedPreVetSchool && selectedMajor && selectedPreVetEducationType &&
+    timeState.startMonth && timeState.endMonth && timeState.startYear && timeState.endYear;
 
   if (_.isEmpty(_.uniq(listDetails.preVetSchools?.map((item) => item.School_name)))) return <p> Loading... </p>
 
@@ -77,7 +78,6 @@ function RenderIsPreVetEducation(props) {
   const renderSelectEducationType = () => {
     return (
       <div>
-        {selectedMajor && (
           <>
             <label htmlFor = "education-type">Select a Type of Education: </label>
             <select
@@ -95,7 +95,6 @@ function RenderIsPreVetEducation(props) {
                 ))}
             </select>
           </>
-        )}
       </div>
     )
   }
@@ -103,12 +102,10 @@ function RenderIsPreVetEducation(props) {
   const renderEducationTime = () => {
     return (
       <>
-        {allChoicesFilled &&
-          <EducationTime 
-            timeState = {timeState}
-            setTimeState = {setTimeState}
-          />
-        }
+        <EducationTime 
+          timeState = {timeState}
+          setTimeState = {setTimeState}
+        />
       </>
     )
   }
@@ -118,26 +115,26 @@ function RenderIsPreVetEducation(props) {
       <>
         <Button 
           onClick = {() => {
-            const selectedEducationObj = handleAddPreVetEducation(
-              selectedPreVetSchool, 
-              selectedMajor, 
-              selectedPreVetEducationType, 
-              preVetEducation, 
-              setPreVetEducation, 
-              setSelectedPreVetSchool, 
-              setSelectedMajor, 
-              setSelectedPreVetEducationType, 
+            const selectedEducationObj = handleAddEducation(
+              selectedPreVetSchool,
+              setSelectedPreVetSchool,
+              selectedPreVetEducationType,
+              setSelectedPreVetEducationType,
+              preVetEducation,
+              setPreVetEducation,
               timeState,
-              setTimeState
-              )
-              savePreVetEducation (
-                selectedEducationObj,
+              setTimeState,
+              selectedMajor,
+              setSelectedMajor
+            );
+            savePreVetEducation (
+              selectedEducationObj,
               preVetEducation,
               setPreVetEducation,
               listDetails,
               setPreVetEducationConfirmation,
               'add'
-              )
+            )
           }}
         >
           Add
@@ -151,20 +148,23 @@ function RenderIsPreVetEducation(props) {
       <ul>
         {preVetEducation.map((pre_vet_education) => (
           <li key = {pre_vet_education.pre_vet_education_mappingID}>
-            {pre_vet_education.School_name}, {pre_vet_education.Education_type} in {pre_vet_education.Major_name}{": "}{pre_vet_education.Start_Date} --- {pre_vet_education.End_Date} 
-            <Button onClick = {() =>
-              savePreVetEducation(
-                pre_vet_education.pre_vet_education_mappingID, 
-                preVetEducation, 
-                setPreVetEducation,
-                listDetails, 
-                setPreVetEducationConfirmation,
-                'delete'
-              )}
-            >
-              X
-            </Button>
-          </li>
+            {pre_vet_education.School_name}, {pre_vet_education.Education_type} in {pre_vet_education.Major_name}
+              {" ("}{pre_vet_education.Start_Date} - {pre_vet_education.End_Date} {")"}
+                <Button 
+                  variant = "danger"
+                  onClick = {() =>
+                  savePreVetEducation(
+                    pre_vet_education.pre_vet_education_mappingID, 
+                    preVetEducation, 
+                    setPreVetEducation,
+                    listDetails, 
+                    setPreVetEducationConfirmation,
+                    'delete'
+                  )}
+                  >
+                  Delete
+                </Button>
+              </li>
         ))}
       </ul>
     )
@@ -180,7 +180,7 @@ function RenderIsPreVetEducation(props) {
       </span>
     )
   }
-  
+
   return (
     <>
       {renderSelectSchool()}
@@ -193,7 +193,7 @@ function RenderIsPreVetEducation(props) {
         renderSelectEducationType()
       }
 
-      {allChoicesFilled && 
+      {selectedPreVetEducationType && 
         renderEducationTime()
       }
 

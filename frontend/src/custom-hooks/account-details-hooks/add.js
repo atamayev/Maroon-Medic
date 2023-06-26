@@ -1,5 +1,6 @@
 import { savePatientLanguages } from "./save-patient-account-details";
 import { saveDoctorLanguages, saveSpecialies } from "./save-doctor-account-details";
+import moment from "moment";
 
 export const handleAddLanguage = (selectedLanguageID, spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, doctorOrPatient) => {
   let selectedLanguage;
@@ -20,74 +21,42 @@ export const handleAddSpecialty = (selectedSpecialtyID, doctorSpecialties, setDo
   saveSpecialies(selectedSpecialtyID, newDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation, 'add')
 };
 
-export const handleAddPreVetEducation = (
-  selectedPreVetSchool, 
-  selectedMajor, 
-  selectedPreVetEducationType, 
-  preVetEducation, 
-  setPreVetEducation, 
-  setSelectedPreVetSchool, 
-  setSelectedMajor, 
-  setSelectedPreVetEducationType,
-  timeState, 
-  setTimeState
-  ) => {
-  if (!timeState.startMonth) timeState.startMonth = 'January'
-  if (!timeState.endMonth) timeState.endMonth = 'January'
-  
+export const handleAddEducation = (
+  selectedSchool,
+  setSelectedSchool,
+  selectedEducationType,
+  setSelectedEducationType,
+  educationArray,
+  setEducationArray,
+  timeState,
+  setTimeState,
+  selectedMajor = null,
+  setSelectedMajor = null
+) => {
   const selectedEducationObj = {
-    School_name: selectedPreVetSchool, 
-    Education_type:selectedPreVetEducationType,
-    Major_name: selectedMajor,
-    Start_Date: `${timeState.startYear}-${timeState.startMonth}-1`,
-    End_Date: `${timeState.endYear}-${timeState.endMonth}-1`,
-  }
-  setPreVetEducation([...preVetEducation, selectedEducationObj]);
+    School_name: selectedSchool,
+    Education_type: selectedEducationType,
+    Start_Date: moment(`${timeState.startYear}-${timeState.startMonth}-1`,"YYYY-MMMM-D").format("MMMM D, YYYY"),
+    End_Date: moment(`${timeState.endYear}-${timeState.endMonth}-1`,"YYYY-MMMM-D").format("MMMM D, YYYY"),
+  };
+  if (selectedMajor) selectedEducationObj.Major_name = selectedMajor;
 
-  setSelectedPreVetSchool('');
-  setSelectedMajor('');
-  setSelectedPreVetEducationType('');
+  setEducationArray([...educationArray, selectedEducationObj]);
+
+  setSelectedSchool("");
+  setSelectedEducationType("");
   setTimeState({
-    startMonth: '', 
-    endMonth: '', 
-    startYear: '', 
-    endYear: '',
+    startMonth: "",
+    endMonth: "",
+    startYear: "",
+    endYear: "",
   });
-  return selectedEducationObj
+
+  if (setSelectedMajor) setSelectedMajor("");
+
+  return selectedEducationObj;
 };
 
-export const handleAddVetEducation = (
-  selectedVetSchool, 
-  setSelectedVetSchool, 
-  selectedVetEducationType, 
-  setSelectedVetEducationType,
-  vetEducation, 
-  setVetEducation, 
-  timeState, 
-  setTimeState
-  ) => {
-  if (!timeState.startMonth) timeState.startMonth = 'January'
-  if (!timeState.endMonth) timeState.endMonth = 'January'
-  
-  const selectedEducationObj = {
-    School_name: selectedVetSchool, 
-    Education_type: selectedVetEducationType,
-    Start_Date: `${timeState.startYear}-${timeState.startMonth}-1`,
-    End_Date: `${timeState.endYear}-${timeState.endMonth}-1`,
-  }
-  setVetEducation([...vetEducation, selectedEducationObj]);
-  
-  const currentYear = new Date().getFullYear();
-  setSelectedVetSchool('');
-  setSelectedVetEducationType('');
-  setTimeState({
-    startMonth: '', 
-    endMonth: '', 
-    startYear: '', 
-    endYear: '',
-  });
-  return selectedEducationObj
-};
 
 export const handleAddAccordion = (addresses, setAddresses) => {
   let maxPriority = Math.max(...addresses.map(address => address.address_priority));

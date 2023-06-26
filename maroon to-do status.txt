@@ -4,12 +4,8 @@ To-do:
 ASAP:
 - if patient not logged in when making appointment, and then logs in, should be re-directed to finish appt
 	same for registration
+-remove all <br/> tags
 
-CTRL+f: years
-	-in edudcation time, make the default selection be: choose a year, month. make it disabled. make the add button only appear when it is selected
-		delete these lines after making add button only appear when all fields in time object are selected
-		  if (!timeState.startMonth) timeState.startMonth = 'January'
-			if (!timeState.endMonth) timeState.endMonth = 'January'
 -when deleting, make all of teh parts of the account details require a delete confirmation. change the X delete button to red. when press delete, should plit into 2 buttons- confirm delete, or nevermind
 
 -Include the cost in the finalize booking screen

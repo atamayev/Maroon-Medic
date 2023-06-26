@@ -159,7 +159,7 @@ export async function saveVetEducation(vetEducationObject, vetEducation, setVetE
   } else if (operationType === 'add') {
     const mappedVetEducationObject = {
       School_ID: listDetails.vetSchools.find(school => school.School_name === vetEducationObject.School_name)?.vet_school_listID || null,
-      Education_type_ID: listDetails.vetEducationTypes.find(educationType => educationType.Education_Type === vetEducationObject.Education_Type)?.vet_education_typeID || null,
+      Education_type_ID: listDetails.vetEducationTypes.find(educationType => educationType.Education_type === vetEducationObject.Education_type)?.vet_education_typeID || null,
       Start_date: moment(vetEducationObject.Start_Date, "MMMM D, YYYY").format("YYYY-MM-DD"),
       End_date: moment(vetEducationObject.End_Date, "MMMM D, YYYY").format("YYYY-MM-DD")
     };

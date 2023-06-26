@@ -2,7 +2,7 @@ import _ from "lodash"
 import { useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
-import { handleAddVetEducation } from "../../../custom-hooks/account-details-hooks/add";
+import { handleAddEducation } from "../../../custom-hooks/account-details-hooks/add";
 import { saveVetEducation } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details";
 import EducationTime from "./education-time";
 
@@ -26,7 +26,8 @@ function RenderIsVetEducation(props) {
 
   const [vetEducationConfirmation, setVetEducationConfirmation] = useConfirmationMessage();
 
-  const allChoicesFilled = selectedVetSchool && selectedVetEducationType;
+  const allChoicesFilled = selectedVetSchool && selectedVetEducationType && 
+    timeState.startMonth && timeState.endMonth && timeState.startYear && timeState.endYear;
 
   if (_.isEmpty(_.uniq(listDetails.vetSchools?.map((item) => item.School_name)))) return <p>Loading...</p>
 
@@ -77,12 +78,10 @@ function RenderIsVetEducation(props) {
   const renderEducationTime = () => {
     return (
       <>
-        {allChoicesFilled &&
-          <EducationTime 
-            timeState = {timeState}
-            setTimeState = {setTimeState}
-          />
-        }
+        <EducationTime 
+          timeState = {timeState}
+          setTimeState = {setTimeState}
+        />
       </>
     )
   }
@@ -90,16 +89,16 @@ function RenderIsVetEducation(props) {
   const renderAddAndSaveButton = () => {
     return (
       <Button onClick = {() => {
-        const selectedEducationObj = handleAddVetEducation(
-        selectedVetSchool,
-        setSelectedVetSchool, 
-        selectedVetEducationType, 
-        setSelectedVetEducationType,
-        vetEducation, 
-        setVetEducation,
-        timeState,
-        setTimeState
-        )
+        const selectedEducationObj = handleAddEducation(
+          selectedVetSchool,
+          setSelectedVetSchool,
+          selectedVetEducationType,
+          setSelectedVetEducationType,
+          vetEducation,
+          setVetEducation,
+          timeState,
+          setTimeState
+        );
         saveVetEducation (
           selectedEducationObj,
           vetEducation,
@@ -120,18 +119,21 @@ function RenderIsVetEducation(props) {
       <ul>
         {vetEducation.map((vet_education) => (
           <li key = {vet_education.vet_education_mappingID}>
-            {vet_education.School_name}, {vet_education.Education_type}{": "}{vet_education.Start_Date} --- {vet_education.End_Date} 
-            <Button onClick = {() => 
-              saveVetEducation(
-                vet_education.vet_education_mappingID,
-                vetEducation, 
-                setVetEducation,
-                listDetails,
-                setVetEducationConfirmation,
-                'delete'
-              )}
-            >
-              X
+            {vet_education.School_name}, {vet_education.Education_type}
+            {" ("} {vet_education.Start_Date} - {vet_education.End_Date} {")"}
+            <Button 
+              variant = "danger"
+              onClick = {() => 
+                saveVetEducation(
+                  vet_education.vet_education_mappingID,
+                  vetEducation, 
+                  setVetEducation,
+                  listDetails,
+                  setVetEducationConfirmation,
+                  'delete'
+                )}
+              >
+              Delete
             </Button>
           </li>
         ))}
@@ -158,13 +160,12 @@ function RenderIsVetEducation(props) {
         renderSelectEducationType()
       }
 
-      {allChoicesFilled && 
-        (
-          <>
-            {renderEducationTime()}
-            {renderAddAndSaveButton()}
-          </>
-        )
+      {selectedVetEducationType && 
+        renderEducationTime()
+      }
+
+      {allChoicesFilled &&
+        renderAddAndSaveButton()
       }
       
       {renderSavedEducationList()}
