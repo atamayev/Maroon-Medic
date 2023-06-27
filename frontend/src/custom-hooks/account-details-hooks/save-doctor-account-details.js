@@ -296,7 +296,7 @@ export async function handlePublicAvailibilityToggle (value, setPubliclyAvailabl
     const response = await PrivateDoctorDataService.savePublicAvailibility(value);
     if (response.status === 200) {
       setPubliclyAvailable(value);
-      DoctorAccountDetails.publiclyAvailable[0].PubliclyAvailable = value;
+      DoctorAccountDetails.publiclyAvailable = value;
       sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
       setPubliclyAvailableConfirmation({messageType: 'saved'});
     }

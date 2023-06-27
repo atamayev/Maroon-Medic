@@ -39,7 +39,6 @@ export async function returnDoctorPageData (req, res) {
         response.doctorPersonalInfo['NVI'] = NVI;
         return res.status(200).json(response);
     } catch(error) {
-        const emptyResponse = [];
-        return res.status(400).json(emptyResponse);
+        return res.status(400).json([]);
     }
 };

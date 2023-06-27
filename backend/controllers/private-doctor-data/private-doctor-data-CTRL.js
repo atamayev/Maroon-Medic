@@ -228,15 +228,17 @@ export async function fetchAccountDetails (req, res) {
    
     try {
         let response = {};
-        response.languages         = await FetchDoctorAccountData.fetchDoctorLanguages(DoctorID);
-        response.services          = await FetchDoctorAccountData.fetchDoctorServices(DoctorID);
-        response.specialties       = await FetchDoctorAccountData.fetchDoctorSpecialties(DoctorID);
-        response.preVetEducation   = await FetchDoctorAccountData.fetchPreVetEducation(DoctorID);
-        response.vetEducation      = await FetchDoctorAccountData.fetchVetEducation(DoctorID);
-        response.addressData       = await FetchDoctorAccountData.fetchDoctorAddressData(DoctorID);
-        response.description       = await FetchDoctorAccountData.fetchDescriptionData(DoctorID);
-        response.servicedPets      = await FetchDoctorAccountData.fetchServicedPets(DoctorID);
-        response.publiclyAvailable = await FetchDoctorAccountData.fetchPubliclyAvailable(DoctorID);
+        response.languages            = await FetchDoctorAccountData.fetchDoctorLanguages(DoctorID);
+        response.services             = await FetchDoctorAccountData.fetchDoctorServices(DoctorID);
+        response.specialties          = await FetchDoctorAccountData.fetchDoctorSpecialties(DoctorID);
+        response.preVetEducation      = await FetchDoctorAccountData.fetchPreVetEducation(DoctorID);
+        response.vetEducation         = await FetchDoctorAccountData.fetchVetEducation(DoctorID);
+        response.addressData          = await FetchDoctorAccountData.fetchDoctorAddressData(DoctorID);
+        response.description          = await FetchDoctorAccountData.fetchDescriptionData(DoctorID);
+        response.servicedPets         = await FetchDoctorAccountData.fetchServicedPets(DoctorID);
+        const verificationAndPublicAv = await FetchDoctorAccountData.fetchVerifiedAndPubliclyAvailable(DoctorID);
+        response.verified             = verificationAndPublicAv.Verified;
+        response.publiclyAvailable    = verificationAndPublicAv.PubliclyAvailable;
         //response.pictures          = await FetchDoctorAccountData.fetchDoctorPictures(DoctorID);
         return res.status(200).json(response);
     } catch(error) {

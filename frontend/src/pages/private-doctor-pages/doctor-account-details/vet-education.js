@@ -117,10 +117,10 @@ function RenderIsVetEducation(props) {
   const renderSavedEducationList = () => {
     return (
       <ul>
-        {vetEducation.map((vet_education) => (
-          <li key = {vet_education.vet_education_mappingID}>
+        {vetEducation.map((vet_education, index) => (
+          <li key = {index}>
             {vet_education.School_name}, {vet_education.Education_type}
-            {" ("} {vet_education.Start_Date} - {vet_education.End_Date} {")"}
+            {" (" + vet_education.Start_Date} - {vet_education.End_Date + ")"}
             <Button 
               variant = "danger"
               onClick = {() => 

@@ -1,4 +1,3 @@
-import _ from "lodash"
 import { useState, useEffect} from 'react';
 import {useParams} from "react-router-dom";
 import PublicDoctorDataService from '../../services/public-doctor-data-service.js';

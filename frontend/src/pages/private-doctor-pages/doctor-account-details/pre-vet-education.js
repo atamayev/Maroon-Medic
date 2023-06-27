@@ -146,11 +146,11 @@ function RenderIsPreVetEducation(props) {
   const renderSavedEducationList = () => {
     return (
       <ul>
-        {preVetEducation.map((pre_vet_education) => (
-          <li key = {pre_vet_education.pre_vet_education_mappingID}>
+        {preVetEducation.map((pre_vet_education, index) => (
+          <li key = {index}>
             {pre_vet_education.School_name}, {pre_vet_education.Education_type} in {pre_vet_education.Major_name}
               {" ("}{pre_vet_education.Start_Date} - {pre_vet_education.End_Date} {")"}
-                <Button 
+                <Button
                   variant = "danger"
                   onClick = {() =>
                   savePreVetEducation(
@@ -164,7 +164,7 @@ function RenderIsPreVetEducation(props) {
                   >
                   Delete
                 </Button>
-              </li>
+          </li>
         ))}
       </ul>
     )

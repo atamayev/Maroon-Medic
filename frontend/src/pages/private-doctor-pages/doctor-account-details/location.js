@@ -165,7 +165,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
         <span>Public Status:</span>
         <div onClick = {(event) => event.stopPropagation()}>
           <Toggle 
-            id = {address.address_priority} 
+            id = {`${address.address_priority}`} 
             checked = {address.address_public_status === 1} 
             onChange = {() => handlePublicStatusToggleChange(address.address_priority)} 
           />
@@ -180,7 +180,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
         <span>Instant book:</span>
         <div onClick = {(event) => event.stopPropagation()}>
           <Toggle 
-            id = {address.address_priority} 
+            id = {`${address.address_priority}`} 
             checked = {address.instant_book === 1} 
             onChange = {() => handleInstantBookToggleChange(address.address_priority)} 
           />
@@ -298,15 +298,15 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
     return (
       <div className = "col-md-3">
         <FormGroup
-        className = "mb-3"
-        label = "Zip Code"
-        type = "number"
-        placeholder = "Zip Code" 
-        required
-        value = {address.zip}
-        onChange = {handleInputChange}
-        name = "zip"
-      />
+          className = "mb-3"
+          label = "Zip Code"
+          type = "number"
+          placeholder = "Zip Code" 
+          required
+          value = {address.zip}
+          onChange = {handleInputChange}
+          name = "zip"
+        />
       </div>
     )
   }

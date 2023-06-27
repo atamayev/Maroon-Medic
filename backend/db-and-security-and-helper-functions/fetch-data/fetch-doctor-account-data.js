@@ -207,7 +207,7 @@ export default new class FetchDoctorAccountData {
         }
     };
   
-    async fetchPubliclyAvailable (Doctor_ID) {
+    async fetchVerifiedAndPubliclyAvailable (Doctor_ID) {
         const functionName = this.fetchDescriptionData.bind(this).name;
 
         const [Doctor_specific_info] = ['Doctor_specific_info'];
@@ -221,10 +221,10 @@ export default new class FetchDoctorAccountData {
 
         try {
             const [results] = await connection.execute(sql, values);
-            if (_.isEmpty(results)) return [{PubliclyAvailable: false}, {Verified: false}];
-            else return [{PubliclyAvailable: results[0].publiclyAvailable}, {Verified: results[0].publiclyAvailable}];
+            if (_.isEmpty(results)) return {PubliclyAvailable: false, Verified: false};
+            else return {PubliclyAvailable: results[0].publiclyAvailable, Verified: results[0].publiclyAvailable};
         } catch(error) {
-            return [{PubliclyAvailable: false}, {Verified: false}];
+            return {PubliclyAvailable: false, Verified: false};
         }
     };
 
