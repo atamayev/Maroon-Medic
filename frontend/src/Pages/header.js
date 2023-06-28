@@ -105,7 +105,7 @@ const retrieveNameFromStorage = (setHeaderData) => {
 export default function Header (props) {
   const { dropdown, search } = props;
   const location = useLocation();
-  const { userType } = useSimpleUserVerification();
+  const { userType } = useSimpleUserVerification(false);
   const { headerData, setHeaderData } = useSetHeaderData(userType);
   const { searchTerm, setSearchTerm } = useContext(SearchContext);
 

@@ -76,13 +76,12 @@ export const handleNewUserSubmit = async ({
             if (response.status === 200) {
                 if (VetOrPatient === 'Vet') sessionStorage.setItem('DoctorPersonalInfo', JSON.stringify(newInfo))
                 else if (VetOrPatient === 'Patient') sessionStorage.setItem('PatientPersonalInfo', JSON.stringify(newInfo))
-                if ((sessionStorage.getItem('bookingDetails') !== null) && VetOrPatient === 'Patient') {
-                    let bookingDetails;
+                if ((sessionStorage.getItem('bookingDetails')) && VetOrPatient === 'Patient') {
                     try {
-                        bookingDetails = JSON.parse(sessionStorage.getItem('bookingDetails'));
+                        const bookingDetails = JSON.parse(sessionStorage.getItem('bookingDetails'));
+                        navigate('/finalize-booking', { state: bookingDetails });
                     } catch (error) {
                     }
-                    navigate('/finalize-booking', { state: bookingDetails });
                   }
                   else navigate(`/${VetOrPatient.toLowerCase()}-dashboard`)
             } else setError("newUser didn't work");

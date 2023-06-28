@@ -2,8 +2,8 @@ import { useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import useSimpleUserVerification from './use-simple-user-verification';
 
-export const useConfirmNotLoggedIn = () => {
-    const { userType } = useSimpleUserVerification();
+export const useConfirmNotLoggedIn = (clearSession = true) => {
+    const { userType } = useSimpleUserVerification(clearSession);
     const navigate = useNavigate();
 
     useEffect(() => {

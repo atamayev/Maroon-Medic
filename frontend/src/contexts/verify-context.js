@@ -9,16 +9,16 @@ function checkCookie(name) {
 }
 
 const VerifyContextProvider = (props) => {
-  async function userVerification () {
+  async function userVerification (clearSession) {
     try {
       if (!checkCookie('DoctorAccessToken') &&  !checkCookie('PatientAccessToken')) {
-        sessionStorage.clear();
+        if (clearSession) sessionStorage.clear();
         return {
           verified: false
         };
       }
     } catch(error) {
-      sessionStorage.clear();
+      if (clearSession) sessionStorage.clear();
       return {
         verified: false
       };

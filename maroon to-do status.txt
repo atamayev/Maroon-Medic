@@ -3,8 +3,6 @@ To-do:
 
 ASAP:
 -fix all browser warnings in react
-- if patient not logged in when making appointment, and then logs in, should be re-directed to finish appt
-	same for registration
 
 -when deleting, make all of teh parts of the account details require a delete confirmation. change the X delete button to red. when press delete, should plit into 2 buttons- confirm delete, or nevermind
 

@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { useNavigate, useLocation } from "react-router-dom";
 import { NonPatientAccess } from '../../components/user-type-unauth';
-import { confirmBooking } from '../../custom-hooks/public-doctor-hooks/confirm-booking-hook';
 import useSimpleUserVerification from '../../custom-hooks/use-simple-user-verification';
+import { confirmBooking } from '../../custom-hooks/public-doctor-hooks/confirm-booking-hook';
 import Header from '../header';
 
 const handleConfirmBooking = (e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData) => {
@@ -14,7 +14,7 @@ const handleConfirmBooking = (e, navigate, selectedService, selectedLocation, se
 export function FinalizeBookingPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { userType } = useSimpleUserVerification();
+  const { userType } = useSimpleUserVerification(false);
 
   let selectedService, selectedLocation, selectedDay, selectedTime, personalData;
   const sessionBookingDetails = JSON.parse(sessionStorage.getItem('bookingDetails'));
