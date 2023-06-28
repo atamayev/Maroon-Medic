@@ -12,7 +12,7 @@ export const renderFirstNameSection = (personalInfo, setPersonalInfo) => {
         placeholder = "First Name"
         required
         type = "text"
-        value = {personalInfo.FirstName}
+        value = {personalInfo.FirstName || ""}
       />
     )
 }
@@ -27,7 +27,7 @@ export const renderLastNameSection = (personalInfo, setPersonalInfo) => {
         placeholder = "Last Name"
         required
         type = "text"
-        value = {personalInfo.LastName}
+        value = {personalInfo.LastName || ""}
       />
     )
 }
@@ -51,83 +51,83 @@ export const renderGenderSection = (personalInfo, setPersonalInfo) => {
 }
 
 const renderSelectMonth = (personalInfo, setPersonalInfo) => {
-    return (
-      <>
-        <label>
-          Month:
-          <select required defaultValue = "" value = {personalInfo.DOB_month} onChange = {(event) => setPersonalInfo({...personalInfo, DOB_month: event.target.value})}>
-            <option value = "" disabled>
-              Select Month
+  return (
+    <>
+      <label>
+        Month:
+        <select required value = {personalInfo.DOB_month || ""} onChange = {(event) => setPersonalInfo({...personalInfo, DOB_month: event.target.value})}>
+          <option value = "" disabled>
+            Select Month
+          </option>
+          {months.map(month => (
+            <option key = {month} value = {month}>
+              {month}
             </option>
-            {months.map(month => (
-              <option key = {month} value = {month}>
-                {month}
-              </option>
-            ))}
-          </select>
-        </label>
-      </>
-    )
+          ))}
+        </select>
+      </label>
+    </>
+  )
 }
 
 const renderSelectDay = (personalInfo, setPersonalInfo) => {
-    return (
-      <>
-        <label>
-          Day:
-          <select required defaultValue = "" value = {personalInfo.DOB_day} onChange = {(event) => setPersonalInfo({...personalInfo, DOB_day: event.target.value})}>
-            <option value = "" disabled>
-              Select Day
+  return (
+    <>
+      <label>
+        Day:
+        <select required value = {personalInfo.DOB_day || ""} onChange = {(event) => setPersonalInfo({...personalInfo, DOB_day: event.target.value})}>
+          <option value = "" disabled>
+            Select Day
+          </option>
+          {days.map(day => (
+            <option key = {day} value = {day}>
+              {day}
             </option>
-            {days.map(day => (
-              <option key = {day} value = {day}>
-                {day}
-              </option>
-            ))}
-          </select>
-        </label>
-      </>
-    )
+          ))}
+        </select>
+      </label>
+    </>
+  )
 }
 
 const renderSelectYear = (personalInfo, setPersonalInfo) => {
-    return (
-        <>
-        <label>
-            Year:
-            <select required defaultValue = "" value = {personalInfo.DOB_year} onChange = {(event) => setPersonalInfo({...personalInfo, DOB_year: event.target.value})}>
-            <option value = "" disabled>
-                Select Year
+  return (
+    <>
+      <label>
+        Year:
+        <select required value = {personalInfo.DOB_year || ""} onChange = {(event) => setPersonalInfo({...personalInfo, DOB_year: event.target.value})}>
+          <option value = "" disabled>
+            Select Year
+          </option>
+          {birthYears.map(year => (
+            <option key = {year + 1} value = {year + 1}>
+            {year + 1}
             </option>
-            {birthYears.map(year => (
-                <option key = {year + 1} value = {year + 1}>
-                {year + 1}
-                </option>
-            ))}
-            </select>
-        </label>
-        </>
-    )
+          ))}
+        </select>
+      </label>
+    </>
+  )
 }
 
 export const renderDOBSection = (personalInfo, setPersonalInfo) => {
-    return (
-        <div className = 'row mt-3 mb-3'>
-            <Form.Group id = "DOB">
-                {renderSelectMonth(personalInfo, setPersonalInfo)}
-                {renderSelectDay(personalInfo, setPersonalInfo)}
-                {renderSelectYear(personalInfo, setPersonalInfo)}
-            </Form.Group>
-        </div>
-    )
+  return (
+    <div className = 'row mt-3 mb-3'>
+      <Form.Group id = "DOB">
+        {renderSelectMonth(personalInfo, setPersonalInfo)}
+        {renderSelectDay(personalInfo, setPersonalInfo)}
+        {renderSelectYear(personalInfo, setPersonalInfo)}
+      </Form.Group>
+    </div>
+  )
 }
 
 export const renderMessageSection = (personalInfoConfirmation) => {
-    return (
-      <span className = {`fade ${personalInfoConfirmation.messageType ? 'show' : ''}`}>
-        {personalInfoConfirmation.messageType === 'saved' && 'Personal data saved'}
-        {personalInfoConfirmation.messageType === 'same' && 'Same Personal data!'}
-        {personalInfoConfirmation.messageType === 'problem' && 'Problem Saving Personal data!'}
-      </span>
-    )
-  }
+  return (
+    <span className = {`fade ${personalInfoConfirmation.messageType ? 'show' : ''}`}>
+      {personalInfoConfirmation.messageType === 'saved' && 'Personal data saved'}
+      {personalInfoConfirmation.messageType === 'same' && 'Same Personal data!'}
+      {personalInfoConfirmation.messageType === 'problem' && 'Problem Saving Personal data!'}
+    </span>
+  )
+}

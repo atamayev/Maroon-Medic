@@ -79,13 +79,13 @@ export default function MyPets() {
 
   const renderSavedPetDataText = (pet) => {
     return (
-      <Card.Text>
+      <div>
         <p>{pet.Pet}</p>
         <p>Gender: {pet.Gender}</p>
         <p>Date of Birth: {moment(pet.DOB).format('MMMM Do, YYYY')}</p>
         <p>Insurance Name: {pet.insuranceName}</p>
         {/* Add other pet details as needed */}
-      </Card.Text>
+      </div>
     )
   }
 
@@ -130,7 +130,7 @@ export default function MyPets() {
   }
 
   const renderSavedPetData = () => {
-    if (_.isEmpty(savedPetData)) return <></>
+    if (_.isEmpty(savedPetData)) return null
     return (
       <>
         {renderSavedPetDataMap()}
@@ -140,13 +140,14 @@ export default function MyPets() {
   }
 
   const renderShowAddPet = () => {
-    if (showAddPet) return <></>
+    if (showAddPet) return null
     return (
       <>
-        <Button 
+        <Button
           variant = "primary" 
           onClick = {() => {setShowAddPet(true)}}
-        >Add a Pet
+        >
+          Add a Pet
         </Button>
      </>
     )

@@ -2,8 +2,6 @@ To-do:
 
 
 ASAP:
--fix all browser warnings in react
-
 -when deleting, make all of teh parts of the account details require a delete confirmation. change the X delete button to red. when press delete, should plit into 2 buttons- confirm delete, or nevermind
 
 -Include the cost in the finalize booking screen

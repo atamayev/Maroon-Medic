@@ -219,7 +219,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
           type = "text"
           placeholder = "Address Title" 
           required
-          value = {address.address_title}
+          value = {address.address_title || ""}
           onChange = {handleInputChange}
           name = "address_title"
         />
@@ -236,7 +236,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
           type = "text"
           placeholder = "Address line 1" 
           required
-          value = {address.address_line_1}
+          value = {address.address_line_1 || ""}
           onChange = {handleInputChange}
           name = "address_line_1"
         />
@@ -252,7 +252,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
           label = "Address line 2"
           type = "text"
           placeholder = "Address line 2" 
-          value = {address.address_line_2}
+          value = {address.address_line_2 || ""}
           onChange = {handleInputChange}
           name = "address_line_2"
         />
@@ -269,7 +269,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
           type = "text"
           placeholder = "City" 
           required
-          value = {address.city}
+          value = {address.city || ""}
           onChange = {handleInputChange}
           name = "city"
         />
@@ -286,7 +286,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
           type = "text"
           placeholder = "State" 
           required
-          value = {address.state}
+          value = {address.state || ""}
           onChange = {handleInputChange}
           name = "state"
         />
@@ -303,7 +303,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
           type = "number"
           placeholder = "Zip Code" 
           required
-          value = {address.zip}
+          value = {address.zip || ""}
           onChange = {handleInputChange}
           name = "zip"
         />
@@ -320,7 +320,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
           type = "text"
           placeholder = "Country" 
           required
-          value = {address.country}
+          value = {address.country || ""}
           onChange = {handleInputChange}
           name = "country"
         />  
@@ -337,7 +337,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
           type = "number"
           placeholder = "Phone Number" 
           required
-          value = {address.phone}
+          value = {address.phone || ""}
           onChange = {handleInputChange}
           name = "phone"
         />
@@ -353,7 +353,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
     )
   }
 
-  return(
+  return (
     <Accordion.Item eventKey = {address.address_priority} style = {{ marginBottom: '10px' }}>
       {renderAccordionHeader()}
       <Accordion.Body>

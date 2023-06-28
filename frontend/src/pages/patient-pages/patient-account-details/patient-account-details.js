@@ -6,11 +6,7 @@ import Header from '../../header';
 import PatientHeader from '../patient-header'
 import RenderLanguageSection from './language';
 
-function useAccountDetails(userType) {
-  const PatientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails"));
-  const [spokenLanguages, setSpokenLanguages] = useState(PatientAccountDetails?.lanauges || []);
-  const [listDetails, setListDetails] = useState({});
-
+function usePatientAccountDetails(userType, setSpokenLanguages, setListDetails) {
   const fetchAndSetAccountDetails = async () => {
     if (userType === 'Patient') {
       try {
@@ -28,13 +24,14 @@ function useAccountDetails(userType) {
   useEffect(() => {
     fetchAndSetAccountDetails();
   }, [userType]);
-
-  return { spokenLanguages, setSpokenLanguages, listDetails };
 }
 
 export default function PatientAccountDetails() {
   const { userType } = useSimpleUserVerification();
-  const { spokenLanguages, setSpokenLanguages, listDetails } = useAccountDetails(userType);
+  const [listDetails, setListDetails] = useState({});
+  const PatientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails"));
+  const [spokenLanguages, setSpokenLanguages] = useState(PatientAccountDetails?.languages || []);
+  usePatientAccountDetails(userType, setSpokenLanguages, setListDetails);
 
   if (userType !== 'Patient') return <NonPatientAccess/>;
 

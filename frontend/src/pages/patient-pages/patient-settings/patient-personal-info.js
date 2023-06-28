@@ -29,7 +29,7 @@ export default function PatientPersonalInfo() {
             {renderFirstNameSection(personalInfo, setPersonalInfo)}
             {renderLastNameSection(personalInfo, setPersonalInfo)}
             {renderGenderSection(personalInfo, setPersonalInfo)}
-            {renderDOBSection(personalInfo, setPersonalInfo)}
+            {renderDOBSection(personalInfo, setPersonalInfo)} 
             <Button type = "submit" className = "btn btn-primary w-100">Save</Button>
             {renderMessageSection(personalInfoConfirmation)}
           </Form>
