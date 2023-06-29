@@ -128,6 +128,8 @@ export default function RenderBookingSection(props) {
   }
 
   const renderSelectLocation = () => {
+    if (!selectedService) return null;
+
     return (
       <div className = "col-md-6">
         <FormGroup 
@@ -148,6 +150,8 @@ export default function RenderBookingSection(props) {
   }
 
   const renderSelectDay = () => {
+    if (!(selectedService && selectedLocation)) return null;
+
     return (
       <div className = "col-md-6">
         <FormGroup 
@@ -169,6 +173,8 @@ export default function RenderBookingSection(props) {
   }
 
   const renderSelectTime = () => {
+    if (!(selectedService && selectedLocation && selectedDay)) return null;
+
     return (
       <div className = "col-md-6">
         <FormGroup 
@@ -189,6 +195,8 @@ export default function RenderBookingSection(props) {
   }
 
   const renderFinalizeBookingButton = () => {
+    if (!(selectedService && selectedLocation && selectedDay && selectedTime)) return null;
+
     return (
       <Button 
         variant = 'primary' 
@@ -225,34 +233,22 @@ export default function RenderBookingSection(props) {
           <div className = 'row'>
             {renderSelectService()}
 
-            {selectedService && 
-              renderSelectLocation()
-            }
+            {renderSelectLocation()}
           </div>
 
           {renderNoAvailableTimes()}
           
           <div className = 'row'>
-            {selectedService && selectedLocation &&
-              renderSelectDay()
-            }
+            {renderSelectDay()}
 
-            {selectedService && selectedDay && selectedLocation && (
-              renderSelectTime()
-            )}
+            {renderSelectTime()}
           </div>
 
-          {selectedService && selectedLocation && selectedDay && selectedTime && (
-            renderFinalizeBookingButton()
-          )}
+          {renderFinalizeBookingButton()}
         </Card.Body>
       </Card>
     )
   }
 
-  return (
-    <>
-      {renderMakeBooking()}
-    </>
-  )
+  return renderMakeBooking()
 };

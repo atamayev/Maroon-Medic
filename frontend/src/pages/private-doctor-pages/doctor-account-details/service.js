@@ -48,21 +48,19 @@ function RenderIsVetServices (props) {
   }
 
   const renderServices = (category, services) => {
+    if (!(services.length <= 1 || expandedCategories.includes(category))) return null
+     
     return (
       <div>
-        {(services.length <= 1 || expandedCategories.includes(category)) && (
-          <div>
-            {services.map(service => {
-              const selectedService = providedServices.find(s => s.service_and_category_listID === service.service_and_category_listID);
-              return (
-                <div key = {service.service_and_category_listID} style = {{ paddingLeft: '20px' }}>
-                  {renderServiceCheckbox(service, category)}
-                  {renderIsSelectedService(service, selectedService)}
-                </div>
-              )
-            })}
-          </div>
-        )}
+        {services.map(service => {
+          const selectedService = providedServices.find(s => s.service_and_category_listID === service.service_and_category_listID);
+          return (
+            <div key = {service.service_and_category_listID} style = {{ paddingLeft: '20px' }}>
+              {renderServiceCheckbox(service, category)}
+              {renderIsSelectedService(service, selectedService)}
+            </div>
+          )
+        })}
       </div>
     )
   }

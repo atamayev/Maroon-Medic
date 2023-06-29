@@ -24,14 +24,33 @@ function RenderIsVetLanguages(props) {
 
   const renderMessageSection = () => {
     return (
-      <span className = {`fade ${languagesConfirmation.messageType ? 'show' : ''}`}>
+      <div className = {`fade ${languagesConfirmation.messageType ? 'show' : ''}`}>
         {languagesConfirmation.messageType === 'saved' && 'Languages saved!'}
         {languagesConfirmation.messageType === 'same' && 'Same Language data!'}
         {languagesConfirmation.messageType === 'problem' && 'Problem Saving Languages!'}
         {languagesConfirmation.messageType === 'none' && 'No languages selected'}
-      </span>
+      </div>
     )
   }
+
+  const renderChooseLanguage = () => {
+    if (!(_.isArray(listDetails.languages) && !_.isEmpty(listDetails.languages))) return null;
+    
+    return (
+      <>
+        {
+          listDetails.languages
+          .filter((language) => !spokenLanguages.find((spoken) => spoken.language_listID === language.language_listID))
+          .map((language) => (
+            <option key = {language?.language_listID} value = {language?.language_listID}>
+              {language?.Language_name}
+            </option>
+          ))
+        }
+      </>
+    );
+  };
+  
 
   const renderSelectLanguageSection = () => {
     return (
@@ -51,15 +70,7 @@ function RenderIsVetLanguages(props) {
         }
       >
         <option value = "" disabled>Choose a language</option>
-        {_.isArray(listDetails.languages) &&
-          !_.isEmpty(listDetails.languages) &&
-          listDetails.languages
-            .filter((language) => !spokenLanguages.find((spoken) => spoken.language_listID === language.language_listID))
-            .map((language) => (
-              <option key = {language?.language_listID} value = {language?.language_listID}>
-                {language?.Language_name}
-              </option>
-        ))}
+        {renderChooseLanguage()}
       </select>
     )
   }
@@ -134,10 +145,10 @@ function RenderIsVetLanguages(props) {
   }
   
   return(
-    <div>
+    <>
       {renderSelectLanguageSection()}
       {renderSavedLanguageList()}
       {renderMessageSection()}
-    </div>
+    </>
   );
 };

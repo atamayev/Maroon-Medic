@@ -2,10 +2,11 @@ To-do:
 
 
 ASAP:
--break up the renderSelectLanguageSection
+-finalize-booking React browser warning
+-make inputs into service.js only numbers (no negative signs, other symbols)
+wihle the languages saved! message appears, try to delete a language. go into the 'deleting' stage. after the save languages! message disappears, the state of the deleting button reverts to the X
+
 -when deleting, make all of teh parts of the account details require a delete confirmation. change the X delete button to red. when press delete, should plit into 2 buttons- confirm delete, or nevermind
--change doctor dashboard to not be         {status === 'pending' && (. but instead if (status===pending, render)
-	look for all cases of && (
 -Include the cost in the finalize booking screen
 
 --change all front-end select month, day, year into a 'date', like in pets.js
