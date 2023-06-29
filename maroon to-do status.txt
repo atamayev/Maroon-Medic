@@ -2,8 +2,10 @@ To-do:
 
 
 ASAP:
+-break up the renderSelectLanguageSection
 -when deleting, make all of teh parts of the account details require a delete confirmation. change the X delete button to red. when press delete, should plit into 2 buttons- confirm delete, or nevermind
-
+-change doctor dashboard to not be         {status === 'pending' && (. but instead if (status===pending, render)
+	look for all cases of && (
 -Include the cost in the finalize booking screen
 
 --change all front-end select month, day, year into a 'date', like in pets.js

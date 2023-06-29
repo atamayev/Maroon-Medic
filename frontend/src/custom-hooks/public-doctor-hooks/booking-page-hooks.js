@@ -10,30 +10,33 @@ export const handleServiceChange = (event, providedServices, setSelectedService,
     setSelectedTime(null);
   }
 };
-  
-export const handleLocationChange = (event, addresses, setSelectedLocation, setSelectedDay, setSelectedTime) => {
+
+export const handleLocationChange = (event, addresses, setSelectedLocation, setSelectedDay, setSelectedTime, setNoAvailableTimesMessage) => {
   const value = event.target.value;
   const selectedLocationObject = addresses.find(location => location.addressesID.toString() === value);
-  
-  if (_.isEmpty(selectedLocationObject.times)) {
+ 
+  if (value === 'Select...') {
     setSelectedLocation(null);
-    setSelectedDay("This doctor does not currently have any open appointments");
+    setNoAvailableTimesMessage(false);
+    setSelectedDay(null);
     setSelectedTime(null);
-  } else {
-    setSelectedLocation(selectedLocationObject || null);
-    if (value === 'Select...') {
-      setSelectedDay(null);
-      setSelectedTime(null);
-    }
+  } else if (_.isEmpty(selectedLocationObject.times)) {
+    setNoAvailableTimesMessage(true);
+    setSelectedLocation(null);
+    setSelectedTime(null);
+  }
+  else {
+    setNoAvailableTimesMessage(false);
+    setSelectedLocation(selectedLocationObject);
   }
 };
-  
+
 export const handleDayChange = (event, setSelectedDay, setSelectedTime) => {
   const value = event.target.value;
   setSelectedDay(value === 'Select...' ? null : value);
   if (value === 'Select...') setSelectedTime(null);
 };
-  
+
 export const handleTimeChange = (event, setSelectedTime) => {
   const value = event.target.value;
   setSelectedTime(value === 'Select...' ? null : value);

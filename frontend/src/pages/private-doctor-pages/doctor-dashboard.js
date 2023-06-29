@@ -74,37 +74,26 @@ export default function DoctorDashboard() {
   }
 
   const renderPendingAppointment = (status, setStatus) => {
-    return (
-      <>
-        {status === 'pending' && (
-          <Button variant = 'warning' onClick = {() => {setStatus('confirming')}}>Pending approval</Button>
-          )}
-      </>
-    )
+    if (status !== 'pending') return null
+    return <Button variant = 'warning' onClick = {() => {setStatus('confirming')}}>Pending approval</Button>
   }
 
   const renderConfirmedAppointment = (status, setStatus, appointment) => {
+    if (status !== 'confirming') return null
     return (
-      <>
-        {status === 'confirming' && (
-          <div>
-            <Button variant = "success" onClick = {e => approveAppointment(setStatus, appointment.AppointmentsID, dashboardData, setDashboardData)}>Approve Appointment</Button>
-            <Button variant = "danger" onClick = {() => setStatus('pending')}>X</Button>
-          </div>
-        )}
-      </>
+      <div>
+        <Button variant = "success" onClick = {e => approveAppointment(setStatus, appointment.AppointmentsID, dashboardData, setDashboardData)}>Approve Appointment</Button>
+        <Button variant = "danger" onClick = {() => setStatus('pending')}>X</Button>
+      </div>
     )
   }
 
   const renderApprovedAppointment = (status) => {
+    if (status !== 'approved') return null
     return (
-      <>
-        {status === 'approved' && (
-          <Badge pill variant = "success" style = {{ position: 'absolute', top: '10px', right: '10px' }}>
-            Appointment approved
-          </Badge>
-        )}
-      </>
+      <Badge pill variant = "success" style = {{ position: 'absolute', top: '10px', right: '10px' }}>
+        Appointment approved
+      </Badge>
     )
   }
 
@@ -139,7 +128,7 @@ export default function DoctorDashboard() {
 
   const renderUpcomingAppointments = (upcomingAppointments) => {
     if (_.isEmpty(upcomingAppointments)) return <>No upcoming appointments</>
-    return(
+    return (
       <>
         {upcomingAppointments.map((appointment, index) => (
           <UpcomingAppointmentCard key = {index} appointment = {appointment} index = {index} />
@@ -150,7 +139,7 @@ export default function DoctorDashboard() {
 
   const renderPastAppointments = (pastAppointments) => {
     if (_.isEmpty(pastAppointments)) return <>No past appointments</>
-    return(
+    return (
       <>
         {pastAppointments.map((appointment, index) => (
           <PastAppointmentCard key = {index} appointment = {appointment} index = {index} />
@@ -161,34 +150,29 @@ export default function DoctorDashboard() {
 
   const renderUpcomingAppointmentsCard = () => {
     return (
-      <>
-        <Card style = {{margin: '0 10px' }}className = 'mb-3'>
-          <Card.Header>
-            <h1>Upcoming Appointments</h1>
-          </Card.Header>
-          <Card.Body>
-            {renderUpcomingAppointments(upcomingAppointments)}
-          </Card.Body>
-        </Card>
-      </>
+      <Card style = {{margin: '0 10px' }}className = 'mb-3'>
+        <Card.Header>
+          <h1>Upcoming Appointments</h1>
+        </Card.Header>
+        <Card.Body>
+          {renderUpcomingAppointments(upcomingAppointments)}
+        </Card.Body>
+      </Card>
     )
   }
 
   const renderPastAppointmentsCard = () => {
     return (
-      <>
-        <Card style = {{margin: '0 10px' }}>
-          <Card.Header>
-            <h1>Past Appointments</h1>
-          </Card.Header>
-          <Card.Body>
-            {renderPastAppointments(pastAppointments)}
-          </Card.Body>
-        </Card>
-      </>
+      <Card style = {{margin: '0 10px' }}>
+        <Card.Header>
+          <h1>Past Appointments</h1>
+        </Card.Header>
+        <Card.Body>
+          {renderPastAppointments(pastAppointments)}
+        </Card.Body>
+      </Card>
     )
   }
-  
 
   const renderDashboardData = () => {
     if (_.isEmpty(dashboardData)) return <>No upcoming appointments</>

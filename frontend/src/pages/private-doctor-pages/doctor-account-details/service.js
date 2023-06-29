@@ -37,13 +37,13 @@ function RenderIsVetServices (props) {
   
   if (_.isEmpty(_.uniq(listDetails.servicesAndCategories?.map((item) => item.Category_name)))) return <>Loading...</>
 
-  const renderToggleCategory = (category) => {
+  const renderIsSelectedService = (service, selectedService) => {
+    if (!selectedService) return null
     return (
-      <Button 
-        onClick = {() => handleToggleCategory(category, setExpandedCategories)}
-      >
-        Toggle
-      </Button>
+      <>
+        {renderServiceTimeInput(service, selectedService)}
+        {renderServicePriceInput(service, selectedService)}
+      </>
     )
   }
 
@@ -51,23 +51,18 @@ function RenderIsVetServices (props) {
     return (
       <div>
         {(services.length <= 1 || expandedCategories.includes(category)) && (
-            <div>
-              {services.map(service => {
-                const selectedService = providedServices.find(s => s.service_and_category_listID === service.service_and_category_listID);
-                return (
-                  <div key = {service.service_and_category_listID} style = {{ paddingLeft: '20px' }}>
-                    {renderServiceCheckbox(service, category)}
-                    {selectedService && (
-                      <>
-                        {renderServiceTimeInput(service, selectedService)}
-                        {renderServicePriceInput(service, selectedService)}
-                      </>
-                    )}
-                  </div>
-                )
-              })}
-            </div>
-          )}
+          <div>
+            {services.map(service => {
+              const selectedService = providedServices.find(s => s.service_and_category_listID === service.service_and_category_listID);
+              return (
+                <div key = {service.service_and_category_listID} style = {{ paddingLeft: '20px' }}>
+                  {renderServiceCheckbox(service, category)}
+                  {renderIsSelectedService(service, selectedService)}
+                </div>
+              )
+            })}
+          </div>
+        )}
       </div>
     )
   }
@@ -85,7 +80,7 @@ function RenderIsVetServices (props) {
             if (event.target.checked) setProvidedServices([...providedServices, {...service, Service_price: null, Service_time: null}])
             else setProvidedServices(providedServices.filter(servicef => servicef.service_and_category_listID !== service.service_and_category_listID))
           }}
-          />
+        />
         <label htmlFor = {`${category}-${service.service_and_category_listID}`}>{service.Service_name}</label>
       </>
     )
@@ -156,19 +151,21 @@ function RenderIsVetServices (props) {
     )
   }
 
+  const renderToggleCategory = (category, services) => {
+    if (services.length <= 1) return null
+    return <Button onClick = {() => handleToggleCategory(category, setExpandedCategories)}>Toggle</Button>
+  }
+
   return (
     <>
       {Object.entries(categories).map(([category, services]) => (
         <div key = {category} style = {{ marginBottom: '10px' }}>
           <label htmlFor = {category}>{category}</label>
-          {services.length > 1 && 
-            renderToggleCategory(category)
-          }
-
+          {renderToggleCategory(category, services)}
           {renderServices(category, services)}
-
         </div>
       ))}
+
       {renderSaveButton()}
 
       {renderMessageSection()}

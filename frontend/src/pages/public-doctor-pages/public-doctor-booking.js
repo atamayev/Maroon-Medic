@@ -16,6 +16,7 @@ export default function RenderBookingSection(props) {
   const { providedServices, addresses, personalData } = props;
   const [selectedService, setSelectedService] = useState(null);
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const [noAvailableTimesMessage, setNoAvailableTimesMessage] = useState(false);
   const [selectedDay, setSelectedDay] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [availableTimes, setAvailableTimes] = useState([]);
@@ -78,7 +79,7 @@ export default function RenderBookingSection(props) {
   const anyLocationHasTimes = addresses.some(location => location.times && !_.isEmpty(location.times));
 
   if (!anyLocationHasTimes) {
-    return(
+    return (
       <Card className = 'card-bottom-margin'>
         <Card.Header>Ready to make a booking?</Card.Header>
         <Card.Body>
@@ -133,7 +134,7 @@ export default function RenderBookingSection(props) {
           as = 'select' 
           id = 'locationSelect' 
           label = 'Select a location' 
-          onChange = {(e) => handleLocationChange(e, addresses, setSelectedLocation, setSelectedDay, setSelectedTime)}
+          onChange = {(e) => handleLocationChange(e, addresses, setSelectedLocation, setSelectedDay, setSelectedTime, setNoAvailableTimesMessage)}
         >
           <option>Select...</option>
           {addresses.map((address) => (
@@ -162,6 +163,11 @@ export default function RenderBookingSection(props) {
     )
   }
 
+  const renderNoAvailableTimes = () => {
+    if (!noAvailableTimesMessage) return null
+    return <>This doctor does not currently have any open appointments </>
+  }
+
   const renderSelectTime = () => {
     return (
       <div className = "col-md-6">
@@ -184,23 +190,21 @@ export default function RenderBookingSection(props) {
 
   const renderFinalizeBookingButton = () => {
     return (
-      <>
-        <Button 
-          variant = 'primary' 
-          onClick = {(e) => handleBookingClick(
-            e,
-            navigate, 
-            selectedService, 
-            selectedLocation,
-            selectedDay,
-            selectedTime,
-            personalData
-          )}
-          className = 'mt-3'
-        >
-          Click to {renderInstantBook()} an appointment
-        </Button>
-      </>
+      <Button 
+        variant = 'primary' 
+        onClick = {(e) => handleBookingClick(
+          e,
+          navigate, 
+          selectedService, 
+          selectedLocation,
+          selectedDay,
+          selectedTime,
+          personalData
+        )}
+        className = 'mt-3'
+      >
+        Click to {renderInstantBook()} an appointment
+      </Button>
     )
   }
 
@@ -225,6 +229,8 @@ export default function RenderBookingSection(props) {
               renderSelectLocation()
             }
           </div>
+
+          {renderNoAvailableTimes()}
           
           <div className = 'row'>
             {selectedService && selectedLocation &&

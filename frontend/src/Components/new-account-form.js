@@ -7,13 +7,17 @@ export default function NewAccountForm({
     newInfo,
     setNewInfo,
     loading})
-    {
+{
+  const renderErrorMessage = () => {
+    if (!error) return null
+    return <Alert variant = "danger">{error}</Alert>
+  }
 
   return (
     <div>
       <Card>
         <Card.Body>
-          {error && <Alert variant = "danger">{error}</Alert>}
+          {renderErrorMessage()}
           <Form onSubmit = {handleSubmit}>
             {renderFirstNameSection(newInfo, setNewInfo)}
             {renderLastNameSection(newInfo, setNewInfo)}

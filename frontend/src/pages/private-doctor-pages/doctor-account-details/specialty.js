@@ -72,31 +72,29 @@ function RenderIsSpecialty(props) {
   }
 
   const renderSelectSpecialty = () => {
+    if (!selectedOrganization) return null
+
     return (
       <div>
-        {selectedOrganization && (
-          <>
-            <label htmlFor = "specialty">Select a specialty: </label>
-            <select
-              id = "specialty"
-              name = "specialty"
-              value = {""}
-              onChange = {(e) =>
-                handleAddSpecialty(
-                  e.target.value,
-                  doctorSpecialties,
-                  setDoctorSpecialties,
-                  setSelectedOrganization,
-                  listDetails,
-                  setSpecialtiesConfirmation
-                  )
-                }
-                >
-              <option value = "" disabled>Choose a specialty</option>
-              {renderShowSpecificSpecialties()}
-            </select>
-          </>
-        )}
+        <label htmlFor = "specialty">Select a specialty: </label>
+        <select
+          id = "specialty"
+          name = "specialty"
+          value = {""}
+          onChange = {(e) =>
+            handleAddSpecialty(
+              e.target.value,
+              doctorSpecialties,
+              setDoctorSpecialties,
+              setSelectedOrganization,
+              listDetails,
+              setSpecialtiesConfirmation
+              )
+            }
+            >
+          <option value = "" disabled>Choose a specialty</option>
+          {renderShowSpecificSpecialties()}
+        </select>
       </div>
     )
   }
@@ -116,7 +114,9 @@ function RenderIsSpecialty(props) {
                   setSelectedOrganization, 
                   setSpecialtiesConfirmation
                 )}
-            >X</Button>
+            >
+              X
+            </Button>
           </li>
         ))}
       </ul>

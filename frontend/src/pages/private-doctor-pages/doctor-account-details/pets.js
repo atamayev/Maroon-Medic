@@ -41,41 +41,44 @@ function RenderIsPets (props) {
       </span>
     )
   }
+  
+  const isTogglePetType = (pets, pet_type) => {
+    if (pets.length <= 1) return null;
+    return <Button onClick = {() => handleTogglePetType(pet_type, setExpandedPetTypes)}>Toggle</Button>
+  }
 
-  const renderShowPetsSection = (pet_type, pets) => {
+  const renderShowPetsSection = (pets, pet_type) => {
+    if (pets.length > 1 && !expandedPetTypes.includes(pet_type)) return null;
+
     return (
-      <>
-        {(pets.length <= 1 || expandedPetTypes.includes(pet_type)) && (
-          <div>
-            {pets.map(pet => {
-              return (
-                <div key = {pet.pet_listID} style = {{ paddingLeft: '20px' }}>
-                  <input
-                    type = "checkbox"
-                    id = {`${pet_type}-${pet?.pet_listID}`}
-                    name = "pet"
-                    value = {pet?.pet_listID}
-                    checked = {servicedPets.find((serviced) => serviced.pet_listID === pet.pet_listID) !== undefined}
-                    onChange = {(event) => {
-                      if (event.target.checked) {
-                        const newServicedPets = [...servicedPets, pet]
-                        setServicedPets([...servicedPets, pet])
-                        savePets(pet.pet_listID, newServicedPets, setPetsConfirmation, 'add')
-                      }
-                      else {
-                        const newServicedPets = servicedPets.filter(p => p.pet_listID !== pet.pet_listID);
-                        setServicedPets(newServicedPets);
-                        savePets(pet.pet_listID, newServicedPets, setPetsConfirmation, 'delete')                        
-                      }
-                    }}
-                    />
-                  <label htmlFor = {`${pet_type}-${pet.pet_listID}`}>{pet.Pet}</label>
-                </div>
-              )
-            })}
-          </div>
-        )}
-      </>
+      <div>
+        {pets.map(pet => {
+          return (
+            <div key = {pet.pet_listID} style = {{ paddingLeft: '20px' }}>
+              <input
+                type = "checkbox"
+                id = {`${pet_type}-${pet?.pet_listID}`}
+                name = "pet"
+                value = {pet?.pet_listID}
+                checked = {servicedPets.find((serviced) => serviced.pet_listID === pet.pet_listID) !== undefined}
+                onChange = {(event) => {
+                  if (event.target.checked) {
+                    const newServicedPets = [...servicedPets, pet]
+                    setServicedPets([...servicedPets, pet])
+                    savePets(pet.pet_listID, newServicedPets, setPetsConfirmation, 'add')
+                  }
+                  else {
+                    const newServicedPets = servicedPets.filter(p => p.pet_listID !== pet.pet_listID);
+                    setServicedPets(newServicedPets);
+                    savePets(pet.pet_listID, newServicedPets, setPetsConfirmation, 'delete')                        
+                  }
+                }}
+                />
+              <label htmlFor = {`${pet_type}-${pet.pet_listID}`}>{pet.Pet}</label>
+            </div>
+          )
+        })}
+      </div>
     )
   }
 
@@ -84,10 +87,8 @@ function RenderIsPets (props) {
       {Object.entries(petTypes).map(([pet_type, pets]) => (
         <div key = {pet_type} style = {{ marginBottom: '10px' }}>
           <label htmlFor = {pet_type}>{pet_type}</label>
-          {pets.length > 1 && (
-            <Button onClick = {() => handleTogglePetType(pet_type, setExpandedPetTypes)}>Toggle</Button>
-          )}
-      {renderShowPetsSection(pet_type, pets)}
+          {isTogglePetType(pets, pet_type)}
+          {renderShowPetsSection(pets, pet_type)}
         </div>
       ))}
       {renderMessageSection()}

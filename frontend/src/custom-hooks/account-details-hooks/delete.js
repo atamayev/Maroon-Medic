@@ -2,7 +2,7 @@ import { savePatientLanguages } from "./save-patient-account-details";
 import { saveDoctorLanguages, saveSpecialies } from "./save-doctor-account-details";
 
 export const handleDeleteLanguage = (language, spokenLanguages, setSpokenLanguages, setLanguagesConfirmation, doctorOrPatient) => {
-    const newSpokenLanguages = spokenLanguages.filter(l => l !== language);
+    const newSpokenLanguages = spokenLanguages.filter(l => l.language_listID !== language.language_listID);
     setSpokenLanguages(newSpokenLanguages);
     if (doctorOrPatient === 'doctor') saveDoctorLanguages(language.language_listID, newSpokenLanguages, setLanguagesConfirmation, 'delete');
     else if (doctorOrPatient === 'patient') savePatientLanguages(language.language_listID, newSpokenLanguages, setLanguagesConfirmation, 'delete')

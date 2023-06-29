@@ -54,39 +54,40 @@ function RenderIsVetEducation(props) {
   }
 
   const renderSelectEducationType = () => {
+    if (!selectedVetSchool) return null;
     return (
       <div>
         <label htmlFor = "education-type">Select a Type of Veterinary Education: </label>
-          <select
-            id = "vet-education"
-            name = "vet-education"
-            value = {selectedVetEducationType}
-            onChange = {(event) => setSelectedVetEducationType(event.target.value)}
-          >
-            <option value = "" disabled>Choose an Education Type</option>
-            {Array.from(new Set(listDetails.vetEducationTypes?.map((item) => item.Education_type))).map(
-              (VetEdType, index) => (
-                <option key = {index} value = {VetEdType}>
-                  {VetEdType}
-                </option>
-              ))}
-          </select>
+        <select
+          id = "vet-education"
+          name = "vet-education"
+          value = {selectedVetEducationType}
+          onChange = {(event) => setSelectedVetEducationType(event.target.value)}
+        >
+          <option value = "" disabled>Choose an Education Type</option>
+          {Array.from(new Set(listDetails.vetEducationTypes?.map((item) => item.Education_type))).map(
+            (VetEdType, index) => (
+              <option key = {index} value = {VetEdType}>
+                {VetEdType}
+              </option>
+            ))}
+        </select>
       </div>
     )
   }
 
   const renderEducationTime = () => {
+    if (!selectedVetEducationType) return null;
     return (
-      <>
-        <EducationTime 
-          timeState = {timeState}
-          setTimeState = {setTimeState}
-        />
-      </>
+      <EducationTime 
+        timeState = {timeState}
+        setTimeState = {setTimeState}
+      />
     )
   }
 
   const renderAddAndSaveButton = () => {
+    if (!allChoicesFilled) return null;
     return (
       <Button onClick = {() => {
         const selectedEducationObj = handleAddEducation(
@@ -156,17 +157,11 @@ function RenderIsVetEducation(props) {
     <>
       {renderSelectSchool()}
 
-      {selectedVetSchool && 
-        renderSelectEducationType()
-      }
+      {renderSelectEducationType()}
 
-      {selectedVetEducationType && 
-        renderEducationTime()
-      }
+      {renderEducationTime()}
 
-      {allChoicesFilled &&
-        renderAddAndSaveButton()
-      }
+      {renderAddAndSaveButton()}
       
       {renderSavedEducationList()}
 

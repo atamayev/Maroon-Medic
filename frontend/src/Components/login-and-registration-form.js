@@ -51,7 +51,7 @@ export default function LoginAndRegistrationForm({
 
   const renderSubRegisterInfo = () => {
     if (loginOrSignUp === 'Sign up') {
-      return(
+      return (
         <div className = 'w-100 text-center mt-2'>
           Already have an account? <Link to = {`/${VetOrPatient.toLowerCase()}-login`}>Log In</Link>
         </div>
@@ -69,44 +69,48 @@ export default function LoginAndRegistrationForm({
     return 'Show Password'
   }
 
+  const renderErrorMessage = () => {
+    if (!error) return null
+    return <Alert variant = "danger" className = 'mt-3 mb-0'>{error}</Alert>
+  }
+
   return (
-    <>
-      <Card>
-        <Card.Body>
-          <h2 className = "text-center mb-4">{VetOrPatient} {loginOrSignUp}</h2>
-          <Form onSubmit = {handleSubmit}>
-            <FormGroup
-              id = "email"
-              label = "Username"
-              type = "email"
-              placeholder = "abc@123.com"
-              onChange = {(event) => setCredentials({...credentials, email: event.target.value})}
-              required
-            />
-            <FormGroup
-              id = "password"
-              label = "Password"
-              type = {renderShowPassword()} // Switch input type based on showPassword state
-              placeholder = "Password"
-              onChange = {(event) => setCredentials({...credentials, password: event.target.value})}
-              required
-            />
+    <Card>
+      <Card.Body>
+        <h2 className = "text-center mb-4">{VetOrPatient} {loginOrSignUp}</h2>
+        <Form onSubmit = {handleSubmit}>
+          <FormGroup
+            id = "email"
+            label = "Username"
+            type = "email"
+            placeholder = "abc@123.com"
+            onChange = {(event) => setCredentials({...credentials, email: event.target.value})}
+            required
+          />
+          
+          <FormGroup
+            id = "password"
+            label = "Password"
+            type = {renderShowPassword()} // Switch input type based on showPassword state
+            placeholder = "Password"
+            onChange = {(event) => setCredentials({...credentials, password: event.target.value})}
+            required
+          />
 
-            {renderPasswordConfirm()}
-            <Button onClick = {e => (setShowPassword(!showPassword))} className = 'mt-3'>
-              {renderHideOrShowPassword()}
-            </Button>
+          {renderPasswordConfirm()}
+          <Button onClick = {e => (setShowPassword(!showPassword))} className = 'mt-3'>
+            {renderHideOrShowPassword()}
+          </Button>
 
-            {error && <Alert variant = "danger" className = 'mt-3 mb-0'>{error}</Alert>}
+          {renderErrorMessage()}
 
-            <Button disabled = {loading} className = "mt-3 w-100" type = "submit">
-              {loginOrSignUp}
-            </Button>
-          </Form>
-            {renderSubLoginInfo()}
-            {renderSubRegisterInfo()}
-        </Card.Body>
-      </Card>
-    </>
+          <Button disabled = {loading} className = "mt-3 w-100" type = "submit">
+            {loginOrSignUp}
+          </Button>
+        </Form>
+          {renderSubLoginInfo()}
+          {renderSubRegisterInfo()}
+      </Card.Body>
+    </Card>
   );
 };

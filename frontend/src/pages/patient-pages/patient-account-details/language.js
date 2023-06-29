@@ -71,7 +71,7 @@ function RenderIsPatientLanguages(props) {
             <li key = {language.language_listID}>
               {language.Language_name}
               <Button 
-                onClick = {() => 
+                onClick = {() =>
                   handleDeleteLanguage(
                     language, 
                     spokenLanguages, 
@@ -86,7 +86,7 @@ function RenderIsPatientLanguages(props) {
     )
   }
 
-  return(
+  return (
     <div>
       {renderSelectLanguageSection()}
       {renderSavedLanguageList()}

@@ -8,7 +8,6 @@ import FormGroup from "../../../components/form-group";
 import { daysOfWeek } from "../../../components/constants";
 import { handleAddAccordion } from "../../../custom-hooks/account-details-hooks/add";
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
-// import { handleDeleteAccordion } from "../../../Custom Hooks/Hooks for Account Details/delete";
 import { saveLocation } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details";
 
 export default function RenderLocationSection(props) {
@@ -424,6 +423,20 @@ const WeekDays = ({ times, setTimes}) => {
       />
     )
   }
+
+  const RenderPickTime = ({ times, day }) => {
+    const matchedTime = times.find(time => time.Day_of_week === day);
+  
+    if (!matchedTime) return null;
+  
+    return (
+      <>
+        {renderPickStartTime(day)}
+        -
+        {renderPickEndTime(day)}
+      </>
+    );
+  };  
   
   return (
     <div>
@@ -431,13 +444,7 @@ const WeekDays = ({ times, setTimes}) => {
         <div key = {day} className = "mb-3 d-flex align-items-center">
           <label className = "mr-3">{day}</label>
           <Toggle id = {day} checked = {times.some(time => time.Day_of_week === day)} onChange = {() => handleDayToggle(day)} />
-          {times.find(time => time.Day_of_week === day) && (
-            <>
-            {renderPickStartTime(day)}
-              -
-            {renderPickEndTime(day)}
-            </>
-          )}
+          <RenderPickTime times = {times} day = {day} />
         </div>
       ))}
     </div>

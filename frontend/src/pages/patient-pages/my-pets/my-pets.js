@@ -152,6 +152,23 @@ export default function MyPets() {
      </>
     )
   }
+
+  const renderAddPet = () => {
+    if (!showAddPet) return null
+    return (
+      <AddPet 
+        newPetData = {newPetData}
+        setNewPetData = {setNewPetData}
+        petTypes = {petTypes}
+        insurances = {insurances}
+        petConfirmation = {petConfirmation}
+        setPetConfirmation = {setPetConfirmation}
+        setShowAddPet = {setShowAddPet}
+        savedPetData = {savedPetData}
+        setSavedPetData = {setSavedPetData}
+      />
+    )
+  }
   
   return (
     <>
@@ -159,19 +176,7 @@ export default function MyPets() {
       <PatientHeader/>
       {renderSavedPetData()}
       {renderShowAddPet()}
-      {showAddPet && 
-        <AddPet 
-          newPetData = {newPetData}
-          setNewPetData = {setNewPetData}
-          petTypes = {petTypes}
-          insurances = {insurances}
-          petConfirmation = {petConfirmation}
-          setPetConfirmation = {setPetConfirmation}
-          setShowAddPet = {setShowAddPet}
-          savedPetData = {savedPetData}
-          setSavedPetData = {setSavedPetData}
-        />
-      }
+      {renderAddPet()}
     </>
   )
 };

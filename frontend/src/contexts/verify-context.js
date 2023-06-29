@@ -11,7 +11,7 @@ function checkCookie(name) {
 const VerifyContextProvider = (props) => {
   async function userVerification (clearSession) {
     try {
-      if (!checkCookie('DoctorAccessToken') &&  !checkCookie('PatientAccessToken')) {
+      if (!checkCookie('DoctorAccessToken') && !checkCookie('PatientAccessToken')) {
         if (clearSession) sessionStorage.clear();
         return {
           verified: false
