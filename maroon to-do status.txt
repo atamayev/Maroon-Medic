@@ -5,7 +5,6 @@ ASAP:
 conisder moving the credentials object state into the login-and-registration-form
 
 -finalize-booking React browser warning
--make inputs into service.js only numbers (no negative signs, other symbols)
 wihle the languages saved! message appears, try to delete a language. go into the 'deleting' stage. after the save languages! message disappears, the state of the deleting button reverts to the X
 remove all instances of indexes as the key to a li
 -duplicate entries need to be accounted for when added to DB. Unique constraints. when the same data is entered into the pre_vet_edcatinn_mapping table, it gives an error, but doesn't enter the data.

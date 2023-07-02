@@ -114,14 +114,15 @@ SELECT * FROM service_and_category_list;
 
 CREATE TABLE service_mapping(
 	service_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	Service_time VARCHAR(10) NOT NULL,
-	Service_price VARCHAR(10) NOT NULL,
+	Service_time VARCHAR(20) NOT NULL,
+	Service_price DECIMAL(5,2) NOT NULL CHECK(Service_price >= 0),
 	Service_and_Category_ID INT unsigned NOT NULL, 
-	Doctor_ID INT unsigned NOT NULL, 
+	Doctor_ID INT unsigned NOT NULL,
 	FOREIGN KEY (Service_and_Category_ID) REFERENCES service_and_category_list(service_and_category_listID),
 	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID),
 	UNIQUE (Service_time, Service_and_Category_ID, Doctor_ID)
 );
+
 SELECT * FROM service_mapping;
 
 CREATE TABLE pictures(

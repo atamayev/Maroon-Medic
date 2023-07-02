@@ -3,6 +3,7 @@ import { Card, Button } from "react-bootstrap";
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
 import { handleToggleCategory } from "../../../custom-hooks/account-details-hooks/select";
 import { saveServices } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details";
+import { handleNumericInput, preventNonNumericalInput, validateDropInput, validatePasteInput } from "../../../utils/input-validation";
 
 export default function RenderServiceSection (props) {
   return(
@@ -28,9 +29,22 @@ function RenderIsVetServices (props) {
       categories[service.Category_name].push(service);
     });
   }
+
+  const timeOptions = [
+    ...Array.from({ length: 11 }, (_, i) => (i + 1) * 5),
+    '1 hour',
+    '2 hours',
+    '3 hours',
+    '4 hours',
+    '1 day',
+    '2 days',
+    '3 days',
+  ];
+
   const areAllTimesSet = (services) => {
     return services.every(service => service.Service_time !== null && service.Service_time !== "");
   }
+
   const areAllPricesSet = (services) => {
     return services.every(service => service.Service_price !== null && service.Service_price !== "");
   }
@@ -49,7 +63,7 @@ function RenderIsVetServices (props) {
 
   const renderServices = (category, services) => {
     if (!(services.length <= 1 || expandedCategories.includes(category))) return null
-     
+
     return (
       <div>
         {services.map(service => {
@@ -86,45 +100,58 @@ function RenderIsVetServices (props) {
 
   const renderServiceTimeInput = (service, selectedService) => {
     return (
-      <input
-        type = "number"
-        placeholder = "Service Price ($)"
-        id = {`price-${service.service_and_category_listID}`}
+      <select
+        id={`time-${service.service_and_category_listID}`}
         required
-        value = {selectedService?.Service_price || ""}
-        onChange = {(event) => {
-          const updatedServices = providedServices.map(s => {
+        value={selectedService?.Service_time || ""}
+        onChange={(e) => {
+          const updatedServices = providedServices.map((s) => {
             if (s.service_and_category_listID === service.service_and_category_listID) {
-              return {...s, Service_price: event.target.value};
+              return { ...s, Service_time: e.target.value };
             }
             return s;
           });
           setProvidedServices(updatedServices);
         }}
-      />
-    )
+      >
+        <option value = "" disabled>
+          Service Time (mins)
+        </option>
+        {timeOptions.map((time, index) => (
+          <option key={index} value={time}>
+            {time}
+          </option>
+        ))}
+      </select>
+    );
   }
 
   const renderServicePriceInput = (service, selectedService) => {
     return (
       <input
-        type = "number"
-        placeholder = "Service Time (mins)"
-        id = {`time-${service.service_and_category_listID}`}
+        type = "text"
+        placeholder = "Service Price ($)"
+        id = {`price-${service.service_and_category_listID}`}
         required
-        value = {selectedService?.Service_time || ""}
-        onChange = {(event) => {
-          const updatedServices = providedServices.map(s => {
-            if (s.service_and_category_listID === service.service_and_category_listID) {
-              return {...s, Service_time: event.target.value};
-            }
-            return s;
-          });
-          setProvidedServices(updatedServices);
-        }}
+        value = {selectedService?.Service_price || ""}
+        onChange = {(e) => handleNumericInput(
+          e,
+          (newVal) => {
+            const updatedServices = providedServices.map(s => {
+              if (s.service_and_category_listID === service.service_and_category_listID) {
+                return {...s, Service_price: newVal};
+              }
+              return s;
+            });
+            setProvidedServices(updatedServices);
+          }
+        )}
+        onKeyUp = {preventNonNumericalInput}
+        onPaste = {validatePasteInput}
+        onDrop = {validateDropInput}
       />
-    )
-  }
+    );
+  };
 
   const renderSaveButton = () => {
     return (
