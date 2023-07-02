@@ -14,7 +14,7 @@ export default function PatietRegister() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
-  useConfirmNotLoggedIn(); 
+  useConfirmNotLoggedIn(false); 
 
   return (
     <>

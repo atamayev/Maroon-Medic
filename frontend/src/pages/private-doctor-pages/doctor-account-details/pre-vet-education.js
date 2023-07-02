@@ -143,29 +143,80 @@ function RenderIsPreVetEducation(props) {
       </Button>
     )
   }
+  
+  const renderNevermindButton = (status, setStatus) => {
+    if (status !== 'deleting') return null
+    
+    return (
+      <Button 
+        variant = "secondary"
+        onClick = {() => setStatus('initial')}
+      >
+        Nevermind
+      </Button>
+    )
+  }
+
+  const renderConfirmDeleteButton = (status, pre_vet_education) => {
+    if (status !== 'deleting') return null
+    
+    return (
+      <Button
+        variant = "danger"
+        onClick = {() =>
+        savePreVetEducation(
+          pre_vet_education.pre_vet_education_mappingID, 
+          preVetEducation, 
+          setPreVetEducation,
+          listDetails, 
+          setPreVetEducationConfirmation,
+          'delete'
+        )}
+      >
+        Confirm Delete
+      </Button>
+    )
+  }
+
+  const renderInitialDeleteButton = (status, setStatus) => {
+    if (status !== 'initial') return null
+
+    return (
+      <Button 
+        variant = "danger"
+        onClick = {() => setStatus('deleting')}
+      >
+        X
+      </Button>
+    )
+  }
+
+  const renderDeleteButtonOptions = (status, setStatus, pre_vet_education) => {
+    return (
+      <>
+        {renderInitialDeleteButton(status, setStatus)}
+        {renderNevermindButton(status, setStatus)}
+        {renderConfirmDeleteButton(status, pre_vet_education)}
+      </>
+    )
+  }
+
+  const RenderSingleSavedEducation = (pre_vet_education) => {
+    const [status, setStatus] = useState('initial');
+    return (
+      <li key = {pre_vet_education.pre_vet_education_mappingID}>
+        {pre_vet_education.School_name}, {pre_vet_education.Education_type} in {pre_vet_education.Major_name}
+          {" ("}{pre_vet_education.Start_Date} - {pre_vet_education.End_Date} {")"}
+        {renderDeleteButtonOptions(status, setStatus, pre_vet_education)}
+      </li>
+    )
+  }
 
   const renderSavedEducationList = () => {
     return (
       <ul>
-        {preVetEducation.map((pre_vet_education, index) => (
-          <li key = {index}>
-            {pre_vet_education.School_name}, {pre_vet_education.Education_type} in {pre_vet_education.Major_name}
-              {" ("}{pre_vet_education.Start_Date} - {pre_vet_education.End_Date} {")"}
-                <Button
-                  variant = "danger"
-                  onClick = {() =>
-                  savePreVetEducation(
-                    pre_vet_education.pre_vet_education_mappingID, 
-                    preVetEducation, 
-                    setPreVetEducation,
-                    listDetails, 
-                    setPreVetEducationConfirmation,
-                    'delete'
-                  )}
-                >
-                  Delete
-                </Button>
-          </li>
+        {preVetEducation.map((pre_vet_education) => (
+          <RenderSingleSavedEducation {...pre_vet_education} />
         ))}
       </ul>
     )

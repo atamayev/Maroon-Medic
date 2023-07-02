@@ -115,28 +115,79 @@ function RenderIsVetEducation(props) {
     )
   }
 
+  const renderNevermindButton = (status, setStatus) => {
+    if (status !== 'deleting') return null
+    
+    return (
+      <Button 
+        variant = "secondary"
+        onClick = {() => setStatus('initial')}
+      >
+        Nevermind
+      </Button>
+    )
+  }
+
+  const renderConfirmDeleteButton = (status, vet_education) => {
+    if (status !== 'deleting') return null
+    
+    return (
+      <Button 
+        variant = "danger"
+        onClick = {() => 
+          saveVetEducation(
+            vet_education.vet_education_mappingID,
+            vetEducation, 
+            setVetEducation,
+            listDetails,
+            setVetEducationConfirmation,
+            'delete'
+          )}
+      >
+        Confirm Delete
+      </Button>
+    )
+  }
+
+  const renderInitialDeleteButton = (status, setStatus) => {
+    if (status !== 'initial') return null
+
+    return (
+      <Button 
+        variant = "danger"
+        onClick = {() => setStatus('deleting')}
+      >
+        X
+      </Button>
+    )
+  }
+
+  const renderDeleteButtonOptions = (status, setStatus, vet_education) => {
+    return (
+      <>
+        {renderInitialDeleteButton(status, setStatus)}
+        {renderNevermindButton(status, setStatus)}
+        {renderConfirmDeleteButton(status, vet_education)}
+      </>
+    )
+  }
+
+  const RenderSingleSavedEducation = (vet_education) => {
+    const [status, setStatus] = useState('initial');
+    return (
+      <li key = {vet_education.vet_education_mappingID}>
+        {vet_education.School_name}, {vet_education.Education_type}
+          {" (" + vet_education.Start_Date} - {vet_education.End_Date + ")"}
+        {renderDeleteButtonOptions(status, setStatus, vet_education)}
+      </li>
+    )
+  }
+
   const renderSavedEducationList = () => {
     return (
       <ul>
-        {vetEducation.map((vet_education, index) => (
-          <li key = {index}>
-            {vet_education.School_name}, {vet_education.Education_type}
-            {" (" + vet_education.Start_Date} - {vet_education.End_Date + ")"}
-            <Button 
-              variant = "danger"
-              onClick = {() => 
-                saveVetEducation(
-                  vet_education.vet_education_mappingID,
-                  vetEducation, 
-                  setVetEducation,
-                  listDetails,
-                  setVetEducationConfirmation,
-                  'delete'
-                )}
-              >
-              Delete
-            </Button>
-          </li>
+        {vetEducation.map((vet_education) => (
+          <RenderSingleSavedEducation {...vet_education} />
         ))}
       </ul>
     )

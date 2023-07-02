@@ -13,7 +13,7 @@ export async function loginHistory(User_ID) {
   const dateTime = dayjs(newDateObject).format(format);
   
   const sql = `INSERT INTO ${login_history} (Login_at, IP_Address, User_ID) VALUES (?, ?, ?)`;
-  const values = [dateTime, 0, User_ID];
+  const values = [dateTime, null, User_ID];
   
   await DB_Operation(loginHistory.name, login_history)
 

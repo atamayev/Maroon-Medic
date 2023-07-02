@@ -2,10 +2,16 @@ To-do:
 
 
 ASAP:
+conisder moving the credentials object state into the login-and-registration-form
+
 -finalize-booking React browser warning
 -make inputs into service.js only numbers (no negative signs, other symbols)
 wihle the languages saved! message appears, try to delete a language. go into the 'deleting' stage. after the save languages! message disappears, the state of the deleting button reverts to the X
-
+remove all instances of indexes as the key to a li
+-duplicate entries need to be accounted for when added to DB. Unique constraints. when the same data is entered into the pre_vet_edcatinn_mapping table, it gives an error, but doesn't enter the data.
+	Make the error on the front-end be say something like: duplicate entry. Or, don't allow the user to add the same entry twice
+	Do this for all tables 
+-education year end date is at most 2022. should be 2023
 -when deleting, make all of teh parts of the account details require a delete confirmation. change the X delete button to red. when press delete, should plit into 2 buttons- confirm delete, or nevermind
 -Include the cost in the finalize booking screen
 

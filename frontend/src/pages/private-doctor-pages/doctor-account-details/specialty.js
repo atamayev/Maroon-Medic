@@ -99,25 +99,78 @@ function RenderIsSpecialty(props) {
     )
   }
 
-  const renderShowSavedSpecialties = () => {
+  const renderNevermindButton = (status, setStatus) => {
+    if (status !== 'deleting') return null
+    
+    return (
+      <Button 
+        variant = "secondary"
+        onClick = {() => setStatus('initial')}
+      >
+        Nevermind
+      </Button>
+    )
+  }
+
+  const renderConfirmDeleteButton = (status, specialty) => {
+    if (status !== 'deleting') return null
+    
+    return (
+      <Button 
+        variant = "danger"
+        onClick = {() => 
+          handleDeleteSpecialty(
+            specialty, 
+            doctorSpecialties, 
+            setDoctorSpecialties, 
+            setSelectedOrganization, 
+            setSpecialtiesConfirmation
+          )}
+      >
+        Confirm Delete
+      </Button>
+    )
+  }
+
+  const renderInitialDeleteButton = (setStatus) => {
+    return (
+      <Button 
+        variant = "danger"
+        onClick = {() => setStatus('deleting')}
+      >
+        X
+      </Button>
+    )
+  }
+
+  const renderDeleteButtonOptions = (status, setStatus, specialty) => {
+    if (status === 'initial') return renderInitialDeleteButton(setStatus)
+
+    else if (status === 'deleting') {
+      return (
+        <>
+          {renderNevermindButton(status, setStatus)}
+          {renderConfirmDeleteButton(status, specialty)}
+        </>
+      )
+    }
+  }
+
+  const RenderSingleSavedSpecialty = (specialty) => {
+    const [status, setStatus] = useState('initial');
+    return (
+      <li key = {specialty.specialties_listID}>
+        {specialty.Organization_name} - {specialty.Specialty_name}{" "}
+        {renderDeleteButtonOptions(status, setStatus, specialty)}
+      </li>
+    )
+  }
+
+  const renderShowSavedSpecialtyList = () => {
     return (
       <ul>
         {doctorSpecialties.map((specialty) => (
-          <li key = {specialty.specialties_listID}>
-            {specialty.Organization_name} - {specialty.Specialty_name}{" "}
-            <Button 
-              onClick = {() => 
-                handleDeleteSpecialty(
-                  specialty, 
-                  doctorSpecialties, 
-                  setDoctorSpecialties, 
-                  setSelectedOrganization, 
-                  setSpecialtiesConfirmation
-                )}
-            >
-              X
-            </Button>
-          </li>
+          <RenderSingleSavedSpecialty {...specialty} />
         ))}
       </ul>
     )
@@ -138,7 +191,7 @@ function RenderIsSpecialty(props) {
     <>
       {renderSelectOrganization()}
       {renderSelectSpecialty()}
-      {renderShowSavedSpecialties()}
+      {renderShowSavedSpecialtyList()}
       {renderMessageSection()}
     </>
   )

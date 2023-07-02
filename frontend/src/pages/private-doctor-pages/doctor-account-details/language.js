@@ -121,20 +121,27 @@ function RenderIsVetLanguages(props) {
     )
   }
 
+  const renderDeleteButtonOptions = (status, setStatus, language) => {
+    return (
+      <>
+        {renderInitialDeleteButton(status, setStatus)}
+        {renderNevermindButton(status, setStatus)}
+        {renderConfirmDeleteButton(status, language)}
+      </>
+    )
+  }
+
   const RenderSingleSavedLanguage = (language) => {
     const [status, setStatus] = useState('initial');
     return (
       <li key = {language.language_listID}>
         {language.Language_name}
-        {renderInitialDeleteButton(status, setStatus)}
-        {renderNevermindButton(status, setStatus)}
-        {renderConfirmDeleteButton(status, language)}
+        {renderDeleteButtonOptions(status, setStatus, language)}
       </li>
     )
   }
 
   const renderSavedLanguageList = () => {
-    if (!_.isArray(spokenLanguages) || _.isEmpty(spokenLanguages)) return null
     return (
       <ul>
         {spokenLanguages.map((language) => (

@@ -297,7 +297,7 @@ export async function fetchLoginHistory (req, res) {
 
   try {
     const User_ID = await UUID_to_ID(UUID) // converts DoctorUUID to docid
-    const sql = `SELECT Login_at, IP_Address FROM ${login_history} WHERE User_ID = ? ORDER BY Login_at DESC`;
+    const sql = `SELECT Login_at FROM ${login_history} WHERE User_ID = ? ORDER BY Login_at DESC`;
     const values = [User_ID];
     const [results] = await connection.execute(sql, values);
     return res.status(200).json(results);
@@ -306,6 +306,47 @@ export async function fetchLoginHistory (req, res) {
     return res.status(401).json({ shouldRedirect: true, redirectURL: '/' })
   }
 };
+
+export async function changePassword (req, res) {
+  const {userType, currentPassword, newPassword} = req.body.changePasswordObject // Desctructures the request
+  const cookies = req.cookies;
+  let UUID;
+
+  if (userType === 'Doctor') UUID = cookies.DoctorUUID
+  else if (userType === 'Patient') UUID = cookies.PatientUUID
+  else return res.status(401).json({ shouldRedirect: true, redirectURL: '/' })
+
+  const Credentials = 'Credentials'
+  await DB_Operation(changePassword.name, Credentials);
+  let User_ID;
+  try {
+    User_ID = await UUID_to_ID(UUID) // converts DoctorUUID to docid
+  } catch (error) {
+    return res.status(401).json({ shouldRedirect: true, redirectURL: '/' })
+  }
+
+  const sql = `SELECT password FROM ${Credentials} WHERE UserID = ?`;
+  const values = [User_ID];
+
+  try {
+    const [results] = await connection.execute(sql, values);
+    const hashedPassword = results[0].password
+    const isOldPasswordMatch = await Hash.checkPassword(currentPassword, hashedPassword)
+    if (isOldPasswordMatch) {
+      const isSamePassword = await Hash.checkPassword(newPassword, hashedPassword)
+      if (isSamePassword) return res.status(400).json("New Password cannot be the same as the old password")
+      const newHashedPassword = await Hash.hashCredentials(newPassword)
+      const sql1 = `UPDATE ${Credentials} SET password = ? WHERE UserID = ?`;
+      const values1 = [newHashedPassword, User_ID];
+      await connection.execute(sql1, values1);
+      return res.status(200).json();
+    } else {
+      return res.status(400).json("Old Password is incorrect")
+    }
+  } catch(error) {
+    return res.status(500).json();
+  }
+}
 
 /** logout is self-explanatory
  *  Depending on the type, deletes any cookie called "{type}AccessToken"--> whenever the user navigates to future pages, their token will not be verified (token cleared)

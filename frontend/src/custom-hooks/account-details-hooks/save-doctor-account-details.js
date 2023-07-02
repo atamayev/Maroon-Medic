@@ -121,8 +121,7 @@ export async function savePreVetEducation(preVetEducationObject, preVetEducation
         preVetEducationObject.pre_vet_education_mappingID = JSON.stringify(response.data)
         newPreVetEducation = [...preVetEducation, preVetEducationObject]
         setPreVetEducation(newPreVetEducation)
-      }
-      else{
+      } else{
         setPreVetEducationConfirmation({messageType: 'problem'});
         return
       }

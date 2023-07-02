@@ -18,4 +18,7 @@ export default new class AuthDataService {
     async fetchLoginHistry() {
         return await http.get('/auth/fetch-login-history')
     }
+    async changePassword(changePasswordObject) {
+        return await http.post('/auth/change-password', {changePasswordObject})
+    }
 }();
