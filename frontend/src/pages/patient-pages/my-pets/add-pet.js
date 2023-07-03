@@ -119,9 +119,9 @@ export const AddPet = (props) => {
           required
         >
           <option value = "" disabled>Select</option>
-          {petTypes.map((petType, index) => (
+          {petTypes.map((petType) => (
             <option
-              key = {index}
+              key = {petType.pet_listID}
               value = {petType.pet_listID}
             >
               {petType.Pet}
@@ -144,9 +144,9 @@ export const AddPet = (props) => {
           required
         >
           <option value = "" disabled>Select</option>
-          {insurances.map((insurance, index) => (
+          {insurances.map((insurance) => (
             <option
-              key = {index}
+              key = {insurance.insurance_listID}
               value = {insurance.insurance_listID}
             >
               {insurance.Insurance_name}

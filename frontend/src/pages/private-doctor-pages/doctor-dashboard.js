@@ -97,11 +97,11 @@ export default function DoctorDashboard() {
     )
   }
 
-  const UpcomingAppointmentCard = ({ appointment, index }) => {
+  const UpcomingAppointmentCard = ({ appointment }) => {
     const [status, setStatus] = useState(returnDoctorConfirmationStatus(appointment));
 
     return (
-      <Card key = {index} style = {{ margin: '0 10px', position: 'relative' }} className = 'mb-3'>
+      <Card style = {{ margin: '0 10px', position: 'relative' }} className = 'mb-3'>
         <Card.Body>
           <Card.Title>
             Appointment with {appointment.Patient_FirstName} {appointment.Patient_LastName} on {appointment.appointment_date}
@@ -114,9 +114,9 @@ export default function DoctorDashboard() {
     );
   };
 
-  const PastAppointmentCard = ({ appointment, index }) => {
+  const PastAppointmentCard = ({ appointment }) => {
     return (
-      <Card key = {index} style = {{ margin: '0 10px', position: 'relative' }} className = 'mb-3'>
+      <Card style = {{ margin: '0 10px', position: 'relative' }} className = 'mb-3'>
         <Card.Body>
           <Card.Title>
             Appointment with {appointment.Patient_FirstName} {appointment.Patient_LastName} on {appointment.appointment_date}
@@ -130,8 +130,8 @@ export default function DoctorDashboard() {
     if (_.isEmpty(upcomingAppointments)) return <>No upcoming appointments</>
     return (
       <>
-        {upcomingAppointments.map((appointment, index) => (
-          <UpcomingAppointmentCard key = {index} appointment = {appointment} index = {index} />
+        {upcomingAppointments.map((appointment) => (
+          <UpcomingAppointmentCard key = {appointment.AppointmentsID} appointment = {appointment} />
         ))}
       </>
     )
@@ -141,8 +141,8 @@ export default function DoctorDashboard() {
     if (_.isEmpty(pastAppointments)) return <>No past appointments</>
     return (
       <>
-        {pastAppointments.map((appointment, index) => (
-          <PastAppointmentCard key = {index} appointment = {appointment} index = {index} />
+        {pastAppointments.map((appointment) => (
+          <PastAppointmentCard key = {appointment.AppointmentsID} appointment = {appointment} />
         ))}
       </>
     )

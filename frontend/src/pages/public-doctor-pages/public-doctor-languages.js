@@ -20,10 +20,9 @@ export default function RenderLanguageSection(props) {
 function renderSpokenLanguages(spokenLanguages) {
     return (
         <>
-            {spokenLanguages.map((language, index) => (
-                <p key = {index}>{language.Language_name}</p>
-                ))
-            }
+            {spokenLanguages.map((language) => (
+                <p key = {language.language_listID}>{language.Language_name}</p>
+            ))}
         </>
     )
 }

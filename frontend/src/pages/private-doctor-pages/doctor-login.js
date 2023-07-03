@@ -9,8 +9,8 @@ export default function DoctorLogin() {
   const [loginInformationObject, setLoginInformationObject] = useState({loginType: 'Doctor'});
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const type = "Vet"
 

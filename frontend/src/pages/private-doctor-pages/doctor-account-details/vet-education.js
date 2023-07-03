@@ -42,9 +42,9 @@ function RenderIsVetEducation(props) {
           onChange = {(e) => setSelectedVetSchool(e.target.value)}
         >
           <option value = "" disabled>Choose a School</option>
-          {Array.from(new Set(listDetails.vetSchools?.map((item) => item.School_name))).map(
-            (school, index) => (
-              <option key = {index} value = {school}>
+          {_.uniq(listDetails.vetSchools?.map((item) => item.School_name)).map(
+            (school) => (
+              <option key = {school.vet_school_listID} value = {school}>
                 {school}
               </option>
             ))}
@@ -65,9 +65,9 @@ function RenderIsVetEducation(props) {
           onChange = {(event) => setSelectedVetEducationType(event.target.value)}
         >
           <option value = "" disabled>Choose an Education Type</option>
-          {Array.from(new Set(listDetails.vetEducationTypes?.map((item) => item.Education_type))).map(
-            (VetEdType, index) => (
-              <option key = {index} value = {VetEdType}>
+          {_.uniq(listDetails.vetEducationTypes?.map((item) => item.Education_type)).map(
+            (VetEdType) => (
+              <option key = {VetEdType.vet_education_typeID} value = {VetEdType}>
                 {VetEdType}
               </option>
             ))}

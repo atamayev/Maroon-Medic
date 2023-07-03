@@ -93,9 +93,10 @@ export default function RenderBookingSection(props) {
     if (selectedDay === "This doctor does not currently have any open appointments") {
       return <option disabled>{selectedDay}</option>
     }
+
     return (
-      availableDates.map((date, index) => (
-        <option key = {index} value = {date}>
+      availableDates.map((date) => (
+        <option key = {date} value = {date}>
           {date}
         </option>
       ))
@@ -184,8 +185,8 @@ export default function RenderBookingSection(props) {
           onChange = {(e) => handleTimeChange(e, setSelectedTime)}
         >
           <option>Select...</option>
-          {availableTimes.map((time, index) => (
-            <option key = {index} value = {time}>
+          {availableTimes.map((time) => (
+            <option key = {time} value = {time}>
               {time}
             </option>
           ))}
@@ -199,7 +200,7 @@ export default function RenderBookingSection(props) {
 
     return (
       <Button 
-        variant = 'primary' 
+        className = 'mt-3'
         onClick = {(e) => handleBookingClick(
           e,
           navigate, 
@@ -208,8 +209,8 @@ export default function RenderBookingSection(props) {
           selectedDay,
           selectedTime,
           personalData
-        )}
-        className = 'mt-3'
+          )}
+        variant = 'primary' 
       >
         Click to {renderInstantBook()} an appointment
       </Button>

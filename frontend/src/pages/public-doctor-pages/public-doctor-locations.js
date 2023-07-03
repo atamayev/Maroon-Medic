@@ -37,26 +37,30 @@ function renderLocations(addressesList) {
   const renderTimesSection = (address) => {
     return (
       <div className = "col-md-6">
-          <h5>Working hours:</h5>
-          {address.times.map((time, index) => (
-          <p key = {index}>{time.Day_of_week}: {time.Start_time} - {time.End_time}</p>
-          ))}
+        <h5>Working hours:</h5>
+        {address.times.map((time, index) => (
+          <p key = {index}>
+            {time.Day_of_week}: {time.Start_time} - {time.End_time}
+          </p>
+        ))}
       </div>
     )
   }
 
-  return addressesList.map((address, index) => {
-    return (
-      <div key = {index}>
-        <div className = "row">
-          <div className = "col-md-6">
-            {renderAddressSection(address)}
-            {renderInstantBook(address)}
-            <p>Phone: {address.phone}</p>
-          </div>
-          {renderTimesSection(address)}
+  const renderPhone = (address) => {
+    if (address.phone) return <p>Phone: {address.phone}</p>
+  }
+
+  return addressesList.map((address) => (
+    <div key = {address.addressesID}>
+      <div className = "row">
+        <div className = "col-md-6">
+          {renderAddressSection(address)}
+          {renderInstantBook(address)}
+          {renderPhone(address)}
         </div>
+        {renderTimesSection(address)}
       </div>
-    )
-  })
-};
+    </div>
+  ));
+}  

@@ -101,10 +101,10 @@ function RenderIsVetServices (props) {
   const renderServiceTimeInput = (service, selectedService) => {
     return (
       <select
-        id={`time-${service.service_and_category_listID}`}
+        id = {`time-${service.service_and_category_listID}`}
         required
-        value={selectedService?.Service_time || ""}
-        onChange={(e) => {
+        value = {selectedService?.Service_time || ""}
+        onChange = {(e) => {
           const updatedServices = providedServices.map((s) => {
             if (s.service_and_category_listID === service.service_and_category_listID) {
               return { ...s, Service_time: e.target.value };
@@ -117,8 +117,8 @@ function RenderIsVetServices (props) {
         <option value = "" disabled>
           Service Time (mins)
         </option>
-        {timeOptions.map((time, index) => (
-          <option key={index} value={time}>
+        {timeOptions.map((time) => (
+          <option key = {time} value = {time}>
             {time}
           </option>
         ))}

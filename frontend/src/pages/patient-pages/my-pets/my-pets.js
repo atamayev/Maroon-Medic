@@ -92,8 +92,8 @@ export default function MyPets() {
   const renderSavedPetDataMap = () => {
     return (
       <>
-        {savedPetData.map((pet, index) => (
-          <Card key = {index} style = {{ width: '18rem', marginTop: '10px' }} className = 'mb-3'>
+        {savedPetData.map((pet) => (
+          <Card key = {pet.pet_infoID} style = {{ width: '18rem', marginTop: '10px' }} className = 'mb-3'>
             <Card.Body>
               {renderSavedPetDataTitle(pet)}
               {renderSavedPetDataText(pet)}

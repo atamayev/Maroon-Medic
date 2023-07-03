@@ -38,11 +38,11 @@ function RenderIsSpecialty(props) {
           name = "organization"
           value = {selectedOrganization}
           onChange = {(e) => setSelectedOrganization(e.target.value)}
-          >
+        >
           <option value = "" disabled>Choose an organization</option>
-          {Array.from(new Set(listDetails.specialties?.map((item) => item.Organization_name))).map(
-            (organization, index) => (
-              <option key = {index} value = {organization}>
+          {_.uniq(listDetails.specialties?.map((item) => item.Organization_name)).map(
+            (organization) => (
+              <option key = {organization} value = {organization}>
                 {organization}
               </option>
             ))}

@@ -66,11 +66,12 @@ function AddressForm(props) {
   }
 
   const renderAddressAccordionItems = () => {
+    console.log(addresses)
     return (
       <>
         {addresses.sort((a, b) => a.address_priority - b.address_priority).map((address, index) => (
           <AddressAccordionItem 
-            key = {index} 
+            key = {address.addressesID}
             index = {index}
             address = {address} 
             handleInputChange = {(e) => handleInputChange(e, address.address_priority)}

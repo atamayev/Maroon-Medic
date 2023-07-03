@@ -72,10 +72,10 @@ export default function PatientDashboard() {
     )
   }
   
-  const AppointmentCard = ({appointment, index}) => {
-    return(
+  const AppointmentCard = ({appointment}) => {
+    return (
       <>
-        <Card key = {index} style = {{ margin: '0 10px', position: 'relative' }}>
+        <Card style = {{ margin: '0 10px', position: 'relative' }}>
           <Card.Body>
             <Card.Title>
               Appointment with Dr. {appointment.Doctor_FirstName} {appointment.Doctor_LastName} on {appointment.appointment_date}
@@ -91,8 +91,8 @@ export default function PatientDashboard() {
     if (_.isEmpty(upcomingAppointments)) return <>No upcoming appointments</>
     return (
       <>
-        {upcomingAppointments.map((appointment, index) => (
-          <AppointmentCard key = {index} appointment = {appointment} index = {index} />
+        {upcomingAppointments.map((appointment) => (
+          <AppointmentCard key = {appointment.AppointmentsID} appointment = {appointment} />
         ))}
       </>
     )
@@ -102,9 +102,9 @@ export default function PatientDashboard() {
     if (_.isEmpty(pastAppointments)) return <>No past appointments</>
     return (
       <>
-        {pastAppointments.map((appointment, index) => (
-          <AppointmentCard key = {index} appointment = {appointment} index = {index} />
-        ))}
+        {pastAppointments.map((appointment) => (
+          <AppointmentCard key = {appointment.AppointmentsID} appointment = {appointment} />
+          ))}
       </>
     )
   }

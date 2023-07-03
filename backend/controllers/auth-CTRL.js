@@ -297,7 +297,7 @@ export async function fetchLoginHistory (req, res) {
 
   try {
     const User_ID = await UUID_to_ID(UUID) // converts DoctorUUID to docid
-    const sql = `SELECT Login_at FROM ${login_history} WHERE User_ID = ? ORDER BY Login_at DESC`;
+    const sql = `SELECT login_historyID, Login_at FROM ${login_history} WHERE User_ID = ? ORDER BY Login_at DESC`;
     const values = [User_ID];
     const [results] = await connection.execute(sql, values);
     return res.status(200).json(results);

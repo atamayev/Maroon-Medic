@@ -9,7 +9,7 @@ export default new class FetchPublicDoctorData {
         const functionName = this.fetchDoctorLanguages.bind(this).name;
         const [language_mapping, language_list] = ['language_mapping', 'language_list'];
 
-        const sql = `SELECT ${language_list}.Language_name 
+        const sql = `SELECT ${language_list}.Language_name, ${language_list}.language_listID
             FROM ${language_list} JOIN ${language_mapping} ON ${language_list}.language_listID = ${language_mapping}.Language_ID 
             WHERE ${language_mapping}.User_ID = ?`;
 
@@ -28,7 +28,7 @@ export default new class FetchPublicDoctorData {
         const functionName = this.fetchDoctorSpecialties.bind(this).name;
         const [specialty_mapping, specialties_list] = ['specialty_mapping', 'specialties_list'];
     
-        const sql = `SELECT ${specialties_list}.Organization_name, ${specialties_list}.Specialty_name 
+        const sql = `SELECT ${specialties_list}.Organization_name, ${specialties_list}.Specialty_name, ${specialties_list}.specialties_listID
             FROM ${specialties_list} JOIN ${specialty_mapping} ON ${specialties_list}.specialties_listID = ${specialty_mapping}.specialty_ID 
             WHERE ${specialty_mapping}.Doctor_ID = ?`;
         

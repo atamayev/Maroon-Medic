@@ -42,9 +42,9 @@ function RenderIsPreVetEducation(props) {
           onChange = {(e) => setSelectedPreVetSchool(e.target.value)}
         >
           <option value = "" disabled>Choose a School</option>
-          {Array.from(new Set(listDetails.preVetSchools?.map((item) => item.School_name))).map(
-            (school, index) => (
-              <option key = {index} value = {school}>
+          {_.uniq(listDetails.preVetSchools?.map((item) => item.School_name)).map(
+            (school) => (
+              <option key = {school.pre_vet_school_listID} value = {school}>
                 {school}
               </option>
             ))}
@@ -67,8 +67,8 @@ function RenderIsPreVetEducation(props) {
         >
           <option value = "" disabled>Choose a major</option>
           {_.uniq(listDetails.majors?.map((item) => item.Major_name)).map(
-        (major, index) => (
-          <option key = {index} value = {major}>
+        (major) => (
+          <option key = {major.major_listID} value = {major}>
             {major}
           </option>
         ))}
@@ -90,9 +90,9 @@ function RenderIsPreVetEducation(props) {
           onChange = {(event) => setSelectedPreVetEducationType(event.target.value)}
         >
           <option value = "" disabled>Choose an Education Type</option>
-          {Array.from(new Set(listDetails.preVetEducationTypes?.map((item) => item.Education_type))).map(
-            (preVetEdType, index) => (
-              <option key = {index} value = {preVetEdType}>
+          {_.uniq(listDetails.preVetEducationTypes?.map((item) => item.Education_type)).map(
+            (preVetEdType) => (
+              <option key = {preVetEdType.pre_vet_education_typeID} value = {preVetEdType}>
                 {preVetEdType}
               </option>
             ))}

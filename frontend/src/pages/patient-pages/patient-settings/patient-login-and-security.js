@@ -18,8 +18,8 @@ export default function PatientLoginAndSecurity() {
       <PatientHeader/>
       <ChangePassword type = {userType}/>
       <h1>Login History</h1>
-      {loginHistory.map((item, index) => (
-        <LoginHistory key = {index} loginHistoryItem = {item} />
+      {loginHistory.map((item) => (
+        <LoginHistory key = {item.login_historyID} loginHistoryItem = {item} />
       ))}
       {/* Later add update history here as well. Create an update history table which has the login_history table as a foreign key. Within each login session, show what the user changed. */}
     </>
