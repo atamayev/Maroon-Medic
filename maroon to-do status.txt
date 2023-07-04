@@ -2,9 +2,7 @@ To-do:
 
 
 ASAP:
-confirm that all public doctor data is being correctly queried (and shown to patients), and that all of the doctor data that is iterated over has the key being the ID, and not the name of the item
-	-see public-doctor-services for details
-make the phone number input in the location.js only accept numbers
+make the phone number input in the location.js only accept numbers (Phone input)
 -when saving pet data, the new pet data should be of the same format as the old data. Shouldn't include anything new/changed, including variable names
 	currently, when saving pet data, the insurance ID and insurance list ID are left in the variable after saving.
 -finalize-booking React browser warning

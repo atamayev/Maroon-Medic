@@ -2,12 +2,13 @@ import _ from "lodash"
 import { Card } from "react-bootstrap";
 
 export default function RenderEducationSection(props) {
-  const { preVetEducation, vetEducation } = props;
+  const { preVetEducation, vetEducation, personalData } = props;
   if (!_.isEmpty(preVetEducation) && !_.isEmpty(vetEducation)) {
+    const capitalizedLastName = personalData.LastName.charAt(0).toUpperCase() + personalData.LastName.slice(1);
     return(
       <Card className = "card-bottom-margin">
         <Card.Header>
-          Where did Dr. [] go to school?
+          Where did Dr. {capitalizedLastName} go to school?
         </Card.Header>
         <Card.Body>
           <h3>Pre-Veterinary Education</h3>

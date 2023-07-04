@@ -27,13 +27,14 @@ export async function returnDoctorPageData (req, res) {
    
     try {
         let response = {};
-        response.doctorLanguages           = await FetchPublicDoctorData.fetchDoctorLanguages(DoctorID);
+        response.doctorLanguages           = await FetchDoctorAccountData.fetchDoctorLanguages(DoctorID);
         response.doctorServices            = await FetchDoctorAccountData.fetchDoctorServices(DoctorID);
-        response.doctorSpecialties         = await FetchPublicDoctorData.fetchDoctorSpecialties(DoctorID);
+        response.doctorSpecialties         = await FetchDoctorAccountData.fetchDoctorSpecialties(DoctorID);
         response.doctorPreVetEducation     = await FetchDoctorAccountData.fetchPreVetEducation(DoctorID);
         response.doctorVetEducation        = await FetchDoctorAccountData.fetchVetEducation(DoctorID);
         response.doctorAddressData         = await FetchPublicDoctorData.fetchDoctorAddressData(DoctorID);
         response.description               = await FetchDoctorAccountData.fetchDescriptionData(DoctorID);
+        response.servicedPets              = await FetchDoctorAccountData.fetchServicedPets(DoctorID);
         //response.doctorPictures            = await FetchDoctorAccountData.fetchDoctorPictures(DoctorID);
         response.doctorPersonalInfo        = await FetchPublicDoctorData.fetchDoctorPersonalInfo(DoctorID);
         response.doctorPersonalInfo['NVI'] = NVI;

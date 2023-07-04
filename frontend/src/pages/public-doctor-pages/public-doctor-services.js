@@ -25,18 +25,19 @@ function renderProvidedServices(providedServices) {
       categories[service.Category_name].push(service);
     });
   }
+
   return(
-      <>
-        {Object.entries(categories).map(([category, services]) => (
-          <div key = {category} style = {{ marginBottom: '10px' }}>
-            <h3>{category}</h3>
-            {services.map(service => (
-              <p key = {service.Service_name}>
-                {service.Service_name} - {service.Service_time} minutes, ${service.Service_price}
-              </p>
-            ))}
-          </div>
-        ))}
-      </>
+    <>
+      {Object.entries(categories).map(([category, services]) => (
+        <div key = {category} style = {{ marginBottom: '10px' }}>
+          <h3>{category}</h3>
+          {services.map(service => (
+            <p key = {service.service_and_category_listID}>
+              {service.Service_name} - {service.Service_time} minutes, ${service.Service_price}
+            </p>
+          ))}
+        </div>
+      ))}
+    </>
   )
 }

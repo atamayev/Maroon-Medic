@@ -11,7 +11,7 @@ export default new class FetchDoctorAccountData {
     async fetchDoctorLanguages (User_ID) {
         const functionName = this.fetchDoctorLanguages.bind(this).name;
         const [language_mapping, language_list] = ['language_mapping', 'language_list'];
-    
+
         const sql = `SELECT ${language_list}.Language_name, ${language_list}.language_listID 
             FROM ${language_list} JOIN ${language_mapping} ON ${language_list}.language_listID = ${language_mapping}.Language_ID 
             WHERE ${language_mapping}.User_ID = ?`;

@@ -66,7 +66,6 @@ function AddressForm(props) {
   }
 
   const renderAddressAccordionItems = () => {
-    console.log(addresses)
     return (
       <>
         {addresses.sort((a, b) => a.address_priority - b.address_priority).map((address, index) => (
@@ -215,10 +214,9 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
       <div className = "col-md-3">
         <FormGroup
           className = "mb-3"
-          label = "Address Title"
+          label = "Address Title *"
           type = "text"
           placeholder = "Address Title" 
-          required
           value = {address.address_title || ""}
           onChange = {handleInputChange}
           name = "address_title"
@@ -232,10 +230,9 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
       <div className = "col-md-3">
         <FormGroup
           className = "mb-3"
-          label = "Address line 1"
+          label = "Address line 1 *"
           type = "text"
           placeholder = "Address line 1" 
-          required
           value = {address.address_line_1 || ""}
           onChange = {handleInputChange}
           name = "address_line_1"
@@ -265,10 +262,9 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
       <div className = "col-md-3">
         <FormGroup
           className = "mb-3"
-          label = "City"
+          label = "City *"
           type = "text"
           placeholder = "City" 
-          required
           value = {address.city || ""}
           onChange = {handleInputChange}
           name = "city"
@@ -282,10 +278,9 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
       <div className = "col-md-3">
         <FormGroup
           className = "mb-3"
-          label = "State"
+          label = "State *"
           type = "text"
           placeholder = "State" 
-          required
           value = {address.state || ""}
           onChange = {handleInputChange}
           name = "state"
@@ -299,10 +294,9 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
       <div className = "col-md-3">
         <FormGroup
           className = "mb-3"
-          label = "Zip Code"
+          label = "Zip Code *"
           type = "number"
           placeholder = "Zip Code" 
-          required
           value = {address.zip || ""}
           onChange = {handleInputChange}
           name = "zip"
@@ -316,10 +310,9 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
       <div className = "col-md-3">
         <FormGroup
           className = "mb-3"
-          label = "Country"
+          label = "Country *"
           type = "text"
           placeholder = "Country" 
-          required
           value = {address.country || ""}
           onChange = {handleInputChange}
           name = "country"
@@ -329,6 +322,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
   }
 
   const renderPhoneNumberInput = () => {
+    // change this to PhoneInput
     return (
       <div className = "col-md-3">
         <FormGroup
@@ -336,7 +330,6 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
           label = "Phone Number"
           type = "number"
           placeholder = "Phone Number" 
-          required
           value = {address.phone || ""}
           onChange = {handleInputChange}
           name = "phone"

@@ -5,44 +5,6 @@ import { connection, DB_Operation } from "../connect.js";
  * FetchPublicDoctorData fetches all of a specific Doctor's data, concatenating all results as arrays to an array
  */
 export default new class FetchPublicDoctorData {
-    async fetchDoctorLanguages (User_ID) {
-        const functionName = this.fetchDoctorLanguages.bind(this).name;
-        const [language_mapping, language_list] = ['language_mapping', 'language_list'];
-
-        const sql = `SELECT ${language_list}.Language_name, ${language_list}.language_listID
-            FROM ${language_list} JOIN ${language_mapping} ON ${language_list}.language_listID = ${language_mapping}.Language_ID 
-            WHERE ${language_mapping}.User_ID = ?`;
-
-        const values = [User_ID];
-        await DB_Operation(functionName, language_mapping);
-    
-        try {
-            const [results] = await connection.execute(sql, values);
-            return (results);
-        } catch(error) {
-            return []
-        }
-    };
-
-    async fetchDoctorSpecialties (User_ID) {
-        const functionName = this.fetchDoctorSpecialties.bind(this).name;
-        const [specialty_mapping, specialties_list] = ['specialty_mapping', 'specialties_list'];
-    
-        const sql = `SELECT ${specialties_list}.Organization_name, ${specialties_list}.Specialty_name, ${specialties_list}.specialties_listID
-            FROM ${specialties_list} JOIN ${specialty_mapping} ON ${specialties_list}.specialties_listID = ${specialty_mapping}.specialty_ID 
-            WHERE ${specialty_mapping}.Doctor_ID = ?`;
-        
-        const values = [User_ID];
-        await DB_Operation(functionName, specialty_mapping);
-    
-        try {
-            const [results] = await connection.execute(sql, values);
-            return results;
-        } catch(error) {
-            return [];
-        }
-    };
-
     async fetchDoctorAddressData (DoctorID) {
         const functionName = this.fetchDoctorAddressData.bind(this).name;
         const [phone, addresses, booking_availability] =  ['phone', 'addresses', 'booking_availability'];
