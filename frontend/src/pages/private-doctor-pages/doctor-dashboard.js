@@ -97,6 +97,16 @@ export default function DoctorDashboard() {
     )
   }
 
+  const renderMessageSection = (appointment) => {
+    if (!appointment.patient_message) return null
+    return (
+      <span style={{ display: 'block' }}>
+        Patient Message:
+        {' ' + appointment.patient_message}
+      </span>
+    )
+  }
+
   const UpcomingAppointmentCard = ({ appointment }) => {
     const [status, setStatus] = useState(returnDoctorConfirmationStatus(appointment));
 
@@ -105,10 +115,13 @@ export default function DoctorDashboard() {
         <Card.Body>
           <Card.Title>
             Appointment with {appointment.Patient_FirstName} {appointment.Patient_LastName} on {appointment.appointment_date}
+          </Card.Title>
+          <Card.Text>
+            {renderMessageSection(appointment)}
             {renderPendingAppointment(status, setStatus)}
             {renderConfirmedAppointment(status, setStatus, appointment)}
             {renderApprovedAppointment(status)}
-          </Card.Title>
+          </Card.Text>
         </Card.Body>
       </Card>
     );

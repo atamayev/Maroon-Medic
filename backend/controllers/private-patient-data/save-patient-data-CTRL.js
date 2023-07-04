@@ -156,7 +156,7 @@ export async function savePetData (req, res) {
         const values1 = [PetData.insurance_listID, PetData.pet_infoID];
         try {
             await connection.execute(sql1, values1);
-            return res.status(200).json(PetData);
+            return res.status(200).json(PetData.pet_infoID);
         } catch(error) {
             return res.status(400).json();
         }

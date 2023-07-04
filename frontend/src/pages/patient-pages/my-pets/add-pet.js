@@ -3,27 +3,28 @@ import FormGroup from '../../../components/form-group';
 import { addMyPets } from '../../../custom-hooks/my-pets-hooks/save-my-pets';
 
 const ifPetTypeSelected = (value, petTypes, newPetData, setNewPetData) => {
-    // Find the selected pet type by its ID
-    let selectedPetType = petTypes.find(petType => petType.pet_listID === JSON.parse(value));
-    let newPet = {
-      ...newPetData, 
-      petType: selectedPetType.Pet, 
-      pet_listID: selectedPetType.pet_listID 
-    };
+  // Find the selected pet type by its ID
+  let selectedPetType = petTypes.find(Pet_type => Pet_type.pet_listID === JSON.parse(value));
+  let newPet = {
+    ...newPetData, 
+    Pet: selectedPetType.Pet,
+    Pet_type: selectedPetType.Pet_type,
+    pet_listID: selectedPetType.pet_listID 
+  };
 
-    setNewPetData(newPet);
+  setNewPetData(newPet);
 }
 
 const ifInsuranceSelected = (value, insurances, newPetData, setNewPetData) => {
-    // Find the selected insurance by its ID
-    let selectedInsurance = insurances.find(insurance => insurance.insurance_listID === JSON.parse(value));
-    let newPet = {
-      ...newPetData, 
-      insuranceName: selectedInsurance.Insurance_name, 
-      insurance_listID: selectedInsurance.insurance_listID 
-    };
+  // Find the selected insurance by its ID
+  let selectedInsurance = insurances.find(insurance => insurance.insurance_listID === JSON.parse(value));
+  let newPet = {
+    ...newPetData, 
+    insuranceName: selectedInsurance.Insurance_name, 
+    insurance_listID: selectedInsurance.insurance_listID 
+  };
 
-    setNewPetData(newPet);
+  setNewPetData(newPet);
 }
 
 function areAllFieldsValid(petData) {
@@ -31,7 +32,7 @@ function areAllFieldsValid(petData) {
     !petData.Name || 
     !petData.Gender || 
     !petData.DOB ||
-    !petData.petType ||
+    !petData.Pet_type ||
     !petData.insuranceName
   ) {
     return false;
@@ -42,7 +43,7 @@ function areAllFieldsValid(petData) {
 const handleInputChange = (event, petTypes, insurances, newPetData, setNewPetData) => {
   let value = event.target.value;
 
-  if (event.target.name === "petType") ifPetTypeSelected(value, petTypes, newPetData, setNewPetData)
+  if (event.target.name === "Pet_type") ifPetTypeSelected(value, petTypes, newPetData, setNewPetData)
   else if (event.target.name === "insurance") ifInsuranceSelected(value, insurances, newPetData, setNewPetData)
   else {
     let newPet = { ...newPetData, [event.target.name]: value };
@@ -115,16 +116,16 @@ export const AddPet = (props) => {
           as = "select"
           defaultValue = {""}
           onChange = {(e) => handleInputChange (e, petTypes, insurances, newPetData, setNewPetData)}
-          name = "petType"
+          name = "Pet_type"
           required
         >
           <option value = "" disabled>Select</option>
-          {petTypes.map((petType) => (
+          {petTypes.map((Pet_type) => (
             <option
-              key = {petType.pet_listID}
-              value = {petType.pet_listID}
+              key = {Pet_type.pet_listID}
+              value = {Pet_type.pet_listID}
             >
-              {petType.Pet}
+              {Pet_type.Pet}
             </option>
           ))}
         </Form.Control>

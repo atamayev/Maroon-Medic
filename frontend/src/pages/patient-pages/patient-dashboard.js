@@ -71,8 +71,36 @@ export default function PatientDashboard() {
     </OverlayTrigger>
     )
   }
+
+  const renderMessageSection = (appointment) => {
+    if (!appointment.patient_message) return null
+    return (
+      <span style={{ display: 'block' }}>
+        Patient Message:
+        {' ' + appointment.patient_message}
+      </span>
+    )
+  }
+    
+  const UpcomingAppointmentCard = ({appointment}) => {
+    return (
+      <>
+        <Card style = {{ margin: '0 10px', position: 'relative' }}>
+          <Card.Body>
+            <Card.Title>
+              Appointment with Dr. {appointment.Doctor_FirstName} {appointment.Doctor_LastName} on {appointment.appointment_date}
+              {renderAppointmentConfirmationStatus(appointment)}
+            </Card.Title>
+            <Card.Text>
+              {renderMessageSection(appointment)}
+            </Card.Text>
+          </Card.Body>
+        </Card>
+      </>
+    )
+  };
   
-  const AppointmentCard = ({appointment}) => {
+  const PastAppointmentCard = ({appointment}) => {
     return (
       <>
         <Card style = {{ margin: '0 10px', position: 'relative' }}>
@@ -92,7 +120,7 @@ export default function PatientDashboard() {
     return (
       <>
         {upcomingAppointments.map((appointment) => (
-          <AppointmentCard key = {appointment.AppointmentsID} appointment = {appointment} />
+          <UpcomingAppointmentCard key = {appointment.AppointmentsID} appointment = {appointment} />
         ))}
       </>
     )
@@ -103,7 +131,7 @@ export default function PatientDashboard() {
     return (
       <>
         {pastAppointments.map((appointment) => (
-          <AppointmentCard key = {appointment.AppointmentsID} appointment = {appointment} />
+          <PastAppointmentCard key = {appointment.AppointmentsID} appointment = {appointment} />
           ))}
       </>
     )

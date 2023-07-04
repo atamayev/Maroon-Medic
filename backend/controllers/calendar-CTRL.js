@@ -57,9 +57,9 @@ export async function makeAppointment(req, res) {
     const mysqlDateTime = dateTime.format('YYYY-MM-DD HH:mm:ss');
 
     const sql2 = `INSERT INTO ${Appointments}
-        (appointment_date, patient_message, Doctor_confirmation_status, Service_and_category_list_ID, Patient_ID, Doctor_ID, Addresses_ID, Created_at) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
-    const values2 = [mysqlDateTime, null, AppointmentObject.InstantBook, AppointmentObject.Service_and_category_list_ID, PatientID, DoctorID, AppointmentObject.AddressesID, createdAt];
+        (appointment_date, appointment_price, patient_message, Doctor_confirmation_status, Service_and_category_list_ID, Patient_ID, Doctor_ID, Addresses_ID, Created_at) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    const values2 = [mysqlDateTime, AppointmentObject.appointmentPrice, AppointmentObject.message, AppointmentObject.InstantBook, AppointmentObject.Service_and_category_list_ID, PatientID, DoctorID, AppointmentObject.AddressesID, createdAt];
 
     await DB_Operation(makeAppointment.name, Appointments)
     try {
@@ -93,7 +93,7 @@ export async function getDoctorCalendarDetails(req, res) {
         ['Appointments', 'service_and_category_list', 'service_mapping', 'addresses', 'basic_user_info'];
 
     const sql = `SELECT 
-            ${Appointments}.AppointmentsID, ${Appointments}.appointment_date, ${Appointments}.patient_message, ${Appointments}.Doctor_confirmation_status, ${Appointments}.Created_at,
+            ${Appointments}.AppointmentsID, ${Appointments}.appointment_date, ${Appointments}.appointment_price, ${Appointments}.patient_message, ${Appointments}.Doctor_confirmation_status, ${Appointments}.Created_at,
             ${service_and_category_list}.Category_name, ${service_and_category_list}.Service_name, 
             ${service_mapping}.Service_time,
             ${addresses}.address_title, ${addresses}.address_line_1, ${addresses}.address_line_2, ${addresses}.city, ${addresses}.state, ${addresses}.zip, ${addresses}.country,

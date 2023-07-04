@@ -1,17 +1,20 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { useNavigate, useLocation } from "react-router-dom";
 import { NonPatientAccess } from '../../components/user-type-unauth';
 import useSimpleUserVerification from '../../custom-hooks/use-simple-user-verification';
 import { confirmBooking } from '../../custom-hooks/public-doctor-hooks/confirm-booking-hook';
 import Header from '../header';
+import FormGroup from '../../components/form-group';
 
-const handleConfirmBooking = (e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData) => {
+const handleConfirmBooking = (e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData, message) => {
   e.preventDefault();
-  confirmBooking(navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData)
+  confirmBooking(navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData, message)
 }
 
 export function FinalizeBookingPage() {
+  const [message, setMessage] = useState('');
+  const [isMessageOverLimit, setIsMessageOverLimit] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { userType } = useSimpleUserVerification(false);
@@ -31,6 +34,10 @@ export function FinalizeBookingPage() {
     }
   }, [location]);
 
+  useEffect(() => {
+    if (message) setIsMessageOverLimit(message.length >= 100)
+  }, [message])
+
   if (!location.state && !sessionBookingDetails) {
     return null; // or render some kind of loading spinner
   }
@@ -46,21 +53,59 @@ export function FinalizeBookingPage() {
     return <>Request</>
   }
 
+  const renderMessageSection = () => {  
+    return (
+      <FormGroup
+        id = "Message" 
+        value = {message} 
+        onChange = {event => {
+          const value = event.target.value;
+          setMessage(value);
+        }}
+        maxLength = {100} // limit to 100 characters
+        as = "textarea" 
+        // rows = {3}
+      />
+    )
+  }
+
+  const counterStyleLimit = () => {
+    if (isMessageOverLimit) return {color: 'red'}
+    return {color: 'black'}
+  }
+
+  const renderCharacterLimit = () => {
+    return (
+      <div style = {counterStyleLimit()}>
+        Character Limit: {message.length} / 100
+      </div>
+    )
+  }
+
+
   const renderCardText = () => {
     return (
       <Card.Text>
-        <div>
+        <span style={{ display: 'block' }}>
           <strong>Service:</strong> {selectedService.Service_name}
-        </div>
-        <div>
+        </span>
+        <span style={{ display: 'block' }}>
           <strong>Location:</strong> {selectedLocation.address_title}:  {selectedLocation.address_line_1} {selectedLocation.address_line_2}
-        </div>
-        <div>
+        </span>
+        <span style={{ display: 'block' }}>
           <strong>Day:</strong> {selectedDay}
-        </div>
-        <div>
+        </span>
+        <span style={{ display: 'block' }}>
           <strong>Time:</strong> {selectedTime}
-        </div>
+        </span>
+        <span style={{ display: 'block' }}>
+          <strong>Price:</strong> ${selectedService.Service_price}
+        </span>
+        <span style={{ display: 'block' }}>
+          <strong>Write a message to Dr. {capitalizedLastName}:</strong>
+          {renderMessageSection()}
+        </span>
+        {renderCharacterLimit()}
       </Card.Text>
     )
   }
@@ -78,7 +123,8 @@ export function FinalizeBookingPage() {
               selectedLocation,
               selectedDay,
               selectedTime,
-              personalData
+              personalData,
+              message
             )
           }}
         >

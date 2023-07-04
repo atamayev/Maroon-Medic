@@ -3,6 +3,7 @@ USE MaroonDB;
 CREATE TABLE Appointments(
 	appointmentsID INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	appointment_date DATETIME NOT NULL,
+    appointment_price DECIMAL(5,2) NOT NULL CHECK(appointment_price >= 0),
 	patient_message VARCHAR(1000),
 	Doctor_confirmation_status BOOLEAN NOT NULL,
 	Service_and_category_list_ID INT UNSIGNED NOT NULL, 

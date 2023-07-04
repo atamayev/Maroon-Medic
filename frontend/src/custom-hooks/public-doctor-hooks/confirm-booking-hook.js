@@ -1,14 +1,15 @@
 import CalendarDataService from "../../services/calendar-data-service";
-import { invalidUserAction } from "../user-verification-snippets";
 
-export async function confirmBooking(navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData) {
+export async function confirmBooking(navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData, message) {
     let AppointmentObject = {
       Service_and_category_list_ID: selectedService.service_and_category_listID,
       appointmentDate: selectedDay,
       appointmentTime: selectedTime,
+      appointmentPrice: selectedService.Service_price,
       NVI: personalData.NVI,
       AddressesID: selectedLocation.addressesID,
-      InstantBook: selectedLocation.instant_book
+      InstantBook: selectedLocation.instant_book,
+      message: message
     };
   
     try {
