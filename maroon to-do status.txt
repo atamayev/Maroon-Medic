@@ -2,6 +2,8 @@ To-do:
 
 
 ASAP:
+-for saving languages and specialties, make it only update the state after the response is recieved as successful (200). this should be for both adding and deleting.
+	add.js/delete.js functinos should only be called after save successful
 make the phone number input in the location.js only accept numbers (Phone input)
 -when saving pet data, the new pet data should be of the same format as the old data. Shouldn't include anything new/changed, including variable names
 	currently, when saving pet data, the insurance ID and insurance list ID are left in the variable after saving.
@@ -80,3 +82,5 @@ inactivity logout ( 5 mins). implement on the verification level (in the jwt)
 -I think the real selling point for pts to use the platform is knowing ahead of time if their insurance provider will cover a certain service. Will either require a lot of research, or data searching. 
 	Ask Phil if insurances openly disclose what they will/won't cover for which type of pets. 
 	Figure out a way to make it really user for users to figure out if their insurance covers a certain procedure. 
+
+-React browser warnins when adding pre_vet/vet education (see 7/4 keys commit)

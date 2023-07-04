@@ -11,7 +11,7 @@ import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-m
 import { saveLocation } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details";
 
 export default function RenderLocationSection(props) {
-  return(
+  return (
     <Card className = "mb-3">
       <Card.Header>
         Locations

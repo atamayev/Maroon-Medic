@@ -42,12 +42,13 @@ function RenderIsVetEducation(props) {
           onChange = {(e) => setSelectedVetSchool(e.target.value)}
         >
           <option value = "" disabled>Choose a School</option>
-          {_.uniq(listDetails.vetSchools?.map((item) => item.School_name)).map(
-            (school) => (
-              <option key = {school.vet_school_listID} value = {school}>
-                {school}
-              </option>
-            ))}
+          {_.uniqBy(listDetails.vetSchools, 'School_name').map(
+              (school) => (
+                <option key = {school.vet_school_listID} value = {school.School_name}>
+                  {school.School_name}
+                </option>
+              )
+          )}
         </select>
       </div>
     )
@@ -65,12 +66,13 @@ function RenderIsVetEducation(props) {
           onChange = {(event) => setSelectedVetEducationType(event.target.value)}
         >
           <option value = "" disabled>Choose an Education Type</option>
-          {_.uniq(listDetails.vetEducationTypes?.map((item) => item.Education_type)).map(
-            (VetEdType) => (
-              <option key = {VetEdType.vet_education_typeID} value = {VetEdType}>
-                {VetEdType}
+          {_.uniqBy(listDetails.vetEducationTypes, 'Education_type').map(
+            (vetEdType) => (
+              <option key = {vetEdType.vet_education_typeID} value = {vetEdType.Education_type}>
+                {vetEdType.Education_type}
               </option>
-            ))}
+            )
+          )}
         </select>
       </div>
     )
@@ -175,7 +177,7 @@ function RenderIsVetEducation(props) {
   const RenderSingleSavedEducation = (vet_education) => {
     const [status, setStatus] = useState('initial');
     return (
-      <li key = {vet_education.vet_education_mappingID}>
+      <li>
         {vet_education.School_name}, {vet_education.Education_type}
           {" (" + vet_education.Start_Date} - {vet_education.End_Date + ")"}
         {renderDeleteButtonOptions(status, setStatus, vet_education)}
@@ -187,7 +189,10 @@ function RenderIsVetEducation(props) {
     return (
       <ul>
         {vetEducation.map((vet_education) => (
-          <RenderSingleSavedEducation {...vet_education} />
+          <RenderSingleSavedEducation
+            key = {vet_education.vet_education_mappingID}
+            {...vet_education}
+          />
         ))}
       </ul>
     )

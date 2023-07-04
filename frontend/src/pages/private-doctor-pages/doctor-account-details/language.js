@@ -134,7 +134,7 @@ function RenderIsVetLanguages(props) {
   const RenderSingleSavedLanguage = (language) => {
     const [status, setStatus] = useState('initial');
     return (
-      <li key = {language.language_listID}>
+      <li>
         {language.Language_name}
         {renderDeleteButtonOptions(status, setStatus, language)}
       </li>
@@ -145,7 +145,10 @@ function RenderIsVetLanguages(props) {
     return (
       <ul>
         {spokenLanguages.map((language) => (
-          <RenderSingleSavedLanguage {...language} />
+          <RenderSingleSavedLanguage 
+            key = {language.language_listID}
+            {...language} 
+          />
         ))}
       </ul>
     )

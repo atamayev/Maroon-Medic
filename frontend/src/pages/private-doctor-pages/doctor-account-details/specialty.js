@@ -159,7 +159,7 @@ function RenderIsSpecialty(props) {
   const RenderSingleSavedSpecialty = (specialty) => {
     const [status, setStatus] = useState('initial');
     return (
-      <li key = {specialty.specialties_listID}>
+      <li>
         {specialty.Organization_name} - {specialty.Specialty_name}{" "}
         {renderDeleteButtonOptions(status, setStatus, specialty)}
       </li>
@@ -170,7 +170,10 @@ function RenderIsSpecialty(props) {
     return (
       <ul>
         {doctorSpecialties.map((specialty) => (
-          <RenderSingleSavedSpecialty {...specialty} />
+          <RenderSingleSavedSpecialty 
+            key = {specialty.specialties_listID} 
+            {...specialty}
+          />
         ))}
       </ul>
     )

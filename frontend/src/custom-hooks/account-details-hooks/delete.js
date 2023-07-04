@@ -9,7 +9,7 @@ export const handleDeleteLanguage = (language, spokenLanguages, setSpokenLanguag
 };
 
 export const handleDeleteSpecialty = (specialty, doctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation) => {    
-    const newDoctorSpecialties = doctorSpecialties.filter(s => s !== specialty);
+    const newDoctorSpecialties = doctorSpecialties.filter(s => s.specialties_listID !== specialty.specialties_listID);
     setDoctorSpecialties(newDoctorSpecialties);
     saveSpecialies(specialty.specialties_listID, newDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation, 'delete');
 };
