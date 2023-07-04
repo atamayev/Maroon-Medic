@@ -4,7 +4,7 @@ import PrivateDoctorDataService from "../../services/private-doctor-data-service
 import { invalidUserAction } from "../user-verification-snippets";
 import { checkIfListsAreEqual, areArraysSame} from "../lists-and-object-checks";
 
-export async function saveDoctorLanguages(languageID, spokenLanguages, setLanguagesConfirmation, operationType) {
+export async function saveDoctorLanguages(languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation, operationType) {
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   let response;
   try {
@@ -15,7 +15,8 @@ export async function saveDoctorLanguages(languageID, spokenLanguages, setLangua
     return
   }
   if (response.status === 200) {
-    DoctorAccountDetails.languages = spokenLanguages;
+    setSpokenLanguages(newSpokenLanguages);
+    DoctorAccountDetails.languages = newSpokenLanguages;
     sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
     setLanguagesConfirmation({messageType: 'saved'});
   } else {
@@ -68,7 +69,7 @@ export async function saveServices(providedServices, setServicesConfirmation) {
   }
 };
 
-export async function saveSpecialies(specialtyID, doctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation, operationType) {
+export async function saveSpecialies(specialtyID, newDoctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation, operationType) {
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   let response;
   try {
@@ -79,7 +80,8 @@ export async function saveSpecialies(specialtyID, doctorSpecialties, setSelected
     return
   }
   if (response.status === 200) {
-    DoctorAccountDetails.specialties = doctorSpecialties;
+    setDoctorSpecialties(newDoctorSpecialties)
+    DoctorAccountDetails.specialties = newDoctorSpecialties;
     sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
     setSpecialtiesConfirmation({messageType: 'saved'});
   } else {
@@ -137,47 +139,57 @@ export async function savePreVetEducation(preVetEducationObject, preVetEducation
   setPreVetEducationConfirmation({messageType: 'saved'});
 };
 
+async function deleteSaveVetEducation (vetEducationObject, vetEducation, setVetEducation, setVetEducationConfirmation, operationType ) {
+  try {
+    const response = await PrivateDoctorDataService.saveEducationData(vetEducationObject, 'vet', operationType)
+    if (response.status = 200) {
+      const newVetEducation = vetEducation.filter(object => object.vet_education_mappingID !== vetEducationObject);
+      setVetEducation(newVetEducation)
+      return newVetEducation
+    }
+    else {
+      setVetEducationConfirmation({messageType: 'problem'});
+      return
+    }
+  } catch (error) {
+    if (error.response.status === 401) invalidUserAction(error.response.data)
+    else setVetEducationConfirmation({messageType: 'problem'});
+    return
+  }
+}
+
+async function addSaveVetEducation (vetEducationObject, vetEducation, setVetEducation, listDetails, setVetEducationConfirmation, operationType) {
+  const mappedVetEducationObject = {
+    School_ID: listDetails.vetSchools.find(school => school.School_name === vetEducationObject.School_name)?.vet_school_listID || null,
+    Education_type_ID: listDetails.vetEducationTypes.find(educationType => educationType.Education_type === vetEducationObject.Education_type)?.vet_education_typeID || null,
+    Start_date: moment(vetEducationObject.Start_Date, "MMMM D, YYYY").format("YYYY-MM-DD"),
+    End_date: moment(vetEducationObject.End_Date, "MMMM D, YYYY").format("YYYY-MM-DD")
+  };
+  try {
+    const response = await PrivateDoctorDataService.saveEducationData(mappedVetEducationObject, 'vet', operationType)
+    if (response.status = 200) {
+      vetEducationObject.vet_education_mappingID = JSON.stringify(response.data)
+      const newVetEducation = [...vetEducation, vetEducationObject]
+      setVetEducation(newVetEducation)
+      return newVetEducation
+    }
+    else {
+      setVetEducationConfirmation({messageType: 'problem'});
+      return
+    }
+  } catch (error) {
+    if (error.response.status === 401) invalidUserAction(error.response.data)
+    else setVetEducationConfirmation({messageType: 'problem'});
+    return
+  }
+}
+
 export async function saveVetEducation(vetEducationObject, vetEducation, setVetEducation, listDetails, setVetEducationConfirmation, operationType) {
   let newVetEducation;
   if (operationType === 'delete') {
-    try {
-      const response = await PrivateDoctorDataService.saveEducationData(vetEducationObject, 'vet', operationType)
-      if (response.status = 200) {
-        newVetEducation = vetEducation.filter(object => object.vet_education_mappingID !== vetEducationObject);
-        setVetEducation(newVetEducation)
-      }
-      else {
-        setVetEducationConfirmation({messageType: 'problem'});
-        return
-      }
-    } catch (error) {
-      if (error.response.status === 401) invalidUserAction(error.response.data)
-      else setVetEducationConfirmation({messageType: 'problem'});
-      return
-    }
+    newVetEducation = deleteSaveVetEducation(vetEducationObject, vetEducation, setVetEducation, setVetEducationConfirmation, operationType)
   } else if (operationType === 'add') {
-    const mappedVetEducationObject = {
-      School_ID: listDetails.vetSchools.find(school => school.School_name === vetEducationObject.School_name)?.vet_school_listID || null,
-      Education_type_ID: listDetails.vetEducationTypes.find(educationType => educationType.Education_type === vetEducationObject.Education_type)?.vet_education_typeID || null,
-      Start_date: moment(vetEducationObject.Start_Date, "MMMM D, YYYY").format("YYYY-MM-DD"),
-      End_date: moment(vetEducationObject.End_Date, "MMMM D, YYYY").format("YYYY-MM-DD")
-    };
-    try {
-      const response = await PrivateDoctorDataService.saveEducationData(mappedVetEducationObject, 'vet', operationType)
-      if (response.status = 200) {
-        vetEducationObject.vet_education_mappingID = JSON.stringify(response.data)
-        newVetEducation = [...vetEducation, vetEducationObject]
-        setVetEducation(newVetEducation)
-      }
-      else {
-        setVetEducationConfirmation({messageType: 'problem'});
-        return
-      }
-    } catch (error) {
-      if (error.response.status === 401) invalidUserAction(error.response.data)
-      else setVetEducationConfirmation({messageType: 'problem'});
-      return
-    }
+    newVetEducation = addSaveVetEducation(vetEducationObject, vetEducation, setVetEducation, listDetails, setVetEducationConfirmation, operationType)
   }
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   DoctorAccountDetails.vetEducation = newVetEducation;
@@ -269,7 +281,7 @@ export async function saveDescription(description, setDescriptionConfirmation) {
   }
 };
 
-export async function savePets(petID, newServicedPets, setPetsConfirmation, operationType) {
+export async function savePets(petID, newServicedPets, setServicedPets, setPetsConfirmation, operationType) {
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   let response;
   try {
@@ -280,6 +292,7 @@ export async function savePets(petID, newServicedPets, setPetsConfirmation, oper
     return
   }
   if (response.status === 200) {
+    setServicedPets(newServicedPets);
     DoctorAccountDetails.servicedPets = newServicedPets;
     sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
     setPetsConfirmation({messageType: 'saved'});

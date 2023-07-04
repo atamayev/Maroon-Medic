@@ -125,8 +125,6 @@ function RenderIsPreVetEducation(props) {
             setSelectedPreVetSchool,
             selectedPreVetEducationType,
             setSelectedPreVetEducationType,
-            preVetEducation,
-            setPreVetEducation,
             timeState,
             setTimeState,
             selectedMajor,

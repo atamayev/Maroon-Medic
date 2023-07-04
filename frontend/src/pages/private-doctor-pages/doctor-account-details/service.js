@@ -178,7 +178,18 @@ function RenderIsVetServices (props) {
 
   const renderToggleCategory = (category, services) => {
     if (services.length <= 1) return null
-    return <Button onClick = {() => handleToggleCategory(category, setExpandedCategories)}>Toggle</Button>
+  
+    const isOpen = expandedCategories.includes(category);
+    const renderIsOpen = () => {
+      if (isOpen) return '^';
+      return 'v';
+    }
+  
+    return (
+      <Button onClick={() => handleToggleCategory(category, setExpandedCategories)}>
+        {renderIsOpen()}
+      </Button>
+    );
   }
 
   return (

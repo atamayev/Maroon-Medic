@@ -2,7 +2,7 @@ import _ from "lodash"
 import PrivatePatientDataService from "../../services/private-patient-data-service";
 import { invalidUserAction} from "../user-verification-snippets";
 
-export async function savePatientLanguages(languageID, spokenLanguages, setLanguagesConfirmation, operationType) {
+export async function savePatientLanguages(languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation, operationType) {
   const PatientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails"));
   let response;
   try {
@@ -13,7 +13,8 @@ export async function savePatientLanguages(languageID, spokenLanguages, setLangu
     return
   }
   if (response.status === 200) {
-    PatientAccountDetails.languages = spokenLanguages;
+    setSpokenLanguages(newSpokenLanguages);
+    PatientAccountDetails.languages = newSpokenLanguages;
     sessionStorage.setItem("PatientAccountDetails", JSON.stringify(PatientAccountDetails));
     setLanguagesConfirmation({messageType: 'saved'});
   } else {

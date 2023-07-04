@@ -44,9 +44,20 @@ function RenderIsPets (props) {
   
   const isTogglePetType = (pets, pet_type) => {
     if (pets.length <= 1) return null;
-    return <Button onClick = {() => handleTogglePetType(pet_type, setExpandedPetTypes)}>Toggle</Button>
+  
+    const isOpen = expandedPetTypes.includes(pet_type);
+    const renderIsOpen = () => {
+      if (isOpen) return '^';
+      return 'v';
+    }
+  
+    return (
+      <Button onClick={() => handleTogglePetType(pet_type, setExpandedPetTypes)}>
+        {renderIsOpen()}
+      </Button>
+    );
   }
-
+  
   const renderShowPetsSection = (pets, pet_type) => {
     if (pets.length > 1 && !expandedPetTypes.includes(pet_type)) return null;
 
@@ -64,13 +75,13 @@ function RenderIsPets (props) {
                 onChange = {(event) => {
                   if (event.target.checked) {
                     const newServicedPets = [...servicedPets, pet]
-                    setServicedPets([...servicedPets, pet])
-                    savePets(pet.pet_listID, newServicedPets, setPetsConfirmation, 'add')
+                    setServicedPets(newServicedPets)
+                    savePets(pet.pet_listID, newServicedPets, setServicedPets, setPetsConfirmation, 'add')
                   }
                   else {
                     const newServicedPets = servicedPets.filter(p => p.pet_listID !== pet.pet_listID);
                     setServicedPets(newServicedPets);
-                    savePets(pet.pet_listID, newServicedPets, setPetsConfirmation, 'delete')                        
+                    savePets(pet.pet_listID, newServicedPets, setServicedPets, setPetsConfirmation, 'delete')                        
                   }
                 }}
                 />

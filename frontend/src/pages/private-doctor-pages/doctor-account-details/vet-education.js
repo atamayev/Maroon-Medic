@@ -97,8 +97,6 @@ function RenderIsVetEducation(props) {
           setSelectedVetSchool,
           selectedVetEducationType,
           setSelectedVetEducationType,
-          vetEducation,
-          setVetEducation,
           timeState,
           setTimeState
         );

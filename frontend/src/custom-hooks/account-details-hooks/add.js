@@ -8,17 +8,15 @@ export const handleAddLanguage = (selectedLanguageID, spokenLanguages, setSpoken
   else if (doctorOrPatient === 'patient') selectedLanguage = listDetails.languages.find((lang) => lang.language_listID === JSON.parse(selectedLanguageID));
 
   const newSpokenLanguages = [...spokenLanguages, selectedLanguage];
-  setSpokenLanguages(newSpokenLanguages);
   
-  if (doctorOrPatient === 'doctor') saveDoctorLanguages(selectedLanguageID, newSpokenLanguages, setLanguagesConfirmation, 'add')
-  else if (doctorOrPatient === 'patient') savePatientLanguages(selectedLanguageID, newSpokenLanguages, setLanguagesConfirmation, 'add')
+  if (doctorOrPatient === 'doctor') saveDoctorLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation, 'add')
+  else if (doctorOrPatient === 'patient') savePatientLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation, 'add')
 };
 
 export const handleAddSpecialty = (selectedSpecialtyID, doctorSpecialties, setDoctorSpecialties, setSelectedOrganization, listDetails, setSpecialtiesConfirmation) => {
   const selectedSpecialty = listDetails.specialties.find((spec) => spec.specialties_listID === JSON.parse(selectedSpecialtyID));
   const newDoctorSpecialties = [...doctorSpecialties, selectedSpecialty];
-  setDoctorSpecialties(newDoctorSpecialties)
-  saveSpecialies(selectedSpecialtyID, newDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation, 'add')
+  saveSpecialies(selectedSpecialtyID, newDoctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation, 'add')
 };
 
 export const handleAddEducation = (
@@ -26,8 +24,6 @@ export const handleAddEducation = (
   setSelectedSchool,
   selectedEducationType,
   setSelectedEducationType,
-  educationArray,
-  setEducationArray,
   timeState,
   setTimeState,
   selectedMajor = null,
@@ -40,8 +36,6 @@ export const handleAddEducation = (
     End_Date: moment(`${timeState.endYear}-${timeState.endMonth}-1`,"YYYY-MMMM-D").format("MMMM D, YYYY"),
   };
   if (selectedMajor) selectedEducationObj.Major_name = selectedMajor;
-
-  setEducationArray([...educationArray, selectedEducationObj]);
 
   setSelectedSchool("");
   setSelectedEducationType("");

@@ -3,13 +3,11 @@ import { saveDoctorLanguages, saveSpecialies } from "./save-doctor-account-detai
 
 export const handleDeleteLanguage = (language, spokenLanguages, setSpokenLanguages, setLanguagesConfirmation, doctorOrPatient) => {
     const newSpokenLanguages = spokenLanguages.filter(l => l.language_listID !== language.language_listID);
-    setSpokenLanguages(newSpokenLanguages);
-    if (doctorOrPatient === 'doctor') saveDoctorLanguages(language.language_listID, newSpokenLanguages, setLanguagesConfirmation, 'delete');
-    else if (doctorOrPatient === 'patient') savePatientLanguages(language.language_listID, newSpokenLanguages, setLanguagesConfirmation, 'delete')
+    if (doctorOrPatient === 'doctor') saveDoctorLanguages(language.language_listID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation, 'delete');
+    else if (doctorOrPatient === 'patient') savePatientLanguages(language.language_listID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation, 'delete')
 };
 
 export const handleDeleteSpecialty = (specialty, doctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation) => {    
     const newDoctorSpecialties = doctorSpecialties.filter(s => s.specialties_listID !== specialty.specialties_listID);
-    setDoctorSpecialties(newDoctorSpecialties);
-    saveSpecialies(specialty.specialties_listID, newDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation, 'delete');
+    saveSpecialies(specialty.specialties_listID, newDoctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation, 'delete');
 };

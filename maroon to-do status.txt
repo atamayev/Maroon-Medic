@@ -2,8 +2,6 @@ To-do:
 
 
 ASAP:
--for saving languages and specialties, make it only update the state after the response is recieved as successful (200). this should be for both adding and deleting.
-	add.js/delete.js functinos should only be called after save successful
 make the phone number input in the location.js only accept numbers (Phone input)
 -when saving pet data, the new pet data should be of the same format as the old data. Shouldn't include anything new/changed, including variable names
 	currently, when saving pet data, the insurance ID and insurance list ID are left in the variable after saving.
