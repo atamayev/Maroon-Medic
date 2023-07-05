@@ -2,6 +2,10 @@ To-do:
 
 
 ASAP:
+-saving location bug. when there is a location, titled '23', with certain times, and a new location, '23123' is entered, with no times, and the accordion is still open, and the data is saved, the times switch locations
+	check this function: handleInputChange in location.js - to make sure that 
+	run extensive testing. see what happens in all different kinds of scenarios (enter different titles for the addresses - first a title starting with 'a', then 'b', etc.)
+	
 make the phone number input in the location.js only accept numbers (Phone input)
 wihle the languages saved! message appears, try to delete a language. go into the 'deleting' stage. after the save languages! message disappears, the state of the deleting button reverts to the X
 
@@ -9,7 +13,6 @@ wihle the languages saved! message appears, try to delete a language. go into th
 	Make the error on the front-end be say something like: duplicate entry. Or, don't allow the user to add the same entry twice
 	Do this for all tables 
 -education year end date is at most 2022. should be 2023
--when deleting, make all of teh parts of the account details require a delete confirmation. change the X delete button to red. when press delete, should plit into 2 buttons- confirm delete, or nevermind
 
 --change all front-end select month, day, year into a 'date', like in pets.js
 	-make the date only be sometime in the past
@@ -17,11 +20,7 @@ wihle the languages saved! message appears, try to delete a language. go into th
 -in the appointments table, will need to change patient_ID to pet_ID. then, on the front-end, you need to have a registered pet in order to make an appointment
 
 - when registering as a patient, need to make it clear when the user is entering data regrading the human, and when about the pet
-	make the patient-side area where the pt can enter pet details (based on the pet_list)
 
-- if a certain location has no times selected, when that location is selected by hte pt, it should say something like: 'This doc has no available time slots'
-	BUG: if one of the locations has no availbale times, and is pressed, then all location show no available tiems
-	
 -In the checkout screen, ask: Do you have insurance, and are you cirious to know what your out of pocket cost will be for [Service_name] with Dr. [name]?
 	Only ask if user hasn't entered their insurance in the patient details. if they have, calculate it on the fly
 
@@ -40,6 +39,7 @@ LATER:
 Make the 'Add Address' Button Finalize a Location, make it within the accordion. 
 	So when add address is pressed, it becomes a pretty-looking text (can edit it by pressing a pencil in the top right or something)
 	Add a new 'Add new address' button to add a new acordion strip
+	Won't need a save button. the add/delete buttons will act as saves. will need to make the delete button double confirmation like everything else
 
 Write documentation, especially for saveAddresses
 
@@ -79,3 +79,5 @@ inactivity logout ( 5 mins). implement on the verification level (in the jwt)
 	Figure out a way to make it really user for users to figure out if their insurance covers a certain procedure. 
 
 -React browser warnins when adding pre_vet/vet education (see 7/4 keys commit)
+
+-make entering time data into location.js easier. currently a pain in the ass, keeps reseting

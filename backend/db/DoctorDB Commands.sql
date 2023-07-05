@@ -253,6 +253,7 @@ CREATE TABLE addresses(
 	Doctor_ID INT unsigned NOT NULL, 
 	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
 );
+select * from addresses;
 select * from addresses where isactive;
 SELECT * FROM addresses inner join phone on addresses.addressesID = phone.address_ID WHERE addresses.isactive;
 -- update addresses set isActive = 0 where Doctor_ID;

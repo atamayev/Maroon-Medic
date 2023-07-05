@@ -22,7 +22,7 @@ export default function RenderBookingSection(props) {
   const [availableTimes, setAvailableTimes] = useState([]);
   const navigate = useNavigate();
   const [availableDates, setAvailableDates] = useState([]);
-  const [serviceMinutes, setServiceMinutes] = useState(0); // [1
+  const [serviceMinutes, setServiceMinutes] = useState(0);
   
   // Get selected service object
   const selectedServiceObject = providedServices.find(service => service.service_and_category_listID === selectedService?.service_and_category_listID);
@@ -91,19 +91,21 @@ export default function RenderBookingSection(props) {
 
   const anyLocationHasTimes = addresses.some(location => location.times && !_.isEmpty(location.times));
 
+  const capitalizedLastName = personalData.LastName.charAt(0).toUpperCase() + personalData.LastName.slice(1);
+
   if (!anyLocationHasTimes) {
     return (
       <Card className = 'card-bottom-margin'>
         <Card.Header>Ready to make a booking?</Card.Header>
         <Card.Body>
-        This doctor does not currently have any open time slots for appointments.
+          Dr. {capitalizedLastName} does not currently have any open time slots for appointments.
         </Card.Body>
       </Card>
     )
   }
 
   const renderAvailableDates = () => {
-    if (selectedDay === "This doctor does not currently have any open appointments") {
+    if (selectedDay === `Dr. ${capitalizedLastName} does not currently have any open appointments at this location`) {
       return <option disabled>{selectedDay}</option>
     }
 
@@ -183,7 +185,7 @@ export default function RenderBookingSection(props) {
 
   const renderNoAvailableTimes = () => {
     if (!noAvailableTimesMessage) return null
-    return <>This doctor does not currently have any open appointments </>
+    return <>Dr. {capitalizedLastName} does not currently have any open appointments at this location</>
   }
 
   const renderSelectTime = () => {
@@ -235,7 +237,7 @@ export default function RenderBookingSection(props) {
       return (
         <Card className = 'card-bottom-margin'>
           <Card.Header>Ready to make a booking?</Card.Header>
-          <Card.Body>This doctor does not currently offer any services.</Card.Body>
+          <Card.Body>Dr. {capitalizedLastName} does not currently offer any services.</Card.Body>
         </Card>
       )
     }
