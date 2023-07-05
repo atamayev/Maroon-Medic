@@ -31,7 +31,7 @@ function RenderIsVetServices (props) {
   }
 
   const timeOptions = [
-    ...Array.from({ length: 11 }, (_, i) => (i + 1) * 5),
+    ...Array.from({ length: 11 }, (_, i) => ((i + 1) * 5) + ' minutes'),
     '1 hour',
     '2 hours',
     '3 hours',
@@ -39,7 +39,7 @@ function RenderIsVetServices (props) {
     '1 day',
     '2 days',
     '3 days',
-  ];
+  ];  
 
   const areAllTimesSet = (services) => {
     return services.every(service => service.Service_time !== null && service.Service_time !== "");
@@ -115,7 +115,7 @@ function RenderIsVetServices (props) {
         }}
       >
         <option value = "" disabled>
-          Service Time (mins)
+          Service Time
         </option>
         {timeOptions.map((time) => (
           <option key = {time} value = {time}>

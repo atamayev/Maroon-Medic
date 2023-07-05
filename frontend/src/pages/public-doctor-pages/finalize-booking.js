@@ -1,11 +1,12 @@
+import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { useNavigate, useLocation } from "react-router-dom";
+import FormGroup from '../../components/form-group';
 import { NonPatientAccess } from '../../components/user-type-unauth';
 import useSimpleUserVerification from '../../custom-hooks/use-simple-user-verification';
 import { confirmBooking } from '../../custom-hooks/public-doctor-hooks/confirm-booking-hook';
 import Header from '../header';
-import FormGroup from '../../components/form-group';
 
 const handleConfirmBooking = (e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData, message) => {
   e.preventDefault();
@@ -15,30 +16,37 @@ const handleConfirmBooking = (e, navigate, selectedService, selectedLocation, se
 export function FinalizeBookingPage() {
   const [message, setMessage] = useState('');
   const [isMessageOverLimit, setIsMessageOverLimit] = useState(false);
-  const location = useLocation();
+  const browserLocation = useLocation();
   const navigate = useNavigate();
   const { userType } = useSimpleUserVerification(false);
 
-  let selectedService, selectedLocation, selectedDay, selectedTime, personalData;
+  let selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData;
   const sessionBookingDetails = JSON.parse(sessionStorage.getItem('bookingDetails'));
 
-  if (location.state) {
-    ({ selectedService, selectedLocation, selectedDay, selectedTime, personalData } = location.state);
+  if (browserLocation.state) {
+    ({ selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData } = browserLocation.state);
   } else if (sessionBookingDetails) {
-    ({ selectedService, selectedLocation, selectedDay, selectedTime, personalData } = sessionBookingDetails);
+    ({ selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData } = sessionBookingDetails);
   }
 
   useEffect(() => {
-    if (!location.state  && !sessionBookingDetails) {
+    if (!browserLocation.state  && !sessionBookingDetails) {
       window.location.href = "/"
     }
-  }, [location]);
+  }, [browserLocation]);
+
+  // Ensures that the user is not able to navigate back to finalize booking right after making an appointment
+  useEffect(() => {
+    if ((browserLocation.state && browserLocation.state.finalized) || !sessionBookingDetails) {
+      navigate('/patient-dashboard');
+    }
+  }, [browserLocation, navigate, sessionBookingDetails]);  
 
   useEffect(() => {
     if (message) setIsMessageOverLimit(message.length >= 100)
   }, [message])
 
-  if (!location.state && !sessionBookingDetails) {
+  if (!browserLocation.state && !sessionBookingDetails) {
     return null; // or render some kind of loading spinner
   }
 
@@ -62,9 +70,8 @@ export function FinalizeBookingPage() {
           const value = event.target.value;
           setMessage(value);
         }}
-        maxLength = {100} // limit to 100 characters
+        maxLength = {100}
         as = "textarea" 
-        // rows = {3}
       />
     )
   }
@@ -76,37 +83,38 @@ export function FinalizeBookingPage() {
 
   const renderCharacterLimit = () => {
     return (
-      <div style = {counterStyleLimit()}>
+      <span style = {{ display: 'block', ...counterStyleLimit() }}>
         Character Limit: {message.length} / 100
-      </div>
-    )
+      </span>
+    );
   }
-
 
   const renderCardText = () => {
     return (
-      <Card.Text>
-        <span style={{ display: 'block' }}>
-          <strong>Service:</strong> {selectedService.Service_name}
-        </span>
-        <span style={{ display: 'block' }}>
-          <strong>Location:</strong> {selectedLocation.address_title}:  {selectedLocation.address_line_1} {selectedLocation.address_line_2}
-        </span>
-        <span style={{ display: 'block' }}>
-          <strong>Day:</strong> {selectedDay}
-        </span>
-        <span style={{ display: 'block' }}>
-          <strong>Time:</strong> {selectedTime}
-        </span>
-        <span style={{ display: 'block' }}>
-          <strong>Price:</strong> ${selectedService.Service_price}
-        </span>
+      <>
+        <Card.Text>
+          <span style={{ display: 'block' }}>
+            <strong>Service:</strong> {selectedService.Service_name}
+          </span>
+          <span style={{ display: 'block' }}>
+            <strong>Location:</strong> {selectedLocation.address_title}:  {selectedLocation.address_line_1} {selectedLocation.address_line_2}
+          </span>
+          <span style={{ display: 'block' }}>
+            <strong>Day:</strong> {selectedDay}
+          </span>
+          <span style={{ display: 'block' }}>
+            <strong>Time:</strong> {selectedTime} - {moment(selectedTime, 'HH:mm').add(serviceMinutes, 'minutes').format('h:mm A')}
+          </span>
+          <span style={{ display: 'block' }}>
+            <strong>Price:</strong> ${selectedService.Service_price}
+          </span>
+        </Card.Text>
         <span style={{ display: 'block' }}>
           <strong>Write a message to Dr. {capitalizedLastName}:</strong>
           {renderMessageSection()}
         </span>
         {renderCharacterLimit()}
-      </Card.Text>
+      </>
     )
   }
 

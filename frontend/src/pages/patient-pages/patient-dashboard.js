@@ -76,12 +76,12 @@ export default function PatientDashboard() {
     if (!appointment.patient_message) return null
     return (
       <span style={{ display: 'block' }}>
-        Patient Message:
-        {' ' + appointment.patient_message}
+        Your Message: {''}
+        {appointment.patient_message}
       </span>
     )
   }
-    
+
   const UpcomingAppointmentCard = ({appointment}) => {
     return (
       <>

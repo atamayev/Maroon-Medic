@@ -2,17 +2,14 @@ To-do:
 
 
 ASAP:
--Major Fix Needed: when the service time isn't from 5-55 mins, the booking page breaks
 make the phone number input in the location.js only accept numbers (Phone input)
 wihle the languages saved! message appears, try to delete a language. go into the 'deleting' stage. after the save languages! message disappears, the state of the deleting button reverts to the X
--after confirming booking, the user is able to go back to the finalize-booking page (since the location.state is still saved)
 
 -duplicate entries need to be accounted for when added to DB. Unique constraints. when the same data is entered into the pre_vet_edcatinn_mapping table, it gives an error, but doesn't enter the data.
 	Make the error on the front-end be say something like: duplicate entry. Or, don't allow the user to add the same entry twice
 	Do this for all tables 
 -education year end date is at most 2022. should be 2023
 -when deleting, make all of teh parts of the account details require a delete confirmation. change the X delete button to red. when press delete, should plit into 2 buttons- confirm delete, or nevermind
--Include the cost in the finalize booking screen
 
 --change all front-end select month, day, year into a 'date', like in pets.js
 	-make the date only be sometime in the past
@@ -25,13 +22,13 @@ wihle the languages saved! message appears, try to delete a language. go into th
 - if a certain location has no times selected, when that location is selected by hte pt, it should say something like: 'This doc has no available time slots'
 	BUG: if one of the locations has no availbale times, and is pressed, then all location show no available tiems
 	
--In the checkout screen, ask: Do cyou have insurance, and are you cirious to know what your out of pocket cost will be for [Service_name] with Dr. [name]?
+-In the checkout screen, ask: Do you have insurance, and are you cirious to know what your out of pocket cost will be for [Service_name] with Dr. [name]?
 	Only ask if user hasn't entered their insurance in the patient details. if they have, calculate it on the fly
 
 -Reviews:
 	Patient's able to make a review after the appointment date is completed, given that the appointment is approved by the doctor.
 
-On the vet dashboard, make the appointments clickable, shows the patients details, patient note, pet details, etc.
+On the vet dashboard, make the appointments clickable, shows the patients details, pet details, etc.
 	Should go to a newly created appointment page, which nicely lays out the appointment details. 
 	If that event is clicked on from calendar view, it should go to that link as well
 

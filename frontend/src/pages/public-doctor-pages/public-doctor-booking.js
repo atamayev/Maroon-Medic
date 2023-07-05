@@ -7,9 +7,9 @@ import FormGroup from '../../components/form-group';
 import { finalizeBookingClick } from "../../custom-hooks/public-doctor-hooks/booking-page-hooks";
 import { handleServiceChange, handleLocationChange, handleDayChange, handleTimeChange } from "../../custom-hooks/public-doctor-hooks/booking-page-hooks";
 
-const handleBookingClick = (e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData) => {
+const handleBookingClick = (e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData) => {
   e.preventDefault();
-  finalizeBookingClick(navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData)
+  finalizeBookingClick(navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData)
 }
 
 export default function RenderBookingSection(props) {
@@ -22,12 +22,22 @@ export default function RenderBookingSection(props) {
   const [availableTimes, setAvailableTimes] = useState([]);
   const navigate = useNavigate();
   const [availableDates, setAvailableDates] = useState([]);
+  const [serviceMinutes, setServiceMinutes] = useState(0); // [1
   
   // Get selected service object
   const selectedServiceObject = providedServices.find(service => service.service_and_category_listID === selectedService?.service_and_category_listID);
 
   // Get selected location object
   const selectedLocationObject = addresses.find(location => location.addressesID === selectedLocation?.addressesID);
+
+  function convertToMinutes(input) {
+    if (typeof input === 'string') {
+      let value = parseInt(input.split(' ')[0]);
+      if (input.includes('hour')) return moment.duration(value, 'hours').asMinutes();
+      else if (input.includes('day')) return moment.duration(value, 'days').asMinutes();
+      else return value;
+    }
+  }
 
   useEffect(() => {
     if (selectedDay && selectedLocationObject && selectedServiceObject) {
@@ -42,10 +52,13 @@ export default function RenderBookingSection(props) {
         
         let currentTime = moment().hour(start[0]).minute(start[1]);
         let endTime = moment().hour(end[0]).minute(end[1]);
-        
+
+        const serviceMinutes = convertToMinutes(selectedServiceObject.Service_time);  // Converts the time to minutes
+        setServiceMinutes(serviceMinutes)
+
         while (currentTime.isBefore(endTime)) {
           times.push(currentTime.format('h:mm A')); // Change 'HH:mm' to 'h:mm A'
-          currentTime = currentTime.clone().add(Number(selectedServiceObject.Service_time), 'minutes');
+          currentTime = currentTime.clone().add(serviceMinutes, 'minutes');
         }
         setAvailableTimes(times);
       }
@@ -175,7 +188,6 @@ export default function RenderBookingSection(props) {
 
   const renderSelectTime = () => {
     if (!(selectedService && selectedLocation && selectedDay)) return null;
-
     return (
       <div className = "col-md-6">
         <FormGroup 
@@ -187,7 +199,7 @@ export default function RenderBookingSection(props) {
           <option>Select...</option>
           {availableTimes.map((time) => (
             <option key = {time} value = {time}>
-              {time}
+              {time} - {moment(time, 'h:mm A').add(serviceMinutes, 'minutes').format('h:mm A')}
             </option>
           ))}
         </FormGroup>
@@ -208,6 +220,7 @@ export default function RenderBookingSection(props) {
           selectedLocation,
           selectedDay,
           selectedTime,
+          serviceMinutes,
           personalData
           )}
         variant = 'primary' 

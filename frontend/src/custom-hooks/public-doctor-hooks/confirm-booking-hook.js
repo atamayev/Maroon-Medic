@@ -11,12 +11,13 @@ export async function confirmBooking(navigate, selectedService, selectedLocation
       InstantBook: selectedLocation.instant_book,
       message: message
     };
-  
+
     try {
       const response = await CalendarDataService.makeAppointment(AppointmentObject);
       if (response.status === 200) {
         sessionStorage.removeItem('bookingDetails');
-        navigate('/patient-dashboard');
+        // Ensures that the user is not able to navigate back to finalize booking right after making an appointment:
+        navigate('/patient-dashboard', { state: { finalized: true } });
       }
     } catch(error) {
       // if (error.response.status === 401) invalidUserAction(error.response.data)

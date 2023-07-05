@@ -33,7 +33,7 @@ function renderProvidedServices(providedServices) {
           <h3>{category}</h3>
           {services.map(service => (
             <p key = {service.service_and_category_listID}>
-              {service.Service_name} - {service.Service_time} minutes, ${service.Service_price}
+              {service.Service_name} - {service.Service_time}, ${service.Service_price}
             </p>
           ))}
         </div>
