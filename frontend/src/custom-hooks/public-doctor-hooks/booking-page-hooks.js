@@ -14,7 +14,7 @@ export const handleServiceChange = (event, providedServices, setSelectedService,
 export const handleLocationChange = (event, addresses, setSelectedLocation, setSelectedDay, setSelectedTime, setNoAvailableTimesMessage) => {
   const value = event.target.value;
   const selectedLocationObject = addresses.find(location => location.addressesID.toString() === value);
- 
+
   if (value === 'Select...') {
     setSelectedLocation(null);
     setNoAvailableTimesMessage(false);
@@ -41,7 +41,7 @@ export const handleTimeChange = (event, setSelectedTime) => {
   const value = event.target.value;
   setSelectedTime(value === 'Select...' ? null : value);
 };
-  
+
 export function finalizeBookingClick(navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData) {
   const bookingDetails = {
     selectedService: selectedService ? selectedService : null,

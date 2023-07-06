@@ -25,18 +25,19 @@ function renderServicedPets(servicedPets) {
       categories[Pet.pet_type].push(Pet);
     });
   }
-  return(
-      <>
-        {Object.entries(categories).map(([pet_type, pets]) => (
-          <div key = {pet_type} style = {{ marginBottom: '10px' }}>
-            <h3>{pet_type}</h3>
-            {pets.map(Pet => (
-              <p key = {Pet.pet_listID}>
-                {Pet.pet}
-              </p>
-            ))}
-          </div>
-        ))}
-      </>
+
+  return (
+    <>
+      {Object.entries(categories).map(([pet_type, pets]) => (
+        <div key = {pet_type} style = {{ marginBottom: '10px' }}>
+          <h3>{pet_type}</h3>
+          {pets.map(Pet => (
+            <p key = {Pet.pet_listID}>
+              {Pet.pet}
+            </p>
+          ))}
+        </div>
+      ))}
+    </>
   )
 }

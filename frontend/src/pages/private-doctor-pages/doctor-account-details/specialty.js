@@ -101,9 +101,9 @@ function RenderIsSpecialty(props) {
 
   const renderNevermindButton = (status, setStatus) => {
     if (status !== 'deleting') return null
-    
+
     return (
-      <Button 
+      <Button
         variant = "secondary"
         onClick = {() => setStatus('initial')}
       >
@@ -114,16 +114,16 @@ function RenderIsSpecialty(props) {
 
   const renderConfirmDeleteButton = (status, specialty) => {
     if (status !== 'deleting') return null
-    
+
     return (
-      <Button 
+      <Button
         variant = "danger"
-        onClick = {() => 
+        onClick = {() =>
           handleDeleteSpecialty(
-            specialty, 
-            doctorSpecialties, 
-            setDoctorSpecialties, 
-            setSelectedOrganization, 
+            specialty,
+            doctorSpecialties,
+            setDoctorSpecialties,
+            setSelectedOrganization,
             setSpecialtiesConfirmation
           )}
       >
@@ -134,7 +134,7 @@ function RenderIsSpecialty(props) {
 
   const renderInitialDeleteButton = (setStatus) => {
     return (
-      <Button 
+      <Button
         variant = "danger"
         onClick = {() => setStatus('deleting')}
       >
@@ -170,8 +170,8 @@ function RenderIsSpecialty(props) {
     return (
       <ul>
         {doctorSpecialties.map((specialty) => (
-          <RenderSingleSavedSpecialty 
-            key = {specialty.specialties_listID} 
+          <RenderSingleSavedSpecialty
+            key = {specialty.specialties_listID}
             {...specialty}
           />
         ))}

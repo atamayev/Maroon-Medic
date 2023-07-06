@@ -40,7 +40,7 @@ export default function App() {
           <Routes>
             <Route exact path = "/" element = {<HomeDoctorsList/>} />
             {/* Specific Doctors List both for if there is a query, and if there isnt: next line */}
-            <Route exact path = "/s/:query" element = {<SpecificDoctorsList/>} /> 
+            <Route exact path = "/s/:query" element = {<SpecificDoctorsList/>} />
             <Route exact path = "/s/" element = {<SpecificDoctorsList/>} />
             <Route exact path = '/vet/:id' element = {<Doctor/>} />
             <Route exact path = "/finalize-booking" element = {<FinalizeBookingPage/>}/>

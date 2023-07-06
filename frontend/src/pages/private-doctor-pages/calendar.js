@@ -12,7 +12,7 @@ import DoctorHeader from "./doctor-header";
 const localizer = momentLocalizer(moment);
 
 const CustomEvent = ({ event }) => {
-  let CSS 
+  let CSS
   if (event.Doctor_confirmation_status === 0) CSS = 'status-pending'
   else CSS = 'status-confirmed'
   return <div className = {CSS}> {event.title} </div>

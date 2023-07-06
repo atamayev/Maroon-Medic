@@ -14,7 +14,7 @@ export default function DoctorLogin() {
 
   const type = "Vet"
 
-  useConfirmNotLoggedIn(); 
+  useConfirmNotLoggedIn();
 
   return (
     <>

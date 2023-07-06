@@ -29,7 +29,7 @@ function AddressForm(props) {
 
   const handleInputChange = (event, address_priority) => {
     const newAddresses = addresses.map(address => {
-      if (address.address_priority === address_priority) return { ...address, [event.target.name]: event.target.value } 
+      if (address.address_priority === address_priority) return { ...address, [event.target.name]: event.target.value }
       return address;
     });
     setAddresses(newAddresses);
@@ -38,8 +38,8 @@ function AddressForm(props) {
   function areAllFieldsValid(addresses) {
     for (let address of addresses) {
       if (
-        !address.address_title || 
-        !address.address_line_1 || 
+        !address.address_title ||
+        !address.address_line_1 ||
         !address.city ||
         !address.state ||
         !address.zip ||
@@ -47,7 +47,7 @@ function AddressForm(props) {
       ) {
         return false;
       }
-  
+
       // Check for days that are checked off (exist in times array)
       for (let time of address.times) {
         if (!time.Start_time || !time.End_time) return false;
@@ -69,10 +69,10 @@ function AddressForm(props) {
     return (
       <>
         {addresses.sort((a, b) => a.address_priority - b.address_priority).map((address, index) => (
-          <AddressAccordionItem 
+          <AddressAccordionItem
             key = {address.address_priority} // do not change this to addressesID, or saving locations gets messed up when adding multiple locations at once
             index = {index}
-            address = {address} 
+            address = {address}
             handleInputChange = {(e) => handleInputChange(e, address.address_priority)}
             handleDeleteAccordion = {() => setAddresses(addresses.filter(addressf => addressf.address_priority !== address.address_priority))}
             addresses = {addresses}
@@ -85,9 +85,9 @@ function AddressForm(props) {
 
   const renderAddNewLocationButton = () => {
     return (
-      <Button 
-        variant = "primary" 
-        onClick = {() => handleAddAccordion(addresses, setAddresses)} 
+      <Button
+        variant = "primary"
+        onClick = {() => handleAddAccordion(addresses, setAddresses)}
         style = {{ marginRight: '10px' }}
       >
         Add New Location
@@ -97,8 +97,8 @@ function AddressForm(props) {
 
   const renderSaveLocationsButton = () => {
     return (
-      <Button 
-        variant = "success" 
+      <Button
+        variant = "success"
         disabled = {!areAllFieldsValid(addresses) || !areAllTimesValid(addresses)} // Check for both field and time validity
         onClick = {() => saveLocation(addresses, setAddresses, setAddressesConfirmation)}
       >
@@ -106,7 +106,7 @@ function AddressForm(props) {
       </Button>
     )
   }
-  
+
   const renderMessageSection = () => {
     return (
       <span className = {`fade ${addressesConfirmation.messageType ? 'show' : ''}`}>
@@ -163,10 +163,10 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
       <>
         <span>Public Status:</span>
         <div onClick = {(event) => event.stopPropagation()}>
-          <Toggle 
-            id = {`${address.address_priority}`} 
-            checked = {address.address_public_status === 1} 
-            onChange = {() => handlePublicStatusToggleChange(address.address_priority)} 
+          <Toggle
+            id = {`${address.address_priority}`}
+            checked = {address.address_public_status === 1}
+            onChange = {() => handlePublicStatusToggleChange(address.address_priority)}
           />
         </div>
       </>
@@ -178,10 +178,10 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
       <>
         <span>Instant book:</span>
         <div onClick = {(event) => event.stopPropagation()}>
-          <Toggle 
-            id = {`${address.address_priority}`} 
-            checked = {address.instant_book === 1} 
-            onChange = {() => handleInstantBookToggleChange(address.address_priority)} 
+          <Toggle
+            id = {`${address.address_priority}`}
+            checked = {address.instant_book === 1}
+            onChange = {() => handleInstantBookToggleChange(address.address_priority)}
           />
         </div>
       </>
@@ -216,7 +216,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
           className = "mb-3"
           label = "Address Title *"
           type = "text"
-          placeholder = "Address Title" 
+          placeholder = "Address Title"
           value = {address.address_title || ""}
           onChange = {handleInputChange}
           name = "address_title"
@@ -232,7 +232,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
           className = "mb-3"
           label = "Address line 1 *"
           type = "text"
-          placeholder = "Address line 1" 
+          placeholder = "Address line 1"
           value = {address.address_line_1 || ""}
           onChange = {handleInputChange}
           name = "address_line_1"
@@ -248,7 +248,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
           className = "mb-3"
           label = "Address line 2"
           type = "text"
-          placeholder = "Address line 2" 
+          placeholder = "Address line 2"
           value = {address.address_line_2 || ""}
           onChange = {handleInputChange}
           name = "address_line_2"
@@ -264,7 +264,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
           className = "mb-3"
           label = "City *"
           type = "text"
-          placeholder = "City" 
+          placeholder = "City"
           value = {address.city || ""}
           onChange = {handleInputChange}
           name = "city"
@@ -280,7 +280,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
           className = "mb-3"
           label = "State *"
           type = "text"
-          placeholder = "State" 
+          placeholder = "State"
           value = {address.state || ""}
           onChange = {handleInputChange}
           name = "state"
@@ -296,7 +296,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
           className = "mb-3"
           label = "Zip Code *"
           type = "number"
-          placeholder = "Zip Code" 
+          placeholder = "Zip Code"
           value = {address.zip || ""}
           onChange = {handleInputChange}
           name = "zip"
@@ -312,11 +312,11 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
           className = "mb-3"
           label = "Country *"
           type = "text"
-          placeholder = "Country" 
+          placeholder = "Country"
           value = {address.country || ""}
           onChange = {handleInputChange}
           name = "country"
-        />  
+        />
       </div>
     )
   }
@@ -329,7 +329,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
           className = "mb-3"
           label = "Phone Number"
           type = "number"
-          placeholder = "Phone Number" 
+          placeholder = "Phone Number"
           value = {address.phone || ""}
           onChange = {handleInputChange}
           name = "phone"
@@ -420,9 +420,9 @@ const WeekDays = ({ times, setTimes}) => {
 
   const RenderPickTime = ({ times, day }) => {
     const matchedTime = times.find(time => time.Day_of_week === day);
-  
+
     if (!matchedTime) return null;
-  
+
     return (
       <>
         {renderPickStartTime(day)}
@@ -430,8 +430,8 @@ const WeekDays = ({ times, setTimes}) => {
         {renderPickEndTime(day)}
       </>
     );
-  };  
-  
+  };
+
   return (
     <div>
       {daysOfWeek.map((day) => (

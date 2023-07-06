@@ -39,7 +39,7 @@ function RenderIsVetServices (props) {
     '1 day',
     '2 days',
     '3 days',
-  ];  
+  ];
 
   const areAllTimesSet = (services) => {
     return services.every(service => service.Service_time !== null && service.Service_time !== "");
@@ -48,7 +48,7 @@ function RenderIsVetServices (props) {
   const areAllPricesSet = (services) => {
     return services.every(service => service.Service_price !== null && service.Service_price !== "");
   }
-  
+
   if (_.isEmpty(_.uniq(listDetails.servicesAndCategories?.map((item) => item.Category_name)))) return <>Loading...</>
 
   const renderIsSelectedService = (service, selectedService) => {
@@ -155,8 +155,8 @@ function RenderIsVetServices (props) {
 
   const renderSaveButton = () => {
     return (
-      <Button 
-        variant = "success" 
+      <Button
+        variant = "success"
         disabled = {!areAllTimesSet(providedServices) || !areAllPricesSet(providedServices)}
         onClick = {() => saveServices(providedServices, setServicesConfirmation)}
       >
@@ -178,13 +178,13 @@ function RenderIsVetServices (props) {
 
   const renderToggleCategory = (category, services) => {
     if (services.length <= 1) return null
-  
+
     const isOpen = expandedCategories.includes(category);
     const renderIsOpen = () => {
       if (isOpen) return '^';
       return 'v';
     }
-  
+
     return (
       <Button onClick={() => handleToggleCategory(category, setExpandedCategories)}>
         {renderIsOpen()}

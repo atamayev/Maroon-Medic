@@ -25,9 +25,9 @@ export default function Doctor () {
   const [description, setDescription] = useState('');
   const [servicedPets, setServicedPets] = useState([]);
   const [personalData, setPersonalData] = useState({});
-  
+
   if (Number(id)) id = Number(id)
-  
+
   async function FillDoctorData(id) {
     try {
       const response = await PublicDoctorDataService.getSingleDoctor(id)

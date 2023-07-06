@@ -59,16 +59,16 @@ export default function MyPets() {
   const [showAddPet, setShowAddPet] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [petToDelete, setPetToDelete] = useState(null);
-  
+
   if (userType !== 'Patient') return <NonPatientAccess/>
 
   const renderSavedPetDataTitle = (pet) => {
     return (
       <Card.Title>
         {pet.Name}
-        <Button 
-          variant = "danger" 
-          style = {{ float: 'right' }} 
+        <Button
+          variant = "danger"
+          style = {{ float: 'right' }}
           onClick = {() => handleShowModal(pet, setPetToDelete, setShowModal)}
         >
           X
@@ -115,8 +115,8 @@ export default function MyPets() {
           <Button variant = "secondary" onClick = {() => handleCloseModal(setShowModal)}>
             Close
           </Button>
-          <Button 
-            variant = "danger" 
+          <Button
+            variant = "danger"
             onClick = {() => {
               deleteMyPets(petToDelete.pet_infoID, savedPetData, setSavedPetData, setPetConfirmation);
               handleCloseModal(setShowModal);
@@ -144,7 +144,7 @@ export default function MyPets() {
     return (
       <>
         <Button
-          variant = "primary" 
+          variant = "primary"
           onClick = {() => {setShowAddPet(true)}}
         >
           Add a Pet
@@ -156,7 +156,7 @@ export default function MyPets() {
   const renderAddPet = () => {
     if (!showAddPet) return null
     return (
-      <AddPet 
+      <AddPet
         newPetData = {newPetData}
         setNewPetData = {setNewPetData}
         petTypes = {petTypes}
@@ -169,7 +169,7 @@ export default function MyPets() {
       />
     )
   }
-  
+
   return (
     <>
       <Header dropdown = {true} search = {true}/>

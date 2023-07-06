@@ -21,7 +21,7 @@ function RenderIsDescription(props) {
   const { description, setDescription } = props;
   const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false);
   const [descriptionConfirmation, setDescriptionConfirmation] = useConfirmationMessage();
-  
+
   useEffect(() => {
     if (description || description === "") setIsDescriptionOverLimit(description.length >= 1000)
   }, [description])
@@ -34,14 +34,14 @@ function RenderIsDescription(props) {
   const renderDescriptionInput = () => {
     return (
       <FormGroup
-        id = "Description" 
-        value = {description} 
+        id = "Description"
+        value = {description}
         onChange = {event => {
           const value = event.target.value;
           setDescription(value);
         }}
         maxLength = {1000} // limit to 1000 characters
-        as = "textarea" 
+        as = "textarea"
         rows = {3}
       />
     )
@@ -57,8 +57,8 @@ function RenderIsDescription(props) {
 
   const renderSaveButton = () => {
     return (
-      <Button 
-        variant = "success" 
+      <Button
+        variant = "success"
         onClick = {() => saveDescription(description, setDescriptionConfirmation)}
       >
         Save
@@ -76,9 +76,9 @@ function RenderIsDescription(props) {
       </span>
     )
   }
-  
+
   return(
-    <Form> 
+    <Form>
       {renderDescriptionInput()}
       {renderCharacterLimit()}
       {renderSaveButton()}

@@ -31,7 +31,7 @@ function renderEducation(educationList, preVetOrVet, hasMajor) {
     <>
       {educationList.map((education) => (
         <p key = {education[educationID]}>
-          {education.School_name}, {education.Education_type} 
+          {education.School_name}, {education.Education_type}
           {hasMajor ? ` in ${education.Major_name}` : ''} {' '}
           ({education.Start_Date} - {education.End_Date})
         </p>

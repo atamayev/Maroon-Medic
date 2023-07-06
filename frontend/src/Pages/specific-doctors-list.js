@@ -6,11 +6,11 @@ import Header from './header';
 
 export default function SpecificDoctorsList() {
   const {searchTerm, items, setSearchTerm, fetchData} = useContext(SearchContext)
-  
+
   let { query } = useParams(); //the id of the current site (which user) --> used to set User
- 
+
   if (!query) window.location.href = '/';
-  
+
   useEffect(() => {
     setSearchTerm(query)
     fetchData()

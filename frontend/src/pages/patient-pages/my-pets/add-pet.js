@@ -6,10 +6,10 @@ const ifPetTypeSelected = (value, petTypes, newPetData, setNewPetData) => {
   // Find the selected pet type by its ID
   let selectedPetType = petTypes.find(Pet_type => Pet_type.pet_listID === JSON.parse(value));
   let newPet = {
-    ...newPetData, 
+    ...newPetData,
     Pet: selectedPetType.Pet,
     Pet_type: selectedPetType.Pet_type,
-    pet_listID: selectedPetType.pet_listID 
+    pet_listID: selectedPetType.pet_listID
   };
 
   setNewPetData(newPet);
@@ -19,9 +19,9 @@ const ifInsuranceSelected = (value, insurances, newPetData, setNewPetData) => {
   // Find the selected insurance by its ID
   let selectedInsurance = insurances.find(insurance => insurance.insurance_listID === JSON.parse(value));
   let newPet = {
-    ...newPetData, 
-    insuranceName: selectedInsurance.Insurance_name, 
-    insurance_listID: selectedInsurance.insurance_listID 
+    ...newPetData,
+    insuranceName: selectedInsurance.Insurance_name,
+    insurance_listID: selectedInsurance.insurance_listID
   };
 
   setNewPetData(newPet);
@@ -29,8 +29,8 @@ const ifInsuranceSelected = (value, insurances, newPetData, setNewPetData) => {
 
 function areAllFieldsValid(petData) {
   if (
-    !petData.Name || 
-    !petData.Gender || 
+    !petData.Name ||
+    !petData.Gender ||
     !petData.DOB ||
     !petData.Pet_type ||
     !petData.insuranceName
@@ -53,7 +53,7 @@ const handleInputChange = (event, petTypes, insurances, newPetData, setNewPetDat
 
 export const AddPet = (props) => {
   const { newPetData, setNewPetData, petTypes, insurances, petConfirmation, setPetConfirmation, setShowAddPet, savedPetData, setSavedPetData } = props;
-  
+
   const renderNewPetName = () => {
     if (!newPetData.Name) return <>Pet</>
     return <>{newPetData.Name}</>
@@ -61,7 +61,7 @@ export const AddPet = (props) => {
 
   const renderDeleteButton = () => {
     return (
-      <Button variant = "danger" onClick = {() => 
+      <Button variant = "danger" onClick = {() =>
         {
           setNewPetData({})
           setShowAddPet(false)
@@ -161,15 +161,15 @@ export const AddPet = (props) => {
   const renderAddButton = () => {
     return (
       <div>
-        <Button 
-          variant = "primary" 
+        <Button
+          variant = "primary"
           type = "submit"
           disabled = {!areAllFieldsValid(newPetData)} // Check for both field validity
           onClick = {(e) => {
             e.preventDefault();
             addMyPets(newPetData, setNewPetData, setPetConfirmation, savedPetData, setSavedPetData, setShowAddPet);
           }}
-        > 
+        >
           Add {renderNewPetName()}
         </Button>
       </div>
@@ -205,11 +205,11 @@ export const AddPet = (props) => {
             {renderGenderSection()}
 
             {renderDOBSection()}
-            
+
             {renderPetTypeSection()}
 
             {renderInsuranceSection()}
-            
+
             Upload image area
             {renderAddButton()}
           </Form>

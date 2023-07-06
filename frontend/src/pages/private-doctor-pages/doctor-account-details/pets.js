@@ -28,7 +28,7 @@ function RenderIsPets (props) {
       petTypes[pet_type.Pet_type].push(pet_type);
     });
   }
-  
+
   if (_.isEmpty(_.uniq(listDetails.pets?.map((item) => item.Category_name)))) return <>Loading...</>
 
   const renderMessageSection = () => {
@@ -41,23 +41,23 @@ function RenderIsPets (props) {
       </span>
     )
   }
-  
+
   const isTogglePetType = (pets, pet_type) => {
     if (pets.length <= 1) return null;
-  
+
     const isOpen = expandedPetTypes.includes(pet_type);
     const renderIsOpen = () => {
       if (isOpen) return '^';
       return 'v';
     }
-  
+
     return (
       <Button onClick={() => handleTogglePetType(pet_type, setExpandedPetTypes)}>
         {renderIsOpen()}
       </Button>
     );
   }
-  
+
   const renderShowPetsSection = (pets, pet_type) => {
     if (pets.length > 1 && !expandedPetTypes.includes(pet_type)) return null;
 
@@ -81,7 +81,7 @@ function RenderIsPets (props) {
                   else {
                     const newServicedPets = servicedPets.filter(p => p.pet_listID !== pet.pet_listID);
                     setServicedPets(newServicedPets);
-                    savePets(pet.pet_listID, newServicedPets, setServicedPets, setPetsConfirmation, 'delete')                        
+                    savePets(pet.pet_listID, newServicedPets, setServicedPets, setPetsConfirmation, 'delete')
                   }
                 }}
                 />

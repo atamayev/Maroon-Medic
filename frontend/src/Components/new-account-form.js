@@ -2,11 +2,11 @@ import { Card, Button, Form, Alert } from 'react-bootstrap'
 import { renderFirstNameSection, renderLastNameSection, renderGenderSection, renderDOBSection } from './personal-info-inputs';
 
 export default function NewAccountForm({
-    handleSubmit,
-    error,
-    newInfo,
-    setNewInfo,
-    loading})
+  handleSubmit,
+  error,
+  newInfo,
+  setNewInfo,
+  loading})
 {
   const renderErrorMessage = () => {
     if (!error) return null

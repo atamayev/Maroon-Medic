@@ -23,7 +23,7 @@ export default function RenderBookingSection(props) {
   const navigate = useNavigate();
   const [availableDates, setAvailableDates] = useState([]);
   const [serviceMinutes, setServiceMinutes] = useState(0);
-  
+
   // Get selected service object
   const selectedServiceObject = providedServices.find(service => service.service_and_category_listID === selectedService?.service_and_category_listID);
 
@@ -49,7 +49,7 @@ export default function RenderBookingSection(props) {
         let times = [];
         let start = workingHours.Start_time.split(':');
         let end = workingHours.End_time.split(':');
-        
+
         let currentTime = moment().hour(start[0]).minute(start[1]);
         let endTime = moment().hour(end[0]).minute(end[1]);
 
@@ -126,10 +126,10 @@ export default function RenderBookingSection(props) {
   const renderSelectService = () => {
     return (
       <div className = "col-md-6">
-        <FormGroup 
-          as = 'select' 
-          id = 'serviceSelect' 
-          label = 'Select a service' 
+        <FormGroup
+          as = 'select'
+          id = 'serviceSelect'
+          label = 'Select a service'
           onChange = {(e) => handleServiceChange(e, providedServices, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime)}
         >
           <option>Select...</option>
@@ -148,10 +148,10 @@ export default function RenderBookingSection(props) {
 
     return (
       <div className = "col-md-6">
-        <FormGroup 
-          as = 'select' 
-          id = 'locationSelect' 
-          label = 'Select a location' 
+        <FormGroup
+          as = 'select'
+          id = 'locationSelect'
+          label = 'Select a location'
           onChange = {(e) => handleLocationChange(e, addresses, setSelectedLocation, setSelectedDay, setSelectedTime, setNoAvailableTimesMessage)}
         >
           <option>Select...</option>
@@ -170,10 +170,10 @@ export default function RenderBookingSection(props) {
 
     return (
       <div className = "col-md-6">
-        <FormGroup 
-          as = 'select' 
-          id = 'daySelect' 
-          label = 'Select a date' 
+        <FormGroup
+          as = 'select'
+          id = 'daySelect'
+          label = 'Select a date'
           onChange = {(e) => handleDayChange(e, setSelectedDay, setSelectedTime)}
         >
           <option>Select...</option>
@@ -192,10 +192,10 @@ export default function RenderBookingSection(props) {
     if (!(selectedService && selectedLocation && selectedDay)) return null;
     return (
       <div className = "col-md-6">
-        <FormGroup 
-          as = 'select' 
-          id = 'timeSelect' 
-          label = 'Select a time' 
+        <FormGroup
+          as = 'select'
+          id = 'timeSelect'
+          label = 'Select a time'
           onChange = {(e) => handleTimeChange(e, setSelectedTime)}
         >
           <option>Select...</option>
@@ -213,19 +213,19 @@ export default function RenderBookingSection(props) {
     if (!(selectedService && selectedLocation && selectedDay && selectedTime)) return null;
 
     return (
-      <Button 
+      <Button
         className = 'mt-3'
         onClick = {(e) => handleBookingClick(
           e,
-          navigate, 
-          selectedService, 
+          navigate,
+          selectedService,
           selectedLocation,
           selectedDay,
           selectedTime,
           serviceMinutes,
           personalData
           )}
-        variant = 'primary' 
+        variant = 'primary'
       >
         Click to {renderInstantBook()} an appointment
       </Button>
@@ -253,7 +253,7 @@ export default function RenderBookingSection(props) {
           </div>
 
           {renderNoAvailableTimes()}
-          
+
           <div className = 'row'>
             {renderSelectDay()}
 

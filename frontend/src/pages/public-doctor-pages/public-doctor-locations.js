@@ -63,4 +63,4 @@ function renderLocations(addressesList) {
       </div>
     </div>
   ));
-}  
+}

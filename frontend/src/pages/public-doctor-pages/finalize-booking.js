@@ -40,7 +40,7 @@ export function FinalizeBookingPage() {
     if ((browserLocation.state && browserLocation.state.finalized) || !sessionBookingDetails) {
       navigate('/patient-dashboard');
     }
-  }, [browserLocation, navigate, sessionBookingDetails]);  
+  }, [browserLocation, navigate, sessionBookingDetails]);
 
   useEffect(() => {
     if (message) setIsMessageOverLimit(message.length >= 100)
@@ -51,27 +51,27 @@ export function FinalizeBookingPage() {
   }
 
   if (userType !== 'Patient') return <NonPatientAccess/>
-  
+
   const capitalizedFirstName = personalData.FirstName.charAt(0).toUpperCase() + personalData.FirstName.slice(1);
 
   const capitalizedLastName = personalData.LastName.charAt(0).toUpperCase() + personalData.LastName.slice(1);
-  
+
   const renderConfirmOrRequestBook = () => {
     if (selectedLocation.instant_book) return <>Confirm</>
     return <>Request</>
   }
 
-  const renderMessageSection = () => {  
+  const renderMessageSection = () => {
     return (
       <FormGroup
-        id = "Message" 
-        value = {message} 
+        id = "Message"
+        value = {message}
         onChange = {event => {
           const value = event.target.value;
           setMessage(value);
         }}
         maxLength = {100}
-        as = "textarea" 
+        as = "textarea"
       />
     )
   }
@@ -121,13 +121,13 @@ export function FinalizeBookingPage() {
   const renderConfirmBookingButton = () => {
     return (
       <>
-        <Button 
+        <Button
           variant = "primary"
           onClick = {(e) => {
             handleConfirmBooking(
               e,
               navigate,
-              selectedService, 
+              selectedService,
               selectedLocation,
               selectedDay,
               selectedTime,

@@ -35,7 +35,7 @@ function RenderIsVetLanguages(props) {
 
   const renderChooseLanguage = () => {
     if (!(_.isArray(listDetails.languages) && !_.isEmpty(listDetails.languages))) return null;
-    
+
     return (
       <>
         {
@@ -50,7 +50,7 @@ function RenderIsVetLanguages(props) {
       </>
     );
   };
-  
+
 
   const renderSelectLanguageSection = () => {
     return (
@@ -58,7 +58,7 @@ function RenderIsVetLanguages(props) {
         id = "language"
         name = "language"
         value = {""}
-        onChange = {(e) => 
+        onChange = {(e) =>
           handleAddLanguage(
             e.target.value,
             spokenLanguages,
@@ -77,9 +77,9 @@ function RenderIsVetLanguages(props) {
 
   const renderNevermindButton = (status, setStatus) => {
     if (status !== 'deleting') return null
-    
+
     return (
-      <Button 
+      <Button
         variant = "secondary"
         onClick = {() => setStatus('initial')}
       >
@@ -90,15 +90,15 @@ function RenderIsVetLanguages(props) {
 
   const renderConfirmDeleteButton = (status, language) => {
     if (status !== 'deleting') return null
-    
+
     return (
       <Button
         variant = "danger"
-        onClick = {() => 
+        onClick = {() =>
           handleDeleteLanguage(
-            language, 
-            spokenLanguages, 
-            setSpokenLanguages, 
+            language,
+            spokenLanguages,
+            setSpokenLanguages,
             setLanguagesConfirmation,
             'doctor'
         )}
@@ -112,7 +112,7 @@ function RenderIsVetLanguages(props) {
     if (status !== 'initial') return null
 
     return (
-      <Button 
+      <Button
         variant = "danger"
         onClick = {() => setStatus('deleting')}
       >
@@ -145,15 +145,15 @@ function RenderIsVetLanguages(props) {
     return (
       <ul>
         {spokenLanguages.map((language) => (
-          <RenderSingleSavedLanguage 
+          <RenderSingleSavedLanguage
             key = {language.language_listID}
-            {...language} 
+            {...language}
           />
         ))}
       </ul>
     )
   }
-  
+
   return(
     <>
       {renderSelectLanguageSection()}

@@ -25,7 +25,7 @@ export default function PatientDashboard() {
         clearInterval(interval); // Clear the interval once the data is set
       }
     }, 10); // Check every 10 miliseconds
-  
+
     // Clean up interval on unmount
     return () => clearInterval(interval);
   }, []);
@@ -39,7 +39,7 @@ export default function PatientDashboard() {
       const upcomingAppointments = dashboardData.filter(appointment =>
         moment(appointment.appointment_date, "MMMM Do, YYYY, h:mm A") >= now
       );
-  
+
       setPastAppointments(pastAppointments);
       setUpcomingAppointments(upcomingAppointments);
     }
@@ -99,7 +99,7 @@ export default function PatientDashboard() {
       </>
     )
   };
-  
+
   const PastAppointmentCard = ({appointment}) => {
     return (
       <>

@@ -19,7 +19,7 @@ export default function DoctorPersonalInfo() {
   const [personalInfoConfirmation, setPersonalInfoConfirmation] = useConfirmationMessage();
 
   if (userType !== 'Doctor') return <NonDoctorAccess/>
-  
+
   return (
     <div>
       <Header dropdown = {true}/>

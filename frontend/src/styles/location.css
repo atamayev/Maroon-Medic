@@ -5,10 +5,10 @@
     border-radius: 4px;
     /* padding: 0.5em; */
 }
-  
+
 .react-time-picker__inputGroup__input {
   width: 10%;
-  
+
   border: none;
   padding: 0.15em;
   min-width: 50px !important; /* adjust width as needed */

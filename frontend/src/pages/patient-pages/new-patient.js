@@ -13,7 +13,7 @@ export default function NewPatient () {
   const [loading, setLoading] = useState(false)
   const {userVerification} = useContext(VerifyContext);
   const navigate = useNavigate();
-  
+
   const verifyNewPatient = async () => {
     const result = await userVerification();
     if (result.verified === true && result.userType === 'Patient') {
@@ -23,7 +23,7 @@ export default function NewPatient () {
       } catch (error) {
         if (error.response.status === 401) invalidUserAction(error.response.data);
       }
-    } 
+    }
     else if (result.verified === true && result.userType === 'Doctor') navigate(`/vet-dashboard`);
     else navigate('/patient-register');
   }
@@ -31,7 +31,7 @@ export default function NewPatient () {
   useEffect(() => {
     verifyNewPatient();
   }, []);
-  
+
   return (
     <>
       <Header/>

@@ -31,7 +31,7 @@ export async function saveServices(providedServices, setServicesConfirmation) {
 
   const savedServiceKeys = savedServices.map(service => createServiceKey(service)).sort();
   const serviceKeys = providedServices.map(service => createServiceKey(service)).sort();
-  
+
   let shouldSave = false;
 
   if (_.isEmpty(savedServiceKeys) && _.isEmpty(serviceKeys)) {

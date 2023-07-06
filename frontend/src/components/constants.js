@@ -1,18 +1,18 @@
 export const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
 ];
-  
+
 export const days = [...Array(31).keys()].map(i => i + 1);
 
 const currentYear = new Date().getFullYear();

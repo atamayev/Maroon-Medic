@@ -46,11 +46,11 @@ export default function DoctorDashboard() {
         clearInterval(interval); // Clear the interval once the data is set
       }
     }, 10); // Check every 10 miliseconds
-  
+
     // Clean up interval on unmount
     return () => clearInterval(interval);
   }, []);
-  
+
   useEffect(() => {
     if (!_.isEmpty(dashboardData)) {
       const now = moment();
@@ -60,7 +60,7 @@ export default function DoctorDashboard() {
       const upcomingAppointments = dashboardData.filter(appointment =>
         moment(appointment.appointment_date, "MMMM Do, YYYY, h:mm A") >= now
       );
-  
+
       setPastAppointments(pastAppointments);
       setUpcomingAppointments(upcomingAppointments);
     }
@@ -196,7 +196,7 @@ export default function DoctorDashboard() {
       </>
     )
   }
-  
+
   const renderWelcomeOrBack = () => {
     if (newDoctor) return <> to MaroonMedic</>
     return <> back</>

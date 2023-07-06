@@ -46,7 +46,7 @@ export default function RenderPicturesSection (props) {
           </p>
         </Carousel.Caption>
       </Carousel.Item>
-      </Carousel>   
+      </Carousel>
     </>
   );
 };

@@ -4,7 +4,7 @@ import {useLocation} from "react-router-dom";
 import logo from "../images/logo.svg"
 import pic from '../images/ProfileImage.jpg';
 import { SearchContext } from '../contexts/search-context';
-import AuthDataService from '../services/auth-data-service';  
+import AuthDataService from '../services/auth-data-service';
 import { invalidUserAction } from '../custom-hooks/user-verification-snippets'
 import PrivateDoctorDataService from '../services/private-doctor-data-service'
 import PrivatePatientDataService from '../services/private-patient-data-service';
@@ -40,7 +40,7 @@ const handleHome = () => {
 
 function useSetHeaderData(userType) {
   const [headerData, setHeaderData] = useState('');
-  
+
   const getHeaderData = async () => {
     if (!userType) return;
     try {
@@ -114,7 +114,7 @@ export default function Header (props) {
       retrieveNameFromStorage(setHeaderData)
     }
   }, []);
- 
+
   const handleLogout = async () => {
     try {
       const response = await AuthDataService.logout();
@@ -123,7 +123,7 @@ export default function Header (props) {
     }
     handleRefresh();
   }
-  
+
   const handleRefresh = useCallback(() => {
     if (location.pathname === '/') window.location.reload();
     else window.location.href = '/';
@@ -181,7 +181,7 @@ export default function Header (props) {
             <Dropdown.Item href = "/vet-login">Vet Log In</Dropdown.Item>
             <Dropdown.Item href = "/patient-register" className = 'fw-bold'>Patient Sign up</Dropdown.Item>
             <Dropdown.Item href = "/patient-login">Patient Log In</Dropdown.Item>
-      
+
             <Dropdown.Divider />
             <Dropdown.Item href = "/help">Help</Dropdown.Item>
           </div>
@@ -194,7 +194,7 @@ export default function Header (props) {
     if (location.pathname === '/') return ''
     return searchTerm
   }
-  
+
   const renderSearch = () => {
     if (search === true) {
       return (
@@ -223,13 +223,13 @@ export default function Header (props) {
 
   const renderLogo = () => {
     return (
-      <img 
-        src = {logo} 
-        alt = "Logo" 
+      <img
+        src = {logo}
+        alt = "Logo"
         width = {50}
-        height = {50} 
+        height = {50}
         onClick = {handleHome}
-        style = {{ cursor: "pointer" }} 
+        style = {{ cursor: "pointer" }}
         className = "mr-2"
       />
     )

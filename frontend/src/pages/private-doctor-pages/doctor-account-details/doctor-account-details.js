@@ -19,10 +19,10 @@ import RenderVerificationSection from './verification-status.js';
 import RenderPreVetEducationSection from './pre-vet-education.js';
 import RenderPersonalInfoLinkSection from './personalInfoLink.js';
 
-async function FillLists(setListDetails) { 
+async function FillLists(setListDetails) {
   try {
     const response = await PrivateDoctorDataService.fillLists();
-    if (response) {  
+    if (response) {
       setListDetails(response.data);
       sessionStorage.setItem("ListDetails", JSON.stringify(response.data));
     }
@@ -91,7 +91,7 @@ function useDoctorAccountDetails(
       try {
         const storedAccountDetails = sessionStorage.getItem("DoctorAccountDetails");
         if (!storedAccountDetails) {
-          FillDoctorAccountDetails(  
+          FillDoctorAccountDetails(
             setSpokenLanguages,
             setProvidedServices,
             setExpandedCategories,
@@ -103,7 +103,7 @@ function useDoctorAccountDetails(
             setServicedPets,
             setExpandedPetTypes,
             setPubliclyAvailable);
-        } else setExpandedCategories(JSON.parse(storedAccountDetails).services?.map(service => service.Category_name));  
+        } else setExpandedCategories(JSON.parse(storedAccountDetails).services?.map(service => service.Category_name));
 
         const storedListDetails = sessionStorage.getItem("ListDetails");
         if (storedListDetails) setListDetails(JSON.parse(storedListDetails));
@@ -123,37 +123,37 @@ export default function DoctorAccountDetails() {
   const [listDetails, setListDetails] = useState({});
   //const [carouselIndex, setCarouselIndex] = useState(0);
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
-  
+
   const [spokenLanguages, setSpokenLanguages] = useState(DoctorAccountDetails?.languages || []);
-  
+
   const [providedServices, setProvidedServices] = useState(DoctorAccountDetails?.services || []);
   const [expandedCategories, setExpandedCategories] = useState([]);
-  
+
   const [doctorSpecialties, setDoctorSpecialties] = useState(DoctorAccountDetails?.specialties || []);
-  
+
   const [preVetEducation, setPreVetEducation] = useState(DoctorAccountDetails?.preVetEducation || []);
-  
+
   const [vetEducation, setVetEducation] = useState(DoctorAccountDetails?.vetEducation || []);
-  
+
   const [addresses, setAddresses] = useState(DoctorAccountDetails?.addressData ||[{ address_priority: 0, addressesID: 0, address_title: '', address_line_1  : '', address_line_2: '', city: '', state: '', zip: '', country: '', phone_priority: 0, phone: '', address_public_status: 1, instant_book: 0, times:[]}]);
-  
+
   const [description, setDescription] = useState(DoctorAccountDetails?.description || '');
-  
+
   const [servicedPets, setServicedPets] = useState(DoctorAccountDetails?.servicedPets || []);
   const [expandedPetTypes, setExpandedPetTypes] = useState([]);
-  
+
   const [publiclyAvailable, setPubliclyAvailable] = useState(DoctorAccountDetails?.publiclyAvailable || 0);
   const verified  = DoctorAccountDetails?.verified || 0;
- 
+
   const [timeState, setTimeState] = useState({
-    startMonth: '', 
-    endMonth: '', 
-    startYear: '', 
+    startMonth: '',
+    endMonth: '',
+    startYear: '',
     endYear: '',
   });
-  
+
   useDoctorAccountDetails(userType, setListDetails, setSpokenLanguages, setProvidedServices, setExpandedCategories, setDoctorSpecialties, setPreVetEducation, setVetEducation, setAddresses, setDescription, setServicedPets, setExpandedPetTypes, setPubliclyAvailable);
-  
+
   if (userType !== 'Doctor') return <NonDoctorAccess/>
 
   return (
@@ -190,7 +190,7 @@ export default function DoctorAccountDetails() {
         expandedPetTypes = {expandedPetTypes}
         setExpandedPetTypes = {setExpandedPetTypes}
       />
-      <RenderSpecialtySection 
+      <RenderSpecialtySection
         listDetails = {listDetails}
         doctorSpecialties = {doctorSpecialties}
         setDoctorSpecialties = {setDoctorSpecialties}

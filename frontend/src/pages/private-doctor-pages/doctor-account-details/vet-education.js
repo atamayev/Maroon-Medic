@@ -26,7 +26,7 @@ function RenderIsVetEducation(props) {
 
   const [vetEducationConfirmation, setVetEducationConfirmation] = useConfirmationMessage();
 
-  const allChoicesFilled = selectedVetSchool && selectedVetEducationType && 
+  const allChoicesFilled = selectedVetSchool && selectedVetEducationType &&
     timeState.startMonth && timeState.endMonth && timeState.startYear && timeState.endYear;
 
   if (_.isEmpty(_.uniq(listDetails.vetSchools?.map((item) => item.School_name)))) return <p>Loading...</p>
@@ -81,7 +81,7 @@ function RenderIsVetEducation(props) {
   const renderEducationTime = () => {
     if (!selectedVetEducationType) return null;
     return (
-      <EducationTime 
+      <EducationTime
         timeState = {timeState}
         setTimeState = {setTimeState}
       />
@@ -117,9 +117,9 @@ function RenderIsVetEducation(props) {
 
   const renderNevermindButton = (status, setStatus) => {
     if (status !== 'deleting') return null
-    
+
     return (
-      <Button 
+      <Button
         variant = "secondary"
         onClick = {() => setStatus('initial')}
       >
@@ -130,14 +130,14 @@ function RenderIsVetEducation(props) {
 
   const renderConfirmDeleteButton = (status, vet_education) => {
     if (status !== 'deleting') return null
-    
+
     return (
-      <Button 
+      <Button
         variant = "danger"
-        onClick = {() => 
+        onClick = {() =>
           saveVetEducation(
             vet_education.vet_education_mappingID,
-            vetEducation, 
+            vetEducation,
             setVetEducation,
             listDetails,
             setVetEducationConfirmation,
@@ -153,7 +153,7 @@ function RenderIsVetEducation(props) {
     if (status !== 'initial') return null
 
     return (
-      <Button 
+      <Button
         variant = "danger"
         onClick = {() => setStatus('deleting')}
       >
@@ -195,7 +195,7 @@ function RenderIsVetEducation(props) {
       </ul>
     )
   }
-  
+
   const renderMessageSection = () => {
     return (
       <span className = {`fade ${vetEducationConfirmation.messageType ? 'show' : ''}`}>
@@ -216,7 +216,7 @@ function RenderIsVetEducation(props) {
       {renderEducationTime()}
 
       {renderAddAndSaveButton()}
-      
+
       {renderSavedEducationList()}
 
       {renderMessageSection()}

@@ -3,33 +3,33 @@ import FormGroup from './form-group'
 import { months, days, birthYears } from './constants'
 
 export const renderFirstNameSection = (personalInfo, setPersonalInfo) => {
-    return (
-      <FormGroup
-        id = "FirstName"
-        label = "First Name"
-        onChange = {event => setPersonalInfo({...personalInfo, FirstName: event.target.value})}
-        pattern = "[A-Za-z]*"
-        placeholder = "First Name"
-        required
-        type = "text"
-        value = {personalInfo.FirstName || ""}
-      />
-    )
+  return (
+    <FormGroup
+      id = "FirstName"
+      label = "First Name"
+      onChange = {event => setPersonalInfo({...personalInfo, FirstName: event.target.value})}
+      pattern = "[A-Za-z]*"
+      placeholder = "First Name"
+      required
+      type = "text"
+      value = {personalInfo.FirstName || ""}
+    />
+  )
 }
 
 export const renderLastNameSection = (personalInfo, setPersonalInfo) => {
-    return (
-      <FormGroup
-        id = "LastName"
-        label = "Last Name"
-        onChange = {event => setPersonalInfo({...personalInfo, LastName: event.target.value})}
-        pattern = "[A-Za-z]*"
-        placeholder = "Last Name"
-        required
-        type = "text"
-        value = {personalInfo.LastName || ""}
-      />
-    )
+  return (
+    <FormGroup
+      id = "LastName"
+      label = "Last Name"
+      onChange = {event => setPersonalInfo({...personalInfo, LastName: event.target.value})}
+      pattern = "[A-Za-z]*"
+      placeholder = "Last Name"
+      required
+      type = "text"
+      value = {personalInfo.LastName || ""}
+    />
+  )
 }
 
 export const renderGenderSection = (personalInfo, setPersonalInfo) => {

@@ -8,7 +8,7 @@ export default function SearchResults(props) {
         const { FirstName, LastName, NVI } = item;
         const capitalizedFirstName = FirstName.charAt(0).toUpperCase() + FirstName.slice(1);
         const capitalizedLastName = LastName.charAt(0).toUpperCase() + LastName.slice(1);
-        return(
+        return (
           <Card key = {NVI} style = {{margin: '0 10px', gridColumn: 'span 1', gridRow: 'span 1' }}>
           {/* <Card.Img variant = "top" src = "holder.js/100px180" /> */}
             <Card.Body>

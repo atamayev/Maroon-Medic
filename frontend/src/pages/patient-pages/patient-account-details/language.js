@@ -35,7 +35,7 @@ function RenderIsPatientLanguages(props) {
 
   const renderChooseLanguage = () => {
     if (!(_.isArray(listDetails.languages) && !_.isEmpty(listDetails.languages))) return null;
-    
+
     return (
       <>
         {
@@ -50,7 +50,7 @@ function RenderIsPatientLanguages(props) {
       </>
     );
   };
-  
+
 
   const renderSelectLanguageSection = () => {
     return (
@@ -58,7 +58,7 @@ function RenderIsPatientLanguages(props) {
         id = "language"
         name = "language"
         value = {""}
-        onChange = {(e) => 
+        onChange = {(e) =>
           handleAddLanguage(
             e.target.value,
             spokenLanguages,
@@ -77,9 +77,9 @@ function RenderIsPatientLanguages(props) {
 
   const renderNevermindButton = (status, setStatus) => {
     if (status !== 'deleting') return null
-    
+
     return (
-      <Button 
+      <Button
         variant = "secondary"
         onClick = {() => setStatus('initial')}
       >
@@ -90,15 +90,15 @@ function RenderIsPatientLanguages(props) {
 
   const renderConfirmDeleteButton = (status, language) => {
     if (status !== 'deleting') return null
-    
+
     return (
       <Button
         variant = "danger"
-        onClick = {() => 
+        onClick = {() =>
           handleDeleteLanguage(
-            language, 
-            spokenLanguages, 
-            setSpokenLanguages, 
+            language,
+            spokenLanguages,
+            setSpokenLanguages,
             setLanguagesConfirmation,
             'patient'
         )}
@@ -112,7 +112,7 @@ function RenderIsPatientLanguages(props) {
     if (status !== 'initial') return null
 
     return (
-      <Button 
+      <Button
         variant = "danger"
         onClick = {() => setStatus('deleting')}
       >
@@ -143,7 +143,7 @@ function RenderIsPatientLanguages(props) {
       </ul>
     )
   }
-  
+
   return(
     <>
       {renderSelectLanguageSection()}

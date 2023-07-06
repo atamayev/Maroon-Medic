@@ -6,13 +6,13 @@ export default function RenderReviewsSection(props) {
 // if (!_.isEmpty(spokenLanguages)) {
     return(
       <Card className = "card-bottom-margin">
-      <Card.Header>
-        Reviews
-      </Card.Header>
-      <Card.Body>
-        {renderReviews(props)}
-      </Card.Body>
-    </Card>
+        <Card.Header>
+          Reviews
+        </Card.Header>
+        <Card.Body>
+          {renderReviews(props)}
+        </Card.Body>
+      </Card>
     )
     // }
 

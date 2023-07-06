@@ -2,10 +2,10 @@ import { Card, Button, Form, Alert } from 'react-bootstrap'
 import { Link } from "react-router-dom";
 import FormGroup from './form-group';
 
-export default function LoginAndRegistrationForm({ 
-  handleSubmit, 
-  credentials, 
-  setCredentials, 
+export default function LoginAndRegistrationForm({
+  handleSubmit,
+  credentials,
+  setCredentials,
   setPasswordConfirm,
   error,
   VetOrPatient,
@@ -41,7 +41,7 @@ export default function LoginAndRegistrationForm({
             <Link to = {`/${VetOrPatient.toLowerCase()}-forgot-password`}>Forgot Password?</Link>
           </div>
           <div className = 'w-100 text-center mt-2'>
-            Need an account? <Link to = {`/${VetOrPatient.toLowerCase()}-register`}>Sign Up</Link> 
+            Need an account? <Link to = {`/${VetOrPatient.toLowerCase()}-register`}>Sign Up</Link>
           </div>
         </>
       )
@@ -55,7 +55,7 @@ export default function LoginAndRegistrationForm({
           Already have an account? <Link to = {`/${VetOrPatient.toLowerCase()}-login`}>Log In</Link>
         </div>
       )
-    }  
+    }
   }
 
   const renderShowPassword = () => {
@@ -86,7 +86,7 @@ export default function LoginAndRegistrationForm({
             onChange = {(event) => setCredentials({...credentials, email: event.target.value})}
             required
           />
-          
+
           <FormGroup
             id = "password"
             label = "Password"

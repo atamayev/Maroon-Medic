@@ -13,7 +13,7 @@ export default function PatientLogin() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
-  useConfirmNotLoggedIn(false); 
+  useConfirmNotLoggedIn(false);
 
   return (
     <>

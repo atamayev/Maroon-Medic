@@ -16,9 +16,9 @@ root.render(
     <VerifyContextProvider>
       <SearchContextProvider>
 
-          <Routes>
-            <Route path = "/*" element = {<App/>} />
-          </Routes>
+        <Routes>
+          <Route path = "/*" element = {<App/>} />
+        </Routes>
 
       </SearchContextProvider>
     </VerifyContextProvider>

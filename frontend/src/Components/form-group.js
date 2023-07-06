@@ -35,7 +35,7 @@ export default function FormGroup({
         type = {type}
         value = {value}
       >
-        {children}  
+        {children}
         {/* // Render specific options (like select) in children*/}
       </Form.Control>
     </Form.Group>
