@@ -41,7 +41,7 @@ function RenderIsPreVetEducation(props) {
           value = {selectedPreVetSchool}
           onChange = {(e) => setSelectedPreVetSchool(e.target.value)}
         >
-          <option value = "" disabled>Choose a School</option>          
+          <option value = "" disabled>Choose a School</option>
           {_.uniqBy(listDetails.preVetSchools, 'School_name').map(
             (school) => (
               <option key = {school.pre_vet_school_listID} value = {school.School_name}>
@@ -108,7 +108,7 @@ function RenderIsPreVetEducation(props) {
     if (!selectedPreVetEducationType) return null
 
     return (
-      <EducationTime 
+      <EducationTime
         timeState = {timeState}
         setTimeState = {setTimeState}
       />
@@ -118,7 +118,7 @@ function RenderIsPreVetEducation(props) {
   const renderAddAndSaveButton = () => {
     if (!allChoicesFilled) return null
     return (
-      <Button 
+      <Button
         onClick = {() => {
           const selectedEducationObj = handleAddEducation(
             selectedPreVetSchool,
@@ -144,12 +144,12 @@ function RenderIsPreVetEducation(props) {
       </Button>
     )
   }
-  
+
   const renderNevermindButton = (status, setStatus) => {
     if (status !== 'deleting') return null
-    
+
     return (
-      <Button 
+      <Button
         variant = "secondary"
         onClick = {() => setStatus('initial')}
       >
@@ -160,16 +160,16 @@ function RenderIsPreVetEducation(props) {
 
   const renderConfirmDeleteButton = (status, pre_vet_education) => {
     if (status !== 'deleting') return null
-    
+
     return (
       <Button
         variant = "danger"
         onClick = {() =>
         savePreVetEducation(
-          pre_vet_education.pre_vet_education_mappingID, 
-          preVetEducation, 
+          pre_vet_education.pre_vet_education_mappingID,
+          preVetEducation,
           setPreVetEducation,
-          listDetails, 
+          listDetails,
           setPreVetEducationConfirmation,
           'delete'
         )}
@@ -183,7 +183,7 @@ function RenderIsPreVetEducation(props) {
     if (status !== 'initial') return null
 
     return (
-      <Button 
+      <Button
         variant = "danger"
         onClick = {() => setStatus('deleting')}
       >
@@ -217,15 +217,15 @@ function RenderIsPreVetEducation(props) {
     return (
       <ul>
         {preVetEducation.map((pre_vet_education) => (
-          <RenderSingleSavedEducation 
+          <RenderSingleSavedEducation
             key = {pre_vet_education.pre_vet_education_mappingID}
-            {...pre_vet_education} 
+            {...pre_vet_education}
           />
         ))}
       </ul>
     )
   }
-  
+
   const renderMessageSection = () => {
     return (
       <span className = {`fade ${preVetEducationConfirmation.messageType ? 'show' : ''}`}>
@@ -248,9 +248,9 @@ function RenderIsPreVetEducation(props) {
       {renderEducationTime()}
 
       {renderAddAndSaveButton()}
-      
+
       {renderSavedEducationList()}
-      
+
       {renderMessageSection()}
     </>
   )

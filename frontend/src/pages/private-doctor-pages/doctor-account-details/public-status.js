@@ -5,7 +5,7 @@ import { handlePublicAvailibilityToggle } from "../../../custom-hooks/account-de
 export default function RenderPublicStatusSection (props) {
   return(
     <>
-      <Card>
+      <Card className = "mb-3 mt-3">
         <Card.Header>
           Public Availbility Status
         </Card.Header>
@@ -33,21 +33,21 @@ function RenderIsPubliclyAvailable (props) {
 
   return(
     <div>
-      <ToggleButtonGroup type = "radio" name = "options" 
+      <ToggleButtonGroup type = "radio" name = "options"
         value = {publiclyAvailable ?? 0}
         onChange = {(value) => handlePublicAvailibilityToggle(value, setPubliclyAvailable, setPubliclyAvailableConfirmation)}
       >
-        <ToggleButton 
-          id = "tbg-radio-1" 
-          value = {0} 
+        <ToggleButton
+          id = "tbg-radio-1"
+          value = {0}
           style = {{ backgroundColor: publiclyAvailable === 0 ? "red" : "white", color: publiclyAvailable === 0 ? "white" : "black", borderColor: "black"}}
         >
           No
         </ToggleButton>
-        
-        <ToggleButton 
-          id = "tbg-radio-2" 
-          value = {1} 
+
+        <ToggleButton
+          id = "tbg-radio-2"
+          value = {1}
           style = {{ backgroundColor: publiclyAvailable === 1 ? "green" : "white", color: publiclyAvailable === 1 ? "white" : "black", borderColor: "black"}}
         >
           Yes

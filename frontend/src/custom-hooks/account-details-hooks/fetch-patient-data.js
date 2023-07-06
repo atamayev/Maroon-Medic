@@ -1,7 +1,7 @@
 import PrivatePatientDataService from "../../services/private-patient-data-service";
 import { invalidUserAction } from "../user-verification-snippets";
 
-export async function FillLists(setListDetails) { 
+export async function FillLists(setListDetails) {
   try {
     const response = await PrivatePatientDataService.fillLists();
     if (response) {

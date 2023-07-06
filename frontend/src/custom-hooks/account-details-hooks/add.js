@@ -8,7 +8,7 @@ export const handleAddLanguage = (selectedLanguageID, spokenLanguages, setSpoken
   else if (doctorOrPatient === 'patient') selectedLanguage = listDetails.languages.find((lang) => lang.language_listID === JSON.parse(selectedLanguageID));
 
   const newSpokenLanguages = [...spokenLanguages, selectedLanguage];
-  
+
   if (doctorOrPatient === 'doctor') saveDoctorLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation, 'add')
   else if (doctorOrPatient === 'patient') savePatientLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation, 'add')
 };

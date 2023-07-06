@@ -7,8 +7,9 @@ wihle the languages saved! message appears, try to delete a language. go into th
 
 -duplicate entries need to be accounted for when added to DB. Unique constraints. when the same data is entered into the pre_vet_edcatinn_mapping table, it gives an error, but doesn't enter the data.
 	Make the error on the front-end be say something like: duplicate entry. Or, don't allow the user to add the same entry twice
-	Do this for all tables 
--education year end date is at most 2022. should be 2023
+	Do this for all tables
+
+-start figuring out only being able to make appointments during available time slots (shouldn't be able to book an appointment while that time slot is booked)
 
 --change all front-end select month, day, year into a 'date', like in pets.js
 	-make the date only be sometime in the past
@@ -24,7 +25,7 @@ wihle the languages saved! message appears, try to delete a language. go into th
 	Patient's able to make a review after the appointment date is completed, given that the appointment is approved by the doctor.
 
 On the vet dashboard, make the appointments clickable, shows the patients details, pet details, etc.
-	Should go to a newly created appointment page, which nicely lays out the appointment details. 
+	Should go to a newly created appointment page, which nicely lays out the appointment details.
 	If that event is clicked on from calendar view, it should go to that link as well
 
 - go throgh DoctorDashboard Layout txt file
@@ -32,7 +33,7 @@ On the vet dashboard, make the appointments clickable, shows the patients detail
 LATER:
 -figure out IP Address situation (for the login and security page). Also see if can figure out what kind of device the user has
 
-Make the 'Add Address' Button Finalize a Location, make it within the accordion. 
+Make the 'Add Address' Button Finalize a Location, make it within the accordion.
 	So when add address is pressed, it becomes a pretty-looking text (can edit it by pressing a pencil in the top right or something)
 	Add a new 'Add new address' button to add a new acordion strip
 	Won't need a save button. the add/delete buttons will act as saves. will need to make the delete button double confirmation like everything else
@@ -70,9 +71,9 @@ figure out phone_priority (address_data), currently sending it back as 0. Phone 
 
 inactivity logout ( 5 mins). implement on the verification level (in the jwt)
 
--I think the real selling point for pts to use the platform is knowing ahead of time if their insurance provider will cover a certain service. Will either require a lot of research, or data searching. 
-	Ask Phil if insurances openly disclose what they will/won't cover for which type of pets. 
-	Figure out a way to make it really user for users to figure out if their insurance covers a certain procedure. 
+-I think the real selling point for pts to use the platform is knowing ahead of time if their insurance provider will cover a certain service. Will either require a lot of research, or data searching.
+	Ask Phil if insurances openly disclose what they will/won't cover for which type of pets.
+	Figure out a way to make it really user for users to figure out if their insurance covers a certain procedure.
 
 -React browser warnins when adding pre_vet/vet education (see 7/4 keys commit)
 
