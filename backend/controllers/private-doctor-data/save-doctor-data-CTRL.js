@@ -483,7 +483,7 @@ export async function saveAddressData (req, res) {
                         await connection.execute(sql, values);
                     } catch(error) {
                         return res.status(400).json();
-                    }     
+                    }
                 }
                 returnedData.push(updatedData[i])
             }
@@ -496,7 +496,8 @@ export async function saveAddressData (req, res) {
             //Select Day_of_week, Start_time, End_time from timedata table where addressID = returnedData[i].AddressID.
             //see which data is new, and which data is deleted. will be re-declaring addedTimeData, deletedTimeData inside of a loop (that iterates over all the address_IDs)
             //the addedData/deletedData will act inside of a loop, length of addedTimeDAta/deletedTimeData
-            for(let i = 0; i<returnedData.length; i++) {
+            returnedData.sort((a, b) => a.address_priority - b.address_priority);
+            for(let i = 0; i < returnedData.length; i++) {
                 const returnedDataData = returnedData[i];
                 const corespondingTimeData = TimesData[i];
 
@@ -569,6 +570,7 @@ export async function saveAddressData (req, res) {
             return res.status(200).json([])
         }
     } else if (!_.isEmpty(AddressData)) {
+        AddressData.sort((a, b) => a.address_priority - b.address_priority);
         for (let i = 0; i<AddressData.length; i++) {
             const sql = `INSERT INTO ${addresses} 
                 (address_title, address_line_1, address_line_2, city, state, zip, country, address_public_status, address_priority, instant_book, isActive, Doctor_ID) 
@@ -591,7 +593,7 @@ export async function saveAddressData (req, res) {
                 }
             }
             if (!_.isEmpty(TimesData[i])) {//Makes sure that there is Time Data to save
-                for(let j = 0; j<TimesData.length;j++) {
+                for(let j = 0; j<TimesData[i].length;j++) {
                     const sql = `INSERT INTO ${booking_availability} (Day_of_week, Start_time, End_time, address_ID, Doctor_ID) VALUES (?, ?, ?, ?, ?)`;
                     const values = [TimesData[i][j].Day_of_week, TimesData[i][j].Start_time, TimesData[i][j].End_time, insert_results.insertId, DoctorID];
                     try {

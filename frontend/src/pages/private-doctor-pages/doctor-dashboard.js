@@ -81,10 +81,10 @@ export default function DoctorDashboard() {
   const renderConfirmedAppointment = (status, setStatus, appointment) => {
     if (status !== 'confirming') return null
     return (
-      <div>
+      <span style={{ display: 'block' }}>
         <Button variant = "success" onClick = {e => approveAppointment(setStatus, appointment.AppointmentsID, dashboardData, setDashboardData)}>Approve Appointment</Button>
         <Button variant = "danger" onClick = {() => setStatus('pending')}>X</Button>
-      </div>
+      </span>
     )
   }
 

@@ -70,7 +70,7 @@ function AddressForm(props) {
       <>
         {addresses.sort((a, b) => a.address_priority - b.address_priority).map((address, index) => (
           <AddressAccordionItem 
-            key = {address.addressesID}
+            key = {address.address_priority} // do not change this to addressesID, or saving locations gets messed up when adding multiple locations at once
             index = {index}
             address = {address} 
             handleInputChange = {(e) => handleInputChange(e, address.address_priority)}

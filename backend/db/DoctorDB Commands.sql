@@ -280,8 +280,8 @@ CREATE TABLE booking_availability(
 	FOREIGN KEY (address_ID) REFERENCES addresses(addressesID) ON DELETE CASCADE,
 	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
 );
-
-SELECT * FROM booking_availability ;
+SELECT * FROM booking_availability JOIN addresses ON booking_availability.address_ID = addresses.addressesID where addresses.isActive;
+SELECT * FROM booking_availability;
 
 CREATE TABLE login_history(
 login_historyID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,

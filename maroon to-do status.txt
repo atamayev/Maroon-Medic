@@ -2,10 +2,6 @@ To-do:
 
 
 ASAP:
--saving location bug. when there is a location, titled '23', with certain times, and a new location, '23123' is entered, with no times, and the accordion is still open, and the data is saved, the times switch locations
-	check this function: handleInputChange in location.js - to make sure that 
-	run extensive testing. see what happens in all different kinds of scenarios (enter different titles for the addresses - first a title starting with 'a', then 'b', etc.)
-	
 make the phone number input in the location.js only accept numbers (Phone input)
 wihle the languages saved! message appears, try to delete a language. go into the 'deleting' stage. after the save languages! message disappears, the state of the deleting button reverts to the X
 

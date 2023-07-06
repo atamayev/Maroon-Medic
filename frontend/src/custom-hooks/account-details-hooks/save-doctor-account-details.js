@@ -227,6 +227,7 @@ export async function saveLocation (addresses, setAddresses, setAddressesConfirm
       const response = await PrivateDoctorDataService.saveAddressData(newAddresses, newTimes);
       if (response.status === 200) {
         const newAddressData = response.data;
+        newAddressData.sort((a, b) => a.address_priority - b.address_priority);
         for (let i = 0; i < newAddressData.length; i++) {
           newAddressData[i]['times'] = newTimes[i];
         }
