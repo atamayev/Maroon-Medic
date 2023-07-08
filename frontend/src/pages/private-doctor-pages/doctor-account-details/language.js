@@ -1,10 +1,11 @@
 import _ from "lodash"
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { Card, Button} from "react-bootstrap";
-import { handleAddLanguage } from "../../../custom-hooks/account-details-hooks/add";
-import { handleDeleteLanguage } from "../../../custom-hooks/account-details-hooks/delete";
-import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
+import { Card } from "react-bootstrap";
 import { renderMessageSection } from "../../../components/saved-message-section";
+import { handleAddLanguage } from "../../../custom-hooks/account-details-hooks/add";
+import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
+import { handleDeleteLanguage } from "../../../custom-hooks/account-details-hooks/delete";
+import { renderInitialDeleteButton, renderNevermindButton, renderConfirmDeleteButton } from "../../../components/delete-buttons";
 
 export default function RenderLanguageSection(props) {
   return (
@@ -75,58 +76,25 @@ function RenderIsVetLanguages(props) {
     )
   }
 
-  const renderNevermindButton = (status, setStatus) => {
-    if (status !== 'deleting') return null
-
-    return (
-      <Button
-        variant = "secondary"
-        onClick = {() => setStatus('initial')}
-      >
-        Nevermind
-      </Button>
-    )
-  }
-
-  const renderConfirmDeleteButton = (status, language) => {
-    if (status !== 'deleting') return null
-
-    return (
-      <Button
-        variant = "danger"
-        onClick = {() =>
-          handleDeleteLanguage(
-            language,
-            spokenLanguages,
-            setSpokenLanguages,
-            setLanguagesConfirmation,
-            'doctor'
-        )}
-      >
-        Confirm Delete
-      </Button>
-    )
-  }
-
-  const renderInitialDeleteButton = (status, setStatus) => {
-    if (status !== 'initial') return null
-
-    return (
-      <Button
-        variant = "danger"
-        onClick = {() => setStatus('deleting')}
-      >
-        X
-      </Button>
-    )
-  }
+  const handleDeleteOnClick = useCallback(
+    (language) => {
+      handleDeleteLanguage(
+        language,
+        spokenLanguages,
+        setSpokenLanguages,
+        setLanguagesConfirmation,
+        'doctor'
+      );
+    },
+    [spokenLanguages, setSpokenLanguages, setLanguagesConfirmation]
+  );
 
   const renderDeleteButtonOptions = (status, setStatus, language) => {
     return (
       <>
         {renderInitialDeleteButton(status, setStatus)}
         {renderNevermindButton(status, setStatus)}
-        {renderConfirmDeleteButton(status, language)}
+        {renderConfirmDeleteButton(status, language, handleDeleteOnClick)}
       </>
     )
   }

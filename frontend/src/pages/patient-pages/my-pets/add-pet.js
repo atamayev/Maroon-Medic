@@ -62,7 +62,9 @@ export const AddPet = (props) => {
 
   const renderDeleteButton = () => {
     return (
-      <Button variant = "danger" onClick = {() =>
+      <Button
+        variant = "danger"
+        onClick = {() =>
         {
           setNewPetData({})
           setShowAddPet(false)

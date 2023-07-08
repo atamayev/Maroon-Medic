@@ -2,7 +2,9 @@ To-do:
 
 
 ASAP:
+-make languages it's own component - make doctor/patient both use it 
 -abstract the initial delete and nevermind buttons
+-make all the useCallback functions into custom hooks
 -make callbacks for all account details (like languagejs)
 -implement language.js usecallback/memo effiiency improvements to patient js files as well
 	wihle the languages saved! message appears, try to delete a language. go into the 'deleting' stage. after the save languages! message disappears, the state of the deleting button reverts to the X

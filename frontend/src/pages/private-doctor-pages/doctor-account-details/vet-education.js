@@ -1,20 +1,21 @@
 import _ from "lodash"
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Card, Button } from "react-bootstrap";
-import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
-import { handleAddEducation } from "../../../custom-hooks/account-details-hooks/add";
 import { renderMessageSection } from "../../../components/saved-message-section";
+import { handleAddEducation } from "../../../custom-hooks/account-details-hooks/add";
+import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
 import { saveVetEducation } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details";
+import { renderConfirmDeleteButton, renderInitialDeleteButton, renderNevermindButton } from "../../../components/delete-buttons";
 import EducationTime from "./education-time";
 
 export default function RenderVetEducationSection (props) {
   return(
     <Card className = "mb-3">
       <Card.Header>
-          Vet Education
+        Vet Education
       </Card.Header>
       <Card.Body>
-          {RenderIsVetEducation(props)}
+        {RenderIsVetEducation(props)}
       </Card.Body>
   </Card>
   );
@@ -29,8 +30,6 @@ function RenderIsVetEducation(props) {
 
   const allChoicesFilled = selectedVetSchool && selectedVetEducationType &&
     timeState.startMonth && timeState.endMonth && timeState.startYear && timeState.endYear;
-
-  if (_.isEmpty(_.uniq(listDetails.vetSchools?.map((item) => item.School_name)))) return <p>Loading...</p>
 
   const renderSelectSchool = () => {
     return (
@@ -116,59 +115,26 @@ function RenderIsVetEducation(props) {
     )
   }
 
-  const renderNevermindButton = (status, setStatus) => {
-    if (status !== 'deleting') return null
-
-    return (
-      <Button
-        variant = "secondary"
-        onClick = {() => setStatus('initial')}
-      >
-        Nevermind
-      </Button>
-    )
-  }
-
-  const renderConfirmDeleteButton = (status, vet_education) => {
-    if (status !== 'deleting') return null
-
-    return (
-      <Button
-        variant = "danger"
-        onClick = {() =>
-          saveVetEducation(
-            vet_education.vet_education_mappingID,
-            vetEducation,
-            setVetEducation,
-            listDetails,
-            setVetEducationConfirmation,
-            'delete'
-          )}
-      >
-        Confirm Delete
-      </Button>
-    )
-  }
-
-  const renderInitialDeleteButton = (status, setStatus) => {
-    if (status !== 'initial') return null
-
-    return (
-      <Button
-        variant = "danger"
-        onClick = {() => setStatus('deleting')}
-      >
-        X
-      </Button>
-    )
-  }
+  const handleDeleteOnClick = useCallback(
+    (vet_education) => {
+      saveVetEducation(
+        vet_education.vet_education_mappingID,
+        vetEducation,
+        setVetEducation,
+        listDetails,
+        setVetEducationConfirmation,
+        'delete'
+      )
+    },
+    [vetEducation, setVetEducation, setVetEducationConfirmation]
+  );
 
   const renderDeleteButtonOptions = (status, setStatus, vet_education) => {
     return (
       <>
         {renderInitialDeleteButton(status, setStatus)}
         {renderNevermindButton(status, setStatus)}
-        {renderConfirmDeleteButton(status, vet_education)}
+        {renderConfirmDeleteButton(status, vet_education, handleDeleteOnClick)}
       </>
     )
   }
@@ -196,6 +162,8 @@ function RenderIsVetEducation(props) {
       </ul>
     )
   }
+
+  if (_.isEmpty(_.uniq(listDetails.vetSchools?.map((item) => item.School_name)))) return <p>Loading...</p>
 
   return (
     <>

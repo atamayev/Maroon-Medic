@@ -1,10 +1,11 @@
 import _ from "lodash"
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Card, Button } from "react-bootstrap";
+import { renderMessageSection } from "../../../components/saved-message-section";
 import { handleAddEducation } from "../../../custom-hooks/account-details-hooks/add";
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
-import { renderMessageSection } from "../../../components/saved-message-section";
 import { savePreVetEducation } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details";
+import { renderConfirmDeleteButton, renderInitialDeleteButton, renderNevermindButton } from "../../../components/delete-buttons";
 import EducationTime from "./education-time";
 
 export default function RenderPreVetEducationSection(props) {
@@ -29,8 +30,6 @@ function RenderIsPreVetEducation(props) {
 
   const allChoicesFilled = selectedPreVetSchool && selectedMajor && selectedPreVetEducationType &&
     timeState.startMonth && timeState.endMonth && timeState.startYear && timeState.endYear;
-
-  if (_.isEmpty(_.uniq(listDetails.preVetSchools?.map((item) => item.School_name)))) return <p> Loading... </p>
 
   const renderSelectSchool = () => {
     return (
@@ -146,59 +145,26 @@ function RenderIsPreVetEducation(props) {
     )
   }
 
-  const renderNevermindButton = (status, setStatus) => {
-    if (status !== 'deleting') return null
-
-    return (
-      <Button
-        variant = "secondary"
-        onClick = {() => setStatus('initial')}
-      >
-        Nevermind
-      </Button>
-    )
-  }
-
-  const renderConfirmDeleteButton = (status, pre_vet_education) => {
-    if (status !== 'deleting') return null
-
-    return (
-      <Button
-        variant = "danger"
-        onClick = {() =>
-        savePreVetEducation(
-          pre_vet_education.pre_vet_education_mappingID,
-          preVetEducation,
-          setPreVetEducation,
-          listDetails,
-          setPreVetEducationConfirmation,
-          'delete'
-        )}
-      >
-        Confirm Delete
-      </Button>
-    )
-  }
-
-  const renderInitialDeleteButton = (status, setStatus) => {
-    if (status !== 'initial') return null
-
-    return (
-      <Button
-        variant = "danger"
-        onClick = {() => setStatus('deleting')}
-      >
-        X
-      </Button>
-    )
-  }
+  const handleDeleteOnClick = useCallback(
+    (pre_vet_education) => {
+      savePreVetEducation(
+        pre_vet_education.pre_vet_education_mappingID,
+        preVetEducation,
+        setPreVetEducation,
+        listDetails,
+        setPreVetEducationConfirmation,
+        'delete'
+      )
+    },
+    [preVetEducation, setPreVetEducation, setPreVetEducationConfirmation]
+  );
 
   const renderDeleteButtonOptions = (status, setStatus, pre_vet_education) => {
     return (
       <>
         {renderInitialDeleteButton(status, setStatus)}
         {renderNevermindButton(status, setStatus)}
-        {renderConfirmDeleteButton(status, pre_vet_education)}
+        {renderConfirmDeleteButton(status, pre_vet_education, handleDeleteOnClick)}
       </>
     )
   }
@@ -226,6 +192,8 @@ function RenderIsPreVetEducation(props) {
       </ul>
     )
   }
+
+  if (_.isEmpty(_.uniq(listDetails.preVetSchools?.map((item) => item.School_name)))) return <p> Loading... </p>
 
   return (
     <>
