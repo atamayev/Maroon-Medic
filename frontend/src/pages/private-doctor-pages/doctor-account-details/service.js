@@ -4,6 +4,7 @@ import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-m
 import { handleToggleCategory } from "../../../custom-hooks/account-details-hooks/select";
 import { saveServices } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details";
 import { handleNumericInput, preventNonNumericalInput, validateDropInput, validatePasteInput } from "../../../utils/input-validation";
+import { renderMessageSection } from "../../../components/saved-message-section";
 
 export default function RenderServiceSection (props) {
   return(
@@ -165,17 +166,6 @@ function RenderIsVetServices (props) {
     )
   }
 
-  const renderMessageSection = () => {
-    return (
-      <span className = {`fade ${servicesConfirmation.messageType ? 'show' : ''}`}>
-        {servicesConfirmation.messageType === 'saved' && 'Services saved!'}
-        {servicesConfirmation.messageType === 'same' && 'Same Service data!'}
-        {servicesConfirmation.messageType === 'problem' && 'Problem Saving Services!'}
-        {servicesConfirmation.messageType === 'none' && 'No services selected'}
-      </span>
-    )
-  }
-
   const renderToggleCategory = (category, services) => {
     if (services.length <= 1) return null
 
@@ -204,7 +194,7 @@ function RenderIsVetServices (props) {
 
       {renderSaveButton()}
 
-      {renderMessageSection()}
+      {renderMessageSection(servicesConfirmation, 'Services')}
     </>
   )
 };

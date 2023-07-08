@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Card, Button, Form } from "react-bootstrap";
 import FormGroup from '../../../components/form-group.js';
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message.js";
 import { saveDescription } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details.js";
+import { renderMessageSection } from "../../../components/saved-message-section.js";
 
 export default function RenderDescriptionSection (props) {
   return(
@@ -31,15 +32,16 @@ function RenderIsDescription(props) {
     return {color: 'black'}
   }
 
+  const handleDescriptionChange = useCallback((event) => {
+    setDescription(event.target.value);
+  }, [setDescription]);
+
   const renderDescriptionInput = () => {
     return (
       <FormGroup
         id = "Description"
         value = {description}
-        onChange = {event => {
-          const value = event.target.value;
-          setDescription(value);
-        }}
+        onChange = {event => {handleDescriptionChange(event)}}
         maxLength = {1000} // limit to 1000 characters
         as = "textarea"
         rows = {3}
@@ -66,23 +68,12 @@ function RenderIsDescription(props) {
     )
   }
 
-  const renderMessageSection = () => {
-    return (
-      <span className = {`fade ${descriptionConfirmation.messageType ? 'show' : ''}`}>
-        {descriptionConfirmation.messageType === 'saved' && 'Description saved!'}
-        {descriptionConfirmation.messageType === 'same' && 'Same Description data!'}
-        {descriptionConfirmation.messageType === 'problem' && 'Problem Saving Description!'}
-        {descriptionConfirmation.messageType === 'none' && 'No description selected'}
-      </span>
-    )
-  }
-
-  return(
+  return (
     <Form>
       {renderDescriptionInput()}
       {renderCharacterLimit()}
       {renderSaveButton()}
-      {renderMessageSection()}
+      {renderMessageSection(descriptionConfirmation, 'Description')}
     </Form>
   );
 };

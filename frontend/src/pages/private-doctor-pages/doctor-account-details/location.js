@@ -9,6 +9,7 @@ import { daysOfWeek } from "../../../components/constants";
 import { handleAddAccordion } from "../../../custom-hooks/account-details-hooks/add";
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
 import { saveLocation } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details";
+import { renderMessageSection } from "../../../components/saved-message-section";
 
 export default function RenderLocationSection(props) {
   return (
@@ -107,17 +108,6 @@ function AddressForm(props) {
     )
   }
 
-  const renderMessageSection = () => {
-    return (
-      <span className = {`fade ${addressesConfirmation.messageType ? 'show' : ''}`}>
-        {addressesConfirmation.messageType === 'saved' && 'Locations saved!'}
-        {addressesConfirmation.messageType === 'same' && 'Same Location data!'}
-        {addressesConfirmation.messageType === 'problem' && 'Problem Saving Locations!'}
-        {addressesConfirmation.messageType === 'none' && 'No locations selected'}
-      </span>
-    )
-  }
-
   return (
     <>
       <Accordion >
@@ -125,7 +115,7 @@ function AddressForm(props) {
       </Accordion>
       {renderAddNewLocationButton()}
       {renderSaveLocationsButton()}
-      {renderMessageSection()}
+      {renderMessageSection(addressesConfirmation, 'Locations')}
     </>
   );
 };

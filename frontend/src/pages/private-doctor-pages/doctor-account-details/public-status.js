@@ -1,6 +1,7 @@
 import { Card, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
 import { handlePublicAvailibilityToggle } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details";
+import { renderMessageSection } from "../../../components/saved-message-section";
 
 export default function RenderPublicStatusSection (props) {
   return(
@@ -22,17 +23,9 @@ function RenderIsPubliclyAvailable (props) {
   const { publiclyAvailable, setPubliclyAvailable } = props;
   const [publiclyAvailableConfirmation, setPubliclyAvailableConfirmation] = useConfirmationMessage();
 
-  const renderMessageSection = () => {
-    return (
-      <span className = {`fade ${publiclyAvailableConfirmation.messageType ? 'show' : ''}`}>
-        {publiclyAvailableConfirmation.messageType === 'saved' && 'Publicly Available status saved!'}
-        {publiclyAvailableConfirmation.messageType === 'problem' && 'Problem Saving Publicly Available status!'}
-      </span>
-    )
-  }
-
-  return(
+  return (
     <div>
+      {/* All of this logic must be kept in this component, or else the toggle button will not work: */}
       <ToggleButtonGroup type = "radio" name = "options"
         value = {publiclyAvailable ?? 0}
         onChange = {(value) => handlePublicAvailibilityToggle(value, setPubliclyAvailable, setPubliclyAvailableConfirmation)}
@@ -53,7 +46,7 @@ function RenderIsPubliclyAvailable (props) {
           Yes
         </ToggleButton>
       </ToggleButtonGroup>
-      {renderMessageSection()}
+      {renderMessageSection(publiclyAvailableConfirmation, 'Public Availability Status')}
     </div>
   )
 };

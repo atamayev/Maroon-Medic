@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
 import { handleAddEducation } from "../../../custom-hooks/account-details-hooks/add";
+import { renderMessageSection } from "../../../components/saved-message-section";
 import { saveVetEducation } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details";
 import EducationTime from "./education-time";
 
@@ -196,17 +197,6 @@ function RenderIsVetEducation(props) {
     )
   }
 
-  const renderMessageSection = () => {
-    return (
-      <span className = {`fade ${vetEducationConfirmation.messageType ? 'show' : ''}`}>
-        {vetEducationConfirmation.messageType === 'saved' && 'Vet Education saved!'}
-        {vetEducationConfirmation.messageType === 'same' && 'Same Vet Education data!'}
-        {vetEducationConfirmation.messageType === 'problem' && 'Problem Saving Vet Education!'}
-        {vetEducationConfirmation.messageType === 'none' && 'No Vet Education selected'}
-      </span>
-    )
-  }
-
   return (
     <>
       {renderSelectSchool()}
@@ -219,7 +209,7 @@ function RenderIsVetEducation(props) {
 
       {renderSavedEducationList()}
 
-      {renderMessageSection()}
+      {renderMessageSection(vetEducationConfirmation, 'Vet Education')}
     </>
   )
 };

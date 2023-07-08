@@ -4,6 +4,7 @@ import { Card, Button } from "react-bootstrap";
 import { handleAddSpecialty } from "../../../custom-hooks/account-details-hooks/add";
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
 import { handleDeleteSpecialty } from "../../../custom-hooks/account-details-hooks/delete";
+import { renderMessageSection } from "../../../components/saved-message-section";
 
 export default function RenderSpecialtySection (props) {
   return(
@@ -179,23 +180,12 @@ function RenderIsSpecialty(props) {
     )
   }
 
-  const renderMessageSection = () => {
-    return (
-      <span className = {`fade ${specialtiesConfirmation.messageType ? 'show' : ''}`}>
-        {specialtiesConfirmation.messageType === 'saved' && 'Specialties saved!'}
-        {specialtiesConfirmation.messageType === 'same' && 'Same Specialty data!'}
-        {specialtiesConfirmation.messageType === 'problem' && 'Problem Saving Specialties!'}
-        {specialtiesConfirmation.messageType === 'none' && 'No specialties selected'}
-      </span>
-    )
-  }
-
   return (
     <>
       {renderSelectOrganization()}
       {renderSelectSpecialty()}
       {renderShowSavedSpecialtyList()}
-      {renderMessageSection()}
+      {renderMessageSection(specialtiesConfirmation, 'Specialties')}
     </>
   )
 };

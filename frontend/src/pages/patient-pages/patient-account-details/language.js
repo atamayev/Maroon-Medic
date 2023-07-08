@@ -4,6 +4,7 @@ import { Card, Button } from "react-bootstrap";
 import { handleAddLanguage } from "../../../custom-hooks/account-details-hooks/add";
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
 import { handleDeleteLanguage } from "../../../custom-hooks/account-details-hooks/delete";
+import { renderMessageSection } from "../../../components/saved-message-section";
 
 export default function RenderLanguageSection(props) {
   return(
@@ -21,17 +22,6 @@ export default function RenderLanguageSection(props) {
 function RenderIsPatientLanguages(props) {
   const {listDetails, spokenLanguages, setSpokenLanguages} = props;
   const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage();
-
-  const renderMessageSection = () => {
-    return (
-      <div className = {`fade ${languagesConfirmation.messageType ? 'show' : ''}`}>
-        {languagesConfirmation.messageType === 'saved' && 'Languages saved!'}
-        {languagesConfirmation.messageType === 'same' && 'Same Language data!'}
-        {languagesConfirmation.messageType === 'problem' && 'Problem Saving Languages!'}
-        {languagesConfirmation.messageType === 'none' && 'No languages selected'}
-      </div>
-    )
-  }
 
   const renderChooseLanguage = () => {
     if (!(_.isArray(listDetails.languages) && !_.isEmpty(listDetails.languages))) return null;
@@ -148,7 +138,7 @@ function RenderIsPatientLanguages(props) {
     <>
       {renderSelectLanguageSection()}
       {renderSavedLanguageList()}
-      {renderMessageSection()}
+      {renderMessageSection(languagesConfirmation, 'Languages')}
     </>
   );
 };

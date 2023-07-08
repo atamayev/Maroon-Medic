@@ -1,9 +1,10 @@
 import { Card, Button, Form } from 'react-bootstrap'
 import { NonPatientAccess } from '../../../components/user-type-unauth.js';
+import { renderMessageSection } from '../../../components/saved-message-section.js';
 import { useConfirmationMessage } from '../../../custom-hooks/use-confirmation-message.js';
 import useSimpleUserVerification from '../../../custom-hooks/use-simple-user-verification.js';
 import { usePersonalInfo, handleSavePersonalInfo } from '../../../custom-hooks/fetch-and-save-personal-info.js';
-import { renderFirstNameSection, renderLastNameSection, renderDOBSection, renderGenderSection, renderMessageSection } from '../../../components/personal-info-inputs.js';
+import { renderFirstNameSection, renderLastNameSection, renderDOBSection, renderGenderSection } from '../../../components/personal-info-inputs.js';
 import Header from '../../header.js';
 import PatientHeader from '../patient-header.js';
 
@@ -31,7 +32,7 @@ export default function PatientPersonalInfo() {
             {renderGenderSection(personalInfo, setPersonalInfo)}
             {renderDOBSection(personalInfo, setPersonalInfo)}
             <Button type = "submit" className = "btn btn-primary w-100">Save</Button>
-            {renderMessageSection(personalInfoConfirmation)}
+            {renderMessageSection(personalInfoConfirmation, 'Personal Info')}
           </Form>
         </Card.Body>
       </Card>

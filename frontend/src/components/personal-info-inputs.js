@@ -122,12 +122,3 @@ export const renderDOBSection = (personalInfo, setPersonalInfo) => {
   )
 }
 
-export const renderMessageSection = (personalInfoConfirmation) => {
-  return (
-    <span className = {`fade ${personalInfoConfirmation.messageType ? 'show' : ''}`}>
-      {personalInfoConfirmation.messageType === 'saved' && 'Personal data saved'}
-      {personalInfoConfirmation.messageType === 'same' && 'Same Personal data!'}
-      {personalInfoConfirmation.messageType === 'problem' && 'Problem Saving Personal data!'}
-    </span>
-  )
-}

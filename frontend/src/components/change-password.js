@@ -17,7 +17,7 @@ export default function ChangePassword(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    handleChangePassword(credentials, setMessage, setLoading)
+    handleChangePassword(credentials, setCredentials, setMessage, setLoading, type)
   }
 
   const renderMessage = () => {
@@ -41,6 +41,7 @@ export default function ChangePassword(props) {
             label = "Current Password"
             type = {renderShowPassword()}
             placeholder = "SuperSecretPassword"
+            value = {credentials.currentPassword || ""}
             onChange = {(event) => setCredentials({...credentials, currentPassword: event.target.value})}
             required
           />
@@ -50,6 +51,7 @@ export default function ChangePassword(props) {
             label = "New Password"
             type = {renderShowPassword()}
             placeholder = "NewSuperSecretPassword"
+            value = {credentials.newPassword || ""}
             onChange = {(event) => setCredentials({...credentials, newPassword: event.target.value})}
             required
           />
@@ -59,6 +61,7 @@ export default function ChangePassword(props) {
             label = "Confirm New Password"
             type = {renderShowPassword()}
             placeholder = "NewSuperSecretPassword"
+            value = {credentials.newConfirmPassword || ""}
             onChange = {(event) => setCredentials({...credentials, newConfirmPassword: event.target.value})}
             required
           />

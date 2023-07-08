@@ -1,6 +1,7 @@
 import { Form, Button, Card,Container, Row, Col } from 'react-bootstrap';
 import FormGroup from '../../../components/form-group';
 import { addMyPets } from '../../../custom-hooks/my-pets-hooks/save-my-pets';
+import { renderMessageSection } from '../../../components/saved-message-section';
 
 const ifPetTypeSelected = (value, petTypes, newPetData, setNewPetData) => {
   // Find the selected pet type by its ID
@@ -176,17 +177,6 @@ export const AddPet = (props) => {
     )
   }
 
-  const renderMessageSection = () => {
-    return (
-      <span className = {`fade ${petConfirmation.messageType ? 'show' : ''}`}>
-        {petConfirmation.messageType === 'saved' && 'Pet Data saved!'}
-        {petConfirmation.messageType === 'same' && 'Same Pet Data!'}
-        {petConfirmation.messageType === 'problem' && 'Problem Saving Pet Data!'}
-        {petConfirmation.messageType === 'none' && 'No Pet Data Entered'}
-      </span>
-    )
-  }
-
   return (
     <>
       <Card>
@@ -213,7 +203,7 @@ export const AddPet = (props) => {
             Upload image area
             {renderAddButton()}
           </Form>
-          {renderMessageSection()}
+          {renderMessageSection(petConfirmation, 'Pet')}
         </Card.Body>
       </Card>
     </>

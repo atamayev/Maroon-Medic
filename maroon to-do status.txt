@@ -2,8 +2,28 @@ To-do:
 
 
 ASAP:
+-abstract the initial delete and nevermind buttons
+-make callbacks for all account details (like languagejs)
+-implement language.js usecallback/memo effiiency improvements to patient js files as well
+	wihle the languages saved! message appears, try to delete a language. go into the 'deleting' stage. after the save languages! message disappears, the state of the deleting button reverts to the X
+	-simpify all cases in save doctor details where shouldSave is. Makes it seem very complex. 
+		consider combining some of the inital shouldSave logic:
+		ie: 	
+			  if (_.isEmpty(savedLocationData) && _.isEmpty(addresses)) {
+				// Case where both arrays are empty
+				setAddressesConfirmation({messageType: 'none'});
+				return;
+			  }
+
+			  if (!savedLocationData || _.isEmpty(savedLocationData)) {
+				shouldSave = !_.isEmpty(addresses);
+			  } else if ((!areArraysSame(newAddresses, savedAddresses)) || (!areArraysSame(newTimes, savedTimes))) {
+				shouldSave = true;
+			  } else {
+				setAddressesConfirmation({messageType: 'same'});
+  }
+-make trailing white space delete when save
 make the phone number input in the location.js only accept numbers (Phone input)
-wihle the languages saved! message appears, try to delete a language. go into the 'deleting' stage. after the save languages! message disappears, the state of the deleting button reverts to the X
 
 -duplicate entries need to be accounted for when added to DB. Unique constraints. when the same data is entered into the pre_vet_edcatinn_mapping table, it gives an error, but doesn't enter the data.
 	Make the error on the front-end be say something like: duplicate entry. Or, don't allow the user to add the same entry twice
@@ -78,3 +98,5 @@ inactivity logout ( 5 mins). implement on the verification level (in the jwt)
 -React browser warnins when adding pre_vet/vet education (see 7/4 keys commit)
 
 -make entering time data into location.js easier. currently a pain in the ass, keeps reseting
+
+-CODE CONCISION: Cut any function more than 100 lines into parts. I don't want massive functions - most can be distilled into smaller parts
