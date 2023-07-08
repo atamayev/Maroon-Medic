@@ -8,38 +8,32 @@ function checkCookie(name) {
   return document.cookie.split(';').some((item) => item.trim().startsWith(name + '='));
 }
 
+function clearAndReturnFalse(clearSession) {
+  if (clearSession) sessionStorage.clear();
+  return { verified: false };
+}
+
 const VerifyContextProvider = (props) => {
   async function userVerification (clearSession) {
     try {
       if (!checkCookie('DoctorAccessToken') && !checkCookie('PatientAccessToken')) {
-        if (clearSession) sessionStorage.clear();
-        return {
-          verified: false
-        };
+        return clearAndReturnFalse(clearSession);
       }
-    } catch(error) {
-      if (clearSession) sessionStorage.clear();
-      return {
-        verified: false
-      };
-    }
 
-    try {
       const response = await AuthDataService.verify();
-      if (response.data.isValid === true) {
-        return {
-          verified: true,
-          userType: response.data.type
-        };
-      }
-      else {
-        return {
-          verified: false
-        };
-      }
+
+      if (response.data.isValid !== true)  return clearAndReturnFalse(clearSession);
+
+      return {
+        verified: true,
+        userType: response.data.type || null
+      };
     } catch(error) {
-      if (error.response.status === 401) invalidUserAction(error.response.data)
-      else return {verified: false};
+      if (error.response.status === 401) {
+        invalidUserAction(error.response.data);
+      } else {
+        return clearAndReturnFalse(clearSession);
+      }
     }
   }
 

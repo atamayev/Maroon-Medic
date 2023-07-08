@@ -1,9 +1,9 @@
-import { useEffect, useState, useCallback } from "react";
-import { Card, Button, Form } from "react-bootstrap";
-import FormGroup from '../../../components/form-group.js';
-import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message.js";
-import { saveDescription } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details.js";
-import { renderMessageSection } from "../../../components/saved-message-section.js";
+import { useEffect, useState, useCallback } from "react"
+import { Card, Button, Form } from "react-bootstrap"
+import FormGroup from "../../../components/form-group.js"
+import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message.js"
+import { saveDescription } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details.js"
+import { renderMessageSection } from "../../../components/saved-message-section.js"
 
 export default function RenderDescriptionSection (props) {
   return(
@@ -15,26 +15,26 @@ export default function RenderDescriptionSection (props) {
         {RenderIsDescription(props)}
       </Card.Body>
     </Card>
-  );
-};
+  )
+}
 
 function RenderIsDescription(props) {
-  const { description, setDescription } = props;
-  const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false);
-  const [descriptionConfirmation, setDescriptionConfirmation] = useConfirmationMessage();
+  const { description, setDescription } = props
+  const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false)
+  const [descriptionConfirmation, setDescriptionConfirmation] = useConfirmationMessage()
 
   useEffect(() => {
     if (description || description === "") setIsDescriptionOverLimit(description.length >= 1000)
   }, [description])
 
   const counterStyleLimit = () => {
-    if (isDescriptionOverLimit) return {color: 'red'}
-    return {color: 'black'}
+    if (isDescriptionOverLimit) return {color: "red"}
+    return {color: "black"}
   }
 
   const handleDescriptionChange = useCallback((event) => {
-    setDescription(event.target.value);
-  }, [setDescription]);
+    setDescription(event.target.value)
+  }, [setDescription])
 
   const renderDescriptionInput = () => {
     return (
@@ -73,7 +73,7 @@ function RenderIsDescription(props) {
       {renderDescriptionInput()}
       {renderCharacterLimit()}
       {renderSaveButton()}
-      {renderMessageSection(descriptionConfirmation, 'Description')}
+      {renderMessageSection(descriptionConfirmation, "Description")}
     </Form>
-  );
-};
+  )
+}

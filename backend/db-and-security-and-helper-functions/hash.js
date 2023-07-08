@@ -15,12 +15,12 @@ export default new class Hash {
             return (hashedData)
         } catch (error) {
         }
-      };
-    
+      }
+
     /** checkPassword: self-explanatory
      *  Async function because hashing takes time, and breaks the program if not async
-     * @param {String} plaintextPassword 
-     * @param {String} hashedPassword 
+     * @param {String} plaintextPassword
+     * @param {String} hashedPassword
      * @returns True/False Boolean
      */
     async checkPassword(plaintextPassword, hashedPassword) {

@@ -20,5 +20,8 @@
     "lodash": "^4.17.21",
     "mysql2": "^3.2.0",
     "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.44.0"
   }
 }

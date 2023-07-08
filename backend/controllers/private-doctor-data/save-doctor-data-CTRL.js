@@ -11,50 +11,50 @@ import { getUnchangedAddressRecords, getUpdatedAddressRecords } from "../../db-a
  *  First, converts from UUID to ID. Then, checks if any records exist in basic_doctor_info.
  *  If records don't exist, then it inserts the data.
  *  if records do exist, the data is updated. depending on wheather the data is entered successfully or not, it returns 200/400
- * @param {String} req Cookie from client 
+ * @param {String} req Cookie from client
  * @param {Boolean} res 200/400
  * @returns Returns 200/400, depending on wheather the data was saved corretly
  *  DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function savePersonalData (req, res) {
     const DoctorUUID = req.cookies.DoctorUUID
-    let DoctorID;
+    let DoctorID
     try {
-        DoctorID = await UUID_to_ID(DoctorUUID);
+        DoctorID = await UUID_to_ID(DoctorUUID)
     } catch (error) {
-        clearCookies(res, 'Doctor')
-        return res.status(401).json({ shouldRedirect: true, redirectURL: '/vet-login' }); 
+        clearCookies(res, "Doctor")
+        return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" })
     }
 
-    const personalInfo = req.body.personalInfo;
+    const personalInfo = req.body.personalInfo
 
-    const basic_user_info = 'basic_user_info';
+    const basic_user_info = "basic_user_info"
     const sql = `SELECT basic_user_infoID FROM  ${basic_user_info} WHERE User_ID = ?`
-    const values = [DoctorID];
-    let results;
+    const values = [DoctorID]
+    let results
     //this is upsert:
-    
-    await DB_Operation(savePersonalData.name, basic_user_info);
+
+    await DB_Operation(savePersonalData.name, basic_user_info)
     try {
-        [results] = await connection.execute(sql, values);
+        [results] = await connection.execute(sql, values)
     } catch(error) {
-        return res.status(400).json();
+        return res.status(400).json()
     }
 
     // Combine date parts into a single string
-    const dateOfBirthStr = `${personalInfo.DOB_month} ${personalInfo.DOB_day} ${personalInfo.DOB_year}`;
+    const dateOfBirthStr = `${personalInfo.DOB_month} ${personalInfo.DOB_day} ${personalInfo.DOB_year}`
 
     // Convert the string to a Date object and format it
-    const dateOfBirth = dayjs(dateOfBirthStr, 'MMMM D YYYY').format('YYYY-MM-DD');
-    const values1 = [personalInfo.FirstName, personalInfo.LastName, personalInfo.Gender, dateOfBirth, DoctorID];
+    const dateOfBirth = dayjs(dateOfBirthStr, "MMMM D YYYY").format("YYYY-MM-DD")
+    const values1 = [personalInfo.FirstName, personalInfo.LastName, personalInfo.Gender, dateOfBirth, DoctorID]
 
     if (_.isEmpty(results)) {// if no results, then insert.
-        const sql1 = `INSERT INTO ${basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?, ?, ?, ?, ?)`;
+        const sql1 = `INSERT INTO ${basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?, ?, ?, ?, ?)`
         try {
-            await connection.execute(sql1, values1);
-            return res.status(200).json();
+            await connection.execute(sql1, values1)
+            return res.status(200).json()
         } catch(error) {
-            return res.status(400).json();
+            return res.status(400).json()
         }
     } else {// if there are results, that means that the record exists, and needs to be altered
         const sql1 = `UPDATE ${basic_user_info} SET FirstName = ?, LastName = ?, Gender = ?, DOB = ? WHERE User_ID = ?`;
@@ -65,60 +65,60 @@ export async function savePersonalData (req, res) {
             return res.status(400).json();
         }
     }
-};
+}
 
 /** saveDescriptionData is self-explanatory in name
  *  First, converts from UUID to ID. Then, checks if any records exist in descriptions.
  *  If records don't exist, then it inserts the data.
  *  if records do exist, the data is updated. depending on wheather the data is entered successfully or not, it returns 200/400
- * @param {String} req Cookie from client 
+ * @param {String} req Cookie from client
  * @param {Boolean} res 200/400
  * @returns Returns 200/400, depending on wheather the data was saved corretly
  *  DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function saveDescriptionData (req, res) {
-    const DoctorUUID = req.cookies.DoctorUUID;
-    let DoctorID;
+    const DoctorUUID = req.cookies.DoctorUUID
+    let DoctorID
     try {
-        DoctorID = await UUID_to_ID(DoctorUUID);
+        DoctorID = await UUID_to_ID(DoctorUUID)
     } catch (error) {
-        clearCookies(res, 'Doctor')
-        return res.status(401).json({ shouldRedirect: true, redirectURL: '/vet-login' }); 
+        clearCookies(res, "Doctor")
+        return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" })
     }
 
     const description = req.body.Description;
-    const descriptions = 'descriptions';
+    const descriptions = "descriptions";
 
-    const sql = `SELECT descriptionsID FROM  ${descriptions} WHERE Doctor_ID = ?`;
-    const values = [DoctorID];
-    let results;
-    
-    await DB_Operation(saveDescriptionData.name, descriptions);
+    const sql = `SELECT descriptionsID FROM  ${descriptions} WHERE Doctor_ID = ?`
+    const values = [DoctorID]
+    let results
+
+    await DB_Operation(saveDescriptionData.name, descriptions)
     try {
-        [results] = await connection.execute(sql, values);
+        [results] = await connection.execute(sql, values)
     } catch(error) {
-        return res.status(400).json();
+        return res.status(400).json()
     }
-    const values1 = [description, DoctorID];
+    const values1 = [description, DoctorID]
 
     if (_.isEmpty(results)) {// if no results, then insert.
         const sql1 = `INSERT INTO ${descriptions} (Description, Doctor_ID) VALUES (?, ?)`;
         try {
-            await connection.execute(sql1, values1);
-            return res.status(200).json();
+            await connection.execute(sql1, values1)
+            return res.status(200).json()
         } catch(error) {
-            return res.status(400).json();
+            return res.status(400).json()
         }
     } else {// if there are results, that means that the record exists, and needs to be altered
-        const sql1 = `UPDATE ${descriptions} SET Description = ? WHERE Doctor_ID = ?`;
+        const sql1 = `UPDATE ${descriptions} SET Description = ? WHERE Doctor_ID = ?`
         try {
-            await connection.execute(sql1, values1);
-            return res.status(200).json();
+            await connection.execute(sql1, values1)
+            return res.status(200).json()
         } catch(error) {
-            return res.status(400).json();
+            return res.status(400).json()
         }
     }
-};
+}
 
 /** saveGeneralData saves either Language, Pet, or Specialty Data
  *  First, converts from DoctorUUID to DoctorID. Then, performs operations depending on the operationType
@@ -130,23 +130,23 @@ export async function saveDescriptionData (req, res) {
  *  DOCUMENTATION LAST UPDATED 6/423
  */
 export async function saveGeneralData (req, res) {
-    const DoctorUUID = req.cookies.DoctorUUID;
-    let DoctorID;
+    const DoctorUUID = req.cookies.DoctorUUID
+    let DoctorID
     try {
-        DoctorID = await UUID_to_ID(DoctorUUID);
+        DoctorID = await UUID_to_ID(DoctorUUID)
     } catch (error) {
-        clearCookies(res, 'Doctor')
-        return res.status(401).json({ shouldRedirect: true, redirectURL: '/vet-login' }); 
+        clearCookies(res, "Doctor")
+        return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" });
     }
 
     const DataType = req.body.DataType
-    const operationType = req.body.operationType;
-    const DataTypelower = DataType.charAt(0).toLowerCase() + DataType.slice(1);
+    const operationType = req.body.operationType
+    const DataTypelower = DataType.charAt(0).toLowerCase() + DataType.slice(1)
 
     let UserIDorDoctorID;
 
-    if (DataTypelower === 'language') UserIDorDoctorID = 'User_ID'
-    else UserIDorDoctorID = 'Doctor_ID'
+    if (DataTypelower === "language") UserIDorDoctorID = "User_ID"
+    else UserIDorDoctorID = "Doctor_ID"
 
     const doctorData = req.body.Data; // The Data is an array of the ID of the DataType ([6]), which is a specific Language_ID)
 
@@ -157,7 +157,7 @@ export async function saveGeneralData (req, res) {
     if (operationType === 'add') {
         const sql = `INSERT INTO ${tableName} (${DataType}_ID, ${UserIDorDoctorID}) VALUES (?, ?)`;
         const values = [doctorData, DoctorID];
-        
+
         try {
             await connection.execute(sql, values);
             return res.status(200).json();
@@ -176,10 +176,10 @@ export async function saveGeneralData (req, res) {
     } else {
         return res.status(400).json();
     }
-};
+}
 
 /** saveServicesData saves the services that a doctor offers
- *  First, converts from DoctorUUID to DoctorID. 
+ *  First, converts from DoctorUUID to DoctorID.
  *  Searches the DB for existing service data.
  *  Finds the difference between the incoming data and the saved data. Inserts/deletes/updates accordingly
  * @param {String} req Cookie from client, list of Servicesdata
@@ -189,16 +189,16 @@ export async function saveGeneralData (req, res) {
  */
 export async function saveServicesData (req, res) {
     const DoctorUUID = req.cookies.DoctorUUID;
-    let DoctorID;
+    let DoctorID
     try {
-        DoctorID = await UUID_to_ID(DoctorUUID);
+        DoctorID = await UUID_to_ID(DoctorUUID)
     } catch (error) {
-        clearCookies(res, 'Doctor')
-        return res.status(401).json({ shouldRedirect: true, redirectURL: '/vet-login' }); 
+        clearCookies(res, "Doctor")
+        return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" });
     }
-    
+
     const ServicesData = req.body.ServicesData; //Array of Objects
-    
+
     const service_mapping = `service_mapping`;
 
     const sql = `SELECT Service_and_Category_ID FROM  ${service_mapping} WHERE Doctor_ID = ?`
@@ -223,7 +223,7 @@ export async function saveServicesData (req, res) {
         const serviceIDs = new Set(newServicesData.map(service => service.service_and_category_listID));
 
         const deletedData = results.filter(result => !serviceIDs.has(result.Service_and_Category_ID));//Checks for IDs that are in results, but not in ServicesData (these will be deleted)
-        
+
         const updatedData = [];
 
         ServicesData.forEach(service => {
@@ -283,7 +283,7 @@ export async function saveServicesData (req, res) {
         //NO new data or queried results from DB.
         return res.status(400).json()
     }
-};
+}
 
 /** saveEducationData is self-explanatory in name
  *  First, converts from DoctorUUID to DoctorID. Then, performs operations depending on the operationType
@@ -295,12 +295,12 @@ export async function saveServicesData (req, res) {
  */
 export async function saveEducationData (req, res) {
     const DoctorUUID = req.cookies.DoctorUUID;
-    let DoctorID;
+    let DoctorID
     try {
-        DoctorID = await UUID_to_ID(DoctorUUID);
+        DoctorID = await UUID_to_ID(DoctorUUID)
     } catch (error) {
-        clearCookies(res, 'Doctor')
-        return res.status(401).json({ shouldRedirect: true, redirectURL: '/vet-login' }); 
+        clearCookies(res, "Doctor")
+        return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" });
     }
 
     const EducationData = req.body.EducationData; // array of arrays, to make comparing to sql easier.: ie: [[ 13, 56, 7, '1923-01-01', '1923-01-01' ],[ 698, 13, 9, '1923-01-01', '1923-01-01' ]]
@@ -315,10 +315,10 @@ export async function saveEducationData (req, res) {
     if (operationType === 'add') {
         if (EducationType === 'pre_vet') {
             sql = `INSERT INTO ${tableName} (School_ID, Major_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?, ?, ?, ?, ?, ?)`;
-            values = [EducationData.School_ID, EducationData.Major_ID, EducationData.Education_type_ID, EducationData.Start_date, EducationData.End_date, DoctorID];    
+            values = [EducationData.School_ID, EducationData.Major_ID, EducationData.Education_type_ID, EducationData.Start_date, EducationData.End_date, DoctorID];
         } else if (EducationType === 'vet') {
             sql = `INSERT INTO ${tableName} (School_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?, ?, ?, ?, ?)`;
-            values = [EducationData.School_ID, EducationData.Education_type_ID, EducationData.Start_date, EducationData.End_date, DoctorID];    
+            values = [EducationData.School_ID, EducationData.Education_type_ID, EducationData.Start_date, EducationData.End_date, DoctorID];
         } else {
             return res.status(400).json();
         }
@@ -332,21 +332,21 @@ export async function saveEducationData (req, res) {
     } else {
         return res.status(400).json();
     }
-    
+
     try {
         const [response] = await connection.execute(sql, values);
         return res.status(200).json(response.insertId);
     } catch (error) {
         return res.status(400).json();
-    }    
-};
+    }
+}
 
 /** saveAddressData saves address, phone, and booking availbility data.
  *  This is essentially three functions in one, since we have to operate on addresses, phones, and booking availiblity
  *  First, checks if any address data already exists. If it doesn't, then just add the incoming data, no need to update/delete
  *  If there exists saved data, need to determine if any of the past data has changed, or if data is just being added.
  *  Filters are created which find which of the incoming data is new, updated, unchanged, or deleted (relative to the savedData)
- *  After address/phone data are updated/added/deleted, we move on to operating on times. 
+ *  After address/phone data are updated/added/deleted, we move on to operating on times.
  *  For each of the objects in the data that will be returned, we determine if the time data needs to be added, updated, or deleted.
  *  After time operations are completed, the address data is returned to the client, to assign IDs to each of the addresses (so that when saving again, can know which addresses are new)
  *  New addresses have their addressesID as 0
@@ -357,17 +357,17 @@ export async function saveEducationData (req, res) {
  */
 export async function saveAddressData (req, res) {
     const DoctorUUID = req.cookies.DoctorUUID;
-    let DoctorID;
+    let DoctorID
     try {
-        DoctorID = await UUID_to_ID(DoctorUUID);
+        DoctorID = await UUID_to_ID(DoctorUUID)
     } catch (error) {
-        clearCookies(res, 'Doctor')
-        return res.status(401).json({ shouldRedirect: true, redirectURL: '/vet-login' }); 
+        clearCookies(res, "Doctor")
+        return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" });
     }
 
     const AddressData = req.body.AddressData;
     const TimesData = req.body.Times;
-    const [addresses, phone, booking_availability] = ['addresses', 'phone', 'booking_availability'];
+    const [addresses, phone, booking_availability] = ["addresses", 'phone', 'booking_availability'];
 
     const sql = `SELECT addressesID FROM ${addresses} WHERE ${addresses}.isActive = 1 AND ${addresses}.Doctor_ID = ?`;
     const values = [DoctorID];
@@ -382,17 +382,17 @@ export async function saveAddressData (req, res) {
 
     if (!_.isEmpty(addressResults)) {
         for (let addressResult of addressResults) {
-            const sql2 = `SELECT ${phone}.Phone, ${phone}.phone_priority 
-            FROM ${phone} 
+            const sql2 = `SELECT ${phone}.Phone, ${phone}.phone_priority
+            FROM ${phone}
             WHERE ${phone}.address_ID = ?`;
 
             const [phones] = await connection.execute(sql2, [addressResult.addressesID]);
             if (_.isEmpty(phones)) addressResult.phone = "";
             else addressResult.phone = phones[0];
-        };
+        }
         const newData = AddressData;
         // Check for changes in data:
-        
+
         //Filter the newData, check if there are any objects whose addressesID is null. Null addressesID means the data is new
         const addedData = newData.filter(data => data.addressesID === 0);
 
@@ -400,7 +400,7 @@ export async function saveAddressData (req, res) {
         const deletedData = addressResults
             .filter(result => !newData.some(data => data.addressesID === result.addressesID))
             .map(result => result.addressesID);
-        
+
         const updatedData = getUpdatedAddressRecords(newData, addressResults);
 
         const unchangedData = getUnchangedAddressRecords(newData, addressResults);
@@ -409,8 +409,8 @@ export async function saveAddressData (req, res) {
 
         if (!_.isEmpty(addedData)) {
             for (let i = 0; i<addedData.length; i++) {
-                const sql = `INSERT INTO ${addresses} 
-                    (address_title, address_line_1, address_line_2, city, state, zip, country, address_public_status, address_priority, instant_book, isActive, Doctor_ID) 
+                const sql = `INSERT INTO ${addresses}
+                    (address_title, address_line_1, address_line_2, city, state, zip, country, address_public_status, address_priority, instant_book, isActive, Doctor_ID)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
                 const values = [addedData[i].address_title, addedData[i].address_line_1, addedData[i].address_line_2, addedData[i].city, addedData[i].state, addedData[i].zip, addedData[i].country, addedData[i].address_public_status, addedData[i].address_priority, addedData[i].instant_book, 1, DoctorID];
                 let insert_results;
@@ -426,7 +426,7 @@ export async function saveAddressData (req, res) {
                     try {
                         await connection.execute(sql, values);
                     } catch(error) {
-                        return res.status(400);  
+                        return res.status(400);
                     }
                 }
                 addedData[i].addressesID = insert_results.insertId;
@@ -447,7 +447,7 @@ export async function saveAddressData (req, res) {
         }
         if (!_.isEmpty(updatedData)) {
             for (let i = 0; i<updatedData.length; i++) {
-                const sql1 = `UPDATE ${addresses} 
+                const sql1 = `UPDATE ${addresses}
                     SET address_title = ?, address_line_1 = ?, address_line_2 = ?, city = ?, state = ?, zip = ?, country = ?, address_public_status = ?, instant_book = ?
                     WHERE addressesID = ?`;
                 const values1 = [updatedData[i].address_title, updatedData[i].address_line_1, updatedData[i].address_line_2, updatedData[i].city, updatedData[i].state, updatedData[i].zip, updatedData[i].country, updatedData[i].address_public_status, updatedData[i].instant_book, updatedData[i].addressesID];
@@ -492,7 +492,7 @@ export async function saveAddressData (req, res) {
         if (!_.isEmpty(returnedData)) {
             // go into each element of the returnedData array.
             //for for the ith element in returnedData, find the corresponding times objects in TimesData (will be the ith element in the TimesData array)
-            //compare each of the objects in that TimesData element to all of the data that a select Day_of_week, Start_time, End_time for that 
+            //compare each of the objects in that TimesData element to all of the data that a select Day_of_week, Start_time, End_time for that
             //Select Day_of_week, Start_time, End_time from timedata table where addressID = returnedData[i].AddressID.
             //see which data is new, and which data is deleted. will be re-declaring addedTimeData, deletedTimeData inside of a loop (that iterates over all the address_IDs)
             //the addedData/deletedData will act inside of a loop, length of addedTimeDAta/deletedTimeData
@@ -519,8 +519,8 @@ export async function saveAddressData (req, res) {
                 const deletedTimeData = Object.values(oldDataDict).filter(item => !(item.Day_of_week in newDataDict));
 
                 const updatedTimeData = Object.values(newDataDict).filter(item => {
-                    return (item.Day_of_week in oldDataDict) && 
-                      (item.Start_time !== oldDataDict[item.Day_of_week].Start_time || 
+                    return (item.Day_of_week in oldDataDict) &&
+                      (item.Start_time !== oldDataDict[item.Day_of_week].Start_time ||
                       item.End_time !== oldDataDict[item.Day_of_week].End_time);
                 });
 
@@ -532,7 +532,7 @@ export async function saveAddressData (req, res) {
                             try {
                                 await connection.execute(sql, values);
                             } catch(error) {
-                                return res.status(400).json();  
+                                return res.status(400).json();
                             }
                         }
                     }
@@ -545,7 +545,7 @@ export async function saveAddressData (req, res) {
                             try {
                                 await connection.execute(sql, values);
                             } catch(error) {
-                                return res.status(400).json();  
+                                return res.status(400).json();
                             }
                         }
                     }
@@ -558,7 +558,7 @@ export async function saveAddressData (req, res) {
                             try {
                                 await connection.execute(sql, values);
                             } catch(error) {
-                                return res.status(400).json();  
+                                return res.status(400).json();
                             }
                         }
                     }
@@ -572,8 +572,8 @@ export async function saveAddressData (req, res) {
     } else if (!_.isEmpty(AddressData)) {
         AddressData.sort((a, b) => a.address_priority - b.address_priority);
         for (let i = 0; i<AddressData.length; i++) {
-            const sql = `INSERT INTO ${addresses} 
-                (address_title, address_line_1, address_line_2, city, state, zip, country, address_public_status, address_priority, instant_book, isActive, Doctor_ID) 
+            const sql = `INSERT INTO ${addresses}
+                (address_title, address_line_1, address_line_2, city, state, zip, country, address_public_status, address_priority, instant_book, isActive, Doctor_ID)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
             const values = [AddressData[i].address_title, AddressData[i].address_line_1, AddressData[i].address_line_2, AddressData[i].city, AddressData[i].state, AddressData[i].zip, AddressData[i].country, AddressData[i].address_public_status, AddressData[i].address_priority, AddressData[i].instant_book, 1, DoctorID];
             let insert_results;
@@ -599,7 +599,7 @@ export async function saveAddressData (req, res) {
                     try {
                         await connection.execute(sql, values);
                     } catch(error) {
-                        return res.status(400).json();  
+                        return res.status(400).json();
                     }
                 }
             }
@@ -610,7 +610,7 @@ export async function saveAddressData (req, res) {
     else{
         return res.status(400).json();
     }
-};
+}
 
 /** savePublicAvailibilityData is a Doctor-controlled function that allows them to say wheather or not they want their profile accessible to patients
  *  First, converts from UUID to ID. Then, updates the doctor's avalibility to whatever they did on the front-end. The request is only allowed to happen if the new availiblty status is dfferent from the old one.
@@ -621,14 +621,14 @@ export async function saveAddressData (req, res) {
  */
 export async function savePublicAvailibilityData (req, res) {
     const DoctorUUID = req.cookies.DoctorUUID;
-    let DoctorID;
+    let DoctorID
     try {
-        DoctorID = await UUID_to_ID(DoctorUUID);
+        DoctorID = await UUID_to_ID(DoctorUUID)
     } catch (error) {
-        clearCookies(res, 'Doctor')
-        return res.status(401).json({ shouldRedirect: true, redirectURL: '/vet-login' }); 
+        clearCookies(res, "Doctor")
+        return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" });
     }
-    
+
     const publicAvailibility = req.body.PublicAvailibility;
     const Doctor_specific_info = 'Doctor_specific_info';
 
@@ -642,4 +642,4 @@ export async function savePublicAvailibilityData (req, res) {
     } catch(error) {
         return res.status(400).json();
     }
-};
+}

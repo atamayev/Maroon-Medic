@@ -9,7 +9,7 @@ export const connection = await mysql.createConnection({
   host    : process.env.MYSQL_HOST,
   user    : process.env.MYSQL_USER,
   password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE, 
+  database: process.env.MYSQL_DATABASE,
   multipleStatements: true
 });
 
@@ -27,4 +27,4 @@ export async function DB_Operation (API_Name, tableName) {
     console.log('useDB ERROR', err);
     return
   }
-};
+}

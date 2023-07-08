@@ -15,7 +15,7 @@ export async function returnDoctorPageData (req, res) {
     const Doctor_specific_info = 'Doctor_specific_info';
     const sql = `SELECT Doctor_ID FROM ${Doctor_specific_info} WHERE NVI = ?`;
     const values = [NVI];
-    let DoctorID;
+    let DoctorID
 
     await DB_Operation(returnDoctorPageData.name, Doctor_specific_info);
     try {
@@ -24,7 +24,7 @@ export async function returnDoctorPageData (req, res) {
     } catch(error) {
         return res.status(400).json();
     }
-   
+
     try {
         let response = {};
         response.doctorLanguages           = await FetchDoctorAccountData.fetchDoctorLanguages(DoctorID);
@@ -42,4 +42,4 @@ export async function returnDoctorPageData (req, res) {
     } catch(error) {
         return res.status(400).json([]);
     }
-};
+}

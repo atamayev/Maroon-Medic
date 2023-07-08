@@ -20,17 +20,17 @@ export async function savePersonalData (req, res) {
     try {
         PatientID = await UUID_to_ID(PatientUUID);
     } catch (error) {
-        clearCookies(res, 'Patient')
-        return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' }); 
+        clearCookies(res, "Patient")
+        return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' });
     }
-    
+
     const personalInfo = req.body.personalInfo;
 
-    const basic_user_info = 'basic_user_info';
+    const basic_user_info = "basic_user_info";
     const sql = `SELECT basic_user_infoID FROM  ${basic_user_info} WHERE User_ID = ?`
     const values = [PatientID];
     let results;
-    
+
     await DB_Operation(savePersonalData.name, basic_user_info);
     try {
         [results] = await connection.execute(sql, values);
@@ -42,7 +42,7 @@ export async function savePersonalData (req, res) {
     const dateOfBirthStr = `${personalInfo.DOB_month} ${personalInfo.DOB_day} ${personalInfo.DOB_year}`;
 
     // Convert the string to a Date object and format it
-    const dateOfBirth = dayjs(dateOfBirthStr, 'MMMM D YYYY').format('YYYY-MM-DD');
+    const dateOfBirth = dayjs(dateOfBirthStr, "MMMM D YYYY").format("YYYY-MM-DD");
 
     const values1 = [personalInfo.FirstName, personalInfo.LastName, personalInfo.Gender, dateOfBirth, PatientID];
 
@@ -63,7 +63,7 @@ export async function savePersonalData (req, res) {
             return res.status(400).json();
         }
     }
-};
+}
 
 /** saveLanguageData saves either Language
  *  First, converts from PatientUUID to PatientID. Then, performs operations depending on the operationType
@@ -79,8 +79,8 @@ export async function saveLanguageData (req, res) {
     try {
         PatientID = await UUID_to_ID(PatientUUID);
     } catch (error) {
-        clearCookies(res, 'Patient')
-        return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' }); 
+        clearCookies(res, "Patient")
+        return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' });
     }
 
     const operationType = req.body.operationType;
@@ -112,7 +112,7 @@ export async function saveLanguageData (req, res) {
     } else {
         return res.status(400).json();
     }
-};
+}
 
 /** savePetData is self-explanatory in name
  *  First, converts from PatientUUID to PatientID. Then, performs operations depending on the operationType
@@ -127,8 +127,8 @@ export async function savePetData (req, res) {
     try {
         PatientID = await UUID_to_ID(PatientUUID);
     } catch (error) {
-        clearCookies(res, 'Patient')
-        return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' }); 
+        clearCookies(res, "Patient")
+        return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' });
     }
 
     let PetData = req.body.PetData
@@ -151,7 +151,7 @@ export async function savePetData (req, res) {
         }
 
         await DB_Operation(savePetData.name, insurance_mapping);
-    
+
         const sql1 = `INSERT INTO ${insurance_mapping} (Insurance_ID, pet_info_ID) VALUES (?, ?)`;
         const values1 = [PetData.insurance_listID, PetData.pet_infoID];
         try {
@@ -174,4 +174,4 @@ export async function savePetData (req, res) {
     } else {
         return res.status(400).json();
     }
-};
+}

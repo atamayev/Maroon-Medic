@@ -7,18 +7,18 @@ import { connection, DB_Operation } from "../connect.js";
 export default new class FetchPublicDoctorData {
     async fetchDoctorAddressData (DoctorID) {
         const functionName = this.fetchDoctorAddressData.bind(this).name;
-        const [phone, addresses, booking_availability] =  ['phone', 'addresses', 'booking_availability'];
+        const [phone, addresses, booking_availability] =  ['phone', "addresses", 'booking_availability'];
 
-        const sql = `SELECT ${addresses}.addressesID, ${addresses}.address_title, ${addresses}.address_line_1, ${addresses}.address_line_2, 
+        const sql = `SELECT ${addresses}.addressesID, ${addresses}.address_title, ${addresses}.address_line_1, ${addresses}.address_line_2,
             ${addresses}.city, ${addresses}.state, ${addresses}.zip, ${addresses}.country, ${addresses}.address_priority, ${addresses}.instant_book,
-            ${phone}.Phone, ${phone}.phone_priority 
-            FROM ${addresses}, ${phone} 
+            ${phone}.Phone, ${phone}.phone_priority
+            FROM ${addresses}, ${phone}
             WHERE ${addresses}.addressesID = ${phone}.address_ID AND ${addresses}.Doctor_ID = ? AND ${addresses}.address_public_status = 1 AND ${addresses}.isActive = 1`;
-    
+
         const values = [DoctorID];
         await DB_Operation(functionName, addresses);
         let results
-    
+
         try {
             [results] = await connection.execute(sql, values);
         } catch(error) {
@@ -38,16 +38,16 @@ export default new class FetchPublicDoctorData {
             }
         }
         return results;
-    };
+    }
 
     async fetchDoctorPersonalInfo (User_ID) {
         const functionName = this.fetchDoctorPersonalInfo.bind(this).name;
 
-        const basic_user_info = 'basic_user_info';
+        const basic_user_info = "basic_user_info";
         const sql = `SELECT FirstName, LastName, Gender FROM ${basic_user_info} WHERE User_ID = ?`
         const values = [User_ID];
         await DB_Operation(functionName, basic_user_info)
-        
+
         try {
             const [results] = await connection.execute(sql, values)
             const DoctorPersonalInfo = results[0]
@@ -55,5 +55,5 @@ export default new class FetchPublicDoctorData {
         } catch(error) {
             return [];
         }
-    };
+    }
 }();

@@ -13,8 +13,8 @@ import { connection, DB_Operation } from './connect.js';
  */
 export async function ID_to_UUID(User_ID) {
   const UUID = uuidv4();
-  const UUID_reference = 'UUID_reference';
-  
+  const UUID_reference = "UUID_reference";
+
   const newDateObject = new Date();
   const format = "YYYY-MM-DD HH:mm:ss"
   const dateTime = dayjs(newDateObject).format(format);
@@ -29,7 +29,7 @@ export async function ID_to_UUID(User_ID) {
   } catch(error) {
     return (`error in ${ID_to_UUID.name}:`, error)
   }
-};
+}
 
 /** UUID_to_ID takes in the UUID, and searches for it's complementary DoctorID, and returns it
  *  If there is match found, the function returns an error, which is handled in the function that called UUID_to_ID
@@ -39,7 +39,7 @@ export async function ID_to_UUID(User_ID) {
 export async function UUID_to_ID(UUID) {
   if (!UUID) throw new Error(`no UUID received in ${UUID_to_ID.name}`);
 
-  const UUID_reference = 'UUID_reference';
+  const UUID_reference = "UUID_reference";
   const sql = `SELECT User_ID FROM ${UUID_reference} WHERE UUID = ?`;
   const values = [UUID];
 
@@ -53,4 +53,4 @@ export async function UUID_to_ID(UUID) {
   } catch(error) {
     throw new Error(`No User_ID found for UUID: ${UUID}`);
   }
-};
+}

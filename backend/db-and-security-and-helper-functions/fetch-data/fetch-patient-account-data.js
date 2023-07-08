@@ -13,10 +13,10 @@ export default new class FetchPatientAccountData {
 
         const [insurance_mapping, insurance_list] = ['insurance_mapping', 'insurance_list'];
 
-        const sql = `SELECT ${insurance_list}.Insurance_name, ${insurance_list}.insurance_listID 
-            FROM ${insurance_list} JOIN ${insurance_mapping} ON ${insurance_list}.insurance_listID = ${insurance_mapping}.Insurance_ID 
+        const sql = `SELECT ${insurance_list}.Insurance_name, ${insurance_list}.insurance_listID
+            FROM ${insurance_list} JOIN ${insurance_mapping} ON ${insurance_list}.insurance_listID = ${insurance_mapping}.Insurance_ID
             WHERE ${insurance_mapping}.pet_info_ID = ?`;
-        
+
         const values = [Pet_info_ID];
         await DB_Operation(functionName, insurance_mapping);
 
@@ -26,14 +26,14 @@ export default new class FetchPatientAccountData {
         } catch (error) {
             return [];
         }
-    };
+    }
 
     async fetchPatientLanguages (User_ID) {
         const functionName = this.fetchPatientLanguages.bind(this).name;
         const [language_mapping, language_list] = ['language_mapping', 'language_list'];
-    
-        const sql = `SELECT ${language_list}.Language_name, ${language_list}.language_listID 
-            FROM ${language_list} JOIN ${language_mapping} ON ${language_list}.language_listID = ${language_mapping}.Language_ID 
+
+        const sql = `SELECT ${language_list}.Language_name, ${language_list}.language_listID
+            FROM ${language_list} JOIN ${language_mapping} ON ${language_list}.language_listID = ${language_mapping}.Language_ID
             WHERE ${language_mapping}.User_ID = ?`;
 
         const values = [User_ID];
@@ -45,12 +45,12 @@ export default new class FetchPatientAccountData {
         } catch (error) {
             return [];
         }
-    };
+    }
 
     async fetchPetData (User_ID) {
         const functionName = this.fetchPetData.bind(this).name;
         const [pet_info, pet_list] = ['pet_info', 'pet_list'];
-    
+
         const sql = `SELECT ${pet_info}.Name, ${pet_info}.Gender, ${pet_info}.DOB, ${pet_list}.Pet, ${pet_list}.Pet_type, ${pet_info}.pet_infoID
             FROM ${pet_info}
             JOIN ${pet_list} ON ${pet_info}.pet_ID = ${pet_list}.pet_listID
@@ -67,7 +67,7 @@ export default new class FetchPatientAccountData {
                     const [insurance_mapping, insurance_list] = ['insurance_mapping', 'insurance_list'];
 
                     const sql = `SELECT ${insurance_list}.Insurance_name
-                        FROM ${insurance_list} JOIN ${insurance_mapping} ON ${insurance_list}.insurance_listID = ${insurance_mapping}.Insurance_ID 
+                        FROM ${insurance_list} JOIN ${insurance_mapping} ON ${insurance_list}.insurance_listID = ${insurance_mapping}.Insurance_ID
                         WHERE ${insurance_mapping}.pet_info_ID = ?`;
 
                     await DB_Operation(functionName, insurance_mapping);
@@ -80,5 +80,5 @@ export default new class FetchPatientAccountData {
         } catch (error) {
             return [];
         }
-    };
+    }
 }();

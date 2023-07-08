@@ -18,7 +18,7 @@ export async function makeAppointment(req, res) {
     const [Doctor_specific_info, Appointments] = ['Doctor_specific_info', 'Appointments']
     const sql = `SELECT Doctor_ID FROM ${Doctor_specific_info} WHERE NVI = ?`
     const values = [NVI];
-    let DoctorID;
+    let DoctorID
 
     await DB_Operation(makeAppointment.name, Doctor_specific_info)
     try {
@@ -33,8 +33,8 @@ export async function makeAppointment(req, res) {
     try {
         PatientID = await UUID_to_ID(PatientUUID);
     } catch (error) {
-        clearCookies(res, 'Patient')
-        return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' }); 
+        clearCookies(res, "Patient")
+        return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' });
     }
 
     const newDateObject = new Date();
@@ -52,12 +52,12 @@ export async function makeAppointment(req, res) {
 
     // Create a new Dayjs object from the string
     const dateTime = dayjs(dateTimeStrFormatted);
-    
+
     // Format the Dayjs object into MySQL DATETIME format
     const mysqlDateTime = dateTime.format('YYYY-MM-DD HH:mm:ss');
 
     const sql2 = `INSERT INTO ${Appointments}
-        (appointment_date, appointment_price, patient_message, Doctor_confirmation_status, Service_and_category_list_ID, Patient_ID, Doctor_ID, Addresses_ID, Created_at) 
+        (appointment_date, appointment_price, patient_message, Doctor_confirmation_status, Service_and_category_list_ID, Patient_ID, Doctor_ID, Addresses_ID, Created_at)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
     const values2 = [mysqlDateTime, AppointmentObject.appointmentPrice, AppointmentObject.message, AppointmentObject.InstantBook, AppointmentObject.Service_and_category_list_ID, PatientID, DoctorID, AppointmentObject.AddressesID, createdAt];
 
@@ -68,7 +68,7 @@ export async function makeAppointment(req, res) {
     } catch(error) {
         return res.status(500).json(error);
     }
-};
+}
 
 /** getDoctorCalendarDetails retreives a certain Doctor's calendar details
  *  First, converts the DoctorUUID to the DoctorID
@@ -83,18 +83,18 @@ export async function getDoctorCalendarDetails(req, res) {
     let DoctorID
 
     try {
-        DoctorID = await UUID_to_ID(DoctorUUID);
+        DoctorID = await UUID_to_ID(DoctorUUID)
     } catch (error) {
-        clearCookies(res, 'Doctor')
-        return res.status(401).json({ shouldRedirect: true, redirectURL: '/vet-login' }); 
+        clearCookies(res, "Doctor")
+        return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" });
     }
 
-    const [Appointments, service_and_category_list, service_mapping, addresses, basic_user_info] = 
-        ['Appointments', 'service_and_category_list', 'service_mapping', 'addresses', 'basic_user_info'];
+    const [Appointments, service_and_category_list, service_mapping, addresses, basic_user_info] =
+        ['Appointments', 'service_and_category_list', 'service_mapping', "addresses", "basic_user_info"];
 
-    const sql = `SELECT 
+    const sql = `SELECT
             ${Appointments}.AppointmentsID, ${Appointments}.appointment_date, ${Appointments}.appointment_price, ${Appointments}.patient_message, ${Appointments}.Doctor_confirmation_status, ${Appointments}.Created_at,
-            ${service_and_category_list}.Category_name, ${service_and_category_list}.Service_name, 
+            ${service_and_category_list}.Category_name, ${service_and_category_list}.Service_name,
             ${service_mapping}.Service_time,
             ${addresses}.address_title, ${addresses}.address_line_1, ${addresses}.address_line_2, ${addresses}.city, ${addresses}.state, ${addresses}.zip, ${addresses}.country,
             ${basic_user_info}.FirstName AS Patient_FirstName, ${basic_user_info}.LastName AS Patient_LastName
@@ -115,4 +115,4 @@ export async function getDoctorCalendarDetails(req, res) {
     } catch(error) {
         return res.status(400).json([]);
     }
-};
+}
