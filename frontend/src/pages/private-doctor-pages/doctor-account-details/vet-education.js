@@ -1,11 +1,10 @@
 import _ from "lodash"
-import { useState, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { Card, Button } from "react-bootstrap";
+import { DeleteButtonOptions } from "../../../components/delete-buttons";
 import { renderMessageSection } from "../../../components/saved-message-section";
-import { handleAddEducation } from "../../../custom-hooks/account-details-hooks/add";
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
-import { saveVetEducation } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details";
-import { renderConfirmDeleteButton, renderInitialDeleteButton, renderNevermindButton } from "../../../components/delete-buttons";
+import { useHandleDeleteVetEducation, useSaveAddVetEducation, useHandleAddVetEducation } from "../../../custom-hooks/account-details-hooks/callbacks";
 import EducationTime from "./education-time";
 
 export default function RenderVetEducationSection (props) {
@@ -22,14 +21,34 @@ export default function RenderVetEducationSection (props) {
 };
 
 function RenderIsVetEducation(props) {
-  const { listDetails, timeState, setTimeState, vetEducation, setVetEducation } = props;
+  const { listDetails, vetEducation, setVetEducation } = props;
   const [selectedVetSchool, setSelectedVetSchool] = useState('');
+  const [deleteStatuses, setDeleteStatuses] = useState({});
   const [selectedVetEducationType, setSelectedVetEducationType] = useState('');
-
+  const [timeState, setTimeState] = useState({
+    startMonth: '',
+    endMonth: '',
+    startYear: '',
+    endYear: '',
+  });
   const [vetEducationConfirmation, setVetEducationConfirmation] = useConfirmationMessage();
 
   const allChoicesFilled = selectedVetSchool && selectedVetEducationType &&
     timeState.startMonth && timeState.endMonth && timeState.startYear && timeState.endYear;
+
+  useEffect(() => {
+    const newDeleteStatuses = { ...deleteStatuses };
+
+    // Go through each status
+    for (const vet_education_mappingID in newDeleteStatuses) {
+      // If the language ID does not exist in the vetEducation list, delete the status
+      if (!vetEducation.some((vet_education) => vet_education.vet_education_mappingID === vet_education_mappingID)) {
+        delete newDeleteStatuses[vet_education_mappingID];
+      }
+    }
+
+    setDeleteStatuses(newDeleteStatuses);
+  }, [vetEducation]);
 
   const renderSelectSchool = () => {
     return (
@@ -88,64 +107,53 @@ function RenderIsVetEducation(props) {
     )
   }
 
+  const handleAddEducation = useHandleAddVetEducation(
+    selectedVetSchool, setSelectedVetSchool,
+    selectedVetEducationType, setSelectedVetEducationType,
+    timeState,setTimeState
+  );
+
+  const saveVetEducation = useSaveAddVetEducation(
+    vetEducation, setVetEducation,
+    listDetails, setVetEducationConfirmation
+  );
+
   const renderAddAndSaveButton = () => {
     if (!allChoicesFilled) return null;
     return (
-      <Button onClick = {() => {
-        const selectedEducationObj = handleAddEducation(
-          selectedVetSchool,
-          setSelectedVetSchool,
-          selectedVetEducationType,
-          setSelectedVetEducationType,
-          timeState,
-          setTimeState
-        );
-        saveVetEducation (
-          selectedEducationObj,
-          vetEducation,
-          setVetEducation,
-          listDetails,
-          setVetEducationConfirmation,
-          'add'
-        )
-      }}
+      <Button
+        onClick = {() => {
+          const selectedEducationObj = handleAddEducation();
+          saveVetEducation(selectedEducationObj);
+        }}
       >
         Add
       </Button>
-    )
-  }
+    );
+  };
 
-  const handleDeleteOnClick = useCallback(
-    (vet_education) => {
-      saveVetEducation(
-        vet_education.vet_education_mappingID,
-        vetEducation,
-        setVetEducation,
-        listDetails,
-        setVetEducationConfirmation,
-        'delete'
-      )
-    },
-    [vetEducation, setVetEducation, setVetEducationConfirmation]
-  );
-
-  const renderDeleteButtonOptions = (status, setStatus, vet_education) => {
-    return (
-      <>
-        {renderInitialDeleteButton(status, setStatus)}
-        {renderNevermindButton(status, setStatus)}
-        {renderConfirmDeleteButton(status, vet_education, handleDeleteOnClick)}
-      </>
-    )
-  }
+  const handleDeleteOnClick = useHandleDeleteVetEducation(vetEducation, setVetEducation, listDetails, setVetEducationConfirmation)
 
   const RenderSingleSavedEducation = (vet_education) => {
-    const [status, setStatus] = useState('initial');
+    const status = deleteStatuses[vet_education.vet_education_mappingID] || 'initial';
+
+    const setStatus = (newStatus) => {
+      setDeleteStatuses((prevStatuses) => ({
+        ...prevStatuses,
+        [vet_education.vet_education_mappingID]: newStatus,
+      }));
+    };
+
     return (
       <li>
         {vet_education.School_name}, {vet_education.Education_type}
-          {" (" + vet_education.Start_Date} - {vet_education.End_Date + ")"}
-        {renderDeleteButtonOptions(status, setStatus, vet_education)}
+          {" (" + vet_education.Start_Date} - {vet_education.End_Date + ") "}
+        <DeleteButtonOptions
+          status = {status}
+          setStatus = {setStatus}
+          dataType = {vet_education}
+          handleDeleteOnClick = {handleDeleteOnClick}
+        />
       </li>
     )
   }

@@ -1,11 +1,11 @@
 import _ from "lodash"
-import { useState, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { Card, Button } from "react-bootstrap";
+import { DeleteButtonOptions } from "../../../components/delete-buttons";
 import { renderMessageSection } from "../../../components/saved-message-section";
-import { handleAddEducation } from "../../../custom-hooks/account-details-hooks/add";
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
-import { savePreVetEducation } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details";
-import { renderConfirmDeleteButton, renderInitialDeleteButton, renderNevermindButton } from "../../../components/delete-buttons";
+import { useHandleDeletePreVetEducation } from "../../../custom-hooks/account-details-hooks/callbacks";
+import { useHandleAddPreVetEducation, useSaveAddPreVetEducation } from "../../../custom-hooks/account-details-hooks/callbacks";
 import EducationTime from "./education-time";
 
 export default function RenderPreVetEducationSection(props) {
@@ -22,14 +22,35 @@ export default function RenderPreVetEducationSection(props) {
 };
 
 function RenderIsPreVetEducation(props) {
+  const { listDetails, preVetEducation, setPreVetEducation } = props;
   const [selectedPreVetSchool, setSelectedPreVetSchool] = useState('');
   const [selectedMajor, setSelectedMajor] = useState('');
+  const [deleteStatuses, setDeleteStatuses] = useState({});
   const [selectedPreVetEducationType, setSelectedPreVetEducationType] = useState('');
-  const { listDetails, timeState, setTimeState, preVetEducation, setPreVetEducation } = props;
+  const [timeState, setTimeState] = useState({
+    startMonth: '',
+    endMonth: '',
+    startYear: '',
+    endYear: '',
+  });
   const [preVetEducationConfirmation, setPreVetEducationConfirmation] = useConfirmationMessage();
 
   const allChoicesFilled = selectedPreVetSchool && selectedMajor && selectedPreVetEducationType &&
     timeState.startMonth && timeState.endMonth && timeState.startYear && timeState.endYear;
+
+  useEffect(() => {
+    const newDeleteStatuses = { ...deleteStatuses };
+
+    // Go through each status
+    for (const pre_vet_education_mappingID in newDeleteStatuses) {
+      // If the language ID does not exist in the vetEducation list, delete the status
+      if (!preVetEducation.some((pre_vet_education) => pre_vet_education.pre_vet_education_mappingID === pre_vet_education_mappingID)) {
+        delete newDeleteStatuses[pre_vet_education_mappingID];
+      }
+    }
+
+    setDeleteStatuses(newDeleteStatuses);
+  }, [preVetEducation]);
 
   const renderSelectSchool = () => {
     return (
@@ -115,67 +136,54 @@ function RenderIsPreVetEducation(props) {
     )
   }
 
+  const handleAddEducation = useHandleAddPreVetEducation(
+    selectedPreVetSchool, setSelectedPreVetSchool,
+    selectedPreVetEducationType, setSelectedPreVetEducationType,
+    timeState, setTimeState,
+    selectedMajor, setSelectedMajor
+  );
+
+  const saveEducation = useSaveAddPreVetEducation(
+    preVetEducation, setPreVetEducation,
+    listDetails, setPreVetEducationConfirmation
+  );
+
   const renderAddAndSaveButton = () => {
-    if (!allChoicesFilled) return null
+    if (!allChoicesFilled) return null;
     return (
       <Button
         onClick = {() => {
-          const selectedEducationObj = handleAddEducation(
-            selectedPreVetSchool,
-            setSelectedPreVetSchool,
-            selectedPreVetEducationType,
-            setSelectedPreVetEducationType,
-            timeState,
-            setTimeState,
-            selectedMajor,
-            setSelectedMajor
-          );
-          savePreVetEducation (
-            selectedEducationObj,
-            preVetEducation,
-            setPreVetEducation,
-            listDetails,
-            setPreVetEducationConfirmation,
-            'add'
-          )
+          const selectedEducationObj = handleAddEducation();
+          saveEducation(selectedEducationObj);
         }}
       >
         Add
       </Button>
-    )
-  }
+    );
+  };
 
-  const handleDeleteOnClick = useCallback(
-    (pre_vet_education) => {
-      savePreVetEducation(
-        pre_vet_education.pre_vet_education_mappingID,
-        preVetEducation,
-        setPreVetEducation,
-        listDetails,
-        setPreVetEducationConfirmation,
-        'delete'
-      )
-    },
-    [preVetEducation, setPreVetEducation, setPreVetEducationConfirmation]
-  );
-
-  const renderDeleteButtonOptions = (status, setStatus, pre_vet_education) => {
-    return (
-      <>
-        {renderInitialDeleteButton(status, setStatus)}
-        {renderNevermindButton(status, setStatus)}
-        {renderConfirmDeleteButton(status, pre_vet_education, handleDeleteOnClick)}
-      </>
-    )
-  }
+  const handleDeleteOnClick = useHandleDeletePreVetEducation(preVetEducation, setPreVetEducation, listDetails, setPreVetEducationConfirmation)
 
   const RenderSingleSavedEducation = (pre_vet_education) => {
-    const [status, setStatus] = useState('initial');
+    const status = deleteStatuses[pre_vet_education.pre_vet_education_mappingID] || 'initial';
+
+    const setStatus = (newStatus) => {
+      setDeleteStatuses((prevStatuses) => ({
+        ...prevStatuses,
+        [pre_vet_education.pre_vet_education_mappingID]: newStatus,
+      }));
+    };
+
     return (
       <li>
         {pre_vet_education.School_name}, {pre_vet_education.Education_type} in {pre_vet_education.Major_name}
-          {" ("}{pre_vet_education.Start_Date} - {pre_vet_education.End_Date} {")"}
-        {renderDeleteButtonOptions(status, setStatus, pre_vet_education)}
+          {" ("}{pre_vet_education.Start_Date} - {pre_vet_education.End_Date}{") "}
+        <DeleteButtonOptions
+          status = {status}
+          setStatus = {setStatus}
+          dataType = {pre_vet_education}
+          handleDeleteOnClick = {handleDeleteOnClick}
+        />
       </li>
     )
   }

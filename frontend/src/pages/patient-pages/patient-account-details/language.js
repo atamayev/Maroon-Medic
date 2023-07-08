@@ -1,11 +1,10 @@
 import _ from "lodash"
-import { useState, useCallback, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Card } from "react-bootstrap";
+import { DeleteButtonOptions } from "../../../components/delete-buttons";
 import { renderMessageSection } from "../../../components/saved-message-section";
-import { handleAddLanguage } from "../../../custom-hooks/account-details-hooks/add";
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
-import { handleDeleteLanguage } from "../../../custom-hooks/account-details-hooks/delete";
-import { renderConfirmDeleteButton, renderInitialDeleteButton, renderNevermindButton } from "../../../components/delete-buttons";
+import { useHandleAddLanguage, useHandleDeleteLanguage } from "../../../custom-hooks/account-details-hooks/callbacks";
 
 export default function RenderLanguageSection(props) {
   return(
@@ -51,16 +50,7 @@ function RenderIsPatientLanguages(props) {
       ));
   }, [listDetails.languages, spokenLanguages]);
 
-  const handleLanguageChange = useCallback((e) => {
-    handleAddLanguage(
-      e.target.value,
-      spokenLanguages,
-      setSpokenLanguages,
-      listDetails,
-      setLanguagesConfirmation,
-      'patient'
-    );
-  }, [spokenLanguages, listDetails, setSpokenLanguages, setLanguagesConfirmation]);
+  const handleLanguageChange = useHandleAddLanguage(spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, 'patient');
 
   const renderSelectLanguageSection = () => {
     return (
@@ -76,28 +66,7 @@ function RenderIsPatientLanguages(props) {
     )
   }
 
-  const handleDeleteOnClick = useCallback(
-    (language) => {
-      handleDeleteLanguage(
-        language,
-        spokenLanguages,
-        setSpokenLanguages,
-        setLanguagesConfirmation,
-        'patient'
-      );
-    },
-    [spokenLanguages, setSpokenLanguages, setLanguagesConfirmation]
-  );
-
-  const renderDeleteButtonOptions = (status, setStatus, language) => {
-    return (
-      <>
-        {renderInitialDeleteButton(status, setStatus)}
-        {renderNevermindButton(status, setStatus)}
-        {renderConfirmDeleteButton(status, language, handleDeleteOnClick)}
-      </>
-    )
-  }
+  const handleDeleteLanguage = useHandleDeleteLanguage(spokenLanguages, setSpokenLanguages, setLanguagesConfirmation, 'patient');
 
   const RenderSingleSavedLanguage = (language) => {
     const status = deleteStatuses[language.language_listID] || 'initial';
@@ -112,7 +81,12 @@ function RenderIsPatientLanguages(props) {
     return (
       <li>
         {language.Language_name}
-        {renderDeleteButtonOptions(status, setStatus, language)}
+        <DeleteButtonOptions
+          status = {status}
+          setStatus = {setStatus}
+          dataType = {language}
+          handleDeleteOnClick = {handleDeleteLanguage}
+        />
       </li>
     )
   }
@@ -122,13 +96,16 @@ function RenderIsPatientLanguages(props) {
     return (
       <ul>
         {spokenLanguages.map((language) => (
-          <RenderSingleSavedLanguage {...language} />
+          <RenderSingleSavedLanguage
+            key = {language.language_listID}
+            {...language}
+          />
         ))}
       </ul>
     )
   }
 
-  return(
+  return (
     <>
       {renderSelectLanguageSection()}
       {renderSavedLanguageList()}

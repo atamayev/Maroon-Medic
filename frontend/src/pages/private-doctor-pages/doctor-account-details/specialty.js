@@ -1,17 +1,16 @@
 import _ from "lodash"
-import { useState, useCallback } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Card } from "react-bootstrap";
+import { DeleteButtonOptions } from "../../../components/delete-buttons";
 import { renderMessageSection } from "../../../components/saved-message-section";
-import { handleAddSpecialty } from "../../../custom-hooks/account-details-hooks/add";
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
-import { handleDeleteSpecialty } from "../../../custom-hooks/account-details-hooks/delete";
-import { renderConfirmDeleteButton, renderInitialDeleteButton, renderNevermindButton } from "../../../components/delete-buttons";
+import { useHandleAddSpecialty, useHandleDeleteSpecialty } from "../../../custom-hooks/account-details-hooks/callbacks";
 
 export default function RenderSpecialtySection (props) {
   return(
     <Card className = "mb-3">
       <Card.Header>
-          Specialties
+        Specialties
       </Card.Header>
       <Card.Body>
         {RenderIsSpecialty(props)}
@@ -22,12 +21,27 @@ export default function RenderSpecialtySection (props) {
 
 function RenderIsSpecialty(props) {
   const [selectedOrganization, setSelectedOrganization] = useState('');
+  const [deleteStatuses, setDeleteStatuses] = useState({});
   const {listDetails, doctorSpecialties, setDoctorSpecialties} = props;
   const [specialtiesConfirmation, setSpecialtiesConfirmation] = useConfirmationMessage();
 
   const specialties = selectedOrganization
   ? listDetails.specialties.filter((item) => item.Organization_name === selectedOrganization)
   : [];
+
+  useEffect(() => {
+    const newDeleteStatuses = { ...deleteStatuses };
+
+    // Go through each status
+    for (const speciality_listID in newDeleteStatuses) {
+      // If the language ID does not exist in the spokenLanguages list, delete the status
+      if (!doctorSpecialties.some((speciality) => speciality.speciality_listID === speciality_listID)) {
+        delete newDeleteStatuses[speciality_listID];
+      }
+    }
+
+    setDeleteStatuses(newDeleteStatuses);
+  }, [doctorSpecialties]);
 
   const renderSelectOrganization = () => {
     return (
@@ -51,36 +65,23 @@ function RenderIsSpecialty(props) {
     )
   }
 
-  const renderShowSpecificSpecialties = () => {
-    return (
-      <>
-        {specialties
-          .filter(
-            (specialty) =>
-            !doctorSpecialties.find(
-              (doctorSpecialty) =>
-              doctorSpecialty.specialties_listID === specialty.specialties_listID
-              )
-              )
-              .map((specialty) => (
-                <option key = {specialty.specialties_listID} value = {specialty.specialties_listID}>
-              {specialty.Specialty_name}
-            </option>
-          ))}
-      </>
-    )
-  }
+  const specificSpecialtiesOptions = useMemo(() => {
+    return specialties
+      .filter(
+        (specialty) =>
+        !doctorSpecialties.find(
+          (doctorSpecialty) =>
+          doctorSpecialty.specialties_listID === specialty.specialties_listID
+        )
+      )
+      .map((specialty) => (
+        <option key={specialty.specialties_listID} value={specialty.specialties_listID}>
+          {specialty.Specialty_name}
+        </option>
+      ));
+  }, [specialties, doctorSpecialties]);
 
-  const handleSpecialtyChange = useCallback((e) => {
-    handleAddSpecialty(
-      e.target.value,
-      doctorSpecialties,
-      setDoctorSpecialties,
-      setSelectedOrganization,
-      listDetails,
-      setSpecialtiesConfirmation
-    )
-  }, [doctorSpecialties, listDetails, setDoctorSpecialties, setSpecialtiesConfirmation]);
+  const handleSpecialtyChange = useHandleAddSpecialty(doctorSpecialties, setDoctorSpecialties, setSelectedOrganization, listDetails, setSpecialtiesConfirmation);
 
   const renderSelectSpecialty = () => {
     if (!selectedOrganization) return null
@@ -95,46 +96,38 @@ function RenderIsSpecialty(props) {
           onChange = {(e) => handleSpecialtyChange(e)}
         >
           <option value = "" disabled>Choose a specialty</option>
-          {renderShowSpecificSpecialties()}
+          {specificSpecialtiesOptions}
         </select>
       </div>
     )
   }
 
-  const handleDeleteOnClick = useCallback(
-    (specialty) => {
-      handleDeleteSpecialty(
-        specialty,
-        doctorSpecialties,
-        setDoctorSpecialties,
-        setSelectedOrganization,
-        setSpecialtiesConfirmation
-      )
-    },
-    [doctorSpecialties, setDoctorSpecialties, setSpecialtiesConfirmation]
-  );
-
-  const renderDeleteButtonOptions = (status, setStatus, specialty) => {
-    return (
-      <>
-        {renderInitialDeleteButton(status, setStatus)}
-        {renderNevermindButton(status, setStatus)}
-        {renderConfirmDeleteButton(status, specialty, handleDeleteOnClick)}
-      </>
-    )
-  }
+  const handleDeleteSpecialty = useHandleDeleteSpecialty(doctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation);
 
   const RenderSingleSavedSpecialty = (specialty) => {
-    const [status, setStatus] = useState('initial');
+    const status = deleteStatuses[specialty.specialties_listID] || 'initial';
+
+    const setStatus = (newStatus) => {
+      setDeleteStatuses((prevStatuses) => ({
+        ...prevStatuses,
+        [specialty.specialties_listID]: newStatus,
+      }));
+    };
+
     return (
       <li>
         {specialty.Organization_name} - {specialty.Specialty_name}{" "}
-        {renderDeleteButtonOptions(status, setStatus, specialty)}
+        <DeleteButtonOptions
+          status = {status}
+          setStatus = {setStatus}
+          dataType = {specialty}
+          handleDeleteOnClick = {handleDeleteSpecialty}
+        />
       </li>
     )
   }
 
-  const renderShowSavedSpecialtyList = () => {
+  const renderSavedSpecialtyList = () => {
     return (
       <ul>
         {doctorSpecialties.map((specialty) => (
@@ -153,7 +146,7 @@ function RenderIsSpecialty(props) {
     <>
       {renderSelectOrganization()}
       {renderSelectSpecialty()}
-      {renderShowSavedSpecialtyList()}
+      {renderSavedSpecialtyList()}
       {renderMessageSection(specialtiesConfirmation, 'Specialties')}
     </>
   )

@@ -11,7 +11,9 @@ export const renderMessageSection = (confirmationMessage, whatIsBeingSaved) => {
 
   return (
     <span className = {`fade ${messageClass}`}>
-      {messageContent}
+      <b>
+        {messageContent}
+      </b>
     </span>
   )
 }

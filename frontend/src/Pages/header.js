@@ -157,7 +157,7 @@ export default function Header (props) {
   const renderDropdownItems = () => {
     if (dropdown === true) {
       if (userType === 'Doctor') {
-        return(
+        return (
           <div>
             <Dropdown.Item onClick = {handleLogout}>Sign out</Dropdown.Item>
             <Dropdown.Item href = "/vet-dashboard">Vet Dashboard</Dropdown.Item>
@@ -166,7 +166,7 @@ export default function Header (props) {
         )
       }
       else if (userType === 'Patient') {
-        return(
+        return (
           <div>
             <Dropdown.Item onClick = {handleLogout}>Sign out</Dropdown.Item>
             <Dropdown.Item href = "/patient-dashboard">Patient Dashboard</Dropdown.Item>
@@ -174,19 +174,17 @@ export default function Header (props) {
           </div>
         )
       }
-      else {
-        return(
-          <div>
-            <Dropdown.Item href = "/vet-register" className = 'fw-bold'>Vet Sign up</Dropdown.Item>
-            <Dropdown.Item href = "/vet-login">Vet Log In</Dropdown.Item>
-            <Dropdown.Item href = "/patient-register" className = 'fw-bold'>Patient Sign up</Dropdown.Item>
-            <Dropdown.Item href = "/patient-login">Patient Log In</Dropdown.Item>
+      return (
+        <div>
+          <Dropdown.Item href = "/vet-register" className = 'fw-bold'>Vet Sign up</Dropdown.Item>
+          <Dropdown.Item href = "/vet-login">Vet Log In</Dropdown.Item>
+          <Dropdown.Item href = "/patient-register" className = 'fw-bold'>Patient Sign up</Dropdown.Item>
+          <Dropdown.Item href = "/patient-login">Patient Log In</Dropdown.Item>
 
-            <Dropdown.Divider />
-            <Dropdown.Item href = "/help">Help</Dropdown.Item>
-          </div>
-        )
-      }
+          <Dropdown.Divider />
+          <Dropdown.Item href = "/help">Help</Dropdown.Item>
+        </div>
+      )
     }
   }
 

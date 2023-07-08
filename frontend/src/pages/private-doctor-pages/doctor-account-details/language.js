@@ -1,11 +1,10 @@
 import _ from "lodash"
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Card } from "react-bootstrap";
+import { DeleteButtonOptions } from "../../../components/delete-buttons";
 import { renderMessageSection } from "../../../components/saved-message-section";
-import { handleAddLanguage } from "../../../custom-hooks/account-details-hooks/add";
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
-import { handleDeleteLanguage } from "../../../custom-hooks/account-details-hooks/delete";
-import { renderInitialDeleteButton, renderNevermindButton, renderConfirmDeleteButton } from "../../../components/delete-buttons";
+import { useHandleDeleteLanguage, useHandleAddLanguage } from "../../../custom-hooks/account-details-hooks/callbacks";
 
 export default function RenderLanguageSection(props) {
   return (
@@ -51,16 +50,7 @@ function RenderIsVetLanguages(props) {
       ));
   }, [listDetails.languages, spokenLanguages]);
 
-  const handleLanguageChange = useCallback((e) => {
-    handleAddLanguage(
-      e.target.value,
-      spokenLanguages,
-      setSpokenLanguages,
-      listDetails,
-      setLanguagesConfirmation,
-      'doctor'
-    );
-  }, [spokenLanguages, listDetails, setSpokenLanguages, setLanguagesConfirmation]);
+  const handleLanguageChange = useHandleAddLanguage(spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, 'doctor');
 
   const renderSelectLanguageSection = () => {
     return (
@@ -76,28 +66,7 @@ function RenderIsVetLanguages(props) {
     )
   }
 
-  const handleDeleteOnClick = useCallback(
-    (language) => {
-      handleDeleteLanguage(
-        language,
-        spokenLanguages,
-        setSpokenLanguages,
-        setLanguagesConfirmation,
-        'doctor'
-      );
-    },
-    [spokenLanguages, setSpokenLanguages, setLanguagesConfirmation]
-  );
-
-  const renderDeleteButtonOptions = (status, setStatus, language) => {
-    return (
-      <>
-        {renderInitialDeleteButton(status, setStatus)}
-        {renderNevermindButton(status, setStatus)}
-        {renderConfirmDeleteButton(status, language, handleDeleteOnClick)}
-      </>
-    )
-  }
+  const handleDeleteLanguage = useHandleDeleteLanguage(spokenLanguages, setSpokenLanguages, setLanguagesConfirmation, 'doctor');
 
   const RenderSingleSavedLanguage = (language) => {
     const status = deleteStatuses[language.language_listID] || 'initial';
@@ -112,12 +81,18 @@ function RenderIsVetLanguages(props) {
     return (
       <li>
         {language.Language_name}
-        {renderDeleteButtonOptions(status, setStatus, language)}
+        <DeleteButtonOptions
+          status = {status}
+          setStatus = {setStatus}
+          dataType = {language}
+          handleDeleteOnClick = {handleDeleteLanguage}
+        />
       </li>
     )
   }
 
   const renderSavedLanguageList = () => {
+    if (!_.isArray(spokenLanguages) || _.isEmpty(spokenLanguages)) return null
     return (
       <ul>
         {spokenLanguages.map((language) => (
@@ -130,7 +105,7 @@ function RenderIsVetLanguages(props) {
     )
   }
 
-  return(
+  return (
     <>
       {renderSelectLanguageSection()}
       {renderSavedLanguageList()}

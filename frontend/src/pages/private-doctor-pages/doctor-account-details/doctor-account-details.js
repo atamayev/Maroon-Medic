@@ -145,13 +145,6 @@ export default function DoctorAccountDetails() {
   const [publiclyAvailable, setPubliclyAvailable] = useState(DoctorAccountDetails?.publiclyAvailable || 0);
   const verified  = DoctorAccountDetails?.verified || 0;
 
-  const [timeState, setTimeState] = useState({
-    startMonth: '',
-    endMonth: '',
-    startYear: '',
-    endYear: '',
-  });
-
   useDoctorAccountDetails(userType, setListDetails, setSpokenLanguages, setProvidedServices, setExpandedCategories, setDoctorSpecialties, setPreVetEducation, setVetEducation, setAddresses, setDescription, setServicedPets, setExpandedPetTypes, setPubliclyAvailable);
 
   if (userType !== 'Doctor') return <NonDoctorAccess/>
@@ -162,15 +155,11 @@ export default function DoctorAccountDetails() {
       <DoctorHeader/>
       <RenderPreVetEducationSection
         listDetails = {listDetails}
-        timeState = {timeState}
-        setTimeState = {setTimeState}
         preVetEducation = {preVetEducation}
         setPreVetEducation = {setPreVetEducation}
       />
       <RenderVetEducationSection
         listDetails = {listDetails}
-        timeState = {timeState}
-        setTimeState = {setTimeState}
         vetEducation = {vetEducation}
         setVetEducation = {setVetEducation}
       />

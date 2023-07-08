@@ -1,10 +1,9 @@
 import _ from "lodash"
-import { useCallback } from "react";
 import { Card, Button} from "react-bootstrap";
+import { renderMessageSection } from "../../../components/saved-message-section";
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
 import { handleTogglePetType } from "../../../custom-hooks/account-details-hooks/select";
-import { savePets } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details";
-import { renderMessageSection } from "../../../components/saved-message-section";
+import { useHandleCheckboxChange } from "../../../custom-hooks/account-details-hooks/callbacks";
 
 export default function RenderPetsSection (props) {
   return(
@@ -47,18 +46,7 @@ function RenderIsPets (props) {
     );
   }
 
-  const handleCheckboxChange = useCallback((event, pet) => {
-    if (event.target.checked) {
-      const newServicedPets = [...servicedPets, pet]
-      setServicedPets(newServicedPets)
-      savePets(pet.pet_listID, newServicedPets, setServicedPets, setPetsConfirmation, 'add')
-    }
-    else {
-      const newServicedPets = servicedPets.filter(p => p.pet_listID !== pet.pet_listID);
-      setServicedPets(newServicedPets);
-      savePets(pet.pet_listID, newServicedPets, setServicedPets, setPetsConfirmation, 'delete')
-    }
-  }, [servicedPets, setServicedPets, setPetsConfirmation]);
+  const handleCheckboxChange = useHandleCheckboxChange(servicedPets, setServicedPets, setPetsConfirmation);
 
   const renderShowPetsSection = (pets, pet_type) => {
     if (pets.length > 1 && !expandedPetTypes.includes(pet_type)) return null;
@@ -84,17 +72,25 @@ function RenderIsPets (props) {
     )
   }
 
+  const renderPets = () => {
+    return (
+      <>
+        {Object.entries(petTypes).map(([pet_type, pets]) => (
+          <div key = {pet_type} style = {{ marginBottom: '10px' }}>
+            <label htmlFor = {pet_type}>{pet_type}</label>
+            {isTogglePetType(pets, pet_type)}
+            {renderShowPetsSection(pets, pet_type)}
+          </div>
+        ))}
+      </>
+    )
+  }
+
   if (_.isEmpty(_.uniq(listDetails.pets?.map((item) => item.Category_name)))) return <>Loading...</>
 
   return (
     <>
-      {Object.entries(petTypes).map(([pet_type, pets]) => (
-        <div key = {pet_type} style = {{ marginBottom: '10px' }}>
-          <label htmlFor = {pet_type}>{pet_type}</label>
-          {isTogglePetType(pets, pet_type)}
-          {renderShowPetsSection(pets, pet_type)}
-        </div>
-      ))}
+      {renderPets()}
       {renderMessageSection(petsConfirmation, 'Pets')}
     </>
   )

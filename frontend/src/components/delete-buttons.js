@@ -26,15 +26,25 @@ export const renderInitialDeleteButton = (status, setStatus) => {
   )
 }
 
-export const renderConfirmDeleteButton = (status, data_type, handleDeleteOnClick) => {
+export const renderConfirmDeleteButton = (status, dataType, handleDeleteOnClick) => {
   if (status !== 'deleting') return null
 
   return (
     <Button
       variant = "danger"
-      onClick = {() => handleDeleteOnClick(data_type)}
+      onClick = {() => handleDeleteOnClick(dataType)}
     >
       Confirm Delete
     </Button>
   );
+}
+
+export const DeleteButtonOptions = ({status, setStatus, dataType, handleDeleteOnClick}) => {
+  return (
+    <>
+      {renderInitialDeleteButton(status, setStatus)}
+      {renderNevermindButton(status, setStatus)}
+      {renderConfirmDeleteButton(status, dataType, handleDeleteOnClick)}
+    </>
+  )
 }

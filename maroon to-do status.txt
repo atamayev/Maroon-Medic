@@ -3,28 +3,24 @@ To-do:
 
 ASAP:
 -make languages it's own component - make doctor/patient both use it 
--abstract the initial delete and nevermind buttons
--make all the useCallback functions into custom hooks
--make callbacks for all account details (like languagejs)
--implement language.js usecallback/memo effiiency improvements to patient js files as well
-	wihle the languages saved! message appears, try to delete a language. go into the 'deleting' stage. after the save languages! message disappears, the state of the deleting button reverts to the X
-	-simpify all cases in save doctor details where shouldSave is. Makes it seem very complex. 
-		consider combining some of the inital shouldSave logic:
-		ie: 	
-			  if (_.isEmpty(savedLocationData) && _.isEmpty(addresses)) {
-				// Case where both arrays are empty
-				setAddressesConfirmation({messageType: 'none'});
-				return;
-			  }
+-consider combing the two add preVet Education callback functions
 
-			  if (!savedLocationData || _.isEmpty(savedLocationData)) {
-				shouldSave = !_.isEmpty(addresses);
-			  } else if ((!areArraysSame(newAddresses, savedAddresses)) || (!areArraysSame(newTimes, savedTimes))) {
-				shouldSave = true;
-			  } else {
-				setAddressesConfirmation({messageType: 'same'});
-  }
--make trailing white space delete when save
+-simpify all cases in save doctor details where shouldSave is. Makes it seem very complex. 
+	consider combining some of the inital shouldSave logic:
+	ie: 	
+		  if (_.isEmpty(savedLocationData) && _.isEmpty(addresses)) {
+			// Case where both arrays are empty
+			setAddressesConfirmation({messageType: 'none'});
+			return;
+		  }
+
+		  if (!savedLocationData || _.isEmpty(savedLocationData)) {
+			shouldSave = !_.isEmpty(addresses);
+		  } else if ((!areArraysSame(newAddresses, savedAddresses)) || (!areArraysSame(newTimes, savedTimes))) {
+			shouldSave = true;
+		  } else {
+			setAddressesConfirmation({messageType: 'same'});
+}
 make the phone number input in the location.js only accept numbers (Phone input)
 
 -duplicate entries need to be accounted for when added to DB. Unique constraints. when the same data is entered into the pre_vet_edcatinn_mapping table, it gives an error, but doesn't enter the data.
