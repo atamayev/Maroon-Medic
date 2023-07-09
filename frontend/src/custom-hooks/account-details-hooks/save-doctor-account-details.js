@@ -1,4 +1,3 @@
-import _ from "lodash"
 import { shouldSaveServices, shouldSaveDescription, shouldSaveLocation } from "../../utils/save-account-details"
 import PrivateDoctorDataService from "../../services/private-doctor-data-service"
 import { invalidUserAction } from "../user-verification-snippets"
@@ -41,6 +40,7 @@ export async function saveServices(providedServices, setServicesConfirmation) {
   }
 
   const updatedServices = providedServices.map(service => {
+    // eslint-disable-next-line no-unused-vars
     const { Service_name, Category_name, ...rest } = service
     return rest
   })
@@ -111,8 +111,10 @@ export async function saveLocation(addresses, setAddresses, setAddressesConfirma
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
   const savedLocationData = DoctorAccountDetails?.addressData
   const savedTimes = savedLocationData.map(location => location.times)
+  // eslint-disable-next-line no-unused-vars
   const savedAddresses = savedLocationData.map(({ times, ...rest }) => rest)
   const newTimes = addresses.map(location => location.times)
+  // eslint-disable-next-line no-unused-vars
   const newAddresses = addresses.map(({ times, ...rest }) => rest)
 
   const shouldSave = shouldSaveLocation(savedLocationData, addresses, newAddresses, savedAddresses, newTimes, savedTimes)

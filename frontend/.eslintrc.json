@@ -8,12 +8,14 @@
         "eslint:recommended",
         "plugin:react/recommended"
     ],
+
     "parserOptions": {
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "security"
     ],
     "settings": {
         "react": {
@@ -42,12 +44,25 @@
         ],
         "no-empty": ["error", { "allowEmptyCatch": true }],
         "eol-last": ["warn", "always"],
-        "no-unused-vars": "warn",
+        "no-unused-vars": "error",
         "eqeqeq": "error",
         "space-infix-ops": "warn",
         "space-before-blocks": "warn",
         "keyword-spacing": ["warn", { "before": true, "after": true }],
         "camelcase": "warn",
-        "no-console": "warn"
+        "no-console": "warn",
+
+        //For catching Security vulnerabilities:
+        "security/detect-buffer-noassert": "warn",
+        "security/detect-child-process": "warn",
+        "security/detect-disable-mustache-escape": "warn",
+        "security/detect-eval-with-expression": "warn",
+        "security/detect-no-csrf-before-method-override": "warn",
+        "security/detect-non-literal-fs-filename": "warn",
+        "security/detect-non-literal-regexp": "warn",
+        "security/detect-non-literal-require": "warn",
+        "security/detect-possible-timing-attacks": "warn",
+        "security/detect-pseudoRandomBytes": "warn",
+        "security/detect-unsafe-regex": "warn"
     }
 }

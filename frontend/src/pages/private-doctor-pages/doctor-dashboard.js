@@ -82,7 +82,7 @@ export default function DoctorDashboard() {
     if (status !== "confirming") return null
     return (
       <span style={{ display: "block" }}>
-        <Button variant = "success" onClick = {e => approveAppointment(setStatus, appointment.AppointmentsID, dashboardData, setDashboardData)}>Approve Appointment</Button>
+        <Button variant = "success" onClick = {() => approveAppointment(setStatus, appointment.AppointmentsID, dashboardData, setDashboardData)}>Approve Appointment</Button>
         <Button variant = "danger" onClick = {() => setStatus("pending")}>X</Button>
       </span>
     )

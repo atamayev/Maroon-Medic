@@ -18,7 +18,9 @@ export default function RenderReviewsSection(props) {
 
 }
 
+// eslint-disable-next-line no-unused-vars
 function renderReviews(props) {
+
   return (
     <>
       Reviews Section

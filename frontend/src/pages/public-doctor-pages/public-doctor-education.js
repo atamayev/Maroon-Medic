@@ -12,28 +12,24 @@ export default function RenderEducationSection(props) {
         </Card.Header>
         <Card.Body>
           <h3>Pre-Veterinary Education</h3>
-          {renderEducation(preVetEducation, "preVet", true)}
+          {renderEducation(preVetEducation, true)}
 
           <h3>Veterinary Education</h3>
-          {renderEducation(vetEducation, "vet", false)}
+          {renderEducation(vetEducation, false)}
         </Card.Body>
       </Card>
     )
   }
 }
 
-function renderEducation(educationList, preVetOrVet, hasMajor) {
-  let educationID
-  if (preVetOrVet === "preVet") educationID = "pre_vet_education_mappingID"
-  if (preVetOrVet === "vet") educationID = "vet_education_mappingID"
-
+function renderEducation(educationList, hasMajor) {
   return (
     <>
-      {educationList.map((education) => (
-        <p key = {education[educationID]}>
-          {education.School_name}, {education.Education_type}
-          {hasMajor ? ` in ${education.Major_name}` : ""} {" "}
-          ({education.Start_Date} - {education.End_Date})
+      {educationList.map((edu, index) => (
+        <p key = {index}>
+          {edu.School_name}, {edu.Education_type}
+          {hasMajor ? ` in ${edu.Major_name}` : ""} {" "}
+          ({edu.Start_Date} - {edu.End_Date})
         </p>
       ))}
     </>
