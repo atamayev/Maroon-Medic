@@ -29,7 +29,7 @@ function renderSpecialties(doctorSpecialties) {
 	return (
 		<>
 			{Object.entries(organizations).map(([organization, specialties]) => (
-				<div key = {organization} style = {{ marginBottom: '10px' }}>
+				<div key = {organization} style = {{ marginBottom: "10px" }}>
 					<h3>{organization}</h3>
 					{specialties.map(specialty => (
 						<p key = {specialty.specialties_listID}>

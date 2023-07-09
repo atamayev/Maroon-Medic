@@ -11,14 +11,14 @@ export const months = [
   "October",
   "November",
   "December"
-];
+]
 
-export const days = [...Array(31).keys()].map(i => i + 1);
+export const days = [...Array(31).keys()].map(i => i + 1)
 
-const currentYear = new Date().getFullYear();
+const currentYear = new Date().getFullYear()
 
-export const birthYears = Array.from({length: 63}, (_, i) => currentYear - i - 18);
+export const birthYears = Array.from({length: 63}, (_, i) => currentYear - i - 18)
 
-export const educationYears = [...Array(60).keys()].map(i => i + currentYear - 60).reverse();
+export const educationYears = [...Array(60).keys()].map(i => i + currentYear - 60).reverse()
 
-export const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+export const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]

@@ -1,9 +1,9 @@
-import {useState} from 'react'
+import {useState} from "react"
 import {useNavigate} from "react-router-dom";
 import {handleLoginSubmit} from "../../custom-hooks/handle-submits.js"
-import LoginAndRegistrationForm from '../../components/login-and-registration-form.js';
-import { useConfirmNotLoggedIn } from '../../custom-hooks/user-verification-snippets.js';
-import Header from '../header.js';
+import LoginAndRegistrationForm from "../../components/login-and-registration-form.js";
+import { useConfirmNotLoggedIn } from "../../custom-hooks/user-verification-snippets.js";
+import Header from "../header.js";
 
 export default function PatientLogin() {
   const type = "Patient"
@@ -35,7 +35,7 @@ export default function PatientLogin() {
         error = {error}
         VetOrPatient = {type}
         loading = {loading}
-        loginOrSignUp = 'Login'
+        loginOrSignUp = "Login"
         showPassword = {showPassword}
         setShowPassword = {setShowPassword}
       />

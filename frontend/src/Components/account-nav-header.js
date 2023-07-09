@@ -1,9 +1,9 @@
-import { Nav } from 'react-bootstrap';
-import { useLocation } from 'react-router-dom';
+import { Nav } from "react-bootstrap"
+import { useLocation } from "react-router-dom"
 
 export default function AccountNavHeader(props) {
-  const location = useLocation();
-  const isActive = location.pathname.startsWith(props.href);
+  const location = useLocation()
+  const isActive = location.pathname.startsWith(props.href)
 
   return (
     <Nav.Item>
@@ -12,4 +12,4 @@ export default function AccountNavHeader(props) {
       </Nav.Link>
     </Nav.Item>
   )
-};
+}

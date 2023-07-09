@@ -1,9 +1,9 @@
 import _ from "lodash"
-import moment from 'moment';
-import { useState, useEffect } from 'react';
-import { Card, Button } from 'react-bootstrap';
+import moment from "moment";
+import { useState, useEffect } from "react";
+import { Card, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import FormGroup from '../../components/form-group';
+import FormGroup from "../../components/form-group";
 import { finalizeBookingClick } from "../../custom-hooks/public-doctor-hooks/booking-page-hooks";
 import { handleServiceChange, handleLocationChange, handleDayChange, handleTimeChange } from "../../custom-hooks/public-doctor-hooks/booking-page-hooks";
 
@@ -31,10 +31,10 @@ export default function RenderBookingSection(props) {
   const selectedLocationObject = addresses.find(location => location.addressesID === selectedLocation?.addressesID);
 
   function convertToMinutes(input) {
-    if (typeof input === 'string') {
-      let value = parseInt(input.split(' ')[0]);
-      if (input.includes('hour')) return moment.duration(value, 'hours').asMinutes();
-      else if (input.includes('day')) return moment.duration(value, 'days').asMinutes();
+    if (typeof input === "string") {
+      let value = parseInt(input.split(" ")[0]);
+      if (input.includes("hour")) return moment.duration(value, "hours").asMinutes();
+      else if (input.includes("day")) return moment.duration(value, "days").asMinutes();
       else return value;
     }
   }
@@ -42,13 +42,13 @@ export default function RenderBookingSection(props) {
   useEffect(() => {
     if (selectedDay && selectedLocationObject && selectedServiceObject) {
       // Get the working hours for the selected day
-      const selectedDayOfWeek = moment(selectedDay, 'dddd, MMMM Do, YYYY').format('dddd');
+      const selectedDayOfWeek = moment(selectedDay, "dddd, MMMM Do, YYYY").format("dddd");
       const workingHours = selectedLocationObject?.times.find(time => time.Day_of_week === selectedDayOfWeek);
 
       if (workingHours) {
         let times = [];
-        let start = workingHours.Start_time.split(':');
-        let end = workingHours.End_time.split(':');
+        let start = workingHours.Start_time.split(":");
+        let end = workingHours.End_time.split(":");
 
         let currentTime = moment().hour(start[0]).minute(start[1]);
         let endTime = moment().hour(end[0]).minute(end[1]);
@@ -57,8 +57,8 @@ export default function RenderBookingSection(props) {
         setServiceMinutes(serviceMinutes)
 
         while (currentTime.isBefore(endTime)) {
-          times.push(currentTime.format('h:mm A')); // Change 'HH:mm' to 'h:mm A'
-          currentTime = currentTime.clone().add(serviceMinutes, 'minutes');
+          times.push(currentTime.format("h:mm A")); // Change "HH:mm" to "h:mm A"
+          currentTime = currentTime.clone().add(serviceMinutes, "minutes");
         }
         setAvailableTimes(times);
       }
@@ -70,21 +70,21 @@ export default function RenderBookingSection(props) {
 
     const daysOfWeek = selectedLocationObject?.times.map(time => {
       switch (time.Day_of_week) {
-        case 'Sunday': return 0;
-        case 'Monday': return 1;
-        case 'Tuesday': return 2;
-        case 'Wednesday': return 3;
-        case 'Thursday': return 4;
-        case 'Friday': return 5;
-        case 'Saturday': return 6;
+        case "Sunday": return 0;
+        case "Monday": return 1;
+        case "Tuesday": return 2;
+        case "Wednesday": return 3;
+        case "Thursday": return 4;
+        case "Friday": return 5;
+        case "Saturday": return 6;
         default: return null;
       }
     });
     let dates = [];
     let date = moment();
     while (dates.length < 10) {
-      if (daysOfWeek.includes(date.day())) dates.push(date.format('dddd, MMMM Do, YYYY'));
-      date = date.clone().add(1, 'days');
+      if (daysOfWeek.includes(date.day())) dates.push(date.format("dddd, MMMM Do, YYYY"));
+      date = date.clone().add(1, "days");
     }
     setAvailableDates(dates);
   }, [selectedLocationObject]);
@@ -95,7 +95,7 @@ export default function RenderBookingSection(props) {
 
   if (!anyLocationHasTimes) {
     return (
-      <Card className = 'card-bottom-margin'>
+      <Card className = "card-bottom-margin">
         <Card.Header>Ready to make a booking?</Card.Header>
         <Card.Body>
           Dr. {capitalizedLastName} does not currently have any open time slots for appointments.
@@ -127,9 +127,9 @@ export default function RenderBookingSection(props) {
     return (
       <div className = "col-md-6">
         <FormGroup
-          as = 'select'
-          id = 'serviceSelect'
-          label = 'Select a service'
+          as = "select"
+          id = "serviceSelect"
+          label = "Select a service"
           onChange = {(e) => handleServiceChange(e, providedServices, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime)}
         >
           <option>Select...</option>
@@ -149,9 +149,9 @@ export default function RenderBookingSection(props) {
     return (
       <div className = "col-md-6">
         <FormGroup
-          as = 'select'
-          id = 'locationSelect'
-          label = 'Select a location'
+          as = "select"
+          id = "locationSelect"
+          label = "Select a location"
           onChange = {(e) => handleLocationChange(e, addresses, setSelectedLocation, setSelectedDay, setSelectedTime, setNoAvailableTimesMessage)}
         >
           <option>Select...</option>
@@ -171,9 +171,9 @@ export default function RenderBookingSection(props) {
     return (
       <div className = "col-md-6">
         <FormGroup
-          as = 'select'
-          id = 'daySelect'
-          label = 'Select a date'
+          as = "select"
+          id = "daySelect"
+          label = "Select a date"
           onChange = {(e) => handleDayChange(e, setSelectedDay, setSelectedTime)}
         >
           <option>Select...</option>
@@ -193,15 +193,15 @@ export default function RenderBookingSection(props) {
     return (
       <div className = "col-md-6">
         <FormGroup
-          as = 'select'
-          id = 'timeSelect'
-          label = 'Select a time'
+          as = "select"
+          id = "timeSelect"
+          label = "Select a time"
           onChange = {(e) => handleTimeChange(e, setSelectedTime)}
         >
           <option>Select...</option>
           {availableTimes.map((time) => (
             <option key = {time} value = {time}>
-              {time} - {moment(time, 'h:mm A').add(serviceMinutes, 'minutes').format('h:mm A')}
+              {time} - {moment(time, "h:mm A").add(serviceMinutes, "minutes").format("h:mm A")}
             </option>
           ))}
         </FormGroup>
@@ -214,7 +214,7 @@ export default function RenderBookingSection(props) {
 
     return (
       <Button
-        className = 'mt-3'
+        className = "mt-3"
         onClick = {(e) => handleBookingClick(
           e,
           navigate,
@@ -225,7 +225,7 @@ export default function RenderBookingSection(props) {
           serviceMinutes,
           personalData
           )}
-        variant = 'primary'
+        variant = "primary"
       >
         Click to {renderInstantBook()} an appointment
       </Button>
@@ -235,7 +235,7 @@ export default function RenderBookingSection(props) {
   const renderMakeBooking = () => {
     if (_.isEmpty(providedServices) || _.isEmpty(addresses)) {
       return (
-        <Card className = 'card-bottom-margin'>
+        <Card className = "card-bottom-margin">
           <Card.Header>Ready to make a booking?</Card.Header>
           <Card.Body>Dr. {capitalizedLastName} does not currently offer any services.</Card.Body>
         </Card>
@@ -243,10 +243,10 @@ export default function RenderBookingSection(props) {
     }
 
     return (
-      <Card className = 'card-bottom-margin'>
+      <Card className = "card-bottom-margin">
         <Card.Header>Ready to make a booking?</Card.Header>
         <Card.Body>
-          <div className = 'row'>
+          <div className = "row">
             {renderSelectService()}
 
             {renderSelectLocation()}
@@ -254,7 +254,7 @@ export default function RenderBookingSection(props) {
 
           {renderNoAvailableTimes()}
 
-          <div className = 'row'>
+          <div className = "row">
             {renderSelectDay()}
 
             {renderSelectTime()}

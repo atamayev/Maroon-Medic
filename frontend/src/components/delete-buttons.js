@@ -1,12 +1,12 @@
 import { Button } from "react-bootstrap"
 
 export const renderNevermindButton = (status, setStatus) => {
-  if (status !== 'deleting') return null
+  if (status !== "deleting") return null
 
   return (
     <Button
       variant = "secondary"
-      onClick = {() => setStatus('initial')}
+      onClick = {() => setStatus("initial")}
     >
       Nevermind
     </Button>
@@ -14,12 +14,12 @@ export const renderNevermindButton = (status, setStatus) => {
 }
 
 export const renderInitialDeleteButton = (status, setStatus) => {
-  if (status !== 'initial') return null
+  if (status !== "initial") return null
 
   return (
     <Button
       variant = "danger"
-      onClick = {() => setStatus('deleting')}
+      onClick = {() => setStatus("deleting")}
     >
       Delete
     </Button>
@@ -27,7 +27,7 @@ export const renderInitialDeleteButton = (status, setStatus) => {
 }
 
 export const renderConfirmDeleteButton = (status, dataType, handleDeleteOnClick) => {
-  if (status !== 'deleting') return null
+  if (status !== "deleting") return null
 
   return (
     <Button
@@ -36,7 +36,7 @@ export const renderConfirmDeleteButton = (status, dataType, handleDeleteOnClick)
     >
       Confirm Delete
     </Button>
-  );
+  )
 }
 
 export const DeleteButtonOptions = ({status, setStatus, dataType, handleDeleteOnClick}) => {

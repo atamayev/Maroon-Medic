@@ -1,6 +1,6 @@
-import { Card, Button, Form, Alert } from 'react-bootstrap'
-import { Link } from "react-router-dom";
-import FormGroup from './form-group';
+import { Card, Button, Form, Alert } from "react-bootstrap"
+import { Link } from "react-router-dom"
+import FormGroup from "./form-group"
 
 export default function LoginAndRegistrationForm({
   handleSubmit,
@@ -16,10 +16,10 @@ export default function LoginAndRegistrationForm({
 
   const renderPasswordConfirm = () => {
     const renderShowPassword = () => {
-      if (showPassword) return 'text'
-      return 'password'
+      if (showPassword) return "text"
+      return "password"
     }
-    if (loginOrSignUp === 'Sign up') {
+    if (loginOrSignUp === "Sign up") {
       return(
         <FormGroup
           id = "confirm-password"
@@ -34,13 +34,13 @@ export default function LoginAndRegistrationForm({
   }
 
   const renderSubLoginInfo = () => {
-    if (loginOrSignUp === 'Login') {
+    if (loginOrSignUp === "Login") {
       return (
         <>
-          <div className = 'w-100 text-center mt-3'>
+          <div className = "w-100 text-center mt-3">
             <Link to = {`/${VetOrPatient.toLowerCase()}-forgot-password`}>Forgot Password?</Link>
           </div>
-          <div className = 'w-100 text-center mt-2'>
+          <div className = "w-100 text-center mt-2">
             Need an account? <Link to = {`/${VetOrPatient.toLowerCase()}-register`}>Sign Up</Link>
           </div>
         </>
@@ -49,9 +49,9 @@ export default function LoginAndRegistrationForm({
   }
 
   const renderSubRegisterInfo = () => {
-    if (loginOrSignUp === 'Sign up') {
+    if (loginOrSignUp === "Sign up") {
       return (
-        <div className = 'w-100 text-center mt-2'>
+        <div className = "w-100 text-center mt-2">
           Already have an account? <Link to = {`/${VetOrPatient.toLowerCase()}-login`}>Log In</Link>
         </div>
       )
@@ -59,18 +59,18 @@ export default function LoginAndRegistrationForm({
   }
 
   const renderShowPassword = () => {
-    if (showPassword) return 'text'
-    return 'password'
+    if (showPassword) return "text"
+    return "password"
   }
 
   const renderHideOrShowPassword = () => {
-    if (showPassword) return 'Hide Password'
-    return 'Show Password'
+    if (showPassword) return "Hide Password"
+    return "Show Password"
   }
 
   const renderErrorMessage = () => {
     if (!error) return null
-    return <Alert variant = "danger" className = 'mt-3 mb-0'>{error}</Alert>
+    return <Alert variant = "danger" className = "mt-3 mb-0">{error}</Alert>
   }
 
   return (
@@ -97,7 +97,7 @@ export default function LoginAndRegistrationForm({
           />
 
           {renderPasswordConfirm()}
-          <Button onClick = {e => (setShowPassword(!showPassword))} className = 'mt-3'>
+          <Button onClick = {e => (setShowPassword(!showPassword))} className = "mt-3">
             {renderHideOrShowPassword()}
           </Button>
 
@@ -111,5 +111,5 @@ export default function LoginAndRegistrationForm({
           {renderSubRegisterInfo()}
       </Card.Body>
     </Card>
-  );
-};
+  )
+}

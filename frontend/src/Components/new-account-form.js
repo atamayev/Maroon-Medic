@@ -1,5 +1,5 @@
-import { Card, Button, Form, Alert } from 'react-bootstrap'
-import { renderFirstNameSection, renderLastNameSection, renderGenderSection, renderDOBSection } from './personal-info-inputs';
+import { Card, Button, Form, Alert } from "react-bootstrap"
+import { renderFirstNameSection, renderLastNameSection, renderGenderSection, renderDOBSection } from "./personal-info-inputs"
 
 export default function NewAccountForm({
   handleSubmit,
@@ -28,5 +28,5 @@ export default function NewAccountForm({
         </Card.Body>
       </Card>
     </div>
-  );
-};
+  )
+}

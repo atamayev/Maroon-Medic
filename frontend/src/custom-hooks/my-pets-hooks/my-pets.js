@@ -1,5 +1,5 @@
-import PrivatePatientDataService from '../../services/private-patient-data-service';
-import { invalidUserAction } from '../user-verification-snippets';
+import PrivatePatientDataService from "../../services/private-patient-data-service";
+import { invalidUserAction } from "../user-verification-snippets";
 
 export async function fetchPetData(setSavedPetData) {
   try {

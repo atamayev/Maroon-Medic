@@ -9,15 +9,15 @@ export async function savePatientLanguages(languageID, newSpokenLanguages, setSp
     response = await PrivatePatientDataService.saveLanguageData(languageID, operationType)
   } catch(error) {
     if (error.response.status === 401) invalidUserAction(error.response.data)
-    else setLanguagesConfirmation({messageType: 'problem'});
+    else setLanguagesConfirmation({messageType: "problem"});
     return
   }
   if (response.status === 200) {
     setSpokenLanguages(newSpokenLanguages);
     PatientAccountDetails.languages = newSpokenLanguages;
     sessionStorage.setItem("PatientAccountDetails", JSON.stringify(PatientAccountDetails));
-    setLanguagesConfirmation({messageType: 'saved'});
+    setLanguagesConfirmation({messageType: "saved"});
   } else {
-    setLanguagesConfirmation({messageType: 'problem'});
+    setLanguagesConfirmation({messageType: "problem"});
   }
 };

@@ -17,13 +17,13 @@ export const handleLoginSubmit = async ({
 			setLoading(true)
 			const response = await AuthDataService.login(loginInformationObject);
 			if (response.status === 200) {
-				if ((sessionStorage.getItem('bookingDetails') !== null) && VetOrPatient === 'Patient') {
+				if ((sessionStorage.getItem("bookingDetails") !== null) && VetOrPatient === "Patient") {
 					let bookingDetails;
 					try {
-							bookingDetails = JSON.parse(sessionStorage.getItem('bookingDetails'));
+							bookingDetails = JSON.parse(sessionStorage.getItem("bookingDetails"));
 					} catch (error) {
 					}
-					navigate('/finalize-booking', { state: bookingDetails });
+					navigate("/finalize-booking", { state: bookingDetails });
 				}
 				else navigate(`/${VetOrPatient.toLowerCase()}-dashboard`)
 			}
@@ -72,15 +72,15 @@ export const handleNewUserSubmit = async ({
 		try {
 			setLoading(true)
 			let response;
-			if (VetOrPatient === 'Vet') response = await PrivateDoctorDataService.addingDoctorInfo(newInfo);
-			else if (VetOrPatient === 'Patient') response = await PrivatePatientDataService.addingPatientInfo(newInfo);
+			if (VetOrPatient === "Vet") response = await PrivateDoctorDataService.addingDoctorInfo(newInfo);
+			else if (VetOrPatient === "Patient") response = await PrivatePatientDataService.addingPatientInfo(newInfo);
 			if (response.status === 200) {
-				if (VetOrPatient === 'Vet') sessionStorage.setItem('DoctorPersonalInfo', JSON.stringify(newInfo))
-				else if (VetOrPatient === 'Patient') sessionStorage.setItem('PatientPersonalInfo', JSON.stringify(newInfo))
-				if ((sessionStorage.getItem('bookingDetails')) && VetOrPatient === 'Patient') {
+				if (VetOrPatient === "Vet") sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(newInfo))
+				else if (VetOrPatient === "Patient") sessionStorage.setItem("PatientPersonalInfo", JSON.stringify(newInfo))
+				if ((sessionStorage.getItem("bookingDetails")) && VetOrPatient === "Patient") {
 					try {
-							const bookingDetails = JSON.parse(sessionStorage.getItem('bookingDetails'));
-							navigate('/finalize-booking', { state: bookingDetails });
+							const bookingDetails = JSON.parse(sessionStorage.getItem("bookingDetails"));
+							navigate("/finalize-booking", { state: bookingDetails });
 					} catch (error) {
 					}
 				}

@@ -1,16 +1,16 @@
-import LoginHistory from '../../../components/login-history';
-import ChangePassword from '../../../components/change-password';
-import { useLoginHistory } from '../../../custom-hooks/login-history';
-import { NonDoctorAccess } from '../../../components/user-type-unauth';
-import useSimpleUserVerification from '../../../custom-hooks/use-simple-user-verification';
-import Header from '../../header'
-import DoctorHeader from '../doctor-header.js';
+import LoginHistory from "../../../components/login-history";
+import ChangePassword from "../../../components/change-password";
+import { useLoginHistory } from "../../../custom-hooks/login-history";
+import { NonDoctorAccess } from "../../../components/user-type-unauth";
+import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification";
+import Header from "../../header"
+import DoctorHeader from "../doctor-header.js";
 
 export default function DoctorLoginAndSecurity() {
   const { userType } = useSimpleUserVerification();
-  const loginHistory = useLoginHistory(userType, 'Doctor');
+  const loginHistory = useLoginHistory(userType, "Doctor");
 
-  if (userType !== 'Doctor') return <NonDoctorAccess/>;
+  if (userType !== "Doctor") return <NonDoctorAccess/>;
 
   return (
     <>

@@ -12,10 +12,10 @@ export async function addMyPets(petData, setPetData, setPetConfirmation, savedPe
   let response;
 
   try {
-    response = await PrivatePatientDataService.savePetData(petData, 'add')
+    response = await PrivatePatientDataService.savePetData(petData, "add")
   } catch(error) {
     if (error.response.status === 401) invalidUserAction(error.response.data)
-    else setPetConfirmation({messageType: 'problem'});
+    else setPetConfirmation({messageType: "problem"});
   }
 
   if (response.status === 200) {
@@ -23,11 +23,11 @@ export async function addMyPets(petData, setPetData, setPetConfirmation, savedPe
     const newPetData = [...savedPetData, updatedPetData];
     setSavedPetData(newPetData);
     sessionStorage.setItem("PatientPetData", JSON.stringify(newPetData));
-    setPetConfirmation({messageType: 'saved'});
+    setPetConfirmation({messageType: "saved"});
     setPetData({});
     setShowAddPet(false);
   } else {
-    setPetConfirmation({messageType: 'problem'});
+    setPetConfirmation({messageType: "problem"});
   }
 };
 
@@ -35,10 +35,10 @@ export async function deleteMyPets(petID, savedPetData, setSavedPetData, setPetC
   let response;
 
   try {
-    response = await PrivatePatientDataService.savePetData(petID, 'delete')
+    response = await PrivatePatientDataService.savePetData(petID, "delete")
   } catch(error) {
     if (error.response.status === 401) invalidUserAction(error.response.data)
-    else setPetConfirmation({messageType: 'problem'});
+    else setPetConfirmation({messageType: "problem"});
   }
 
   if (response.status === 200) {
@@ -46,6 +46,6 @@ export async function deleteMyPets(petID, savedPetData, setSavedPetData, setPetC
     setSavedPetData(updatedSavedPetData);
     sessionStorage.setItem("PatientPetData", JSON.stringify(updatedSavedPetData));
   } else {
-    setPetConfirmation({messageType: 'problem'});
+    setPetConfirmation({messageType: "problem"});
   }
 };

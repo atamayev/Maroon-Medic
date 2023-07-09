@@ -2,10 +2,10 @@ import http from "../http-common"
 
 export default new class AuthDataService {
 	async logout() {
-		return await http.post('auth/logout');
+		return await http.post("auth/logout");
 	}
 	async verify() {
-		return await http.post('/auth/verify')
+		return await http.post("/auth/verify")
 	}
 	async login(loginInformationObject) {
 		return await http.post("/auth/login", {loginInformationObject},
@@ -16,9 +16,9 @@ export default new class AuthDataService {
 		{withCredentials: true})
 	}
 	async fetchLoginHistry() {
-		return await http.get('/auth/fetch-login-history')
+		return await http.get("/auth/fetch-login-history")
 	}
 	async changePassword(changePasswordObject) {
-		return await http.post('/auth/change-password', {changePasswordObject})
+		return await http.post("/auth/change-password", {changePasswordObject})
 	}
 }();

@@ -9,7 +9,7 @@ export async function fetchLoginHistory(setLoginHistory) {
     if (response) {
       const formattedData = response.data.map((item) => ({
         ...item,
-        Login_at: moment(item.Login_at).format('MMMM Do, YYYY [at] h:mmA'),
+        Login_at: moment(item.Login_at).format("MMMM Do, YYYY [at] h:mmA"),
       }));
       setLoginHistory(formattedData);
       sessionStorage.setItem("LoginHistory", JSON.stringify(formattedData))

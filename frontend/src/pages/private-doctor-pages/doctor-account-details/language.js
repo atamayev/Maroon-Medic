@@ -50,7 +50,7 @@ function RenderIsVetLanguages(props) {
       ));
   }, [listDetails.languages, spokenLanguages]);
 
-  const handleLanguageChange = useHandleAddLanguage(spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, 'doctor');
+  const handleLanguageChange = useHandleAddLanguage(spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, "doctor");
 
   const renderSelectLanguageSection = () => {
     return (
@@ -66,10 +66,10 @@ function RenderIsVetLanguages(props) {
     )
   }
 
-  const handleDeleteLanguage = useHandleDeleteLanguage(spokenLanguages, setSpokenLanguages, setLanguagesConfirmation, 'doctor');
+  const handleDeleteLanguage = useHandleDeleteLanguage(spokenLanguages, setSpokenLanguages, setLanguagesConfirmation, "doctor");
 
   const RenderSingleSavedLanguage = (language) => {
-    const status = deleteStatuses[language.language_listID] || 'initial';
+    const status = deleteStatuses[language.language_listID] || "initial";
 
     const setStatus = (newStatus) => {
       setDeleteStatuses((prevStatuses) => ({
@@ -109,7 +109,7 @@ function RenderIsVetLanguages(props) {
     <>
       {renderSelectLanguageSection()}
       {renderSavedLanguageList()}
-      {renderMessageSection(languagesConfirmation, 'Languages')}
+      {renderMessageSection(languagesConfirmation, "Languages")}
     </>
   );
 };

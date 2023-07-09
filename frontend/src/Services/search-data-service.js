@@ -5,6 +5,6 @@ export default new class SearchDataService {
 		return await http.get(`search/s/${query}`);
 	}
 	async fetchAllUsers() {
-		return await http.get('search/fetchAllUsers');
+		return await http.get("search/fetchAllUsers");
 	}
 }();

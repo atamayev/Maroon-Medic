@@ -1,25 +1,24 @@
-import { createContext, useState } from 'react';
-import SearchDataService from '../services/search-data-service.js';
+import { createContext, useState } from "react"
+import SearchDataService from "../services/search-data-service.js"
 
-export const SearchContext = createContext();
+export const SearchContext = createContext()
 
 export const SearchContextProvider = (props) => {
-  const [searchTerm, setSearchTerm] = useState(sessionStorage.getItem("searchTerm") || null);
-  const [items, setItems] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(sessionStorage.getItem("searchTerm") || null)
+  const [items, setItems] = useState([])
 
   async function fetchData () {
-    const pathname = window.location.pathname;
-    let fetchFunction;
+    const pathname = window.location.pathname
+    let fetchFunction
 
-    if (pathname === '/') fetchFunction = SearchDataService.fetchAllUsers;
-    else if (pathname.startsWith('/s/')) fetchFunction = SearchDataService.searchByQuery;
+    if (pathname === "/") fetchFunction = SearchDataService.fetchAllUsers
+    else if (pathname.startsWith("/s/")) fetchFunction = SearchDataService.searchByQuery
 
     if (fetchFunction) {
       try {
-        const result = await fetchFunction(searchTerm);
-        setItems(result.data);
+        const result = await fetchFunction(searchTerm)
+        setItems(result.data)
       } catch(error) {
-        console.error(error);
       }
     }
   }
@@ -28,5 +27,5 @@ export const SearchContextProvider = (props) => {
     <SearchContext.Provider value = {{ searchTerm, setSearchTerm, items, fetchData }}>
       {props.children}
     </SearchContext.Provider>
-  );
-};
+  )
+}

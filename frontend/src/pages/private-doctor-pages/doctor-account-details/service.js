@@ -32,14 +32,14 @@ function RenderIsVetServices (props) {
   }
 
   const timeOptions = [
-    ...Array.from({ length: 11 }, (_, i) => ((i + 1) * 5) + ' minutes'),
-    '1 hour',
-    '2 hours',
-    '3 hours',
-    '4 hours',
-    '1 day',
-    '2 days',
-    '3 days',
+    ...Array.from({ length: 11 }, (_, i) => ((i + 1) * 5) + " minutes"),
+    "1 hour",
+    "2 hours",
+    "3 hours",
+    "4 hours",
+    "1 day",
+    "2 days",
+    "3 days",
   ];
 
   const areAllTimesSet = (services) => {
@@ -70,7 +70,7 @@ function RenderIsVetServices (props) {
         {services.map(service => {
           const selectedService = providedServices.find(s => s.service_and_category_listID === service.service_and_category_listID);
           return (
-            <div key = {service.service_and_category_listID} style = {{ paddingLeft: '20px' }}>
+            <div key = {service.service_and_category_listID} style = {{ paddingLeft: "20px" }}>
               {renderServiceCheckbox(service, category)}
               {renderIsSelectedService(service, selectedService)}
             </div>
@@ -171,8 +171,8 @@ function RenderIsVetServices (props) {
 
     const isOpen = expandedCategories.includes(category);
     const renderIsOpen = () => {
-      if (isOpen) return '^';
-      return 'v';
+      if (isOpen) return "^";
+      return "v";
     }
 
     return (
@@ -185,7 +185,7 @@ function RenderIsVetServices (props) {
   return (
     <>
       {Object.entries(categories).map(([category, services]) => (
-        <div key = {category} style = {{ marginBottom: '10px' }}>
+        <div key = {category} style = {{ marginBottom: "10px" }}>
           <label htmlFor = {category}>{category}</label>
           {renderToggleCategory(category, services)}
           {renderServices(category, services)}
@@ -194,7 +194,7 @@ function RenderIsVetServices (props) {
 
       {renderSaveButton()}
 
-      {renderMessageSection(servicesConfirmation, 'Services')}
+      {renderMessageSection(servicesConfirmation, "Services")}
     </>
   )
 };

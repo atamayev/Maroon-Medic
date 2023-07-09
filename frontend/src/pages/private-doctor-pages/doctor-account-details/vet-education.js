@@ -22,14 +22,14 @@ export default function RenderVetEducationSection (props) {
 
 function RenderIsVetEducation(props) {
   const { listDetails, vetEducation, setVetEducation } = props;
-  const [selectedVetSchool, setSelectedVetSchool] = useState('');
+  const [selectedVetSchool, setSelectedVetSchool] = useState("");
   const [deleteStatuses, setDeleteStatuses] = useState({});
-  const [selectedVetEducationType, setSelectedVetEducationType] = useState('');
+  const [selectedVetEducationType, setSelectedVetEducationType] = useState("");
   const [timeState, setTimeState] = useState({
-    startMonth: '',
-    endMonth: '',
-    startYear: '',
-    endYear: '',
+    startMonth: "",
+    endMonth: "",
+    startYear: "",
+    endYear: "",
   });
   const [vetEducationConfirmation, setVetEducationConfirmation] = useConfirmationMessage();
 
@@ -61,7 +61,7 @@ function RenderIsVetEducation(props) {
           onChange = {(e) => setSelectedVetSchool(e.target.value)}
         >
           <option value = "" disabled>Choose a School</option>
-          {_.uniqBy(listDetails.vetSchools, 'School_name').map(
+          {_.uniqBy(listDetails.vetSchools, "School_name").map(
               (school) => (
                 <option key = {school.vet_school_listID} value = {school.School_name}>
                   {school.School_name}
@@ -85,7 +85,7 @@ function RenderIsVetEducation(props) {
           onChange = {(event) => setSelectedVetEducationType(event.target.value)}
         >
           <option value = "" disabled>Choose an Education Type</option>
-          {_.uniqBy(listDetails.vetEducationTypes, 'Education_type').map(
+          {_.uniqBy(listDetails.vetEducationTypes, "Education_type").map(
             (vetEdType) => (
               <option key = {vetEdType.vet_education_typeID} value = {vetEdType.Education_type}>
                 {vetEdType.Education_type}
@@ -135,7 +135,7 @@ function RenderIsVetEducation(props) {
   const handleDeleteOnClick = useHandleDeleteVetEducation(vetEducation, setVetEducation, listDetails, setVetEducationConfirmation)
 
   const RenderSingleSavedEducation = (vet_education) => {
-    const status = deleteStatuses[vet_education.vet_education_mappingID] || 'initial';
+    const status = deleteStatuses[vet_education.vet_education_mappingID] || "initial";
 
     const setStatus = (newStatus) => {
       setDeleteStatuses((prevStatuses) => ({
@@ -185,7 +185,7 @@ function RenderIsVetEducation(props) {
 
       {renderSavedEducationList()}
 
-      {renderMessageSection(vetEducationConfirmation, 'Vet Education')}
+      {renderMessageSection(vetEducationConfirmation, "Vet Education")}
     </>
   )
 };

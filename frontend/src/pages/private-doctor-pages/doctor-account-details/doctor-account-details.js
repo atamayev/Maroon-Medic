@@ -1,23 +1,23 @@
-import _ from 'lodash';
-import { useEffect, useState } from 'react'
-import { NonDoctorAccess } from '../../../components/user-type-unauth.js';
-import PrivateDoctorDataService from '../../../services/private-doctor-data-service.js';
-import { invalidUserAction } from '../../../custom-hooks/user-verification-snippets.js';
-import Header from '../../header.js';
+import _ from "lodash";
+import { useEffect, useState } from "react"
+import { NonDoctorAccess } from "../../../components/user-type-unauth.js";
+import PrivateDoctorDataService from "../../../services/private-doctor-data-service.js";
+import { invalidUserAction } from "../../../custom-hooks/user-verification-snippets.js";
+import Header from "../../header.js";
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification.js";
-import DoctorHeader from '../doctor-header.js';
-import RenderPetsSection from './pets.js';
-import RenderServiceSection from './service.js';
-import RenderLanguageSection from './language.js';
-import RenderLocationSection from './location.js';
-//import RenderPicturesSection from './pictures.js';
-import RenderSpecialtySection from './specialty.js';
-import RenderVetEducationSection from './vet-education.js';
-import RenderDescriptionSection from './description.js';
-import RenderPublicStatusSection from './public-status.js';
-import RenderVerificationSection from './verification-status.js';
-import RenderPreVetEducationSection from './pre-vet-education.js';
-import RenderPersonalInfoLinkSection from './personalInfoLink.js';
+import DoctorHeader from "../doctor-header.js";
+import RenderPetsSection from "./pets.js";
+import RenderServiceSection from "./service.js";
+import RenderLanguageSection from "./language.js";
+import RenderLocationSection from "./location.js";
+//import RenderPicturesSection from "./pictures.js";
+import RenderSpecialtySection from "./specialty.js";
+import RenderVetEducationSection from "./vet-education.js";
+import RenderDescriptionSection from "./description.js";
+import RenderPublicStatusSection from "./public-status.js";
+import RenderVerificationSection from "./verification-status.js";
+import RenderPreVetEducationSection from "./pre-vet-education.js";
+import RenderPersonalInfoLinkSection from "./personalInfoLink.js";
 
 async function FillLists(setListDetails) {
   try {
@@ -61,7 +61,7 @@ async function FillDoctorAccountDetails(
         setServicedPets(response.data.servicedPets)
         setExpandedPetTypes(response.data.servicedPets.map(pet =>pet.pet_type));
       }
-      if (_.has(response.data, 'publiclyAvailable')) setPubliclyAvailable(response.data.publiclyAvailable);
+      if (_.has(response.data, "publiclyAvailable")) setPubliclyAvailable(response.data.publiclyAvailable);
       if (response.data.pictures) ; //set pictures;
       sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(response.data));
     }
@@ -87,7 +87,7 @@ function useDoctorAccountDetails(
   ) {
 
   const getDoctorAccountDetails = async () => {
-    if (userType === 'Doctor') {
+    if (userType === "Doctor") {
       try {
         const storedAccountDetails = sessionStorage.getItem("DoctorAccountDetails");
         if (!storedAccountDetails) {
@@ -135,9 +135,9 @@ export default function DoctorAccountDetails() {
 
   const [vetEducation, setVetEducation] = useState(DoctorAccountDetails?.vetEducation || []);
 
-  const [addresses, setAddresses] = useState(DoctorAccountDetails?.addressData ||[{ address_priority: 0, addressesID: 0, address_title: '', address_line_1  : '', address_line_2: '', city: '', state: '', zip: '', country: '', phone_priority: 0, phone: '', address_public_status: 1, instant_book: 0, times:[]}]);
+  const [addresses, setAddresses] = useState(DoctorAccountDetails?.addressData ||[{ address_priority: 0, addressesID: 0, address_title: "", address_line_1  : "", address_line_2: "", city: "", state: "", zip: "", country: "", phone_priority: 0, phone: "", address_public_status: 1, instant_book: 0, times:[]}]);
 
-  const [description, setDescription] = useState(DoctorAccountDetails?.description || '');
+  const [description, setDescription] = useState(DoctorAccountDetails?.description || "");
 
   const [servicedPets, setServicedPets] = useState(DoctorAccountDetails?.servicedPets || []);
   const [expandedPetTypes, setExpandedPetTypes] = useState([]);
@@ -147,7 +147,7 @@ export default function DoctorAccountDetails() {
 
   useDoctorAccountDetails(userType, setListDetails, setSpokenLanguages, setProvidedServices, setExpandedCategories, setDoctorSpecialties, setPreVetEducation, setVetEducation, setAddresses, setDescription, setServicedPets, setExpandedPetTypes, setPubliclyAvailable);
 
-  if (userType !== 'Doctor') return <NonDoctorAccess/>
+  if (userType !== "Doctor") return <NonDoctorAccess/>
 
   return (
     <div>

@@ -1,8 +1,8 @@
 import "react-toggle/style.css"
-import Toggle from 'react-toggle'
-import TimePicker from 'react-time-picker'
+import Toggle from "react-toggle"
+import TimePicker from "react-time-picker"
 import {useEffect, useState} from "react";
-import {Card, Accordion, Form, Button, Container, Row, Col} from 'react-bootstrap';
+import {Card, Accordion, Form, Button, Container, Row, Col} from "react-bootstrap";
 import "../../../styles/location.css"
 import FormGroup from "../../../components/form-group";
 import { daysOfWeek } from "../../../components/constants";
@@ -89,7 +89,7 @@ function AddressForm(props) {
       <Button
         variant = "primary"
         onClick = {() => handleAddAccordion(addresses, setAddresses)}
-        style = {{ marginRight: '10px' }}
+        style = {{ marginRight: "10px" }}
       >
         Add New Location
       </Button>
@@ -115,7 +115,7 @@ function AddressForm(props) {
       </Accordion>
       {renderAddNewLocationButton()}
       {renderSaveLocationsButton()}
-      {renderMessageSection(addressesConfirmation, 'Locations')}
+      {renderMessageSection(addressesConfirmation, "Locations")}
     </>
   );
 };
@@ -145,7 +145,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
 
   const renderAddressTitleSection = () => {
     if (address.address_title) return address.address_title
-    return ('Address #' + (index + 1))
+    return ("Address #" + (index + 1))
   }
 
   const renderPublicStatus = () => {
@@ -191,7 +191,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
                 {renderAddressTitleSection()}
             </Col>
             <Col xs = {4} className = "text-right">
-                <Button variant = "danger" size = "sm" onClick = {() => handleDeleteAccordion(address.address_priority, addresses, setAddresses)} style = {{ float: 'right' }}>Delete Location</Button>
+                <Button variant = "danger" size = "sm" onClick = {() => handleDeleteAccordion(address.address_priority, addresses, setAddresses)} style = {{ float: "right" }}>Delete Location</Button>
             </Col>
           </Row>
         </Container>
@@ -337,7 +337,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
   }
 
   return (
-    <Accordion.Item eventKey = {address.address_priority} style = {{ marginBottom: '10px' }}>
+    <Accordion.Item eventKey = {address.address_priority} style = {{ marginBottom: "10px" }}>
       {renderAccordionHeader()}
       <Accordion.Body>
         <Form>
@@ -358,7 +358,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
           <div className = "row">
             {renderLocationMapData()}
             <div className = "col-md-6">
-            <WeekDays times = {address.times} setTimes = {(newTimes) => handleInputChange({ target: { name: 'times', value: newTimes } }, address.address_priority)} />
+            <WeekDays times = {address.times} setTimes = {(newTimes) => handleInputChange({ target: { name: "times", value: newTimes } }, address.address_priority)} />
             </div>
           </div>
 
@@ -377,7 +377,7 @@ const WeekDays = ({ times, setTimes}) => {
 
   const handleDayToggle = (day) => {
     if (times.some(time => time.Day_of_week === day)) setTimes(times.filter(time => time.Day_of_week !== day));
-    else setTimes([...times, { Day_of_week: day, Start_time: '', End_time: '' }]);
+    else setTimes([...times, { Day_of_week: day, Start_time: "", End_time: "" }]);
   };
 
   const handleTimeChange = (day, timeType, newTime) => {
@@ -392,7 +392,7 @@ const WeekDays = ({ times, setTimes}) => {
     return (
       <TimePicker
         className = "ml-3"
-        onChange = {(value) => handleTimeChange(day, 'Start_time', value)}
+        onChange = {(value) => handleTimeChange(day, "Start_time", value)}
         value = {times.find(time => time.Day_of_week === day).Start_time}
       />
     )
@@ -402,7 +402,7 @@ const WeekDays = ({ times, setTimes}) => {
     return (
       <TimePicker
         className = "ml-3"
-        onChange = {(value) => handleTimeChange(day, 'End_time', value)}
+        onChange = {(value) => handleTimeChange(day, "End_time", value)}
         value = {times.find(time => time.Day_of_week === day).End_time}
       />
     )

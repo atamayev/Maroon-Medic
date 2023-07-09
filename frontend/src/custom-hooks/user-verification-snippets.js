@@ -1,14 +1,14 @@
-import { useEffect } from 'react'
+import { useEffect } from "react"
 import { useNavigate } from "react-router-dom";
-import useSimpleUserVerification from './use-simple-user-verification';
+import useSimpleUserVerification from "./use-simple-user-verification";
 
 export const useConfirmNotLoggedIn = (clearSession = true) => {
 	const { userType } = useSimpleUserVerification(clearSession);
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (userType === 'Patient') navigate(`/patient-dashboard`);
-		else if (userType === 'Doctor') navigate(`/vet-dashboard`);
+		if (userType === "Patient") navigate(`/patient-dashboard`);
+		else if (userType === "Doctor") navigate(`/vet-dashboard`);
 	}, [userType, navigate])
 };
 

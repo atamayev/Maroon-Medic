@@ -50,7 +50,7 @@ function RenderIsPatientLanguages(props) {
       ));
   }, [listDetails.languages, spokenLanguages]);
 
-  const handleLanguageChange = useHandleAddLanguage(spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, 'patient');
+  const handleLanguageChange = useHandleAddLanguage(spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, "patient");
 
   const renderSelectLanguageSection = () => {
     return (
@@ -66,10 +66,10 @@ function RenderIsPatientLanguages(props) {
     )
   }
 
-  const handleDeleteLanguage = useHandleDeleteLanguage(spokenLanguages, setSpokenLanguages, setLanguagesConfirmation, 'patient');
+  const handleDeleteLanguage = useHandleDeleteLanguage(spokenLanguages, setSpokenLanguages, setLanguagesConfirmation, "patient");
 
   const RenderSingleSavedLanguage = (language) => {
-    const status = deleteStatuses[language.language_listID] || 'initial';
+    const status = deleteStatuses[language.language_listID] || "initial";
 
     const setStatus = (newStatus) => {
       setDeleteStatuses((prevStatuses) => ({
@@ -109,7 +109,7 @@ function RenderIsPatientLanguages(props) {
     <>
       {renderSelectLanguageSection()}
       {renderSavedLanguageList()}
-      {renderMessageSection(languagesConfirmation, 'Languages')}
+      {renderMessageSection(languagesConfirmation, "Languages")}
     </>
   );
 };

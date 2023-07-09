@@ -64,11 +64,11 @@ export const useHandleCheckboxChange = (servicedPets, setServicedPets, setPetsCo
     if (event.target.checked) {
       const newServicedPets = [...servicedPets, pet];
       setServicedPets(newServicedPets);
-      savePets(pet.pet_listID, newServicedPets, setServicedPets, setPetsConfirmation, 'add');
+      savePets(pet.pet_listID, newServicedPets, setServicedPets, setPetsConfirmation, "add");
     } else {
       const newServicedPets = servicedPets.filter(p => p.pet_listID !== pet.pet_listID);
       setServicedPets(newServicedPets);
-      savePets(pet.pet_listID, newServicedPets, setServicedPets, setPetsConfirmation, 'delete');
+      savePets(pet.pet_listID, newServicedPets, setServicedPets, setPetsConfirmation, "delete");
     }
   }, [servicedPets, setServicedPets, setPetsConfirmation]);
 }
@@ -81,7 +81,7 @@ export const useHandleDeletePreVetEducation = (preVetEducation, setPreVetEducati
       setPreVetEducation,
       listDetails,
       setPreVetEducationConfirmation,
-      'delete'
+      "delete"
     );
   }, [preVetEducation, setPreVetEducation, setPreVetEducationConfirmation]);
 }
@@ -118,7 +118,7 @@ export const useSaveAddPreVetEducation = (
       setPreVetEducation,
       listDetails,
       setPreVetEducationConfirmation,
-      'add'
+      "add"
     );
   }, [preVetEducation, setPreVetEducation, listDetails, setPreVetEducationConfirmation]);
 };
@@ -131,7 +131,7 @@ export const useHandleDeleteVetEducation = (vetEducation, setVetEducation, listD
       setVetEducation,
       listDetails,
       setVetEducationConfirmation,
-      'delete'
+      "delete"
     );
   }, [vetEducation, setVetEducation, setVetEducationConfirmation]);
 }
@@ -165,7 +165,7 @@ export const useSaveAddVetEducation = (
       setVetEducation,
       listDetails,
       setVetEducationConfirmation,
-      'add'
+      "add"
     );
   }, [vetEducation, setVetEducation, listDetails, setVetEducationConfirmation]);
 };

@@ -1,6 +1,6 @@
-import {Link} from "react-router-dom";
-import {Button, Card} from 'react-bootstrap';
-import Header from "../pages/header";
+import {Link} from "react-router-dom"
+import {Button, Card} from "react-bootstrap"
+import Header from "../pages/header"
 
 export function NonDoctorAccess() {
   //for when a Doctor Page is accessed by a non-doctor
@@ -9,15 +9,15 @@ export function NonDoctorAccess() {
       <Header dropdown = {true} search = {true}/>
       <Card>
         <Card.Body>
-          <p>You are not logged in as a Vet. Please make an account, or login below</p>;
-          <Link to = {'/vet-register'}>
+          <p>You are not logged in as a Vet. Please make an account, or login below</p>
+          <Link to = {"/vet-register"}>
             <Button variant = "primary">
-                <p>Register</p>
+              <p>Register</p>
             </Button>
           </Link>
-          <Link to = {'/vet-login'}>
+          <Link to = {"/vet-login"}>
             <Button variant = "primary">
-                <p>Login</p>
+              <p>Login</p>
             </Button>
           </Link>
         </Card.Body>
@@ -33,15 +33,15 @@ export function NonPatientAccess() {
       <Header dropdown = {true} search = {true}/>
       <Card>
         <Card.Body>
-          <p>You are not logged in as a patient. Please make an account, or login below</p>;
-          <Link to = {'/patient-register'}>
+          <p>You are not logged in as a patient. Please make an account, or login below</p>
+          <Link to = {"/patient-register"}>
             <Button variant = "primary">
-                <p>Register</p>
+              <p>Register</p>
             </Button>
           </Link>
-          <Link to = {'/patient-login'}>
+          <Link to = {"/patient-login"}>
             <Button variant = "primary">
-                <p>Login</p>
+              <p>Login</p>
             </Button>
             </Link>
         </Card.Body>

@@ -10,6 +10,6 @@ function RenderPersonalInfo(props) {
     if (!_.isEmpty(props)) {
         const capitalizedFirstName = FirstName.charAt(0).toUpperCase() + FirstName.slice(1);
         const capitalizedLastName = LastName.charAt(0).toUpperCase() + LastName.slice(1);
-        return<> Dr. {''} {capitalizedFirstName} {''} {capitalizedLastName} </>
+        return<> Dr. {""} {capitalizedFirstName} {""} {capitalizedLastName} </>
     }
 };

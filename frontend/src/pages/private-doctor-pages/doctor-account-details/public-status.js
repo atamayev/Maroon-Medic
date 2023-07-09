@@ -46,7 +46,7 @@ function RenderIsPubliclyAvailable (props) {
           Yes
         </ToggleButton>
       </ToggleButtonGroup>
-      {renderMessageSection(publiclyAvailableConfirmation, 'Public Availability Status')}
+      {renderMessageSection(publiclyAvailableConfirmation, "Public Availability Status")}
     </div>
   )
 };

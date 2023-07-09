@@ -8,19 +8,19 @@ export async function saveDoctorLanguages(languageID, newSpokenLanguages, setSpo
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   let response;
   try {
-    response = await PrivateDoctorDataService.saveGeneralData(languageID, 'Language', operationType)
+    response = await PrivateDoctorDataService.saveGeneralData(languageID, "Language", operationType)
   } catch(error) {
     if (error.response.status === 401) invalidUserAction(error.response.data)
-    else setLanguagesConfirmation({messageType: 'problem'});
+    else setLanguagesConfirmation({messageType: "problem"});
     return
   }
   if (response.status === 200) {
     setSpokenLanguages(newSpokenLanguages);
     DoctorAccountDetails.languages = newSpokenLanguages;
     sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-    setLanguagesConfirmation({messageType: 'saved'});
+    setLanguagesConfirmation({messageType: "saved"});
   } else {
-    setLanguagesConfirmation({messageType: 'problem'});
+    setLanguagesConfirmation({messageType: "problem"});
   }
 };
 
@@ -36,7 +36,7 @@ export async function saveServices(providedServices, setServicesConfirmation) {
   const shouldSave = shouldSaveServices(savedServiceKeys, serviceKeys);
 
   if (!shouldSave) {
-    setServicesConfirmation({messageType: 'same'});
+    setServicesConfirmation({messageType: "same"});
     return;
   }
 
@@ -50,11 +50,11 @@ export async function saveServices(providedServices, setServicesConfirmation) {
     if (response.status === 200) {
       DoctorAccountDetails.services = providedServices;
       sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-      setServicesConfirmation({messageType: 'saved'});
+      setServicesConfirmation({messageType: "saved"});
     }
   } catch(error) {
     if (error.response.status === 401) invalidUserAction(error.response.data);
-    else setServicesConfirmation({messageType: 'problem'});
+    else setServicesConfirmation({messageType: "problem"});
   }
 }
 
@@ -63,48 +63,48 @@ export async function saveSpecialies(specialtyID, newDoctorSpecialties, setDocto
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   let response;
   try {
-    response = await PrivateDoctorDataService.saveGeneralData(specialtyID, 'Specialty', operationType)
+    response = await PrivateDoctorDataService.saveGeneralData(specialtyID, "Specialty", operationType)
   } catch(error) {
     if (error.response.status === 401) invalidUserAction(error.response.data)
-    else setSpecialtiesConfirmation({messageType: 'problem'});
+    else setSpecialtiesConfirmation({messageType: "problem"});
     return
   }
   if (response.status === 200) {
     setDoctorSpecialties(newDoctorSpecialties)
     DoctorAccountDetails.specialties = newDoctorSpecialties;
     sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-    setSpecialtiesConfirmation({messageType: 'saved'});
+    setSpecialtiesConfirmation({messageType: "saved"});
   } else {
-    setSpecialtiesConfirmation({messageType: 'problem'});
+    setSpecialtiesConfirmation({messageType: "problem"});
     return
   }
-  if (operationType === 'add') setSelectedOrganization('');
+  if (operationType === "add") setSelectedOrganization("");
 };
 
 export async function savePreVetEducation(preVetEducationObject, preVetEducation, setPreVetEducation, listDetails, setPreVetEducationConfirmation, operationType) {
   let newPreVetEducation;
-  if (operationType === 'delete') {
+  if (operationType === "delete") {
     newPreVetEducation = await deleteSavePreVetEducation(preVetEducationObject, preVetEducation, setPreVetEducation, setPreVetEducationConfirmation, operationType)
-  } else if (operationType === 'add') {
+  } else if (operationType === "add") {
     newPreVetEducation = await addSavePreVetEducation(preVetEducationObject, preVetEducation, setPreVetEducation, listDetails, setPreVetEducationConfirmation, operationType)
   }
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   DoctorAccountDetails.preVetEducation = newPreVetEducation;
   sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-  setPreVetEducationConfirmation({messageType: 'saved'});
+  setPreVetEducationConfirmation({messageType: "saved"});
 };
 
 export async function saveVetEducation(vetEducationObject, vetEducation, setVetEducation, listDetails, setVetEducationConfirmation, operationType) {
   let newVetEducation;
-  if (operationType === 'delete') {
+  if (operationType === "delete") {
     newVetEducation = await deleteSaveVetEducation(vetEducationObject, vetEducation, setVetEducation, setVetEducationConfirmation, operationType)
-  } else if (operationType === 'add') {
+  } else if (operationType === "add") {
     newVetEducation = await addSaveVetEducation(vetEducationObject, vetEducation, setVetEducation, listDetails, setVetEducationConfirmation, operationType)
   }
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   DoctorAccountDetails.vetEducation = newVetEducation;
   sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-  setVetEducationConfirmation({ messageType: 'saved' });
+  setVetEducationConfirmation({ messageType: "saved" });
 };
 
 export async function saveLocation(addresses, setAddresses, setAddressesConfirmation) {
@@ -118,7 +118,7 @@ export async function saveLocation(addresses, setAddresses, setAddressesConfirma
   const shouldSave = shouldSaveLocation(savedLocationData, addresses, newAddresses, savedAddresses, newTimes, savedTimes);
 
   if (!shouldSave) {
-      setAddressesConfirmation({messageType: 'same'});
+      setAddressesConfirmation({messageType: "same"});
       return;
   }
 
@@ -128,16 +128,16 @@ export async function saveLocation(addresses, setAddresses, setAddressesConfirma
       const newAddressData = response.data;
       newAddressData.sort((a, b) => a.address_priority - b.address_priority);
       for (let i = 0; i < newAddressData.length; i++) {
-        newAddressData[i]['times'] = newTimes[i];
+        newAddressData[i]["times"] = newTimes[i];
       }
       DoctorAccountDetails.addressData = newAddressData;
       setAddresses(newAddressData);
       sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-      setAddressesConfirmation({messageType: 'saved'});
+      setAddressesConfirmation({messageType: "saved"});
     }
   } catch(error) {
     if (error.response.status === 401) invalidUserAction(error.response.data);
-    else setAddressesConfirmation({messageType: 'problem'});
+    else setAddressesConfirmation({messageType: "problem"});
   }
 }
 
@@ -148,7 +148,7 @@ export async function saveDescription(description, setDescriptionConfirmation) {
   const shouldSave = shouldSaveDescription(savedDescriptionData, description);
 
   if (!shouldSave) {
-    setDescriptionConfirmation({messageType: 'same'});
+    setDescriptionConfirmation({messageType: "same"});
     return;
   }
 
@@ -157,11 +157,11 @@ export async function saveDescription(description, setDescriptionConfirmation) {
     if (response.status === 200) {
       DoctorAccountDetails.description = description;
       sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-      setDescriptionConfirmation({messageType: 'saved'});
+      setDescriptionConfirmation({messageType: "saved"});
     }
   } catch(error) {
     if (error.response.status === 401) invalidUserAction(error.response.data);
-    else setDescriptionConfirmation({messageType: 'problem'});
+    else setDescriptionConfirmation({messageType: "problem"});
   }
 }
 
@@ -169,19 +169,19 @@ export async function savePets(petID, newServicedPets, setServicedPets, setPetsC
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"));
   let response;
   try {
-    response = await PrivateDoctorDataService.saveGeneralData(petID, 'pet', operationType)
+    response = await PrivateDoctorDataService.saveGeneralData(petID, "pet", operationType)
   } catch(error) {
     if (error.response.status === 401) invalidUserAction(error.response.data)
-    else setPetsConfirmation({messageType: 'problem'});
+    else setPetsConfirmation({messageType: "problem"});
     return
   }
   if (response.status === 200) {
     setServicedPets(newServicedPets);
     DoctorAccountDetails.servicedPets = newServicedPets;
     sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-    setPetsConfirmation({messageType: 'saved'});
+    setPetsConfirmation({messageType: "saved"});
   } else {
-    setPetsConfirmation({messageType: 'problem'});
+    setPetsConfirmation({messageType: "problem"});
     return
   }
 };
@@ -194,10 +194,10 @@ export async function handlePublicAvailibilityToggle (value, setPubliclyAvailabl
       setPubliclyAvailable(value);
       DoctorAccountDetails.publiclyAvailable = value;
       sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails));
-      setPubliclyAvailableConfirmation({messageType: 'saved'});
+      setPubliclyAvailableConfirmation({messageType: "saved"});
     }
   } catch(error) {
     if (error.response.status === 401) invalidUserAction(error.response.data)
-    else setPubliclyAvailableConfirmation({messageType: 'problem'});
+    else setPubliclyAvailableConfirmation({messageType: "problem"});
   }
 };

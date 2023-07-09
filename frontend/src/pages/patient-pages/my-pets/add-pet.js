@@ -1,7 +1,7 @@
-import { Form, Button, Card,Container, Row, Col } from 'react-bootstrap';
-import FormGroup from '../../../components/form-group';
-import { addMyPets } from '../../../custom-hooks/my-pets-hooks/save-my-pets';
-import { renderMessageSection } from '../../../components/saved-message-section';
+import { Form, Button, Card,Container, Row, Col } from "react-bootstrap";
+import FormGroup from "../../../components/form-group";
+import { addMyPets } from "../../../custom-hooks/my-pets-hooks/save-my-pets";
+import { renderMessageSection } from "../../../components/saved-message-section";
 
 const ifPetTypeSelected = (value, petTypes, newPetData, setNewPetData) => {
   // Find the selected pet type by its ID
@@ -79,7 +79,7 @@ export const AddPet = (props) => {
     return (
       <FormGroup
         id = "formPetName"
-        className = {'mb-3'}
+        className = {"mb-3"}
         label = "Pet Name:"
         type = "text"
         onChange = {(e) => handleInputChange (e, petTypes, insurances, newPetData, setNewPetData)}
@@ -102,7 +102,7 @@ export const AddPet = (props) => {
     return (
       <FormGroup
         id = "formPetDob"
-        className = {'mb-3'}
+        className = {"mb-3"}
         label = "Date of Birth"
         type = "date"
         onChange = {(e) => handleInputChange (e, petTypes, insurances, newPetData, setNewPetData)}
@@ -185,7 +185,7 @@ export const AddPet = (props) => {
         <Container>
           <Row>
             <Col xs = {8}></Col>
-            <Col xs = {4} className = ''>
+            <Col xs = {4} className = "">
               {renderDeleteButton()}
             </Col>
           </Row>
@@ -205,7 +205,7 @@ export const AddPet = (props) => {
             Upload image area
             {renderAddButton()}
           </Form>
-          {renderMessageSection(petConfirmation, 'Pet')}
+          {renderMessageSection(petConfirmation, "Pet")}
         </Card.Body>
       </Card>
     </>

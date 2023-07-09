@@ -1,10 +1,10 @@
-import {useState, useEffect } from 'react'
+import {useState, useEffect } from "react"
 import PrivateDoctorDataService from "../services/private-doctor-data-service";
 import PrivatePatientDataService from "../services/private-patient-data-service";
 import { invalidUserAction } from "./user-verification-snippets";
 
 async function fetchPersonalInfoData(setPersonalInfo, userType) {
-  if (userType === 'Doctor' || userType === 'Patient') {
+  if (userType === "Doctor" || userType === "Patient") {
     try {
       let response;
 
@@ -22,7 +22,7 @@ async function fetchPersonalInfoData(setPersonalInfo, userType) {
 }
 
 export const handleSavePersonalInfo = async (personalInfo, setPersonalInfoConfirmation, userType) => {
-  if (userType === 'Doctor' || userType === 'Patient') {
+  if (userType === "Doctor" || userType === "Patient") {
     const storedPersonalInfoData = sessionStorage.getItem(`${userType}PersonalInfo`);
     const stringifiedPersonalInfoData = JSON.stringify(personalInfo)
 
@@ -30,22 +30,22 @@ export const handleSavePersonalInfo = async (personalInfo, setPersonalInfoConfir
       if (stringifiedPersonalInfoData !== storedPersonalInfoData) {// if there is a change, and handlesave is used:
         try {
           let response
-          if (userType === 'Doctor') response = await PrivateDoctorDataService.savePersonalData(personalInfo);
-          else if (userType === 'Patient') response = await PrivatePatientDataService.savePersonalData(personalInfo);
+          if (userType === "Doctor") response = await PrivateDoctorDataService.savePersonalData(personalInfo);
+          else if (userType === "Patient") response = await PrivatePatientDataService.savePersonalData(personalInfo);
 
           if (response.status === 200) {
             sessionStorage.setItem(`${userType}PersonalInfo`, JSON.stringify(personalInfo));
-            setPersonalInfoConfirmation({messageType: 'saved'});
+            setPersonalInfoConfirmation({messageType: "saved"});
           }
         } catch (error) {
           if (error.response.status === 401) invalidUserAction(error.response.data)
-          else setPersonalInfoConfirmation({messageType: 'problem'});
+          else setPersonalInfoConfirmation({messageType: "problem"});
         }
       } else {
-        setPersonalInfoConfirmation({messageType: 'same'});
+        setPersonalInfoConfirmation({messageType: "same"});
       }
     } catch(error) {
-      setPersonalInfoConfirmation({messageType: 'problem'});
+      setPersonalInfoConfirmation({messageType: "problem"});
     }
   }
 };
@@ -55,7 +55,7 @@ export function usePersonalInfo(userType) {
 
   useEffect(() => {
     const fetchAndSetPersonalInfo = async () => {
-      if (userType === 'Doctor' || userType === 'Patient') {
+      if (userType === "Doctor" || userType === "Patient") {
         try {
           const storedPersonalInfoData = sessionStorage.getItem(`${userType}PersonalInfo`)
           if (storedPersonalInfoData) setPersonalInfo(JSON.parse(storedPersonalInfoData));

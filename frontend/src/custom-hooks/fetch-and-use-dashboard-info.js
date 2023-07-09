@@ -6,8 +6,8 @@ import { invalidUserAction } from "./user-verification-snippets";
 async function fetchDashboardData(setDashboardData, userType) {
   try {
     let response
-    if (userType === 'Patient') response = await PrivatePatientDataService.fillDashboard()
-    else if (userType === 'Doctor') response = await PrivateDoctorDataService.fillDashboard()
+    if (userType === "Patient") response = await PrivatePatientDataService.fillDashboard()
+    else if (userType === "Doctor") response = await PrivateDoctorDataService.fillDashboard()
     if (response) {
       setDashboardData(response.data);
       sessionStorage.setItem(`${userType}DashboardData`, JSON.stringify(response.data))
@@ -21,7 +21,7 @@ export function useDashboardData(userType) {
   const [dashboardData, setDashboardData] = useState(null);
 
   const fetchAndSetDashboardData = async () => {
-    if (userType === 'Patient' || userType === 'Doctor') {
+    if (userType === "Patient" || userType === "Doctor") {
 
       try {
         // const storedDashboardData = sessionStorage.getItem(`${userType}DashboardData`)

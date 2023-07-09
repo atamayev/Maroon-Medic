@@ -63,7 +63,7 @@ export function areArraysSame(arr1, arr2) {
     const val1 = arr1[i];
     const val2 = arr2[i];
 
-    const areObjects = typeof val1 === 'object' && val1 !== null && typeof val2 === 'object' && val2 !== null;
+    const areObjects = typeof val1 === "object" && val1 !== null && typeof val2 === "object" && val2 !== null;
     const areArrays = _.isArray(val1) && _.isArray(val2);
 
     if (areObjects && !areArrays && !objectsAreSame(val1, val2)) return false;

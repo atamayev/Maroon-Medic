@@ -1,23 +1,23 @@
-import { savePatientLanguages } from "./save-patient-account-details";
-import { saveDoctorLanguages, saveSpecialies } from "./save-doctor-account-details";
-import moment from "moment";
+import { savePatientLanguages } from "./save-patient-account-details"
+import { saveDoctorLanguages, saveSpecialies } from "./save-doctor-account-details"
+import moment from "moment"
 
 export const handleAddLanguage = (selectedLanguageID, spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, doctorOrPatient) => {
-  let selectedLanguage;
-  if (doctorOrPatient === 'doctor') selectedLanguage = listDetails.languages.find((lang) => lang.language_listID === JSON.parse(selectedLanguageID));
-  else if (doctorOrPatient === 'patient') selectedLanguage = listDetails.languages.find((lang) => lang.language_listID === JSON.parse(selectedLanguageID));
+  let selectedLanguage
+  if (doctorOrPatient === "doctor") selectedLanguage = listDetails.languages.find((lang) => lang.language_listID === JSON.parse(selectedLanguageID))
+  else if (doctorOrPatient === "patient") selectedLanguage = listDetails.languages.find((lang) => lang.language_listID === JSON.parse(selectedLanguageID))
 
-  const newSpokenLanguages = [...spokenLanguages, selectedLanguage];
+  const newSpokenLanguages = [...spokenLanguages, selectedLanguage]
 
-  if (doctorOrPatient === 'doctor') saveDoctorLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation, 'add')
-  else if (doctorOrPatient === 'patient') savePatientLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation, 'add')
-};
+  if (doctorOrPatient === "doctor") saveDoctorLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation, "add")
+  else if (doctorOrPatient === "patient") savePatientLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation, "add")
+}
 
 export const handleAddSpecialty = (selectedSpecialtyID, doctorSpecialties, setDoctorSpecialties, setSelectedOrganization, listDetails, setSpecialtiesConfirmation) => {
-  const selectedSpecialty = listDetails.specialties.find((spec) => spec.specialties_listID === JSON.parse(selectedSpecialtyID));
-  const newDoctorSpecialties = [...doctorSpecialties, selectedSpecialty];
-  saveSpecialies(selectedSpecialtyID, newDoctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation, 'add')
-};
+  const selectedSpecialty = listDetails.specialties.find((spec) => spec.specialties_listID === JSON.parse(selectedSpecialtyID))
+  const newDoctorSpecialties = [...doctorSpecialties, selectedSpecialty]
+  saveSpecialies(selectedSpecialtyID, newDoctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation, "add")
+}
 
 export const handleAddEducation = (
   selectedSchool,
@@ -34,26 +34,26 @@ export const handleAddEducation = (
     Education_type: selectedEducationType,
     Start_Date: moment(`${timeState.startYear}-${timeState.startMonth}-1`,"YYYY-MMMM-D").format("MMMM D, YYYY"),
     End_Date: moment(`${timeState.endYear}-${timeState.endMonth}-1`,"YYYY-MMMM-D").format("MMMM D, YYYY"),
-  };
-  if (selectedMajor) selectedEducationObj.Major_name = selectedMajor;
+  }
+  if (selectedMajor) selectedEducationObj.Major_name = selectedMajor
 
-  setSelectedSchool("");
-  setSelectedEducationType("");
+  setSelectedSchool("")
+  setSelectedEducationType("")
   setTimeState({
     startMonth: "",
     endMonth: "",
     startYear: "",
     endYear: "",
-  });
+  })
 
-  if (setSelectedMajor) setSelectedMajor("");
+  if (setSelectedMajor) setSelectedMajor("")
 
-  return selectedEducationObj;
-};
+  return selectedEducationObj
+}
 
 
 export const handleAddAccordion = (addresses, setAddresses) => {
-  let maxPriority = Math.max(...addresses.map(address => address.address_priority));
-  if (maxPriority === -Infinity) maxPriority = 0;
-  setAddresses([...addresses, { address_priority: maxPriority+1, addressesID: 0, address_title: '', address_line_1: '', address_line_2: '', city: '', state: '', zip: '', country: '', phone_priority: 0, phone: '', address_public_status: 1, instant_book: 0, times:[]}]);
-};
+  let maxPriority = Math.max(...addresses.map(address => address.address_priority))
+  if (maxPriority === -Infinity) maxPriority = 0
+  setAddresses([...addresses, { address_priority: maxPriority+1, addressesID: 0, address_title: "", address_line_1: "", address_line_2: "", city: "", state: "", zip: "", country: "", phone_priority: 0, phone: "", address_public_status: 1, instant_book: 0, times:[]}])
+}

@@ -1,6 +1,6 @@
-import { Form } from 'react-bootstrap'
-import FormGroup from './form-group'
-import { months, days, birthYears } from './constants'
+import { Form } from "react-bootstrap"
+import FormGroup from "./form-group"
+import { months, days, birthYears } from "./constants"
 
 export const renderFirstNameSection = (personalInfo, setPersonalInfo) => {
   return (
@@ -112,7 +112,7 @@ const renderSelectYear = (personalInfo, setPersonalInfo) => {
 
 export const renderDOBSection = (personalInfo, setPersonalInfo) => {
   return (
-    <div className = 'row mt-3 mb-3'>
+    <div className = "row mt-3 mb-3">
       <Form.Group id = "DOB">
         {renderSelectMonth(personalInfo, setPersonalInfo)}
         {renderSelectDay(personalInfo, setPersonalInfo)}
