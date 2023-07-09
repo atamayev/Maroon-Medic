@@ -1,9 +1,9 @@
 import _ from "lodash"
-import { Card, Button} from "react-bootstrap";
-import { renderMessageSection } from "../../../components/saved-message-section";
-import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
-import { handleTogglePetType } from "../../../custom-hooks/account-details-hooks/select";
-import { useHandleCheckboxChange } from "../../../custom-hooks/account-details-hooks/callbacks";
+import { Card, Button} from "react-bootstrap"
+import { renderMessageSection } from "../../../components/saved-message-section"
+import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
+import { handleTogglePetType } from "../../../custom-hooks/account-details-hooks/select"
+import { useHandleCheckboxChange } from "../../../custom-hooks/account-details-hooks/callbacks"
 
 export default function RenderPetsSection (props) {
   return(
@@ -31,12 +31,12 @@ function RenderIsPets (props) {
   }
 
   const isTogglePetType = (pets, pet_type) => {
-    if (pets.length <= 1) return null;
+    if (pets.length <= 1) return null
 
-    const isOpen = expandedPetTypes.includes(pet_type);
+    const isOpen = expandedPetTypes.includes(pet_type)
     const renderIsOpen = () => {
-      if (isOpen) return '^';
-      return 'v';
+      if (isOpen) return '^'
+      return 'v'
     }
 
     return (

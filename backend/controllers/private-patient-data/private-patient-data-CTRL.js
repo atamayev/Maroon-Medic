@@ -1,12 +1,12 @@
 import _ from "lodash"
-import dayjs from "dayjs";
+import dayjs from "dayjs"
 import customParseFormat from "dayjs/plugin/customParseFormat.js"
-dayjs.extend(customParseFormat); // extend Day.js with the plugin
-import { UUID_to_ID } from "../../db-and-security-and-helper-functions/UUID.js";
-import FetchAllLists from "../../db-and-security-and-helper-functions/fetch-all-lists.js";
-import {connection, DB_Operation} from "../../db-and-security-and-helper-functions/connect.js";
-import { clearCookies } from "../../db-and-security-and-helper-functions/cookie-operations.js";
-import FetchPatientAccountData from "../../db-and-security-and-helper-functions/fetch-data/fetch-patient-account-data.js";
+dayjs.extend(customParseFormat) // extend Day.js with the plugin
+import { UUID_to_ID } from "../../db-and-security-and-helper-functions/UUID.js"
+import FetchAllLists from "../../db-and-security-and-helper-functions/fetch-all-lists.js"
+import {connection, DB_Operation} from "../../db-and-security-and-helper-functions/connect.js"
+import { clearCookies } from "../../db-and-security-and-helper-functions/cookie-operations.js"
+import FetchPatientAccountData from "../../db-and-security-and-helper-functions/fetch-data/fetch-patient-account-data.js"
 
 /** newPatient registers the inputted user data into basic_Patient_info table
  *  All necessary information is sent via the request (PatientUUID, firname, lastname, etc.)
@@ -19,31 +19,31 @@ export async function newPatient (req, res) {
     const PatientUUID = req.cookies.PatientUUID
     let UserID
     try {
-        UserID = await UUID_to_ID(PatientUUID);
+        UserID = await UUID_to_ID(PatientUUID)
     } catch (error) {
         clearCookies(res, "Patient")
-        return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' });
+        return res.status(401).json({ shouldRedirect: true, redirectURL: "/patient-login" })
     }
 
     const new_patient_object = req.body.new_patient_object
 
     // Combine date parts into a single string
-    const dateOfBirthStr = `${new_patient_object.DOB_month} ${new_patient_object.DOB_day} ${new_patient_object.DOB_year}`;
+    const dateOfBirthStr = `${new_patient_object.DOB_month} ${new_patient_object.DOB_day} ${new_patient_object.DOB_year}`
 
     // Convert the string to a Date object and format it
-    const dateOfBirth = dayjs(dateOfBirthStr, "MMMM D YYYY").format("YYYY-MM-DD");
+    const dateOfBirth = dayjs(dateOfBirthStr, "MMMM D YYYY").format("YYYY-MM-DD")
 
     const basic_user_info = "basic_user_info"
-    const sql = `INSERT INTO ${basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?, ?, ?, ?, ?)`;
+    const sql = `INSERT INTO ${basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?, ?, ?, ?, ?)`
 
-    const values = [new_patient_object.FirstName, new_patient_object.LastName, new_patient_object.Gender, dateOfBirth, UserID];
+    const values = [new_patient_object.FirstName, new_patient_object.LastName, new_patient_object.Gender, dateOfBirth, UserID]
     await DB_Operation(newPatient.name, basic_user_info)
 
     try {
         await connection.execute(sql, values)
-        return res.status(200).json();
+        return res.status(200).json()
     } catch(error) {
-        return res.status(500).json(error);
+        return res.status(500).json(error)
     }
 }
 
@@ -56,16 +56,16 @@ export async function newPatient (req, res) {
  * DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function newPatientConfirmation (req, res) {
-    let patientPermission = false;
+    let patientPermission = false
     const newPatientUUID = req.cookies.PatientNewUser
     const existingPatientUUID = req.cookies.PatientUUID
 
-    if (!newPatientUUID || !existingPatientUUID) return res.json(patientPermission);
+    if (!newPatientUUID || !existingPatientUUID) return res.json(patientPermission)
 
-    const UUID_reference = "UUID_reference";
-    const sql = `SELECT UUID_referenceID FROM ${UUID_reference} WHERE UUID = ?`;
-    let values1 = [newPatientUUID];
-    let values2 = [existingPatientUUID];
+    const UUID_reference = "UUID_reference"
+    const sql = `SELECT UUID_referenceID FROM ${UUID_reference} WHERE UUID = ?`
+    let values1 = [newPatientUUID]
+    let values2 = [existingPatientUUID]
     await DB_Operation(newPatientConfirmation.name, UUID_reference)
 
     try {
@@ -73,12 +73,12 @@ export async function newPatientConfirmation (req, res) {
         const [results2] = await connection.execute(sql, values2)
 
         if (results1.length === 1 && results2.length === 1) {
-            patientPermission = true;
-            return res.json(patientPermission);
+            patientPermission = true
+            return res.json(patientPermission)
         }
-        else return res.json(patientPermission);
+        else return res.json(patientPermission)
     } catch(error) {
-        return res.json(patientPermission);
+        return res.json(patientPermission)
     }
 }
 
@@ -91,17 +91,17 @@ export async function newPatientConfirmation (req, res) {
  * DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function fetchDashboardData (req, res) {
-    const PatientUUID = req.cookies.PatientUUID;
-    let PatientID;
+    const PatientUUID = req.cookies.PatientUUID
+    let PatientID
     try {
-        PatientID = await UUID_to_ID(PatientUUID);
+        PatientID = await UUID_to_ID(PatientUUID)
     } catch (error) {
         clearCookies(res, "Patient")
-        return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' });
+        return res.status(401).json({ shouldRedirect: true, redirectURL: "/patient-login" })
     }
 
     const [Appointments, service_and_category_list, addresses, basic_user_info] =
-        ['Appointments', 'service_and_category_list', "addresses", "basic_user_info"];
+        ["Appointments", "service_and_category_list", "addresses", "basic_user_info"]
 
     const sql = `SELECT
             ${Appointments}.AppointmentsID, ${Appointments}.appointment_date, ${Appointments}.appointment_price, ${Appointments}.patient_message, ${Appointments}.Doctor_confirmation_status, ${Appointments}.Created_at,
@@ -113,24 +113,24 @@ export async function fetchDashboardData (req, res) {
             INNER JOIN ${addresses} ON ${Appointments}.${addresses}_ID = ${addresses}.${addresses}ID AND ${addresses}.Doctor_ID = ${Appointments}.Doctor_ID
             INNER JOIN ${basic_user_info} ON ${Appointments}.Doctor_ID = ${basic_user_info}.User_ID
         WHERE
-            ${Appointments}.Patient_ID = ?`;
+            ${Appointments}.Patient_ID = ?`
 
-    const values = [PatientID];
-    await DB_Operation(fetchDashboardData.name, Appointments);
+    const values = [PatientID]
+    await DB_Operation(fetchDashboardData.name, Appointments)
 
     try {
         const [results] = await connection.execute(sql, values)
-        if (_.isEmpty(results)) return res.json([]);
+        if (_.isEmpty(results)) return res.json([])
         else{
             const DashboardData = results
             for (let i = 0; i < DashboardData.length; i++) {
-                DashboardData[i].appointment_date = dayjs(DashboardData[i].appointment_date).format("MMMM D, YYYY, h:mm A");
-                DashboardData[i].Created_at = dayjs(DashboardData[i].Created_at).format("MMMM D, YYYY, h:mm A");
+                DashboardData[i].appointment_date = dayjs(DashboardData[i].appointment_date).format("MMMM D, YYYY, h:mm A")
+                DashboardData[i].Created_at = dayjs(DashboardData[i].Created_at).format("MMMM D, YYYY, h:mm A")
             }
-            return res.json(DashboardData);
+            return res.json(DashboardData)
         }
     } catch(error) {
-        return res.json([]);
+        return res.json([])
     }
 }
 
@@ -143,46 +143,46 @@ export async function fetchDashboardData (req, res) {
  */
 export async function fetchPersonalData (req, res) {
     const PatientUUID = req.cookies.PatientUUID
-    let PatientID;
+    let PatientID
     try {
-        PatientID = await UUID_to_ID(PatientUUID);
+        PatientID = await UUID_to_ID(PatientUUID)
     } catch (error) {
         clearCookies(res, "Patient")
-        return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' });
+        return res.status(401).json({ shouldRedirect: true, redirectURL: "/patient-login" })
     }
 
-    const basic_user_info = "basic_user_info";
+    const basic_user_info = "basic_user_info"
 
     const sql = `SELECT FirstName, LastName, Gender, DOB FROM ${basic_user_info} WHERE User_ID = ?`
-    const values = [PatientID];
-    await DB_Operation(fetchPersonalData.name, basic_user_info);
+    const values = [PatientID]
+    await DB_Operation(fetchPersonalData.name, basic_user_info)
 
     let PersonalData = {
-        FirstName: '',
-        LastName: '',
-        Gender: '',
-        DOB_month: '',
-        DOB_day: '',
-        DOB_year: ''
-    };
+        FirstName: "",
+        LastName: "",
+        Gender: "",
+        DOB_month: "",
+        DOB_day: "",
+        DOB_year: ""
+    }
 
     try {
-        const [results] = await connection.execute(sql, values);
-        if (_.isEmpty(results)) return res.json(PersonalData);
+        const [results] = await connection.execute(sql, values)
+        if (_.isEmpty(results)) return res.json(PersonalData)
         else {
-            let dob = dayjs(results[0].DOB);
+            let dob = dayjs(results[0].DOB)
             PersonalData = {
                 FirstName: results[0].FirstName,
                 LastName: results[0].LastName,
                 Gender: results[0].Gender,
-                DOB_month: dob.format('MMMM'),  // getting month name
+                DOB_month: dob.format("MMMM"),  // getting month name
                 DOB_day: dob.date().toString(),  // getting day
                 DOB_year: dob.year().toString()  // getting year
-            };
-            return res.json(PersonalData);
+            }
+            return res.json(PersonalData)
         }
     } catch(error) {
-        return res.json(PersonalData);
+        return res.json(PersonalData)
     }
 }
 
@@ -195,20 +195,20 @@ export async function fetchPersonalData (req, res) {
  * DOCUMENTATION LAST UPDATED 6/4/23
  */
 export async function fetchPetData (req, res) {
-    const PatientUUID = req.cookies.PatientUUID;
-    let PatientID;
+    const PatientUUID = req.cookies.PatientUUID
+    let PatientID
     try {
-        PatientID = await UUID_to_ID(PatientUUID);
+        PatientID = await UUID_to_ID(PatientUUID)
     } catch (error) {
         clearCookies(res, "Patient")
-        return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' });
+        return res.status(401).json({ shouldRedirect: true, redirectURL: "/patient-login" })
     }
 
     try {
-        const response = await FetchPatientAccountData.fetchPetData(PatientID);
-        return res.status(200).json(response);
+        const response = await FetchPatientAccountData.fetchPetData(PatientID)
+        return res.status(200).json(response)
     } catch(error) {
-        return res.status(400).json([]);
+        return res.status(400).json([])
     }
 }
 
@@ -220,19 +220,19 @@ export async function fetchPetData (req, res) {
  */
 export async function fetchPetTypes (req, res) {
     try {
-        const response = await FetchAllLists.fetchAllPets();
-        return res.status(200).json(response);
+        const response = await FetchAllLists.fetchAllPets()
+        return res.status(200).json(response)
     } catch(error) {
-        return res.status(400).json([]);
+        return res.status(400).json([])
     }
 }
 
 export async function fetchInsurances (req, res) {
     try {
-        const response = await FetchAllLists.fetchAllInsurances();
-        return res.status(200).json(response);
+        const response = await FetchAllLists.fetchAllInsurances()
+        return res.status(200).json(response)
     } catch(error) {
-        return res.status(400).json([]);
+        return res.status(400).json([])
     }
 }
 
@@ -245,21 +245,21 @@ export async function fetchInsurances (req, res) {
  * DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function fetchAccountDetails (req, res) {
-    const PatientUUID = req.cookies.PatientUUID;
-    let PatientID;
+    const PatientUUID = req.cookies.PatientUUID
+    let PatientID
     try {
-        PatientID = await UUID_to_ID(PatientUUID);
+        PatientID = await UUID_to_ID(PatientUUID)
     } catch (error) {
         clearCookies(res, "Patient")
-        return res.status(401).json({ shouldRedirect: true, redirectURL: '/patient-login' });
+        return res.status(401).json({ shouldRedirect: true, redirectURL: "/patient-login" })
     }
 
     try {
         let response = {}
         response.languages  = await FetchPatientAccountData.fetchPatientLanguages(PatientID)
-        return res.status(200).json(response);
+        return res.status(200).json(response)
     } catch(error) {
-        return res.status(400).json([]);
+        return res.status(400).json([])
     }
 }
 
@@ -270,10 +270,10 @@ export async function fetchAccountDetails (req, res) {
  */
 export async function fetchPatientLists (req, res) {
     try {
-        let response = {};
+        let response = {}
         response.languages  = await FetchAllLists.fetchAllLanguages()
-        return res.status(200).json(response);
+        return res.status(200).json(response)
     } catch(error) {
-        return res.status(400).json([]);
+        return res.status(400).json([])
     }
 }

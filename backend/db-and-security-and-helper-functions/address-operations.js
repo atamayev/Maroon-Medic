@@ -1,15 +1,15 @@
 export function getUpdatedAddressRecords(newData, results) {
-  const resultDataMap = new Map();
-  let updatedRecords = [];
+  const resultDataMap = new Map()
+  let updatedRecords = []
 
   // Create a map of the existing data for quick lookup
   for (const record of results) {
-    resultDataMap.set(record.addressesID, record);
+    resultDataMap.set(record.addressesID, record)
   }
 
   // Iterate over the new data
   for (const newRecord of newData) {
-    const existingRecord = resultDataMap.get(newRecord.addressesID);
+    const existingRecord = resultDataMap.get(newRecord.addressesID)
 
     // If an existing record was found, compare the fields
     if (existingRecord) {
@@ -29,27 +29,27 @@ export function getUpdatedAddressRecords(newData, results) {
         newRecord.isActive !== existingRecord.isActive
       ) {
         // If there are changes, add newRecord to updatedRecords array
-        updatedRecords.push(newRecord);
+        updatedRecords.push(newRecord)
       }
     }
   }
 
   // Return array of updated records
-  return updatedRecords;
+  return updatedRecords
 }
 
 export function getUnchangedAddressRecords(newData, results) {
-  const resultDataMap = new Map();
-  let unchangedData = [];
+  const resultDataMap = new Map()
+  let unchangedData = []
 
   // Create a map of the existing data for quick lookup
   for (const record of results) {
-    resultDataMap.set(record.addressesID, record);
+    resultDataMap.set(record.addressesID, record)
   }
 
   // Iterate over the new data
   for (const newRecord of newData) {
-    const existingRecord = resultDataMap.get(newRecord.addressesID);
+    const existingRecord = resultDataMap.get(newRecord.addressesID)
 
     // If an existing record was found, compare the fields
     if (existingRecord) {
@@ -70,11 +70,11 @@ export function getUnchangedAddressRecords(newData, results) {
 
       ) {
         // If there are no changes, add newRecord to unchangedData array
-        unchangedData.push(newRecord);
+        unchangedData.push(newRecord)
       }
     }
   }
 
   // Return array of unchanged records
-  return unchangedData;
+  return unchangedData
 }

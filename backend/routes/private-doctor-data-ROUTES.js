@@ -1,22 +1,22 @@
-import express from "express";
-import { 
-    newDoctor, 
-    fetchDashboardData, 
-    fetchPersonalData, 
-    newDoctorConfirmation, 
+import express from "express"
+import {
+    newDoctor,
+    fetchDashboardData,
+    fetchPersonalData,
+    newDoctorConfirmation,
     fetchAccountDetails,
     fetchDoctorLists,
     confirmAppointment
-}from "../controllers/private-doctor-data/private-doctor-data-CTRL.js";
+}from "../controllers/private-doctor-data/private-doctor-data-CTRL.js"
 import{
-    savePersonalData, 
+    savePersonalData,
     saveDescriptionData,
     saveGeneralData,
     savePublicAvailibilityData,
     saveEducationData,
     saveServicesData,
     saveAddressData
-}from "../controllers/private-doctor-data/save-doctor-data-CTRL.js";
+}from "../controllers/private-doctor-data/save-doctor-data-CTRL.js"
 
 const router = express.Router()
 

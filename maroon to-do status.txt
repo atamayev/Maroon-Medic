@@ -2,24 +2,24 @@ To-do:
 
 
 ASAP:
--make languages it's own component - make doctor/patient both use it 
+-make languages it's own component - make doctor/patient both use it
 -consider combing the two add preVet Education callback functions
 
--simpify all cases in save doctor details where shouldSave is. Makes it seem very complex. 
+-simpify all cases in save doctor details where shouldSave is. Makes it seem very complex.
 	consider combining some of the inital shouldSave logic:
-	ie: 	
+	ie:
 		  if (_.isEmpty(savedLocationData) && _.isEmpty(addresses)) {
 			// Case where both arrays are empty
-			setAddressesConfirmation({messageType: 'none'});
-			return;
+			setAddressesConfirmation({messageType: "none"})
+			return
 		  }
 
 		  if (!savedLocationData || _.isEmpty(savedLocationData)) {
-			shouldSave = !_.isEmpty(addresses);
+			shouldSave = !_.isEmpty(addresses)
 		  } else if ((!areArraysSame(newAddresses, savedAddresses)) || (!areArraysSame(newTimes, savedTimes))) {
-			shouldSave = true;
+			shouldSave = true
 		  } else {
-			setAddressesConfirmation({messageType: 'same'});
+			setAddressesConfirmation({messageType: "same"})
 }
 make the phone number input in the location.js only accept numbers (Phone input)
 
@@ -31,7 +31,7 @@ make the phone number input in the location.js only accept numbers (Phone input)
 
 -start figuring out only being able to make appointments during available time slots (shouldn't be able to book an appointment while that time slot is booked)
 
---change all front-end select month, day, year into a 'date', like in pets.js
+--change all front-end select month, day, year into a "date", like in pets.js
 	-make the date only be sometime in the past
 
 -in the appointments table, will need to change patient_ID to pet_ID. then, on the front-end, you need to have a registered pet in order to make an appointment
@@ -53,9 +53,9 @@ On the vet dashboard, make the appointments clickable, shows the patients detail
 LATER:
 -figure out IP Address situation (for the login and security page). Also see if can figure out what kind of device the user has
 
-Make the 'Add Address' Button Finalize a Location, make it within the accordion.
+Make the "Add Address" Button Finalize a Location, make it within the accordion.
 	So when add address is pressed, it becomes a pretty-looking text (can edit it by pressing a pencil in the top right or something)
-	Add a new 'Add new address' button to add a new acordion strip
+	Add a new "Add new address" button to add a new acordion strip
 	Won't need a save button. the add/delete buttons will act as saves. will need to make the delete button double confirmation like everything else
 
 Write documentation, especially for saveAddresses
@@ -64,7 +64,7 @@ Write documentation, especially for saveAddresses
 
 Add a section in doctordetails for wheather or not the doc works for a practice/company (will neeed to create a lookup and mapping table for vet companies as options)
 
--- will likely need to simplify the select.js. what it's doing rn is redundant. inside account details, it's setting the value of the type of to the id. then, select has to find which type has that id.
+-- will likely need to simplify the select.js. what it"s doing rn is redundant. inside account details, it"s setting the value of the type of to the id. then, select has to find which type has that id.
 	for example, if select Lemonade insurance, instead of setting selected vet school to Lemondae, it first sends back lemonad'es id, and then converts it to the name
 simplification of pre-vet education needed.
 

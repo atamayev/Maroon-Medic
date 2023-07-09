@@ -38,6 +38,12 @@
         "semi": [
             "error",
             "never"
-        ]
+        ],
+        "no-empty": ["error", { "allowEmptyCatch": true }],
+        "eol-last": ["error", "always"],
+        "no-unused-vars": "warn",
+        "eqeqeq": "error",
+        "camelcase": "error",
+        "no-console": "warn"
     }
 }

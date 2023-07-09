@@ -239,7 +239,7 @@ export async function fetchAccountDetails (req, res) {
         const verificationAndPublicAv = await FetchDoctorAccountData.fetchVerifiedAndPubliclyAvailable(DoctorID)
         response.verified             = verificationAndPublicAv.Verified
         response.publiclyAvailable    = verificationAndPublicAv.PubliclyAvailable
-        //response.pictures          = await FetchDoctorAccountData.fetchDoctorPictures(DoctorID);
+        //response.pictures          = await FetchDoctorAccountData.fetchDoctorPictures(DoctorID)
         return res.status(200).json(response)
     } catch(error) {
         return res.status(400).json([])

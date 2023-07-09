@@ -1,8 +1,8 @@
-import express from "express";
-import { 
+import express from "express"
+import {
     getDoctorCalendarDetails,
     makeAppointment
-} from "../controllers/calendar-CTRL.js";
+} from "../controllers/calendar-CTRL.js"
 
 const router = express.Router()
 

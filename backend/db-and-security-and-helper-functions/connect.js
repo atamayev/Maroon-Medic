@@ -11,7 +11,7 @@ export const connection = await mysql.createConnection({
   password: process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DATABASE,
   multipleStatements: true
-});
+})
 
 /**
  * useDB selects the database to work with. useful when there are multiple databases being read from
@@ -22,9 +22,9 @@ export const connection = await mysql.createConnection({
 export async function DB_Operation (API_Name, tableName) {
   try {
     //await connection.query(`use ${DB_NAME}`)
-    console.log(`used API: ${API_Name} and Table: ${tableName}`);
+    console.log(`used API: ${API_Name} and Table: ${tableName}`)
   } catch (err) {
-    console.log('useDB ERROR', err);
+    console.log("useDB ERROR", err)
     return
   }
 }

@@ -1,6 +1,6 @@
 import dotenv from "dotenv"
 dotenv.config()
-import { hash as _hash, compare } from 'bcrypt';
+import { hash as _hash, compare } from "bcrypt"
 
 export default new class Hash {
     /** hashCredentials: Async function which hashes the user's password
@@ -9,9 +9,9 @@ export default new class Hash {
      * @returns hashedData: Hashed Password
      */
     async hashCredentials(unhashedData) {
-        const saltRounds = parseInt(process.env.SALT_ROUNDS, 10);
+        const saltRounds = parseInt(process.env.SALT_ROUNDS, 10)
         try {
-            const hashedData = await _hash(unhashedData, saltRounds);
+            const hashedData = await _hash(unhashedData, saltRounds)
             return (hashedData)
         } catch (error) {
         }
@@ -25,10 +25,10 @@ export default new class Hash {
      */
     async checkPassword(plaintextPassword, hashedPassword) {
         try {
-            const isMatch = await compare(plaintextPassword, hashedPassword);
-            return isMatch;
+            const isMatch = await compare(plaintextPassword, hashedPassword)
+            return isMatch
         } catch (error) {
-            return false;
+            return false
         }
     }
-}();
+}()

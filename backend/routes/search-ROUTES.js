@@ -1,11 +1,11 @@
-import express from "express";
-import { 
-    searchByQuery, 
-    fetchUsers, 
-    fetchAllLanguages, 
-    fetchAllServicesAndCategories,
-    fetchAllInsurances
-} from "../controllers/search-CTRL.js";
+import express from "express"
+import {
+  searchByQuery,
+  fetchUsers,
+  fetchAllLanguages,
+  fetchAllServicesAndCategories,
+  fetchAllInsurances
+} from "../controllers/search-CTRL.js"
 
 const router = express.Router()
 
