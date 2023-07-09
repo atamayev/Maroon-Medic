@@ -20,7 +20,7 @@ export default function LoginAndRegistrationForm({
       return "password"
     }
     if (loginOrSignUp === "Sign up") {
-      return(
+      return (
         <FormGroup
           id = "confirm-password"
           label = "Password Confirmation"
@@ -28,7 +28,7 @@ export default function LoginAndRegistrationForm({
           placeholder = "Confirm Password"
           onChange = {(event) => setPasswordConfirm(event.target.value)}
           required
-      />
+        />
       )
     }
   }
@@ -97,7 +97,7 @@ export default function LoginAndRegistrationForm({
           />
 
           {renderPasswordConfirm()}
-          <Button onClick = {e => (setShowPassword(!showPassword))} className = "mt-3">
+          <Button onClick = {() => (setShowPassword(!showPassword))} className = "mt-3">
             {renderHideOrShowPassword()}
           </Button>
 
@@ -107,8 +107,8 @@ export default function LoginAndRegistrationForm({
             {loginOrSignUp}
           </Button>
         </Form>
-          {renderSubLoginInfo()}
-          {renderSubRegisterInfo()}
+        {renderSubLoginInfo()}
+        {renderSubRegisterInfo()}
       </Card.Body>
     </Card>
   )

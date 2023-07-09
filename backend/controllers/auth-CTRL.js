@@ -3,11 +3,11 @@ dotenv.config()
 import _ from "lodash"
 import jwt from "jsonwebtoken"
 import dayjs from "dayjs"
-import Hash from "../db-and-security-and-helper-functions/hash.js"
-import { ID_to_UUID, UUID_to_ID } from "../db-and-security-and-helper-functions/UUID.js"
-import {connection, DB_Operation} from "../db-and-security-and-helper-functions/connect.js"
-import { loginHistory } from "../db-and-security-and-helper-functions/account-tracker.js"
-import { clearCookies } from "../db-and-security-and-helper-functions/cookie-operations.js"
+import Hash from "../db-and-security/hash.js"
+import { ID_to_UUID, UUID_to_ID } from "../db-and-security/UUID.js"
+import {connection, DB_Operation} from "../db-and-security/connect.js"
+import { loginHistory } from "../helper-functions/account-tracker.js"
+import { clearCookies } from "../utils/cookie-operations.js"
 
 /** jwtVerify verifies the user's token (held in cookie).
  *  It does this in two steps. First, it checks if the DoctorAccessToken is valid (verification). If verified, the UUID is extracted from the Access Token. The UUID is then searched in the DB
@@ -63,7 +63,7 @@ export async function jwtVerify (req, res) {
         return res.status(401).json({ shouldRedirect: true, redirectURL: redirectURL })
       }
     }
-  } catch(error) {
+  } catch (error) {
     let redirectURL
     if (response.type === "Doctor") redirectURL = "/vet-login"
     else if (response.type === "Patient") redirectURL = "/patient-login"
@@ -104,7 +104,7 @@ export async function login (req, res) {
     [results] = await connection.execute(sql, values)
     if (_.isEmpty(results)) return res.status(404).json("Username not found!")
     else hashedPassword = results[0].password
-  } catch(error) {
+  } catch (error) {
     return res.status(500).json({ error: "Problem with email selection" })
   }
 
@@ -112,7 +112,7 @@ export async function login (req, res) {
 
   try {
     bool = await Hash.checkPassword(password, hashedPassword)
-  } catch(error) {
+  } catch (error) {
     return res.status(500).json({ error: "Problem with checking password" })
   }
 
@@ -132,7 +132,7 @@ export async function login (req, res) {
     let token
     try {
       token = jwt.sign(payload, JWTKey)
-    } catch(error) {
+    } catch (error) {
       return res.status(500).json({ error: "Problem with Signing JWT" })
     }
 
@@ -189,7 +189,7 @@ export async function register (req, res) {
   let results
   try {
     [results] = await connection.execute(sql, values)
-  } catch(error) {
+  } catch (error) {
     return res.status(500).json({ error: "Problem with existing email search" })
   }
 
@@ -197,7 +197,7 @@ export async function register (req, res) {
   if (_.isEmpty(results)) {
     try {
       hashedPassword = await Hash.hashCredentials(password)
-    } catch(error) {
+    } catch (error) {
       return res.status(500).json({ error: "Problem with Password Hashing" })
     }
   } else return res.status(400).json("User already exists!")
@@ -211,7 +211,7 @@ export async function register (req, res) {
   let results1
   try {
     [results1] = await connection.execute(sql1, values1)
-  } catch(error) {
+  } catch (error) {
     return res.status(500).json({ error: "Problem with Data Insertion" })
   }
 
@@ -225,7 +225,7 @@ export async function register (req, res) {
 
     try {
       await connection.execute(sql2, values2)
-    } catch(error) {
+    } catch (error) {
       return res.status(500).json({ error: "Problem with Data Insertion" })
     }
   }
@@ -242,7 +242,7 @@ export async function register (req, res) {
   let token
   try {
     token = jwt.sign(payload, JWTKey)
-  } catch(error) {
+  } catch (error) {
     return res.status(500).json({ error: "Problem with Signing JWT" })
   }
 
@@ -301,7 +301,7 @@ export async function fetchLoginHistory (req, res) {
     const values = [User_ID]
     const [results] = await connection.execute(sql, values)
     return res.status(200).json(results)
-  } catch(error) {
+  } catch (error) {
     clearCookies(res, type)
     return res.status(401).json({ shouldRedirect: true, redirectURL: "/" })
   }
@@ -343,7 +343,7 @@ export async function changePassword (req, res) {
     } else {
       return res.status(400).json("Old Password is incorrect")
     }
-  } catch(error) {
+  } catch (error) {
     return res.status(500).json()
   }
 }
@@ -382,8 +382,8 @@ export async function logout (req, res) {
 
     await DB_Operation(logout.name, UUID_reference)
     try {
-      if(UUID) await connection.execute(sql, values)
-    } catch(error) {
+      if (UUID) await connection.execute(sql, values)
+    } catch (error) {
     }
 
     if (newUserUUID) {
@@ -391,14 +391,14 @@ export async function logout (req, res) {
       values = [newUserUUID]
       await connection.execute(sql, values)
     }
-  } catch(error) {
+  } catch (error) {
     // return res.status(500).json({ error: `Error in accessing DB` })
   }
 
   try {
     clearCookies(res, type)
     return res.status(200).json()
-  } catch(error) {
+  } catch (error) {
     return res.status(500).json({ error: `Error in logging ${type} out` })
   }
 }

@@ -1,14 +1,14 @@
 import { CardGroup } from "react-bootstrap"
-import SettingsLinks from "../../../components/settings-links.js";
-import { NonDoctorAccess } from "../../../components/user-type-unauth.js";
-import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification.js";
-import Header from "../../header.js";
-import DoctorHeader from "../doctor-header.js";
+import SettingsLinks from "../../../components/settings-links.js"
+import { NonDoctorAccess } from "../../../components/user-type-unauth.js"
+import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification.js"
+import Header from "../../header.js"
+import DoctorHeader from "../doctor-header.js"
 
 export default function DoctorSettingsCards() {
-  const { userType } = useSimpleUserVerification();
+  const { userType } = useSimpleUserVerification()
 
-  if (userType !== "Doctor") return <NonDoctorAccess/>;
+  if (userType !== "Doctor") return <NonDoctorAccess/>
 
   return (
     <>
@@ -21,4 +21,4 @@ export default function DoctorSettingsCards() {
       </CardGroup>
     </>
   )
-};
+}

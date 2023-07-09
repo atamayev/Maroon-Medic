@@ -101,7 +101,7 @@ const renderSelectYear = (personalInfo, setPersonalInfo) => {
           </option>
           {birthYears.map(year => (
             <option key = {year + 1} value = {year + 1}>
-            {year + 1}
+              {year + 1}
             </option>
           ))}
         </select>

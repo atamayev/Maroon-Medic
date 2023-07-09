@@ -1,8 +1,8 @@
 import _ from "lodash"
-import { Card } from "react-bootstrap";
+import { Card } from "react-bootstrap"
 
 export default function RenderServicedPetsSection(props) {
-  const { servicedPets } = props;
+  const { servicedPets } = props
   if (!_.isEmpty(servicedPets)) {
     return (
       <Card className = "card-bottom-margin">
@@ -18,19 +18,19 @@ export default function RenderServicedPetsSection(props) {
 }
 
 function renderServicedPets(servicedPets) {
-  const categories = {};
+  const categories = {}
   if (servicedPets) {
     servicedPets.forEach(Pet => {
-      if (!categories[Pet.pet_type]) categories[Pet.pet_type] = [];
-      categories[Pet.pet_type].push(Pet);
-    });
+      if (!categories[Pet.pet_type]) categories[Pet.pet_type] = []
+      categories[Pet.pet_type].push(Pet)
+    })
   }
 
   return (
     <>
-      {Object.entries(categories).map(([pet_type, pets]) => (
-        <div key = {pet_type} style = {{ marginBottom: "10px" }}>
-          <h3>{pet_type}</h3>
+      {Object.entries(categories).map(([petType, pets]) => (
+        <div key = {petType} style = {{ marginBottom: "10px" }}>
+          <h3>{petType}</h3>
           {pets.map(Pet => (
             <p key = {Pet.pet_listID}>
               {Pet.pet}

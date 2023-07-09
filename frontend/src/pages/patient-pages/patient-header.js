@@ -1,8 +1,8 @@
-import { Nav } from "react-bootstrap";
-import AccountNavHeader from "../../components/account-nav-header";
+import { Nav } from "react-bootstrap"
+import AccountNavHeader from "../../components/account-nav-header"
 
 export default function PatientHeader() {
-  const currentPath = window.location.pathname;
+  const currentPath = window.location.pathname
   return (
     <Nav justify variant = "pills" className = "justify-content-center">
       <AccountNavHeader
@@ -30,5 +30,5 @@ export default function PatientHeader() {
         active = {currentPath === "/patient-settings"}
       />
     </Nav>
-  );
-};
+  )
+}

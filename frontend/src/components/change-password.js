@@ -66,8 +66,8 @@ export default function ChangePassword(props) {
             required
           />
 
-          <Button onClick = {e => (setShowPassword(!showPassword))} className = "mt-3">
-          {renderHideOrShowPassword()}
+          <Button onClick = {() => (setShowPassword(!showPassword))} className = "mt-3">
+            {renderHideOrShowPassword()}
           </Button>
 
           {renderMessage()}

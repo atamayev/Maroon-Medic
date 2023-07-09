@@ -1,8 +1,8 @@
 import _ from "lodash"
-import { Card } from "react-bootstrap";
+import { Card } from "react-bootstrap"
 
 export default function RenderLocationsSection(props) {
-  const { addresses } = props;
+  const { addresses } = props
   if (!_.isEmpty(addresses)) {
     return (
       <Card className = "card-bottom-margin">
@@ -62,5 +62,5 @@ function renderLocations(addressesList) {
         {renderTimesSection(address)}
       </div>
     </div>
-  ));
+  ))
 }

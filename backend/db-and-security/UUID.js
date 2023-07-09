@@ -26,7 +26,7 @@ export async function ID_to_UUID(User_ID) {
   try {
     await connection.execute(sql, values)
     return UUID
-  } catch(error) {
+  } catch (error) {
     return (`error in ${ID_to_UUID.name}:`, error)
   }
 }
@@ -50,7 +50,7 @@ export async function UUID_to_ID(UUID) {
     if (_.isEmpty(incompleteID)) throw new Error(`No User_ID found for UUID: ${UUID}`)
     const ID = incompleteID[0].User_ID
     return ID
-  } catch(error) {
+  } catch (error) {
     throw new Error(`No User_ID found for UUID: ${UUID}`)
   }
 }

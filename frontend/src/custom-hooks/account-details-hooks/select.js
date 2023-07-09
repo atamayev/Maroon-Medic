@@ -1,24 +1,24 @@
 export const handleToggleCategory = (category, setExpandedCategories) => {
   setExpandedCategories(prevState => {
     if (prevState.includes(category)) {
-      return prevState.filter(cat => cat !== category);
+      return prevState.filter(cat => cat !== category)
     } else {
-      return [...prevState, category];
+      return [...prevState, category]
     }
-  });
-};
+  })
+}
 
-export const handleTogglePetType = (pet_type, setExpandedPetTypes) => {
+export const handleTogglePetType = (petType, setExpandedPetTypes) => {
   setExpandedPetTypes(prevState => {
-    if (prevState.includes(pet_type)) {
-      return prevState.filter(pt => pt !== pet_type);
+    if (prevState.includes(petType)) {
+      return prevState.filter(pt => pt !== petType)
     } else {
-      return [...prevState, pet_type];
+      return [...prevState, petType]
     }
-  });
-};
+  })
+}
 
 export const handleSelectCarousel = (selectedIndex, setCarouselIndex) => {
-  setCarouselIndex(selectedIndex);
+  setCarouselIndex(selectedIndex)
   // from React Bootstrap
-};
+}

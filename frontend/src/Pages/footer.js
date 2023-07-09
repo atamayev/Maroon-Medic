@@ -1,4 +1,4 @@
-import { MDBFooter, MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
+import { MDBFooter, MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit"
 import "../styles/footer.css"
 
 export default function Footer() {
@@ -54,17 +54,17 @@ export default function Footer() {
 
   return (
     <MDBFooter style = {{ backgroundColor: "rgb(51, 51, 51)" }}>
-        <MDBContainer className = "text-center text-md-start mt-5 w-100">
-          <MDBRow className = "mt-3">
-            {renderLeftFooterColumn()}
+      <MDBContainer className = "text-center text-md-start mt-5 w-100">
+        <MDBRow className = "mt-3">
+          {renderLeftFooterColumn()}
 
-            {renderCenterFooterColumn()}
+          {renderCenterFooterColumn()}
 
-            {renderRightFooterColumn()}
-          </MDBRow>
-        </MDBContainer>
+          {renderRightFooterColumn()}
+        </MDBRow>
+      </MDBContainer>
 
       {renderBottomFooterColumn()}
     </MDBFooter>
-  );
+  )
 }

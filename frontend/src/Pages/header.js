@@ -1,24 +1,24 @@
 import {useCallback, useState, useEffect, useContext } from "react"
-import {Dropdown} from "react-bootstrap";
-import {useLocation} from "react-router-dom";
+import {Dropdown} from "react-bootstrap"
+import {useLocation} from "react-router-dom"
 import logo from "../images/logo.svg"
-import pic from "../images/ProfileImage.jpg";
-import { SearchContext } from "../contexts/search-context";
-import AuthDataService from "../services/auth-data-service";
+import pic from "../images/ProfileImage.jpg"
+import { SearchContext } from "../contexts/search-context"
+import AuthDataService from "../services/auth-data-service"
 import { invalidUserAction } from "../custom-hooks/user-verification-snippets"
 import PrivateDoctorDataService from "../services/private-doctor-data-service"
-import PrivatePatientDataService from "../services/private-patient-data-service";
-import useSimpleUserVerification from "../custom-hooks/use-simple-user-verification";
+import PrivatePatientDataService from "../services/private-patient-data-service"
+import useSimpleUserVerification from "../custom-hooks/use-simple-user-verification"
 
 const handleKeyUp = (event) => {
   if (event.key === "Enter") {
     const value = event.target.value
     if (!value) {
       sessionStorage.setItem("searchTerm", "")
-      window.location.href = "/";
+      window.location.href = "/"
     } else {
       sessionStorage.setItem("searchTerm", value)
-      window.location.href = `/s/${value}`;
+      window.location.href = `/s/${value}`
     }
   }
 }
@@ -26,108 +26,108 @@ const handleKeyUp = (event) => {
 const handleSearch = (value, setSearchTerm) => {
   if (!value) {
     sessionStorage.setItem("searchTerm", "")
-    window.location.href = "/";
+    window.location.href = "/"
   } else {
-    setSearchTerm(value);
-    window.location.href = `/s/${value}`;
+    setSearchTerm(value)
+    window.location.href = `/s/${value}`
   }
-};
+}
 
 const handleHome = () => {
   sessionStorage.setItem("searchTerm", "")
-  window.location.href = "/";
+  window.location.href = "/"
 }
 
 function useSetHeaderData(userType) {
-  const [headerData, setHeaderData] = useState("");
+  const [headerData, setHeaderData] = useState("")
 
   const getHeaderData = async () => {
-    if (!userType) return;
+    if (!userType) return
     try {
-      let name;
+      let name
       if (userType === "Doctor") {
-        name = JSON.parse(sessionStorage.getItem("DoctorPersonalInfo")).LastName;
-        setHeaderData("Dr. " + name);
+        name = JSON.parse(sessionStorage.getItem("DoctorPersonalInfo")).LastName
+        setHeaderData("Dr. " + name)
       } else {
-        name = JSON.parse(sessionStorage.getItem("PatientPersonalInfo")).FirstName;
-        setHeaderData(name);
+        name = JSON.parse(sessionStorage.getItem("PatientPersonalInfo")).FirstName
+        setHeaderData(name)
       }
     } catch (error) {
-      if (error instanceof TypeError) await fetchPersonalInfo(userType, setHeaderData);
+      if (error instanceof TypeError) await fetchPersonalInfo(userType, setHeaderData)
     }
   }
 
   useEffect(() => {
-    getHeaderData();
-  }, [userType]);
+    getHeaderData()
+  }, [userType])
 
-  return {headerData, setHeaderData};
+  return {headerData, setHeaderData}
 }
 
 async function fetchPersonalInfo (type, setHeaderData) {
-  let response;
+  let response
   if (type === "Doctor") {
     try {
-      response = await PrivateDoctorDataService.fillPersonalData();
+      response = await PrivateDoctorDataService.fillPersonalData()
     } catch (error) {
       if (error.response.status === 401) invalidUserAction(error.response.data)
     }
-   }
-   else if (type === "Patient") {
+  }
+  else if (type === "Patient") {
     try {
-      response = await PrivatePatientDataService.fillPersonalData();
+      response = await PrivatePatientDataService.fillPersonalData()
     } catch (error) {
       if (error.response.status === 401) invalidUserAction(error.response.data)
     }
   }
 
   if (response) {
-    setHeaderData(response.data.FirstName);
+    setHeaderData(response.data.FirstName)
     sessionStorage.setItem(`${type}PersonalInfo`, JSON.stringify(response.data))
   }
-};
+}
 
 const retrieveNameFromStorage = (setHeaderData) => {
   try {
-    const name = JSON.parse(sessionStorage.getItem("DoctorPersonalInfo")).LastName;
-    setHeaderData("Dr. "+ name);
-    return;
-  } catch(error) {
+    const name = JSON.parse(sessionStorage.getItem("DoctorPersonalInfo")).LastName
+    setHeaderData("Dr. " + name)
+    return
+  } catch (error) {
   }
   try {
-    const name = JSON.parse(sessionStorage.getItem("PatientPersonalInfo")).FirstName;
-    setHeaderData(name);
-    return;
-  } catch(error) {
+    const name = JSON.parse(sessionStorage.getItem("PatientPersonalInfo")).FirstName
+    setHeaderData(name)
+    return
+  } catch (error) {
   }
 }
 
 export default function Header (props) {
-  const { dropdown, search } = props;
-  const location = useLocation();
-  const { userType } = useSimpleUserVerification(false);
-  const { headerData, setHeaderData } = useSetHeaderData(userType);
-  const { searchTerm, setSearchTerm } = useContext(SearchContext);
+  const { dropdown, search } = props
+  const location = useLocation()
+  const { userType } = useSimpleUserVerification(false)
+  const { headerData, setHeaderData } = useSetHeaderData(userType)
+  const { searchTerm, setSearchTerm } = useContext(SearchContext)
 
   useEffect(() => {
     if (location.pathname !== "/new-vet" && location.pathname !== "/new-patient") {
       retrieveNameFromStorage(setHeaderData)
     }
-  }, []);
+  }, [])
 
   const handleLogout = async () => {
     try {
-      const response = await AuthDataService.logout();
-      if (response.status === 200) sessionStorage.clear();
-    } catch(error) {
+      const response = await AuthDataService.logout()
+      if (response.status === 200) sessionStorage.clear()
+    } catch (error) {
     }
-    handleRefresh();
+    handleRefresh()
   }
 
   const handleRefresh = useCallback(() => {
-    if (location.pathname === "/") window.location.reload();
-    else window.location.href = "/";
-  }, [location]);
+    if (location.pathname === "/") window.location.reload()
+    else window.location.href = "/"
+  }, [location])
 
   const renderHeaderData = () => {
     if (headerData) return headerData
@@ -150,9 +150,9 @@ export default function Header (props) {
             {renderDropdownItems()}
           </Dropdown.Menu>
         </Dropdown>
-      );
+      )
     }
-  };
+  }
 
   const renderDropdownItems = () => {
     if (dropdown === true) {

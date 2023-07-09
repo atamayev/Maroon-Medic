@@ -15,5 +15,4 @@ router.get("/fetch-languages-list", fetchAllLanguages)
 router.get("/fetch-services-and-categories-list", fetchAllServicesAndCategories)
 router.get("/fetch-insurances-list", fetchAllInsurances)
 
-
 export default router

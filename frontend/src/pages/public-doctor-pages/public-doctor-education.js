@@ -1,14 +1,14 @@
 import _ from "lodash"
-import { Card } from "react-bootstrap";
+import { Card } from "react-bootstrap"
+import { capitalizeFirstLetter } from "../../utils/capitalization"
 
 export default function RenderEducationSection(props) {
-  const { preVetEducation, vetEducation, personalData } = props;
+  const { preVetEducation, vetEducation, personalData } = props
   if (!_.isEmpty(preVetEducation) && !_.isEmpty(vetEducation)) {
-    const capitalizedLastName = personalData.LastName.charAt(0).toUpperCase() + personalData.LastName.slice(1);
-    return(
+    return (
       <Card className = "card-bottom-margin">
         <Card.Header>
-          Where did Dr. {capitalizedLastName} go to school?
+          Where did Dr. {capitalizeFirstLetter(personalData.LastName)} go to school?
         </Card.Header>
         <Card.Body>
           <h3>Pre-Veterinary Education</h3>
@@ -38,4 +38,4 @@ function renderEducation(educationList, preVetOrVet, hasMajor) {
       ))}
     </>
   )
-};
+}

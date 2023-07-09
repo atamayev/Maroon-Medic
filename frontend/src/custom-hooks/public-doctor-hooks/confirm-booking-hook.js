@@ -1,4 +1,4 @@
-import CalendarDataService from "../../services/calendar-data-service";
+import CalendarDataService from "../../services/calendar-data-service"
 
 export async function confirmBooking(navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData, message) {
   let AppointmentObject = {
@@ -10,16 +10,16 @@ export async function confirmBooking(navigate, selectedService, selectedLocation
     AddressesID: selectedLocation.addressesID,
     InstantBook: selectedLocation.instant_book,
     message: message
-  };
+  }
 
   try {
-    const response = await CalendarDataService.makeAppointment(AppointmentObject);
+    const response = await CalendarDataService.makeAppointment(AppointmentObject)
     if (response.status === 200) {
-      sessionStorage.removeItem("bookingDetails");
+      sessionStorage.removeItem("bookingDetails")
       // Ensures that the user is not able to navigate back to finalize booking right after making an appointment:
-      navigate("/patient-dashboard", { state: { finalized: true } });
+      navigate("/patient-dashboard", { state: { finalized: true } })
     }
-  } catch(error) {
+  } catch (error) {
     // if (error.response.status === 401) invalidUserAction(error.response.data)
   }
-};
+}

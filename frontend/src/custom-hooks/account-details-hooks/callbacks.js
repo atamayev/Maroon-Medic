@@ -1,7 +1,7 @@
-import { useCallback } from "react";
-import { handleDeleteLanguage, handleDeleteSpecialty } from "./delete";
-import { handleAddLanguage, handleAddSpecialty, handleAddEducation } from "./add";
-import { savePets, savePreVetEducation, saveVetEducation } from "./save-doctor-account-details";
+import { useCallback } from "react"
+import { handleDeleteLanguage, handleDeleteSpecialty } from "./delete"
+import { handleAddLanguage, handleAddSpecialty, handleAddEducation } from "./add"
+import { savePets, savePreVetEducation, saveVetEducation } from "./save-doctor-account-details"
 
 export const useHandleDeleteLanguage = (spokenLanguages, setSpokenLanguages, setLanguagesConfirmation, doctorOrPatient) => {
   return useCallback(
@@ -12,11 +12,11 @@ export const useHandleDeleteLanguage = (spokenLanguages, setSpokenLanguages, set
         setSpokenLanguages,
         setLanguagesConfirmation,
         doctorOrPatient
-      );
+      )
     },
     [spokenLanguages, setSpokenLanguages, setLanguagesConfirmation]
-  );
-};
+  )
+}
 
 export const useHandleAddLanguage = (spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, doctorOrPatient) => {
   return useCallback((e) => {
@@ -27,9 +27,9 @@ export const useHandleAddLanguage = (spokenLanguages, setSpokenLanguages, listDe
       listDetails,
       setLanguagesConfirmation,
       doctorOrPatient
-    );
-  }, [spokenLanguages, listDetails, setSpokenLanguages, setLanguagesConfirmation]);
-};
+    )
+  }, [spokenLanguages, listDetails, setSpokenLanguages, setLanguagesConfirmation])
+}
 
 export const useHandleDeleteSpecialty = (doctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation) => {
   return useCallback(
@@ -43,7 +43,7 @@ export const useHandleDeleteSpecialty = (doctorSpecialties, setDoctorSpecialties
       )
     },
     [doctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation]
-  );
+  )
 }
 
 export const useHandleAddSpecialty = (doctorSpecialties, setDoctorSpecialties, setSelectedOrganization, listDetails, setSpecialtiesConfirmation) => {
@@ -56,34 +56,34 @@ export const useHandleAddSpecialty = (doctorSpecialties, setDoctorSpecialties, s
       listDetails,
       setSpecialtiesConfirmation
     )
-  }, [doctorSpecialties, listDetails, setSelectedOrganization, setDoctorSpecialties, setSpecialtiesConfirmation]);
+  }, [doctorSpecialties, listDetails, setSelectedOrganization, setDoctorSpecialties, setSpecialtiesConfirmation])
 }
 
 export const useHandleCheckboxChange = (servicedPets, setServicedPets, setPetsConfirmation) => {
   return useCallback((event, pet) => {
     if (event.target.checked) {
-      const newServicedPets = [...servicedPets, pet];
-      setServicedPets(newServicedPets);
-      savePets(pet.pet_listID, newServicedPets, setServicedPets, setPetsConfirmation, "add");
+      const newServicedPets = [...servicedPets, pet]
+      setServicedPets(newServicedPets)
+      savePets(pet.pet_listID, newServicedPets, setServicedPets, setPetsConfirmation, "add")
     } else {
-      const newServicedPets = servicedPets.filter(p => p.pet_listID !== pet.pet_listID);
-      setServicedPets(newServicedPets);
-      savePets(pet.pet_listID, newServicedPets, setServicedPets, setPetsConfirmation, "delete");
+      const newServicedPets = servicedPets.filter(p => p.pet_listID !== pet.pet_listID)
+      setServicedPets(newServicedPets)
+      savePets(pet.pet_listID, newServicedPets, setServicedPets, setPetsConfirmation, "delete")
     }
-  }, [servicedPets, setServicedPets, setPetsConfirmation]);
+  }, [servicedPets, setServicedPets, setPetsConfirmation])
 }
 
 export const useHandleDeletePreVetEducation = (preVetEducation, setPreVetEducation, listDetails, setPreVetEducationConfirmation) => {
-  return useCallback((pre_vet_education) => {
+  return useCallback((PreVetEducation) => {
     savePreVetEducation(
-      pre_vet_education.pre_vet_education_mappingID,
+      PreVetEducation.pre_vet_education_mappingID,
       preVetEducation,
       setPreVetEducation,
       listDetails,
       setPreVetEducationConfirmation,
       "delete"
-    );
-  }, [preVetEducation, setPreVetEducation, setPreVetEducationConfirmation]);
+    )
+  }, [preVetEducation, setPreVetEducation, setPreVetEducationConfirmation])
 }
 
 export const useHandleAddPreVetEducation = (
@@ -98,14 +98,14 @@ export const useHandleAddPreVetEducation = (
       selectedPreVetEducationType, setSelectedPreVetEducationType,
       timeState, setTimeState,
       selectedMajor, setSelectedMajor
-    );
+    )
   }, [
     selectedPreVetSchool, setSelectedPreVetSchool,
     selectedPreVetEducationType, setSelectedPreVetEducationType,
     timeState, setTimeState,
     selectedMajor, setSelectedMajor
-  ]);
-};
+  ])
+}
 
 export const useSaveAddPreVetEducation = (
   preVetEducation, setPreVetEducation,
@@ -119,21 +119,21 @@ export const useSaveAddPreVetEducation = (
       listDetails,
       setPreVetEducationConfirmation,
       "add"
-    );
-  }, [preVetEducation, setPreVetEducation, listDetails, setPreVetEducationConfirmation]);
-};
+    )
+  }, [preVetEducation, setPreVetEducation, listDetails, setPreVetEducationConfirmation])
+}
 
 export const useHandleDeleteVetEducation = (vetEducation, setVetEducation, listDetails, setVetEducationConfirmation) => {
-  return useCallback((vet_education) => {
+  return useCallback((VetEducation) => {
     saveVetEducation(
-      vet_education.vet_education_mappingID,
+      VetEducation.vet_education_mappingID,
       vetEducation,
       setVetEducation,
       listDetails,
       setVetEducationConfirmation,
       "delete"
-    );
-  }, [vetEducation, setVetEducation, setVetEducationConfirmation]);
+    )
+  }, [vetEducation, setVetEducation, setVetEducationConfirmation])
 }
 
 export const useHandleAddVetEducation = (
@@ -146,13 +146,13 @@ export const useHandleAddVetEducation = (
       selectedVetSchool, setSelectedVetSchool,
       selectedVetEducationType, setSelectedVetEducationType,
       timeState, setTimeState,
-    );
+    )
   }, [
     selectedVetSchool, setSelectedVetSchool,
     selectedVetEducationType, setSelectedVetEducationType,
     timeState, setTimeState,
-  ]);
-};
+  ])
+}
 
 export const useSaveAddVetEducation = (
   vetEducation, setVetEducation,
@@ -166,6 +166,6 @@ export const useSaveAddVetEducation = (
       listDetails,
       setVetEducationConfirmation,
       "add"
-    );
-  }, [vetEducation, setVetEducation, listDetails, setVetEducationConfirmation]);
-};
+    )
+  }, [vetEducation, setVetEducation, listDetails, setVetEducationConfirmation])
+}

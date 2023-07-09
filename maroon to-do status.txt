@@ -4,7 +4,8 @@ To-do:
 ASAP:
 -make languages it's own component - make doctor/patient both use it
 -consider combing the two add preVet Education callback functions
-
+-finish linting backend - indentations
+-go through backend code, look for repetetive code to outsource to utils (some of the date code seems repetetive)
 -simpify all cases in save doctor details where shouldSave is. Makes it seem very complex.
 	consider combining some of the inital shouldSave logic:
 	ie:
@@ -22,7 +23,7 @@ ASAP:
 			setAddressesConfirmation({messageType: "same"})
 }
 make the phone number input in the location.js only accept numbers (Phone input)
-
+Run lint tests to check for camelcase, and for over 200 line fcns
 -CODE CONCISION: Cut any function more than 100 lines into parts. I don't want massive functions - most can be distilled into smaller parts
 
 -duplicate entries need to be accounted for when added to DB. Unique constraints. when the same data is entered into the pre_vet_edcatinn_mapping table, it gives an error, but doesn't enter the data.

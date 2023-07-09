@@ -1,7 +1,7 @@
 import dayjs from "dayjs"
-import { UUID_to_ID } from "../db-and-security-and-helper-functions/UUID.js"
-import {connection, DB_Operation} from "../db-and-security-and-helper-functions/connect.js"
-import { clearCookies } from "../db-and-security-and-helper-functions/cookie-operations.js"
+import { UUID_to_ID } from "../db-and-security/UUID.js"
+import {connection, DB_Operation} from "../db-and-security/connect.js"
+import { clearCookies } from "../utils/cookie-operations.js"
 
 /** makeAppointment is called when a patient makes an appointment
  *  First, finds the Doctor_ID corresponding to the NVI of the appointment Doctor
@@ -12,62 +12,62 @@ import { clearCookies } from "../db-and-security-and-helper-functions/cookie-ope
  *  DOCUMENTATION LAST UPDATED 6/4/23
  */
 export async function makeAppointment(req, res) {
-    const AppointmentObject = req.body.AppointmentObject
-    const NVI = AppointmentObject.NVI
+  const AppointmentObject = req.body.AppointmentObject
+  const NVI = AppointmentObject.NVI
 
-    const [Doctor_specific_info, Appointments] = ["Doctor_specific_info", "Appointments"]
-    const sql = `SELECT Doctor_ID FROM ${Doctor_specific_info} WHERE NVI = ?`
-    const values = [NVI]
-    let DoctorID
+  const [Doctor_specific_info, Appointments] = ["Doctor_specific_info", "Appointments"]
+  const sql = `SELECT Doctor_ID FROM ${Doctor_specific_info} WHERE NVI = ?`
+  const values = [NVI]
+  let DoctorID
 
-    await DB_Operation(makeAppointment.name, Doctor_specific_info)
-    try {
-        const [results] = await connection.execute(sql, values)
-        DoctorID = results[0].Doctor_ID
-    } catch(error) {
-        return res.status(500).json(error)
-    }
+  await DB_Operation(makeAppointment.name, Doctor_specific_info)
+  try {
+    const [results] = await connection.execute(sql, values)
+    DoctorID = results[0].Doctor_ID
+  } catch (error) {
+    return res.status(500).json(error)
+  }
 
-    const PatientUUID = req.cookies.PatientUUID
-    let PatientID
-    try {
-        PatientID = await UUID_to_ID(PatientUUID)
-    } catch (error) {
-        clearCookies(res, "Patient")
-        return res.status(401).json({ shouldRedirect: true, redirectURL: "/patient-login" })
-    }
+  const PatientUUID = req.cookies.PatientUUID
+  let PatientID
+  try {
+    PatientID = await UUID_to_ID(PatientUUID)
+  } catch (error) {
+    clearCookies(res, "Patient")
+    return res.status(401).json({ shouldRedirect: true, redirectURL: "/patient-login" })
+  }
 
-    const newDateObject = new Date()
-    const format = "YYYY-MM-DD HH:mm:ss"
-    const createdAt = dayjs(newDateObject).format(format)
+  const newDateObject = new Date()
+  const format = "YYYY-MM-DD HH:mm:ss"
+  const createdAt = dayjs(newDateObject).format(format)
 
-    // Remove "th", "st", "nd", "rd" from the date
-    const dateStr = AppointmentObject.appointmentDate.replace(/\b(\d+)(th|st|nd|rd)\b/g, "$1")
-    const timeStr = AppointmentObject.appointmentTime
+  // Remove "th", "st", "nd", "rd" from the date
+  const dateStr = AppointmentObject.appointmentDate.replace(/\b(\d+)(th|st|nd|rd)\b/g, "$1")
+  const timeStr = AppointmentObject.appointmentTime
 
-    // Combine date and time into a single string
-    const dateTimeStr = `${dateStr} ${timeStr}`
+  // Combine date and time into a single string
+  const dateTimeStr = `${dateStr} ${timeStr}`
 
-    const dateTimeStrFormatted = dateTimeStr.split(", ").slice(1).join(" ")
+  const dateTimeStrFormatted = dateTimeStr.split(", ").slice(1).join(" ")
 
-    // Create a new Dayjs object from the string
-    const dateTime = dayjs(dateTimeStrFormatted)
+  // Create a new Dayjs object from the string
+  const dateTime = dayjs(dateTimeStrFormatted)
 
-    // Format the Dayjs object into MySQL DATETIME format
-    const mysqlDateTime = dateTime.format("YYYY-MM-DD HH:mm:ss")
+  // Format the Dayjs object into MySQL DATETIME format
+  const mysqlDateTime = dateTime.format("YYYY-MM-DD HH:mm:ss")
 
-    const sql2 = `INSERT INTO ${Appointments}
-        (appointment_date, appointment_price, patient_message, Doctor_confirmation_status, Service_and_category_list_ID, Patient_ID, Doctor_ID, Addresses_ID, Created_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
-    const values2 = [mysqlDateTime, AppointmentObject.appointmentPrice, AppointmentObject.message, AppointmentObject.InstantBook, AppointmentObject.Service_and_category_list_ID, PatientID, DoctorID, AppointmentObject.AddressesID, createdAt]
+  const sql2 = `INSERT INTO ${Appointments}
+      (appointment_date, appointment_price, patient_message, Doctor_confirmation_status, Service_and_category_list_ID, Patient_ID, Doctor_ID, Addresses_ID, Created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+  const values2 = [mysqlDateTime, AppointmentObject.appointmentPrice, AppointmentObject.message, AppointmentObject.InstantBook, AppointmentObject.Service_and_category_list_ID, PatientID, DoctorID, AppointmentObject.AddressesID, createdAt]
 
-    await DB_Operation(makeAppointment.name, Appointments)
-    try {
-        await connection.execute(sql2, values2)
-        return res.status(200).json()
-    } catch(error) {
-        return res.status(500).json(error)
-    }
+  await DB_Operation(makeAppointment.name, Appointments)
+  try {
+    await connection.execute(sql2, values2)
+    return res.status(200).json()
+  } catch (error) {
+    return res.status(500).json(error)
+  }
 }
 
 /** getDoctorCalendarDetails retreives a certain Doctor's calendar details
@@ -79,40 +79,40 @@ export async function makeAppointment(req, res) {
  *  DOCUMENTATION LAST UPDATED 6/4/23
  */
 export async function getDoctorCalendarDetails(req, res) {
-    const DoctorUUID = req.cookies.DoctorUUID
-    let DoctorID
+  const DoctorUUID = req.cookies.DoctorUUID
+  let DoctorID
 
-    try {
-        DoctorID = await UUID_to_ID(DoctorUUID)
-    } catch (error) {
-        clearCookies(res, "Doctor")
-        return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" })
-    }
+  try {
+    DoctorID = await UUID_to_ID(DoctorUUID)
+  } catch (error) {
+    clearCookies(res, "Doctor")
+    return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" })
+  }
 
-    const [Appointments, service_and_category_list, service_mapping, addresses, basic_user_info] =
-        ["Appointments", "service_and_category_list", "service_mapping", "addresses", "basic_user_info"]
+  const [Appointments, service_and_category_list, service_mapping, addresses, basic_user_info] =
+      ["Appointments", "service_and_category_list", "service_mapping", "addresses", "basic_user_info"]
 
-    const sql = `SELECT
-            ${Appointments}.AppointmentsID, ${Appointments}.appointment_date, ${Appointments}.appointment_price, ${Appointments}.patient_message, ${Appointments}.Doctor_confirmation_status, ${Appointments}.Created_at,
-            ${service_and_category_list}.Category_name, ${service_and_category_list}.Service_name,
-            ${service_mapping}.Service_time,
-            ${addresses}.address_title, ${addresses}.address_line_1, ${addresses}.address_line_2, ${addresses}.city, ${addresses}.state, ${addresses}.zip, ${addresses}.country,
-            ${basic_user_info}.FirstName AS Patient_FirstName, ${basic_user_info}.LastName AS Patient_LastName
-        FROM ${Appointments}
-            INNER JOIN ${service_and_category_list} ON ${Appointments}.${service_and_category_list}_ID = ${service_and_category_list}.${service_and_category_list}ID
-            INNER JOIN ${addresses} ON ${Appointments}.${addresses}_ID = ${addresses}.${addresses}ID AND ${addresses}.Doctor_ID = ${Appointments}.Doctor_ID
-            INNER JOIN ${basic_user_info} ON ${Appointments}.Patient_ID = ${basic_user_info}.User_ID
-            INNER JOIN service_mapping ${service_mapping} ON ${Appointments}.Service_and_category_list_ID = ${service_mapping}.Service_and_Category_ID AND ${Appointments}.Doctor_ID = ${service_mapping}.Doctor_ID
-        WHERE
-            ${Appointments}.Doctor_ID = ?`
+  const sql = `SELECT
+          ${Appointments}.AppointmentsID, ${Appointments}.appointment_date, ${Appointments}.appointment_price, ${Appointments}.patient_message, ${Appointments}.Doctor_confirmation_status, ${Appointments}.Created_at,
+          ${service_and_category_list}.Category_name, ${service_and_category_list}.Service_name,
+          ${service_mapping}.Service_time,
+          ${addresses}.address_title, ${addresses}.address_line_1, ${addresses}.address_line_2, ${addresses}.city, ${addresses}.state, ${addresses}.zip, ${addresses}.country,
+          ${basic_user_info}.FirstName AS Patient_FirstName, ${basic_user_info}.LastName AS Patient_LastName
+      FROM ${Appointments}
+          INNER JOIN ${service_and_category_list} ON ${Appointments}.${service_and_category_list}_ID = ${service_and_category_list}.${service_and_category_list}ID
+          INNER JOIN ${addresses} ON ${Appointments}.${addresses}_ID = ${addresses}.${addresses}ID AND ${addresses}.Doctor_ID = ${Appointments}.Doctor_ID
+          INNER JOIN ${basic_user_info} ON ${Appointments}.Patient_ID = ${basic_user_info}.User_ID
+          INNER JOIN service_mapping ${service_mapping} ON ${Appointments}.Service_and_category_list_ID = ${service_mapping}.Service_and_Category_ID AND ${Appointments}.Doctor_ID = ${service_mapping}.Doctor_ID
+      WHERE
+          ${Appointments}.Doctor_ID = ?`
 
-    const values = [DoctorID]
-    await DB_Operation(getDoctorCalendarDetails.name, Appointments)
+  const values = [DoctorID]
+  await DB_Operation(getDoctorCalendarDetails.name, Appointments)
 
-    try {
-        const [results] = await connection.execute(sql, values)
-        return res.status(200).json(results)
-    } catch(error) {
-        return res.status(400).json([])
-    }
+  try {
+    const [results] = await connection.execute(sql, values)
+    return res.status(200).json(results)
+  } catch (error) {
+    return res.status(400).json([])
+  }
 }

@@ -26,7 +26,7 @@
         "react/react-in-jsx-scope": "off",
         "react/jsx-uses-react": "off",
 
-        "max-lines-per-function": ["warn", {"max": 200, "skipBlankLines": true, "skipComments": true}],
+        // "max-lines-per-function": ["warn", {"max": 200, "skipBlankLines": true, "skipComments": true}],
 
         "linebreak-style": [
             "error",
@@ -41,10 +41,13 @@
             "never"
         ],
         "no-empty": ["error", { "allowEmptyCatch": true }],
-        "eol-last": ["error", "always"],
+        "eol-last": ["warn", "always"],
         "no-unused-vars": "warn",
         "eqeqeq": "error",
-        "camelcase": "error",
+        "space-infix-ops": "warn",
+        "space-before-blocks": "warn",
+        "keyword-spacing": ["warn", { "before": true, "after": true }],
+        "camelcase": "warn",
         "no-console": "warn"
     }
 }

@@ -1,13 +1,13 @@
 import _ from "lodash"
-import { Card, Button } from "react-bootstrap";
-import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
-import { handleToggleCategory } from "../../../custom-hooks/account-details-hooks/select";
-import { saveServices } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details";
-import { handleNumericInput, preventNonNumericalInput, validateDropInput, validatePasteInput } from "../../../utils/input-validation";
-import { renderMessageSection } from "../../../components/saved-message-section";
+import { Card, Button } from "react-bootstrap"
+import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
+import { handleToggleCategory } from "../../../custom-hooks/account-details-hooks/select"
+import { saveServices } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details"
+import { handleNumericInput, preventNonNumericalInput, validateDropInput, validatePasteInput } from "../../../utils/input-validation"
+import { renderMessageSection } from "../../../components/saved-message-section"
 
 export default function RenderServiceSection (props) {
-  return(
+  return (
     <Card className = "mb-3">
       <Card.Header>
         Vet Services
@@ -16,19 +16,19 @@ export default function RenderServiceSection (props) {
         {RenderIsVetServices(props)}
       </Card.Body>
     </Card>
-  );
-};
+  )
+}
 
 function RenderIsVetServices (props) {
-  const [servicesConfirmation, setServicesConfirmation] = useConfirmationMessage();
-  const { listDetails, providedServices, setProvidedServices, expandedCategories, setExpandedCategories } = props;
+  const [servicesConfirmation, setServicesConfirmation] = useConfirmationMessage()
+  const { listDetails, providedServices, setProvidedServices, expandedCategories, setExpandedCategories } = props
 
-  const categories = {};
+  const categories = {}
   if (listDetails.servicesAndCategories) {
     listDetails.servicesAndCategories.forEach(service => {
-      if (!categories[service.Category_name]) categories[service.Category_name] = [];
-      categories[service.Category_name].push(service);
-    });
+      if (!categories[service.Category_name]) categories[service.Category_name] = []
+      categories[service.Category_name].push(service)
+    })
   }
 
   const timeOptions = [
@@ -40,14 +40,14 @@ function RenderIsVetServices (props) {
     "1 day",
     "2 days",
     "3 days",
-  ];
+  ]
 
   const areAllTimesSet = (services) => {
-    return services.every(service => service.Service_time !== null && service.Service_time !== "");
+    return services.every(service => service.Service_time !== null && service.Service_time !== "")
   }
 
   const areAllPricesSet = (services) => {
-    return services.every(service => service.Service_price !== null && service.Service_price !== "");
+    return services.every(service => service.Service_price !== null && service.Service_price !== "")
   }
 
   if (_.isEmpty(_.uniq(listDetails.servicesAndCategories?.map((item) => item.Category_name)))) return <>Loading...</>
@@ -68,7 +68,7 @@ function RenderIsVetServices (props) {
     return (
       <div>
         {services.map(service => {
-          const selectedService = providedServices.find(s => s.service_and_category_listID === service.service_and_category_listID);
+          const selectedService = providedServices.find(s => s.service_and_category_listID === service.service_and_category_listID)
           return (
             <div key = {service.service_and_category_listID} style = {{ paddingLeft: "20px" }}>
               {renderServiceCheckbox(service, category)}
@@ -108,11 +108,11 @@ function RenderIsVetServices (props) {
         onChange = {(e) => {
           const updatedServices = providedServices.map((s) => {
             if (s.service_and_category_listID === service.service_and_category_listID) {
-              return { ...s, Service_time: e.target.value };
+              return { ...s, Service_time: e.target.value }
             }
-            return s;
-          });
-          setProvidedServices(updatedServices);
+            return s
+          })
+          setProvidedServices(updatedServices)
         }}
       >
         <option value = "" disabled>
@@ -124,7 +124,7 @@ function RenderIsVetServices (props) {
           </option>
         ))}
       </select>
-    );
+    )
   }
 
   const renderServicePriceInput = (service, selectedService) => {
@@ -140,19 +140,19 @@ function RenderIsVetServices (props) {
           (newVal) => {
             const updatedServices = providedServices.map(s => {
               if (s.service_and_category_listID === service.service_and_category_listID) {
-                return {...s, Service_price: newVal};
+                return {...s, Service_price: newVal}
               }
-              return s;
-            });
-            setProvidedServices(updatedServices);
+              return s
+            })
+            setProvidedServices(updatedServices)
           }
         )}
         onKeyUp = {preventNonNumericalInput}
         onPaste = {validatePasteInput}
         onDrop = {validateDropInput}
       />
-    );
-  };
+    )
+  }
 
   const renderSaveButton = () => {
     return (
@@ -169,17 +169,17 @@ function RenderIsVetServices (props) {
   const renderToggleCategory = (category, services) => {
     if (services.length <= 1) return null
 
-    const isOpen = expandedCategories.includes(category);
+    const isOpen = expandedCategories.includes(category)
     const renderIsOpen = () => {
-      if (isOpen) return "^";
-      return "v";
+      if (isOpen) return "^"
+      return "v"
     }
 
     return (
       <Button onClick={() => handleToggleCategory(category, setExpandedCategories)}>
         {renderIsOpen()}
       </Button>
-    );
+    )
   }
 
   return (
@@ -197,4 +197,4 @@ function RenderIsVetServices (props) {
       {renderMessageSection(servicesConfirmation, "Services")}
     </>
   )
-};
+}

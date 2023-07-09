@@ -9,7 +9,7 @@ import { useHandleAddPreVetEducation, useSaveAddPreVetEducation } from "../../..
 import EducationTime from "./education-time"
 
 export default function RenderPreVetEducationSection(props) {
-  return(
+  return (
     <Card className = "mb-3 mt-3">
       <Card.Header>
         Pre-vet education
@@ -42,10 +42,10 @@ function RenderIsPreVetEducation(props) {
     const newDeleteStatuses = { ...deleteStatuses }
 
     // Go through each status
-    for (const pre_vet_education_mappingID in newDeleteStatuses) {
+    for (const preVetEducationMappingID in newDeleteStatuses) {
       // If the language ID does not exist in the vetEducation list, delete the status
-      if (!preVetEducation.some((pre_vet_education) => pre_vet_education.pre_vet_education_mappingID === pre_vet_education_mappingID)) {
-        delete newDeleteStatuses[pre_vet_education_mappingID]
+      if (!preVetEducation.some((preVetEducation) => preVetEducation.pre_vet_education_mappingID === preVetEducationMappingID)) {
+        delete newDeleteStatuses[preVetEducationMappingID]
       }
     }
 
@@ -164,24 +164,24 @@ function RenderIsPreVetEducation(props) {
 
   const handleDeleteOnClick = useHandleDeletePreVetEducation(preVetEducation, setPreVetEducation, listDetails, setPreVetEducationConfirmation)
 
-  const RenderSingleSavedEducation = (pre_vet_education) => {
-    const status = deleteStatuses[pre_vet_education.pre_vet_education_mappingID] || "initial"
+  const RenderSingleSavedEducation = (preVetEducation) => {
+    const status = deleteStatuses[preVetEducation.pre_vet_education_mappingID] || "initial"
 
     const setStatus = (newStatus) => {
       setDeleteStatuses((prevStatuses) => ({
         ...prevStatuses,
-        [pre_vet_education.pre_vet_education_mappingID]: newStatus,
+        [preVetEducation.pre_vet_education_mappingID]: newStatus,
       }))
     }
 
     return (
       <li>
-        {pre_vet_education.School_name}, {pre_vet_education.Education_type} in {pre_vet_education.Major_name}
-          {" ("}{pre_vet_education.Start_Date} - {pre_vet_education.End_Date}{") "}
+        {preVetEducation.School_name}, {preVetEducation.Education_type} in {preVetEducation.Major_name}
+        {" ("}{preVetEducation.Start_Date} - {preVetEducation.End_Date}{") "}
         <DeleteButtonOptions
           status = {status}
           setStatus = {setStatus}
-          dataType = {pre_vet_education}
+          dataType = {preVetEducation}
           handleDeleteOnClick = {handleDeleteOnClick}
         />
       </li>
@@ -191,10 +191,10 @@ function RenderIsPreVetEducation(props) {
   const renderSavedEducationList = () => {
     return (
       <ul>
-        {preVetEducation.map((pre_vet_education) => (
+        {preVetEducation.map((preVetEducation) => (
           <RenderSingleSavedEducation
-            key = {pre_vet_education.pre_vet_education_mappingID}
-            {...pre_vet_education}
+            key = {preVetEducation.pre_vet_education_mappingID}
+            {...preVetEducation}
           />
         ))}
       </ul>

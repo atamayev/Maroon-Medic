@@ -1,15 +1,15 @@
-import { useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { SearchContext } from "../contexts/search-context";
-import SearchResults from "../components/search-results";
-import Header from "./header";
+import { useContext, useEffect } from "react"
+import { useParams } from "react-router-dom"
+import { SearchContext } from "../contexts/search-context"
+import SearchResults from "../components/search-results"
+import Header from "./header"
 
 export default function SpecificDoctorsList() {
   const {searchTerm, items, setSearchTerm, fetchData} = useContext(SearchContext)
 
-  let { query } = useParams(); //the id of the current site (which user) --> used to set User
+  let { query } = useParams() //the id of the current site (which user) --> used to set User
 
-  if (!query) window.location.href = "/";
+  if (!query) window.location.href = "/"
 
   useEffect(() => {
     setSearchTerm(query)
@@ -19,7 +19,7 @@ export default function SpecificDoctorsList() {
   const renderSearchResults = () => {
     if (!items || items === "User not found") return <div> No results</div>
     else {
-      const data = items.slice(0, 1000); // This has no function rn, since there are less than 1000 vets. once there are more, only the first 100 will be returned
+      const data = items.slice(0, 1000) // This has no function rn, since there are less than 1000 vets. once there are more, only the first 100 will be returned
       return <SearchResults data = {data}/>
     }
   }
@@ -29,5 +29,5 @@ export default function SpecificDoctorsList() {
       <Header search = {true} dropdown = {true}/>
       {renderSearchResults()}
     </>
-  );
+  )
 }

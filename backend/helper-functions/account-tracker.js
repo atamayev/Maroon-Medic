@@ -1,5 +1,5 @@
 import dayjs from "dayjs"
-import { DB_Operation, connection } from "./connect.js"
+import { DB_Operation, connection } from "../db-and-security/connect.js"
 
 /** login_history saves the date and IP Address of a certain user
  * @param {Int} User_ID
@@ -20,7 +20,7 @@ export async function loginHistory(User_ID) {
   try {
     await connection.execute(sql, values)
     return
-  } catch(error) {
+  } catch (error) {
     console.log("Problem with adding login history")
   }
 }

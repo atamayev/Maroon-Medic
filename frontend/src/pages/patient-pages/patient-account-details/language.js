@@ -1,13 +1,13 @@
 import _ from "lodash"
-import { useState, useMemo, useEffect } from "react";
-import { Card } from "react-bootstrap";
-import { DeleteButtonOptions } from "../../../components/delete-buttons";
-import { renderMessageSection } from "../../../components/saved-message-section";
-import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
-import { useHandleAddLanguage, useHandleDeleteLanguage } from "../../../custom-hooks/account-details-hooks/callbacks";
+import { useState, useMemo, useEffect } from "react"
+import { Card } from "react-bootstrap"
+import { DeleteButtonOptions } from "../../../components/delete-buttons"
+import { renderMessageSection } from "../../../components/saved-message-section"
+import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
+import { useHandleAddLanguage, useHandleDeleteLanguage } from "../../../custom-hooks/account-details-hooks/callbacks"
 
 export default function RenderLanguageSection(props) {
-  return(
+  return (
     <Card className = "mb-3">
       <Card.Header>
         Languages
@@ -16,30 +16,30 @@ export default function RenderLanguageSection(props) {
         {RenderIsPatientLanguages(props)}
       </Card.Body>
     </Card>
-  );
-};
+  )
+}
 
 function RenderIsPatientLanguages(props) {
-  const {listDetails, spokenLanguages, setSpokenLanguages} = props;
-  const [deleteStatuses, setDeleteStatuses] = useState({});
-  const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage();
+  const {listDetails, spokenLanguages, setSpokenLanguages} = props
+  const [deleteStatuses, setDeleteStatuses] = useState({})
+  const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage()
 
   useEffect(() => {
-    const newDeleteStatuses = { ...deleteStatuses };
+    const newDeleteStatuses = { ...deleteStatuses }
 
     // Go through each status
-    for (const language_listID in newDeleteStatuses) {
+    for (const languageListID in newDeleteStatuses) {
       // If the language ID does not exist in the spokenLanguages list, delete the status
-      if (!spokenLanguages.some((language) => language.language_listID === language_listID)) {
-        delete newDeleteStatuses[language_listID];
+      if (!spokenLanguages.some((language) => language.language_listID === languageListID)) {
+        delete newDeleteStatuses[languageListID]
       }
     }
 
-    setDeleteStatuses(newDeleteStatuses);
-  }, [spokenLanguages]);
+    setDeleteStatuses(newDeleteStatuses)
+  }, [spokenLanguages])
 
   const languageOptions = useMemo(() => {
-    if (!(_.isArray(listDetails.languages) && !_.isEmpty(listDetails.languages))) return null;
+    if (!(_.isArray(listDetails.languages) && !_.isEmpty(listDetails.languages))) return null
 
     return listDetails.languages
       .filter((language) => !spokenLanguages.find((spoken) => spoken.language_listID === language.language_listID))
@@ -47,10 +47,10 @@ function RenderIsPatientLanguages(props) {
         <option key = {language?.language_listID} value = {language?.language_listID}>
           {language?.Language_name}
         </option>
-      ));
-  }, [listDetails.languages, spokenLanguages]);
+      ))
+  }, [listDetails.languages, spokenLanguages])
 
-  const handleLanguageChange = useHandleAddLanguage(spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, "patient");
+  const handleLanguageChange = useHandleAddLanguage(spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, "patient")
 
   const renderSelectLanguageSection = () => {
     return (
@@ -66,17 +66,17 @@ function RenderIsPatientLanguages(props) {
     )
   }
 
-  const handleDeleteLanguage = useHandleDeleteLanguage(spokenLanguages, setSpokenLanguages, setLanguagesConfirmation, "patient");
+  const handleDeleteLanguage = useHandleDeleteLanguage(spokenLanguages, setSpokenLanguages, setLanguagesConfirmation, "patient")
 
   const RenderSingleSavedLanguage = (language) => {
-    const status = deleteStatuses[language.language_listID] || "initial";
+    const status = deleteStatuses[language.language_listID] || "initial"
 
     const setStatus = (newStatus) => {
       setDeleteStatuses((prevStatuses) => ({
         ...prevStatuses,
         [language.language_listID]: newStatus,
-      }));
-    };
+      }))
+    }
 
     return (
       <li>
@@ -111,5 +111,5 @@ function RenderIsPatientLanguages(props) {
       {renderSavedLanguageList()}
       {renderMessageSection(languagesConfirmation, "Languages")}
     </>
-  );
-};
+  )
+}

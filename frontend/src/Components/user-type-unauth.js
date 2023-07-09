@@ -4,7 +4,7 @@ import Header from "../pages/header"
 
 export function NonDoctorAccess() {
   //for when a Doctor Page is accessed by a non-doctor
-  return(
+  return (
     <>
       <Header dropdown = {true} search = {true}/>
       <Card>
@@ -28,7 +28,7 @@ export function NonDoctorAccess() {
 
 export function NonPatientAccess() {
   //for when a Patient Page is accessed by a non-patient
-  return(
+  return (
     <>
       <Header dropdown = {true} search = {true}/>
       <Card>
@@ -43,7 +43,7 @@ export function NonPatientAccess() {
             <Button variant = "primary">
               <p>Login</p>
             </Button>
-            </Link>
+          </Link>
         </Card.Body>
       </Card>
     </>

@@ -1,31 +1,31 @@
-import { Form, Button, Card,Container, Row, Col } from "react-bootstrap";
-import FormGroup from "../../../components/form-group";
-import { addMyPets } from "../../../custom-hooks/my-pets-hooks/save-my-pets";
-import { renderMessageSection } from "../../../components/saved-message-section";
+import { Form, Button, Card,Container, Row, Col } from "react-bootstrap"
+import FormGroup from "../../../components/form-group"
+import { addMyPets } from "../../../custom-hooks/my-pets-hooks/save-my-pets"
+import { renderMessageSection } from "../../../components/saved-message-section"
 
 const ifPetTypeSelected = (value, petTypes, newPetData, setNewPetData) => {
   // Find the selected pet type by its ID
-  let selectedPetType = petTypes.find(Pet_type => Pet_type.pet_listID === JSON.parse(value));
+  let selectedPetType = petTypes.find(PetType => PetType.pet_listID === JSON.parse(value))
   let newPet = {
     ...newPetData,
     Pet: selectedPetType.Pet,
     Pet_type: selectedPetType.Pet_type,
     pet_listID: selectedPetType.pet_listID
-  };
+  }
 
-  setNewPetData(newPet);
+  setNewPetData(newPet)
 }
 
 const ifInsuranceSelected = (value, insurances, newPetData, setNewPetData) => {
   // Find the selected insurance by its ID
-  let selectedInsurance = insurances.find(insurance => insurance.insurance_listID === JSON.parse(value));
+  let selectedInsurance = insurances.find(insurance => insurance.insurance_listID === JSON.parse(value))
   let newPet = {
     ...newPetData,
     insuranceName: selectedInsurance.Insurance_name,
     insurance_listID: selectedInsurance.insurance_listID
-  };
+  }
 
-  setNewPetData(newPet);
+  setNewPetData(newPet)
 }
 
 function areAllFieldsValid(petData) {
@@ -36,24 +36,24 @@ function areAllFieldsValid(petData) {
     !petData.Pet_type ||
     !petData.insuranceName
   ) {
-    return false;
+    return false
   }
-  return true;
+  return true
 }
 
 const handleInputChange = (event, petTypes, insurances, newPetData, setNewPetData) => {
-  let value = event.target.value;
+  let value = event.target.value
 
   if (event.target.name === "Pet_type") ifPetTypeSelected(value, petTypes, newPetData, setNewPetData)
   else if (event.target.name === "insurance") ifInsuranceSelected(value, insurances, newPetData, setNewPetData)
   else {
-    let newPet = { ...newPetData, [event.target.name]: value };
-    setNewPetData(newPet);
+    let newPet = { ...newPetData, [event.target.name]: value }
+    setNewPetData(newPet)
   }
-};
+}
 
 export const AddPet = (props) => {
-  const { newPetData, setNewPetData, petTypes, insurances, petConfirmation, setPetConfirmation, setShowAddPet, savedPetData, setSavedPetData } = props;
+  const { newPetData, setNewPetData, petTypes, insurances, petConfirmation, setPetConfirmation, setShowAddPet, savedPetData, setSavedPetData } = props
 
   const renderNewPetName = () => {
     if (!newPetData.Name) return <>Pet</>
@@ -123,12 +123,12 @@ export const AddPet = (props) => {
           required
         >
           <option value = "" disabled>Select</option>
-          {petTypes.map((Pet_type) => (
+          {petTypes.map((PetType) => (
             <option
-              key = {Pet_type.pet_listID}
-              value = {Pet_type.pet_listID}
+              key = {PetType.pet_listID}
+              value = {PetType.pet_listID}
             >
-              {Pet_type.Pet}
+              {PetType.Pet}
             </option>
           ))}
         </Form.Control>
@@ -169,8 +169,8 @@ export const AddPet = (props) => {
           type = "submit"
           disabled = {!areAllFieldsValid(newPetData)} // Check for both field validity
           onClick = {(e) => {
-            e.preventDefault();
-            addMyPets(newPetData, setNewPetData, setPetConfirmation, savedPetData, setSavedPetData, setShowAddPet);
+            e.preventDefault()
+            addMyPets(newPetData, setNewPetData, setPetConfirmation, savedPetData, setSavedPetData, setShowAddPet)
           }}
         >
           Add {renderNewPetName()}
@@ -209,5 +209,5 @@ export const AddPet = (props) => {
         </Card.Body>
       </Card>
     </>
-  );
-};
+  )
+}

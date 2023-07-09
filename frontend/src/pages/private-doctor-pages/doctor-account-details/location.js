@@ -1,15 +1,15 @@
 import "react-toggle/style.css"
 import Toggle from "react-toggle"
 import TimePicker from "react-time-picker"
-import {useEffect, useState} from "react";
-import {Card, Accordion, Form, Button, Container, Row, Col} from "react-bootstrap";
+import {useEffect, useState} from "react"
+import {Card, Accordion, Form, Button, Container, Row, Col} from "react-bootstrap"
 import "../../../styles/location.css"
-import FormGroup from "../../../components/form-group";
-import { daysOfWeek } from "../../../components/constants";
-import { handleAddAccordion } from "../../../custom-hooks/account-details-hooks/add";
-import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
-import { saveLocation } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details";
-import { renderMessageSection } from "../../../components/saved-message-section";
+import FormGroup from "../../../components/form-group"
+import { daysOfWeek } from "../../../components/constants"
+import { handleAddAccordion } from "../../../custom-hooks/account-details-hooks/add"
+import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
+import { saveLocation } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details"
+import { renderMessageSection } from "../../../components/saved-message-section"
 
 export default function RenderLocationSection(props) {
   return (
@@ -21,20 +21,20 @@ export default function RenderLocationSection(props) {
         {AddressForm(props)}
       </Card.Body>
     </Card>
-  );
-};
+  )
+}
 
 function AddressForm(props) {
-  const { addresses, setAddresses } = props;
-  const [addressesConfirmation, setAddressesConfirmation] = useConfirmationMessage();
+  const { addresses, setAddresses } = props
+  const [addressesConfirmation, setAddressesConfirmation] = useConfirmationMessage()
 
-  const handleInputChange = (event, address_priority) => {
+  const handleInputChange = (event, addressPriority) => {
     const newAddresses = addresses.map(address => {
-      if (address.address_priority === address_priority) return { ...address, [event.target.name]: event.target.value }
-      return address;
-    });
-    setAddresses(newAddresses);
-  };
+      if (address.address_priority === addressPriority) return { ...address, [event.target.name]: event.target.value }
+      return address
+    })
+    setAddresses(newAddresses)
+  }
 
   function areAllFieldsValid(addresses) {
     for (let address of addresses) {
@@ -46,24 +46,24 @@ function AddressForm(props) {
         !address.zip ||
         !address.country
       ) {
-        return false;
+        return false
       }
 
       // Check for days that are checked off (exist in times array)
       for (let time of address.times) {
-        if (!time.Start_time || !time.End_time) return false;
+        if (!time.Start_time || !time.End_time) return false
       }
     }
-    return true;
+    return true
   }
 
   function areAllTimesValid(addresses) {
     for (let address of addresses) {
       for (let time of address.times) {
-        if (new Date(`1970-01-01T${time.End_time}:00`) <= new Date(`1970-01-01T${time.Start_time}:00`)) return false;
+        if (new Date(`1970-01-01T${time.End_time}:00`) <= new Date(`1970-01-01T${time.Start_time}:00`)) return false
       }
     }
-    return true;
+    return true
   }
 
   const renderAddressAccordionItems = () => {
@@ -117,31 +117,31 @@ function AddressForm(props) {
       {renderSaveLocationsButton()}
       {renderMessageSection(addressesConfirmation, "Locations")}
     </>
-  );
-};
+  )
+}
 
 const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteAccordion, addresses, setAddresses }) => {
   const handlePublicStatusToggleChange = (addressPriority) => {
     // Create a copy of the addresses state
-    const updatedAddresses = [...addresses];
+    const updatedAddresses = [...addresses]
     // Find the index of the address object with the matching priority
-    const addressIndex = updatedAddresses.findIndex(addr => addr.address_priority === addressPriority);
+    const addressIndex = updatedAddresses.findIndex(addr => addr.address_priority === addressPriority)
     // Toggle the public status
-    updatedAddresses[addressIndex].address_public_status = updatedAddresses[addressIndex].address_public_status === 1 ? 0 : 1;
+    updatedAddresses[addressIndex].address_public_status = updatedAddresses[addressIndex].address_public_status === 1 ? 0 : 1
     // Update the state
-    setAddresses(updatedAddresses);
-  };
+    setAddresses(updatedAddresses)
+  }
 
   const handleInstantBookToggleChange = (addressPriority) => {
     // Create a copy of the addresses state
-    const updatedAddresses = [...addresses];
+    const updatedAddresses = [...addresses]
     // Find the index of the address object with the matching priority
-    const addressIndex = updatedAddresses.findIndex(addr => addr.address_priority === addressPriority);
+    const addressIndex = updatedAddresses.findIndex(addr => addr.address_priority === addressPriority)
     // Toggle the public status
-    updatedAddresses[addressIndex].instant_book = updatedAddresses[addressIndex].instant_book === 1 ? 0 : 1;
+    updatedAddresses[addressIndex].instant_book = updatedAddresses[addressIndex].instant_book === 1 ? 0 : 1
     // Update the state
-    setAddresses(updatedAddresses);
-  };
+    setAddresses(updatedAddresses)
+  }
 
   const renderAddressTitleSection = () => {
     if (address.address_title) return address.address_title
@@ -188,10 +188,10 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
               {renderInstantBook()}
             </Col>
             <Col xs = {4} className = "text-center font-weight-bold">
-                {renderAddressTitleSection()}
+              {renderAddressTitleSection()}
             </Col>
             <Col xs = {4} className = "text-right">
-                <Button variant = "danger" size = "sm" onClick = {() => handleDeleteAccordion(address.address_priority, addresses, setAddresses)} style = {{ float: "right" }}>Delete Location</Button>
+              <Button variant = "danger" size = "sm" onClick = {() => handleDeleteAccordion(address.address_priority, addresses, setAddresses)} style = {{ float: "right" }}>Delete Location</Button>
             </Col>
           </Row>
         </Container>
@@ -358,32 +358,32 @@ const AddressAccordionItem = ({ index, address, handleInputChange, handleDeleteA
           <div className = "row">
             {renderLocationMapData()}
             <div className = "col-md-6">
-            <WeekDays times = {address.times} setTimes = {(newTimes) => handleInputChange({ target: { name: "times", value: newTimes } }, address.address_priority)} />
+              <WeekDays times = {address.times} setTimes = {(newTimes) => handleInputChange({ target: { name: "times", value: newTimes } }, address.address_priority)} />
             </div>
           </div>
 
         </Form>
       </Accordion.Body>
     </Accordion.Item>
-  );
-};
+  )
+}
 
 const WeekDays = ({ times, setTimes}) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     setLoading(!times)
   }, [times])
 
   const handleDayToggle = (day) => {
-    if (times.some(time => time.Day_of_week === day)) setTimes(times.filter(time => time.Day_of_week !== day));
-    else setTimes([...times, { Day_of_week: day, Start_time: "", End_time: "" }]);
-  };
+    if (times.some(time => time.Day_of_week === day)) setTimes(times.filter(time => time.Day_of_week !== day))
+    else setTimes([...times, { Day_of_week: day, Start_time: "", End_time: "" }])
+  }
 
   const handleTimeChange = (day, timeType, newTime) => {
     setTimes(times.map(time =>
       time.Day_of_week === day ? { ...time, [timeType]: newTime } : time
-    ));
+    ))
   }
 
   if (loading) return <div>Loading...</div>
@@ -409,9 +409,9 @@ const WeekDays = ({ times, setTimes}) => {
   }
 
   const RenderPickTime = ({ times, day }) => {
-    const matchedTime = times.find(time => time.Day_of_week === day);
+    const matchedTime = times.find(time => time.Day_of_week === day)
 
-    if (!matchedTime) return null;
+    if (!matchedTime) return null
 
     return (
       <>
@@ -419,8 +419,8 @@ const WeekDays = ({ times, setTimes}) => {
         -
         {renderPickEndTime(day)}
       </>
-    );
-  };
+    )
+  }
 
   return (
     <div>
@@ -433,4 +433,4 @@ const WeekDays = ({ times, setTimes}) => {
       ))}
     </div>
   )
-};
+}

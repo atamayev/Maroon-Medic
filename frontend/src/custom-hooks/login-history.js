@@ -1,17 +1,17 @@
-import moment from "moment";
-import { useState, useEffect } from "react";
-import AuthDataService from "../services/auth-data-service";
-import { invalidUserAction } from "./user-verification-snippets";
+import moment from "moment"
+import { useState, useEffect } from "react"
+import AuthDataService from "../services/auth-data-service"
+import { invalidUserAction } from "./user-verification-snippets"
 
 export async function fetchLoginHistory(setLoginHistory) {
   try {
-    const response = await AuthDataService.fetchLoginHistry();
+    const response = await AuthDataService.fetchLoginHistry()
     if (response) {
       const formattedData = response.data.map((item) => ({
         ...item,
         Login_at: moment(item.Login_at).format("MMMM Do, YYYY [at] h:mmA"),
-      }));
-      setLoginHistory(formattedData);
+      }))
+      setLoginHistory(formattedData)
       sessionStorage.setItem("LoginHistory", JSON.stringify(formattedData))
     }
   } catch (error) {
@@ -20,22 +20,22 @@ export async function fetchLoginHistory(setLoginHistory) {
 }
 
 export function useLoginHistory (userType, whatShouldUserTypeBe) {
-  const [loginHistory, setLoginHistory] = useState([]);
+  const [loginHistory, setLoginHistory] = useState([])
 
   const checkForLoginHistory = async () => {
     if (userType === whatShouldUserTypeBe) {
       try {
-        const storedLoginHistory = sessionStorage.getItem("LoginHistory");
-        if (storedLoginHistory) setLoginHistory(JSON.parse(storedLoginHistory));
-        else fetchLoginHistory(setLoginHistory);
-      } catch(error) {
+        const storedLoginHistory = sessionStorage.getItem("LoginHistory")
+        if (storedLoginHistory) setLoginHistory(JSON.parse(storedLoginHistory))
+        else fetchLoginHistory(setLoginHistory)
+      } catch (error) {
       }
     }
-  };
+  }
 
   useEffect(() => {
-    checkForLoginHistory();
-  }, [userType]);
+    checkForLoginHistory()
+  }, [userType])
 
-  return loginHistory;
+  return loginHistory
 }

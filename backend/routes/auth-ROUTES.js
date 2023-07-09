@@ -1,11 +1,11 @@
 import express from "express"
 import {
-    register,
-    login,
-    logout,
-    jwtVerify,
-    fetchLoginHistory,
-    changePassword
+  register,
+  login,
+  logout,
+  jwtVerify,
+  fetchLoginHistory,
+  changePassword
 } from "../controllers/auth-CTRL.js"
 
 const router = express.Router()

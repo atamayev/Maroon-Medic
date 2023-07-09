@@ -1,4 +1,3 @@
-import _ from "lodash"
 import { Card } from "react-bootstrap"
 
 export default function LoginHistory(props) {

@@ -1,14 +1,14 @@
 import _ from "lodash"
-import { useState, useEffect } from "react";
-import { Card, Button } from "react-bootstrap";
-import { DeleteButtonOptions } from "../../../components/delete-buttons";
-import { renderMessageSection } from "../../../components/saved-message-section";
-import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
-import { useHandleDeleteVetEducation, useSaveAddVetEducation, useHandleAddVetEducation } from "../../../custom-hooks/account-details-hooks/callbacks";
-import EducationTime from "./education-time";
+import { useState, useEffect } from "react"
+import { Card, Button } from "react-bootstrap"
+import { DeleteButtonOptions } from "../../../components/delete-buttons"
+import { renderMessageSection } from "../../../components/saved-message-section"
+import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
+import { useHandleDeleteVetEducation, useSaveAddVetEducation, useHandleAddVetEducation } from "../../../custom-hooks/account-details-hooks/callbacks"
+import EducationTime from "./education-time"
 
 export default function RenderVetEducationSection (props) {
-  return(
+  return (
     <Card className = "mb-3">
       <Card.Header>
         Vet Education
@@ -16,39 +16,39 @@ export default function RenderVetEducationSection (props) {
       <Card.Body>
         {RenderIsVetEducation(props)}
       </Card.Body>
-  </Card>
-  );
-};
+    </Card>
+  )
+}
 
 function RenderIsVetEducation(props) {
-  const { listDetails, vetEducation, setVetEducation } = props;
-  const [selectedVetSchool, setSelectedVetSchool] = useState("");
-  const [deleteStatuses, setDeleteStatuses] = useState({});
-  const [selectedVetEducationType, setSelectedVetEducationType] = useState("");
+  const { listDetails, vetEducation, setVetEducation } = props
+  const [selectedVetSchool, setSelectedVetSchool] = useState("")
+  const [deleteStatuses, setDeleteStatuses] = useState({})
+  const [selectedVetEducationType, setSelectedVetEducationType] = useState("")
   const [timeState, setTimeState] = useState({
     startMonth: "",
     endMonth: "",
     startYear: "",
     endYear: "",
-  });
-  const [vetEducationConfirmation, setVetEducationConfirmation] = useConfirmationMessage();
+  })
+  const [vetEducationConfirmation, setVetEducationConfirmation] = useConfirmationMessage()
 
   const allChoicesFilled = selectedVetSchool && selectedVetEducationType &&
-    timeState.startMonth && timeState.endMonth && timeState.startYear && timeState.endYear;
+    timeState.startMonth && timeState.endMonth && timeState.startYear && timeState.endYear
 
   useEffect(() => {
-    const newDeleteStatuses = { ...deleteStatuses };
+    const newDeleteStatuses = { ...deleteStatuses }
 
     // Go through each status
-    for (const vet_education_mappingID in newDeleteStatuses) {
+    for (const vetEducationMappingID in newDeleteStatuses) {
       // If the language ID does not exist in the vetEducation list, delete the status
-      if (!vetEducation.some((vet_education) => vet_education.vet_education_mappingID === vet_education_mappingID)) {
-        delete newDeleteStatuses[vet_education_mappingID];
+      if (!vetEducation.some((VetEducation) => VetEducation.vet_education_mappingID === vetEducationMappingID)) {
+        delete newDeleteStatuses[vetEducationMappingID]
       }
     }
 
-    setDeleteStatuses(newDeleteStatuses);
-  }, [vetEducation]);
+    setDeleteStatuses(newDeleteStatuses)
+  }, [vetEducation])
 
   const renderSelectSchool = () => {
     return (
@@ -62,11 +62,11 @@ function RenderIsVetEducation(props) {
         >
           <option value = "" disabled>Choose a School</option>
           {_.uniqBy(listDetails.vetSchools, "School_name").map(
-              (school) => (
-                <option key = {school.vet_school_listID} value = {school.School_name}>
-                  {school.School_name}
-                </option>
-              )
+            (school) => (
+              <option key = {school.vet_school_listID} value = {school.School_name}>
+                {school.School_name}
+              </option>
+            )
           )}
         </select>
       </div>
@@ -74,7 +74,7 @@ function RenderIsVetEducation(props) {
   }
 
   const renderSelectEducationType = () => {
-    if (!selectedVetSchool) return null;
+    if (!selectedVetSchool) return null
     return (
       <div>
         <label htmlFor = "education-type">Select a Type of Veterinary Education: </label>
@@ -98,7 +98,7 @@ function RenderIsVetEducation(props) {
   }
 
   const renderEducationTime = () => {
-    if (!selectedVetEducationType) return null;
+    if (!selectedVetEducationType) return null
     return (
       <EducationTime
         timeState = {timeState}
@@ -111,47 +111,47 @@ function RenderIsVetEducation(props) {
     selectedVetSchool, setSelectedVetSchool,
     selectedVetEducationType, setSelectedVetEducationType,
     timeState,setTimeState
-  );
+  )
 
   const saveVetEducation = useSaveAddVetEducation(
     vetEducation, setVetEducation,
     listDetails, setVetEducationConfirmation
-  );
+  )
 
   const renderAddAndSaveButton = () => {
-    if (!allChoicesFilled) return null;
+    if (!allChoicesFilled) return null
     return (
       <Button
         onClick = {() => {
-          const selectedEducationObj = handleAddEducation();
-          saveVetEducation(selectedEducationObj);
+          const selectedEducationObj = handleAddEducation()
+          saveVetEducation(selectedEducationObj)
         }}
       >
         Add
       </Button>
-    );
-  };
+    )
+  }
 
   const handleDeleteOnClick = useHandleDeleteVetEducation(vetEducation, setVetEducation, listDetails, setVetEducationConfirmation)
 
-  const RenderSingleSavedEducation = (vet_education) => {
-    const status = deleteStatuses[vet_education.vet_education_mappingID] || "initial";
+  const RenderSingleSavedEducation = (VetEducation) => {
+    const status = deleteStatuses[VetEducation.vet_education_mappingID] || "initial"
 
     const setStatus = (newStatus) => {
       setDeleteStatuses((prevStatuses) => ({
         ...prevStatuses,
-        [vet_education.vet_education_mappingID]: newStatus,
-      }));
-    };
+        [VetEducation.vet_education_mappingID]: newStatus,
+      }))
+    }
 
     return (
       <li>
-        {vet_education.School_name}, {vet_education.Education_type}
-          {" (" + vet_education.Start_Date} - {vet_education.End_Date + ") "}
+        {VetEducation.School_name}, {VetEducation.Education_type}
+        {" (" + VetEducation.Start_Date} - {VetEducation.End_Date + ") "}
         <DeleteButtonOptions
           status = {status}
           setStatus = {setStatus}
-          dataType = {vet_education}
+          dataType = {VetEducation}
           handleDeleteOnClick = {handleDeleteOnClick}
         />
       </li>
@@ -161,10 +161,10 @@ function RenderIsVetEducation(props) {
   const renderSavedEducationList = () => {
     return (
       <ul>
-        {vetEducation.map((vet_education) => (
+        {vetEducation.map((VetEducation) => (
           <RenderSingleSavedEducation
-            key = {vet_education.vet_education_mappingID}
-            {...vet_education}
+            key = {VetEducation.vet_education_mappingID}
+            {...VetEducation}
           />
         ))}
       </ul>
@@ -188,4 +188,4 @@ function RenderIsVetEducation(props) {
       {renderMessageSection(vetEducationConfirmation, "Vet Education")}
     </>
   )
-};
+}

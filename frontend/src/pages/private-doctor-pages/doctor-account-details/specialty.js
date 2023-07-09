@@ -7,7 +7,7 @@ import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-m
 import { useHandleAddSpecialty, useHandleDeleteSpecialty } from "../../../custom-hooks/account-details-hooks/callbacks"
 
 export default function RenderSpecialtySection (props) {
-  return(
+  return (
     <Card className = "mb-3">
       <Card.Header>
         Specialties
@@ -33,10 +33,10 @@ function RenderIsSpecialty(props) {
     const newDeleteStatuses = { ...deleteStatuses }
 
     // Go through each status
-    for (const speciality_listID in newDeleteStatuses) {
+    for (const specialityListID in newDeleteStatuses) {
       // If the language ID does not exist in the spokenLanguages list, delete the status
-      if (!doctorSpecialties.some((speciality) => speciality.speciality_listID === speciality_listID)) {
-        delete newDeleteStatuses[speciality_listID]
+      if (!doctorSpecialties.some((speciality) => speciality.speciality_listID === specialityListID)) {
+        delete newDeleteStatuses[specialityListID]
       }
     }
 

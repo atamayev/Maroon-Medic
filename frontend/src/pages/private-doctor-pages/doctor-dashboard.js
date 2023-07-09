@@ -24,7 +24,7 @@ async function approveAppointment (setStatus, AppointmentsID, dashboardData, set
     } else {
       setStatus("pending")
     }
-  } catch(error) {
+  } catch (error) {
     if (error.response.status === 401) invalidUserAction(error.response.data)
     else setStatus("pending")
   }

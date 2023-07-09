@@ -18,7 +18,7 @@ export const SearchContextProvider = (props) => {
       try {
         const result = await fetchFunction(searchTerm)
         setItems(result.data)
-      } catch(error) {
+      } catch (error) {
       }
     }
   }

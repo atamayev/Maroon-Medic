@@ -26,7 +26,7 @@ function useDoctorCalendarData(userType) {
       try {
         const storedCalendarData = sessionStorage.getItem("DoctorCalendarDetails")
         if (!storedCalendarData) FillDoctorCalendarDetails(setEvents)
-      } catch(error) {
+      } catch (error) {
       }
     }
   }

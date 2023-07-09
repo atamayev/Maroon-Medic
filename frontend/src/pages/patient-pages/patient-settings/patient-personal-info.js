@@ -1,24 +1,24 @@
 import { Card, Button, Form } from "react-bootstrap"
-import { NonPatientAccess } from "../../../components/user-type-unauth.js";
-import { renderMessageSection } from "../../../components/saved-message-section.js";
-import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message.js";
-import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification.js";
-import { usePersonalInfo, handleSavePersonalInfo } from "../../../custom-hooks/fetch-and-save-personal-info.js";
-import { renderFirstNameSection, renderLastNameSection, renderDOBSection, renderGenderSection } from "../../../components/personal-info-inputs.js";
-import Header from "../../header.js";
-import PatientHeader from "../patient-header.js";
+import { NonPatientAccess } from "../../../components/user-type-unauth.js"
+import { renderMessageSection } from "../../../components/saved-message-section.js"
+import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message.js"
+import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification.js"
+import { usePersonalInfo, handleSavePersonalInfo } from "../../../custom-hooks/fetch-and-save-personal-info.js"
+import { renderFirstNameSection, renderLastNameSection, renderDOBSection, renderGenderSection } from "../../../components/personal-info-inputs.js"
+import Header from "../../header.js"
+import PatientHeader from "../patient-header.js"
 
 const handleSave = (e, personalInfo, setPersonalInfoConfirmation, userType) => {
-  e.preventDefault();
+  e.preventDefault()
   handleSavePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)
 }
 
 export default function PatientPersonalInfo() {
-  const { userType } = useSimpleUserVerification();
-  const {personalInfo, setPersonalInfo} = usePersonalInfo(userType);
-  const [personalInfoConfirmation, setPersonalInfoConfirmation] = useConfirmationMessage();
+  const { userType } = useSimpleUserVerification()
+  const {personalInfo, setPersonalInfo} = usePersonalInfo(userType)
+  const [personalInfoConfirmation, setPersonalInfoConfirmation] = useConfirmationMessage()
 
-  if (userType !== "Patient") return <NonPatientAccess/>;
+  if (userType !== "Patient") return <NonPatientAccess/>
 
   return (
     <div>
@@ -37,5 +37,5 @@ export default function PatientPersonalInfo() {
         </Card.Body>
       </Card>
     </div>
-  );
-};
+  )
+}

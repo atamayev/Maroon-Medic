@@ -28,7 +28,7 @@ const VerifyContextProvider = (props) => {
         verified: true,
         userType: response.data.type || null
       }
-    } catch(error) {
+    } catch (error) {
       if (error.response.status === 401) {
         invalidUserAction(error.response.data)
       } else {

@@ -1,7 +1,7 @@
-import { Card, Button } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap"
 
 export default function RenderVerificationSection (props) {
-  return(
+  return (
     <>
       <Card>
         <Card.Header>
@@ -13,11 +13,11 @@ export default function RenderVerificationSection (props) {
         </Card.Body>
       </Card>
     </>
-  );
-};
+  )
+}
 
 function RenderIsVerification (props) {
-  const { verified } = props;
+  const { verified } = props
   if (verified) return <Button variant = "success" disabled>✓ (Your identity is Verified) </Button>
   else return <Button variant = "danger" disabled>X (Your identity is Not Verified)</Button>
-};
+}

@@ -55,5 +55,5 @@ export const handleAddEducation = (
 export const handleAddAccordion = (addresses, setAddresses) => {
   let maxPriority = Math.max(...addresses.map(address => address.address_priority))
   if (maxPriority === -Infinity) maxPriority = 0
-  setAddresses([...addresses, { address_priority: maxPriority+1, addressesID: 0, address_title: "", address_line_1: "", address_line_2: "", city: "", state: "", zip: "", country: "", phone_priority: 0, phone: "", address_public_status: 1, instant_book: 0, times:[]}])
+  setAddresses([...addresses, { address_priority: maxPriority + 1, addressesID: 0, address_title: "", address_line_1: "", address_line_2: "", city: "", state: "", zip: "", country: "", phone_priority: 0, phone: "", address_public_status: 1, instant_book: 0, times:[]}])
 }

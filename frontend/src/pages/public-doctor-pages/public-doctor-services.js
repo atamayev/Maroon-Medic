@@ -1,8 +1,8 @@
 import _ from "lodash"
-import { Card } from "react-bootstrap";
+import { Card } from "react-bootstrap"
 
 export default function RenderServiceSection(props) {
-  const { providedServices } = props;
+  const { providedServices } = props
   if (!_.isEmpty(providedServices)) {
     return (
       <Card className = "card-bottom-margin">
@@ -18,15 +18,15 @@ export default function RenderServiceSection(props) {
 }
 
 function renderProvidedServices(providedServices) {
-  const categories = {};
+  const categories = {}
   if (providedServices) {
     providedServices.forEach(service => {
-      if (!categories[service.Category_name]) categories[service.Category_name] = [];
-      categories[service.Category_name].push(service);
-    });
+      if (!categories[service.Category_name]) categories[service.Category_name] = []
+      categories[service.Category_name].push(service)
+    })
   }
 
-  return(
+  return (
     <>
       {Object.entries(categories).map(([category, services]) => (
         <div key = {category} style = {{ marginBottom: "10px" }}>

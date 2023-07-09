@@ -1,10 +1,10 @@
-import { Card, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
-import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message";
-import { handlePublicAvailibilityToggle } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details";
-import { renderMessageSection } from "../../../components/saved-message-section";
+import { Card, ToggleButton, ToggleButtonGroup } from "react-bootstrap"
+import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
+import { handlePublicAvailibilityToggle } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details"
+import { renderMessageSection } from "../../../components/saved-message-section"
 
 export default function RenderPublicStatusSection (props) {
-  return(
+  return (
     <>
       <Card className = "mb-3 mt-3">
         <Card.Header>
@@ -16,12 +16,12 @@ export default function RenderPublicStatusSection (props) {
         </Card.Body>
       </Card>
     </>
-  );
-};
+  )
+}
 
 function RenderIsPubliclyAvailable (props) {
-  const { publiclyAvailable, setPubliclyAvailable } = props;
-  const [publiclyAvailableConfirmation, setPubliclyAvailableConfirmation] = useConfirmationMessage();
+  const { publiclyAvailable, setPubliclyAvailable } = props
+  const [publiclyAvailableConfirmation, setPubliclyAvailableConfirmation] = useConfirmationMessage()
 
   return (
     <div>
@@ -49,4 +49,4 @@ function RenderIsPubliclyAvailable (props) {
       {renderMessageSection(publiclyAvailableConfirmation, "Public Availability Status")}
     </div>
   )
-};
+}

@@ -6,7 +6,7 @@ import { saveDescription } from "../../../custom-hooks/account-details-hooks/sav
 import { renderMessageSection } from "../../../components/saved-message-section.js"
 
 export default function RenderDescriptionSection (props) {
-  return(
+  return (
     <Card className = "mb-3">
       <Card.Header>
         Description

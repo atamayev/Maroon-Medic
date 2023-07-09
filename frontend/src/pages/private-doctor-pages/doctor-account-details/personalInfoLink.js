@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
-import { Card, Button } from "react-bootstrap";
+import { Link } from "react-router-dom"
+import { Card, Button } from "react-bootstrap"
 
 export default function RenderPersonalInfoLinkSection() {
-  return(
+  return (
     <Card className = "mb-3">
       <Card.Body>
         Looking to edit your Profile Information? {""}
@@ -14,4 +14,4 @@ export default function RenderPersonalInfoLinkSection() {
       </Card.Body>
     </Card>
   )
-};
+}

@@ -1,7 +1,7 @@
 import express from "express"
 import {
-    getDoctorCalendarDetails,
-    makeAppointment
+  getDoctorCalendarDetails,
+  makeAppointment
 } from "../controllers/calendar-CTRL.js"
 
 const router = express.Router()
