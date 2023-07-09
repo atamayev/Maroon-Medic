@@ -3,6 +3,7 @@ import express from "express"
 import cors from "cors"
 import cookieParser from "cookie-parser"
 import { connection } from "./db-and-security/connect.js"
+import redisClient from "./db-and-security/redis.js"
 //ROUTES:
 import authRoutes from "./routes/auth-ROUTES.js"
 import privateDoctorDataRoutes from "./routes/private-doctor-data-ROUTES.js"
@@ -18,6 +19,10 @@ const port = process.env.PORT || 8000
 // Confirmation of DB Connection
 connection.connect((err) => {
   if (err) throw err
+})
+
+redisClient.on("error", function (err) {
+  console.log("Something went wrong " + err)
 })
 
 const app = express()

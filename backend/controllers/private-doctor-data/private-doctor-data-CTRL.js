@@ -3,9 +3,9 @@ import dayjs from "dayjs"
 import customParseFormat from "dayjs/plugin/customParseFormat.js"
 dayjs.extend(customParseFormat) // extend Day.js with the plugin
 import { UUID_to_ID } from "../../db-and-security/UUID.js"
+import { clearCookies } from "../../utils/cookie-operations.js"
 import FetchAllLists from "../../helper-functions/fetch-all-lists.js"
 import {connection, DB_Operation} from "../../db-and-security/connect.js"
-import { clearCookies } from "../../utils/cookie-operations.js"
 import FetchDoctorAccountData from "../../helper-functions/fetch-data/fetch-doctor-account-data.js"
 
 /** newDoctor registers the inputted user data into basic_Doctor_info table

@@ -2,10 +2,12 @@ To-do:
 
 
 ASAP:
+
 -finish linting - camelcase
--move public doctor mapped components to index instead of the mapping ID
+-move public doctor mapped components to index instead of the mapping ID	
+	can now re-create the functions in fetch public doctor data to not include the ID of each of the items. copy over the functions from fetchPrivate DcotorDdata
 -make languages it's own component - make doctor/patient both use it
--consider combing the two add preVet Education callback functions
+-consider combining the two add preVet Education callback functions
 -go through backend code, look for repetetive code to outsource to utils (some of the date code seems repetetive)
 -simpify all cases in save doctor details where shouldSave is. Makes it seem very complex.
 	consider combining some of the inital shouldSave logic:
