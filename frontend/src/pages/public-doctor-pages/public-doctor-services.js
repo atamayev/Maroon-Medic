@@ -28,11 +28,11 @@ function renderProvidedServices(providedServices) {
 
   return (
     <>
-      {Object.entries(categories).map(([category, services]) => (
-        <div key = {category} style = {{ marginBottom: "10px" }}>
+      {Object.entries(categories).map(([category, services], index) => (
+        <div key = {index} style = {{ marginBottom: "10px" }}>
           <h3>{category}</h3>
-          {services.map(service => (
-            <p key = {service.service_and_category_listID}>
+          {services.map((service, index) => (
+            <p key = {index}>
               {service.Service_name} - {service.Service_time}, ${service.Service_price}
             </p>
           ))}

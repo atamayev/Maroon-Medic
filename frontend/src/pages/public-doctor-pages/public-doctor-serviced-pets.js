@@ -28,11 +28,11 @@ function renderServicedPets(servicedPets) {
 
   return (
     <>
-      {Object.entries(categories).map(([petType, pets]) => (
-        <div key = {petType} style = {{ marginBottom: "10px" }}>
+      {Object.entries(categories).map(([petType, pets], index) => (
+        <div key={index} style={{ marginBottom: "10px" }}>
           <h3>{petType}</h3>
-          {pets.map(Pet => (
-            <p key = {Pet.pet_listID}>
+          {pets.map((Pet, index) => (
+            <p key={index}>
               {Pet.pet}
             </p>
           ))}

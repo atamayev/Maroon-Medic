@@ -29,14 +29,16 @@ export async function savePersonalData (req, res) {
   const personalInfo = req.body.personalInfo
 
   const basic_user_info = "basic_user_info"
-  const sql = `SELECT basic_user_infoID FROM  ${basic_user_info} WHERE User_ID = ?`
+  const sql = `SELECT EXISTS(SELECT 1 FROM ${basic_user_info} WHERE User_ID = ?) as 'exists' `
   const values = [DoctorID]
-  let results
-  //this is upsert:
+  let doesRecordAccountExist
+
+  //this is upsert. should be able to combine this into one command. shouldn't need to check if record exists, then insert or update:
 
   await DB_Operation(savePersonalData.name, basic_user_info)
   try {
-    [results] = await connection.execute(sql, values)
+    const [results] = await connection.execute(sql, values)
+    doesRecordAccountExist = results[0].exists
   } catch (error) {
     return res.status(400).json()
   }
@@ -48,7 +50,7 @@ export async function savePersonalData (req, res) {
   const dateOfBirth = dayjs(dateOfBirthStr, "MMMM D YYYY").format("YYYY-MM-DD")
   const values1 = [personalInfo.FirstName, personalInfo.LastName, personalInfo.Gender, dateOfBirth, DoctorID]
 
-  if (_.isEmpty(results)) {// if no results, then insert.
+  if (!doesRecordAccountExist) {// if no results, then insert.
     const sql1 = `INSERT INTO ${basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?, ?, ?, ?, ?)`
     try {
       await connection.execute(sql1, values1)
@@ -89,19 +91,21 @@ export async function saveDescriptionData (req, res) {
   const description = req.body.Description
   const descriptions = "descriptions"
 
-  const sql = `SELECT descriptionsID FROM  ${descriptions} WHERE Doctor_ID = ?`
+  const sql = `SELECT EXISTS(SELECT 1 FROM ${descriptions} WHERE Doctor_ID = ?) as 'exists' `
+
   const values = [DoctorID]
-  let results
+  let doesRecordAccountExist
 
   await DB_Operation(saveDescriptionData.name, descriptions)
   try {
-    [results] = await connection.execute(sql, values)
+    const [results] = await connection.execute(sql, values)
+    doesRecordAccountExist = results[0].exists
   } catch (error) {
     return res.status(400).json()
   }
   const values1 = [description, DoctorID]
 
-  if (_.isEmpty(results)) {// if no results, then insert.
+  if (!doesRecordAccountExist) {// if no results, then insert.
     const sql1 = `INSERT INTO ${descriptions} (Description, Doctor_ID) VALUES (?, ?)`
     try {
       await connection.execute(sql1, values1)

@@ -132,8 +132,8 @@ export default function RenderBookingSection(props) {
           onChange = {(e) => handleServiceChange(e, providedServices, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime)}
         >
           <option>Select...</option>
-          {providedServices.map((service) => (
-            <option key = {service.service_and_category_listID} value = {service.service_and_category_listID}>
+          {providedServices.map((service, index) => (
+            <option key = {index} value = {service.service_and_category_listID}>
               {service.Category_name} - {service.Service_name}
             </option>
           ))}

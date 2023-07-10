@@ -36,7 +36,7 @@ export default function DoctorDashboard() {
   const [personalInfo, setPersonalInfo] = useState(JSON.parse(sessionStorage.getItem("DoctorPersonalInfo")))
   const [pastAppointments, setPastAppointments] = useState([])
   const [upcomingAppointments, setUpcomingAppointments] = useState([])
-  const newDoctor = document.cookie.split("").some((item) => item.trim().startsWith("DoctorNewUser"))
+  const newDoctor = document.cookie.split(";").some((item) => item.trim().startsWith("DoctorNewUser"))
 
   useEffect(() => {
     const interval = setInterval(() => {

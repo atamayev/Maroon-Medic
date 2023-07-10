@@ -7,7 +7,8 @@ CREATE TABLE Credentials (
 	email VARCHAR(150) NOT NULL,
 	password VARCHAR(150) NOT NULL,
 	Created_at DATETIME NOT NULL,
-	User_type VARCHAR(20) NOT NULL -- can be Doctor, Patient, admin, Administrator
+	User_type VARCHAR(20) NOT NULL, -- can be Doctor, Patient, admin, Administrator
+	isActive BOOLEAN NOT NULL
 );
 
 SELECT * FROM Credentials;
@@ -27,7 +28,7 @@ CREATE TABLE basic_user_info (
 	FirstName VARCHAR(150) NOT NULL,
 	LastName VARCHAR(150) NOT NULL,
 	Gender VARCHAR(150) NOT NULL,
-    DOB DATE NOT NULL,
+	DOB DATE NOT NULL,
 	User_ID INT unsigned NOT NULL,
 	FOREIGN KEY (User_ID) REFERENCES Credentials(UserID)
 );
@@ -36,8 +37,8 @@ SELECT * FROM basic_user_info;
 
 CREATE TABLE pet_list(
 	pet_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    Pet VARCHAR(30) NOT NULL,
-    Pet_type VARCHAR(30) NOT NULL
+	Pet VARCHAR(30) NOT NULL,
+	Pet_type VARCHAR(30) NOT NULL
 );
 
 SELECT * FROM pet_list;
@@ -57,11 +58,11 @@ CREATE TABLE pet_info ( -- specific info about each pet (from the Patient POV)
 	pet_infoID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	Name VARCHAR(150) NOT NULL,
 	Gender VARCHAR(150) NOT NULL,
-    DOB DATE,
+	DOB DATE,
 	Patient_ID INT unsigned NOT NULL,
-    pet_ID INT unsigned NOT NULL,
+	pet_ID INT unsigned NOT NULL,
 	isActive BOOLEAN NOT NULL, -- set to 1 by default, when a patient deletes pet, set to 0.
-    FOREIGN KEY (Patient_ID) REFERENCES Credentials(UserID),
+	FOREIGN KEY (Patient_ID) REFERENCES Credentials(UserID),
 	FOREIGN KEY (pet_ID) REFERENCES pet_list(pet_listID)
 );
 
@@ -248,8 +249,8 @@ CREATE TABLE addresses(
 	country VARCHAR(150) NOT NULL,
 	address_priority INT,
 	address_public_status BOOLEAN NOT NULL,
-    instant_book BOOLEAN NOT NULL,
-    isActive BOOLEAN NOT NULL, -- set to 1 by default, when a doc deletes address, set to 0.
+	instant_book BOOLEAN NOT NULL,
+	isActive BOOLEAN NOT NULL, -- set to 1 by default, when a doc deletes address, set to 0.
 	Doctor_ID INT unsigned NOT NULL,
 	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
 );

@@ -47,12 +47,14 @@ export async function jwtVerify (req, res) {
       return res.status(401).json({ shouldRedirect: true, redirectURL: redirectURL })
     } else {
       const UUID_reference = "UUID_reference"
-      const sql = `SELECT UUID FROM ${UUID_reference} WHERE UUID = ?`
+      const sql = `SELECT EXISTS(SELECT 1 FROM ${UUID_reference} WHERE UUID = ?) as 'exists' `
+
       const values = [decodedUUID]
       await DB_Operation(jwtVerify.name, UUID_reference)
 
       const [results] = await connection.execute(sql, values)
-      if (results.length === 1) {
+      const doesRecordExist = results[0].exists
+      if (doesRecordExist) {
         response.isValid = true
         return res.status(200).json(response)
       } else {
@@ -92,7 +94,7 @@ export async function login (req, res) {
 
   if (loginType !== "Doctor" && loginType !== "Patient") return res.json("Invalid User Type") // If Type not Doctor or Patient
 
-  const sql = `SELECT UserID, password FROM ${Credentials} WHERE email = ? AND User_type = ?`
+  const sql = `SELECT UserID, password FROM ${Credentials} WHERE email = ? AND User_type = ? AND isActive = 1`
   const values = [email, loginType]
 
   await DB_Operation(login.name, Credentials)
@@ -181,33 +183,36 @@ export async function register (req, res) {
 
   if (registerType !== "Doctor" && registerType !== "Patient") return res.status(400).json("Invalid User Type") // If Type not Doctor or Patient
 
-  const sql = `SELECT UserID FROM ${Credentials} WHERE email = ? AND User_type = ? `
+  //Consider adding isActive as a search parameter. If a user deletes their account, should they be allowed to create a new one with the same email?
+  const sql = `SELECT EXISTS(SELECT 1 FROM ${Credentials} WHERE email = ? AND User_type = ?) as 'exists' `
   const values = [email, registerType]
 
   await DB_Operation(register.name, Credentials)
 
-  let results
+  let doesAccountExist
   try {
-    [results] = await connection.execute(sql, values)
+    const [results] = await connection.execute(sql, values)
+    doesAccountExist = results[0].exists
   } catch (error) {
     return res.status(500).json({ error: "Problem with existing email search" })
   }
 
   let hashedPassword
-  if (_.isEmpty(results)) {
+  if (doesAccountExist) return res.status(400).json("User already exists!")
+  else {
     try {
       hashedPassword = await Hash.hashCredentials(password)
     } catch (error) {
       return res.status(500).json({ error: "Problem with Password Hashing" })
     }
-  } else return res.status(400).json("User already exists!")
+  }
 
   const newDateObject = new Date()
   const format = "YYYY-MM-DD HH:mm:ss"
   const dateTime = dayjs(newDateObject).format(format)
 
-  const sql1 = `INSERT INTO ${Credentials} (email, password, Created_at, User_type) VALUES (?, ?, ?, ?)`
-  const values1 = [email, hashedPassword, dateTime, registerType]
+  const sql1 = `INSERT INTO ${Credentials} (email, password, Created_at, User_type, isActive) VALUES (?, ?, ?, ?, ?)`
+  const values1 = [email, hashedPassword, dateTime, registerType, 1]
   let results1
   try {
     [results1] = await connection.execute(sql1, values1)
@@ -238,7 +243,7 @@ export async function register (req, res) {
     [IDKey]: UUID,
     // exp: Math.floor(Date.now()/1000) +expirationTime // temporarily taking out expiration to make sure system is running smoothly
   }
-  const JWTKey = registerType === "Patient" ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY
+  const JWTKey = registerType === "Doctor" ? process.env.DOCTOR_JWT_KEY : process.env.PATIENT_JWT_KEY
   let token
   try {
     token = jwt.sign(payload, JWTKey)

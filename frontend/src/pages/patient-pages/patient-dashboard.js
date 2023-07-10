@@ -15,7 +15,7 @@ export default function PatientDashboard() {
   const [personalInfo, setPersonalInfo] = useState(JSON.parse(sessionStorage.getItem("PatientPersonalInfo")))
   const [pastAppointments, setPastAppointments] = useState([])
   const [upcomingAppointments, setUpcomingAppointments] = useState([])
-  const newPatient = document.cookie.split("").some((item) => item.trim().startsWith("PatientNewUser"))
+  const newPatient = document.cookie.split(";").some((item) => item.trim().startsWith("PatientNewUser"))
 
   useEffect(() => {
     const interval = setInterval(() => {

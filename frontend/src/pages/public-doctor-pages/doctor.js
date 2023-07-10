@@ -24,7 +24,7 @@ export default function Doctor () {
   const [addresses, setAddresses] = useState([{ address_priority: 0, addressesID: 0, address_title: "", address_line_1  : "", address_line_2: "", city: "", state: "", zip: "", country: "", phone_priority: 0, phone: "", address_public_status: 1, instant_book: 0, times:[]}])
   const [description, setDescription] = useState("")
   const [servicedPets, setServicedPets] = useState([])
-  const [personalData, setPersonalData] = useState({})
+  const [personalData, setPersonalData] = useState({FirstName: "", LastName: "", Gender: "", NVI: ""})
 
   if (Number(id)) id = Number(id)
 
@@ -41,10 +41,7 @@ export default function Doctor () {
         if (response.data.description) setDescription(response.data.description)
         if (response.data.servicedPets) setServicedPets(response.data.servicedPets)
         if (response.data.doctorPictures) ;// Somehow set pictures.
-        if (response.data.doctorPersonalInfo) {
-          console.log(response.data.doctorPersonalInfo)
-          setPersonalData(response.data.doctorPersonalInfo)
-        }
+        if (response.data.doctorPersonalInfo) setPersonalData(response.data.doctorPersonalInfo)
       }
     } catch (error) {
     }

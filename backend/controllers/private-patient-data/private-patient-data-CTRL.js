@@ -63,16 +63,18 @@ export async function newPatientConfirmation (req, res) {
   if (!newPatientUUID || !existingPatientUUID) return res.json(patientPermission)
 
   const UUID_reference = "UUID_reference"
-  const sql = `SELECT UUID_referenceID FROM ${UUID_reference} WHERE UUID = ?`
-  let values1 = [newPatientUUID]
-  let values2 = [existingPatientUUID]
+  const sql = `SELECT EXISTS(SELECT 1 FROM ${UUID_reference} WHERE UUID = ?) as 'exists'`
+  const values1 = [newPatientUUID]
+  const values2 = [existingPatientUUID]
   await DB_Operation(newPatientConfirmation.name, UUID_reference)
 
   try {
     const [results1] = await connection.execute(sql, values1)
     const [results2] = await connection.execute(sql, values2)
+    const doesRecord1Exist = results1[0].exists
+    const doesRecord2Exist = results2[0].exists
 
-    if (results1.length === 1 && results2.length === 1) {
+    if (doesRecord1Exist === 1 && doesRecord2Exist === 1) {
       patientPermission = true
       return res.json(patientPermission)
     }
