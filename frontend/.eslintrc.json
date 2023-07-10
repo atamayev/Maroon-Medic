@@ -43,13 +43,12 @@
             "never"
         ],
         "no-empty": ["error", { "allowEmptyCatch": true }],
-        "eol-last": ["warn", "always"],
+        "eol-last": ["error", "always"],
         "no-unused-vars": "error",
         "eqeqeq": "error",
         "space-infix-ops": "warn",
-        "space-before-blocks": "warn",
-        "keyword-spacing": ["warn", { "before": true, "after": true }],
-        "camelcase": "warn",
+        "space-before-blocks": "error",
+        "keyword-spacing": ["error", { "before": true, "after": true }],
         "no-console": "warn",
 
         //For catching Security vulnerabilities:
