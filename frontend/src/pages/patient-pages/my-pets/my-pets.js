@@ -2,7 +2,7 @@ import _ from "lodash"
 import moment from "moment"
 import { useState, useEffect } from "react"
 import { Card, Button, Modal  } from "react-bootstrap"
-import { NonPatientAccess } from "../../../components/user-type-unauth"
+import { UnauthorizedUser } from "../../../components/user-type-unauth"
 import { deleteMyPets } from "../../../custom-hooks/my-pets-hooks/save-my-pets"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
@@ -60,7 +60,7 @@ export default function MyPets() {
   const [showModal, setShowModal] = useState(false)
   const [petToDelete, setPetToDelete] = useState(null)
 
-  if (userType !== "Patient") return <NonPatientAccess/>
+  if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
 
   const renderSavedPetDataTitle = (pet) => {
     return (

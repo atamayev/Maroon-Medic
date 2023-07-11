@@ -4,7 +4,7 @@ import { Card, Button } from "react-bootstrap"
 import { useNavigate, useLocation } from "react-router-dom"
 import FormGroup from "../../components/form-group"
 import { capitalizeFirstLetter } from "../../utils/capitalization"
-import { NonPatientAccess } from "../../components/user-type-unauth"
+import { UnauthorizedUser } from "../../components/user-type-unauth"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
 import { confirmBooking } from "../../custom-hooks/public-doctor-hooks/confirm-booking-hook"
 import Header from "../header"
@@ -51,7 +51,7 @@ export function FinalizeBookingPage() {
     return null // or render some kind of loading spinner
   }
 
-  if (userType !== "Patient") return <NonPatientAccess/>
+  if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
 
   const renderConfirmOrRequestBook = () => {
     if (selectedLocation.instant_book) return <>Confirm</>

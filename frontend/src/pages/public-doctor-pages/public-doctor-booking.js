@@ -2,19 +2,46 @@ import _ from "lodash"
 import moment from "moment"
 import { useState, useEffect } from "react"
 import { Card, Button } from "react-bootstrap"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import FormGroup from "../../components/form-group"
 import { capitalizeFirstLetter } from "../../utils/capitalization"
+import { fetchPetData } from "../../custom-hooks/my-pets-hooks/my-pets"
+import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
 import { finalizeBookingClick } from "../../custom-hooks/public-doctor-hooks/booking-page-hooks"
-import { handleServiceChange, handleLocationChange, handleDayChange, handleTimeChange } from "../../custom-hooks/public-doctor-hooks/booking-page-hooks"
+import { handleServiceChange, handleLocationChange, handleDayChange, handleTimeChange, handlePetChange } from "../../custom-hooks/public-doctor-hooks/booking-page-hooks"
+import { UnauthorizedUserBodyText } from "../../components/user-type-unauth"
 
 const handleBookingClick = (e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData) => {
   e.preventDefault()
   finalizeBookingClick(navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData)
 }
 
+function usePetData(userType) {
+  const [savedPetData, setSavedPetData] = useState(JSON.parse(sessionStorage.getItem("PatientPetData")) || [])
+
+  const fetchAndSetPetData = async () => {
+    if (userType === "Patient") {
+      try {
+        const storedPetData = sessionStorage.getItem("PatientPetData")
+        if (storedPetData) setSavedPetData(JSON.parse(storedPetData))
+        else fetchPetData(setSavedPetData)
+      } catch (error) {
+      }
+    }
+  }
+
+  useEffect(() => {
+    fetchAndSetPetData()
+  }, [userType])
+
+  return { savedPetData }
+}
+
 export default function RenderBookingSection(props) {
+  const { userType } = useSimpleUserVerification(false)
+  const { savedPetData } = usePetData(userType)
   const { providedServices, addresses, personalData } = props
+  const [selectedPet, setSelectedPet] = useState(null)
   const [selectedService, setSelectedService] = useState(null)
   const [selectedLocation, setSelectedLocation] = useState(null)
   const [noAvailableTimesMessage, setNoAvailableTimesMessage] = useState(false)
@@ -31,6 +58,14 @@ export default function RenderBookingSection(props) {
   // Get selected location object
   const selectedLocationObject = addresses.find(location => location.addressesID === selectedLocation?.addressesID)
 
+  const selectedPetObject = savedPetData.find(pet => pet.pet_infoID === selectedPet?.pet_infoID)
+
+  useEffect(() => {
+    if (savedPetData.length === 1) {
+      setSelectedPet(savedPetData[0])
+    }
+  }, [savedPetData])
+
   function convertToMinutes(input) {
     if (typeof input === "string") {
       let value = parseInt(input.split(" ")[0])
@@ -41,7 +76,7 @@ export default function RenderBookingSection(props) {
   }
 
   useEffect(() => {
-    if (selectedDay && selectedLocationObject && selectedServiceObject) {
+    if (selectedDay && selectedLocationObject && selectedServiceObject && selectedPetObject) {
       // Get the working hours for the selected day
       const selectedDayOfWeek = moment(selectedDay, "dddd, MMMM Do, YYYY").format("dddd")
       const workingHours = selectedLocationObject?.times.find(time => time.Day_of_week === selectedDayOfWeek)
@@ -64,7 +99,7 @@ export default function RenderBookingSection(props) {
         setAvailableTimes(times)
       }
     }
-  }, [selectedDay, selectedLocationObject, selectedServiceObject])
+  }, [selectedDay, selectedLocationObject, selectedServiceObject, selectedPetObject])
 
   useEffect(() => {
     if (!selectedLocationObject) return
@@ -103,6 +138,41 @@ export default function RenderBookingSection(props) {
     )
   }
 
+  const renderChoosePet = () => {
+    if (_.isEmpty(savedPetData)) {
+      return (
+        <div className = "col-md-6">
+          You need to add a pet to make an appointment
+          <Link to = {"/my-pets"}>
+            <Button variant = "primary">
+              <p>Add a Pet</p>
+            </Button>
+          </Link>
+        </div>
+      )
+    }
+
+    if (savedPetData.length === 1) return <div className = "col-md-6">Selected Pet: {selectedPet.Name}</div>
+
+    return (
+      <div className = "col-md-6">
+        <FormGroup
+          as = "select"
+          id = "petSelect"
+          label = "Select a pet"
+          onChange = {(e) => handlePetChange(e, savedPetData, setSelectedPet, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime)}
+        >
+          <option>Select...</option>
+          {savedPetData.map((pet, index) => (
+            <option key = {index} value = {pet.pet_infoID}>
+              {pet.Name}
+            </option>
+          ))}
+        </FormGroup>
+      </div>
+    )
+  }
+
   const renderAvailableDates = () => {
     if (selectedDay === `Dr. ${capitalizeFirstLetter(personalData.LastName)} does not currently have any open appointments at this location`) {
       return <option disabled>{selectedDay}</option>
@@ -123,6 +193,8 @@ export default function RenderBookingSection(props) {
   }
 
   const renderSelectService = () => {
+    if (!selectedPet) return null
+
     return (
       <div className = "col-md-6">
         <FormGroup
@@ -231,20 +303,46 @@ export default function RenderBookingSection(props) {
     )
   }
 
+  const renderPatientNotLoggedIn = () => {
+    return (
+      <Card className = "card-bottom-margin">
+        <Card.Header>Ready to make a booking?</Card.Header>
+        <UnauthorizedUserBodyText patientOrDoctor = {"patient"} />
+      </Card>
+    )
+  }
+
+  const renderDoctorDoesNotOfferServices = () => {
+    return (
+      <Card className = "card-bottom-margin">
+        <Card.Header>Ready to make a booking?</Card.Header>
+        <Card.Body>Dr. {capitalizeFirstLetter(personalData.LastName)} does not currently offer any services.</Card.Body>
+      </Card>
+    )
+  }
+
+  const renderDoctorDoesNotHaveLocations = () => {
+    return (
+      <Card className = "card-bottom-margin">
+        <Card.Header>Ready to make a booking?</Card.Header>
+        <Card.Body>Dr. {capitalizeFirstLetter(personalData.LastName)} does not currently have any open locations.</Card.Body>
+      </Card>
+    )
+  }
+
   const renderMakeBooking = () => {
-    if (_.isEmpty(providedServices) || _.isEmpty(addresses)) {
-      return (
-        <Card className = "card-bottom-margin">
-          <Card.Header>Ready to make a booking?</Card.Header>
-          <Card.Body>Dr. {capitalizeFirstLetter(personalData.LastName)} does not currently offer any services.</Card.Body>
-        </Card>
-      )
-    }
+    if (userType !== "Patient") return renderPatientNotLoggedIn()
+    if ( _.isEmpty(addresses)) return renderDoctorDoesNotHaveLocations()
+    if ( _.isEmpty(providedServices)) return renderDoctorDoesNotOfferServices()
 
     return (
       <Card className = "card-bottom-margin">
         <Card.Header>Ready to make a booking?</Card.Header>
         <Card.Body>
+          <div className = "row">
+            {renderChoosePet()}
+          </div>
+
           <div className = "row">
             {renderSelectService()}
 

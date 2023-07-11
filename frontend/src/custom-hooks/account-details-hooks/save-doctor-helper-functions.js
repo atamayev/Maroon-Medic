@@ -9,8 +9,7 @@ export async function deleteSaveVetEducation (vetEducationObject, vetEducation, 
       const newVetEducation = vetEducation.filter(object => object.vet_education_mappingID !== vetEducationObject)
       setVetEducation(newVetEducation)
       return newVetEducation
-    }
-    else {
+    } else {
       setVetEducationConfirmation({messageType: "problem"})
       return
     }
@@ -35,8 +34,7 @@ export async function addSaveVetEducation (vetEducationObject, vetEducation, set
       const newVetEducation = [...vetEducation, vetEducationObject]
       setVetEducation(newVetEducation)
       return newVetEducation
-    }
-    else {
+    } else {
       setVetEducationConfirmation({messageType: "problem"})
       return
     }
@@ -54,8 +52,7 @@ export async function deleteSavePreVetEducation (preVetEducationObject, preVetEd
       const newPreVetEducation = preVetEducation.filter(object => object.pre_vet_education_mappingID !== preVetEducationObject)
       setPreVetEducation(newPreVetEducation)
       return newPreVetEducation
-    }
-    else {
+    } else {
       setPreVetEducationConfirmation({messageType: "problem"})
       return
     }

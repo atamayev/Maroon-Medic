@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { Calendar, momentLocalizer } from "react-big-calendar"
 import "react-big-calendar/lib/css/react-big-calendar.css"
 import "../../styles/calendar.css"
-import { NonDoctorAccess } from "../../components/user-type-unauth"
+import { UnauthorizedUser } from "../../components/user-type-unauth"
 import { FillDoctorCalendarDetails } from "../../custom-hooks/fetch-calendar-details"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
 import Header from "../header"
@@ -42,7 +42,7 @@ export default function DoctorCalendar() {
   const { userType } = useSimpleUserVerification()
   const events = useDoctorCalendarData(userType)
 
-  if (userType !== "Doctor") return <NonDoctorAccess/>
+  if (userType !== "Doctor") return <UnauthorizedUser patientOrDoctor = {"vet"}/>
 
   return (
     <div>

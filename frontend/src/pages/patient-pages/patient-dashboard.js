@@ -3,7 +3,7 @@ import moment from "moment"
 import { useEffect, useState } from "react"
 import { Card, Badge , Tooltip } from "react-bootstrap"
 import OverlayTrigger from "react-bootstrap/OverlayTrigger"
-import { NonPatientAccess } from "../../components/user-type-unauth.js"
+import { UnauthorizedUser } from "../../components/user-type-unauth.js"
 import { useDashboardData } from "../../custom-hooks/fetch-and-use-dashboard-info.js"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification.js"
 import Header from "../header.js"
@@ -45,7 +45,7 @@ export default function PatientDashboard() {
     }
   }, [dashboardData])
 
-  if (userType !== "Patient") return <NonPatientAccess/>
+  if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
 
   const renderAppointmentConfirmationStatus = (appointment) => {
     if (appointment.Doctor_confirmation_status === 0) {

@@ -28,7 +28,7 @@ export async function returnDoctorPageData (req, res) {
   try {
     let response = {}
     response.doctorLanguages           = await FetchPublicDoctorData.fetchDoctorLanguages(DoctorID)
-    response.doctorServices            = await FetchPublicDoctorData.fetchDoctorServices(DoctorID)
+    response.doctorServices            = await FetchDoctorAccountData.fetchDoctorServices(DoctorID)
     response.doctorSpecialties         = await FetchPublicDoctorData.fetchDoctorSpecialties(DoctorID)
     response.doctorPreVetEducation     = await FetchPublicDoctorData.fetchPreVetEducation(DoctorID)
     response.doctorVetEducation        = await FetchPublicDoctorData.fetchVetEducation(DoctorID)
@@ -38,10 +38,8 @@ export async function returnDoctorPageData (req, res) {
     //response.doctorPictures            = await FetchDoctorAccountData.fetchDoctorPictures(DoctorID)
     response.doctorPersonalInfo        = await FetchPublicDoctorData.fetchDoctorPersonalInfo(DoctorID)
     response.doctorPersonalInfo["NVI"] = NVI
-    console.log(response)
     return res.status(200).json(response)
   } catch (error) {
-    console.log(error)
     return res.status(400).json([])
   }
 }

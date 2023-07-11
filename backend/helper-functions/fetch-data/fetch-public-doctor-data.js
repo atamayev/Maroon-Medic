@@ -24,26 +24,6 @@ export default new class FetchPublicDoctorData {
     }
   }
 
-  async fetchDoctorServices (Doctor_ID) {
-    const functionName = this.fetchDoctorServices.bind(this).name
-
-    const [service_mapping, service_and_category_list] = ["service_mapping", "service_and_category_list"]
-
-    const sql = `SELECT ${service_and_category_list}.Category_name, ${service_and_category_list}.Service_name, ${service_mapping}.Service_time, ${service_mapping}.Service_price
-      FROM ${service_and_category_list} JOIN ${service_mapping} ON ${service_and_category_list}.service_and_category_listID = ${service_mapping}.Service_and_Category_ID
-      WHERE ${service_mapping}.Doctor_ID = ?`
-
-    const values = [Doctor_ID]
-    await DB_Operation(functionName, service_mapping)
-
-    try {
-      const [results] = await connection.execute(sql, values)
-      return results
-    } catch (error) {
-      return []
-    }
-  }
-
   async fetchDoctorSpecialties (Doctor_ID) {
     const functionName = this.fetchDoctorSpecialties.bind(this).name
     const [specialty_mapping, specialties_list] = ["specialty_mapping", "specialties_list"]

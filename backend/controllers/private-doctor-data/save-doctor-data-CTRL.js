@@ -330,9 +330,7 @@ export async function saveEducationData (req, res) {
     values = [EducationData]
     if (EducationType === "pre_vet") sql = `DELETE FROM ${tableName} WHERE pre_vet_education_mappingID = ?`
     else if (EducationType === "vet") sql = `DELETE FROM ${tableName} WHERE vet_education_mappingID = ?`
-    else {
-      return res.status(400).json()
-    }
+    else return res.status(400).json()
   } else {
     return res.status(400).json()
   }
@@ -411,6 +409,18 @@ export async function saveAddressData (req, res) {
 
     let returnedData = unchangedData //initialize the data to return with the data that hasn't changed.
 
+    if (!_.isEmpty(deletedData)) {
+      for (let i = 0; i < deletedData.length; i++) {
+        //Automatically deletes data in the phone number table, since the two are linked via a cascade
+        const sql = `UPDATE ${addresses} SET isActive = 0 WHERE addressesID = ?`
+        const values = [deletedData[i]]
+        try {
+          await connection.execute(sql, values)
+        } catch (error) {
+          return res.status(400).json()
+        }
+      }
+    }
     if (!_.isEmpty(addedData)) {
       for (let i = 0; i < addedData.length; i++) {
         const sql = `INSERT INTO ${addresses}
@@ -435,18 +445,6 @@ export async function saveAddressData (req, res) {
         }
         addedData[i].addressesID = insert_results.insertId
         returnedData.push(addedData[i])
-      }
-    }
-    if (!_.isEmpty(deletedData)) {
-      for (let i = 0; i < deletedData.length; i++) {
-        //Automatically deletes data in the phone number table, since the two are linked via a cascade
-        const sql = `UPDATE ${addresses} SET isActive = 0 WHERE addressesID = ?`
-        const values = [deletedData[i]]
-        try {
-          await connection.execute(sql, values)
-        } catch (error) {
-          return res.status(400).json()
-        }
       }
     }
     if (!_.isEmpty(updatedData)) {
@@ -610,10 +608,7 @@ export async function saveAddressData (req, res) {
       AddressData[i].addressesID = insert_results.insertId
     }
     return res.status(200).json(AddressData)
-  }
-  else {
-    return res.status(400).json()
-  }
+  } else return res.status(400).json()
 }
 
 /** savePublicAvailibilityData is a Doctor-controlled function that allows them to say wheather or not they want their profile accessible to patients

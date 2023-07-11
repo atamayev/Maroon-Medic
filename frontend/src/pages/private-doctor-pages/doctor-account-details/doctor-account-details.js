@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { useEffect, useState } from "react"
-import { NonDoctorAccess } from "../../../components/user-type-unauth.js"
+import { UnauthorizedUser } from "../../../components/user-type-unauth.js"
 import PrivateDoctorDataService from "../../../services/private-doctor-data-service.js"
 import { invalidUserAction } from "../../../custom-hooks/user-verification-snippets.js"
 import Header from "../../header.js"
@@ -147,7 +147,7 @@ export default function DoctorAccountDetails() {
 
   useDoctorAccountDetails(userType, setListDetails, setSpokenLanguages, setProvidedServices, setExpandedCategories, setDoctorSpecialties, setPreVetEducation, setVetEducation, setAddresses, setDescription, setServicedPets, setExpandedPetTypes, setPubliclyAvailable)
 
-  if (userType !== "Doctor") return <NonDoctorAccess/>
+  if (userType !== "Doctor") return <UnauthorizedUser patientOrDoctor = {"vet"}/>
 
   return (
     <div>

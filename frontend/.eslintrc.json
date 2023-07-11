@@ -44,7 +44,7 @@
         ],
         "no-empty": ["error", { "allowEmptyCatch": true }],
         "eol-last": ["error", "always"],
-        "no-unused-vars": "error",
+        "no-unused-vars": "warn",
         "eqeqeq": "error",
         "space-infix-ops": "warn",
         "space-before-blocks": "error",

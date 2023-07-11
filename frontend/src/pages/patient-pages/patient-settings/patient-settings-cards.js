@@ -1,6 +1,6 @@
 import { CardGroup } from "react-bootstrap"
 import SettingsLinks from "../../../components/settings-links"
-import { NonPatientAccess } from "../../../components/user-type-unauth"
+import { UnauthorizedUser } from "../../../components/user-type-unauth"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import Header from "../../header"
 import PatientHeader from "../patient-header"
@@ -8,7 +8,7 @@ import PatientHeader from "../patient-header"
 export default function PatientSettings() {
   const { userType } = useSimpleUserVerification()
 
-  if (userType !== "Patient") return <NonPatientAccess/>
+  if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
 
   return (
     <>

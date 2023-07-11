@@ -2,7 +2,7 @@ import _ from "lodash"
 import moment from "moment"
 import { useEffect, useState } from "react"
 import { Card, Badge, Button } from "react-bootstrap"
-import { NonDoctorAccess } from "../../components/user-type-unauth.js"
+import { UnauthorizedUser } from "../../components/user-type-unauth.js"
 import PrivateDoctorDataService from "../../services/private-doctor-data-service.js"
 import { invalidUserAction } from "../../custom-hooks/user-verification-snippets.js"
 import { useDashboardData } from "../../custom-hooks/fetch-and-use-dashboard-info.js"
@@ -66,7 +66,7 @@ export default function DoctorDashboard() {
     }
   }, [dashboardData])
 
-  if (userType !== "Doctor") return <NonDoctorAccess/>
+  if (userType !== "Doctor") return <UnauthorizedUser patientOrDoctor = {"vet"}/>
 
   const returnDoctorConfirmationStatus = (appointment) => {
     if (appointment.Doctor_confirmation_status === 0) return "pending"

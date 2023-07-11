@@ -1,5 +1,5 @@
 import { Card, Button, Form } from "react-bootstrap"
-import { NonPatientAccess } from "../../../components/user-type-unauth.js"
+import { UnauthorizedUser } from "../../../components/user-type-unauth.js"
 import { renderMessageSection } from "../../../components/saved-message-section.js"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message.js"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification.js"
@@ -18,7 +18,7 @@ export default function PatientPersonalInfo() {
   const {personalInfo, setPersonalInfo} = usePersonalInfo(userType)
   const [personalInfoConfirmation, setPersonalInfoConfirmation] = useConfirmationMessage()
 
-  if (userType !== "Patient") return <NonPatientAccess/>
+  if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
 
   return (
     <div>

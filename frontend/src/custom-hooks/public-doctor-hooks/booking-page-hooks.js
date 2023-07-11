@@ -1,5 +1,17 @@
 import _ from "lodash"
 
+export const handlePetChange = (event, savedPetData, setSelectedPet, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime) => {
+  const value = event.target.value
+  const selectedPetObject = savedPetData.find(pet => pet.pet_infoID.toString() === value)
+  setSelectedPet(selectedPetObject || null)
+  if (value === "Select...") {
+    setSelectedService(null)
+    setSelectedLocation(null)
+    setSelectedDay(null)
+    setSelectedTime(null)
+  }
+}
+
 export const handleServiceChange = (event, providedServices, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime) => {
   const value = event.target.value
   const selectedServiceObject = providedServices.find(service => service.service_and_category_listID.toString() === value)
@@ -24,8 +36,7 @@ export const handleLocationChange = (event, addresses, setSelectedLocation, setS
     setNoAvailableTimesMessage(true)
     setSelectedLocation(null)
     setSelectedTime(null)
-  }
-  else {
+  } else {
     setNoAvailableTimesMessage(false)
     setSelectedLocation(selectedLocationObject)
   }
