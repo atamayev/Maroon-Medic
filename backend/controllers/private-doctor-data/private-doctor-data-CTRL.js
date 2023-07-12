@@ -5,10 +5,10 @@ dayjs.extend(customParseFormat) // extend Day.js with the plugin
 import TimeUtils from "../../utils/time.js"
 import { UUID_to_ID } from "../../db-setup-and-security/UUID.js"
 import { clearCookies } from "../../utils/cookie-operations.js"
-import FetchAllLists from "../../helper-functions/fetch-all-lists.js"
+import FetchAllListsDB from "../../db/fetch-all-lists-DB.js"
 import {connection, DB_Operation} from "../../db-setup-and-security/connect.js"
 import { formatPersonalData } from "../../utils/personal-data-formatter.js"
-import FetchDoctorAccountData from "../../helper-functions/fetch-data/fetch-doctor-account-data.js"
+import FetchDoctorAccountDataDB from "../../db/private-doctor-data/fetch-doctor-account-data-DB.js"
 
 /** newDoctor registers the inputted user data into basic_Doctor_info table
  *  All necessary information is sent via the request (DoctorUUID, firname, lastname, etc.)
@@ -204,7 +204,7 @@ export async function confirmAppointment (req, res) {
 
 /** fetchAccountDetails retrieves the Doctor's Account Details
  *  Takes the doctor's UUID, and converts to the doctorID.
- *  Starts with an empty list, and appends objects from fetchDoctorAccountData. Each function contains a specific data type (desciriptions, languages, etc)
+ *  Starts with an empty list, and appends objects from FetchDoctorAccountDataDB. Each function contains a specific data type (desciriptions, languages, etc)
  * @param {Cookies} req Contains the user's cookies (DoctorUUID)
  * @param {Array} res List with user account details
  * @returns User data.
@@ -222,18 +222,18 @@ export async function fetchAccountDetails (req, res) {
 
   try {
     let response = {}
-    response.languages            = await FetchDoctorAccountData.fetchDoctorLanguages(DoctorID)
-    response.services             = await FetchDoctorAccountData.fetchDoctorServices(DoctorID)
-    response.specialties          = await FetchDoctorAccountData.fetchDoctorSpecialties(DoctorID)
-    response.preVetEducation      = await FetchDoctorAccountData.fetchPreVetEducation(DoctorID)
-    response.vetEducation         = await FetchDoctorAccountData.fetchVetEducation(DoctorID)
-    response.addressData          = await FetchDoctorAccountData.fetchDoctorAddressData(DoctorID)
-    response.description          = await FetchDoctorAccountData.fetchDescriptionData(DoctorID)
-    response.servicedPets         = await FetchDoctorAccountData.fetchServicedPets(DoctorID)
-    const verificationAndPublicAv = await FetchDoctorAccountData.fetchVerifiedAndPubliclyAvailable(DoctorID)
+    response.languages            = await FetchDoctorAccountDataDB.fetchDoctorLanguages(DoctorID)
+    response.services             = await FetchDoctorAccountDataDB.fetchDoctorServices(DoctorID)
+    response.specialties          = await FetchDoctorAccountDataDB.fetchDoctorSpecialties(DoctorID)
+    response.preVetEducation      = await FetchDoctorAccountDataDB.fetchPreVetEducation(DoctorID)
+    response.vetEducation         = await FetchDoctorAccountDataDB.fetchVetEducation(DoctorID)
+    response.addressData          = await FetchDoctorAccountDataDB.fetchDoctorAddressData(DoctorID)
+    response.description          = await FetchDoctorAccountDataDB.fetchDescriptionData(DoctorID)
+    response.servicedPets         = await FetchDoctorAccountDataDB.fetchServicedPets(DoctorID)
+    const verificationAndPublicAv = await FetchDoctorAccountDataDB.fetchVerifiedAndPubliclyAvailable(DoctorID)
     response.verified             = verificationAndPublicAv.Verified
     response.publiclyAvailable    = verificationAndPublicAv.PubliclyAvailable
-    //response.pictures          = await FetchDoctorAccountData.fetchDoctorPictures(DoctorID)
+    //response.pictures          = await FetchDoctorAccountDataDB.fetchDoctorPictures(DoctorID)
     return res.status(200).json(response)
   } catch (error) {
     return res.status(400).json([])
@@ -250,15 +250,15 @@ export async function fetchAccountDetails (req, res) {
 export async function fetchDoctorLists (req, res) {
   try {
     let response = {}
-    response.languages             = await FetchAllLists.fetchAllLanguages()
-    response.servicesAndCategories = await FetchAllLists.fetchAllServicesAndCategories()
-    response.specialties           = await FetchAllLists.fetchAllSpecialties()
-    response.preVetSchools         = await FetchAllLists.fetchAllPreVetSchools()
-    response.preVetEducationTypes  = await FetchAllLists.fetchAllPreVetEducationTypes()
-    response.majors                = await FetchAllLists.fetchAllMajors()
-    response.vetSchools            = await FetchAllLists.fetchAllVetSchools()
-    response.vetEducationTypes     = await FetchAllLists.fetchAllVetEducationTypes()
-    response.pets                  = await FetchAllLists.fetchAllPets()
+    response.languages             = await FetchAllListsDB.fetchAllLanguages()
+    response.servicesAndCategories = await FetchAllListsDB.fetchAllServicesAndCategories()
+    response.specialties           = await FetchAllListsDB.fetchAllSpecialties()
+    response.preVetSchools         = await FetchAllListsDB.fetchAllPreVetSchools()
+    response.preVetEducationTypes  = await FetchAllListsDB.fetchAllPreVetEducationTypes()
+    response.majors                = await FetchAllListsDB.fetchAllMajors()
+    response.vetSchools            = await FetchAllListsDB.fetchAllVetSchools()
+    response.vetEducationTypes     = await FetchAllListsDB.fetchAllVetEducationTypes()
+    response.pets                  = await FetchAllListsDB.fetchAllPets()
     return res.status(200).json(response)
   } catch (error) {
     return res.status(400).json([])

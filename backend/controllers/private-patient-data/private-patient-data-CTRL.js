@@ -5,10 +5,10 @@ dayjs.extend(customParseFormat) // extend Day.js with the plugin
 import { UUID_to_ID } from "../../db-setup-and-security/UUID.js"
 import TimeUtils from "../../utils/time.js"
 import { connection, DB_Operation } from "../../db-setup-and-security/connect.js"
-import FetchAllLists from "../../helper-functions/fetch-all-lists.js"
+import FetchAllListsDB from "../../db/fetch-all-lists-DB.js"
 import { clearCookies } from "../../utils/cookie-operations.js"
 import { formatPersonalData } from "../../utils/personal-data-formatter.js"
-import FetchPatientAccountData from "../../helper-functions/fetch-data/fetch-patient-account-data.js"
+import FetchPatientAccountDataDB from "../../db/private-patient-data/fetch-patient-account-data-DB.js"
 
 /** newPatient registers the inputted user data into basic_Patient_info table
  *  All necessary information is sent via the request (PatientUUID, firname, lastname, etc.)
@@ -198,7 +198,7 @@ export async function fetchPetData (req, res) {
   }
 
   try {
-    const response = await FetchPatientAccountData.fetchPetData(PatientID)
+    const response = await FetchPatientAccountDataDB.fetchPetData(PatientID)
     return res.status(200).json(response)
   } catch (error) {
     return res.status(400).json([])
@@ -213,7 +213,7 @@ export async function fetchPetData (req, res) {
  */
 export async function fetchPetTypes (req, res) {
   try {
-    const response = await FetchAllLists.fetchAllPets()
+    const response = await FetchAllListsDB.fetchAllPets()
     return res.status(200).json(response)
   } catch (error) {
     return res.status(400).json([])
@@ -222,7 +222,7 @@ export async function fetchPetTypes (req, res) {
 
 export async function fetchInsurances (req, res) {
   try {
-    const response = await FetchAllLists.fetchAllInsurances()
+    const response = await FetchAllListsDB.fetchAllInsurances()
     return res.status(200).json(response)
   } catch (error) {
     return res.status(400).json([])
@@ -231,7 +231,7 @@ export async function fetchInsurances (req, res) {
 
 /** fetchAccountDetails retrieves the Patient's Account Details
  *  Takes the patient's UUID, and converts to the patientID.
- *  Starts with an empty list, and appends objects from fetchPatientAccountData. Each function contains a specific data type (desciriptions, languages, etc)
+ *  Starts with an empty list, and appends objects from FetchPatientAccountDataDB. Each function contains a specific data type (desciriptions, languages, etc)
  * @param {Cookies} req Contains the user's cookies (PatientUUID)
  * @param {Array} res List with user account details
  * @returns User data.
@@ -249,7 +249,7 @@ export async function fetchAccountDetails (req, res) {
 
   try {
     let response = {}
-    response.languages  = await FetchPatientAccountData.fetchPatientLanguages(PatientID)
+    response.languages  = await FetchPatientAccountDataDB.fetchPatientLanguages(PatientID)
     return res.status(200).json(response)
   } catch (error) {
     return res.status(400).json([])
@@ -264,7 +264,7 @@ export async function fetchAccountDetails (req, res) {
 export async function fetchPatientLists (req, res) {
   try {
     let response = {}
-    response.languages  = await FetchAllLists.fetchAllLanguages()
+    response.languages  = await FetchAllListsDB.fetchAllLanguages()
     return res.status(200).json(response)
   } catch (error) {
     return res.status(400).json([])

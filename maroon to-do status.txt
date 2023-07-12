@@ -2,6 +2,7 @@ To-do:
 
 
 ASAP:
+
 added a appointment_timespan, and changed from patientID--> petID. - need to change the front-end accordingly
 -add choose your pet to make an appointment. if the user isn't logged in, show a login/register button in the booking section.
 	the first question should be: choose which pet you would like to take to the vet

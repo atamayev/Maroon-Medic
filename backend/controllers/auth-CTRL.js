@@ -2,12 +2,12 @@ import dotenv from "dotenv"
 dotenv.config()
 import _ from "lodash"
 import jwt from "jsonwebtoken"
+import AuthDB from "../db/auth-DB.js"
 import TimeUtils from "../utils/time.js"
 import Hash from "../db-setup-and-security/hash.js"
-import { ID_to_UUID, UUID_to_ID } from "../db-setup-and-security/UUID.js"
-import {connection, DB_Operation} from "../db-setup-and-security/connect.js"
-import { loginHistory } from "../helper-functions/account-tracker.js"
 import { clearCookies } from "../utils/cookie-operations.js"
+import { loginHistory } from "../utils/account-tracker.js"
+import { ID_to_UUID, UUID_to_ID } from "../db-setup-and-security/UUID.js"
 
 /** jwtVerify verifies the user's token (held in cookie).
  *  It does this in two steps. First, it checks if the DoctorAccessToken is valid (verification). If verified, the UUID is extracted from the Access Token. The UUID is then searched in the DB
@@ -45,15 +45,10 @@ export async function jwtVerify (req, res) {
       else if (response.type === "Patient") redirectURL = "/patient-login"
       clearCookies(res, undefined)
       return res.status(401).json({ shouldRedirect: true, redirectURL: redirectURL })
-    } else {
-      const UUID_reference = "UUID_reference"
-      const sql = `SELECT EXISTS(SELECT 1 FROM ${UUID_reference} WHERE UUID = ?) as 'exists' `
+    }
+    else {
+      const doesRecordExist = await AuthDB.checkIfUUIDExists(decodedUUID)
 
-      const values = [decodedUUID]
-      await DB_Operation(jwtVerify.name, UUID_reference)
-
-      const [results] = await connection.execute(sql, values)
-      const doesRecordExist = results[0].exists
       if (doesRecordExist) {
         response.isValid = true
         return res.status(200).json(response)
@@ -90,20 +85,14 @@ export async function jwtVerify (req, res) {
  */
 export async function login (req, res) {
   const { email, password, loginType } = req.body.loginInformationObject
-  const Credentials = "Credentials"
 
   if (loginType !== "Doctor" && loginType !== "Patient") return res.json("Invalid User Type") // If Type not Doctor or Patient
-
-  const sql = `SELECT UserID, password FROM ${Credentials} WHERE email = ? AND User_type = ? AND isActive = 1`
-  const values = [email, loginType]
-
-  await DB_Operation(login.name, Credentials)
 
   let results
   let hashedPassword
 
   try {
-    [results] = await connection.execute(sql, values)
+    results = await AuthDB.checkIfUsernameExists(email, loginType)
     if (_.isEmpty(results)) return res.status(404).json("Username not found!")
     else hashedPassword = results[0].password
   } catch (error) {
@@ -118,7 +107,8 @@ export async function login (req, res) {
     return res.status(500).json({ error: "Problem with checking password" })
   }
 
-  if (bool === true) {
+  if (bool === false) return res.status(400).json("Wrong Username or Password!")
+  else {
     const IDKey = `${loginType}ID`
     const ID = results[0].UserID
     const UUID = await ID_to_UUID(ID)
@@ -157,8 +147,6 @@ export async function login (req, res) {
       })
       .status(200)
       .json()
-  } else {
-    return res.status(400).json("Wrong Username or Password!")
   }
 }
 
@@ -179,20 +167,12 @@ export async function login (req, res) {
  */
 export async function register (req, res) {
   const {email, password, registerType} = req.body.registerInformationObject // Desctructures the request
-  const Credentials = "Credentials"
 
   if (registerType !== "Doctor" && registerType !== "Patient") return res.status(400).json("Invalid User Type") // If Type not Doctor or Patient
 
-  //Consider adding isActive as a search parameter. If a user deletes their account, should they be allowed to create a new one with the same email?
-  const sql = `SELECT EXISTS(SELECT 1 FROM ${Credentials} WHERE email = ? AND User_type = ?) as 'exists' `
-  const values = [email, registerType]
-
-  await DB_Operation(register.name, Credentials)
-
   let doesAccountExist
   try {
-    const [results] = await connection.execute(sql, values)
-    doesAccountExist = results[0].exists
+    doesAccountExist = await AuthDB.checkIfAccountExists(email, registerType)
   } catch (error) {
     return res.status(500).json({ error: "Problem with existing email search" })
   }
@@ -209,25 +189,16 @@ export async function register (req, res) {
 
   const createdAt = TimeUtils.createFormattedDate()
 
-  const sql1 = `INSERT INTO ${Credentials} (email, password, Created_at, User_type, isActive) VALUES (?, ?, ?, ?, ?)`
-  const values1 = [email, hashedPassword, createdAt, registerType, 1]
-  let results1
+  let UserID
   try {
-    [results1] = await connection.execute(sql1, values1)
+    UserID = await AuthDB.addNewUserCredentials(email, hashedPassword, createdAt, registerType)
   } catch (error) {
     return res.status(500).json({ error: "Problem with Data Insertion" })
   }
 
-  const UserID = results1.insertId
-
   if (registerType === "Doctor") {
-    const Doctor_specific_info = "Doctor_specific_info"
-
-    const sql2 = `INSERT INTO ${Doctor_specific_info} (verified, publiclyAvailable, Doctor_ID) VALUES (?, ?, ?)`
-    const values2 = [true, true, UserID]
-
     try {
-      await connection.execute(sql2, values2)
+      await AuthDB.addDoctorSpecificDetails(UserID)
     } catch (error) {
       return res.status(500).json({ error: "Problem with Data Insertion" })
     }
@@ -295,15 +266,11 @@ export async function fetchLoginHistory (req, res) {
     UUID = cookies.PatientUUID
     type = "Patient"
   }
-  const login_history = "login_history"
-  await DB_Operation(fetchLoginHistory.name, login_history)
 
   try {
     const User_ID = await UUID_to_ID(UUID) // converts DoctorUUID to docid
-    const sql = `SELECT login_historyID, Login_at FROM ${login_history} WHERE User_ID = ? ORDER BY Login_at DESC`
-    const values = [User_ID]
-    const [results] = await connection.execute(sql, values)
-    return res.status(200).json(results)
+    const loginHistory = await AuthDB.retrieveLoginHistory(User_ID)
+    return res.status(200).json(loginHistory)
   } catch (error) {
     clearCookies(res, type)
     return res.status(401).json({ shouldRedirect: true, redirectURL: "/" })
@@ -315,12 +282,10 @@ export async function changePassword (req, res) {
   const cookies = req.cookies
   let UUID
 
-  if (userType === "Doctor") UUID = cookies.DoctorUUID
+  if (userType !== "Doctor" && userType !== "Patient") res.status(401).json({ shouldRedirect: true, redirectURL: "/" })
+  else if (userType === "Doctor") UUID = cookies.DoctorUUID
   else if (userType === "Patient") UUID = cookies.PatientUUID
-  else return res.status(401).json({ shouldRedirect: true, redirectURL: "/" })
 
-  const Credentials = "Credentials"
-  await DB_Operation(changePassword.name, Credentials)
   let User_ID
   try {
     User_ID = await UUID_to_ID(UUID) // converts DoctorUUID to docid
@@ -328,23 +293,16 @@ export async function changePassword (req, res) {
     return res.status(401).json({ shouldRedirect: true, redirectURL: "/" })
   }
 
-  const sql = `SELECT password FROM ${Credentials} WHERE UserID = ?`
-  const values = [User_ID]
-
   try {
-    const [results] = await connection.execute(sql, values)
-    const hashedPassword = results[0].password
+    const hashedPassword = await AuthDB.retrieveUserPassword(User_ID)
     const isOldPasswordMatch = await Hash.checkPassword(currentPassword, hashedPassword)
-    if (isOldPasswordMatch) {
+    if (!isOldPasswordMatch) return res.status(400).json("Old Password is incorrect")
+    else {
       const isSamePassword = await Hash.checkPassword(newPassword, hashedPassword)
       if (isSamePassword) return res.status(400).json("New Password cannot be the same as the old password")
       const newHashedPassword = await Hash.hashCredentials(newPassword)
-      const sql1 = `UPDATE ${Credentials} SET password = ? WHERE UserID = ?`
-      const values1 = [newHashedPassword, User_ID]
-      await connection.execute(sql1, values1)
+      await AuthDB.updateUserPassword(User_ID, newHashedPassword)
       return res.status(200).json()
-    } else {
-      return res.status(400).json("Old Password is incorrect")
     }
   } catch (error) {
     return res.status(500).json()
@@ -368,33 +326,19 @@ export async function logout (req, res) {
     if ("DoctorUUID" in cookies || "DoctorAccessToken" in cookies) {
       UUID = cookies.DoctorUUID
       type = "Doctor"
-      if ("DoctorNewUser" in cookies) {
-        newUserUUID = cookies.DoctorNewUser
-      }
+      if ("DoctorNewUser" in cookies) newUserUUID = cookies.DoctorNewUser
     } else if ("PatientUUID" in cookies || "PatientAccessToken" in cookies) {
       UUID = cookies.PatientUUID
       type = "Patient"
-      if ("PatientNewUser" in cookies) {
-        newUserUUID = cookies.PatientNewUser
-      }
+      if ("PatientNewUser" in cookies) newUserUUID = cookies.PatientNewUser
     }
 
-    const UUID_reference = "UUID_reference"
-    const sql = `DELETE FROM ${UUID_reference} WHERE UUID = ?`
-    let values = [UUID]
+    if (UUID) await AuthDB.deleteUUIDUponLogout(UUID)
 
-    await DB_Operation(logout.name, UUID_reference)
-    try {
-      if (UUID) await connection.execute(sql, values)
-    } catch (error) {
-    }
+    if (newUserUUID) await AuthDB.deleteUUIDUponLogout(newUserUUID)
 
-    if (newUserUUID) {
-      //If the user is new, they will have an extra cookie. Need to delete that UUID upon logout as well
-      values = [newUserUUID]
-      await connection.execute(sql, values)
-    }
   } catch (error) {
+    //Not doing this because it will not clear the cookies in the next try catch block
     // return res.status(500).json({ error: `Error in accessing DB` })
   }
 
