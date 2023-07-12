@@ -1,5 +1,5 @@
 import _ from "lodash"
-import { connection, DB_Operation } from "../../db-and-security/connect.js"
+import { connection, DB_Operation } from "../../db-setup-and-security/connect.js"
 
 /**
  * FetchPublicDoctorData fetches all of a specific Doctor's data, concatenating all results as arrays to an array

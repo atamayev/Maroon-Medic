@@ -2,10 +2,10 @@ import dotenv from "dotenv"
 dotenv.config()
 import _ from "lodash"
 import jwt from "jsonwebtoken"
-import dayjs from "dayjs"
-import Hash from "../db-and-security/hash.js"
-import { ID_to_UUID, UUID_to_ID } from "../db-and-security/UUID.js"
-import {connection, DB_Operation} from "../db-and-security/connect.js"
+import TimeUtils from "../utils/time.js"
+import Hash from "../db-setup-and-security/hash.js"
+import { ID_to_UUID, UUID_to_ID } from "../db-setup-and-security/UUID.js"
+import {connection, DB_Operation} from "../db-setup-and-security/connect.js"
 import { loginHistory } from "../helper-functions/account-tracker.js"
 import { clearCookies } from "../utils/cookie-operations.js"
 
@@ -207,12 +207,10 @@ export async function register (req, res) {
     }
   }
 
-  const newDateObject = new Date()
-  const format = "YYYY-MM-DD HH:mm:ss"
-  const dateTime = dayjs(newDateObject).format(format)
+  const createdAt = TimeUtils.createFormattedDate()
 
   const sql1 = `INSERT INTO ${Credentials} (email, password, Created_at, User_type, isActive) VALUES (?, ?, ?, ?, ?)`
-  const values1 = [email, hashedPassword, dateTime, registerType, 1]
+  const values1 = [email, hashedPassword, createdAt, registerType, 1]
   let results1
   try {
     [results1] = await connection.execute(sql1, values1)

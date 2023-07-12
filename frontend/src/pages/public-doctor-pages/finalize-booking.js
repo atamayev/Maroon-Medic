@@ -9,9 +9,9 @@ import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verifi
 import { confirmBooking } from "../../custom-hooks/public-doctor-hooks/confirm-booking-hook"
 import Header from "../header"
 
-const handleConfirmBooking = (e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData, message) => {
+const handleConfirmBooking = (e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet, message) => {
   e.preventDefault()
-  confirmBooking(navigate, selectedService, selectedLocation, selectedDay, selectedTime, personalData, message)
+  confirmBooking(navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet, message)
 }
 
 export function FinalizeBookingPage() {
@@ -21,13 +21,13 @@ export function FinalizeBookingPage() {
   const navigate = useNavigate()
   const { userType } = useSimpleUserVerification(false)
 
-  let selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData
+  let selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet
   const sessionBookingDetails = JSON.parse(sessionStorage.getItem("bookingDetails"))
 
   if (browserLocation.state) {
-    ({ selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData } = browserLocation.state)
+    ({ selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet } = browserLocation.state)
   } else if (sessionBookingDetails) {
-    ({ selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData } = sessionBookingDetails)
+    ({ selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet } = sessionBookingDetails)
   }
 
   useEffect(() => {
@@ -90,23 +90,26 @@ export function FinalizeBookingPage() {
     return (
       <>
         <Card.Text>
-          <span style={{ display: "block" }}>
+          <span style = {{ display: "block" }}>
+            <strong>Pet:</strong> {selectedPet.Name}
+          </span>
+          <span style = {{ display: "block" }}>
             <strong>Service:</strong> {selectedService.Service_name}
           </span>
-          <span style={{ display: "block" }}>
+          <span style = {{ display: "block" }}>
             <strong>Location:</strong> {selectedLocation.address_title}:  {selectedLocation.address_line_1} {selectedLocation.address_line_2}
           </span>
-          <span style={{ display: "block" }}>
+          <span style = {{ display: "block" }}>
             <strong>Day:</strong> {selectedDay}
           </span>
-          <span style={{ display: "block" }}>
+          <span style = {{ display: "block" }}>
             <strong>Time:</strong> {selectedTime} - {moment(selectedTime, "HH:mm").add(serviceMinutes, "minutes").format("h:mm A")}
           </span>
-          <span style={{ display: "block" }}>
+          <span style = {{ display: "block" }}>
             <strong>Price:</strong> ${selectedService.Service_price}
           </span>
         </Card.Text>
-        <span style={{ display: "block" }}>
+        <span style = {{ display: "block" }}>
           <strong>Write a message to Dr. {capitalizeFirstLetter(personalData.LastName)}:</strong>
           {renderMessageSection()}
         </span>
@@ -128,7 +131,9 @@ export function FinalizeBookingPage() {
               selectedLocation,
               selectedDay,
               selectedTime,
+              serviceMinutes,
               personalData,
+              selectedPet,
               message
             )
           }}

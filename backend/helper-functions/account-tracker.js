@@ -1,5 +1,5 @@
-import dayjs from "dayjs"
-import { DB_Operation, connection } from "../db-and-security/connect.js"
+import TimeUtils from "../utils/time.js"
+import { DB_Operation, connection } from "../db-setup-and-security/connect.js"
 
 /** login_history saves the date and IP Address of a certain user
  * @param {Int} User_ID
@@ -8,12 +8,10 @@ import { DB_Operation, connection } from "../db-and-security/connect.js"
 export async function loginHistory(User_ID) {
   const login_history = "login_history"
 
-  const newDateObject = new Date()
-  const format = "YYYY-MM-DD HH:mm:ss"
-  const dateTime = dayjs(newDateObject).format(format)
+  const loginAt = TimeUtils.createFormattedDate()
 
   const sql = `INSERT INTO ${login_history} (Login_at, IP_Address, User_ID) VALUES (?, ?, ?)`
-  const values = [dateTime, null, User_ID]
+  const values = [loginAt, null, User_ID]
 
   await DB_Operation(loginHistory.name, login_history)
 

@@ -1,5 +1,5 @@
 import _ from "lodash"
-import { connection, DB_Operation } from "../../db-and-security/connect.js"
+import { connection, DB_Operation } from "../../db-setup-and-security/connect.js"
 
 /** FetchPatientAccountData is fairly self-explanatory
  *  Here, each Patient's particular data is fetched from the DB.

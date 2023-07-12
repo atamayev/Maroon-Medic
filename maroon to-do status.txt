@@ -2,7 +2,6 @@ To-do:
 
 
 ASAP:
-
 added a appointment_timespan, and changed from patientID--> petID. - need to change the front-end accordingly
 -add choose your pet to make an appointment. if the user isn't logged in, show a login/register button in the booking section.
 	the first question should be: choose which pet you would like to take to the vet
@@ -14,6 +13,8 @@ added a appointment_timespan, and changed from patientID--> petID. - need to cha
 - go through backend, fix any examples of the null/400 respone returning late
 	ie. save doctordata ctrl. line 610. the 400 status should return before the if  and if else statments.
 		should be: if (_.isEmpty(addressResults) && (_.isEmpty(AddressData))
+
+-try making an appointment, not requesting, going back, and making a different appointmet. does session storage updat?
 -think about how isActive should work - what actually happens when a user deletes their account. should a new user be allowed to make an account with that same email instantaneosly?
 
 -consider combining the two add preVet Education callback functions

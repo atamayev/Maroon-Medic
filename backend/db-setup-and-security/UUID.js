@@ -1,6 +1,6 @@
 import _ from "lodash"
-import dayjs from "dayjs"
 import { v4 as uuidv4 } from "uuid"
+import TimeUtils from "../utils/time.js"
 import { connection, DB_Operation } from "./connect.js"
 
 // These functions are made to not send the ID back and forth from server to client.
@@ -15,13 +15,11 @@ export async function ID_to_UUID(User_ID) {
   const UUID = uuidv4()
   const UUID_reference = "UUID_reference"
 
-  const newDateObject = new Date()
-  const format = "YYYY-MM-DD HH:mm:ss"
-  const dateTime = dayjs(newDateObject).format(format)
+  const createdAt = TimeUtils.createFormattedDate()
 
   await DB_Operation(ID_to_UUID.name, UUID_reference)
   const sql = `INSERT INTO ${UUID_reference} (UUID, Created_at, User_ID) VALUES (?, ?, ?)`
-  const values = [UUID, dateTime, User_ID]
+  const values = [UUID, createdAt, User_ID]
 
   try {
     await connection.execute(sql, values)

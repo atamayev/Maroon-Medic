@@ -1,5 +1,5 @@
-import { connection, DB_Operation } from "../db-and-security/connect.js"
-import redisClient from "../db-and-security/redis.js"
+import { connection, DB_Operation } from "../db-setup-and-security/connect.js"
+import redisClient from "../db-setup-and-security/redis.js"
 
 /** FetchAllLists is fairly self-explanatory
  *  These lists are fetched from the DB for each doctor/patient to fill in their respective information.

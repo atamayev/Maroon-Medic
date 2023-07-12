@@ -53,14 +53,15 @@ export const handleTimeChange = (event, setSelectedTime) => {
   setSelectedTime(value === "Select..." ? null : value)
 }
 
-export function finalizeBookingClick(navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData) {
+export function finalizeBookingClick(navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet) {
   const bookingDetails = {
     selectedService: selectedService ? selectedService : null,
     selectedLocation: selectedLocation ? selectedLocation : null,
     selectedDay,
     selectedTime,
     serviceMinutes,
-    personalData
+    personalData,
+    selectedPet
   }
 
   // Store the current state into sessionStorage

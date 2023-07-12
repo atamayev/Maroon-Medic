@@ -11,9 +11,9 @@ import { finalizeBookingClick } from "../../custom-hooks/public-doctor-hooks/boo
 import { handleServiceChange, handleLocationChange, handleDayChange, handleTimeChange, handlePetChange } from "../../custom-hooks/public-doctor-hooks/booking-page-hooks"
 import { UnauthorizedUserBodyText } from "../../components/user-type-unauth"
 
-const handleBookingClick = (e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData) => {
+const handleBookingClick = (e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet) => {
   e.preventDefault()
-  finalizeBookingClick(navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData)
+  finalizeBookingClick(navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet)
 }
 
 function usePetData(userType) {
@@ -152,7 +152,7 @@ export default function RenderBookingSection(props) {
       )
     }
 
-    if (savedPetData.length === 1) return <div className = "col-md-6">Selected Pet: {selectedPet.Name}</div>
+    if (savedPetData.length === 1) return <div className = "col-md-6">Selected Pet: {selectedPet?.Name}</div>
 
     return (
       <div className = "col-md-6">
@@ -294,7 +294,8 @@ export default function RenderBookingSection(props) {
           selectedDay,
           selectedTime,
           serviceMinutes,
-          personalData
+          personalData,
+          selectedPet
         )}
         variant = "primary"
       >

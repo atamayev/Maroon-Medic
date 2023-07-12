@@ -2,10 +2,12 @@ import _ from "lodash"
 import dayjs from "dayjs"
 import customParseFormat from "dayjs/plugin/customParseFormat.js"
 dayjs.extend(customParseFormat) // extend Day.js with the plugin
-import { UUID_to_ID } from "../../db-and-security/UUID.js"
+import TimeUtils from "../../utils/time.js"
+import { UUID_to_ID } from "../../db-setup-and-security/UUID.js"
 import { clearCookies } from "../../utils/cookie-operations.js"
 import FetchAllLists from "../../helper-functions/fetch-all-lists.js"
-import {connection, DB_Operation} from "../../db-and-security/connect.js"
+import {connection, DB_Operation} from "../../db-setup-and-security/connect.js"
+import { formatPersonalData } from "../../utils/personal-data-formatter.js"
 import FetchDoctorAccountData from "../../helper-functions/fetch-data/fetch-doctor-account-data.js"
 
 /** newDoctor registers the inputted user data into basic_Doctor_info table
@@ -28,11 +30,7 @@ export async function newDoctor (req, res) {
 
   const newDoctorObject = req.body.newDoctorObject
 
-  // Combine date parts into a single string
-  const dateOfBirthStr = `${newDoctorObject.DOB_month} ${newDoctorObject.DOB_day} ${newDoctorObject.DOB_year}`
-
-  // Convert the string to a Date object and format it
-  const dateOfBirth = dayjs(dateOfBirthStr, "MMMM D YYYY").format("YYYY-MM-DD")
+  const dateOfBirth = TimeUtils.convertDOBStringIntoMySQLDate(newDoctorObject.DOB_month, newDoctorObject.DOB_day, newDoctorObject.DOB_year)
 
   const basic_user_info = "basic_user_info"
   const sql = `INSERT INTO ${basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?, ?, ?, ?, ?)`
@@ -175,14 +173,7 @@ export async function fetchPersonalData (req, res) {
     if (_.isEmpty(results)) return res.json(PersonalData)
     else {
       let dob = dayjs(results[0].DOB)
-      PersonalData = {
-        FirstName: results[0].FirstName,
-        LastName: results[0].LastName,
-        Gender: results[0].Gender,
-        DOB_month: dob.format("MMMM"),  // getting month name
-        DOB_day: dob.date().toString(),  // getting day
-        DOB_year: dob.year().toString()  // getting year
-      }
+      const PersonalData = formatPersonalData(results, dob)
       return res.json(PersonalData)
     }
   } catch (error) {

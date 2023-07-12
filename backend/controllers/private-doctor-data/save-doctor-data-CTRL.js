@@ -2,9 +2,10 @@ import _ from "lodash"
 import dayjs from "dayjs"
 import customParseFormat from "dayjs/plugin/customParseFormat.js"
 dayjs.extend(customParseFormat) // extend Day.js with the plugin
-import { UUID_to_ID } from "../../db-and-security/UUID.js"
-import { connection, DB_Operation } from "../../db-and-security/connect.js"
+import { UUID_to_ID } from "../../db-setup-and-security/UUID.js"
+import { connection, DB_Operation } from "../../db-setup-and-security/connect.js"
 import { clearCookies } from "../../utils/cookie-operations.js"
+import TimeUtils from "../../utils/time.js"
 import { getUnchangedAddressRecords, getUpdatedAddressRecords } from "../../utils/address-operations.js"
 
 /** savePersonalData is self-explanatory in name
@@ -43,11 +44,7 @@ export async function savePersonalData (req, res) {
     return res.status(400).json()
   }
 
-  // Combine date parts into a single string
-  const dateOfBirthStr = `${personalInfo.DOB_month} ${personalInfo.DOB_day} ${personalInfo.DOB_year}`
-
-  // Convert the string to a Date object and format it
-  const dateOfBirth = dayjs(dateOfBirthStr, "MMMM D YYYY").format("YYYY-MM-DD")
+  const dateOfBirth = TimeUtils.convertDOBStringIntoMySQLDate(personalInfo.DOB_month, personalInfo.DOB_day, personalInfo.DOB_year)
   const values1 = [personalInfo.FirstName, personalInfo.LastName, personalInfo.Gender, dateOfBirth, DoctorID]
 
   if (!doesRecordAccountExist) {// if no results, then insert.

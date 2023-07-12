@@ -1,4 +1,4 @@
-import { DB_Operation, connection } from "../db-and-security/connect.js"
+import { DB_Operation, connection } from "../db-setup-and-security/connect.js"
 import FetchPublicDoctorData from "../helper-functions/fetch-data/fetch-public-doctor-data.js"
 import FetchDoctorAccountData from "../helper-functions/fetch-data/fetch-doctor-account-data.js"
 

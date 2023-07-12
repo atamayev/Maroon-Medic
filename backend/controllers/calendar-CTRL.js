@@ -1,6 +1,7 @@
 import dayjs from "dayjs"
-import { UUID_to_ID } from "../db-and-security/UUID.js"
-import {connection, DB_Operation} from "../db-and-security/connect.js"
+import TimeUtils from "../utils/time.js"
+import { UUID_to_ID } from "../db-setup-and-security/UUID.js"
+import { connection, DB_Operation } from "../db-setup-and-security/connect.js"
 import { clearCookies } from "../utils/cookie-operations.js"
 
 /** makeAppointment is called when a patient makes an appointment
@@ -28,24 +29,10 @@ export async function makeAppointment(req, res) {
     return res.status(500).json(error)
   }
 
-  //fix:
-  const PetID = 1
-
-  // const PatientUUID = req.cookies.PatientUUID
-  // let PatientID
-  // try {
-  //   PatientID = await UUID_to_ID(PatientUUID)
-  // } catch (error) {
-  //   clearCookies(res, "Patient")
-  //   return res.status(401).json({ shouldRedirect: true, redirectURL: "/patient-login" })
-  // }
-
-  const newDateObject = new Date()
-  const format = "YYYY-MM-DD HH:mm:ss"
-  const createdAt = dayjs(newDateObject).format(format)
+  const createdAt = TimeUtils.createFormattedDate()
 
   // Remove "th", "st", "nd", "rd" from the date
-  const dateStr = AppointmentObject.appointmentDate.replace(/\b(\d+)(th|st|nd|rd)\b/g, "$1")
+  const dateStr = TimeUtils.cleanDateString(AppointmentObject.appointmentDate)
   const timeStr = AppointmentObject.appointmentTime
 
   // Combine date and time into a single string
@@ -62,8 +49,7 @@ export async function makeAppointment(req, res) {
   const sql2 = `INSERT INTO ${Appointments}
       (appointment_date, appointment_price, appointment_timespan, patient_message, Doctor_confirmation_status, Service_and_category_list_ID, pet_info_ID, Doctor_ID, Addresses_ID, Created_at)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
-  //FIX THIS: NEED TO ADD PET INFO ID, AND TIMESPAN
-  const values2 = [mysqlDateTime, AppointmentObject.appointmentPrice, AppointmentObject.timespan, AppointmentObject.message, AppointmentObject.InstantBook, AppointmentObject.Service_and_category_list_ID, PetID, DoctorID, AppointmentObject.AddressesID, createdAt]
+  const values2 = [mysqlDateTime, AppointmentObject.appointmentPrice, AppointmentObject.appointmentTimespan, AppointmentObject.message, AppointmentObject.InstantBook, AppointmentObject.Service_and_category_list_ID, AppointmentObject.selectedPetID, DoctorID, AppointmentObject.AddressesID, createdAt]
 
   await DB_Operation(makeAppointment.name, Appointments)
   try {

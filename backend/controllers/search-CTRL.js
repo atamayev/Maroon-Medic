@@ -1,6 +1,6 @@
 import _ from "lodash"
 import FetchAllLists from "../helper-functions/fetch-all-lists.js"
-import {connection, DB_Operation} from "../db-and-security/connect.js"
+import {connection, DB_Operation} from "../db-setup-and-security/connect.js"
 
 /** searchByQuery returns all users that fit the client's search
  * @param {String} req Query is passed in
