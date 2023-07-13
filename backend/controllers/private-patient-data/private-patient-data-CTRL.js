@@ -1,14 +1,11 @@
 import _ from "lodash"
-import dayjs from "dayjs"
-import customParseFormat from "dayjs/plugin/customParseFormat.js"
-dayjs.extend(customParseFormat) // extend Day.js with the plugin
-import { UUID_to_ID } from "../../db-setup-and-security/UUID.js"
+import { UUID_to_ID } from "../../setup-and-security/UUID.js"
 import TimeUtils from "../../utils/time.js"
-import { connection, DB_Operation } from "../../db-setup-and-security/connect.js"
 import FetchAllListsDB from "../../db/fetch-all-lists-DB.js"
 import { clearCookies } from "../../utils/cookie-operations.js"
-import { formatPersonalData } from "../../utils/personal-data-formatter.js"
-import FetchPatientAccountDataDB from "../../db/private-patient-data/fetch-patient-account-data-DB.js"
+import DataFormatter from "../../utils/data-formatter.js"
+import PrivatePatientDataDB from "../../db/private-patient-data/private-patient-data-DB.js"
+import FetchPatientAccountData from "../../utils/fetch-account-and-public-data/fetch-patient-account-data.js"
 
 /** newPatient registers the inputted user data into basic_Patient_info table
  *  All necessary information is sent via the request (PatientUUID, firname, lastname, etc.)
@@ -31,14 +28,8 @@ export async function newPatient (req, res) {
 
   const dateOfBirth = TimeUtils.convertDOBStringIntoMySQLDate(newPatientObject.DOB_month, newPatientObject.DOB_day, newPatientObject.DOB_year)
 
-  const basic_user_info = "basic_user_info"
-  const sql = `INSERT INTO ${basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?, ?, ?, ?, ?)`
-
-  const values = [newPatientObject.FirstName, newPatientObject.LastName, newPatientObject.Gender, dateOfBirth, UserID]
-  await DB_Operation(newPatient.name, basic_user_info)
-
   try {
-    await connection.execute(sql, values)
+    await PrivatePatientDataDB.addNewPatientInfo(newPatientObject, dateOfBirth, UserID)
     return res.status(200).json()
   } catch (error) {
     return res.status(500).json(error)
@@ -60,23 +51,10 @@ export async function newPatientConfirmation (req, res) {
 
   if (!newPatientUUID || !existingPatientUUID) return res.json(patientPermission)
 
-  const UUID_reference = "UUID_reference"
-  const sql = `SELECT EXISTS(SELECT 1 FROM ${UUID_reference} WHERE UUID = ?) as 'exists'`
-  const values1 = [newPatientUUID]
-  const values2 = [existingPatientUUID]
-  await DB_Operation(newPatientConfirmation.name, UUID_reference)
-
   try {
-    const [results1] = await connection.execute(sql, values1)
-    const [results2] = await connection.execute(sql, values2)
-    const doesRecord1Exist = results1[0].exists
-    const doesRecord2Exist = results2[0].exists
+    const doBothUUIDExist = await PrivatePatientDataDB.newDoctorConfirmation(newPatientUUID, existingPatientUUID)
+    return res.json(doBothUUIDExist)
 
-    if (doesRecord1Exist === 1 && doesRecord2Exist === 1) {
-      patientPermission = true
-      return res.json(patientPermission)
-    }
-    else return res.json(patientPermission)
   } catch (error) {
     return res.json(patientPermission)
   }
@@ -100,32 +78,14 @@ export async function fetchDashboardData (req, res) {
     return res.status(401).json({ shouldRedirect: true, redirectURL: "/patient-login" })
   }
 
-  const [Appointments, service_and_category_list, addresses, basic_user_info] =
-      ["Appointments", "service_and_category_list", "addresses", "basic_user_info"]
-
-  const sql = `SELECT
-          ${Appointments}.AppointmentsID, ${Appointments}.appointment_date, ${Appointments}.appointment_price, ${Appointments}.patient_message, ${Appointments}.Doctor_confirmation_status, ${Appointments}.Created_at,
-          ${service_and_category_list}.Category_name, ${service_and_category_list}.Service_name,
-          ${addresses}.address_title, ${addresses}.address_line_1, ${addresses}.address_line_2, ${addresses}.city, ${addresses}.state, ${addresses}.zip, ${addresses}.country,
-          ${basic_user_info}.FirstName AS Doctor_FirstName, ${basic_user_info}.LastName AS Doctor_LastName
-      FROM ${Appointments}
-          INNER JOIN ${service_and_category_list} ON ${Appointments}.${service_and_category_list}_ID = ${service_and_category_list}.${service_and_category_list}ID
-          INNER JOIN ${addresses} ON ${Appointments}.${addresses}_ID = ${addresses}.${addresses}ID AND ${addresses}.Doctor_ID = ${Appointments}.Doctor_ID
-          INNER JOIN ${basic_user_info} ON ${Appointments}.Doctor_ID = ${basic_user_info}.User_ID
-      WHERE
-          ${Appointments}.Patient_ID = ?`
-
-  const values = [PatientID]
-  await DB_Operation(fetchDashboardData.name, Appointments)
-
   try {
-    const [results] = await connection.execute(sql, values)
-    if (_.isEmpty(results)) return res.json([])
+    const DashboardData = await PrivatePatientDataDB.retrieveDoctorDashboard(PatientID)
+
+    if (_.isEmpty(DashboardData)) return res.json([])
     else {
-      const DashboardData = results
       for (let i = 0; i < DashboardData.length; i++) {
-        DashboardData[i].appointment_date = dayjs(DashboardData[i].appointment_date).format("MMMM D, YYYY, h:mm A")
-        DashboardData[i].Created_at = dayjs(DashboardData[i].Created_at).format("MMMM D, YYYY, h:mm A")
+        DashboardData[i].appointment_date = TimeUtils.convertMySQLDateIntoReadableString(DashboardData[i].appointment_date)
+        DashboardData[i].Created_at = TimeUtils.convertMySQLDateIntoReadableString(DashboardData[i].Created_at)
       }
       return res.json(DashboardData)
     }
@@ -151,12 +111,6 @@ export async function fetchPersonalData (req, res) {
     return res.status(401).json({ shouldRedirect: true, redirectURL: "/patient-login" })
   }
 
-  const basic_user_info = "basic_user_info"
-
-  const sql = `SELECT FirstName, LastName, Gender, DOB FROM ${basic_user_info} WHERE User_ID = ?`
-  const values = [PatientID]
-  await DB_Operation(fetchPersonalData.name, basic_user_info)
-
   let PersonalData = {
     FirstName: "",
     LastName: "",
@@ -167,11 +121,10 @@ export async function fetchPersonalData (req, res) {
   }
 
   try {
-    const [results] = await connection.execute(sql, values)
-    if (_.isEmpty(results)) return res.json(PersonalData)
+    const unformattedPersonaData = await PrivatePatientDataDB.retrieveDoctorDashboard(PatientID)
+    if (_.isEmpty(unformattedPersonaData)) return res.json(PersonalData)
     else {
-      let dob = dayjs(results[0].DOB)
-      const PersonalData = formatPersonalData(results, dob)
+      PersonalData = DataFormatter.formatPersonalData(unformattedPersonaData)
       return res.json(PersonalData)
     }
   } catch (error) {
@@ -198,7 +151,7 @@ export async function fetchPetData (req, res) {
   }
 
   try {
-    const response = await FetchPatientAccountDataDB.fetchPetData(PatientID)
+    const response = await FetchPatientAccountData.fetchPetData(PatientID)
     return res.status(200).json(response)
   } catch (error) {
     return res.status(400).json([])
@@ -231,7 +184,7 @@ export async function fetchInsurances (req, res) {
 
 /** fetchAccountDetails retrieves the Patient's Account Details
  *  Takes the patient's UUID, and converts to the patientID.
- *  Starts with an empty list, and appends objects from FetchPatientAccountDataDB. Each function contains a specific data type (desciriptions, languages, etc)
+ *  Starts with an empty list, and appends objects from FetchPatientAccountData. Each function contains a specific data type (desciriptions, languages, etc)
  * @param {Cookies} req Contains the user's cookies (PatientUUID)
  * @param {Array} res List with user account details
  * @returns User data.
@@ -249,7 +202,7 @@ export async function fetchAccountDetails (req, res) {
 
   try {
     let response = {}
-    response.languages  = await FetchPatientAccountDataDB.fetchPatientLanguages(PatientID)
+    response.languages  = await FetchPatientAccountData.fetchPatientLanguages(PatientID)
     return res.status(200).json(response)
   } catch (error) {
     return res.status(400).json([])

@@ -1,9 +1,6 @@
 import _ from "lodash"
-import dayjs from "dayjs"
-import customParseFormat from "dayjs/plugin/customParseFormat.js"
-dayjs.extend(customParseFormat) // extend Day.js with the plugin
-import { UUID_to_ID } from "../../db-setup-and-security/UUID.js"
-import { connection, DB_Operation } from "../../db-setup-and-security/connect.js"
+import { UUID_to_ID } from "../../setup-and-security/UUID.js"
+import { connection, DB_Operation } from "../../setup-and-security/connect.js"
 import { clearCookies } from "../../utils/cookie-operations.js"
 import TimeUtils from "../../utils/time.js"
 import { getUnchangedAddressRecords, getUpdatedAddressRecords } from "../../utils/address-operations.js"

@@ -1,6 +1,6 @@
 import { mysqlTables } from "../utils/table-names-list.js"
-import redisClient from "../db-setup-and-security/redis.js"
-import { connection } from "../db-setup-and-security/connect.js"
+import redisClient from "../setup-and-security/redis.js"
+import { connection } from "../setup-and-security/connect.js"
 
 /** FetchAllListsDB is fairly self-explanatory
  *  These lists are fetched from the DB for each doctor/patient to fill in their respective information.

@@ -1,6 +1,6 @@
-import Redis from "ioredis"
 import dotenv from "dotenv"
 dotenv.config()
+import Redis from "ioredis"
 
 /**
  * redisClient establishes an asynchronus connection using keys in .env

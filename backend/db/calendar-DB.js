@@ -1,5 +1,5 @@
 import { mysqlTables } from "../utils/table-names-list.js"
-import { connection } from "../db-setup-and-security/connect.js"
+import { connection } from "../setup-and-security/connect.js"
 
 export default new class CalendarDB {
   async retrieveDoctorIDFromNVI (NVI) {
@@ -12,7 +12,7 @@ export default new class CalendarDB {
 
   async createAppointment (dateTime, AppointmentObject, DoctorID, createdAt) {
     const sql = `INSERT INTO ${mysqlTables.appointments}
-      (appointment_date, appointment_price, appointment_timespan, patient_message, Doctor_confirmation_status, Service_and_category_list_ID, mysqlTables.pet_info_ID, Doctor_ID, Addresses_ID, Created_at)
+      (appointment_date, appointment_price, appointment_timespan, patient_message, Doctor_confirmation_status, Service_and_category_list_ID, pet_info_ID, Doctor_ID, Addresses_ID, Created_at)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
 
     const values = [dateTime, AppointmentObject.appointmentPrice, AppointmentObject.appointmentTimespan, AppointmentObject.message, AppointmentObject.InstantBook, AppointmentObject.Service_and_category_list_ID, AppointmentObject.selectedPetID, DoctorID, AppointmentObject.AddressesID, createdAt]

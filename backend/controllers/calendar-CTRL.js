@@ -1,7 +1,6 @@
-import dayjs from "dayjs"
 import TimeUtils from "../utils/time.js"
 import CalendarDB from "../db/calendar-DB.js"
-import { UUID_to_ID } from "../db-setup-and-security/UUID.js"
+import { UUID_to_ID } from "../setup-and-security/UUID.js"
 import { clearCookies } from "../utils/cookie-operations.js"
 
 /** makeAppointment is called when a patient makes an appointment
@@ -26,25 +25,13 @@ export async function makeAppointment(req, res) {
 
   const createdAt = TimeUtils.createFormattedDate()
 
-  // Remove "th", "st", "nd", "rd" from the date
-  const dateStr = TimeUtils.cleanDateString(AppointmentObject.appointmentDate)
-  const timeStr = AppointmentObject.appointmentTime
-
-  // Combine date and time into a single string
-  const dateTimeStr = `${dateStr} ${timeStr}`
-
-  const dateTimeStrFormatted = dateTimeStr.split(", ").slice(1).join(" ")
-
-  // Create a new Dayjs object from the string
-  const dateTime = dayjs(dateTimeStrFormatted)
-
-  // Format the Dayjs object into MySQL DATETIME format
-  const mysqlDateTime = dateTime.format("YYYY-MM-DD HH:mm:ss")
+  const mysqlDateTime = TimeUtils.convertAppointmentDateTimeIntoMySQLDate(AppointmentObject.appointmentDate, AppointmentObject.appointmentTime)
 
   try {
     await CalendarDB.createAppointment(mysqlDateTime, AppointmentObject, DoctorID, createdAt)
     return res.status(200).json()
   } catch (error) {
+    console.log(error)
     return res.status(500).json(error)
   }
 }

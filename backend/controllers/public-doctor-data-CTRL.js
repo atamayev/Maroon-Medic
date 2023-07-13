@@ -1,6 +1,6 @@
 import CalendarDB from "../db/calendar-DB.js"
-import FetchPublicDoctorDataDB from "../db/fetch-public-doctor-data-DB.js"
-import FetchDoctorAccountDataDB from "../db/private-doctor-data/fetch-doctor-account-data-DB.js"
+import FetchDoctorAccountData from "../utils/fetch-account-and-public-data/fetch-doctor-account-data.js"
+import FetchPublicDoctorData from "../utils/fetch-account-and-public-data/fetch-public-doctor-data.js"
 
 /** returnDoctorPageData searches for a particular Doctor's data
  *  Used to fill in doctor screen (particular doctor)
@@ -22,16 +22,16 @@ export async function returnDoctorPageData (req, res) {
 
   try {
     let response = {}
-    response.doctorLanguages           = await FetchPublicDoctorDataDB.fetchDoctorLanguages(DoctorID)
-    response.doctorServices            = await FetchDoctorAccountDataDB.fetchDoctorServices(DoctorID)
-    response.doctorSpecialties         = await FetchPublicDoctorDataDB.fetchDoctorSpecialties(DoctorID)
-    response.doctorPreVetEducation     = await FetchPublicDoctorDataDB.fetchPreVetEducation(DoctorID)
-    response.doctorVetEducation        = await FetchPublicDoctorDataDB.fetchVetEducation(DoctorID)
-    response.doctorAddressData         = await FetchPublicDoctorDataDB.fetchDoctorAddressData(DoctorID)
-    response.description               = await FetchDoctorAccountDataDB.fetchDescriptionData(DoctorID)
-    response.servicedPets              = await FetchPublicDoctorDataDB.fetchServicedPets(DoctorID)
-    //response.doctorPictures            = await FetchDoctorAccountDataDB.fetchDoctorPictures(DoctorID)
-    response.doctorPersonalInfo        = await FetchPublicDoctorDataDB.fetchDoctorPersonalInfo(DoctorID)
+    response.doctorLanguages           = await FetchPublicDoctorData.fetchDoctorLanguages(DoctorID)
+    response.doctorServices            = await FetchDoctorAccountData.fetchDoctorServices(DoctorID)
+    response.doctorSpecialties         = await FetchPublicDoctorData.fetchDoctorSpecialties(DoctorID)
+    response.doctorPreVetEducation     = await FetchPublicDoctorData.fetchPreVetEducation(DoctorID)
+    response.doctorVetEducation        = await FetchPublicDoctorData.fetchVetEducation(DoctorID)
+    response.doctorAddressData         = await FetchPublicDoctorData.fetchDoctorAddressData(DoctorID)
+    response.description               = await FetchDoctorAccountData.fetchDescriptionData(DoctorID)
+    response.servicedPets              = await FetchPublicDoctorData.fetchServicedPets(DoctorID)
+    //response.doctorPictures            = await FetchDoctorAccountData.fetchDoctorPictures(DoctorID)
+    response.doctorPersonalInfo        = await FetchPublicDoctorData.fetchDoctorPersonalInfo(DoctorID)
     response.doctorPersonalInfo["NVI"] = NVI
     return res.status(200).json(response)
   } catch (error) {

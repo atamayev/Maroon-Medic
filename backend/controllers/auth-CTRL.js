@@ -4,10 +4,10 @@ import _ from "lodash"
 import jwt from "jsonwebtoken"
 import AuthDB from "../db/auth-DB.js"
 import TimeUtils from "../utils/time.js"
-import Hash from "../db-setup-and-security/hash.js"
+import Hash from "../setup-and-security/hash.js"
 import { clearCookies } from "../utils/cookie-operations.js"
 import { loginHistory } from "../utils/account-tracker.js"
-import { ID_to_UUID, UUID_to_ID } from "../db-setup-and-security/UUID.js"
+import { ID_to_UUID, UUID_to_ID } from "../setup-and-security/UUID.js"
 
 /** jwtVerify verifies the user's token (held in cookie).
  *  It does this in two steps. First, it checks if the DoctorAccessToken is valid (verification). If verified, the UUID is extracted from the Access Token. The UUID is then searched in the DB

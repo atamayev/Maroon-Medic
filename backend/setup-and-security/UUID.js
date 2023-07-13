@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { v4 as uuidv4 } from "uuid"
+import UUIDDB from "../db/UUID-DB.js"
 import TimeUtils from "../utils/time.js"
-import { connection, DB_Operation } from "./connect.js"
 
 // These functions are made to not send the ID back and forth from server to client.
 // Instead, a UUID (Universally Unique Identifier) is created, which matches to a ID, and is sent back and forth
@@ -13,16 +13,10 @@ import { connection, DB_Operation } from "./connect.js"
  */
 export async function ID_to_UUID(User_ID) {
   const UUID = uuidv4()
-  const UUID_reference = "UUID_reference"
-
   const createdAt = TimeUtils.createFormattedDate()
 
-  await DB_Operation(ID_to_UUID.name, UUID_reference)
-  const sql = `INSERT INTO ${UUID_reference} (UUID, Created_at, User_ID) VALUES (?, ?, ?)`
-  const values = [UUID, createdAt, User_ID]
-
   try {
-    await connection.execute(sql, values)
+    await UUIDDB.createNewUUID(UUID, createdAt, User_ID)
     return UUID
   } catch (error) {
     return (`error in ${ID_to_UUID.name}:`, error)
@@ -37,14 +31,8 @@ export async function ID_to_UUID(User_ID) {
 export async function UUID_to_ID(UUID) {
   if (!UUID) throw new Error(`no UUID received in ${UUID_to_ID.name}`)
 
-  const UUID_reference = "UUID_reference"
-  const sql = `SELECT User_ID FROM ${UUID_reference} WHERE UUID = ?`
-  const values = [UUID]
-
-  await DB_Operation(UUID_to_ID.name, UUID_reference)
-
   try {
-    const [incompleteID] = await connection.execute(sql, values)
+    const incompleteID = await UUIDDB.retrieveUUID(UUID)
     if (_.isEmpty(incompleteID)) throw new Error(`No User_ID found for UUID: ${UUID}`)
     const ID = incompleteID[0].User_ID
     return ID
