@@ -16,7 +16,7 @@ dotenv.config()
 
 const port = process.env.PORT || 8000
 
-// Confirmation of DB Connection
+// Confirmation of MYSQL Connection
 connection.connect((err) => {
   if (err) throw err
 })

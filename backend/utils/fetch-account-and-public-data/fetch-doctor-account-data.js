@@ -66,7 +66,7 @@ export default new class FetchDoctorAccountData {
 
           if (_.isEmpty(phoneData)) address.phone = ""
           else {
-            address.phone = phoneData[0].phone
+            address.phone = phoneData[0].Phone
             address.phone_priority = phoneData[0].phone_priority
           }
         }

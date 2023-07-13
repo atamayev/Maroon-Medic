@@ -8,7 +8,7 @@ CREATE TABLE Credentials (
 	password VARCHAR(150) NOT NULL,
 	Created_at DATETIME NOT NULL,
 	User_type VARCHAR(20) NOT NULL, -- can be Doctor, Patient, admin, Administrator
-	isActive BOOLEAN NOT NULL
+	isActive BOOLEAN NOT NULL DEFAULT 1
 );
 
 SELECT * FROM Credentials;
@@ -61,10 +61,11 @@ CREATE TABLE pet_info ( -- specific info about each pet (from the Patient POV)
 	DOB DATE,
 	Patient_ID INT unsigned NOT NULL,
 	pet_ID INT unsigned NOT NULL,
-	isActive BOOLEAN NOT NULL, -- set to 1 by default, when a patient deletes pet, set to 0.
+	isActive BOOLEAN NOT NULL DEFAULT 1, -- set to 1 by default, when a patient deletes pet, set to 0.
 	FOREIGN KEY (Patient_ID) REFERENCES Credentials(UserID),
 	FOREIGN KEY (pet_ID) REFERENCES pet_list(pet_listID)
 );
+
 
 SELECT * FROM pet_info;
 
@@ -250,10 +251,11 @@ CREATE TABLE addresses(
 	address_priority INT,
 	address_public_status BOOLEAN NOT NULL,
 	instant_book BOOLEAN NOT NULL,
-	isActive BOOLEAN NOT NULL, -- set to 1 by default, when a doc deletes address, set to 0.
+	isActive BOOLEAN NOT NULL DEFAULT 1, -- set to 1 by default, when a doc deletes address, set to 0.
 	Doctor_ID INT unsigned NOT NULL,
 	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
 );
+
 select * from addresses;
 select * from addresses where isactive;
 SELECT * FROM addresses inner join phone on addresses.addressesID = phone.address_ID WHERE addresses.isactive;
@@ -262,14 +264,13 @@ SELECT * FROM addresses inner join phone on addresses.addressesID = phone.addres
 CREATE TABLE phone(
 	phone_numbersID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	Phone VARCHAR(150),
-	phone_priority INT,
+	phone_priority INT DEFAULT 0,
 	phone_type varchar(20), -- cell, office, fax
 	address_ID INT unsigned NOT NULL,
-	FOREIGN KEY (address_ID) REFERENCES addresses(addressesID) ON DELETE CASCADE
+	FOREIGN KEY (address_ID) REFERENCES addresses(addressesID)
 );
 
 SELECT * FROM phone;
-delete from phone where address_ID;
 
 CREATE TABLE booking_availability(
 	booking_availabilityID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -277,10 +278,9 @@ CREATE TABLE booking_availability(
 	Start_time VARCHAR(10),
 	End_time VARCHAR(10),
 	address_ID INT unsigned NOT NULL,
-	Doctor_ID INT unsigned NOT NULL,
-	FOREIGN KEY (address_ID) REFERENCES addresses(addressesID) ON DELETE CASCADE,
-	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
+	FOREIGN KEY (address_ID) REFERENCES addresses(addressesID)
 );
+
 SELECT * FROM booking_availability JOIN addresses ON booking_availability.address_ID = addresses.addressesID where addresses.isActive;
 SELECT * FROM booking_availability;
 

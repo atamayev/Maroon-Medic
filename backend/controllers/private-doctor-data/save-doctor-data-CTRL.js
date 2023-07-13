@@ -2,7 +2,6 @@ import _ from "lodash"
 import TimeUtils from "../../utils/time.js"
 import { UUID_to_ID } from "../../setup-and-security/UUID.js"
 import { clearCookies } from "../../utils/cookie-operations.js"
-import { connection } from "../../setup-and-security/connect.js"
 import SaveDoctorDataDB from "../../db/private-doctor-data/save-doctor-data-DB.js"
 import { getUnchangedAddressRecords, getUpdatedAddressRecords } from "../../utils/address-operations.js"
 
@@ -171,36 +170,31 @@ export async function saveServicesData (req, res) {
 
   const ServicesData = req.body.ServicesData //Array of Objects
 
-  const service_mapping = "service_mapping"
-
-  const sql = `SELECT Service_and_Category_ID FROM  ${service_mapping} WHERE Doctor_ID = ?`
-  const values = [DoctorID]
-  let results
+  let existingServicesIDs
 
   try {
-    [results] = await connection.execute(sql, values)
+    existingServicesIDs = await SaveDoctorDataDB.retrieveExistingServicesIDs(DoctorID)
   } catch (error) {
     return res.status(400).json()
   }
 
-  if (_.isEmpty(results) && _.isEmpty(ServicesData)) return res.status(400).json() //NO new data or queried results from DB.
-
-  else if (!_.isEmpty(results)) {
+  if (_.isEmpty(existingServicesIDs) && _.isEmpty(ServicesData)) return res.status(400).json() //NO new data or queried results from DB.
+  else if (!_.isEmpty(existingServicesIDs)) {
     // Doctor already has data in the table
     const newServicesData = ServicesData
 
-    const resultIDs = new Set(results.map(result => result.Service_and_Category_ID))//Extracts the Service_and_Category_ID from the DB results
+    const resultIDs = new Set(existingServicesIDs.map(result => result.Service_and_Category_ID))//Extracts the Service_and_Category_ID from the DB results
 
     const addedData = newServicesData.filter(service => !resultIDs.has(service.service_and_category_listID))// Extracts the IDs that are in newServices that are not in resultsIDs
 
     const serviceIDs = new Set(newServicesData.map(service => service.service_and_category_listID))
 
-    const deletedData = results.filter(result => !serviceIDs.has(result.Service_and_Category_ID))//Checks for IDs that are in results, but not in ServicesData (these will be deleted)
+    const deletedData = existingServicesIDs.filter(result => !serviceIDs.has(result.Service_and_Category_ID))//Checks for IDs that are in results, but not in ServicesData (these will be deleted)
 
     const updatedData = []
 
     ServicesData.forEach(service => {
-      const matchingResult = results.find(result => result.Service_and_Category_ID === service.service_and_category_listID)
+      const matchingResult = existingServicesIDs.find(result => result.Service_and_Category_ID === service.service_and_category_listID)
 
       if (matchingResult) {
         if (matchingResult.Service_time !== service.Service_time || matchingResult.Service_price !== service.Service_price) updatedData.push(service)
@@ -209,10 +203,8 @@ export async function saveServicesData (req, res) {
 
     if (!_.isEmpty(addedData)) {
       for (let i = 0; i < addedData.length; i++) {
-        const sql = `INSERT INTO ${service_mapping} (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?, ?, ?, ?)`
-        const values = [addedData[i].service_and_category_listID, addedData[i].Service_time, addedData[i].Service_price, DoctorID]
         try {
-          await connection.execute(sql, values)
+          await SaveDoctorDataDB.addServicesData(addedData[i], DoctorID)
         } catch (error) {
           return res.status(400).json()
         }
@@ -220,10 +212,8 @@ export async function saveServicesData (req, res) {
     }
     if (!_.isEmpty(deletedData)) {
       for (let i = 0; i < deletedData.length; i++) {
-        const sql = `DELETE FROM ${service_mapping} WHERE Service_and_Category_ID = ? AND Doctor_ID = ?`
-        const values = [deletedData[i].Service_and_Category_ID, DoctorID]
         try {
-          await connection.execute(sql, values)
+          await SaveDoctorDataDB.deleteServicesData(deletedData[i].Service_and_Category_ID, DoctorID)
         } catch (error) {
           return res.status(400).json()
         }
@@ -231,10 +221,8 @@ export async function saveServicesData (req, res) {
     }
     if (!_.isEmpty(updatedData)) {
       for (let i = 0; i < updatedData.length; i++) {
-        const sql = `UPDATE ${service_mapping} SET Service_time = ?, Service_price = ? WHERE Service_and_Category_ID = ? AND Doctor_ID = ?`
-        const values = [updatedData[i].Service_time, updatedData[i].Service_price, updatedData[i].service_and_category_listID, DoctorID]
         try {
-          await connection.execute(sql, values)
+          await SaveDoctorDataDB.updateServicesData(updatedData[i], DoctorID)
         } catch (error) {
           return res.status(400).json()
         }
@@ -244,10 +232,8 @@ export async function saveServicesData (req, res) {
   }
   else if (!_.isEmpty(ServicesData)) {
     for (let i = 0; i < ServicesData.length; i++) {
-      const sql = `INSERT INTO ${service_mapping} (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?, ?, ?, ?)`
-      const values = [ServicesData[i].service_and_category_listID, ServicesData[i].Service_time, ServicesData[i].Service_price, DoctorID]
       try {
-        await connection.execute(sql, values)
+        await SaveDoctorDataDB.addServicesData(ServicesData[i], DoctorID)
       } catch (error) {
         return res.status(400).json()
       }
@@ -324,27 +310,24 @@ export async function saveAddressData (req, res) {
 
   const AddressData = req.body.AddressData
   const TimesData = req.body.Times
-  const [addresses, phone, booking_availability] = ["addresses", "phone", "booking_availability"]
 
-  const sql = `SELECT addressesID FROM ${addresses} WHERE ${addresses}.isActive = 1 AND ${addresses}.Doctor_ID = ?`
-  const values = [DoctorID]
   let addressResults
 
   try {
-    [addressResults] = await connection.execute(sql, values)
+    addressResults = await SaveDoctorDataDB.retrieveExistingAddressIDs(DoctorID)
   } catch (error) {
     return res.status(400).json()
   }
 
   if (!_.isEmpty(addressResults)) {
     for (let addressResult of addressResults) {
-      const sql2 = `SELECT ${phone}.Phone, ${phone}.phone_priority
-        FROM ${phone}
-        WHERE ${phone}.address_ID = ?`
-
-      const [phones] = await connection.execute(sql2, [addressResult.addressesID])
-      if (_.isEmpty(phones)) addressResult.phone = ""
-      else addressResult.phone = phones[0]
+      try {
+        const phones = await SaveDoctorDataDB.retrievePhoneData(addressResult.addressesID)
+        if (_.isEmpty(phones)) addressResult.phone = ""
+        else addressResult.phone = phones[0]
+      } catch (error) {
+        return res.status(400).json()
+      }
     }
     const newData = AddressData
     // Check for changes in data:
@@ -365,11 +348,8 @@ export async function saveAddressData (req, res) {
 
     if (!_.isEmpty(deletedData)) {
       for (let i = 0; i < deletedData.length; i++) {
-        //Automatically deletes data in the phone number table, since the two are linked via a cascade
-        const sql = `UPDATE ${addresses} SET isActive = 0 WHERE addressesID = ?`
-        const values = [deletedData[i]]
         try {
-          await connection.execute(sql, values)
+          await SaveDoctorDataDB.deleteAddressRecord(deletedData[i])
         } catch (error) {
           return res.status(400).json()
         }
@@ -377,66 +357,50 @@ export async function saveAddressData (req, res) {
     }
     if (!_.isEmpty(addedData)) {
       for (let i = 0; i < addedData.length; i++) {
-        const sql = `INSERT INTO ${addresses}
-          (address_title, address_line_1, address_line_2, city, state, zip, country, address_public_status, address_priority, instant_book, isActive, Doctor_ID)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
-        const values = [addedData[i].address_title, addedData[i].address_line_1, addedData[i].address_line_2, addedData[i].city, addedData[i].state, addedData[i].zip, addedData[i].country, addedData[i].address_public_status, addedData[i].address_priority, addedData[i].instant_book, 1, DoctorID]
-        let insert_results
+        let insertID
         try {
-          [insert_results] = await connection.execute(sql, values)
+          insertID = await SaveDoctorDataDB.addAddressRecord(addedData[i], DoctorID)
         } catch (error) {
           return res.status(400).json()
         }
 
         if (addedData[i].phone) {
-          const sql = `INSERT INTO ${phone} (Phone, phone_priority, address_ID) VALUES (?, ?, ?)`
-          const values = [addedData[i].phone, addedData[i].phone_priority, insert_results.insertId]
           try {
-            await connection.execute(sql, values)
+            await SaveDoctorDataDB.addPhoneRecord(addedData[i].phone, insertID)
           } catch (error) {
             return res.status(400)
           }
         }
-        addedData[i].addressesID = insert_results.insertId
+        addedData[i].addressesID = insertID
         returnedData.push(addedData[i])
       }
     }
     if (!_.isEmpty(updatedData)) {
       for (let i = 0; i < updatedData.length; i++) {
-        const sql1 = `UPDATE ${addresses}
-            SET address_title = ?, address_line_1 = ?, address_line_2 = ?, city = ?, state = ?, zip = ?, country = ?, address_public_status = ?, instant_book = ?
-            WHERE addressesID = ?`
-        const values1 = [updatedData[i].address_title, updatedData[i].address_line_1, updatedData[i].address_line_2, updatedData[i].city, updatedData[i].state, updatedData[i].zip, updatedData[i].country, updatedData[i].address_public_status, updatedData[i].instant_book, updatedData[i].addressesID]
         try {
-          await connection.execute(sql1, values1)
+          await SaveDoctorDataDB.updateAddressRecord(updatedData[i])
         } catch (error) {
           return res.status(400).json()
         }
 
-        const sql2 = `SELECT phone_numbersID FROM ${phone} where address_ID = ?`
-        const values2 = [updatedData[i].addressesID]
-        let results
+        let doesPhoneExist
 
         try {
-          [results] = await connection.execute(sql2, values2)
+          doesPhoneExist = await SaveDoctorDataDB.checkIfPhoneExists(updatedData[i].addressesID)
         } catch (error) {
           return res.status(400).json()
         }
-        if (!_.isEmpty(results)) {
-          if (updatedData[i].phone) {
-            const sql = `UPDATE ${phone} SET phone = ? WHERE address_ID = ?`
-            const values = [updatedData[i].phone, updatedData[i].addressesID]
+        if (doesPhoneExist) {
+          if (_.has(updatedData[i], "phone")) {
             try {
-              await connection.execute(sql, values)
+              await SaveDoctorDataDB.updatePhoneRecord(updatedData[i])
             } catch (error) {
               return res.status(400).json()
             }
           }
         } else {
-          const sql = `INSERT INTO ${phone} (Phone, phone_priority, address_ID) VALUES (?, ?, ?)`
-          const values = [updatedData[i].phone, 0, updatedData[i].addressesID]//need to figure out why phone_priority not in updatedData
           try {
-            await connection.execute(sql, values)
+            await SaveDoctorDataDB.addPhoneRecord(updatedData[i].phone, updatedData[i].addressesID)
           } catch (error) {
             return res.status(400).json()
           }
@@ -457,17 +421,15 @@ export async function saveAddressData (req, res) {
         const returnedDataData = returnedData[i]
         const corespondingTimeData = TimesData[i]
 
-        const sql = `SELECT Day_of_week, Start_time, End_time FROM ${booking_availability} WHERE ${booking_availability}.address_ID = ? AND ${booking_availability}.Doctor_ID = ?`
-        const values = [returnedDataData.addressesID, DoctorID]
-        let timeDataResults
+        let existingAvailbilityData
 
         try {
-          [timeDataResults] = await connection.execute(sql, values)
+          existingAvailbilityData = await SaveDoctorDataDB.retrieveExistingAvailbilityData(returnedDataData.addressesID)
         } catch (error) {
           return res.status(400).json()
         }
 
-        const oldDataDict = Object.fromEntries(timeDataResults.map(item => [item.Day_of_week, item]))
+        const oldDataDict = Object.fromEntries(existingAvailbilityData.map(item => [item.Day_of_week, item]))
         const newDataDict = Object.fromEntries(corespondingTimeData.map(item => [item.Day_of_week, item]))
 
         const addedTimeData = Object.values(newDataDict).filter(item => !(item.Day_of_week in oldDataDict))
@@ -482,10 +444,8 @@ export async function saveAddressData (req, res) {
         if (!_.isEmpty(addedTimeData)) {
           for (let j = 0; j < addedTimeData.length; j++) {
             if (addedTimeData[j]) {
-              const sql = `INSERT INTO ${booking_availability} (Day_of_week, Start_time, End_time, address_ID, Doctor_ID) VALUES (?, ?, ?, ?, ?)`
-              const values = [addedTimeData[j].Day_of_week, addedTimeData[j].Start_time, addedTimeData[j].End_time, returnedDataData.addressesID, DoctorID]
               try {
-                await connection.execute(sql, values)
+                await SaveDoctorDataDB.addAvailbilityData(addedTimeData[j], returnedDataData.addressesID)
               } catch (error) {
                 return res.status(400).json()
               }
@@ -495,10 +455,8 @@ export async function saveAddressData (req, res) {
         if (!_.isEmpty(deletedTimeData)) {
           for (let j = 0; j < deletedTimeData.length; j++) {
             if (deletedTimeData[j]) {
-              const sql = `DELETE FROM ${booking_availability} WHERE Day_of_week = ? AND Start_time = ? AND End_time = ?`
-              const values = [deletedTimeData[j].Day_of_week, deletedTimeData[j].Start_time, deletedTimeData[j].End_time]
               try {
-                await connection.execute(sql, values)
+                await SaveDoctorDataDB.deleteAvailbilityData(deletedTimeData[j], returnedDataData.addressesID)
               } catch (error) {
                 return res.status(400).json()
               }
@@ -508,10 +466,8 @@ export async function saveAddressData (req, res) {
         if (!_.isEmpty(updatedTimeData)) {
           for (let j = 0; j < updatedTimeData.length; j++) {
             if (updatedTimeData[j]) {
-              const sql = `UPDATE ${booking_availability} SET Start_time = ?, End_time = ? WHERE Day_of_week = ? AND address_ID = ?`
-              const values = [updatedTimeData[j].Start_time, updatedTimeData[j].End_time, updatedTimeData[j].Day_of_week, returnedDataData.addressesID]
               try {
-                await connection.execute(sql, values)
+                await SaveDoctorDataDB.updateTimeAvailbilityData(updatedTimeData[j], returnedDataData.addressesID)
               } catch (error) {
                 return res.status(400).json()
               }
@@ -527,38 +483,30 @@ export async function saveAddressData (req, res) {
   } else if (!_.isEmpty(AddressData)) {
     AddressData.sort((a, b) => a.address_priority - b.address_priority)
     for (let i = 0; i < AddressData.length; i++) {
-      const sql = `INSERT INTO ${addresses}
-          (address_title, address_line_1, address_line_2, city, state, zip, country, address_public_status, address_priority, instant_book, isActive, Doctor_ID)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
-      const values = [AddressData[i].address_title, AddressData[i].address_line_1, AddressData[i].address_line_2, AddressData[i].city, AddressData[i].state, AddressData[i].zip, AddressData[i].country, AddressData[i].address_public_status, AddressData[i].address_priority, AddressData[i].instant_book, 1, DoctorID]
-      let insert_results
+      let insertID
       try {
-        [insert_results] = await connection.execute(sql, values)
+        insertID = await SaveDoctorDataDB.addAddressRecord(AddressData[i], DoctorID)
       } catch (error) {
         return res.status(400).json()
       }
 
       if (AddressData[i].phone) {
-        const sql = `INSERT INTO ${phone} (Phone, phone_priority, address_ID) VALUES (?, ?, ?)`
-        const values = [AddressData[i].phone, AddressData[i].phone_priority, insert_results.insertId]
         try {
-          await connection.execute(sql, values)
+          await SaveDoctorDataDB.addPhoneRecord(AddressData[i].phone, insertID)
         } catch (error) {
           return res.status(400).json()
         }
       }
       if (!_.isEmpty(TimesData[i])) {//Makes sure that there is Time Data to save
         for (let j = 0; j < TimesData[i].length; j++) {
-          const sql = `INSERT INTO ${booking_availability} (Day_of_week, Start_time, End_time, address_ID, Doctor_ID) VALUES (?, ?, ?, ?, ?)`
-          const values = [TimesData[i][j].Day_of_week, TimesData[i][j].Start_time, TimesData[i][j].End_time, insert_results.insertId, DoctorID]
           try {
-            await connection.execute(sql, values)
+            await SaveDoctorDataDB.addAvailbilityData(TimesData[i][j], insertID)
           } catch (error) {
             return res.status(400).json()
           }
         }
       }
-      AddressData[i].addressesID = insert_results.insertId
+      AddressData[i].addressesID = insertID
     }
     return res.status(200).json(AddressData)
   } else return res.status(400).json()

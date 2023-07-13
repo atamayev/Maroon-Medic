@@ -35,8 +35,8 @@ export default new class SavePatientDataDB {
   }
 
   async addNewPet(petData, PatientID) {
-    const sql = `INSERT INTO ${mysqlTables.pet_info} (Name, Gender, DOB, Patient_ID, pet_ID, isActive) VALUES (?, ?, ?, ?, ?, ?)`
-    const values = [petData.Name, petData.Gender, petData.DOB, PatientID, petData.pet_listID, 1]
+    const sql = `INSERT INTO ${mysqlTables.pet_info} (Name, Gender, DOB, Patient_ID, pet_ID) VALUES (?, ?, ?, ?, ?)`
+    const values = [petData.Name, petData.Gender, petData.DOB, PatientID, petData.pet_listID]
     const [result] = await connection.execute(sql, values)
     return result.insertId
   }

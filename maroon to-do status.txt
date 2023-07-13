@@ -2,10 +2,12 @@ To-do:
 
 
 ASAP:
+-go through all instances where checking for the existance of something. make sure the if (Ifexists) --> update, else --> add, not the other way around
 instead of this;	
 	      for (let i = 0; i < addressData.length; i++) {
 		make it for (let address of addresses)
-
+-clean up the Object.fromEntries in address Data
+	try to move all lines in the controllers that filter data (new data vs updated, etc.)
 -settle on a naming convention for the DB files - should the functions all start with retrieve?
 	settle on a naming convention for Doctor_ID or DoctorID, Patient_ID, etc. there should be no User_ID/UserID in the DB files, should all be doc or patient (unless auth)
 -make sure there are no instances of connection, or DB operation outside of the DB folder

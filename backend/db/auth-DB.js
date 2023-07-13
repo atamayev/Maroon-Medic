@@ -27,11 +27,10 @@ export default new class AuthDB {
   }
 
   async addNewUserCredentials (username, password, createdAt, registrationType) {
-    const sql = `INSERT INTO ${mysqlTables.credentials} (email, password, Created_at, User_type, isActive) VALUES (?, ?, ?, ?, ?)`
-    const values = [username, password, createdAt, registrationType, 1]
+    const sql = `INSERT INTO ${mysqlTables.credentials} (email, password, Created_at, User_type) VALUES (?, ?, ?, ?)`
+    const values = [username, password, createdAt, registrationType]
     const [results] = await connection.execute(sql, values)
-    const UserID = results.insertId
-    return UserID
+    return results.insertId
   }
 
   async addDoctorSpecificDetails (UserID) {
