@@ -28,7 +28,7 @@ export async function makeAppointment(req, res) {
   const mysqlDateTime = TimeUtils.convertAppointmentDateTimeIntoMySQLDate(AppointmentObject.appointmentDate, AppointmentObject.appointmentTime)
 
   try {
-    await CalendarDB.createAppointment(mysqlDateTime, AppointmentObject, DoctorID, createdAt)
+    await CalendarDB.addAppointment(mysqlDateTime, AppointmentObject, DoctorID, createdAt)
     return res.status(200).json()
   } catch (error) {
     return res.status(500).json(error)

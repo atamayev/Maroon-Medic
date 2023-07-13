@@ -2,7 +2,7 @@ import { mysqlTables } from "../utils/table-names-list.js"
 import { connection } from "../setup-and-security/connect.js"
 
 export default new class SearchDB {
-  async searchForDoctors (searchTerm) {
+  async retrieveDoctorsFromSearchTerm (searchTerm) {
     const sql = `SELECT NVI, FirstName, LastName
       FROM ${mysqlTables.basic_user_info}
         LEFT JOIN ${mysqlTables.doctor_specific_info} ON ${mysqlTables.basic_user_info}.User_ID = ${mysqlTables.doctor_specific_info}.Doctor_ID
@@ -17,7 +17,7 @@ export default new class SearchDB {
     return results
   }
 
-  async fetchAllDoctors () {
+  async retrieveAllDoctors () {
     const sql = `SELECT NVI, FirstName, LastName
           FROM ${mysqlTables.basic_user_info}
               LEFT JOIN ${mysqlTables.doctor_specific_info} ON ${mysqlTables.basic_user_info}.User_ID = ${mysqlTables.doctor_specific_info}.Doctor_ID

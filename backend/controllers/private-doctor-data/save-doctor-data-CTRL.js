@@ -2,12 +2,12 @@ import _ from "lodash"
 import TimeUtils from "../../utils/time.js"
 import { UUID_to_ID } from "../../setup-and-security/UUID.js"
 import { clearCookies } from "../../utils/cookie-operations.js"
+import SaveDoctorDataOperations from "../../utils/save-doctor-data-operations.js"
 import SaveDoctorDataDB from "../../db/private-doctor-data/save-doctor-data-DB.js"
-import { getUnchangedAddressRecords, getUpdatedAddressRecords } from "../../utils/address-operations.js"
 
 /** savePersonalData is self-explanatory in name
  *  First, converts from UUID to ID. Then, checks if any records exist in basic_doctor_info.
- *  If records don't exist, then it inserts the data.
+ *  If records don"t exist, then it inserts the data.
  *  if records do exist, the data is updated. depending on wheather the data is entered successfully or not, it returns 200/400
  * @param {String} req Cookie from client
  * @param {Boolean} res 200/400
@@ -55,7 +55,7 @@ export async function savePersonalData (req, res) {
 
 /** saveDescriptionData is self-explanatory in name
  *  First, converts from UUID to ID. Then, checks if any records exist in descriptions.
- *  If records don't exist, then it inserts the data.
+ *  If records don"t exist, then it inserts the data.
  *  if records do exist, the data is updated. depending on wheather the data is entered successfully or not, it returns 200/400
  * @param {String} req Cookie from client
  * @param {Boolean} res 200/400
@@ -181,25 +181,7 @@ export async function saveServicesData (req, res) {
   if (_.isEmpty(existingServicesIDs) && _.isEmpty(ServicesData)) return res.status(400).json() //NO new data or queried results from DB.
   else if (!_.isEmpty(existingServicesIDs)) {
     // Doctor already has data in the table
-    const newServicesData = ServicesData
-
-    const resultIDs = new Set(existingServicesIDs.map(result => result.Service_and_Category_ID))//Extracts the Service_and_Category_ID from the DB results
-
-    const addedData = newServicesData.filter(service => !resultIDs.has(service.service_and_category_listID))// Extracts the IDs that are in newServices that are not in resultsIDs
-
-    const serviceIDs = new Set(newServicesData.map(service => service.service_and_category_listID))
-
-    const deletedData = existingServicesIDs.filter(result => !serviceIDs.has(result.Service_and_Category_ID))//Checks for IDs that are in results, but not in ServicesData (these will be deleted)
-
-    const updatedData = []
-
-    ServicesData.forEach(service => {
-      const matchingResult = existingServicesIDs.find(result => result.Service_and_Category_ID === service.service_and_category_listID)
-
-      if (matchingResult) {
-        if (matchingResult.Service_time !== service.Service_time || matchingResult.Service_price !== service.Service_price) updatedData.push(service)
-      }
-    })//Checks which results and ServicesData have the same IDs, but some other field has changed (ie. price, time). Adds those objects to updatedData
+    const { addedData, deletedData, updatedData } = SaveDoctorDataOperations.getServicesDataChanges(ServicesData, existingServicesIDs)
 
     if (!_.isEmpty(addedData)) {
       for (let data of addedData) {
@@ -285,7 +267,7 @@ export async function saveEducationData (req, res) {
 
 /** saveAddressData saves address, phone, and booking availbility data.
  *  This is essentially three functions in one, since we have to operate on addresses, phones, and booking availiblity
- *  First, checks if any address data already exists. If it doesn't, then just add the incoming data, no need to update/delete
+ *  First, checks if any address data already exists. If it doesn"t, then just add the incoming data, no need to update/delete
  *  If there exists saved data, need to determine if any of the past data has changed, or if data is just being added.
  *  Filters are created which find which of the incoming data is new, updated, unchanged, or deleted (relative to the savedData)
  *  After address/phone data are updated/added/deleted, we move on to operating on times.
@@ -330,22 +312,7 @@ export async function saveAddressData (req, res) {
         return res.status(400).json()
       }
     }
-    const newData = AddressData
-    // Check for changes in data:
-
-    //Filter the newData, check if there are any objects whose addressesID is null. Null addressesID means the data is new
-    const addedData = newData.filter(data => data.addressesID === 0)
-
-    //Extracts just the IDs of the data that was in the DB, but is not in the new incoming Data
-    const deletedData = addressResults
-      .filter(result => !newData.some(data => data.addressesID === result.addressesID))
-      .map(result => result.addressesID)
-
-    const updatedData = getUpdatedAddressRecords(newData, addressResults)
-
-    const unchangedData = getUnchangedAddressRecords(newData, addressResults)
-
-    let returnedData = unchangedData //initialize the data to return with the data that hasn't changed.
+    const { addedData, deletedData, updatedData, returnedData } = SaveDoctorDataOperations.getAddressesDataChanges(AddressData, addressResults)
 
     if (!_.isEmpty(deletedData)) {
       for (let data of deletedData) {
@@ -430,12 +397,7 @@ export async function saveAddressData (req, res) {
           return res.status(400).json()
         }
 
-        const oldDataDict = Object.fromEntries(existingAvailbilityData.map(item => [item.Day_of_week, item]))
-        const newDataDict = Object.fromEntries(corespondingTimeData.map(item => [item.Day_of_week, item]))
-
-        const addedTimeData = Object.values(newDataDict).filter(item => !(item.Day_of_week in oldDataDict))
-        const deletedTimeData = Object.values(oldDataDict).filter(item => !(item.Day_of_week in newDataDict))
-        const updatedTimeData = Object.values(newDataDict).filter(item => item.Day_of_week in oldDataDict && (item.Start_time !== oldDataDict[item.Day_of_week].Start_time || item.End_time !== oldDataDict[item.Day_of_week].End_time))
+        const { addedTimeData, deletedTimeData, updatedTimeData } = SaveDoctorDataOperations.getTimeDataChanges(existingAvailbilityData, corespondingTimeData)
 
         if (!_.isEmpty(addedTimeData)) {
           for (let data of addedTimeData) {
@@ -508,7 +470,7 @@ export async function saveAddressData (req, res) {
 }
 
 /** savePublicAvailibilityData is a Doctor-controlled function that allows them to say wheather or not they want their profile accessible to patients
- *  First, converts from UUID to ID. Then, updates the doctor's avalibility to whatever they did on the front-end. The request is only allowed to happen if the new availiblty status is dfferent from the old one.
+ *  First, converts from UUID to ID. Then, updates the doctor"s avalibility to whatever they did on the front-end. The request is only allowed to happen if the new availiblty status is dfferent from the old one.
  * @param {String} req Cookie from client, PublicAvailibility status
  * @param {Boolean} res 200 or 400
  * @returns status code 200 or 400

@@ -55,7 +55,7 @@ export default new class SaveDoctorDataDB {
   }
 
   async retrieveExistingServicesIDs (DoctorID) {
-    const sql = `SELECT Service_and_Category_ID FROM  ${mysqlTables.service_mapping} WHERE Doctor_ID = ?`
+    const sql = `SELECT Service_and_Category_ID, Service_time, Service_price FROM  ${mysqlTables.service_mapping} WHERE Doctor_ID = ?`
     const values = [DoctorID]
     const [existingServicesIDs] = await connection.execute(sql, values)
     return existingServicesIDs

@@ -8,7 +8,7 @@ export default new class PrivateDoctorDataDB {
     await connection.execute(sql, values)
   }
 
-  async newDoctorConfirmation (newDoctorUUID, existingDoctorUUID) {
+  async checkIfUUIDsExist (newDoctorUUID, existingDoctorUUID) {
     const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.uuid_reference} WHERE UUID = ?) as 'exists'`
     const values1 = [newDoctorUUID]
     const values2 = [existingDoctorUUID]

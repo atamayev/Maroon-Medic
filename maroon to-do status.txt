@@ -2,10 +2,7 @@ To-do:
 
 
 ASAP:
--clean up the Object.fromEntries in address Data
-	try to move all lines in the controllers that filter data (new data vs updated, etc.)
--settle on a naming convention for the DB files - should the functions all start with retrieve?
-	settle on a naming convention for Doctor_ID or DoctorID, Patient_ID, etc. there should be no User_ID/UserID in the DB files, should all be doc or patient (unless auth)
+-clean up the SaveDoctorDataOperations. Convert to lodash if possible, less messy
 -if a response from the back-end is not positive when saving data, then the state should not update. see vet education, throw an error, and see it still change the state.
 	check other data types aswell
 -mini bug when making a booking. make a booking with `changes in behavior`. The time is 10 AM- 10AM. Should say something like (10AM (july 17) - 10AM (july 18))

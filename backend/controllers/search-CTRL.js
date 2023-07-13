@@ -10,7 +10,7 @@ import FetchAllLists from "../utils/fetch-all-lists.js"
 export async function searchByQuery (req, res) {
   const userQuery = req.params.query
   try {
-    const searchResults = await SearchDB.searchForDoctors(userQuery)
+    const searchResults = await SearchDB.retrieveDoctorsFromSearchTerm(userQuery)
     if (_.isEmpty(searchResults)) return res.json("User not found")
     else return res.json(searchResults)
   } catch (error) {
@@ -28,7 +28,7 @@ export async function searchByQuery (req, res) {
  */
 export async function fetchUsers (req, res) {
   try {
-    const doctorsList = await SearchDB.fetchAllDoctors()
+    const doctorsList = await SearchDB.retrieveAllDoctors()
     return res.json(doctorsList)
   } catch (error) {
     return res.json({ error: "Fetch Users Error" })

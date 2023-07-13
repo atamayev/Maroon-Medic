@@ -53,7 +53,7 @@ export async function newDoctorConfirmation (req, res) {
   if (!newDoctorUUID || !existingDoctorUUID) return res.json(doctorPermission)
 
   try {
-    const doBothUUIDExist = await PrivateDoctorDataDB.newDoctorConfirmation(newDoctorUUID, existingDoctorUUID)
+    const doBothUUIDExist = await PrivateDoctorDataDB.checkIfUUIDsExist(newDoctorUUID, existingDoctorUUID)
     return res.json(doBothUUIDExist)
   } catch (error) {
     return res.json(doctorPermission)
