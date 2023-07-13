@@ -54,16 +54,16 @@ export default new class AuthDB {
     return password
   }
 
-  async retrieveLoginHistory (User_ID) {
+  async retrieveLoginHistory (UserID) {
     const sql = `SELECT login_historyID, Login_at FROM ${mysqlTables.login_history} WHERE User_ID = ? ORDER BY Login_at DESC`
-    const values = [User_ID]
+    const values = [UserID]
     const [results] = await connection.execute(sql, values)
     return results
   }
 
-  async addLoginHistory (User_ID, loginTime) {
+  async addLoginHistory (UserID, loginTime) {
     const sql = `INSERT INTO ${mysqlTables.login_history} (Login_at, IP_Address, User_ID) VALUES (?, ?, ?)`
-    const values = [loginTime, null, User_ID]
+    const values = [loginTime, null, UserID]
     await connection.execute(sql, values)
   }
 

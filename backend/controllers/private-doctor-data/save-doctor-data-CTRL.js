@@ -2,7 +2,8 @@ import _ from "lodash"
 import TimeUtils from "../../utils/time.js"
 import { UUID_to_ID } from "../../setup-and-security/UUID.js"
 import { clearCookies } from "../../utils/cookie-operations.js"
-import { connection, DB_Operation } from "../../setup-and-security/connect.js"
+import { connection } from "../../setup-and-security/connect.js"
+import SaveDoctorDataDB from "../../db/private-doctor-data/save-doctor-data-DB.js"
 import { getUnchangedAddressRecords, getUpdatedAddressRecords } from "../../utils/address-operations.js"
 
 /** savePersonalData is self-explanatory in name
@@ -24,38 +25,28 @@ export async function savePersonalData (req, res) {
     return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" })
   }
 
-  const personalInfo = req.body.personalInfo
+  let doesRecordExist
 
-  const basic_user_info = "basic_user_info"
-  const sql = `SELECT EXISTS(SELECT 1 FROM ${basic_user_info} WHERE User_ID = ?) as 'exists' `
-  const values = [DoctorID]
-  let doesRecordAccountExist
-
-  //this is upsert. should be able to combine this into one command. shouldn't need to check if record exists, then insert or update:
-
-  await DB_Operation(savePersonalData.name, basic_user_info)
   try {
-    const [results] = await connection.execute(sql, values)
-    doesRecordAccountExist = results[0].exists
+    doesRecordExist = await SaveDoctorDataDB.checkIfPersonalDataExists(DoctorID)
   } catch (error) {
     return res.status(400).json()
   }
 
-  const dateOfBirth = TimeUtils.convertDOBStringIntoMySQLDate(personalInfo.DOB_month, personalInfo.DOB_day, personalInfo.DOB_year)
-  const values1 = [personalInfo.FirstName, personalInfo.LastName, personalInfo.Gender, dateOfBirth, DoctorID]
+  const personalInfo = req.body.personalInfo
 
-  if (!doesRecordAccountExist) {// if no results, then insert.
-    const sql1 = `INSERT INTO ${basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?, ?, ?, ?, ?)`
+  const dateOfBirth = TimeUtils.convertDOBStringIntoMySQLDate(personalInfo.DOB_month, personalInfo.DOB_day, personalInfo.DOB_year)
+
+  if (doesRecordExist) {
     try {
-      await connection.execute(sql1, values1)
+      await SaveDoctorDataDB.updatePersonalData(personalInfo, dateOfBirth, DoctorID)
       return res.status(200).json()
     } catch (error) {
       return res.status(400).json()
     }
-  } else {// if there are results, that means that the record exists, and needs to be altered
-    const sql1 = `UPDATE ${basic_user_info} SET FirstName = ?, LastName = ?, Gender = ?, DOB = ? WHERE User_ID = ?`
+  } else {
     try {
-      await connection.execute(sql1, values1)
+      await SaveDoctorDataDB.addPersonalData(personalInfo, dateOfBirth, DoctorID)
       return res.status(200).json()
     } catch (error) {
       return res.status(400).json()
@@ -83,34 +74,25 @@ export async function saveDescriptionData (req, res) {
   }
 
   const description = req.body.Description
-  const descriptions = "descriptions"
 
-  const sql = `SELECT EXISTS(SELECT 1 FROM ${descriptions} WHERE Doctor_ID = ?) as 'exists' `
+  let doesDescriptionExist
 
-  const values = [DoctorID]
-  let doesRecordAccountExist
-
-  await DB_Operation(saveDescriptionData.name, descriptions)
   try {
-    const [results] = await connection.execute(sql, values)
-    doesRecordAccountExist = results[0].exists
+    doesDescriptionExist = await SaveDoctorDataDB.checkIfDescriptionExists(DoctorID)
   } catch (error) {
     return res.status(400).json()
   }
-  const values1 = [description, DoctorID]
 
-  if (!doesRecordAccountExist) {// if no results, then insert.
-    const sql1 = `INSERT INTO ${descriptions} (Description, Doctor_ID) VALUES (?, ?)`
+  if (doesDescriptionExist) {
     try {
-      await connection.execute(sql1, values1)
+      await SaveDoctorDataDB.updateDescription(description, DoctorID)
       return res.status(200).json()
     } catch (error) {
       return res.status(400).json()
     }
-  } else {// if there are results, that means that the record exists, and needs to be altered
-    const sql1 = `UPDATE ${descriptions} SET Description = ? WHERE Doctor_ID = ?`
+  } else {
     try {
-      await connection.execute(sql1, values1)
+      await SaveDoctorDataDB.addDescription(description, DoctorID)
       return res.status(200).json()
     } catch (error) {
       return res.status(400).json()
@@ -138,7 +120,6 @@ export async function saveGeneralData (req, res) {
   }
 
   const DataType = req.body.DataType
-  const operationType = req.body.operationType
   const DataTypelower = DataType.charAt(0).toLowerCase() + DataType.slice(1)
 
   let UserIDorDoctorID
@@ -148,31 +129,24 @@ export async function saveGeneralData (req, res) {
 
   const doctorData = req.body.Data // The Data is an array of the ID of the DataType ([6]), which is a specific Language_ID)
 
+  const operationType = req.body.operationType
   const tableName = `${DataTypelower}_mapping`
 
-  await DB_Operation(saveGeneralData.name, tableName)
-
-  if (operationType === "add") {
-    const sql = `INSERT INTO ${tableName} (${DataType}_ID, ${UserIDorDoctorID}) VALUES (?, ?)`
-    const values = [doctorData, DoctorID]
-
+  if (operationType !== "add" && operationType !== "delete") return res.status(400).json()
+  else if (operationType === "add") {
     try {
-      await connection.execute(sql, values)
+      await SaveDoctorDataDB.addGeneralData(doctorData, DoctorID, UserIDorDoctorID, DataType, tableName)
       return res.status(200).json()
     } catch (error) {
       return res.status(400).json()
     }
   } else if (operationType === "delete") {
-    const sql = `DELETE FROM ${tableName} WHERE ${DataType}_ID = ? AND ${UserIDorDoctorID} = ?`
-    const values = [doctorData, DoctorID]
     try {
-      await connection.execute(sql, values)
+      await SaveDoctorDataDB.deleteGeneralData(doctorData, DoctorID, UserIDorDoctorID, DataType, tableName)
       return res.status(200).json()
     } catch (error) {
       return res.status(400).json()
     }
-  } else {
-    return res.status(400).json()
   }
 }
 
@@ -203,14 +177,15 @@ export async function saveServicesData (req, res) {
   const values = [DoctorID]
   let results
 
-  await DB_Operation(saveServicesData.name, service_mapping)
   try {
     [results] = await connection.execute(sql, values)
   } catch (error) {
     return res.status(400).json()
   }
 
-  if (!_.isEmpty(results)) {
+  if (_.isEmpty(results) && _.isEmpty(ServicesData)) return res.status(400).json() //NO new data or queried results from DB.
+
+  else if (!_.isEmpty(results)) {
     // Doctor already has data in the table
     const newServicesData = ServicesData
 
@@ -266,7 +241,8 @@ export async function saveServicesData (req, res) {
       }
     }
     return res.status(200).json()
-  } else if (!_.isEmpty(ServicesData)) {
+  }
+  else if (!_.isEmpty(ServicesData)) {
     for (let i = 0; i < ServicesData.length; i++) {
       const sql = `INSERT INTO ${service_mapping} (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?, ?, ?, ?)`
       const values = [ServicesData[i].service_and_category_listID, ServicesData[i].Service_time, ServicesData[i].Service_price, DoctorID]
@@ -277,9 +253,6 @@ export async function saveServicesData (req, res) {
       }
     }
     return res.status(200).json()
-  } else {
-    //NO new data or queried results from DB.
-    return res.status(400).json()
   }
 }
 
@@ -305,35 +278,23 @@ export async function saveEducationData (req, res) {
   const EducationType = req.body.EducationType//"pre_vet" or "vet"
   const operationType = req.body.operationType
 
-  const tableName = `${EducationType}_education_mapping`
-  let sql
-  let values
-
-  await DB_Operation(saveEducationData.name, tableName)
-  if (operationType === "add") {
-    if (EducationType === "pre_vet") {
-      sql = `INSERT INTO ${tableName} (School_ID, Major_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?, ?, ?, ?, ?, ?)`
-      values = [EducationData.School_ID, EducationData.Major_ID, EducationData.Education_type_ID, EducationData.Start_date, EducationData.End_date, DoctorID]
-    } else if (EducationType === "vet") {
-      sql = `INSERT INTO ${tableName} (School_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?, ?, ?, ?, ?)`
-      values = [EducationData.School_ID, EducationData.Education_type_ID, EducationData.Start_date, EducationData.End_date, DoctorID]
-    } else {
-      return res.status(400).json()
-    }
-  } else if (operationType === "delete") {
-    values = [EducationData]
-    if (EducationType === "pre_vet") sql = `DELETE FROM ${tableName} WHERE pre_vet_education_mappingID = ?`
-    else if (EducationType === "vet") sql = `DELETE FROM ${tableName} WHERE vet_education_mappingID = ?`
-    else return res.status(400).json()
-  } else {
-    return res.status(400).json()
-  }
-
   try {
-    const [response] = await connection.execute(sql, values)
-    return res.status(200).json(response.insertId)
+    if (operationType !== "add" && operationType !== "delete") return res.status(400).json()
+    if (operationType === "add") {
+      let insertId
+      if (EducationType !== "pre_vet" && EducationType !== "vet") return res.status(400).json()
+      else if (EducationType === "pre_vet") insertId = await SaveDoctorDataDB.addPreVetEducationData(EducationData, DoctorID)
+      else if (EducationType === "vet") insertId = await SaveDoctorDataDB.addVetEducationData(EducationData, DoctorID)
+      return res.status(200).json(insertId)
+    }
+    else if (operationType === "delete") {
+      if (EducationType !== "pre_vet" && EducationType !== "vet") return res.status(400).json()
+      else if (EducationType === "pre_vet") await SaveDoctorDataDB.deletePreVetEducationData(EducationData, DoctorID)
+      else if (EducationType === "vet") await SaveDoctorDataDB.deleteVetEducationData(EducationData, DoctorID)
+      return res.status(200).json()
+    }
   } catch (error) {
-    return res.status(400).json()
+    return res.status(500).json()
   }
 }
 
@@ -369,7 +330,6 @@ export async function saveAddressData (req, res) {
   const values = [DoctorID]
   let addressResults
 
-  await DB_Operation(saveAddressData.name, addresses)
   try {
     [addressResults] = await connection.execute(sql, values)
   } catch (error) {
@@ -501,7 +461,6 @@ export async function saveAddressData (req, res) {
         const values = [returnedDataData.addressesID, DoctorID]
         let timeDataResults
 
-        await DB_Operation(saveAddressData.name, addresses)
         try {
           [timeDataResults] = await connection.execute(sql, values)
         } catch (error) {
@@ -623,14 +582,9 @@ export async function savePublicAvailibilityData (req, res) {
   }
 
   const publicAvailibility = req.body.PublicAvailibility
-  const Doctor_specific_info = "Doctor_specific_info"
 
-  const sql = `UPDATE ${Doctor_specific_info} SET publiclyAvailable = ? WHERE Doctor_ID = ?`
-  const values = [publicAvailibility, DoctorID]
-
-  await DB_Operation(savePublicAvailibilityData.name, Doctor_specific_info)
   try {
-    await connection.execute(sql, values)
+    await SaveDoctorDataDB.updatePublicAvilability(publicAvailibility, DoctorID)
     return res.status(200).json()
   } catch (error) {
     return res.status(400).json()

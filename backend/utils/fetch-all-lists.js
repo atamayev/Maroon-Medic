@@ -39,7 +39,7 @@ export default new class FetchAllLists {
   }
 
   async fetchAllPreVetEducationTypes() {
-    return await this.#fetchAll(mysqlTables.vet_education_type_list)
+    return await this.#fetchAll(mysqlTables.pre_vet_education_type_list)
   }
 
   async fetchAllMajors() {
