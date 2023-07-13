@@ -4,7 +4,8 @@ import { connection } from "../setup-and-security/connect.js"
 export default new class FetchPublicDoctorDataDB {
   async retrieveDoctorLanguages (Doctor_ID) {
     const sql = `SELECT ${mysqlTables.language_list}.Language_name
-      FROM ${mysqlTables.language_list} JOIN ${mysqlTables.language_mapping} ON ${mysqlTables.language_list}.language_listID = ${mysqlTables.language_mapping}.Language_ID
+      FROM ${mysqlTables.language_list}
+          JOIN ${mysqlTables.language_mapping} ON ${mysqlTables.language_list}.language_listID = ${mysqlTables.language_mapping}.Language_ID
       WHERE ${mysqlTables.language_mapping}.User_ID = ?`
 
     const values = [Doctor_ID]
@@ -14,7 +15,8 @@ export default new class FetchPublicDoctorDataDB {
 
   async retrieveDoctorSpecialties (Doctor_ID) {
     const sql = `SELECT ${mysqlTables.specialties_list}.Organization_name, ${mysqlTables.specialties_list}.Specialty_name
-      FROM ${mysqlTables.specialties_list} JOIN ${mysqlTables.specialty_mapping} ON ${mysqlTables.specialties_list}.specialties_listID = ${mysqlTables.specialty_mapping}.specialty_ID
+      FROM ${mysqlTables.specialties_list}
+          JOIN ${mysqlTables.specialty_mapping} ON ${mysqlTables.specialties_list}.specialties_listID = ${mysqlTables.specialty_mapping}.specialty_ID
       WHERE ${mysqlTables.specialty_mapping}.Doctor_ID = ?`
 
     const values = [Doctor_ID]
@@ -35,10 +37,11 @@ export default new class FetchPublicDoctorDataDB {
 
   async retrieveVetEducation (Doctor_ID) {
     const sql = `SELECT ${mysqlTables.vet_school_list}.School_name, ${mysqlTables.vet_education_type_list}.Education_type, ${mysqlTables.vet_education_mapping}.Start_Date, ${mysqlTables.vet_education_mapping}.End_Date
-        FROM ${mysqlTables.vet_education_mapping}, ${mysqlTables.vet_school_list}, ${mysqlTables.vet_education_type_list}
-        WHERE ${mysqlTables.vet_education_mapping}.School_ID = ${mysqlTables.vet_school_list}.vet_school_listID
-        AND ${mysqlTables.vet_education_mapping}.Education_type_ID = ${mysqlTables.vet_education_type_list}.vet_education_typeID
-        AND ${mysqlTables.vet_education_mapping}.Doctor_ID = ?`
+      FROM ${mysqlTables.vet_education_mapping}, ${mysqlTables.vet_school_list}, ${mysqlTables.vet_education_type_list}
+      WHERE
+          ${mysqlTables.vet_education_mapping}.School_ID = ${mysqlTables.vet_school_list}.vet_school_listID
+          AND ${mysqlTables.vet_education_mapping}.Education_type_ID = ${mysqlTables.vet_education_type_list}.vet_education_typeID
+          AND ${mysqlTables.vet_education_mapping}.Doctor_ID = ?`
 
     const values = [Doctor_ID]
     const [vetEducation] = await connection.execute(sql, values)
@@ -47,8 +50,10 @@ export default new class FetchPublicDoctorDataDB {
 
   async retrieveServicedPets (Doctor_ID) {
     const sql = `SELECT ${mysqlTables.pet_list}.pet, ${mysqlTables.pet_list}.pet_type
-        FROM ${mysqlTables.pet_list} JOIN ${mysqlTables.pet_mapping} ON ${mysqlTables.pet_list}.pet_listID = ${mysqlTables.pet_mapping}.pet_ID
-        WHERE ${mysqlTables.pet_mapping}.Doctor_ID = ?`
+        FROM ${mysqlTables.pet_list}
+            JOIN ${mysqlTables.pet_mapping} ON ${mysqlTables.pet_list}.pet_listID = ${mysqlTables.pet_mapping}.pet_ID
+        WHERE
+            ${mysqlTables.pet_mapping}.Doctor_ID = ?`
 
     const values = [Doctor_ID]
     const [servicedPets] = await connection.execute(sql, values)
@@ -56,11 +61,13 @@ export default new class FetchPublicDoctorDataDB {
   }
 
   async retrieveAddressData (Doctor_ID) {
-    const sql = `SELECT ${mysqlTables.addresses}.addressesID, ${mysqlTables.addresses}.address_title, ${mysqlTables.addresses}.address_line_1, ${mysqlTables.addresses}.address_line_2,
-        ${mysqlTables.addresses}.city, ${mysqlTables.addresses}.state, ${mysqlTables.addresses}.zip, ${mysqlTables.addresses}.country, ${mysqlTables.addresses}.address_priority, ${mysqlTables.addresses}.instant_book,
-        ${mysqlTables.phone}.Phone, ${mysqlTables.phone}.phone_priority
-        FROM ${mysqlTables.addresses}, ${mysqlTables.phone}
-        WHERE ${mysqlTables.addresses}.addressesID = ${mysqlTables.phone}.address_ID AND ${mysqlTables.addresses}.Doctor_ID = ? AND ${mysqlTables.addresses}.address_public_status = 1 AND ${mysqlTables.addresses}.isActive = 1`
+    const sql = `SELECT
+          ${mysqlTables.addresses}.addressesID, ${mysqlTables.addresses}.address_title, ${mysqlTables.addresses}.address_line_1, ${mysqlTables.addresses}.address_line_2,
+          ${mysqlTables.addresses}.city, ${mysqlTables.addresses}.state, ${mysqlTables.addresses}.zip, ${mysqlTables.addresses}.country, ${mysqlTables.addresses}.address_priority, ${mysqlTables.addresses}.instant_book,
+          ${mysqlTables.phone}.Phone, ${mysqlTables.phone}.phone_priority
+      FROM ${mysqlTables.addresses}, ${mysqlTables.phone}
+      WHERE
+          ${mysqlTables.addresses}.addressesID = ${mysqlTables.phone}.address_ID AND ${mysqlTables.addresses}.Doctor_ID = ? AND ${mysqlTables.addresses}.address_public_status = 1 AND ${mysqlTables.addresses}.isActive = 1`
 
     const values = [Doctor_ID]
     const [addressData] = await connection.execute(sql, values)

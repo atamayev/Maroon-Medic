@@ -1,9 +1,9 @@
 import _ from "lodash"
 import TimeUtils from "../../utils/time.js"
-import FetchAllListsDB from "../../db/fetch-all-lists-DB.js"
-import { clearCookies } from "../../utils/cookie-operations.js"
-import { UUID_to_ID } from "../../setup-and-security/UUID.js"
 import DataFormatter from "../../utils/data-formatter.js"
+import FetchAllLists from "../../utils/fetch-all-lists.js"
+import { UUID_to_ID } from "../../setup-and-security/UUID.js"
+import { clearCookies } from "../../utils/cookie-operations.js"
 import PrivateDoctorDataDB from "../../db/private-doctor-data/private-doctor-data-DB.js"
 import FetchDoctorAccountData from "../../utils/fetch-account-and-public-data/fetch-doctor-account-data.js"
 
@@ -120,7 +120,7 @@ export async function fetchPersonalData (req, res) {
   }
 
   try {
-    const unformattedPersonaData = await PrivateDoctorDataDB.retrieveDoctorDashboard(DoctorID)
+    const unformattedPersonaData = await PrivateDoctorDataDB.retrievePersonalDoctorData(DoctorID)
     if (_.isEmpty(unformattedPersonaData)) return res.json(PersonalData)
     else {
       PersonalData = DataFormatter.formatPersonalData(unformattedPersonaData)
@@ -197,15 +197,15 @@ export async function fetchAccountDetails (req, res) {
 export async function fetchDoctorLists (req, res) {
   try {
     let response = {}
-    response.languages             = await FetchAllListsDB.fetchAllLanguages()
-    response.servicesAndCategories = await FetchAllListsDB.fetchAllServicesAndCategories()
-    response.specialties           = await FetchAllListsDB.fetchAllSpecialties()
-    response.preVetSchools         = await FetchAllListsDB.fetchAllPreVetSchools()
-    response.preVetEducationTypes  = await FetchAllListsDB.fetchAllPreVetEducationTypes()
-    response.majors                = await FetchAllListsDB.fetchAllMajors()
-    response.vetSchools            = await FetchAllListsDB.fetchAllVetSchools()
-    response.vetEducationTypes     = await FetchAllListsDB.fetchAllVetEducationTypes()
-    response.pets                  = await FetchAllListsDB.fetchAllPets()
+    response.languages             = await FetchAllLists.fetchAllLanguages()
+    response.servicesAndCategories = await FetchAllLists.fetchAllServicesAndCategories()
+    response.specialties           = await FetchAllLists.fetchAllSpecialties()
+    response.preVetSchools         = await FetchAllLists.fetchAllPreVetSchools()
+    response.preVetEducationTypes  = await FetchAllLists.fetchAllPreVetEducationTypes()
+    response.majors                = await FetchAllLists.fetchAllMajors()
+    response.vetSchools            = await FetchAllLists.fetchAllVetSchools()
+    response.vetEducationTypes     = await FetchAllLists.fetchAllVetEducationTypes()
+    response.pets                  = await FetchAllLists.fetchAllPets()
     return res.status(200).json(response)
   } catch (error) {
     return res.status(400).json([])

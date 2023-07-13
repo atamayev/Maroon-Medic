@@ -2,32 +2,20 @@ import _ from "lodash"
 import DataFormatter from "../data-formatter.js"
 import FetchPublicDoctorDataDB from "../../db/fetch-public-doctor-data-DB.js"
 
-/**
- * FetchPublicDoctorDataDB fetches all of a specific Doctor's data, concatenating all results as arrays to an array
- */
 export default new class FetchPublicDoctorData {
-  async fetchDoctorLanguages (User_ID) {
+  async #fetchDoctorData(DoctorID, retrievalFunction) {
     try {
-      const languages = await FetchPublicDoctorDataDB.retrieveDoctorLanguages(User_ID)
-      return languages
+      const data = await retrievalFunction(DoctorID)
+      return data
     } catch (error) {
       return []
     }
   }
 
-  async fetchDoctorSpecialties (Doctor_ID) {
+  async #fetchDoctorEducationData(DoctorID, retrievalFunction) {
     try {
-      const specialties = await FetchPublicDoctorDataDB.retrieveDoctorSpecialties(Doctor_ID)
-      return specialties
-    } catch (error) {
-      return []
-    }
-  }
-
-  async fetchPreVetEducation (Doctor_ID) {
-    try {
-      const preVetEducation = await FetchPublicDoctorDataDB.retrievePreVetEducation(Doctor_ID)
-      const newResults = preVetEducation.map(obj => ({
+      const educationData = await retrievalFunction(DoctorID)
+      const newResults = educationData.map(obj => ({
         ...obj,
         Start_Date: DataFormatter.formatEducationDates(obj.Start_Date),
         End_Date: DataFormatter.formatEducationDates(obj.End_Date)
@@ -38,35 +26,32 @@ export default new class FetchPublicDoctorData {
     }
   }
 
-  async fetchVetEducation (Doctor_ID) {
-    try {
-      const vetEducation = await FetchPublicDoctorDataDB.retrieveVetEducation(Doctor_ID)
-      const newResults = vetEducation.map(obj => ({
-        ...obj,
-        Start_Date: DataFormatter.formatEducationDates(obj.Start_Date),
-        End_Date: DataFormatter.formatEducationDates(obj.End_Date)
-      }))
-      return newResults
-    } catch (error) {
-      return []
-    }
+  async fetchDoctorLanguages (DoctorID) {
+    return this.#fetchDoctorData(DoctorID, FetchPublicDoctorDataDB.retrieveDoctorLanguages)
   }
 
-  async fetchServicedPets (Doctor_ID) {
-    try {
-      const servicedPets = await FetchPublicDoctorDataDB.retrieveServicedPets(Doctor_ID)
-      return servicedPets
-    } catch (error) {
-      return []
-    }
+  async fetchDoctorSpecialties (DoctorID) {
+    return this.#fetchDoctorData(DoctorID, FetchPublicDoctorDataDB.retrieveDoctorSpecialties)
+
   }
 
+  async fetchPreVetEducation(DoctorID) {
+    return this.#fetchDoctorEducationData(DoctorID, FetchPublicDoctorDataDB.retrievePreVetEducation)
+  }
+
+  async fetchVetEducation(DoctorID) {
+    return this.#fetchDoctorEducationData(DoctorID, FetchPublicDoctorDataDB.retrieveVetEducation)
+  }
+
+  async fetchServicedPets (DoctorID) {
+    return this.#fetchDoctorData(DoctorID, FetchPublicDoctorDataDB.retrieveServicedPets)
+  }
 
   async fetchDoctorAddressData (DoctorID) {
     let addressData
 
     try {
-      addressData = await FetchPublicDoctorDataDB.retrieveDoctorAddressData(DoctorID)
+      addressData = await FetchPublicDoctorDataDB.retrieveAddressData(DoctorID)
     } catch (error) {
       return []
     }
@@ -84,12 +69,7 @@ export default new class FetchPublicDoctorData {
     return addressData
   }
 
-  async fetchDoctorPersonalInfo (User_ID) {
-    try {
-      const DoctorPersonalInfo = await FetchPublicDoctorDataDB.retrieveDoctorPersonalInfo(User_ID)
-      return (DoctorPersonalInfo)
-    } catch (error) {
-      return []
-    }
+  async fetchDoctorPersonalInfo (DoctorID) {
+    return this.#fetchDoctorData(DoctorID, FetchPublicDoctorDataDB.retrievePersonalData)
   }
 }()

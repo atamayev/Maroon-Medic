@@ -2,6 +2,13 @@ To-do:
 
 
 ASAP:
+instead of this;	
+	      for (let i = 0; i < addressData.length; i++) {
+		make it for (let address of addresses)
+
+-settle on a naming convention for the DB files - should the functions all start with retrieve?
+	settle on a naming convention for Doctor_ID or DoctorID, Patient_ID, etc. there should be no User_ID/UserID in the DB files, should all be doc or patient (unless auth)
+-make all simplification functions within classes to be private
 -mini bug when making a booking. make a booking with `changes in behavior`. The time is 10 AM- 10AM. Should say something like (10AM (july 17) - 10AM (july 18))
 added a appointment_timespan, and changed from patientID--> petID. - need to change the front-end accordingly
 -add choose your pet to make an appointment. if the user isn't logged in, show a login/register button in the booking section.

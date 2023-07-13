@@ -1,9 +1,9 @@
 import _ from "lodash"
-import { UUID_to_ID } from "../../setup-and-security/UUID.js"
 import TimeUtils from "../../utils/time.js"
-import FetchAllListsDB from "../../db/fetch-all-lists-DB.js"
-import { clearCookies } from "../../utils/cookie-operations.js"
 import DataFormatter from "../../utils/data-formatter.js"
+import FetchAllLists from "../../utils/fetch-all-lists.js"
+import { UUID_to_ID } from "../../setup-and-security/UUID.js"
+import { clearCookies } from "../../utils/cookie-operations.js"
 import PrivatePatientDataDB from "../../db/private-patient-data/private-patient-data-DB.js"
 import FetchPatientAccountData from "../../utils/fetch-account-and-public-data/fetch-patient-account-data.js"
 
@@ -121,7 +121,7 @@ export async function fetchPersonalData (req, res) {
   }
 
   try {
-    const unformattedPersonaData = await PrivatePatientDataDB.retrieveDoctorDashboard(PatientID)
+    const unformattedPersonaData = await PrivatePatientDataDB.retrievePersonalPatientData(PatientID)
     if (_.isEmpty(unformattedPersonaData)) return res.json(PersonalData)
     else {
       PersonalData = DataFormatter.formatPersonalData(unformattedPersonaData)
@@ -166,7 +166,7 @@ export async function fetchPetData (req, res) {
  */
 export async function fetchPetTypes (req, res) {
   try {
-    const response = await FetchAllListsDB.fetchAllPets()
+    const response = await FetchAllLists.fetchAllPets()
     return res.status(200).json(response)
   } catch (error) {
     return res.status(400).json([])
@@ -175,7 +175,7 @@ export async function fetchPetTypes (req, res) {
 
 export async function fetchInsurances (req, res) {
   try {
-    const response = await FetchAllListsDB.fetchAllInsurances()
+    const response = await FetchAllLists.fetchAllInsurances()
     return res.status(200).json(response)
   } catch (error) {
     return res.status(400).json([])
@@ -217,7 +217,7 @@ export async function fetchAccountDetails (req, res) {
 export async function fetchPatientLists (req, res) {
   try {
     let response = {}
-    response.languages  = await FetchAllListsDB.fetchAllLanguages()
+    response.languages  = await FetchAllLists.fetchAllLanguages()
     return res.status(200).json(response)
   } catch (error) {
     return res.status(400).json([])

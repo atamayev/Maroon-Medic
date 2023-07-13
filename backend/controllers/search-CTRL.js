@@ -1,6 +1,6 @@
 import _ from "lodash"
 import SearchDB from "../db/search-DB.js"
-import FetchAllListsDB from "../db/fetch-all-lists-DB.js"
+import FetchAllLists from "../utils/fetch-all-lists.js"
 
 /** searchByQuery returns all users that fit the client's search
  * @param {String} req Query is passed in
@@ -38,7 +38,7 @@ export async function fetchUsers (req, res) {
 // The following three functions are here for filtering purposes. In the future, pts will be able to filter for docs by language_spoken, insurances, etc.
 export async function fetchAllLanguages (req, res) {
   try {
-    const LanguageList = FetchAllListsDB.fetchAllLanguages()
+    const LanguageList = FetchAllLists.fetchAllLanguages()
     return res.status(200).json(LanguageList)
   } catch (error) {
     return res.status(500).json(error)
@@ -47,7 +47,7 @@ export async function fetchAllLanguages (req, res) {
 
 export async function fetchAllServicesAndCategories (req, res) {
   try {
-    const ServicesList = FetchAllListsDB.fetchAllServicesAndCategories()
+    const ServicesList = FetchAllLists.fetchAllServicesAndCategories()
     return res.status(200).json(ServicesList)
   } catch (error) {
     return res.status(500).json(error)
@@ -56,7 +56,7 @@ export async function fetchAllServicesAndCategories (req, res) {
 
 export async function fetchAllInsurances (req, res) {
   try {
-    const InsurancesList = FetchAllListsDB.fetchAllInsurances()
+    const InsurancesList = FetchAllLists.fetchAllInsurances()
     return res.status(200).json(InsurancesList)
   } catch (error) {
     return res.status(500).json(error)

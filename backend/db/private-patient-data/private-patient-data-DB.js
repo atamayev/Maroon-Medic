@@ -32,6 +32,7 @@ export default new class PrivatePatientDataDB {
           INNER JOIN ${mysqlTables.basic_user_info} ON ${mysqlTables.appointments}.Doctor_ID = ${mysqlTables.basic_user_info}.User_ID
       WHERE
           ${mysqlTables.appointments}.Patient_ID = ?`
+
     const values = [PatientID]
     const [dashboardData] = await connection.execute(sql, values)
     return dashboardData

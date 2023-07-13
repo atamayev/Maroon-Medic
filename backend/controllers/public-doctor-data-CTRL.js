@@ -1,6 +1,6 @@
 import CalendarDB from "../db/calendar-DB.js"
-import FetchDoctorAccountData from "../utils/fetch-account-and-public-data/fetch-doctor-account-data.js"
 import FetchPublicDoctorData from "../utils/fetch-account-and-public-data/fetch-public-doctor-data.js"
+import FetchDoctorAccountData from "../utils/fetch-account-and-public-data/fetch-doctor-account-data.js"
 
 /** returnDoctorPageData searches for a particular Doctor's data
  *  Used to fill in doctor screen (particular doctor)

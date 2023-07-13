@@ -5,8 +5,8 @@ import jwt from "jsonwebtoken"
 import AuthDB from "../db/auth-DB.js"
 import TimeUtils from "../utils/time.js"
 import Hash from "../setup-and-security/hash.js"
-import { clearCookies } from "../utils/cookie-operations.js"
 import { loginHistory } from "../utils/account-tracker.js"
+import { clearCookies } from "../utils/cookie-operations.js"
 import { ID_to_UUID, UUID_to_ID } from "../setup-and-security/UUID.js"
 
 /** jwtVerify verifies the user's token (held in cookie).
