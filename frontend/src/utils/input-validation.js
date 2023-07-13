@@ -13,24 +13,17 @@ export const preventNonNumericalInput = event => {
     event.key === "." || // Allow decimal point
     event.key === "Backspace" || // Allow backspaces
     event.key === "Delete" // Allow deletes
-  if (!valid) {
-    event.preventDefault()
-  }
+  if (!valid) event.preventDefault()
 }
-
 
 // Function to validate pasted content
 export const validatePasteInput = event => {
   const clipboardData = event.clipboardData.getData("text")
-  if (!isNaN(clipboardData)) {
-    event.preventDefault()
-  }
+  if (!isNaN(clipboardData)) event.preventDefault()
 }
 
 // Function to validate dropped content
 export const validateDropInput = event => {
   const droppedData = event.dataTransfer.getData("text")
-  if (!isNaN(droppedData)) {
-    event.preventDefault()
-  }
+  if (!isNaN(droppedData)) event.preventDefault()
 }

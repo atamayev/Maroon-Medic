@@ -202,38 +202,37 @@ export async function saveServicesData (req, res) {
     })//Checks which results and ServicesData have the same IDs, but some other field has changed (ie. price, time). Adds those objects to updatedData
 
     if (!_.isEmpty(addedData)) {
-      for (let i = 0; i < addedData.length; i++) {
+      for (let data of addedData) {
         try {
-          await SaveDoctorDataDB.addServicesData(addedData[i], DoctorID)
+          await SaveDoctorDataDB.addServicesData(data, DoctorID)
         } catch (error) {
           return res.status(400).json()
         }
       }
     }
     if (!_.isEmpty(deletedData)) {
-      for (let i = 0; i < deletedData.length; i++) {
+      for (let data of deletedData) {
         try {
-          await SaveDoctorDataDB.deleteServicesData(deletedData[i].Service_and_Category_ID, DoctorID)
+          await SaveDoctorDataDB.deleteServicesData(data.Service_and_Category_ID, DoctorID)
         } catch (error) {
           return res.status(400).json()
         }
       }
     }
     if (!_.isEmpty(updatedData)) {
-      for (let i = 0; i < updatedData.length; i++) {
+      for (let data of updatedData) {
         try {
-          await SaveDoctorDataDB.updateServicesData(updatedData[i], DoctorID)
+          await SaveDoctorDataDB.updateServicesData(data, DoctorID)
         } catch (error) {
           return res.status(400).json()
         }
       }
     }
     return res.status(200).json()
-  }
-  else if (!_.isEmpty(ServicesData)) {
-    for (let i = 0; i < ServicesData.length; i++) {
+  } else if (!_.isEmpty(ServicesData)) {
+    for (let data of ServicesData) {
       try {
-        await SaveDoctorDataDB.addServicesData(ServicesData[i], DoctorID)
+        await SaveDoctorDataDB.addServicesData(data, DoctorID)
       } catch (error) {
         return res.status(400).json()
       }
@@ -319,7 +318,9 @@ export async function saveAddressData (req, res) {
     return res.status(400).json()
   }
 
-  if (!_.isEmpty(addressResults)) {
+  if (_.isEmpty(addressResults) && _.isEmpty(AddressData)) return res.status(400).json() //NO new data or queried results from DB.
+
+  else if (!_.isEmpty(addressResults)) {
     for (let addressResult of addressResults) {
       try {
         const phones = await SaveDoctorDataDB.retrievePhoneData(addressResult.addressesID)
@@ -347,38 +348,38 @@ export async function saveAddressData (req, res) {
     let returnedData = unchangedData //initialize the data to return with the data that hasn't changed.
 
     if (!_.isEmpty(deletedData)) {
-      for (let i = 0; i < deletedData.length; i++) {
+      for (let data of deletedData) {
         try {
-          await SaveDoctorDataDB.deleteAddressRecord(deletedData[i])
+          await SaveDoctorDataDB.deleteAddressRecord(data)
         } catch (error) {
           return res.status(400).json()
         }
       }
     }
     if (!_.isEmpty(addedData)) {
-      for (let i = 0; i < addedData.length; i++) {
+      for (let data of addedData) {
         let insertID
         try {
-          insertID = await SaveDoctorDataDB.addAddressRecord(addedData[i], DoctorID)
+          insertID = await SaveDoctorDataDB.addAddressRecord(data, DoctorID)
         } catch (error) {
           return res.status(400).json()
         }
 
-        if (addedData[i].phone) {
+        if (data.phone) {
           try {
-            await SaveDoctorDataDB.addPhoneRecord(addedData[i].phone, insertID)
+            await SaveDoctorDataDB.addPhoneRecord(data.phone, insertID)
           } catch (error) {
             return res.status(400)
           }
         }
-        addedData[i].addressesID = insertID
-        returnedData.push(addedData[i])
+        data.addressesID = insertID
+        returnedData.push(data)
       }
     }
     if (!_.isEmpty(updatedData)) {
-      for (let i = 0; i < updatedData.length; i++) {
+      for (let data of updatedData) {
         try {
-          await SaveDoctorDataDB.updateAddressRecord(updatedData[i])
+          await SaveDoctorDataDB.updateAddressRecord(data)
         } catch (error) {
           return res.status(400).json()
         }
@@ -386,30 +387,31 @@ export async function saveAddressData (req, res) {
         let doesPhoneExist
 
         try {
-          doesPhoneExist = await SaveDoctorDataDB.checkIfPhoneExists(updatedData[i].addressesID)
+          doesPhoneExist = await SaveDoctorDataDB.checkIfPhoneExists(data.addressesID)
         } catch (error) {
           return res.status(400).json()
         }
         if (doesPhoneExist) {
-          if (_.has(updatedData[i], "phone")) {
+          if (_.has(data, "phone")) {
             try {
-              await SaveDoctorDataDB.updatePhoneRecord(updatedData[i])
+              await SaveDoctorDataDB.updatePhoneRecord(data)
             } catch (error) {
               return res.status(400).json()
             }
           }
         } else {
           try {
-            await SaveDoctorDataDB.addPhoneRecord(updatedData[i].phone, updatedData[i].addressesID)
+            await SaveDoctorDataDB.addPhoneRecord(data.phone, data.addressesID)
           } catch (error) {
             return res.status(400).json()
           }
         }
-        returnedData.push(updatedData[i])
+        returnedData.push(data)
       }
     }
     //After all address operations are complete, do the TimeData Operations:
-    if (!_.isEmpty(returnedData)) {
+    if (_.isEmpty(returnedData)) return res.status(200).json([])
+    else {
       // go into each element of the returnedData array.
       //for for the ith element in returnedData, find the corresponding times objects in TimesData (will be the ith element in the TimesData array)
       //compare each of the objects in that TimesData element to all of the data that a select Day_of_week, Start_time, End_time for that
@@ -417,14 +419,13 @@ export async function saveAddressData (req, res) {
       //see which data is new, and which data is deleted. will be re-declaring addedTimeData, deletedTimeData inside of a loop (that iterates over all the address_IDs)
       //the addedData/deletedData will act inside of a loop, length of addedTimeDAta/deletedTimeData
       returnedData.sort((a, b) => a.address_priority - b.address_priority)
-      for (let i = 0; i < returnedData.length; i++) {
-        const returnedDataData = returnedData[i]
+      for (let [i, returnedDataItem] of returnedData.entries()) {
         const corespondingTimeData = TimesData[i]
 
         let existingAvailbilityData
 
         try {
-          existingAvailbilityData = await SaveDoctorDataDB.retrieveExistingAvailbilityData(returnedDataData.addressesID)
+          existingAvailbilityData = await SaveDoctorDataDB.retrieveExistingAvailbilityData(returnedDataItem.addressesID)
         } catch (error) {
           return res.status(400).json()
         }
@@ -434,18 +435,13 @@ export async function saveAddressData (req, res) {
 
         const addedTimeData = Object.values(newDataDict).filter(item => !(item.Day_of_week in oldDataDict))
         const deletedTimeData = Object.values(oldDataDict).filter(item => !(item.Day_of_week in newDataDict))
-
-        const updatedTimeData = Object.values(newDataDict).filter(item => {
-          return (item.Day_of_week in oldDataDict) &&
-            (item.Start_time !== oldDataDict[item.Day_of_week].Start_time ||
-            item.End_time !== oldDataDict[item.Day_of_week].End_time)
-        })
+        const updatedTimeData = Object.values(newDataDict).filter(item => item.Day_of_week in oldDataDict && (item.Start_time !== oldDataDict[item.Day_of_week].Start_time || item.End_time !== oldDataDict[item.Day_of_week].End_time))
 
         if (!_.isEmpty(addedTimeData)) {
-          for (let j = 0; j < addedTimeData.length; j++) {
-            if (addedTimeData[j]) {
+          for (let data of addedTimeData) {
+            if (data) {
               try {
-                await SaveDoctorDataDB.addAvailbilityData(addedTimeData[j], returnedDataData.addressesID)
+                await SaveDoctorDataDB.addAvailbilityData(data, returnedDataItem.addressesID)
               } catch (error) {
                 return res.status(400).json()
               }
@@ -453,10 +449,10 @@ export async function saveAddressData (req, res) {
           }
         }
         if (!_.isEmpty(deletedTimeData)) {
-          for (let j = 0; j < deletedTimeData.length; j++) {
-            if (deletedTimeData[j]) {
+          for (let data of deletedTimeData) {
+            if (data) {
               try {
-                await SaveDoctorDataDB.deleteAvailbilityData(deletedTimeData[j], returnedDataData.addressesID)
+                await SaveDoctorDataDB.deleteAvailbilityData(data, returnedDataItem.addressesID)
               } catch (error) {
                 return res.status(400).json()
               }
@@ -464,10 +460,10 @@ export async function saveAddressData (req, res) {
           }
         }
         if (!_.isEmpty(updatedTimeData)) {
-          for (let j = 0; j < updatedTimeData.length; j++) {
-            if (updatedTimeData[j]) {
+          for (let data of updatedTimeData) {
+            if (data) {
               try {
-                await SaveDoctorDataDB.updateTimeAvailbilityData(updatedTimeData[j], returnedDataData.addressesID)
+                await SaveDoctorDataDB.updateTimeAvailbilityData(data, returnedDataItem.addressesID)
               } catch (error) {
                 return res.status(400).json()
               }
@@ -476,40 +472,39 @@ export async function saveAddressData (req, res) {
         }
       }
       return res.status(200).json(returnedData)
-    } else {
-      //if no addresses:
-      return res.status(200).json([])
     }
-  } else if (!_.isEmpty(AddressData)) {
+  }
+  else if (!_.isEmpty(AddressData)) {
     AddressData.sort((a, b) => a.address_priority - b.address_priority)
-    for (let i = 0; i < AddressData.length; i++) {
+    for (let [i, address] of AddressData.entries()) {
       let insertID
       try {
-        insertID = await SaveDoctorDataDB.addAddressRecord(AddressData[i], DoctorID)
+        insertID = await SaveDoctorDataDB.addAddressRecord(address, DoctorID)
       } catch (error) {
         return res.status(400).json()
       }
 
-      if (AddressData[i].phone) {
+      if (address.phone) {
         try {
-          await SaveDoctorDataDB.addPhoneRecord(AddressData[i].phone, insertID)
+          await SaveDoctorDataDB.addPhoneRecord(address.phone, insertID)
         } catch (error) {
           return res.status(400).json()
         }
       }
-      if (!_.isEmpty(TimesData[i])) {//Makes sure that there is Time Data to save
-        for (let j = 0; j < TimesData[i].length; j++) {
+
+      if (!_.isEmpty(TimesData[i])) {
+        for (let timeData of TimesData[i]) {
           try {
-            await SaveDoctorDataDB.addAvailbilityData(TimesData[i][j], insertID)
+            await SaveDoctorDataDB.addAvailbilityData(timeData, insertID)
           } catch (error) {
             return res.status(400).json()
           }
         }
       }
-      AddressData[i].addressesID = insertID
+      address.addressesID = insertID
     }
     return res.status(200).json(AddressData)
-  } else return res.status(400).json()
+  }
 }
 
 /** savePublicAvailibilityData is a Doctor-controlled function that allows them to say wheather or not they want their profile accessible to patients

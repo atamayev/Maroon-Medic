@@ -2,15 +2,10 @@ To-do:
 
 
 ASAP:
--go through all instances where checking for the existance of something. make sure the if (Ifexists) --> update, else --> add, not the other way around
-instead of this;	
-	      for (let i = 0; i < addressData.length; i++) {
-		make it for (let address of addresses)
 -clean up the Object.fromEntries in address Data
 	try to move all lines in the controllers that filter data (new data vs updated, etc.)
 -settle on a naming convention for the DB files - should the functions all start with retrieve?
 	settle on a naming convention for Doctor_ID or DoctorID, Patient_ID, etc. there should be no User_ID/UserID in the DB files, should all be doc or patient (unless auth)
--make sure there are no instances of connection, or DB operation outside of the DB folder
 -if a response from the back-end is not positive when saving data, then the state should not update. see vet education, throw an error, and see it still change the state.
 	check other data types aswell
 -mini bug when making a booking. make a booking with `changes in behavior`. The time is 10 AM- 10AM. Should say something like (10AM (july 17) - 10AM (july 18))
@@ -22,18 +17,15 @@ added a appointment_timespan, and changed from patientID--> petID. - need to cha
 	after the appointment is made, should go to a confirmation page after the 'finalize-booking' page, which lists the details in pretty format. from there, have a button: go to dashboard
 
 -start figuring out only being able to make appointments during available time slots (shouldn't be able to book an appointment while that time slot is booked)
-- go through backend, fix any examples of the null/400 respone returning late
-	ie. save doctordata ctrl. line 610. the 400 status should return before the if  and if else statments.
-		should be: if (_.isEmpty(addressResults) && (_.isEmpty(AddressData))
 
--try making an appointment, not requesting, going back, and making a different appointmet. does session storage updat?
+-try making an appointment, not requesting (in finalize-booking), going back, and making a different appointmet. does session storage updat?
 -think about how isActive should work - what actually happens when a user deletes their account. should a new user be allowed to make an account with that same email instantaneosly?
 
 -consider combining the two add preVet Education callback functions
 -go through backend code, look for repetetive code to outsource to utils (some of the date code seems repetetive)
 
 make the phone number input in the location.js only accept numbers (Phone input)
-Run lint tests to check for camelcase, and for over 200 line fcns
+Run lint test for over 200 line fcns
 
 -duplicate entries need to be accounted for when added to DB. Unique constraints. when the same data is entered into the pre_vet_edcatinn_mapping table, it gives an error, but doesn't enter the data.
 	Make the error on the front-end be say something like: duplicate entry. Or, don't allow the user to add the same entry twice

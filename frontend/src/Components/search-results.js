@@ -1,6 +1,6 @@
+import _ from "lodash"
 import { Card, Button } from "react-bootstrap"
 import { Link } from "react-router-dom"
-import { capitalizeFirstLetter } from "../utils/capitalization"
 
 export default function SearchResults(props) {
   const { data } = props
@@ -11,7 +11,7 @@ export default function SearchResults(props) {
         return (
           <Card key = {NVI} style = {{ margin: "0 10px", gridColumn: "span 1", gridRow: "span 1" }}>
             <Card.Body>
-              <Card.Title>Dr. {capitalizeFirstLetter(FirstName)} {capitalizeFirstLetter(LastName)}</Card.Title>
+              <Card.Title>  Dr. {_.upperFirst(FirstName || "")} {_.upperFirst(LastName || "")}</Card.Title>
               <Link to = {`/vet/${NVI}`}>
                 <Button variant = "primary">
                   <p>Click Me! NVI: {NVI}</p>

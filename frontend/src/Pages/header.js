@@ -1,6 +1,7 @@
-import {useCallback, useState, useEffect, useContext } from "react"
+import _ from "lodash"
 import {Dropdown} from "react-bootstrap"
 import {useLocation} from "react-router-dom"
+import {useCallback, useState, useEffect, useContext } from "react"
 import logo from "../images/logo.svg"
 import pic from "../images/ProfileImage.jpg"
 import { SearchContext } from "../contexts/search-context"
@@ -47,10 +48,10 @@ function useSetHeaderData(userType) {
       let name
       if (userType === "Doctor") {
         name = JSON.parse(sessionStorage.getItem("DoctorPersonalInfo")).LastName
-        setHeaderData("Dr. " + name)
+        setHeaderData("Dr. " + _.upperFirst(name || ""))
       } else {
         name = JSON.parse(sessionStorage.getItem("PatientPersonalInfo")).FirstName
-        setHeaderData(name)
+        setHeaderData(_.upperFirst(name || ""))
       }
     } catch (error) {
       if (error instanceof TypeError) await fetchPersonalInfo(userType, setHeaderData)

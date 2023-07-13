@@ -1,9 +1,9 @@
+import _ from "lodash"
 import moment from "moment"
 import { useEffect, useState } from "react"
 import { Card, Button } from "react-bootstrap"
 import { useNavigate, useLocation } from "react-router-dom"
 import FormGroup from "../../components/form-group"
-import { capitalizeFirstLetter } from "../../utils/capitalization"
 import { UnauthorizedUser } from "../../components/user-type-unauth"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
 import { confirmBooking } from "../../custom-hooks/public-doctor-hooks/confirm-booking-hook"
@@ -110,7 +110,7 @@ export function FinalizeBookingPage() {
           </span>
         </Card.Text>
         <span style = {{ display: "block" }}>
-          <strong>Write a message to Dr. {capitalizeFirstLetter(personalData.LastName)}:</strong>
+          <strong>Write a message to Dr. {_.upperFirst(personalData.LastName || "")}:</strong>
           {renderMessageSection()}
         </span>
         {renderCharacterLimit()}
@@ -151,7 +151,7 @@ export function FinalizeBookingPage() {
         <Card>
           <Card.Header as = "h2">{renderConfirmOrRequestBook()} an Appointment</Card.Header>
           <Card.Body>
-            <Card.Title as = "h3">Dr. {""} {capitalizeFirstLetter(personalData.FirstName)} {""} {capitalizeFirstLetter(personalData.LastName)}</Card.Title>
+            <Card.Title as = "h3">Dr. {""} {_.upperFirst(personalData.FirstName || "")} {""} {_.upperFirst(personalData.LastName || "")}</Card.Title>
             {renderCardText()}
             {renderConfirmBookingButton()}
           </Card.Body>

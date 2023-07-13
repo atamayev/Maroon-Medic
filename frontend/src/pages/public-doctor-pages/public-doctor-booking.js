@@ -4,12 +4,11 @@ import { useState, useEffect } from "react"
 import { Card, Button } from "react-bootstrap"
 import { Link, useNavigate } from "react-router-dom"
 import FormGroup from "../../components/form-group"
-import { capitalizeFirstLetter } from "../../utils/capitalization"
 import { fetchPetData } from "../../custom-hooks/my-pets-hooks/my-pets"
+import { UnauthorizedUserBodyText } from "../../components/user-type-unauth"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
 import { finalizeBookingClick } from "../../custom-hooks/public-doctor-hooks/booking-page-hooks"
 import { handleServiceChange, handleLocationChange, handleDayChange, handleTimeChange, handlePetChange } from "../../custom-hooks/public-doctor-hooks/booking-page-hooks"
-import { UnauthorizedUserBodyText } from "../../components/user-type-unauth"
 
 const handleBookingClick = (e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet) => {
   e.preventDefault()
@@ -132,7 +131,7 @@ export default function RenderBookingSection(props) {
       <Card className = "card-bottom-margin">
         <Card.Header>Ready to make a booking?</Card.Header>
         <Card.Body>
-          Dr. {capitalizeFirstLetter(personalData.LastName)} does not currently have any open time slots for appointments.
+          Dr. {_.upperFirst(personalData.LastName || "")} does not currently have any open time slots for appointments.
         </Card.Body>
       </Card>
     )
@@ -174,7 +173,7 @@ export default function RenderBookingSection(props) {
   }
 
   const renderAvailableDates = () => {
-    if (selectedDay === `Dr. ${capitalizeFirstLetter(personalData.LastName)} does not currently have any open appointments at this location`) {
+    if (selectedDay === `Dr. ${_.upperFirst(personalData.LastName || "")} does not currently have any open appointments at this location`) {
       return <option disabled>{selectedDay}</option>
     }
 
@@ -256,7 +255,7 @@ export default function RenderBookingSection(props) {
 
   const renderNoAvailableTimes = () => {
     if (!noAvailableTimesMessage) return null
-    return <>Dr. {capitalizeFirstLetter(personalData.LastName)} does not currently have any open appointments at this location</>
+    return <>Dr. {_.upperFirst(personalData.LastName || "")} does not currently have any open appointments at this location</>
   }
 
   const renderSelectTime = () => {
@@ -317,7 +316,7 @@ export default function RenderBookingSection(props) {
     return (
       <Card className = "card-bottom-margin">
         <Card.Header>Ready to make a booking?</Card.Header>
-        <Card.Body>Dr. {capitalizeFirstLetter(personalData.LastName)} does not currently offer any services.</Card.Body>
+        <Card.Body>Dr. {_.upperFirst(personalData.LastName || "")} does not currently offer any services.</Card.Body>
       </Card>
     )
   }
@@ -326,7 +325,7 @@ export default function RenderBookingSection(props) {
     return (
       <Card className = "card-bottom-margin">
         <Card.Header>Ready to make a booking?</Card.Header>
-        <Card.Body>Dr. {capitalizeFirstLetter(personalData.LastName)} does not currently have any open locations.</Card.Body>
+        <Card.Body>Dr. {_.upperFirst(personalData.LastName || "")} does not currently have any open locations.</Card.Body>
       </Card>
     )
   }

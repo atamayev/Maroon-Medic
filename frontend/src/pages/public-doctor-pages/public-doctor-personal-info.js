@@ -1,5 +1,4 @@
 import _ from "lodash"
-import { capitalizeFirstLetter } from "../../utils/capitalization"
 
 export default function RenderPersonalInfoSection(props) {
   const { personalData, description } = props
@@ -9,6 +8,6 @@ export default function RenderPersonalInfoSection(props) {
 function RenderPersonalInfo(props) {
   const {FirstName, LastName} = props
   if (!_.isEmpty(props)) {
-    return <> Dr. {""} {capitalizeFirstLetter(FirstName)} {""} {capitalizeFirstLetter(LastName)} </>
+    return <> Dr. {""} {_.upperFirst(FirstName || "")} {""} {_.upperFirst(LastName || "")} </>
   }
 }

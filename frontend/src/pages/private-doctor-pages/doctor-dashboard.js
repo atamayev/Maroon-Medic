@@ -204,7 +204,7 @@ export default function DoctorDashboard() {
 
   const renderisPersonalInfo = () => {
     if (!personalInfo) return <>Loading...</>
-    return <p>Welcome{renderWelcomeOrBack()}, Dr. {personalInfo.LastName}</p>
+    return <p>Welcome{renderWelcomeOrBack()}, Dr. {_.upperFirst(personalInfo.LastName || "")}</p>
   }
 
   return (

@@ -1,6 +1,5 @@
 import _ from "lodash"
 import { Card } from "react-bootstrap"
-import { capitalizeFirstLetter } from "../../utils/capitalization"
 
 export default function RenderEducationSection(props) {
   const { preVetEducation, vetEducation, personalData } = props
@@ -8,7 +7,7 @@ export default function RenderEducationSection(props) {
     return (
       <Card className = "card-bottom-margin">
         <Card.Header>
-          Where did Dr. {capitalizeFirstLetter(personalData.LastName)} go to school?
+          Where did Dr. {_.upperFirst(personalData.LastName || "")} go to school?
         </Card.Header>
         <Card.Body>
           <h3>Pre-Veterinary Education</h3>

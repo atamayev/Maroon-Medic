@@ -57,10 +57,10 @@ export default new class FetchPublicDoctorData {
     }
 
     if (!_.isEmpty(addressData)) {
-      for (let i = 0; i < addressData.length; i++) {
+      for (let address of addressData) {
         try {
-          const availabilityData = await FetchPublicDoctorDataDB.retrieveAvailabilityData(addressData[i].addressesID)
-          addressData[i].times = availabilityData
+          const availabilityData = await FetchPublicDoctorDataDB.retrieveAvailabilityData(address.addressesID)
+          address.times = availabilityData
         } catch (error) {
           return []
         }

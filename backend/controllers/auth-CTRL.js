@@ -45,8 +45,7 @@ export async function jwtVerify (req, res) {
       else if (response.type === "Patient") redirectURL = "/patient-login"
       clearCookies(res, undefined)
       return res.status(401).json({ shouldRedirect: true, redirectURL: redirectURL })
-    }
-    else {
+    } else {
       const doesRecordExist = await AuthDB.checkIfUUIDExists(decodedUUID)
 
       if (doesRecordExist) {
@@ -261,8 +260,7 @@ export async function fetchLoginHistory (req, res) {
   if ("DoctorUUID" in cookies || "DoctorAccessToken" in cookies) {
     UUID = cookies.DoctorUUID
     type = "Doctor"
-  }
-  else if ("PatientUUID" in cookies || "PatientAccessToken" in cookies) {
+  } else if ("PatientUUID" in cookies || "PatientAccessToken" in cookies) {
     UUID = cookies.PatientUUID
     type = "Patient"
   }
