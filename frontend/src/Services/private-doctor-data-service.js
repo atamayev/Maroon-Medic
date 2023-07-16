@@ -4,9 +4,6 @@ export default new class PrivateDoctorDataService {
   async addingDoctorInfo(newDoctorObject) {
     return await http.post("private-doctor-data/new-doctor", {newDoctorObject})
   }
-  async newDoctorConfirmation() {
-    return await http.get("private-doctor-data/new-doctor-confirmation")
-  }
   async fillDashboard() {
     return await http.get("/private-doctor-data/fetch-dashboard-data")
   }
@@ -39,9 +36,6 @@ export default new class PrivateDoctorDataService {
   }
   async deleteServicedPet(petID) {
     return await http.delete("/private-doctor-data/delete-serviced-pet", {petID: petID})
-  }
-  async fillLists() {
-    return await http.get("/private-doctor-data/fetch-doctor-lists")
   }
   async savePublicAvailibility(PublicAvailibility) {
     return await http.post("/private-doctor-data/save-public-availibility-data", {PublicAvailibility})

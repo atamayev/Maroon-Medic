@@ -5,7 +5,9 @@ import {
   logout,
   jwtVerify,
   fetchLoginHistory,
-  changePassword
+  changePassword,
+  newDoctorConfirmation,
+  newPatientConfirmation
 } from "../controllers/auth-CTRL.js"
 
 const router = express.Router()
@@ -16,5 +18,7 @@ router.post("/logout", logout)
 router.post("/verify", jwtVerify)
 router.get("/fetch-login-history", fetchLoginHistory)
 router.post("/change-password", changePassword)
+router.get("/new-doctor-confirmation", newDoctorConfirmation)
+router.get("/new-patient-confirmation", newPatientConfirmation)
 
 export default router

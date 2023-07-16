@@ -1,9 +1,9 @@
 import { useState, useEffect, useContext } from "react"
 import {useNavigate} from "react-router-dom"
 import { VerifyContext } from "../../contexts/verify-context.js"
+import AuthDataService from "../../services/auth-data-service.js"
 import NewAccountForm from "../../components/new-account-form.js"
 import {handleNewUserSubmit} from "../../custom-hooks/handle-submits.js"
-import PrivateDoctorDataService from "../../services/private-doctor-data-service.js"
 import { invalidUserAction } from "../../custom-hooks/user-verification-snippets.js"
 import Header from "../header.js"
 
@@ -18,7 +18,7 @@ export default function NewDoctor () {
     const result = await userVerification()
     if (result.verified === true && result.userType === "Doctor") {
       try {
-        const doctorResult = PrivateDoctorDataService.newDoctorConfirmation()
+        const doctorResult = await AuthDataService.newDoctorConfirmation()
         if (doctorResult.data === false) navigate("/vet-register")
       } catch (error) {
         if (error.response.status === 401) invalidUserAction(error.response.data)

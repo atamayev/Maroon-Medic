@@ -8,18 +8,6 @@ export default new class PrivateDoctorDataDB {
     await connection.execute(sql, values)
   }
 
-  async checkIfUUIDsExist (newDoctorUUID, existingDoctorUUID) {
-    const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.uuid_reference} WHERE UUID = ?) as 'exists'`
-    const values1 = [newDoctorUUID]
-    const values2 = [existingDoctorUUID]
-    const [results1] = await connection.execute(sql, values1)
-    const [results2] = await connection.execute(sql, values2)
-    const doesRecord1Exist = results1[0].exists
-    const doesRecord2Exist = results2[0].exists
-    if (doesRecord1Exist && doesRecord2Exist) return true
-    return false
-  }
-
   async retrieveDoctorDashboard (DoctorID) {
     const sql = `SELECT
           ${mysqlTables.appointments}.appointmentsID, ${mysqlTables.appointments}.appointment_date, ${mysqlTables.appointments}.appointment_price, ${mysqlTables.appointments}.patient_message, ${mysqlTables.appointments}.Doctor_confirmation_status, ${mysqlTables.appointments}.Created_at,

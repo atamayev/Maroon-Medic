@@ -1,7 +1,6 @@
 import _ from "lodash"
 import TimeUtils from "../../utils/time.js"
 import DataFormatter from "../../utils/data-formatter.js"
-import FetchAllLists from "../../utils/fetch-all-lists.js"
 import PrivateDoctorDataDB from "../../db/private-doctor-data/private-doctor-data-DB.js"
 import FetchDoctorAccountData from "../../utils/fetch-account-and-public-data/fetch-doctor-account-data.js"
 
@@ -24,29 +23,6 @@ export async function newDoctor (req, res) {
     return res.status(200).json()
   } catch (error) {
     return res.status(500).json(error)
-  }
-}
-
-/** newDoctorConfirmation makes sure that the user on the site is a new Doctor
- *  If newDoctorUUID or the regular DoctorUUID don't exist, returns false.
- *  If both the DoctorUUID and newDoctorUUID exist in DB, then returns true, else returns false.
- * @param {Cookies} req Contains the user's cookies (newUser, and DoctorUUID)
- * @param {Array} res If the user data is successfully found in the table to table, return true. If not, return false --> front-end re-directs to register page
- * @returns true/false
- * DOCUMENTATION LAST UPDATED 3/16/23
- */
-export async function newDoctorConfirmation (req, res) {
-  let doctorPermission = false
-  const newDoctorUUID = req.cookies.DoctorNewUser
-  const existingDoctorUUID = req.cookies.DoctorUUID
-
-  if (!newDoctorUUID || !existingDoctorUUID) return res.json(doctorPermission)
-
-  try {
-    const doBothUUIDExist = await PrivateDoctorDataDB.checkIfUUIDsExist(newDoctorUUID, existingDoctorUUID)
-    return res.json(doBothUUIDExist)
-  } catch (error) {
-    return res.json(doctorPermission)
   }
 }
 
@@ -132,31 +108,6 @@ export async function fetchAccountDetails (req, res) {
     response.verified             = verificationAndPublicAv.Verified
     response.publiclyAvailable    = verificationAndPublicAv.PubliclyAvailable
     // response.pictures             = await FetchDoctorAccountData.fetchDoctorPictures(DoctorID)
-    return res.status(200).json(response)
-  } catch (error) {
-    return res.status(400).json([])
-  }
-}
-
-/** fetchAccountDetails creates a list of objects contains all of the Lists from the DB
- *  Doctors fill in their personal details using options from these lists.
- * @param {N/A} req
- * @param {Array} res An Array of objects, filled with all possible list data
- * @returns Objects from List data
- * DOCUMENTATION LAST UPDATED 3/16/23
- */
-export async function fetchDoctorLists (req, res) {
-  try {
-    let response = {}
-    response.languages             = await FetchAllLists.fetchAllLanguages()
-    response.servicesAndCategories = await FetchAllLists.fetchAllServicesAndCategories()
-    response.specialties           = await FetchAllLists.fetchAllSpecialties()
-    response.preVetSchools         = await FetchAllLists.fetchAllPreVetSchools()
-    response.preVetEducationTypes  = await FetchAllLists.fetchAllPreVetEducationTypes()
-    response.majors                = await FetchAllLists.fetchAllMajors()
-    response.vetSchools            = await FetchAllLists.fetchAllVetSchools()
-    response.vetEducationTypes     = await FetchAllLists.fetchAllVetEducationTypes()
-    response.pets                  = await FetchAllLists.fetchAllPets()
     return res.status(200).json(response)
   } catch (error) {
     return res.status(400).json([])

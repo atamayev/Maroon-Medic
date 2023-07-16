@@ -307,6 +307,44 @@ export async function changePassword (req, res) {
   }
 }
 
+/** newDoctorConfirmation/newPatientConfirmation makes sure that the user on the site is a new Doctor
+ *  If newDoctorUUID/newPatientUUID or the regular DoctorUUID/PatientUUID don't exist, returns false.
+ *  If both the DoctorUUID/PatientUUID and newDoctorUUID/newPatientUUID exist in DB, then returns true, else returns false.
+ * @param {Cookies} req Contains the user's cookies (newUser, and DoctorUUID/PatientUUID)
+ * @param {Array} res If the user data is successfully found in the table to table, return true. If not, return false --> front-end re-directs to register page
+ * @returns true/false
+ * DOCUMENTATION LAST UPDATED 3/16/23
+ */
+export async function newDoctorConfirmation (req, res) {
+  let doctorPermission = false
+  const newDoctorUUID = req.cookies.DoctorNewUser
+  const existingDoctorUUID = req.cookies.DoctorUUID
+
+  if (!newDoctorUUID || !existingDoctorUUID) return res.json(doctorPermission)
+
+  try {
+    const doBothUUIDExist = await AuthDB.checkIfUUIDsExist(newDoctorUUID, existingDoctorUUID)
+    return res.json(doBothUUIDExist)
+  } catch (error) {
+    return res.json(doctorPermission)
+  }
+}
+
+export async function newPatientConfirmation (req, res) {
+  let patientPermission = false
+  const newPatientUUID = req.cookies.PatientNewUser
+  const existingPatientUUID = req.cookies.PatientUUID
+
+  if (!newPatientUUID || !existingPatientUUID) return res.json(patientPermission)
+
+  try {
+    const doBothUUIDExist = await AuthDB.checkIfUUIDsExist(newPatientUUID, existingPatientUUID)
+    return res.json(doBothUUIDExist)
+  } catch (error) {
+    return res.json(patientPermission)
+  }
+}
+
 /** logout is self-explanatory
  *  Depending on the type, deletes any cookie called "{type}AccessToken"--> whenever the user navigates to future pages, their token will not be verified (token cleared)
  *  Deletes UUID that was created for user to be able to send data back and forth.

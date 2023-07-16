@@ -1,12 +1,9 @@
 import express from "express"
-import GetIDFromUUID from "../utils/getIDFromUUID.js"
 import {
   newDoctor,
   fetchDashboardData,
   fetchPersonalData,
-  newDoctorConfirmation,
-  fetchAccountDetails,
-  fetchDoctorLists
+  fetchAccountDetails
 } from "../controllers/private-doctor-data/private-doctor-data-CTRL.js"
 import {
   savePersonalData,
@@ -25,25 +22,23 @@ import {
 
 const router = express.Router()
 
-router.post("/new-doctor", GetIDFromUUID.getDoctorIDFromUUID, newDoctor)
-router.get("/new-doctor-confirmation", newDoctorConfirmation) // Move to auth.js, and put GetIDFromUUID.getDoctorIDFromUUID as a middleware on teh index level
-router.get("/fetch-dashboard-data", GetIDFromUUID.getDoctorIDFromUUID, fetchDashboardData)
-router.get("/fetch-personal-data", GetIDFromUUID.getDoctorIDFromUUID, fetchPersonalData)
-router.get("/fetch-account-details-data", GetIDFromUUID.getDoctorIDFromUUID, fetchAccountDetails)
-router.get("/fetch-doctor-lists", fetchDoctorLists)
+router.post("/new-doctor", newDoctor)
+router.get("/fetch-dashboard-data", fetchDashboardData)
+router.get("/fetch-personal-data", fetchPersonalData)
+router.get("/fetch-account-details-data", fetchAccountDetails)
 
-router.post("/save-personal-data", GetIDFromUUID.getDoctorIDFromUUID, savePersonalData)
-router.post("/save-description-data", GetIDFromUUID.getDoctorIDFromUUID, saveDescriptionData)
-router.post("/add-language", GetIDFromUUID.getDoctorIDFromUUID, addLanguage)
-router.delete("/delete-language/:languageID", GetIDFromUUID.getDoctorIDFromUUID, deleteLanguage)
-// router.post("/add-specialty", GetIDFromUUID.getDoctorIDFromUUID, addSpecialty)
-// router.delete("/delete-specialty", GetIDFromUUID.getDoctorIDFromUUID, deleteSpecialty)
-// router.post("/add-serviced-pet", GetIDFromUUID.getDoctorIDFromUUID, addServidedPet)
-// router.delete("/delete-serviced-pet", GetIDFromUUID.getDoctorIDFromUUID, deleteServiedPet)
+router.post("/save-personal-data", savePersonalData)
+router.post("/save-description-data", saveDescriptionData)
+router.post("/add-language", addLanguage)
+router.delete("/delete-language/:languageID", deleteLanguage)
+// router.post("/add-specialty", addSpecialty)
+// router.delete("/delete-specialty", deleteSpecialty)
+// router.post("/add-serviced-pet", addServidedPet)
+// router.delete("/delete-serviced-pet", deleteServiedPet)
 
-router.post("/save-public-availibility-data", GetIDFromUUID.getDoctorIDFromUUID, savePublicAvailibilityData)
-router.post("/save-education-data", GetIDFromUUID.getDoctorIDFromUUID, saveEducationData)
-router.post("/save-services-data", GetIDFromUUID.getDoctorIDFromUUID, saveServicesData)
-router.post("/save-address-data", GetIDFromUUID.getDoctorIDFromUUID, saveAddressData)
+router.post("/save-public-availibility-data", savePublicAvailibilityData)
+router.post("/save-education-data", saveEducationData)
+router.post("/save-services-data", saveServicesData)
+router.post("/save-address-data", saveAddressData)
 
 export default router

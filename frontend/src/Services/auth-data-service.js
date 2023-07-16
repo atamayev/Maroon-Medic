@@ -15,6 +15,12 @@ export default new class AuthDataService {
     return await http.post("/auth/register", {registerInformationObject},
       {withCredentials: true})
   }
+  async newDoctorConfirmation() {
+    return await http.get("/auth/new-doctor-confirmation")
+  }
+  async newPatientConfirmation() {
+    return await http.get("/auth/new-patient-confirmation")
+  }
   async fetchLoginHistry() {
     return await http.get("/auth/fetch-login-history")
   }

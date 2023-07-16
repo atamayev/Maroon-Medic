@@ -18,10 +18,11 @@ import RenderPublicStatusSection from "./public-status.js"
 import RenderVerificationSection from "./verification-status.js"
 import RenderPreVetEducationSection from "./pre-vet-education.js"
 import RenderPersonalInfoLinkSection from "./personalInfoLink.js"
+import ListsDataService from "../../../services/lists-data-service.js"
 
 async function FillLists(setListDetails) {
   try {
-    const response = await PrivateDoctorDataService.fillLists()
+    const response = await ListsDataService.fillDoctorLists()
     if (response) {
       setListDetails(response.data)
       sessionStorage.setItem("ListDetails", JSON.stringify(response.data))

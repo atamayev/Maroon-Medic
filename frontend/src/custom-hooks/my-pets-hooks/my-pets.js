@@ -1,5 +1,6 @@
-import PrivatePatientDataService from "../../services/private-patient-data-service"
+import ListsDataService from "../../services/lists-data-service"
 import { invalidUserAction } from "../user-verification-snippets"
+import PrivatePatientDataService from "../../services/private-patient-data-service"
 
 export async function fetchPetData(setSavedPetData) {
   try {
@@ -15,7 +16,7 @@ export async function fetchPetData(setSavedPetData) {
 
 export async function FillPetTypes(setPetTypes) {
   try {
-    const response = await PrivatePatientDataService.fillPetTypes()
+    const response = await ListsDataService.fillPetTypes()
     if (response) {
       setPetTypes(response.data)
       sessionStorage.setItem("PetTypes", JSON.stringify(response.data))
@@ -27,7 +28,7 @@ export async function FillPetTypes(setPetTypes) {
 
 export async function FillInsurances(setInsurances) {
   try {
-    const response = await PrivatePatientDataService.fillInsurances()
+    const response = await ListsDataService.fillInsurances()
     if (response) {
       setInsurances(response.data)
       sessionStorage.setItem("Insurances", JSON.stringify(response.data))

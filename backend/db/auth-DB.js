@@ -60,6 +60,18 @@ export default new class AuthDB {
     return results
   }
 
+  async checkIfUUIDsExist (newDoctorUUID, existingDoctorUUID) {
+    const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.uuid_reference} WHERE UUID = ?) as 'exists'`
+    const values1 = [newDoctorUUID]
+    const values2 = [existingDoctorUUID]
+    const [results1] = await connection.execute(sql, values1)
+    const [results2] = await connection.execute(sql, values2)
+    const doesRecord1Exist = results1[0].exists
+    const doesRecord2Exist = results2[0].exists
+    if (doesRecord1Exist && doesRecord2Exist) return true
+    return false
+  }
+
   async addLoginHistory (UserID, loginTime) {
     const sql = `INSERT INTO ${mysqlTables.login_history} (Login_at, IP_Address, User_ID) VALUES (?, ?, ?)`
     const values = [loginTime, null, UserID]
