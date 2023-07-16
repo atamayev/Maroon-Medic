@@ -1,6 +1,4 @@
 import TimeUtils from "../../utils/time.js"
-import { clearCookies } from "../../utils/cookie-operations.js"
-import { UUID_to_ID } from "../../setup-and-security/UUID.js"
 import SavePatientDataDB from "../../db/private-patient-data/save-patient-data-DB.js"
 
 /** savePersonalData is self-explanatory in name
@@ -12,14 +10,7 @@ import SavePatientDataDB from "../../db/private-patient-data/save-patient-data-D
  *  DOCUMENTATION LAST UPDATED 6/4/23
  */
 export async function savePersonalData (req, res) {
-  const PatientUUID = req.cookies.PatientUUID
-  let PatientID
-  try {
-    PatientID = await UUID_to_ID(PatientUUID)
-  } catch (error) {
-    clearCookies(res, "Patient")
-    return res.status(401).json({ shouldRedirect: true, redirectURL: "/patient-login" })
-  }
+  const PatientID = req.PatientID
 
   let doesRecordExist
 
@@ -59,14 +50,7 @@ export async function savePersonalData (req, res) {
  *  DOCUMENTATION LAST UPDATED 6/4/23
  */
 export async function saveLanguageData (req, res) {
-  const PatientUUID = req.cookies.PatientUUID
-  let PatientID
-  try {
-    PatientID = await UUID_to_ID(PatientUUID)
-  } catch (error) {
-    clearCookies(res, "Patient")
-    return res.status(401).json({ shouldRedirect: true, redirectURL: "/patient-login" })
-  }
+  const PatientID = req.PatientID
 
   const operationType = req.body.operationType
 
@@ -98,14 +82,7 @@ export async function saveLanguageData (req, res) {
  *  DOCUMENTATION LAST UPDATED 6/4/23
  */
 export async function savePetData (req, res) {
-  const PatientUUID = req.cookies.PatientUUID
-  let PatientID
-  try {
-    PatientID = await UUID_to_ID(PatientUUID)
-  } catch (error) {
-    clearCookies(res, "Patient")
-    return res.status(401).json({ shouldRedirect: true, redirectURL: "/patient-login" })
-  }
+  const PatientID = req.PatientID
 
   let PetData = req.body.PetData
   const operationType = req.body.operationType//adding, deleting, updating

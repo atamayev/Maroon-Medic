@@ -7,6 +7,10 @@ Seperate saving general data into two routes: delete & add
 	break save general data into language, specialty, and pet.
 	create more general functions for saving languages, specialties, pets.
 		make a general save functions that takes in parameters, and does all the same stuff
+		
+		
+- look to simplify the addDoctorLanguages, deleteDoctorLAnguages functions on the front-end.
+add middleware to all functions that convert UUID to ID. 
 -save addresses on a per address level. Not saving all addresses at once greatly simplifies the backend
 	if addressID = 0--> add new address route: POST REQ
 	if addressID !=0 --> update address route: PUT REQUEST
@@ -19,7 +23,6 @@ For saving services:
 
 
 
--clean up the SaveDoctorDataOperations. Convert to lodash if possible, less messy
 -if a response from the back-end is not positive when saving data, then the state should not update. see vet education, throw an error, and see it still change the state.
 	check other data types aswell
 -mini bug when making a booking. make a booking with `changes in behavior`. The time is 10 AM- 10AM. Should say something like (10AM (july 17) - 10AM (july 18))
@@ -36,7 +39,9 @@ added a appointment_timespan, and changed from patientID--> petID. - need to cha
 -think about how isActive should work - what actually happens when a user deletes their account. should a new user be allowed to make an account with that same email instantaneosly?
 
 -consider combining the two add preVet Education callback functions
+-re-do documentation
 -go through backend code, look for repetetive code to outsource to utils (some of the date code seems repetetive)
+	add to middleware if necessary
 
 make the phone number input in the location.js only accept numbers (Phone input)
 Run lint test for over 200 line fcns
@@ -68,8 +73,6 @@ Make the "Add Address" Button Finalize a Location, make it within the accordion.
 	So when add address is pressed, it becomes a pretty-looking text (can edit it by pressing a pencil in the top right or something)
 	Add a new "Add new address" button to add a new acordion strip
 	Won't need a save button. the add/delete buttons will act as saves. will need to make the delete button double confirmation like everything else
-
-Write documentation, especially for saveAddresses
 
 -instead of re-rendering pateint dashboard each time, maybe there's a way to set the dashborad data from the back-end.
 

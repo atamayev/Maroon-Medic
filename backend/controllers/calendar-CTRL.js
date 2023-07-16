@@ -1,7 +1,5 @@
 import TimeUtils from "../utils/time.js"
 import CalendarDB from "../db/calendar-DB.js"
-import { UUID_to_ID } from "../setup-and-security/UUID.js"
-import { clearCookies } from "../utils/cookie-operations.js"
 
 /** makeAppointment is called when a patient makes an appointment
  *  First, finds the Doctor_ID corresponding to the NVI of the appointment Doctor
@@ -44,15 +42,7 @@ export async function makeAppointment(req, res) {
  *  DOCUMENTATION LAST UPDATED 6/4/23
  */
 export async function getDoctorCalendarDetails(req, res) {
-  const DoctorUUID = req.cookies.DoctorUUID
-  let DoctorID
-
-  try {
-    DoctorID = await UUID_to_ID(DoctorUUID)
-  } catch (error) {
-    clearCookies(res, "Doctor")
-    return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" })
-  }
+  const DoctorID = req.DoctorID
 
   try {
     const calendarDetails = await CalendarDB.retrieveDoctorCalendarDetails(DoctorID)

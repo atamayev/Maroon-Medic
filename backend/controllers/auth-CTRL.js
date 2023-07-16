@@ -284,22 +284,22 @@ export async function changePassword (req, res) {
   else if (userType === "Doctor") UUID = cookies.DoctorUUID
   else if (userType === "Patient") UUID = cookies.PatientUUID
 
-  let User_ID
+  let UserID
   try {
-    User_ID = await UUID_to_ID(UUID) // converts DoctorUUID to docid
+    UserID = await UUID_to_ID(UUID) // converts DoctorUUID to docid
   } catch (error) {
     return res.status(401).json({ shouldRedirect: true, redirectURL: "/" })
   }
 
   try {
-    const hashedPassword = await AuthDB.retrieveUserPassword(User_ID)
+    const hashedPassword = await AuthDB.retrieveUserPassword(UserID)
     const isOldPasswordMatch = await Hash.checkPassword(currentPassword, hashedPassword)
     if (!isOldPasswordMatch) return res.status(400).json("Old Password is incorrect")
     else {
       const isSamePassword = await Hash.checkPassword(newPassword, hashedPassword)
       if (isSamePassword) return res.status(400).json("New Password cannot be the same as the old password")
       const newHashedPassword = await Hash.hashCredentials(newPassword)
-      await AuthDB.updateUserPassword(User_ID, newHashedPassword)
+      await AuthDB.updateUserPassword(UserID, newHashedPassword)
       return res.status(200).json()
     }
   } catch (error) {
