@@ -10,7 +10,6 @@ export default new class GetIDFromUUID {
       req.DoctorID = DoctorID // attach DoctorID to the request object
       next()
     } catch (error) {
-      console.log("error",error)
       clearCookies(res, "Doctor")
       return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" })
     }

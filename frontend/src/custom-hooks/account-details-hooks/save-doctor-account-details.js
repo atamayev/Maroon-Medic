@@ -27,10 +27,8 @@ export async function deleteDoctorLanguages(languageID, newSpokenLanguages, setS
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
   let response
   try {
-    console.log(languageID)
     response = await PrivateDoctorDataService.deleteLanguage(languageID)
   } catch (error) {
-    console.log(error)
     if (error.response.status === 401) invalidUserAction(error.response.data)
     else setLanguagesConfirmation({messageType: "problem"})
     return

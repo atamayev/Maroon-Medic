@@ -2,6 +2,11 @@ To-do:
 
 
 ASAP:
+fgure out how to abstract this           insertID = await SaveDoctorDataDB.addAddressRecord(data, DoctorID)
+	similarly to executeCheck. find a way to accept arbitrary params in execute check
+-can use the operation handlers for fetch-doctor-data.js, patient, public doctor
+-think of better names for the operation handlers
+
 -delete Doctor_ID from appointments table - can just go off of addresses_ID
 Seperate saving general data into two routes: delete & add
 	break save general data into language, specialty, and pet.
@@ -22,7 +27,7 @@ For saving services:
 	IF a service is changed after adding/saving, the button changes from delete --> update. on press, hits the put endpoint
 
 
-
+- go through all backend functions, 
 -if a response from the back-end is not positive when saving data, then the state should not update. see vet education, throw an error, and see it still change the state.
 	check other data types aswell
 -mini bug when making a booking. make a booking with `changes in behavior`. The time is 10 AM- 10AM. Should say something like (10AM (july 17) - 10AM (july 18))

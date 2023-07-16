@@ -1,5 +1,6 @@
 import TimeUtils from "../utils/time.js"
 import CalendarDB from "../db/calendar-DB.js"
+import { handleAsyncOperation, handleAsyncOperationWithReturn, executeCheck } from "../utils/operation-handler.js"
 
 /** makeAppointment is called when a patient makes an appointment
  *  First, finds the Doctor_ID corresponding to the NVI of the appointment Doctor
@@ -12,25 +13,13 @@ import CalendarDB from "../db/calendar-DB.js"
 export async function makeAppointment(req, res) {
   const AppointmentObject = req.body.AppointmentObject
   const NVI = AppointmentObject.NVI
-
-  let DoctorID
-
-  try {
-    DoctorID = await CalendarDB.retrieveDoctorIDFromNVI(NVI)
-  } catch (error) {
-    return res.status(500).json(error)
-  }
+  const DoctorID = await executeCheck(CalendarDB.retrieveDoctorIDFromNVI, NVI, res)
 
   const createdAt = TimeUtils.createFormattedDate()
 
   const mysqlDateTime = TimeUtils.convertAppointmentDateTimeIntoMySQLDate(AppointmentObject.appointmentDate, AppointmentObject.appointmentTime)
-
-  try {
-    await CalendarDB.addAppointment(mysqlDateTime, AppointmentObject, DoctorID, createdAt)
-    return res.status(200).json()
-  } catch (error) {
-    return res.status(500).json(error)
-  }
+  const operation = async () => await CalendarDB.addAppointment(mysqlDateTime, AppointmentObject, DoctorID, createdAt)
+  handleAsyncOperation(res, operation)
 }
 
 /** getDoctorCalendarDetails retreives a certain Doctor's calendar details
@@ -43,13 +32,10 @@ export async function makeAppointment(req, res) {
  */
 export async function getDoctorCalendarDetails(req, res) {
   const DoctorID = req.DoctorID
-
-  try {
-    const calendarDetails = await CalendarDB.retrieveDoctorCalendarDetails(DoctorID)
-    return res.status(200).json(calendarDetails)
-  } catch (error) {
-    return res.status(400).json([])
+  const operation = async () => {
+    return await CalendarDB.retrieveDoctorCalendarDetails(DoctorID)
   }
+  handleAsyncOperationWithReturn(res, operation, [])
 }
 
 /** confirmAppointment allows for a doctor to confirm an incoming pt appointment
@@ -62,10 +48,6 @@ export async function getDoctorCalendarDetails(req, res) {
 export async function confirmAppointment (req, res) {
   const AppointmentID = req.body.AppointmentID
 
-  try {
-    await CalendarDB.confirmAppointmentStatus(AppointmentID)
-    return res.status(200).json()
-  } catch (error) {
-    return res.status(400).json()
-  }
+  const operation = async () => await CalendarDB.confirmAppointmentStatus(AppointmentID)
+  handleAsyncOperation(res, operation)
 }

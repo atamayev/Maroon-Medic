@@ -1,6 +1,7 @@
 import _ from "lodash"
 import SearchDB from "../db/search-DB.js"
 import FetchAllLists from "../utils/fetch-all-lists.js"
+import { handleAsyncOperationWithReturn } from "../utils/operation-handler.js"
 
 /** searchByQuery returns all users that fit the client's search
  * @param {String} req Query is passed in
@@ -27,38 +28,30 @@ export async function searchByQuery (req, res) {
  *  DOCUMENTATION LAST UPDATED 6/4/23
  */
 export async function fetchUsers (req, res) {
-  try {
-    const doctorsList = await SearchDB.retrieveAllDoctors()
-    return res.json(doctorsList)
-  } catch (error) {
-    return res.json({ error: "Fetch Users Error" })
+  const operation = async () => {
+    return await SearchDB.retrieveAllDoctors()
   }
+  handleAsyncOperationWithReturn(res, operation, [])
 }
 
 // The following three functions are here for filtering purposes. In the future, pts will be able to filter for docs by language_spoken, insurances, etc.
 export async function fetchAllLanguages (req, res) {
-  try {
-    const LanguageList = FetchAllLists.fetchAllLanguages()
-    return res.status(200).json(LanguageList)
-  } catch (error) {
-    return res.status(500).json(error)
+  const operation = async () => {
+    return await FetchAllLists.fetchAllLanguages()
   }
+  handleAsyncOperationWithReturn(res, operation, [])
 }
 
 export async function fetchAllServicesAndCategories (req, res) {
-  try {
-    const ServicesList = FetchAllLists.fetchAllServicesAndCategories()
-    return res.status(200).json(ServicesList)
-  } catch (error) {
-    return res.status(500).json(error)
+  const operation = async () => {
+    return await FetchAllLists.fetchAllServicesAndCategories()
   }
+  handleAsyncOperationWithReturn(res, operation, [])
 }
 
 export async function fetchAllInsurances (req, res) {
-  try {
-    const InsurancesList = FetchAllLists.fetchAllInsurances()
-    return res.status(200).json(InsurancesList)
-  } catch (error) {
-    return res.status(500).json(error)
+  const operation = async () => {
+    return await FetchAllLists.fetchAllInsurances()
   }
+  handleAsyncOperationWithReturn(res, operation, [])
 }

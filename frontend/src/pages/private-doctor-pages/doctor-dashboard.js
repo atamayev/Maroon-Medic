@@ -3,7 +3,7 @@ import moment from "moment"
 import { useEffect, useState } from "react"
 import { Card, Badge, Button } from "react-bootstrap"
 import { UnauthorizedUser } from "../../components/user-type-unauth.js"
-import PrivateDoctorDataService from "../../services/private-doctor-data-service.js"
+import CalendarDataService from "../../services/calendar-data-service.js"
 import { invalidUserAction } from "../../custom-hooks/user-verification-snippets.js"
 import { useDashboardData } from "../../custom-hooks/fetch-and-use-dashboard-info.js"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification.js"
@@ -12,7 +12,7 @@ import DoctorHeader from "./doctor-header.js"
 
 async function approveAppointment (setStatus, AppointmentsID, dashboardData, setDashboardData) {
   try {
-    const response = await PrivateDoctorDataService.confirmAppointment(AppointmentsID)
+    const response = await CalendarDataService.confirmAppointment(AppointmentsID)
     if (response.status === 200) {
       // Update the Doctor_confirmation_status for the specific appointment
       const updatedDashboardData = dashboardData.map(appointment => {

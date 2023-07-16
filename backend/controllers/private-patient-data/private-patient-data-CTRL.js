@@ -1,6 +1,7 @@
 import _ from "lodash"
 import TimeUtils from "../../utils/time.js"
 import DataFormatter from "../../utils/data-formatter.js"
+import { handleAsyncOperation, handleAsyncOperationWithReturn } from "../../utils/operation-handler.js"
 import PrivatePatientDataDB from "../../db/private-patient-data/private-patient-data-DB.js"
 import FetchPatientAccountData from "../../utils/fetch-account-and-public-data/fetch-patient-account-data.js"
 
@@ -17,13 +18,8 @@ export async function newPatient (req, res) {
   const newPatientObject = req.body.newPatientObject
 
   const dateOfBirth = TimeUtils.convertDOBStringIntoMySQLDate(newPatientObject.DOB_month, newPatientObject.DOB_day, newPatientObject.DOB_year)
-
-  try {
-    await PrivatePatientDataDB.addNewPatientInfo(newPatientObject, dateOfBirth, PatientID)
-    return res.status(200).json()
-  } catch (error) {
-    return res.status(500).json(error)
-  }
+  const operation = async () => await PrivatePatientDataDB.addNewPatientInfo(newPatientObject, dateOfBirth, PatientID)
+  handleAsyncOperation(res, operation)
 }
 
 /** fetchDashboardData retrieves the Patient's dashboard data, which contains information about future appointments.
@@ -94,13 +90,10 @@ export async function fetchPersonalData (req, res) {
  */
 export async function fetchPetData (req, res) {
   const PatientID = req.PatientID
-
-  try {
-    const response = await FetchPatientAccountData.fetchPetData(PatientID)
-    return res.status(200).json(response)
-  } catch (error) {
-    return res.status(400).json([])
+  const operation = async () => {
+    return await FetchPatientAccountData.fetchPetData(PatientID)
   }
+  handleAsyncOperationWithReturn(res, operation, [])
 }
 
 /** fetchAccountDetails retrieves the Patient's Account Details
@@ -113,14 +106,10 @@ export async function fetchPetData (req, res) {
  */
 export async function fetchAccountDetails (req, res) {
   const PatientID = req.PatientID
-
-  try {
+  const operation = async () => {
     let response = {}
-    response.languages  = await FetchPatientAccountData.fetchPatientLanguages(PatientID)
-    return res.status(200).json(response)
-  } catch (error) {
-    return res.status(400).json([])
+    response.languages = await FetchPatientAccountData.fetchPatientLanguages(PatientID)
+    return response
   }
+  handleAsyncOperationWithReturn(res, operation, [])
 }
-
-

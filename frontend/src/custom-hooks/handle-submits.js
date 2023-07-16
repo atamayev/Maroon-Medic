@@ -86,7 +86,7 @@ export const handleNewUserSubmit = async ({
       }
       else navigate(`/${VetOrPatient.toLowerCase()}-dashboard`)
     }
-    else setError("newUser didn't work")
+    else setError("Unable to add new user. Please reload and try again.")
   } catch (error) {
     if (error.response.status === 401) invalidUserAction(error.response.data)
     else setError(error.response.data)
