@@ -1,7 +1,7 @@
 import _ from "lodash"
 import TimeUtils from "../../utils/time.js"
 import DataFormatter from "../../utils/data-formatter.js"
-import { handleAsyncOperation } from "../../utils/operation-handler.js"
+import { executeAsyncOperationAndReturnCustomValueToRes } from "../../utils/operation-handler.js"
 import PrivateDoctorDataDB from "../../db/private-doctor-data/private-doctor-data-DB.js"
 import FetchDoctorAccountData from "../../utils/fetch-account-and-public-data/fetch-doctor-account-data.js"
 
@@ -19,7 +19,7 @@ export async function newDoctor (req, res) {
 
   const dateOfBirth = TimeUtils.convertDOBStringIntoMySQLDate(newDoctorObject.DOB_month, newDoctorObject.DOB_day, newDoctorObject.DOB_year)
   const operation = async () => await PrivateDoctorDataDB.addNewDoctorInfo(newDoctorObject, dateOfBirth, DoctorID)
-  handleAsyncOperation(res, operation)
+  executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
 /** fetchDashboardData retrieves the upcoming appointments, services, and personal information (FirstName, LastName) .

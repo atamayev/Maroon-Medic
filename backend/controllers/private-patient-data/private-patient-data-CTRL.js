@@ -1,7 +1,7 @@
 import _ from "lodash"
 import TimeUtils from "../../utils/time.js"
 import DataFormatter from "../../utils/data-formatter.js"
-import { handleAsyncOperation, handleAsyncOperationWithReturn } from "../../utils/operation-handler.js"
+import { executeAsyncOperationAndReturnCustomValueToRes, executeAsyncAndReturnValueToRes } from "../../utils/operation-handler.js"
 import PrivatePatientDataDB from "../../db/private-patient-data/private-patient-data-DB.js"
 import FetchPatientAccountData from "../../utils/fetch-account-and-public-data/fetch-patient-account-data.js"
 
@@ -19,7 +19,7 @@ export async function newPatient (req, res) {
 
   const dateOfBirth = TimeUtils.convertDOBStringIntoMySQLDate(newPatientObject.DOB_month, newPatientObject.DOB_day, newPatientObject.DOB_year)
   const operation = async () => await PrivatePatientDataDB.addNewPatientInfo(newPatientObject, dateOfBirth, PatientID)
-  handleAsyncOperation(res, operation)
+  executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
 /** fetchDashboardData retrieves the Patient's dashboard data, which contains information about future appointments.
@@ -93,7 +93,7 @@ export async function fetchPetData (req, res) {
   const operation = async () => {
     return await FetchPatientAccountData.fetchPetData(PatientID)
   }
-  handleAsyncOperationWithReturn(res, operation, [])
+  executeAsyncAndReturnValueToRes(res, operation, [])
 }
 
 /** fetchAccountDetails retrieves the Patient's Account Details
@@ -111,5 +111,5 @@ export async function fetchAccountDetails (req, res) {
     response.languages = await FetchPatientAccountData.fetchPatientLanguages(PatientID)
     return response
   }
-  handleAsyncOperationWithReturn(res, operation, [])
+  executeAsyncAndReturnValueToRes(res, operation, [])
 }

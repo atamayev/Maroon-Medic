@@ -1,6 +1,6 @@
 import _ from "lodash"
 import TimeUtils from "../../utils/time.js"
-import { handleAsyncOperation, executeCheck, handleAsyncOperationWithoutReturn } from "../../utils/operation-handler.js"
+import { executeAsyncOperationAndReturnCustomValueToRes, executeAsyncAndReturnValue, executeAsyncOperationWithoutReturnValueNorRes } from "../../utils/operation-handler.js"
 import SaveDoctorDataOperations from "../../utils/save-doctor-data-operations.js"
 import SaveDoctorDataDB from "../../db/private-doctor-data/save-doctor-data-DB.js"
 
@@ -15,7 +15,7 @@ import SaveDoctorDataDB from "../../db/private-doctor-data/save-doctor-data-DB.j
  */
 export async function savePersonalData (req, res) {
   const DoctorID = req.DoctorID
-  const doesRecordExist = await executeCheck(SaveDoctorDataDB.checkIfPersonalDataExists, DoctorID, res)
+  const doesRecordExist = await executeAsyncAndReturnValue(SaveDoctorDataDB.checkIfPersonalDataExists, res, DoctorID)
 
   const personalInfo = req.body.personalInfo
 
@@ -23,10 +23,10 @@ export async function savePersonalData (req, res) {
 
   if (doesRecordExist) {
     const operation = async () => await SaveDoctorDataDB.updatePersonalData(personalInfo, dateOfBirth, DoctorID)
-    handleAsyncOperation(res, operation)
+    executeAsyncOperationAndReturnCustomValueToRes(res, operation)
   } else {
     const operation = async () => await SaveDoctorDataDB.addPersonalData(personalInfo, dateOfBirth, DoctorID)
-    handleAsyncOperation(res, operation)
+    executeAsyncOperationAndReturnCustomValueToRes(res, operation)
   }
 }
 
@@ -44,14 +44,14 @@ export async function saveDescriptionData (req, res) {
 
   const description = req.body.Description
 
-  const doesDescriptionExist = await executeCheck(SaveDoctorDataDB.checkIfDescriptionExists, DoctorID, res)
+  const doesDescriptionExist = await executeAsyncAndReturnValue(SaveDoctorDataDB.checkIfDescriptionExists, res, DoctorID)
 
   if (doesDescriptionExist) {
     const operation = async () => await SaveDoctorDataDB.updateDescription(description, DoctorID)
-    handleAsyncOperation(res, operation)
+    executeAsyncOperationAndReturnCustomValueToRes(res, operation)
   } else {
     const operation = async () => await SaveDoctorDataDB.addDescription(description, DoctorID)
-    handleAsyncOperation(res, operation)
+    executeAsyncOperationAndReturnCustomValueToRes(res, operation)
   }
 }
 
@@ -59,14 +59,14 @@ export async function addLanguage (req, res) {
   const languageID = req.body.languageID
   const DoctorID = req.DoctorID
   const operation = async () => await SaveDoctorDataDB.addLanguage(languageID, DoctorID)
-  handleAsyncOperation(res, operation)
+  executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
 export async function deleteLanguage (req, res) {
   const languageID = req.params.languageID
   const DoctorID = req.DoctorID
   const operation = async () => await SaveDoctorDataDB.deleteLanguage(languageID, DoctorID)
-  handleAsyncOperation(res, operation)
+  executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
 /** saveServicesData saves the services that a doctor offers
@@ -81,7 +81,7 @@ export async function saveServicesData (req, res) {
   const DoctorID = req.DoctorID
 
   const ServicesData = req.body.ServicesData //Array of Objects
-  const existingServicesIDs = await executeCheck(SaveDoctorDataDB.retrieveExistingServicesIDs, DoctorID, res)
+  const existingServicesIDs = await executeAsyncAndReturnValue(SaveDoctorDataDB.retrieveExistingServicesIDs, res, DoctorID)
 
   if (_.isEmpty(existingServicesIDs) && _.isEmpty(ServicesData)) return res.status(400).json() //NO new data or queried results from DB.
   else if (!_.isEmpty(existingServicesIDs)) {
@@ -91,26 +91,26 @@ export async function saveServicesData (req, res) {
     if (!_.isEmpty(addedData)) {
       for (let data of addedData) {
         const operation = async () => await SaveDoctorDataDB.addServicesData(data, DoctorID)
-        handleAsyncOperationWithoutReturn(res, operation)
+        executeAsyncOperationWithoutReturnValueNorRes(res, operation)
       }
     }
     if (!_.isEmpty(deletedData)) {
       for (let data of deletedData) {
         const operation = async () => await SaveDoctorDataDB.deleteServicesData(data.Service_and_Category_ID, DoctorID)
-        handleAsyncOperationWithoutReturn(res, operation)
+        executeAsyncOperationWithoutReturnValueNorRes(res, operation)
       }
     }
     if (!_.isEmpty(updatedData)) {
       for (let data of updatedData) {
         const operation = async () => await SaveDoctorDataDB.updateServicesData(data, DoctorID)
-        handleAsyncOperationWithoutReturn(res, operation)
+        executeAsyncOperationWithoutReturnValueNorRes(res, operation)
       }
     }
     return res.status(200).json()
   } else if (!_.isEmpty(ServicesData)) {
     for (let data of ServicesData) {
       const operation = async () => await SaveDoctorDataDB.addServicesData(data, DoctorID)
-      handleAsyncOperationWithoutReturn(res, operation)
+      executeAsyncOperationWithoutReturnValueNorRes(res, operation)
     }
     return res.status(200).json()
   }
@@ -170,13 +170,13 @@ export async function saveAddressData (req, res) {
   const AddressData = req.body.AddressData
   const TimesData = req.body.Times
 
-  const addressResults = await executeCheck(SaveDoctorDataDB.retrieveExistingAddressIDs, DoctorID, res)
+  const addressResults = await executeAsyncAndReturnValue(SaveDoctorDataDB.retrieveExistingAddressIDs, res, DoctorID)
 
   if (_.isEmpty(addressResults) && _.isEmpty(AddressData)) return res.status(400).json() //NO new data or queried results from DB.
 
   else if (!_.isEmpty(addressResults)) {
     for (let addressResult of addressResults) {
-      const phones = await executeCheck(SaveDoctorDataDB.retrievePhoneData, addressResult.addressesID, res)
+      const phones = await executeAsyncAndReturnValue(SaveDoctorDataDB.retrievePhoneData, res, addressResult.addressesID)
       if (_.isEmpty(phones)) addressResult.phone = ""
       else addressResult.phone = phones[0]
     }
@@ -185,21 +185,16 @@ export async function saveAddressData (req, res) {
     if (!_.isEmpty(deletedData)) {
       for (let data of deletedData) {
         const operation = async () => await SaveDoctorDataDB.deleteAddressRecord(data)
-        handleAsyncOperationWithoutReturn(res, operation)
+        executeAsyncOperationWithoutReturnValueNorRes(res, operation)
       }
     }
     if (!_.isEmpty(addedData)) {
       for (let data of addedData) {
-        let insertID
-        try {
-          insertID = await SaveDoctorDataDB.addAddressRecord(data, DoctorID)
-        } catch (error) {
-          return res.status(400).json()
-        }
+        let insertID = await executeAsyncAndReturnValue(SaveDoctorDataDB.addAddressRecord, res, data, DoctorID)
 
         if (data.phone) {
           const operation = async () => await SaveDoctorDataDB.addPhoneRecord(data.phone, insertID)
-          handleAsyncOperationWithoutReturn(res, operation)
+          executeAsyncOperationWithoutReturnValueNorRes(res, operation)
         }
         data.addressesID = insertID
         returnedData.push(data)
@@ -208,18 +203,18 @@ export async function saveAddressData (req, res) {
     if (!_.isEmpty(updatedData)) {
       for (let data of updatedData) {
         const operation = async () => await SaveDoctorDataDB.updateAddressRecord(data)
-        handleAsyncOperationWithoutReturn(res, operation)
+        executeAsyncOperationWithoutReturnValueNorRes(res, operation)
 
-        const doesPhoneExist = await executeCheck(SaveDoctorDataDB.checkIfPhoneExists, data.addressesID, res)
+        const doesPhoneExist = await executeAsyncAndReturnValue(SaveDoctorDataDB.checkIfPhoneExists, res, data.addressesID)
 
         if (doesPhoneExist) {
           if (_.has(data, "phone")) {
             const operation = async () => await SaveDoctorDataDB.updatePhoneRecord(data)
-            handleAsyncOperationWithoutReturn(res, operation)
+            executeAsyncOperationWithoutReturnValueNorRes(res, operation)
           }
         } else {
           const operation = async () => await SaveDoctorDataDB.addPhoneRecord(data.phone, data.addressesID)
-          handleAsyncOperationWithoutReturn(res, operation)
+          executeAsyncOperationWithoutReturnValueNorRes(res, operation)
         }
         returnedData.push(data)
       }
@@ -236,7 +231,7 @@ export async function saveAddressData (req, res) {
       returnedData.sort((a, b) => a.address_priority - b.address_priority)
       for (let [i, returnedDataItem] of returnedData.entries()) {
         const corespondingTimeData = TimesData[i]
-        const existingAvailbilityData = await executeCheck(SaveDoctorDataDB.retrieveExistingAvailbilityData, returnedDataItem.addressesID, res)
+        const existingAvailbilityData = await executeAsyncAndReturnValue(SaveDoctorDataDB.retrieveExistingAvailbilityData, res, returnedDataItem.addressesID)
 
         const { addedTimeData, deletedTimeData, updatedTimeData } = SaveDoctorDataOperations.getTimeDataChanges(existingAvailbilityData, corespondingTimeData)
 
@@ -244,7 +239,7 @@ export async function saveAddressData (req, res) {
           for (let data of addedTimeData) {
             if (data) {
               const operation = async () => await SaveDoctorDataDB.addAvailbilityData(data, returnedDataItem.addressesID)
-              handleAsyncOperationWithoutReturn(res, operation)
+              executeAsyncOperationWithoutReturnValueNorRes(res, operation)
             }
           }
         }
@@ -252,7 +247,7 @@ export async function saveAddressData (req, res) {
           for (let data of deletedTimeData) {
             if (data) {
               const operation = async () => await SaveDoctorDataDB.deleteAvailbilityData(data, returnedDataItem.addressesID)
-              handleAsyncOperationWithoutReturn(res, operation)
+              executeAsyncOperationWithoutReturnValueNorRes(res, operation)
             }
           }
         }
@@ -260,7 +255,7 @@ export async function saveAddressData (req, res) {
           for (let data of updatedTimeData) {
             if (data) {
               const operation = async () => await SaveDoctorDataDB.updateTimeAvailbilityData(data, returnedDataItem.addressesID)
-              handleAsyncOperationWithoutReturn(res, operation)
+              executeAsyncOperationWithoutReturnValueNorRes(res, operation)
             }
           }
         }
@@ -271,22 +266,17 @@ export async function saveAddressData (req, res) {
   else if (!_.isEmpty(AddressData)) {
     AddressData.sort((a, b) => a.address_priority - b.address_priority)
     for (let [i, address] of AddressData.entries()) {
-      let insertID
-      try {
-        insertID = await SaveDoctorDataDB.addAddressRecord(address, DoctorID)
-      } catch (error) {
-        return res.status(400).json()
-      }
+      let insertID = await executeAsyncAndReturnValue(SaveDoctorDataDB.addAddressRecord, res, address, DoctorID)
 
       if (address.phone) {
         const operation = async () => await SaveDoctorDataDB.addPhoneRecord(address.phone, insertID)
-        handleAsyncOperationWithoutReturn(res, operation)
+        executeAsyncOperationWithoutReturnValueNorRes(res, operation)
       }
 
       if (!_.isEmpty(TimesData[i])) {
         for (let timeData of TimesData[i]) {
           const operation = async () => await SaveDoctorDataDB.addAvailbilityData(timeData, insertID)
-          handleAsyncOperationWithoutReturn(res, operation)
+          executeAsyncOperationWithoutReturnValueNorRes(res, operation)
         }
       }
       address.addressesID = insertID
@@ -307,5 +297,5 @@ export async function savePublicAvailibilityData (req, res) {
 
   const publicAvailibility = req.body.PublicAvailibility
   const operation = async () => await SaveDoctorDataDB.updatePublicAvilability(publicAvailibility, DoctorID)
-  handleAsyncOperation(res, operation)
+  executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }

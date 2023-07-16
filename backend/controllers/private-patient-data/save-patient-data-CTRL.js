@@ -1,5 +1,5 @@
 import TimeUtils from "../../utils/time.js"
-import { handleAsyncOperation, executeCheck } from "../../utils/operation-handler.js"
+import { executeAsyncOperationAndReturnCustomValueToRes, executeAsyncAndReturnValue } from "../../utils/operation-handler.js"
 import SavePatientDataDB from "../../db/private-patient-data/save-patient-data-DB.js"
 
 /** savePersonalData is self-explanatory in name
@@ -12,7 +12,7 @@ import SavePatientDataDB from "../../db/private-patient-data/save-patient-data-D
  */
 export async function savePersonalData (req, res) {
   const PatientID = req.PatientID
-  const doesRecordExist = await executeCheck(SavePatientDataDB.checkIfPersonalDataExists, PatientID, res)
+  const doesRecordExist = await executeAsyncAndReturnValue(SavePatientDataDB.checkIfPersonalDataExists, res, PatientID)
 
   const personalInfo = req.body.personalInfo
 
@@ -20,10 +20,10 @@ export async function savePersonalData (req, res) {
 
   if (doesRecordExist) {
     const operation = async () => await SavePatientDataDB.updatePersonalData(personalInfo, dateOfBirth, PatientID)
-    handleAsyncOperation(res, operation)
+    executeAsyncOperationAndReturnCustomValueToRes(res, operation)
   } else {
     const operation = async () => await SavePatientDataDB.addPersonalData(personalInfo, dateOfBirth, PatientID)
-    handleAsyncOperation(res, operation)
+    executeAsyncOperationAndReturnCustomValueToRes(res, operation)
   }
 }
 
@@ -45,10 +45,10 @@ export async function saveLanguageData (req, res) {
   if (operationType !== "add" && operationType !== "delete") return res.status(400).json()
   else if (operationType === "add") {
     const operation = async () => await SavePatientDataDB.addLanguage(languageID, PatientID)
-    handleAsyncOperation(res, operation)
+    executeAsyncOperationAndReturnCustomValueToRes(res, operation)
   } else if (operationType === "delete") {
     const operation = async () => await SavePatientDataDB.deleteLanguage(languageID, PatientID)
-    handleAsyncOperation(res, operation)
+    executeAsyncOperationAndReturnCustomValueToRes(res, operation)
   }
 }
 
@@ -67,17 +67,13 @@ export async function savePetData (req, res) {
 
   if (operationType !== "add" && operationType !== "delete") return res.status(400).json()
   else if (operationType === "add") {
-    let petInfoID
-    try {
-      petInfoID = await SavePatientDataDB.addNewPet(PetData, PatientID)
-    } catch (error) {
-      return res.status(400).json()
-    }
+    const petInfoID = await executeAsyncAndReturnValue(SavePatientDataDB.addNewPet, res, PetData, PatientID)
+
     const operation = async () => await SavePatientDataDB.addNewPetInsurance(PetData.insurance_listID, petInfoID)
-    handleAsyncOperation(res, operation, petInfoID)
+    executeAsyncOperationAndReturnCustomValueToRes(res, operation, petInfoID)
 
   } else if (operationType === "delete") {
     const operation = async () => await SavePatientDataDB.deletePet(PetData)
-    handleAsyncOperation(res, operation)
+    executeAsyncOperationAndReturnCustomValueToRes(res, operation)
   }
 }

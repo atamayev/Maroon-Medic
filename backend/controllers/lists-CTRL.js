@@ -1,5 +1,5 @@
 import FetchAllLists from "../utils/fetch-all-lists.js"
-import { handleAsyncOperationWithReturn } from "../utils/operation-handler.js"
+import { executeAsyncAndReturnValueToRes } from "../utils/operation-handler.js"
 
 /** fetchAccountDetails creates a list of objects contains all of the Lists from the DB
  *  Doctors fill in their personal details using options from these lists.
@@ -37,19 +37,19 @@ export async function fetchPatientLists (req, res) {
     response.languages = await FetchAllLists.fetchAllLanguages()
     return response
   }
-  handleAsyncOperationWithReturn(res, operation, [])
+  executeAsyncAndReturnValueToRes(res, operation, [])
 }
 
 export async function fetchPetTypes (req, res) {
   const operation = async () => {
     return await FetchAllLists.fetchAllPets()
   }
-  handleAsyncOperationWithReturn(res, operation, [])
+  executeAsyncAndReturnValueToRes(res, operation, [])
 }
 
 export async function fetchInsurances (req, res) {
   const operation = async () => {
     return await FetchAllLists.fetchAllInsurances()
   }
-  handleAsyncOperationWithReturn(res, operation, [])
+  executeAsyncAndReturnValueToRes(res, operation, [])
 }
