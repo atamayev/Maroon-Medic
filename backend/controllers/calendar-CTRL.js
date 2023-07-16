@@ -61,3 +61,21 @@ export async function getDoctorCalendarDetails(req, res) {
     return res.status(400).json([])
   }
 }
+
+/** confirmAppointment allows for a doctor to confirm an incoming pt appointment
+ *  Sets the Doctor_confirmation_status where the appointment ID is whatever is in the request
+ * @param {Cookies} req Contains the appointmentID
+ * @param {Array} res Status code (200: success, 400: failure)
+ * @returns Status code (200, 400)
+ * DOCUMENTATION LAST UPDATED 6/423
+ */
+export async function confirmAppointment (req, res) {
+  const AppointmentID = req.body.AppointmentID
+
+  try {
+    await CalendarDB.confirmAppointmentStatus(AppointmentID)
+    return res.status(200).json()
+  } catch (error) {
+    return res.status(400).json()
+  }
+}

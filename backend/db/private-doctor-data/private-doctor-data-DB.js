@@ -44,10 +44,4 @@ export default new class PrivateDoctorDataDB {
     const [personalData] = await connection.execute(sql, values)
     return personalData
   }
-
-  async updateAppointmentStatus (appointmentID) {
-    const sql = `UPDATE ${mysqlTables.appointments} SET Doctor_confirmation_status = 1 WHERE appointmentsID = ?`
-    const values = [appointmentID]
-    await connection.execute(sql, values)
-  }
 }()

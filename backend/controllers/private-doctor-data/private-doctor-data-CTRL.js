@@ -2,8 +2,6 @@ import _ from "lodash"
 import TimeUtils from "../../utils/time.js"
 import DataFormatter from "../../utils/data-formatter.js"
 import FetchAllLists from "../../utils/fetch-all-lists.js"
-import { UUID_to_ID } from "../../setup-and-security/UUID.js"
-import { clearCookies } from "../../utils/cookie-operations.js"
 import PrivateDoctorDataDB from "../../db/private-doctor-data/private-doctor-data-DB.js"
 import FetchDoctorAccountData from "../../utils/fetch-account-and-public-data/fetch-doctor-account-data.js"
 
@@ -15,22 +13,14 @@ import FetchDoctorAccountData from "../../utils/fetch-account-and-public-data/fe
  * DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function newDoctor (req, res) {
-  const DoctorUUID = req.cookies.DoctorUUID
-  let UserID
-
-  try {
-    UserID = await UUID_to_ID(DoctorUUID)
-  } catch (error) {
-    clearCookies(res, "Doctor")
-    return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" })
-  }
+  const DoctorID = req.DoctorID
 
   const newDoctorObject = req.body.newDoctorObject
 
   const dateOfBirth = TimeUtils.convertDOBStringIntoMySQLDate(newDoctorObject.DOB_month, newDoctorObject.DOB_day, newDoctorObject.DOB_year)
 
   try {
-    await PrivateDoctorDataDB.addNewDoctorInfo(newDoctorObject, dateOfBirth, UserID)
+    await PrivateDoctorDataDB.addNewDoctorInfo(newDoctorObject, dateOfBirth, DoctorID)
     return res.status(200).json()
   } catch (error) {
     return res.status(500).json(error)
@@ -68,14 +58,7 @@ export async function newDoctorConfirmation (req, res) {
  * DOCUMENTATION LAST UPDATED 6/4/23
  */
 export async function fetchDashboardData (req, res) {
-  const DoctorUUID = req.cookies.DoctorUUID
-  let DoctorID
-  try {
-    DoctorID = await UUID_to_ID(DoctorUUID)
-  } catch (error) {
-    clearCookies(res, "Doctor")
-    return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" })
-  }
+  const DoctorID = req.DoctorID
 
   try {
     const DashboardData = await PrivateDoctorDataDB.retrieveDoctorDashboard(DoctorID)
@@ -101,14 +84,7 @@ export async function fetchDashboardData (req, res) {
  * DOCUMENTATION LAST UPDATED 6/423
  */
 export async function fetchPersonalData (req, res) {
-  const DoctorUUID = req.cookies.DoctorUUID
-  let DoctorID
-  try {
-    DoctorID = await UUID_to_ID(DoctorUUID)
-  } catch (error) {
-    clearCookies(res, "Doctor")
-    return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" })
-  }
+  const DoctorID = req.DoctorID
 
   let PersonalData = {
     FirstName: "",
@@ -131,24 +107,6 @@ export async function fetchPersonalData (req, res) {
   }
 }
 
-/** confirmAppointment allows for a doctor to confirm an incoming pt appointment
- *  Sets the Doctor_confirmation_status where the appointment ID is whatever is in the request
- * @param {Cookies} req Contains the appointmentID
- * @param {Array} res Status code (200: success, 400: failure)
- * @returns Status code (200, 400)
- * DOCUMENTATION LAST UPDATED 6/423
- */
-export async function confirmAppointment (req, res) {
-  const AppointmentID = req.body.AppointmentID
-
-  try {
-    await PrivateDoctorDataDB.updateAppointmentStatus(AppointmentID)
-    return res.status(200).json()
-  } catch (error) {
-    return res.status(400).json()
-  }
-}
-
 /** fetchAccountDetails retrieves the Doctor's Account Details
  *  Takes the doctor's UUID, and converts to the doctorID.
  *  Starts with an empty list, and appends objects from FetchDoctorAccountData. Each function contains a specific data type (desciriptions, languages, etc)
@@ -158,14 +116,7 @@ export async function confirmAppointment (req, res) {
  * DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function fetchAccountDetails (req, res) {
-  const DoctorUUID = req.cookies.DoctorUUID
-  let DoctorID
-  try {
-    DoctorID = await UUID_to_ID(DoctorUUID)
-  } catch (error) {
-    clearCookies(res, "Doctor")
-    return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" })
-  }
+  const DoctorID = req.DoctorID
 
   try {
     let response = {}

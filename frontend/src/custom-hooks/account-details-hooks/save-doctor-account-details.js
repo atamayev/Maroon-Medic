@@ -3,12 +3,34 @@ import PrivateDoctorDataService from "../../services/private-doctor-data-service
 import { invalidUserAction } from "../user-verification-snippets"
 import { addSavePreVetEducation, deleteSavePreVetEducation, addSaveVetEducation, deleteSaveVetEducation } from "./save-doctor-helper-functions"
 
-export async function saveDoctorLanguages(languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation, operationType) {
+export async function addDoctorLanguages(languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation) {
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
   let response
   try {
-    response = await PrivateDoctorDataService.saveGeneralData(languageID, "Language", operationType)
+    response = await PrivateDoctorDataService.addLanguage(languageID)
   } catch (error) {
+    if (error.response.status === 401) invalidUserAction(error.response.data)
+    else setLanguagesConfirmation({messageType: "problem"})
+    return
+  }
+  if (response.status === 200) {
+    setSpokenLanguages(newSpokenLanguages)
+    DoctorAccountDetails.languages = newSpokenLanguages
+    sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
+    setLanguagesConfirmation({messageType: "saved"})
+  } else {
+    setLanguagesConfirmation({messageType: "problem"})
+  }
+}
+
+export async function deleteDoctorLanguages(languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation) {
+  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
+  let response
+  try {
+    console.log(languageID)
+    response = await PrivateDoctorDataService.deleteLanguage(languageID)
+  } catch (error) {
+    console.log(error)
     if (error.response.status === 401) invalidUserAction(error.response.data)
     else setLanguagesConfirmation({messageType: "problem"})
     return
@@ -57,7 +79,6 @@ export async function saveServices(providedServices, setServicesConfirmation) {
     else setServicesConfirmation({messageType: "problem"})
   }
 }
-
 
 export async function saveSpecialies(specialtyID, newDoctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation, operationType) {
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))

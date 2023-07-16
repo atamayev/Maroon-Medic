@@ -36,6 +36,7 @@
         "space-infix-ops": "warn",
         "space-before-blocks": "error",
         "keyword-spacing": ["error", { "before": true, "after": true }],
+        "no-trailing-spaces": "warn",
 
         //For catching Security vulnerabilities:
 

@@ -1,7 +1,5 @@
 import _ from "lodash"
 import TimeUtils from "../../utils/time.js"
-import { UUID_to_ID } from "../../setup-and-security/UUID.js"
-import { clearCookies } from "../../utils/cookie-operations.js"
 import SaveDoctorDataOperations from "../../utils/save-doctor-data-operations.js"
 import SaveDoctorDataDB from "../../db/private-doctor-data/save-doctor-data-DB.js"
 
@@ -15,14 +13,7 @@ import SaveDoctorDataDB from "../../db/private-doctor-data/save-doctor-data-DB.j
  *  DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function savePersonalData (req, res) {
-  const DoctorUUID = req.cookies.DoctorUUID
-  let DoctorID
-  try {
-    DoctorID = await UUID_to_ID(DoctorUUID)
-  } catch (error) {
-    clearCookies(res, "Doctor")
-    return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" })
-  }
+  const DoctorID = req.DoctorID
 
   let doesRecordExist
 
@@ -63,14 +54,7 @@ export async function savePersonalData (req, res) {
  *  DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function saveDescriptionData (req, res) {
-  const DoctorUUID = req.cookies.DoctorUUID
-  let DoctorID
-  try {
-    DoctorID = await UUID_to_ID(DoctorUUID)
-  } catch (error) {
-    clearCookies(res, "Doctor")
-    return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" })
-  }
+  const DoctorID = req.DoctorID
 
   const description = req.body.Description
 
@@ -99,58 +83,31 @@ export async function saveDescriptionData (req, res) {
   }
 }
 
-/** saveGeneralData saves either Language, Pet, or Specialty Data
- *  First, converts from DoctorUUID to DoctorID. Then, performs operations depending on the operationType
- *  Need to set the userID or DoctorID because Languages are used by both Doctors and Patients (and the foreign key is thus User_ID)
- *  The mapping file is chosen based on the DataType (can either be Specialty, or Language)
- * @param {String} req Cookie from client, type of data, list of data (ie list of languages, or specialties)
- * @param {Boolean} res 200/400
- * @returns Returns 200/400, depending on wheather the data was saved correctly
- *  DOCUMENTATION LAST UPDATED 6/423
- */
-export async function saveGeneralData (req, res) {
-  const DoctorUUID = req.cookies.DoctorUUID
-  let DoctorID
+export async function addLanguage (req, res) {
+  const languageID = req.body.languageID
+  const DoctorID = req.DoctorID
+  const operation = () => SaveDoctorDataDB.addLanguage(languageID, DoctorID)
+  handleRequest(res, operation)
+}
+
+export async function deleteLanguage (req, res) {
+  const languageID = req.params.languageID
+  const DoctorID = req.DoctorID
+  const operation = () => SaveDoctorDataDB.deleteLanguage(languageID, DoctorID)
+  handleRequest(res, operation)
+}
+
+async function handleRequest(res, operation) {
   try {
-    DoctorID = await UUID_to_ID(DoctorUUID)
+    await operation()
+    res.status(200).json()
   } catch (error) {
-    clearCookies(res, "Doctor")
-    return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" })
-  }
-
-  const DataType = req.body.DataType
-  const DataTypelower = DataType.charAt(0).toLowerCase() + DataType.slice(1)
-
-  let UserIDorDoctorID
-
-  if (DataTypelower === "language") UserIDorDoctorID = "User_ID"
-  else UserIDorDoctorID = "Doctor_ID"
-
-  const doctorData = req.body.Data // The Data is an array of the ID of the DataType ([6]), which is a specific Language_ID)
-
-  const operationType = req.body.operationType
-  const tableName = `${DataTypelower}_mapping`
-
-  if (operationType !== "add" && operationType !== "delete") return res.status(400).json()
-  else if (operationType === "add") {
-    try {
-      await SaveDoctorDataDB.addGeneralData(doctorData, DoctorID, UserIDorDoctorID, DataType, tableName)
-      return res.status(200).json()
-    } catch (error) {
-      return res.status(400).json()
-    }
-  } else if (operationType === "delete") {
-    try {
-      await SaveDoctorDataDB.deleteGeneralData(doctorData, DoctorID, UserIDorDoctorID, DataType, tableName)
-      return res.status(200).json()
-    } catch (error) {
-      return res.status(400).json()
-    }
+    console.log(error)
+    res.status(400).json()
   }
 }
 
 /** saveServicesData saves the services that a doctor offers
- *  First, converts from DoctorUUID to DoctorID.
  *  Searches the DB for existing service data.
  *  Finds the difference between the incoming data and the saved data. Inserts/deletes/updates accordingly
  * @param {String} req Cookie from client, list of Servicesdata
@@ -159,14 +116,7 @@ export async function saveGeneralData (req, res) {
  *  DOCUMENTATION LAST UPDATED 6/423
  */
 export async function saveServicesData (req, res) {
-  const DoctorUUID = req.cookies.DoctorUUID
-  let DoctorID
-  try {
-    DoctorID = await UUID_to_ID(DoctorUUID)
-  } catch (error) {
-    clearCookies(res, "Doctor")
-    return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" })
-  }
+  const DoctorID = req.DoctorID
 
   const ServicesData = req.body.ServicesData //Array of Objects
 
@@ -224,7 +174,6 @@ export async function saveServicesData (req, res) {
 }
 
 /** saveEducationData is self-explanatory in name
- *  First, converts from DoctorUUID to DoctorID. Then, performs operations depending on the operationType
  *  Depending on wheather the operationType is add or delete, different operations are performed (INSERT vs DELETE)
  * @param {String} req Cookie from client, type of education data, operationType (add or delete), EducationData (ie pre-vet or vet)
  * @param {Boolean} res 200/400
@@ -232,14 +181,7 @@ export async function saveServicesData (req, res) {
  *  DOCUMENTATION LAST UPDATED 6/423
  */
 export async function saveEducationData (req, res) {
-  const DoctorUUID = req.cookies.DoctorUUID
-  let DoctorID
-  try {
-    DoctorID = await UUID_to_ID(DoctorUUID)
-  } catch (error) {
-    clearCookies(res, "Doctor")
-    return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" })
-  }
+  const DoctorID = req.DoctorID
 
   const EducationData = req.body.EducationData // array of arrays, to make comparing to sql easier.: ie: [[ 13, 56, 7, "1923-01-01", "1923-01-01" ],[ 698, 13, 9, "1923-01-01", "1923-01-01" ]]
   const EducationType = req.body.EducationType//"pre_vet" or "vet"
@@ -280,14 +222,7 @@ export async function saveEducationData (req, res) {
  *  DOCUMENTATION LAST UPDATED 6/423
  */
 export async function saveAddressData (req, res) {
-  const DoctorUUID = req.cookies.DoctorUUID
-  let DoctorID
-  try {
-    DoctorID = await UUID_to_ID(DoctorUUID)
-  } catch (error) {
-    clearCookies(res, "Doctor")
-    return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" })
-  }
+  const DoctorID = req.DoctorID
 
   const AddressData = req.body.AddressData
   const TimesData = req.body.Times
@@ -477,14 +412,7 @@ export async function saveAddressData (req, res) {
  *  DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function savePublicAvailibilityData (req, res) {
-  const DoctorUUID = req.cookies.DoctorUUID
-  let DoctorID
-  try {
-    DoctorID = await UUID_to_ID(DoctorUUID)
-  } catch (error) {
-    clearCookies(res, "Doctor")
-    return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" })
-  }
+  const DoctorID = req.DoctorID
 
   const publicAvailibility = req.body.PublicAvailibility
 

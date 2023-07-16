@@ -2,6 +2,23 @@ To-do:
 
 
 ASAP:
+-delete Doctor_ID from appointments table - can just go off of addresses_ID
+Seperate saving general data into two routes: delete & add
+	break save general data into language, specialty, and pet.
+	create more general functions for saving languages, specialties, pets.
+		make a general save functions that takes in parameters, and does all the same stuff
+-save addresses on a per address level. Not saving all addresses at once greatly simplifies the backend
+	if addressID = 0--> add new address route: POST REQ
+	if addressID !=0 --> update address route: PUT REQUEST
+	If hit delete button & addressID !=0, hits the delete route: DELETE REQ
+For saving services:
+	Once an event is checked, and a price and time is added, an 'Add' button appears.
+		On press, adds that data to the DB - POST request
+	If a service is already added, a delete button appears, on press, hits the delete endpoint
+	IF a service is changed after adding/saving, the button changes from delete --> update. on press, hits the put endpoint
+
+
+
 -clean up the SaveDoctorDataOperations. Convert to lodash if possible, less messy
 -if a response from the back-end is not positive when saving data, then the state should not update. see vet education, throw an error, and see it still change the state.
 	check other data types aswell

@@ -42,15 +42,40 @@ export default new class SaveDoctorDataDB {
     await connection.execute(sql, values)
   }
 
-  async addGeneralData (generalDataID, DoctorID, UserIDorDoctorID, DataType, tableName) {
-    const sql = `INSERT INTO ${tableName} (${DataType}_ID, ${UserIDorDoctorID}) VALUES (?, ?)`
-    const values = [generalDataID, DoctorID]
+  async addLanguage (languageID, DoctorID) {
+    const sql = `INSERT INTO ${mysqlTables.language_mapping} (Language_ID, User_ID) VALUES (?, ?)`
+    const values = [languageID, DoctorID]
     await connection.execute(sql, values)
   }
 
-  async deleteGeneralData (generalDataID, DoctorID, UserIDorDoctorID, DataType, tableName) {
-    const sql = `DELETE FROM ${tableName} WHERE ${DataType}_ID = ? AND ${UserIDorDoctorID} = ?`
-    const values = [generalDataID, DoctorID]
+  async deleteLanguage (languageID, DoctorID) {
+    console.log(languageID, DoctorID)
+    const sql = `DELETE FROM ${mysqlTables.language_mapping} WHERE Language_ID = ? AND User_ID = ?`
+    const values = [languageID, DoctorID]
+    await connection.execute(sql, values)
+  }
+
+  async addSpecialty (specialtyID, DoctorID) {
+    const sql = `INSERT INTO ${mysqlTables.specialty_mapping} (Specialty_ID, Doctor_ID) VALUES (?, ?)`
+    const values = [specialtyID, DoctorID]
+    await connection.execute(sql, values)
+  }
+
+  async deleteSpecialty (specialtyID, DoctorID) {
+    const sql = `DELETE FROM ${mysqlTables.specialty_mapping} WHERE Specialty_ID = ? AND Doctor_ID = ?`
+    const values = [specialtyID, DoctorID]
+    await connection.execute(sql, values)
+  }
+
+  async addServicedPet (petID, DoctorID) {
+    const sql = `INSERT INTO ${mysqlTables.pet_mapping} (pet_ID, Doctor_ID) VALUES (?, ?)`
+    const values = [petID, DoctorID]
+    await connection.execute(sql, values)
+  }
+
+  async deleteServicedPet (petID, DoctorID) {
+    const sql = `DELETE FROM ${mysqlTables.pet_mapping} WHERE pet_ID = ? AND Doctor_ID = ?`
+    const values = [petID, DoctorID]
     await connection.execute(sql, values)
   }
 

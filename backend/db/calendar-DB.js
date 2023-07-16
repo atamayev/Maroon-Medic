@@ -38,4 +38,10 @@ export default new class CalendarDB {
     const [calendarDetalis] = await connection.execute(sql, values)
     return calendarDetalis
   }
+
+  async confirmAppointmentStatus (appointmentID) {
+    const sql = `UPDATE ${mysqlTables.appointments} SET Doctor_confirmation_status = 1 WHERE appointmentsID = ?`
+    const values = [appointmentID]
+    await connection.execute(sql, values)
+  }
 }()

@@ -26,21 +26,36 @@ redisClient.on("error", function (err) {
 })
 
 const app = express()
+
+//To limit to certain routes:
+// app.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Credentials", true)
+//   next()
+// })
+
+// Limits which URLs are able to access the server (8800)
+// const allowedOrigins = ["https://localhost:3000", "https://192.168.1.243:3000", "http://localhost:3000", "http://192.168.1.243:3000"]
+// app.use(cors({
+//   origin: (origin, callback) => {
+//     if (allowedOrigins.indexOf(origin) !== -1) {
+//       callback(null, true)
+//     } else {
+//       callback(new Error("Not allowed by CORS"))
+//     }
+//   },
+// }))
+
 app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", req.headers.origin)
   res.header("Access-Control-Allow-Credentials", true)
   next()
 })
 
-// Limits which URLs are able to access the server (8800)
-const allowedOrigins = ["https://localhost:3000", "https://192.168.1.243:3000", "http://localhost:3000", "http://192.168.1.243:3000"]
 app.use(cors({
+  credentials: true,
   origin: (origin, callback) => {
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error("Not allowed by CORS"))
-    }
-  },
+    callback(null, true)
+  }
 }))
 
 app.use(cookieParser())

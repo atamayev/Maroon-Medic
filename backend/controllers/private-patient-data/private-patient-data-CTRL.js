@@ -16,9 +16,9 @@ import FetchPatientAccountData from "../../utils/fetch-account-and-public-data/f
  */
 export async function newPatient (req, res) {
   const PatientUUID = req.cookies.PatientUUID
-  let UserID
+  let PatientID
   try {
-    UserID = await UUID_to_ID(PatientUUID)
+    PatientID = await UUID_to_ID(PatientUUID)
   } catch (error) {
     clearCookies(res, "Patient")
     return res.status(401).json({ shouldRedirect: true, redirectURL: "/patient-login" })
@@ -29,7 +29,7 @@ export async function newPatient (req, res) {
   const dateOfBirth = TimeUtils.convertDOBStringIntoMySQLDate(newPatientObject.DOB_month, newPatientObject.DOB_day, newPatientObject.DOB_year)
 
   try {
-    await PrivatePatientDataDB.addNewPatientInfo(newPatientObject, dateOfBirth, UserID)
+    await PrivatePatientDataDB.addNewPatientInfo(newPatientObject, dateOfBirth, PatientID)
     return res.status(200).json()
   } catch (error) {
     return res.status(500).json(error)

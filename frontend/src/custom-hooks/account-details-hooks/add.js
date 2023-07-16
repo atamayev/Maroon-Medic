@@ -1,6 +1,6 @@
-import { savePatientLanguages } from "./save-patient-account-details"
-import { saveDoctorLanguages, saveSpecialies } from "./save-doctor-account-details"
 import moment from "moment"
+import { savePatientLanguages } from "./save-patient-account-details"
+import { addDoctorLanguages, saveSpecialies } from "./save-doctor-account-details"
 
 export const handleAddLanguage = (selectedLanguageID, spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, doctorOrPatient) => {
   let selectedLanguage
@@ -9,7 +9,7 @@ export const handleAddLanguage = (selectedLanguageID, spokenLanguages, setSpoken
 
   const newSpokenLanguages = [...spokenLanguages, selectedLanguage]
 
-  if (doctorOrPatient === "doctor") saveDoctorLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation, "add")
+  if (doctorOrPatient === "doctor") addDoctorLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
   else if (doctorOrPatient === "patient") savePatientLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation, "add")
 }
 

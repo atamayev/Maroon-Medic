@@ -22,8 +22,23 @@ export default new class PrivateDoctorDataService {
   async saveDescriptionData(Description) {
     return await http.post("/private-doctor-data/save-description-data", {Description})
   }
-  async saveGeneralData(Data, DataType, operationType) { // for languages, and specialties, pets
-    return await http.post("/private-doctor-data/save-general-data", {Data: Data, DataType: DataType, operationType: operationType})
+  async addLanguage(languageID) {
+    return await http.post("/private-doctor-data/add-language", {languageID: languageID})
+  }
+  async deleteLanguage(languageID) {
+    return await http.delete(`/private-doctor-data/delete-language/${languageID}`)
+  }
+  async addSpecialty(specialtyID) {
+    return await http.post("/private-doctor-data/add-specialty", {specialtyID: specialtyID})
+  }
+  async deleteSpecialty(specialtyID) {
+    return await http.delete("/private-doctor-data/delete-specialty", {specialtyID: specialtyID})
+  }
+  async addServicedPet(petID) {
+    return await http.post("/private-doctor-data/add-serviced-pet", {petID: petID})
+  }
+  async deleteServicedPet(petID) {
+    return await http.delete("/private-doctor-data/delete-serviced-pet", {petID: petID})
   }
   async fillLists() {
     return await http.get("/private-doctor-data/fetch-doctor-lists")
