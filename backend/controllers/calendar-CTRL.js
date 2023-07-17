@@ -1,6 +1,6 @@
 import TimeUtils from "../utils/time.js"
 import CalendarDB from "../db/calendar-DB.js"
-import { executeAsyncOperationAndReturnCustomValueToRes, executeAsyncAndReturnValueToRes, executeAsyncAndReturnValue } from "../utils/operation-handler.js"
+import OperationHandler from "../utils/operation-handler.js"
 
 /** makeAppointment is called when a patient makes an appointment
  *  First, finds the Doctor_ID corresponding to the NVI of the appointment Doctor
@@ -13,13 +13,13 @@ import { executeAsyncOperationAndReturnCustomValueToRes, executeAsyncAndReturnVa
 export async function makeAppointment(req, res) {
   const AppointmentObject = req.body.AppointmentObject
   const NVI = AppointmentObject.NVI
-  const DoctorID = await executeAsyncAndReturnValue(CalendarDB.retrieveDoctorIDFromNVI, res, NVI)
+  const DoctorID = await OperationHandler.executeAsyncAndReturnValue(CalendarDB.retrieveDoctorIDFromNVI, res, NVI)
 
   const createdAt = TimeUtils.createFormattedDate()
 
   const mysqlDateTime = TimeUtils.convertAppointmentDateTimeIntoMySQLDate(AppointmentObject.appointmentDate, AppointmentObject.appointmentTime)
   const operation = async () => await CalendarDB.addAppointment(mysqlDateTime, AppointmentObject, DoctorID, createdAt)
-  executeAsyncOperationAndReturnCustomValueToRes(res, operation)
+  OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
 /** getDoctorCalendarDetails retreives a certain Doctor's calendar details
@@ -35,7 +35,7 @@ export async function getDoctorCalendarDetails(req, res) {
   const operation = async () => {
     return await CalendarDB.retrieveDoctorCalendarDetails(DoctorID)
   }
-  executeAsyncAndReturnValueToRes(res, operation, [])
+  OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }
 
 /** confirmAppointment allows for a doctor to confirm an incoming pt appointment
@@ -49,5 +49,5 @@ export async function confirmAppointment (req, res) {
   const AppointmentID = req.body.AppointmentID
 
   const operation = async () => await CalendarDB.confirmAppointmentStatus(AppointmentID)
-  executeAsyncOperationAndReturnCustomValueToRes(res, operation)
+  OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }

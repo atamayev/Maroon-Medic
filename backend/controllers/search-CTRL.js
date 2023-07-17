@@ -1,7 +1,7 @@
 import _ from "lodash"
 import SearchDB from "../db/search-DB.js"
 import FetchAllLists from "../utils/fetch-all-lists.js"
-import { executeAsyncAndReturnValueToRes } from "../utils/operation-handler.js"
+import OperationHandler from "../utils/operation-handler.js"
 
 /** searchByQuery returns all users that fit the client's search
  * @param {String} req Query is passed in
@@ -31,7 +31,7 @@ export async function fetchUsers (req, res) {
   const operation = async () => {
     return await SearchDB.retrieveAllDoctors()
   }
-  executeAsyncAndReturnValueToRes(res, operation, [])
+  OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }
 
 // The following three functions are here for filtering purposes. In the future, pts will be able to filter for docs by language_spoken, insurances, etc.
@@ -39,19 +39,19 @@ export async function fetchAllLanguages (req, res) {
   const operation = async () => {
     return await FetchAllLists.fetchAllLanguages()
   }
-  executeAsyncAndReturnValueToRes(res, operation, [])
+  OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }
 
 export async function fetchAllServicesAndCategories (req, res) {
   const operation = async () => {
     return await FetchAllLists.fetchAllServicesAndCategories()
   }
-  executeAsyncAndReturnValueToRes(res, operation, [])
+  OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }
 
 export async function fetchAllInsurances (req, res) {
   const operation = async () => {
     return await FetchAllLists.fetchAllInsurances()
   }
-  executeAsyncAndReturnValueToRes(res, operation, [])
+  OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }

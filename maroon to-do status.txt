@@ -2,7 +2,6 @@ To-do:
 
 
 ASAP:
--put operation handlers into a class.
 Seperate saving general data into two routes: delete & add
 	break save general data into language, specialty, and pet.
 	create more general functions for saving languages, specialties, pets.

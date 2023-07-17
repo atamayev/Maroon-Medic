@@ -1,5 +1,5 @@
 import CalendarDB from "../db/calendar-DB.js"
-import { executeAsyncAndReturnValue } from "../utils/operation-handler.js"
+import OperationHandler from "../utils/operation-handler.js"
 import FetchPublicDoctorData from "../utils/fetch-account-and-public-data/fetch-public-doctor-data.js"
 import FetchDoctorAccountData from "../utils/fetch-account-and-public-data/fetch-doctor-account-data.js"
 
@@ -13,7 +13,7 @@ import FetchDoctorAccountData from "../utils/fetch-account-and-public-data/fetch
  */
 export async function returnDoctorPageData (req, res) {
   const NVI = req.params.id
-  const DoctorID = await executeAsyncAndReturnValue(CalendarDB.retrieveDoctorIDFromNVI, res, NVI)
+  const DoctorID = await OperationHandler.executeAsyncAndReturnValue(CalendarDB.retrieveDoctorIDFromNVI, res, NVI)
 
   try {
     let response = {}
