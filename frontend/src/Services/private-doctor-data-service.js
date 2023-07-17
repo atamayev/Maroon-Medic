@@ -29,19 +29,28 @@ export default new class PrivateDoctorDataService {
     return await http.post("/private-doctor-data/add-specialty", {specialtyID: specialtyID})
   }
   async deleteSpecialty(specialtyID) {
-    return await http.delete("/private-doctor-data/delete-specialty", {specialtyID: specialtyID})
+    return await http.delete(`/private-doctor-data/delete-specialty/${specialtyID}`)
   }
   async addServicedPet(petID) {
     return await http.post("/private-doctor-data/add-serviced-pet", {petID: petID})
   }
   async deleteServicedPet(petID) {
-    return await http.delete("/private-doctor-data/delete-serviced-pet", {petID: petID})
+    return await http.delete(`/private-doctor-data/delete-serviced-pet/${petID}`)
   }
   async savePublicAvailibility(PublicAvailibility) {
     return await http.post("/private-doctor-data/save-public-availibility-data", {PublicAvailibility})
   }
-  async saveEducationData(EducationData, EducationType, operationType) {
-    return await http.post("/private-doctor-data/save-education-data", {EducationData: EducationData, EducationType: EducationType, operationType: operationType})
+  async addPreVetEducationData(preVetEducationData) {
+    return await http.post("/private-doctor-data/add-pre-vet-education-data", {preVetEducationData})
+  }
+  async deletePreVetEducationData(preVetEducationID) {
+    return await http.delete(`/private-doctor-data/delete-pre-vet-education-data/${preVetEducationID}`)
+  }
+  async addVetEducationData(vetEducationData) {
+    return await http.post("/private-doctor-data/add-vet-education-data", {vetEducationData})
+  }
+  async deleteVetEducationData(vetEducationID) {
+    return await http.delete(`/private-doctor-data/delete-vet-education-data/${vetEducationID}`)
   }
   async saveServiceData(ServicesData) {
     return await http.post("/private-doctor-data/save-services-data", {ServicesData: ServicesData})

@@ -27,29 +27,18 @@ export async function savePersonalData (req, res) {
   }
 }
 
-/** saveLanguageData saves either Language
- *  First, converts from PatientUUID to PatientID. Then, performs operations depending on the operationType
- *  The mapping file is chosen based on the DataType (can either be Specialty, or Language)
- * @param {String} req Cookie from client, type of data, list of data (ie list of languages, or insurances)
- * @param {Boolean} res 200/400
- * @returns Returns 200/400, depending on wheather the data was saved correctly
- *  DOCUMENTATION LAST UPDATED 6/4/23
- */
-export async function saveLanguageData (req, res) {
+export async function addLanguage (req, res) {
+  const languageID = req.body.languageID
   const PatientID = req.PatientID
+  const operation = async () => await SavePatientDataDB.addLanguage(languageID, PatientID)
+  OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
+}
 
-  const operationType = req.body.operationType
-
-  const languageID = req.body.Data // The Data is an array of the ID of the DataType ([6]), which is a specific Language_ID)
-
-  if (operationType !== "add" && operationType !== "delete") return res.status(400).json()
-  else if (operationType === "add") {
-    const operation = async () => await SavePatientDataDB.addLanguage(languageID, PatientID)
-    OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
-  } else if (operationType === "delete") {
-    const operation = async () => await SavePatientDataDB.deleteLanguage(languageID, PatientID)
-    OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
-  }
+export async function deleteLanguage (req, res) {
+  const languageID = req.params.languageID
+  const PatientID = req.PatientID
+  const operation = async () => await SavePatientDataDB.deleteLanguage(languageID, PatientID)
+  OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
 /** savePetData is self-explanatory in name

@@ -162,7 +162,7 @@ function RenderIsPreVetEducation(props) {
     )
   }
 
-  const handleDeleteOnClick = useHandleDeletePreVetEducation(preVetEducation, setPreVetEducation, listDetails, setPreVetEducationConfirmation)
+  const handleDeleteOnClick = useHandleDeletePreVetEducation(preVetEducation, setPreVetEducation, setPreVetEducationConfirmation)
 
   const RenderSingleSavedEducation = (preVetEducation) => {
     const status = deleteStatuses[preVetEducation.pre_vet_education_mappingID] || "initial"

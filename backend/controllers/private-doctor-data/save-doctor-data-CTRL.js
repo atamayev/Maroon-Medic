@@ -41,7 +41,6 @@ export async function savePersonalData (req, res) {
  */
 export async function saveDescriptionData (req, res) {
   const DoctorID = req.DoctorID
-
   const description = req.body.Description
 
   const doesDescriptionExist = await OperationHandler.executeAsyncAndReturnValue(SaveDoctorDataDB.checkIfDescriptionExists, res, DoctorID)
@@ -66,6 +65,34 @@ export async function deleteLanguage (req, res) {
   const languageID = req.params.languageID
   const DoctorID = req.DoctorID
   const operation = async () => await SaveDoctorDataDB.deleteLanguage(languageID, DoctorID)
+  OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
+}
+
+export async function addSpecialty (req, res) {
+  const specialtyID = req.body.specialtyID
+  const DoctorID = req.DoctorID
+  const operation = async () => await SaveDoctorDataDB.addSpecialty(specialtyID, DoctorID)
+  OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
+}
+
+export async function deleteSpecialty (req, res) {
+  const specialtyID = req.params.specialtyID
+  const DoctorID = req.DoctorID
+  const operation = async () => await SaveDoctorDataDB.deleteSpecialty(specialtyID, DoctorID)
+  OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
+}
+
+export async function addServicedPet (req, res) {
+  const servicedPetID = req.body.petID
+  const DoctorID = req.DoctorID
+  const operation = async () => await SaveDoctorDataDB.addServicedPet(servicedPetID, DoctorID)
+  OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
+}
+
+export async function deleteServicedPet (req, res) {
+  const servicedPetID = req.params.servicedPetID
+  const DoctorID = req.DoctorID
+  const operation = async () => await SaveDoctorDataDB.deleteServicedPet(servicedPetID, DoctorID)
   OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
@@ -116,38 +143,35 @@ export async function saveServicesData (req, res) {
   }
 }
 
-/** saveEducationData is self-explanatory in name
- *  Depending on wheather the operationType is add or delete, different operations are performed (INSERT vs DELETE)
- * @param {String} req Cookie from client, type of education data, operationType (add or delete), EducationData (ie pre-vet or vet)
- * @param {Boolean} res 200/400
- * @returns Returns 200/400, depending on wheather the data was saved correctly
- *  DOCUMENTATION LAST UPDATED 6/423
- */
-export async function saveEducationData (req, res) {
+export async function addPreVetEducationData (req, res) {
   const DoctorID = req.DoctorID
-
-  const EducationData = req.body.EducationData // array of arrays, to make comparing to sql easier.: ie: [[ 13, 56, 7, "1923-01-01", "1923-01-01" ],[ 698, 13, 9, "1923-01-01", "1923-01-01" ]]
-  const EducationType = req.body.EducationType//"pre_vet" or "vet"
-  const operationType = req.body.operationType
-
-  try {
-    if (operationType !== "add" && operationType !== "delete") return res.status(400).json()
-    if (operationType === "add") {
-      let insertId
-      if (EducationType !== "pre_vet" && EducationType !== "vet") return res.status(400).json()
-      else if (EducationType === "pre_vet") insertId = await SaveDoctorDataDB.addPreVetEducationData(EducationData, DoctorID)
-      else if (EducationType === "vet") insertId = await SaveDoctorDataDB.addVetEducationData(EducationData, DoctorID)
-      return res.status(200).json(insertId)
-    }
-    else if (operationType === "delete") {
-      if (EducationType !== "pre_vet" && EducationType !== "vet") return res.status(400).json()
-      else if (EducationType === "pre_vet") await SaveDoctorDataDB.deletePreVetEducationData(EducationData, DoctorID)
-      else if (EducationType === "vet") await SaveDoctorDataDB.deleteVetEducationData(EducationData, DoctorID)
-      return res.status(200).json()
-    }
-  } catch (error) {
-    return res.status(500).json()
+  const preVetEducationData = req.body.preVetEducationData
+  const operation = async () => {
+    return await SaveDoctorDataDB.addPreVetEducationData(preVetEducationData, DoctorID)
   }
+  OperationHandler.executeAsyncAndReturnValueToRes(res, operation)
+}
+
+export async function deletePreVetEducationData (req, res) {
+  const preVetEducationID = req.params.preVetEducationID
+
+  const operation = async () => await SaveDoctorDataDB.deletePreVetEducationData(preVetEducationID)
+  await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
+}
+
+export async function addVetEducationData (req, res) {
+  const DoctorID = req.DoctorID
+  const vetEducationData = req.body.vetEducationData
+  const operation = async () => {
+    return await SaveDoctorDataDB.addVetEducationData(vetEducationData, DoctorID)
+  }
+  OperationHandler.executeAsyncAndReturnValueToRes(res, operation)
+}
+
+export async function deleteVetEducationData (req, res) {
+  const vetEducationID = req.params.vetEducationID
+  const operation = async () => await SaveDoctorDataDB.deleteVetEducationData(vetEducationID)
+  await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
 /** saveAddressData saves address, phone, and booking availbility data.

@@ -1,7 +1,7 @@
 import { useCallback } from "react"
 import { handleDeleteLanguage, handleDeleteSpecialty } from "./delete"
 import { handleAddLanguage, handleAddSpecialty, handleAddEducation } from "./add"
-import { savePets, savePreVetEducation, saveVetEducation } from "./save-doctor-account-details"
+import { addPreVetEducation, addServicedPets, addVetEducation, deletePreVetEducation, deleteServicedPets, deleteVetEducation, savePreVetEducation, saveVetEducation } from "./save-doctor-account-details"
 
 export const useHandleDeleteLanguage = (spokenLanguages, setSpokenLanguages, setLanguagesConfirmation, doctorOrPatient) => {
   return useCallback(
@@ -31,18 +31,17 @@ export const useHandleAddLanguage = (spokenLanguages, setSpokenLanguages, listDe
   }, [spokenLanguages, listDetails, setSpokenLanguages, setLanguagesConfirmation])
 }
 
-export const useHandleDeleteSpecialty = (doctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation) => {
+export const useHandleDeleteSpecialty = (doctorSpecialties, setDoctorSpecialties, setSpecialtiesConfirmation) => {
   return useCallback(
     (specialty) => {
       handleDeleteSpecialty(
         specialty,
         doctorSpecialties,
         setDoctorSpecialties,
-        setSelectedOrganization,
         setSpecialtiesConfirmation
       )
     },
-    [doctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation]
+    [doctorSpecialties, setDoctorSpecialties, setSpecialtiesConfirmation]
   )
 }
 
@@ -64,24 +63,22 @@ export const useHandleCheckboxChange = (servicedPets, setServicedPets, setPetsCo
     if (event.target.checked) {
       const newServicedPets = [...servicedPets, pet]
       setServicedPets(newServicedPets)
-      savePets(pet.pet_listID, newServicedPets, setServicedPets, setPetsConfirmation, "add")
+      addServicedPets(pet.pet_listID, newServicedPets, setServicedPets, setPetsConfirmation)
     } else {
       const newServicedPets = servicedPets.filter(p => p.pet_listID !== pet.pet_listID)
       setServicedPets(newServicedPets)
-      savePets(pet.pet_listID, newServicedPets, setServicedPets, setPetsConfirmation, "delete")
+      deleteServicedPets(pet.pet_listID, newServicedPets, setServicedPets, setPetsConfirmation)
     }
   }, [servicedPets, setServicedPets, setPetsConfirmation])
 }
 
-export const useHandleDeletePreVetEducation = (preVetEducation, setPreVetEducation, listDetails, setPreVetEducationConfirmation) => {
+export const useHandleDeletePreVetEducation = (preVetEducation, setPreVetEducation, setPreVetEducationConfirmation) => {
   return useCallback((PreVetEducation) => {
-    savePreVetEducation(
+    deletePreVetEducation(
       PreVetEducation.pre_vet_education_mappingID,
       preVetEducation,
       setPreVetEducation,
-      listDetails,
-      setPreVetEducationConfirmation,
-      "delete"
+      setPreVetEducationConfirmation
     )
   }, [preVetEducation, setPreVetEducation, setPreVetEducationConfirmation])
 }
@@ -112,26 +109,23 @@ export const useSaveAddPreVetEducation = (
   listDetails, setPreVetEducationConfirmation
 ) => {
   return useCallback((selectedEducationObj) => {
-    savePreVetEducation(
+    addPreVetEducation(
       selectedEducationObj,
       preVetEducation,
       setPreVetEducation,
       listDetails,
-      setPreVetEducationConfirmation,
-      "add"
+      setPreVetEducationConfirmation
     )
   }, [preVetEducation, setPreVetEducation, listDetails, setPreVetEducationConfirmation])
 }
 
-export const useHandleDeleteVetEducation = (vetEducation, setVetEducation, listDetails, setVetEducationConfirmation) => {
+export const useHandleDeleteVetEducation = (vetEducation, setVetEducation, setVetEducationConfirmation) => {
   return useCallback((VetEducation) => {
-    saveVetEducation(
+    deleteVetEducation(
       VetEducation.vet_education_mappingID,
       vetEducation,
       setVetEducation,
-      listDetails,
-      setVetEducationConfirmation,
-      "delete"
+      setVetEducationConfirmation
     )
   }, [vetEducation, setVetEducation, setVetEducationConfirmation])
 }
@@ -159,13 +153,12 @@ export const useSaveAddVetEducation = (
   listDetails, setVetEducationConfirmation
 ) => {
   return useCallback((selectedEducationObj) => {
-    saveVetEducation(
+    addVetEducation(
       selectedEducationObj,
       vetEducation,
       setVetEducation,
       listDetails,
-      setVetEducationConfirmation,
-      "add"
+      setVetEducationConfirmation
     )
   }, [vetEducation, setVetEducation, listDetails, setVetEducationConfirmation])
 }

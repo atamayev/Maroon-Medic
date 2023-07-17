@@ -10,14 +10,17 @@ import {
   saveDescriptionData,
   addLanguage,
   deleteLanguage,
-  // addSpecialty,
-  // deleteSpecialty,
-  // addServidedPet,
-  // deleteServiedPet,
+  addSpecialty,
+  deleteSpecialty,
+  addServicedPet,
+  deleteServicedPet,
   savePublicAvailibilityData,
-  saveEducationData,
   saveServicesData,
-  saveAddressData
+  saveAddressData,
+  addPreVetEducationData,
+  deletePreVetEducationData,
+  addVetEducationData,
+  deleteVetEducationData
 } from "../controllers/private-doctor-data/save-doctor-data-CTRL.js"
 
 const router = express.Router()
@@ -31,13 +34,17 @@ router.post("/save-personal-data", savePersonalData)
 router.post("/save-description-data", saveDescriptionData)
 router.post("/add-language", addLanguage)
 router.delete("/delete-language/:languageID", deleteLanguage)
-// router.post("/add-specialty", addSpecialty)
-// router.delete("/delete-specialty", deleteSpecialty)
-// router.post("/add-serviced-pet", addServidedPet)
-// router.delete("/delete-serviced-pet", deleteServiedPet)
+router.post("/add-specialty", addSpecialty)
+router.delete("/delete-specialty/:specialtyID", deleteSpecialty)
+router.post("/add-serviced-pet", addServicedPet)
+router.delete("/delete-serviced-pet/:servicedPetID", deleteServicedPet)
+
+router.post("/add-pre-vet-education-data", addPreVetEducationData)
+router.delete("/delete-pre-vet-education-data/:preVetEducationID", deletePreVetEducationData)
+router.post("/add-vet-education-data", addVetEducationData)
+router.delete("/delete-vet-education-data/:vetEducationID", deleteVetEducationData)
 
 router.post("/save-public-availibility-data", savePublicAvailibilityData)
-router.post("/save-education-data", saveEducationData)
 router.post("/save-services-data", saveServicesData)
 router.post("/save-address-data", saveAddressData)
 

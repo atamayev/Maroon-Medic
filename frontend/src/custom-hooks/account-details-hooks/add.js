@@ -1,6 +1,6 @@
 import moment from "moment"
-import { savePatientLanguages } from "./save-patient-account-details"
-import { addDoctorLanguages, saveSpecialies } from "./save-doctor-account-details"
+import { addPatientLanguages } from "./save-patient-account-details"
+import { addDoctorLanguages, addSpecialties } from "./save-doctor-account-details"
 
 export const handleAddLanguage = (selectedLanguageID, spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, doctorOrPatient) => {
   let selectedLanguage
@@ -10,13 +10,13 @@ export const handleAddLanguage = (selectedLanguageID, spokenLanguages, setSpoken
   const newSpokenLanguages = [...spokenLanguages, selectedLanguage]
 
   if (doctorOrPatient === "doctor") addDoctorLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
-  else if (doctorOrPatient === "patient") savePatientLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation, "add")
+  else if (doctorOrPatient === "patient") addPatientLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
 }
 
 export const handleAddSpecialty = (selectedSpecialtyID, doctorSpecialties, setDoctorSpecialties, setSelectedOrganization, listDetails, setSpecialtiesConfirmation) => {
   const selectedSpecialty = listDetails.specialties.find((spec) => spec.specialties_listID === JSON.parse(selectedSpecialtyID))
   const newDoctorSpecialties = [...doctorSpecialties, selectedSpecialty]
-  saveSpecialies(selectedSpecialtyID, newDoctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation, "add")
+  addSpecialties(selectedSpecialtyID, newDoctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation)
 }
 
 export const handleAddEducation = (

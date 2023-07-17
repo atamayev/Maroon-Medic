@@ -132,7 +132,7 @@ function RenderIsVetEducation(props) {
     )
   }
 
-  const handleDeleteOnClick = useHandleDeleteVetEducation(vetEducation, setVetEducation, listDetails, setVetEducationConfirmation)
+  const handleDeleteOnClick = useHandleDeleteVetEducation(vetEducation, setVetEducation, setVetEducationConfirmation)
 
   const RenderSingleSavedEducation = (VetEducation) => {
     const status = deleteStatuses[VetEducation.vet_education_mappingID] || "initial"

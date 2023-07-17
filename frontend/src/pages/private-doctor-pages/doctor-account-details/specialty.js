@@ -101,7 +101,7 @@ function RenderIsSpecialty(props) {
     )
   }
 
-  const handleDeleteSpecialty = useHandleDeleteSpecialty(doctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation)
+  const handleDeleteSpecialty = useHandleDeleteSpecialty(doctorSpecialties, setDoctorSpecialties, setSpecialtiesConfirmation)
 
   const RenderSingleSavedSpecialty = (specialty) => {
     const status = deleteStatuses[specialty.specialties_listID] || "initial"
