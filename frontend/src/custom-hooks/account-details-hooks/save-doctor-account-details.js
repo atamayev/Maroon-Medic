@@ -4,7 +4,6 @@ import { shouldSaveServices, shouldSaveDescription, shouldSaveLocation } from ".
 import { invalidUserAction } from "../user-verification-snippets"
 
 export async function addDoctorLanguages(languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation) {
-  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
   let response
   try {
     response = await PrivateDoctorDataService.addLanguage(languageID)
@@ -15,6 +14,7 @@ export async function addDoctorLanguages(languageID, newSpokenLanguages, setSpok
   }
   if (response.status === 200) {
     setSpokenLanguages(newSpokenLanguages)
+    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
     DoctorAccountDetails.languages = newSpokenLanguages
     sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
     setLanguagesConfirmation({messageType: "saved"})
@@ -24,7 +24,6 @@ export async function addDoctorLanguages(languageID, newSpokenLanguages, setSpok
 }
 
 export async function deleteDoctorLanguages(languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation) {
-  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
   let response
   try {
     response = await PrivateDoctorDataService.deleteLanguage(languageID)
@@ -35,6 +34,7 @@ export async function deleteDoctorLanguages(languageID, newSpokenLanguages, setS
   }
   if (response.status === 200) {
     setSpokenLanguages(newSpokenLanguages)
+    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
     DoctorAccountDetails.languages = newSpokenLanguages
     sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
     setLanguagesConfirmation({messageType: "saved"})
@@ -79,7 +79,6 @@ export async function saveServices(providedServices, setServicesConfirmation) {
 }
 
 export async function addSpecialties(specialtyID, newDoctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation) {
-  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
   let response
   try {
     response = await PrivateDoctorDataService.addSpecialty(specialtyID)
@@ -90,6 +89,7 @@ export async function addSpecialties(specialtyID, newDoctorSpecialties, setDocto
   }
   if (response.status === 200) {
     setDoctorSpecialties(newDoctorSpecialties)
+    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
     DoctorAccountDetails.specialties = newDoctorSpecialties
     sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
     setSpecialtiesConfirmation({messageType: "saved"})
@@ -101,7 +101,6 @@ export async function addSpecialties(specialtyID, newDoctorSpecialties, setDocto
 }
 
 export async function deleteSpecialties(specialtyID, newDoctorSpecialties, setDoctorSpecialties, setSpecialtiesConfirmation) {
-  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
   let response
   try {
     response = await PrivateDoctorDataService.deleteSpecialty(specialtyID)
@@ -112,6 +111,7 @@ export async function deleteSpecialties(specialtyID, newDoctorSpecialties, setDo
   }
   if (response.status === 200) {
     setDoctorSpecialties(newDoctorSpecialties)
+    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
     DoctorAccountDetails.specialties = newDoctorSpecialties
     sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
     setSpecialtiesConfirmation({messageType: "saved"})
@@ -281,7 +281,6 @@ export async function saveDescription(description, setDescriptionConfirmation) {
 }
 
 export async function addServicedPets(petID, newServicedPets, setServicedPets, setPetsConfirmation) {
-  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
   let response
   try {
     response = await PrivateDoctorDataService.addServicedPet(petID)
@@ -292,6 +291,7 @@ export async function addServicedPets(petID, newServicedPets, setServicedPets, s
   }
   if (response.status === 200) {
     setServicedPets(newServicedPets)
+    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
     DoctorAccountDetails.servicedPets = newServicedPets
     sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
     setPetsConfirmation({messageType: "saved"})
@@ -302,7 +302,6 @@ export async function addServicedPets(petID, newServicedPets, setServicedPets, s
 }
 
 export async function deleteServicedPets(petID, newServicedPets, setServicedPets, setPetsConfirmation) {
-  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
   let response
   try {
     response = await PrivateDoctorDataService.deleteServicedPet(petID)
@@ -313,6 +312,7 @@ export async function deleteServicedPets(petID, newServicedPets, setServicedPets
   }
   if (response.status === 200) {
     setServicedPets(newServicedPets)
+    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
     DoctorAccountDetails.servicedPets = newServicedPets
     sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
     setPetsConfirmation({messageType: "saved"})

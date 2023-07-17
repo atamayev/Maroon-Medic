@@ -85,7 +85,7 @@ export async function jwtVerify (req, res) {
 export async function login (req, res) {
   const { email, password, loginType } = req.body.loginInformationObject
 
-  if (loginType !== "Doctor" && loginType !== "Patient") return res.json("Invalid User Type") // If Type not Doctor or Patient
+  if (loginType !== "Doctor" && loginType !== "Patient") return res.json("Invalid User Type")
 
   let results
   let hashedPassword
@@ -165,9 +165,9 @@ export async function login (req, res) {
  *  DOCUMENTATION LAST UPDATED 3/14/23
  */
 export async function register (req, res) {
-  const {email, password, registerType} = req.body.registerInformationObject // Desctructures the request
+  const {email, password, registerType} = req.body.registerInformationObject
 
-  if (registerType !== "Doctor" && registerType !== "Patient") return res.status(400).json("Invalid User Type") // If Type not Doctor or Patient
+  if (registerType !== "Doctor" && registerType !== "Patient") return res.status(400).json("Invalid User Type")
 
   let doesAccountExist
   try {
@@ -266,7 +266,7 @@ export async function fetchLoginHistory (req, res) {
   }
 
   try {
-    const User_ID = await UUID_to_ID(UUID) // converts DoctorUUID to docid
+    const User_ID = await UUID_to_ID(UUID)
     const loginHistory = await AuthDB.retrieveLoginHistory(User_ID)
     return res.status(200).json(loginHistory)
   } catch (error) {
@@ -276,7 +276,7 @@ export async function fetchLoginHistory (req, res) {
 }
 
 export async function changePassword (req, res) {
-  const {userType, currentPassword, newPassword} = req.body.changePasswordObject // Desctructures the request
+  const {userType, currentPassword, newPassword} = req.body.changePasswordObject
   const cookies = req.cookies
   let UUID
 
@@ -286,7 +286,7 @@ export async function changePassword (req, res) {
 
   let UserID
   try {
-    UserID = await UUID_to_ID(UUID) // converts DoctorUUID to docid
+    UserID = await UUID_to_ID(UUID)
   } catch (error) {
     return res.status(401).json({ shouldRedirect: true, redirectURL: "/" })
   }

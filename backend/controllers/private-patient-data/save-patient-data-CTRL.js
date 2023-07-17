@@ -12,7 +12,7 @@ import SavePatientDataDB from "../../db/private-patient-data/save-patient-data-D
  */
 export async function savePersonalData (req, res) {
   const PatientID = req.PatientID
-  const doesRecordExist = await OperationHandler.executeAsyncAndReturnValue(SavePatientDataDB.checkIfPersonalDataExists, res, PatientID)
+  const doesRecordExist = await OperationHandler.executeAsyncAndReturnValue(res, SavePatientDataDB.checkIfPersonalDataExists, PatientID)
 
   const personalInfo = req.body.personalInfo
 
@@ -56,7 +56,7 @@ export async function savePetData (req, res) {
 
   if (operationType !== "add" && operationType !== "delete") return res.status(400).json()
   else if (operationType === "add") {
-    const petInfoID = await OperationHandler.executeAsyncAndReturnValue(SavePatientDataDB.addNewPet, res, PetData, PatientID)
+    const petInfoID = await OperationHandler.executeAsyncAndReturnValue(res, SavePatientDataDB.addNewPet, PetData, PatientID)
 
     const operation = async () => await SavePatientDataDB.addNewPetInsurance(PetData.insurance_listID, petInfoID)
     OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation, petInfoID)

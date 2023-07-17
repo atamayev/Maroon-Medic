@@ -1,7 +1,7 @@
 import { useCallback } from "react"
 import { handleDeleteLanguage, handleDeleteSpecialty } from "./delete"
 import { handleAddLanguage, handleAddSpecialty, handleAddEducation } from "./add"
-import { addPreVetEducation, addServicedPets, addVetEducation, deletePreVetEducation, deleteServicedPets, deleteVetEducation, savePreVetEducation, saveVetEducation } from "./save-doctor-account-details"
+import { addPreVetEducation, addServicedPets, addVetEducation, deletePreVetEducation, deleteServicedPets, deleteVetEducation } from "./save-doctor-account-details"
 
 export const useHandleDeleteLanguage = (spokenLanguages, setSpokenLanguages, setLanguagesConfirmation, doctorOrPatient) => {
   return useCallback(

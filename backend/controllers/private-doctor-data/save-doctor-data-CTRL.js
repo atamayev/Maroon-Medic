@@ -15,7 +15,7 @@ import SaveDoctorDataDB from "../../db/private-doctor-data/save-doctor-data-DB.j
  */
 export async function savePersonalData (req, res) {
   const DoctorID = req.DoctorID
-  const doesRecordExist = await OperationHandler.executeAsyncAndReturnValue(SaveDoctorDataDB.checkIfPersonalDataExists, res, DoctorID)
+  const doesRecordExist = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.checkIfPersonalDataExists, DoctorID)
 
   const personalInfo = req.body.personalInfo
 
@@ -43,7 +43,7 @@ export async function saveDescriptionData (req, res) {
   const DoctorID = req.DoctorID
   const description = req.body.Description
 
-  const doesDescriptionExist = await OperationHandler.executeAsyncAndReturnValue(SaveDoctorDataDB.checkIfDescriptionExists, res, DoctorID)
+  const doesDescriptionExist = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.checkIfDescriptionExists, DoctorID)
 
   if (doesDescriptionExist) {
     const operation = async () => await SaveDoctorDataDB.updateDescription(description, DoctorID)
@@ -108,7 +108,7 @@ export async function saveServicesData (req, res) {
   const DoctorID = req.DoctorID
 
   const ServicesData = req.body.ServicesData //Array of Objects
-  const existingServicesIDs = await OperationHandler.executeAsyncAndReturnValue(SaveDoctorDataDB.retrieveExistingServicesIDs, res, DoctorID)
+  const existingServicesIDs = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.retrieveExistingServicesIDs, DoctorID)
 
   if (_.isEmpty(existingServicesIDs) && _.isEmpty(ServicesData)) return res.status(400).json() //NO new data or queried results from DB.
   else if (!_.isEmpty(existingServicesIDs)) {
@@ -194,13 +194,13 @@ export async function saveAddressData (req, res) {
   const AddressData = req.body.AddressData
   const TimesData = req.body.Times
 
-  const addressResults = await OperationHandler.executeAsyncAndReturnValue(SaveDoctorDataDB.retrieveExistingAddressIDs, res, DoctorID)
+  const addressResults = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.retrieveExistingAddressIDs, DoctorID)
 
   if (_.isEmpty(addressResults) && _.isEmpty(AddressData)) return res.status(400).json() //NO new data or queried results from DB.
 
   else if (!_.isEmpty(addressResults)) {
     for (let addressResult of addressResults) {
-      const phones = await OperationHandler.executeAsyncAndReturnValue(SaveDoctorDataDB.retrievePhoneData, res, addressResult.addressesID)
+      const phones = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.retrievePhoneData, addressResult.addressesID)
       if (_.isEmpty(phones)) addressResult.phone = ""
       else addressResult.phone = phones[0]
     }
@@ -214,7 +214,7 @@ export async function saveAddressData (req, res) {
     }
     if (!_.isEmpty(addedData)) {
       for (let data of addedData) {
-        let insertID = await OperationHandler.executeAsyncAndReturnValue(SaveDoctorDataDB.addAddressRecord, res, data, DoctorID)
+        let insertID = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.addAddressRecord, data, DoctorID)
 
         if (data.phone) {
           const operation = async () => await SaveDoctorDataDB.addPhoneRecord(data.phone, insertID)
@@ -229,7 +229,7 @@ export async function saveAddressData (req, res) {
         const operation = async () => await SaveDoctorDataDB.updateAddressRecord(data)
         OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, operation)
 
-        const doesPhoneExist = await OperationHandler.executeAsyncAndReturnValue(SaveDoctorDataDB.checkIfPhoneExists, res, data.addressesID)
+        const doesPhoneExist = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.checkIfPhoneExists, data.addressesID)
 
         if (doesPhoneExist) {
           if (_.has(data, "phone")) {
@@ -255,7 +255,7 @@ export async function saveAddressData (req, res) {
       returnedData.sort((a, b) => a.address_priority - b.address_priority)
       for (let [i, returnedDataItem] of returnedData.entries()) {
         const corespondingTimeData = TimesData[i]
-        const existingAvailbilityData = await OperationHandler.executeAsyncAndReturnValue(SaveDoctorDataDB.retrieveExistingAvailbilityData, res, returnedDataItem.addressesID)
+        const existingAvailbilityData = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.retrieveExistingAvailbilityData, returnedDataItem.addressesID)
 
         const { addedTimeData, deletedTimeData, updatedTimeData } = SaveDoctorDataOperations.getTimeDataChanges(existingAvailbilityData, corespondingTimeData)
 
@@ -290,7 +290,7 @@ export async function saveAddressData (req, res) {
   else if (!_.isEmpty(AddressData)) {
     AddressData.sort((a, b) => a.address_priority - b.address_priority)
     for (let [i, address] of AddressData.entries()) {
-      let insertID = await OperationHandler.executeAsyncAndReturnValue(SaveDoctorDataDB.addAddressRecord, res, address, DoctorID)
+      let insertID = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.addAddressRecord, address, DoctorID)
 
       if (address.phone) {
         const operation = async () => await SaveDoctorDataDB.addPhoneRecord(address.phone, insertID)

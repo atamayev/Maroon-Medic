@@ -3,9 +3,7 @@ import { addPatientLanguages } from "./save-patient-account-details"
 import { addDoctorLanguages, addSpecialties } from "./save-doctor-account-details"
 
 export const handleAddLanguage = (selectedLanguageID, spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, doctorOrPatient) => {
-  let selectedLanguage
-  if (doctorOrPatient === "doctor") selectedLanguage = listDetails.languages.find((lang) => lang.language_listID === JSON.parse(selectedLanguageID))
-  else if (doctorOrPatient === "patient") selectedLanguage = listDetails.languages.find((lang) => lang.language_listID === JSON.parse(selectedLanguageID))
+  const selectedLanguage = listDetails.languages.find((lang) => lang.language_listID === JSON.parse(selectedLanguageID))
 
   const newSpokenLanguages = [...spokenLanguages, selectedLanguage]
 

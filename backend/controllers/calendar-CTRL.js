@@ -13,7 +13,7 @@ import OperationHandler from "../utils/operation-handler.js"
 export async function makeAppointment(req, res) {
   const AppointmentObject = req.body.AppointmentObject
   const NVI = AppointmentObject.NVI
-  const DoctorID = await OperationHandler.executeAsyncAndReturnValue(CalendarDB.retrieveDoctorIDFromNVI, res, NVI)
+  const DoctorID = await OperationHandler.executeAsyncAndReturnValue(res, CalendarDB.retrieveDoctorIDFromNVI, NVI)
 
   const createdAt = TimeUtils.createFormattedDate()
 

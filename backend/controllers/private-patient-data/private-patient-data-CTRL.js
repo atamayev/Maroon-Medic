@@ -35,7 +35,6 @@ export async function fetchDashboardData (req, res) {
 
   try {
     const DashboardData = await PrivatePatientDataDB.retrieveDoctorDashboard(PatientID)
-
     if (_.isEmpty(DashboardData)) return res.json([])
     else {
       for (let singleAppointment of DashboardData) {

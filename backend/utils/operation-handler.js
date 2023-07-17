@@ -31,7 +31,7 @@ export default new class OperationHandler {
     }
   }
 
-  async executeAsyncAndReturnValue(fn, res, ...params) {
+  async executeAsyncAndReturnValue(res, fn, ...params) {
     try {
       return await fn(...params)
     } catch (error) {

@@ -49,7 +49,6 @@ export default new class SaveDoctorDataDB {
   }
 
   async deleteLanguage (languageID, DoctorID) {
-    console.log(languageID, DoctorID)
     const sql = `DELETE FROM ${mysqlTables.language_mapping} WHERE Language_ID = ? AND User_ID = ?`
     const values = [languageID, DoctorID]
     await connection.execute(sql, values)

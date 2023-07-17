@@ -13,7 +13,7 @@ import FetchDoctorAccountData from "../utils/fetch-account-and-public-data/fetch
  */
 export async function returnDoctorPageData (req, res) {
   const NVI = req.params.id
-  const DoctorID = await OperationHandler.executeAsyncAndReturnValue(CalendarDB.retrieveDoctorIDFromNVI, res, NVI)
+  const DoctorID = await OperationHandler.executeAsyncAndReturnValue(res, CalendarDB.retrieveDoctorIDFromNVI, NVI)
 
   try {
     let response = {}
