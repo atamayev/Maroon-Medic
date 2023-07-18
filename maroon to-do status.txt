@@ -2,12 +2,6 @@ To-do:
 
 
 ASAP:
-For saving services:
-	Once an event is checked, and a price and time is added, an 'Add' button appears.
-		On press, adds that data to the DB - POST request
-	If a service is already added, a delete button appears, on press, hits the delete endpoint
-	IF a service is changed after adding/saving, the button changes from delete --> update. on press, hits the put endpoint
-
 -save addresses on a per address level. Not saving all addresses at once greatly simplifies the backend
 	if addressID = 0--> add new address route: POST REQ
 	if addressID !=0 --> update address route: PUT REQUEST
@@ -16,6 +10,8 @@ For saving services:
 - look to simplify the addDoctorLanguages, deleteDoctorLAnguages functions on the front-end.
 	possibly make a heplper function for those two, as well as all the other add/delete functions	
 	theyre very repeteteive, can definently figure something out
+	same for services, educatoin, etc. all of the add/deletes for the same type of data are very similar
+
 -setup postman to make making requests easier.
 	add the Doctor/Patient UUID as a cookie, and hit the endpoint directly
 Make the auth token and cookie stored in a class, like in context.ts in deployment manager

@@ -96,51 +96,26 @@ export async function deleteServicedPet (req, res) {
   OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-/** saveServicesData saves the services that a doctor offers
- *  Searches the DB for existing service data.
- *  Finds the difference between the incoming data and the saved data. Inserts/deletes/updates accordingly
- * @param {String} req Cookie from client, list of Servicesdata
- * @param {Boolean} res 200/400
- * @returns Returns 200/400, depending on wheather the data was saved correctly
- *  DOCUMENTATION LAST UPDATED 6/423
- */
-export async function saveServicesData (req, res) {
+export async function addService (req, res) {
+  const serviceObject = req.body.serviceObject
   const DoctorID = req.DoctorID
+  const operation = async () => await SaveDoctorDataDB.addServicesData(serviceObject, DoctorID)
+  OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
+}
 
-  const ServicesData = req.body.ServicesData //Array of Objects
-  const existingServicesIDs = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.retrieveExistingServicesIDs, DoctorID)
+export async function updateService (req, res) {
+  const serviceObject = req.body.serviceObject
+  const DoctorID = req.DoctorID
+  const operation = async () => await SaveDoctorDataDB.updateServicesData(serviceObject, DoctorID)
+  OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
+}
 
-  if (_.isEmpty(existingServicesIDs) && _.isEmpty(ServicesData)) return res.status(400).json() //NO new data or queried results from DB.
-  else if (!_.isEmpty(existingServicesIDs)) {
-    // Doctor already has data in the table
-    const { addedData, deletedData, updatedData } = SaveDoctorDataOperations.getServicesDataChanges(ServicesData, existingServicesIDs)
-
-    if (!_.isEmpty(addedData)) {
-      for (let data of addedData) {
-        const operation = async () => await SaveDoctorDataDB.addServicesData(data, DoctorID)
-        OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, operation)
-      }
-    }
-    if (!_.isEmpty(deletedData)) {
-      for (let data of deletedData) {
-        const operation = async () => await SaveDoctorDataDB.deleteServicesData(data.Service_and_Category_ID, DoctorID)
-        OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, operation)
-      }
-    }
-    if (!_.isEmpty(updatedData)) {
-      for (let data of updatedData) {
-        const operation = async () => await SaveDoctorDataDB.updateServicesData(data, DoctorID)
-        OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, operation)
-      }
-    }
-    return res.status(200).json()
-  } else if (!_.isEmpty(ServicesData)) {
-    for (let data of ServicesData) {
-      const operation = async () => await SaveDoctorDataDB.addServicesData(data, DoctorID)
-      OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, operation)
-    }
-    return res.status(200).json()
-  }
+export async function deleteService (req, res) {
+  const servicedPetID = req.params.serviceID
+  const DoctorID = req.DoctorID
+  console.log(servicedPetID, DoctorID)
+  const operation = async () => await SaveDoctorDataDB.deleteServicesData(servicedPetID, DoctorID)
+  OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
 export async function addPreVetEducationData (req, res) {

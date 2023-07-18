@@ -47,34 +47,69 @@ function createServiceKey(service) {
   return `${service.service_and_category_listID}-${service.Service_price}-${service.Service_time}`
 }
 
-export async function saveServices(providedServices, setServicesConfirmation) {
-  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
-  const savedServices = DoctorAccountDetails?.services || []
-  const savedServiceKeys = savedServices.map(createServiceKey).sort()
-  const serviceKeys = providedServices.map(createServiceKey).sort()
-  const shouldSave = shouldSaveServices(savedServiceKeys, serviceKeys)
-
-  if (!shouldSave) {
-    setServicesConfirmation({messageType: "same"})
-    return
-  }
-
-  const updatedServices = providedServices.map(service => {
-    // eslint-disable-next-line no-unused-vars
-    const { Service_name, Category_name, ...rest } = service
-    return rest
-  })
-
+export async function addServices(newServiceObject, providedServices, setProvidedServices, setServicesConfirmation) {
+  let response
   try {
-    const response = await PrivateDoctorDataService.saveServiceData(updatedServices)
-    if (response.status === 200) {
-      DoctorAccountDetails.services = providedServices
-      sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
-      setServicesConfirmation({messageType: "saved"})
-    }
+    response = await PrivateDoctorDataService.addService(newServiceObject)
   } catch (error) {
     if (error.response.status === 401) invalidUserAction(error.response.data)
     else setServicesConfirmation({messageType: "problem"})
+    return
+  }
+  if (response.status === 200) {
+    const newProvidedServices = [...providedServices, newServiceObject]
+    setProvidedServices(newProvidedServices)
+    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
+    DoctorAccountDetails.services = newProvidedServices
+    sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
+    setServicesConfirmation({messageType: "saved"})
+  } else {
+    setServicesConfirmation({messageType: "problem"})
+  }
+}
+
+export async function updateServices(newServiceObject, providedServices, setProvidedServices, setServicesConfirmation) {
+  let response
+  try {
+    response = await PrivateDoctorDataService.updateService(newServiceObject)
+  } catch (error) {
+    if (error.response.status === 401) invalidUserAction(error.response.data)
+    else setServicesConfirmation({messageType: "problem"})
+    return
+  }
+  if (response.status === 200) {
+    const newProvidedServices = providedServices.map(service =>
+      service.service_and_category_listID === newServiceObject.service_and_category_listID ? newServiceObject : service
+    )
+    setProvidedServices(newProvidedServices)
+    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
+    DoctorAccountDetails.services = newProvidedServices
+    sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
+    setServicesConfirmation({messageType: "saved"})
+  } else {
+    setServicesConfirmation({messageType: "problem"})
+  }
+}
+
+export async function deleteServices(serviceObject, providedServices, setProvidedServices, setSelectedServices, setServicesConfirmation) {
+  let response
+  try {
+    response = await PrivateDoctorDataService.deleteService(serviceObject.service_and_category_listID)
+  } catch (error) {
+    if (error.response.status === 401) invalidUserAction(error.response.data)
+    else setServicesConfirmation({messageType: "problem"})
+    return
+  }
+  if (response.status === 200) {
+    const newProvidedServices = providedServices.filter(service => service.service_and_category_listID !== serviceObject.service_and_category_listID)
+    setProvidedServices(newProvidedServices)
+    setSelectedServices(newProvidedServices)
+    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
+    DoctorAccountDetails.services = newProvidedServices
+    sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
+    setServicesConfirmation({messageType: "saved"})
+  } else {
+    setServicesConfirmation({messageType: "problem"})
   }
 }
 

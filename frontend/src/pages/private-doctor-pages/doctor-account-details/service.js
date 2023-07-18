@@ -1,8 +1,9 @@
 import _ from "lodash"
+import { useState } from "react"
 import { Card, Button } from "react-bootstrap"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
 import { handleToggleCategory } from "../../../custom-hooks/account-details-hooks/select"
-import { saveServices } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details"
+import { addServices, deleteServices, updateServices } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details"
 import { handleNumericInput, preventNonNumericalInput, validateDropInput, validatePasteInput } from "../../../utils/input-validation"
 import { renderMessageSection } from "../../../components/saved-message-section"
 
@@ -22,6 +23,11 @@ export default function RenderServiceSection (props) {
 function RenderIsVetServices (props) {
   const [servicesConfirmation, setServicesConfirmation] = useConfirmationMessage()
   const { listDetails, providedServices, setProvidedServices, expandedCategories, setExpandedCategories } = props
+  const [selectedServices, setSelectedServices] = useState([])
+
+  useState(() => {
+    setSelectedServices(providedServices)//initialize selectedServices to providedServices
+  }, [providedServices])
 
   const categories = {}
   if (listDetails.servicesAndCategories) {
@@ -42,14 +48,6 @@ function RenderIsVetServices (props) {
     "3 days",
   ]
 
-  const areAllTimesSet = (services) => {
-    return services.every(service => service.Service_time !== null && service.Service_time !== "")
-  }
-
-  const areAllPricesSet = (services) => {
-    return services.every(service => service.Service_price !== null && service.Service_price !== "")
-  }
-
   if (_.isEmpty(_.uniq(listDetails.servicesAndCategories?.map((item) => item.Category_name)))) return <>Loading...</>
 
   const renderIsSelectedService = (service, selectedService) => {
@@ -68,7 +66,7 @@ function RenderIsVetServices (props) {
     return (
       <div>
         {services.map(service => {
-          const selectedService = providedServices.find(s => s.service_and_category_listID === service.service_and_category_listID)
+          const selectedService = selectedServices.find(s => s.service_and_category_listID === service.service_and_category_listID)
           return (
             <div key = {service.service_and_category_listID} style = {{ paddingLeft: "20px" }}>
               {renderServiceCheckbox(service, category)}
@@ -83,20 +81,47 @@ function RenderIsVetServices (props) {
   const renderServiceCheckbox = (service, category) => {
     return (
       <>
+        {renderActionButton(service)}
         <input
           type = "checkbox"
           id = {`${category}-${service?.service_and_category_listID}`}
           name = "service"
           value = {service?.service_and_category_listID}
-          checked = {providedServices.find((provided) => provided.service_and_category_listID === service.service_and_category_listID) !== undefined}
+          checked = {selectedServices.find((provided) => provided.service_and_category_listID === service.service_and_category_listID) !== undefined}
           onChange = {(event) => {
-            if (event.target.checked) setProvidedServices([...providedServices, {...service, Service_price: null, Service_time: null}])
-            else setProvidedServices(providedServices.filter(servicef => servicef.service_and_category_listID !== service.service_and_category_listID))
+            if (event.target.checked) setSelectedServices([...selectedServices, {...service, Service_price: null, Service_time: null}])
+            else setSelectedServices(selectedServices.filter(servicef => servicef.service_and_category_listID !== service.service_and_category_listID))
           }}
         />
         <label htmlFor = {`${category}-${service.service_and_category_listID}`}>{service.Service_name}</label>
       </>
     )
+  }
+
+  const renderActionButton = (service) => {
+    const selectedService = selectedServices.find(s => s.service_and_category_listID === service.service_and_category_listID)
+    const providedService = providedServices.find(s => s.service_and_category_listID === service.service_and_category_listID)
+
+    const isSelected = selectedService !== undefined
+    const isProvided = providedService !== undefined
+
+    // check if service time and price are filled
+    const isFilled = isSelected && selectedService.Service_time && selectedService.Service_price
+
+    if (isSelected && isFilled) {
+      if (isProvided) {
+        if (providedService.Service_time === selectedService.Service_time &&
+            providedService.Service_price === selectedService.Service_price) {
+          return <Button variant = "danger" onClick={() => deleteServices(selectedService, providedServices, setProvidedServices, setSelectedServices, setServicesConfirmation)}>Delete</Button>
+        } else {
+          return <Button variant = "secondary" onClick={() => updateServices(selectedService, providedServices, setProvidedServices, setServicesConfirmation)}>Update</Button>
+        }
+      } else {
+        return <Button variant = "success" onClick={() => addServices(selectedService, providedServices, setProvidedServices, setServicesConfirmation)}>Add</Button>
+      }
+    }
+
+    return null
   }
 
   const renderServiceTimeInput = (service, selectedService) => {
@@ -106,13 +131,13 @@ function RenderIsVetServices (props) {
         required
         value = {selectedService?.Service_time || ""}
         onChange = {(e) => {
-          const updatedServices = providedServices.map((s) => {
+          const updatedServices = selectedServices.map((s) => {
             if (s.service_and_category_listID === service.service_and_category_listID) {
               return { ...s, Service_time: e.target.value }
             }
             return s
           })
-          setProvidedServices(updatedServices)
+          setSelectedServices(updatedServices)
         }}
       >
         <option value = "" disabled>
@@ -138,31 +163,19 @@ function RenderIsVetServices (props) {
         onChange = {(e) => handleNumericInput(
           e,
           (newVal) => {
-            const updatedServices = providedServices.map(s => {
+            const updatedServices = selectedServices.map(s => {
               if (s.service_and_category_listID === service.service_and_category_listID) {
                 return {...s, Service_price: newVal}
               }
               return s
             })
-            setProvidedServices(updatedServices)
+            setSelectedServices(updatedServices)
           }
         )}
         onKeyUp = {preventNonNumericalInput}
         onPaste = {validatePasteInput}
         onDrop = {validateDropInput}
       />
-    )
-  }
-
-  const renderSaveButton = () => {
-    return (
-      <Button
-        variant = "success"
-        disabled = {!areAllTimesSet(providedServices) || !areAllPricesSet(providedServices)}
-        onClick = {() => saveServices(providedServices, setServicesConfirmation)}
-      >
-        Save
-      </Button>
     )
   }
 
@@ -191,8 +204,6 @@ function RenderIsVetServices (props) {
           {renderServices(category, services)}
         </div>
       ))}
-
-      {renderSaveButton()}
 
       {renderMessageSection(servicesConfirmation, "Services")}
     </>

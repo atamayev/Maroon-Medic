@@ -20,7 +20,7 @@ export default new class PrivateDoctorDataService {
     return await http.post("/private-doctor-data/save-description-data", {Description})
   }
   async addLanguage(languageID) {
-    return await http.post("/private-doctor-data/add-language", {languageID: languageID})
+    return await http.post("/private-doctor-data/add-language", {languageID})
   }
   async deleteLanguage(languageID) {
     return await http.delete(`/private-doctor-data/delete-language/${languageID}`)
@@ -51,6 +51,15 @@ export default new class PrivateDoctorDataService {
   }
   async deleteVetEducationData(vetEducationID) {
     return await http.delete(`/private-doctor-data/delete-vet-education-data/${vetEducationID}`)
+  }
+  async addService(serviceObject) {
+    return await http.post("/private-doctor-data/add-service", {serviceObject})
+  }
+  async updateService(serviceObject) {
+    return await http.patch("/private-doctor-data/update-service", {serviceObject})
+  }
+  async deleteService(serviceID) {
+    return await http.delete(`/private-doctor-data/delete-service/${serviceID}`)
   }
   async saveServiceData(ServicesData) {
     return await http.post("/private-doctor-data/save-services-data", {ServicesData: ServicesData})
