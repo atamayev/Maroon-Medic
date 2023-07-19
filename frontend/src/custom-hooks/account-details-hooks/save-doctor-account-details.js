@@ -1,6 +1,6 @@
 import moment from "moment"
 import PrivateDoctorDataService from "../../services/private-doctor-data-service"
-import { shouldSaveServices, shouldSaveDescription, shouldSaveLocation } from "../../utils/save-account-details"
+import { shouldSaveDescription, shouldSaveLocation } from "../../utils/save-account-details"
 import { invalidUserAction } from "../user-verification-snippets"
 
 export async function addDoctorLanguages(languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation) {
@@ -41,10 +41,6 @@ export async function deleteDoctorLanguages(languageID, newSpokenLanguages, setS
   } else {
     setLanguagesConfirmation({messageType: "problem"})
   }
-}
-
-function createServiceKey(service) {
-  return `${service.service_and_category_listID}-${service.Service_price}-${service.Service_time}`
 }
 
 export async function addServices(newServiceObject, providedServices, setProvidedServices, setServicesConfirmation) {
@@ -273,7 +269,7 @@ export async function saveLocation(addresses, setAddresses, setAddressesConfirma
   }
 
   try {
-    const response = await PrivateDoctorDataService.saveAddressData(newAddresses, newTimes)
+    const response = await PrivateDoctorDataService.addAddressData(newAddresses, newTimes)
     if (response.status === 200) {
       const newAddressData = response.data
       newAddressData.sort((a, b) => a.address_priority - b.address_priority)

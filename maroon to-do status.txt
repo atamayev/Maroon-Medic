@@ -11,15 +11,15 @@ ASAP:
 	possibly make a heplper function for those two, as well as all the other add/delete functions	
 	theyre very repeteteive, can definently figure something out
 	same for services, educatoin, etc. all of the add/deletes for the same type of data are very similar
+-review the front end services code. look for efficiencies, ask chatgpt. make sure it makes sense
 
 -setup postman to make making requests easier.
 	add the Doctor/Patient UUID as a cookie, and hit the endpoint directly
 Make the auth token and cookie stored in a class, like in context.ts in deployment manager
 	reading from memory is faster than from session storage
--delete Doctor_ID from appointments table - can just go off of addresses_ID
 
 -mini bug when making a booking. make a booking with `changes in behavior`. The time is 10 AM- 10AM. Should say something like (10AM (july 17) - 10AM (july 18))
-added a appointment_timespan, and changed from patientID--> petID. - need to change the front-end accordingly
+added a appointment_timespan, and add petID to the Appointments table. - need to change the front-end accordingly
 -add choose your pet to make an appointment. if the user isn't logged in, show a login/register button in the booking section.
 	the first question should be: choose which pet you would like to take to the vet
 		if the user only has one vet, skip that question, and just set the state to that pet/pettype
@@ -33,6 +33,7 @@ added a appointment_timespan, and changed from patientID--> petID. - need to cha
 
 -consider combining the two add preVet Education callback functions
 -re-do back-end documentation
+-Move from bootstrap to tailwind
 
 make the phone number input in the location.js only accept numbers (Phone input)
 Run lint test for over 200 line fcns

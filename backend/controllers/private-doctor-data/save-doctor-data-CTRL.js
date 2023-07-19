@@ -113,7 +113,6 @@ export async function updateService (req, res) {
 export async function deleteService (req, res) {
   const servicedPetID = req.params.serviceID
   const DoctorID = req.DoctorID
-  console.log(servicedPetID, DoctorID)
   const operation = async () => await SaveDoctorDataDB.deleteServicesData(servicedPetID, DoctorID)
   OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
@@ -182,14 +181,14 @@ export async function saveAddressData (req, res) {
     const { addedData, deletedData, updatedData, returnedData } = SaveDoctorDataOperations.getAddressesDataChanges(AddressData, addressResults)
 
     if (!_.isEmpty(deletedData)) {
-      for (let data of deletedData) {
+      for (const data of deletedData) {
         const operation = async () => await SaveDoctorDataDB.deleteAddressRecord(data)
         OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, operation)
       }
     }
     if (!_.isEmpty(addedData)) {
       for (let data of addedData) {
-        let insertID = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.addAddressRecord, data, DoctorID)
+        const insertID = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.addAddressRecord, data, DoctorID)
 
         if (data.phone) {
           const operation = async () => await SaveDoctorDataDB.addPhoneRecord(data.phone, insertID)
@@ -200,7 +199,7 @@ export async function saveAddressData (req, res) {
       }
     }
     if (!_.isEmpty(updatedData)) {
-      for (let data of updatedData) {
+      for (const data of updatedData) {
         const operation = async () => await SaveDoctorDataDB.updateAddressRecord(data)
         OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, operation)
 
@@ -228,14 +227,14 @@ export async function saveAddressData (req, res) {
       //see which data is new, and which data is deleted. will be re-declaring addedTimeData, deletedTimeData inside of a loop (that iterates over all the address_IDs)
       //the addedData/deletedData will act inside of a loop, length of addedTimeDAta/deletedTimeData
       returnedData.sort((a, b) => a.address_priority - b.address_priority)
-      for (let [i, returnedDataItem] of returnedData.entries()) {
+      for (const [i, returnedDataItem] of returnedData.entries()) {
         const corespondingTimeData = TimesData[i]
         const existingAvailbilityData = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.retrieveExistingAvailbilityData, returnedDataItem.addressesID)
 
         const { addedTimeData, deletedTimeData, updatedTimeData } = SaveDoctorDataOperations.getTimeDataChanges(existingAvailbilityData, corespondingTimeData)
 
         if (!_.isEmpty(addedTimeData)) {
-          for (let data of addedTimeData) {
+          for (const data of addedTimeData) {
             if (data) {
               const operation = async () => await SaveDoctorDataDB.addAvailbilityData(data, returnedDataItem.addressesID)
               OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, operation)
@@ -243,7 +242,7 @@ export async function saveAddressData (req, res) {
           }
         }
         if (!_.isEmpty(deletedTimeData)) {
-          for (let data of deletedTimeData) {
+          for (const data of deletedTimeData) {
             if (data) {
               const operation = async () => await SaveDoctorDataDB.deleteAvailbilityData(data, returnedDataItem.addressesID)
               OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, operation)
@@ -251,7 +250,7 @@ export async function saveAddressData (req, res) {
           }
         }
         if (!_.isEmpty(updatedTimeData)) {
-          for (let data of updatedTimeData) {
+          for (const data of updatedTimeData) {
             if (data) {
               const operation = async () => await SaveDoctorDataDB.updateTimeAvailbilityData(data, returnedDataItem.addressesID)
               OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, operation)
@@ -265,7 +264,7 @@ export async function saveAddressData (req, res) {
   else if (!_.isEmpty(AddressData)) {
     AddressData.sort((a, b) => a.address_priority - b.address_priority)
     for (let [i, address] of AddressData.entries()) {
-      let insertID = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.addAddressRecord, address, DoctorID)
+      const insertID = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.addAddressRecord, address, DoctorID)
 
       if (address.phone) {
         const operation = async () => await SaveDoctorDataDB.addPhoneRecord(address.phone, insertID)
@@ -273,7 +272,7 @@ export async function saveAddressData (req, res) {
       }
 
       if (!_.isEmpty(TimesData[i])) {
-        for (let timeData of TimesData[i]) {
+        for (const timeData of TimesData[i]) {
           const operation = async () => await SaveDoctorDataDB.addAvailbilityData(timeData, insertID)
           OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, operation)
         }
@@ -284,6 +283,30 @@ export async function saveAddressData (req, res) {
   }
 }
 
+export async function addAddress (req, res) {
+  const DoctorID = req.DoctorID
+  const AddressData = req.body.AddressData
+  const TimesData = req.body.Times
+
+  AddressData.sort((a, b) => a.address_priority - b.address_priority)
+  for (let [i, address] of AddressData.entries()) {
+    const insertID = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.addAddressRecord, address, DoctorID)
+
+    if (address.phone) {
+      const operation = async () => await SaveDoctorDataDB.addPhoneRecord(address.phone, insertID)
+      OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, operation)
+    }
+
+    if (!_.isEmpty(TimesData[i])) {
+      for (const timeData of TimesData[i]) {
+        const operation = async () => await SaveDoctorDataDB.addAvailbilityData(timeData, insertID)
+        OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, operation)
+      }
+    }
+    address.addressesID = insertID
+  }
+  return res.status(200).json(AddressData)
+}
 /** savePublicAvailibilityData is a Doctor-controlled function that allows them to say wheather or not they want their profile accessible to patients
  *  First, converts from UUID to ID. Then, updates the doctor"s avalibility to whatever they did on the front-end. The request is only allowed to happen if the new availiblty status is dfferent from the old one.
  * @param {String} req Cookie from client, PublicAvailibility status

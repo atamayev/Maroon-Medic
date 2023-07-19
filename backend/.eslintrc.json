@@ -37,6 +37,7 @@
         "space-before-blocks": "error",
         "keyword-spacing": ["error", { "before": true, "after": true }],
         "no-trailing-spaces": "warn",
+        "prefer-const": "warn",
 
         //For catching Security vulnerabilities:
 

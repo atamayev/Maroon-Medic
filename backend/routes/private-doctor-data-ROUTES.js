@@ -22,7 +22,8 @@ import {
   addPreVetEducationData,
   deletePreVetEducationData,
   addVetEducationData,
-  deleteVetEducationData
+  deleteVetEducationData,
+  addAddress
 } from "../controllers/private-doctor-data/save-doctor-data-CTRL.js"
 
 const router = express.Router()
@@ -55,6 +56,8 @@ router.patch("/update-service", updateService)
 router.delete("/delete-service/:serviceID", deleteService)
 
 router.post("/save-address-data", saveAddressData)
+router.post("/add-address-data", addAddress)
+
 router.post("/save-public-availibility-data", savePublicAvailibilityData)
 
 export default router

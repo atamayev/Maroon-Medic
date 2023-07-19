@@ -27,6 +27,7 @@
         "indent": ["error", 2],
         "react/react-in-jsx-scope": "off",
         "react/jsx-uses-react": "off",
+        "prefer-const": "warn",
 
         // "max-lines-per-function": ["warn", {"max": 200, "skipBlankLines": true, "skipComments": true}],
 
