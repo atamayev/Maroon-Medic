@@ -19,4 +19,3 @@ export default new class DataFormatter {
     return formattedDate
   }
 }()
-

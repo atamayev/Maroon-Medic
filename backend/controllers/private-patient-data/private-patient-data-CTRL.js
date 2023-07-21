@@ -37,7 +37,7 @@ export async function fetchDashboardData (req, res) {
     const DashboardData = await PrivatePatientDataDB.retrieveDoctorDashboard(PatientID)
     if (_.isEmpty(DashboardData)) return res.json([])
     else {
-      for (let singleAppointment of DashboardData) {
+      for (const singleAppointment of DashboardData) {
         singleAppointment.appointment_date = TimeUtils.convertMySQLDateIntoReadableString(singleAppointment.appointment_date)
         singleAppointment.Created_at = TimeUtils.convertMySQLDateIntoReadableString(singleAppointment.Created_at)
       }
@@ -106,7 +106,7 @@ export async function fetchPetData (req, res) {
 export async function fetchAccountDetails (req, res) {
   const PatientID = req.PatientID
   const operation = async () => {
-    let response = {}
+    const response = {}
     response.languages = await FetchPatientAccountData.fetchPatientLanguages(PatientID)
     return response
   }

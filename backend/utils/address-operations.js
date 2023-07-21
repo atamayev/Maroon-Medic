@@ -1,6 +1,6 @@
 export function getUpdatedAddressRecords(newData, results) {
   const resultDataMap = new Map()
-  let updatedRecords = []
+  const updatedRecords = []
 
   // Create a map of the existing data for quick lookup
   for (const record of results) {
@@ -40,7 +40,7 @@ export function getUpdatedAddressRecords(newData, results) {
 
 export function getUnchangedAddressRecords(newData, results) {
   const resultDataMap = new Map()
-  let unchangedData = []
+  const unchangedData = []
 
   // Create a map of the existing data for quick lookup
   for (const record of results) {

@@ -119,4 +119,3 @@ inactivity logout ( 5 mins). implement on the verification level (in the jwt)
 	For example, the Doctor_ID didn't used to be in the Appointments table. The address ID was joined from the addresses table, and the DoctorID was extracted from there.
 	Even though that is normalized (not duplicating Doctor ID twice), it leads to performance problems, since the enter addresses table is joined with appointments, just to retrieve the DoctorID
 	Check for any other SQL operations which perform heavy joins that could have an efficiency boost from de-normalizing data
-	

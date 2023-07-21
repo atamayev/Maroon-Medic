@@ -57,7 +57,7 @@ export default new class FetchPublicDoctorData {
     }
 
     if (!_.isEmpty(addressData)) {
-      for (let address of addressData) {
+      for (const address of addressData) {
         try {
           const availabilityData = await FetchPublicDoctorDataDB.retrieveAvailabilityData(address.addressesID)
           address.times = availabilityData

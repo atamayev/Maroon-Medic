@@ -51,7 +51,7 @@ export async function deleteLanguage (req, res) {
 export async function savePetData (req, res) {
   const PatientID = req.PatientID
 
-  let PetData = req.body.PetData
+  const PetData = req.body.PetData
   const operationType = req.body.operationType//adding, deleting, updating
 
   if (operationType !== "add" && operationType !== "delete") return res.status(400).json()

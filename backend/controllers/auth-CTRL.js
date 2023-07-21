@@ -21,7 +21,7 @@ import { ID_to_UUID, UUID_to_ID } from "../setup-and-security/UUID.js"
 export async function jwtVerify (req, res) {
   const cookies = req.cookies
   let AccessToken
-  let response = {
+  const response = {
     isValid: false,
     type: ""
   }
@@ -316,7 +316,7 @@ export async function changePassword (req, res) {
  * DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function newDoctorConfirmation (req, res) {
-  let doctorPermission = false
+  const doctorPermission = false
   const newDoctorUUID = req.cookies.DoctorNewUser
   const existingDoctorUUID = req.cookies.DoctorUUID
 
@@ -331,7 +331,7 @@ export async function newDoctorConfirmation (req, res) {
 }
 
 export async function newPatientConfirmation (req, res) {
-  let patientPermission = false
+  const patientPermission = false
   const newPatientUUID = req.cookies.PatientNewUser
   const existingPatientUUID = req.cookies.PatientUUID
 

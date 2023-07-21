@@ -10,7 +10,7 @@ import OperationHandler from "../utils/operation-handler.js"
  */
 export async function fetchDoctorLists (req, res) {
   try {
-    let response = {}
+    const response = {}
     response.languages             = await FetchAllLists.fetchAllLanguages()
     response.servicesAndCategories = await FetchAllLists.fetchAllServicesAndCategories()
     response.specialties           = await FetchAllLists.fetchAllSpecialties()
@@ -33,7 +33,7 @@ export async function fetchDoctorLists (req, res) {
  */
 export async function fetchPatientLists (req, res) {
   const operation = async () => {
-    let response = {}
+    const response = {}
     response.languages = await FetchAllLists.fetchAllLanguages()
     return response
   }

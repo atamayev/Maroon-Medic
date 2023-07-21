@@ -36,7 +36,7 @@ export async function fetchDashboardData (req, res) {
     const DashboardData = await PrivateDoctorDataDB.retrieveDoctorDashboard(DoctorID)
     if (_.isEmpty(DashboardData)) return res.json([])
     else {
-      for (let singleAppointment of DashboardData) {
+      for (const singleAppointment of DashboardData) {
         singleAppointment.appointment_date = TimeUtils.convertMySQLDateIntoReadableString(singleAppointment.appointment_date)
         singleAppointment.Created_at = TimeUtils.convertMySQLDateIntoReadableString(singleAppointment.Created_at)
       }
@@ -91,7 +91,7 @@ export async function fetchAccountDetails (req, res) {
   const DoctorID = req.DoctorID
 
   try {
-    let response = {}
+    const response = {}
     response.languages            = await FetchDoctorAccountData.fetchDoctorLanguages(DoctorID)
     response.services             = await FetchDoctorAccountData.fetchDoctorServices(DoctorID)
     response.specialties          = await FetchDoctorAccountData.fetchDoctorSpecialties(DoctorID)

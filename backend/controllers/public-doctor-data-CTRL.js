@@ -16,7 +16,7 @@ export async function returnDoctorPageData (req, res) {
   const DoctorID = await OperationHandler.executeAsyncAndReturnValue(res, CalendarDB.retrieveDoctorIDFromNVI, NVI)
 
   try {
-    let response = {}
+    const response = {}
     response.doctorLanguages           = await FetchPublicDoctorData.fetchDoctorLanguages(DoctorID)
     response.doctorServices            = await FetchDoctorAccountData.fetchDoctorServices(DoctorID)
     response.doctorSpecialties         = await FetchPublicDoctorData.fetchDoctorSpecialties(DoctorID)

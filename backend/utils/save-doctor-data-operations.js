@@ -41,7 +41,7 @@ export default new class SaveDoctorDataOperations {
 
     const unchangedData = getUnchangedAddressRecords(newData, existingAddressesIDs)
 
-    let returnedData = unchangedData //initialize the data to return with the data that hasn"t changed.
+    const returnedData = unchangedData //initialize the data to return with the data that hasn"t changed.
 
     return { addedData, deletedData, updatedData, returnedData}
   }

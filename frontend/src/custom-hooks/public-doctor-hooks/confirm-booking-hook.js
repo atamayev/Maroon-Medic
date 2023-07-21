@@ -1,7 +1,7 @@
 import CalendarDataService from "../../services/calendar-data-service"
 
 export async function confirmBooking(navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet, message) {
-  let AppointmentObject = {
+  const AppointmentObject = {
     Service_and_category_list_ID: selectedService.service_and_category_listID,
     appointmentDate: selectedDay,
     appointmentTime: selectedTime,

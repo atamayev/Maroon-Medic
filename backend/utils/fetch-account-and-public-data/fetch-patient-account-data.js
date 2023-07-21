@@ -16,7 +16,7 @@ export default new class FetchPatientAccountData {
       const retrievePetData = await FetchPatientAccountDataDB.retrievePetData(PatientID)
 
       if (!_.isEmpty(retrievePetData)) {
-        for (let pet of retrievePetData) {
+        for (const pet of retrievePetData) {
           const insuranceResults = await FetchPatientAccountDataDB.retrievePetInsurances(pet.pet_infoID)
           if (_.isEmpty(insuranceResults)) pet.insuranceName = ""
           else pet.insuranceName = insuranceResults[0].Insurance_name
