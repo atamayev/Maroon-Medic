@@ -1,4 +1,4 @@
-import { months, educationYears } from "../../../components/constants"
+import { months, educationYears } from "../../../utils/constants"
 
 export default function EducationTime(props) {
   const { timeState, setTimeState } = props

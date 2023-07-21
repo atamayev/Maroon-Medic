@@ -1,20 +1,19 @@
 import {useState} from "react"
 import {useNavigate} from "react-router-dom"
-import {handleLoginSubmit} from "../../custom-hooks/handle-submits.js"
-import { useConfirmNotLoggedIn } from "../../custom-hooks/user-verification-snippets.js"
-import LoginAndRegistrationForm from "../../components/login-and-registration-form.js"
-import Header from "../header.js"
+import {handleLoginSubmit} from "../../custom-hooks/handle-submits"
+import LoginAndRegistrationForm from "../../components/login-and-registration-form"
+import { useConfirmNotLoggedIn } from "../../custom-hooks/user-verification-snippets"
+import Header from "../header"
 
-export default function DoctorLogin() {
-  const [loginInformationObject, setLoginInformationObject] = useState({loginType: "Doctor"})
+export default function PatientLogin() {
+  const type = "Patient"
+  const [loginInformationObject, setLoginInformationObject] = useState({loginType: type})
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
+  const [showPassword, setShowPassword] = useState(false)
 
-  const type = "Vet"
-
-  useConfirmNotLoggedIn()
+  useConfirmNotLoggedIn(false)
 
   return (
     <>

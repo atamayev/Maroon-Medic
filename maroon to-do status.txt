@@ -6,6 +6,7 @@ ASAP:
 	if addressID = 0--> add new address route: POST REQ
 	if addressID !=0 --> update address route: PUT REQUEST
 	If hit delete button & addressID !=0, hits the delete route: DELETE REQ
+- Determine if requests should be puts or patches or posts. Puts are used to completely replace a resource, but patches are used update a resource partially. Probably puts make more sense
 
 - look to simplify the addDoctorLanguages, deleteDoctorLAnguages functions on the front-end.
 	possibly make a heplper function for those two, as well as all the other add/delete functions	
@@ -13,11 +14,17 @@ ASAP:
 	same for services, educatoin, etc. all of the add/deletes for the same type of data are very similar
 -review the front end services code. look for efficiencies, ask chatgpt. make sure it makes sense
 
+Run lint test for over 200 line fcns - AFTER THIS MOVE TO TS.
+	move backend to TS first
+	during this conversion, move the front-end files from .js to .tsx
+	
 -setup postman to make making requests easier.
 	add the Doctor/Patient UUID as a cookie, and hit the endpoint directly
 Make the auth token and cookie stored in a class, like in context.ts in deployment manager
 	reading from memory is faster than from session storage
 
+
+	
 -mini bug when making a booking. make a booking with `changes in behavior`. The time is 10 AM- 10AM. Should say something like (10AM (july 17) - 10AM (july 18))
 added a appointment_timespan, and add petID to the Appointments table. - need to change the front-end accordingly
 -add choose your pet to make an appointment. if the user isn't logged in, show a login/register button in the booking section.
@@ -28,15 +35,18 @@ added a appointment_timespan, and add petID to the Appointments table. - need to
 
 -start figuring out only being able to make appointments during available time slots (shouldn't be able to book an appointment while that time slot is booked)
 
+-consider combining the two add preVet Education callback functions
+
+-stop the header from re-rendering on every link change. figure out a way to make it constant
+
+-re-do back-end documentation
+
 -try making an appointment, not requesting (in finalize-booking), going back, and making a different appointmet. does session storage updat?
 -think about how isActive should work - what actually happens when a user deletes their account. should a new user be allowed to make an account with that same email instantaneosly?
 
--consider combining the two add preVet Education callback functions
--re-do back-end documentation
--Move from bootstrap to tailwind
-
 make the phone number input in the location.js only accept numbers (Phone input)
-Run lint test for over 200 line fcns
+
+-Move from bootstrap to tailwind
 
 -duplicate entries need to be accounted for when added to DB. Unique constraints. when the same data is entered into the pre_vet_edcatinn_mapping table, it gives an error, but doesn't enter the data.
 	Make the error on the front-end be say something like: duplicate entry. Or, don't allow the user to add the same entry twice
@@ -105,3 +115,8 @@ inactivity logout ( 5 mins). implement on the verification level (in the jwt)
 
 -make entering time data into location.js easier. currently a pain in the ass, keeps reseting
 
+-Look deeply at the SQL table operations. see if it's worth de-normalizing any of the tables to increase performance.
+	For example, the Doctor_ID didn't used to be in the Appointments table. The address ID was joined from the addresses table, and the DoctorID was extracted from there.
+	Even though that is normalized (not duplicating Doctor ID twice), it leads to performance problems, since the enter addresses table is joined with appointments, just to retrieve the DoctorID
+	Check for any other SQL operations which perform heavy joins that could have an efficiency boost from de-normalizing data
+	

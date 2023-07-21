@@ -3,11 +3,11 @@ import moment from "moment"
 import { useEffect, useState } from "react"
 import { Card, Badge , Tooltip } from "react-bootstrap"
 import OverlayTrigger from "react-bootstrap/OverlayTrigger"
-import { UnauthorizedUser } from "../../components/user-type-unauth.js"
-import { useDashboardData } from "../../custom-hooks/fetch-and-use-dashboard-info.js"
-import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification.js"
-import Header from "../header.js"
-import PatientHeader from "./patient-header.js"
+import { UnauthorizedUser } from "../../components/user-type-unauth"
+import { useDashboardData } from "../../custom-hooks/fetch-and-use-dashboard-info"
+import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
+import Header from "../header"
+import PatientHeader from "./patient-header"
 
 export default function PatientDashboard() {
   const { userType } = useSimpleUserVerification()

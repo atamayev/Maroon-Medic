@@ -1,6 +1,6 @@
 import { Form } from "react-bootstrap"
+import { months, days, birthYears } from "../utils/constants"
 import FormGroup from "./form-group"
-import { months, days, birthYears } from "./constants"
 
 export const renderFirstNameSection = (personalInfo, setPersonalInfo) => {
   return (

@@ -67,7 +67,7 @@ export default function RenderBookingSection(props) {
 
   function convertToMinutes(input) {
     if (typeof input === "string") {
-      let value = parseInt(input.split(" ")[0])
+      const value = parseInt(input.split(" ")[0])
       if (input.includes("hour")) return moment.duration(value, "hours").asMinutes()
       else if (input.includes("day")) return moment.duration(value, "days").asMinutes()
       else return value
@@ -81,12 +81,12 @@ export default function RenderBookingSection(props) {
       const workingHours = selectedLocationObject?.times.find(time => time.Day_of_week === selectedDayOfWeek)
 
       if (workingHours) {
-        let times = []
-        let start = workingHours.Start_time.split(":")
-        let end = workingHours.End_time.split(":")
+        const times = []
+        const start = workingHours.Start_time.split(":")
+        const end = workingHours.End_time.split(":")
 
         let currentTime = moment().hour(start[0]).minute(start[1])
-        let endTime = moment().hour(end[0]).minute(end[1])
+        const endTime = moment().hour(end[0]).minute(end[1])
 
         const serviceMinutes = convertToMinutes(selectedServiceObject.Service_time)  // Converts the time to minutes
         setServiceMinutes(serviceMinutes)
@@ -115,7 +115,7 @@ export default function RenderBookingSection(props) {
       default: return null
       }
     })
-    let dates = []
+    const dates = []
     let date = moment()
     while (dates.length < 10) {
       if (daysOfWeek.includes(date.day())) dates.push(date.format("dddd, MMMM Do, YYYY"))

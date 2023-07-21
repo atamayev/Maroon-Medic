@@ -1,9 +1,9 @@
 import { useEffect, useState, useCallback } from "react"
 import { Card, Button, Form } from "react-bootstrap"
-import FormGroup from "../../../components/form-group.js"
-import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message.js"
-import { saveDescription } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details.js"
-import { renderMessageSection } from "../../../components/saved-message-section.js"
+import FormGroup from "../../../components/form-group"
+import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
+import { saveDescription } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details"
+import { renderMessageSection } from "../../../components/saved-message-section"
 
 export default function RenderDescriptionSection (props) {
   return (

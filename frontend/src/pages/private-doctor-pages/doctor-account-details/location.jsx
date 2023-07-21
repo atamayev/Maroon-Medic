@@ -5,7 +5,7 @@ import {useEffect, useState} from "react"
 import {Card, Accordion, Form, Button, Container, Row, Col} from "react-bootstrap"
 import "../../../styles/location.css"
 import FormGroup from "../../../components/form-group"
-import { daysOfWeek } from "../../../components/constants"
+import { daysOfWeek } from "../../../utils/constants"
 import { handleAddAccordion } from "../../../custom-hooks/account-details-hooks/add"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
 import { saveLocation } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details"
@@ -37,7 +37,7 @@ function AddressForm(props) {
   }
 
   function areAllFieldsValid(addresses) {
-    for (let address of addresses) {
+    for (const address of addresses) {
       if (
         !address.address_title ||
         !address.address_line_1 ||
@@ -50,7 +50,7 @@ function AddressForm(props) {
       }
 
       // Check for days that are checked off (exist in times array)
-      for (let time of address.times) {
+      for (const time of address.times) {
         if (!time.Start_time || !time.End_time) return false
       }
     }
@@ -58,8 +58,8 @@ function AddressForm(props) {
   }
 
   function areAllTimesValid(addresses) {
-    for (let address of addresses) {
-      for (let time of address.times) {
+    for (const address of addresses) {
+      for (const time of address.times) {
         if (new Date(`1970-01-01T${time.End_time}:00`) <= new Date(`1970-01-01T${time.Start_time}:00`)) return false
       }
     }

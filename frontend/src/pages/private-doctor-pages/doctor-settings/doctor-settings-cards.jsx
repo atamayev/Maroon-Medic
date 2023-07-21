@@ -1,9 +1,9 @@
 import { CardGroup } from "react-bootstrap"
-import SettingsLinks from "../../../components/settings-links.js"
-import { UnauthorizedUser } from "../../../components/user-type-unauth.js"
-import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification.js"
-import Header from "../../header.js"
-import DoctorHeader from "../doctor-header.js"
+import SettingsLinks from "../../../components/settings-links"
+import { UnauthorizedUser } from "../../../components/user-type-unauth"
+import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
+import Header from "../../header"
+import DoctorHeader from "../doctor-header"
 
 export default function DoctorSettingsCards() {
   const { userType } = useSimpleUserVerification()
