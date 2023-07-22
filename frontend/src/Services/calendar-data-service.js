@@ -8,6 +8,6 @@ export default new class CalendarDataService {
     return await http.get("/calendar/getDoctorCalendarDetails")
   }
   async confirmAppointment(AppointmentID) {
-    return await http.post("/calendar/confirm-appointment", {AppointmentID: AppointmentID})
+    return await http.patch("/calendar/confirm-appointment", {AppointmentID: AppointmentID})
   }
 }()

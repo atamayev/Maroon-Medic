@@ -9,6 +9,6 @@ const router = express.Router()
 
 router.post("/makeAppointment", makeAppointment)
 router.get("/getDoctorCalendarDetails", GetIDFromUUID.getDoctorIDFromUUID, getDoctorCalendarDetails)
-router.post("/confirm-appointment", confirmAppointment)
+router.patch("/confirm-appointment", confirmAppointment)
 
 export default router
