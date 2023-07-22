@@ -1,6 +1,6 @@
+import _ from "lodash"
 import dotenv from "dotenv"
 dotenv.config()
-import _ from "lodash"
 import jwt from "jsonwebtoken"
 import AuthDB from "../db/auth-DB.js"
 import TimeUtils from "../utils/time.js"
@@ -292,18 +292,20 @@ export async function changePassword (req, res) {
   }
 
   try {
-    const hashedPassword = await AuthDB.retrieveUserPassword(UserID)
-    const isOldPasswordMatch = await Hash.checkPassword(currentPassword, hashedPassword)
+    const hashedOldPassword = await AuthDB.retrieveUserPassword(UserID)
+    const isOldPasswordMatch = await Hash.checkPassword(currentPassword, hashedOldPassword)
     if (!isOldPasswordMatch) return res.status(400).json("Old Password is incorrect")
     else {
-      const isSamePassword = await Hash.checkPassword(newPassword, hashedPassword)
+      const isSamePassword = await Hash.checkPassword(newPassword, hashedOldPassword)
       if (isSamePassword) return res.status(400).json("New Password cannot be the same as the old password")
+
       const newHashedPassword = await Hash.hashCredentials(newPassword)
-      await AuthDB.updateUserPassword(UserID, newHashedPassword)
+      await AuthDB.updatePassword(newHashedPassword, UserID)
       return res.status(200).json()
     }
   } catch (error) {
-    return res.status(500).json()
+    console.log(error)
+    return res.status(500).json("Errror in changing password")
   }
 }
 

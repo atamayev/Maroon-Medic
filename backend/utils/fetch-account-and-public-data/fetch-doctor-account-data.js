@@ -98,7 +98,7 @@ export default new class FetchDoctorAccountData {
     try {
       const results = await FetchDoctorAccountDataDB.retrieveVerifiedAndPubliclyAvailableStatus(DoctorID)
       if (_.isEmpty(results)) return {PubliclyAvailable: false, Verified: false}
-      return {PubliclyAvailable: results[0].publiclyAvailable, Verified: results[0].publiclyAvailable}
+      return {PubliclyAvailable: results[0].publiclyAvailable, Verified: results[0].verified}
     } catch (error) {
       return {PubliclyAvailable: false, Verified: false}
     }

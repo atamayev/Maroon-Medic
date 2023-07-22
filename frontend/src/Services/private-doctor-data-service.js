@@ -56,7 +56,7 @@ export default new class PrivateDoctorDataService {
     return await http.post("/private-doctor-data/add-service", {serviceObject})
   }
   async updateService(serviceObject) {
-    return await http.patch("/private-doctor-data/update-service", {serviceObject})
+    return await http.post("/private-doctor-data/update-service", {serviceObject})
   }
   async deleteService(serviceID) {
     return await http.delete(`/private-doctor-data/delete-service/${serviceID}`)
@@ -65,9 +65,9 @@ export default new class PrivateDoctorDataService {
     return await http.post("/private-doctor-data/add-address", {AddressData, Times})
   }
   async updateAddressData(AddressData, Times) {
-    return await http.patch("/private-doctor-data/update-address-data", {AddressData, Times})
+    return await http.post("/private-doctor-data/update-address-data", {AddressData, Times})
   }
   async deleteAddressData(AddressData, Times) {
-    return await http.delete("/private-doctor-data/save-address-data", {AddressData, Times})
+    return await http.post("/private-doctor-data/delete-address-data", {AddressData, Times})
   }
 }()

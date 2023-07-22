@@ -307,6 +307,19 @@ export async function addAddress (req, res) {
   }
   return res.status(200).json(AddressData)
 }
+
+export async function deleteAddress (req, res) {
+  const DoctorID = req.DoctorID
+  const AddressData = req.body.AddressData
+  const TimesData = req.body.Times
+}
+
+export async function updateAddress (req, res) {
+  const DoctorID = req.DoctorID
+  const AddressData = req.body.AddressData
+  const TimesData = req.body.Times
+}
+
 /** savePublicAvailibilityData is a Doctor-controlled function that allows them to say wheather or not they want their profile accessible to patients
  *  First, converts from UUID to ID. Then, updates the doctor"s avalibility to whatever they did on the front-end. The request is only allowed to happen if the new availiblty status is dfferent from the old one.
  * @param {String} req Cookie from client, PublicAvailibility status

@@ -23,7 +23,8 @@ import {
   deletePreVetEducationData,
   addVetEducationData,
   deleteVetEducationData,
-  addAddress
+  addAddress,
+  deleteAddress
 } from "../controllers/private-doctor-data/save-doctor-data-CTRL.js"
 
 const router = express.Router()
@@ -52,11 +53,12 @@ router.post("/add-vet-education-data", addVetEducationData)
 router.delete("/delete-vet-education-data/:vetEducationID", deleteVetEducationData)
 
 router.post("/add-service", addService)
-router.patch("/update-service", updateService)
+router.post("/update-service", updateService)
 router.delete("/delete-service/:serviceID", deleteService)
 
-router.post("/save-address-data", saveAddressData)
-router.post("/add-address-data", addAddress)
+router.post("/add-address", saveAddressData)
+router.post("/update-address", addAddress)
+router.post("/delete-address", deleteAddress)
 
 router.post("/save-public-availibility-data", savePublicAvailibilityData)
 

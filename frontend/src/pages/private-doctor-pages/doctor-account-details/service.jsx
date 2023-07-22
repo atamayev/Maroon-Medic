@@ -1,5 +1,5 @@
 import _ from "lodash"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Card, Button } from "react-bootstrap"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
 import { handleToggleCategory } from "../../../custom-hooks/account-details-hooks/select"
@@ -25,8 +25,8 @@ function RenderIsVetServices (props) {
   const { listDetails, providedServices, setProvidedServices, expandedCategories, setExpandedCategories } = props
   const [selectedServices, setSelectedServices] = useState([])
 
-  useState(() => {
-    setSelectedServices(providedServices)//initialize selectedServices to providedServices
+  useEffect(() => {
+    if (providedServices) setSelectedServices(providedServices)//initialize selectedServices to providedServices
   }, [providedServices])
 
   const categories = {}

@@ -1,30 +1,6 @@
 import { getUpdatedAddressRecords, getUnchangedAddressRecords } from "./address-operations.js"
 
 export default new class SaveDoctorDataOperations {
-  getServicesDataChanges(ServicesData, existingServicesIDs) {
-    const newServicesData = ServicesData
-
-    const resultIDs = new Set(existingServicesIDs.map(result => result.Service_and_Category_ID))//Extracts the Service_and_Category_ID from the DB results
-
-    const addedData = newServicesData.filter(service => !resultIDs.has(service.service_and_category_listID))// Extracts the IDs that are in newServices that are not in resultsIDs
-
-    const serviceIDs = new Set(newServicesData.map(service => service.service_and_category_listID))
-
-    const deletedData = existingServicesIDs.filter(result => !serviceIDs.has(result.Service_and_Category_ID))//Checks for IDs that are in results, but not in ServicesData (these will be deleted)
-
-    const updatedData = []
-
-    ServicesData.forEach(service => {
-      const matchingResult = existingServicesIDs.find(result => result.Service_and_Category_ID === service.service_and_category_listID)
-
-      if (matchingResult) {
-        if (matchingResult.Service_time !== service.Service_time || matchingResult.Service_price !== service.Service_price) updatedData.push(service)
-      }
-    })//Checks which results and ServicesData have the same IDs, but some other field has changed (ie. price, time). Adds those objects to updatedData
-
-    return { addedData, deletedData, updatedData }
-  }
-
   getAddressesDataChanges(AddressData, existingAddressesIDs) {
     const newData = AddressData
     // Check for changes in data:

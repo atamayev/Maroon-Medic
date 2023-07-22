@@ -2,11 +2,21 @@ To-do:
 
 
 ASAP:
+-Bugs:
+	Change password not working
+
 -save addresses on a per address level. Not saving all addresses at once greatly simplifies the backend
 	if addressID = 0--> add new address route: POST REQ
 	if addressID !=0 --> update address route: PUT REQUEST
 	If hit delete button & addressID !=0, hits the delete route: DELETE REQ
-- Determine if requests should be puts or patches or posts. Puts are used to completely replace a resource, but patches are used update a resource partially. Probably puts make more sense
+	after changing this, delete the SaveDoctorDataOperations and address operations files
+
+- Determine if requests should be puts or patches or posts. 
+	Puts are used to completely replace a resource
+	patches are used update a resource partially.
+	Test thoroughly after change
+
+-make savePetData into two seperate routes. one for adding, one deleting (is an update needed? probably not)
 
 - look to simplify the addDoctorLanguages, deleteDoctorLAnguages functions on the front-end.
 	possibly make a heplper function for those two, as well as all the other add/delete functions	
