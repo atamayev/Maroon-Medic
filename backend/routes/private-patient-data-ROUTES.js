@@ -10,7 +10,8 @@ import {
   savePersonalData,
   addLanguage,
   deleteLanguage,
-  savePetData,
+  addPet,
+  deletePet,
 } from "../controllers/private-patient-data/save-patient-data-CTRL.js"
 
 const router = express.Router()
@@ -24,6 +25,7 @@ router.post("/add-language", addLanguage)
 router.delete("/delete-language/:languageID", deleteLanguage)
 
 router.post("/save-personal-data", savePersonalData)
-router.post("/save-pet-data", savePetData)
+router.post("/add-pet-data", addPet)
+router.delete("/delete-pet-data/:petID", deletePet)
 
 export default router

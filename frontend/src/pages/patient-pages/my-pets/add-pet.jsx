@@ -1,6 +1,6 @@
 import { Form, Button, Card,Container, Row, Col } from "react-bootstrap"
 import FormGroup from "../../../components/form-group"
-import { addMyPets } from "../../../custom-hooks/my-pets-hooks/save-my-pets"
+import { addPet } from "../../../custom-hooks/my-pets-hooks/save-my-pets"
 import { renderMessageSection } from "../../../components/saved-message-section"
 
 const ifPetTypeSelected = (value, petTypes, newPetData, setNewPetData) => {
@@ -170,7 +170,7 @@ export const AddPet = (props) => {
           disabled = {!areAllFieldsValid(newPetData)} // Check for both field validity
           onClick = {(e) => {
             e.preventDefault()
-            addMyPets(newPetData, setNewPetData, setPetConfirmation, savedPetData, setSavedPetData, setShowAddPet)
+            addPet(newPetData, setNewPetData, setPetConfirmation, savedPetData, setSavedPetData, setShowAddPet)
           }}
         >
           Add {renderNewPetName()}

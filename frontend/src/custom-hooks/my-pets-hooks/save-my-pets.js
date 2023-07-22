@@ -8,11 +8,11 @@ function petDataOperations (petData, responseData) {
   return petData
 }
 
-export async function addMyPets(petData, setPetData, setPetConfirmation, savedPetData, setSavedPetData, setShowAddPet) {
+export async function addPet(petData, setPetData, setPetConfirmation, savedPetData, setSavedPetData, setShowAddPet) {
   let response
 
   try {
-    response = await PrivatePatientDataService.savePetData(petData, "add")
+    response = await PrivatePatientDataService.addPetData(petData)
   } catch (error) {
     if (error.response.status === 401) invalidUserAction(error.response.data)
     else setPetConfirmation({messageType: "problem"})
@@ -31,18 +31,18 @@ export async function addMyPets(petData, setPetData, setPetConfirmation, savedPe
   }
 }
 
-export async function deleteMyPets(petID, savedPetData, setSavedPetData, setPetConfirmation) {
+export async function deletePet(pet_infoID, savedPetData, setSavedPetData, setPetConfirmation) {
   let response
 
   try {
-    response = await PrivatePatientDataService.savePetData(petID, "delete")
+    response = await PrivatePatientDataService.deletePetData(pet_infoID)
   } catch (error) {
     if (error.response.status === 401) invalidUserAction(error.response.data)
     else setPetConfirmation({messageType: "problem"})
   }
 
   if (response.status === 200) {
-    const updatedSavedPetData = savedPetData.filter(item => item.pet_infoID !== petID)
+    const updatedSavedPetData = savedPetData.filter(item => item.pet_infoID !== pet_infoID)
     setSavedPetData(updatedSavedPetData)
     sessionStorage.setItem("PatientPetData", JSON.stringify(updatedSavedPetData))
   } else {

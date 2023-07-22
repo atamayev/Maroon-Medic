@@ -3,7 +3,7 @@ import moment from "moment"
 import { useState, useEffect } from "react"
 import { Card, Button, Modal  } from "react-bootstrap"
 import { UnauthorizedUser } from "../../../components/user-type-unauth"
-import { deleteMyPets } from "../../../custom-hooks/my-pets-hooks/save-my-pets"
+import { deletePet } from "../../../custom-hooks/my-pets-hooks/save-my-pets"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import { FillInsurances, FillPetTypes, fetchPetData } from "../../../custom-hooks/my-pets-hooks/my-pets"
@@ -118,7 +118,7 @@ export default function MyPets() {
           <Button
             variant = "danger"
             onClick = {() => {
-              deleteMyPets(petToDelete.pet_infoID, savedPetData, setSavedPetData, setPetConfirmation)
+              deletePet(petToDelete.pet_infoID, savedPetData, setSavedPetData, setPetConfirmation)
               handleCloseModal(setShowModal)
             }}
           >

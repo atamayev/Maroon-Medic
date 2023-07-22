@@ -2,8 +2,9 @@ To-do:
 
 
 ASAP:
--make savePetData into two seperate routes. one for adding, one deleting (is an update needed? probably not)
-
+Add this to any maroon constants:
+	store 100 in a const named DefaultTagsBatchSize or something so that it's clear what it means. linters/rubocop call these "magic numbers" because their meaning isn't clear when you read the code. Putting them in a named constant helps.
+make a single doctor card that appears on the front page. Keep it a separate component
 -save addresses on a per address level. Not saving all addresses at once greatly simplifies the backend
 	if addressID = 0--> add new address route: POST REQ
 	if addressID !=0 --> update address route: PUT REQUEST

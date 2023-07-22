@@ -41,28 +41,17 @@ export async function deleteLanguage (req, res) {
   OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-/** savePetData is self-explanatory in name
- *  First, converts from PatientUUID to PatientID. Then, performs operations depending on the operationType
- * @param {String} req Cookie from client, type of data, list of data (ie list of languages, or insurances)
- * @param {Boolean} res 200/400
- * @returns Returns 200/400, depending on wheather the data was saved correctly
- *  DOCUMENTATION LAST UPDATED 6/4/23
- */
-export async function savePetData (req, res) {
+export async function addPet (req, res) {
   const PatientID = req.PatientID
-
   const PetData = req.body.PetData
-  const operationType = req.body.operationType//adding, deleting, updating
 
-  if (operationType !== "add" && operationType !== "delete") return res.status(400).json()
-  else if (operationType === "add") {
-    const petInfoID = await OperationHandler.executeAsyncAndReturnValue(res, SavePatientDataDB.addNewPet, PetData, PatientID)
+  const petInfoID = await OperationHandler.executeAsyncAndReturnValue(res, SavePatientDataDB.addNewPet, PetData, PatientID)
+  const operation = async () => await SavePatientDataDB.addNewPetInsurance(PetData.insurance_listID, petInfoID)
+  OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation, petInfoID)
+}
 
-    const operation = async () => await SavePatientDataDB.addNewPetInsurance(PetData.insurance_listID, petInfoID)
-    OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation, petInfoID)
-
-  } else if (operationType === "delete") {
-    const operation = async () => await SavePatientDataDB.deletePet(PetData)
-    OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
-  }
+export async function deletePet (req, res) {
+  const petID = req.params.petID
+  const operation = async () => await SavePatientDataDB.deletePet(petID)
+  OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }

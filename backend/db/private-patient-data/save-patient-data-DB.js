@@ -48,7 +48,7 @@ export default new class SavePatientDataDB {
   }
 
   async deletePet(petID) {
-    const sql = `UPDATE ${mysqlTables.pet_info} SET isActive = 0 WHERE pet_ID = ?`
+    const sql = `UPDATE ${mysqlTables.pet_info} SET isActive = 0 WHERE pet_infoID = ?`
     const values = [petID]
     await connection.execute(sql, values)
   }

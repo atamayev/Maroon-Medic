@@ -17,7 +17,7 @@ export default new class PrivatePatientDataService {
     return await http.get("/private-patient-data/fetch-account-details-data")
   }
   async addLanguage(languageID) {
-    return await http.post("/private-patient-data/add-language", {languageID: languageID})
+    return await http.post("/private-patient-data/add-language", {languageID})
   }
   async deleteLanguage(languageID) {
     return await http.delete(`/private-patient-data/delete-language/${languageID}`)
@@ -25,7 +25,10 @@ export default new class PrivatePatientDataService {
   async fetchPetData() {
     return await http.get("/private-patient-data/fetch-pet-data")
   }
-  async savePetData(PetData, operationType) {
-    return await http.post("/private-patient-data/save-pet-data", {PetData: PetData, operationType: operationType})
+  async addPetData(PetData) {
+    return await http.post("/private-patient-data/add-pet-data", {PetData})
+  }
+  async deletePetData(petID) {
+    return await http.delete(`/private-patient-data/delete-pet-data/${petID}`)
   }
 }()
