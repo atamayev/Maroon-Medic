@@ -2,26 +2,24 @@ import dotenv from "dotenv"
 import express from "express"
 import cors from "cors"
 import cookieParser from "cookie-parser"
-import { connection } from "./setup-and-security/connect.js"
-import redisClient from "./setup-and-security/redis.js"
+import { connectDatabase } from "./setup-and-security/connect.ts"
+import redisClient from "./setup-and-security/redis.ts"
 //ROUTES:
-import authRoutes from "./routes/auth-ROUTES.js"
-import privateDoctorDataRoutes from "./routes/private-doctor-data-ROUTES.js"
-import privatePatientDataRoutes from "./routes/private-patient-data-ROUTES.js"
-import publicDoctorDataRoutes from "./routes/public-doctor-data-ROUTES.js"
-import searchRoutes from "./routes/search-ROUTES.js"
-import calendarRoutes from "./routes/calendar-ROUTES.js"
-import listsRoutes from "./routes/lists-ROUTES.js"
-import GetIDFromUUID from "./utils/getIDFromUUID.js"
+import authRoutes from "./routes/auth-ROUTES.ts"
+import privateDoctorDataRoutes from "./routes/private-doctor-data-ROUTES.ts"
+import privatePatientDataRoutes from "./routes/private-patient-data-ROUTES.ts"
+import publicDoctorDataRoutes from "./routes/public-doctor-data-ROUTES.ts"
+import searchRoutes from "./routes/search-ROUTES.ts"
+import calendarRoutes from "./routes/calendar-ROUTES.ts"
+import listsRoutes from "./routes/lists-ROUTES.ts"
+import GetIDFromUUID from "./utils/getIDFromUUID.ts"
 
 dotenv.config()
 
 const port = process.env.PORT || 8000
 
 // Confirmation of MYSQL Connection
-connection.connect((err) => {
-  if (err) throw err
-})
+connectDatabase()
 
 redisClient.on("error", function (err) {
   console.log("Something went wrong " + err)
@@ -48,8 +46,8 @@ const app = express()
 // }))
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", req.headers.origin)
-  res.header("Access-Control-Allow-Credentials", true)
+  res.header("Access-Control-Allow-Origin", req.headers.origin as string)
+  res.header("Access-Control-Allow-Credentials", "true")
   next()
 })
 

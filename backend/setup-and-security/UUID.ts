@@ -8,10 +8,10 @@ import TimeUtils from "../utils/time.js"
 
 /** ID_to_UUID takes in the ID, creates a complementary UUID, and inserts it into the UUID_reference table
  *  In the future, UUID will be what is sent to client instead of DocID as the main identifier
- * @param {Int} ID UserID
+ * @param {Int} UserID UserID
  * @returns Randomly generated UUID
  */
-export async function ID_to_UUID(UserID) {
+export async function ID_to_UUID(UserID: number) {
   const UUID = uuidv4()
   const createdAt = TimeUtils.createFormattedDate()
 
@@ -19,7 +19,7 @@ export async function ID_to_UUID(UserID) {
     await UUIDDB.createNewUUID(UUID, createdAt, UserID)
     return UUID
   } catch (error) {
-    return (`error in ${ID_to_UUID.name}:`, error)
+    throw new Error(`Unable to convert UserID to UUID ${UserID}`)
   }
 }
 
@@ -28,7 +28,7 @@ export async function ID_to_UUID(UserID) {
  * @param {*} UUID DoctorID
  * @returns Corresponding DoctorID
  */
-export async function UUID_to_ID(UUID) {
+export async function UUID_to_ID(UUID: string): Promise<number> {
   if (!UUID) throw new Error(`no UUID received in ${UUID_to_ID.name}`)
 
   try {

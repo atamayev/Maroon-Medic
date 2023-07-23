@@ -1,25 +1,40 @@
 import { mysqlTables } from "../utils/table-names-list.js"
-import { connection } from "../setup-and-security/connect.js"
+import { connectDatabase } from "../setup-and-security/connect.js"
+import { RowDataPacket } from "mysql2";
+
+type MysqlTimestamp = string
+
+interface AppointmentObject {
+  appointmentPrice: number;
+  appointmentTimespan: number;
+  message: string;
+  InstantBook: boolean;
+  Service_and_category_list_ID: number;
+  selectedPetID: number;
+  AddressesID: number;
+}
 
 export default new class CalendarDB {
-  async retrieveDoctorIDFromNVI (NVI) {
+  async retrieveDoctorIDFromNVI (NVI: number): Promise<number> {
     const sql = `SELECT Doctor_ID FROM ${mysqlTables.doctor_specific_info} WHERE NVI = ?`
     const values = [NVI]
+    const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values)
-    const DoctorID = results[0].Doctor_ID
+    const DoctorID = (results as RowDataPacket[])[0].Doctor_ID
     return DoctorID
   }
 
-  async addAppointment (dateTime, AppointmentObject, DoctorID, createdAt) {
+  async addAppointment (dateTime: MysqlTimestamp, AppointmentObject: AppointmentObject, DoctorID: number, createdAt: MysqlTimestamp) {
     const sql = `INSERT INTO ${mysqlTables.appointments}
       (appointment_date, appointment_price, appointment_timespan, patient_message, Doctor_confirmation_status, Service_and_category_list_ID, pet_info_ID, Doctor_ID, Addresses_ID, Created_at)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
 
     const values = [dateTime, AppointmentObject.appointmentPrice, AppointmentObject.appointmentTimespan, AppointmentObject.message, AppointmentObject.InstantBook, AppointmentObject.Service_and_category_list_ID, AppointmentObject.selectedPetID, DoctorID, AppointmentObject.AddressesID, createdAt]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async retrieveDoctorCalendarDetails (DoctorID) {
+  async retrieveDoctorCalendarDetails (DoctorID: number) {
     const sql = `SELECT
         ${mysqlTables.appointments}.mysqlTables.appointmentsID, ${mysqlTables.appointments}.appointment_date, ${mysqlTables.appointments}.appointment_price, ${mysqlTables.appointments}.appointment_timespan, ${mysqlTables.appointments}.patient_message, ${mysqlTables.appointments}.Doctor_confirmation_status, ${mysqlTables.appointments}.Created_at,
         ${mysqlTables.service_and_category_list}.Category_name, ${mysqlTables.service_and_category_list}.Service_name,
@@ -35,13 +50,15 @@ export default new class CalendarDB {
         ${mysqlTables.appointments}.Doctor_ID = ?`
 
     const values = [DoctorID]
+    const connection = await connectDatabase()
     const [calendarDetalis] = await connection.execute(sql, values)
     return calendarDetalis
   }
 
-  async confirmAppointmentStatus (appointmentID) {
+  async confirmAppointmentStatus (appointmentID: number): Promise<void>{
     const sql = `UPDATE ${mysqlTables.appointments} SET Doctor_confirmation_status = 1 WHERE appointmentsID = ?`
     const values = [appointmentID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 }()

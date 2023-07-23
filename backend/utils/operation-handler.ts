@@ -1,5 +1,7 @@
+import { Request, Response } from "express"
+
 export default new class OperationHandler {
-  async executeAsyncOperationAndReturnCustomValueToRes(res, operation, whatToReturnSuccess = null) {
+  async executeAsyncOperationAndReturnCustomValueToRes(res: Response, operation: () => Promise<any>, whatToReturnSuccess = null) {
     try {
       await operation()
       res.status(200).json(whatToReturnSuccess)
@@ -10,7 +12,7 @@ export default new class OperationHandler {
     }
   }
 
-  async executeAsyncOperationWithoutReturnValueNorRes(res, operation, whatToReturnFailure = null) {
+  async executeAsyncOperationWithoutReturnValueNorRes(res: Response, operation: () => Promise<any>, whatToReturnFailure: string[] | null = null) {
     try {
       await operation()
     } catch (error) {
@@ -20,7 +22,7 @@ export default new class OperationHandler {
     }
   }
 
-  async executeAsyncAndReturnValueToRes(res, operation, whatToReturnFailure = null) {
+  async executeAsyncAndReturnValueToRes(res: Response, operation: () => Promise<any>, whatToReturnFailure: string[] | null = null) {
     try {
       const result = await operation()
       res.status(200).json(result)
@@ -31,7 +33,7 @@ export default new class OperationHandler {
     }
   }
 
-  async executeAsyncAndReturnValue(res, fn, ...params) {
+  async executeAsyncAndReturnValue(res: Response, fn: (...args: any[]) => Promise<any>, ...params: any[]) {
     try {
       return await fn(...params)
     } catch (error) {

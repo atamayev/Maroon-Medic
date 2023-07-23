@@ -1,8 +1,27 @@
 import _ from "lodash"
 import FetchPatientAccountDataDB from "../../db/private-patient-data/fetch-patient-account-data-DB.js"
 
+type LanguageItem = {
+  language_listID: number
+  Language_name: string
+}
+
+type PetItem = {
+  Name: string
+  Gender: string
+  DOB: string
+  Pet: string
+  Pet_type: string
+  pet_infoID: number
+  insuranceName: InsuranceItem
+}
+
+type InsuranceItem = {
+  Insurance_name: string
+}
+
 export default new class FetchPatientAccountData {
-  async fetchPatientLanguages (PatientID) {
+  async fetchPatientLanguages (PatientID: number): Promise<LanguageItem[]> {
     try {
       const languages = await FetchPatientAccountDataDB.retrievePatientLanguages(PatientID)
       return languages
@@ -11,15 +30,14 @@ export default new class FetchPatientAccountData {
     }
   }
 
-  async fetchPetData (PatientID) {
+  async fetchPetData (PatientID: number): Promise<PetItem[]> {
     try {
       const retrievePetData = await FetchPatientAccountDataDB.retrievePetData(PatientID)
 
       if (!_.isEmpty(retrievePetData)) {
         for (const pet of retrievePetData) {
           const insuranceResults = await FetchPatientAccountDataDB.retrievePetInsurances(pet.pet_infoID)
-          if (_.isEmpty(insuranceResults)) pet.insuranceName = ""
-          else pet.insuranceName = insuranceResults[0].Insurance_name
+          pet.insuranceName = insuranceResults || ""
         }
       }
       return retrievePetData

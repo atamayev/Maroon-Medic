@@ -1,87 +1,106 @@
 import { mysqlTables } from "../utils/table-names-list.js"
-import { connection } from "../setup-and-security/connect.js"
+import { connectDatabase } from "../setup-and-security/connect.js"
+import { OkPacket, RowDataPacket } from 'mysql2';
+
+type LoginOrRegisterType = 'Doctor' | 'patient'
+type MysqlTimestamp = string
+type LoginHistoryRecord = {
+  login_historyID: number,
+  Login_at: string,
+}
 
 export default new class AuthDB {
-  async checkIfUUIDExists (UUID) {
+  async checkIfUUIDExists (UUID: string): Promise<boolean> {
     const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.uuid_reference} WHERE UUID = ?) as 'exists' `
     const values = [UUID]
+    const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values)
-    const doesRecordExist = results[0].exists
-    return doesRecordExist
+    const doesRecordExist = (results as RowDataPacket[])[0].exists
+    return Boolean(doesRecordExist)
   }
 
-  async checkIfUsernameExists (username, loginType) {
+  async checkIfUsernameExists (username: string, loginType: LoginOrRegisterType) {
     const sql = `SELECT UserID, password FROM ${mysqlTables.credentials} WHERE email = ? AND User_type = ? AND isActive = 1`
     const values = [username, loginType]
+    const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values)
     return results
   }
 
-  async checkIfAccountExists (username, registrationType) {
+  async checkIfAccountExists (username: string, registrationType: LoginOrRegisterType): Promise<boolean> {
     //Consider adding isActive as a search parameter. If a user deletes their account, should they be allowed to create a new one with the same email?
     const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.credentials} WHERE email = ? AND User_type = ?) as 'exists' `
     const values = [username, registrationType]
+    const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values)
-    const doesAccountExist = results[0].exists
-    return doesAccountExist
+    const doesAccountExist = (results as RowDataPacket[])[0].exists
+    return Boolean(doesAccountExist)
   }
 
-  async addNewUserCredentials (username, password, createdAt, registrationType) {
+  async addNewUserCredentials (username: string, password: string, createdAt: MysqlTimestamp, registrationType: LoginOrRegisterType): Promise<number> {
     const sql = `INSERT INTO ${mysqlTables.credentials} (email, password, Created_at, User_type) VALUES (?, ?, ?, ?)`
     const values = [username, password, createdAt, registrationType]
+    const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values)
-    return results.insertId
+    return (results as OkPacket).insertId
   }
 
-  async addDoctorSpecificDetails (UserID) {
+  async addDoctorSpecificDetails (UserID: number) {
     const sql = `INSERT INTO ${mysqlTables.doctor_specific_info} (verified, publiclyAvailable, Doctor_ID) VALUES (?, ?, ?)`
     const values = [true, true, UserID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async updatePassword (password, UserID) {
+  async updatePassword (password: string, UserID: number) {
     const sql = `UPDATE ${mysqlTables.credentials} SET password = ? WHERE UserID = ?`
     const values = [password, UserID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async retrieveUserPassword (UserID) {
+  async retrieveUserPassword (UserID: number): Promise<string> {
     const sql = `SELECT password FROM ${mysqlTables.credentials} WHERE UserID = ?`
     const values = [UserID]
+    const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values)
-    const password = results[0].password
+    const password = (results as RowDataPacket[])[0].password
     return password
   }
 
-  async retrieveLoginHistory (UserID) {
+  async retrieveLoginHistory (UserID: number): Promise<LoginHistoryRecord[]> {
     const sql = `SELECT login_historyID, Login_at FROM ${mysqlTables.login_history} WHERE User_ID = ? ORDER BY Login_at DESC`
     const values = [UserID]
+    const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values)
-    return results
+    return results as LoginHistoryRecord[]
   }
 
-  async checkIfUUIDsExist (newDoctorUUID, existingDoctorUUID) {
+  async checkIfUUIDsExist (newDoctorUUID: string, existingDoctorUUID: string): Promise<boolean> {
     const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.uuid_reference} WHERE UUID = ?) as 'exists'`
     const values1 = [newDoctorUUID]
     const values2 = [existingDoctorUUID]
+
+    const connection = await connectDatabase()
     const [results1] = await connection.execute(sql, values1)
     const [results2] = await connection.execute(sql, values2)
-    const doesRecord1Exist = results1[0].exists
-    const doesRecord2Exist = results2[0].exists
+    const doesRecord1Exist = (results1 as RowDataPacket[])[0].exists
+    const doesRecord2Exist = (results2 as RowDataPacket[])[0].exists
     if (doesRecord1Exist && doesRecord2Exist) return true
     return false
   }
 
-  async addLoginHistory (UserID, loginTime) {
+  async addLoginHistory (UserID: number, loginTime: MysqlTimestamp) {
     const sql = `INSERT INTO ${mysqlTables.login_history} (Login_at, IP_Address, User_ID) VALUES (?, ?, ?)`
     const values = [loginTime, null, UserID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async deleteUUIDUponLogout (UUID) {
+  async deleteUUIDUponLogout (UUID: string) {
     const sql = `DELETE FROM ${mysqlTables.uuid_reference} WHERE UUID = ?`
     const values = [UUID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
-
 }()

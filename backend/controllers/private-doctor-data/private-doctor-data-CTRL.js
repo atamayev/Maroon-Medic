@@ -5,13 +5,6 @@ import OperationHandler from "../../utils/operation-handler.js"
 import PrivateDoctorDataDB from "../../db/private-doctor-data/private-doctor-data-DB.js"
 import FetchDoctorAccountData from "../../utils/fetch-account-and-public-data/fetch-doctor-account-data.js"
 
-/** newDoctor registers the inputted user data into basic_Doctor_info table
- *  All necessary information is sent via the request (DoctorUUID, firname, lastname, etc.)
- * @param {Array} req
- * @param {Array} res If the user data is successfully added to table, return true. If not, return error--> front end doesn't allow
- * @returns true/error
- * DOCUMENTATION LAST UPDATED 3/16/23
- */
 export async function newDoctor (req, res) {
   const DoctorID = req.DoctorID
 
@@ -22,13 +15,6 @@ export async function newDoctor (req, res) {
   OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-/** fetchDashboardData retrieves the upcoming appointments, services, and personal information (FirstName, LastName) .
- *  Takes the doctor's UUID, and converts to the doctorID. Then, joins necessary tables to retrieve dashboard data
- * @param {Cookies} req Contains the user's cookies (DoctorUUID)
- * @param {Array} res User data, or error
- * @returns User data.
- * DOCUMENTATION LAST UPDATED 6/4/23
- */
 export async function fetchDashboardData (req, res) {
   const DoctorID = req.DoctorID
 
@@ -47,14 +33,6 @@ export async function fetchDashboardData (req, res) {
   }
 }
 
-/** fetchPersonalData retrieves the Doctor's personal data.
- *  Takes the doctor's UUID, and converts to the doctorID. Then, joins necessary tables to retrieve dashboard data
- *  Converts the Time details to a readble format
- * @param {Cookies} req Contains the user's cookies (DoctorUUID)
- * @param {Array} res User data, or error
- * @returns User data.
- * DOCUMENTATION LAST UPDATED 6/423
- */
 export async function fetchPersonalData (req, res) {
   const DoctorID = req.DoctorID
 
@@ -79,14 +57,6 @@ export async function fetchPersonalData (req, res) {
   }
 }
 
-/** fetchAccountDetails retrieves the Doctor's Account Details
- *  Takes the doctor's UUID, and converts to the doctorID.
- *  Starts with an empty list, and appends objects from FetchDoctorAccountData. Each function contains a specific data type (desciriptions, languages, etc)
- * @param {Cookies} req Contains the user's cookies (DoctorUUID)
- * @param {Array} res List with user account details
- * @returns User data.
- * DOCUMENTATION LAST UPDATED 3/16/23
- */
 export async function fetchAccountDetails (req, res) {
   const DoctorID = req.DoctorID
 

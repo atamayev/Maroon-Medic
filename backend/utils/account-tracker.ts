@@ -5,7 +5,7 @@ import TimeUtils from "./time.js"
  * @param {Int} UserID
  * @returns N/A, saves the data to the DB
  */
-export async function loginHistory(UserID) {
+export async function loginHistory(UserID: number) {
   const loginAt = TimeUtils.createFormattedDate()
 
   try {

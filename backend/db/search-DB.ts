@@ -1,8 +1,8 @@
 import { mysqlTables } from "../utils/table-names-list.js"
-import { connection } from "../setup-and-security/connect.js"
+import { connectDatabase } from "../setup-and-security/connect.js"
 
 export default new class SearchDB {
-  async retrieveDoctorsFromSearchTerm (searchTerm) {
+  async retrieveDoctorsFromSearchTerm (searchTerm: string) {
     const sql = `SELECT NVI, FirstName, LastName
       FROM ${mysqlTables.basic_user_info}
         LEFT JOIN ${mysqlTables.doctor_specific_info} ON ${mysqlTables.basic_user_info}.User_ID = ${mysqlTables.doctor_specific_info}.Doctor_ID
@@ -13,6 +13,7 @@ export default new class SearchDB {
         AND ${mysqlTables.basic_user_info}.FirstName LIKE ?`
 
     const values = [`${searchTerm}%`]
+    const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values)
     return results
   }
@@ -25,8 +26,8 @@ export default new class SearchDB {
           WHERE
               ${mysqlTables.doctor_specific_info}.verified = TRUE AND ${mysqlTables.doctor_specific_info}.publiclyAvailable = TRUE AND ${mysqlTables.credentials}.isActive = 1`
 
+    const connection = await connectDatabase()
     const [results] = await connection.execute(sql)
     return results
   }
-
 }()
