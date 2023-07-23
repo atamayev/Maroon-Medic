@@ -13,7 +13,7 @@ import FetchPatientAccountData from "../../utils/fetch-account-and-public-data/f
  * DOCUMENTATION LAST UPDATED 6/4/23
  */
 export async function newPatient (req, res) {
-  const PatientID = req.PatientID
+  const PatientID: number = Number(req.PatientID)
 
   const newPatientObject = req.body.newPatientObject
 
@@ -31,7 +31,7 @@ export async function newPatient (req, res) {
  * DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function fetchDashboardData (req, res) {
-  const PatientID = req.PatientID
+  const PatientID: number = Number(req.PatientID)
 
   try {
     const DashboardData = await PrivatePatientDataDB.retrieveDoctorDashboard(PatientID)
@@ -56,7 +56,7 @@ export async function fetchDashboardData (req, res) {
  * DOCUMENTATION LAST UPDATED 6/4/23
  */
 export async function fetchPersonalData (req, res) {
-  const PatientID = req.PatientID
+  const PatientID: number = Number(req.PatientID)
 
   let PersonalData = {
     FirstName: "",
@@ -88,7 +88,7 @@ export async function fetchPersonalData (req, res) {
  * DOCUMENTATION LAST UPDATED 6/4/23
  */
 export async function fetchPetData (req, res) {
-  const PatientID = req.PatientID
+  const PatientID: number = Number(req.PatientID)
   const operation = async () => {
     return await FetchPatientAccountData.fetchPetData(PatientID)
   }
@@ -104,7 +104,7 @@ export async function fetchPetData (req, res) {
  * DOCUMENTATION LAST UPDATED 3/16/23
  */
 export async function fetchAccountDetails (req, res) {
-  const PatientID = req.PatientID
+  const PatientID: number = Number(req.PatientID)
   const operation = async () => {
     const response = {}
     response.languages = await FetchPatientAccountData.fetchPatientLanguages(PatientID)

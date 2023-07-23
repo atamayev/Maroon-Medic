@@ -15,7 +15,7 @@ export async function makeAppointment(req, res) {
 }
 
 export async function getDoctorCalendarDetails(req, res) {
-  const DoctorID = req.DoctorID
+  const DoctorID: number = Number(req.DoctorID)
   const operation = async () => {
     return await CalendarDB.retrieveDoctorCalendarDetails(DoctorID)
   }

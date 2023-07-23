@@ -11,7 +11,7 @@ import SavePatientDataDB from "../../db/private-patient-data/save-patient-data-D
  *  DOCUMENTATION LAST UPDATED 6/4/23
  */
 export async function savePersonalData (req, res) {
-  const PatientID = req.PatientID
+  const PatientID: number = Number(req.PatientID)
   const doesRecordExist = await OperationHandler.executeAsyncAndReturnValue(res, SavePatientDataDB.checkIfPersonalDataExists, PatientID)
 
   const personalInfo = req.body.personalInfo
@@ -29,20 +29,20 @@ export async function savePersonalData (req, res) {
 
 export async function addLanguage (req, res) {
   const languageID = req.body.languageID
-  const PatientID = req.PatientID
+  const PatientID: number = Number(req.PatientID)
   const operation = async () => await SavePatientDataDB.addLanguage(languageID, PatientID)
   OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
 export async function deleteLanguage (req, res) {
   const languageID = req.params.languageID
-  const PatientID = req.PatientID
+  const PatientID: number = Number(req.PatientID)
   const operation = async () => await SavePatientDataDB.deleteLanguage(languageID, PatientID)
   OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
 export async function addPet (req, res) {
-  const PatientID = req.PatientID
+  const PatientID: number = Number(req.PatientID)
   const PetData = req.body.PetData
 
   const petInfoID = await OperationHandler.executeAsyncAndReturnValue(res, SavePatientDataDB.addNewPet, PetData, PatientID)

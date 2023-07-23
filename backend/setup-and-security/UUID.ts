@@ -32,10 +32,8 @@ export async function UUID_to_ID(UUID: string): Promise<number> {
   if (!UUID) throw new Error(`no UUID received in ${UUID_to_ID.name}`)
 
   try {
-    const incompleteID = await UUIDDB.retrieveUUID(UUID)
-    if (_.isEmpty(incompleteID)) throw new Error(`No UserID found for UUID: ${UUID}`)
-    const ID = incompleteID[0].User_ID
-    return ID
+    const UserID = await UUIDDB.retrieveUUID(UUID)
+    return UserID
   } catch (error) {
     throw new Error(`No UserID found for UUID: ${UUID}`)
   }

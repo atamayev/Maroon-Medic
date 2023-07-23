@@ -4,9 +4,23 @@ import DataFormatter from "../../utils/data-formatter.js"
 import OperationHandler from "../../utils/operation-handler.js"
 import PrivateDoctorDataDB from "../../db/private-doctor-data/private-doctor-data-DB.js"
 import FetchDoctorAccountData from "../../utils/fetch-account-and-public-data/fetch-doctor-account-data.js"
+import { Request, Response } from "express"
 
-export async function newDoctor (req, res) {
-  const DoctorID = req.DoctorID
+interface DoctorResponse {
+  languages: any[]
+  services: any[]
+  specialties: any[]
+  preVetEducation: any[]
+  vetEducation: any[]
+  addressData: any[]
+  description: string
+  servicedPets: any[]
+  verified: boolean
+  publiclyAvailable: boolean
+}
+
+export async function newDoctor (req: Request, res: Response) {
+  const DoctorID: number = Number(req.DoctorID)
 
   const newDoctorObject = req.body.newDoctorObject
 
@@ -15,8 +29,8 @@ export async function newDoctor (req, res) {
   OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-export async function fetchDashboardData (req, res) {
-  const DoctorID = req.DoctorID
+export async function fetchDashboardData (req: Request, res: Response) {
+  const DoctorID: number = Number(req.DoctorID)
 
   try {
     const DashboardData = await PrivateDoctorDataDB.retrieveDoctorDashboard(DoctorID)
@@ -33,16 +47,16 @@ export async function fetchDashboardData (req, res) {
   }
 }
 
-export async function fetchPersonalData (req, res) {
-  const DoctorID = req.DoctorID
+export async function fetchPersonalData (req: Request, res: Response) {
+  const DoctorID: number = Number(req.DoctorID)
 
   let PersonalData = {
     FirstName: "",
     LastName: "",
     Gender: "",
     DOB_month: "",
-    DOB_day: "",
-    DOB_year: ""
+    DOB_day: 0,
+    DOB_year: 0
   }
 
   try {
@@ -57,23 +71,24 @@ export async function fetchPersonalData (req, res) {
   }
 }
 
-export async function fetchAccountDetails (req, res) {
-  const DoctorID = req.DoctorID
+export async function fetchAccountDetails (req: Request, res: Response) {
+  const DoctorID: number = Number(req.DoctorID)
 
   try {
-    const response = {}
-    response.languages            = await FetchDoctorAccountData.fetchDoctorLanguages(DoctorID)
-    response.services             = await FetchDoctorAccountData.fetchDoctorServices(DoctorID)
-    response.specialties          = await FetchDoctorAccountData.fetchDoctorSpecialties(DoctorID)
-    response.preVetEducation      = await FetchDoctorAccountData.fetchPreVetEducation(DoctorID)
-    response.vetEducation         = await FetchDoctorAccountData.fetchVetEducation(DoctorID)
-    response.addressData          = await FetchDoctorAccountData.fetchDoctorAddressData(DoctorID)
-    response.description          = await FetchDoctorAccountData.fetchDescriptionData(DoctorID)
-    response.servicedPets         = await FetchDoctorAccountData.fetchServicedPets(DoctorID)
     const verificationAndPublicAv = await FetchDoctorAccountData.fetchVerifiedAndPubliclyAvailable(DoctorID)
-    response.verified             = verificationAndPublicAv.Verified
-    response.publiclyAvailable    = verificationAndPublicAv.PubliclyAvailable
-    // response.pictures             = await FetchDoctorAccountData.fetchDoctorPictures(DoctorID)
+    const response: DoctorResponse = {
+      languages            : await FetchDoctorAccountData.fetchDoctorLanguages(DoctorID),
+      services             : await FetchDoctorAccountData.fetchDoctorServices(DoctorID),
+      specialties          : await FetchDoctorAccountData.fetchDoctorSpecialties(DoctorID),
+      preVetEducation      : await FetchDoctorAccountData.fetchPreVetEducation(DoctorID),
+      vetEducation         : await FetchDoctorAccountData.fetchVetEducation(DoctorID),
+      addressData          : await FetchDoctorAccountData.fetchDoctorAddressData(DoctorID),
+      description          : await FetchDoctorAccountData.fetchDescriptionData(DoctorID),
+      servicedPets         : await FetchDoctorAccountData.fetchServicedPets(DoctorID),
+      verified             : verificationAndPublicAv.Verified,
+      publiclyAvailable    : verificationAndPublicAv.PubliclyAvailable
+      // response.pictures             = await FetchDoctorAccountData.fetchDoctorPictures(DoctorID)
+    }
     return res.status(200).json(response)
   } catch (error) {
     return res.status(400).json([])

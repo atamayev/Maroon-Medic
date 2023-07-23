@@ -75,8 +75,8 @@ const renderSelectDay = (personalInfo, setPersonalInfo) => {
     <>
       <label>
         Day:
-        <select required value = {personalInfo.DOB_day || ""} onChange = {(event) => setPersonalInfo({...personalInfo, DOB_day: event.target.value})}>
-          <option value = "" disabled>
+        <select required value = {personalInfo.DOB_day || 0} onChange = {(event) => setPersonalInfo({...personalInfo, DOB_day: event.target.value})}>
+          <option value = {0} disabled>
             Select Day
           </option>
           {days.map(day => (
@@ -95,8 +95,8 @@ const renderSelectYear = (personalInfo, setPersonalInfo) => {
     <>
       <label>
         Year:
-        <select required value = {personalInfo.DOB_year || ""} onChange = {(event) => setPersonalInfo({...personalInfo, DOB_year: event.target.value})}>
-          <option value = "" disabled>
+        <select required value = {personalInfo.DOB_year || 0} onChange = {(event) => setPersonalInfo({...personalInfo, DOB_year: event.target.value})}>
+          <option value = {0} disabled>
             Select Year
           </option>
           {birthYears.map(year => (
