@@ -1,155 +1,35 @@
 import moment from "moment"
 import PrivateDoctorDataService from "../../services/private-doctor-data-service"
-import { shouldSaveDescription, shouldSaveLocation } from "../../utils/save-account-details"
+import { shouldSaveDescription } from "../../utils/save-account-details"
 import { invalidUserAction } from "../user-verification-snippets"
+import { modifyDoctorLanguages, modifyServicesData, modifyDoctorSpecialties, modifyServicedPets, modifyAddressData } from "./save-doctor-account-details-helpers"
 
-export async function addDoctorLanguages(languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation) {
-  let response
-  try {
-    response = await PrivateDoctorDataService.addLanguage(languageID)
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
-    else setLanguagesConfirmation({messageType: "problem"})
-    return
-  }
-  if (response.status === 200) {
-    setSpokenLanguages(newSpokenLanguages)
-    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
-    DoctorAccountDetails.languages = newSpokenLanguages
-    sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
-    setLanguagesConfirmation({messageType: "saved"})
-  } else {
-    setLanguagesConfirmation({messageType: "problem"})
-  }
+export function addDoctorLanguages(languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation) {
+  return modifyDoctorLanguages(PrivateDoctorDataService.addLanguage, languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
 }
 
-export async function deleteDoctorLanguages(languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation) {
-  let response
-  try {
-    response = await PrivateDoctorDataService.deleteLanguage(languageID)
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
-    else setLanguagesConfirmation({messageType: "problem"})
-    return
-  }
-  if (response.status === 200) {
-    setSpokenLanguages(newSpokenLanguages)
-    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
-    DoctorAccountDetails.languages = newSpokenLanguages
-    sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
-    setLanguagesConfirmation({messageType: "saved"})
-  } else {
-    setLanguagesConfirmation({messageType: "problem"})
-  }
+export function deleteDoctorLanguages(languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation) {
+  return modifyDoctorLanguages(PrivateDoctorDataService.deleteLanguage, languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
 }
 
-export async function addServices(newServiceObject, providedServices, setProvidedServices, setServicesConfirmation) {
-  let response
-  try {
-    response = await PrivateDoctorDataService.addService(newServiceObject)
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
-    else setServicesConfirmation({messageType: "problem"})
-    return
-  }
-  if (response.status === 200) {
-    const newProvidedServices = [...providedServices, newServiceObject]
-    setProvidedServices(newProvidedServices)
-    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
-    DoctorAccountDetails.services = newProvidedServices
-    sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
-    setServicesConfirmation({messageType: "saved"})
-  } else {
-    setServicesConfirmation({messageType: "problem"})
-  }
+export function addServices(newServiceObject, providedServices, setProvidedServices, setServicesConfirmation) {
+  return modifyServicesData(PrivateDoctorDataService.addService, newServiceObject, providedServices, setProvidedServices, setServicesConfirmation)
 }
 
-export async function updateServices(newServiceObject, providedServices, setProvidedServices, setServicesConfirmation) {
-  let response
-  try {
-    response = await PrivateDoctorDataService.updateService(newServiceObject)
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
-    else setServicesConfirmation({messageType: "problem"})
-    return
-  }
-  if (response.status === 200) {
-    const newProvidedServices = providedServices.map(service =>
-      service.service_and_category_listID === newServiceObject.service_and_category_listID ? newServiceObject : service
-    )
-    setProvidedServices(newProvidedServices)
-    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
-    DoctorAccountDetails.services = newProvidedServices
-    sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
-    setServicesConfirmation({messageType: "saved"})
-  } else {
-    setServicesConfirmation({messageType: "problem"})
-  }
+export function updateServices(newServiceObject, providedServices, setProvidedServices, setServicesConfirmation) {
+  return modifyServicesData(PrivateDoctorDataService.updateService, newServiceObject, providedServices, setProvidedServices, setServicesConfirmation)
 }
 
-export async function deleteServices(serviceObject, providedServices, setProvidedServices, setSelectedServices, setServicesConfirmation) {
-  let response
-  try {
-    response = await PrivateDoctorDataService.deleteService(serviceObject.service_and_category_listID)
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
-    else setServicesConfirmation({messageType: "problem"})
-    return
-  }
-  if (response.status === 200) {
-    const newProvidedServices = providedServices.filter(service => service.service_and_category_listID !== serviceObject.service_and_category_listID)
-    setProvidedServices(newProvidedServices)
-    setSelectedServices(newProvidedServices)
-    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
-    DoctorAccountDetails.services = newProvidedServices
-    sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
-    setServicesConfirmation({messageType: "saved"})
-  } else {
-    setServicesConfirmation({messageType: "problem"})
-  }
+export function deleteServices(serviceObject, providedServices, setProvidedServices, setSelectedServices, setServicesConfirmation) {
+  return modifyServicesData(PrivateDoctorDataService.deleteService, serviceObject, providedServices, setProvidedServices, setServicesConfirmation, setSelectedServices)
 }
 
-export async function addSpecialties(specialtyID, newDoctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation) {
-  let response
-  try {
-    response = await PrivateDoctorDataService.addSpecialty(specialtyID)
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
-    else setSpecialtiesConfirmation({messageType: "problem"})
-    return
-  }
-  if (response.status === 200) {
-    setDoctorSpecialties(newDoctorSpecialties)
-    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
-    DoctorAccountDetails.specialties = newDoctorSpecialties
-    sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
-    setSpecialtiesConfirmation({messageType: "saved"})
-  } else {
-    setSpecialtiesConfirmation({messageType: "problem"})
-    return
-  }
-  setSelectedOrganization("")
+export function addSpecialties(specialtyID, newDoctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation) {
+  return modifyDoctorSpecialties(PrivateDoctorDataService.addSpecialty, specialtyID, newDoctorSpecialties, setDoctorSpecialties, setSpecialtiesConfirmation, () => setSelectedOrganization(""))
 }
 
-export async function deleteSpecialties(specialtyID, newDoctorSpecialties, setDoctorSpecialties, setSpecialtiesConfirmation) {
-  let response
-  try {
-    response = await PrivateDoctorDataService.deleteSpecialty(specialtyID)
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
-    else setSpecialtiesConfirmation({messageType: "problem"})
-    return
-  }
-  if (response.status === 200) {
-    setDoctorSpecialties(newDoctorSpecialties)
-    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
-    DoctorAccountDetails.specialties = newDoctorSpecialties
-    sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
-    setSpecialtiesConfirmation({messageType: "saved"})
-  } else {
-    setSpecialtiesConfirmation({messageType: "problem"})
-    return
-  }
+export function deleteSpecialties(specialtyID, newDoctorSpecialties, setDoctorSpecialties, setSpecialtiesConfirmation) {
+  return modifyDoctorSpecialties(PrivateDoctorDataService.deleteSpecialty, specialtyID, newDoctorSpecialties, setDoctorSpecialties, setSpecialtiesConfirmation)
 }
 
 export async function addPreVetEducation(preVetEducationObject, preVetEducation, setPreVetEducation, listDetails, setPreVetEducationConfirmation) {
@@ -251,41 +131,18 @@ export async function deleteVetEducation(vetEducationObject, vetEducation, setVe
   }
 }
 
-export async function saveLocation(addresses, setAddresses, setAddressesConfirmation) {
-  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
-  const savedLocationData = DoctorAccountDetails?.addressData
-  const savedTimes = savedLocationData.map(location => location.times)
-  // eslint-disable-next-line no-unused-vars
-  const savedAddresses = savedLocationData.map(({ times, ...rest }) => rest)
-  const newTimes = addresses.map(location => location.times)
-  // eslint-disable-next-line no-unused-vars
-  const newAddresses = addresses.map(({ times, ...rest }) => rest)
-
-  const shouldSave = shouldSaveLocation(savedLocationData, addresses, newAddresses, savedAddresses, newTimes, savedTimes)
-
-  if (!shouldSave) {
-    setAddressesConfirmation({messageType: "same"})
-    return
-  }
-
-  try {
-    const response = await PrivateDoctorDataService.addAddressData(newAddresses, newTimes)
-    if (response.status === 200) {
-      const newAddressData = response.data
-      newAddressData.sort((a, b) => a.address_priority - b.address_priority)
-      for (let i = 0; i < newAddressData.length; i++) {
-        newAddressData[i]["times"] = newTimes[i]
-      }
-      DoctorAccountDetails.addressData = newAddressData
-      setAddresses(newAddressData)
-      sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
-      setAddressesConfirmation({messageType: "saved"})
-    }
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
-    else setAddressesConfirmation({messageType: "problem"})
-  }
+export function addLocation(address, setAddresses, setAddressesConfirmation) {
+  return modifyAddressData(PrivateDoctorDataService.addAddressData, address, setAddresses, setAddressesConfirmation)
 }
+
+export function updateLocation(address, setAddresses, setAddressesConfirmation) {
+  return modifyAddressData(PrivateDoctorDataService.updateAddressData, address, setAddresses, setAddressesConfirmation)
+}
+
+export function deleteLocation(address, setAddresses, setAddressesConfirmation) {
+  return modifyAddressData(PrivateDoctorDataService.deleteAddressData, address, setAddresses, setAddressesConfirmation)
+}
+
 
 export async function saveDescription(description, setDescriptionConfirmation) {
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
@@ -311,46 +168,12 @@ export async function saveDescription(description, setDescriptionConfirmation) {
   }
 }
 
-export async function addServicedPets(petID, newServicedPets, setServicedPets, setPetsConfirmation) {
-  let response
-  try {
-    response = await PrivateDoctorDataService.addServicedPet(petID)
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
-    else setPetsConfirmation({messageType: "problem"})
-    return
-  }
-  if (response.status === 200) {
-    setServicedPets(newServicedPets)
-    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
-    DoctorAccountDetails.servicedPets = newServicedPets
-    sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
-    setPetsConfirmation({messageType: "saved"})
-  } else {
-    setPetsConfirmation({messageType: "problem"})
-    return
-  }
+export function addServicedPets(petID, newServicedPets, setServicedPets, setPetsConfirmation) {
+  return modifyServicedPets(PrivateDoctorDataService.addServicedPet, petID, newServicedPets, setServicedPets, setPetsConfirmation)
 }
 
-export async function deleteServicedPets(petID, newServicedPets, setServicedPets, setPetsConfirmation) {
-  let response
-  try {
-    response = await PrivateDoctorDataService.deleteServicedPet(petID)
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
-    else setPetsConfirmation({messageType: "problem"})
-    return
-  }
-  if (response.status === 200) {
-    setServicedPets(newServicedPets)
-    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
-    DoctorAccountDetails.servicedPets = newServicedPets
-    sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
-    setPetsConfirmation({messageType: "saved"})
-  } else {
-    setPetsConfirmation({messageType: "problem"})
-    return
-  }
+export function deleteServicedPets(petID, newServicedPets, setServicedPets, setPetsConfirmation) {
+  return modifyServicedPets(PrivateDoctorDataService.deleteServicedPet, petID, newServicedPets, setServicedPets, setPetsConfirmation)
 }
 
 export async function handlePublicAvailibilityToggle (value, setPubliclyAvailable, setPubliclyAvailableConfirmation) {

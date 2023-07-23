@@ -15,7 +15,7 @@
             "error",
             2
         ],
-        // "max-lines-per-function": ["warn", {"max": 200, "skipBlankLines": true, "skipComments": true}],
+        "max-lines-per-function": ["warn", {"max": 60, "skipBlankLines": true, "skipComments": true}],
 
         "linebreak-style": [
             "error",

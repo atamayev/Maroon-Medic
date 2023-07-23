@@ -29,7 +29,7 @@
         "react/jsx-uses-react": "off",
         "prefer-const": "warn",
 
-        // "max-lines-per-function": ["warn", {"max": 200, "skipBlankLines": true, "skipComments": true}],
+        "max-lines-per-function": ["warn", {"max": 100, "skipBlankLines": true, "skipComments": true}],
 
         "linebreak-style": [
             "error",

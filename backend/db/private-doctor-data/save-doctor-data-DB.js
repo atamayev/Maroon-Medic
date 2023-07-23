@@ -188,6 +188,12 @@ export default new class SaveDoctorDataDB {
     await connection.execute(sql, values)
   }
 
+  async deletePhoneRecord (addressID) {
+    const sql = `DELETE FROM ${mysqlTables.phone} WHERE address_ID = ?`
+    const values = [addressID]
+    await connection.execute(sql, values)
+  }
+
   async retrieveExistingAvailbilityData (addressID) {
     const sql = `SELECT Day_of_week, Start_time, End_time FROM ${mysqlTables.booking_availability} WHERE ${mysqlTables.booking_availability}.address_ID = ?`
     const values = [addressID]
@@ -201,9 +207,9 @@ export default new class SaveDoctorDataDB {
     await connection.execute(sql, values)
   }
 
-  async deleteAvailbilityData (availbilityObject, addressID) {
-    const sql = `DELETE FROM ${mysqlTables.booking_availability} WHERE Day_of_week = ? AND Start_time = ? AND End_time = ? AND address_ID = ?`
-    const values = [availbilityObject.Day_of_week, availbilityObject.Start_time, availbilityObject.End_time, addressID]
+  async deleteAvailbilityData (addressID) {
+    const sql = `DELETE FROM ${mysqlTables.booking_availability} WHERE address_ID = ?`
+    const values = [addressID]
     await connection.execute(sql, values)
   }
 

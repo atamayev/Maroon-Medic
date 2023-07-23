@@ -18,7 +18,6 @@ import {
   addService,
   deleteService,
   updateService,
-  saveAddressData,
   addPreVetEducationData,
   deletePreVetEducationData,
   addVetEducationData,
@@ -59,7 +58,7 @@ router.delete("/delete-service/:serviceID", deleteService)
 
 router.post("/add-address", addAddress)
 router.patch("/update-address", updateAddress)
-router.patch("/delete-address", deleteAddress)
+router.delete("/delete-address/:addressID", deleteAddress)
 
 router.post("/save-public-availibility-data", savePublicAvailibilityData)
 
