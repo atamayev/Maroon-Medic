@@ -1,8 +1,8 @@
 import { mysqlTables } from "../utils/table-names-list"
 import { connectDatabase } from "../setup-and-security/connect"
-import { OkPacket, RowDataPacket } from 'mysql2';
+import { OkPacket, RowDataPacket } from "mysql2"
 
-type LoginOrRegisterType = 'Doctor' | 'patient'
+type LoginOrRegisterType = "Doctor" | "patient"
 type MysqlTimestamp = string
 
 type LoginHistoryRecord = {

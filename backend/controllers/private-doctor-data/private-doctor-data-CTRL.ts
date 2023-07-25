@@ -81,7 +81,7 @@ interface DoctorResponse {
 }
 
 export async function newDoctor (req: Request, res: Response): Promise<void> {
-  const DoctorID = req.DoctorID!
+  const DoctorID = req.DoctorID
 
   const newDoctorObject = req.body.newDoctorObject
 
@@ -91,7 +91,7 @@ export async function newDoctor (req: Request, res: Response): Promise<void> {
 }
 
 export async function fetchDashboardData (req: Request, res: Response): Promise<Response> {
-  const DoctorID = req.DoctorID!
+  const DoctorID = req.DoctorID
 
   try {
     const DashboardData = await PrivateDoctorDataDB.retrieveDoctorDashboard(DoctorID)
@@ -103,13 +103,13 @@ export async function fetchDashboardData (req: Request, res: Response): Promise<
       }
       return res.json(DashboardData)
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     return res.json([])
   }
 }
 
 export async function fetchPersonalData (req: Request, res: Response): Promise<Response> {
-  const DoctorID = req.DoctorID!
+  const DoctorID = req.DoctorID
 
   let PersonalData = {
     FirstName: "",
@@ -127,7 +127,7 @@ export async function fetchPersonalData (req: Request, res: Response): Promise<R
       PersonalData = DataFormatter.formatPersonalData(unformattedPersonaData)
       return res.json(PersonalData)
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     return res.json(PersonalData)
   }
 }
@@ -151,7 +151,7 @@ export async function fetchAccountDetails (req: Request, res: Response): Promise
       // response.pictures             = await FetchDoctorAccountData.fetchDoctorPictures(DoctorID)
     }
     return res.status(200).json(response)
-  } catch (error: any) {
+  } catch (error: unknown) {
     return res.status(400).json([])
   }
 }

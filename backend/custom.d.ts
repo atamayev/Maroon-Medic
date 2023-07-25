@@ -3,7 +3,7 @@ declare global {
   namespace Express {
     interface Request {
       DoctorID: number;
-      PatientID?: number;
+      PatientID: number;
       cookies: {
         DoctorUUID?: string;
         PatientUUID?: string;

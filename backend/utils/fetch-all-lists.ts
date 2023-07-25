@@ -69,7 +69,7 @@ export default new class FetchAllLists {
       const [results] = await connection.execute(sql)
       redisClient.set(tableName, JSON.stringify(results)).catch(error => console.error(error))
       return results
-    } catch (error: any) {
+    } catch (error: unknown) {
       return []
     }
   }

@@ -1,6 +1,6 @@
 import { mysqlTables } from "../utils/table-names-list"
 import { connectDatabase } from "../setup-and-security/connect"
-import { RowDataPacket } from "mysql2";
+import { RowDataPacket } from "mysql2"
 
 type MysqlTimestamp = string
 
@@ -75,7 +75,7 @@ export default new class CalendarDB {
     return calendarDetalis as CalendarData[]
   }
 
-  async confirmAppointmentStatus (appointmentID: number): Promise<void>{
+  async confirmAppointmentStatus (appointmentID: number): Promise<void> {
     const sql = `UPDATE ${mysqlTables.appointments} SET Doctor_confirmation_status = 1 WHERE appointmentsID = ?`
     const values = [appointmentID]
     const connection = await connectDatabase()

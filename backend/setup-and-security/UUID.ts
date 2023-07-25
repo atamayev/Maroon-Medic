@@ -1,4 +1,3 @@
-import _ from "lodash"
 import { v4 as uuidv4 } from "uuid"
 import UUIDDB from "../db/UUID-DB"
 import TimeUtils from "../utils/time"
@@ -13,7 +12,7 @@ export async function ID_to_UUID(UserID: number): Promise<string> {
   try {
     await UUIDDB.createNewUUID(UUID, createdAt, UserID)
     return UUID
-  } catch (error: any) {
+  } catch (error: unknown) {
     throw new Error(`Unable to convert UserID to UUID ${UserID}`)
   }
 }
@@ -24,7 +23,7 @@ export async function UUID_to_ID(UUID: string): Promise<number> {
   try {
     const UserID = await UUIDDB.retrieveUUID(UUID)
     return UserID
-  } catch (error: any) {
+  } catch (error: unknown) {
     throw new Error(`No UserID found for UUID: ${UUID}`)
   }
 }

@@ -7,10 +7,10 @@ export default new class GetIDFromUUID {
     const DoctorUUID = req.cookies.DoctorUUID
     let DoctorID: number
     try {
-      DoctorID = await UUID_to_ID(DoctorUUID);
+      DoctorID = await UUID_to_ID(DoctorUUID)
       req.DoctorID = DoctorID
       next()
-    } catch (error: any) {
+    } catch (error: unknown) {
       clearCookies(res, "Doctor")
       return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" })
     }
@@ -23,7 +23,7 @@ export default new class GetIDFromUUID {
       PatientID = await UUID_to_ID(PatientUUID)
       req.PatientID = PatientID
       next()
-    } catch (error: any) {
+    } catch (error: unknown) {
       clearCookies(res, "Patient")
       return res.status(401).json({ shouldRedirect: true, redirectURL: "/patient-login" })
     }

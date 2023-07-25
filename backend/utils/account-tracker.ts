@@ -1,17 +1,13 @@
 import AuthDB from "../db/auth-DB"
 import TimeUtils from "./time"
 
-/** login_history saves the date and IP Address of a certain user
- * @param {Int} UserID
- * @returns N/A, saves the data to the DB
- */
-export async function loginHistory(UserID: number) {
+export async function loginHistory(UserID: number): Promise<void> {
   const loginAt = TimeUtils.createFormattedDate()
 
   try {
     await AuthDB.addLoginHistory(UserID, loginAt)
     return
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.log("Problem with adding login history")
   }
 }

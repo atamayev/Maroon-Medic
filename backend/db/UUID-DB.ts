@@ -1,6 +1,6 @@
 import { mysqlTables } from "../utils/table-names-list"
 import { connectDatabase } from "../setup-and-security/connect"
-import { RowDataPacket } from 'mysql2';
+import { RowDataPacket } from "mysql2"
 
 type MysqlTimestamp = string
 
@@ -13,12 +13,12 @@ export default new class UUIDDB {
   }
 
   async retrieveUUID (UUID: string): Promise<number> {
-    const sql = `SELECT User_ID FROM ${mysqlTables.uuid_reference} WHERE UUID = ?`;
-    const values = [UUID];
-    const connection = await connectDatabase();
+    const sql = `SELECT User_ID FROM ${mysqlTables.uuid_reference} WHERE UUID = ?`
+    const values = [UUID]
+    const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values) as RowDataPacket[]
-    const userID = (results as RowDataPacket)[0].User_ID;
+    const userID = (results as RowDataPacket)[0].User_ID
     if (!userID) throw new Error("UUID not found")
-    return userID;
+    return userID
   }
 }()

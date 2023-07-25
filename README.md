@@ -8,4 +8,4 @@ To run Redis, follow the following steps:
 4. Run `docker run -p 6379:6379 --name some-redis -d redis`
 
 Before Pushing Code:
-1. run `npx eslint .` Make sure there are no errors before pushing to the repo.
+1. run `npm run lint` Make sure there are no errors before pushing to the repo.

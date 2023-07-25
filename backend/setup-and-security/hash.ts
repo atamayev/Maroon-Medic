@@ -8,7 +8,8 @@ export default new class Hash {
     try {
       const hashedData = await _hash(unhashedData, saltRounds)
       return hashedData
-    } catch (error: any) {
+    } catch (error: unknown) {
+      console.log(error)
       throw error
     }
   }
@@ -17,7 +18,7 @@ export default new class Hash {
     try {
       const isMatch = await compare(plaintextPassword, hashedPassword)
       return isMatch
-    } catch (error: any) {
+    } catch (error: unknown) {
       return false
     }
   }

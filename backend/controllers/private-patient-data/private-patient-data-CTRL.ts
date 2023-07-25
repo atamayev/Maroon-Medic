@@ -10,12 +10,13 @@ type LanguageItem = {
   language_listID: number
   Language_name: string
 }
+
 interface PatientResponse {
   languages: LanguageItem[]
 }
 
-export async function newPatient (req: Request, res: Response) {
-  const PatientID = req.PatientID!
+export async function newPatient (req: Request, res: Response): Promise<void> {
+  const PatientID = req.PatientID
 
   const newPatientObject = req.body.newPatientObject
 
@@ -24,8 +25,8 @@ export async function newPatient (req: Request, res: Response) {
   OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-export async function fetchDashboardData (req: Request, res: Response) {
-  const PatientID = req.PatientID!
+export async function fetchDashboardData (req: Request, res: Response): Promise<Response> {
+  const PatientID = req.PatientID
 
   try {
     const DashboardData = await PrivatePatientDataDB.retrievePatientDashboard(PatientID)
@@ -37,13 +38,13 @@ export async function fetchDashboardData (req: Request, res: Response) {
       }
       return res.json(DashboardData)
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     return res.json([])
   }
 }
 
-export async function fetchPersonalData (req: Request, res: Response) {
-  const PatientID = req.PatientID!
+export async function fetchPersonalData (req: Request, res: Response): Promise<Response> {
+  const PatientID = req.PatientID
 
   let PersonalData = {
     FirstName: "",
@@ -61,27 +62,27 @@ export async function fetchPersonalData (req: Request, res: Response) {
       PersonalData = DataFormatter.formatPersonalData(unformattedPersonaData)
       return res.json(PersonalData)
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     return res.json(PersonalData)
   }
 }
 
-export async function fetchPetData (req: Request, res: Response) {
-  const PatientID = req.PatientID!
+export async function fetchPetData (req: Request, res: Response): Promise<void> {
+  const PatientID = req.PatientID
   const operation = async () => {
     return await FetchPatientAccountData.fetchPetData(PatientID)
   }
   OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }
 
-export async function fetchAccountDetails (req: Request, res: Response) {
-  const PatientID = req.PatientID!
+export async function fetchAccountDetails (req: Request, res: Response): Promise<Response> {
+  const PatientID = req.PatientID
   try {
     const response: PatientResponse = {
       languages: await FetchPatientAccountData.fetchPatientLanguages(PatientID)
     }
     return res.status(200).json(response)
-  } catch (error: any) {
+  } catch (error: unknown) {
     return res.status(400).json([])
   }
 }

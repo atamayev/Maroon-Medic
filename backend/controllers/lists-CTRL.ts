@@ -66,7 +66,7 @@ interface LanguagesList {
   languages: LanguageListItem[]
 }
 
-export async function fetchDoctorLists (req: Request, res: Response) {
+export async function fetchDoctorLists (req: Request, res: Response): Promise<Response> {
   try {
     const response: ListsResponse = {
       languages             : await FetchAllLists.fetchAllLanguages(),
@@ -80,17 +80,12 @@ export async function fetchDoctorLists (req: Request, res: Response) {
       pets                  : await FetchAllLists.fetchAllPets()
     }
     return res.status(200).json(response)
-  } catch (error: any) {
+  } catch (error: unknown) {
     return res.status(400).json([])
   }
 }
 
-/** Returns a list of insurances and languages
- * @param {} req
- * @param {Array} res Array of 2 Arrays: Insurances, Languages
- * @returns
- */
-export async function fetchPatientLists (req: Request, res: Response) {
+export async function fetchPatientLists (req: Request, res: Response): Promise<void> {
   const operation = async () => {
     const response: LanguagesList = {
       languages: await FetchAllLists.fetchAllLanguages()
@@ -100,14 +95,14 @@ export async function fetchPatientLists (req: Request, res: Response) {
   OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }
 
-export async function fetchPetTypes (req: Request, res: Response) {
+export async function fetchPetTypes (req: Request, res: Response): Promise<void> {
   const operation = async () => {
     return await FetchAllLists.fetchAllPets()
   }
   OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }
 
-export async function fetchInsurances (req: Request, res: Response) {
+export async function fetchInsurances (req: Request, res: Response): Promise<void> {
   const operation = async () => {
     return await FetchAllLists.fetchAllInsurances()
   }

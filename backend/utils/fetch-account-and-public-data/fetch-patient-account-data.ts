@@ -13,11 +13,7 @@ type PetItem = {
   Pet: string
   Pet_type: string
   pet_infoID: number
-  insuranceName: InsuranceItem
-}
-
-type InsuranceItem = {
-  Insurance_name: string
+  insuranceName: string
 }
 
 export default new class FetchPatientAccountData {
@@ -25,7 +21,7 @@ export default new class FetchPatientAccountData {
     try {
       const languages = await FetchPatientAccountDataDB.retrievePatientLanguages(PatientID)
       return languages
-    } catch (error: any) {
+    } catch (error: unknown) {
       return []
     }
   }
@@ -41,7 +37,7 @@ export default new class FetchPatientAccountData {
         }
       }
       return retrievePetData
-    } catch (error: any) {
+    } catch (error: unknown) {
       return []
     }
   }

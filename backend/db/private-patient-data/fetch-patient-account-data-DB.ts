@@ -14,7 +14,7 @@ type PetItem = {
   Pet: string
   Pet_type: string
   pet_infoID: number
-  insuranceName: InsuranceItem
+  insuranceName: string
 }
 
 type InsuranceItem = {
@@ -52,7 +52,7 @@ export default new class FetchPatientAccountDataDB {
     return petData
   }
 
-  async retrievePetInsurances (petInfoID: number): Promise<InsuranceItem> {
+  async retrievePetInsurances (petInfoID: number): Promise<string> {
     const sql = `SELECT ${mysqlTables.insurance_list}.Insurance_name
         FROM ${mysqlTables.insurance_list}
             JOIN ${mysqlTables.insurance_mapping} ON ${mysqlTables.insurance_list}.insurance_listID = ${mysqlTables.insurance_mapping}.Insurance_ID
@@ -63,7 +63,7 @@ export default new class FetchPatientAccountDataDB {
 
     const connection = await connectDatabase()
     const [insuranceResults] = await connection.execute(sql, values) as RowDataPacket[]
-    const insurance = insuranceResults[0] as InsuranceItem
-    return insurance
+    const insurance = (insuranceResults[0] as InsuranceItem).Insurance_name
+    return insurance as string
   }
 }()

@@ -6,7 +6,7 @@ import { Request, Response } from "express"
 
 interface DoctorResponse {
   doctorLanguages: LanguagesData[]
-  doctorServices: any[]
+  doctorServices: ServicesData[]
   doctorSpecialties: SpecialtiesData[]
   doctorPreVetEducation: EducationData[]
   doctorVetEducation: EducationData[]
@@ -18,6 +18,14 @@ interface DoctorResponse {
 
 type LanguagesData = {
   Language_name: string
+}
+
+type ServicesData = {
+  service_and_category_listID: number
+  Category_name: string
+  Service_name: string
+  Service_time: string
+  Service_price: number
 }
 
 type SpecialtiesData = {
@@ -83,9 +91,9 @@ export async function returnDoctorPageData (req: Request, res: Response): Promis
       servicedPets:          await FetchPublicDoctorData.fetchServicedPets(DoctorID),
       doctorPersonalInfo:    await FetchPublicDoctorData.fetchDoctorPersonalInfo(DoctorID)
     }
-    response.doctorPersonalInfo["NVI"] = NVI;
+    response.doctorPersonalInfo["NVI"] = NVI
     return res.status(200).json(response)
-  } catch (error: any) {
+  } catch (error: unknown) {
     return res.status(400).json([])
   }
 }

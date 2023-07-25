@@ -57,21 +57,21 @@ export default new class FetchPublicDoctorData {
     try {
       const data = await retrievalFunction(DoctorID)
       return data
-    } catch (error: any) {
+    } catch (error: unknown) {
       return []
     }
   }
 
-  async #fetchDoctorEducationData<T>(DoctorID: number, retrievalFunction: (id: number) => Promise<T[]>): Promise<T[]> {
+  async #fetchDoctorEducationData(DoctorID: number, retrievalFunction: (DoctorID: number) => Promise<EducationData[]>): Promise<EducationData[]> {
     try {
-      const educationData = await retrievalFunction(DoctorID)
-      const newResults = educationData.map((obj: any) => ({
+      const educationData = await retrievalFunction(DoctorID) as EducationData[]
+      const newResults = educationData.map((obj: EducationData) => ({
         ...obj,
         Start_Date: DataFormatter.formatEducationDates(obj.Start_Date),
         End_Date: DataFormatter.formatEducationDates(obj.End_Date)
       }))
       return newResults
-    } catch (error: any) {
+    } catch (error: unknown) {
       return []
     }
   }
@@ -104,7 +104,7 @@ export default new class FetchPublicDoctorData {
 
     try {
       addressData = await FetchPublicDoctorDataDB.retrieveAddressData(DoctorID)
-    } catch (error: any) {
+    } catch (error: unknown) {
       return []
     }
 
@@ -114,7 +114,7 @@ export default new class FetchPublicDoctorData {
         try {
           const availabilityData = await FetchPublicDoctorDataDB.retrieveAvailabilityData(address.addressesID)
           return { ...address, times: availabilityData }
-        } catch (error: any) {
+        } catch (error: unknown) {
           console.error(error)
           return { ...address, times: [] } // fallback in case of an error
         }

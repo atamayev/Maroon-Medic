@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response } from "express"
 
 export default new class OperationHandler {
@@ -33,9 +34,9 @@ export default new class OperationHandler {
     }
   }
 
-  async executeAsyncAndReturnValue<T>(res: Response, fn: (...args: any[]) => Promise<T>, ...params: any[]): Promise<T | void> {
+  async executeAsyncAndReturnValue<T>(res: Response, fn: (...args: any[]) => Promise<T>, ...args: any[]): Promise<T | void> {
     try {
-      return await fn(...params)
+      return await fn(...args)
     } catch (error: any) {
       console.error(error)
       res.status(400).json()

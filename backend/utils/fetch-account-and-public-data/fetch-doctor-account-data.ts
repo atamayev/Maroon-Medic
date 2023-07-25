@@ -78,21 +78,21 @@ export default new class FetchDoctorAccountData {
     try {
       const data = await retrievalFunction(DoctorID)
       return data
-    } catch (error: any) {
+    } catch (error: unknown) {
       return []
     }
   }
 
-  async #fetchDoctorEducationData<T>(DoctorID: number, retrievalFunction: (id: number) => Promise<T[]>): Promise<T[]> {
+  async #fetchDoctorEducationData(DoctorID: number, retrievalFunction: (id: number) => Promise<EducationItem[]>): Promise<EducationItem[]> {
     try {
       const educationData = await retrievalFunction(DoctorID)
-      const newResults = educationData.map((obj: any) => ({
+      const newResults = educationData.map((obj: EducationItem) => ({
         ...obj,
         Start_Date: DataFormatter.formatEducationDates(obj.Start_Date),
         End_Date: DataFormatter.formatEducationDates(obj.End_Date)
       }))
       return newResults
-    } catch (error: any) {
+    } catch (error: unknown) {
       return []
     }
   }
@@ -140,7 +140,7 @@ export default new class FetchDoctorAccountData {
         }
       }
       return addressData
-    } catch (error: any) {
+    } catch (error: unknown) {
       return []
     }
   }
@@ -149,7 +149,7 @@ export default new class FetchDoctorAccountData {
     try {
       const description = await FetchDoctorAccountDataDB.retrieveDescriptionData(DoctorID)
       return description || ""
-    } catch (error: any) {
+    } catch (error: unknown) {
       return ""
     }
   }
@@ -163,7 +163,7 @@ export default new class FetchDoctorAccountData {
     try {
       const status = await FetchDoctorAccountDataDB.retrieveVerifiedAndPubliclyAvailableStatus(DoctorID)
       return status || {PubliclyAvailable: false, Verified: false}
-    } catch (error: any) {
+    } catch (error: unknown) {
       return {PubliclyAvailable: false, Verified: false}
     }
   }

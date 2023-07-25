@@ -14,7 +14,7 @@ export async function searchByQuery (req: Request<Params>, res: Response): Promi
     const searchResults = await SearchDB.retrieveDoctorsFromSearchTerm(userQuery)
     if (_.isEmpty(searchResults)) return res.json("User not found")
     else return res.json(searchResults)
-  } catch (error: any) {
+  } catch (error: unknown) {
     return res.json({ error: "Search by Query Error" })
   }
 }
