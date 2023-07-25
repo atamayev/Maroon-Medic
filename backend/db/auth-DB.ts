@@ -1,12 +1,18 @@
-import { mysqlTables } from "../utils/table-names-list.js"
-import { connectDatabase } from "../setup-and-security/connect.js"
+import { mysqlTables } from "../utils/table-names-list.ts"
+import { connectDatabase } from "../setup-and-security/connect.ts"
 import { OkPacket, RowDataPacket } from 'mysql2';
 
 type LoginOrRegisterType = 'Doctor' | 'patient'
 type MysqlTimestamp = string
+
 type LoginHistoryRecord = {
   login_historyID: number,
   Login_at: string,
+}
+
+type UserIDAndPassword = {
+  password: string,
+  UserID: number,
 }
 
 export default new class AuthDB {
@@ -19,12 +25,13 @@ export default new class AuthDB {
     return Boolean(doesRecordExist)
   }
 
-  async checkIfUsernameExists (username: string, loginType: LoginOrRegisterType) {
+  async retrieveUserIDAndPassword (username: string, loginType: LoginOrRegisterType): Promise<UserIDAndPassword> {
     const sql = `SELECT UserID, password FROM ${mysqlTables.credentials} WHERE email = ? AND User_type = ? AND isActive = 1`
     const values = [username, loginType]
     const connection = await connectDatabase()
-    const [results] = await connection.execute(sql, values)
-    return results
+    const [results] = await connection.execute(sql, values) as RowDataPacket[]
+    const resultsObject = results[0] as UserIDAndPassword
+    return resultsObject
   }
 
   async checkIfAccountExists (username: string, registrationType: LoginOrRegisterType): Promise<boolean> {
@@ -45,14 +52,14 @@ export default new class AuthDB {
     return (results as OkPacket).insertId
   }
 
-  async addDoctorSpecificDetails (UserID: number) {
+  async addDoctorSpecificDetails (UserID: number): Promise<void> {
     const sql = `INSERT INTO ${mysqlTables.doctor_specific_info} (verified, publiclyAvailable, Doctor_ID) VALUES (?, ?, ?)`
     const values = [true, true, UserID]
     const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async updatePassword (password: string, UserID: number) {
+  async updatePassword (password: string, UserID: number): Promise<void> {
     const sql = `UPDATE ${mysqlTables.credentials} SET password = ? WHERE UserID = ?`
     const values = [password, UserID]
     const connection = await connectDatabase()
@@ -90,14 +97,14 @@ export default new class AuthDB {
     return false
   }
 
-  async addLoginHistory (UserID: number, loginTime: MysqlTimestamp) {
+  async addLoginHistory (UserID: number, loginTime: MysqlTimestamp): Promise<void> {
     const sql = `INSERT INTO ${mysqlTables.login_history} (Login_at, IP_Address, User_ID) VALUES (?, ?, ?)`
     const values = [loginTime, null, UserID]
     const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async deleteUUIDUponLogout (UUID: string) {
+  async deleteUUIDUponLogout (UUID: string): Promise<void> {
     const sql = `DELETE FROM ${mysqlTables.uuid_reference} WHERE UUID = ?`
     const values = [UUID]
     const connection = await connectDatabase()

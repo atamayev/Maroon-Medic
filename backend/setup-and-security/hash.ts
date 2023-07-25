@@ -4,11 +4,11 @@ import { hash as _hash, compare } from "bcrypt"
 
 export default new class Hash {
   async hashCredentials(unhashedData: string): Promise<string> {
-    const saltRounds = parseInt(process.env.SALT_ROUNDS || '10', 10)
+    const saltRounds = process.env.SALT_ROUNDS!
     try {
       const hashedData = await _hash(unhashedData, saltRounds)
       return hashedData
-    } catch (error) {
+    } catch (error: any) {
       throw error
     }
   }
@@ -17,7 +17,7 @@ export default new class Hash {
     try {
       const isMatch = await compare(plaintextPassword, hashedPassword)
       return isMatch
-    } catch (error) {
+    } catch (error: any) {
       return false
     }
   }

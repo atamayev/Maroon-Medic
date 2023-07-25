@@ -8,7 +8,7 @@ import {
   changePassword,
   newDoctorConfirmation,
   newPatientConfirmation
-} from "../controllers/auth-CTRL.js"
+} from "../controllers/auth-CTRL.ts"
 
 const router = express.Router()
 

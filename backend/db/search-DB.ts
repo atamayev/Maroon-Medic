@@ -1,8 +1,15 @@
-import { mysqlTables } from "../utils/table-names-list.js"
-import { connectDatabase } from "../setup-and-security/connect.js"
+import { mysqlTables } from "../utils/table-names-list.ts"
+import { connectDatabase } from "../setup-and-security/connect.ts"
+import { RowDataPacket } from "mysql2"
+
+interface DoctorInfo {
+  NVI: string
+  FirstName: string
+  LastName: string
+}
 
 export default new class SearchDB {
-  async retrieveDoctorsFromSearchTerm (searchTerm: string) {
+  async retrieveDoctorsFromSearchTerm (searchTerm: string): Promise<DoctorInfo[]> {
     const sql = `SELECT NVI, FirstName, LastName
       FROM ${mysqlTables.basic_user_info}
         LEFT JOIN ${mysqlTables.doctor_specific_info} ON ${mysqlTables.basic_user_info}.User_ID = ${mysqlTables.doctor_specific_info}.Doctor_ID
@@ -14,20 +21,24 @@ export default new class SearchDB {
 
     const values = [`${searchTerm}%`]
     const connection = await connectDatabase()
-    const [results] = await connection.execute(sql, values)
-    return results
+    const [results] = await connection.execute(sql, values) as RowDataPacket[]
+    const doctorsList = results.map((row: RowDataPacket) => row as DoctorInfo)
+    return doctorsList
   }
 
-  async retrieveAllDoctors () {
+  async retrieveAllDoctors (): Promise<DoctorInfo[]> {
     const sql = `SELECT NVI, FirstName, LastName
           FROM ${mysqlTables.basic_user_info}
               LEFT JOIN ${mysqlTables.doctor_specific_info} ON ${mysqlTables.basic_user_info}.User_ID = ${mysqlTables.doctor_specific_info}.Doctor_ID
               LEFT JOIN ${mysqlTables.credentials} ON ${mysqlTables.basic_user_info}.User_ID = ${mysqlTables.credentials}.UserID
           WHERE
-              ${mysqlTables.doctor_specific_info}.verified = TRUE AND ${mysqlTables.doctor_specific_info}.publiclyAvailable = TRUE AND ${mysqlTables.credentials}.isActive = 1`
+              ${mysqlTables.doctor_specific_info}.verified = TRUE
+              AND ${mysqlTables.doctor_specific_info}.publiclyAvailable = TRUE
+              AND ${mysqlTables.credentials}.isActive = 1`
 
     const connection = await connectDatabase()
-    const [results] = await connection.execute(sql)
-    return results
+    const [results] = await connection.execute(sql) as RowDataPacket[]
+    const doctorsList = results.map((row: RowDataPacket) => row as DoctorInfo)
+    return doctorsList
   }
 }()

@@ -1,227 +1,276 @@
-import { mysqlTables } from "../../utils/table-names-list.js"
-import { connection } from "../../setup-and-security/connect.js"
+import { mysqlTables } from "../../utils/table-names-list.ts"
+import { connectDatabase } from "../../setup-and-security/connect.ts"
+import { OkPacket, RowDataPacket } from "mysql2"
+
+type MysqlTimestamp = string
+
+interface PersonalInfo {
+  FirstName: string
+  LastName: string
+  Gender: string
+}
+
+type ServiceItem = {
+  service_and_category_listID: number
+  Service_time: string
+  Service_price: number
+}
+
+type SchoolItem = {
+  education_mappingID: number
+  School_ID: number
+  Major_ID?: number
+  Education_type_ID: number
+  Start_date: string
+  End_date: string
+}
+
+type AddressData = {
+  addressesID: number
+  address_title: string
+  address_line_1: string
+  address_line_2: string
+  city: string
+  state: string
+  zip: string
+  country: string
+  address_priority: number
+  instant_book: boolean
+  address_public_status: boolean
+}
+
+type PhoneData = {
+  addressesID: number
+  phone: string
+}
+
+interface AvailabilityData {
+  Day_of_week: string
+  Start_time: string
+  End_time: string
+}
 
 export default new class SaveDoctorDataDB {
-  async checkIfPersonalDataExists (DoctorID) {
+  async checkIfPersonalDataExists (DoctorID: number): Promise<boolean> {
     const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.basic_user_info} WHERE User_ID = ?) as 'exists' `
     const values = [DoctorID]
+    const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values)
-    const doesRecordExist = results[0].exists
-    return doesRecordExist
+    const doesRecordExist = (results as RowDataPacket[])[0].exists
+    return Boolean(doesRecordExist)
   }
 
-  async updatePersonalData (personalInfo, DOB, DoctorID) {
+  async updatePersonalData (personalInfo: PersonalInfo, DOB: MysqlTimestamp, DoctorID: number): Promise<void> {
     const sql = `UPDATE ${mysqlTables.basic_user_info} SET FirstName = ?, LastName = ?, Gender = ?, DOB = ? WHERE User_ID = ?`
     const values = [personalInfo.FirstName, personalInfo.LastName, personalInfo.Gender, DOB, DoctorID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async addPersonalData (personalInfo, DOB, DoctorID) {
+  async addPersonalData (personalInfo: PersonalInfo, DOB: MysqlTimestamp, DoctorID: number): Promise<void> {
     const sql = `INSERT INTO ${mysqlTables.basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?, ?, ?, ?, ?)`
     const values = [personalInfo.FirstName, personalInfo.LastName, personalInfo.Gender, DOB, DoctorID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async checkIfDescriptionExists (DoctorID) {
+  async checkIfDescriptionExists (DoctorID: number): Promise<boolean> {
     const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.descriptions} WHERE Doctor_ID = ?) as 'exists' `
     const values = [DoctorID]
+    const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values)
-    const doesRecordExist = results[0].exists
-    return doesRecordExist
+    const doesRecordExist = (results as RowDataPacket[])[0].exists
+    return Boolean(doesRecordExist)
   }
 
-  async updateDescription (description, DoctorID) {
+  async updateDescription (description: string, DoctorID: number): Promise<void> {
     const sql = `UPDATE ${mysqlTables.descriptions} SET Description = ? WHERE Doctor_ID = ?`
     const values = [description, DoctorID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async addDescription (description, DoctorID) {
+  async addDescription (description: string, DoctorID: number): Promise<void> {
     const sql = `INSERT INTO ${mysqlTables.descriptions} (Description, Doctor_ID) VALUES (?, ?)`
     const values = [description, DoctorID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async addLanguage (languageID, DoctorID) {
+  async addLanguage (languageID: number, DoctorID: number): Promise<void> {
     const sql = `INSERT INTO ${mysqlTables.language_mapping} (Language_ID, User_ID) VALUES (?, ?)`
     const values = [languageID, DoctorID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async deleteLanguage (languageID, DoctorID) {
+  async deleteLanguage (languageID: number, DoctorID: number): Promise<void> {
     const sql = `DELETE FROM ${mysqlTables.language_mapping} WHERE Language_ID = ? AND User_ID = ?`
     const values = [languageID, DoctorID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async addSpecialty (specialtyID, DoctorID) {
+  async addSpecialty (specialtyID: number, DoctorID: number): Promise<void> {
     const sql = `INSERT INTO ${mysqlTables.specialty_mapping} (Specialty_ID, Doctor_ID) VALUES (?, ?)`
     const values = [specialtyID, DoctorID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async deleteSpecialty (specialtyID, DoctorID) {
+  async deleteSpecialty (specialtyID: number, DoctorID: number): Promise<void> {
     const sql = `DELETE FROM ${mysqlTables.specialty_mapping} WHERE Specialty_ID = ? AND Doctor_ID = ?`
     const values = [specialtyID, DoctorID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async addServicedPet (petID, DoctorID) {
+  async addServicedPet (petID: number, DoctorID: number): Promise<void> {
     const sql = `INSERT INTO ${mysqlTables.pet_mapping} (pet_ID, Doctor_ID) VALUES (?, ?)`
     const values = [petID, DoctorID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async deleteServicedPet (petID, DoctorID) {
+  async deleteServicedPet (petID: number, DoctorID: number): Promise<void> {
     const sql = `DELETE FROM ${mysqlTables.pet_mapping} WHERE pet_ID = ? AND Doctor_ID = ?`
     const values = [petID, DoctorID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async retrieveExistingServicesIDs (DoctorID) {
-    const sql = `SELECT Service_and_Category_ID, Service_time, Service_price FROM  ${mysqlTables.service_mapping} WHERE Doctor_ID = ?`
-    const values = [DoctorID]
-    const [existingServicesIDs] = await connection.execute(sql, values)
-    return existingServicesIDs
-  }
-
-  async addServicesData (addedData, DoctorID) {
+  async addServicesData (addedData: ServiceItem, DoctorID: number): Promise<void> {
     const sql = `INSERT INTO ${mysqlTables.service_mapping} (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?, ?, ?, ?)`
     const values = [addedData.service_and_category_listID, addedData.Service_time, addedData.Service_price, DoctorID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async deleteServicesData (deletedDataID, DoctorID) {
+  async deleteServicesData (deletedDataID: number, DoctorID: number): Promise<void> {
     const sql = `DELETE FROM ${mysqlTables.service_mapping} WHERE Service_and_Category_ID = ? AND Doctor_ID = ?`
     const values = [deletedDataID, DoctorID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async updateServicesData (updatedData, DoctorID) {
+  async updateServicesData (updatedData: ServiceItem, DoctorID: number): Promise<void> {
     const sql = `UPDATE ${mysqlTables.service_mapping} SET Service_time = ?, Service_price = ? WHERE Service_and_Category_ID = ? AND Doctor_ID = ?`
     const values = [updatedData.Service_time, updatedData.Service_price, updatedData.service_and_category_listID, DoctorID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async addPreVetEducationData (preVetEducationObject, DoctorID) {
+  async addPreVetEducationData (preVetEducationObject: SchoolItem, DoctorID: number): Promise<number> {
     const sql = `INSERT INTO ${mysqlTables.pre_vet_education_mapping} (School_ID, Major_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?, ?, ?, ?, ?, ?)`
     const values = [preVetEducationObject.School_ID, preVetEducationObject.Major_ID, preVetEducationObject.Education_type_ID, preVetEducationObject.Start_date, preVetEducationObject.End_date, DoctorID]
+    const connection = await connectDatabase()
     const [result] = await connection.execute(sql, values)
-    return result.insertId
+    return (result as OkPacket).insertId
   }
 
-  async addVetEducationData (vetEducationObject, DoctorID) {
+  async addVetEducationData (vetEducationObject: SchoolItem, DoctorID: number): Promise<number> {
     const sql = `INSERT INTO ${mysqlTables.vet_education_mapping} (School_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?, ?, ?, ?, ?)`
     const values = [vetEducationObject.School_ID, vetEducationObject.Education_type_ID, vetEducationObject.Start_date, vetEducationObject.End_date, DoctorID]
+    const connection = await connectDatabase()
     const [result] = await connection.execute(sql, values)
-    return result.insertId
+    return (result as OkPacket).insertId
   }
 
-  async deletePreVetEducationData (preVetEducationID) {
+  async deletePreVetEducationData (preVetEducationID: number): Promise<void> {
     const sql = `DELETE FROM ${mysqlTables.pre_vet_education_mapping} WHERE pre_vet_education_mappingID = ?`
     const values = [preVetEducationID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async deleteVetEducationData (vetEducationID) {
+  async deleteVetEducationData (vetEducationID: number): Promise<void> {
     const sql = `DELETE FROM ${mysqlTables.vet_education_mapping} WHERE vet_education_mappingID = ?`
     const values = [vetEducationID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async retrieveExistingAddressIDs (DoctorID) {
-    const sql = `SELECT addressesID FROM ${mysqlTables.addresses} WHERE ${mysqlTables.addresses}.isActive = 1 AND ${mysqlTables.addresses}.Doctor_ID = ?`
-    const values = [DoctorID]
-    const [existingAddressIDs] = await connection.execute(sql, values)
-    return existingAddressIDs
-  }
-
-  async retrievePhoneData (addressID) {
-    const sql = `SELECT ${mysqlTables.phone}.Phone, ${mysqlTables.phone}.phone_priority
-        FROM ${mysqlTables.phone}
-        WHERE ${mysqlTables.phone}.address_ID = ?`
-    const values = [addressID]
-    const [phoneData] = await connection.execute(sql, values)
-    return phoneData
-  }
-
-  async deleteAddressRecord (addressID) {
+  async deleteAddressRecord (addressID: number): Promise<void> {
     const sql = `UPDATE ${mysqlTables.addresses} SET isActive = 0 WHERE addressesID = ?`
     const values = [addressID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async addAddressRecord (addressObject, DoctorID) {
+  async addAddressRecord (addressObject: AddressData, DoctorID: number): Promise<number> {
     const sql = `INSERT INTO ${mysqlTables.addresses}
           (address_title, address_line_1, address_line_2, city, state, zip, country, address_public_status, address_priority, instant_book, Doctor_ID)
           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     const values = [addressObject.address_title, addressObject.address_line_1, addressObject.address_line_2, addressObject.city, addressObject.state, addressObject.zip, addressObject.country, addressObject.address_public_status, addressObject.address_priority, addressObject.instant_book, DoctorID]
+    const connection = await connectDatabase()
     const [result] = await connection.execute(sql, values)
-    return result.insertId
+    return (result as OkPacket).insertId
   }
 
-  async addPhoneRecord (phone, addressID) {
+  async addPhoneRecord (phone: string, addressID: number): Promise<void> {
     const sql = `INSERT INTO ${mysqlTables.phone} (Phone, address_ID) VALUES (?, ?)`
     const values = [phone, addressID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async updateAddressRecord (updatedAddressObject) {
+  async updateAddressRecord (updatedAddressObject: AddressData): Promise<void> {
     const sql = `UPDATE ${mysqlTables.addresses}
           SET address_title = ?, address_line_1 = ?, address_line_2 = ?, city = ?, state = ?, zip = ?, country = ?, address_public_status = ?, instant_book = ?
           WHERE addressesID = ?`
     const values = [updatedAddressObject.address_title, updatedAddressObject.address_line_1, updatedAddressObject.address_line_2, updatedAddressObject.city, updatedAddressObject.state, updatedAddressObject.zip, updatedAddressObject.country, updatedAddressObject.address_public_status, updatedAddressObject.instant_book, updatedAddressObject.addressesID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async checkIfPhoneExists (addressID) {
+  async checkIfPhoneExists (addressID: number): Promise<boolean> {
     const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.phone} WHERE address_ID = ?) as 'exists' `
     const values = [addressID]
+    const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values)
-    const doesPhoneExist = results[0].exists
+    const doesPhoneExist = (results as RowDataPacket[])[0].exists
     return doesPhoneExist
   }
 
-  async updatePhoneRecord (updatedPhoneObject) {
+  async updatePhoneRecord (updatedPhoneObject: PhoneData): Promise<void> {
     const sql = `UPDATE ${mysqlTables.phone} SET phone = ? WHERE address_ID = ?`
     const values = [updatedPhoneObject.phone, updatedPhoneObject.addressesID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async deletePhoneRecord (addressID) {
+  async deletePhoneRecord (addressID: number): Promise<void> {
     const sql = `DELETE FROM ${mysqlTables.phone} WHERE address_ID = ?`
     const values = [addressID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async retrieveExistingAvailbilityData (addressID) {
-    const sql = `SELECT Day_of_week, Start_time, End_time FROM ${mysqlTables.booking_availability} WHERE ${mysqlTables.booking_availability}.address_ID = ?`
-    const values = [addressID]
-    const [existingAvailbilityData] = await connection.execute(sql, values)
-    return existingAvailbilityData
-  }
-
-  async addAvailbilityData (availbilityObject, addressID) {
+  async addAvailbilityData (availbilityObject: AvailabilityData, addressID: number): Promise<void> {
     const sql = `INSERT INTO ${mysqlTables.booking_availability} (Day_of_week, Start_time, End_time, address_ID) VALUES (?, ?, ?, ?)`
     const values = [availbilityObject.Day_of_week, availbilityObject.Start_time, availbilityObject.End_time, addressID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async deleteAvailbilityData (addressID) {
+  async deleteAvailbilityData (addressID: number): Promise<void> {
     const sql = `DELETE FROM ${mysqlTables.booking_availability} WHERE address_ID = ?`
     const values = [addressID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async updateTimeAvailbilityData (availbilityObject, addressID) {
+  async updateTimeAvailbilityData (availbilityObject: AvailabilityData, addressID: number): Promise<void> {
     const sql = `UPDATE ${mysqlTables.booking_availability} SET Start_time = ?, End_time = ? WHERE Day_of_week = ? AND address_ID = ?`
     const values = [availbilityObject.Day_of_week, availbilityObject.Start_time, availbilityObject.End_time, addressID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async updatePublicAvilability (newstatus, DoctorID) {
+  async updatePublicAvilability (newstatus: boolean, DoctorID: number): Promise<void> {
     const sql = `UPDATE ${mysqlTables.doctor_specific_info} SET publiclyAvailable = ? WHERE Doctor_ID = ?`
     const values = [newstatus, DoctorID]
+    const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 }()

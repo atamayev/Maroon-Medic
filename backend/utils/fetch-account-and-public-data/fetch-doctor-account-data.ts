@@ -78,7 +78,7 @@ export default new class FetchDoctorAccountData {
     try {
       const data = await retrievalFunction(DoctorID)
       return data
-    } catch (error) {
+    } catch (error: any) {
       return []
     }
   }
@@ -92,7 +92,7 @@ export default new class FetchDoctorAccountData {
         End_Date: DataFormatter.formatEducationDates(obj.End_Date)
       }))
       return newResults
-    } catch (error) {
+    } catch (error: any) {
       return []
     }
   }
@@ -140,7 +140,7 @@ export default new class FetchDoctorAccountData {
         }
       }
       return addressData
-    } catch (error) {
+    } catch (error: any) {
       return []
     }
   }
@@ -149,7 +149,7 @@ export default new class FetchDoctorAccountData {
     try {
       const description = await FetchDoctorAccountDataDB.retrieveDescriptionData(DoctorID)
       return description || ""
-    } catch (error) {
+    } catch (error: any) {
       return ""
     }
   }
@@ -163,7 +163,7 @@ export default new class FetchDoctorAccountData {
     try {
       const status = await FetchDoctorAccountDataDB.retrieveVerifiedAndPubliclyAvailableStatus(DoctorID)
       return status || {PubliclyAvailable: false, Verified: false}
-    } catch (error) {
+    } catch (error: any) {
       return {PubliclyAvailable: false, Verified: false}
     }
   }

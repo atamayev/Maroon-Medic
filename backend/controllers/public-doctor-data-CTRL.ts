@@ -1,7 +1,7 @@
-import CalendarDB from "../db/calendar-DB.js"
-import OperationHandler from "../utils/operation-handler.js"
-import FetchPublicDoctorData from "../utils/fetch-account-and-public-data/fetch-public-doctor-data.js"
-import FetchDoctorAccountData from "../utils/fetch-account-and-public-data/fetch-doctor-account-data.js"
+import CalendarDB from "../db/calendar-DB.ts"
+import OperationHandler from "../utils/operation-handler.ts"
+import FetchPublicDoctorData from "../utils/fetch-account-and-public-data/fetch-public-doctor-data.ts"
+import FetchDoctorAccountData from "../utils/fetch-account-and-public-data/fetch-doctor-account-data.ts"
 import { Request, Response } from "express"
 
 interface DoctorResponse {
@@ -67,9 +67,9 @@ interface PersonalData {
   NVI?: number
 }
 
-export async function returnDoctorPageData (req: Request, res: Response) {
+export async function returnDoctorPageData (req: Request, res: Response): Promise<Response> {
   const NVI: number = Number(req.params.id)
-  const DoctorID = await OperationHandler.executeAsyncAndReturnValue(res, CalendarDB.retrieveDoctorIDFromNVI, NVI)
+  const DoctorID: number = Number(await OperationHandler.executeAsyncAndReturnValue(res, CalendarDB.retrieveDoctorIDFromNVI, NVI))
 
   try {
     const response: DoctorResponse = {
@@ -85,7 +85,7 @@ export async function returnDoctorPageData (req: Request, res: Response) {
     }
     response.doctorPersonalInfo["NVI"] = NVI;
     return res.status(200).json(response)
-  } catch (error) {
+  } catch (error: any) {
     return res.status(400).json([])
   }
 }

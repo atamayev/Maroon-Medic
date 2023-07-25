@@ -4,7 +4,7 @@ import mysql from "mysql2/promise"
 
 let connection: mysql.Connection | undefined
 
-export async function connectDatabase() {
+export async function connectDatabase(): Promise<mysql.Connection> {
   if (!connection) {
     console.log("Connecting to MYSQL...")
     connection = await mysql.createConnection({

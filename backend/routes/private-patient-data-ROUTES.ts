@@ -5,14 +5,14 @@ import {
   fetchPersonalData,
   fetchAccountDetails,
   fetchPetData,
-} from "../controllers/private-patient-data/private-patient-data-CTRL.js"
+} from "../controllers/private-patient-data/private-patient-data-CTRL.ts"
 import {
   savePersonalData,
   addLanguage,
   deleteLanguage,
   addPet,
   deletePet,
-} from "../controllers/private-patient-data/save-patient-data-CTRL.js"
+} from "../controllers/private-patient-data/save-patient-data-CTRL.ts"
 
 const router = express.Router()
 

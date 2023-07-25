@@ -1,16 +1,9 @@
-import TimeUtils from "../../utils/time.js"
-import OperationHandler from "../../utils/operation-handler.js"
-import SavePatientDataDB from "../../db/private-patient-data/save-patient-data-DB.js"
+import TimeUtils from "../../utils/time.ts"
+import OperationHandler from "../../utils/operation-handler.ts"
+import SavePatientDataDB from "../../db/private-patient-data/save-patient-data-DB.ts"
+import { Request, Response } from "express"
 
-/** savePersonalData is self-explanatory in name
- *  First, checks if the patient already has saved data in the DB.
- *  If there is no data saved, the data is added. If there is data, then it is updated
- * @param {Array} req Contains Patient's UUID as a cookie, and the personalInfo
- * @param {*} res 200/400 status code
- * @returns 200/400 status code
- *  DOCUMENTATION LAST UPDATED 6/4/23
- */
-export async function savePersonalData (req, res) {
+export async function savePersonalData (req: Request, res: Response): Promise<void> {
   const PatientID: number = Number(req.PatientID)
   const doesRecordExist = await OperationHandler.executeAsyncAndReturnValue(res, SavePatientDataDB.checkIfPersonalDataExists, PatientID)
 
@@ -27,31 +20,32 @@ export async function savePersonalData (req, res) {
   }
 }
 
-export async function addLanguage (req, res) {
-  const languageID = req.body.languageID
+export async function addLanguage (req: Request, res: Response) {
+  const languageID: number = req.body.languageID
   const PatientID: number = Number(req.PatientID)
   const operation = async () => await SavePatientDataDB.addLanguage(languageID, PatientID)
   OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-export async function deleteLanguage (req, res) {
-  const languageID = req.params.languageID
+export async function deleteLanguage (req: Request, res: Response) {
+  const languageID: number = req.body.languageID
   const PatientID: number = Number(req.PatientID)
   const operation = async () => await SavePatientDataDB.deleteLanguage(languageID, PatientID)
   OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-export async function addPet (req, res) {
+export async function addPet (req: Request, res: Response) {
   const PatientID: number = Number(req.PatientID)
   const PetData = req.body.PetData
 
   const petInfoID = await OperationHandler.executeAsyncAndReturnValue(res, SavePatientDataDB.addNewPet, PetData, PatientID)
-  const operation = async () => await SavePatientDataDB.addNewPetInsurance(PetData.insurance_listID, petInfoID)
-  OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation, petInfoID)
+  const petInfoIDNumber = Number(petInfoID)
+  const operation = async () => await SavePatientDataDB.addNewPetInsurance(PetData.insurance_listID, petInfoIDNumber)
+  OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation, petInfoIDNumber)
 }
 
-export async function deletePet (req, res) {
-  const petID = req.params.petID
+export async function deletePet (req: Request, res: Response) {
+  const petID: number = Number(req.params.petID)
   const operation = async () => await SavePatientDataDB.deletePet(petID)
   OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }

@@ -1,5 +1,5 @@
-import AuthDB from "../db/auth-DB.js"
-import TimeUtils from "./time.js"
+import AuthDB from "../db/auth-DB.ts"
+import TimeUtils from "./time.ts"
 
 /** login_history saves the date and IP Address of a certain user
  * @param {Int} UserID
@@ -11,7 +11,7 @@ export async function loginHistory(UserID: number) {
   try {
     await AuthDB.addLoginHistory(UserID, loginAt)
     return
-  } catch (error) {
+  } catch (error: any) {
     console.log("Problem with adding login history")
   }
 }

@@ -1,6 +1,6 @@
-import redisClient from "../setup-and-security/redis.js"
-import { mysqlTables } from "./table-names-list.js"
-import { connectDatabase } from "../setup-and-security/connect.js"
+import redisClient from "../setup-and-security/redis.ts"
+import { mysqlTables } from "./table-names-list.ts"
+import { connectDatabase } from "../setup-and-security/connect.ts"
 
 type InsuranceListItem = {
   insurance_listID: number
@@ -34,7 +34,7 @@ type MajorListItem = {
   Major_name: string
 }
 
-type PreVetEducationListItem = {
+type PreVetEducationTypeListItem = {
   pre_vet_education_typeID: number
   Education_type: string
 }
@@ -44,7 +44,7 @@ type VetSchoolListItem = {
   School_name: string
 }
 
-type VetEducationListItem = {
+type VetEducationTypeListItem = {
   vet_education_typeID: number
   Education_type: string
 }
@@ -69,7 +69,7 @@ export default new class FetchAllLists {
       const [results] = await connection.execute(sql)
       redisClient.set(tableName, JSON.stringify(results)).catch(error => console.error(error))
       return results
-    } catch (error) {
+    } catch (error: any) {
       return []
     }
   }
@@ -94,7 +94,7 @@ export default new class FetchAllLists {
     return await this.#fetchAll(mysqlTables.pre_vet_school_list as MysqlTableName)
   }
 
-  async fetchAllPreVetEducationTypes(): Promise<PreVetEducationListItem[]> {
+  async fetchAllPreVetEducationTypes(): Promise<PreVetEducationTypeListItem[]> {
     return await this.#fetchAll(mysqlTables.pre_vet_education_type_list as MysqlTableName)
   }
 
@@ -106,7 +106,7 @@ export default new class FetchAllLists {
     return await this.#fetchAll(mysqlTables.vet_school_list as MysqlTableName)
   }
 
-  async fetchAllVetEducationTypes(): Promise<VetEducationListItem[]> {
+  async fetchAllVetEducationTypes(): Promise<VetEducationTypeListItem[]> {
     return await this.#fetchAll(mysqlTables.vet_education_type_list as MysqlTableName)
   }
   async fetchAllPets(): Promise<PetListItem[]> {

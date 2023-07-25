@@ -1,5 +1,5 @@
 import _ from "lodash"
-import FetchPatientAccountDataDB from "../../db/private-patient-data/fetch-patient-account-data-DB.js"
+import FetchPatientAccountDataDB from "../../db/private-patient-data/fetch-patient-account-data-DB.ts"
 
 type LanguageItem = {
   language_listID: number
@@ -25,7 +25,7 @@ export default new class FetchPatientAccountData {
     try {
       const languages = await FetchPatientAccountDataDB.retrievePatientLanguages(PatientID)
       return languages
-    } catch (error) {
+    } catch (error: any) {
       return []
     }
   }
@@ -41,7 +41,7 @@ export default new class FetchPatientAccountData {
         }
       }
       return retrievePetData
-    } catch (error) {
+    } catch (error: any) {
       return []
     }
   }

@@ -1,6 +1,6 @@
 import _ from "lodash"
-import DataFormatter from "../data-formatter.js"
-import FetchPublicDoctorDataDB from "../../db/fetch-public-doctor-data-DB.js"
+import DataFormatter from "../data-formatter.ts"
+import FetchPublicDoctorDataDB from "../../db/fetch-public-doctor-data-DB.ts"
 
 type LanguagesData = {
   Language_name: string
@@ -57,7 +57,7 @@ export default new class FetchPublicDoctorData {
     try {
       const data = await retrievalFunction(DoctorID)
       return data
-    } catch (error) {
+    } catch (error: any) {
       return []
     }
   }
@@ -71,7 +71,7 @@ export default new class FetchPublicDoctorData {
         End_Date: DataFormatter.formatEducationDates(obj.End_Date)
       }))
       return newResults
-    } catch (error) {
+    } catch (error: any) {
       return []
     }
   }
@@ -104,7 +104,7 @@ export default new class FetchPublicDoctorData {
 
     try {
       addressData = await FetchPublicDoctorDataDB.retrieveAddressData(DoctorID)
-    } catch (error) {
+    } catch (error: any) {
       return []
     }
 
@@ -114,7 +114,7 @@ export default new class FetchPublicDoctorData {
         try {
           const availabilityData = await FetchPublicDoctorDataDB.retrieveAvailabilityData(address.addressesID)
           return { ...address, times: availabilityData }
-        } catch (error) {
+        } catch (error: any) {
           console.error(error)
           return { ...address, times: [] } // fallback in case of an error
         }

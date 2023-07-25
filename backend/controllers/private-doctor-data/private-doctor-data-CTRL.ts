@@ -1,25 +1,86 @@
 import _ from "lodash"
-import TimeUtils from "../../utils/time.js"
-import DataFormatter from "../../utils/data-formatter.js"
-import OperationHandler from "../../utils/operation-handler.js"
-import PrivateDoctorDataDB from "../../db/private-doctor-data/private-doctor-data-DB.js"
-import FetchDoctorAccountData from "../../utils/fetch-account-and-public-data/fetch-doctor-account-data.js"
+import TimeUtils from "../../utils/time.ts"
+import DataFormatter from "../../utils/data-formatter.ts"
+import OperationHandler from "../../utils/operation-handler.ts"
+import PrivateDoctorDataDB from "../../db/private-doctor-data/private-doctor-data-DB.ts"
+import FetchDoctorAccountData from "../../utils/fetch-account-and-public-data/fetch-doctor-account-data.ts"
 import { Request, Response } from "express"
 
+type LanguageItem = {
+  language_listID: number
+  Language_name: string
+}
+
+type ServiceItem = {
+  service_and_category_listID: number
+  Category_name: string
+  Service_name: string
+  Service_time: string
+  Service_price: number
+}
+
+type SpecialtyItem = {
+  specialties_listID: number
+  Organization_name: string
+  Specialty_name: string
+}
+
+type EducationItem = {
+  education_mappingID: number
+  School_name: string
+  Major_name?: string
+  Education_type: string
+  Start_Date: string
+  End_Date: string
+}
+
+type DoctorAddressData = {
+  addressesID: number
+  address_title: string
+  address_line_1: string
+  address_line_2: string
+  city: string
+  state: string
+  zip: string
+  country: string
+  address_priority: number
+  instant_book: boolean
+  address_public_status: boolean
+  phones: PhoneData[]
+  times: AvailabilityData[]
+}
+
+type PhoneData = {
+  Phone: string
+  phone_priority: number
+}
+
+interface AvailabilityData {
+  Day_of_week: string
+  Start_time: string
+  End_time: string
+}
+
+type PetItem = {
+  pet_listID: number
+  Pet: string
+  Pet_type: string
+}
+
 interface DoctorResponse {
-  languages: any[]
-  services: any[]
-  specialties: any[]
-  preVetEducation: any[]
-  vetEducation: any[]
-  addressData: any[]
+  languages: LanguageItem[]
+  services: ServiceItem[]
+  specialties: SpecialtyItem[]
+  preVetEducation: EducationItem[]
+  vetEducation: EducationItem[]
+  addressData: DoctorAddressData[]
   description: string
-  servicedPets: any[]
+  servicedPets: PetItem[]
   verified: boolean
   publiclyAvailable: boolean
 }
 
-export async function newDoctor (req: Request, res: Response) {
+export async function newDoctor (req: Request, res: Response): Promise<void> {
   const DoctorID: number = Number(req.DoctorID)
 
   const newDoctorObject = req.body.newDoctorObject
@@ -29,7 +90,7 @@ export async function newDoctor (req: Request, res: Response) {
   OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-export async function fetchDashboardData (req: Request, res: Response) {
+export async function fetchDashboardData (req: Request, res: Response): Promise<Response> {
   const DoctorID: number = Number(req.DoctorID)
 
   try {
@@ -42,12 +103,12 @@ export async function fetchDashboardData (req: Request, res: Response) {
       }
       return res.json(DashboardData)
     }
-  } catch (error) {
+  } catch (error: any) {
     return res.json([])
   }
 }
 
-export async function fetchPersonalData (req: Request, res: Response) {
+export async function fetchPersonalData (req: Request, res: Response): Promise<Response> {
   const DoctorID: number = Number(req.DoctorID)
 
   let PersonalData = {
@@ -66,12 +127,12 @@ export async function fetchPersonalData (req: Request, res: Response) {
       PersonalData = DataFormatter.formatPersonalData(unformattedPersonaData)
       return res.json(PersonalData)
     }
-  } catch (error) {
+  } catch (error: any) {
     return res.json(PersonalData)
   }
 }
 
-export async function fetchAccountDetails (req: Request, res: Response) {
+export async function fetchAccountDetails (req: Request, res: Response): Promise<Response> {
   const DoctorID: number = Number(req.DoctorID)
 
   try {
@@ -90,7 +151,7 @@ export async function fetchAccountDetails (req: Request, res: Response) {
       // response.pictures             = await FetchDoctorAccountData.fetchDoctorPictures(DoctorID)
     }
     return res.status(200).json(response)
-  } catch (error) {
+  } catch (error: any) {
     return res.status(400).json([])
   }
 }

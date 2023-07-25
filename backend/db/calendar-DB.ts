@@ -1,5 +1,5 @@
-import { mysqlTables } from "../utils/table-names-list.js"
-import { connectDatabase } from "../setup-and-security/connect.js"
+import { mysqlTables } from "../utils/table-names-list.ts"
+import { connectDatabase } from "../setup-and-security/connect.ts"
 import { RowDataPacket } from "mysql2";
 
 type MysqlTimestamp = string
@@ -14,6 +14,26 @@ interface AppointmentObject {
   AddressesID: number;
 }
 
+interface CalendarData {
+  appointmentsID: number
+  appointment_date: MysqlTimestamp
+  appointment_price: number
+  patient_message: string
+  Doctor_confirmation_status: boolean
+  Created_at: MysqlTimestamp
+  Category_name: string
+  Service_name: string
+  address_title: string
+  address_line_1: string
+  address_line_2: string
+  city: string
+  state: string
+  zip: string
+  country: string
+  Patient_FirstName: string
+  Patient_LastName: string
+}
+
 export default new class CalendarDB {
   async retrieveDoctorIDFromNVI (NVI: number): Promise<number> {
     const sql = `SELECT Doctor_ID FROM ${mysqlTables.doctor_specific_info} WHERE NVI = ?`
@@ -24,7 +44,7 @@ export default new class CalendarDB {
     return DoctorID
   }
 
-  async addAppointment (dateTime: MysqlTimestamp, AppointmentObject: AppointmentObject, DoctorID: number, createdAt: MysqlTimestamp) {
+  async addAppointment (dateTime: MysqlTimestamp, AppointmentObject: AppointmentObject, DoctorID: number, createdAt: MysqlTimestamp): Promise<void> {
     const sql = `INSERT INTO ${mysqlTables.appointments}
       (appointment_date, appointment_price, appointment_timespan, patient_message, Doctor_confirmation_status, Service_and_category_list_ID, pet_info_ID, Doctor_ID, Addresses_ID, Created_at)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
@@ -34,7 +54,7 @@ export default new class CalendarDB {
     await connection.execute(sql, values)
   }
 
-  async retrieveDoctorCalendarDetails (DoctorID: number) {
+  async retrieveDoctorCalendarDetails (DoctorID: number): Promise<CalendarData[]> {
     const sql = `SELECT
         ${mysqlTables.appointments}.mysqlTables.appointmentsID, ${mysqlTables.appointments}.appointment_date, ${mysqlTables.appointments}.appointment_price, ${mysqlTables.appointments}.appointment_timespan, ${mysqlTables.appointments}.patient_message, ${mysqlTables.appointments}.Doctor_confirmation_status, ${mysqlTables.appointments}.Created_at,
         ${mysqlTables.service_and_category_list}.Category_name, ${mysqlTables.service_and_category_list}.Service_name,
@@ -51,8 +71,8 @@ export default new class CalendarDB {
 
     const values = [DoctorID]
     const connection = await connectDatabase()
-    const [calendarDetalis] = await connection.execute(sql, values)
-    return calendarDetalis
+    const [calendarDetalis] = await connection.execute(sql, values) as RowDataPacket[]
+    return calendarDetalis as CalendarData[]
   }
 
   async confirmAppointmentStatus (appointmentID: number): Promise<void>{

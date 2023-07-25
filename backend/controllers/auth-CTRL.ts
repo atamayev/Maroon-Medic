@@ -1,22 +1,23 @@
 import _ from "lodash"
 import dotenv from "dotenv"
 dotenv.config()
-import jwt from "jsonwebtoken"
-import AuthDB from "../db/auth-DB.js"
-import TimeUtils from "../utils/time.js"
-import Hash from "../setup-and-security/hash.js"
-import { loginHistory } from "../utils/account-tracker.js"
-import { clearCookies } from "../utils/cookie-operations.js"
-import { ID_to_UUID, UUID_to_ID } from "../setup-and-security/UUID.js"
+import jwt, { JwtPayload } from "jsonwebtoken"
+import AuthDB from "../db/auth-DB.ts"
+import TimeUtils from "../utils/time.ts"
+import Hash from "../setup-and-security/hash.ts"
+import { loginHistory } from "../utils/account-tracker.ts"
+import { clearCookies } from "../utils/cookie-operations.ts"
+import { ID_to_UUID, UUID_to_ID } from "../setup-and-security/UUID.ts"
+import { Request, Response } from "express"
 
-export async function jwtVerify (req, res) {
+export async function jwtVerify (req: Request, res: Response) {
   const cookies = req.cookies
-  let AccessToken
+  let AccessToken: string
   const response = {
     isValid: false,
     type: ""
   }
-  let decodedUUID
+  let decodedUUID: string | any
 
   if ("DoctorAccessToken" in cookies && "DoctorUUID" in cookies) response.type = "Doctor"
   else if ("PatientAccessToken" in cookies && "PatientUUID" in cookies) response.type = "Patient"
@@ -27,8 +28,8 @@ export async function jwtVerify (req, res) {
 
   try {
     AccessToken = req.cookies[`${response.type}AccessToken`]
-    const JWTKey = response.type === "Patient" ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY
-    decodedUUID = jwt.verify(AccessToken, JWTKey)[`${response.type}ID`]
+    const JWTKey = response.type === "Patient" ? process.env.PATIENT_JWT_KEY! : process.env.DOCTOR_JWT_KEY!
+    decodedUUID = (jwt.verify(AccessToken, JWTKey) as JwtPayload)[`${response.type}ID`]
 
     if (Date.now() >= decodedUUID.exp * 1000) {
       let redirectURL
@@ -50,7 +51,7 @@ export async function jwtVerify (req, res) {
         return res.status(401).json({ shouldRedirect: true, redirectURL: redirectURL })
       }
     }
-  } catch (error) {
+  } catch (error: any) {
     let redirectURL
     if (response.type === "Doctor") redirectURL = "/vet-login"
     else if (response.type === "Patient") redirectURL = "/patient-login"
@@ -59,7 +60,7 @@ export async function jwtVerify (req, res) {
   }
 }
 
-export async function login (req, res) {
+export async function login (req: Request, res: Response) {
   const { email, password, loginType } = req.body.loginInformationObject
 
   if (loginType !== "Doctor" && loginType !== "Patient") return res.json("Invalid User Type")
@@ -68,10 +69,10 @@ export async function login (req, res) {
   let hashedPassword
 
   try {
-    results = await AuthDB.checkIfUsernameExists(email, loginType)
+    results = await AuthDB.retrieveUserIDAndPassword(email, loginType)
     if (_.isEmpty(results)) return res.status(404).json("Username not found!")
-    else hashedPassword = results[0].password
-  } catch (error) {
+    else hashedPassword = results.password
+  } catch (error: any) {
     return res.status(500).json({ error: "Problem with email selection" })
   }
 
@@ -79,14 +80,14 @@ export async function login (req, res) {
 
   try {
     bool = await Hash.checkPassword(password, hashedPassword)
-  } catch (error) {
+  } catch (error: any) {
     return res.status(500).json({ error: "Problem with checking password" })
   }
 
   if (bool === false) return res.status(400).json("Wrong Username or Password!")
   else {
     const IDKey = `${loginType}ID`
-    const ID = results[0].UserID
+    const ID = results.UserID
     const UUID = await ID_to_UUID(ID)
 
     // const expirationTime = 20 // not using this right now.
@@ -95,12 +96,12 @@ export async function login (req, res) {
       [IDKey]: UUID,
       // exp: Math.floor(Date.now()/1000) +expirationTime // temporarily taking out expiration to make sure system is running smoothly
     }
-    const JWTKey = loginType === "Patient" ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY
+    const JWTKey = loginType === "Patient" ? process.env.PATIENT_JWT_KEY! : process.env.DOCTOR_JWT_KEY!
 
     let token
     try {
       token = jwt.sign(payload, JWTKey)
-    } catch (error) {
+    } catch (error: any) {
       return res.status(500).json({ error: "Problem with Signing JWT" })
     }
 
@@ -126,7 +127,7 @@ export async function login (req, res) {
   }
 }
 
-export async function register (req, res) {
+export async function register (req: Request, res: Response) {
   const {email, password, registerType} = req.body.registerInformationObject
 
   if (registerType !== "Doctor" && registerType !== "Patient") return res.status(400).json("Invalid User Type")
@@ -134,7 +135,7 @@ export async function register (req, res) {
   let doesAccountExist
   try {
     doesAccountExist = await AuthDB.checkIfAccountExists(email, registerType)
-  } catch (error) {
+  } catch (error: any) {
     return res.status(500).json({ error: "Problem with existing email search" })
   }
 
@@ -143,7 +144,7 @@ export async function register (req, res) {
   else {
     try {
       hashedPassword = await Hash.hashCredentials(password)
-    } catch (error) {
+    } catch (error: any) {
       return res.status(500).json({ error: "Problem with Password Hashing" })
     }
   }
@@ -153,14 +154,14 @@ export async function register (req, res) {
   let UserID
   try {
     UserID = await AuthDB.addNewUserCredentials(email, hashedPassword, createdAt, registerType)
-  } catch (error) {
+  } catch (error: any) {
     return res.status(500).json({ error: "Problem with Data Insertion" })
   }
 
   if (registerType === "Doctor") {
     try {
       await AuthDB.addDoctorSpecificDetails(UserID)
-    } catch (error) {
+    } catch (error: any) {
       return res.status(500).json({ error: "Problem with Data Insertion" })
     }
   }
@@ -173,11 +174,11 @@ export async function register (req, res) {
     [IDKey]: UUID,
     // exp: Math.floor(Date.now()/1000) +expirationTime // temporarily taking out expiration to make sure system is running smoothly
   }
-  const JWTKey = registerType === "Doctor" ? process.env.DOCTOR_JWT_KEY : process.env.PATIENT_JWT_KEY
+  const JWTKey = registerType === "Doctor" ? process.env.DOCTOR_JWT_KEY! : process.env.PATIENT_JWT_KEY!
   let token
   try {
     token = jwt.sign(payload, JWTKey)
-  } catch (error) {
+  } catch (error: any) {
     return res.status(500).json({ error: "Problem with Signing JWT" })
   }
 
@@ -207,7 +208,7 @@ export async function register (req, res) {
     .json()
 }
 
-export async function fetchLoginHistory (req, res) {
+export async function fetchLoginHistory (req: Request, res: Response) {
   const cookies = req.cookies
   let UUID
   let type
@@ -224,13 +225,13 @@ export async function fetchLoginHistory (req, res) {
     const User_ID = await UUID_to_ID(UUID)
     const loginHistory = await AuthDB.retrieveLoginHistory(User_ID)
     return res.status(200).json(loginHistory)
-  } catch (error) {
+  } catch (error: any) {
     clearCookies(res, type)
     return res.status(401).json({ shouldRedirect: true, redirectURL: "/" })
   }
 }
 
-export async function changePassword (req, res) {
+export async function changePassword (req: Request, res: Response) {
   const {userType, currentPassword, newPassword} = req.body.changePasswordObject
   const cookies = req.cookies
   let UUID
@@ -242,7 +243,7 @@ export async function changePassword (req, res) {
   let UserID
   try {
     UserID = await UUID_to_ID(UUID)
-  } catch (error) {
+  } catch (error: any) {
     return res.status(401).json({ shouldRedirect: true, redirectURL: "/" })
   }
 
@@ -258,12 +259,12 @@ export async function changePassword (req, res) {
       await AuthDB.updatePassword(newHashedPassword, UserID)
       return res.status(200).json()
     }
-  } catch (error) {
+  } catch (error: any) {
     return res.status(500).json("Errror in changing password")
   }
 }
 
-export async function newDoctorConfirmation (req, res) {
+export async function newDoctorConfirmation (req: Request, res: Response) {
   const doctorPermission = false
   const newDoctorUUID = req.cookies.DoctorNewUser
   const existingDoctorUUID = req.cookies.DoctorUUID
@@ -273,12 +274,12 @@ export async function newDoctorConfirmation (req, res) {
   try {
     const doBothUUIDExist = await AuthDB.checkIfUUIDsExist(newDoctorUUID, existingDoctorUUID)
     return res.json(doBothUUIDExist)
-  } catch (error) {
+  } catch (error: any) {
     return res.json(doctorPermission)
   }
 }
 
-export async function newPatientConfirmation (req, res) {
+export async function newPatientConfirmation (req: Request, res: Response) {
   const patientPermission = false
   const newPatientUUID = req.cookies.PatientNewUser
   const existingPatientUUID = req.cookies.PatientUUID
@@ -288,12 +289,12 @@ export async function newPatientConfirmation (req, res) {
   try {
     const doBothUUIDExist = await AuthDB.checkIfUUIDsExist(newPatientUUID, existingPatientUUID)
     return res.json(doBothUUIDExist)
-  } catch (error) {
+  } catch (error: any) {
     return res.json(patientPermission)
   }
 }
 
-export async function logout (req, res) {
+export async function logout (req: Request, res: Response) {
   let type
   try {
     const cookies = req.cookies
@@ -314,7 +315,7 @@ export async function logout (req, res) {
 
     if (newUserUUID) await AuthDB.deleteUUIDUponLogout(newUserUUID)
 
-  } catch (error) {
+  } catch (error: any) {
     //Not doing this because it will not clear the cookies in the next try catch block
     // return res.status(500).json({ error: `Error in accessing DB` })
   }
@@ -322,7 +323,7 @@ export async function logout (req, res) {
   try {
     clearCookies(res, type)
     return res.status(200).json()
-  } catch (error) {
+  } catch (error: any) {
     return res.status(500).json({ error: `Error in logging ${type} out` })
   }
 }

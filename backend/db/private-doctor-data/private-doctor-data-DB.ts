@@ -1,4 +1,4 @@
-import { mysqlTables } from "../../utils/table-names-list.js"
+import { mysqlTables } from "../../utils/table-names-list.ts"
 import { connectDatabase } from "../../setup-and-security/connect.ts"
 import { RowDataPacket } from "mysql2"
 

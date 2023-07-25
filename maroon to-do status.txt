@@ -7,10 +7,14 @@ TS Fixes:
 		for functions that don't return, make the return type void
 	2. Go through the recommended ts config setup
 	3. Remove all comments/backend documentation after all types/return types set
+		for return types, search for all backend functions which don't have ) {
 	4. Remove all semicolons - figure out es lint again
 	5. Clean up all of the 'any' types
 	6. Add this everywhere: that uses mysql tables type MysqlTableName = keyof typeof mysqlTables;
 	7. Make sure User_Type is always of type 'Doctor' | 'Patient'
+	8. Check if there's a way to lint for functions that are never called anywhere - clear up the unused code
+	9. make sure all IDs are numbers
+
 Run lint test for over 200 line fcns - AFTER THIS MOVE TO TS.
 	move backend to TS first - might not need to make a new folder, can just install ts extensions possibly?
 	during this conversion, move the front-end files from .js to .tsx
