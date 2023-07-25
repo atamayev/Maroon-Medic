@@ -1,7 +1,7 @@
 import _ from "lodash"
 import dotenv from "dotenv"
 dotenv.config()
-import { Response } from "express"
+import { Response, Request } from "express"
 import jwt, { JwtPayload } from "jsonwebtoken"
 import AuthDB from "../db/auth-DB"
 import TimeUtils from "../utils/time"
@@ -9,9 +9,8 @@ import Hash from "../setup-and-security/hash"
 import { loginHistory } from "../utils/account-tracker"
 import { clearCookies } from "../utils/cookie-operations"
 import { ID_to_UUID, UUID_to_ID } from "../setup-and-security/UUID"
-import { MaroonAmbiguousRequest, MaroonDoctorRequest, MaroonPatientRequest } from "../express"
 
-export async function jwtVerify (req: MaroonAmbiguousRequest, res: Response): Promise<Response> {
+export async function jwtVerify (req: Request, res: Response): Promise<Response> {
   const cookies = req.cookies
   let AccessToken: string
   const response = {
@@ -61,7 +60,7 @@ export async function jwtVerify (req: MaroonAmbiguousRequest, res: Response): Pr
   }
 }
 
-export async function login (req: MaroonAmbiguousRequest, res: Response): Promise<Response> {
+export async function login (req: Request, res: Response): Promise<Response> {
   const { email, password, loginType } = req.body.loginInformationObject
 
   if (loginType !== "Doctor" && loginType !== "Patient") return res.json("Invalid User Type")
@@ -128,7 +127,7 @@ export async function login (req: MaroonAmbiguousRequest, res: Response): Promis
   }
 }
 
-export async function register (req: MaroonAmbiguousRequest, res: Response): Promise<Response> {
+export async function register (req: Request, res: Response): Promise<Response> {
   const {email, password, registerType} = req.body.registerInformationObject
 
   if (registerType !== "Doctor" && registerType !== "Patient") return res.status(400).json("Invalid User Type")
@@ -209,7 +208,7 @@ export async function register (req: MaroonAmbiguousRequest, res: Response): Pro
     .json()
 }
 
-export async function fetchLoginHistory (req: MaroonAmbiguousRequest, res: Response): Promise<Response> {
+export async function fetchLoginHistory (req: Request, res: Response): Promise<Response> {
   const cookies = req.cookies
   let UUID
   let type
@@ -232,7 +231,7 @@ export async function fetchLoginHistory (req: MaroonAmbiguousRequest, res: Respo
   }
 }
 
-export async function changePassword (req: MaroonAmbiguousRequest, res: Response): Promise<Response> {
+export async function changePassword (req: Request, res: Response): Promise<Response> {
   const {userType, currentPassword, newPassword} = req.body.changePasswordObject
   const cookies = req.cookies
   let UUID
@@ -265,7 +264,7 @@ export async function changePassword (req: MaroonAmbiguousRequest, res: Response
   }
 }
 
-export async function newDoctorConfirmation (req: MaroonDoctorRequest, res: Response): Promise<Response> {
+export async function newDoctorConfirmation (req: Request, res: Response): Promise<Response> {
   const doctorPermission = false
   const newDoctorUUID = req.cookies.DoctorNewUser
   const existingDoctorUUID = req.cookies.DoctorUUID
@@ -280,7 +279,7 @@ export async function newDoctorConfirmation (req: MaroonDoctorRequest, res: Resp
   }
 }
 
-export async function newPatientConfirmation (req: MaroonPatientRequest, res: Response): Promise<Response> {
+export async function newPatientConfirmation (req: Request, res: Response): Promise<Response> {
   const patientPermission = false
   const newPatientUUID = req.cookies.PatientNewUser
   const existingPatientUUID = req.cookies.PatientUUID
@@ -295,8 +294,8 @@ export async function newPatientConfirmation (req: MaroonPatientRequest, res: Re
   }
 }
 
-export async function logout (req: MaroonAmbiguousRequest, res: Response): Promise<Response> {
-  let type: "Doctor" | "Patient"
+export async function logout (req: Request, res: Response): Promise<Response> {
+  let type!: "Doctor" | "Patient"
   try {
     const cookies = req.cookies
     let UUID: string = ""

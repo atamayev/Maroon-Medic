@@ -12,7 +12,7 @@
       "."
     ],
     "ext": "ts",
-    "exec": "ts-node ./index.ts"
+    "exec": "ts-node --files ./index.ts"
   },
   "author": "",
   "license": "ISC",

@@ -1,7 +1,6 @@
 import _ from "lodash"
-import { Response } from "express"
+import { Request, Response } from "express"
 import TimeUtils from "../../utils/time"
-import { MaroonDoctorRequest } from "../../express"
 import DataFormatter from "../../utils/data-formatter"
 import OperationHandler from "../../utils/operation-handler"
 import PrivateDoctorDataDB from "../../db/private-doctor-data/private-doctor-data-DB"
@@ -81,8 +80,8 @@ interface DoctorResponse {
   publiclyAvailable: boolean
 }
 
-export async function newDoctor (req: MaroonDoctorRequest, res: Response): Promise<void> {
-  const DoctorID = req.DoctorID
+export async function newDoctor (req: Request, res: Response): Promise<void> {
+  const DoctorID = req.DoctorID!
 
   const newDoctorObject = req.body.newDoctorObject
 
@@ -91,8 +90,8 @@ export async function newDoctor (req: MaroonDoctorRequest, res: Response): Promi
   OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-export async function fetchDashboardData (req: MaroonDoctorRequest, res: Response): Promise<Response> {
-  const DoctorID = req.DoctorID
+export async function fetchDashboardData (req: Request, res: Response): Promise<Response> {
+  const DoctorID = req.DoctorID!
 
   try {
     const DashboardData = await PrivateDoctorDataDB.retrieveDoctorDashboard(DoctorID)
@@ -109,8 +108,8 @@ export async function fetchDashboardData (req: MaroonDoctorRequest, res: Respons
   }
 }
 
-export async function fetchPersonalData (req: MaroonDoctorRequest, res: Response): Promise<Response> {
-  const DoctorID = req.DoctorID
+export async function fetchPersonalData (req: Request, res: Response): Promise<Response> {
+  const DoctorID = req.DoctorID!
 
   let PersonalData = {
     FirstName: "",
@@ -133,7 +132,7 @@ export async function fetchPersonalData (req: MaroonDoctorRequest, res: Response
   }
 }
 
-export async function fetchAccountDetails (req: MaroonDoctorRequest, res: Response): Promise<Response> {
+export async function fetchAccountDetails (req: Request, res: Response): Promise<Response> {
   const DoctorID = req.DoctorID
 
   try {

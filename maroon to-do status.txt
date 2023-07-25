@@ -14,7 +14,21 @@ TS Fixes:
 	7. Make sure User_Type is always of type 'Doctor' | 'Patient'
 	8. Check if there's a way to lint for functions that are never called anywhere - clear up the unused code
 	9. make sure all IDs are numbers
-
+	10. make sure the error type is any
+	11. Go through any instances of variable!
+		like type in authCTRL, or req.DoctorID
+	12. Add the parts of the body components to the Express object	
+			declare global {
+			  namespace Express {
+				interface Request {
+				  body: {
+					personalInfo?: PersonalInfoType;
+					// more custom body properties...
+				  };
+				}
+			  }
+			}
+	
 Run lint test for over 200 line fcns - AFTER THIS MOVE TO TS.
 	move backend to TS first - might not need to make a new folder, can just install ts extensions possibly?
 	during this conversion, move the front-end files from .js to .tsx

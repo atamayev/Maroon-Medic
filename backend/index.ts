@@ -22,7 +22,7 @@ const port = process.env.PORT || 8000
 connectDatabase()
 
 redisClient.on("error", function (err) {
-  console.log("Something went wrong " + err)
+  console.log("Something went wrong with Redis Connection " + err)
 })
 
 const app = express()

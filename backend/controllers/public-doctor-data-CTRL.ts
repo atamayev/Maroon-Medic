@@ -3,7 +3,6 @@ import OperationHandler from "../utils/operation-handler"
 import FetchPublicDoctorData from "../utils/fetch-account-and-public-data/fetch-public-doctor-data"
 import FetchDoctorAccountData from "../utils/fetch-account-and-public-data/fetch-doctor-account-data"
 import { Request, Response } from "express"
-import { MaroonAmbiguousRequest } from "../express"
 
 interface DoctorResponse {
   doctorLanguages: LanguagesData[]
@@ -68,8 +67,8 @@ interface PersonalData {
   NVI?: number
 }
 
-export async function returnDoctorPageData (req: MaroonAmbiguousRequest, res: Response): Promise<Response> {
-  const NVI = req.params.id
+export async function returnDoctorPageData (req: Request, res: Response): Promise<Response> {
+  const NVI = Number(req.params.id)
   const DoctorID: number = Number(await OperationHandler.executeAsyncAndReturnValue(res, CalendarDB.retrieveDoctorIDFromNVI, NVI))
 
   try {

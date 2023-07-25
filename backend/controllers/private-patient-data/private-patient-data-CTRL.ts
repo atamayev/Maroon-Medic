@@ -1,7 +1,6 @@
 import _ from "lodash"
-import { Response } from "express"
+import { Response, Request } from "express"
 import TimeUtils from "../../utils/time"
-import { MaroonPatientRequest } from "../../express"
 import DataFormatter from "../../utils/data-formatter"
 import OperationHandler from "../../utils/operation-handler"
 import PrivatePatientDataDB from "../../db/private-patient-data/private-patient-data-DB"
@@ -15,8 +14,8 @@ interface PatientResponse {
   languages: LanguageItem[]
 }
 
-export async function newPatient (req: MaroonPatientRequest, res: Response) {
-  const PatientID = req.PatientID
+export async function newPatient (req: Request, res: Response) {
+  const PatientID = req.PatientID!
 
   const newPatientObject = req.body.newPatientObject
 
@@ -25,8 +24,8 @@ export async function newPatient (req: MaroonPatientRequest, res: Response) {
   OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-export async function fetchDashboardData (req: MaroonPatientRequest, res: Response) {
-  const PatientID = req.PatientID
+export async function fetchDashboardData (req: Request, res: Response) {
+  const PatientID = req.PatientID!
 
   try {
     const DashboardData = await PrivatePatientDataDB.retrievePatientDashboard(PatientID)
@@ -43,8 +42,8 @@ export async function fetchDashboardData (req: MaroonPatientRequest, res: Respon
   }
 }
 
-export async function fetchPersonalData (req: MaroonPatientRequest, res: Response) {
-  const PatientID = req.PatientID
+export async function fetchPersonalData (req: Request, res: Response) {
+  const PatientID = req.PatientID!
 
   let PersonalData = {
     FirstName: "",
@@ -67,16 +66,16 @@ export async function fetchPersonalData (req: MaroonPatientRequest, res: Respons
   }
 }
 
-export async function fetchPetData (req: MaroonPatientRequest, res: Response) {
-  const PatientID = req.PatientID
+export async function fetchPetData (req: Request, res: Response) {
+  const PatientID = req.PatientID!
   const operation = async () => {
     return await FetchPatientAccountData.fetchPetData(PatientID)
   }
   OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }
 
-export async function fetchAccountDetails (req: MaroonPatientRequest, res: Response) {
-  const PatientID = req.PatientID
+export async function fetchAccountDetails (req: Request, res: Response) {
+  const PatientID = req.PatientID!
   try {
     const response: PatientResponse = {
       languages: await FetchPatientAccountData.fetchPatientLanguages(PatientID)
