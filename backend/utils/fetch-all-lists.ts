@@ -55,10 +55,8 @@ type PetListItem = {
   Pet_type: string
 }
 
-type MysqlTableName = keyof typeof mysqlTables;
-
 export default new class FetchAllLists {
-  async #fetchAll(tableName: MysqlTableName) {
+  async #fetchAll(tableName: string) {
     const cachedData = await redisClient.get(tableName)
     if (cachedData) return JSON.parse(cachedData)
 
@@ -75,41 +73,41 @@ export default new class FetchAllLists {
   }
 
   async fetchAllInsurances(): Promise<InsuranceListItem[]> {
-    return await this.#fetchAll(mysqlTables.insurance_list as MysqlTableName)
+    return await this.#fetchAll(mysqlTables.insurance_list)
   }
 
   async fetchAllLanguages(): Promise<LanguageListItem[]> {
-    return await this.#fetchAll(mysqlTables.language_list as MysqlTableName)
+    return await this.#fetchAll(mysqlTables.language_list)
   }
 
   async fetchAllServicesAndCategories(): Promise<ServiceListItem[]> {
-    return await this.#fetchAll(mysqlTables.service_and_category_list as MysqlTableName)
+    return await this.#fetchAll(mysqlTables.service_and_category_list)
   }
 
   async fetchAllSpecialties(): Promise<SpecialtyListItem[]> {
-    return await this.#fetchAll(mysqlTables.specialties_list as MysqlTableName)
+    return await this.#fetchAll(mysqlTables.specialties_list)
   }
 
   async fetchAllPreVetSchools(): Promise<PreVetSchoolListItem[]> {
-    return await this.#fetchAll(mysqlTables.pre_vet_school_list as MysqlTableName)
+    return await this.#fetchAll(mysqlTables.pre_vet_school_list)
   }
 
   async fetchAllPreVetEducationTypes(): Promise<PreVetEducationTypeListItem[]> {
-    return await this.#fetchAll(mysqlTables.pre_vet_education_type_list as MysqlTableName)
+    return await this.#fetchAll(mysqlTables.pre_vet_education_type_list)
   }
 
   async fetchAllMajors(): Promise<MajorListItem[]> {
-    return await this.#fetchAll(mysqlTables.major_list as MysqlTableName)
+    return await this.#fetchAll(mysqlTables.major_list)
   }
 
   async fetchAllVetSchools(): Promise<VetSchoolListItem[]> {
-    return await this.#fetchAll(mysqlTables.vet_school_list as MysqlTableName)
+    return await this.#fetchAll(mysqlTables.vet_school_list)
   }
 
   async fetchAllVetEducationTypes(): Promise<VetEducationTypeListItem[]> {
-    return await this.#fetchAll(mysqlTables.vet_education_type_list as MysqlTableName)
+    return await this.#fetchAll(mysqlTables.vet_education_type_list)
   }
   async fetchAllPets(): Promise<PetListItem[]> {
-    return await this.#fetchAll(mysqlTables.pet_list as MysqlTableName)
+    return await this.#fetchAll(mysqlTables.pet_list)
   }
 }()

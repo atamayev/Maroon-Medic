@@ -3,14 +3,6 @@ To-do:
 
 ASAP:
 TS Fixes:
-	2. Go through the recommended ts config setup (see notepadd++)
-	4. Remove all semicolons - figure out es lint again
-	5. Clean up all of the 'any' types
-	6. Add this everywhere: that uses mysql tables type MysqlTableName = keyof typeof mysqlTables;
-	7. Make sure User_Type is always of type 'Doctor' | 'Patient'
-	8. Check if there's a way to lint for functions that are never called anywhere - clear up the unused code
-	9. make sure all IDs are numbers
-	10. make sure the error type is any
 	12. Add the parts of the body components to the Express object	
 			declare global {
 			  namespace Express {
@@ -22,11 +14,7 @@ TS Fixes:
 				}
 			  }
 			}
-	13. Figure out the req.DoctorID problem
-		consider putting DoctorID into the body
 
-BUG:
-	Start the front-end without starting backend, get a status error. needs to be handled
 Run lint test for over 200 line fcns - AFTER THIS MOVE TO TS.
 	move backend to TS first - might not need to make a new folder, can just install ts extensions possibly?
 	during this conversion, move the front-end files from .js to .tsx

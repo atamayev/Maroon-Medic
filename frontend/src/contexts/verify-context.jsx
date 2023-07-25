@@ -29,7 +29,7 @@ const VerifyContextProvider = (props) => {
         userType: response.data.type || null
       }
     } catch (error) {
-      if (error.response.status === 401) {
+      if (error.response && error.response.status === 401) {
         invalidUserAction(error.response.data)
       } else {
         return clearAndReturnFalse(clearSession)

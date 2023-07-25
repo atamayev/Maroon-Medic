@@ -222,15 +222,15 @@ export async function register (req: Request, res: Response): Promise<Response> 
 
 export async function fetchLoginHistory (req: Request, res: Response): Promise<Response> {
   const cookies = req.cookies
-  let UUID
-  let type
+  let UUID: string = ""
+  let userType: "Doctor" | "Patient" = "Patient"
 
   if ("DoctorUUID" in cookies || "DoctorAccessToken" in cookies) {
     UUID = cookies.DoctorUUID
-    type = "Doctor"
+    userType = "Doctor"
   } else if ("PatientUUID" in cookies || "PatientAccessToken" in cookies) {
     UUID = cookies.PatientUUID
-    type = "Patient"
+    userType = "Patient"
   }
 
   try {
@@ -238,7 +238,7 @@ export async function fetchLoginHistory (req: Request, res: Response): Promise<R
     const loginHistory = await AuthDB.retrieveLoginHistory(User_ID)
     return res.status(200).json(loginHistory)
   } catch (error: unknown) {
-    clearCookies(res, type)
+    clearCookies(res, userType)
     return res.status(401).json({ shouldRedirect: true, redirectURL: "/" })
   }
 }
