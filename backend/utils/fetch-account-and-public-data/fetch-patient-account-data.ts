@@ -1,5 +1,5 @@
 import _ from "lodash"
-import FetchPatientAccountDataDB from "../../db/private-patient-data/fetch-patient-account-data-DB.ts"
+import FetchPatientAccountDataDB from "../../db/private-patient-data/fetch-patient-account-data-DB"
 
 type LanguageItem = {
   language_listID: number

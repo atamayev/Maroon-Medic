@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express"
-import { UUID_to_ID } from "../setup-and-security/UUID.ts"
-import { clearCookies } from "./cookie-operations.ts"
+import { UUID_to_ID } from "../setup-and-security/UUID"
+import { clearCookies } from "./cookie-operations"
 
 export default new class GetIDFromUUID {
   async getDoctorIDFromUUID(req: Request, res: Response, next: NextFunction): Promise<void | Response> {

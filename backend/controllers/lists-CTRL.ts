@@ -1,5 +1,5 @@
-import FetchAllLists from "../utils/fetch-all-lists.ts"
-import OperationHandler from "../utils/operation-handler.ts"
+import FetchAllLists from "../utils/fetch-all-lists"
+import OperationHandler from "../utils/operation-handler"
 import { Request, Response } from "express"
 
 type LanguageListItem = {

@@ -1,7 +1,7 @@
 import _ from "lodash"
-import SearchDB from "../db/search-DB.ts"
-import FetchAllLists from "../utils/fetch-all-lists.ts"
-import OperationHandler from "../utils/operation-handler.ts"
+import SearchDB from "../db/search-DB"
+import FetchAllLists from "../utils/fetch-all-lists"
+import OperationHandler from "../utils/operation-handler"
 import { Request, Response } from "express"
 
 interface Params {

@@ -1,5 +1,5 @@
-import AuthDB from "../db/auth-DB.ts"
-import TimeUtils from "./time.ts"
+import AuthDB from "../db/auth-DB"
+import TimeUtils from "./time"
 
 /** login_history saves the date and IP Address of a certain user
  * @param {Int} UserID

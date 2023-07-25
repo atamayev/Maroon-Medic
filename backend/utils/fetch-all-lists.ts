@@ -1,6 +1,6 @@
-import redisClient from "../setup-and-security/redis.ts"
-import { mysqlTables } from "./table-names-list.ts"
-import { connectDatabase } from "../setup-and-security/connect.ts"
+import redisClient from "../setup-and-security/redis"
+import { mysqlTables } from "./table-names-list"
+import { connectDatabase } from "../setup-and-security/connect"
 
 type InsuranceListItem = {
   insurance_listID: number

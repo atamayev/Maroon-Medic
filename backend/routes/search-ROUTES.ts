@@ -5,7 +5,7 @@ import {
   fetchAllLanguages,
   fetchAllServicesAndCategories,
   fetchAllInsurances
-} from "../controllers/search-CTRL.ts"
+} from "../controllers/search-CTRL"
 
 const router = express.Router()
 

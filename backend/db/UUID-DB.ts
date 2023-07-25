@@ -1,5 +1,5 @@
-import { mysqlTables } from "../utils/table-names-list.ts"
-import { connectDatabase } from "../setup-and-security/connect.ts"
+import { mysqlTables } from "../utils/table-names-list"
+import { connectDatabase } from "../setup-and-security/connect"
 import { RowDataPacket } from 'mysql2';
 
 type MysqlTimestamp = string

@@ -1,6 +1,6 @@
 import _ from "lodash"
-import DataFormatter from "../data-formatter.ts"
-import FetchDoctorAccountDataDB from "../../db/private-doctor-data/fetch-doctor-account-data-DB.ts"
+import DataFormatter from "../data-formatter"
+import FetchDoctorAccountDataDB from "../../db/private-doctor-data/fetch-doctor-account-data-DB"
 
 type LanguageItem = {
   language_listID: number

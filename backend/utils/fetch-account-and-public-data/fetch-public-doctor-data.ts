@@ -1,6 +1,6 @@
 import _ from "lodash"
-import DataFormatter from "../data-formatter.ts"
-import FetchPublicDoctorDataDB from "../../db/fetch-public-doctor-data-DB.ts"
+import DataFormatter from "../data-formatter"
+import FetchPublicDoctorDataDB from "../../db/fetch-public-doctor-data-DB"
 
 type LanguagesData = {
   Language_name: string

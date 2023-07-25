@@ -3,8 +3,8 @@ import {
   getDoctorCalendarDetails,
   makeAppointment,
   confirmAppointment
-} from "../controllers/calendar-CTRL.ts"
-import GetIDFromUUID from "../utils/getIDFromUUID.ts"
+} from "../controllers/calendar-CTRL"
+import GetIDFromUUID from "../utils/getIDFromUUID"
 const router = express.Router()
 
 router.post("/makeAppointment", makeAppointment)
