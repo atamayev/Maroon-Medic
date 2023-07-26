@@ -1,4 +1,3 @@
-import _ from "lodash"
 import SearchDB from "../db/search-DB"
 import FetchAllLists from "../utils/fetch-all-lists"
 import OperationHandler from "../utils/operation-handler"
@@ -12,8 +11,7 @@ export async function searchByQuery (req: Request<Params>, res: Response): Promi
   const userQuery = req.params.query
   try {
     const searchResults = await SearchDB.retrieveDoctorsFromSearchTerm(userQuery)
-    if (_.isEmpty(searchResults)) return res.json("User not found")
-    else return res.json(searchResults)
+    return res.json(searchResults)
   } catch (error: unknown) {
     return res.json({ error: "Search by Query Error" })
   }

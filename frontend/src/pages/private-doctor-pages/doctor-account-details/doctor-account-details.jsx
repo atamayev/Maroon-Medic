@@ -110,6 +110,7 @@ function useDoctorAccountDetails(
         if (storedListDetails) setListDetails(JSON.parse(storedListDetails))
         else FillLists(setListDetails)
       } catch (error) {
+        console.log(error)
       }
     }
   }

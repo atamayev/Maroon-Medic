@@ -15,16 +15,20 @@ TS Fixes:
 			  }
 			}
 
+Frontend TS Fixes:
+	1. Give return types to all functions
+	2. Go through the backend list in email.
+	3. go through https://www.sitepoint.com/how-to-migrate-a-react-app-to-typescript/
+	4. 
+
+
+
+
+
 Run lint test for over 200 line fcns - AFTER THIS MOVE TO TS.
 	move backend to TS first - might not need to make a new folder, can just install ts extensions possibly?
 	during this conversion, move the front-end files from .js to .tsx
 
--setup postman to make making requests easier.
-	add the Doctor/Patient UUID as a cookie, and hit the endpoint directly
-Make the auth token and cookie stored in a class, like in context.ts in deployment manager
-	reading from memory is faster than from session storage
-
--mini bug when making a booking. make a booking with `changes in behavior`. The time is 10 AM- 10AM. Should say something like (10AM (july 17) - 10AM (july 18))
 added a appointment_timespan, and add petID to the Appointments table. - need to change the front-end accordingly
 -add choose your pet to make an appointment. if the user isn't logged in, show a login/register button in the booking section.
 	the first question should be: choose which pet you would like to take to the vet
@@ -32,12 +36,19 @@ added a appointment_timespan, and add petID to the Appointments table. - need to
 	if the vet doesn't service that specific pet type, then show message: "Dr. __ doesn't service [type of pet]". Have a dummy button that says: "Search for vets near you that service [pet type]"
 	after the appointment is made, should go to a confirmation page after the 'finalize-booking' page, which lists the details in pretty format. from there, have a button: go to dashboard
 
+
+-setup postman to make making requests easier.
+	add the Doctor/Patient UUID as a cookie, and hit the endpoint directly
+Make the auth token and cookie stored in a class, like in context.ts in deployment manager
+	reading from memory is faster than from session storage
+
+-mini bug when making a booking. make a booking with `changes in behavior`. The time is 10 AM- 10AM. Should say something like (10AM (july 17) - 10AM (july 18))
+
 -start figuring out only being able to make appointments during available time slots (shouldn't be able to book an appointment while that time slot is booked)
 
 -consider combining the two add preVet Education callback functions
 
 -stop the header from re-rendering on every link change. figure out a way to make it constant
-
 
 -try making an appointment, not requesting (in finalize-booking), going back, and making a different appointmet. does session storage updat?
 -think about how isActive should work - what actually happens when a user deletes their account. should a new user be allowed to make an account with that same email instantaneosly?
