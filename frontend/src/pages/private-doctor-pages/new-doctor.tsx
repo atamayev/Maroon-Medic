@@ -1,3 +1,4 @@
+import { AxiosError } from "axios"
 import { useState, useEffect, useContext } from "react"
 import {useNavigate} from "react-router-dom"
 import { VerifyContext } from "../../contexts/verify-context"
@@ -6,22 +7,27 @@ import NewAccountForm from "../../components/new-account-form"
 import {handleNewUserSubmit} from "../../custom-hooks/handle-submits"
 import { invalidUserAction } from "../../custom-hooks/user-verification-snippets"
 import Header from "../header"
+import { PersonalInfo } from "../../components/personal-info-inputs"
 
 export default function NewDoctor () {
-  const [newDoctorInfo, setNewDoctorInfo] = useState({})
+  const [newDoctorInfo, setNewDoctorInfo] = useState({} as PersonalInfo)
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const {userVerification} = useContext(VerifyContext)
   const navigate = useNavigate()
 
   const verifyNewDoctor = async () => {
-    const result = await userVerification()
+    const result = await userVerification(false)
     if (result.verified === true && result.userType === "Doctor") {
       try {
         const doctorResult = await AuthDataService.newDoctorConfirmation()
         if (doctorResult.data === false) navigate("/vet-register")
-      } catch (error) {
-        if (error.response.status === 401) invalidUserAction(error.response.data)
+      } catch (error: unknown) {
+        if (error instanceof AxiosError) {
+          if (error.response?.status === 401) {
+            invalidUserAction(error.response.data)
+          }
+        }
       }
     }
     else if (result.verified === true && result.userType === "Patient") navigate("/patient-dashboard")
@@ -36,10 +42,9 @@ export default function NewDoctor () {
     <>
       <Header/>
       <NewAccountForm
-        handleSubmit = {(e) =>
+        handleSubmit = {() =>
           handleNewUserSubmit(
             {
-              e,
               newInfo: newDoctorInfo,
               navigate,
               setError,

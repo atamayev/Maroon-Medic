@@ -10,8 +10,7 @@ import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verifi
 import { finalizeBookingClick } from "../../custom-hooks/public-doctor-hooks/booking-page-hooks"
 import { handleServiceChange, handleLocationChange, handleDayChange, handleTimeChange, handlePetChange } from "../../custom-hooks/public-doctor-hooks/booking-page-hooks"
 
-const handleBookingClick = (e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet) => {
-  e.preventDefault()
+const handleBookingClick = (navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet) => {
   finalizeBookingClick(navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet)
 }
 
@@ -285,8 +284,7 @@ export default function RenderBookingSection(props) {
     return (
       <Button
         className = "mt-3"
-        onClick = {(e) => handleBookingClick(
-          e,
+        onClick = {() => handleBookingClick(
           navigate,
           selectedService,
           selectedLocation,

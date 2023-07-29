@@ -10,7 +10,10 @@ export async function makeAppointment(req: Request, res: Response): Promise<void
 
   const createdAt = TimeUtils.createFormattedDate()
 
-  const mysqlDateTime = TimeUtils.convertAppointmentDateTimeIntoMySQLDate(AppointmentObject.appointmentDate, AppointmentObject.appointmentTime)
+  const mysqlDateTime = TimeUtils.convertAppointmentDateTimeIntoMySQLDate(
+    AppointmentObject.appointmentDate,
+    AppointmentObject.appointmentTime
+  )
   const operation = async () => await CalendarDB.addAppointment(mysqlDateTime, AppointmentObject, DoctorID, createdAt)
   OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }

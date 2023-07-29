@@ -4,14 +4,14 @@ import { useEffect, useState } from "react"
 import { Card, Badge , Tooltip } from "react-bootstrap"
 import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 import { UnauthorizedUser } from "../../components/user-type-unauth"
-import { useDashboardData } from "../../custom-hooks/fetch-and-use-dashboard-info"
+import { usePatientDashboardData } from "../../custom-hooks/fetch-and-use-dashboard-info"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
 import Header from "../header"
 import PatientHeader from "./patient-header"
 
 export default function PatientDashboard() {
   const { userType } = useSimpleUserVerification()
-  const { dashboardData } = useDashboardData(userType)
+  const { dashboardData } = usePatientDashboardData(userType)
   const [personalInfo, setPersonalInfo] = useState(JSON.parse(sessionStorage.getItem("PatientPersonalInfo")))
   const [pastAppointments, setPastAppointments] = useState([])
   const [upcomingAppointments, setUpcomingAppointments] = useState([])

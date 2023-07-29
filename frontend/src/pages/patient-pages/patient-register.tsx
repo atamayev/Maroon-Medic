@@ -7,7 +7,8 @@ import Header from "../header"
 
 export default function PatietRegister() {
   const type = "Patient"
-  const [registerInformationObject, setRegisterInformationObject] = useState({registerType: type})
+  const [registerInformationObject, setRegisterInformationObject] =
+  useState<{loginType: "Doctor" | "Patient", email: string, password: string}>({loginType: type, email: "", password: ""})
   const [passwordConfirm, setPasswordConfirm] = useState("")
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
@@ -20,10 +21,9 @@ export default function PatietRegister() {
     <>
       <Header dropdown = {true} search = {true}/>
       <LoginAndRegistrationForm
-        handleSubmit = {(e) =>
+        handleSubmit = {() =>
           handleRegisterSubmit(
             {
-              e,
               registerInformationObject,
               passwordConfirm,
               navigate,
@@ -34,7 +34,6 @@ export default function PatietRegister() {
           )}
         credentials = {registerInformationObject}
         setCredentials = {setRegisterInformationObject}
-        passwordConfirm = {passwordConfirm}
         setPasswordConfirm = {setPasswordConfirm}
         error = {error}
         VetOrPatient = {type}

@@ -2,8 +2,9 @@ To-do:
 
 
 ASAP:
-TS Fixes:
-	12. Add the parts of the body components to the Express object	
+Backend TS Fixes:
+	1. move the DoctorI to the body of teh req to avoid error
+	2. Add the parts of the body components to the Express object	
 			declare global {
 			  namespace Express {
 				interface Request {
@@ -14,20 +15,29 @@ TS Fixes:
 				}
 			  }
 			}
+	3. Move files to src folder
+	
 
 Frontend TS Fixes:
 	1. Give return types to all functions
 	2. Go through the backend list in email.
 	3. go through https://www.sitepoint.com/how-to-migrate-a-react-app-to-typescript/
-	4. 
+	4. Turn on es lint again
+	5. Search for all cases of React.Dispatch where the type of the state is not set (or the state is set inside, like in change-password.ts. They should all be of this form: React.Dispatch<React.SetStateAction<LoginHistoryItem[]>>
+	6. Bring back the max lines per function
+
+Frontend + backend
+	1. Take full advantage of globals.d.ts to create reoccuring types
 
 
-
-
+Figure out how to remove all for loops. Might be possible to run multiple SQL statements at once without a for loop. Eslint has a no loops rule
+Add a line length rule
 
 Run lint test for over 200 line fcns - AFTER THIS MOVE TO TS.
 	move backend to TS first - might not need to make a new folder, can just install ts extensions possibly?
 	during this conversion, move the front-end files from .js to .tsx
+
+-React browser warnins when adding pre_vet/vet education (see 7/4 keys commit)
 
 added a appointment_timespan, and add petID to the Appointments table. - need to change the front-end accordingly
 -add choose your pet to make an appointment. if the user isn't logged in, show a login/register button in the booking section.
@@ -36,9 +46,11 @@ added a appointment_timespan, and add petID to the Appointments table. - need to
 	if the vet doesn't service that specific pet type, then show message: "Dr. __ doesn't service [type of pet]". Have a dummy button that says: "Search for vets near you that service [pet type]"
 	after the appointment is made, should go to a confirmation page after the 'finalize-booking' page, which lists the details in pretty format. from there, have a button: go to dashboard
 
-
 -setup postman to make making requests easier.
 	add the Doctor/Patient UUID as a cookie, and hit the endpoint directly
+		or, make the UUID be a header (ie authorizatoin header) whenever sending a req back and forth
+			don't make it doctorUUID or patientUUID, just make it UUID. same for AccessToken
+			think about the best way to structure the acess token/ uuid thing
 Make the auth token and cookie stored in a class, like in context.ts in deployment manager
 	reading from memory is faster than from session storage
 
@@ -85,13 +97,7 @@ Make the "Add Address" Button Finalize a Location, make it within the accordion.
 	Add a new "Add new address" button to add a new acordion strip
 	Won't need a save button. the add/delete buttons will act as saves. will need to make the delete button double confirmation like everything else
 
--instead of re-rendering pateint dashboard each time, maybe there's a way to set the dashborad data from the back-end.
-
 Add a section in doctordetails for wheather or not the doc works for a practice/company (will neeed to create a lookup and mapping table for vet companies as options)
-
--- will likely need to simplify the select.js. what it"s doing rn is redundant. inside account details, it"s setting the value of the type of to the id. then, select has to find which type has that id.
-	for example, if select Lemonade insurance, instead of setting selected vet school to Lemondae, it first sends back lemonad'es id, and then converts it to the name
-simplification of pre-vet education needed.
 
 Do the calculations for the next appointment dates on the back-end. Will need to figure out which dates/times area unavailable due to conflicting appointments.
 	Also, due to the detailed_booking_availblity fields (how far in advance to book, etc.)
@@ -106,11 +112,8 @@ Do the calculations for the next appointment dates on the back-end. Will need to
 
 -- consider adding a verified column to the Credentials table (verify for both pts and docs) - not sure how to verify pts, would be a steep onboarding
 
-start using bootstrap or integrate tailwind css classes. tell chatgpt to make pages prettier (header, etc.)
-
 figure out phone_priority (address_data), currently sending it back as 0. Phone priority is for when one location has multiple phone numbers. So each object in the address list might have an object inside that contains phone numbers, link
 	See 5/19 commit
--consider bringing back selecting the entire category in vet services
 
 -allow for entering multiple degrees from one college (without causing the education table to break (because of the constraint))
 
@@ -119,8 +122,6 @@ inactivity logout ( 5 mins). implement on the verification level (in the jwt)
 -I think the real selling point for pts to use the platform is knowing ahead of time if their insurance provider will cover a certain service. Will either require a lot of research, or data searching.
 	Ask Phil if insurances openly disclose what they will/won't cover for which type of pets.
 	Figure out a way to make it really user for users to figure out if their insurance covers a certain procedure.
-
--React browser warnins when adding pre_vet/vet education (see 7/4 keys commit)
 
 -make entering time data into location.js easier. currently a pain in the ass, keeps reseting
 

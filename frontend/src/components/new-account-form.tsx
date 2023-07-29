@@ -1,12 +1,12 @@
-import React from "react"
 import { Card, Button, Form, Alert } from "react-bootstrap"
 import { renderFirstNameSection, renderLastNameSection, renderGenderSection, renderDOBSection } from "./personal-info-inputs"
+import { PersonalInfo } from "./personal-info-inputs"
 
 interface Props {
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void,
+  handleSubmit: () => void,
   error: string,
-  newInfo: object,
-  setNewInfo: (newInfo: object) => void,
+  newInfo: PersonalInfo,
+  setNewInfo: (newInfo: PersonalInfo) => void,
   loading: boolean
 }
 export default function NewAccountForm({
@@ -27,10 +27,10 @@ export default function NewAccountForm({
         <Card.Body>
           {renderErrorMessage()}
           <Form onSubmit = {handleSubmit}>
-            {renderFirstNameSection(newInfo, setNewInfo)}
-            {renderLastNameSection(newInfo, setNewInfo)}
-            {renderGenderSection(newInfo, setNewInfo)}
-            {renderDOBSection(newInfo, setNewInfo)}
+            {renderFirstNameSection({personalInfo: newInfo, setPersonalInfo: setNewInfo})}
+            {renderLastNameSection({personalInfo: newInfo, setPersonalInfo: setNewInfo})}
+            {renderGenderSection({personalInfo: newInfo, setPersonalInfo: setNewInfo})}
+            {renderDOBSection({personalInfo: newInfo, setPersonalInfo: setNewInfo})}
             <Button type = "submit" className = "w-100" disabled = {loading}>Submit</Button>
           </Form>
         </Card.Body>

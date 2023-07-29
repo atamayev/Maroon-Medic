@@ -1,18 +1,19 @@
 import {useState} from "react"
 import {useNavigate} from "react-router-dom"
-import {handleLoginSubmit} from "../../custom-hooks/handle-submits"
+import {handleRegisterSubmit} from "../../custom-hooks/handle-submits"
 import { useConfirmNotLoggedIn } from "../../custom-hooks/user-verification-snippets"
 import LoginAndRegistrationForm from "../../components/login-and-registration-form"
 import Header from "../header"
 
-export default function DoctorLogin() {
-  const [loginInformationObject, setLoginInformationObject] = useState({loginType: "Doctor"})
+export default function DoctorRegister() {
+  const [registerInformationObject, setRegisterInformationObject] =
+  useState<{loginType: "Doctor" | "Patient", email: string, password: string}>({loginType: "Doctor", email: "", password: ""})
+  const [passwordConfirm, setPasswordConfirm] = useState("")
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
-
   const type = "Vet"
+  const [showPassword, setShowPassword] = useState(false)
 
   useConfirmNotLoggedIn()
 
@@ -20,23 +21,24 @@ export default function DoctorLogin() {
     <>
       <Header dropdown = {true} search = {true}/>
       <LoginAndRegistrationForm
-        handleSubmit = {(e) =>
-          handleLoginSubmit(
+        handleSubmit = {() =>
+          handleRegisterSubmit(
             {
-              e,
-              loginInformationObject,
+              registerInformationObject,
+              passwordConfirm,
               navigate,
               setError,
               setLoading,
               VetOrPatient: type
             }
           )}
-        credentials = {loginInformationObject}
-        setCredentials = {setLoginInformationObject}
+        credentials = {registerInformationObject}
+        setCredentials = {setRegisterInformationObject}
+        setPasswordConfirm = {setPasswordConfirm}
         error = {error}
         VetOrPatient = {type}
         loading = {loading}
-        loginOrSignUp = "Login"
+        loginOrSignUp = "Sign up"
         showPassword = {showPassword}
         setShowPassword = {setShowPassword}
       />

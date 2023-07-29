@@ -9,8 +9,7 @@ import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verifi
 import { confirmBooking } from "../../custom-hooks/public-doctor-hooks/confirm-booking-hook"
 import Header from "../header"
 
-const handleConfirmBooking = (e, navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet, message) => {
-  e.preventDefault()
+const handleConfirmBooking = (navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet, message) => {
   confirmBooking(navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet, message)
 }
 
@@ -123,9 +122,8 @@ export function FinalizeBookingPage() {
       <>
         <Button
           variant = "primary"
-          onClick = {(e) => {
+          onClick = {() => {
             handleConfirmBooking(
-              e,
               navigate,
               selectedService,
               selectedLocation,

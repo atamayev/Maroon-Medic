@@ -1,17 +1,16 @@
+import { AxiosError } from "axios"
 import AuthDataService from "../services/auth-data-service.js"
 import PrivateDoctorDataService from "../services/private-doctor-data-service.js"
 import PrivatePatientDataService from "../services/private-patient-data-service.js"
 import { invalidUserAction } from "./user-verification-snippets.js"
 
 export const handleLoginSubmit = async ({
-  e,
   loginInformationObject,
   navigate,
   setError,
   setLoading,
   VetOrPatient
 }) => {
-  e.preventDefault()
   setError("")
   try {
     setLoading(true)
@@ -28,15 +27,18 @@ export const handleLoginSubmit = async ({
       else navigate(`/${VetOrPatient.toLowerCase()}-dashboard`)
     }
     else setError("Login didn't work")
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
-    else setError(error.response.data)
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 401) {
+        invalidUserAction(error.response.data)
+      } else setError(error.response!.data)
+
+    }
   }
   setLoading(false)
 }
 
 export const handleRegisterSubmit = async ({
-  e,
   registerInformationObject,
   passwordConfirm,
   navigate,
@@ -44,7 +46,6 @@ export const handleRegisterSubmit = async ({
   setLoading,
   VetOrPatient
 }) => {
-  e.preventDefault()
   setError("")
   if (registerInformationObject.password !== passwordConfirm) return setError("Passwords do not match")
   try {
@@ -52,22 +53,24 @@ export const handleRegisterSubmit = async ({
     const response = await AuthDataService.register(registerInformationObject)
     if (response.status === 200) navigate(`/new-${VetOrPatient.toLowerCase()}`)
     else setError("Registration didn't work")
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
-    else setError(error.response.data)
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 401) {
+        invalidUserAction(error.response.data)
+      } else setError(error.response!.data)
+
+    }
   }
   setLoading(false)
 }
 
 export const handleNewUserSubmit = async ({
-  e,
   newInfo,
   navigate,
   setError,
   setLoading,
-  VetOrPatient
+  VetOrPatient: "Vet" | "Patient"
 }) => {
-  e.preventDefault()
   setError("")
   try {
     setLoading(true)
@@ -87,9 +90,12 @@ export const handleNewUserSubmit = async ({
       else navigate(`/${VetOrPatient.toLowerCase()}-dashboard`)
     }
     else setError("Unable to add new user. Please reload and try again.")
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
-    else setError(error.response.data)
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 401) {
+        invalidUserAction(error.response.data)
+      } else setError(error.response!.data)
+    }
   }
   setLoading(false)
 }

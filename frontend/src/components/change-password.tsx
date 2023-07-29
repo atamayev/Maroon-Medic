@@ -5,7 +5,7 @@ import { handleChangePassword } from "../custom-hooks/change-password"
 import FormGroup from "./form-group"
 
 interface Props {
-  type: string
+  type: "Doctor" | "Patient"
 }
 
 export default function ChangePassword(props: Props) {
@@ -15,7 +15,7 @@ export default function ChangePassword(props: Props) {
     currentPassword: '',
     newPassword: '',
     newConfirmPassword: '',
-  });
+  })
   const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -25,8 +25,7 @@ export default function ChangePassword(props: Props) {
     return "Show Password"
   }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const handleSubmit = async () => {
     handleChangePassword(credentials, setCredentials, setMessage, setLoading, type)
   }
 
@@ -49,7 +48,7 @@ export default function ChangePassword(props: Props) {
           <FormGroup
             id = "current-password"
             label = "Current Password"
-            type = {renderShowPassword()}
+            type = {renderShowPassword}
             placeholder = "SuperSecretPassword"
             value = {credentials.currentPassword || ""}
             onChange = {(event) => setCredentials({...credentials, currentPassword: event.target.value})}

@@ -7,7 +7,7 @@ interface Props {
   setPersonalInfo: (personalInfo: PersonalInfo) => void
 }
 
-type PersonalInfo = {
+export type PersonalInfo = {
   FirstName: string,
   LastName: string,
   DOB_month: string,

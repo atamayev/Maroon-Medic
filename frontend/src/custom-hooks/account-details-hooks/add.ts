@@ -2,16 +2,34 @@ import moment from "moment"
 import { addPatientLanguages } from "./save-patient-account-details"
 import { addDoctorLanguages, addSpecialties } from "./save-doctor-account-details"
 
-export const handleAddLanguage = (selectedLanguageID, spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, doctorOrPatient) => {
+export const handleAddLanguage = (
+  selectedLanguageID: number,
+  spokenLanguages,
+  setSpokenLanguages,
+  listDetails,
+  setLanguagesConfirmation,
+  doctorOrPatient: "doctor" | "patient"
+) => {
   const selectedLanguage = listDetails.languages.find((lang) => lang.language_listID === JSON.parse(selectedLanguageID))
 
   const newSpokenLanguages = [...spokenLanguages, selectedLanguage]
 
-  if (doctorOrPatient === "doctor") addDoctorLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
-  else if (doctorOrPatient === "patient") addPatientLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
+  if (doctorOrPatient === "doctor") {
+    addDoctorLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
+  }
+  else if (doctorOrPatient === "patient") {
+    addPatientLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
+  }
 }
 
-export const handleAddSpecialty = (selectedSpecialtyID, doctorSpecialties, setDoctorSpecialties, setSelectedOrganization, listDetails, setSpecialtiesConfirmation) => {
+export const handleAddSpecialty = (
+  selectedSpecialtyID: number,
+  doctorSpecialties,
+  setDoctorSpecialties,
+  setSelectedOrganization,
+  listDetails,
+  setSpecialtiesConfirmation
+) => {
   const selectedSpecialty = listDetails.specialties.find((spec) => spec.specialties_listID === JSON.parse(selectedSpecialtyID))
   const newDoctorSpecialties = [...doctorSpecialties, selectedSpecialty]
   addSpecialties(selectedSpecialtyID, newDoctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation)
@@ -24,8 +42,8 @@ export const handleAddEducation = (
   setSelectedEducationType,
   timeState,
   setTimeState,
-  selectedMajor = null,
-  setSelectedMajor = null
+  selectedMajor: string | null = null,
+  setSelectedMajor: string | null = null
 ) => {
   const selectedEducationObj = {
     School_name: selectedSchool,
@@ -53,5 +71,24 @@ export const handleAddEducation = (
 export const handleAddAccordion = (addresses, setAddresses) => {
   let maxPriority = Math.max(...addresses.map(address => address.address_priority))
   if (maxPriority === -Infinity) maxPriority = 0
-  setAddresses([...addresses, { address_priority: maxPriority + 1, addressesID: 0, address_title: "", address_line_1: "", address_line_2: "", city: "", state: "", zip: "", country: "", phone_priority: 0, phone: "", address_public_status: 1, instant_book: 0, times:[]}])
+  setAddresses(
+    [...addresses,
+      {
+        address_priority: maxPriority + 1,
+        addressesID: 0,
+        address_title: "",
+        address_line_1: "",
+        address_line_2: "",
+        city: "",
+        state: "",
+        zip: "",
+        country: "",
+        phone_priority: 0,
+        phone: "",
+        address_public_status: 1,
+        instant_book: 0,
+        times:[]
+      }
+    ]
+  )
 }

@@ -5,7 +5,7 @@ import { Card, Badge, Button } from "react-bootstrap"
 import { UnauthorizedUser } from "../../components/user-type-unauth"
 import CalendarDataService from "../../services/calendar-data-service"
 import { invalidUserAction } from "../../custom-hooks/user-verification-snippets"
-import { useDashboardData } from "../../custom-hooks/fetch-and-use-dashboard-info"
+import { useDoctorDashboardData } from "../../custom-hooks/fetch-and-use-dashboard-info"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
 import Header from "../header"
 import DoctorHeader from "./doctor-header"
@@ -32,7 +32,7 @@ async function approveAppointment (setStatus, AppointmentsID, dashboardData, set
 
 export default function DoctorDashboard() {
   const { userType } = useSimpleUserVerification()
-  const { dashboardData, setDashboardData } = useDashboardData(userType)
+  const { dashboardData, setDashboardData } = useDoctorDashboardData(userType)
   const [personalInfo, setPersonalInfo] = useState(JSON.parse(sessionStorage.getItem("DoctorPersonalInfo")))
   const [pastAppointments, setPastAppointments] = useState([])
   const [upcomingAppointments, setUpcomingAppointments] = useState([])
@@ -82,7 +82,12 @@ export default function DoctorDashboard() {
     if (status !== "confirming") return null
     return (
       <span style={{ display: "block" }}>
-        <Button variant = "success" onClick = {() => approveAppointment(setStatus, appointment.AppointmentsID, dashboardData, setDashboardData)}>Approve Appointment</Button>
+        <Button
+          variant = "success"
+          onClick = {() => approveAppointment(setStatus, appointment.AppointmentsID, dashboardData, setDashboardData)}
+        >
+          Approve Appointment
+        </Button>
         <Button variant = "danger" onClick = {() => setStatus("pending")}>X</Button>
       </span>
     )

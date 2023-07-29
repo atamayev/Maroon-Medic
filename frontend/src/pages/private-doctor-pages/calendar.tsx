@@ -9,6 +9,29 @@ import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verifi
 import Header from "../header"
 import DoctorHeader from "./doctor-header"
 
+type MysqlTimestamp = string
+
+interface CalendarData {
+  appointmentsID: number
+  appointment_date: MysqlTimestamp
+  appointment_price: number
+  appointment_timespan: number
+  patient_message: string
+  Doctor_confirmation_status: boolean
+  Created_at: MysqlTimestamp
+  Category_name: string
+  Service_name: string
+  address_title: string
+  address_line_1: string
+  address_line_2: string
+  city: string
+  state: string
+  zip: string
+  country: string
+  Patient_FirstName: string
+  Patient_LastName: string
+}
+
 const localizer = momentLocalizer(moment)
 
 const CustomEvent = ({ event }) => {
@@ -19,7 +42,7 @@ const CustomEvent = ({ event }) => {
 }
 
 function useDoctorCalendarData(userType) {
-  const [events, setEvents] = useState([])
+  const [events, setEvents] = useState<CalendarData[]>([])
 
   const fetchAndSetCalendarData = async () => {
     if (userType === "Doctor") {

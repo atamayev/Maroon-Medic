@@ -5,11 +5,11 @@ import FormGroup from "./form-group"
 
 interface Props {
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void,
-  credentials: { email: string, password: string, loginType: 'vet' | 'patient'},
-  setCredentials: (credentials: { email: string, password: string }) => void,
-  setPasswordConfirm: (passwordConfirm: string) => void,
+  credentials: { email: string, password: string, loginType: "Doctor" | "Patient"},
+  setCredentials: (credentials: { email: string, password: string, loginType: "Doctor" | "Patient"}) => void,
+  setPasswordConfirm?: (passwordConfirm: string) => void,
   error: string,
-  VetOrPatient: string,
+  VetOrPatient: "Vet" | "Patient",
   loginOrSignUp: string,
   loading: boolean,
   showPassword: boolean,
@@ -33,7 +33,7 @@ export default function LoginAndRegistrationForm({
       if (showPassword) return "text"
       return "password"
     }
-    if (loginOrSignUp === "Sign up") {
+    if (loginOrSignUp === "Sign up" && setPasswordConfirm) {
       return (
         <FormGroup
           id = "confirm-password"

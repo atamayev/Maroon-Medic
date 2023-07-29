@@ -12,7 +12,12 @@ export const useConfirmNotLoggedIn = (clearSession = true) => {
   }, [userType, navigate])
 }
 
-export const invalidUserAction = (responseData) => {
+interface ResponseData {
+  shouldRedirect: boolean;
+  redirectURL: string;
+}
+
+export const invalidUserAction = (responseData: ResponseData) => {
   if (responseData.shouldRedirect) {
     sessionStorage.clear()
     window.location.href = responseData.redirectURL

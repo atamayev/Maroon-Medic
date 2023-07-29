@@ -1,9 +1,21 @@
 import { useCallback } from "react"
 import { handleDeleteLanguage, handleDeleteSpecialty } from "./delete"
 import { handleAddLanguage, handleAddSpecialty, handleAddEducation } from "./add"
-import { addPreVetEducation, addServicedPets, addVetEducation, deletePreVetEducation, deleteServicedPets, deleteVetEducation } from "./save-doctor-account-details"
+import {
+  addPreVetEducation,
+  addServicedPets,
+  addVetEducation,
+  deletePreVetEducation,
+  deleteServicedPets,
+  deleteVetEducation
+} from "./save-doctor-account-details"
 
-export const useHandleDeleteLanguage = (spokenLanguages, setSpokenLanguages, setLanguagesConfirmation, doctorOrPatient) => {
+export const useHandleDeleteLanguage = (
+  spokenLanguages,
+  setSpokenLanguages,
+  setLanguagesConfirmation,
+  doctorOrPatient
+) => {
   return useCallback(
     (language) => {
       handleDeleteLanguage(
@@ -18,7 +30,13 @@ export const useHandleDeleteLanguage = (spokenLanguages, setSpokenLanguages, set
   )
 }
 
-export const useHandleAddLanguage = (spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, doctorOrPatient) => {
+export const useHandleAddLanguage = (
+  spokenLanguages,
+  setSpokenLanguages,
+  listDetails,
+  setLanguagesConfirmation,
+  doctorOrPatient
+) => {
   return useCallback((e) => {
     handleAddLanguage(
       e.target.value,
@@ -31,7 +49,11 @@ export const useHandleAddLanguage = (spokenLanguages, setSpokenLanguages, listDe
   }, [spokenLanguages, listDetails, setSpokenLanguages, setLanguagesConfirmation])
 }
 
-export const useHandleDeleteSpecialty = (doctorSpecialties, setDoctorSpecialties, setSpecialtiesConfirmation) => {
+export const useHandleDeleteSpecialty = (
+  doctorSpecialties,
+  setDoctorSpecialties,
+  setSpecialtiesConfirmation
+) => {
   return useCallback(
     (specialty) => {
       handleDeleteSpecialty(
@@ -45,7 +67,13 @@ export const useHandleDeleteSpecialty = (doctorSpecialties, setDoctorSpecialties
   )
 }
 
-export const useHandleAddSpecialty = (doctorSpecialties, setDoctorSpecialties, setSelectedOrganization, listDetails, setSpecialtiesConfirmation) => {
+export const useHandleAddSpecialty = (
+  doctorSpecialties,
+  setDoctorSpecialties,
+  setSelectedOrganization,
+  listDetails,
+  setSpecialtiesConfirmation
+) => {
   return useCallback((e) => {
     handleAddSpecialty(
       e.target.value,
@@ -58,7 +86,11 @@ export const useHandleAddSpecialty = (doctorSpecialties, setDoctorSpecialties, s
   }, [doctorSpecialties, listDetails, setSelectedOrganization, setDoctorSpecialties, setSpecialtiesConfirmation])
 }
 
-export const useHandleCheckboxChange = (servicedPets, setServicedPets, setPetsConfirmation) => {
+export const useHandleCheckboxChange = (
+  servicedPets,
+  setServicedPets,
+  setPetsConfirmation
+) => {
   return useCallback((event, pet) => {
     if (event.target.checked) {
       const newServicedPets = [...servicedPets, pet]
@@ -72,7 +104,11 @@ export const useHandleCheckboxChange = (servicedPets, setServicedPets, setPetsCo
   }, [servicedPets, setServicedPets, setPetsConfirmation])
 }
 
-export const useHandleDeletePreVetEducation = (preVetEducation, setPreVetEducation, setPreVetEducationConfirmation) => {
+export const useHandleDeletePreVetEducation = (
+  preVetEducation,
+  setPreVetEducation,
+  setPreVetEducationConfirmation
+) => {
   return useCallback((PreVetEducation) => {
     deletePreVetEducation(
       PreVetEducation.pre_vet_education_mappingID,
@@ -119,7 +155,11 @@ export const useSaveAddPreVetEducation = (
   }, [preVetEducation, setPreVetEducation, listDetails, setPreVetEducationConfirmation])
 }
 
-export const useHandleDeleteVetEducation = (vetEducation, setVetEducation, setVetEducationConfirmation) => {
+export const useHandleDeleteVetEducation = (
+  vetEducation,
+  setVetEducation,
+  setVetEducationConfirmation
+) => {
   return useCallback((VetEducation) => {
     deleteVetEducation(
       VetEducation.vet_education_mappingID,

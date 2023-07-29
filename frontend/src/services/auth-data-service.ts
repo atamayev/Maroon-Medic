@@ -8,10 +8,10 @@ interface LoginAndRegistrationInformation {
 }
 
 interface ChangePasswordObject {
+  userType: "Doctor" | "Patient"
   currentPassword: string
   newPassword: string
-  newPasswordConfirmation: string
-  userType: "Doctor" | "Patient"
+  newConfirmPassword: string
 }
 
 export default new class AuthDataService {

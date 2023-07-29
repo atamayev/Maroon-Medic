@@ -24,34 +24,35 @@
         "react"
     ],
     "rules": {
-        // "indent": [
-        //     "error",
-        //     2
-        // ],
+        "indent": [
+            "error",
+            2
+        ],
         "linebreak-style": [
             "error",
             "windows"
         ],
         "react/react-in-jsx-scope": "off",
-        "react/jsx-uses-react": "off"
-        // "quotes": [
-        //     "error",
-        //     "double"
-        // ],
-        // "semi": [
-        //     "error",
-        //     "never"
-        // ],
+        "react/jsx-uses-react": "off",
+        "quotes": [
+            "error",
+            "double"
+        ],
+        "semi": [
+            "error",
+            "never"
+        ],
         // "max-lines-per-function": ["warn", {"max": 60, "skipBlankLines": true, "skipComments": true}],
-        // "no-empty": ["error", { "allowEmptyCatch": true }],
-        // "eol-last": ["error", "always"],
-        // "no-unused-vars": "off",
-        // "@typescript-eslint/no-unused-vars": ["error"],
-        // "eqeqeq": "error",
-        // "space-infix-ops": "warn",
-        // "space-before-blocks": "error",
-        // "keyword-spacing": ["error", { "before": true, "after": true }],
-        // "no-trailing-spaces": "warn",
-        // "prefer-const": "warn"
+        "no-empty": ["error", { "allowEmptyCatch": true }],
+        "eol-last": ["error", "always"],
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": ["error"],
+        "eqeqeq": "error",
+        "space-infix-ops": "warn",
+        "space-before-blocks": "error",
+        "keyword-spacing": ["error", { "before": true, "after": true }],
+        "no-trailing-spaces": "warn",
+        "prefer-const": "warn",
+        "max-len": ["error", { "code": 140 }]
     }
 }

@@ -1,4 +1,4 @@
-type ConfirmationMessage = {
+export type ConfirmationMessage = {
   messageType: "saved" | "same" | "problem" | "none" | null,
   timeoutId: number | null
 }

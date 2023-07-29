@@ -72,12 +72,17 @@ export async function jwtVerify (req: Request, res: Response): Promise<Response>
   }
 }
 
+type UserIDAndPassword = {
+  password: string,
+  UserID: number,
+}
+
 export async function login (req: Request, res: Response): Promise<Response> {
   const { email, password, loginType } = req.body.loginInformationObject
 
   if (loginType !== "Doctor" && loginType !== "Patient") return res.json("Invalid User Type")
 
-  let results
+  let results: UserIDAndPassword
   let hashedPassword: string
 
   try {
@@ -117,7 +122,7 @@ export async function login (req: Request, res: Response): Promise<Response> {
       return res.status(500).json({ error: "Problem with Signing JWT" })
     }
 
-    loginHistory(ID)
+    await loginHistory(ID)
 
     clearCookies(res, loginType)
 
@@ -196,7 +201,7 @@ export async function register (req: Request, res: Response): Promise<Response> 
 
   const newUserUUID = await ID_to_UUID(UserID)
 
-  loginHistory(UserID)
+  await loginHistory(UserID)
 
   clearCookies(res, registerType)
 

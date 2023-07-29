@@ -9,8 +9,7 @@ import { renderFirstNameSection, renderLastNameSection, renderDOBSection, render
 import Header from "../../header"
 import DoctorHeader from "../doctor-header"
 
-const handleSave = (e, personalInfo, setPersonalInfoConfirmation, userType) => {
-  e.preventDefault()
+const handleSave = (personalInfo, setPersonalInfoConfirmation, userType) => {
   handleSavePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)
 }
 
@@ -27,7 +26,7 @@ export default function DoctorPersonalInfo() {
       <DoctorHeader/>
       <Card>
         <Card.Body>
-          <Form onSubmit = {e => handleSave(e, personalInfo, setPersonalInfoConfirmation, userType)}>
+          <Form onSubmit = {() => handleSave(personalInfo, setPersonalInfoConfirmation, userType)}>
             {renderFirstNameSection(personalInfo, setPersonalInfo)}
             {renderLastNameSection(personalInfo, setPersonalInfo)}
             {renderGenderSection(personalInfo, setPersonalInfo)}
