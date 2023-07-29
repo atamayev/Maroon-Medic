@@ -35,7 +35,8 @@ export default new class AuthDB {
   }
 
   async checkIfAccountExists (username: string, registrationType: LoginOrRegisterType): Promise<boolean> {
-    //Consider adding isActive as a search parameter. If a user deletes their account, should they be allowed to create a new one with the same email?
+    //Consider adding isActive as a search parameter. If a user deletes their account,
+    //should they be allowed to create a new one with the same email?
     const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.credentials} WHERE email = ? AND User_type = ?) as 'exists' `
     const values = [username, registrationType]
     const connection = await connectDatabase()
@@ -44,7 +45,12 @@ export default new class AuthDB {
     return Boolean(doesAccountExist)
   }
 
-  async addNewUserCredentials (username: string, password: string, createdAt: MysqlTimestamp, registrationType: LoginOrRegisterType): Promise<number> {
+  async addNewUserCredentials (
+    username: string,
+    password: string,
+    createdAt: MysqlTimestamp,
+    registrationType: LoginOrRegisterType
+  ): Promise<number> {
     const sql = `INSERT INTO ${mysqlTables.credentials} (email, password, Created_at, User_type) VALUES (?, ?, ?, ?)`
     const values = [username, password, createdAt, registrationType]
     const connection = await connectDatabase()

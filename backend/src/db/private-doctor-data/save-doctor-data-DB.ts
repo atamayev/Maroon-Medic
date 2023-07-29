@@ -140,7 +140,8 @@ export default new class SaveDoctorDataDB {
   }
 
   async addServicesData (addedData: ServiceItem, DoctorID: number): Promise<void> {
-    const sql = `INSERT INTO ${mysqlTables.service_mapping} (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?, ?, ?, ?)`
+    const sql = `INSERT INTO ${mysqlTables.service_mapping}
+    (Service_and_Category_ID, Service_time, Service_price, Doctor_ID) VALUES (?, ?, ?, ?)`
     const values = [addedData.service_and_category_listID, addedData.Service_time, addedData.Service_price, DoctorID]
     const connection = await connectDatabase()
     await connection.execute(sql, values)
@@ -154,23 +155,28 @@ export default new class SaveDoctorDataDB {
   }
 
   async updateServicesData (updatedData: ServiceItem, DoctorID: number): Promise<void> {
-    const sql = `UPDATE ${mysqlTables.service_mapping} SET Service_time = ?, Service_price = ? WHERE Service_and_Category_ID = ? AND Doctor_ID = ?`
+    const sql = `UPDATE ${mysqlTables.service_mapping}
+    SET Service_time = ?, Service_price = ? WHERE Service_and_Category_ID = ? AND Doctor_ID = ?`
     const values = [updatedData.Service_time, updatedData.Service_price, updatedData.service_and_category_listID, DoctorID]
     const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
   async addPreVetEducationData (preVetEducationObject: SchoolItem, DoctorID: number): Promise<number> {
-    const sql = `INSERT INTO ${mysqlTables.pre_vet_education_mapping} (School_ID, Major_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?, ?, ?, ?, ?, ?)`
-    const values = [preVetEducationObject.School_ID, preVetEducationObject.Major_ID, preVetEducationObject.Education_type_ID, preVetEducationObject.Start_date, preVetEducationObject.End_date, DoctorID]
+    const sql = `INSERT INTO ${mysqlTables.pre_vet_education_mapping}
+    (School_ID, Major_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?, ?, ?, ?, ?, ?)`
+    const values = [preVetEducationObject.School_ID, preVetEducationObject.Major_ID, preVetEducationObject.Education_type_ID,
+      preVetEducationObject.Start_date, preVetEducationObject.End_date, DoctorID]
     const connection = await connectDatabase()
     const [result] = await connection.execute(sql, values)
     return (result as OkPacket).insertId
   }
 
   async addVetEducationData (vetEducationObject: SchoolItem, DoctorID: number): Promise<number> {
-    const sql = `INSERT INTO ${mysqlTables.vet_education_mapping} (School_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?, ?, ?, ?, ?)`
-    const values = [vetEducationObject.School_ID, vetEducationObject.Education_type_ID, vetEducationObject.Start_date, vetEducationObject.End_date, DoctorID]
+    const sql = `INSERT INTO ${mysqlTables.vet_education_mapping}
+    (School_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?, ?, ?, ?, ?)`
+    const values = [vetEducationObject.School_ID, vetEducationObject.Education_type_ID,
+      vetEducationObject.Start_date, vetEducationObject.End_date, DoctorID]
     const connection = await connectDatabase()
     const [result] = await connection.execute(sql, values)
     return (result as OkPacket).insertId
@@ -199,9 +205,12 @@ export default new class SaveDoctorDataDB {
 
   async addAddressRecord (addressObject: AddressData, DoctorID: number): Promise<number> {
     const sql = `INSERT INTO ${mysqlTables.addresses}
-          (address_title, address_line_1, address_line_2, city, state, zip, country, address_public_status, address_priority, instant_book, Doctor_ID)
+          (address_title, address_line_1, address_line_2, city, state, zip, country,
+            address_public_status, address_priority, instant_book, Doctor_ID)
           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
-    const values = [addressObject.address_title, addressObject.address_line_1, addressObject.address_line_2, addressObject.city, addressObject.state, addressObject.zip, addressObject.country, addressObject.address_public_status, addressObject.address_priority, addressObject.instant_book, DoctorID]
+    const values = [addressObject.address_title, addressObject.address_line_1, addressObject.address_line_2,
+      addressObject.city, addressObject.state, addressObject.zip, addressObject.country,
+      addressObject.address_public_status, addressObject.address_priority, addressObject.instant_book, DoctorID]
     const connection = await connectDatabase()
     const [result] = await connection.execute(sql, values)
     return (result as OkPacket).insertId
@@ -216,9 +225,12 @@ export default new class SaveDoctorDataDB {
 
   async updateAddressRecord (updatedAddressObject: AddressData): Promise<void> {
     const sql = `UPDATE ${mysqlTables.addresses}
-          SET address_title = ?, address_line_1 = ?, address_line_2 = ?, city = ?, state = ?, zip = ?, country = ?, address_public_status = ?, instant_book = ?
+          SET address_title = ?, address_line_1 = ?, address_line_2 = ?, city = ?,
+          state = ?, zip = ?, country = ?, address_public_status = ?, instant_book = ?
           WHERE addressesID = ?`
-    const values = [updatedAddressObject.address_title, updatedAddressObject.address_line_1, updatedAddressObject.address_line_2, updatedAddressObject.city, updatedAddressObject.state, updatedAddressObject.zip, updatedAddressObject.country, updatedAddressObject.address_public_status, updatedAddressObject.instant_book, updatedAddressObject.addressesID]
+    const values = [updatedAddressObject.address_title, updatedAddressObject.address_line_1, updatedAddressObject.address_line_2,
+      updatedAddressObject.city, updatedAddressObject.state, updatedAddressObject.zip, updatedAddressObject.country,
+      updatedAddressObject.address_public_status, updatedAddressObject.instant_book, updatedAddressObject.addressesID]
     const connection = await connectDatabase()
     await connection.execute(sql, values)
   }

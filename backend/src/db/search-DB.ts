@@ -12,7 +12,8 @@ export default new class SearchDB {
   async retrieveDoctorsFromSearchTerm (searchTerm: string): Promise<DoctorInfo[]> {
     const sql = `SELECT NVI, FirstName, LastName
       FROM ${mysqlTables.basic_user_info}
-        LEFT JOIN ${mysqlTables.doctor_specific_info} ON ${mysqlTables.basic_user_info}.User_ID = ${mysqlTables.doctor_specific_info}.Doctor_ID
+        LEFT JOIN ${mysqlTables.doctor_specific_info} ON
+          ${mysqlTables.basic_user_info}.User_ID = ${mysqlTables.doctor_specific_info}.Doctor_ID
         LEFT JOIN ${mysqlTables.credentials} ON ${mysqlTables.basic_user_info}.User_ID = ${mysqlTables.credentials}.UserID
       WHERE ${mysqlTables.doctor_specific_info}.verified = TRUE
         AND ${mysqlTables.doctor_specific_info}.publiclyAvailable = TRUE
@@ -29,8 +30,10 @@ export default new class SearchDB {
   async retrieveAllDoctors (): Promise<DoctorInfo[]> {
     const sql = `SELECT NVI, FirstName, LastName
           FROM ${mysqlTables.basic_user_info}
-              LEFT JOIN ${mysqlTables.doctor_specific_info} ON ${mysqlTables.basic_user_info}.User_ID = ${mysqlTables.doctor_specific_info}.Doctor_ID
-              LEFT JOIN ${mysqlTables.credentials} ON ${mysqlTables.basic_user_info}.User_ID = ${mysqlTables.credentials}.UserID
+              LEFT JOIN ${mysqlTables.doctor_specific_info}
+                ON ${mysqlTables.basic_user_info}.User_ID = ${mysqlTables.doctor_specific_info}.Doctor_ID
+              LEFT JOIN ${mysqlTables.credentials}
+                ON ${mysqlTables.basic_user_info}.User_ID = ${mysqlTables.credentials}.UserID
           WHERE
               ${mysqlTables.doctor_specific_info}.verified = TRUE
               AND ${mysqlTables.doctor_specific_info}.publiclyAvailable = TRUE

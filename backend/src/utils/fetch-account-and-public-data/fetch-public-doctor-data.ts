@@ -46,12 +46,6 @@ interface AvailabilityData {
   End_time: string
 }
 
-interface PersonalData {
-  FirstName: string
-  LastName: string
-  Gender: string
-}
-
 export default new class FetchPublicDoctorData {
   async #fetchDoctorData<T>(DoctorID: number, retrievalFunction: (id: number) => Promise<T | T[]>): Promise<T | T[]> {
     try {
@@ -62,7 +56,10 @@ export default new class FetchPublicDoctorData {
     }
   }
 
-  async #fetchDoctorEducationData(DoctorID: number, retrievalFunction: (DoctorID: number) => Promise<EducationData[]>): Promise<EducationData[]> {
+  async #fetchDoctorEducationData(
+    DoctorID: number,
+    retrievalFunction: (DoctorID: number) => Promise<EducationData[]>
+  ): Promise<EducationData[]> {
     try {
       const educationData = await retrievalFunction(DoctorID) as EducationData[]
       const newResults = educationData.map((obj: EducationData) => ({

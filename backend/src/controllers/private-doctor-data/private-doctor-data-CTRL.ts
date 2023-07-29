@@ -6,76 +6,15 @@ import OperationHandler from "../../utils/operation-handler"
 import PrivateDoctorDataDB from "../../db/private-doctor-data/private-doctor-data-DB"
 import FetchDoctorAccountData from "../../utils/fetch-account-and-public-data/fetch-doctor-account-data"
 
-type LanguageItem = {
-  language_listID: number
-  Language_name: string
-}
-
-type ServiceItem = {
-  service_and_category_listID: number
-  Category_name: string
-  Service_name: string
-  Service_time: string
-  Service_price: number
-}
-
-type SpecialtyItem = {
-  specialties_listID: number
-  Organization_name: string
-  Specialty_name: string
-}
-
-type EducationItem = {
-  education_mappingID: number
-  School_name: string
-  Major_name?: string
-  Education_type: string
-  Start_Date: string
-  End_Date: string
-}
-
-type DoctorAddressData = {
-  addressesID: number
-  address_title: string
-  address_line_1: string
-  address_line_2: string
-  city: string
-  state: string
-  zip: string
-  country: string
-  address_priority: number
-  instant_book: boolean
-  address_public_status: boolean
-  phones: PhoneData[]
-  times: AvailabilityData[]
-}
-
-type PhoneData = {
-  Phone: string
-  phone_priority: number
-}
-
-interface AvailabilityData {
-  Day_of_week: string
-  Start_time: string
-  End_time: string
-}
-
-type PetItem = {
-  pet_listID: number
-  Pet: string
-  Pet_type: string
-}
-
 interface DoctorResponse {
-  languages: LanguageItem[]
-  services: ServiceItem[]
-  specialties: SpecialtyItem[]
-  preVetEducation: EducationItem[]
-  vetEducation: EducationItem[]
-  addressData: DoctorAddressData[]
+  languages: LanguageItemType[]
+  services: ServiceItemType[]
+  specialties: SpecialtyItemType[]
+  preVetEducation: EducationItemType[]
+  vetEducation: EducationItemType[]
+  addressData: DoctorAddressDataType[]
   description: string
-  servicedPets: PetItem[]
+  servicedPets: ServicedPetItemType[]
   verified: boolean
   publiclyAvailable: boolean
 }

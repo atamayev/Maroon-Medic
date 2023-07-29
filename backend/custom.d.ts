@@ -19,7 +19,6 @@ declare global {
         vetEducationID?: number;
         addressID?: number;
         servicedPetID?: number;
-        id?: number;
         query?: string;
       };
     }

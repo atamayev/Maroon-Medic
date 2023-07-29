@@ -2,68 +2,20 @@ import FetchAllLists from "../utils/fetch-all-lists"
 import OperationHandler from "../utils/operation-handler"
 import { Request, Response } from "express"
 
-type LanguageListItem = {
-  language_listID: number
-  Language_name: string
-}
-
-type ServiceListItem = {
-  service_and_category_listID: number
-  Category_name: string
-  Service_name: string
-}
-
-type SpecialtyListItem = {
-  specialties_listID: number
-  Organization_name: string
-  Specialty_name: string
-}
-
-type PreVetSchoolListItem = {
-  pre_vet_school_listID: number
-  School_name: string
-}
-
-type MajorListItem = {
-  major_listID: number
-  Major_name: string
-}
-
-type PreVetEducationTypeListItem = {
-  pre_vet_education_typeID: number
-  Education_type: string
-}
-
-type VetSchoolListItem = {
-  vet_school_listID: number
-  School_name: string
-}
-
-type VetEducationTypeListItem = {
-  vet_education_typeID: number
-  Education_type: string
-}
-
-type PetListItem = {
-  pet_listID: number
-  Pet: string
-  Pet_type: string
-}
-
 interface ListsResponse {
-  languages: LanguageListItem[]
-  servicesAndCategories: ServiceListItem[]
-  specialties: SpecialtyListItem[]
-  preVetSchools: PreVetSchoolListItem[]
-  preVetEducationTypes: PreVetEducationTypeListItem[]
-  majors: MajorListItem[]
-  vetSchools: VetSchoolListItem[]
-  vetEducationTypes: VetEducationTypeListItem[]
-  pets: PetListItem[]
+  languages: LanguageItemType[]
+  servicesAndCategories: ServiceListItemType[]
+  specialties: SpecialtyItemType[]
+  preVetSchools: PreVetSchoolType[]
+  preVetEducationTypes: PreVetEducationTypeType[]
+  majors: MajorType[]
+  vetSchools: VetSchoolListType[]
+  vetEducationTypes: VetEducationTypeType[]
+  pets: ServicedPetItemType[]
 }
 
 interface LanguagesList {
-  languages: LanguageListItem[]
+  languages: LanguageItemType[]
 }
 
 export async function fetchDoctorLists (req: Request, res: Response): Promise<Response> {

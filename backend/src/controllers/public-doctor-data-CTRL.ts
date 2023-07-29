@@ -6,7 +6,7 @@ import { Request, Response } from "express"
 
 interface DoctorResponse {
   doctorLanguages: LanguagesData[]
-  doctorServices: ServicesData[]
+  doctorServices: ServiceItemType[]
   doctorSpecialties: SpecialtiesData[]
   doctorPreVetEducation: EducationData[]
   doctorVetEducation: EducationData[]
@@ -18,14 +18,6 @@ interface DoctorResponse {
 
 type LanguagesData = {
   Language_name: string
-}
-
-type ServicesData = {
-  service_and_category_listID: number
-  Category_name: string
-  Service_name: string
-  Service_time: string
-  Service_price: number
 }
 
 type SpecialtiesData = {
@@ -59,13 +51,7 @@ type AddressData = {
   instant_book: boolean
   Phone: string
   phone_priority: number
-  times: AvailabilityData[]
-}
-
-interface AvailabilityData {
-  Day_of_week: string
-  Start_time: string
-  End_time: string
+  times: AvailabilityDataType[]
 }
 
 interface PersonalData {

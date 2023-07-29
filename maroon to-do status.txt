@@ -2,22 +2,6 @@ To-do:
 
 
 ASAP:
-Backend TS Fixes:
-	1. move the DoctorI to the body of teh req to avoid error
-	2. Add the parts of the body components to the Express object	
-			declare global {
-			  namespace Express {
-				interface Request {
-				  body: {
-					personalInfo?: PersonalInfoType;
-					// more custom body properties...
-				  };
-				}
-			  }
-			}
-	3. Move files to src folder
-	
-
 Frontend TS Fixes:
 	1. Give return types to all functions
 	2. Go through the backend list in email.

@@ -2,7 +2,11 @@
 import { Response } from "express"
 
 export default new class OperationHandler {
-  async executeAsyncOperationAndReturnCustomValueToRes(res: Response, operation: () => Promise<any>, whatToReturnSuccess: any = null): Promise<void> {
+  async executeAsyncOperationAndReturnCustomValueToRes(
+    res: Response,
+    operation: () => Promise<any>,
+    whatToReturnSuccess: any = null
+  ): Promise<void> {
     try {
       await operation()
       res.status(200).json(whatToReturnSuccess)
@@ -13,7 +17,11 @@ export default new class OperationHandler {
     }
   }
 
-  async executeAsyncOperationWithoutReturnValueNorRes(res: Response, operation: () => Promise<any>, whatToReturnFailure: string[] | null = null): Promise<void> {
+  async executeAsyncOperationWithoutReturnValueNorRes(
+    res: Response,
+    operation: () => Promise<any>,
+    whatToReturnFailure: string[] | null = null
+  ): Promise<void> {
     try {
       await operation()
     } catch (error: any) {
@@ -23,7 +31,11 @@ export default new class OperationHandler {
     }
   }
 
-  async executeAsyncAndReturnValueToRes(res: Response, operation: () => Promise<any>, whatToReturnFailure: string[] | null = null): Promise<void> {
+  async executeAsyncAndReturnValueToRes(
+    res: Response,
+    operation: () => Promise<any>,
+    whatToReturnFailure: string[] | null = null
+  ): Promise<void> {
     try {
       const result = await operation()
       res.status(200).json(result)
@@ -34,7 +46,11 @@ export default new class OperationHandler {
     }
   }
 
-  async executeAsyncAndReturnValue<T>(res: Response, fn: (...args: any[]) => Promise<T>, ...args: any[]): Promise<T | void> {
+  async executeAsyncAndReturnValue<T>(
+    res: Response,
+    fn: (...args: any[]) => Promise<T>,
+    ...args: any[]
+  ): Promise<T | void> {
     try {
       return await fn(...args)
     } catch (error: any) {

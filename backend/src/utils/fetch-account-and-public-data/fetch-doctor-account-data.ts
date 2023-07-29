@@ -2,77 +2,6 @@ import _ from "lodash"
 import DataFormatter from "../data-formatter"
 import FetchDoctorAccountDataDB from "../../db/private-doctor-data/fetch-doctor-account-data-DB"
 
-type LanguageItem = {
-  language_listID: number
-  Language_name: string
-}
-
-type ServiceItem = {
-  service_and_category_listID: number
-  Category_name: string
-  Service_name: string
-  Service_time: string
-  Service_price: number
-}
-
-type SpecialtyItem = {
-  specialties_listID: number
-  Organization_name: string
-  Specialty_name: string
-}
-
-type EducationItem = {
-  education_mappingID: number
-  School_name: string
-  Major_name?: string
-  Education_type: string
-  Start_Date: string
-  End_Date: string
-}
-
-type DoctorAddressData = {
-  addressesID: number
-  address_title: string
-  address_line_1: string
-  address_line_2: string
-  city: string
-  state: string
-  zip: string
-  country: string
-  address_priority: number
-  instant_book: boolean
-  address_public_status: boolean
-  phones: PhoneData[]
-  times: AvailabilityData[]
-}
-
-type PhoneData = {
-  Phone: string
-  phone_priority: number
-}
-
-interface AvailabilityData {
-  Day_of_week: string
-  Start_time: string
-  End_time: string
-}
-
-type PetItem = {
-  pet_listID: number
-  Pet: string
-  Pet_type: string
-}
-
-type DoctorStatus = {
-  PubliclyAvailable: boolean
-  Verified: boolean
-}
-
-type PicturesData = {
-  picture_link: string
-  picture_number: number
-}
-
 export default new class FetchDoctorAccountData {
   async #fetchDoctorAccountData<T>(DoctorID: number, retrievalFunction: (id: number) => Promise<T | T[]>): Promise<T | T[]> {
     try {
@@ -83,10 +12,13 @@ export default new class FetchDoctorAccountData {
     }
   }
 
-  async #fetchDoctorEducationData(DoctorID: number, retrievalFunction: (id: number) => Promise<EducationItem[]>): Promise<EducationItem[]> {
+  async #fetchDoctorEducationData(
+    DoctorID: number,
+    retrievalFunction: (id: number) => Promise<EducationItemType[]>
+  ): Promise<EducationItemType[]> {
     try {
       const educationData = await retrievalFunction(DoctorID)
-      const newResults = educationData.map((obj: EducationItem) => ({
+      const newResults = educationData.map((obj: EducationItemType) => ({
         ...obj,
         Start_Date: DataFormatter.formatEducationDates(obj.Start_Date),
         End_Date: DataFormatter.formatEducationDates(obj.End_Date)
@@ -97,32 +29,32 @@ export default new class FetchDoctorAccountData {
     }
   }
 
-  async fetchDoctorLanguages (DoctorID: number): Promise<LanguageItem[]> {
+  async fetchDoctorLanguages (DoctorID: number): Promise<LanguageItemType[]> {
     const result = await this.#fetchDoctorAccountData(DoctorID, FetchDoctorAccountDataDB.retrieveLanguages)
-    return result as LanguageItem[]
+    return result as LanguageItemType[]
   }
 
-  async fetchDoctorServices (DoctorID: number): Promise<ServiceItem[]> {
+  async fetchDoctorServices (DoctorID: number): Promise<ServiceItemType[]> {
     const result = await this.#fetchDoctorAccountData(DoctorID, FetchDoctorAccountDataDB.retrieveServices)
-    return result as ServiceItem[]
+    return result as ServiceItemType[]
   }
 
-  async fetchDoctorSpecialties (DoctorID: number): Promise<SpecialtyItem[]> {
+  async fetchDoctorSpecialties (DoctorID: number): Promise<SpecialtyItemType[]> {
     const result = await this.#fetchDoctorAccountData(DoctorID, FetchDoctorAccountDataDB.retrieveSpecialties)
-    return result as SpecialtyItem[]
+    return result as SpecialtyItemType[]
   }
 
-  async fetchPreVetEducation(DoctorID: number): Promise<EducationItem[]> {
+  async fetchPreVetEducation(DoctorID: number): Promise<EducationItemType[]> {
     const result = await this.#fetchDoctorEducationData(DoctorID, FetchDoctorAccountDataDB.retrievePreVetEducation)
-    return result as EducationItem[]
+    return result as EducationItemType[]
   }
 
-  async fetchVetEducation(DoctorID: number): Promise<EducationItem[]> {
+  async fetchVetEducation(DoctorID: number): Promise<EducationItemType[]> {
     const result = await this.#fetchDoctorEducationData(DoctorID, FetchDoctorAccountDataDB.retrieveVetEducation)
-    return result as EducationItem[]
+    return result as EducationItemType[]
   }
 
-  async fetchDoctorAddressData (DoctorID: number): Promise<DoctorAddressData[]> {
+  async fetchDoctorAddressData (DoctorID: number): Promise<DoctorAddressDataType[]> {
     try {
       const addressData = await FetchDoctorAccountDataDB.retrieveAddressData(DoctorID)
 
@@ -154,12 +86,12 @@ export default new class FetchDoctorAccountData {
     }
   }
 
-  async fetchServicedPets (DoctorID: number): Promise<PetItem[]> {
+  async fetchServicedPets (DoctorID: number): Promise<ServicedPetItemType[]> {
     const result = await this.#fetchDoctorAccountData(DoctorID, FetchDoctorAccountDataDB.retrieveServicedPets)
-    return result as PetItem[]
+    return result as ServicedPetItemType[]
   }
 
-  async fetchVerifiedAndPubliclyAvailable (DoctorID: number): Promise<DoctorStatus> {
+  async fetchVerifiedAndPubliclyAvailable (DoctorID: number): Promise<DoctorStatusType> {
     try {
       const status = await FetchDoctorAccountDataDB.retrieveVerifiedAndPubliclyAvailableStatus(DoctorID)
       return status || {PubliclyAvailable: false, Verified: false}
@@ -168,8 +100,8 @@ export default new class FetchDoctorAccountData {
     }
   }
 
-  async fetchDoctorPictures (DoctorID: number): Promise<PicturesData[]> {
+  async fetchDoctorPictures (DoctorID: number): Promise<PicturesItemType[]> {
     const result = await this.#fetchDoctorAccountData(DoctorID, FetchDoctorAccountDataDB.retrievePictures)
-    return result as PicturesData[]
+    return result as PicturesItemType[]
   }
 }()

@@ -6,13 +6,8 @@ import OperationHandler from "../../utils/operation-handler"
 import PrivatePatientDataDB from "../../db/private-patient-data/private-patient-data-DB"
 import FetchPatientAccountData from "../../utils/fetch-account-and-public-data/fetch-patient-account-data"
 
-type LanguageItem = {
-  language_listID: number
-  Language_name: string
-}
-
 interface PatientResponse {
-  languages: LanguageItem[]
+  languages: LanguageItemType[]
 }
 
 export async function newPatient (req: Request, res: Response): Promise<void> {
@@ -20,7 +15,11 @@ export async function newPatient (req: Request, res: Response): Promise<void> {
 
   const newPatientObject = req.body.newPatientObject
 
-  const dateOfBirth = TimeUtils.convertDOBStringIntoMySQLDate(newPatientObject.DOB_month, newPatientObject.DOB_day, newPatientObject.DOB_year)
+  const dateOfBirth = TimeUtils.convertDOBStringIntoMySQLDate(
+    newPatientObject.DOB_month,
+    newPatientObject.DOB_day,
+    newPatientObject.DOB_year
+  )
   const operation = async () => await PrivatePatientDataDB.addNewPatientInfo(newPatientObject, dateOfBirth, PatientID)
   OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }

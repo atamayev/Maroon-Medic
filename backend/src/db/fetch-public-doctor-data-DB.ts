@@ -45,12 +45,6 @@ interface AvailabilityData {
   End_time: string;
 }
 
-interface PersonalData {
-  FirstName: string
-  LastName: string
-  Gender: string
-}
-
 export default new class FetchPublicDoctorDataDB {
   async retrieveDoctorLanguages (DoctorID: number): Promise<LanguagesData[]> {
     const sql = `SELECT ${mysqlTables.language_list}.Language_name
@@ -68,7 +62,8 @@ export default new class FetchPublicDoctorDataDB {
   async retrieveDoctorSpecialties (DoctorID: number): Promise<SpecialtiesData[]> {
     const sql = `SELECT ${mysqlTables.specialties_list}.Organization_name, ${mysqlTables.specialties_list}.Specialty_name
       FROM ${mysqlTables.specialties_list}
-          JOIN ${mysqlTables.specialty_mapping} ON ${mysqlTables.specialties_list}.specialties_listID = ${mysqlTables.specialty_mapping}.specialty_ID
+          JOIN ${mysqlTables.specialty_mapping}
+          ON ${mysqlTables.specialties_list}.specialties_listID = ${mysqlTables.specialty_mapping}.specialty_ID
       WHERE ${mysqlTables.specialty_mapping}.Doctor_ID = ?`
 
     const values = [DoctorID]
@@ -79,10 +74,15 @@ export default new class FetchPublicDoctorDataDB {
   }
 
   async retrievePreVetEducation (DoctorID: number): Promise<EducationData[]> {
-    const sql = `SELECT ${mysqlTables.pre_vet_school_list}.School_name, ${mysqlTables.major_list}.Major_name, ${mysqlTables.pre_vet_education_type_list}.Education_type, ${mysqlTables.pre_vet_education_mapping}.Start_Date, ${mysqlTables.pre_vet_education_mapping}.End_Date
-      FROM ${mysqlTables.pre_vet_education_mapping}, ${mysqlTables.pre_vet_school_list}, ${mysqlTables.major_list}, ${mysqlTables.pre_vet_education_type_list}
-      WHERE ${mysqlTables.pre_vet_education_mapping}.School_ID = ${mysqlTables.pre_vet_school_list}.pre_vet_school_listID AND ${mysqlTables.pre_vet_education_mapping}.Major_ID = ${mysqlTables.major_list}.major_listID
-      AND ${mysqlTables.pre_vet_education_mapping}.Education_type_ID = ${mysqlTables.pre_vet_education_type_list}.pre_vet_education_typeID AND ${mysqlTables.pre_vet_education_mapping}.Doctor_ID = ?`
+    const sql = `SELECT ${mysqlTables.pre_vet_school_list}.School_name, ${mysqlTables.major_list}.Major_name,
+    ${mysqlTables.pre_vet_education_type_list}.Education_type, ${mysqlTables.pre_vet_education_mapping}.Start_Date,
+    ${mysqlTables.pre_vet_education_mapping}.End_Date
+      FROM ${mysqlTables.pre_vet_education_mapping}, ${mysqlTables.pre_vet_school_list},
+      ${mysqlTables.major_list}, ${mysqlTables.pre_vet_education_type_list}
+      WHERE ${mysqlTables.pre_vet_education_mapping}.School_ID = ${mysqlTables.pre_vet_school_list}.pre_vet_school_listID
+      AND ${mysqlTables.pre_vet_education_mapping}.Major_ID = ${mysqlTables.major_list}.major_listID
+      AND ${mysqlTables.pre_vet_education_mapping}.Education_type_ID = ${mysqlTables.pre_vet_education_type_list}.pre_vet_education_typeID
+      AND ${mysqlTables.pre_vet_education_mapping}.Doctor_ID = ?`
 
     const values = [DoctorID]
     const connection = await connectDatabase()
@@ -92,7 +92,8 @@ export default new class FetchPublicDoctorDataDB {
   }
 
   async retrieveVetEducation (DoctorID: number): Promise<EducationData[]> {
-    const sql = `SELECT ${mysqlTables.vet_school_list}.School_name, ${mysqlTables.vet_education_type_list}.Education_type, ${mysqlTables.vet_education_mapping}.Start_Date, ${mysqlTables.vet_education_mapping}.End_Date
+    const sql = `SELECT ${mysqlTables.vet_school_list}.School_name, ${mysqlTables.vet_education_type_list}.Education_type,
+    ${mysqlTables.vet_education_mapping}.Start_Date, ${mysqlTables.vet_education_mapping}.End_Date
       FROM ${mysqlTables.vet_education_mapping}, ${mysqlTables.vet_school_list}, ${mysqlTables.vet_education_type_list}
       WHERE
           ${mysqlTables.vet_education_mapping}.School_ID = ${mysqlTables.vet_school_list}.vet_school_listID
@@ -122,12 +123,15 @@ export default new class FetchPublicDoctorDataDB {
 
   async retrieveAddressData (DoctorID: number): Promise<AddressData[]> {
     const sql = `SELECT
-          ${mysqlTables.addresses}.addressesID, ${mysqlTables.addresses}.address_title, ${mysqlTables.addresses}.address_line_1, ${mysqlTables.addresses}.address_line_2,
-          ${mysqlTables.addresses}.city, ${mysqlTables.addresses}.state, ${mysqlTables.addresses}.zip, ${mysqlTables.addresses}.country, ${mysqlTables.addresses}.address_priority, ${mysqlTables.addresses}.instant_book,
+          ${mysqlTables.addresses}.addressesID, ${mysqlTables.addresses}.address_title, ${mysqlTables.addresses}.address_line_1,
+          ${mysqlTables.addresses}.address_line_2, ${mysqlTables.addresses}.city, ${mysqlTables.addresses}.state,
+          ${mysqlTables.addresses}.zip, ${mysqlTables.addresses}.country, ${mysqlTables.addresses}.address_priority,
+          ${mysqlTables.addresses}.instant_book,
           ${mysqlTables.phone}.Phone, ${mysqlTables.phone}.phone_priority
       FROM ${mysqlTables.addresses}, ${mysqlTables.phone}
       WHERE
-          ${mysqlTables.addresses}.addressesID = ${mysqlTables.phone}.address_ID AND ${mysqlTables.addresses}.Doctor_ID = ? AND ${mysqlTables.addresses}.address_public_status = 1 AND ${mysqlTables.addresses}.isActive = 1`
+          ${mysqlTables.addresses}.addressesID = ${mysqlTables.phone}.address_ID AND ${mysqlTables.addresses}.Doctor_ID = ?
+          AND ${mysqlTables.addresses}.address_public_status = 1 AND ${mysqlTables.addresses}.isActive = 1`
 
     const values = [DoctorID]
     const connection = await connectDatabase()
@@ -137,7 +141,9 @@ export default new class FetchPublicDoctorDataDB {
   }
 
   async retrieveAvailabilityData (addressID: number): Promise<AvailabilityData[]> {
-    const sql = `SELECT ${mysqlTables.booking_availability}.Day_of_week, ${mysqlTables.booking_availability}.Start_time, ${mysqlTables.booking_availability}.End_time FROM ${mysqlTables.booking_availability} WHERE ${mysqlTables.booking_availability}.address_ID = ?`
+    const sql = `SELECT ${mysqlTables.booking_availability}.Day_of_week, ${mysqlTables.booking_availability}.Start_time,
+      ${mysqlTables.booking_availability}.End_time FROM ${mysqlTables.booking_availability}
+      WHERE ${mysqlTables.booking_availability}.address_ID = ?`
     const values = [addressID]
     const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values) as RowDataPacket[]
