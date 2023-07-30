@@ -1,4 +1,5 @@
 import moment from "moment"
+import { AxiosError } from "axios"
 import PrivateDoctorDataService from "../../services/private-doctor-data-service"
 import { shouldSaveDescription } from "../../utils/save-account-details"
 import { invalidUserAction } from "../user-verification-snippets"
@@ -149,8 +150,12 @@ export async function addPreVetEducation(
       setPreVetEducationConfirmation({messageType: "problem"})
       return
     }
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 401) {
+        invalidUserAction(error.response.data)
+      }
+    }
     else setPreVetEducationConfirmation({messageType: "problem"})
     return
   }
@@ -175,8 +180,12 @@ export async function deletePreVetEducation(
       setPreVetEducationConfirmation({messageType: "problem"})
       return
     }
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 401) {
+        invalidUserAction(error.response.data)
+      }
+    }
     else setPreVetEducationConfirmation({messageType: "problem"})
     return
   }
@@ -210,8 +219,12 @@ export async function addVetEducation(
       setVetEducationConfirmation({messageType: "problem"})
       return
     }
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 401) {
+        invalidUserAction(error.response.data)
+      }
+    }
     else setVetEducationConfirmation({messageType: "problem"})
     return
   }
@@ -236,8 +249,12 @@ export async function deleteVetEducation(
       setVetEducationConfirmation({messageType: "problem"})
       return
     }
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 401) {
+        invalidUserAction(error.response.data)
+      }
+    }
     else setVetEducationConfirmation({messageType: "problem"})
     return
   }
@@ -274,8 +291,12 @@ export async function saveDescription(description, setDescriptionConfirmation) {
       sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
       setDescriptionConfirmation({messageType: "saved"})
     }
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 401) {
+        invalidUserAction(error.response.data)
+      }
+    }
     else setDescriptionConfirmation({messageType: "problem"})
   }
 }
@@ -298,8 +319,12 @@ export async function handlePublicAvailibilityToggle (value, setPubliclyAvailabl
       sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
       setPubliclyAvailableConfirmation({messageType: "saved"})
     }
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 401) {
+        invalidUserAction(error.response.data)
+      }
+    }
     else setPubliclyAvailableConfirmation({messageType: "problem"})
   }
 }

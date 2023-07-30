@@ -23,14 +23,12 @@ export default function PatietRegister() {
       <LoginAndRegistrationForm
         handleSubmit = {() =>
           handleRegisterSubmit(
-            {
-              registerInformationObject,
-              passwordConfirm,
-              navigate,
-              setError,
-              setLoading,
-              VetOrPatient: type
-            }
+            registerInformationObject,
+            passwordConfirm,
+            navigate,
+            setError,
+            setLoading,
+            type
           )}
         credentials = {registerInformationObject}
         setCredentials = {setRegisterInformationObject}

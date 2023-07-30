@@ -1,4 +1,3 @@
-import React from "react"
 import { useState } from "react"
 import { Alert, Button, Card, Form } from "react-bootstrap"
 import { handleChangePassword } from "../custom-hooks/change-password"
@@ -12,9 +11,9 @@ export default function ChangePassword(props: Props) {
   const { type } = props
   const [credentials, setCredentials] = useState({
     userType: type,
-    currentPassword: '',
-    newPassword: '',
-    newConfirmPassword: '',
+    currentPassword: "",
+    newPassword: "",
+    newConfirmPassword: "",
   })
   const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
@@ -48,7 +47,7 @@ export default function ChangePassword(props: Props) {
           <FormGroup
             id = "current-password"
             label = "Current Password"
-            type = {renderShowPassword}
+            type = {renderShowPassword()}
             placeholder = "SuperSecretPassword"
             value = {credentials.currentPassword || ""}
             onChange = {(event) => setCredentials({...credentials, currentPassword: event.target.value})}

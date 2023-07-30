@@ -1,4 +1,5 @@
 import _ from "lodash"
+import { AxiosError } from "axios"
 import {Dropdown} from "react-bootstrap"
 import {useLocation} from "react-router-dom"
 import {useCallback, useState, useEffect, useContext } from "react"
@@ -47,14 +48,14 @@ function useSetHeaderData(userType: "Doctor" | "Patient" ) {
     try {
       let name: string = ""
       if (userType === "Doctor") {
-        const storedInfo = sessionStorage.getItem("DoctorPersonalInfo");
+        const storedInfo = sessionStorage.getItem("DoctorPersonalInfo")
 
-        if (storedInfo) name = JSON.parse(storedInfo).LastName;
+        if (storedInfo) name = JSON.parse(storedInfo).LastName
         setHeaderData("Dr. " + _.upperFirst(name || ""))
       } else {
-        const storedInfo = sessionStorage.getItem("PatientPersonalInfo");
+        const storedInfo = sessionStorage.getItem("PatientPersonalInfo")
 
-        if (storedInfo) name = JSON.parse(storedInfo).FirstName;
+        if (storedInfo) name = JSON.parse(storedInfo).FirstName
         setHeaderData(_.upperFirst(name || ""))
       }
     } catch (error) {
@@ -74,15 +75,23 @@ async function fetchPersonalInfo (type: "Doctor" | "Patient", setHeaderData: Rea
   if (type === "Doctor") {
     try {
       response = await PrivateDoctorDataService.fillPersonalData()
-    } catch (error: any) {
-      if (error.response.status === 401) invalidUserAction(error.response.data)
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 401) {
+          invalidUserAction(error.response.data)
+        }
+      }
     }
   }
   else if (type === "Patient") {
     try {
       response = await PrivatePatientDataService.fillPersonalData()
-    } catch (error: any) {
-      if (error.response.status === 401) invalidUserAction(error.response.data)
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 401) {
+          invalidUserAction(error.response.data)
+        }
+      }
     }
   }
 
@@ -95,17 +104,17 @@ async function fetchPersonalInfo (type: "Doctor" | "Patient", setHeaderData: Rea
 const retrieveNameFromStorage = (setHeaderData: React.Dispatch<React.SetStateAction<string>>) => {
   let name: string = ""
   try {
-    const storedInfo = sessionStorage.getItem("DoctorPersonalInfo");
+    const storedInfo = sessionStorage.getItem("DoctorPersonalInfo")
 
-    if (storedInfo) name = JSON.parse(storedInfo).LastName;
+    if (storedInfo) name = JSON.parse(storedInfo).LastName
     setHeaderData("Dr. " + name)
     return
   } catch (error) {
   }
   try {
-    const storedInfo = sessionStorage.getItem("PatientPersonalInfo");
+    const storedInfo = sessionStorage.getItem("PatientPersonalInfo")
 
-    if (storedInfo) name = JSON.parse(storedInfo).FirstName;
+    if (storedInfo) name = JSON.parse(storedInfo).FirstName
     setHeaderData(name)
     return
   } catch (error) {
@@ -226,9 +235,9 @@ export default function Header (props: HeaderProps) {
               className = "btn btn-dark"
               type = "button"
               onClick = {() => {
-                const inputElement = document.getElementById("search-input");
+                const inputElement = document.getElementById("search-input")
                 if (inputElement) {
-                  handleSearch((inputElement as HTMLInputElement).value, setSearchTerm);
+                  handleSearch((inputElement as HTMLInputElement).value, setSearchTerm)
                 }
               }}
             >

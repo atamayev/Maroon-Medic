@@ -1,7 +1,20 @@
 import _ from "lodash"
 import { Card } from "react-bootstrap"
 
-export default function RenderSpecialtiesSection(props) {
+interface Props {
+  doctorSpecialties: SpecialtyType[]
+}
+
+type SpecialtyType = {
+  Organization_name: string
+  Specialty_name: string
+}
+
+interface CategoriesType {
+  [key: string]: SpecialtyType[]
+}
+
+export default function RenderSpecialtiesSection(props: Props) {
   const { doctorSpecialties } = props
   if (!_.isEmpty(doctorSpecialties)) {
     return (
@@ -17,8 +30,8 @@ export default function RenderSpecialtiesSection(props) {
   }
 }
 
-function renderSpecialties(doctorSpecialties) {
-  const organizations = {}
+function renderSpecialties(doctorSpecialties: SpecialtyType[]) {
+  const organizations: CategoriesType = {}
   if (doctorSpecialties) {
     doctorSpecialties.forEach(specialty => {
       if (!organizations[specialty.Organization_name]) organizations[specialty.Organization_name] = []

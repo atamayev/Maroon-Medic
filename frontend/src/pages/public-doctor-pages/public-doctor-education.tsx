@@ -1,7 +1,23 @@
 import _ from "lodash"
 import { Card } from "react-bootstrap"
 
-export default function RenderEducationSection(props) {
+interface Props {
+  preVetEducation: EducationType[]
+  vetEducation: EducationType[]
+  personalData: {
+    LastName: string
+  }
+}
+
+type EducationType = {
+  School_name: string
+  Education_type: string
+  Major_name?: string
+  Start_Date: string
+  End_Date: string
+}
+
+export default function RenderEducationSection(props: Props) {
   const { preVetEducation, vetEducation, personalData } = props
   if (!_.isEmpty(preVetEducation) && !_.isEmpty(vetEducation)) {
     return (
@@ -21,7 +37,7 @@ export default function RenderEducationSection(props) {
   }
 }
 
-function renderEducation(educationList, hasMajor) {
+function renderEducation(educationList: EducationType[], hasMajor: boolean) {
   return (
     <>
       {educationList.map((edu, index) => (

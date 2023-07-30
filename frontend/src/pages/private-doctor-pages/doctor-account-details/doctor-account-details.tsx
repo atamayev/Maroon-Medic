@@ -68,7 +68,7 @@ async function FillDoctorAccountDetails(
         setExpandedPetTypes(response.data.servicedPets.map(pet =>pet.pet_type))
       }
       if (_.has(response.data, "publiclyAvailable")) setPubliclyAvailable(response.data.publiclyAvailable)
-      if (response.data.pictures) ; //set pictures
+      // if (response.data.pictures) ; //set pictures
       sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(response.data))
     }
   } catch (error: unknown) {

@@ -1,12 +1,17 @@
 import { invalidUserAction } from "../user-verification-snippets"
 import PrivateDoctorDataService from "../../services/private-doctor-data-service"
+import { AxiosError } from "axios"
 
 export async function modifyDoctorLanguages(operation, languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation) {
   let response
   try {
     response = await operation(languageID)
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 401) {
+        invalidUserAction(error.response.data)
+      }
+    }
     else setLanguagesConfirmation({messageType: "problem"})
     return
   }
@@ -32,8 +37,12 @@ export async function modifyDoctorSpecialties(
   let response
   try {
     response = await operation(specialtyID)
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 401) {
+        invalidUserAction(error.response.data)
+      }
+    }
     else setSpecialtiesConfirmation({messageType: "problem"})
     return
   }
@@ -54,8 +63,12 @@ export async function modifyServicedPets(operation, petID, newServicedPets, setS
   let response
   try {
     response = await operation(petID)
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 401) {
+        invalidUserAction(error.response.data)
+      }
+    }
     else setPetsConfirmation({messageType: "problem"})
     return
   }
@@ -97,8 +110,12 @@ export async function modifyAddressData(operation, address, setAddresses, setAdd
       sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
       setAddressesConfirmation({messageType: "saved"})
     }
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 401) {
+        invalidUserAction(error.response.data)
+      }
+    }
     else setAddressesConfirmation({messageType: "problem"})
   }
 }
@@ -137,8 +154,12 @@ export async function modifyServicesData(
       sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
       setServicesConfirmation({messageType: "saved"})
     }
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 401) {
+        invalidUserAction(error.response.data)
+      }
+    }
     else setServicesConfirmation({messageType: "problem"})
   }
 }

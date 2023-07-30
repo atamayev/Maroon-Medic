@@ -2,6 +2,7 @@ import { useContext, useState, useEffect } from "react"
 import { VerifyContext } from "../contexts/verify-context"
 
 type UserTypes = "Doctor" | "Patient" | null
+
 export default function useSimpleUserVerification(clearSession = true) {
   const { userVerification } = useContext(VerifyContext)
   const [userType, setUserType] = useState<UserTypes>(null)

@@ -22,13 +22,11 @@ export default function PatientLogin() {
       <LoginAndRegistrationForm
         handleSubmit = {() =>
           handleLoginSubmit(
-            {
-              loginInformationObject,
-              navigate,
-              setError,
-              setLoading,
-              VetOrPatient: type
-            }
+            loginInformationObject,
+            navigate,
+            setError,
+            setLoading,
+            type
           )}
         credentials = {loginInformationObject}
         setCredentials = {setLoginInformationObject}

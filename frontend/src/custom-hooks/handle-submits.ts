@@ -4,13 +4,13 @@ import PrivateDoctorDataService from "../services/private-doctor-data-service.js
 import PrivatePatientDataService from "../services/private-patient-data-service.js"
 import { invalidUserAction } from "./user-verification-snippets.js"
 
-export const handleLoginSubmit = async ({
+export const handleLoginSubmit = async (
   loginInformationObject,
   navigate,
   setError,
   setLoading,
-  VetOrPatient
-}) => {
+  VetOrPatient: "Vet" | "Patient"
+) => {
   setError("")
   try {
     setLoading(true)
@@ -38,14 +38,14 @@ export const handleLoginSubmit = async ({
   setLoading(false)
 }
 
-export const handleRegisterSubmit = async ({
+export const handleRegisterSubmit = async (
   registerInformationObject,
   passwordConfirm,
   navigate,
   setError,
   setLoading,
-  VetOrPatient
-}) => {
+  VetOrPatient: "Vet" | "Patient"
+) => {
   setError("")
   if (registerInformationObject.password !== passwordConfirm) return setError("Passwords do not match")
   try {
@@ -64,13 +64,13 @@ export const handleRegisterSubmit = async ({
   setLoading(false)
 }
 
-export const handleNewUserSubmit = async ({
+export const handleNewUserSubmit = async (
   newInfo,
   navigate,
   setError,
   setLoading,
   VetOrPatient: "Vet" | "Patient"
-}) => {
+) => {
   setError("")
   try {
     setLoading(true)

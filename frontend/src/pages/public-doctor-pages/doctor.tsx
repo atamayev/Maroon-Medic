@@ -15,25 +15,25 @@ import RenderDescriptionSection from "./public-doctor-description"
 import RenderServicedPetsSection from "./public-doctor-serviced-pets"
 
 export default function Doctor () {
-  let { id } = useParams()
+  const { id } = useParams()
   const [spokenLanguages, setSpokenLanguages] = useState([])
   const [providedServices, setProvidedServices] = useState([])
   const [doctorSpecialties, setDoctorSpecialties] = useState([])
   const [preVetEducation, setPreVetEducation] = useState([])
   const [vetEducation, setVetEducation] = useState([])
-  const [addresses, setAddresses] = useState(
+  const [addresses, setAddresses] = useState<AddressType[]>(
     [{ address_priority: 0, addressesID: 0, address_title: "", address_line_1  : "", address_line_2: "",
-      city: "", state: "", zip: "", country: "", phone_priority: 0, phone: "", address_public_status: 1, instant_book: 0, times:[]
+      city: "", state: "", zip: "", country: "", phone_priority: 0, phone: "", instant_book: false, times:[]
     }])
   const [description, setDescription] = useState("")
   const [servicedPets, setServicedPets] = useState([])
-  const [personalData, setPersonalData] = useState({FirstName: "", LastName: "", Gender: "", NVI: ""})
+  const [personalData, setPersonalData] = useState<PersonalDataType>({FirstName: "", LastName: "", Gender: "", NVI: 0})
 
-  if (Number(id)) id = Number(id)
+  const idNumber = Number(id) // create a new variable
 
-  async function FillDoctorData(id) {
+  async function FillDoctorData(idNumber: number) {
     try {
-      const response = await PublicDoctorDataService.getSingleDoctor(id)
+      const response = await PublicDoctorDataService.getSingleDoctor(idNumber)
       if (response) {
         if (response.data.doctorLanguages) setSpokenLanguages(response.data.doctorLanguages)
         if (response.data.doctorServices) setProvidedServices(response.data.doctorServices)
@@ -43,7 +43,7 @@ export default function Doctor () {
         if (response.data.doctorAddressData) setAddresses(response.data.doctorAddressData)
         if (response.data.description) setDescription(response.data.description)
         if (response.data.servicedPets) setServicedPets(response.data.servicedPets)
-        if (response.data.doctorPictures) ;// Somehow set pictures.
+        // if (response.data.doctorPictures) ;// Somehow set pictures.
         if (response.data.doctorPersonalInfo) setPersonalData(response.data.doctorPersonalInfo)
       }
     } catch (error) {
@@ -51,7 +51,7 @@ export default function Doctor () {
   }
 
   useEffect(() => {
-    FillDoctorData(id)
+    FillDoctorData(idNumber)
   }, [])
 
   return (

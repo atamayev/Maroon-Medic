@@ -5,8 +5,12 @@ async function modifyPatientLanguages(operation, languageID, newSpokenLanguages,
   let response
   try {
     response = await operation(languageID)
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
+  } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 401) {
+          invalidUserAction(error.response.data)
+        }
+      }
     else setLanguagesConfirmation({messageType: "problem"})
     return
   }

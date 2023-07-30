@@ -1,6 +1,10 @@
 import { Card } from "react-bootstrap"
 
-export default function RenderReviewsSection(props) {
+interface Props {
+
+}
+
+export default function RenderReviewsSection(props: Props) {
   // const { spokenLanguages } = props
 
   // if (!_.isEmpty(spokenLanguages)) {
@@ -18,8 +22,8 @@ export default function RenderReviewsSection(props) {
 
 }
 
-// eslint-disable-next-line no-unused-vars
-function renderReviews(props) {
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+function renderReviews(props: Props) {
 
   return (
     <>

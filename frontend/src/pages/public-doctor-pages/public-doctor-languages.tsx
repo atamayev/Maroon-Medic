@@ -1,7 +1,15 @@
 import _ from "lodash"
 import { Card } from "react-bootstrap"
 
-export default function RenderLanguageSection(props) {
+interface Props {
+  spokenLanguages: spokenLanguagesType[]
+}
+
+type spokenLanguagesType = {
+  Language_name: string
+}
+
+export default function RenderLanguageSection(props: Props) {
   const { spokenLanguages } = props
   if (!_.isEmpty(spokenLanguages)) {
     return (
@@ -17,7 +25,7 @@ export default function RenderLanguageSection(props) {
   }
 }
 
-function renderSpokenLanguages(spokenLanguages) {
+function renderSpokenLanguages(spokenLanguages: spokenLanguagesType[]) {
   return (
     <>
       {spokenLanguages.map((language, index) => (

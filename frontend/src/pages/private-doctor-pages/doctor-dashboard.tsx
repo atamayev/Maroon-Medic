@@ -1,5 +1,6 @@
 import _ from "lodash"
 import moment from "moment"
+import { AxiosError } from "axios"
 import { useEffect, useState } from "react"
 import { Card, Badge, Button } from "react-bootstrap"
 import { UnauthorizedUser } from "../../components/user-type-unauth"
@@ -24,8 +25,12 @@ async function approveAppointment (setStatus, AppointmentsID, dashboardData, set
     } else {
       setStatus("pending")
     }
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 401) {
+        invalidUserAction(error.response.data)
+      }
+    }
     else setStatus("pending")
   }
 }

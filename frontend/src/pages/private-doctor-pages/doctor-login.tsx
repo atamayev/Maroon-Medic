@@ -23,13 +23,11 @@ export default function DoctorLogin() {
       <LoginAndRegistrationForm
         handleSubmit = {() =>
           handleLoginSubmit(
-            {
-              loginInformationObject,
-              navigate,
-              setError,
-              setLoading,
-              VetOrPatient: type
-            }
+            loginInformationObject,
+            navigate,
+            setError,
+            setLoading,
+            type
           )}
         credentials = {loginInformationObject}
         setCredentials = {setLoginInformationObject}

@@ -1,5 +1,6 @@
 import PrivatePatientDataService from "../../services/private-patient-data-service"
 import { invalidUserAction } from "../user-verification-snippets"
+import { AxiosError } from "axios"
 
 function petDataOperations (petData, responseData) {
   delete petData.insurance_listID
@@ -13,8 +14,12 @@ export async function addPet(petData, setPetData, setPetConfirmation, savedPetDa
 
   try {
     response = await PrivatePatientDataService.addPetData(petData)
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 401) {
+        invalidUserAction(error.response.data)
+      }
+    }
     else setPetConfirmation({messageType: "problem"})
   }
 
@@ -36,8 +41,12 @@ export async function deletePet(pet_infoID, savedPetData, setSavedPetData, setPe
 
   try {
     response = await PrivatePatientDataService.deletePetData(pet_infoID)
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 401) {
+        invalidUserAction(error.response.data)
+      }
+    }
     else setPetConfirmation({messageType: "problem"})
   }
 

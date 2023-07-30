@@ -1,11 +1,15 @@
 import _ from "lodash"
 
-export default function RenderPersonalInfoSection(props) {
-  const { personalData, description } = props
-  if (personalData || description) return <h3> {RenderPersonalInfo(personalData)} </h3>
+interface Props {
+  personalData: PersonalDataType
 }
 
-function RenderPersonalInfo(props) {
+export default function RenderPersonalInfoSection(props: Props) {
+  const { personalData } = props
+  if (personalData) return <h3> {RenderPersonalInfo(personalData)} </h3>
+}
+
+function RenderPersonalInfo(props: PersonalDataType) {
   const {FirstName, LastName} = props
   if (!_.isEmpty(props)) {
     return <> Dr. {""} {_.upperFirst(FirstName || "")} {""} {_.upperFirst(LastName || "")} </>

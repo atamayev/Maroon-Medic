@@ -44,13 +44,11 @@ export default function NewDoctor () {
       <NewAccountForm
         handleSubmit = {() =>
           handleNewUserSubmit(
-            {
-              newInfo: newDoctorInfo,
-              navigate,
-              setError,
-              setLoading,
-              VetOrPatient: "Vet"
-            }
+            newDoctorInfo,
+            navigate,
+            setError,
+            setLoading,
+            "Vet"
           )}
         newInfo = {newDoctorInfo}
         setNewInfo = {setNewDoctorInfo}

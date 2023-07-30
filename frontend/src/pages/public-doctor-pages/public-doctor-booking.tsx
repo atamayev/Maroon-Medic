@@ -1,22 +1,25 @@
 import _ from "lodash"
 import moment from "moment"
 import { useState, useEffect } from "react"
-import { Card, Button } from "react-bootstrap"
-import { Link, useNavigate } from "react-router-dom"
-import FormGroup from "../../components/form-group"
+import { Card } from "react-bootstrap"
+import { useNavigate } from "react-router-dom"
 import { fetchPetData } from "../../custom-hooks/my-pets-hooks/my-pets"
-import { UnauthorizedUserBodyText } from "../../components/user-type-unauth"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
-import { finalizeBookingClick } from "../../custom-hooks/public-doctor-hooks/booking-page-hooks"
 import {
-  handleServiceChange,
-  handleLocationChange,
-  handleDayChange,
-  handleTimeChange,
-  handlePetChange
-} from "../../custom-hooks/public-doctor-hooks/booking-page-hooks"
+  RenderChoosePet,
+  RenderSelectService,
+  RenderSelectLocation,
+  RenderNoAvailableTimes,
+  RenderSelectDay,
+  RenderSelectTime,
+  RenderFinalizeBookingButton,
+  RenderPatientNotLoggedIn,
+  RenderDoctorDoesNotHaveLocations,
+  RenderDoctorDoesNotOfferServices,
 
-function usePetData(userType) {
+} from "src/components/booking"
+
+function usePetData(userType: "Doctor" | "Patient") {
   const [savedPetData, setSavedPetData] = useState(JSON.parse(sessionStorage.getItem("PatientPetData")) || [])
 
   const fetchAndSetPetData = async () => {
@@ -37,7 +40,13 @@ function usePetData(userType) {
   return { savedPetData }
 }
 
-export default function RenderBookingSection(props) {
+interface Props {
+  providedServices: ServiceType[]
+  addresses: AddressType[]
+  personalData: PersonalDataType
+}
+
+export default function RenderBookingSection(props: Props) {
   const { userType } = useSimpleUserVerification(false)
   const { savedPetData } = usePetData(userType)
   const { providedServices, addresses, personalData } = props
@@ -53,7 +62,8 @@ export default function RenderBookingSection(props) {
   const [serviceMinutes, setServiceMinutes] = useState(0)
 
   // Get selected service object
-  const selectedServiceObject = providedServices.find(service => service.service_and_category_listID === selectedService?.service_and_category_listID)
+  const selectedServiceObject = providedServices.find(
+    service => service.service_and_category_listID === selectedService?.service_and_category_listID)
 
   // Get selected location object
   const selectedLocationObject = addresses.find(location => location.addressesID === selectedLocation?.addressesID)
@@ -66,7 +76,7 @@ export default function RenderBookingSection(props) {
     }
   }, [savedPetData])
 
-  function convertToMinutes(input) {
+  function convertToMinutes(input: string) {
     if (typeof input === "string") {
       const value = parseInt(input.split(" ")[0])
       if (input.includes("hour")) return moment.duration(value, "hours").asMinutes()
@@ -138,228 +148,84 @@ export default function RenderBookingSection(props) {
     )
   }
 
-  const renderChoosePet = () => {
-    if (_.isEmpty(savedPetData)) {
-      return (
-        <div className = "col-md-6">
-          You need to add a pet to make an appointment
-          <Link to = {"/my-pets"}>
-            <Button variant = "primary">
-              <p>Add a Pet</p>
-            </Button>
-          </Link>
-        </div>
-      )
-    }
-
-    if (savedPetData.length === 1) return <div className = "col-md-6">Selected Pet: {selectedPet?.Name}</div>
-
-    return (
-      <div className = "col-md-6">
-        <FormGroup
-          as = "select"
-          id = "petSelect"
-          label = "Select a pet"
-          onChange = {(e) =>
-            handlePetChange(e, savedPetData, setSelectedPet, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime)
-          }
-        >
-          <option>Select...</option>
-          {savedPetData.map((pet, index) => (
-            <option key = {index} value = {pet.pet_infoID}>
-              {pet.Name}
-            </option>
-          ))}
-        </FormGroup>
-      </div>
-    )
-  }
-
-  const renderAvailableDates = () => {
-    if (selectedDay === `Dr. ${_.upperFirst(personalData.LastName || "")} does not currently have any open appointments at this location`) {
-      return <option disabled>{selectedDay}</option>
-    }
-
-    return (
-      availableDates.map((date) => (
-        <option key = {date} value = {date}>
-          {date}
-        </option>
-      ))
-    )
-  }
-
-  const renderInstantBook = () => {
-    if (selectedLocation.instant_book) return <>Confirm</>
-    return <>Request</>
-  }
-
-  const renderSelectService = () => {
-    if (!selectedPet) return null
-
-    return (
-      <div className = "col-md-6">
-        <FormGroup
-          as = "select"
-          id = "serviceSelect"
-          label = "Select a service"
-          onChange = {(e) => handleServiceChange(e, providedServices, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime)}
-        >
-          <option>Select...</option>
-          {providedServices.map((service, index) => (
-            <option key = {index} value = {service.service_and_category_listID}>
-              {service.Category_name} - {service.Service_name}
-            </option>
-          ))}
-        </FormGroup>
-      </div>
-    )
-  }
-
-  const renderSelectLocation = () => {
-    if (!selectedService) return null
-
-    return (
-      <div className = "col-md-6">
-        <FormGroup
-          as = "select"
-          id = "locationSelect"
-          label = "Select a location"
-          onChange = {(e) => handleLocationChange(e, addresses, setSelectedLocation, setSelectedDay, setSelectedTime, setNoAvailableTimesMessage)}
-        >
-          <option>Select...</option>
-          {addresses.map((address) => (
-            <option key = {address.addressesID} value = {address.addressesID}>
-              {address.address_title}: ({address.address_line_1} {address.address_line_2}, {address.city}, {address.state}, {address.zip})
-            </option>
-          ))}
-        </FormGroup>
-      </div>
-    )
-  }
-
-  const renderSelectDay = () => {
-    if (!(selectedService && selectedLocation)) return null
-
-    return (
-      <div className = "col-md-6">
-        <FormGroup
-          as = "select"
-          id = "daySelect"
-          label = "Select a date"
-          onChange = {(e) => handleDayChange(e, setSelectedDay, setSelectedTime)}
-        >
-          <option>Select...</option>
-          {renderAvailableDates()}
-        </FormGroup>
-      </div>
-    )
-  }
-
-  const renderNoAvailableTimes = () => {
-    if (!noAvailableTimesMessage) return null
-    return <>Dr. {_.upperFirst(personalData.LastName || "")} does not currently have any open appointments at this location</>
-  }
-
-  const renderSelectTime = () => {
-    if (!(selectedService && selectedLocation && selectedDay)) return null
-    return (
-      <div className = "col-md-6">
-        <FormGroup
-          as = "select"
-          id = "timeSelect"
-          label = "Select a time"
-          onChange = {(e) => handleTimeChange(e, setSelectedTime)}
-        >
-          <option>Select...</option>
-          {availableTimes.map((time) => (
-            <option key = {time} value = {time}>
-              {time} - {moment(time, "h:mm A").add(serviceMinutes, "minutes").format("h:mm A")}
-            </option>
-          ))}
-        </FormGroup>
-      </div>
-    )
-  }
-
-  const renderFinalizeBookingButton = () => {
-    if (!(selectedService && selectedLocation && selectedDay && selectedTime)) return null
-
-    return (
-      <Button
-        className = "mt-3"
-        onClick = {() => finalizeBookingClick(
-          navigate,
-          selectedService,
-          selectedLocation,
-          selectedDay,
-          selectedTime,
-          serviceMinutes,
-          personalData,
-          selectedPet
-        )}
-        variant = "primary"
-      >
-        Click to {renderInstantBook()} an appointment
-      </Button>
-    )
-  }
-
-  const renderPatientNotLoggedIn = () => {
-    return (
-      <Card className = "card-bottom-margin">
-        <Card.Header>Ready to make a booking?</Card.Header>
-        <UnauthorizedUserBodyText patientOrDoctor = {"patient"} />
-      </Card>
-    )
-  }
-
-  const renderDoctorDoesNotOfferServices = () => {
-    return (
-      <Card className = "card-bottom-margin">
-        <Card.Header>Ready to make a booking?</Card.Header>
-        <Card.Body>Dr. {_.upperFirst(personalData.LastName || "")} does not currently offer any services.</Card.Body>
-      </Card>
-    )
-  }
-
-  const renderDoctorDoesNotHaveLocations = () => {
-    return (
-      <Card className = "card-bottom-margin">
-        <Card.Header>Ready to make a booking?</Card.Header>
-        <Card.Body>Dr. {_.upperFirst(personalData.LastName || "")} does not currently have any open locations.</Card.Body>
-      </Card>
-    )
-  }
-
   const renderMakeBooking = () => {
-    if (userType !== "Patient") return renderPatientNotLoggedIn()
-    if ( _.isEmpty(addresses)) return renderDoctorDoesNotHaveLocations()
-    if ( _.isEmpty(providedServices)) return renderDoctorDoesNotOfferServices()
+    if (userType !== "Patient") return RenderPatientNotLoggedIn()
+    if ( _.isEmpty(addresses)) return RenderDoctorDoesNotHaveLocations(personalData)
+    if ( _.isEmpty(providedServices)) return RenderDoctorDoesNotOfferServices(personalData)
 
     return (
       <Card className = "card-bottom-margin">
         <Card.Header>Ready to make a booking?</Card.Header>
         <Card.Body>
           <div className = "row">
-            {renderChoosePet()}
+            {RenderChoosePet({
+              savedPetData,
+              selectedPet,
+              setSelectedPet,
+              setSelectedService,
+              setSelectedLocation,
+              setSelectedDay,
+              setSelectedTime
+            })}
           </div>
 
           <div className = "row">
-            {renderSelectService()}
+            {RenderSelectService({
+              providedServices,
+              selectedPet,
+              setSelectedService,
+              setSelectedLocation,
+              setSelectedDay,
+              setSelectedTime
+            })}
 
-            {renderSelectLocation()}
+            {RenderSelectLocation({
+              addresses,
+              selectedService,
+              setNoAvailableTimesMessage,
+              setSelectedService,
+              setSelectedLocation,
+              setSelectedDay,
+              setSelectedTime
+            })}
           </div>
 
-          {renderNoAvailableTimes()}
+          {RenderNoAvailableTimes({
+            noAvailableTimesMessage,
+            personalData
+          })}
 
           <div className = "row">
-            {renderSelectDay()}
+            {RenderSelectDay({
+              selectedService,
+              selectedLocation,
+              setSelectedDay,
+              setSelectedTime,
+              selectedDay,
+              personalData,
+              availableDates
+            })}
 
-            {renderSelectTime()}
+            {RenderSelectTime({
+              selectedService,
+              selectedLocation,
+              selectedDay,
+              setSelectedTime,
+              availableTimes,
+              serviceMinutes
+            })}
           </div>
 
-          {renderFinalizeBookingButton()}
+          {RenderFinalizeBookingButton({
+            selectedService,
+            selectedLocation,
+            selectedDay,
+            selectedTime,
+            serviceMinutes,
+            personalData,
+            selectedPet,
+            navigate
+          })}
         </Card.Body>
       </Card>
     )
