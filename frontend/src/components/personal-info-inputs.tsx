@@ -3,11 +3,11 @@ import { months, days, birthYears } from "../utils/constants"
 import FormGroup from "./form-group"
 
 interface Props {
-  personalInfo: PersonalInfo,
-  setPersonalInfo: (personalInfo: PersonalInfo) => void
+  personalInfo: PersonalInfoType,
+  setPersonalInfo: (personalInfo: PersonalInfoType) => void
 }
 
-export type PersonalInfo = {
+export type PersonalInfoType = {
   FirstName: string,
   LastName: string,
   DOB_month: string,

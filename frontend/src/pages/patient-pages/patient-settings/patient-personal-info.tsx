@@ -4,7 +4,12 @@ import { renderMessageSection } from "../../../components/saved-message-section"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import { usePersonalInfo, handleSavePersonalInfo } from "../../../custom-hooks/fetch-and-save-personal-info"
-import { renderFirstNameSection, renderLastNameSection, renderDOBSection, renderGenderSection } from "../../../components/personal-info-inputs"
+import {
+  renderFirstNameSection,
+  renderLastNameSection,
+  renderDOBSection,
+  renderGenderSection
+} from "../../../components/personal-info-inputs"
 import Header from "../../header"
 import PatientHeader from "../patient-header"
 

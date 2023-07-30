@@ -9,10 +9,6 @@ import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verifi
 import { confirmBooking } from "../../custom-hooks/public-doctor-hooks/confirm-booking-hook"
 import Header from "../header"
 
-const handleConfirmBooking = (navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet, message) => {
-  confirmBooking(navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet, message)
-}
-
 export function FinalizeBookingPage() {
   const [message, setMessage] = useState("")
   const [isMessageOverLimit, setIsMessageOverLimit] = useState(false)
@@ -96,7 +92,10 @@ export function FinalizeBookingPage() {
             <strong>Service:</strong> {selectedService.Service_name}
           </span>
           <span style = {{ display: "block" }}>
-            <strong>Location:</strong> {selectedLocation.address_title}:  {selectedLocation.address_line_1} {selectedLocation.address_line_2}
+            <strong>
+              Location:
+            </strong>
+            {selectedLocation.address_title}:  {selectedLocation.address_line_1} {selectedLocation.address_line_2}
           </span>
           <span style = {{ display: "block" }}>
             <strong>Day:</strong> {selectedDay}
@@ -123,7 +122,7 @@ export function FinalizeBookingPage() {
         <Button
           variant = "primary"
           onClick = {() => {
-            handleConfirmBooking(
+            confirmBooking(
               navigate,
               selectedService,
               selectedLocation,
@@ -149,7 +148,9 @@ export function FinalizeBookingPage() {
         <Card>
           <Card.Header as = "h2">{renderConfirmOrRequestBook()} an Appointment</Card.Header>
           <Card.Body>
-            <Card.Title as = "h3">Dr. {""} {_.upperFirst(personalData.FirstName || "")} {""} {_.upperFirst(personalData.LastName || "")}</Card.Title>
+            <Card.Title as = "h3">
+              Dr. {""} {_.upperFirst(personalData.FirstName || "")} {""} {_.upperFirst(personalData.LastName || "")}
+            </Card.Title>
             {renderCardText()}
             {renderConfirmBookingButton()}
           </Card.Body>

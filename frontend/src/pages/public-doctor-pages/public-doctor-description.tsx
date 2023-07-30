@@ -1,11 +1,15 @@
 import { Card } from "react-bootstrap"
 
-export default function RenderDescriptionSection(props) {
+interface Props {
+  description: string
+}
+
+export default function RenderDescriptionSection(props: Props) {
   const { description } = props
   if (description) return <> {RenderDescription(description)} </>
 }
 
-function RenderDescription(Description) {
+function RenderDescription(Description: string) {
   return (
     <>
       <Card className = "card-bottom-margin">

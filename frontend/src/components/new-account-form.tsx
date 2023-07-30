@@ -1,14 +1,15 @@
 import { Card, Button, Form, Alert } from "react-bootstrap"
 import { renderFirstNameSection, renderLastNameSection, renderGenderSection, renderDOBSection } from "./personal-info-inputs"
-import { PersonalInfo } from "./personal-info-inputs"
+import { PersonalInfoType } from "./personal-info-inputs"
 
 interface Props {
   handleSubmit: () => void,
   error: string,
-  newInfo: PersonalInfo,
-  setNewInfo: (newInfo: PersonalInfo) => void,
+  newInfo: PersonalInfoType,
+  setNewInfo: (newInfo: PersonalInfoType) => void,
   loading: boolean
 }
+
 export default function NewAccountForm({
   handleSubmit,
   error,

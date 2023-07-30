@@ -1,4 +1,5 @@
 import _ from "lodash"
+import { AxiosError } from "axios"
 import { useEffect, useState } from "react"
 import { UnauthorizedUser } from "../../../components/user-type-unauth"
 import PrivateDoctorDataService from "../../../services/private-doctor-data-service"
@@ -27,8 +28,12 @@ async function FillLists(setListDetails) {
       setListDetails(response.data)
       sessionStorage.setItem("ListDetails", JSON.stringify(response.data))
     }
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 401) {
+        invalidUserAction(error.response.data)
+      }
+    }
   }
 }
 
@@ -66,8 +71,12 @@ async function FillDoctorAccountDetails(
       if (response.data.pictures) ; //set pictures
       sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(response.data))
     }
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 401) {
+        invalidUserAction(error.response.data)
+      }
+    }
   }
 }
 

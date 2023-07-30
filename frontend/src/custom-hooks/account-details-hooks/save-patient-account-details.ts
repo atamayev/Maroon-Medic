@@ -22,9 +22,13 @@ async function modifyPatientLanguages(operation, languageID, newSpokenLanguages,
 }
 
 export async function addPatientLanguages(languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation) {
-  return modifyPatientLanguages(PrivatePatientDataService.addLanguage, languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
+  return modifyPatientLanguages(
+    PrivatePatientDataService.addLanguage, languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation
+  )
 }
 
 export async function deletePatientLanguages(languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation) {
-  return modifyPatientLanguages(PrivatePatientDataService.deleteLanguage, languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
+  return modifyPatientLanguages(
+    PrivatePatientDataService.deleteLanguage, languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation
+  )
 }

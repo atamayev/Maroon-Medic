@@ -8,11 +8,13 @@ import { fetchPetData } from "../../custom-hooks/my-pets-hooks/my-pets"
 import { UnauthorizedUserBodyText } from "../../components/user-type-unauth"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
 import { finalizeBookingClick } from "../../custom-hooks/public-doctor-hooks/booking-page-hooks"
-import { handleServiceChange, handleLocationChange, handleDayChange, handleTimeChange, handlePetChange } from "../../custom-hooks/public-doctor-hooks/booking-page-hooks"
-
-const handleBookingClick = (navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet) => {
-  finalizeBookingClick(navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet)
-}
+import {
+  handleServiceChange,
+  handleLocationChange,
+  handleDayChange,
+  handleTimeChange,
+  handlePetChange
+} from "../../custom-hooks/public-doctor-hooks/booking-page-hooks"
 
 function usePetData(userType) {
   const [savedPetData, setSavedPetData] = useState(JSON.parse(sessionStorage.getItem("PatientPetData")) || [])
@@ -158,7 +160,9 @@ export default function RenderBookingSection(props) {
           as = "select"
           id = "petSelect"
           label = "Select a pet"
-          onChange = {(e) => handlePetChange(e, savedPetData, setSelectedPet, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime)}
+          onChange = {(e) =>
+            handlePetChange(e, savedPetData, setSelectedPet, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime)
+          }
         >
           <option>Select...</option>
           {savedPetData.map((pet, index) => (
@@ -284,7 +288,7 @@ export default function RenderBookingSection(props) {
     return (
       <Button
         className = "mt-3"
-        onClick = {() => handleBookingClick(
+        onClick = {() => finalizeBookingClick(
           navigate,
           selectedService,
           selectedLocation,

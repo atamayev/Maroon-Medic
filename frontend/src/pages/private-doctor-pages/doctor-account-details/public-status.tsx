@@ -33,7 +33,11 @@ function RenderIsPubliclyAvailable (props) {
         <ToggleButton
           id = "tbg-radio-1"
           value = {0}
-          style = {{ backgroundColor: publiclyAvailable === 0 ? "red" : "white", color: publiclyAvailable === 0 ? "white" : "black", borderColor: "black"}}
+          style = {{
+            backgroundColor: publiclyAvailable === 0 ? "red" : "white",
+            color: publiclyAvailable === 0 ? "white" : "black",
+            borderColor: "black"
+          }}
         >
           No
         </ToggleButton>

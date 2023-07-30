@@ -2,42 +2,137 @@ import moment from "moment"
 import PrivateDoctorDataService from "../../services/private-doctor-data-service"
 import { shouldSaveDescription } from "../../utils/save-account-details"
 import { invalidUserAction } from "../user-verification-snippets"
-import { modifyDoctorLanguages, modifyServicesData, modifyDoctorSpecialties, modifyServicedPets, modifyAddressData } from "./save-doctor-account-details-helpers"
+import {
+  modifyDoctorLanguages,
+  modifyServicesData,
+  modifyDoctorSpecialties,
+  modifyServicedPets,
+  modifyAddressData
+} from "./save-doctor-account-details-helpers"
 
-export function addDoctorLanguages(languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation) {
-  return modifyDoctorLanguages(PrivateDoctorDataService.addLanguage, languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
+export function addDoctorLanguages(
+  languageID: number,
+  newSpokenLanguages,
+  setSpokenLanguages,
+  setLanguagesConfirmation
+) {
+  return modifyDoctorLanguages(
+    PrivateDoctorDataService.addLanguage,
+    languageID,
+    newSpokenLanguages,
+    setSpokenLanguages,
+    setLanguagesConfirmation
+  )
 }
 
-export function deleteDoctorLanguages(languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation) {
-  return modifyDoctorLanguages(PrivateDoctorDataService.deleteLanguage, languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
+export function deleteDoctorLanguages(
+  languageID: number,
+  newSpokenLanguages,
+  setSpokenLanguages,
+  setLanguagesConfirmation
+) {
+  return modifyDoctorLanguages(
+    PrivateDoctorDataService.deleteLanguage,
+    languageID,
+    newSpokenLanguages,
+    setSpokenLanguages,
+    setLanguagesConfirmation
+  )
 }
 
-export function addServices(newServiceObject, providedServices, setProvidedServices, setServicesConfirmation) {
-  return modifyServicesData(PrivateDoctorDataService.addService, newServiceObject, providedServices, setProvidedServices, setServicesConfirmation)
+export function addServices(
+  newServiceObject,
+  providedServices,
+  setProvidedServices,
+  setServicesConfirmation
+) {
+  return modifyServicesData(
+    PrivateDoctorDataService.addService,
+    newServiceObject,
+    providedServices,
+    setProvidedServices,
+    setServicesConfirmation
+  )
 }
 
-export function updateServices(newServiceObject, providedServices, setProvidedServices, setServicesConfirmation) {
-  return modifyServicesData(PrivateDoctorDataService.updateService, newServiceObject, providedServices, setProvidedServices, setServicesConfirmation)
+export function updateServices(
+  newServiceObject,
+  providedServices,
+  setProvidedServices,
+  setServicesConfirmation
+) {
+  return modifyServicesData(
+    PrivateDoctorDataService.updateService,
+    newServiceObject,
+    providedServices,
+    setProvidedServices,
+    setServicesConfirmation
+  )
 }
 
-export function deleteServices(serviceObject, providedServices, setProvidedServices, setSelectedServices, setServicesConfirmation) {
-  return modifyServicesData(PrivateDoctorDataService.deleteService, serviceObject, providedServices, setProvidedServices, setServicesConfirmation, setSelectedServices)
+export function deleteServices(
+  serviceObject,
+  providedServices,
+  setProvidedServices,
+  setSelectedServices,
+  setServicesConfirmation
+) {
+  return modifyServicesData(
+    PrivateDoctorDataService.deleteService,
+    serviceObject,
+    providedServices,
+    setProvidedServices,
+    setServicesConfirmation,
+    setSelectedServices
+  )
 }
 
-export function addSpecialties(specialtyID, newDoctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation) {
-  return modifyDoctorSpecialties(PrivateDoctorDataService.addSpecialty, specialtyID, newDoctorSpecialties, setDoctorSpecialties, setSpecialtiesConfirmation, () => setSelectedOrganization(""))
+export function addSpecialties(
+  specialtyID: number,
+  newDoctorSpecialties,
+  setDoctorSpecialties,
+  setSelectedOrganization,
+  setSpecialtiesConfirmation
+) {
+  return modifyDoctorSpecialties(
+    PrivateDoctorDataService.addSpecialty,
+    specialtyID,
+    newDoctorSpecialties,
+    setDoctorSpecialties,
+    setSpecialtiesConfirmation, () => setSelectedOrganization("")
+  )
 }
 
-export function deleteSpecialties(specialtyID, newDoctorSpecialties, setDoctorSpecialties, setSpecialtiesConfirmation) {
-  return modifyDoctorSpecialties(PrivateDoctorDataService.deleteSpecialty, specialtyID, newDoctorSpecialties, setDoctorSpecialties, setSpecialtiesConfirmation)
+export function deleteSpecialties(
+  specialtyID,
+  newDoctorSpecialties,
+  setDoctorSpecialties,
+  setSelectedOrganization,
+  setSpecialtiesConfirmation
+) {
+  return modifyDoctorSpecialties(
+    PrivateDoctorDataService.deleteSpecialty,
+    specialtyID,
+    newDoctorSpecialties,
+    setDoctorSpecialties,
+    setSpecialtiesConfirmation, () => setSelectedOrganization("")
+  )
 }
 
-export async function addPreVetEducation(preVetEducationObject, preVetEducation, setPreVetEducation, listDetails, setPreVetEducationConfirmation) {
+export async function addPreVetEducation(
+  preVetEducationObject,
+  preVetEducation,
+  setPreVetEducation,
+  listDetails,
+  setPreVetEducationConfirmation
+) {
   try {
     const mappedPreVetEducationObject = {
-      School_ID: listDetails.preVetSchools.find(school => school.School_name === preVetEducationObject.School_name)?.pre_vet_school_listID || null,
+      School_ID: listDetails.preVetSchools
+        .find(school => school.School_name === preVetEducationObject.School_name)?.pre_vet_school_listID || null,
       Major_ID: listDetails.majors.find(major => major.Major_name === preVetEducationObject.Major_name)?.major_listID || null,
-      Education_type_ID: listDetails.preVetEducationTypes.find(educationType => educationType.Education_type === preVetEducationObject.Education_type)?.pre_vet_education_typeID || null,
+      Education_type_ID: listDetails.preVetEducationTypes.find(
+        educationType => educationType.Education_type === preVetEducationObject.Education_type)?.pre_vet_education_typeID || null,
       Start_date: moment(preVetEducationObject.Start_Date, "MMMM D, YYYY").format("YYYY-MM-DD"),
       End_date: moment(preVetEducationObject.End_Date, "MMMM D, YYYY").format("YYYY-MM-DD")
     }
@@ -61,7 +156,12 @@ export async function addPreVetEducation(preVetEducationObject, preVetEducation,
   }
 }
 
-export async function deletePreVetEducation(preVetEducationObject, preVetEducation, setPreVetEducation, setPreVetEducationConfirmation) {
+export async function deletePreVetEducation(
+  preVetEducationObject,
+  preVetEducation,
+  setPreVetEducation,
+  setPreVetEducationConfirmation
+) {
   try {
     const response = await PrivateDoctorDataService.deletePreVetEducationData(preVetEducationObject)
     if (response.status === 200) {
@@ -82,11 +182,18 @@ export async function deletePreVetEducation(preVetEducationObject, preVetEducati
   }
 }
 
-export async function addVetEducation(vetEducationObject, vetEducation, setVetEducation, listDetails, setVetEducationConfirmation) {
+export async function addVetEducation(
+  vetEducationObject,
+  vetEducation,
+  setVetEducation,
+  listDetails,
+  setVetEducationConfirmation
+) {
   try {
     const mappedVetEducationObject = {
       School_ID: listDetails.vetSchools.find(school => school.School_name === vetEducationObject.School_name)?.vet_school_listID || null,
-      Education_type_ID: listDetails.vetEducationTypes.find(educationType => educationType.Education_type === vetEducationObject.Education_type)?.vet_education_typeID || null,
+      Education_type_ID: listDetails.vetEducationTypes.find(
+        educationType => educationType.Education_type === vetEducationObject.Education_type)?.vet_education_typeID || null,
       Start_date: moment(vetEducationObject.Start_Date, "MMMM D, YYYY").format("YYYY-MM-DD"),
       End_date: moment(vetEducationObject.End_Date, "MMMM D, YYYY").format("YYYY-MM-DD")
     }
@@ -110,7 +217,12 @@ export async function addVetEducation(vetEducationObject, vetEducation, setVetEd
   }
 }
 
-export async function deleteVetEducation(vetEducationObject, vetEducation, setVetEducation, setVetEducationConfirmation) {
+export async function deleteVetEducation(
+  vetEducationObject,
+  vetEducation,
+  setVetEducation,
+  setVetEducationConfirmation
+) {
   try {
     const response = await PrivateDoctorDataService.deleteVetEducationData(vetEducationObject)
     if (response.status === 200) {

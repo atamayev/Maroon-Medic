@@ -7,10 +7,10 @@ import NewAccountForm from "../../components/new-account-form"
 import {handleNewUserSubmit} from "../../custom-hooks/handle-submits"
 import { invalidUserAction } from "../../custom-hooks/user-verification-snippets"
 import Header from "../header"
-import { PersonalInfo } from "../../components/personal-info-inputs"
+import { PersonalInfoType } from "../../components/personal-info-inputs"
 
 export default function NewDoctor () {
-  const [newDoctorInfo, setNewDoctorInfo] = useState({} as PersonalInfo)
+  const [newDoctorInfo, setNewDoctorInfo] = useState({} as PersonalInfoType)
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const {userVerification} = useContext(VerifyContext)

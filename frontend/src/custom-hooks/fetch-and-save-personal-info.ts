@@ -3,11 +3,15 @@ import { AxiosResponse, AxiosError } from "axios"
 import PrivateDoctorDataService from "../services/private-doctor-data-service"
 import PrivatePatientDataService from "../services/private-patient-data-service"
 import { invalidUserAction } from "./user-verification-snippets"
-import { PersonalInfo } from "../components/personal-info-inputs"
+import { PersonalInfoType } from "../components/personal-info-inputs"
 
 type UserType = "Doctor" | "Patient"
 
-async function fetchPersonalInfoData(setPersonalInfo: React.Dispatch<React.SetStateAction<object>>, userType: UserType): Promise<void> {
+async function fetchPersonalInfoData(
+  setPersonalInfo: React.Dispatch<React.SetStateAction<PersonalInfoType>>,
+  userType: UserType
+): Promise<void>
+{
   try {
     let response: AxiosResponse
 
@@ -29,7 +33,7 @@ async function fetchPersonalInfoData(setPersonalInfo: React.Dispatch<React.SetSt
 }
 
 export const handleSavePersonalInfo = async (
-  personalInfo: PersonalInfo,
+  personalInfo: PersonalInfoType,
   setPersonalInfoConfirmation: React.Dispatch<React.SetStateAction<{
                                   messageType: "saved" | "same" | "problem" | "none" | null;
                                   timeoutId?: number | null;
@@ -68,7 +72,7 @@ export const handleSavePersonalInfo = async (
 }
 
 export function usePersonalInfo(userType: UserType) {
-  const [personalInfo, setPersonalInfo] = useState({})
+  const [personalInfo, setPersonalInfo] = useState({} as PersonalInfoType)
 
   useEffect(() => {
     const fetchAndSetPersonalInfo = async () => {

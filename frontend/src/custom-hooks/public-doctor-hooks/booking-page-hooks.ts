@@ -1,6 +1,14 @@
 import _ from "lodash"
 
-export const handlePetChange = (event, savedPetData, setSelectedPet, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime) => {
+export const handlePetChange = (
+  event,
+  savedPetData,
+  setSelectedPet,
+  setSelectedService,
+  setSelectedLocation,
+  setSelectedDay,
+  setSelectedTime
+) => {
   const value = event.target.value
   const selectedPetObject = savedPetData.find(pet => pet.pet_infoID.toString() === value)
   setSelectedPet(selectedPetObject || null)
@@ -12,7 +20,14 @@ export const handlePetChange = (event, savedPetData, setSelectedPet, setSelected
   }
 }
 
-export const handleServiceChange = (event, providedServices, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime) => {
+export const handleServiceChange = (
+  event,
+  providedServices,
+  setSelectedService,
+  setSelectedLocation,
+  setSelectedDay,
+  setSelectedTime
+) => {
   const value = event.target.value
   const selectedServiceObject = providedServices.find(service => service.service_and_category_listID.toString() === value)
   setSelectedService(selectedServiceObject || null)
@@ -23,7 +38,14 @@ export const handleServiceChange = (event, providedServices, setSelectedService,
   }
 }
 
-export const handleLocationChange = (event, addresses, setSelectedLocation, setSelectedDay, setSelectedTime, setNoAvailableTimesMessage) => {
+export const handleLocationChange = (
+  event,
+  addresses,
+  setSelectedLocation,
+  setSelectedDay,
+  setSelectedTime,
+  setNoAvailableTimesMessage
+) => {
   const value = event.target.value
   const selectedLocationObject = addresses.find(location => location.addressesID.toString() === value)
 
@@ -42,7 +64,11 @@ export const handleLocationChange = (event, addresses, setSelectedLocation, setS
   }
 }
 
-export const handleDayChange = (event, setSelectedDay, setSelectedTime) => {
+export const handleDayChange = (
+  event,
+  setSelectedDay,
+  setSelectedTime
+) => {
   const value = event.target.value
   setSelectedDay(value === "Select..." ? null : value)
   if (value === "Select...") setSelectedTime(null)
@@ -53,7 +79,16 @@ export const handleTimeChange = (event, setSelectedTime) => {
   setSelectedTime(value === "Select..." ? null : value)
 }
 
-export function finalizeBookingClick(navigate, selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet) {
+export function finalizeBookingClick(
+  navigate,
+  selectedService,
+  selectedLocation,
+  selectedDay,
+  selectedTime,
+  serviceMinutes,
+  personalData,
+  selectedPet
+) {
   const bookingDetails = {
     selectedService: selectedService ? selectedService : null,
     selectedLocation: selectedLocation ? selectedLocation : null,

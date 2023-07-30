@@ -11,11 +11,10 @@ interface ChangePasswordObject {
 export const handleChangePassword = async (
   changePasswordObject: ChangePasswordObject,
   setCredentials: React.Dispatch<React.SetStateAction<{
-    userType: "Doctor" | "Patient";
-    currentPassword: string;
-    newPassword: string;
-    newConfirmPassword: string;
-  }>>,
+    userType: "Doctor" | "Patient"
+    currentPassword: string
+    newPassword: string
+    newConfirmPassword: string}>>,
   setMessage: React.Dispatch<React.SetStateAction<string>>,
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   type: LoginOrRegisterType

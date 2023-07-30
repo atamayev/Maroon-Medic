@@ -5,13 +5,14 @@ import { renderMessageSection } from "../../../components/saved-message-section"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import { handleSavePersonalInfo, usePersonalInfo } from "../../../custom-hooks/fetch-and-save-personal-info"
-import { renderFirstNameSection, renderLastNameSection, renderDOBSection, renderGenderSection } from "../../../components/personal-info-inputs"
+import {
+  renderFirstNameSection,
+  renderLastNameSection,
+  renderDOBSection,
+  renderGenderSection
+} from "../../../components/personal-info-inputs"
 import Header from "../../header"
 import DoctorHeader from "../doctor-header"
-
-const handleSave = (personalInfo, setPersonalInfoConfirmation, userType) => {
-  handleSavePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)
-}
 
 export default function DoctorPersonalInfo() {
   const { userType } = useSimpleUserVerification()
@@ -26,13 +27,13 @@ export default function DoctorPersonalInfo() {
       <DoctorHeader/>
       <Card>
         <Card.Body>
-          <Form onSubmit = {() => handleSave(personalInfo, setPersonalInfoConfirmation, userType)}>
-            {renderFirstNameSection(personalInfo, setPersonalInfo)}
-            {renderLastNameSection(personalInfo, setPersonalInfo)}
-            {renderGenderSection(personalInfo, setPersonalInfo)}
-            {renderDOBSection(personalInfo, setPersonalInfo)}
+          <Form onSubmit = {() => handleSavePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)}>
+            {renderFirstNameSection({personalInfo: personalInfo, setPersonalInfo: setPersonalInfo})}
+            {renderLastNameSection({personalInfo: personalInfo, setPersonalInfo: setPersonalInfo})}
+            {renderGenderSection({personalInfo: personalInfo, setPersonalInfo: setPersonalInfo})}
+            {renderDOBSection({personalInfo: personalInfo, setPersonalInfo: setPersonalInfo})}
             <Button type = "submit" className = "btn btn-primary w-100">Save</Button>
-            {renderMessageSection(personalInfoConfirmation, "Personal Info")}
+            {renderMessageSection({confirmationMessage: personalInfoConfirmation, whatIsBeingSaved: "Personal Info"})}
           </Form>
         </Card.Body>
       </Card>

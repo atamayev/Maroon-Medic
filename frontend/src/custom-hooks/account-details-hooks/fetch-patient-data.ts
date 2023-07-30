@@ -9,8 +9,12 @@ export async function FillLists(setListDetails) {
       setListDetails(response.data)
       sessionStorage.setItem("ListDetails", JSON.stringify(response.data))
     }
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 401) {
+        invalidUserAction(error.response.data)
+      }
+    }
   }
 }
 
@@ -21,7 +25,11 @@ export async function FillPatientAccountDetails(setSpokenLanguages) {
       if (response.data.languages) setSpokenLanguages(response.data.languages)
       sessionStorage.setItem("PatientAccountDetails", JSON.stringify(response.data))
     }
-  } catch (error) {
-    if (error.response.status === 401) invalidUserAction(error.response.data)
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 401) {
+        invalidUserAction(error.response.data)
+      }
+    }
   }
 }

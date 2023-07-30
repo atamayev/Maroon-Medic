@@ -21,7 +21,14 @@ export async function modifyDoctorLanguages(operation, languageID, newSpokenLang
   }
 }
 
-export async function modifyDoctorSpecialties(operation, specialtyID, newDoctorSpecialties, setDoctorSpecialties, setSpecialtiesConfirmation, callback) {
+export async function modifyDoctorSpecialties(
+  operation,
+  specialtyID,
+  newDoctorSpecialties,
+  setDoctorSpecialties,
+  setSpecialtiesConfirmation,
+  callback
+) {
   let response
   try {
     response = await operation(specialtyID)
@@ -96,7 +103,14 @@ export async function modifyAddressData(operation, address, setAddresses, setAdd
   }
 }
 
-export async function modifyServicesData(operation, serviceObject, providedServices, setProvidedServices, setServicesConfirmation, setSelectedServices = null) {
+export async function modifyServicesData(
+  operation,
+  serviceObject,
+  providedServices,
+  setProvidedServices,
+  setServicesConfirmation,
+  setSelectedServices = null
+) {
   try {
     const response = await operation(serviceObject)
 

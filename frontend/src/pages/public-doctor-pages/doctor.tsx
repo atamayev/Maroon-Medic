@@ -15,13 +15,16 @@ import RenderDescriptionSection from "./public-doctor-description"
 import RenderServicedPetsSection from "./public-doctor-serviced-pets"
 
 export default function Doctor () {
-  let { id } = useParams() //the id of the current site (which doctorData) --> used to set User
+  let { id } = useParams()
   const [spokenLanguages, setSpokenLanguages] = useState([])
   const [providedServices, setProvidedServices] = useState([])
   const [doctorSpecialties, setDoctorSpecialties] = useState([])
   const [preVetEducation, setPreVetEducation] = useState([])
   const [vetEducation, setVetEducation] = useState([])
-  const [addresses, setAddresses] = useState([{ address_priority: 0, addressesID: 0, address_title: "", address_line_1  : "", address_line_2: "", city: "", state: "", zip: "", country: "", phone_priority: 0, phone: "", address_public_status: 1, instant_book: 0, times:[]}])
+  const [addresses, setAddresses] = useState(
+    [{ address_priority: 0, addressesID: 0, address_title: "", address_line_1  : "", address_line_2: "",
+      city: "", state: "", zip: "", country: "", phone_priority: 0, phone: "", address_public_status: 1, instant_book: 0, times:[]
+    }])
   const [description, setDescription] = useState("")
   const [servicedPets, setServicedPets] = useState([])
   const [personalData, setPersonalData] = useState({FirstName: "", LastName: "", Gender: "", NVI: ""})

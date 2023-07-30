@@ -4,7 +4,11 @@ import { Card, Button } from "react-bootstrap"
 import { DeleteButtonOptions } from "../../../components/delete-buttons"
 import { renderMessageSection } from "../../../components/saved-message-section"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
-import { useHandleDeleteVetEducation, useSaveAddVetEducation, useHandleAddVetEducation } from "../../../custom-hooks/account-details-hooks/callbacks"
+import {
+  useHandleDeleteVetEducation,
+  useSaveAddVetEducation,
+  useHandleAddVetEducation
+} from "../../../custom-hooks/account-details-hooks/callbacks"
 import EducationTime from "./education-time"
 
 export default function RenderVetEducationSection (props) {
