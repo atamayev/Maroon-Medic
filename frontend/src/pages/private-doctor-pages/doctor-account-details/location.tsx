@@ -5,24 +5,29 @@ import TimePicker from "react-time-picker"
 import {Card, Accordion, Form, Button, Container, Row, Col} from "react-bootstrap"
 import "../../../styles/location.css"
 import { daysOfWeek } from "../../../utils/constants"
-import { renderMessageSection } from "../../../components/saved-message-section"
+import { RenderMessageSection } from "../../../components/saved-message-section"
 import { handleAddAccordion } from "../../../custom-hooks/account-details-hooks/add"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
 import { addLocation, deleteLocation, updateLocation } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details"
 import {
-  renderAddressTitleInput,
-  renderAddressLine1Input,
-  renderAddressLine2Input,
-  renderCityInput,
-  renderCountryInput,
-  renderPhoneNumberInput,
-  renderStateInput,
-  renderZipCodeInput,
-  renderLocationMapData
+  RenderAddressTitleInput,
+  RenderAddressLine1Input,
+  RenderAddressLine2Input,
+  RenderCityInput,
+  RenderCountryInput,
+  RenderPhoneNumberInput,
+  RenderStateInput,
+  RenderZipCodeInput,
+  RenderLocationMapData
 } from "./location-fields"
 import { areAllFieldsValid, areAllTimesValid } from "../../../utils/all-field-checks"
 
-export default function RenderLocationSection(props) {
+interface Props {
+  addresses: DoctorAddressDataType[]
+  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressDataType[]>>
+}
+
+export default function RenderLocationSection(props: Props) {
   return (
     <Card className = "mb-3">
       <Card.Header>
@@ -35,11 +40,11 @@ export default function RenderLocationSection(props) {
   )
 }
 
-function AddressForm(props) {
+function AddressForm(props: Props) {
   const { addresses, setAddresses } = props
   const [addressesConfirmation, setAddressesConfirmation] = useConfirmationMessage()
 
-  const handleInputChange = (event, addressPriority) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, addressPriority: number) => {
     const newAddresses = addresses.map(address => {
       if (address.address_priority === addressPriority) return { ...address, [event.target.name]: event.target.value }
       return address
@@ -52,10 +57,11 @@ function AddressForm(props) {
       <>
         {addresses.sort((a, b) => a.address_priority - b.address_priority).map((address, index) => (
           <AddressAccordionItem
-            key = {address.address_priority} // do not change this to addressesID, or saving locations gets messed up when adding multiple locations at once
+            // do not change the key to addressesID, or saving locations gets messed up when adding multiple locations at once
+            key = {address.address_priority}
             index = {index}
             address = {address}
-            handleInputChange = {(e) => handleInputChange(e, address.address_priority)}
+            handleInputChange = {(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e, address.address_priority)}
             addresses = {addresses}
             setAddresses = {setAddresses}
             setAddressesConfirmation = {setAddressesConfirmation}
@@ -83,42 +89,66 @@ function AddressForm(props) {
         {renderAddressAccordionItems()}
       </Accordion>
       {renderAddNewLocationButton()}
-      {renderMessageSection(addressesConfirmation, "Locations")}
+      <RenderMessageSection
+        confirmationMessage = {addressesConfirmation}
+        whatIsBeingSaved = "Locations"
+      />
     </>
   )
 }
 
-const AddressAccordionItem = ({ index, address, handleInputChange, addresses, setAddresses, setAddressesConfirmation }) => {
-  const handleToggleChange = (addressPriority, field) => {
+interface AddressAccordionProps {
+  index: number
+  address: DoctorAddressDataType
+  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>, addressPriority: number) => void
+  addresses: DoctorAddressDataType[]
+  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressDataType[]>>
+  setAddressesConfirmation: (conf: ConfirmationMessage) => void
+}
+
+const AddressAccordionItem = (props: AddressAccordionProps) => {
+  const { index, address, handleInputChange, addresses, setAddresses, setAddressesConfirmation } = props
+  const handleToggleChange = (
+    addressPriority: number,
+    field: keyof Pick<DoctorAddressDataType, "address_public_status" | "instant_book">
+  ) => {
     // Create a copy of the addresses state
     const updatedAddresses = [...addresses]
     // Find the index of the address object with the matching priority
     const addressIndex = updatedAddresses.findIndex(addr => addr.address_priority === addressPriority)
 
-    // Check if the field exists in the address object
-    // eslint-disable-next-line no-prototype-builtins
-    if (updatedAddresses[addressIndex].hasOwnProperty(field)) {
-      // Toggle the field's value
-      updatedAddresses[addressIndex][field] = updatedAddresses[addressIndex][field] === 1 ? 0 : 1
+    if (field in updatedAddresses[addressIndex]) {
+      updatedAddresses[addressIndex][field] = !updatedAddresses[addressIndex][field]
     } else {
       return
     }
     setAddresses(updatedAddresses)
   }
 
-  const renderAddressTitleSection = () => {
+  const handleTimesChange = (newTimesFn: React.SetStateAction<AvailabilityDataType[]>, addressPriority: number) => {
+    const newAddresses = addresses.map(address => {
+      if (address.address_priority === addressPriority) {
+        const newTimes = typeof newTimesFn === "function" ? newTimesFn(address.times) : newTimesFn
+        return { ...address, times: newTimes }
+      }
+      return address
+    })
+    setAddresses(newAddresses)
+  }
+
+  const RenderAddressTitleSection = () => {
     if (address.address_title) return address.address_title
     return ("Address #" + (index + 1))
   }
 
-  const renderPublicStatus = () => {
+  const RenderPublicStatus = () => {
     return (
       <>
         <span>Public Status:</span>
         <div onClick = {(event) => event.stopPropagation()}>
           <Toggle
             id = {`${address.address_priority}`}
-            checked = {address.address_public_status === 1}
+            checked = {address.address_public_status}
             onChange = {() => handleToggleChange(address.address_priority, "address_public_status")}
           />
         </div>
@@ -126,14 +156,14 @@ const AddressAccordionItem = ({ index, address, handleInputChange, addresses, se
     )
   }
 
-  const renderInstantBook = () => {
+  const RenderInstantBook = () => {
     return (
       <>
         <span>Instant book:</span>
         <div onClick = {(event) => event.stopPropagation()}>
           <Toggle
             id = {`${address.address_priority}`}
-            checked = {address.instant_book === 1}
+            checked = {address.instant_book}
             onChange = {() => handleToggleChange(address.address_priority, "instant_book")}
           />
         </div>
@@ -141,7 +171,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, addresses, se
     )
   }
 
-  const renderAddLocationButton = () => {
+  const RenderAddLocationButton = () => {
     return (
       <Button
         variant = "success"
@@ -153,9 +183,11 @@ const AddressAccordionItem = ({ index, address, handleInputChange, addresses, se
     )
   }
 
-  const renderUpdateLocationButton = () => {
-    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
-    const originalAddress = DoctorAccountDetails.addressData.find(addr => addr.addressesID === address.addressesID)
+  const RenderUpdateLocationButton = () => {
+    const storedData = sessionStorage.getItem("DoctorAccountDetails")
+    const parsedData = storedData && JSON.parse(storedData)
+    const DoctorAccountDetails = JSON.parse(parsedData)
+    const originalAddress = DoctorAccountDetails.addressData.find((addr: DoctorAddressDataType) => addr.addressesID === address.addressesID)
     const isAddressSame = _.isEqual(originalAddress, address)
     if (isAddressSame) return null
 
@@ -170,9 +202,9 @@ const AddressAccordionItem = ({ index, address, handleInputChange, addresses, se
     )
   }
 
-  const renderSaveOrUpdateButton = () => {
-    if (address.addressesID !== 0) return renderUpdateLocationButton()  // If addressID exists, render update button
-    return renderAddLocationButton() // If addressID doesn't exist, render save button
+  const RenderSaveOrUpdateButton = () => {
+    if (address.addressesID !== 0) return <RenderUpdateLocationButton/>  // If addressID exists, render update button
+    return <RenderAddLocationButton/> // If addressID doesn't exist, render save button
   }
 
   const handleDeleteAddress = () => {
@@ -180,7 +212,7 @@ const AddressAccordionItem = ({ index, address, handleInputChange, addresses, se
     else deleteLocation(address.addressesID, setAddresses, setAddressesConfirmation)
   }
 
-  const renderDeleteLocationButton = () => {
+  const RenderDeleteLocationButton = () => {
     return (
       <Button
         variant = "danger"
@@ -192,23 +224,23 @@ const AddressAccordionItem = ({ index, address, handleInputChange, addresses, se
     )
   }
 
-  const renderAccordionHeader = () => {
+  const RenderAccordionHeader = () => {
     return (
       <Accordion.Header>
         <Container>
           <Row>
             <Col xs = {4} className = "d-flex align-items-center">
-              {renderPublicStatus()}
-              {renderInstantBook()}
+              <RenderPublicStatus/>
+              <RenderInstantBook/>
             </Col>
             <Col xs = {4} className = "text-center font-weight-bold">
-              {renderAddressTitleSection()}
+              <RenderAddressTitleSection/>
             </Col>
             <Col xs = {4} className = "text-right">
               <div className = "align-items-left">
-                {renderSaveOrUpdateButton()}
+                <RenderSaveOrUpdateButton/>
               </div>
-              {renderDeleteLocationButton()}
+              <RenderDeleteLocationButton/>
             </Col>
           </Row>
         </Container>
@@ -216,92 +248,102 @@ const AddressAccordionItem = ({ index, address, handleInputChange, addresses, se
     )
   }
 
-  const renderFirstAccordionBodyRow = () => {
+  const RenderFirstAccordionBodyRow = () => {
     return (
       <div className = "row">
-        {renderAddressTitleInput(address, handleInputChange)}
-        {renderAddressLine1Input(address, handleInputChange)}
-        {renderAddressLine2Input(address, handleInputChange)}
-        {renderCityInput(address, handleInputChange)}
+        <RenderAddressTitleInput address = {address} handleInputChange = {handleInputChange} />
+        <RenderAddressLine1Input address = {address} handleInputChange = {handleInputChange} />
+        <RenderAddressLine2Input address = {address} handleInputChange = {handleInputChange} />
+        <RenderCityInput address = {address} handleInputChange = {handleInputChange} />
       </div>
     )
   }
 
-  const renderSecondAccordionBodyRow = () => {
+  const RenderSecondAccordionBodyRow = () => {
     return (
       <div className = "row">
-        {renderStateInput(address, handleInputChange)}
-        {renderZipCodeInput(address, handleInputChange)}
-        {renderCountryInput(address, handleInputChange)}
-        {renderPhoneNumberInput(address, handleInputChange)}
+        <RenderStateInput address = {address} handleInputChange = {handleInputChange} />
+        <RenderZipCodeInput address = {address} handleInputChange = {handleInputChange} />
+        <RenderCountryInput address = {address} handleInputChange = {handleInputChange} />
+        <RenderPhoneNumberInput address = {address} handleInputChange = {handleInputChange} />
       </div>
     )
   }
 
-  const renerMapsDataAndWeekDays = () => {
+  const RenderMapsDataAndWeekDays = () => {
     return (
       <div className = "row">
-        {renderLocationMapData()}
+        <RenderLocationMapData />
         <div className = "col-md-6">
-          <WeekDays times = {address.times} setTimes = {(newTimes) => handleInputChange({ target: { name: "times", value: newTimes } }, address.address_priority)} />
+          <WeekDays
+            times = {address.times}
+            setTimes = {newTimes => handleTimesChange(newTimes, address.address_priority)}
+          />
         </div>
       </div>
     )
   }
 
-  const renderAccordionBody = () => {
+  const RenderAccordionBody = () => {
     return (
       <Accordion.Body>
         <Form>
-          {renderFirstAccordionBodyRow()}
-          {renderSecondAccordionBodyRow()}
-          {renerMapsDataAndWeekDays()}
+          <RenderFirstAccordionBodyRow/>
+          <RenderSecondAccordionBodyRow/>
+          <RenderMapsDataAndWeekDays/>
         </Form>
       </Accordion.Body>
     )
   }
 
   return (
-    <Accordion.Item eventKey = {address.address_priority} style = {{ marginBottom: "10px" }}>
-      {renderAccordionHeader()}
-      {renderAccordionBody()}
+    <Accordion.Item eventKey = {address.address_priority.toString()} style = {{ marginBottom: "10px" }}>
+      <RenderAccordionHeader />
+      <RenderAccordionBody />
     </Accordion.Item>
   )
 }
 
-const WeekDays = ({ times, setTimes}) => {
-  const handleDayToggle = (day) => {
+interface WeekDaysProps {
+  times: AvailabilityDataType[]
+  setTimes: React.Dispatch<React.SetStateAction<AvailabilityDataType[]>>
+}
+
+const WeekDays = (props: WeekDaysProps) => {
+  const { times, setTimes } = props
+
+  const handleDayToggle = (day: DayOfWeekType) => {
     if (times.some(time => time.Day_of_week === day)) setTimes(times.filter(time => time.Day_of_week !== day))
     else setTimes([...times, { Day_of_week: day, Start_time: "", End_time: "" }])
   }
 
-  const handleTimeChange = (day, timeType, newTime) => {
+  const handleTimeChange = (day: DayOfWeekType, timeType: "Start_time" | "End_time" | "", newTime: string) => {
     setTimes(times.map(time =>
       time.Day_of_week === day ? { ...time, [timeType]: newTime } : time
     ))
   }
 
-  const renderPickStartTime = (day) => {
+  const renderPickStartTime = (day: DayOfWeekType) => {
     return (
       <TimePicker
         className = "ml-3"
-        onChange = {(value) => handleTimeChange(day, "Start_time", value)}
-        value = {times.find(time => time.Day_of_week === day).Start_time}
+        onChange = {(value) => value && handleTimeChange(day, "Start_time", value)}
+        value = {times.find(time => time.Day_of_week === day)?.Start_time}
       />
     )
   }
 
-  const renderPickEndTime = (day) => {
+  const renderPickEndTime = (day: DayOfWeekType) => {
     return (
       <TimePicker
         className = "ml-3"
-        onChange = {(value) => handleTimeChange(day, "End_time", value)}
-        value = {times.find(time => time.Day_of_week === day).End_time}
+        onChange = {(value) => value && handleTimeChange(day, "End_time", value)}
+        value = {times.find(time => time.Day_of_week === day)?.End_time}
       />
     )
   }
 
-  const RenderPickTime = ({ times, day }) => {
+  const RenderPickTime = ({ times, day }: {times: AvailabilityDataType[], day: DayOfWeekType}) => {
     const matchedTime = times.find(time => time.Day_of_week === day)
 
     if (!matchedTime) return null

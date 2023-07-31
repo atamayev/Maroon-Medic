@@ -80,7 +80,7 @@ type UserIDAndPassword = {
 export async function login (req: Request, res: Response): Promise<Response> {
   const { email, password, loginType } = req.body.loginInformationObject
 
-  if (loginType !== "Doctor" && loginType !== "Patient") return res.json("Invalid User Type")
+  if (loginType !== "Doctor" && loginType !== "Patient") return res.status(400).json("Invalid User Type")
 
   let results: UserIDAndPassword
   let hashedPassword: string
@@ -286,13 +286,13 @@ export async function newDoctorConfirmation (req: Request, res: Response): Promi
   const newDoctorUUID = req.cookies.DoctorNewUser
   const existingDoctorUUID = req.cookies.DoctorUUID
 
-  if (!newDoctorUUID || !existingDoctorUUID) return res.json(doctorPermission)
+  if (!newDoctorUUID || !existingDoctorUUID) return res.status(400).json(doctorPermission)
 
   try {
     const doBothUUIDExist = await AuthDB.checkIfUUIDsExist(newDoctorUUID, existingDoctorUUID)
-    return res.json(doBothUUIDExist)
+    return res.status(200).json(doBothUUIDExist)
   } catch (error: unknown) {
-    return res.json(doctorPermission)
+    return res.status(400).json(doctorPermission)
   }
 }
 
@@ -301,13 +301,13 @@ export async function newPatientConfirmation (req: Request, res: Response): Prom
   const newPatientUUID = req.cookies.PatientNewUser
   const existingPatientUUID = req.cookies.PatientUUID
 
-  if (!newPatientUUID || !existingPatientUUID) return res.json(patientPermission)
+  if (!newPatientUUID || !existingPatientUUID) return res.status(400).json(patientPermission)
 
   try {
     const doBothUUIDExist = await AuthDB.checkIfUUIDsExist(newPatientUUID, existingPatientUUID)
-    return res.json(doBothUUIDExist)
+    return res.status(200).json(doBothUUIDExist)
   } catch (error: unknown) {
-    return res.json(patientPermission)
+    return res.status(400).json(patientPermission)
   }
 }
 

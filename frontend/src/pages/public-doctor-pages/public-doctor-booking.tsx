@@ -19,8 +19,10 @@ import {
 
 } from "src/components/booking"
 
-function usePetData(userType: "Doctor" | "Patient") {
-  const [savedPetData, setSavedPetData] = useState(JSON.parse(sessionStorage.getItem("PatientPetData")) || [])
+function usePetData(userType: DoctorOrPatientOrNull) {
+  const storedData = sessionStorage.getItem("PatientPetData")
+  const parsedData = storedData && JSON.parse(storedData)
+  const [savedPetData, setSavedPetData] = useState<PetItemType[]>(parsedData || [])
 
   const fetchAndSetPetData = async () => {
     if (userType === "Patient") {
@@ -41,7 +43,7 @@ function usePetData(userType: "Doctor" | "Patient") {
 }
 
 interface Props {
-  providedServices: ServiceType[]
+  providedServices: ServiceItemType[]
   addresses: AddressType[]
   personalData: PersonalDataType
 }
@@ -50,7 +52,7 @@ export default function RenderBookingSection(props: Props) {
   const { userType } = useSimpleUserVerification(false)
   const { savedPetData } = usePetData(userType)
   const { providedServices, addresses, personalData } = props
-  const [selectedPet, setSelectedPet] = useState(null)
+  const [selectedPet, setSelectedPet] = useState<PetItemType | null>(null)
   const [selectedService, setSelectedService] = useState(null)
   const [selectedLocation, setSelectedLocation] = useState(null)
   const [noAvailableTimesMessage, setNoAvailableTimesMessage] = useState(false)

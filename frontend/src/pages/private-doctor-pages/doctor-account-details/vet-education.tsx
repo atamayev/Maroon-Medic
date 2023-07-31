@@ -2,7 +2,7 @@ import _ from "lodash"
 import { useState, useEffect } from "react"
 import { Card, Button } from "react-bootstrap"
 import { DeleteButtonOptions } from "../../../components/delete-buttons"
-import { renderMessageSection } from "../../../components/saved-message-section"
+import { RenderMessageSection } from "../../../components/saved-message-section"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
 import {
   useHandleDeleteVetEducation,
@@ -189,7 +189,10 @@ function RenderIsVetEducation(props) {
 
       {renderSavedEducationList()}
 
-      {renderMessageSection(vetEducationConfirmation, "Vet Education")}
+      <RenderMessageSection
+        confirmationMessage = {vetEducationConfirmation}
+        whatIsBeingSaved = "Vet Education"
+      />
     </>
   )
 }

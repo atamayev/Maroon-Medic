@@ -1,8 +1,7 @@
 import moment from "moment"
 import { useState, useEffect } from "react"
 import AuthDataService from "../services/auth-data-service"
-import { invalidUserAction } from "./user-verification-snippets"
-import { AxiosError } from "axios"
+import { handle401AxiosError } from "src/utils/handle-errors"
 
 type LoginHistoryItem = {
   login_historyID: number
@@ -21,25 +20,19 @@ export async function fetchLoginHistory(setLoginHistory: React.Dispatch<React.Se
       sessionStorage.setItem("LoginHistory", JSON.stringify(formattedData))
     }
   } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401) {
-        invalidUserAction(error.response.data)
-      }
-    }
+    handle401AxiosError(error)
   }
 }
 
-export function useLoginHistory (userType: "Doctor" | "Patient", whatShouldUserTypeBe: "Doctor" | "Patient") {
+export function useLoginHistory (userType: DoctorOrPatient) {
   const [loginHistory, setLoginHistory] = useState<LoginHistoryItem[]>([])
 
   const checkForLoginHistory = async () => {
-    if (userType === whatShouldUserTypeBe) {
-      try {
-        const storedLoginHistory = sessionStorage.getItem("LoginHistory")
-        if (storedLoginHistory) setLoginHistory(JSON.parse(storedLoginHistory))
-        else fetchLoginHistory(setLoginHistory)
-      } catch (error) {
-      }
+    try {
+      const storedLoginHistory = sessionStorage.getItem("LoginHistory")
+      if (storedLoginHistory) setLoginHistory(JSON.parse(storedLoginHistory))
+      else fetchLoginHistory(setLoginHistory)
+    } catch (error) {
     }
   }
 

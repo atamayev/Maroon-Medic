@@ -11,8 +11,8 @@ import {
 } from "./save-doctor-account-details"
 
 export const useHandleDeleteLanguage = (
-  spokenLanguages,
-  setSpokenLanguages,
+  spokenLanguages: LanguageItemType[],
+  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
   setLanguagesConfirmation,
   doctorOrPatient
 ) => {
@@ -31,8 +31,8 @@ export const useHandleDeleteLanguage = (
 }
 
 export const useHandleAddLanguage = (
-  spokenLanguages,
-  setSpokenLanguages,
+  spokenLanguages: LanguageItemType[],
+  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
   listDetails,
   setLanguagesConfirmation,
   doctorOrPatient

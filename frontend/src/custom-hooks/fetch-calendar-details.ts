@@ -1,6 +1,5 @@
 import CalendarDataService from "../services/calendar-data-service"
-import { invalidUserAction } from "./user-verification-snippets"
-import { AxiosError } from "axios"
+import { handle401AxiosError } from "src/utils/handle-errors"
 
 type MysqlTimestamp = string
 
@@ -43,10 +42,6 @@ export async function FillDoctorCalendarDetails(setEvents: React.Dispatch<React.
       setEvents(events)
     }
   } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401) {
-        invalidUserAction(error.response.data)
-      }
-    }
+    handle401AxiosError(error)
   }
 }

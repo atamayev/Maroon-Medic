@@ -3,9 +3,13 @@ import { Card, Button, Form } from "react-bootstrap"
 import FormGroup from "../../../components/form-group"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
 import { saveDescription } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details"
-import { renderMessageSection } from "../../../components/saved-message-section"
+import { RenderMessageSection } from "../../../components/saved-message-section"
 
-export default function RenderDescriptionSection (props) {
+interface Props {
+  description: string
+  setDescription: React.Dispatch<React.SetStateAction<string>>
+}
+export default function RenderDescriptionSection (props: Props) {
   return (
     <Card className = "mb-3">
       <Card.Header>
@@ -18,7 +22,7 @@ export default function RenderDescriptionSection (props) {
   )
 }
 
-function RenderIsDescription(props) {
+function RenderIsDescription(props: Props) {
   const { description, setDescription } = props
   const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false)
   const [descriptionConfirmation, setDescriptionConfirmation] = useConfirmationMessage()
@@ -32,7 +36,7 @@ function RenderIsDescription(props) {
     return {color: "black"}
   }
 
-  const handleDescriptionChange = useCallback((event) => {
+  const handleDescriptionChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     setDescription(event.target.value)
   }, [setDescription])
 
@@ -73,7 +77,10 @@ function RenderIsDescription(props) {
       {renderDescriptionInput()}
       {renderCharacterLimit()}
       {renderSaveButton()}
-      {renderMessageSection(descriptionConfirmation, "Description")}
+      <RenderMessageSection
+        confirmationMessage = {descriptionConfirmation}
+        whatIsBeingSaved = "Description"
+      />
     </Form>
   )
 }

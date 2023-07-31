@@ -36,7 +36,6 @@ type AddressData = {
   address_priority: number
   instant_book: boolean
   Phone: string
-  phone_priority: number
 }
 
 interface AvailabilityData {
@@ -127,7 +126,7 @@ export default new class FetchPublicDoctorDataDB {
           ${mysqlTables.addresses}.address_line_2, ${mysqlTables.addresses}.city, ${mysqlTables.addresses}.state,
           ${mysqlTables.addresses}.zip, ${mysqlTables.addresses}.country, ${mysqlTables.addresses}.address_priority,
           ${mysqlTables.addresses}.instant_book,
-          ${mysqlTables.phone}.Phone, ${mysqlTables.phone}.phone_priority
+          ${mysqlTables.phone}.Phone
       FROM ${mysqlTables.addresses}, ${mysqlTables.phone}
       WHERE
           ${mysqlTables.addresses}.addressesID = ${mysqlTables.phone}.address_ID AND ${mysqlTables.addresses}.Doctor_ID = ?

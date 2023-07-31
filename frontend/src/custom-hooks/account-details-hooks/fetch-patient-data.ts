@@ -1,6 +1,6 @@
 import ListsDataService from "../../services/lists-data-service"
-import { invalidUserAction } from "../user-verification-snippets"
 import PrivatePatientDataService from "../../services/private-patient-data-service"
+import { handle401AxiosError } from "src/utils/handle-errors"
 
 export async function FillLists(setListDetails) {
   try {
@@ -10,15 +10,11 @@ export async function FillLists(setListDetails) {
       sessionStorage.setItem("ListDetails", JSON.stringify(response.data))
     }
   } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401) {
-        invalidUserAction(error.response.data)
-      }
-    }
+    handle401AxiosError(error)
   }
 }
 
-export async function FillPatientAccountDetails(setSpokenLanguages) {
+export async function FillPatientAccountDetails(setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>) {
   try {
     const response = await PrivatePatientDataService.fillAccountDetails()
     if (response) {
@@ -26,10 +22,6 @@ export async function FillPatientAccountDetails(setSpokenLanguages) {
       sessionStorage.setItem("PatientAccountDetails", JSON.stringify(response.data))
     }
   } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401) {
-        invalidUserAction(error.response.data)
-      }
-    }
+    handle401AxiosError(error)
   }
 }

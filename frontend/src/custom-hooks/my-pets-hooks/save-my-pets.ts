@@ -9,7 +9,14 @@ function petDataOperations (petData, responseData) {
   return petData
 }
 
-export async function addPet(petData, setPetData, setPetConfirmation, savedPetData, setSavedPetData, setShowAddPet) {
+export async function addPet(
+  petData,
+  setPetData,
+  setPetConfirmation,
+  savedPetData: PetItemType[],
+  setSavedPetData: React.Dispatch<React.SetStateAction<PetItemType[]>>,
+  setShowAddPet
+) {
   let response
 
   try {
@@ -36,7 +43,12 @@ export async function addPet(petData, setPetData, setPetConfirmation, savedPetDa
   }
 }
 
-export async function deletePet(pet_infoID, savedPetData, setSavedPetData, setPetConfirmation) {
+export async function deletePet(
+  pet_infoID,
+  savedPetData: PetItemType[],
+  setSavedPetData: React.Dispatch<React.SetStateAction<PetItemType[]>>,
+  setPetConfirmation
+) {
   let response
 
   try {

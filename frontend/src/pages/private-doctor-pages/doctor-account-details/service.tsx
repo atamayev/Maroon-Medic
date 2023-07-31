@@ -5,7 +5,7 @@ import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-m
 import { handleToggleCategory } from "../../../custom-hooks/account-details-hooks/select"
 import { addServices, deleteServices, updateServices } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details"
 import { handleNumericInput, preventNonNumericalInput, validateDropInput, validatePasteInput } from "../../../utils/input-validation"
-import { renderMessageSection } from "../../../components/saved-message-section"
+import { RenderMessageSection } from "../../../components/saved-message-section"
 
 export default function RenderServiceSection (props) {
   return (
@@ -112,12 +112,36 @@ function RenderIsVetServices (props) {
       if (isProvided) {
         if (providedService.Service_time === selectedService.Service_time &&
             providedService.Service_price === selectedService.Service_price) {
-          return <Button variant = "danger" onClick={() => deleteServices(selectedService, providedServices, setProvidedServices, setSelectedServices, setServicesConfirmation)}>Delete</Button>
+          return (
+            <Button variant = "danger"
+              onClick = {() => deleteServices(
+                selectedService,
+                providedServices,
+                setProvidedServices,
+                setSelectedServices,
+                setServicesConfirmation
+              )}
+            >
+              Delete
+            </Button>
+          )
         } else {
-          return <Button variant = "secondary" onClick={() => updateServices(selectedService, providedServices, setProvidedServices, setServicesConfirmation)}>Update</Button>
+          return (
+            <Button variant = "secondary"
+              onClick = {() => updateServices(selectedService, providedServices, setProvidedServices, setServicesConfirmation)}
+            >
+              Update
+            </Button>
+          )
         }
       } else {
-        return <Button variant = "success" onClick={() => addServices(selectedService, providedServices, setProvidedServices, setServicesConfirmation)}>Add</Button>
+        return (
+          <Button variant = "success"
+            onClick = {() => addServices(selectedService, providedServices, setProvidedServices, setServicesConfirmation)}
+          >
+            Add
+          </Button>
+        )
       }
     }
 
@@ -205,7 +229,10 @@ function RenderIsVetServices (props) {
         </div>
       ))}
 
-      {renderMessageSection(servicesConfirmation, "Services")}
+      <RenderMessageSection
+        confirmationMessage = {servicesConfirmation}
+        whatIsBeingSaved = "Services"
+      />
     </>
   )
 }

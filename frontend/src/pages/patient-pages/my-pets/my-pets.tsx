@@ -11,33 +11,33 @@ import Header from "../../header"
 import PatientHeader from "../patient-header"
 import { AddPet } from "./add-pet"
 
-function usePetData(userType) {
-  const [savedPetData, setSavedPetData] = useState(JSON.parse(sessionStorage.getItem("PatientPetData")) || [])
+function usePetData() {
+  const storedData = sessionStorage.getItem("PatientPetData")
+  const parsedData = storedData && JSON.parse(storedData)
+  const [savedPetData, setSavedPetData] = useState<PetItemType[]>(parsedData || [])
   const [petTypes, setPetTypes] = useState([])
   const [insurances, setInsurances] = useState([])
 
   const fetchAndSetPetData = async () => {
-    if (userType === "Patient") {
-      try {
-        const storedPetData = sessionStorage.getItem("PatientPetData")
-        if (storedPetData) setSavedPetData(JSON.parse(storedPetData))
-        else fetchPetData(setSavedPetData)
+    try {
+      const storedPetData = sessionStorage.getItem("PatientPetData")
+      if (storedPetData) setSavedPetData(JSON.parse(storedPetData))
+      else fetchPetData(setSavedPetData)
 
-        const storedPetTypes = sessionStorage.getItem("PetTypes")
-        if (storedPetTypes) setPetTypes(JSON.parse(storedPetTypes))
-        else FillPetTypes(setPetTypes)
+      const storedPetTypes = sessionStorage.getItem("PetTypes")
+      if (storedPetTypes) setPetTypes(JSON.parse(storedPetTypes))
+      else FillPetTypes(setPetTypes)
 
-        const storedInsurances = sessionStorage.getItem("Insurances")
-        if (storedInsurances) setInsurances(JSON.parse(storedInsurances))
-        else FillInsurances(setInsurances)
-      } catch (error) {
-      }
+      const storedInsurances = sessionStorage.getItem("Insurances")
+      if (storedInsurances) setInsurances(JSON.parse(storedInsurances))
+      else FillInsurances(setInsurances)
+    } catch (error) {
     }
   }
 
   useEffect(() => {
     fetchAndSetPetData()
-  }, [userType])
+  }, [])
 
   return { savedPetData, setSavedPetData, petTypes, insurances }
 }
@@ -53,14 +53,15 @@ const handleCloseModal = (setShowModal) => {
 
 export default function MyPets() {
   const { userType } = useSimpleUserVerification()
-  const { savedPetData, setSavedPetData, petTypes, insurances } = usePetData(userType)
   const [petConfirmation, setPetConfirmation] = useConfirmationMessage()
   const [newPetData, setNewPetData] = useState({Name: "", Gender:"", DOB: "", Pet: "", Pet_type: "", insuranceName: ""})
   const [showAddPet, setShowAddPet] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [petToDelete, setPetToDelete] = useState(null)
-
   if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
+  const { savedPetData, setSavedPetData, petTypes, insurances } = usePetData(userType)
+
+
 
   const renderSavedPetDataTitle = (pet) => {
     return (

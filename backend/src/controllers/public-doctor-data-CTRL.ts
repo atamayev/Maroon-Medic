@@ -50,7 +50,6 @@ type AddressData = {
   address_priority: number
   instant_book: boolean
   Phone: string
-  phone_priority: number
   times: AvailabilityDataType[]
 }
 

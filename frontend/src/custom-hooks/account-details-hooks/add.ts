@@ -4,8 +4,8 @@ import { addDoctorLanguages, addSpecialties } from "./save-doctor-account-detail
 
 export const handleAddLanguage = (
   selectedLanguageID: number,
-  spokenLanguages,
-  setSpokenLanguages,
+  spokenLanguages: LanguageItemType[],
+  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
   listDetails,
   setLanguagesConfirmation,
   doctorOrPatient: "doctor" | "patient"
@@ -83,7 +83,6 @@ export const handleAddAccordion = (addresses, setAddresses) => {
         state: "",
         zip: "",
         country: "",
-        phone_priority: 0,
         phone: "",
         address_public_status: 1,
         instant_book: 0,

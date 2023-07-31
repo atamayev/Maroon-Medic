@@ -21,4 +21,5 @@ export const birthYears = Array.from({length: 63}, (_, i) => currentYear - i - 1
 
 export const educationYears = [...Array(60).keys()].map(i => i + currentYear - 60).reverse()
 
-export const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+export const daysOfWeek: DayOfWeekType[] = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+

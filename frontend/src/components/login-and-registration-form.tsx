@@ -5,8 +5,8 @@ import FormGroup from "./form-group"
 
 interface Props {
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void,
-  credentials: { email: string, password: string, loginType: "Doctor" | "Patient"},
-  setCredentials: (credentials: { email: string, password: string, loginType: "Doctor" | "Patient"}) => void,
+  credentials: { email: string, password: string, loginType: DoctorOrPatient},
+  setCredentials: (credentials: { email: string, password: string, loginType: DoctorOrPatient}) => void,
   setPasswordConfirm?: (passwordConfirm: string) => void,
   error: string,
   VetOrPatient: "Vet" | "Patient",

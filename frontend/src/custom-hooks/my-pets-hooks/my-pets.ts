@@ -1,9 +1,8 @@
-import { AxiosError } from "axios"
 import ListsDataService from "../../services/lists-data-service"
-import { invalidUserAction } from "../user-verification-snippets"
 import PrivatePatientDataService from "../../services/private-patient-data-service"
+import { handle401AxiosError } from "src/utils/handle-errors"
 
-export async function fetchPetData(setSavedPetData) {
+export async function fetchPetData(setSavedPetData: React.Dispatch<React.SetStateAction<PetItemType[]>>) {
   try {
     const response = await PrivatePatientDataService.fetchPetData()
     if (response) {
@@ -11,11 +10,7 @@ export async function fetchPetData(setSavedPetData) {
       sessionStorage.setItem("PatientPetData", JSON.stringify(response.data))
     }
   } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401) {
-        invalidUserAction(error.response.data)
-      }
-    }
+    handle401AxiosError(error)
   }
 }
 
@@ -27,11 +22,7 @@ export async function FillPetTypes(setPetTypes) {
       sessionStorage.setItem("PetTypes", JSON.stringify(response.data))
     }
   } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401) {
-        invalidUserAction(error.response.data)
-      }
-    }
+    handle401AxiosError(error)
   }
 }
 
@@ -43,10 +34,6 @@ export async function FillInsurances(setInsurances) {
       sessionStorage.setItem("Insurances", JSON.stringify(response.data))
     }
   } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401) {
-        invalidUserAction(error.response.data)
-      }
-    }
+    handle401AxiosError(error)
   }
 }

@@ -124,7 +124,7 @@ export default new class FetchDoctorAccountDataDB {
   }
 
   async retrievePhoneData (addressID: number): Promise<PhoneDataType[]> {
-    const sql = `SELECT ${mysqlTables.phone}.Phone, ${mysqlTables.phone}.phone_priority
+    const sql = `SELECT ${mysqlTables.phone}.Phone
       FROM ${mysqlTables.phone}
       WHERE ${mysqlTables.phone}.address_ID = ?`
 

@@ -8,9 +8,8 @@ import DoctorHeader from "../doctor-header"
 
 export default function DoctorLoginAndSecurity() {
   const { userType } = useSimpleUserVerification()
-  const loginHistory = useLoginHistory(userType, "Doctor")
-
   if (userType !== "Doctor") return <UnauthorizedUser patientOrDoctor = {"vet"}/>
+  const loginHistory = useLoginHistory(userType)
 
   return (
     <>

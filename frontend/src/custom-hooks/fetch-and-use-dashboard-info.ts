@@ -1,13 +1,10 @@
-import { AxiosError } from "axios"
 import { useState, useEffect } from "react"
+import { handle401AxiosError } from "src/utils/handle-errors"
 import PrivateDoctorDataService from "../services/private-doctor-data-service"
 import PrivatePatientDataService from "../services/private-patient-data-service"
-import { invalidUserAction } from "./user-verification-snippets"
 
-type UserType = "Doctor" | "Patient"
-
-export function useDoctorDashboardData(userType: UserType) {
-  const [dashboardData, setDashboardData] = useState(null)
+export function useDoctorDashboardData() {
+  const [dashboardData, setDashboardData] = useState<DoctorDashboardDataType[]>([])
 
   const fetchAndSetDashboardData = async () => {
     await fetchDoctorDashboardData(setDashboardData)
@@ -15,12 +12,12 @@ export function useDoctorDashboardData(userType: UserType) {
 
   useEffect(() => {
     fetchAndSetDashboardData()
-  }, [userType])
+  }, [])
 
   return {dashboardData, setDashboardData}
 }
 
-async function fetchDoctorDashboardData(setDashboardData) {
+async function fetchDoctorDashboardData(setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardDataType[]>>) {
   try {
     const response = await PrivateDoctorDataService.fillDashboard()
     if (response) {
@@ -28,16 +25,12 @@ async function fetchDoctorDashboardData(setDashboardData) {
       sessionStorage.setItem("DoctorDashboardData", JSON.stringify(response.data))
     }
   } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401) {
-        invalidUserAction(error.response.data)
-      }
-    }
+    handle401AxiosError(error)
   }
 }
 
-export function usePatientDashboardData(userType: UserType) {
-  const [dashboardData, setDashboardData] = useState(null)
+export function usePatientDashboardData() {
+  const [dashboardData, setDashboardData] = useState<PatientDashboardDataType[]>([])
 
   const fetchAndSetDashboardData = async () => {
     await fetchPatientDashboardData(setDashboardData)
@@ -45,12 +38,12 @@ export function usePatientDashboardData(userType: UserType) {
 
   useEffect(() => {
     fetchAndSetDashboardData()
-  }, [userType])
+  }, [])
 
   return {dashboardData, setDashboardData}
 }
 
-async function fetchPatientDashboardData(setDashboardData) {
+async function fetchPatientDashboardData(setDashboardData: React.Dispatch<React.SetStateAction<PatientDashboardDataType[]>>) {
   try {
     const response = await PrivatePatientDataService.fillDashboard()
     if (response) {
@@ -58,10 +51,6 @@ async function fetchPatientDashboardData(setDashboardData) {
       sessionStorage.setItem("PatientDashboardData", JSON.stringify(response.data))
     }
   } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401) {
-        invalidUserAction(error.response.data)
-      }
-    }
+    handle401AxiosError(error)
   }
 }

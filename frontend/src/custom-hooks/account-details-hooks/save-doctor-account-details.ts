@@ -13,8 +13,8 @@ import {
 
 export function addDoctorLanguages(
   languageID: number,
-  newSpokenLanguages,
-  setSpokenLanguages,
+  newSpokenLanguages: LanguageItemType[],
+  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
   setLanguagesConfirmation
 ) {
   return modifyDoctorLanguages(
@@ -28,8 +28,8 @@ export function addDoctorLanguages(
 
 export function deleteDoctorLanguages(
   languageID: number,
-  newSpokenLanguages,
-  setSpokenLanguages,
+  newSpokenLanguages: LanguageItemType[],
+  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
   setLanguagesConfirmation
 ) {
   return modifyDoctorLanguages(

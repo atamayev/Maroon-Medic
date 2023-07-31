@@ -264,7 +264,6 @@ SELECT * FROM addresses inner join phone on addresses.addressesID = phone.addres
 CREATE TABLE phone(
 	phone_numbersID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	Phone VARCHAR(150),
-	phone_priority INT DEFAULT 0,
 	phone_type varchar(20), -- cell, office, fax
 	address_ID INT unsigned NOT NULL,
 	FOREIGN KEY (address_ID) REFERENCES addresses(addressesID)

@@ -1,6 +1,11 @@
 import FormGroup from "../../../components/form-group"
 
-export const renderAddressTitleInput = (address, handleInputChange ) => {
+interface Props {
+  address: DoctorAddressDataType
+  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>, addressPriority: number) => void
+}
+
+export const RenderAddressTitleInput = ({address, handleInputChange}: Props) => {
   return (
     <div className = "col-md-3">
       <FormGroup
@@ -9,14 +14,14 @@ export const renderAddressTitleInput = (address, handleInputChange ) => {
         type = "text"
         placeholder = "Address Title"
         value = {address.address_title || ""}
-        onChange = {handleInputChange}
+        onChange = {(event) => handleInputChange(event, address.address_priority)}
         name = "address_title"
       />
     </div>
   )
 }
 
-export const renderAddressLine1Input = (address, handleInputChange) => {
+export const RenderAddressLine1Input = ({address, handleInputChange}: Props) => {
   return (
     <div className = "col-md-3">
       <FormGroup
@@ -25,14 +30,14 @@ export const renderAddressLine1Input = (address, handleInputChange) => {
         type = "text"
         placeholder = "Address line 1"
         value = {address.address_line_1 || ""}
-        onChange = {handleInputChange}
+        onChange = {(event) => handleInputChange(event, address.address_priority)}
         name = "address_line_1"
       />
     </div>
   )
 }
 
-export const renderAddressLine2Input = (address, handleInputChange) => {
+export const RenderAddressLine2Input = ({address, handleInputChange}: Props) => {
   return (
     <div className = "col-md-3">
       <FormGroup
@@ -41,14 +46,14 @@ export const renderAddressLine2Input = (address, handleInputChange) => {
         type = "text"
         placeholder = "Address line 2"
         value = {address.address_line_2 || ""}
-        onChange = {handleInputChange}
+        onChange = {(event) => handleInputChange(event, address.address_priority)}
         name = "address_line_2"
       />
     </div>
   )
 }
 
-export const renderCityInput = (address, handleInputChange) => {
+export const RenderCityInput = ({address, handleInputChange}: Props) => {
   return (
     <div className = "col-md-3">
       <FormGroup
@@ -57,14 +62,14 @@ export const renderCityInput = (address, handleInputChange) => {
         type = "text"
         placeholder = "City"
         value = {address.city || ""}
-        onChange = {handleInputChange}
+        onChange = {(event) => handleInputChange(event, address.address_priority)}
         name = "city"
       />
     </div>
   )
 }
 
-export const renderStateInput = (address, handleInputChange) => {
+export const RenderStateInput = ({address, handleInputChange}: Props) => {
   return (
     <div className = "col-md-3">
       <FormGroup
@@ -73,14 +78,14 @@ export const renderStateInput = (address, handleInputChange) => {
         type = "text"
         placeholder = "State"
         value = {address.state || ""}
-        onChange = {handleInputChange}
+        onChange = {(event) => handleInputChange(event, address.address_priority)}
         name = "state"
       />
     </div>
   )
 }
 
-export const renderZipCodeInput = (address, handleInputChange) => {
+export const RenderZipCodeInput = ({address, handleInputChange}: Props) => {
   return (
     <div className = "col-md-3">
       <FormGroup
@@ -89,14 +94,14 @@ export const renderZipCodeInput = (address, handleInputChange) => {
         type = "number"
         placeholder = "Zip Code"
         value = {address.zip || ""}
-        onChange = {handleInputChange}
+        onChange = {(event) => handleInputChange(event, address.address_priority)}
         name = "zip"
       />
     </div>
   )
 }
 
-export const renderCountryInput = (address, handleInputChange) => {
+export const RenderCountryInput = ({address, handleInputChange}: Props) => {
   return (
     <div className = "col-md-3">
       <FormGroup
@@ -105,14 +110,14 @@ export const renderCountryInput = (address, handleInputChange) => {
         type = "text"
         placeholder = "Country"
         value = {address.country || ""}
-        onChange = {handleInputChange}
+        onChange = {(event) => handleInputChange(event, address.address_priority)}
         name = "country"
       />
     </div>
   )
 }
 
-export const renderPhoneNumberInput = (address, handleInputChange) => {
+export const RenderPhoneNumberInput = ({address, handleInputChange}: Props) => {
   return (
     <div className = "col-md-3">
       <FormGroup
@@ -120,15 +125,15 @@ export const renderPhoneNumberInput = (address, handleInputChange) => {
         label = "Phone Number"
         type = "number"
         placeholder = "Phone Number"
-        value = {address.phone || ""}
-        onChange = {handleInputChange}
+        value = {address.phones?.[0]?.Phone || ""}
+        onChange = {(event) => handleInputChange(event, address.address_priority)}
         name = "phone"
       />
     </div>
   )
 }
 
-export const renderLocationMapData = () => {
+export const RenderLocationMapData = () => {
   return (
     <div className = "col-md-6">
       Google Maps Placeholder

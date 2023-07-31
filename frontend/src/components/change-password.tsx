@@ -4,7 +4,7 @@ import { handleChangePassword } from "../custom-hooks/change-password"
 import FormGroup from "./form-group"
 
 interface Props {
-  type: "Doctor" | "Patient"
+  type: DoctorOrPatient
 }
 
 export default function ChangePassword(props: Props) {

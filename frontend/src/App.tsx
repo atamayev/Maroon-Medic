@@ -39,7 +39,6 @@ export default function App() {
         <div className = "w-100" style = {{maxWidth: "4000px"}}>
           <Routes>
             <Route path = "/" element = {<HomeDoctorsList/>} />
-            {/* Specific Doctors List both for if there is a query, and if there isnt: next line */}
             <Route path = "/s/:query" element = {<SpecificDoctorsList/>} />
             <Route path = "/s/" element = {<SpecificDoctorsList/>} />
             <Route path = "/vet/:id" element = {<Doctor/>} />

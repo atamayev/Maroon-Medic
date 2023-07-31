@@ -1,7 +1,7 @@
 import { Card, ToggleButton, ToggleButtonGroup } from "react-bootstrap"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
 import { handlePublicAvailibilityToggle } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details"
-import { renderMessageSection } from "../../../components/saved-message-section"
+import { RenderMessageSection } from "../../../components/saved-message-section"
 
 export default function RenderPublicStatusSection (props) {
   return (
@@ -45,12 +45,19 @@ function RenderIsPubliclyAvailable (props) {
         <ToggleButton
           id = "tbg-radio-2"
           value = {1}
-          style = {{ backgroundColor: publiclyAvailable === 1 ? "green" : "white", color: publiclyAvailable === 1 ? "white" : "black", borderColor: "black"}}
+          style =
+            {{ backgroundColor: publiclyAvailable === 1 ? "green" : "white",
+              color: publiclyAvailable === 1 ? "white" : "black",
+              borderColor: "black"
+            }}
         >
           Yes
         </ToggleButton>
       </ToggleButtonGroup>
-      {renderMessageSection(publiclyAvailableConfirmation, "Public Availability Status")}
+      <RenderMessageSection
+        confirmationMessage = {publiclyAvailableConfirmation}
+        whatIsBeingSaved = "Public Availability Status"
+      />
     </div>
   )
 }

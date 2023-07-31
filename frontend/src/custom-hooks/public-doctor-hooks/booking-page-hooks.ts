@@ -2,7 +2,7 @@ import _ from "lodash"
 
 export const handlePetChange = (
   event,
-  savedPetData,
+  savedPetData: PetItemType[],
   setSelectedPet,
   setSelectedService,
   setSelectedLocation,

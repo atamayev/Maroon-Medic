@@ -6,34 +6,34 @@ import Header from "../../header"
 import PatientHeader from "../patient-header"
 import RenderLanguageSection from "./language"
 
-function usePatientAccountDetails(userType, setSpokenLanguages, setListDetails) {
+function usePatientAccountDetails(
+  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
+  setListDetails
+) {
   const fetchAndSetAccountDetails = async () => {
-    if (userType === "Patient") {
-      try {
-        const storedAccountDetails = sessionStorage.getItem("PatientAccountDetails")
-        if (!storedAccountDetails) FillPatientAccountDetails(setSpokenLanguages)
+    try {
+      const storedAccountDetails = sessionStorage.getItem("PatientAccountDetails")
+      if (!storedAccountDetails) FillPatientAccountDetails(setSpokenLanguages)
 
-        const storedListDetails = sessionStorage.getItem("ListDetails")
-        if (storedListDetails) setListDetails(JSON.parse(storedListDetails))
-        else FillLists(setListDetails)
-      } catch (error) {
-      }
+      const storedListDetails = sessionStorage.getItem("ListDetails")
+      if (storedListDetails) setListDetails(JSON.parse(storedListDetails))
+      else FillLists(setListDetails)
+    } catch (error) {
     }
   }
 
   useEffect(() => {
     fetchAndSetAccountDetails()
-  }, [userType])
+  }, [])
 }
 
 export default function PatientAccountDetails() {
   const { userType } = useSimpleUserVerification()
+  if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
   const [listDetails, setListDetails] = useState({})
   const PatientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails"))
-  const [spokenLanguages, setSpokenLanguages] = useState(PatientAccountDetails?.languages || [])
-  usePatientAccountDetails(userType, setSpokenLanguages, setListDetails)
-
-  if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
+  const [spokenLanguages, setSpokenLanguages] = useState<LanguageItemType[]>(PatientAccountDetails?.languages || [])
+  usePatientAccountDetails(setSpokenLanguages, setListDetails)
 
   return (
     <div>

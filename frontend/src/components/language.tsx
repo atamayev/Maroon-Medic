@@ -2,13 +2,8 @@ import _ from "lodash"
 import { DeleteButtonOptions } from "./delete-buttons"
 
 interface SelectLanguageProps {
-  languageOptions: Language[],
+  languageOptions: JSX.Element[],
   handleLanguageChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
-}
-
-type Language = {
-  language_listID: number,
-  Language_name: string
 }
 
 export const renderSelectLanguageSection = ({handleLanguageChange, languageOptions}: SelectLanguageProps) => {
@@ -26,10 +21,10 @@ export const renderSelectLanguageSection = ({handleLanguageChange, languageOptio
 }
 
 interface RenderSingleLanguageProps {
-  language: Language,
+  language: LanguageItemType,
   deleteStatuses: object,
   setDeleteStatuses: (deleteStatuses: object) => void,
-  handleDeleteLanguage: (language: Language) => void
+  handleDeleteLanguage: (language: LanguageItemType) => void
 }
 
 const RenderSingleSavedLanguage = ({language, deleteStatuses, setDeleteStatuses, handleDeleteLanguage}: RenderSingleLanguageProps) => {
@@ -55,7 +50,7 @@ const RenderSingleSavedLanguage = ({language, deleteStatuses, setDeleteStatuses,
   )
 }
 
-export const renderSavedLanguageList = (spokenLanguages, deleteStatuses, setDeleteStatuses,handleDeleteLanguage) => {
+export const renderSavedLanguageList = (spokenLanguages: LanguageItemType[], deleteStatuses, setDeleteStatuses, handleDeleteLanguage) => {
   if (!_.isArray(spokenLanguages) || _.isEmpty(spokenLanguages)) return null
   return (
     <ul>

@@ -11,9 +11,9 @@ export async function searchByQuery (req: Request<Params>, res: Response): Promi
   const userQuery = req.params.query
   try {
     const searchResults = await SearchDB.retrieveDoctorsFromSearchTerm(userQuery)
-    return res.json(searchResults)
+    return res.status(200).json(searchResults)
   } catch (error: unknown) {
-    return res.json({ error: "Search by Query Error" })
+    return res.status(400).json({ error: "Search by Query Error" })
   }
 }
 
@@ -24,7 +24,8 @@ export async function fetchUsers (req: Request, res: Response): Promise<void> {
   OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }
 
-// The following three functions are here for filtering purposes. In the future, pts will be able to filter for docs by language_spoken, insurances, etc.
+// The following three functions are here for filtering purposes.
+//In the future, pts will be able to filter for docs by language_spoken, insurances, etc.
 export async function fetchAllLanguages (req: Request, res: Response): Promise<void> {
   const operation = async () => {
     return await FetchAllLists.fetchAllLanguages()

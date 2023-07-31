@@ -1,8 +1,8 @@
 import AuthDataService from "../services/auth-data-service"
-type LoginOrRegisterType = "Doctor" | "Patient"
+type LoginOrRegisterType = DoctorOrPatient
 
 interface ChangePasswordObject {
-  userType: "Doctor" | "Patient"
+  userType: DoctorOrPatient
   currentPassword: string
   newPassword: string
   newConfirmPassword: string
@@ -11,7 +11,7 @@ interface ChangePasswordObject {
 export const handleChangePassword = async (
   changePasswordObject: ChangePasswordObject,
   setCredentials: React.Dispatch<React.SetStateAction<{
-    userType: "Doctor" | "Patient"
+    userType: DoctorOrPatient
     currentPassword: string
     newPassword: string
     newConfirmPassword: string}>>,

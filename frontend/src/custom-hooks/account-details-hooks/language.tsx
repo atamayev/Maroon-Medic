@@ -1,7 +1,11 @@
 import _ from "lodash"
 import { useEffect, useMemo } from "react"
 
-export function useUpdateDeleteStatuses(deleteStatuses, setDeleteStatuses, spokenLanguages) {
+export function useUpdateDeleteStatuses(
+  deleteStatuses,
+  setDeleteStatuses,
+  spokenLanguages: LanguageItemType[]
+) {
   useEffect(() => {
     const newDeleteStatuses = { ...deleteStatuses }
 
@@ -17,9 +21,9 @@ export function useUpdateDeleteStatuses(deleteStatuses, setDeleteStatuses, spoke
   }, [spokenLanguages])
 }
 
-export function useLanguageOptions(languages, spokenLanguages) {
+export function useLanguageOptions(languages: LanguageItemType[], spokenLanguages: LanguageItemType[]): JSX.Element[] {
   return useMemo(() => {
-    if (!(_.isArray(languages) && !_.isEmpty(languages))) return null
+    if (!(_.isArray(languages) && !_.isEmpty(languages))) return []
 
     return languages
       .filter((language) => !spokenLanguages.find((spoken) => spoken.language_listID === language.language_listID))

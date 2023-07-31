@@ -1,7 +1,7 @@
 import { Form, Button, Card,Container, Row, Col } from "react-bootstrap"
 import FormGroup from "../../../components/form-group"
 import { addPet } from "../../../custom-hooks/my-pets-hooks/save-my-pets"
-import { renderMessageSection } from "../../../components/saved-message-section"
+import { RenderMessageSection } from "../../../components/saved-message-section"
 
 const ifPetTypeSelected = (value, petTypes, newPetData, setNewPetData) => {
   // Find the selected pet type by its ID
@@ -52,8 +52,21 @@ const handleInputChange = (event, petTypes, insurances, newPetData, setNewPetDat
   }
 }
 
-export const AddPet = (props) => {
-  const { newPetData, setNewPetData, petTypes, insurances, petConfirmation, setPetConfirmation, setShowAddPet, savedPetData, setSavedPetData } = props
+interface AddPetProps {
+  newPetData: PetItemType
+  setNewPetData: React.Dispatch<React.SetStateAction<PetItemType>>
+  petTypes: PetTypeItemType[]
+  insurances: InsuranceItemType[]
+  petConfirmation: ConfirmationMessage
+  setPetConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
+  setShowAddPet: React.Dispatch<React.SetStateAction<boolean>>
+  savedPetData: PetItemType[]
+  setSavedPetData: React.Dispatch<React.SetStateAction<PetItemType[]>>
+}
+
+export const AddPet = (props: AddPetProps) => {
+  const { newPetData, setNewPetData, petTypes, insurances, petConfirmation,
+    setPetConfirmation, setShowAddPet, savedPetData, setSavedPetData } = props
 
   const renderNewPetName = () => {
     if (!newPetData.Name) return <>Pet</>
@@ -92,8 +105,11 @@ export const AddPet = (props) => {
     return (
       <Form.Group id = "formPetGender">
         <Form.Label>Gender</Form.Label>
-        <Form.Check type = "radio" label = "Male" name = "Gender" value = "Male" onChange = {(e) => handleInputChange (e, petTypes, insurances, newPetData, setNewPetData)} />
-        <Form.Check type = "radio" label = "Female" name = "Gender" value = "Female" onChange = {(e) => handleInputChange (e, petTypes, insurances, newPetData, setNewPetData)} />
+        <Form.Check type = "radio" label = "Male" name = "Gender" value = "Male"
+          onChange = {(e) => handleInputChange (e, petTypes, insurances, newPetData, setNewPetData)} />
+
+        <Form.Check type = "radio" label = "Female" name = "Gender" value = "Female"
+          onChange = {(e) => handleInputChange (e, petTypes, insurances, newPetData, setNewPetData)} />
       </Form.Group>
     )
   }
@@ -204,7 +220,10 @@ export const AddPet = (props) => {
             Upload image area
             {renderAddButton()}
           </Form>
-          {renderMessageSection(petConfirmation, "Pet")}
+          <RenderMessageSection
+            confirmationMessage = {petConfirmation}
+            whatIsBeingSaved = "Pet"
+          />
         </Card.Body>
       </Card>
     </>

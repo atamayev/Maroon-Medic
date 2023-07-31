@@ -1,6 +1,6 @@
 import { Card, Button, Form } from "react-bootstrap"
 import { UnauthorizedUser } from "../../../components/user-type-unauth"
-import { renderMessageSection } from "../../../components/saved-message-section"
+import { RenderMessageSection } from "../../../components/saved-message-section"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import { usePersonalInfo, handleSavePersonalInfo } from "../../../custom-hooks/fetch-and-save-personal-info"
@@ -13,16 +13,13 @@ import {
 import Header from "../../header"
 import PatientHeader from "../patient-header"
 
-const handleSave = (personalInfo, setPersonalInfoConfirmation, userType) => {
-  handleSavePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)
-}
-
 export default function PatientPersonalInfo() {
   const { userType } = useSimpleUserVerification()
-  const {personalInfo, setPersonalInfo} = usePersonalInfo(userType)
-  const [personalInfoConfirmation, setPersonalInfoConfirmation] = useConfirmationMessage()
 
   if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
+
+  const {personalInfo, setPersonalInfo} = usePersonalInfo(userType)
+  const [personalInfoConfirmation, setPersonalInfoConfirmation] = useConfirmationMessage()
 
   return (
     <div>
@@ -30,13 +27,16 @@ export default function PatientPersonalInfo() {
       <PatientHeader/>
       <Card>
         <Card.Body>
-          <Form onSubmit = {() => handleSave(personalInfo, setPersonalInfoConfirmation, userType)}>
-            {renderFirstNameSection(personalInfo, setPersonalInfo)}
-            {renderLastNameSection(personalInfo, setPersonalInfo)}
-            {renderGenderSection(personalInfo, setPersonalInfo)}
-            {renderDOBSection(personalInfo, setPersonalInfo)}
+          <Form onSubmit = {() => handleSavePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)}>
+            {renderFirstNameSection({personalInfo: personalInfo, setPersonalInfo: setPersonalInfo})}
+            {renderLastNameSection({personalInfo: personalInfo, setPersonalInfo: setPersonalInfo})}
+            {renderGenderSection({personalInfo: personalInfo, setPersonalInfo: setPersonalInfo})}
+            {renderDOBSection({personalInfo: personalInfo, setPersonalInfo: setPersonalInfo})}
             <Button type = "submit" className = "btn btn-primary w-100">Save</Button>
-            {renderMessageSection(personalInfoConfirmation, "Personal Info")}
+            <RenderMessageSection
+              confirmationMessage = {personalInfoConfirmation}
+              whatIsBeingSaved = "Personal Info"
+            />
           </Form>
         </Card.Body>
       </Card>

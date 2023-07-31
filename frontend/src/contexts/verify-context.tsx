@@ -1,21 +1,20 @@
+import { AxiosError } from "axios"
 import { createContext } from "react"
 import AuthDataService from "../services/auth-data-service"
 import { invalidUserAction } from "../custom-hooks/user-verification-snippets"
-import { AxiosError } from "axios"
+import CookieUtils from "src/utils/cookie"
+
+type UserTypes = DoctorOrPatient
+
+type VerifyContextReturnType = Promise<{verified: boolean, userType?: UserTypes}>
 
 interface VerifyContextType {
-  userVerification: (clearSession: boolean) => Promise<{verified: boolean, userType?: string | null}>
+  userVerification: (clearSession: boolean) => VerifyContextReturnType
 }
 
-const defaultVerifyContext: VerifyContextType = {
-  userVerification: async () => ({verified: false})
-}
+const createDefaultContext = (): VerifyContextType => ({ userVerification: async () => ({verified: false}) })
 
-const VerifyContext = createContext<VerifyContextType>(defaultVerifyContext)
-
-function checkCookie(name: string): boolean {
-  return document.cookie.split(";").some((item) => item.trim().startsWith(name + "="))
-}
+const VerifyContext = createContext<VerifyContextType>(createDefaultContext())
 
 function clearAndReturnFalse(clearSession: boolean): {verified: boolean} {
   if (clearSession) sessionStorage.clear()
@@ -26,35 +25,38 @@ interface VerifyContextProviderProps {
   children: JSX.Element | JSX.Element[]
 }
 
-const VerifyContextProvider = (props: VerifyContextProviderProps) => {
-  async function userVerification (clearSession: boolean) {
+const handleError = (error: unknown, clearSession: boolean) => {
+  if (error instanceof AxiosError && error.response?.status === 401) {
+    invalidUserAction(error.response.data)
+  }
+  return clearAndReturnFalse(clearSession)
+}
+
+const VerifyContextProvider = ({ children }: VerifyContextProviderProps) => {
+  async function userVerification(clearSession: boolean): VerifyContextReturnType {
     try {
-      if (!checkCookie("DoctorAccessToken") && !checkCookie("PatientAccessToken")) {
+      if (!CookieUtils.checkCookieForContext("DoctorAccessToken") && !CookieUtils.checkCookieForContext("PatientAccessToken")) {
         return clearAndReturnFalse(clearSession)
       }
 
       const response = await AuthDataService.verify()
 
-      if (response.data.isValid !== true) return clearAndReturnFalse(clearSession)
+      if (response.data.isValid !== true) {
+        return clearAndReturnFalse(clearSession)
+      }
 
       return {
         verified: true,
-        userType: response.data.type || null,
+        userType: response.data.type,
       }
     } catch (error: unknown) {
-      if (error instanceof AxiosError) {
-        if (error.response?.status === 401) {
-          invalidUserAction(error.response.data)
-        }
-      }
-      return clearAndReturnFalse(clearSession)
+      return handleError(error, clearSession)
     }
   }
 
-
   return (
-    <VerifyContext.Provider value = {{ userVerification }}>
-      {props.children}
+    <VerifyContext.Provider value={{ userVerification }}>
+      {children}
     </VerifyContext.Provider>
   )
 }

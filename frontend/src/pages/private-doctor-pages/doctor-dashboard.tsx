@@ -10,8 +10,14 @@ import { useDoctorDashboardData } from "../../custom-hooks/fetch-and-use-dashboa
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
 import Header from "../header"
 import DoctorHeader from "./doctor-header"
+import CookieUtils from "src/utils/cookie"
 
-async function approveAppointment (setStatus, AppointmentsID, dashboardData, setDashboardData) {
+async function approveAppointment (
+  setStatus,
+  AppointmentsID,
+  dashboardData: DoctorDashboardDataType[],
+  setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardDataType[]>>
+) {
   try {
     const response = await CalendarDataService.confirmAppointment(AppointmentsID)
     if (response.status === 200) {
@@ -37,11 +43,14 @@ async function approveAppointment (setStatus, AppointmentsID, dashboardData, set
 
 export default function DoctorDashboard() {
   const { userType } = useSimpleUserVerification()
-  const { dashboardData, setDashboardData } = useDoctorDashboardData(userType)
-  const [personalInfo, setPersonalInfo] = useState(JSON.parse(sessionStorage.getItem("DoctorPersonalInfo")))
+  if (userType !== "Doctor") return <UnauthorizedUser patientOrDoctor = {"vet"}/>
+  const { dashboardData, setDashboardData } = useDoctorDashboardData()
+  const storedData = sessionStorage.getItem("DoctorPersonalInfo")
+  const parsedData = storedData && JSON.parse(storedData)
+  const [personalInfo, setPersonalInfo] = useState(parsedData)
   const [pastAppointments, setPastAppointments] = useState([])
   const [upcomingAppointments, setUpcomingAppointments] = useState([])
-  const newDoctor = document.cookie.split(";").some((item) => item.trim().startsWith("DoctorNewUser"))
+  const newDoctor = CookieUtils.checkCookieForNewUser("DoctorNewUser")
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -70,8 +79,6 @@ export default function DoctorDashboard() {
       setUpcomingAppointments(upcomingAppointments)
     }
   }, [dashboardData])
-
-  if (userType !== "Doctor") return <UnauthorizedUser patientOrDoctor = {"vet"}/>
 
   const returnDoctorConfirmationStatus = (appointment) => {
     if (appointment.Doctor_confirmation_status === 0) return "pending"

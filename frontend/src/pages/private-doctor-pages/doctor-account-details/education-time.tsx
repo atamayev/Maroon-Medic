@@ -1,6 +1,21 @@
 import { months, educationYears } from "../../../utils/constants"
 
-export default function EducationTime(props) {
+interface Props {
+  timeState: {
+    startMonth: string
+    startYear: string
+    endMonth: string
+    endYear: string
+  }
+  setTimeState: React.Dispatch<React.SetStateAction<{
+    startMonth: string
+    startYear: string
+    endMonth: string
+    endYear: string
+  }>>
+}
+
+export default function EducationTime(props: Props) {
   const { timeState, setTimeState } = props
 
   const renderStartMonthSection = () => {

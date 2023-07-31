@@ -3,24 +3,31 @@ To-do:
 
 ASAP:
 Frontend TS Fixes:
-	1. Give return types to all functions
-	2. Go through the backend list in email.
-	3. go through https://www.sitepoint.com/how-to-migrate-a-react-app-to-typescript/
+	1. Give return types to all functions, for functions that don't return, make the return type void
+	3. go through https://www.sitepoint.com/how-to-migrate-a-react-app-to-typescript/, other recommended ts config setup
 	5. Search for all cases of React.Dispatch where the type of the state is not set (or the state is set inside, like in change-password.ts. They should all be of this form: React.Dispatch<React.SetStateAction<LoginHistoryItem[]>>
 	6. Bring back the max lines per function
+	7. Remove all 'any' types
+	8. make sure all IDs are numbers
+	9. Accomodate for all res.status().jsons that were previously just res.jsons
+	10. Change all 'render___' functions to be 'Render...', and make them JSX components intead of const functions
+	
 
-Frontend + backend
+Full Stack TS changes
 	1. Take full advantage of globals.d.ts to create reoccuring types
 	2. Figure out a way to divide up the globals.d.ts into different categories (ie public doctor vs private, patient, etc.)
 		Both back and fornt end
 	3. 
 
+Backend TS fixes
+	2. Move to globals	
+		type LoginOrRegisterType = "Doctor" | "Patient"
+		type MysqlTimestamp = string
+	
 
-Figure out how to remove all for loops. Might be possible to run multiple SQL statements at once without a for loop. Eslint has a no loops rule
+Merge the vet dashboard/patient dashboard urls into one page. Will save a lot of re-direct logic, also it's useless to have different dashboard routes.
+	Same for all teh other 'vet-specific' routes that are in common wiht patient specific routes. 
 
-Run lint test for over 200 line fcns - AFTER THIS MOVE TO TS.
-	move backend to TS first - might not need to make a new folder, can just install ts extensions possibly?
-	during this conversion, move the front-end files from .js to .tsx
 
 -React browser warnins when adding pre_vet/vet education (see 7/4 keys commit)
 
@@ -96,9 +103,6 @@ Do the calculations for the next appointment dates on the back-end. Will need to
 	https://react-bootstrap.github.io/components/placeholder/
 
 -- consider adding a verified column to the Credentials table (verify for both pts and docs) - not sure how to verify pts, would be a steep onboarding
-
-figure out phone_priority (address_data), currently sending it back as 0. Phone priority is for when one location has multiple phone numbers. So each object in the address list might have an object inside that contains phone numbers, link
-	See 5/19 commit
 
 -allow for entering multiple degrees from one college (without causing the education table to break (because of the constraint))
 

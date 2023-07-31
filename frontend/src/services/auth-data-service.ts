@@ -3,12 +3,12 @@ import http from "../http-common"
 interface LoginAndRegistrationInformation {
   email: string
   password: string
-  loginType?: "Doctor" | "Patient"
-  registrationType?: "Doctor" | "Patient"
+  loginType?: DoctorOrPatient
+  registrationType?: DoctorOrPatient
 }
 
 interface ChangePasswordObject {
-  userType: "Doctor" | "Patient"
+  userType: DoctorOrPatient
   currentPassword: string
   newPassword: string
   newConfirmPassword: string

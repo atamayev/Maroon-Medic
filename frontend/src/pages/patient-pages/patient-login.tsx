@@ -8,7 +8,7 @@ import Header from "../header"
 export default function PatientLogin() {
   const type = "Patient"
   const [loginInformationObject, setLoginInformationObject] =
-  useState<{loginType: "Doctor" | "Patient", email: string, password: string}>({loginType: type, email: "", password: ""})
+  useState<{loginType: DoctorOrPatient, email: string, password: string}>({loginType: type, email: "", password: ""})
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()

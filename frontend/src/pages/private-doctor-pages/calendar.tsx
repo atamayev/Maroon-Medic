@@ -41,31 +41,29 @@ const CustomEvent = ({ event }) => {
   return <div className = {CSS}> {event.title} </div>
 }
 
-function useDoctorCalendarData(userType) {
+function useDoctorCalendarData() {
   const [events, setEvents] = useState<CalendarData[]>([])
 
   const fetchAndSetCalendarData = async () => {
-    if (userType === "Doctor") {
-      try {
-        const storedCalendarData = sessionStorage.getItem("DoctorCalendarDetails")
-        if (!storedCalendarData) FillDoctorCalendarDetails(setEvents)
-      } catch (error) {
-      }
+    try {
+      const storedCalendarData = sessionStorage.getItem("DoctorCalendarDetails")
+      if (!storedCalendarData) FillDoctorCalendarDetails(setEvents)
+    } catch (error) {
     }
   }
 
   useEffect(() => {
     fetchAndSetCalendarData()
-  }, [userType])
+  }, [])
 
   return events
 }
 
 export default function DoctorCalendar() {
   const { userType } = useSimpleUserVerification()
-  const events = useDoctorCalendarData(userType)
-
   if (userType !== "Doctor") return <UnauthorizedUser patientOrDoctor = {"vet"}/>
+
+  const events = useDoctorCalendarData()
 
   return (
     <div>

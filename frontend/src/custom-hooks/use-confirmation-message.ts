@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 
-export const useConfirmationMessage = () => {
-  const initialConfirmationState = {
+export const useConfirmationMessage = (): [ConfirmationMessage, (conf: ConfirmationMessage) => void] => {
+  const initialConfirmationState: ConfirmationMessage = {
     messageType: null, // initially set to null
     timeoutId: null
   }

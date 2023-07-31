@@ -2,7 +2,13 @@ import { invalidUserAction } from "../user-verification-snippets"
 import PrivateDoctorDataService from "../../services/private-doctor-data-service"
 import { AxiosError } from "axios"
 
-export async function modifyDoctorLanguages(operation, languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation) {
+export async function modifyDoctorLanguages(
+  operation,
+  languageID: number,
+  newSpokenLanguages: LanguageItemType[],
+  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
+  setLanguagesConfirmation
+) {
   let response
   try {
     response = await operation(languageID)
@@ -28,7 +34,7 @@ export async function modifyDoctorLanguages(operation, languageID, newSpokenLang
 
 export async function modifyDoctorSpecialties(
   operation,
-  specialtyID,
+  specialtyID: number,
   newDoctorSpecialties,
   setDoctorSpecialties,
   setSpecialtiesConfirmation,

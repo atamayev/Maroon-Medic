@@ -1,14 +1,9 @@
-export type ConfirmationMessage = {
-  messageType: "saved" | "same" | "problem" | "none" | null,
-  timeoutId: number | null
-}
-
 interface Props {
   confirmationMessage: ConfirmationMessage,
   whatIsBeingSaved: string
 }
 
-export const renderMessageSection = ({confirmationMessage, whatIsBeingSaved}: Props) => {
+export const RenderMessageSection = ({confirmationMessage, whatIsBeingSaved}: Props) => {
   const messageType = confirmationMessage.messageType
   let messageContent = ""
 

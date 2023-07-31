@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { Card, Button} from "react-bootstrap"
-import { renderMessageSection } from "../../../components/saved-message-section"
+import { RenderMessageSection } from "../../../components/saved-message-section"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
 import { handleTogglePetType } from "../../../custom-hooks/account-details-hooks/select"
 import { useHandleCheckboxChange } from "../../../custom-hooks/account-details-hooks/callbacks"
@@ -91,7 +91,10 @@ function RenderIsPets (props) {
   return (
     <>
       {renderPets()}
-      {renderMessageSection(petsConfirmation, "Pets Serviced")}
+      <RenderMessageSection
+        confirmationMessage = {petsConfirmation}
+        whatIsBeingSaved = "Pets Serviced"
+      />
     </>
   )
 }

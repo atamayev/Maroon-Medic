@@ -4,8 +4,9 @@ import PrivateDoctorDataService from "../services/private-doctor-data-service"
 import PrivatePatientDataService from "../services/private-patient-data-service"
 import { invalidUserAction } from "./user-verification-snippets"
 import { PersonalInfoType } from "../components/personal-info-inputs"
+import { handle401AxiosError } from "src/utils/handle-errors"
 
-type UserType = "Doctor" | "Patient"
+type UserType = DoctorOrPatient
 
 async function fetchPersonalInfoData(
   setPersonalInfo: React.Dispatch<React.SetStateAction<PersonalInfoType>>,
@@ -24,11 +25,7 @@ async function fetchPersonalInfoData(
       sessionStorage.setItem(`${userType}PersonalInfo`, JSON.stringify(response.data))
     }
   } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401) {
-        invalidUserAction(error.response.data)
-      }
-    }
+    handle401AxiosError(error)
   }
 }
 
@@ -85,7 +82,7 @@ export function usePersonalInfo(userType: UserType) {
     }
 
     fetchAndSetPersonalInfo()
-  }, [userType])
+  }, [])
 
   return {personalInfo, setPersonalInfo}
 }

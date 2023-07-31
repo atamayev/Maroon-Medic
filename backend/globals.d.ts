@@ -51,7 +51,6 @@ declare global {
 
   type PhoneDataType = {
     Phone: string
-    phone_priority: number
   }
 
   type AvailabilityDataType = {

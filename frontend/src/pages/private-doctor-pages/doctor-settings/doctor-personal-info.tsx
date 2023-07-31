@@ -1,7 +1,7 @@
 
 import { Card, Button, Form } from "react-bootstrap"
 import { UnauthorizedUser } from "../../../components/user-type-unauth"
-import { renderMessageSection } from "../../../components/saved-message-section"
+import { RenderMessageSection } from "../../../components/saved-message-section"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import { handleSavePersonalInfo, usePersonalInfo } from "../../../custom-hooks/fetch-and-save-personal-info"
@@ -16,10 +16,10 @@ import DoctorHeader from "../doctor-header"
 
 export default function DoctorPersonalInfo() {
   const { userType } = useSimpleUserVerification()
+  if (userType !== "Doctor") return <UnauthorizedUser patientOrDoctor = {"vet"}/>
+
   const {personalInfo, setPersonalInfo } = usePersonalInfo(userType)
   const [personalInfoConfirmation, setPersonalInfoConfirmation] = useConfirmationMessage()
-
-  if (userType !== "Doctor") return <UnauthorizedUser patientOrDoctor = {"vet"}/>
 
   return (
     <div>
@@ -33,7 +33,10 @@ export default function DoctorPersonalInfo() {
             {renderGenderSection({personalInfo: personalInfo, setPersonalInfo: setPersonalInfo})}
             {renderDOBSection({personalInfo: personalInfo, setPersonalInfo: setPersonalInfo})}
             <Button type = "submit" className = "btn btn-primary w-100">Save</Button>
-            {renderMessageSection({confirmationMessage: personalInfoConfirmation, whatIsBeingSaved: "Personal Info"})}
+            <RenderMessageSection
+              confirmationMessage = {personalInfoConfirmation}
+              whatIsBeingSaved = "Personal Info"
+            />
           </Form>
         </Card.Body>
       </Card>

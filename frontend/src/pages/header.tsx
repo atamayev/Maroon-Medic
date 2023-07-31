@@ -40,7 +40,7 @@ const handleHome = () => {
   window.location.href = "/"
 }
 
-function useSetHeaderData(userType: "Doctor" | "Patient" ) {
+function useSetHeaderData(userType: DoctorOrPatient ) {
   const [headerData, setHeaderData] = useState("")
 
   const getHeaderData = async () => {
@@ -70,7 +70,7 @@ function useSetHeaderData(userType: "Doctor" | "Patient" ) {
   return {headerData, setHeaderData}
 }
 
-async function fetchPersonalInfo (type: "Doctor" | "Patient", setHeaderData: React.Dispatch<React.SetStateAction<string>>) {
+async function fetchPersonalInfo (type: DoctorOrPatient, setHeaderData: React.Dispatch<React.SetStateAction<string>>) {
   let response
   if (type === "Doctor") {
     try {

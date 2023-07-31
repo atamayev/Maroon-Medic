@@ -1,21 +1,25 @@
 import _ from "lodash"
 import moment from "moment"
 import { useEffect, useState } from "react"
-import { Card, Badge , Tooltip } from "react-bootstrap"
+import { Card, Badge, Tooltip } from "react-bootstrap"
 import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 import { UnauthorizedUser } from "../../components/user-type-unauth"
 import { usePatientDashboardData } from "../../custom-hooks/fetch-and-use-dashboard-info"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
 import Header from "../header"
 import PatientHeader from "./patient-header"
+import CookieUtils from "src/utils/cookie"
 
 export default function PatientDashboard() {
   const { userType } = useSimpleUserVerification()
-  const { dashboardData } = usePatientDashboardData(userType)
-  const [personalInfo, setPersonalInfo] = useState(JSON.parse(sessionStorage.getItem("PatientPersonalInfo")))
+  if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
+  const { dashboardData } = usePatientDashboardData()
+  const storedData = sessionStorage.getItem("PatientPersonalInfo")
+  const parsedData = storedData && JSON.parse(storedData)
+  const [personalInfo, setPersonalInfo] = useState(parsedData)
   const [pastAppointments, setPastAppointments] = useState([])
   const [upcomingAppointments, setUpcomingAppointments] = useState([])
-  const newPatient = document.cookie.split(";").some((item) => item.trim().startsWith("PatientNewUser"))
+  const newPatient = CookieUtils.checkCookieForNewUser("PatientNewUser")
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -45,8 +49,6 @@ export default function PatientDashboard() {
     }
   }, [dashboardData])
 
-  if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
-
   const renderAppointmentConfirmationStatus = (appointment) => {
     if (appointment.Doctor_confirmation_status === 0) {
       return (
@@ -65,7 +67,7 @@ export default function PatientDashboard() {
         placement = "top"
         overlay = {<Tooltip id = {"tooltip-top"}>Dr. {appointment.Doctor_FirstName} is looking forward to the appointment.</Tooltip>}
       >
-        <Badge pill variant = "success" style = {{ position: "absolute", top: "10px", right: "10px" }}>
+        <Badge pill style = {{ position: "absolute", top: "10px", right: "10px" }}>
           Appointment approved
         </Badge>
       </OverlayTrigger>
@@ -75,7 +77,7 @@ export default function PatientDashboard() {
   const renderMessageSection = (appointment) => {
     if (!appointment.patient_message) return null
     return (
-      <span style={{ display: "block" }}>
+      <span style = {{ display: "block" }}>
         Your Message: {""}
         {appointment.patient_message}
       </span>
