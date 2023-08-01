@@ -52,7 +52,7 @@ function AddressForm(props: Props) {
     setAddresses(newAddresses)
   }
 
-  const renderAddressAccordionItems = () => {
+  const RenderAddressAccordionItems = () => {
     return (
       <>
         {addresses.sort((a, b) => a.address_priority - b.address_priority).map((address, index) => (
@@ -71,7 +71,7 @@ function AddressForm(props: Props) {
     )
   }
 
-  const renderAddNewLocationButton = () => {
+  const RenderAddNewLocationButton = () => {
     return (
       <Button
         variant = "primary"
@@ -86,9 +86,9 @@ function AddressForm(props: Props) {
   return (
     <>
       <Accordion >
-        {renderAddressAccordionItems()}
+        <RenderAddressAccordionItems />
       </Accordion>
-      {renderAddNewLocationButton()}
+      <RenderAddNewLocationButton />
       <RenderMessageSection
         confirmationMessage = {addressesConfirmation}
         whatIsBeingSaved = "Locations"
@@ -203,8 +203,8 @@ const AddressAccordionItem = (props: AddressAccordionProps) => {
   }
 
   const RenderSaveOrUpdateButton = () => {
-    if (address.addressesID !== 0) return <RenderUpdateLocationButton/>  // If addressID exists, render update button
-    return <RenderAddLocationButton/> // If addressID doesn't exist, render save button
+    if (address.addressesID !== 0) return <RenderUpdateLocationButton/>  // If addressID exists, Render update button
+    return <RenderAddLocationButton/> // If addressID doesn't exist, Render save button
   }
 
   const handleDeleteAddress = () => {
@@ -323,7 +323,11 @@ const WeekDays = (props: WeekDaysProps) => {
     ))
   }
 
-  const renderPickStartTime = (day: DayOfWeekType) => {
+  interface DayProp {
+    day: DayOfWeekType
+  }
+
+  const RenderPickStartTime: React.FC<DayProp> = ({ day }) => {
     return (
       <TimePicker
         className = "ml-3"
@@ -333,7 +337,7 @@ const WeekDays = (props: WeekDaysProps) => {
     )
   }
 
-  const renderPickEndTime = (day: DayOfWeekType) => {
+  const RenderPickEndTime: React.FC<DayProp> = ({ day }) => {
     return (
       <TimePicker
         className = "ml-3"
@@ -350,9 +354,9 @@ const WeekDays = (props: WeekDaysProps) => {
 
     return (
       <>
-        {renderPickStartTime(day)}
+        <RenderPickStartTime day = {day}/>
         -
-        {renderPickEndTime(day)}
+        <RenderPickEndTime day = {day} />
       </>
     )
   }

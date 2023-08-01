@@ -10,20 +10,24 @@ Frontend TS Fixes:
 	7. Remove all 'any' types
 	8. make sure all IDs are numbers
 	9. Accomodate for all res.status().jsons that were previously just res.jsons
-	10. Change all 'render___' functions to be 'Render...', and make them JSX components intead of const functions
+	10. Change all 'render___' functions to be 'Render...', and make them JSX components intead of const functions <Render.../>
+		Search for all {r
 	
+
 
 Full Stack TS changes
 	1. Take full advantage of globals.d.ts to create reoccuring types
 	2. Figure out a way to divide up the globals.d.ts into different categories (ie public doctor vs private, patient, etc.)
 		Both back and fornt end
-	3. 
+	3. Add to eslint that a return type is required from all functions (error)
 
 Backend TS fixes
 	2. Move to globals	
 		type LoginOrRegisterType = "Doctor" | "Patient"
 		type MysqlTimestamp = string
-	
+
+
+Change gender, other commonly used options to enum (only if the value is used in multiple places). If not, enum not necessary
 
 Merge the vet dashboard/patient dashboard urls into one page. Will save a lot of re-direct logic, also it's useless to have different dashboard routes.
 	Same for all teh other 'vet-specific' routes that are in common wiht patient specific routes. 
@@ -46,6 +50,7 @@ added a appointment_timespan, and add petID to the Appointments table. - need to
 Make the auth token and cookie stored in a class, like in context.ts in deployment manager
 	reading from memory is faster than from session storage
 
+Move data like personal info into a context. If it's used by multiple components, move it into a context. Every time you navigate, show the context data, but call the API to check for changes simultaneously
 -mini bug when making a booking. make a booking with `changes in behavior`. The time is 10 AM- 10AM. Should say something like (10AM (july 17) - 10AM (july 18))
 
 -start figuring out only being able to make appointments during available time slots (shouldn't be able to book an appointment while that time slot is booked)

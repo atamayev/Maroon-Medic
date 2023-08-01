@@ -7,29 +7,42 @@ import { addServices, deleteServices, updateServices } from "../../../custom-hoo
 import { handleNumericInput, preventNonNumericalInput, validateDropInput, validatePasteInput } from "../../../utils/input-validation"
 import { RenderMessageSection } from "../../../components/saved-message-section"
 
-export default function RenderServiceSection (props) {
+interface Props {
+  listDetails: ListDetailsType
+  providedServices: ServiceItemType[]
+  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemType[]>>
+  expandedCategories: string[]
+  setExpandedCategories: React.Dispatch<React.SetStateAction<string[]>>
+}
+
+export default function RenderServiceSection (props: Props) {
   return (
     <Card className = "mb-3">
       <Card.Header>
         Vet Services
       </Card.Header>
       <Card.Body>
-        {RenderIsVetServices(props)}
+        <RenderIsVetServices {...props} />
       </Card.Body>
     </Card>
   )
 }
 
-function RenderIsVetServices (props) {
+function RenderIsVetServices (props: Props) {
   const [servicesConfirmation, setServicesConfirmation] = useConfirmationMessage()
   const { listDetails, providedServices, setProvidedServices, expandedCategories, setExpandedCategories } = props
-  const [selectedServices, setSelectedServices] = useState([])
+  const [selectedServices, setSelectedServices] = useState<ServiceItemType[]>([])
 
   useEffect(() => {
     if (providedServices) setSelectedServices(providedServices)//initialize selectedServices to providedServices
   }, [providedServices])
 
-  const categories = {}
+  type CategoriesType = {
+    [key: string]: ServiceListItemType[]
+  }
+
+  const categories: CategoriesType = {}
+
   if (listDetails.servicesAndCategories) {
     listDetails.servicesAndCategories.forEach(service => {
       if (!categories[service.Category_name]) categories[service.Category_name] = []
@@ -50,7 +63,7 @@ function RenderIsVetServices (props) {
 
   if (_.isEmpty(_.uniq(listDetails.servicesAndCategories?.map((item) => item.Category_name)))) return <>Loading...</>
 
-  const renderIsSelectedService = (service, selectedService) => {
+  const renderIsSelectedService = (service: ServiceItemType, selectedService: ServiceItemType) => {
     if (!selectedService) return null
     return (
       <>
@@ -60,7 +73,7 @@ function RenderIsVetServices (props) {
     )
   }
 
-  const renderServices = (category, services) => {
+  const renderServices = (category: string, services: ServiceItemType[]) => {
     if (!(services.length <= 1 || expandedCategories.includes(category))) return null
 
     return (
@@ -78,7 +91,7 @@ function RenderIsVetServices (props) {
     )
   }
 
-  const renderServiceCheckbox = (service, category) => {
+  const renderServiceCheckbox = (service: ServiceItemType, category: string) => {
     return (
       <>
         {renderActionButton(service)}
@@ -87,10 +100,18 @@ function RenderIsVetServices (props) {
           id = {`${category}-${service?.service_and_category_listID}`}
           name = "service"
           value = {service?.service_and_category_listID}
-          checked = {selectedServices.find((provided) => provided.service_and_category_listID === service.service_and_category_listID) !== undefined}
+          checked = {
+            selectedServices.find((provided) => provided.service_and_category_listID === service.service_and_category_listID) !== undefined
+          }
           onChange = {(event) => {
-            if (event.target.checked) setSelectedServices([...selectedServices, {...service, Service_price: null, Service_time: null}])
-            else setSelectedServices(selectedServices.filter(servicef => servicef.service_and_category_listID !== service.service_and_category_listID))
+            if (event.target.checked) {
+              setSelectedServices([...selectedServices, {...service, Service_price: null, Service_time: null}])
+            }
+            else {
+              setSelectedServices(
+                selectedServices.filter(servicef => servicef.service_and_category_listID !== service.service_and_category_listID)
+              )
+            }
           }}
         />
         <label htmlFor = {`${category}-${service.service_and_category_listID}`}>{service.Service_name}</label>
@@ -98,7 +119,7 @@ function RenderIsVetServices (props) {
     )
   }
 
-  const renderActionButton = (service) => {
+  const renderActionButton = (service: ServiceItemType) => {
     const selectedService = selectedServices.find(s => s.service_and_category_listID === service.service_and_category_listID)
     const providedService = providedServices.find(s => s.service_and_category_listID === service.service_and_category_listID)
 
@@ -118,8 +139,8 @@ function RenderIsVetServices (props) {
                 selectedService,
                 providedServices,
                 setProvidedServices,
-                setSelectedServices,
-                setServicesConfirmation
+                setServicesConfirmation,
+                setSelectedServices
               )}
             >
               Delete
@@ -148,7 +169,7 @@ function RenderIsVetServices (props) {
     return null
   }
 
-  const renderServiceTimeInput = (service, selectedService) => {
+  const renderServiceTimeInput = (service: ServiceItemType, selectedService: ServiceItemType) => {
     return (
       <select
         id = {`time-${service.service_and_category_listID}`}
@@ -176,7 +197,7 @@ function RenderIsVetServices (props) {
     )
   }
 
-  const renderServicePriceInput = (service, selectedService) => {
+  const renderServicePriceInput = (service: ServiceItemType, selectedService: ServiceItemType) => {
     return (
       <input
         type = "text"

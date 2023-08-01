@@ -1,6 +1,9 @@
 import { Card, Button } from "react-bootstrap"
 
-export default function RenderVerificationSection (props) {
+interface Props {
+  verified: boolean
+}
+export default function RenderVerificationSection (props: Props) {
   return (
     <>
       <Card>
@@ -9,14 +12,14 @@ export default function RenderVerificationSection (props) {
         </Card.Header>
         <Card.Body>
           Account Verification Status:
-          {RenderIsVerification(props)}
+          <RenderIsVerification {...props} />
         </Card.Body>
       </Card>
     </>
   )
 }
 
-function RenderIsVerification (props) {
+function RenderIsVerification (props: Props) {
   const { verified } = props
   if (verified) return <Button variant = "success" disabled>✓ (Your identity is Verified) </Button>
   else return <Button variant = "danger" disabled>X (Your identity is Not Verified)</Button>

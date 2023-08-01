@@ -7,6 +7,15 @@ declare global {
     NVI: number
   }
 
+  type PersonalInfoType = {
+    FirstName: string,
+    LastName: string,
+    DOB_month: string,
+    DOB_day: number,
+    DOB_year: number,
+    Gender: string
+  }
+
   type AddressType = {
     address_priority: number
     addressesID: number
@@ -56,13 +65,28 @@ declare global {
     Specialty_name: string
   }
 
-  type EducationItemType = {
-    education_mappingID: number
+  type PreVetEducationItemType = {
+    pre_vet_education_mappingID: number
     School_name: string
-    Major_name?: string
+    Major_name: string
     Education_type: string
     Start_Date: string
     End_Date: string
+  }
+
+  type VetEducationItemType = {
+    vet_education_mappingID: number
+    School_name: string
+    Education_type: string
+    Start_Date: string
+    End_Date: string
+  }
+
+  type TimeStateType = {
+    startMonth: string
+    startYear: string
+    endMonth: string
+    endYear: string
   }
 
   type DoctorAddressDataType = {
@@ -86,7 +110,7 @@ declare global {
   }
 
   type AvailabilityDataType = {
-    Day_of_week: string
+    Day_of_week: DayOfWeekType
     Start_time: string
     End_time: string
   }
@@ -183,7 +207,7 @@ declare global {
 
   type ConfirmationMessage = {
     messageType: "saved" | "same" | "problem" | "none" | null,
-    timeoutId: number | null
+    timeoutId?: number | null
   }
 
   interface ListDetailsType {
@@ -198,11 +222,24 @@ declare global {
     pets: ServicedPetItemType[]
   }
 
+  interface DoctorCalendarEventType {
+    title: string
+    start: Date
+    end: Date
+    Doctor_confirmation_status: boolean
+  }
+
+  type DeleteStatusesDictionary = {
+    [key: number]: DeleteStatusesType;
+  };
+
   type DeleteStatusesType = "deleting" | "initial"
 
-  type DeleteButtonDataTypes = LanguageItemType | SpecialtyItemType | EducationItemType
+  type DeleteButtonDataTypes = LanguageItemType | SpecialtyItemType | PreVetEducationItemType | VetEducationItemType
 
   type DayOfWeekType = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday"
+
+  type AppointmentStatusType = "approved" | "pending" | "confirming"
 }
 
 export {}

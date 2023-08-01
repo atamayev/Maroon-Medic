@@ -8,25 +8,31 @@ import { useHandleDeletePreVetEducation } from "../../../custom-hooks/account-de
 import { useHandleAddPreVetEducation, useSaveAddPreVetEducation } from "../../../custom-hooks/account-details-hooks/callbacks"
 import EducationTime from "./education-time"
 
-export default function RenderPreVetEducationSection(props) {
+interface Props {
+  listDetails: ListDetailsType
+  preVetEducation: PreVetEducationItemType[]
+  setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItemType[]>>
+}
+
+export default function RenderPreVetEducationSection(props: Props) {
   return (
     <Card className = "mb-3 mt-3">
       <Card.Header>
         Pre-vet education
       </Card.Header>
       <Card.Body>
-        {RenderIsPreVetEducation(props)}
+        <RenderIsPreVetEducation {...props} />
       </Card.Body>
     </Card>
   )
 }
 
-function RenderIsPreVetEducation(props) {
+function RenderIsPreVetEducation(props: Props) {
   const { listDetails, preVetEducation, setPreVetEducation } = props
-  const [selectedPreVetSchool, setSelectedPreVetSchool] = useState("")
-  const [selectedMajor, setSelectedMajor] = useState("")
-  const [deleteStatuses, setDeleteStatuses] = useState({})
-  const [selectedPreVetEducationType, setSelectedPreVetEducationType] = useState("")
+  const [selectedPreVetSchool, setSelectedPreVetSchool] = useState<string>("")
+  const [selectedMajor, setSelectedMajor] = useState<string>("")
+  const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
+  const [selectedPreVetEducationType, setSelectedPreVetEducationType] = useState<string>("")
   const [timeState, setTimeState] = useState({
     startMonth: "",
     endMonth: "",
@@ -44,7 +50,7 @@ function RenderIsPreVetEducation(props) {
     // Go through each status
     for (const preVetEducationMappingID in newDeleteStatuses) {
       // If the language ID does not exist in the vetEducation list, delete the status
-      if (!preVetEducation.some((preVetEducation) => preVetEducation.pre_vet_education_mappingID === preVetEducationMappingID)) {
+      if (!preVetEducation.some((preVetEducation) => preVetEducation.pre_vet_education_mappingID === Number(preVetEducationMappingID))) {
         delete newDeleteStatuses[preVetEducationMappingID]
       }
     }
@@ -164,10 +170,10 @@ function RenderIsPreVetEducation(props) {
 
   const handleDeleteOnClick = useHandleDeletePreVetEducation(preVetEducation, setPreVetEducation, setPreVetEducationConfirmation)
 
-  const RenderSingleSavedEducation = (preVetEducation) => {
-    const status = deleteStatuses[preVetEducation.pre_vet_education_mappingID] || "initial"
+  const RenderSingleSavedEducation = (preVetEducation: PreVetEducationItemType) => {
+    const status: DeleteStatusesType = deleteStatuses[preVetEducation.pre_vet_education_mappingID] || "initial"
 
-    const setStatus = (newStatus) => {
+    const setStatus = (newStatus: DeleteStatusesType) => {
       setDeleteStatuses((prevStatuses) => ({
         ...prevStatuses,
         [preVetEducation.pre_vet_education_mappingID]: newStatus,

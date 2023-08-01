@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Card } from "react-bootstrap"
 import { RenderMessageSection } from "../../../components/saved-message-section"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
-import { renderSelectLanguageSection, renderSavedLanguageList } from "../../../components/language"
+import { RenderSelectLanguageSection, RenderSavedLanguageList } from "../../../components/language"
 import { useLanguageOptions, useUpdateDeleteStatuses } from "../../../custom-hooks/account-details-hooks/language"
 import { useHandleAddLanguage, useHandleDeleteLanguage } from "../../../custom-hooks/account-details-hooks/callbacks"
 
@@ -19,7 +19,7 @@ export default function RenderLanguageSection(props: Props) {
         Languages
       </Card.Header>
       <Card.Body>
-        {RenderIsVetLanguages(props)}
+        <RenderIsVetLanguages {...props} />
       </Card.Body>
     </Card>
   )
@@ -27,7 +27,7 @@ export default function RenderLanguageSection(props: Props) {
 
 function RenderIsVetLanguages(props: Props) {
   const {listDetails, spokenLanguages, setSpokenLanguages} = props
-  const [deleteStatuses, setDeleteStatuses] = useState({})
+  const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
   const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage()
 
   useUpdateDeleteStatuses(deleteStatuses, setDeleteStatuses, spokenLanguages)
@@ -40,8 +40,16 @@ function RenderIsVetLanguages(props: Props) {
 
   return (
     <>
-      {renderSelectLanguageSection({handleLanguageChange, languageOptions})}
-      {renderSavedLanguageList(spokenLanguages, deleteStatuses, setDeleteStatuses,handleDeleteLanguage)}
+      <RenderSelectLanguageSection
+        handleLanguageChange = {handleLanguageChange}
+        languageOptions = {languageOptions}
+      />
+      <RenderSavedLanguageList
+        spokenLanguages = {spokenLanguages}
+        deleteStatuses = {deleteStatuses}
+        setDeleteStatuses = {setDeleteStatuses}
+        handleDeleteLanguage = {handleDeleteLanguage}
+      />
       <RenderMessageSection
         confirmationMessage = {languagesConfirmation}
         whatIsBeingSaved = "Languages"

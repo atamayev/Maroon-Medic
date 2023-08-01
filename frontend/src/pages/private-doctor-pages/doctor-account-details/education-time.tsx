@@ -1,24 +1,14 @@
 import { months, educationYears } from "../../../utils/constants"
 
 interface Props {
-  timeState: {
-    startMonth: string
-    startYear: string
-    endMonth: string
-    endYear: string
-  }
-  setTimeState: React.Dispatch<React.SetStateAction<{
-    startMonth: string
-    startYear: string
-    endMonth: string
-    endYear: string
-  }>>
+  timeState: TimeStateType
+  setTimeState: React.Dispatch<React.SetStateAction<TimeStateType>>
 }
 
 export default function EducationTime(props: Props) {
   const { timeState, setTimeState } = props
 
-  const renderStartMonthSection = () => {
+  const RenderStartMonthSection = () => {
     return (
       <div>
         <label>
@@ -47,7 +37,7 @@ export default function EducationTime(props: Props) {
     )
   }
 
-  const renderStartYearSection = () => {
+  const RenderStartYearSection = () => {
     return (
       <div>
         <label>
@@ -76,7 +66,7 @@ export default function EducationTime(props: Props) {
     )
   }
 
-  const renderEndMonthSection = () => {
+  const RenderEndMonthSection = () => {
     let monthsToDisplay = months
     if (timeState.startYear === timeState.endYear) {
       const startMonthIndex = months.indexOf(timeState.startMonth)
@@ -115,7 +105,7 @@ export default function EducationTime(props: Props) {
     )
   }
 
-  const renderEndYearSection = () => {
+  const RenderEndYearSection = () => {
     const startYearIndex = educationYears.indexOf(Number(timeState.startYear))
     const yearsToDisplay = educationYears.slice(0, startYearIndex + 1)
 
@@ -158,10 +148,10 @@ export default function EducationTime(props: Props) {
 
   return (
     <div>
-      {renderStartMonthSection()}
-      {renderStartYearSection()}
-      {renderEndMonthSection()}
-      {renderEndYearSection()}
+      <RenderStartMonthSection />
+      <RenderStartYearSection />
+      <RenderEndMonthSection />
+      <RenderEndYearSection />
     </div>
   )
 }

@@ -42,6 +42,7 @@
             "error",
             "never"
         ],
+        // "@typescript-eslint/explicit-function-return-type": "warn",
         // "max-lines-per-function": ["warn", {"max": 60, "skipBlankLines": true, "skipComments": true}],
         "no-empty": ["error", { "allowEmptyCatch": true }],
         "eol-last": ["error", "always"],
@@ -51,8 +52,9 @@
         "space-infix-ops": "warn",
         "space-before-blocks": "error",
         "keyword-spacing": ["error", { "before": true, "after": true }],
-        "no-trailing-spaces": "warn",
-        "prefer-const": "warn",
-        "max-len": ["error", { "code": 140 }]
+        "no-trailing-spaces": "error",
+        "prefer-const": "error",
+        "max-len": ["error", { "code": 140 }],
+        "react/prop-types": "off"
     }
 }

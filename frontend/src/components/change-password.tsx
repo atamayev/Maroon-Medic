@@ -19,7 +19,7 @@ export default function ChangePassword(props: Props) {
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
-  const renderHideOrShowPassword = () => {
+  const RenderHideOrShowPassword = () => {
     if (showPassword) return "Hide Password"
     return "Show Password"
   }
@@ -28,7 +28,7 @@ export default function ChangePassword(props: Props) {
     handleChangePassword(credentials, setCredentials, setMessage, setLoading, type)
   }
 
-  const renderMessage = () => {
+  const RenderMessage = () => {
     if (!message) return null
     if (message === "Password changed successfully") return <Alert variant = "success" className = "mt-3 mb-0">{message}</Alert>
     return <Alert variant = "danger" className = "mt-3 mb-0">{message}</Alert>
@@ -75,10 +75,10 @@ export default function ChangePassword(props: Props) {
           />
 
           <Button onClick = {() => (setShowPassword(!showPassword))} className = "mt-3">
-            {renderHideOrShowPassword()}
+            <RenderHideOrShowPassword />
           </Button>
 
-          {renderMessage()}
+          <RenderMessage />
 
           <Button disabled = {loading} className = "mt-3 w-100" type = "submit">
           Change Password

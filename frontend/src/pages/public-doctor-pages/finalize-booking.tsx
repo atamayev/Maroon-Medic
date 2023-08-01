@@ -17,7 +17,10 @@ export function FinalizeBookingPage() {
   const { userType } = useSimpleUserVerification(false)
 
   let selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet
-  const sessionBookingDetails = JSON.parse(sessionStorage.getItem("bookingDetails"))
+
+  const storedData = sessionStorage.getItem("bookingDetails")
+  const parsedData = storedData && JSON.parse(storedData)
+  const sessionBookingDetails = parsedData
 
   if (browserLocation.state) {
     ({ selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet } = browserLocation.state)

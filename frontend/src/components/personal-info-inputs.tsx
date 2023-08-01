@@ -7,16 +7,7 @@ interface Props {
   setPersonalInfo: (personalInfo: PersonalInfoType) => void
 }
 
-export type PersonalInfoType = {
-  FirstName: string,
-  LastName: string,
-  DOB_month: string,
-  DOB_day: number,
-  DOB_year: number,
-  Gender: string
-}
-
-export const renderFirstNameSection = ({personalInfo, setPersonalInfo}: Props) => {
+export const RenderFirstNameSection = ({personalInfo, setPersonalInfo}: Props) => {
   return (
     <FormGroup
       id = "FirstName"
@@ -31,7 +22,7 @@ export const renderFirstNameSection = ({personalInfo, setPersonalInfo}: Props) =
   )
 }
 
-export const renderLastNameSection = ({personalInfo, setPersonalInfo}: Props) => {
+export const RenderLastNameSection = ({personalInfo, setPersonalInfo}: Props) => {
   return (
     <FormGroup
       id = "LastName"
@@ -46,7 +37,7 @@ export const renderLastNameSection = ({personalInfo, setPersonalInfo}: Props) =>
   )
 }
 
-export const renderGenderSection = ({personalInfo, setPersonalInfo}: Props) => {
+export const RenderGenderSection = ({personalInfo, setPersonalInfo}: Props) => {
   return (
     <FormGroup
       as = "select"
@@ -64,7 +55,7 @@ export const renderGenderSection = ({personalInfo, setPersonalInfo}: Props) => {
   )
 }
 
-const renderSelectMonth = ({personalInfo, setPersonalInfo}: Props) => {
+const RenderSelectMonth = ({personalInfo, setPersonalInfo}: Props) => {
   return (
     <>
       <label>
@@ -86,7 +77,7 @@ const renderSelectMonth = ({personalInfo, setPersonalInfo}: Props) => {
   )
 }
 
-const renderSelectDay = ({personalInfo, setPersonalInfo}: Props) => {
+const RenderSelectDay = ({personalInfo, setPersonalInfo}: Props) => {
   return (
     <>
       <label>
@@ -108,7 +99,7 @@ const renderSelectDay = ({personalInfo, setPersonalInfo}: Props) => {
   )
 }
 
-const renderSelectYear = ({personalInfo, setPersonalInfo}: Props) => {
+const RenderSelectYear = ({personalInfo, setPersonalInfo}: Props) => {
   return (
     <>
       <label>
@@ -130,13 +121,13 @@ const renderSelectYear = ({personalInfo, setPersonalInfo}: Props) => {
   )
 }
 
-export const renderDOBSection = ({personalInfo, setPersonalInfo}: Props) => {
+export const RenderDOBSection = ({personalInfo, setPersonalInfo}: Props) => {
   return (
     <div className = "row mt-3 mb-3">
       <Form.Group id = "DOB">
-        {renderSelectMonth({personalInfo, setPersonalInfo})}
-        {renderSelectDay({personalInfo, setPersonalInfo})}
-        {renderSelectYear({personalInfo, setPersonalInfo})}
+        <RenderSelectMonth personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
+        <RenderSelectDay personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
+        <RenderSelectYear personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
       </Form.Group>
     </div>
   )

@@ -6,7 +6,7 @@ interface SelectLanguageProps {
   handleLanguageChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
-export const renderSelectLanguageSection = ({handleLanguageChange, languageOptions}: SelectLanguageProps) => {
+export const RenderSelectLanguageSection = ({handleLanguageChange, languageOptions}: SelectLanguageProps) => {
   return (
     <select
       id = "language"
@@ -20,17 +20,17 @@ export const renderSelectLanguageSection = ({handleLanguageChange, languageOptio
   )
 }
 
-interface RenderSingleLanguageProps {
+interface SingleLanguageProps {
   language: LanguageItemType,
   deleteStatuses: object,
   setDeleteStatuses: (deleteStatuses: object) => void,
   handleDeleteLanguage: (language: LanguageItemType) => void
 }
 
-const RenderSingleSavedLanguage = ({language, deleteStatuses, setDeleteStatuses, handleDeleteLanguage}: RenderSingleLanguageProps) => {
+const RenderSingleSavedLanguage = ({language, deleteStatuses, setDeleteStatuses, handleDeleteLanguage}: SingleLanguageProps) => {
   const status = deleteStatuses[language.language_listID] || "initial"
 
-  const setStatus = (newStatus) => {
+  const setStatus = (newStatus: DeleteStatusesType) => {
     setDeleteStatuses((prevStatuses) => ({
       ...prevStatuses,
       [language.language_listID]: newStatus,
@@ -50,7 +50,14 @@ const RenderSingleSavedLanguage = ({language, deleteStatuses, setDeleteStatuses,
   )
 }
 
-export const renderSavedLanguageList = (spokenLanguages: LanguageItemType[], deleteStatuses, setDeleteStatuses, handleDeleteLanguage) => {
+interface SavedLanguageList {
+  spokenLanguages: LanguageItemType[],
+  deleteStatuses: object,
+  setDeleteStatuses: (deleteStatuses: object) => void,
+  handleDeleteLanguage: (language: LanguageItemType) => void
+}
+
+export const RenderSavedLanguageList = ({spokenLanguages, deleteStatuses, setDeleteStatuses, handleDeleteLanguage}: SavedLanguageList) => {
   if (!_.isArray(spokenLanguages) || _.isEmpty(spokenLanguages)) return null
   return (
     <ul>

@@ -39,7 +39,7 @@
     "@types/lodash": "^4.14.196",
     "@types/node": "^20.4.5",
     "@types/uuid": "^9.0.2",
-    "@typescript-eslint/eslint-plugin": "^6.2.0",
+    "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.0",
     "eslint": "^8.45.0",
     "eslint-plugin-security": "^1.7.1",

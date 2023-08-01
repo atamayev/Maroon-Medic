@@ -31,7 +31,7 @@ export default function RenderLanguageSection(props: Props) {
 
 function RenderIsPatientLanguages(props: Props) {
   const {listDetails, spokenLanguages, setSpokenLanguages} = props
-  const [deleteStatuses, setDeleteStatuses] = useState({})
+  const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
   const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage()
 
   useUpdateDeleteStatuses(deleteStatuses, setDeleteStatuses, spokenLanguages)

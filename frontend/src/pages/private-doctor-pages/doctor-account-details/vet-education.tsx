@@ -11,23 +11,29 @@ import {
 } from "../../../custom-hooks/account-details-hooks/callbacks"
 import EducationTime from "./education-time"
 
-export default function RenderVetEducationSection (props) {
+interface Props {
+  listDetails: ListDetailsType
+  vetEducation: VetEducationItemType[]
+  setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItemType[]>>
+}
+
+export default function RenderVetEducationSection (props: Props) {
   return (
     <Card className = "mb-3">
       <Card.Header>
         Vet Education
       </Card.Header>
       <Card.Body>
-        {RenderIsVetEducation(props)}
+        <RenderIsVetEducation {...props} />
       </Card.Body>
     </Card>
   )
 }
 
-function RenderIsVetEducation(props) {
+function RenderIsVetEducation(props: Props) {
   const { listDetails, vetEducation, setVetEducation } = props
   const [selectedVetSchool, setSelectedVetSchool] = useState("")
-  const [deleteStatuses, setDeleteStatuses] = useState({})
+  const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
   const [selectedVetEducationType, setSelectedVetEducationType] = useState("")
   const [timeState, setTimeState] = useState({
     startMonth: "",
@@ -46,7 +52,7 @@ function RenderIsVetEducation(props) {
     // Go through each status
     for (const vetEducationMappingID in newDeleteStatuses) {
       // If the language ID does not exist in the vetEducation list, delete the status
-      if (!vetEducation.some((VetEducation) => VetEducation.vet_education_mappingID === vetEducationMappingID)) {
+      if (!vetEducation.some((VetEducation) => VetEducation.vet_education_mappingID === Number(vetEducationMappingID))) {
         delete newDeleteStatuses[vetEducationMappingID]
       }
     }
@@ -138,10 +144,10 @@ function RenderIsVetEducation(props) {
 
   const handleDeleteOnClick = useHandleDeleteVetEducation(vetEducation, setVetEducation, setVetEducationConfirmation)
 
-  const RenderSingleSavedEducation = (VetEducation) => {
+  const RenderSingleSavedEducation = (VetEducation: VetEducationItemType) => {
     const status = deleteStatuses[VetEducation.vet_education_mappingID] || "initial"
 
-    const setStatus = (newStatus) => {
+    const setStatus = (newStatus: DeleteStatusesType) => {
       setDeleteStatuses((prevStatuses) => ({
         ...prevStatuses,
         [VetEducation.vet_education_mappingID]: newStatus,

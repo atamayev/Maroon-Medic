@@ -46,6 +46,7 @@
         "no-trailing-spaces": "warn",
         "prefer-const": "warn",
         "max-len": ["error", { "code": 140 }],
+        "@typescript-eslint/explicit-function-return-type": "warn",
 
         //For catching Security vulnerabilities:
         "security/detect-buffer-noassert": "warn",

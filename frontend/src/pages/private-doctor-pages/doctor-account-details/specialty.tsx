@@ -19,7 +19,7 @@ export default function RenderSpecialtySection (props: Props) {
         Specialties
       </Card.Header>
       <Card.Body>
-        {RenderIsSpecialty(props)}
+        <RenderIsSpecialty {...props}/>
       </Card.Body>
     </Card>
   )
@@ -28,6 +28,7 @@ export default function RenderSpecialtySection (props: Props) {
 interface DeleteStatusProps {
   [key: number]: DeleteStatusesType
 }
+
 function RenderIsSpecialty(props: Props) {
   const [selectedOrganization, setSelectedOrganization] = useState("")
   const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusProps>({})
@@ -52,7 +53,7 @@ function RenderIsSpecialty(props: Props) {
     setDeleteStatuses(newDeleteStatuses)
   }, [doctorSpecialties])
 
-  const renderSelectOrganization = () => {
+  const RenderSelectOrganization = () => {
     return (
       <div>
         <label htmlFor = "organization">Select an organization: </label>
@@ -97,7 +98,7 @@ function RenderIsSpecialty(props: Props) {
     setSpecialtiesConfirmation
   )
 
-  const renderSelectSpecialty = () => {
+  const RenderSelectSpecialty = () => {
     if (!selectedOrganization) return null
 
     return (
@@ -141,7 +142,7 @@ function RenderIsSpecialty(props: Props) {
     )
   }
 
-  const renderSavedSpecialtyList = () => {
+  const RenderSavedSpecialtyList = () => {
     return (
       <ul>
         {doctorSpecialties.map((specialty) => (
@@ -158,9 +159,9 @@ function RenderIsSpecialty(props: Props) {
 
   return (
     <>
-      {renderSelectOrganization()}
-      {renderSelectSpecialty()}
-      {renderSavedSpecialtyList()}
+      <RenderSelectOrganization />
+      <RenderSelectSpecialty />
+      <RenderSavedSpecialtyList />
       <RenderMessageSection
         confirmationMessage = {specialtiesConfirmation}
         whatIsBeingSaved = "Specialties"

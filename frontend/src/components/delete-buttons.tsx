@@ -5,7 +5,7 @@ interface NevermindAndInitialDeleteButtonProps {
   setStatus: (status: DeleteStatusesType) => void
 }
 
-export const renderNevermindButton = ({status, setStatus}: NevermindAndInitialDeleteButtonProps) => {
+export const RenderNevermindButton = ({status, setStatus}: NevermindAndInitialDeleteButtonProps) => {
   if (status !== "deleting") return null
 
   return (
@@ -18,7 +18,7 @@ export const renderNevermindButton = ({status, setStatus}: NevermindAndInitialDe
   )
 }
 
-export const renderInitialDeleteButton = ({status, setStatus}: NevermindAndInitialDeleteButtonProps) => {
+export const RenderInitialDeleteButton = ({status, setStatus}: NevermindAndInitialDeleteButtonProps) => {
   if (status !== "initial") return null
 
   return (
@@ -37,7 +37,7 @@ interface ConfirmDeleteButtonProps {
   handleDeleteOnClick: (dataType: DeleteButtonDataTypes) => void
 }
 
-export const renderConfirmDeleteButton = ({status, dataType, handleDeleteOnClick}: ConfirmDeleteButtonProps) => {
+export const RenderConfirmDeleteButton = ({status, dataType, handleDeleteOnClick}: ConfirmDeleteButtonProps) => {
   if (status !== "deleting") return null
 
   return (
@@ -60,9 +60,9 @@ interface DeleteButtonOptionsProps {
 export const DeleteButtonOptions = ({status, setStatus, dataType, handleDeleteOnClick}: DeleteButtonOptionsProps) => {
   return (
     <>
-      {renderInitialDeleteButton({status, setStatus})}
-      {renderNevermindButton({status, setStatus})}
-      {renderConfirmDeleteButton({status, dataType, handleDeleteOnClick})}
+      <RenderInitialDeleteButton status = {status} setStatus = {setStatus}/>
+      <RenderNevermindButton status = {status} setStatus = {setStatus}/>
+      <RenderConfirmDeleteButton status = {status} dataType = {dataType} handleDeleteOnClick = {handleDeleteOnClick}/>
     </>
   )
 }

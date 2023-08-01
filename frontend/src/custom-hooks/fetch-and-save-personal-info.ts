@@ -3,7 +3,6 @@ import { AxiosResponse, AxiosError } from "axios"
 import PrivateDoctorDataService from "../services/private-doctor-data-service"
 import PrivatePatientDataService from "../services/private-patient-data-service"
 import { invalidUserAction } from "./user-verification-snippets"
-import { PersonalInfoType } from "../components/personal-info-inputs"
 import { handle401AxiosError } from "src/utils/handle-errors"
 
 type UserType = DoctorOrPatient
@@ -69,7 +68,14 @@ export const handleSavePersonalInfo = async (
 }
 
 export function usePersonalInfo(userType: UserType) {
-  const [personalInfo, setPersonalInfo] = useState({} as PersonalInfoType)
+  const [personalInfo, setPersonalInfo] = useState<PersonalInfoType>({
+    FirstName: "",
+    LastName: "",
+    DOB_month: "",
+    DOB_day: 0,
+    DOB_year: 0,
+    Gender: ""
+  })
 
   useEffect(() => {
     const fetchAndSetPersonalInfo = async () => {

@@ -5,8 +5,8 @@ export const handleDeleteLanguage = (
   language: LanguageItemType,
   spokenLanguages: LanguageItemType[],
   setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
-  setLanguagesConfirmation,
-  doctorOrPatient
+  setLanguagesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>,
+  doctorOrPatient: "doctor" | "patient"
 ) => {
   const newSpokenLanguages = spokenLanguages.filter(l => l.language_listID !== language.language_listID)
   if (doctorOrPatient === "doctor") {
@@ -18,10 +18,10 @@ export const handleDeleteLanguage = (
 }
 
 export const handleDeleteSpecialty = (
-  specialty,
-  doctorSpecialties,
-  setDoctorSpecialties,
-  setSpecialtiesConfirmation
+  specialty: SpecialtyItemType,
+  doctorSpecialties: SpecialtyItemType[],
+  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItemType[]>>,
+  setSpecialtiesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) => {
   const newDoctorSpecialties = doctorSpecialties.filter(s => s.specialties_listID !== specialty.specialties_listID)
   deleteSpecialties(specialty.specialties_listID, newDoctorSpecialties, setDoctorSpecialties, setSpecialtiesConfirmation)

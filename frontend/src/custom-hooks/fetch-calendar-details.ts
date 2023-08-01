@@ -24,11 +24,11 @@ interface CalendarData {
   Patient_LastName: string
 }
 
-export async function FillDoctorCalendarDetails(setEvents: React.Dispatch<React.SetStateAction<CalendarData[]>>) {
+export async function FillDoctorCalendarDetails(setEvents: React.Dispatch<React.SetStateAction<DoctorCalendarEventType[]>>) {
   try {
     const response = await CalendarDataService.fillCalendarDetails()
     if (response.status === 200) {
-      const events = response.data.map((appointment: CalendarData) => {
+      const events: DoctorCalendarEventType[] = response.data.map((appointment: CalendarData) => {
         const startTime = new Date(appointment.appointment_date)
         const endTime = new Date(startTime)
         endTime.setMinutes(startTime.getMinutes() + appointment.appointment_timespan)

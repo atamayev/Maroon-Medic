@@ -1,6 +1,5 @@
 import { Card, Button, Form, Alert } from "react-bootstrap"
-import { renderFirstNameSection, renderLastNameSection, renderGenderSection, renderDOBSection } from "./personal-info-inputs"
-import { PersonalInfoType } from "./personal-info-inputs"
+import { RenderFirstNameSection, RenderLastNameSection, RenderGenderSection, RenderDOBSection } from "./personal-info-inputs"
 
 interface Props {
   handleSubmit: () => void,
@@ -17,7 +16,7 @@ export default function NewAccountForm({
   setNewInfo,
   loading}: Props)
 {
-  const renderErrorMessage = () => {
+  const RenderErrorMessage = () => {
     if (!error) return null
     return <Alert variant = "danger">{error}</Alert>
   }
@@ -26,12 +25,12 @@ export default function NewAccountForm({
     <div>
       <Card>
         <Card.Body>
-          {renderErrorMessage()}
+          <RenderErrorMessage />
           <Form onSubmit = {handleSubmit}>
-            {renderFirstNameSection({personalInfo: newInfo, setPersonalInfo: setNewInfo})}
-            {renderLastNameSection({personalInfo: newInfo, setPersonalInfo: setNewInfo})}
-            {renderGenderSection({personalInfo: newInfo, setPersonalInfo: setNewInfo})}
-            {renderDOBSection({personalInfo: newInfo, setPersonalInfo: setNewInfo})}
+            <RenderFirstNameSection personalInfo = {newInfo} setPersonalInfo = {setNewInfo} />
+            <RenderLastNameSection personalInfo = {newInfo} setPersonalInfo = {setNewInfo} />
+            <RenderGenderSection personalInfo = {newInfo} setPersonalInfo = {setNewInfo} />
+            <RenderDOBSection personalInfo = {newInfo} setPersonalInfo = {setNewInfo} />
             <Button type = "submit" className = "w-100" disabled = {loading}>Submit</Button>
           </Form>
         </Card.Body>

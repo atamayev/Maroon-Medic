@@ -1,13 +1,19 @@
 import { Carousel } from "react-bootstrap"
-import { handleSelectCarousel } from "../../../Custom Hooks/Hooks for Doctor Account Details/select"
+// import { handleSelectCarousel } from "../../../Custom Hooks/Hooks for Doctor Account Details/select"
 
+interface Props {
+  carouselIndex: number
+  setCarouselIndex: React.Dispatch<React.SetStateAction<number>>
+}
 //Non-functional, just here for completion
-export default function RenderPicturesSection (props) {
+export default function RenderPicturesSection (props: Props) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { carouselIndex, setCarouselIndex } = props
   return (
     <>
       Edit Pictures:
-      <Carousel activeIndex = {carouselIndex} onSelect = {() =>handleSelectCarousel(carouselIndex, setCarouselIndex)}>
+      {/* <Carousel activeIndex = {carouselIndex} onSelect = {() =>handleSelectCarousel(carouselIndex, setCarouselIndex)}> */}
+      <Carousel activeIndex = {carouselIndex}>
         <Carousel.Item>
           <img
             className = "d-block w-100"

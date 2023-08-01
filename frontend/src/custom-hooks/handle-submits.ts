@@ -1,8 +1,8 @@
 import { AxiosError } from "axios"
-import AuthDataService from "../services/auth-data-service.js"
-import PrivateDoctorDataService from "../services/private-doctor-data-service.js"
-import PrivatePatientDataService from "../services/private-patient-data-service.js"
-import { invalidUserAction } from "./user-verification-snippets.js"
+import AuthDataService from "../services/auth-data-service"
+import PrivateDoctorDataService from "../services/private-doctor-data-service"
+import PrivatePatientDataService from "../services/private-patient-data-service"
+import { invalidUserAction } from "./user-verification-snippets"
 
 export const handleLoginSubmit = async (
   loginInformationObject,

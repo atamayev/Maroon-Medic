@@ -2,7 +2,7 @@ import { MDBFooter, MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit"
 import "../styles/footer.css"
 
 export default function Footer() {
-  const renderLeftFooterColumn = () => {
+  const RenderLeftFooterColumn = () => {
     return (
       <MDBCol md = "3" lg = "4" xl = "3" className = "mx-auto mb-4">
         <h6 className = "fw-bold mb-4 text-white"> MaroonMedic </h6>
@@ -19,7 +19,7 @@ export default function Footer() {
     )
   }
 
-  const renderCenterFooterColumn = () => {
+  const RenderCenterFooterColumn = () => {
     return (
       <MDBCol md = "4" lg = "3" xl = "3" className = "mx-auto mb-md-0 mb-4 text-white">
         <h6 className = "text-uppercase fw-bold mb-4">Contact</h6>
@@ -30,7 +30,7 @@ export default function Footer() {
     )
   }
 
-  const renderRightFooterColumn = () => {
+  const RenderRightFooterColumn = () => {
     return (
       <MDBCol md = "2" lg = "2" xl = "2" className = "mx-auto mb-4 text-white">
         <h6 className = "fw-bold mb-4">Are you a top veterinarian?</h6>
@@ -43,7 +43,7 @@ export default function Footer() {
     )
   }
 
-  const renderBottomFooterColumn = () => {
+  const RenderBottomFooterColumn = () => {
     return (
       <div className = "text-center p-4 text-white" style = {{ backgroundColor: "rgb(0, 0, 0)" }}>
       Copyright © {new Date().getFullYear()}
@@ -56,15 +56,15 @@ export default function Footer() {
     <MDBFooter style = {{ backgroundColor: "rgb(51, 51, 51)" }} className = "align-items-center justify-content-center layout-container">
       <MDBContainer className = "text-center text-md-start mt-5 w-100">
         <MDBRow className = "mt-3">
-          {renderLeftFooterColumn()}
+          <RenderLeftFooterColumn />
 
-          {renderCenterFooterColumn()}
+          <RenderCenterFooterColumn />
 
-          {renderRightFooterColumn()}
+          <RenderRightFooterColumn />
         </MDBRow>
       </MDBContainer>
 
-      {renderBottomFooterColumn()}
+      <RenderBottomFooterColumn />
     </MDBFooter>
   )
 }

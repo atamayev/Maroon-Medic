@@ -34,6 +34,7 @@ declare global {
   }
 
   type DoctorAddressDataType = {
+    address_priority: number
     addressesID: number
     address_title: string
     address_line_1: string
@@ -42,7 +43,6 @@ declare global {
     state: string
     zip: string
     country: string
-    address_priority: number
     instant_book: boolean
     address_public_status: boolean
     phones: PhoneDataType[]

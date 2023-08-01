@@ -122,7 +122,7 @@ export default function PatientDashboard() {
     return (
       <>
         {upcomingAppointments.map((appointment) => (
-          <UpcomingAppointmentCard key = {appointment.AppointmentsID} appointment = {appointment} />
+          <UpcomingAppointmentCard key = {appointment.appointmentsID} appointment = {appointment} />
         ))}
       </>
     )
@@ -133,7 +133,7 @@ export default function PatientDashboard() {
     return (
       <>
         {pastAppointments.map((appointment) => (
-          <PastAppointmentCard key = {appointment.AppointmentsID} appointment = {appointment} />
+          <PastAppointmentCard key = {appointment.appointmentsID} appointment = {appointment} />
         ))}
       </>
     )

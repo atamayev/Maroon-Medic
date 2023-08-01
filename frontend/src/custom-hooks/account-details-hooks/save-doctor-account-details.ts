@@ -15,7 +15,7 @@ export function addDoctorLanguages(
   languageID: number,
   newSpokenLanguages: LanguageItemType[],
   setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
-  setLanguagesConfirmation
+  setLanguagesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) {
   return modifyDoctorLanguages(
     PrivateDoctorDataService.addLanguage,
@@ -30,7 +30,7 @@ export function deleteDoctorLanguages(
   languageID: number,
   newSpokenLanguages: LanguageItemType[],
   setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
-  setLanguagesConfirmation
+  setLanguagesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) {
   return modifyDoctorLanguages(
     PrivateDoctorDataService.deleteLanguage,
@@ -42,10 +42,10 @@ export function deleteDoctorLanguages(
 }
 
 export function addServices(
-  newServiceObject,
-  providedServices,
-  setProvidedServices,
-  setServicesConfirmation
+  newServiceObject: ServiceItemType,
+  providedServices: ServiceItemType[],
+  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemType[]>>,
+  setServicesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) {
   return modifyServicesData(
     PrivateDoctorDataService.addService,
@@ -57,10 +57,10 @@ export function addServices(
 }
 
 export function updateServices(
-  newServiceObject,
-  providedServices,
-  setProvidedServices,
-  setServicesConfirmation
+  newServiceObject: ServiceItemType,
+  providedServices: ServiceItemType[],
+  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemType[]>>,
+  setServicesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) {
   return modifyServicesData(
     PrivateDoctorDataService.updateService,
@@ -72,11 +72,11 @@ export function updateServices(
 }
 
 export function deleteServices(
-  serviceObject,
-  providedServices,
-  setProvidedServices,
-  setSelectedServices,
-  setServicesConfirmation
+  serviceObject: ServiceItemType,
+  providedServices: ServiceItemType[],
+  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemType[]>>,
+  setServicesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>,
+  setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemType[]>> | null,
 ) {
   return modifyServicesData(
     PrivateDoctorDataService.deleteService,
@@ -90,10 +90,10 @@ export function deleteServices(
 
 export function addSpecialties(
   specialtyID: number,
-  newDoctorSpecialties,
-  setDoctorSpecialties,
-  setSelectedOrganization,
-  setSpecialtiesConfirmation
+  newDoctorSpecialties: SpecialtyItemType[],
+  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItemType[]>>,
+  setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>,
+  setSpecialtiesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) {
   return modifyDoctorSpecialties(
     PrivateDoctorDataService.addSpecialty,
@@ -105,11 +105,11 @@ export function addSpecialties(
 }
 
 export function deleteSpecialties(
-  specialtyID,
-  newDoctorSpecialties,
-  setDoctorSpecialties,
-  setSelectedOrganization,
-  setSpecialtiesConfirmation
+  specialtyID: number,
+  newDoctorSpecialties: SpecialtyItemType[],
+  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItemType[]>>,
+  setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>,
+  setSpecialtiesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) {
   return modifyDoctorSpecialties(
     PrivateDoctorDataService.deleteSpecialty,
@@ -121,11 +121,11 @@ export function deleteSpecialties(
 }
 
 export async function addPreVetEducation(
-  preVetEducationObject,
-  preVetEducation,
-  setPreVetEducation,
-  listDetails,
-  setPreVetEducationConfirmation
+  preVetEducationObject: PreVetEducationItemType,
+  preVetEducation: PreVetEducationItemType[],
+  setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItemType[]>>,
+  listDetails: ListDetailsType,
+  setPreVetEducationConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) {
   try {
     const mappedPreVetEducationObject = {
@@ -162,10 +162,10 @@ export async function addPreVetEducation(
 }
 
 export async function deletePreVetEducation(
-  preVetEducationObject,
-  preVetEducation,
-  setPreVetEducation,
-  setPreVetEducationConfirmation
+  preVetEducationObject: PreVetEducationItemType,
+  preVetEducation: PreVetEducationItemType[],
+  setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItemType[]>>,
+  setPreVetEducationConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) {
   try {
     const response = await PrivateDoctorDataService.deletePreVetEducationData(preVetEducationObject)
@@ -192,11 +192,11 @@ export async function deletePreVetEducation(
 }
 
 export async function addVetEducation(
-  vetEducationObject,
-  vetEducation,
-  setVetEducation,
-  listDetails,
-  setVetEducationConfirmation
+  vetEducationObject: VetEducationItemType,
+  vetEducation: VetEducationItemType[],
+  setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItemType[]>>,
+  listDetails: ListDetailsType,
+  setVetEducationConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) {
   try {
     const mappedVetEducationObject = {
@@ -231,10 +231,10 @@ export async function addVetEducation(
 }
 
 export async function deleteVetEducation(
-  vetEducationObject,
-  vetEducation,
-  setVetEducation,
-  setVetEducationConfirmation
+  vetEducationObject: VetEducationItemType,
+  vetEducation: VetEducationItemType[],
+  setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItemType[]>>,
+  setVetEducationConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) {
   try {
     const response = await PrivateDoctorDataService.deleteVetEducationData(vetEducationObject)
@@ -260,20 +260,35 @@ export async function deleteVetEducation(
   }
 }
 
-export function addLocation(address, setAddresses, setAddressesConfirmation) {
+export function addLocation(
+  address: DoctorAddressDataType,
+  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressDataType[]>>,
+  setAddressesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
+) {
   return modifyAddressData(PrivateDoctorDataService.addAddressData, address, setAddresses, setAddressesConfirmation)
 }
 
-export function updateLocation(address, setAddresses, setAddressesConfirmation) {
+export function updateLocation(
+  address: DoctorAddressDataType,
+  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressDataType[]>>,
+  setAddressesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
+) {
   return modifyAddressData(PrivateDoctorDataService.updateAddressData, address, setAddresses, setAddressesConfirmation)
 }
 
-export function deleteLocation(address, setAddresses, setAddressesConfirmation) {
+export function deleteLocation(
+  address: DoctorAddressDataType,
+  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressDataType[]>>,
+  setAddressesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
+) {
   return modifyAddressData(PrivateDoctorDataService.deleteAddressData, address, setAddresses, setAddressesConfirmation)
 }
 
 
-export async function saveDescription(description, setDescriptionConfirmation) {
+export async function saveDescription(
+  description: string,
+  setDescriptionConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
+) {
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
   const savedDescriptionData = DoctorAccountDetails.description
 
@@ -301,15 +316,29 @@ export async function saveDescription(description, setDescriptionConfirmation) {
   }
 }
 
-export function addServicedPets(petID, newServicedPets, setServicedPets, setPetsConfirmation) {
+export function addServicedPets(
+  petID: number,
+  newServicedPets: ServicedPetItemType[],
+  setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItemType[]>>,
+  setPetsConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
+) {
   return modifyServicedPets(PrivateDoctorDataService.addServicedPet, petID, newServicedPets, setServicedPets, setPetsConfirmation)
 }
 
-export function deleteServicedPets(petID, newServicedPets, setServicedPets, setPetsConfirmation) {
+export function deleteServicedPets(
+  petID: number,
+  newServicedPets: ServicedPetItemType[],
+  setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItemType[]>>,
+  setPetsConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
+) {
   return modifyServicedPets(PrivateDoctorDataService.deleteServicedPet, petID, newServicedPets, setServicedPets, setPetsConfirmation)
 }
 
-export async function handlePublicAvailibilityToggle (value, setPubliclyAvailable, setPubliclyAvailableConfirmation) {
+export async function handlePublicAvailibilityToggle (
+  value: boolean,
+  setPubliclyAvailable: React.Dispatch<React.SetStateAction<boolean>>,
+  setPubliclyAvailableConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
+) {
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
   try {
     const response = await PrivateDoctorDataService.savePublicAvailibility(value)

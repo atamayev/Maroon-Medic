@@ -28,7 +28,7 @@ export default function LoginAndRegistrationForm({
   showPassword,
   setShowPassword }: Props) {
 
-  const renderPasswordConfirm = () => {
+  const RenderPasswordConfirm = () => {
     const renderShowPassword = () => {
       if (showPassword) return "text"
       return "password"
@@ -47,7 +47,7 @@ export default function LoginAndRegistrationForm({
     }
   }
 
-  const renderSubLoginInfo = () => {
+  const RenderSubLoginInfo = () => {
     if (loginOrSignUp === "Login") {
       return (
         <>
@@ -62,7 +62,7 @@ export default function LoginAndRegistrationForm({
     }
   }
 
-  const renderSubRegisterInfo = () => {
+  const RenderSubRegisterInfo = () => {
     if (loginOrSignUp === "Sign up") {
       return (
         <div className = "w-100 text-center mt-2">
@@ -77,12 +77,12 @@ export default function LoginAndRegistrationForm({
     return "password"
   }
 
-  const renderHideOrShowPassword = () => {
+  const RenderHideOrShowPassword = () => {
     if (showPassword) return "Hide Password"
     return "Show Password"
   }
 
-  const renderErrorMessage = () => {
+  const RenderErrorMessage = () => {
     if (!error) return null
     return <Alert variant = "danger" className = "mt-3 mb-0">{error}</Alert>
   }
@@ -110,19 +110,19 @@ export default function LoginAndRegistrationForm({
             required
           />
 
-          {renderPasswordConfirm()}
+          <RenderPasswordConfirm />
           <Button onClick = {() => (setShowPassword(!showPassword))} className = "mt-3">
-            {renderHideOrShowPassword()}
+            <RenderHideOrShowPassword />
           </Button>
 
-          {renderErrorMessage()}
+          <RenderErrorMessage />
 
           <Button disabled = {loading} className = "mt-3 w-100" type = "submit">
             {loginOrSignUp}
           </Button>
         </Form>
-        {renderSubLoginInfo()}
-        {renderSubRegisterInfo()}
+        <RenderSubLoginInfo />
+        <RenderSubRegisterInfo />
       </Card.Body>
     </Card>
   )

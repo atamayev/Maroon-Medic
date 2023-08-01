@@ -6,11 +6,11 @@ export const handleAddLanguage = (
   selectedLanguageID: number,
   spokenLanguages: LanguageItemType[],
   setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
-  listDetails,
-  setLanguagesConfirmation,
+  listDetails: ListDetailsType,
+  setLanguagesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>,
   doctorOrPatient: "doctor" | "patient"
 ) => {
-  const selectedLanguage = listDetails.languages.find((lang) => lang.language_listID === JSON.parse(selectedLanguageID))
+  const selectedLanguage = listDetails.languages.find((lang) => lang.language_listID === JSON.parse(selectedLanguageID.toString()))
 
   const newSpokenLanguages = [...spokenLanguages, selectedLanguage]
 
@@ -24,11 +24,11 @@ export const handleAddLanguage = (
 
 export const handleAddSpecialty = (
   selectedSpecialtyID: number,
-  doctorSpecialties,
-  setDoctorSpecialties,
-  setSelectedOrganization,
-  listDetails,
-  setSpecialtiesConfirmation
+  doctorSpecialties: SpecialtyItemType[],
+  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItemType[]>>,
+  setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>,
+  listDetails: ListDetailsType,
+  setSpecialtiesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) => {
   const selectedSpecialty = listDetails.specialties.find((spec) => spec.specialties_listID === JSON.parse(selectedSpecialtyID))
   const newDoctorSpecialties = [...doctorSpecialties, selectedSpecialty]
@@ -36,12 +36,12 @@ export const handleAddSpecialty = (
 }
 
 export const handleAddEducation = (
-  selectedSchool,
-  setSelectedSchool,
-  selectedEducationType,
-  setSelectedEducationType,
-  timeState,
-  setTimeState,
+  selectedSchool: string,
+  setSelectedSchool: React.Dispatch<React.SetStateAction<string>>,
+  selectedEducationType: string,
+  setSelectedEducationType: React.Dispatch<React.SetStateAction<string>>,
+  timeState: TimeStateType,
+  setTimeState: React.Dispatch<React.SetStateAction<TimeStateType>>,
   selectedMajor: string | null = null,
   setSelectedMajor: string | null = null
 ) => {

@@ -16,7 +16,7 @@ export default function RenderDescriptionSection (props: Props) {
         Description
       </Card.Header>
       <Card.Body>
-        {RenderIsDescription(props)}
+        <RenderIsDescription {...props} />
       </Card.Body>
     </Card>
   )
@@ -40,7 +40,7 @@ function RenderIsDescription(props: Props) {
     setDescription(event.target.value)
   }, [setDescription])
 
-  const renderDescriptionInput = () => {
+  const RenderDescriptionInput = () => {
     return (
       <FormGroup
         id = "Description"
@@ -53,7 +53,7 @@ function RenderIsDescription(props: Props) {
     )
   }
 
-  const renderCharacterLimit = () => {
+  const RenderCharacterLimit = () => {
     return (
       <div style = {counterStyleLimit()}>
         Character Limit: {description.length} / 1000
@@ -61,7 +61,7 @@ function RenderIsDescription(props: Props) {
     )
   }
 
-  const renderSaveButton = () => {
+  const RenderSaveButton = () => {
     return (
       <Button
         variant = "success"
@@ -74,9 +74,9 @@ function RenderIsDescription(props: Props) {
 
   return (
     <Form>
-      {renderDescriptionInput()}
-      {renderCharacterLimit()}
-      {renderSaveButton()}
+      <RenderDescriptionInput />
+      <RenderCharacterLimit />
+      <RenderSaveButton />
       <RenderMessageSection
         confirmationMessage = {descriptionConfirmation}
         whatIsBeingSaved = "Description"

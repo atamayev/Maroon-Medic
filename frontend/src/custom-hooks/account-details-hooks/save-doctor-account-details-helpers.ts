@@ -7,7 +7,7 @@ export async function modifyDoctorLanguages(
   languageID: number,
   newSpokenLanguages: LanguageItemType[],
   setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
-  setLanguagesConfirmation
+  setLanguagesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) {
   let response
   try {
@@ -35,9 +35,9 @@ export async function modifyDoctorLanguages(
 export async function modifyDoctorSpecialties(
   operation,
   specialtyID: number,
-  newDoctorSpecialties,
-  setDoctorSpecialties,
-  setSpecialtiesConfirmation,
+  newDoctorSpecialties: SpecialtyItemType[],
+  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItemType[]>>,
+  setSpecialtiesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>,
   callback
 ) {
   let response
@@ -128,10 +128,10 @@ export async function modifyAddressData(operation, address, setAddresses, setAdd
 
 export async function modifyServicesData(
   operation,
-  serviceObject,
-  providedServices,
-  setProvidedServices,
-  setServicesConfirmation,
+  serviceObject: ServiceItemType,
+  providedServices: ServiceItemType[],
+  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemType[]>>,
+  setServicesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>,
   setSelectedServices = null
 ) {
   try {
