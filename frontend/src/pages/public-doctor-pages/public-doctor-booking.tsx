@@ -44,7 +44,7 @@ function usePetData(userType: DoctorOrPatientOrNull) {
 
 interface Props {
   providedServices: ServiceItemType[]
-  addresses: AddressType[]
+  addresses: PublicAddressType[]
   personalData: PersonalDataType
 }
 
@@ -54,7 +54,7 @@ export default function RenderBookingSection(props: Props) {
   const { providedServices, addresses, personalData } = props
   const [selectedPet, setSelectedPet] = useState<PetItemType | null>(null)
   const [selectedService, setSelectedService] = useState<ServiceItemType | null>(null)
-  const [selectedLocation, setSelectedLocation] = useState<AddressType |null>(null)
+  const [selectedLocation, setSelectedLocation] = useState<PublicAddressType |null>(null)
   const [noAvailableTimesMessage, setNoAvailableTimesMessage] = useState(false)
   const [selectedDay, setSelectedDay] = useState<string | null>(null)
   const [selectedTime, setSelectedTime] = useState<string | null>(null)

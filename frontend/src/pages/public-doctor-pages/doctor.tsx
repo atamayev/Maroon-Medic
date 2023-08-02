@@ -21,7 +21,7 @@ export default function Doctor () {
   const [doctorSpecialties, setDoctorSpecialties] = useState([])
   const [preVetEducation, setPreVetEducation] = useState([])
   const [vetEducation, setVetEducation] = useState([])
-  const [addresses, setAddresses] = useState<AddressType[]>(
+  const [addresses, setAddresses] = useState<PublicAddressType[]>(
     [{ address_priority: 0, addressesID: 0, address_title: "", address_line_1  : "", address_line_2: "",
       city: "", state: "", zip: "", country: "", phone: "", instant_book: false, times:[]
     }])

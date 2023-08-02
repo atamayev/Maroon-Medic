@@ -5,11 +5,6 @@ interface Props {
   doctorSpecialties: SpecialtyType[]
 }
 
-type SpecialtyType = {
-  Organization_name: string
-  Specialty_name: string
-}
-
 interface CategoriesType {
   [key: string]: SpecialtyType[]
 }

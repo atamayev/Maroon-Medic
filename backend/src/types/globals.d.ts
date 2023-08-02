@@ -24,18 +24,36 @@ declare global {
     Specialty_name: string
   }
 
-  type EducationItemType = {
-    education_mappingID: number
+  interface EducationItemType {
     School_name: string
-    Major_name?: string
     Education_type: string
     Start_Date: string
     End_Date: string
   }
 
+  type PreVetEducationItemType = EducationItemType & {
+    pre_vet_education_mappingID: number
+    Major_name: string
+  }
+
+  type VetEducationItemType = EducationItemType & {
+    vet_education_mappingID: number
+  }
+
+  interface AddEducationItemType {
+    School_ID: number
+    Education_type_ID: number
+    Start_date: string
+    End_date: string
+  }
+
+  type AddPreVetEducationItemType = SaveEducationItemType & {
+    Major_ID: number
+  }
+
   type DoctorAddressDataType = {
-    address_priority: number
     addressesID: number
+    address_priority: number
     address_title: string
     address_line_1: string
     address_line_2: string
@@ -45,12 +63,8 @@ declare global {
     country: string
     instant_book: boolean
     address_public_status: boolean
-    phones: PhoneDataType[]
-    times: AvailabilityDataType[]
-  }
-
-  type PhoneDataType = {
     Phone: string
+    times: AvailabilityDataType[]
   }
 
   type AvailabilityDataType = {
@@ -105,9 +119,21 @@ declare global {
     picture_number: number
   }
 
-  type PersonalData = {
+  interface BasicDoctorPersonalInfo {
     FirstName: string
     LastName: string
+  }
+
+  type DoctorPersonalInfoLessNVI = BasicDoctorPersonalInfo & {
+    Gender: string
+  }
+
+  type DoctorPersonalInfoLessGender = BasicDoctorPersonalInfo & {
+    NVI: number
+  }
+
+  type DoctorPersonalInfo = BasicDoctorPersonalInfo & {
+    NVI: number
     Gender: string
   }
 }

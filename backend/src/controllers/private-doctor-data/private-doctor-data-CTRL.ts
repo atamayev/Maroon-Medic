@@ -10,8 +10,8 @@ interface DoctorResponse {
   languages: LanguageItemType[]
   services: ServiceItemType[]
   specialties: SpecialtyItemType[]
-  preVetEducation: EducationItemType[]
-  vetEducation: EducationItemType[]
+  preVetEducation: PreVetEducationItemType[]
+  vetEducation: VetEducationItemType[]
   addressData: DoctorAddressDataType[]
   description: string
   servicedPets: ServicedPetItemType[]

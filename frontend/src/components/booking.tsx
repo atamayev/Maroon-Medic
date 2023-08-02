@@ -286,7 +286,7 @@ const RenderAvailableDates = (selectedDay: string, personalData: PersonalDataTyp
   )
 }
 
-const RenderInstantBook = (selectedLocation: AddressType) => {
+const RenderInstantBook = (selectedLocation: PublicAddressType) => {
   if (selectedLocation.instant_book) return <>Confirm</>
   return <>Request</>
 }

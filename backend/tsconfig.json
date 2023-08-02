@@ -107,9 +107,7 @@
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
   "include": [
-    "globals.d.ts",
-    "custom.d.ts",
-    "environment.d.ts",
+    "src/types/**/*.d.ts",
     "src/**/*.ts"
   ],
   "exclude": [

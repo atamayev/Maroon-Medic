@@ -2,48 +2,6 @@ import { mysqlTables } from "../utils/table-names-list"
 import { connectDatabase } from "../setup-and-security/connect"
 import { RowDataPacket } from "mysql2"
 
-type LanguagesData = {
-  Language_name: string
-}
-
-type SpecialtiesData = {
-  Organization_name: string
-  Specialty_name: string
-}
-
-type EducationData = {
-  School_name: string
-  Major_name?: string
-  Education_type: string
-  Start_Date: string
-  End_Date: string
-}
-
-type PetData = {
-  pet: number
-  pet_type: string
-}
-
-type AddressData = {
-  addressesID: number
-  address_title: string
-  address_line_1: string
-  address_line_2: string
-  city: string
-  state: string
-  zip: string
-  country: string
-  address_priority: number
-  instant_book: boolean
-  Phone: string
-}
-
-interface AvailabilityData {
-  Day_of_week: string;
-  Start_time: string;
-  End_time: string;
-}
-
 export default new class FetchPublicDoctorDataDB {
   async retrieveDoctorLanguages (DoctorID: number): Promise<LanguagesData[]> {
     const sql = `SELECT ${mysqlTables.language_list}.Language_name
@@ -72,7 +30,7 @@ export default new class FetchPublicDoctorDataDB {
     return specialties
   }
 
-  async retrievePreVetEducation (DoctorID: number): Promise<EducationData[]> {
+  async retrievePreVetEducation (DoctorID: number): Promise<PreVetEducationItemType[]> {
     const sql = `SELECT ${mysqlTables.pre_vet_school_list}.School_name, ${mysqlTables.major_list}.Major_name,
     ${mysqlTables.pre_vet_education_type_list}.Education_type, ${mysqlTables.pre_vet_education_mapping}.Start_Date,
     ${mysqlTables.pre_vet_education_mapping}.End_Date
@@ -86,11 +44,11 @@ export default new class FetchPublicDoctorDataDB {
     const values = [DoctorID]
     const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values) as RowDataPacket[]
-    const preVetEducation = results.map((row: RowDataPacket) => row as EducationData)
+    const preVetEducation = results.map((row: RowDataPacket) => row as PreVetEducationItemType)
     return preVetEducation
   }
 
-  async retrieveVetEducation (DoctorID: number): Promise<EducationData[]> {
+  async retrieveVetEducation (DoctorID: number): Promise<VetEducationItemType[]> {
     const sql = `SELECT ${mysqlTables.vet_school_list}.School_name, ${mysqlTables.vet_education_type_list}.Education_type,
     ${mysqlTables.vet_education_mapping}.Start_Date, ${mysqlTables.vet_education_mapping}.End_Date
       FROM ${mysqlTables.vet_education_mapping}, ${mysqlTables.vet_school_list}, ${mysqlTables.vet_education_type_list}
@@ -102,11 +60,11 @@ export default new class FetchPublicDoctorDataDB {
     const values = [DoctorID]
     const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values) as RowDataPacket[]
-    const vetEducation = results.map((row: RowDataPacket) => row as EducationData)
+    const vetEducation = results.map((row: RowDataPacket) => row as VetEducationItemType)
     return vetEducation
   }
 
-  async retrieveServicedPets (DoctorID: number): Promise<PetData[]> {
+  async retrieveServicedPets (DoctorID: number): Promise<ServicedPetData[]> {
     const sql = `SELECT ${mysqlTables.pet_list}.pet, ${mysqlTables.pet_list}.pet_type
         FROM ${mysqlTables.pet_list}
             JOIN ${mysqlTables.pet_mapping} ON ${mysqlTables.pet_list}.pet_listID = ${mysqlTables.pet_mapping}.pet_ID
@@ -116,7 +74,7 @@ export default new class FetchPublicDoctorDataDB {
     const values = [DoctorID]
     const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values) as RowDataPacket[]
-    const servicedPets = results.map((row: RowDataPacket) => row as PetData)
+    const servicedPets = results.map((row: RowDataPacket) => row as ServicedPetData)
     return servicedPets
   }
 
@@ -139,24 +97,24 @@ export default new class FetchPublicDoctorDataDB {
     return addressData
   }
 
-  async retrieveAvailabilityData (addressID: number): Promise<AvailabilityData[]> {
+  async retrieveAvailabilityData (addressID: number): Promise<AvailabilityDataType[]> {
     const sql = `SELECT ${mysqlTables.booking_availability}.Day_of_week, ${mysqlTables.booking_availability}.Start_time,
       ${mysqlTables.booking_availability}.End_time FROM ${mysqlTables.booking_availability}
       WHERE ${mysqlTables.booking_availability}.address_ID = ?`
     const values = [addressID]
     const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values) as RowDataPacket[]
-    // Cast each result as an AvailabilityData object
-    const availabilityData = results.map((row: RowDataPacket) => row as AvailabilityData)
+    const availabilityData = results.map((row: RowDataPacket) => row as AvailabilityDataType)
     return availabilityData
   }
 
-  async retrievePersonalData (DoctorID: number): Promise<PersonalData> {
+  async retrievePersonalData (DoctorID: number): Promise<DoctorPersonalInfo> {
     const sql = `SELECT FirstName, LastName, Gender FROM ${mysqlTables.basic_user_info} WHERE User_ID = ?`
     const values = [DoctorID]
     const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values) as RowDataPacket[]
-    const personalData = results[0] as PersonalData
+    const personalData = results[0] as DoctorPersonalInfo
+    personalData.NVI = 0
     return personalData
   }
 }()

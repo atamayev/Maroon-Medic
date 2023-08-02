@@ -12,13 +12,13 @@ export default new class FetchDoctorAccountData {
     }
   }
 
-  async #fetchDoctorEducationData(
+  async #fetchEducationData<T extends EducationItemType>(
     DoctorID: number,
-    retrievalFunction: (id: number) => Promise<EducationItemType[]>
-  ): Promise<EducationItemType[]> {
+    retrievalFunction: (id: number) => Promise<T[]>
+  ): Promise<T[]> {
     try {
       const educationData = await retrievalFunction(DoctorID)
-      const newResults = educationData.map((obj: EducationItemType) => ({
+      const newResults = educationData.map((obj: T) => ({
         ...obj,
         Start_Date: DataFormatter.formatEducationDates(obj.Start_Date),
         End_Date: DataFormatter.formatEducationDates(obj.End_Date)
@@ -44,14 +44,14 @@ export default new class FetchDoctorAccountData {
     return result as SpecialtyItemType[]
   }
 
-  async fetchPreVetEducation(DoctorID: number): Promise<EducationItemType[]> {
-    const result = await this.#fetchDoctorEducationData(DoctorID, FetchDoctorAccountDataDB.retrievePreVetEducation)
-    return result as EducationItemType[]
+  async fetchPreVetEducation(DoctorID: number): Promise<PreVetEducationItemType[]> {
+    const result = await this.#fetchEducationData<PreVetEducationItemType>(DoctorID, FetchDoctorAccountDataDB.retrievePreVetEducation)
+    return result as PreVetEducationItemType[]
   }
 
-  async fetchVetEducation(DoctorID: number): Promise<EducationItemType[]> {
-    const result = await this.#fetchDoctorEducationData(DoctorID, FetchDoctorAccountDataDB.retrieveVetEducation)
-    return result as EducationItemType[]
+  async fetchVetEducation(DoctorID: number): Promise<VetEducationItemType[]> {
+    const result = await this.#fetchEducationData<VetEducationItemType>(DoctorID, FetchDoctorAccountDataDB.retrieveVetEducation)
+    return result as VetEducationItemType[]
   }
 
   async fetchDoctorAddressData (DoctorID: number): Promise<DoctorAddressDataType[]> {
@@ -64,11 +64,7 @@ export default new class FetchDoctorAccountData {
           address.times = times
 
           const phoneData = await FetchDoctorAccountDataDB.retrievePhoneData(address.addressesID)
-
-          if (_.isEmpty(phoneData)) address.phones = []
-          else {
-            address.phones = [{Phone: phoneData[0].Phone}]
-          }
+          address.Phone = phoneData
         }
       }
       return addressData

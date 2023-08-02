@@ -2,14 +2,8 @@ import { mysqlTables } from "../utils/table-names-list"
 import { connectDatabase } from "../setup-and-security/connect"
 import { RowDataPacket } from "mysql2"
 
-interface DoctorInfo {
-  NVI: string
-  FirstName: string
-  LastName: string
-}
-
 export default new class SearchDB {
-  async retrieveDoctorsFromSearchTerm (searchTerm: string): Promise<DoctorInfo[]> {
+  async retrieveDoctorsFromSearchTerm (searchTerm: string): Promise<DoctorPersonalInfo[]> {
     const sql = `SELECT NVI, FirstName, LastName
       FROM ${mysqlTables.basic_user_info}
         LEFT JOIN ${mysqlTables.doctor_specific_info} ON
@@ -23,11 +17,11 @@ export default new class SearchDB {
     const values = [`${searchTerm}%`]
     const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values) as RowDataPacket[]
-    const doctorsList = results.map((row: RowDataPacket) => row as DoctorInfo)
+    const doctorsList = results.map((row: RowDataPacket) => row as DoctorPersonalInfo)
     return doctorsList
   }
 
-  async retrieveAllDoctors (): Promise<DoctorInfo[]> {
+  async retrieveAllDoctors (): Promise<DoctorPersonalInfo[]> {
     const sql = `SELECT NVI, FirstName, LastName
           FROM ${mysqlTables.basic_user_info}
               LEFT JOIN ${mysqlTables.doctor_specific_info}
@@ -41,7 +35,7 @@ export default new class SearchDB {
 
     const connection = await connectDatabase()
     const [results] = await connection.execute(sql) as RowDataPacket[]
-    const doctorsList = results.map((row: RowDataPacket) => row as DoctorInfo)
+    const doctorsList = results.map((row: RowDataPacket) => row as DoctorPersonalInfo)
     return doctorsList
   }
 }()

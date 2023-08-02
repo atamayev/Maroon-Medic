@@ -4,25 +4,10 @@ import { OkPacket, RowDataPacket } from "mysql2"
 
 type MysqlTimestamp = string
 
-interface PersonalInfo {
-  FirstName: string
-  LastName: string
-  Gender: string
-}
-
 type ServiceItem = {
   service_and_category_listID: number
   Service_time: string
   Service_price: number
-}
-
-type SchoolItem = {
-  education_mappingID: number
-  School_ID: number
-  Major_ID?: number
-  Education_type_ID: number
-  Start_date: string
-  End_date: string
 }
 
 type AddressData = {
@@ -44,12 +29,6 @@ type PhoneData = {
   phone: string
 }
 
-interface AvailabilityData {
-  Day_of_week: string
-  Start_time: string
-  End_time: string
-}
-
 export default new class SaveDoctorDataDB {
   async checkIfPersonalDataExists (DoctorID: number): Promise<boolean> {
     const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.basic_user_info} WHERE User_ID = ?) as 'exists' `
@@ -60,14 +39,14 @@ export default new class SaveDoctorDataDB {
     return Boolean(doesRecordExist)
   }
 
-  async updatePersonalData (personalInfo: PersonalInfo, DOB: MysqlTimestamp, DoctorID: number): Promise<void> {
+  async updatePersonalData (personalInfo: DoctorPersonalInfoLessNVI, DOB: MysqlTimestamp, DoctorID: number): Promise<void> {
     const sql = `UPDATE ${mysqlTables.basic_user_info} SET FirstName = ?, LastName = ?, Gender = ?, DOB = ? WHERE User_ID = ?`
     const values = [personalInfo.FirstName, personalInfo.LastName, personalInfo.Gender, DOB, DoctorID]
     const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async addPersonalData (personalInfo: PersonalInfo, DOB: MysqlTimestamp, DoctorID: number): Promise<void> {
+  async addPersonalData (personalInfo: DoctorPersonalInfoLessNVI, DOB: MysqlTimestamp, DoctorID: number): Promise<void> {
     const sql = `INSERT INTO ${mysqlTables.basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?, ?, ?, ?, ?)`
     const values = [personalInfo.FirstName, personalInfo.LastName, personalInfo.Gender, DOB, DoctorID]
     const connection = await connectDatabase()
@@ -162,7 +141,7 @@ export default new class SaveDoctorDataDB {
     await connection.execute(sql, values)
   }
 
-  async addPreVetEducationData (preVetEducationObject: SchoolItem, DoctorID: number): Promise<number> {
+  async addPreVetEducationData (preVetEducationObject: AddPreVetEducationItemType, DoctorID: number): Promise<number> {
     const sql = `INSERT INTO ${mysqlTables.pre_vet_education_mapping}
     (School_ID, Major_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?, ?, ?, ?, ?, ?)`
     const values = [preVetEducationObject.School_ID, preVetEducationObject.Major_ID, preVetEducationObject.Education_type_ID,
@@ -172,7 +151,7 @@ export default new class SaveDoctorDataDB {
     return (result as OkPacket).insertId
   }
 
-  async addVetEducationData (vetEducationObject: SchoolItem, DoctorID: number): Promise<number> {
+  async addVetEducationData (vetEducationObject: AddEducationItemType, DoctorID: number): Promise<number> {
     const sql = `INSERT INTO ${mysqlTables.vet_education_mapping}
     (School_ID, Education_type_ID, Start_Date, End_Date, Doctor_ID) VALUES (?, ?, ?, ?, ?)`
     const values = [vetEducationObject.School_ID, vetEducationObject.Education_type_ID,
@@ -258,7 +237,7 @@ export default new class SaveDoctorDataDB {
     await connection.execute(sql, values)
   }
 
-  async addAvailbilityData (availbilityObject: AvailabilityData, addressID: number): Promise<void> {
+  async addAvailbilityData (availbilityObject: AvailabilityDataType, addressID: number): Promise<void> {
     const sql = `INSERT INTO ${mysqlTables.booking_availability} (Day_of_week, Start_time, End_time, address_ID) VALUES (?, ?, ?, ?)`
     const values = [availbilityObject.Day_of_week, availbilityObject.Start_time, availbilityObject.End_time, addressID]
     const connection = await connectDatabase()
@@ -272,7 +251,7 @@ export default new class SaveDoctorDataDB {
     await connection.execute(sql, values)
   }
 
-  async updateTimeAvailbilityData (availbilityObject: AvailabilityData, addressID: number): Promise<void> {
+  async updateTimeAvailbilityData (availbilityObject: AvailabilityDataType, addressID: number): Promise<void> {
     const sql = `UPDATE ${mysqlTables.booking_availability} SET Start_time = ?, End_time = ? WHERE Day_of_week = ? AND address_ID = ?`
     const values = [availbilityObject.Day_of_week, availbilityObject.Start_time, availbilityObject.End_time, addressID]
     const connection = await connectDatabase()

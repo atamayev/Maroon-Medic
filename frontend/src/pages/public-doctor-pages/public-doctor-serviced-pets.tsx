@@ -5,11 +5,6 @@ interface Props {
   servicedPets: ServicedPetsType[]
 }
 
-type ServicedPetsType = {
-  pet_type: string
-  pet: string
-}
-
 interface CategoriesType {
   [key: string]: ServicedPetsType[]
 }
