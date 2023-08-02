@@ -5,10 +5,10 @@ import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-m
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import { usePersonalInfo, handleSavePersonalInfo } from "../../../custom-hooks/fetch-and-save-personal-info"
 import {
-  renderFirstNameSection,
-  renderLastNameSection,
-  renderDOBSection,
-  renderGenderSection
+  RenderFirstNameSection,
+  RenderLastNameSection,
+  RenderDOBSection,
+  RenderGenderSection
 } from "../../../components/personal-info-inputs"
 import Header from "../../header"
 import PatientHeader from "../patient-header"
@@ -28,10 +28,10 @@ export default function PatientPersonalInfo() {
       <Card>
         <Card.Body>
           <Form onSubmit = {() => handleSavePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)}>
-            {renderFirstNameSection({personalInfo: personalInfo, setPersonalInfo: setPersonalInfo})}
-            {renderLastNameSection({personalInfo: personalInfo, setPersonalInfo: setPersonalInfo})}
-            {renderGenderSection({personalInfo: personalInfo, setPersonalInfo: setPersonalInfo})}
-            {renderDOBSection({personalInfo: personalInfo, setPersonalInfo: setPersonalInfo})}
+            {RenderFirstNameSection({personalInfo: personalInfo, setPersonalInfo: setPersonalInfo})}
+            {RenderLastNameSection({personalInfo: personalInfo, setPersonalInfo: setPersonalInfo})}
+            {RenderGenderSection({personalInfo: personalInfo, setPersonalInfo: setPersonalInfo})}
+            {RenderDOBSection({personalInfo: personalInfo, setPersonalInfo: setPersonalInfo})}
             <Button type = "submit" className = "btn btn-primary w-100">Save</Button>
             <RenderMessageSection
               confirmationMessage = {personalInfoConfirmation}

@@ -7,7 +7,7 @@ import { useLanguageOptions, useUpdateDeleteStatuses } from "../../../custom-hoo
 import { useHandleAddLanguage, useHandleDeleteLanguage } from "../../../custom-hooks/account-details-hooks/callbacks"
 
 interface Props {
-  listDetails: ListDetailsType
+  listDetails: DoctorListDetailsType
   spokenLanguages: LanguageItemType[]
   setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>
 }

@@ -1,8 +1,6 @@
 import moment from "moment"
-import { AxiosError } from "axios"
 import PrivateDoctorDataService from "../../services/private-doctor-data-service"
 import { shouldSaveDescription } from "../../utils/save-account-details"
-import { invalidUserAction } from "../user-verification-snippets"
 import {
   modifyDoctorLanguages,
   modifyServicesData,
@@ -10,6 +8,7 @@ import {
   modifyServicedPets,
   modifyAddressData
 } from "./save-doctor-account-details-helpers"
+import { handle401AxiosErrorAndSetError } from "src/utils/handle-errors"
 
 export function addDoctorLanguages(
   languageID: number,
@@ -124,7 +123,7 @@ export async function addPreVetEducation(
   preVetEducationObject: PreVetEducationItemType,
   preVetEducation: PreVetEducationItemType[],
   setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItemType[]>>,
-  listDetails: ListDetailsType,
+  listDetails: DoctorListDetailsType,
   setPreVetEducationConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) {
   try {
@@ -142,7 +141,7 @@ export async function addPreVetEducation(
       preVetEducationObject.pre_vet_education_mappingID = response.data
       const newPreVetEducation = [...preVetEducation, preVetEducationObject]
       setPreVetEducation(newPreVetEducation)
-      const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
+      const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") || "{}")
       DoctorAccountDetails.preVetEducation = newPreVetEducation
       sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
       setPreVetEducationConfirmation({messageType: "saved"})
@@ -151,28 +150,22 @@ export async function addPreVetEducation(
       return
     }
   } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401) {
-        invalidUserAction(error.response.data)
-      }
-    }
-    else setPreVetEducationConfirmation({messageType: "problem"})
-    return
+    handle401AxiosErrorAndSetError(error, setPreVetEducationConfirmation)
   }
 }
 
 export async function deletePreVetEducation(
-  preVetEducationObject: PreVetEducationItemType,
+  preVetEducationMappingID: number,
   preVetEducation: PreVetEducationItemType[],
   setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItemType[]>>,
   setPreVetEducationConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) {
   try {
-    const response = await PrivateDoctorDataService.deletePreVetEducationData(preVetEducationObject)
+    const response = await PrivateDoctorDataService.deletePreVetEducationData(preVetEducationMappingID)
     if (response.status === 200) {
-      const newPreVetEducation = preVetEducation.filter(object => object.pre_vet_education_mappingID !== preVetEducationObject)
+      const newPreVetEducation = preVetEducation.filter(object => object.pre_vet_education_mappingID !== preVetEducationMappingID)
       setPreVetEducation(newPreVetEducation)
-      const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
+      const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") || "{}")
       DoctorAccountDetails.preVetEducation = newPreVetEducation
       sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
       setPreVetEducationConfirmation({messageType: "saved"})
@@ -181,13 +174,7 @@ export async function deletePreVetEducation(
       return
     }
   } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401) {
-        invalidUserAction(error.response.data)
-      }
-    }
-    else setPreVetEducationConfirmation({messageType: "problem"})
-    return
+    handle401AxiosErrorAndSetError(error, setPreVetEducationConfirmation)
   }
 }
 
@@ -195,7 +182,7 @@ export async function addVetEducation(
   vetEducationObject: VetEducationItemType,
   vetEducation: VetEducationItemType[],
   setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItemType[]>>,
-  listDetails: ListDetailsType,
+  listDetails: DoctorListDetailsType,
   setVetEducationConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) {
   try {
@@ -211,7 +198,7 @@ export async function addVetEducation(
       vetEducationObject.vet_education_mappingID = response.data
       const newVetEducation = [...vetEducation, vetEducationObject]
       setVetEducation(newVetEducation)
-      const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
+      const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") || "{}")
       DoctorAccountDetails.vetEducation = newVetEducation
       sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
       setVetEducationConfirmation({messageType: "saved"})
@@ -220,28 +207,22 @@ export async function addVetEducation(
       return
     }
   } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401) {
-        invalidUserAction(error.response.data)
-      }
-    }
-    else setVetEducationConfirmation({messageType: "problem"})
-    return
+    handle401AxiosErrorAndSetError(error, setVetEducationConfirmation)
   }
 }
 
 export async function deleteVetEducation(
-  vetEducationObject: VetEducationItemType,
+  vetEducationMappingID: number,
   vetEducation: VetEducationItemType[],
   setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItemType[]>>,
   setVetEducationConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) {
   try {
-    const response = await PrivateDoctorDataService.deleteVetEducationData(vetEducationObject)
+    const response = await PrivateDoctorDataService.deleteVetEducationData(vetEducationMappingID)
     if (response.status === 200) {
-      const newVetEducation = vetEducation.filter(object => object.vet_education_mappingID !== vetEducationObject)
+      const newVetEducation = vetEducation.filter(object => object.vet_education_mappingID !== vetEducationMappingID)
       setVetEducation(newVetEducation)
-      const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
+      const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") || "{}")
       DoctorAccountDetails.vetEducation = newVetEducation
       sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
       setVetEducationConfirmation({ messageType: "saved" })
@@ -250,13 +231,7 @@ export async function deleteVetEducation(
       return
     }
   } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401) {
-        invalidUserAction(error.response.data)
-      }
-    }
-    else setVetEducationConfirmation({messageType: "problem"})
-    return
+    handle401AxiosErrorAndSetError(error, setVetEducationConfirmation)
   }
 }
 
@@ -289,7 +264,7 @@ export async function saveDescription(
   description: string,
   setDescriptionConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) {
-  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
+  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") || "{}")
   const savedDescriptionData = DoctorAccountDetails.description
 
   const shouldSave = shouldSaveDescription(savedDescriptionData, description)
@@ -307,12 +282,7 @@ export async function saveDescription(
       setDescriptionConfirmation({messageType: "saved"})
     }
   } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401) {
-        invalidUserAction(error.response.data)
-      }
-    }
-    else setDescriptionConfirmation({messageType: "problem"})
+    handle401AxiosErrorAndSetError(error, setDescriptionConfirmation)
   }
 }
 
@@ -339,7 +309,7 @@ export async function handlePublicAvailibilityToggle (
   setPubliclyAvailable: React.Dispatch<React.SetStateAction<boolean>>,
   setPubliclyAvailableConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) {
-  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
+  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") || "{}")
   try {
     const response = await PrivateDoctorDataService.savePublicAvailibility(value)
     if (response.status === 200) {
@@ -349,11 +319,6 @@ export async function handlePublicAvailibilityToggle (
       setPubliclyAvailableConfirmation({messageType: "saved"})
     }
   } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401) {
-        invalidUserAction(error.response.data)
-      }
-    }
-    else setPubliclyAvailableConfirmation({messageType: "problem"})
+    handle401AxiosErrorAndSetError(error, setPubliclyAvailableConfirmation)
   }
 }

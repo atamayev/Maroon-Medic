@@ -2,16 +2,12 @@ import { useState } from "react"
 import { Card } from "react-bootstrap"
 import { RenderMessageSection } from "../../../components/saved-message-section"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
-import { renderSelectLanguageSection, renderSavedLanguageList } from "../../../components/language"
+import { RenderSelectLanguageSection, RenderSavedLanguageList } from "../../../components/language"
 import { useLanguageOptions, useUpdateDeleteStatuses } from "../../../custom-hooks/account-details-hooks/language"
 import { useHandleAddLanguage, useHandleDeleteLanguage } from "../../../custom-hooks/account-details-hooks/callbacks"
 
-interface LanguagesList {
-  languages: LanguageItemType[]
-}
-
 interface Props {
-  listDetails: LanguagesList
+  listDetails: PatientListDetailsType
   spokenLanguages: LanguageItemType[]
   setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>
 }
@@ -36,7 +32,7 @@ function RenderIsPatientLanguages(props: Props) {
 
   useUpdateDeleteStatuses(deleteStatuses, setDeleteStatuses, spokenLanguages)
 
-  const languageOptions = useLanguageOptions(listDetails.languages, spokenLanguages)
+  const languageOptions = useLanguageOptions(listDetails.LanguagesList, spokenLanguages)
 
   const handleLanguageChange = useHandleAddLanguage(spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, "patient")
 
@@ -44,8 +40,13 @@ function RenderIsPatientLanguages(props: Props) {
 
   return (
     <>
-      {renderSelectLanguageSection({handleLanguageChange, languageOptions})}
-      {renderSavedLanguageList(spokenLanguages, deleteStatuses, setDeleteStatuses, handleDeleteLanguage)}
+      <RenderSelectLanguageSection handleLanguageChange = {handleLanguageChange} languageOptions = {languageOptions} />
+      <RenderSavedLanguageList
+        spokenLanguages = {spokenLanguages}
+        deleteStatuses = {deleteStatuses}
+        setDeleteStatuses = {setDeleteStatuses}
+        handleDeleteLanguage = {handleDeleteLanguage}
+      />
       <RenderMessageSection
         confirmationMessage = {languagesConfirmation}
         whatIsBeingSaved = "Languages"

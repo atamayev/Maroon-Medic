@@ -53,15 +53,15 @@ export default function RenderBookingSection(props: Props) {
   const { savedPetData } = usePetData(userType)
   const { providedServices, addresses, personalData } = props
   const [selectedPet, setSelectedPet] = useState<PetItemType | null>(null)
-  const [selectedService, setSelectedService] = useState(null)
-  const [selectedLocation, setSelectedLocation] = useState(null)
+  const [selectedService, setSelectedService] = useState<ServiceItemType | null>(null)
+  const [selectedLocation, setSelectedLocation] = useState<AddressType |null>(null)
   const [noAvailableTimesMessage, setNoAvailableTimesMessage] = useState(false)
-  const [selectedDay, setSelectedDay] = useState(null)
-  const [selectedTime, setSelectedTime] = useState(null)
-  const [availableTimes, setAvailableTimes] = useState([])
+  const [selectedDay, setSelectedDay] = useState<string | null>(null)
+  const [selectedTime, setSelectedTime] = useState<string | null>(null)
+  const [availableTimes, setAvailableTimes] = useState<string[]>([])
+  const [availableDates, setAvailableDates] = useState<string[]>([])
+  const [serviceMinutes, setServiceMinutes] = useState<number>(0)
   const navigate = useNavigate()
-  const [availableDates, setAvailableDates] = useState([])
-  const [serviceMinutes, setServiceMinutes] = useState(0)
 
   // Get selected service object
   const selectedServiceObject = providedServices.find(

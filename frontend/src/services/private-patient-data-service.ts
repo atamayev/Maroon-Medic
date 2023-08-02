@@ -1,24 +1,7 @@
 import http from "../http-common"
 
-interface PetData {
-  Name: string
-  Gender: string
-  DOB: string
-  Pet_type: string
-  insuranceName: string
-}
-
-interface PersonalInfo {
-  FirstName: string
-  LastName: string
-  Gender: string
-  DOB_day: number
-  DOB_month: string
-  DOB_year: number
-}
-
 export default new class PrivatePatientDataService {
-  async addingPatientInfo(newPatientObject: PersonalInfo) {
+  async addingPatientInfo(newPatientObject: PersonalInfoType) {
     return await http.post("private-patient-data/new-patient", {newPatientObject})
   }
   async fillDashboard() {
@@ -27,7 +10,7 @@ export default new class PrivatePatientDataService {
   async fillPersonalData() {
     return await http.get("/private-patient-data/fetch-personal-data")
   }
-  async savePersonalData(personalInfo: PersonalInfo) {
+  async savePersonalData(personalInfo: PersonalInfoType) {
     return await http.post("/private-patient-data/save-personal-data", {personalInfo})
   }
   async fillAccountDetails() {
@@ -42,7 +25,7 @@ export default new class PrivatePatientDataService {
   async fetchPetData() {
     return await http.get("/private-patient-data/fetch-pet-data")
   }
-  async addPetData(PetData: PetData) {
+  async addPetData(PetData: PetItemType) {
     return await http.post("/private-patient-data/add-pet-data", {PetData})
   }
   async deletePetData(petID: number) {

@@ -137,8 +137,8 @@ const AddressAccordionItem = (props: AddressAccordionProps) => {
   }
 
   const RenderAddressTitleSection = () => {
-    if (address.address_title) return address.address_title
-    return ("Address #" + (index + 1))
+    if (address.address_title) return <>{address.address_title}</>
+    return <>{("Address #" + (index + 1))}</>
   }
 
   const RenderPublicStatus = () => {

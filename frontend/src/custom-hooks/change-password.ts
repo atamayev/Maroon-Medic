@@ -1,12 +1,4 @@
 import AuthDataService from "../services/auth-data-service"
-type LoginOrRegisterType = DoctorOrPatient
-
-interface ChangePasswordObject {
-  userType: DoctorOrPatient
-  currentPassword: string
-  newPassword: string
-  newConfirmPassword: string
-}
 
 export const handleChangePassword = async (
   changePasswordObject: ChangePasswordObject,
@@ -17,7 +9,7 @@ export const handleChangePassword = async (
     newConfirmPassword: string}>>,
   setMessage: React.Dispatch<React.SetStateAction<string>>,
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,
-  type: LoginOrRegisterType
+  type: DoctorOrPatient
 ) => {
   setMessage("")
   if (changePasswordObject.newPassword !== changePasswordObject.newConfirmPassword) return setMessage("New passwords don't match")

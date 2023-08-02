@@ -14,7 +14,7 @@ import FormGroup from "./form-group"
 import { UnauthorizedUserBodyText } from "./user-type-unauth"
 
 interface BaseProps {
-  selectedPet: PetData | undefined
+  selectedPet: PetItemType | undefined
   setSelectedService: (value: string) => void
   setSelectedLocation: (value: string) => void
   setSelectedDay: (value: string) => void
@@ -22,8 +22,8 @@ interface BaseProps {
 }
 
 interface ChoosePetProps extends BaseProps {
-  savedPetData: PetData[]
-  setSelectedPet: (value: PetData | undefined) => void
+  savedPetData: PetItemType[]
+  setSelectedPet: (value: PetItemType | undefined) => void
 }
 
 export const RenderChoosePet = (props: ChoosePetProps) => {

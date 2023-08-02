@@ -3,7 +3,12 @@ import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-m
 import { handlePublicAvailibilityToggle } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details"
 import { RenderMessageSection } from "../../../components/saved-message-section"
 
-export default function RenderPublicStatusSection (props) {
+interface Props {
+  publiclyAvailable: boolean
+  setPubliclyAvailable: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export default function RenderPublicStatusSection (props: Props) {
   return (
     <>
       <Card className = "mb-3 mt-3">
@@ -12,14 +17,14 @@ export default function RenderPublicStatusSection (props) {
         </Card.Header>
         <Card.Body>
           Would you like your profile to be available through search results?
-          {RenderIsPubliclyAvailable(props)}
+          <RenderIsPubliclyAvailable {...props} />
         </Card.Body>
       </Card>
     </>
   )
 }
 
-function RenderIsPubliclyAvailable (props) {
+function RenderIsPubliclyAvailable (props: Props) {
   const { publiclyAvailable, setPubliclyAvailable } = props
   const [publiclyAvailableConfirmation, setPubliclyAvailableConfirmation] = useConfirmationMessage()
 
@@ -27,15 +32,15 @@ function RenderIsPubliclyAvailable (props) {
     <div>
       {/* All of this logic must be kept in this component, or else the toggle button will not work: */}
       <ToggleButtonGroup type = "radio" name = "options"
-        value = {publiclyAvailable ?? 0}
+        value = {publiclyAvailable ?? false}
         onChange = {(value) => handlePublicAvailibilityToggle(value, setPubliclyAvailable, setPubliclyAvailableConfirmation)}
       >
         <ToggleButton
           id = "tbg-radio-1"
           value = {0}
           style = {{
-            backgroundColor: publiclyAvailable === 0 ? "red" : "white",
-            color: publiclyAvailable === 0 ? "white" : "black",
+            backgroundColor: publiclyAvailable === false ? "red" : "white",
+            color: publiclyAvailable === false ? "white" : "black",
             borderColor: "black"
           }}
         >
@@ -46,8 +51,8 @@ function RenderIsPubliclyAvailable (props) {
           id = "tbg-radio-2"
           value = {1}
           style =
-            {{ backgroundColor: publiclyAvailable === 1 ? "green" : "white",
-              color: publiclyAvailable === 1 ? "white" : "black",
+            {{ backgroundColor: publiclyAvailable === true ? "green" : "white",
+              color: publiclyAvailable === true ? "white" : "black",
               borderColor: "black"
             }}
         >

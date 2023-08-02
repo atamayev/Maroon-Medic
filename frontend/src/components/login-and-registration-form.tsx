@@ -9,7 +9,7 @@ interface Props {
   setCredentials: (credentials: { email: string, password: string, loginType: DoctorOrPatient}) => void,
   setPasswordConfirm?: (passwordConfirm: string) => void,
   error: string,
-  VetOrPatient: "Vet" | "Patient",
+  VetOrPatient: VetOrPatient,
   loginOrSignUp: string,
   loading: boolean,
   showPassword: boolean,

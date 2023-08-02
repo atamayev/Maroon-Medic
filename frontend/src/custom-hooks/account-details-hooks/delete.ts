@@ -21,8 +21,11 @@ export const handleDeleteSpecialty = (
   specialty: SpecialtyItemType,
   doctorSpecialties: SpecialtyItemType[],
   setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItemType[]>>,
+  setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>,
   setSpecialtiesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) => {
   const newDoctorSpecialties = doctorSpecialties.filter(s => s.specialties_listID !== specialty.specialties_listID)
-  deleteSpecialties(specialty.specialties_listID, newDoctorSpecialties, setDoctorSpecialties, setSpecialtiesConfirmation)
+  deleteSpecialties(specialty.specialties_listID, newDoctorSpecialties,
+    setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation
+  )
 }

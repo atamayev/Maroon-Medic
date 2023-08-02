@@ -9,7 +9,7 @@ import { useHandleAddPreVetEducation, useSaveAddPreVetEducation } from "../../..
 import EducationTime from "./education-time"
 
 interface Props {
-  listDetails: ListDetailsType
+  listDetails: DoctorListDetailsType
   preVetEducation: PreVetEducationItemType[]
   setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItemType[]>>
 }

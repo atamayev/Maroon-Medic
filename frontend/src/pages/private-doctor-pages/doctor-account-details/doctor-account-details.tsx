@@ -20,7 +20,7 @@ import RenderPersonalInfoLinkSection from "./personalInfoLink"
 import ListsDataService from "../../../services/lists-data-service"
 import { handle401AxiosError } from "src/utils/handle-errors"
 
-async function FillLists(setListDetails: React.Dispatch<React.SetStateAction<ListDetailsType>>) {
+async function FillLists(setListDetails: React.Dispatch<React.SetStateAction<DoctorListDetailsType>>) {
   try {
     const response = await ListsDataService.fillDoctorLists()
     if (response) {
@@ -72,7 +72,7 @@ async function FillDoctorAccountDetails(
 }
 
 function useDoctorAccountDetails(
-  setListDetails: React.Dispatch<React.SetStateAction<ListDetailsType>>,
+  setListDetails: React.Dispatch<React.SetStateAction<DoctorListDetailsType>>,
   setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
   setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemType[]>>,
   setExpandedCategories: React.Dispatch<React.SetStateAction<string[]>>,
@@ -120,7 +120,7 @@ function useDoctorAccountDetails(
 export default function DoctorAccountDetails() {
   const { userType } = useSimpleUserVerification()
   if (userType !== "Doctor") return <UnauthorizedUser patientOrDoctor = {"vet"}/>
-  const [listDetails, setListDetails] = useState<ListDetailsType>({
+  const [listDetails, setListDetails] = useState<DoctorListDetailsType>({
     languages: [],
     servicesAndCategories: [],
     specialties: [],

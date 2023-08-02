@@ -6,19 +6,21 @@ export const handleAddLanguage = (
   selectedLanguageID: number,
   spokenLanguages: LanguageItemType[],
   setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
-  listDetails: ListDetailsType,
+  listDetails: DoctorListDetailsType,
   setLanguagesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>,
   doctorOrPatient: "doctor" | "patient"
 ) => {
-  const selectedLanguage = listDetails.languages.find((lang) => lang.language_listID === JSON.parse(selectedLanguageID.toString()))
+  const selectedLanguage = listDetails.languages.find((lang) => lang.language_listID === selectedLanguageID)
 
-  const newSpokenLanguages = [...spokenLanguages, selectedLanguage]
+  if (selectedLanguage) {
+    const newSpokenLanguages = [...spokenLanguages, selectedLanguage]
 
-  if (doctorOrPatient === "doctor") {
-    addDoctorLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
-  }
-  else if (doctorOrPatient === "patient") {
-    addPatientLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
+    if (doctorOrPatient === "doctor") {
+      addDoctorLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
+    }
+    else if (doctorOrPatient === "patient") {
+      addPatientLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
+    }
   }
 }
 
@@ -27,12 +29,14 @@ export const handleAddSpecialty = (
   doctorSpecialties: SpecialtyItemType[],
   setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItemType[]>>,
   setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>,
-  listDetails: ListDetailsType,
+  listDetails: DoctorListDetailsType,
   setSpecialtiesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) => {
-  const selectedSpecialty = listDetails.specialties.find((spec) => spec.specialties_listID === JSON.parse(selectedSpecialtyID))
-  const newDoctorSpecialties = [...doctorSpecialties, selectedSpecialty]
-  addSpecialties(selectedSpecialtyID, newDoctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation)
+  const selectedSpecialty = listDetails.specialties.find((spec) => spec.specialties_listID === selectedSpecialtyID)
+  if (selectedSpecialty) {
+    const newDoctorSpecialties = [...doctorSpecialties, selectedSpecialty]
+    addSpecialties(selectedSpecialtyID, newDoctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation)
+  }
 }
 
 export const handleAddEducation = (
@@ -43,9 +47,9 @@ export const handleAddEducation = (
   timeState: TimeStateType,
   setTimeState: React.Dispatch<React.SetStateAction<TimeStateType>>,
   selectedMajor: string | null = null,
-  setSelectedMajor: string | null = null
+  setSelectedMajor: React.Dispatch<React.SetStateAction<string>> | null = null
 ) => {
-  const selectedEducationObj = {
+  const selectedEducationObj: EducationObjType = {
     School_name: selectedSchool,
     Education_type: selectedEducationType,
     Start_Date: moment(`${timeState.startYear}-${timeState.startMonth}-1`,"YYYY-MMMM-D").format("MMMM D, YYYY"),
@@ -68,7 +72,10 @@ export const handleAddEducation = (
 }
 
 
-export const handleAddAccordion = (addresses, setAddresses) => {
+export const handleAddAccordion = (
+  addresses: DoctorAddressDataType[],
+  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressDataType[]>>
+) => {
   let maxPriority = Math.max(...addresses.map(address => address.address_priority))
   if (maxPriority === -Infinity) maxPriority = 0
   setAddresses(

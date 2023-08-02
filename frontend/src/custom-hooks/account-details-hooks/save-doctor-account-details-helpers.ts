@@ -1,6 +1,5 @@
-import { invalidUserAction } from "../user-verification-snippets"
 import PrivateDoctorDataService from "../../services/private-doctor-data-service"
-import { AxiosError } from "axios"
+import { handle401AxiosErrorAndSetError } from "src/utils/handle-errors"
 
 export async function modifyDoctorLanguages(
   operation,
@@ -13,17 +12,12 @@ export async function modifyDoctorLanguages(
   try {
     response = await operation(languageID)
   } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401) {
-        invalidUserAction(error.response.data)
-      }
-    }
-    else setLanguagesConfirmation({messageType: "problem"})
+    handle401AxiosErrorAndSetError(error, setLanguagesConfirmation)
     return
   }
   if (response.status === 200) {
     setSpokenLanguages(newSpokenLanguages)
-    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
+    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
     DoctorAccountDetails.languages = newSpokenLanguages
     sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
     setLanguagesConfirmation({messageType: "saved"})
@@ -44,17 +38,12 @@ export async function modifyDoctorSpecialties(
   try {
     response = await operation(specialtyID)
   } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401) {
-        invalidUserAction(error.response.data)
-      }
-    }
-    else setSpecialtiesConfirmation({messageType: "problem"})
+    handle401AxiosErrorAndSetError(error, setSpecialtiesConfirmation)
     return
   }
   if (response.status === 200) {
     setDoctorSpecialties(newDoctorSpecialties)
-    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
+    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
     DoctorAccountDetails.specialties = newDoctorSpecialties
     sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
     setSpecialtiesConfirmation({messageType: "saved"})
@@ -65,22 +54,23 @@ export async function modifyDoctorSpecialties(
   if (callback) callback()
 }
 
-export async function modifyServicedPets(operation, petID, newServicedPets, setServicedPets, setPetsConfirmation) {
+export async function modifyServicedPets(
+  operation,
+  petID: number,
+  newServicedPets,
+  setServicedPets,
+  setPetsConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
+) {
   let response
   try {
     response = await operation(petID)
   } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401) {
-        invalidUserAction(error.response.data)
-      }
-    }
-    else setPetsConfirmation({messageType: "problem"})
+    handle401AxiosErrorAndSetError(error, setPetsConfirmation)
     return
   }
   if (response.status === 200) {
     setServicedPets(newServicedPets)
-    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
+    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
     DoctorAccountDetails.servicedPets = newServicedPets
     sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
     setPetsConfirmation({messageType: "saved"})
@@ -90,8 +80,13 @@ export async function modifyServicedPets(operation, petID, newServicedPets, setS
   }
 }
 
-export async function modifyAddressData(operation, address, setAddresses, setAddressesConfirmation) {
-  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
+export async function modifyAddressData(
+  operation,
+  address,
+  setAddresses,
+  setAddressesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
+) {
+  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
 
   try {
     const { times, ...addressData } = address || {}
@@ -117,12 +112,7 @@ export async function modifyAddressData(operation, address, setAddresses, setAdd
       setAddressesConfirmation({messageType: "saved"})
     }
   } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401) {
-        invalidUserAction(error.response.data)
-      }
-    }
-    else setAddressesConfirmation({messageType: "problem"})
+    handle401AxiosErrorAndSetError(error, setAddressesConfirmation)
   }
 }
 
@@ -155,18 +145,13 @@ export async function modifyServicesData(
       }
 
       setProvidedServices(newProvidedServices)
-      const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails"))
+      const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
       DoctorAccountDetails.services = newProvidedServices
       sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
       setServicesConfirmation({messageType: "saved"})
     }
   } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401) {
-        invalidUserAction(error.response.data)
-      }
-    }
-    else setServicesConfirmation({messageType: "problem"})
+    handle401AxiosErrorAndSetError(error, setServicesConfirmation)
   }
 }
 

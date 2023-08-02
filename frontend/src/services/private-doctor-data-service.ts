@@ -1,14 +1,5 @@
 import http from "../http-common"
 
-interface PersonalInfo {
-  FirstName: string
-  LastName: string
-  Gender: string
-  DOB_day: number
-  DOB_month: string
-  DOB_year: number
-}
-
 interface EducationData {
   School_ID: number
   Major_ID?: number
@@ -38,14 +29,8 @@ type AddressData = {
   phone: string
 }
 
-interface AvailabilityData {
-  Day_of_week: string
-  Start_time: string
-  End_time: string
-}
-
 export default new class PrivateDoctorDataService {
-  async addingDoctorInfo(newDoctorObject: PersonalInfo) {
+  async addingDoctorInfo(newDoctorObject: PersonalInfoType) {
     return await http.post("private-doctor-data/new-doctor", {newDoctorObject})
   }
   async fillDashboard() {
@@ -54,7 +39,7 @@ export default new class PrivateDoctorDataService {
   async fillPersonalData() {
     return await http.get("/private-doctor-data/fetch-personal-data")
   }
-  async savePersonalData(personalInfo: PersonalInfo) {
+  async savePersonalData(personalInfo: PersonalInfoType) {
     return await http.post("/private-doctor-data/save-personal-data", {personalInfo})
   }
   async fillAccountDetails() {

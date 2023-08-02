@@ -1,19 +1,5 @@
 import http from "../http-common"
 
-interface LoginAndRegistrationInformation {
-  email: string
-  password: string
-  loginType?: DoctorOrPatient
-  registrationType?: DoctorOrPatient
-}
-
-interface ChangePasswordObject {
-  userType: DoctorOrPatient
-  currentPassword: string
-  newPassword: string
-  newConfirmPassword: string
-}
-
 export default new class AuthDataService {
   async logout() {
     return await http.post("auth/logout")
@@ -21,11 +7,11 @@ export default new class AuthDataService {
   async verify() {
     return await http.post("/auth/verify")
   }
-  async login(loginInformationObject: LoginAndRegistrationInformation) {
+  async login(loginInformationObject: LoginAndRegisterInformationType) {
     return await http.post("/auth/login", {loginInformationObject},
       {withCredentials: true})
   }
-  async register(registerInformationObject: LoginAndRegistrationInformation) {
+  async register(registerInformationObject: LoginAndRegisterInformationType) {
     return await http.post("/auth/register", {registerInformationObject},
       {withCredentials: true})
   }

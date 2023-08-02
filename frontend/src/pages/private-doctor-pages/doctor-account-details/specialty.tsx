@@ -7,7 +7,7 @@ import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-m
 import { useHandleAddSpecialty, useHandleDeleteSpecialty } from "../../../custom-hooks/account-details-hooks/callbacks"
 
 interface Props {
-  listDetails: ListDetailsType
+  listDetails: DoctorListDetailsType
   doctorSpecialties: SpecialtyItemType[]
   setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItemType[]>>
 }
@@ -84,7 +84,7 @@ function RenderIsSpecialty(props: Props) {
         )
       )
       .map((specialty) => (
-        <option key={specialty.specialties_listID} value={specialty.specialties_listID}>
+        <option key = {specialty.specialties_listID} value = {specialty.specialties_listID}>
           {specialty.Specialty_name}
         </option>
       ))
@@ -117,7 +117,10 @@ function RenderIsSpecialty(props: Props) {
     )
   }
 
-  const handleDeleteSpecialty = useHandleDeleteSpecialty(doctorSpecialties, setDoctorSpecialties, setSpecialtiesConfirmation)
+  const handleDeleteSpecialty = useHandleDeleteSpecialty(
+    doctorSpecialties, setDoctorSpecialties,
+    setSpecialtiesConfirmation, setSelectedOrganization
+  )
 
   const RenderSingleSavedSpecialty = (specialty: SpecialtyItemType) => {
     const status = deleteStatuses[specialty.specialties_listID] || "initial"

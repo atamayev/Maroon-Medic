@@ -1,15 +1,16 @@
 import { AxiosError } from "axios"
+import { NavigateFunction } from "react-router-dom"
 import AuthDataService from "../services/auth-data-service"
 import PrivateDoctorDataService from "../services/private-doctor-data-service"
 import PrivatePatientDataService from "../services/private-patient-data-service"
 import { invalidUserAction } from "./user-verification-snippets"
 
 export const handleLoginSubmit = async (
-  loginInformationObject,
-  navigate,
-  setError,
-  setLoading,
-  VetOrPatient: "Vet" | "Patient"
+  loginInformationObject: LoginAndRegisterInformationType,
+  navigate: NavigateFunction,
+  setError: React.Dispatch<React.SetStateAction<string>>,
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  VetOrPatient: VetOrPatient
 ) => {
   setError("")
   try {
@@ -19,7 +20,7 @@ export const handleLoginSubmit = async (
       if ((sessionStorage.getItem("bookingDetails") !== null) && VetOrPatient === "Patient") {
         let bookingDetails
         try {
-          bookingDetails = JSON.parse(sessionStorage.getItem("bookingDetails"))
+          bookingDetails = JSON.parse(sessionStorage.getItem("bookingDetails") ?? "{}")
         } catch (error) {
         }
         navigate("/finalize-booking", { state: bookingDetails })
@@ -39,12 +40,12 @@ export const handleLoginSubmit = async (
 }
 
 export const handleRegisterSubmit = async (
-  registerInformationObject,
-  passwordConfirm,
-  navigate,
-  setError,
-  setLoading,
-  VetOrPatient: "Vet" | "Patient"
+  registerInformationObject: LoginAndRegisterInformationType,
+  passwordConfirm: string,
+  navigate: NavigateFunction,
+  setError: React.Dispatch<React.SetStateAction<string>>,
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  VetOrPatient: VetOrPatient
 ) => {
   setError("")
   if (registerInformationObject.password !== passwordConfirm) return setError("Passwords do not match")
@@ -65,11 +66,11 @@ export const handleRegisterSubmit = async (
 }
 
 export const handleNewUserSubmit = async (
-  newInfo,
-  navigate,
-  setError,
-  setLoading,
-  VetOrPatient: "Vet" | "Patient"
+  newInfo: PersonalInfoType,
+  navigate: NavigateFunction,
+  setError: React.Dispatch<React.SetStateAction<string>>,
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  VetOrPatient: VetOrPatient
 ) => {
   setError("")
   try {
@@ -77,12 +78,13 @@ export const handleNewUserSubmit = async (
     let response
     if (VetOrPatient === "Vet") response = await PrivateDoctorDataService.addingDoctorInfo(newInfo)
     else if (VetOrPatient === "Patient") response = await PrivatePatientDataService.addingPatientInfo(newInfo)
-    if (response.status === 200) {
+
+    if (response && response.status === 200) {
       if (VetOrPatient === "Vet") sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(newInfo))
       else if (VetOrPatient === "Patient") sessionStorage.setItem("PatientPersonalInfo", JSON.stringify(newInfo))
       if ((sessionStorage.getItem("bookingDetails")) && VetOrPatient === "Patient") {
         try {
-          const bookingDetails = JSON.parse(sessionStorage.getItem("bookingDetails"))
+          const bookingDetails = JSON.parse(sessionStorage.getItem("bookingDetails") || "{}")
           navigate("/finalize-booking", { state: bookingDetails })
         } catch (error) {
         }

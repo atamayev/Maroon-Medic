@@ -2,7 +2,7 @@ import ListsDataService from "../../services/lists-data-service"
 import PrivatePatientDataService from "../../services/private-patient-data-service"
 import { handle401AxiosError } from "src/utils/handle-errors"
 
-export async function FillLists(setListDetails) {
+export async function FillLists(setListDetails: React.Dispatch<React.SetStateAction<PatientListDetailsType>>) {
   try {
     const response = await ListsDataService.fillPatientLists()
     if (response) {

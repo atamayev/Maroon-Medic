@@ -12,7 +12,7 @@ import {
 import EducationTime from "./education-time"
 
 interface Props {
-  listDetails: ListDetailsType
+  listDetails: DoctorListDetailsType
   vetEducation: VetEducationItemType[]
   setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItemType[]>>
 }

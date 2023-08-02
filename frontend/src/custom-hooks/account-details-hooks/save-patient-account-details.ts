@@ -1,6 +1,5 @@
-import { AxiosError } from "axios"
 import PrivatePatientDataService from "../../services/private-patient-data-service"
-import { invalidUserAction} from "../user-verification-snippets"
+import { handle401AxiosErrorAndSetError } from "src/utils/handle-errors"
 
 async function modifyPatientLanguages(
   operation,
@@ -13,12 +12,7 @@ async function modifyPatientLanguages(
   try {
     response = await operation(languageID)
   } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401) {
-        invalidUserAction(error.response.data)
-      }
-    }
-    else setLanguagesConfirmation({messageType: "problem"})
+    handle401AxiosErrorAndSetError(error, setLanguagesConfirmation)
     return
   }
   if (response.status === 200) {

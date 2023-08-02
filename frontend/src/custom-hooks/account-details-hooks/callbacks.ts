@@ -50,16 +50,18 @@ export const useHandleAddLanguage = (
 }
 
 export const useHandleDeleteSpecialty = (
-  doctorSpecialties,
-  setDoctorSpecialties,
-  setSpecialtiesConfirmation
+  doctorSpecialties: SpecialtyItemType[],
+  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItemType[]>>,
+  setSpecialtiesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>,
+  setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>
 ) => {
   return useCallback(
-    (specialty) => {
+    (specialty: SpecialtyItemType) => {
       handleDeleteSpecialty(
         specialty,
         doctorSpecialties,
         setDoctorSpecialties,
+        setSelectedOrganization,
         setSpecialtiesConfirmation
       )
     },
@@ -68,11 +70,11 @@ export const useHandleDeleteSpecialty = (
 }
 
 export const useHandleAddSpecialty = (
-  doctorSpecialties,
-  setDoctorSpecialties,
-  setSelectedOrganization,
-  listDetails,
-  setSpecialtiesConfirmation
+  doctorSpecialties: SpecialtyItemType[],
+  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItemType[]>>,
+  setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>,
+  listDetails: DoctorListDetailsType,
+  setSpecialtiesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) => {
   return useCallback((e) => {
     handleAddSpecialty(
@@ -87,11 +89,11 @@ export const useHandleAddSpecialty = (
 }
 
 export const useHandleCheckboxChange = (
-  servicedPets,
-  setServicedPets,
-  setPetsConfirmation
+  servicedPets: ServicedPetItemType[],
+  setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItemType[]>>,
+  setPetsConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) => {
-  return useCallback((event, pet) => {
+  return useCallback((event: React.ChangeEvent<HTMLInputElement>, pet: ServicedPetItemType) => {
     if (event.target.checked) {
       const newServicedPets = [...servicedPets, pet]
       setServicedPets(newServicedPets)
@@ -105,11 +107,11 @@ export const useHandleCheckboxChange = (
 }
 
 export const useHandleDeletePreVetEducation = (
-  preVetEducation,
-  setPreVetEducation,
-  setPreVetEducationConfirmation
+  preVetEducation: PreVetEducationItemType[],
+  setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItemType[]>>,
+  setPreVetEducationConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) => {
-  return useCallback((PreVetEducation) => {
+  return useCallback((PreVetEducation: PreVetEducationItemType) => {
     deletePreVetEducation(
       PreVetEducation.pre_vet_education_mappingID,
       preVetEducation,
@@ -120,10 +122,14 @@ export const useHandleDeletePreVetEducation = (
 }
 
 export const useHandleAddPreVetEducation = (
-  selectedPreVetSchool, setSelectedPreVetSchool,
-  selectedPreVetEducationType, setSelectedPreVetEducationType,
-  timeState, setTimeState,
-  selectedMajor, setSelectedMajor
+  selectedPreVetSchool: string,
+  setSelectedPreVetSchool: React.Dispatch<React.SetStateAction<string>>,
+  selectedPreVetEducationType: string,
+  setSelectedPreVetEducationType: React.Dispatch<React.SetStateAction<string>>,
+  timeState: TimeStateType,
+  setTimeState: React.Dispatch<React.SetStateAction<TimeStateType>>,
+  selectedMajor: string,
+  setSelectedMajor: React.Dispatch<React.SetStateAction<string>>
 ) => {
   return useCallback(() => {
     return handleAddEducation(
@@ -141,10 +147,12 @@ export const useHandleAddPreVetEducation = (
 }
 
 export const useSaveAddPreVetEducation = (
-  preVetEducation, setPreVetEducation,
-  listDetails, setPreVetEducationConfirmation
+  preVetEducation: PreVetEducationItemType[],
+  setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItemType[]>>,
+  listDetails: DoctorListDetailsType,
+  setPreVetEducationConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) => {
-  return useCallback((selectedEducationObj) => {
+  return useCallback((selectedEducationObj: PreVetEducationItemType) => {
     addPreVetEducation(
       selectedEducationObj,
       preVetEducation,
@@ -156,11 +164,11 @@ export const useSaveAddPreVetEducation = (
 }
 
 export const useHandleDeleteVetEducation = (
-  vetEducation,
-  setVetEducation,
-  setVetEducationConfirmation
+  vetEducation: VetEducationItemType[],
+  setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItemType[]>>,
+  setVetEducationConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) => {
-  return useCallback((VetEducation) => {
+  return useCallback((VetEducation: VetEducationItemType) => {
     deleteVetEducation(
       VetEducation.vet_education_mappingID,
       vetEducation,
@@ -171,9 +179,12 @@ export const useHandleDeleteVetEducation = (
 }
 
 export const useHandleAddVetEducation = (
-  selectedVetSchool, setSelectedVetSchool,
-  selectedVetEducationType, setSelectedVetEducationType,
-  timeState, setTimeState,
+  selectedVetSchool: string,
+  setSelectedVetSchool: React.Dispatch<React.SetStateAction<string>>,
+  selectedVetEducationType: string,
+  setSelectedVetEducationType: React.Dispatch<React.SetStateAction<string>>,
+  timeState: TimeStateType,
+  setTimeState: React.Dispatch<React.SetStateAction<TimeStateType>>
 ) => {
   return useCallback(() => {
     return handleAddEducation(
@@ -189,10 +200,12 @@ export const useHandleAddVetEducation = (
 }
 
 export const useSaveAddVetEducation = (
-  vetEducation, setVetEducation,
-  listDetails, setVetEducationConfirmation
+  vetEducation: VetEducationItemType[],
+  setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItemType[]>>,
+  listDetails: DoctorListDetailsType,
+  setVetEducationConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
 ) => {
-  return useCallback((selectedEducationObj) => {
+  return useCallback((selectedEducationObj: VetEducationItemType) => {
     addVetEducation(
       selectedEducationObj,
       vetEducation,

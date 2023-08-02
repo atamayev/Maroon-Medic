@@ -8,7 +8,7 @@ import { handleNumericInput, preventNonNumericalInput, validateDropInput, valida
 import { RenderMessageSection } from "../../../components/saved-message-section"
 
 interface Props {
-  listDetails: ListDetailsType
+  listDetails: DoctorListDetailsType
   providedServices: ServiceItemType[]
   setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemType[]>>
   expandedCategories: string[]
@@ -224,7 +224,7 @@ function RenderIsVetServices (props: Props) {
     )
   }
 
-  const renderToggleCategory = (category, services) => {
+  const renderToggleCategory = (category: string, services: ServiceListItemType[]) => {
     if (services.length <= 1) return null
 
     const isOpen = expandedCategories.includes(category)

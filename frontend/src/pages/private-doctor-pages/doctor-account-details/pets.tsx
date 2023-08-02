@@ -5,7 +5,15 @@ import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-m
 import { handleTogglePetType } from "../../../custom-hooks/account-details-hooks/select"
 import { useHandleCheckboxChange } from "../../../custom-hooks/account-details-hooks/callbacks"
 
-export default function RenderPetsSection (props) {
+interface Props {
+  listDetails: DoctorListDetailsType
+  servicedPets: ServicedPetItemType[]
+  expandedPetTypes: string[]
+  setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItemType[]>>
+  setExpandedPetTypes: React.Dispatch<React.SetStateAction<string[]>>
+}
+
+export default function RenderPetsSection (props: Props) {
   return (
     <Card className = "mb-3">
       <Card.Header>
@@ -18,11 +26,15 @@ export default function RenderPetsSection (props) {
   )
 }
 
-function RenderIsPets (props) {
+function RenderIsPets (props: Props) {
   const { listDetails, servicedPets, expandedPetTypes, setServicedPets, setExpandedPetTypes } = props
   const [petsConfirmation, setPetsConfirmation] = useConfirmationMessage()
 
-  const petTypes = {}
+  type PetTypesType = {
+    [key: string]: ServicedPetItemType[]
+  }
+
+  const petTypes: PetTypesType = {}
   if (listDetails.pets) {
     listDetails.pets.forEach(petType => {
       if (!petTypes[petType.Pet_type]) petTypes[petType.Pet_type] = []
@@ -30,7 +42,7 @@ function RenderIsPets (props) {
     })
   }
 
-  const isTogglePetType = (pets, petType) => {
+  const isTogglePetType = (pets: ServicedPetItemType[], petType: string) => {
     if (pets.length <= 1) return null
 
     const isOpen = expandedPetTypes.includes(petType)
@@ -48,7 +60,7 @@ function RenderIsPets (props) {
 
   const handleCheckboxChange = useHandleCheckboxChange(servicedPets, setServicedPets, setPetsConfirmation)
 
-  const renderShowPetsSection = (pets, petType) => {
+  const renderShowPetsSection = (pets: ServicedPetItemType[], petType: string) => {
     if (pets.length > 1 && !expandedPetTypes.includes(petType)) return null
 
     return (
@@ -86,7 +98,7 @@ function RenderIsPets (props) {
     )
   }
 
-  if (_.isEmpty(_.uniq(listDetails.pets?.map((item) => item.Category_name)))) return <>Loading...</>
+  if (_.isEmpty(_.uniq(listDetails.pets?.map((item) => item.Pet_type)))) return <>Loading...</>
 
   return (
     <>

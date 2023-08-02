@@ -28,10 +28,10 @@ declare global {
     country: string
     instant_book: boolean
     phone: string
-    times: TimeType[]
+    times: AvailabilityData[]
   }
 
-  interface TimeType {
+  interface AvailabilityData {
     Day_of_week: string
     Start_time: string
     End_time: string
@@ -39,6 +39,7 @@ declare global {
 
   type DoctorOrPatient = "Doctor" | "Patient"
   type DoctorOrPatientOrNull = DoctorOrPatient | null
+  type VetOrPatient = "Vet" | "Patient"
 
   type LanguageItemType = {
     language_listID: number
@@ -63,6 +64,14 @@ declare global {
     specialties_listID: number
     Organization_name: string
     Specialty_name: string
+  }
+
+  type EducationObjType = {
+    School_name: string
+    Education_type: string
+    Start_Date: string
+    End_Date: string
+    Major_name?: string
   }
 
   type PreVetEducationItemType = {
@@ -210,7 +219,7 @@ declare global {
     timeoutId?: number | null
   }
 
-  interface ListDetailsType {
+  interface DoctorListDetailsType {
     languages: LanguageItemType[]
     servicesAndCategories: ServiceListItemType[]
     specialties: SpecialtyItemType[]
@@ -220,6 +229,10 @@ declare global {
     vetSchools: VetSchoolListType[]
     vetEducationTypes: VetEducationTypeType[]
     pets: ServicedPetItemType[]
+  }
+
+  interface PatientListDetailsType {
+    LanguagesList: LanguageItemType[]
   }
 
   interface DoctorCalendarEventType {
@@ -240,6 +253,19 @@ declare global {
   type DayOfWeekType = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday"
 
   type AppointmentStatusType = "approved" | "pending" | "confirming"
+
+  interface LoginAndRegisterInformationType {
+    loginType: DoctorOrPatient
+    email: string
+    password: string
+  }
+
+  interface ChangePasswordObject {
+    userType: DoctorOrPatient
+    currentPassword: string
+    newPassword: string
+    newConfirmPassword: string
+  }
 }
 
 export {}
