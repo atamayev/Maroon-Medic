@@ -16,7 +16,13 @@ export function FinalizeBookingPage() {
   const navigate = useNavigate()
   const { userType } = useSimpleUserVerification(false)
 
-  let selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet
+  let selectedService: ServiceItemType
+  let selectedLocation: PublicAddressType
+  let selectedDay: string
+  let selectedTime: string
+  let serviceMinutes: number
+  let personalData: PersonalDataType
+  let selectedPet: PetItemType
 
   const storedData = sessionStorage.getItem("bookingDetails")
   const parsedData = storedData && JSON.parse(storedData)
@@ -84,7 +90,7 @@ export function FinalizeBookingPage() {
     )
   }
 
-  const renderCardText = () => {
+  const RenderCardText = () => {
     return (
       <>
         <Card.Text>
@@ -119,7 +125,7 @@ export function FinalizeBookingPage() {
     )
   }
 
-  const renderConfirmBookingButton = () => {
+  const RenderConfirmBookingButton = () => {
     return (
       <>
         <Button
@@ -144,6 +150,14 @@ export function FinalizeBookingPage() {
     )
   }
 
+  const RenderPersonalInfo = () => {
+    return (
+      <>
+        Dr. {""} {_.upperFirst(personalData.FirstName || "")} {""} {_.upperFirst(personalData.LastName || "")}
+      </>
+    )
+  }
+
   return (
     <>
       <Header dropdown = {true} search = {true}/>
@@ -152,10 +166,10 @@ export function FinalizeBookingPage() {
           <Card.Header as = "h2">{renderConfirmOrRequestBook()} an Appointment</Card.Header>
           <Card.Body>
             <Card.Title as = "h3">
-              Dr. {""} {_.upperFirst(personalData.FirstName || "")} {""} {_.upperFirst(personalData.LastName || "")}
+              <RenderPersonalInfo />
             </Card.Title>
-            {renderCardText()}
-            {renderConfirmBookingButton()}
+            <RenderCardText />
+            <RenderConfirmBookingButton />
           </Card.Body>
         </Card>
       </div>

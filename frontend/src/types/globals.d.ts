@@ -34,12 +34,8 @@ declare global {
     country: string
     instant_book: boolean
     address_public_status: boolean
-    phones: PhoneDataType[]
-    times: AvailabilityDataType[]
-  }
-
-  type PhoneDataType = {
     Phone: string
+    times: AvailabilityDataType[]
   }
 
   type AvailabilityDataType = {

@@ -1,12 +1,15 @@
 import PrivateDoctorDataService from "../../services/private-doctor-data-service"
 import { handle401AxiosErrorAndSetError } from "src/utils/handle-errors"
 
+type LanguageOperationsType = typeof PrivateDoctorDataService.deleteLanguage |
+                              typeof PrivateDoctorDataService.addLanguage
+
 export async function modifyDoctorLanguages(
-  operation,
+  operation: LanguageOperationsType,
   languageID: number,
   newSpokenLanguages: LanguageItemType[],
   setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
-  setLanguagesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
+  setLanguagesConfirmation: (conf: ConfirmationMessage) => void
 ) {
   let response
   try {
@@ -26,13 +29,16 @@ export async function modifyDoctorLanguages(
   }
 }
 
+type SpecialtyOperationsType = typeof PrivateDoctorDataService.deleteSpecialty |
+                               typeof PrivateDoctorDataService.addSpecialty
+
 export async function modifyDoctorSpecialties(
-  operation,
+  operation: SpecialtyOperationsType,
   specialtyID: number,
   newDoctorSpecialties: SpecialtyItemType[],
   setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItemType[]>>,
-  setSpecialtiesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>,
-  callback
+  setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void,
+  callback: () => void
 ) {
   let response
   try {
@@ -53,13 +59,15 @@ export async function modifyDoctorSpecialties(
   }
   if (callback) callback()
 }
+type ServicedPetsOperationsType = typeof PrivateDoctorDataService.deleteServicedPet |
+                                   typeof PrivateDoctorDataService.addServicedPet
 
 export async function modifyServicedPets(
-  operation,
+  operation: ServicedPetsOperationsType,
   petID: number,
-  newServicedPets,
-  setServicedPets,
-  setPetsConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
+  newServicedPets: ServicedPetItemType[],
+  setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItemType[]>>,
+  setPetsConfirmation: (conf: ConfirmationMessage) => void
 ) {
   let response
   try {
@@ -80,11 +88,15 @@ export async function modifyServicedPets(
   }
 }
 
+type AddressOperationsType = typeof PrivateDoctorDataService.deleteAddressData |
+                             typeof PrivateDoctorDataService.updateAddressData |
+                             typeof PrivateDoctorDataService.addAddressData
+
 export async function modifyAddressData(
-  operation,
-  address,
-  setAddresses,
-  setAddressesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
+  operation: AddressOperationsType,
+  address: DoctorAddressDataType,
+  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressDataType[]>>,
+  setAddressesConfirmation: (conf: ConfirmationMessage) => void
 ) {
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
 
@@ -99,9 +111,11 @@ export async function modifyAddressData(
         address.addressesID = response.data
         newAddressData = [...DoctorAccountDetails.addressData, address]
       } else if (operation === PrivateDoctorDataService.updateAddressData) {
-        newAddressData = DoctorAccountDetails.addressData.map(addr => addr.addressesID === address.addressesID ? address : addr)
+        newAddressData = DoctorAccountDetails.addressData.map(
+          (addr: DoctorAddressDataType) => addr.addressesID === address.addressesID ? address : addr)
       } else if (operation === PrivateDoctorDataService.deleteAddressData) {
-        newAddressData = DoctorAccountDetails.addressData.filter(addr => addr.addressesID !== address.addressesID)
+        newAddressData = DoctorAccountDetails.addressData.filter(
+          (addr: DoctorAddressDataType) => addr.addressesID !== address.addressesID)
       } else {
         throw new Error("Unknown operation")
       }
@@ -116,12 +130,16 @@ export async function modifyAddressData(
   }
 }
 
+type ServiceOperationsType = typeof PrivateDoctorDataService.deleteService |
+                             typeof PrivateDoctorDataService.updateService |
+                             typeof PrivateDoctorDataService.addService
+
 export async function modifyServicesData(
-  operation,
+  operation: ServiceOperationsType,
   serviceObject: ServiceItemType,
   providedServices: ServiceItemType[],
   setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemType[]>>,
-  setServicesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>,
+  setServicesConfirmation: (conf: ConfirmationMessage) => void,
   setSelectedServices = null
 ) {
   try {

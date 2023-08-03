@@ -1,9 +1,13 @@
 import _ from "lodash"
 import { useEffect, useMemo } from "react"
 
+interface DeleteStatusProps {
+  [key: number]: DeleteStatusesType
+}
+
 export function useUpdateDeleteStatuses(
-  deleteStatuses,
-  setDeleteStatuses,
+  deleteStatuses: DeleteStatusesDictionary,
+  setDeleteStatuses: React.Dispatch<React.SetStateAction<DeleteStatusProps>>,
   spokenLanguages: LanguageItemType[]
 ) {
   useEffect(() => {
@@ -12,7 +16,7 @@ export function useUpdateDeleteStatuses(
     // Go through each status
     for (const languageListID in newDeleteStatuses) {
       // If the language ID does not exist in the spokenLanguages list, delete the status
-      if (!spokenLanguages.some((language) => language.language_listID === languageListID)) {
+      if (!spokenLanguages.some((language) => language.language_listID === Number(languageListID))) {
         delete newDeleteStatuses[languageListID]
       }
     }

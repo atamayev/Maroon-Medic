@@ -11,7 +11,7 @@ function petDataOperations (petData: PetItemType, responseData: PetItemType) {
 export async function addPet(
   petData: PetItemType,
   setPetData: React.Dispatch<React.SetStateAction<PetItemType>>,
-  setPetConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>,
+  setPetConfirmation: (conf: ConfirmationMessage) => void,
   savedPetData: PetItemType[],
   setSavedPetData: React.Dispatch<React.SetStateAction<PetItemType[]>>,
   setShowAddPet: React.Dispatch<React.SetStateAction<boolean>>
@@ -41,7 +41,7 @@ export async function deletePet(
   pet_infoID: number,
   savedPetData: PetItemType[],
   setSavedPetData: React.Dispatch<React.SetStateAction<PetItemType[]>>,
-  setPetConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
+  setPetConfirmation: (conf: ConfirmationMessage) => void
 ) {
   let response
 

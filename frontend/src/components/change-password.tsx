@@ -20,8 +20,8 @@ export default function ChangePassword(props: Props) {
   const [showPassword, setShowPassword] = useState(false)
 
   const RenderHideOrShowPassword = () => {
-    if (showPassword) return "Hide Password"
-    return "Show Password"
+    if (showPassword) return <>Hide Password</>
+    return <>Show Password</>
   }
 
   const handleSubmit = async () => {

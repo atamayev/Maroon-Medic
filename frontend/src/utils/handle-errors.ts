@@ -8,7 +8,7 @@ export const handle401AxiosError = (error: unknown) => {
     }
   }
 }
-export const handle401AxiosErrorAndSetError = (error: unknown, setFunction: React.Dispatch<React.SetStateAction<ConfirmationMessage>>) => {
+export const handle401AxiosErrorAndSetError = (error: unknown, setFunction: (conf: ConfirmationMessage) => void) => {
   if (error instanceof AxiosError) {
     if (error.response?.status === 401) {
       invalidUserAction(error.response.data)

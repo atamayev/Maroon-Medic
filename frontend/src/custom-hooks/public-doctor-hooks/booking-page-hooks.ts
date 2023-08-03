@@ -1,13 +1,14 @@
 import _ from "lodash"
+import { NavigateFunction } from "react-router-dom"
 
 export const handlePetChange = (
-  event,
+  event: React.ChangeEvent<HTMLInputElement>,
   savedPetData: PetItemType[],
-  setSelectedPet,
-  setSelectedService,
-  setSelectedLocation,
-  setSelectedDay,
-  setSelectedTime
+  setSelectedPet: React.Dispatch<React.SetStateAction<PetItemType | null>>,
+  setSelectedService: React.Dispatch<React.SetStateAction<ServiceItemType | null>>,
+  setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressType | null>>,
+  setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>,
+  setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
 ) => {
   const value = event.target.value
   const selectedPetObject = savedPetData.find(pet => pet.pet_infoID.toString() === value)
@@ -21,12 +22,12 @@ export const handlePetChange = (
 }
 
 export const handleServiceChange = (
-  event,
-  providedServices,
-  setSelectedService,
-  setSelectedLocation,
-  setSelectedDay,
-  setSelectedTime
+  event: React.ChangeEvent<HTMLInputElement>,
+  providedServices: ServiceItemType[],
+  setSelectedService: React.Dispatch<React.SetStateAction<ServiceItemType | null>>,
+  setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressType | null>>,
+  setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>,
+  setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
 ) => {
   const value = event.target.value
   const selectedServiceObject = providedServices.find(service => service.service_and_category_listID.toString() === value)
@@ -39,12 +40,12 @@ export const handleServiceChange = (
 }
 
 export const handleLocationChange = (
-  event,
-  addresses,
-  setSelectedLocation,
-  setSelectedDay,
-  setSelectedTime,
-  setNoAvailableTimesMessage
+  event: React.ChangeEvent<HTMLInputElement>,
+  addresses: PublicAddressType[],
+  setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressType | null>>,
+  setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>,
+  setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>,
+  setNoAvailableTimesMessage: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   const value = event.target.value
   const selectedLocationObject = addresses.find(location => location.addressesID.toString() === value)
@@ -54,40 +55,43 @@ export const handleLocationChange = (
     setNoAvailableTimesMessage(false)
     setSelectedDay(null)
     setSelectedTime(null)
-  } else if (_.isEmpty(selectedLocationObject.times)) {
+  } else if (_.isEmpty(selectedLocationObject?.times)) {
     setNoAvailableTimesMessage(true)
     setSelectedLocation(null)
     setSelectedTime(null)
   } else {
     setNoAvailableTimesMessage(false)
-    setSelectedLocation(selectedLocationObject)
+    setSelectedLocation(selectedLocationObject!)
   }
 }
 
 export const handleDayChange = (
-  event,
-  setSelectedDay,
-  setSelectedTime
+  event: React.ChangeEvent<HTMLInputElement>,
+  setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>,
+  setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
 ) => {
   const value = event.target.value
   setSelectedDay(value === "Select..." ? null : value)
   if (value === "Select...") setSelectedTime(null)
 }
 
-export const handleTimeChange = (event, setSelectedTime) => {
+export const handleTimeChange = (
+  event: React.ChangeEvent<HTMLInputElement>,
+  setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
+) => {
   const value = event.target.value
   setSelectedTime(value === "Select..." ? null : value)
 }
 
 export function finalizeBookingClick(
-  navigate,
-  selectedService,
-  selectedLocation,
-  selectedDay,
-  selectedTime,
-  serviceMinutes,
-  personalData,
-  selectedPet
+  navigate: NavigateFunction,
+  selectedService: ServiceItemType,
+  selectedLocation: PublicAddressType,
+  selectedDay: string,
+  selectedTime: string,
+  serviceMinutes: number,
+  personalData: PersonalDataType,
+  selectedPet: PetItemType
 ) {
   const bookingDetails = {
     selectedService: selectedService ? selectedService : null,

@@ -6,8 +6,8 @@ export const handleAddLanguage = (
   selectedLanguageID: number,
   spokenLanguages: LanguageItemType[],
   setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
-  listDetails: DoctorListDetailsType,
-  setLanguagesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>,
+  listDetails: DoctorListDetailsType | PatientListDetailsType,
+  setLanguagesConfirmation: (conf: ConfirmationMessage) => void,
   doctorOrPatient: "doctor" | "patient"
 ) => {
   const selectedLanguage = listDetails.languages.find((lang) => lang.language_listID === selectedLanguageID)
@@ -30,7 +30,7 @@ export const handleAddSpecialty = (
   setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItemType[]>>,
   setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>,
   listDetails: DoctorListDetailsType,
-  setSpecialtiesConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
+  setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void
 ) => {
   const selectedSpecialty = listDetails.specialties.find((spec) => spec.specialties_listID === selectedSpecialtyID)
   if (selectedSpecialty) {
@@ -90,9 +90,9 @@ export const handleAddAccordion = (
         state: "",
         zip: "",
         country: "",
-        phone: "",
-        address_public_status: 1,
-        instant_book: 0,
+        Phone: "",
+        address_public_status: true,
+        instant_book: false,
         times:[]
       }
     ]

@@ -134,7 +134,7 @@ function RenderIsVetEducation(props: Props) {
       <Button
         onClick = {() => {
           const selectedEducationObj = handleAddEducation()
-          saveVetEducation(selectedEducationObj)
+          saveVetEducation(selectedEducationObj as VetEducationItemType)
         }}
       >
         Add
@@ -158,7 +158,7 @@ function RenderIsVetEducation(props: Props) {
       <li>
         {VetEducation.School_name}, {VetEducation.Education_type}
         {" (" + VetEducation.Start_Date} - {VetEducation.End_Date + ") "}
-        <DeleteButtonOptions
+        <DeleteButtonOptions<VetEducationItemType>
           status = {status}
           setStatus = {setStatus}
           dataType = {VetEducation}

@@ -30,10 +30,7 @@ async function fetchPersonalInfoData(
 
 export const handleSavePersonalInfo = async (
   personalInfo: PersonalInfoType,
-  setPersonalInfoConfirmation: React.Dispatch<React.SetStateAction<{
-                                  messageType: "saved" | "same" | "problem" | "none" | null;
-                                  timeoutId?: number | null;
-                               }>>,
+  setPersonalInfoConfirmation: (conf: ConfirmationMessage) => void,
   userType: UserType
 ) => {
   const storedPersonalInfoData = sessionStorage.getItem(`${userType}PersonalInfo`)

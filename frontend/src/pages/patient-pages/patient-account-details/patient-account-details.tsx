@@ -8,7 +8,7 @@ import RenderLanguageSection from "./language"
 
 function usePatientAccountDetails(
   setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
-  setListDetails
+  setListDetails: React.Dispatch<React.SetStateAction<PatientListDetailsType>>
 ) {
   const fetchAndSetAccountDetails = async () => {
     try {

@@ -26,13 +26,14 @@ export default function LoginAndRegistrationForm({
   loginOrSignUp,
   loading,
   showPassword,
-  setShowPassword }: Props) {
+  setShowPassword }: Props
+) {
+  const renderShowPassword = () => {
+    if (showPassword) return "text"
+    return "password"
+  }
 
   const RenderPasswordConfirm = () => {
-    const renderShowPassword = () => {
-      if (showPassword) return "text"
-      return "password"
-    }
     if (loginOrSignUp === "Sign up" && setPasswordConfirm) {
       return (
         <FormGroup
@@ -44,42 +45,35 @@ export default function LoginAndRegistrationForm({
           required
         />
       )
-    }
+    } else return null
   }
 
   const RenderSubLoginInfo = () => {
-    if (loginOrSignUp === "Login") {
-      return (
-        <>
-          <div className = "w-100 text-center mt-3">
-            <Link to = {`/${VetOrPatient.toLowerCase()}-forgot-password`}>Forgot Password?</Link>
-          </div>
-          <div className = "w-100 text-center mt-2">
-            Need an account? <Link to = {`/${VetOrPatient.toLowerCase()}-register`}>Sign Up</Link>
-          </div>
-        </>
-      )
-    }
+    if (loginOrSignUp !== "Login") return null
+    return (
+      <>
+        <div className = "w-100 text-center mt-3">
+          <Link to = {`/${VetOrPatient.toLowerCase()}-forgot-password`}>Forgot Password?</Link>
+        </div>
+        <div className = "w-100 text-center mt-2">
+          Need an account? <Link to = {`/${VetOrPatient.toLowerCase()}-register`}>Sign Up</Link>
+        </div>
+      </>
+    )
   }
 
   const RenderSubRegisterInfo = () => {
-    if (loginOrSignUp === "Sign up") {
-      return (
-        <div className = "w-100 text-center mt-2">
-          Already have an account? <Link to = {`/${VetOrPatient.toLowerCase()}-login`}>Log In</Link>
-        </div>
-      )
-    }
-  }
-
-  const renderShowPassword = () => {
-    if (showPassword) return "text"
-    return "password"
+    if (loginOrSignUp !== "Sign up") return null
+    return (
+      <div className = "w-100 text-center mt-2">
+        Already have an account? <Link to = {`/${VetOrPatient.toLowerCase()}-login`}>Log In</Link>
+      </div>
+    )
   }
 
   const RenderHideOrShowPassword = () => {
-    if (showPassword) return "Hide Password"
-    return "Show Password"
+    if (showPassword) return <>Hide Password</>
+    return <>Show Password</>
   }
 
   const RenderErrorMessage = () => {

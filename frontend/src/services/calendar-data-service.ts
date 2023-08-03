@@ -4,7 +4,7 @@ interface AppointmentObject {
   Service_and_category_list_ID: number
   appointmentDate: string
   appointmentTime: string
-  appointmentTimespan: string
+  appointmentTimespan: number
   appointmentPrice: number
   NVI: number
   AddressesID: number

@@ -160,7 +160,7 @@ function RenderIsPreVetEducation(props: Props) {
       <Button
         onClick = {() => {
           const selectedEducationObj = handleAddEducation()
-          saveEducation(selectedEducationObj)
+          saveEducation(selectedEducationObj as PreVetEducationItemType)
         }}
       >
         Add
@@ -184,7 +184,7 @@ function RenderIsPreVetEducation(props: Props) {
       <li>
         {preVetEducation.School_name}, {preVetEducation.Education_type} in {preVetEducation.Major_name}
         {" ("}{preVetEducation.Start_Date} - {preVetEducation.End_Date}{") "}
-        <DeleteButtonOptions
+        <DeleteButtonOptions<PreVetEducationItemType>
           status = {status}
           setStatus = {setStatus}
           dataType = {preVetEducation}

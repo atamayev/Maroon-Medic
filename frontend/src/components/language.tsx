@@ -22,7 +22,7 @@ export const RenderSelectLanguageSection = ({handleLanguageChange, languageOptio
 
 interface SingleLanguageProps {
   language: LanguageItemType,
-  deleteStatuses: object,
+  deleteStatuses: DeleteStatusesDictionary,
   setDeleteStatuses: React.Dispatch<React.SetStateAction<DeleteStatusesDictionary>>
   handleDeleteLanguage: (language: LanguageItemType) => void
 }
@@ -40,7 +40,7 @@ const RenderSingleSavedLanguage = ({language, deleteStatuses, setDeleteStatuses,
   return (
     <li>
       {language.Language_name}
-      <DeleteButtonOptions
+      <DeleteButtonOptions<LanguageItemType>
         status = {status}
         setStatus = {setStatus}
         dataType = {language}
@@ -52,7 +52,7 @@ const RenderSingleSavedLanguage = ({language, deleteStatuses, setDeleteStatuses,
 
 interface SavedLanguageList {
   spokenLanguages: LanguageItemType[],
-  deleteStatuses: object,
+  deleteStatuses: DeleteStatusesDictionary,
   setDeleteStatuses: React.Dispatch<React.SetStateAction<DeleteStatusesDictionary>>
   handleDeleteLanguage: (language: LanguageItemType) => void
 }

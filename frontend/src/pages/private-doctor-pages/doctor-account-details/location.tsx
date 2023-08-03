@@ -34,7 +34,7 @@ export default function RenderLocationSection(props: Props) {
         Locations
       </Card.Header>
       <Card.Body>
-        {AddressForm(props)}
+        <AddressForm {...props} />
       </Card.Body>
     </Card>
   )

@@ -1,16 +1,6 @@
 import _ from "lodash"
 import FetchPatientAccountDataDB from "../../db/private-patient-data/fetch-patient-account-data-DB"
 
-type PetItemType = {
-  Name: string
-  Gender: string
-  DOB: string
-  Pet: string
-  Pet_type: string
-  pet_infoID: number
-  insuranceName: string
-}
-
 export default new class FetchPatientAccountData {
   async fetchPatientLanguages (PatientID: number): Promise<LanguageItemType[]> {
     try {

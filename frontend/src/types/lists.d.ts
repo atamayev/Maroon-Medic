@@ -12,7 +12,7 @@ declare global {
   }
 
   interface PatientListDetailsType {
-    LanguagesList: LanguageItemType[]
+    languages: LanguageItemType[]
   }
 
   type ServiceListItemType = {

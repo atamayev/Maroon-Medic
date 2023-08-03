@@ -102,7 +102,7 @@ export default function RenderBookingSection(props: Props) {
         const endTime = moment().hour(end[0]).minute(end[1])
 
         const serviceMinutes = convertToMinutes(selectedServiceObject.Service_time)  // Converts the time to minutes
-        setServiceMinutes(serviceMinutes)
+        setServiceMinutes(serviceMinutes!)
 
         while (currentTime.isBefore(endTime)) {
           times.push(currentTime.format("h:mm A")) // Change "HH:mm" to "h:mm A"
@@ -116,7 +116,7 @@ export default function RenderBookingSection(props: Props) {
   useEffect(() => {
     if (!selectedLocationObject) return
 
-    const daysOfWeek = selectedLocationObject?.times.map(time => {
+    const daysOfWeek = selectedLocationObject.times.map(time => {
       switch (time.Day_of_week) {
       case "Sunday": return 0
       case "Monday": return 1

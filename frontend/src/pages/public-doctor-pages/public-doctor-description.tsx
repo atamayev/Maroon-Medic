@@ -5,11 +5,11 @@ interface Props {
 }
 
 export default function RenderDescriptionSection(props: Props) {
-  const { description } = props
-  if (description) return <> {RenderDescription(description)} </>
+  if (props.description) return <> <RenderDescription {...props}/> </>
 }
 
-function RenderDescription(Description: string) {
+function RenderDescription(props: Props) {
+  const Description = props.description
   return (
     <>
       <Card className = "card-bottom-margin">

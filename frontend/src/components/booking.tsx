@@ -14,16 +14,16 @@ import FormGroup from "./form-group"
 import { UnauthorizedUserBodyText } from "./user-type-unauth"
 
 interface BaseProps {
-  selectedPet: PetItemType | undefined
-  setSelectedService: (value: string) => void
-  setSelectedLocation: (value: string) => void
-  setSelectedDay: (value: string) => void
-  setSelectedTime: (value: string) => void
+  selectedPet: PetItemType | null
+  setSelectedService: React.Dispatch<React.SetStateAction<ServiceItemType | null>>
+  setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressType | null>>
+  setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>
+  setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
 }
 
 interface ChoosePetProps extends BaseProps {
   savedPetData: PetItemType[]
-  setSelectedPet: (value: PetItemType | undefined) => void
+  setSelectedPet: React.Dispatch<React.SetStateAction<PetItemType | null>>
 }
 
 export const RenderChoosePet = (props: ChoosePetProps) => {
@@ -72,7 +72,7 @@ export const RenderChoosePet = (props: ChoosePetProps) => {
 }
 
 interface SelectServiceProps extends BaseProps {
-  providedServices: ServiceData[]
+  providedServices: ServiceItemType[]
 }
 
 export const RenderSelectService = (props: SelectServiceProps) => {
@@ -106,9 +106,9 @@ export const RenderSelectService = (props: SelectServiceProps) => {
 }
 
 interface SelectLocationProps extends BaseProps {
-  addresses: AddressData[]
-  selectedService: ServiceData | undefined
-  setNoAvailableTimesMessage: (value: string) => void
+  addresses: PublicAddressType[]
+  selectedService: ServiceItemType | null
+  setNoAvailableTimesMessage: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const RenderSelectLocation = (props: SelectLocationProps) => {
@@ -154,10 +154,10 @@ export const RenderNoAvailableTimes = (props: NoAvailableTimesProps) => {
 }
 
 interface SelectDayProps {
-  selectedService: ServiceData | undefined
-  selectedLocation: AddressData | undefined
-  setSelectedDay: (value: string) => void
-  setSelectedTime: (value: string) => void
+  selectedService: ServiceItemType | undefined
+  selectedLocation: PublicAddressType | undefined
+  setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>
+  setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
   selectedDay: string
   personalData: PersonalDataType
   availableDates: string[]
@@ -182,10 +182,10 @@ export const RenderSelectDay = (props: SelectDayProps) => {
 }
 
 interface SelectTimeProps {
-  selectedService: ServiceData | undefined
-  selectedLocation: AddressData | undefined
+  selectedService: ServiceItemType | undefined
+  selectedLocation: PublicAddressType | undefined
   selectedDay: string
-  setSelectedTime: (value: string) => void
+  setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
   availableTimes: string[]
   serviceMinutes: number
 }
@@ -212,13 +212,13 @@ export const RenderSelectTime = (props: SelectTimeProps) => {
 }
 
 interface FinalizeBookingProps {
-  selectedService: ServiceData | undefined
-  selectedLocation: AddressData | undefined
+  selectedService: ServiceItemType
+  selectedLocation: PublicAddressType
   selectedDay: string
   selectedTime: string
   serviceMinutes: number
   personalData: PersonalDataType
-  selectedPet: PetData | undefined
+  selectedPet: PetItemType
   navigate: NavigateFunction
 }
 

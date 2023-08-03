@@ -14,14 +14,14 @@ export default function RenderLocationsSection(props: Props) {
           Locations
         </Card.Header>
         <Card.Body>
-          {renderLocations(addresses)}
+          <RenderLocations {...addresses} />
         </Card.Body>
       </Card>
     )
   }
 }
 
-function renderLocations(addressesList: PublicAddressType[]) {
+function RenderLocations(addressesList: PublicAddressType[]) {
   const renderInstantBook = (address: PublicAddressType) => {
     if (address.instant_book) return <>Instant book available</>
     return <>Instant book unavailable</>
@@ -52,7 +52,7 @@ function renderLocations(addressesList: PublicAddressType[]) {
   }
 
   const renderPhone = (address: PublicAddressType) => {
-    if (address.phone) return <p>Phone: {address.phone}</p>
+    if (address.Phone) return <p>Phone: {address.Phone}</p>
   }
 
   return addressesList.map((address: PublicAddressType) => (

@@ -90,10 +90,10 @@ export default new class PrivateDoctorDataService {
   async deleteService(serviceID: number) {
     return await http.delete(`/private-doctor-data/delete-service/${serviceID}`)
   }
-  async addAddressData(AddressData: AddressData, Times: AvailabilityData[]) {
+  async addAddressData(AddressData: AddressData, Times: AvailabilityDataType[]) {
     return await http.post("/private-doctor-data/add-address", {AddressData, Times})
   }
-  async updateAddressData(AddressData: AddressData, Times: AvailabilityData[]) {
+  async updateAddressData(AddressData: AddressData, Times: AvailabilityDataType[]) {
     return await http.post("/private-doctor-data/update-address", {AddressData, Times})
   }
   async deleteAddressData(addressID: number) {

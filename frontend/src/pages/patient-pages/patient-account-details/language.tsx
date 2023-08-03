@@ -19,7 +19,7 @@ export default function RenderLanguageSection(props: Props) {
         Languages
       </Card.Header>
       <Card.Body>
-        {RenderIsPatientLanguages(props)}
+        <RenderIsPatientLanguages {...props} />
       </Card.Body>
     </Card>
   )
@@ -32,7 +32,7 @@ function RenderIsPatientLanguages(props: Props) {
 
   useUpdateDeleteStatuses(deleteStatuses, setDeleteStatuses, spokenLanguages)
 
-  const languageOptions = useLanguageOptions(listDetails.LanguagesList, spokenLanguages)
+  const languageOptions = useLanguageOptions(listDetails.languages, spokenLanguages)
 
   const handleLanguageChange = useHandleAddLanguage(spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, "patient")
 
@@ -40,7 +40,10 @@ function RenderIsPatientLanguages(props: Props) {
 
   return (
     <>
-      <RenderSelectLanguageSection handleLanguageChange = {handleLanguageChange} languageOptions = {languageOptions} />
+      <RenderSelectLanguageSection
+        handleLanguageChange = {handleLanguageChange}
+        languageOptions = {languageOptions}
+      />
       <RenderSavedLanguageList
         spokenLanguages = {spokenLanguages}
         deleteStatuses = {deleteStatuses}

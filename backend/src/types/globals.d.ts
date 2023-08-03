@@ -136,6 +136,16 @@ declare global {
     NVI: number
     Gender: string
   }
+
+  type PetItemType = {
+    Name: string
+    Gender: string
+    DOB: string
+    Pet: string
+    Pet_type: string
+    pet_infoID: number
+    insuranceName: string
+  }
 }
 
 export {}

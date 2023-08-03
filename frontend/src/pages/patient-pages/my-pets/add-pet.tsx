@@ -58,7 +58,7 @@ interface AddPetProps {
   petTypes: PetTypeItemType[]
   insurances: InsuranceItemType[]
   petConfirmation: ConfirmationMessage
-  setPetConfirmation: React.Dispatch<React.SetStateAction<ConfirmationMessage>>
+  setPetConfirmation: (conf: ConfirmationMessage) => void
   setShowAddPet: React.Dispatch<React.SetStateAction<boolean>>
   savedPetData: PetItemType[]
   setSavedPetData: React.Dispatch<React.SetStateAction<PetItemType[]>>

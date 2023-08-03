@@ -148,8 +148,8 @@ export default function DoctorAccountDetails() {
 
   const [addresses, setAddresses] = useState<DoctorAddressDataType[]>(
     DoctorAccountDetails?.addressData ||
-    [{ address_priority: 0, addressesID: 0, address_title: "", address_line_1  : "", address_line_2: "", city: "",
-      state: "", zip: "", country: "", phone: [], address_public_status: true, instant_book: false, times:[]}])
+    [{ address_priority: 0, addressesID: 0, address_title: "", address_line_1: "", address_line_2: "", city: "",
+      state: "", zip: "", country: "", Phone: [], address_public_status: true, instant_book: false, times:[]}])
 
   const [description, setDescription] = useState<string>(DoctorAccountDetails?.description || "")
 

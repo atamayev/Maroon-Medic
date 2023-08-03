@@ -135,7 +135,7 @@ function RenderIsSpecialty(props: Props) {
     return (
       <li>
         {specialty.Organization_name} - {specialty.Specialty_name}{" "}
-        <DeleteButtonOptions
+        <DeleteButtonOptions<SpecialtyItemType>
           status = {status}
           setStatus = {setStatus}
           dataType = {specialty}
