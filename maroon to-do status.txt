@@ -5,35 +5,33 @@ ASAP:
 Frontend TS Fixes:
 	1. Give return types to all functions, for functions that don't return, make the return type void
 	3. go through https://www.sitepoint.com/how-to-migrate-a-react-app-to-typescript/, other recommended ts config setup
-	5. Search for all cases of React.Dispatch where the type of the state is not set (or the state is set inside, like in change-password.ts. They should all be of this form: React.Dispatch<React.SetStateAction<LoginHistoryItem[]>>
 	6. Bring back the max lines per function
-	7. Remove all 'any' types
-	8. make sure all IDs are numbers
 	9. Accomodate for all res.status().jsons that were previously just res.jsons
 	10. Change all 'render___' functions to be 'Render...', and make them JSX components intead of const functions <Render.../>
 		Search for all {r
-	
-
-
-Full Stack TS changes
-	1. Take full advantage of globals.d.ts to create reoccuring types
-	2. Figure out a way to divide up the globals.d.ts into different categories (ie public doctor vs private, patient, etc.)
-		Both back and fornt end
-	3. Add to eslint that a return type is required from all functions (error)
-	4. Get rid of the word 'type' in all types. Its obvious the'yre types
-	5. Go through the eslint changes here: https://chat.openai.com/share/b35d41ab-41f2-42ae-84fa-b40c0069d40e
-	
 
 Backend TS fixes
 	2. Move to globals	
 		type LoginOrRegisterType = "Doctor" | "Patient"
 		type MysqlTimestamp = string
 
+Full Stack TS changes
+	1. Take full advantage of globals.d.ts to create reoccuring types
+	2. Figure out a way to divide up the globals.d.ts into different categories (ie public doctor vs private, patient, etc.)
+		Both back and fornt end
+	3. Add to eslint that a return type is required from all functions (error)
+		Require-await, and also explicit return ...
+	4. Get rid of the word 'type' in all types. Its obvious the'yre types
+	5. Go through the eslint changes here: https://chat.openai.com/share/b35d41ab-41f2-42ae-84fa-b40c0069d40e
+	6. Run recommended linting checks (go through the eslint files, and make sure nothing uncommented.
+
+
 
 Change gender, other commonly used options to enum (only if the value is used in multiple places). If not, enum not necessary
 
 Merge the vet dashboard/patient dashboard urls into one page. Will save a lot of re-direct logic, also it's useless to have different dashboard routes.
 	Same for all teh other 'vet-specific' routes that are in common wiht patient specific routes. 
+	after doing this, can get rid of all of the expectedUserType (since both docs and patients can access)
 
 
 -React browser warnins when adding pre_vet/vet education (see 7/4 keys commit)
@@ -50,6 +48,9 @@ added a appointment_timespan, and add petID to the Appointments table. - need to
 		or, make the UUID be a header (ie authorizatoin header) whenever sending a req back and forth
 			don't make it doctorUUID or patientUUID, just make it UUID. same for AccessToken
 			think about the best way to structure the acess token/ uuid thing
+
+-CODE CONCISION: Cut any function more than 100 lines into parts. I don't want massive functions - most can be distilled into smaller parts
+
 Make the auth token and cookie stored in a class, like in context.ts in deployment manager
 	reading from memory is faster than from session storage
 
@@ -88,7 +89,6 @@ On the vet dashboard, make the appointments clickable, shows the patients detail
 - go throgh DoctorDashboard Layout txt file
 
 LATER:
--CODE CONCISION: Cut any function more than 100 lines into parts. I don't want massive functions - most can be distilled into smaller parts
 
 -figure out IP Address situation (for the login and security page). Also see if can figure out what kind of device the user has
 

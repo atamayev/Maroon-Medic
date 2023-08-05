@@ -2,11 +2,7 @@ import AuthDataService from "../services/auth-data-service"
 
 export const handleChangePassword = async (
   changePasswordObject: ChangePasswordObject,
-  setCredentials: React.Dispatch<React.SetStateAction<{
-    userType: DoctorOrPatient
-    currentPassword: string
-    newPassword: string
-    newConfirmPassword: string}>>,
+  setCredentials: React.Dispatch<React.SetStateAction<ChangePasswordObject>>,
   setMessage: React.Dispatch<React.SetStateAction<string>>,
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   type: DoctorOrPatient

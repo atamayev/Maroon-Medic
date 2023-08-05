@@ -43,10 +43,11 @@
         "space-infix-ops": "warn",
         "space-before-blocks": "error",
         "keyword-spacing": ["error", { "before": true, "after": true }],
-        "no-trailing-spaces": "warn",
+        "no-trailing-spaces": "error",
         "prefer-const": "warn",
         "max-len": ["error", { "code": 140 }],
         "@typescript-eslint/explicit-function-return-type": "warn",
+        "require-await": "error",
 
         //For catching Security vulnerabilities:
         "security/detect-buffer-noassert": "warn",

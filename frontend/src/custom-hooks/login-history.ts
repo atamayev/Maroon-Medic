@@ -31,7 +31,7 @@ export function useLoginHistory (userType: DoctorOrPatientOrNull, expectedUserTy
     try {
       const storedLoginHistory = sessionStorage.getItem("LoginHistory")
       if (storedLoginHistory) setLoginHistory(JSON.parse(storedLoginHistory))
-      else fetchLoginHistory(setLoginHistory)
+      else await fetchLoginHistory(setLoginHistory)
     } catch (error) {
     }
   }

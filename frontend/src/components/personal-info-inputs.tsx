@@ -82,10 +82,10 @@ const RenderSelectDay = ({personalInfo, setPersonalInfo}: Props) => {
     <>
       <label>
         Day:
-        <select required value = {personalInfo.DOB_day || 0}
+        <select required value = {personalInfo.DOB_day || -1}
           onChange = {(event) => setPersonalInfo({...personalInfo, DOB_day: +event.target.value})}
         >
-          <option value = {0} disabled>
+          <option value = {-1} disabled>
             Select Day
           </option>
           {days.map(day => (
@@ -104,10 +104,10 @@ const RenderSelectYear = ({personalInfo, setPersonalInfo}: Props) => {
     <>
       <label>
         Year:
-        <select required value = {personalInfo.DOB_year || 0}
+        <select required value = {personalInfo.DOB_year || -1}
           onChange = {(event) => setPersonalInfo({...personalInfo, DOB_year: +event.target.value})}
         >
-          <option value = {0} disabled>
+          <option value = {-1} disabled>
             Select Year
           </option>
           {birthYears.map(year => (

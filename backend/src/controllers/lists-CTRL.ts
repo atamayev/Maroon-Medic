@@ -2,7 +2,7 @@ import FetchAllLists from "../utils/fetch-all-lists"
 import OperationHandler from "../utils/operation-handler"
 import { Request, Response } from "express"
 
-interface ListsResponse {
+interface DoctorList {
   languages: LanguageItemType[]
   servicesAndCategories: ServiceListItemType[]
   specialties: SpecialtyItemType[]
@@ -14,13 +14,13 @@ interface ListsResponse {
   pets: ServicedPetItemType[]
 }
 
-interface LanguagesList {
+interface PatientList {
   languages: LanguageItemType[]
 }
 
 export async function fetchDoctorLists (req: Request, res: Response): Promise<Response> {
   try {
-    const response: ListsResponse = {
+    const response: DoctorList = {
       languages             : await FetchAllLists.fetchAllLanguages(),
       servicesAndCategories : await FetchAllLists.fetchAllServicesAndCategories(),
       specialties           : await FetchAllLists.fetchAllSpecialties(),
@@ -29,7 +29,7 @@ export async function fetchDoctorLists (req: Request, res: Response): Promise<Re
       majors                : await FetchAllLists.fetchAllMajors(),
       vetSchools            : await FetchAllLists.fetchAllVetSchools(),
       vetEducationTypes     : await FetchAllLists.fetchAllVetEducationTypes(),
-      pets                  : await FetchAllLists.fetchAllPets()
+      pets                  : await FetchAllLists.fetchAllPetTypes()
     }
     return res.status(200).json(response)
   } catch (error: unknown) {
@@ -38,25 +38,25 @@ export async function fetchDoctorLists (req: Request, res: Response): Promise<Re
 }
 
 export async function fetchPatientLists (req: Request, res: Response): Promise<void> {
-  const operation = async () => {
-    const response: LanguagesList = {
+  const operation: () => Promise<PatientList> = async () => {
+    const response: PatientList = {
       languages: await FetchAllLists.fetchAllLanguages()
     }
     return response
   }
-  OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
+  await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }
 
 export async function fetchPetTypes (req: Request, res: Response): Promise<void> {
-  const operation = async () => {
-    return await FetchAllLists.fetchAllPets()
+  const operation: () => Promise<ServicedPetItemType[]> = async () => {
+    return await FetchAllLists.fetchAllPetTypes()
   }
-  OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
+  await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }
 
 export async function fetchInsurances (req: Request, res: Response): Promise<void> {
-  const operation = async () => {
+  const operation: () => Promise<InsuranceItemType[]> = async () => {
     return await FetchAllLists.fetchAllInsurances()
   }
-  OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
+  await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }

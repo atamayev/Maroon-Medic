@@ -14,11 +14,11 @@ function usePatientAccountDetails(
   const fetchAndSetAccountDetails = async () => {
     try {
       const storedAccountDetails = sessionStorage.getItem("PatientAccountDetails")
-      if (!storedAccountDetails) FillPatientAccountDetails(setSpokenLanguages)
+      if (!storedAccountDetails) await FillPatientAccountDetails(setSpokenLanguages)
 
       const storedListDetails = sessionStorage.getItem("ListDetails")
       if (storedListDetails) setListDetails(JSON.parse(storedListDetails))
-      else FillLists(setListDetails)
+      else await FillLists(setListDetails)
     } catch (error) {
     }
   }

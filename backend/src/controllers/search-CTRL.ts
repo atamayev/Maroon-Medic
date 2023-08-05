@@ -18,31 +18,31 @@ export async function searchByQuery (req: Request<Params>, res: Response): Promi
 }
 
 export async function fetchUsers (req: Request, res: Response): Promise<void> {
-  const operation = async () => {
+  const operation: () => Promise<DoctorPersonalInfo[]> = async () => {
     return await SearchDB.retrieveAllDoctors()
   }
-  OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
+  await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }
 
 // The following three functions are here for filtering purposes.
 //In the future, pts will be able to filter for docs by language_spoken, insurances, etc.
 export async function fetchAllLanguages (req: Request, res: Response): Promise<void> {
-  const operation = async () => {
+  const operation: () => Promise<LanguageItemType[]> = async () => {
     return await FetchAllLists.fetchAllLanguages()
   }
-  OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
+  await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }
 
 export async function fetchAllServicesAndCategories (req: Request, res: Response): Promise<void> {
-  const operation = async () => {
+  const operation: () => Promise<ServiceListItemType[]> = async () => {
     return await FetchAllLists.fetchAllServicesAndCategories()
   }
-  OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
+  await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }
 
 export async function fetchAllInsurances (req: Request, res: Response): Promise<void> {
-  const operation = async () => {
+  const operation: () => Promise<InsuranceItemType[]> = async () => {
     return await FetchAllLists.fetchAllInsurances()
   }
-  OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
+  await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }

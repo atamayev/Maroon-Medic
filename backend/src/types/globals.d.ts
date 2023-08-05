@@ -47,7 +47,7 @@ declare global {
     End_date: string
   }
 
-  type AddPreVetEducationItemType = SaveEducationItemType & {
+  type AddPreVetEducationItemType = AddEducationItemType & {
     Major_ID: number
   }
 

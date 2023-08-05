@@ -201,12 +201,12 @@ const AddressAccordionItem = (props: AddressAccordionProps) => {
   }
 
   const RenderSaveOrUpdateButton = () => {
-    if (address.addressesID !== 0) return <RenderUpdateLocationButton/>  // If addressID exists, Render update button
+    if (address.addressesID !== -1) return <RenderUpdateLocationButton/>  // If addressID exists, Render update button
     return <RenderAddLocationButton/> // If addressID doesn't exist, Render save button
   }
 
   const handleDeleteAddress = () => {
-    if (address.addressesID === 0) setAddresses(addresses.filter(addressf => addressf.address_priority !== address.address_priority))
+    if (address.addressesID === -1) setAddresses(addresses.filter(addressf => addressf.address_priority !== address.address_priority))
     else deleteLocation(address.addressesID, setAddresses, setAddressesConfirmation)
   }
 

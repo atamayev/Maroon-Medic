@@ -14,8 +14,9 @@ export default function NewAccountForm({
   error,
   newInfo,
   setNewInfo,
-  loading}: Props)
-{
+  loading
+}: Props
+) {
   const RenderErrorMessage = () => {
     if (!error) return null
     return <Alert variant = "danger">{error}</Alert>

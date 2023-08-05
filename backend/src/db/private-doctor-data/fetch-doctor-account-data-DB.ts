@@ -1,6 +1,7 @@
 import { mysqlTables } from "../../utils/table-names-list"
 import { connectDatabase } from "../../setup-and-security/connect"
 import { RowDataPacket } from "mysql2"
+import _ from "lodash"
 
 interface DescriptionData {
   Description: string
@@ -132,8 +133,9 @@ export default new class FetchDoctorAccountDataDB {
 
     const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values) as RowDataPacket[]
-    const phones = results[0] as string
-    return phones
+    let phone = ""
+    if (!_.isEmpty(results)) phone = results[0].Phone
+    return phone
   }
 
   async retrieveDescriptionData (DoctorID: number): Promise<string> {

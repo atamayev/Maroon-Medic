@@ -82,7 +82,7 @@ export const handleAddAccordion = (
     [...addresses,
       {
         address_priority: maxPriority + 1,
-        addressesID: 0,
+        addressesID: -1,
         address_title: "",
         address_line_1: "",
         address_line_2: "",

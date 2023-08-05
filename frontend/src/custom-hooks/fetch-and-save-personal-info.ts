@@ -61,8 +61,8 @@ export function usePersonalInfo(userType: DoctorOrPatientOrNull, expectedUserTyp
     FirstName: "",
     LastName: "",
     DOB_month: "",
-    DOB_day: 0,
-    DOB_year: 0,
+    DOB_day: -1,
+    DOB_year: -1,
     Gender: ""
   })
 
@@ -72,7 +72,7 @@ export function usePersonalInfo(userType: DoctorOrPatientOrNull, expectedUserTyp
       try {
         const storedPersonalInfoData = sessionStorage.getItem(`${userType}PersonalInfo`)
         if (storedPersonalInfoData) setPersonalInfo(JSON.parse(storedPersonalInfoData))
-        else fetchPersonalInfoData(setPersonalInfo, userType)
+        else await fetchPersonalInfoData(setPersonalInfo, userType)
       } catch (error) {
       }
     }

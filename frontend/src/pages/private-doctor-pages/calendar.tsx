@@ -24,7 +24,7 @@ function useDoctorCalendarData(userType: DoctorOrPatientOrNull) {
   const fetchAndSetCalendarData = async () => {
     try {
       const storedCalendarData = sessionStorage.getItem("DoctorCalendarDetails")
-      if (!storedCalendarData) FillDoctorCalendarDetails(setEvents)
+      if (!storedCalendarData) await FillDoctorCalendarDetails(setEvents)
     } catch (error) {
     }
   }

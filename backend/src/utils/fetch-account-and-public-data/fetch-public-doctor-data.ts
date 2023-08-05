@@ -55,11 +55,11 @@ export default new class FetchPublicDoctorData {
   }
 
   async fetchPreVetEducation(DoctorID: number): Promise<PreVetEducationItemType[]> {
-    return this.#fetchEducationData<PreVetEducationItemType>(DoctorID, FetchPublicDoctorDataDB.retrievePreVetEducation)
+    return await this.#fetchEducationData<PreVetEducationItemType>(DoctorID, FetchPublicDoctorDataDB.retrievePreVetEducation)
   }
 
   async fetchVetEducation(DoctorID: number): Promise<VetEducationItemType[]> {
-    return this.#fetchEducationData<VetEducationItemType>(DoctorID, FetchPublicDoctorDataDB.retrieveVetEducation)
+    return await this.#fetchEducationData<VetEducationItemType>(DoctorID, FetchPublicDoctorDataDB.retrieveVetEducation)
   }
 
   async fetchServicedPets (DoctorID: number): Promise<ServicedPetData[]> {

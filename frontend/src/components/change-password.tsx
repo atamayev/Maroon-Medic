@@ -25,7 +25,7 @@ export default function ChangePassword(props: Props) {
   }
 
   const handleSubmit = async () => {
-    handleChangePassword(credentials, setCredentials, setMessage, setLoading, type)
+    await handleChangePassword(credentials, setCredentials, setMessage, setLoading, type)
   }
 
   const RenderMessage = () => {

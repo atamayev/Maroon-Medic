@@ -12,7 +12,7 @@ interface VerifyContextType {
   userVerification: (clearSession: boolean) => VerifyContextReturnType
 }
 
-const createDefaultContext = (): VerifyContextType => ({ userVerification: async () => ({verified: false}) })
+const createDefaultContext = (): VerifyContextType => ({ userVerification: () => Promise.resolve({verified: false}) })
 
 const VerifyContext = createContext<VerifyContextType>(createDefaultContext())
 

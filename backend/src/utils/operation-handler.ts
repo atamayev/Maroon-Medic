@@ -13,7 +13,6 @@ export default new class OperationHandler {
     } catch (error: any) {
       console.log(error)
       res.status(400).json()
-      // throw error
     }
   }
 
@@ -27,7 +26,6 @@ export default new class OperationHandler {
     } catch (error: any) {
       console.log(error)
       res.status(400).json(whatToReturnFailure)
-      // throw error
     }
   }
 
@@ -42,7 +40,6 @@ export default new class OperationHandler {
     } catch (error: any) {
       console.log(error)
       res.status(400).json(whatToReturnFailure)
-      // throw error
     }
   }
 

@@ -12,4 +12,4 @@ export async function loginHistory(UserID: number): Promise<void> {
   }
 }
 
-//Later, create a function that logs any kinds of profile updates
+//Later, create a function that logs profile updates

@@ -90,7 +90,7 @@ function useDoctorAccountDetails(
     try {
       const storedAccountDetails = sessionStorage.getItem("DoctorAccountDetails")
       if (!storedAccountDetails) {
-        FillDoctorAccountDetails(
+        await FillDoctorAccountDetails(
           setSpokenLanguages,
           setProvidedServices,
           setExpandedCategories,
@@ -107,7 +107,7 @@ function useDoctorAccountDetails(
 
       const storedListDetails = sessionStorage.getItem("ListDetails")
       if (storedListDetails) setListDetails(JSON.parse(storedListDetails))
-      else FillLists(setListDetails)
+      else await FillLists(setListDetails)
     } catch (error) {
       console.log(error)
     }
@@ -148,7 +148,7 @@ export default function DoctorAccountDetails() {
 
   const [addresses, setAddresses] = useState<DoctorAddressDataType[]>(
     DoctorAccountDetails?.addressData ||
-    [{ address_priority: 0, addressesID: 0, address_title: "", address_line_1: "", address_line_2: "", city: "",
+    [{ address_priority: 0, addressesID: -1, address_title: "", address_line_1: "", address_line_2: "", city: "",
       state: "", zip: "", country: "", Phone: [], address_public_status: true, instant_book: false, times:[]}])
 
   const [description, setDescription] = useState<string>(DoctorAccountDetails?.description || "")

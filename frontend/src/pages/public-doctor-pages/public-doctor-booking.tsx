@@ -30,7 +30,7 @@ function usePetData(userType: DoctorOrPatientOrNull) {
       try {
         const storedPetData = sessionStorage.getItem("PatientPetData")
         if (storedPetData) setSavedPetData(JSON.parse(storedPetData))
-        else fetchPetData(setSavedPetData)
+        else await fetchPetData(setSavedPetData)
       } catch (error) {
       }
     }

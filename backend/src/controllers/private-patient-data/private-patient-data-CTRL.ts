@@ -20,8 +20,8 @@ export async function newPatient (req: Request, res: Response): Promise<void> {
     newPatientObject.DOB_day,
     newPatientObject.DOB_year
   )
-  const operation = async () => await PrivatePatientDataDB.addNewPatientInfo(newPatientObject, dateOfBirth, PatientID)
-  OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
+  const operation: () => Promise<void> = async () => await PrivatePatientDataDB.addNewPatientInfo(newPatientObject, dateOfBirth, PatientID)
+  await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
 export async function fetchDashboardData (req: Request, res: Response): Promise<Response> {
@@ -47,8 +47,8 @@ export async function fetchPersonalData (req: Request, res: Response): Promise<R
     LastName: "",
     Gender: "",
     DOB_month: "",
-    DOB_day: 0,
-    DOB_year: 0
+    DOB_day: -1,
+    DOB_year: -1
   }
 
   try {
@@ -65,10 +65,10 @@ export async function fetchPersonalData (req: Request, res: Response): Promise<R
 
 export async function fetchPetData (req: Request, res: Response): Promise<void> {
   const PatientID = req.PatientID
-  const operation = async () => {
+  const operation: () => Promise<PetItemType[]> = async () => {
     return await FetchPatientAccountData.fetchPetData(PatientID)
   }
-  OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
+  await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }
 
 export async function fetchAccountDetails (req: Request, res: Response): Promise<Response> {

@@ -22,15 +22,15 @@ function usePetData(userType: DoctorOrPatientOrNull) {
     try {
       const storedPetData = sessionStorage.getItem("PatientPetData")
       if (storedPetData) setSavedPetData(JSON.parse(storedPetData))
-      else fetchPetData(setSavedPetData)
+      else await fetchPetData(setSavedPetData)
 
       const storedPetTypes = sessionStorage.getItem("PetTypes")
       if (storedPetTypes) setPetTypes(JSON.parse(storedPetTypes))
-      else FillPetTypes(setPetTypes)
+      else await FillPetTypes(setPetTypes)
 
       const storedInsurances = sessionStorage.getItem("Insurances")
       if (storedInsurances) setInsurances(JSON.parse(storedInsurances))
-      else FillInsurances(setInsurances)
+      else await FillInsurances(setInsurances)
     } catch (error) {
     }
   }

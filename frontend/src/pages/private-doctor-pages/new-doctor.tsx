@@ -11,8 +11,8 @@ export default function NewDoctor () {
     FirstName: "",
     LastName: "",
     DOB_month: "",
-    DOB_day: 0,
-    DOB_year: 0,
+    DOB_day: -1,
+    DOB_year: -1,
     Gender: ""
   })
   const [error, setError] = useState("")

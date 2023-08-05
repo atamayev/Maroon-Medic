@@ -3,6 +3,7 @@ import { mysqlTables } from "./table-names-list"
 import { connectDatabase } from "../setup-and-security/connect"
 
 export default new class FetchAllLists {
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   async #fetchAll(tableName: string) {
     const cachedData = await redisClient.get(tableName)
     if (cachedData) return JSON.parse(cachedData)
@@ -54,7 +55,8 @@ export default new class FetchAllLists {
   async fetchAllVetEducationTypes(): Promise<VetEducationTypeType[]> {
     return await this.#fetchAll(mysqlTables.vet_education_type_list)
   }
-  async fetchAllPets(): Promise<ServicedPetItemType[]> {
+
+  async fetchAllPetTypes(): Promise<ServicedPetItemType[]> {
     return await this.#fetchAll(mysqlTables.pet_list)
   }
 }()

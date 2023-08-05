@@ -14,21 +14,21 @@ export async function makeAppointment(req: Request, res: Response): Promise<void
     AppointmentObject.appointmentDate,
     AppointmentObject.appointmentTime
   )
-  const operation = async () => await CalendarDB.addAppointment(mysqlDateTime, AppointmentObject, DoctorID, createdAt)
-  OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
+  const operation: () => Promise<void> = async () => await CalendarDB.addAppointment(mysqlDateTime, AppointmentObject, DoctorID, createdAt)
+  await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
 export async function getDoctorCalendarDetails(req: Request, res: Response): Promise<void> {
   const DoctorID = req.DoctorID
-  const operation = async () => {
+  const operation: () => Promise<CalendarData[]> = async () => {
     return await CalendarDB.retrieveDoctorCalendarDetails(DoctorID)
   }
-  OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
+  await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }
 
 export async function confirmAppointment (req: Request, res: Response): Promise<void> {
   const AppointmentID = req.body.AppointmentID
 
-  const operation = async () => await CalendarDB.confirmAppointmentStatus(AppointmentID)
-  OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
+  const operation: () => Promise<void> = async () => await CalendarDB.confirmAppointmentStatus(AppointmentID)
+  await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
