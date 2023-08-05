@@ -1,5 +1,4 @@
 import _ from "lodash"
-import { AxiosError } from "axios"
 import {Dropdown} from "react-bootstrap"
 import {useLocation} from "react-router-dom"
 import {useCallback, useState, useEffect, useContext } from "react"
@@ -7,10 +6,10 @@ import logo from "../images/logo.svg"
 import pic from "../images/ProfileImage.jpg"
 import { SearchContext } from "../contexts/search-context"
 import AuthDataService from "../services/auth-data-service"
-import { invalidUserAction } from "../custom-hooks/user-verification-snippets"
 import PrivateDoctorDataService from "../services/private-doctor-data-service"
 import PrivatePatientDataService from "../services/private-patient-data-service"
 import useSimpleUserVerification from "../custom-hooks/use-simple-user-verification"
+import { handle401AxiosError } from "src/utils/handle-errors"
 
 const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
   if (event.key === "Enter") {
@@ -40,26 +39,22 @@ const handleHome = () => {
   window.location.href = "/"
 }
 
-function useSetHeaderData(userType: DoctorOrPatient ) {
+function useSetHeaderData(userType: DoctorOrPatientOrNull) {
   const [headerData, setHeaderData] = useState("")
 
   const getHeaderData = async () => {
-    if (!userType) return
     try {
-      let name: string = ""
+      if (!userType) return setHeaderData("Profile")
       if (userType === "Doctor") {
         const storedInfo = sessionStorage.getItem("DoctorPersonalInfo")
-
-        if (storedInfo) name = JSON.parse(storedInfo).LastName
-        setHeaderData("Dr. " + _.upperFirst(name || ""))
+        if (storedInfo) setHeaderData("Dr. " + _.upperFirst(JSON.parse(storedInfo).LastName))
+        else await fetchPersonalInfo(userType, setHeaderData)
       } else {
         const storedInfo = sessionStorage.getItem("PatientPersonalInfo")
-
-        if (storedInfo) name = JSON.parse(storedInfo).FirstName
-        setHeaderData(_.upperFirst(name || ""))
+        if (storedInfo) setHeaderData(JSON.parse(storedInfo).FirstName)
+        else await fetchPersonalInfo(userType, setHeaderData)
       }
     } catch (error) {
-      if (error instanceof TypeError) await fetchPersonalInfo(userType, setHeaderData)
     }
   }
 
@@ -72,52 +67,25 @@ function useSetHeaderData(userType: DoctorOrPatient ) {
 
 async function fetchPersonalInfo (type: DoctorOrPatient, setHeaderData: React.Dispatch<React.SetStateAction<string>>) {
   let response
+  console.log(type)
   if (type === "Doctor") {
     try {
       response = await PrivateDoctorDataService.fillPersonalData()
     } catch (error: unknown) {
-      if (error instanceof AxiosError) {
-        if (error.response?.status === 401) {
-          invalidUserAction(error.response.data)
-        }
-      }
+      handle401AxiosError(error)
     }
   }
   else if (type === "Patient") {
     try {
       response = await PrivatePatientDataService.fillPersonalData()
     } catch (error: unknown) {
-      if (error instanceof AxiosError) {
-        if (error.response?.status === 401) {
-          invalidUserAction(error.response.data)
-        }
-      }
+      handle401AxiosError(error)
     }
   }
 
   if (response) {
     setHeaderData(response.data.FirstName)
     sessionStorage.setItem(`${type}PersonalInfo`, JSON.stringify(response.data))
-  }
-}
-
-const retrieveNameFromStorage = (setHeaderData: React.Dispatch<React.SetStateAction<string>>) => {
-  let name: string = ""
-  try {
-    const storedInfo = sessionStorage.getItem("DoctorPersonalInfo")
-
-    if (storedInfo) name = JSON.parse(storedInfo).LastName
-    setHeaderData("Dr. " + name)
-    return
-  } catch (error) {
-  }
-  try {
-    const storedInfo = sessionStorage.getItem("PatientPersonalInfo")
-
-    if (storedInfo) name = JSON.parse(storedInfo).FirstName
-    setHeaderData(name)
-    return
-  } catch (error) {
   }
 }
 
@@ -130,14 +98,9 @@ export default function Header (props: HeaderProps) {
   const { dropdown, search } = props
   const location = useLocation()
   const { userType } = useSimpleUserVerification(false)
-  const { headerData, setHeaderData } = useSetHeaderData(userType)
+  const { headerData } = useSetHeaderData(userType)
   const { searchTerm, setSearchTerm } = useContext(SearchContext)
-
-  useEffect(() => {
-    if (location.pathname !== "/new-vet" && location.pathname !== "/new-patient") {
-      retrieveNameFromStorage(setHeaderData)
-    }
-  }, [])
+  console.log(userType, headerData)
 
   const handleLogout = async () => {
     try {
@@ -153,11 +116,6 @@ export default function Header (props: HeaderProps) {
     else window.location.href = "/"
   }, [location])
 
-  const renderHeaderData = () => {
-    if (headerData) return headerData
-    return "Profile"
-  }
-
   const renderDropdown = () => {
     if (dropdown === true) {
       return (
@@ -167,7 +125,7 @@ export default function Header (props: HeaderProps) {
             id = "dropdown-basic"
             className = "menu-trigger menu-active"
           >
-            {renderHeaderData()}
+            {headerData}
             <img src = {pic} alt = "profile" height = {20} className = "ml-2" />
           </Dropdown.Toggle>
           <Dropdown.Menu>

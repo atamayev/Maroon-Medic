@@ -1,15 +1,12 @@
 import {useState, useEffect } from "react"
-import { AxiosResponse, AxiosError } from "axios"
+import { AxiosResponse } from "axios"
 import PrivateDoctorDataService from "../services/private-doctor-data-service"
 import PrivatePatientDataService from "../services/private-patient-data-service"
-import { invalidUserAction } from "./user-verification-snippets"
-import { handle401AxiosError } from "src/utils/handle-errors"
-
-type UserType = DoctorOrPatient
+import { handle401AxiosError, handle401AxiosErrorAndSetMessageType } from "src/utils/handle-errors"
 
 async function fetchPersonalInfoData(
   setPersonalInfo: React.Dispatch<React.SetStateAction<PersonalInfoType>>,
-  userType: UserType
+  userType: DoctorOrPatient
 ): Promise<void>
 {
   try {
@@ -31,7 +28,7 @@ async function fetchPersonalInfoData(
 export const handleSavePersonalInfo = async (
   personalInfo: PersonalInfoType,
   setPersonalInfoConfirmation: (conf: ConfirmationMessage) => void,
-  userType: UserType
+  userType: DoctorOrPatient
 ) => {
   const storedPersonalInfoData = sessionStorage.getItem(`${userType}PersonalInfo`)
   const stringifiedPersonalInfoData = JSON.stringify(personalInfo)
@@ -49,12 +46,7 @@ export const handleSavePersonalInfo = async (
           setPersonalInfoConfirmation({messageType: "saved"})
         }
       } catch (error: unknown) {
-        if (error instanceof AxiosError) {
-          if (error.response?.status === 401) {
-            invalidUserAction(error.response.data)
-          }
-        }
-        else setPersonalInfoConfirmation({messageType: "problem"})
+        handle401AxiosErrorAndSetMessageType(error, setPersonalInfoConfirmation)
       }
     } else {
       setPersonalInfoConfirmation({messageType: "same"})
@@ -64,7 +56,7 @@ export const handleSavePersonalInfo = async (
   }
 }
 
-export function usePersonalInfo(userType: UserType) {
+export function usePersonalInfo(userType: DoctorOrPatientOrNull, expectedUserType: DoctorOrPatient) {
   const [personalInfo, setPersonalInfo] = useState<PersonalInfoType>({
     FirstName: "",
     LastName: "",
@@ -75,6 +67,7 @@ export function usePersonalInfo(userType: UserType) {
   })
 
   useEffect(() => {
+    if (userType !== expectedUserType) return
     const fetchAndSetPersonalInfo = async () => {
       try {
         const storedPersonalInfoData = sessionStorage.getItem(`${userType}PersonalInfo`)
@@ -85,7 +78,7 @@ export function usePersonalInfo(userType: UserType) {
     }
 
     fetchAndSetPersonalInfo()
-  }, [])
+  }, [userType])
 
   return {personalInfo, setPersonalInfo}
 }

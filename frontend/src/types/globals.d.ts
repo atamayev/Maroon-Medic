@@ -77,6 +77,8 @@ declare global {
     newPassword: string
     newConfirmPassword: string
   }
+
+  type DayIndeces = 0 | 1 | 2 | 3 | 4 | 5 | 6 | null
 }
 
 export {}

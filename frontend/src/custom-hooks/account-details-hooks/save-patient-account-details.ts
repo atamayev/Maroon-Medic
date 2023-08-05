@@ -1,5 +1,5 @@
 import PrivatePatientDataService from "../../services/private-patient-data-service"
-import { handle401AxiosErrorAndSetError } from "src/utils/handle-errors"
+import { handle401AxiosErrorAndSetMessageType } from "src/utils/handle-errors"
 
 type LanguageOperationsType = typeof PrivatePatientDataService.deleteLanguage |
                               typeof PrivatePatientDataService.addLanguage
@@ -15,7 +15,7 @@ async function modifyPatientLanguages(
   try {
     response = await operation(languageID)
   } catch (error: unknown) {
-    handle401AxiosErrorAndSetError(error, setLanguagesConfirmation)
+    handle401AxiosErrorAndSetMessageType(error, setLanguagesConfirmation)
     return
   }
   if (response.status === 200) {

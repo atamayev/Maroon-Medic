@@ -125,7 +125,7 @@ export const RenderPhoneNumberInput = ({address, handleInputChange}: Props) => {
         label = "Phone Number"
         type = "number"
         placeholder = "Phone Number"
-        value = {address.Phone || ""}
+        value = {address.Phone}
         onChange = {(event) => handleInputChange(event, address.address_priority)}
         name = "phone"
       />

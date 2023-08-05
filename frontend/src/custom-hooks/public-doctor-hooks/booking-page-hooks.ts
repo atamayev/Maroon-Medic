@@ -91,7 +91,7 @@ export function finalizeBookingClick(
   selectedTime: string,
   serviceMinutes: number,
   personalData: PersonalDataType,
-  selectedPet: PetItemType
+  selectedPet: PetItemTypeWithID
 ) {
   const bookingDetails = {
     selectedService: selectedService ? selectedService : null,

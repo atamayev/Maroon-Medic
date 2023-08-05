@@ -43,7 +43,6 @@ async function approveAppointment (
 
 export default function DoctorDashboard() {
   const { userType } = useSimpleUserVerification()
-  if (userType !== "Doctor") return <UnauthorizedUser patientOrDoctor = {"vet"}/>
   const { dashboardData, setDashboardData } = useDoctorDashboardData()
   const storedData = sessionStorage.getItem("DoctorPersonalInfo")
   const parsedData = storedData && JSON.parse(storedData)
@@ -53,6 +52,7 @@ export default function DoctorDashboard() {
   const newDoctor = CookieUtils.checkCookieForNewUser("DoctorNewUser")
 
   useEffect(() => {
+    if (userType !== "Doctor") return
     const interval = setInterval(() => {
       const sessionInfo = sessionStorage.getItem("DoctorPersonalInfo")
       if (sessionInfo) {
@@ -66,7 +66,7 @@ export default function DoctorDashboard() {
   }, [])
 
   useEffect(() => {
-    if (!_.isEmpty(dashboardData)) {
+    if (!_.isEmpty(dashboardData) && userType === "Doctor") {
       const now = moment()
       const pastAppointments = dashboardData.filter(appointment =>
         moment(appointment.appointment_date, "MMMM Do, YYYY, h:mm A") < now
@@ -79,6 +79,8 @@ export default function DoctorDashboard() {
       setUpcomingAppointments(upcomingAppointments)
     }
   }, [dashboardData])
+
+  if (userType !== "Doctor") return <UnauthorizedUser patientOrDoctor = {"vet"}/>
 
   const returnDoctorConfirmationStatus = (appointment: DoctorDashboardDataType) => {
     if (appointment.Doctor_confirmation_status === false) return "pending"

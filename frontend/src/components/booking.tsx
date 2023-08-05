@@ -14,7 +14,7 @@ import FormGroup from "./form-group"
 import { UnauthorizedUserBodyText } from "./user-type-unauth"
 
 interface BaseProps {
-  selectedPet: PetItemType | null
+  selectedPet: PetItemTypeWithID | null
   setSelectedService: React.Dispatch<React.SetStateAction<ServiceItemType | null>>
   setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressType | null>>
   setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>
@@ -109,10 +109,13 @@ export const RenderSelectService = (props: SelectServiceProps) => {
   )
 }
 
-interface SelectLocationProps extends BaseProps {
+interface SelectLocationProps {
   addresses: PublicAddressType[]
   selectedService: ServiceItemType | null
   setNoAvailableTimesMessage: React.Dispatch<React.SetStateAction<boolean>>
+  setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressType | null>>
+  setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>
+  setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
 }
 
 export const RenderSelectLocation = (props: SelectLocationProps) => {
@@ -162,18 +165,18 @@ export const RenderNoAvailableTimes = (props: NoAvailableTimesProps) => {
 }
 
 interface SelectDayProps {
-  selectedService: ServiceItemType | undefined
-  selectedLocation: PublicAddressType | undefined
+  selectedService: ServiceItemType | null
+  selectedLocation: PublicAddressType | null
   setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>
   setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
-  selectedDay: string
+  selectedDay: string | null
   personalData: PersonalDataType
   availableDates: string[]
 }
 
 export const RenderSelectDay = (props: SelectDayProps) => {
   const { selectedService, selectedLocation, setSelectedDay, setSelectedTime, selectedDay, personalData, availableDates } = props
-  if (!(selectedService && selectedLocation)) return null
+  if (!(selectedService && selectedLocation && selectedDay)) return null
 
   return (
     <div className="col-md-6">
@@ -191,9 +194,9 @@ export const RenderSelectDay = (props: SelectDayProps) => {
 }
 
 interface SelectTimeProps {
-  selectedService: ServiceItemType | undefined
-  selectedLocation: PublicAddressType | undefined
-  selectedDay: string
+  selectedService: ServiceItemType | null
+  selectedLocation: PublicAddressType | null
+  selectedDay: string | null
   setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
   availableTimes: string[]
   serviceMinutes: number
@@ -222,13 +225,13 @@ export const RenderSelectTime = (props: SelectTimeProps) => {
 }
 
 interface FinalizeBookingProps {
-  selectedService: ServiceItemType
-  selectedLocation: PublicAddressType
-  selectedDay: string
-  selectedTime: string
+  selectedService: ServiceItemType | null
+  selectedLocation: PublicAddressType | null
+  selectedDay: string | null
+  selectedTime: string | null
   serviceMinutes: number
   personalData: PersonalDataType
-  selectedPet: PetItemType
+  selectedPet: PetItemTypeWithID | null
   navigate: NavigateFunction
 }
 
@@ -247,7 +250,7 @@ export const RenderFinalizeBookingButton = (props: FinalizeBookingProps) => {
         selectedTime,
         serviceMinutes,
         personalData,
-        selectedPet
+        selectedPet!
       )}
       variant="primary"
     >

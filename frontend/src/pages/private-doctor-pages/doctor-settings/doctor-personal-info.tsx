@@ -16,10 +16,10 @@ import DoctorHeader from "../doctor-header"
 
 export default function DoctorPersonalInfo() {
   const { userType } = useSimpleUserVerification()
-  if (userType !== "Doctor") return <UnauthorizedUser patientOrDoctor = {"vet"}/>
-
-  const {personalInfo, setPersonalInfo } = usePersonalInfo(userType)
+  const {personalInfo, setPersonalInfo } = usePersonalInfo(userType, "Doctor")
   const [personalInfoConfirmation, setPersonalInfoConfirmation] = useConfirmationMessage()
+
+  if (userType !== "Doctor") return <UnauthorizedUser patientOrDoctor = {"vet"}/>
 
   return (
     <div>

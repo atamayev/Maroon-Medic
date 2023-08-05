@@ -1,4 +1,4 @@
-import { handle401AxiosErrorAndSetError } from "src/utils/handle-errors"
+import { handle401AxiosErrorAndSetMessageType } from "src/utils/handle-errors"
 import PrivatePatientDataService from "../../services/private-patient-data-service"
 
 function petDataOperations(petData: PetItemType, responseData: number): PetItemTypeWithID {
@@ -23,7 +23,7 @@ export async function addPet(
   try {
     response = await PrivatePatientDataService.addPetData(petData)
   } catch (error: unknown) {
-    handle401AxiosErrorAndSetError(error, setPetConfirmation)
+    handle401AxiosErrorAndSetMessageType(error, setPetConfirmation)
   }
 
   if (response && response.status === 200) {
@@ -50,7 +50,7 @@ export async function deletePet(
   try {
     response = await PrivatePatientDataService.deletePetData(pet_infoID)
   } catch (error: unknown) {
-    handle401AxiosErrorAndSetError(error, setPetConfirmation)
+    handle401AxiosErrorAndSetMessageType(error, setPetConfirmation)
   }
 
   if (response && response.status === 200) {

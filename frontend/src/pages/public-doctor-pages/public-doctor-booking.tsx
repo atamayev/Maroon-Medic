@@ -18,6 +18,7 @@ import {
   RenderDoctorDoesNotOfferServices,
 
 } from "src/components/booking"
+import { getDayIndex } from "src/utils/time"
 
 function usePetData(userType: DoctorOrPatientOrNull) {
   const storedData = sessionStorage.getItem("PatientPetData")
@@ -98,8 +99,8 @@ export default function RenderBookingSection(props: Props) {
         const start = workingHours.Start_time.split(":")
         const end = workingHours.End_time.split(":")
 
-        let currentTime = moment().hour(start[0]).minute(start[1])
-        const endTime = moment().hour(end[0]).minute(end[1])
+        let currentTime = moment().hour(Number(start[0])).minute(Number(start[1]))
+        const endTime = moment().hour(Number(end[0])).minute(Number(end[1]))
 
         const serviceMinutes = convertToMinutes(selectedServiceObject.Service_time)  // Converts the time to minutes
         setServiceMinutes(serviceMinutes!)
@@ -116,22 +117,12 @@ export default function RenderBookingSection(props: Props) {
   useEffect(() => {
     if (!selectedLocationObject) return
 
-    const daysOfWeek = selectedLocationObject.times.map(time => {
-      switch (time.Day_of_week) {
-      case "Sunday": return 0
-      case "Monday": return 1
-      case "Tuesday": return 2
-      case "Wednesday": return 3
-      case "Thursday": return 4
-      case "Friday": return 5
-      case "Saturday": return 6
-      default: return null
-      }
-    })
+    const daysOfWeek = selectedLocationObject.times.map(time => getDayIndex(time.Day_of_week))
     const dates = []
     let date = moment()
     while (dates.length < 10) {
-      if (daysOfWeek.includes(date.day())) dates.push(date.format("dddd, MMMM Do, YYYY"))
+      const dayIndex = date.day() as DayIndeces
+      if (daysOfWeek.includes(dayIndex)) dates.push(date.format("dddd, MMMM Do, YYYY"))
       date = date.clone().add(1, "days")
     }
     setAvailableDates(dates)
@@ -185,7 +176,6 @@ export default function RenderBookingSection(props: Props) {
               addresses,
               selectedService,
               setNoAvailableTimesMessage,
-              setSelectedService,
               setSelectedLocation,
               setSelectedDay,
               setSelectedTime

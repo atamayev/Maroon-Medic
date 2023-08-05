@@ -101,7 +101,8 @@ function useDoctorAccountDetails(
           setDescription,
           setServicedPets,
           setExpandedPetTypes,
-          setPubliclyAvailable)
+          setPubliclyAvailable
+        )
       } else setExpandedCategories(JSON.parse(storedAccountDetails).services?.map((service: ServiceItemType) => service.Category_name))
 
       const storedListDetails = sessionStorage.getItem("ListDetails")
@@ -119,7 +120,6 @@ function useDoctorAccountDetails(
 
 export default function DoctorAccountDetails() {
   const { userType } = useSimpleUserVerification()
-  if (userType !== "Doctor") return <UnauthorizedUser patientOrDoctor = {"vet"}/>
   const [listDetails, setListDetails] = useState<DoctorListDetailsType>({
     languages: [],
     servicesAndCategories: [],
@@ -173,6 +173,8 @@ export default function DoctorAccountDetails() {
     setExpandedPetTypes,
     setPubliclyAvailable
   )
+
+  if (userType !== "Doctor") return <UnauthorizedUser patientOrDoctor = {"vet"}/>
 
   return (
     <div>

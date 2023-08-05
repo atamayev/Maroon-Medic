@@ -8,7 +8,8 @@ import RenderLanguageSection from "./language"
 
 function usePatientAccountDetails(
   setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
-  setListDetails: React.Dispatch<React.SetStateAction<PatientListDetailsType>>
+  setListDetails: React.Dispatch<React.SetStateAction<PatientListDetailsType>>,
+  userType: DoctorOrPatientOrNull
 ) {
   const fetchAndSetAccountDetails = async () => {
     try {
@@ -23,17 +24,18 @@ function usePatientAccountDetails(
   }
 
   useEffect(() => {
+    if (userType !== "Patient") return
     fetchAndSetAccountDetails()
-  }, [])
+  }, [userType])
 }
 
 export default function PatientAccountDetails() {
   const { userType } = useSimpleUserVerification()
-  if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
   const [listDetails, setListDetails] = useState({} as PatientListDetailsType)
   const PatientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails") || "{}")
   const [spokenLanguages, setSpokenLanguages] = useState<LanguageItemType[]>(PatientAccountDetails?.languages || [])
-  usePatientAccountDetails(setSpokenLanguages, setListDetails)
+  usePatientAccountDetails(setSpokenLanguages, setListDetails, userType)
+  if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
 
   return (
     <div>

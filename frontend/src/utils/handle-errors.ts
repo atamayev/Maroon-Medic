@@ -8,11 +8,22 @@ export const handle401AxiosError = (error: unknown) => {
     }
   }
 }
-export const handle401AxiosErrorAndSetError = (error: unknown, setFunction: (conf: ConfirmationMessage) => void) => {
+
+export const handle401AxiosErrorAndSetMessageType = (error: unknown, setFunction: (conf: ConfirmationMessage) => void) => {
   if (error instanceof AxiosError) {
     if (error.response?.status === 401) {
       invalidUserAction(error.response.data)
     }
   }
   else setFunction({messageType: "problem"})
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const handle401AxiosErrorAndSetCustomError = (error: any, setError: (value: React.SetStateAction<string>) => void) => {
+  if (error instanceof AxiosError) {
+    if (error.response?.status === 401) {
+      invalidUserAction(error.response.data)
+    }
+  }
+  else setError(error.response.data)
 }

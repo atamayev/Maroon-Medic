@@ -1,11 +1,9 @@
-import { AxiosError } from "axios"
 import { useState, useEffect, useContext } from "react"
 import {useNavigate} from "react-router-dom"
 import { VerifyContext } from "../../contexts/verify-context"
 import AuthDataService from "../../services/auth-data-service"
 import NewAccountForm from "../../components/new-account-form"
 import {handleNewUserSubmit} from "../../custom-hooks/handle-submits"
-import { invalidUserAction } from "../../custom-hooks/user-verification-snippets"
 import Header from "../header"
 
 export default function NewPatient () {
@@ -25,16 +23,8 @@ export default function NewPatient () {
   const verifyNewPatient = async () => {
     const result = await userVerification(false)
     if (result.verified === true && result.userType === "Patient") {
-      try {
-        const patientResult = await AuthDataService.newPatientConfirmation()
-        if (patientResult.data === false) navigate("/patient-register")
-      } catch (error: unknown) {
-        if (error instanceof AxiosError) {
-          if (error.response?.status === 401) {
-            invalidUserAction(error.response.data)
-          }
-        }
-      }
+      const patientResult = await AuthDataService.newPatientConfirmation()
+      if (patientResult.data === false) navigate("/patient-register")
     }
     else if (result.verified === true && result.userType === "Doctor") navigate("/vet-dashboard")
     else navigate("/patient-register")

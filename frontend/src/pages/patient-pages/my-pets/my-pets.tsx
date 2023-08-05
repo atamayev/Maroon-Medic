@@ -11,7 +11,7 @@ import Header from "../../header"
 import PatientHeader from "../patient-header"
 import { AddPet } from "./add-pet"
 
-function usePetData() {
+function usePetData(userType: DoctorOrPatientOrNull) {
   const storedData = sessionStorage.getItem("PatientPetData")
   const parsedData = storedData && JSON.parse(storedData)
   const [savedPetData, setSavedPetData] = useState<PetItemTypeWithID[]>(parsedData || [])
@@ -36,8 +36,9 @@ function usePetData() {
   }
 
   useEffect(() => {
+    if (userType !== "Patient") return
     fetchAndSetPetData()
-  }, [])
+  }, [userType])
 
   return { savedPetData, setSavedPetData, petTypes, insurances }
 }
@@ -64,8 +65,8 @@ export default function MyPets() {
   const [showAddPet, setShowAddPet] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [petToDelete, setPetToDelete] = useState<PetItemTypeWithID | null>(null)
+  const { savedPetData, setSavedPetData, petTypes, insurances } = usePetData(userType)
   if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
-  const { savedPetData, setSavedPetData, petTypes, insurances } = usePetData()
 
   const renderSavedPetDataTitle = (
     pet: PetItemTypeWithID

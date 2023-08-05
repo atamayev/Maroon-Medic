@@ -9,7 +9,7 @@ import {
   modifyAddressData,
   deleteAddressData
 } from "./save-doctor-account-details-helpers"
-import { handle401AxiosErrorAndSetError } from "src/utils/handle-errors"
+import { handle401AxiosErrorAndSetMessageType } from "src/utils/handle-errors"
 
 export function addDoctorLanguages(
   languageID: number,
@@ -153,7 +153,7 @@ export async function addPreVetEducation(
       return
     }
   } catch (error: unknown) {
-    handle401AxiosErrorAndSetError(error, setPreVetEducationConfirmation)
+    handle401AxiosErrorAndSetMessageType(error, setPreVetEducationConfirmation)
   }
 }
 
@@ -177,7 +177,7 @@ export async function deletePreVetEducation(
       return
     }
   } catch (error: unknown) {
-    handle401AxiosErrorAndSetError(error, setPreVetEducationConfirmation)
+    handle401AxiosErrorAndSetMessageType(error, setPreVetEducationConfirmation)
   }
 }
 
@@ -210,7 +210,7 @@ export async function addVetEducation(
       return
     }
   } catch (error: unknown) {
-    handle401AxiosErrorAndSetError(error, setVetEducationConfirmation)
+    handle401AxiosErrorAndSetMessageType(error, setVetEducationConfirmation)
   }
 }
 
@@ -234,7 +234,7 @@ export async function deleteVetEducation(
       return
     }
   } catch (error: unknown) {
-    handle401AxiosErrorAndSetError(error, setVetEducationConfirmation)
+    handle401AxiosErrorAndSetMessageType(error, setVetEducationConfirmation)
   }
 }
 
@@ -285,7 +285,7 @@ export async function saveDescription(
       setDescriptionConfirmation({messageType: "saved"})
     }
   } catch (error: unknown) {
-    handle401AxiosErrorAndSetError(error, setDescriptionConfirmation)
+    handle401AxiosErrorAndSetMessageType(error, setDescriptionConfirmation)
   }
 }
 
@@ -322,6 +322,6 @@ export async function handlePublicAvailibilityToggle (
       setPubliclyAvailableConfirmation({messageType: "saved"})
     }
   } catch (error: unknown) {
-    handle401AxiosErrorAndSetError(error, setPubliclyAvailableConfirmation)
+    handle401AxiosErrorAndSetMessageType(error, setPubliclyAvailableConfirmation)
   }
 }

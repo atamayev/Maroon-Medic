@@ -8,9 +8,10 @@ import PatientHeader from "../patient-header"
 
 export default function PatientLoginAndSecurity() {
   const { userType } = useSimpleUserVerification()
-  if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
 
-  const loginHistory = useLoginHistory(userType)
+  const loginHistory = useLoginHistory(userType, "Patient")
+
+  if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
 
   return (
     <>

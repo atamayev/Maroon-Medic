@@ -184,9 +184,7 @@ const AddressAccordionItem = (props: AddressAccordionProps) => {
   }
 
   const RenderUpdateLocationButton = () => {
-    const storedData = sessionStorage.getItem("DoctorAccountDetails")
-    const parsedData = storedData && JSON.parse(storedData)
-    const DoctorAccountDetails = JSON.parse(parsedData)
+    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
     const originalAddress = DoctorAccountDetails.addressData.find((addr: DoctorAddressDataType) => addr.addressesID === address.addressesID)
     const isAddressSame = _.isEqual(originalAddress, address)
     if (isAddressSame) return null

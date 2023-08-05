@@ -32,15 +32,15 @@ function RenderIsPubliclyAvailable (props: Props) {
     <div>
       {/* All of this logic must be kept in this component, or else the toggle button will not work: */}
       <ToggleButtonGroup type = "radio" name = "options"
-        value = {publiclyAvailable ?? false}
+        value = {publiclyAvailable ?? 0}
         onChange = {(value) => handlePublicAvailibilityToggle(value, setPubliclyAvailable, setPubliclyAvailableConfirmation)}
       >
         <ToggleButton
           id = "tbg-radio-1"
           value = {0}
           style = {{
-            backgroundColor: publiclyAvailable === false ? "red" : "white",
-            color: publiclyAvailable === false ? "white" : "black",
+            backgroundColor: !publiclyAvailable ? "red" : "white",
+            color: !publiclyAvailable ? "white" : "black",
             borderColor: "black"
           }}
         >
@@ -51,8 +51,9 @@ function RenderIsPubliclyAvailable (props: Props) {
           id = "tbg-radio-2"
           value = {1}
           style =
-            {{ backgroundColor: publiclyAvailable === true ? "green" : "white",
-              color: publiclyAvailable === true ? "white" : "black",
+            {{
+              backgroundColor: publiclyAvailable ? "green" : "white",
+              color: publiclyAvailable ? "white" : "black",
               borderColor: "black"
             }}
         >

@@ -1,9 +1,8 @@
-import { AxiosError } from "axios"
 import { NavigateFunction } from "react-router-dom"
 import AuthDataService from "../services/auth-data-service"
 import PrivateDoctorDataService from "../services/private-doctor-data-service"
 import PrivatePatientDataService from "../services/private-patient-data-service"
-import { invalidUserAction } from "./user-verification-snippets"
+import { handle401AxiosErrorAndSetCustomError } from "src/utils/handle-errors"
 
 export const handleLoginSubmit = async (
   loginInformationObject: LoginAndRegisterInformationType,
@@ -29,12 +28,7 @@ export const handleLoginSubmit = async (
     }
     else setError("Login didn't work")
   } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401) {
-        invalidUserAction(error.response.data)
-      } else setError(error.response!.data)
-
-    }
+    handle401AxiosErrorAndSetCustomError(error, setError)
   }
   setLoading(false)
 }
@@ -55,12 +49,7 @@ export const handleRegisterSubmit = async (
     if (response.status === 200) navigate(`/new-${VetOrPatient.toLowerCase()}`)
     else setError("Registration didn't work")
   } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401) {
-        invalidUserAction(error.response.data)
-      } else setError(error.response!.data)
-
-    }
+    handle401AxiosErrorAndSetCustomError(error, setError)
   }
   setLoading(false)
 }
@@ -93,11 +82,7 @@ export const handleNewUserSubmit = async (
     }
     else setError("Unable to add new user. Please reload and try again.")
   } catch (error: unknown) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401) {
-        invalidUserAction(error.response.data)
-      } else setError(error.response!.data)
-    }
+    handle401AxiosErrorAndSetCustomError(error, setError)
   }
   setLoading(false)
 }

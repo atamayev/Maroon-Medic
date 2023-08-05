@@ -24,7 +24,7 @@ export async function fetchLoginHistory(setLoginHistory: React.Dispatch<React.Se
   }
 }
 
-export function useLoginHistory (userType: DoctorOrPatient) {
+export function useLoginHistory (userType: DoctorOrPatientOrNull, expectedUserType: DoctorOrPatient) {
   const [loginHistory, setLoginHistory] = useState<LoginHistoryItem[]>([])
 
   const checkForLoginHistory = async () => {
@@ -37,6 +37,7 @@ export function useLoginHistory (userType: DoctorOrPatient) {
   }
 
   useEffect(() => {
+    if (userType !== expectedUserType) return
     checkForLoginHistory()
   }, [userType])
 

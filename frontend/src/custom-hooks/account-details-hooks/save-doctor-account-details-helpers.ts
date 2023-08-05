@@ -1,5 +1,5 @@
 import PrivateDoctorDataService from "../../services/private-doctor-data-service"
-import { handle401AxiosErrorAndSetError } from "src/utils/handle-errors"
+import { handle401AxiosErrorAndSetMessageType } from "src/utils/handle-errors"
 
 type LanguageOperationsType = typeof PrivateDoctorDataService.deleteLanguage |
                               typeof PrivateDoctorDataService.addLanguage
@@ -15,7 +15,7 @@ export async function modifyDoctorLanguages(
   try {
     response = await operation(languageID)
   } catch (error: unknown) {
-    handle401AxiosErrorAndSetError(error, setLanguagesConfirmation)
+    handle401AxiosErrorAndSetMessageType(error, setLanguagesConfirmation)
     return
   }
   if (response.status === 200) {
@@ -44,7 +44,7 @@ export async function modifyDoctorSpecialties(
   try {
     response = await operation(specialtyID)
   } catch (error: unknown) {
-    handle401AxiosErrorAndSetError(error, setSpecialtiesConfirmation)
+    handle401AxiosErrorAndSetMessageType(error, setSpecialtiesConfirmation)
     return
   }
   if (response.status === 200) {
@@ -73,7 +73,7 @@ export async function modifyServicedPets(
   try {
     response = await operation(petID)
   } catch (error: unknown) {
-    handle401AxiosErrorAndSetError(error, setPetsConfirmation)
+    handle401AxiosErrorAndSetMessageType(error, setPetsConfirmation)
     return
   }
   if (response.status === 200) {
@@ -122,7 +122,7 @@ export async function modifyAddressData(
       setAddressesConfirmation({messageType: "saved"})
     }
   } catch (error: unknown) {
-    handle401AxiosErrorAndSetError(error, setAddressesConfirmation)
+    handle401AxiosErrorAndSetMessageType(error, setAddressesConfirmation)
   }
 }
 
@@ -147,7 +147,7 @@ export async function deleteAddressData(
       setAddressesConfirmation({messageType: "saved"})
     }
   } catch (error: unknown) {
-    handle401AxiosErrorAndSetError(error, setAddressesConfirmation)
+    handle401AxiosErrorAndSetMessageType(error, setAddressesConfirmation)
   }
 }
 
@@ -190,7 +190,7 @@ export async function modifyServicesData(
       setServicesConfirmation({messageType: "saved"})
     }
   } catch (error: unknown) {
-    handle401AxiosErrorAndSetError(error, setServicesConfirmation)
+    handle401AxiosErrorAndSetMessageType(error, setServicesConfirmation)
   }
 }
 
