@@ -1,19 +1,21 @@
 import { handle401AxiosErrorAndSetError } from "src/utils/handle-errors"
 import PrivatePatientDataService from "../../services/private-patient-data-service"
 
-function petDataOperations (petData: PetItemType, responseData: PetItemType) {
-  delete petData.insurance_listID
-  delete petData.pet_listID
-  petData.pet_infoID = responseData
-  return petData
+function petDataOperations(petData: PetItemType, responseData: number): PetItemTypeWithID {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { pet_listID, insurance_listID, ...rest } = petData
+  return {
+    ...rest,
+    pet_infoID: responseData,
+  }
 }
 
 export async function addPet(
   petData: PetItemType,
   setPetData: React.Dispatch<React.SetStateAction<PetItemType>>,
   setPetConfirmation: (conf: ConfirmationMessage) => void,
-  savedPetData: PetItemType[],
-  setSavedPetData: React.Dispatch<React.SetStateAction<PetItemType[]>>,
+  savedPetData: PetItemTypeWithID[],
+  setSavedPetData: React.Dispatch<React.SetStateAction<PetItemTypeWithID[]>>,
   setShowAddPet: React.Dispatch<React.SetStateAction<boolean>>
 ) {
   let response
@@ -30,7 +32,7 @@ export async function addPet(
     setSavedPetData(newPetData)
     sessionStorage.setItem("PatientPetData", JSON.stringify(newPetData))
     setPetConfirmation({messageType: "saved"})
-    setPetData({})
+    setPetData({} as PetItemType)
     setShowAddPet(false)
   } else {
     setPetConfirmation({messageType: "problem"})
@@ -39,8 +41,8 @@ export async function addPet(
 
 export async function deletePet(
   pet_infoID: number,
-  savedPetData: PetItemType[],
-  setSavedPetData: React.Dispatch<React.SetStateAction<PetItemType[]>>,
+  savedPetData: PetItemTypeWithID[],
+  setSavedPetData: React.Dispatch<React.SetStateAction<PetItemTypeWithID[]>>,
   setPetConfirmation: (conf: ConfirmationMessage) => void
 ) {
   let response

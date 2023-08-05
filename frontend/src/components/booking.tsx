@@ -22,17 +22,19 @@ interface BaseProps {
 }
 
 interface ChoosePetProps extends BaseProps {
-  savedPetData: PetItemType[]
-  setSelectedPet: React.Dispatch<React.SetStateAction<PetItemType | null>>
+  savedPetData: PetItemTypeWithID[]
+  setSelectedPet: React.Dispatch<React.SetStateAction<PetItemTypeWithID | null>>
 }
 
 export const RenderChoosePet = (props: ChoosePetProps) => {
-  if (_.isEmpty(props.savedPetData)) {
+  const { savedPetData, setSelectedPet, selectedPet, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime } = props
+
+  if (_.isEmpty(savedPetData)) {
     return (
-      <div className = "col-md-6">
+      <div className="col-md-6">
         You need to add a pet to make an appointment
-        <Link to = {"/my-pets"}>
-          <Button variant = "primary">
+        <Link to={"/my-pets"}>
+          <Button variant="primary">
             <p>Add a Pet</p>
           </Button>
         </Link>
@@ -40,29 +42,29 @@ export const RenderChoosePet = (props: ChoosePetProps) => {
     )
   }
 
-  if (props.savedPetData.length === 1) return <div className = "col-md-6">Selected Pet: {props.selectedPet?.Name}</div>
+  if (savedPetData.length === 1) return <div className="col-md-6">Selected Pet: {selectedPet?.Name}</div>
 
   return (
-    <div className = "col-md-6">
+    <div className="col-md-6">
       <FormGroup
-        as = "select"
-        id = "petSelect"
-        label = "Select a pet"
-        onChange = {(e) =>
+        as="select"
+        id="petSelect"
+        label="Select a pet"
+        onChange={(e) =>
           handlePetChange(
             e,
-            props.savedPetData,
-            props.setSelectedPet,
-            props.setSelectedService,
-            props.setSelectedLocation,
-            props.setSelectedDay,
-            props.setSelectedTime
+            savedPetData,
+            setSelectedPet,
+            setSelectedService,
+            setSelectedLocation,
+            setSelectedDay,
+            setSelectedTime
           )
         }
       >
         <option>Select...</option>
-        {props.savedPetData.map((pet, index) => (
-          <option key = {index} value = {pet.pet_infoID}>
+        {savedPetData.map((pet, index) => (
+          <option key={index} value={pet.pet_infoID}>
             {pet.Name}
           </option>
         ))}
@@ -76,27 +78,29 @@ interface SelectServiceProps extends BaseProps {
 }
 
 export const RenderSelectService = (props: SelectServiceProps) => {
-  if (!props.selectedPet) return null
+  const { providedServices, selectedPet, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime } = props
+
+  if (!selectedPet) return null
 
   return (
-    <div className = "col-md-6">
+    <div className="col-md-6">
       <FormGroup
-        as = "select"
-        id = "serviceSelect"
-        label = "Select a service"
-        onChange = {(e) =>
+        as="select"
+        id="serviceSelect"
+        label="Select a service"
+        onChange={(e) =>
           handleServiceChange(
             e,
-            props.providedServices,
-            props.setSelectedService,
-            props.setSelectedLocation,
-            props.setSelectedDay,
-            props.setSelectedTime
+            providedServices,
+            setSelectedService,
+            setSelectedLocation,
+            setSelectedDay,
+            setSelectedTime
           )}
       >
         <option>Select...</option>
-        {props.providedServices.map((service, index) => (
-          <option key = {index} value = {service.service_and_category_listID}>
+        {providedServices.map((service, index) => (
+          <option key={index} value={service.service_and_category_listID}>
             {service.Category_name} - {service.Service_name}
           </option>
         ))}
@@ -112,27 +116,30 @@ interface SelectLocationProps extends BaseProps {
 }
 
 export const RenderSelectLocation = (props: SelectLocationProps) => {
-  if (!props.selectedService) return null
+  const { addresses, selectedService, setNoAvailableTimesMessage,
+    setSelectedLocation, setSelectedDay, setSelectedTime } = props
+
+  if (!selectedService) return null
 
   return (
-    <div className = "col-md-6">
+    <div className="col-md-6">
       <FormGroup
-        as = "select"
-        id = "locationSelect"
-        label = "Select a location"
-        onChange = {(e) =>
+        as="select"
+        id="locationSelect"
+        label="Select a location"
+        onChange={(e) =>
           handleLocationChange(
             e,
-            props.addresses,
-            props.setSelectedLocation,
-            props.setSelectedDay,
-            props.setSelectedTime,
-            props.setNoAvailableTimesMessage
+            addresses,
+            setSelectedLocation,
+            setSelectedDay,
+            setSelectedTime,
+            setNoAvailableTimesMessage
           )}
       >
         <option>Select...</option>
-        {props.addresses.map((address) => (
-          <option key = {address.addressesID} value = {address.addressesID}>
+        {addresses.map((address) => (
+          <option key={address.addressesID} value={address.addressesID}>
             {address.address_title}: ({address.address_line_1} {address.address_line_2}, {address.city}, {address.state}, {address.zip})
           </option>
         ))}
@@ -147,9 +154,10 @@ interface NoAvailableTimesProps {
 }
 
 export const RenderNoAvailableTimes = (props: NoAvailableTimesProps) => {
-  if (!props.noAvailableTimesMessage) return null
+  const { noAvailableTimesMessage, personalData } = props
+  if (!noAvailableTimesMessage) return null
   return <>
-    Dr. {_.upperFirst(props.personalData.LastName || "")} does not currently have any open appointments at this location
+    Dr. {_.upperFirst(personalData.LastName || "")} does not currently have any open appointments at this location
   </>
 }
 
@@ -164,18 +172,19 @@ interface SelectDayProps {
 }
 
 export const RenderSelectDay = (props: SelectDayProps) => {
-  if (!(props.selectedService && props.selectedLocation)) return null
+  const { selectedService, selectedLocation, setSelectedDay, setSelectedTime, selectedDay, personalData, availableDates } = props
+  if (!(selectedService && selectedLocation)) return null
 
   return (
-    <div className = "col-md-6">
+    <div className="col-md-6">
       <FormGroup
-        as = "select"
-        id = "daySelect"
-        label = "Select a date"
-        onChange = {(e) => handleDayChange(e, props.setSelectedDay, props.setSelectedTime)}
+        as="select"
+        id="daySelect"
+        label="Select a date"
+        onChange={(e) => handleDayChange(e, setSelectedDay, setSelectedTime)}
       >
         <option>Select...</option>
-        {RenderAvailableDates(props.selectedDay, props.personalData, props.availableDates)}
+        {RenderAvailableDates(selectedDay, personalData, availableDates)}
       </FormGroup>
     </div>
   )
@@ -191,19 +200,20 @@ interface SelectTimeProps {
 }
 
 export const RenderSelectTime = (props: SelectTimeProps) => {
-  if (!(props.selectedService && props.selectedLocation && props.selectedDay)) return null
+  const { selectedService, selectedLocation, selectedDay, setSelectedTime, availableTimes, serviceMinutes } = props
+  if (!(selectedService && selectedLocation && selectedDay)) return null
   return (
-    <div className = "col-md-6">
+    <div className="col-md-6">
       <FormGroup
-        as = "select"
-        id = "timeSelect"
-        label = "Select a time"
-        onChange = {(e) => handleTimeChange(e, props.setSelectedTime)}
+        as="select"
+        id="timeSelect"
+        label="Select a time"
+        onChange={(e) => handleTimeChange(e, setSelectedTime)}
       >
         <option>Select...</option>
-        {props.availableTimes.map((time) => (
-          <option key = {time} value = {time}>
-            {time} - {moment(time, "h:mm A").add(props.serviceMinutes, "minutes").format("h:mm A")}
+        {availableTimes.map((time) => (
+          <option key={time} value={time}>
+            {time} - {moment(time, "h:mm A").add(serviceMinutes, "minutes").format("h:mm A")}
           </option>
         ))}
       </FormGroup>
@@ -223,40 +233,41 @@ interface FinalizeBookingProps {
 }
 
 export const RenderFinalizeBookingButton = (props: FinalizeBookingProps) => {
-  if (!(props.selectedService && props.selectedLocation && props.selectedDay && props.selectedTime)) return null
+  const { selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet, navigate } = props
+  if (!(selectedService && selectedLocation && selectedDay && selectedTime)) return null
 
   return (
     <Button
-      className = "mt-3"
-      onClick = {() => finalizeBookingClick(
-        props.navigate,
-        props.selectedService,
-        props.selectedLocation,
-        props.selectedDay,
-        props.selectedTime,
-        props.serviceMinutes,
-        props.personalData,
-        props.selectedPet
+      className="mt-3"
+      onClick={() => finalizeBookingClick(
+        navigate,
+        selectedService,
+        selectedLocation,
+        selectedDay,
+        selectedTime,
+        serviceMinutes,
+        personalData,
+        selectedPet
       )}
-      variant = "primary"
+      variant="primary"
     >
-      Click to {RenderInstantBook(props.selectedLocation)} an appointment
+      Click to {RenderInstantBook(selectedLocation)} an appointment
     </Button>
   )
 }
 
 export const RenderPatientNotLoggedIn = () => {
   return (
-    <Card className = "card-bottom-margin">
+    <Card className="card-bottom-margin">
       <Card.Header>Ready to make a booking?</Card.Header>
-      <UnauthorizedUserBodyText patientOrDoctor = {"patient"} />
+      <UnauthorizedUserBodyText patientOrDoctor={"patient"} />
     </Card>
   )
 }
 
 export const RenderDoctorDoesNotOfferServices = (personalData: PersonalDataType) => {
   return (
-    <Card className = "card-bottom-margin">
+    <Card className="card-bottom-margin">
       <Card.Header>Ready to make a booking?</Card.Header>
       <Card.Body>Dr. {_.upperFirst(personalData.LastName || "")} does not currently offer any services.</Card.Body>
     </Card>
@@ -265,7 +276,7 @@ export const RenderDoctorDoesNotOfferServices = (personalData: PersonalDataType)
 
 export const RenderDoctorDoesNotHaveLocations = (personalData: PersonalDataType) => {
   return (
-    <Card className = "card-bottom-margin">
+    <Card className="card-bottom-margin">
       <Card.Header>Ready to make a booking?</Card.Header>
       <Card.Body>Dr. {_.upperFirst(personalData.LastName || "")} does not currently have any open locations.</Card.Body>
     </Card>
@@ -279,7 +290,7 @@ const RenderAvailableDates = (selectedDay: string, personalData: PersonalDataTyp
 
   return (
     availableDates.map((date) => (
-      <option key = {date} value = {date}>
+      <option key={date} value={date}>
         {date}
       </option>
     ))

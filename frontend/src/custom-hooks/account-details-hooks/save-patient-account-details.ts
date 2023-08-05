@@ -1,12 +1,15 @@
 import PrivatePatientDataService from "../../services/private-patient-data-service"
 import { handle401AxiosErrorAndSetError } from "src/utils/handle-errors"
 
+type LanguageOperationsType = typeof PrivatePatientDataService.deleteLanguage |
+                              typeof PrivatePatientDataService.addLanguage
+
 async function modifyPatientLanguages(
-  operation,
+  operation: LanguageOperationsType,
   languageID: number,
   newSpokenLanguages: LanguageItemType[],
   setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
-  setLanguagesConfirmation
+  setLanguagesConfirmation: (conf: ConfirmationMessage) => void
 ) {
   let response
   try {
@@ -17,7 +20,7 @@ async function modifyPatientLanguages(
   }
   if (response.status === 200) {
     setSpokenLanguages(newSpokenLanguages)
-    const PatientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails"))
+    const PatientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails") ?? "{}")
     PatientAccountDetails.languages = newSpokenLanguages
     sessionStorage.setItem("PatientAccountDetails", JSON.stringify(PatientAccountDetails))
     setLanguagesConfirmation({messageType: "saved"})
@@ -30,7 +33,7 @@ export async function addPatientLanguages(
   languageID: number,
   newSpokenLanguages: LanguageItemType[],
   setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
-  setLanguagesConfirmation
+  setLanguagesConfirmation: (conf: ConfirmationMessage) => void
 ) {
   return modifyPatientLanguages(
     PrivatePatientDataService.addLanguage, languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation
@@ -41,7 +44,7 @@ export async function deletePatientLanguages(
   languageID: number,
   newSpokenLanguages: LanguageItemType[],
   setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
-  setLanguagesConfirmation
+  setLanguagesConfirmation: (conf: ConfirmationMessage) => void
 ) {
   return modifyPatientLanguages(
     PrivatePatientDataService.deleteLanguage, languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation

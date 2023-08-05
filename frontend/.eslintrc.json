@@ -56,5 +56,6 @@
         "prefer-const": "error",
         "max-len": ["error", { "code": 140 }],
         "react/prop-types": "off"
+        // "require-await": "error"
     }
 }

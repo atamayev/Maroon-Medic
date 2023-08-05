@@ -11,21 +11,20 @@ interface CategoriesType {
 
 export default function RenderSpecialtiesSection(props: Props) {
   const { doctorSpecialties } = props
-  if (!_.isEmpty(doctorSpecialties)) {
-    return (
-      <Card className = "card-bottom-margin">
-        <Card.Header>
-          Doctor Organizations and Specialites
-        </Card.Header>
-        <Card.Body>
-          {renderSpecialties(doctorSpecialties)}
-        </Card.Body>
-      </Card>
-    )
-  }
+  if (_.isEmpty(doctorSpecialties)) return null
+  return (
+    <Card className = "card-bottom-margin">
+      <Card.Header>
+        Doctor Organizations and Specialites
+      </Card.Header>
+      <Card.Body>
+        <RenderSpecialties {...doctorSpecialties} />
+      </Card.Body>
+    </Card>
+  )
 }
 
-function renderSpecialties(doctorSpecialties: SpecialtyType[]) {
+function RenderSpecialties(doctorSpecialties: SpecialtyType[]) {
   const organizations: CategoriesType = {}
   if (doctorSpecialties) {
     doctorSpecialties.forEach(specialty => {

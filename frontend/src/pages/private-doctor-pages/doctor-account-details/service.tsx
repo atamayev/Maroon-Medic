@@ -63,7 +63,7 @@ function RenderIsVetServices (props: Props) {
 
   if (_.isEmpty(_.uniq(listDetails.servicesAndCategories?.map((item) => item.Category_name)))) return <>Loading...</>
 
-  const renderIsSelectedService = (service: ServiceItemType, selectedService: ServiceItemType) => {
+  const renderIsSelectedService = (service: ServiceListItemType, selectedService: ServiceItemType | undefined) => {
     if (!selectedService) return null
     return (
       <>
@@ -73,7 +73,7 @@ function RenderIsVetServices (props: Props) {
     )
   }
 
-  const renderServices = (category: string, services: ServiceItemType[]) => {
+  const renderServices = (category: string, services: ServiceListItemType[]) => {
     if (!(services.length <= 1 || expandedCategories.includes(category))) return null
 
     return (
@@ -91,7 +91,7 @@ function RenderIsVetServices (props: Props) {
     )
   }
 
-  const renderServiceCheckbox = (service: ServiceItemType, category: string) => {
+  const renderServiceCheckbox = (service: ServiceListItemType, category: string) => {
     return (
       <>
         {renderActionButton(service)}
@@ -105,7 +105,7 @@ function RenderIsVetServices (props: Props) {
           }
           onChange = {(event) => {
             if (event.target.checked) {
-              setSelectedServices([...selectedServices, {...service, Service_price: null, Service_time: null}])
+              setSelectedServices([...selectedServices, {...service, Service_price: -1, Service_time: ""}])
             }
             else {
               setSelectedServices(
@@ -119,7 +119,7 @@ function RenderIsVetServices (props: Props) {
     )
   }
 
-  const renderActionButton = (service: ServiceItemType) => {
+  const renderActionButton = (service: ServiceListItemType) => {
     const selectedService = selectedServices.find(s => s.service_and_category_listID === service.service_and_category_listID)
     const providedService = providedServices.find(s => s.service_and_category_listID === service.service_and_category_listID)
 
@@ -169,7 +169,7 @@ function RenderIsVetServices (props: Props) {
     return null
   }
 
-  const renderServiceTimeInput = (service: ServiceItemType, selectedService: ServiceItemType) => {
+  const renderServiceTimeInput = (service: ServiceListItemType, selectedService: ServiceItemType) => {
     return (
       <select
         id = {`time-${service.service_and_category_listID}`}
@@ -197,20 +197,20 @@ function RenderIsVetServices (props: Props) {
     )
   }
 
-  const renderServicePriceInput = (service: ServiceItemType, selectedService: ServiceItemType) => {
+  const renderServicePriceInput = (service: ServiceListItemType, selectedService: ServiceItemType) => {
     return (
       <input
         type = "text"
         placeholder = "Service Price ($)"
         id = {`price-${service.service_and_category_listID}`}
         required
-        value = {selectedService?.Service_price || ""}
+        value = {selectedService?.Service_price?.toString() || ""}
         onChange = {(e) => handleNumericInput(
           e,
           (newVal) => {
             const updatedServices = selectedServices.map(s => {
               if (s.service_and_category_listID === service.service_and_category_listID) {
-                return {...s, Service_price: newVal}
+                return {...s, Service_price: parseFloat(newVal)}
               }
               return s
             })
@@ -234,7 +234,7 @@ function RenderIsVetServices (props: Props) {
     }
 
     return (
-      <Button onClick={() => handleToggleCategory(category, setExpandedCategories)}>
+      <Button onClick = {() => handleToggleCategory(category, setExpandedCategories)}>
         {renderIsOpen()}
       </Button>
     )

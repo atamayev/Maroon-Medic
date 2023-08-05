@@ -6,7 +6,8 @@ import {
   modifyServicesData,
   modifyDoctorSpecialties,
   modifyServicedPets,
-  modifyAddressData
+  modifyAddressData,
+  deleteAddressData
 } from "./save-doctor-account-details-helpers"
 import { handle401AxiosErrorAndSetError } from "src/utils/handle-errors"
 
@@ -131,10 +132,10 @@ export async function addPreVetEducation(
   try {
     const mappedPreVetEducationObject = {
       School_ID: listDetails.preVetSchools
-        .find(school => school.School_name === preVetEducationObject.School_name)?.pre_vet_school_listID || null,
-      Major_ID: listDetails.majors.find(major => major.Major_name === preVetEducationObject.Major_name)?.major_listID || null,
+        .find(school => school.School_name === preVetEducationObject.School_name)!.pre_vet_school_listID,
+      Major_ID: listDetails.majors.find(major => major.Major_name === preVetEducationObject.Major_name)!.major_listID,
       Education_type_ID: listDetails.preVetEducationTypes.find(
-        educationType => educationType.Education_type === preVetEducationObject.Education_type)?.pre_vet_education_typeID || null,
+        educationType => educationType.Education_type === preVetEducationObject.Education_type)!.pre_vet_education_typeID,
       Start_date: moment(preVetEducationObject.Start_Date, "MMMM D, YYYY").format("YYYY-MM-DD"),
       End_date: moment(preVetEducationObject.End_Date, "MMMM D, YYYY").format("YYYY-MM-DD")
     }
@@ -189,9 +190,9 @@ export async function addVetEducation(
 ) {
   try {
     const mappedVetEducationObject = {
-      School_ID: listDetails.vetSchools.find(school => school.School_name === vetEducationObject.School_name)?.vet_school_listID || null,
+      School_ID: listDetails.vetSchools.find(school => school.School_name === vetEducationObject.School_name)!.vet_school_listID,
       Education_type_ID: listDetails.vetEducationTypes.find(
-        educationType => educationType.Education_type === vetEducationObject.Education_type)?.vet_education_typeID || null,
+        educationType => educationType.Education_type === vetEducationObject.Education_type)!.vet_education_typeID,
       Start_date: moment(vetEducationObject.Start_Date, "MMMM D, YYYY").format("YYYY-MM-DD"),
       End_date: moment(vetEducationObject.End_Date, "MMMM D, YYYY").format("YYYY-MM-DD")
     }
@@ -259,7 +260,7 @@ export function deleteLocation(
   setAddressesConfirmation: (conf: ConfirmationMessage) => void
 ) {
   //Consider adding another modifyAddressData
-  return modifyAddressData(PrivateDoctorDataService.deleteAddressData, address, setAddresses, setAddressesConfirmation)
+  return deleteAddressData(address, setAddresses, setAddressesConfirmation)
 }
 
 export async function saveDescription(

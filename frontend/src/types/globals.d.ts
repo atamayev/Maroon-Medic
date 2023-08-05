@@ -22,7 +22,7 @@ declare global {
     endYear: string
   }
 
-  type DoctorAddressDataType = {
+  interface BaseAddressData {
     addressesID: number
     address_priority: number
     address_title: string
@@ -35,6 +35,9 @@ declare global {
     instant_book: boolean
     address_public_status: boolean
     Phone: string
+  }
+
+  type DoctorAddressDataType = BaseAddressData & {
     times: AvailabilityDataType[]
   }
 

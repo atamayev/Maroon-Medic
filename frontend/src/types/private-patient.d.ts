@@ -4,14 +4,24 @@ declare global {
     Doctor_LastName: string
   }
 
-  type PetItemType = {
+  interface BasePetItem {
     Name: string
     Gender: string
     DOB: string
     Pet: string
     Pet_type: string
-    pet_infoID: number
     insuranceName: string
+  }
+
+  //This is the type for the pet data when it is being 'created' (not saved)
+  type PetItemType = BasePetItem & {
+    pet_listID: number
+    insurance_listID: number
+  }
+
+  //This is the type for the pet data when it already saved
+  type PetItemTypeWithID = BasePetItem & {
+    pet_infoID: number
   }
 }
 

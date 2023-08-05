@@ -22,7 +22,7 @@ import {
 function usePetData(userType: DoctorOrPatientOrNull) {
   const storedData = sessionStorage.getItem("PatientPetData")
   const parsedData = storedData && JSON.parse(storedData)
-  const [savedPetData, setSavedPetData] = useState<PetItemType[]>(parsedData || [])
+  const [savedPetData, setSavedPetData] = useState<PetItemTypeWithID[]>(parsedData || [])
 
   const fetchAndSetPetData = async () => {
     if (userType === "Patient") {
@@ -52,7 +52,7 @@ export default function RenderBookingSection(props: Props) {
   const { userType } = useSimpleUserVerification(false)
   const { savedPetData } = usePetData(userType)
   const { providedServices, addresses, personalData } = props
-  const [selectedPet, setSelectedPet] = useState<PetItemType | null>(null)
+  const [selectedPet, setSelectedPet] = useState<PetItemTypeWithID | null>(null)
   const [selectedService, setSelectedService] = useState<ServiceItemType | null>(null)
   const [selectedLocation, setSelectedLocation] = useState<PublicAddressType |null>(null)
   const [noAvailableTimesMessage, setNoAvailableTimesMessage] = useState(false)

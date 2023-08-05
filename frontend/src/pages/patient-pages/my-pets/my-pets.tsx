@@ -14,9 +14,9 @@ import { AddPet } from "./add-pet"
 function usePetData() {
   const storedData = sessionStorage.getItem("PatientPetData")
   const parsedData = storedData && JSON.parse(storedData)
-  const [savedPetData, setSavedPetData] = useState<PetItemType[]>(parsedData || [])
-  const [petTypes, setPetTypes] = useState([])
-  const [insurances, setInsurances] = useState([])
+  const [savedPetData, setSavedPetData] = useState<PetItemTypeWithID[]>(parsedData || [])
+  const [petTypes, setPetTypes] = useState<ServicedPetItemType[]>([])
+  const [insurances, setInsurances] = useState<InsuranceItemType[]>([])
 
   const fetchAndSetPetData = async () => {
     try {
@@ -42,28 +42,34 @@ function usePetData() {
   return { savedPetData, setSavedPetData, petTypes, insurances }
 }
 
-const handleShowModal = (pet, setPetToDelete, setShowModal) => {
+const handleShowModal = (
+  pet: PetItemTypeWithID,
+  setPetToDelete: React.Dispatch<React.SetStateAction<PetItemTypeWithID | null>>,
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>
+) => {
   setPetToDelete(pet)
   setShowModal(true)
 }
 
-const handleCloseModal = (setShowModal) => {
+const handleCloseModal = (setShowModal: React.Dispatch<React.SetStateAction<boolean>>) => {
   setShowModal(false)
 }
 
 export default function MyPets() {
   const { userType } = useSimpleUserVerification()
   const [petConfirmation, setPetConfirmation] = useConfirmationMessage()
-  const [newPetData, setNewPetData] = useState({Name: "", Gender:"", DOB: "", Pet: "", Pet_type: "", insuranceName: ""})
+  const [newPetData, setNewPetData] = useState<PetItemType>(
+    {Name: "", Gender:"", DOB: "", Pet: "", Pet_type: "", insuranceName: "", pet_listID: -1, insurance_listID: -1}
+  )
   const [showAddPet, setShowAddPet] = useState(false)
   const [showModal, setShowModal] = useState(false)
-  const [petToDelete, setPetToDelete] = useState(null)
+  const [petToDelete, setPetToDelete] = useState<PetItemTypeWithID | null>(null)
   if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
-  const { savedPetData, setSavedPetData, petTypes, insurances } = usePetData(userType)
+  const { savedPetData, setSavedPetData, petTypes, insurances } = usePetData()
 
-
-
-  const renderSavedPetDataTitle = (pet) => {
+  const renderSavedPetDataTitle = (
+    pet: PetItemTypeWithID
+  ) => {
     return (
       <Card.Title>
         {pet.Name}
@@ -78,7 +84,7 @@ export default function MyPets() {
     )
   }
 
-  const renderSavedPetDataText = (pet) => {
+  const renderSavedPetDataText = (pet: PetItemTypeWithID) => {
     return (
       <div>
         <p>{pet.Pet}</p>
@@ -119,7 +125,7 @@ export default function MyPets() {
           <Button
             variant = "danger"
             onClick = {() => {
-              deletePet(petToDelete.pet_infoID, savedPetData, setSavedPetData, setPetConfirmation)
+              deletePet(petToDelete!.pet_infoID, savedPetData, setSavedPetData, setPetConfirmation)
               handleCloseModal(setShowModal)
             }}
           >

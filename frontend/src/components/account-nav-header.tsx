@@ -8,13 +8,14 @@ interface Props {
 }
 
 export default function AccountNavHeader(props: Props) {
+  const { href, eventKey, title } = props
   const location = useLocation()
-  const isActive = location.pathname.startsWith(props.href)
+  const isActive = location.pathname.startsWith(href)
 
   return (
     <Nav.Item>
-      <Nav.Link href = {props.href} eventKey = {props.eventKey} active = {isActive}>
-        {props.title}
+      <Nav.Link href = {href} eventKey = {eventKey} active = {isActive}>
+        {title}
       </Nav.Link>
     </Nav.Item>
   )

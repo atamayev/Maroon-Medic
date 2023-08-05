@@ -9,7 +9,7 @@ export async function confirmBooking(
   selectedTime: string,
   serviceMinutes: number,
   personalData: PersonalDataType,
-  selectedPet: PetItemType,
+  selectedPet: PetItemTypeWithID,
   message: string
 ) {
   const AppointmentObject = {

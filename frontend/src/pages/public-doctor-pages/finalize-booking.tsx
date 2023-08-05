@@ -22,7 +22,7 @@ export function FinalizeBookingPage() {
   let selectedTime: string
   let serviceMinutes: number
   let personalData: PersonalDataType
-  let selectedPet: PetItemType
+  let selectedPet: PetItemTypeWithID
 
   const storedData = sessionStorage.getItem("bookingDetails")
   const parsedData = storedData && JSON.parse(storedData)

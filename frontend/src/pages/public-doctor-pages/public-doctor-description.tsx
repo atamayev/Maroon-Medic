@@ -5,7 +5,8 @@ interface Props {
 }
 
 export default function RenderDescriptionSection(props: Props) {
-  if (props.description) return <> <RenderDescription {...props}/> </>
+  if (!props.description) return null
+  return <> <RenderDescription {...props}/> </>
 }
 
 function RenderDescription(props: Props) {

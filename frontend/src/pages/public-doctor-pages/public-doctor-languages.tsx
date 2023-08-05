@@ -7,18 +7,17 @@ interface Props {
 
 export default function RenderLanguageSection(props: Props) {
   const { spokenLanguages } = props
-  if (!_.isEmpty(props.spokenLanguages)) {
-    return (
-      <Card className = "card-bottom-margin">
-        <Card.Header>
-          Spoken Languages
-        </Card.Header>
-        <Card.Body>
-          <RenderSpokenLanguages {...spokenLanguages} />
-        </Card.Body>
-      </Card>
-    )
-  }
+  if (_.isEmpty(spokenLanguages)) return null
+  return (
+    <Card className = "card-bottom-margin">
+      <Card.Header>
+        Spoken Languages
+      </Card.Header>
+      <Card.Body>
+        <RenderSpokenLanguages {...spokenLanguages} />
+      </Card.Body>
+    </Card>
+  )
 }
 
 function RenderSpokenLanguages(spokenLanguages: spokenLanguagesType[]) {

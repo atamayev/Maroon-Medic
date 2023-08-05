@@ -88,8 +88,7 @@ export async function modifyServicedPets(
   }
 }
 
-type AddressOperationsType = typeof PrivateDoctorDataService.deleteAddressData |
-                             typeof PrivateDoctorDataService.updateAddressData |
+type AddressOperationsType = typeof PrivateDoctorDataService.updateAddressData |
                              typeof PrivateDoctorDataService.addAddressData
 
 export async function modifyAddressData(
@@ -113,12 +112,34 @@ export async function modifyAddressData(
       } else if (operation === PrivateDoctorDataService.updateAddressData) {
         newAddressData = DoctorAccountDetails.addressData.map(
           (addr: DoctorAddressDataType) => addr.addressesID === address.addressesID ? address : addr)
-      } else if (operation === PrivateDoctorDataService.deleteAddressData) {
-        newAddressData = DoctorAccountDetails.addressData.filter(
-          (addr: DoctorAddressDataType) => addr.addressesID !== address.addressesID)
       } else {
         throw new Error("Unknown operation")
       }
+
+      DoctorAccountDetails.addressData = newAddressData
+      setAddresses(newAddressData)
+      sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
+      setAddressesConfirmation({messageType: "saved"})
+    }
+  } catch (error: unknown) {
+    handle401AxiosErrorAndSetError(error, setAddressesConfirmation)
+  }
+}
+
+export async function deleteAddressData(
+  addressID: number,
+  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressDataType[]>>,
+  setAddressesConfirmation: (conf: ConfirmationMessage) => void
+) {
+  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
+
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const response = await PrivateDoctorDataService.deleteAddressData(addressID)
+
+    if (response.status === 200) {
+      const newAddressData = DoctorAccountDetails.addressData.filter(
+        (addr: DoctorAddressDataType) => addr.addressesID !== addressID)
 
       DoctorAccountDetails.addressData = newAddressData
       setAddresses(newAddressData)
@@ -140,7 +161,7 @@ export async function modifyServicesData(
   providedServices: ServiceItemType[],
   setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemType[]>>,
   setServicesConfirmation: (conf: ConfirmationMessage) => void,
-  setSelectedServices = null
+  setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemType[]>> | null = null
 ) {
   try {
     const response = await operation(serviceObject)

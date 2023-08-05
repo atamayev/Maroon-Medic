@@ -3,8 +3,8 @@ import { NavigateFunction } from "react-router-dom"
 
 export const handlePetChange = (
   event: React.ChangeEvent<HTMLInputElement>,
-  savedPetData: PetItemType[],
-  setSelectedPet: React.Dispatch<React.SetStateAction<PetItemType | null>>,
+  savedPetData: PetItemTypeWithID[],
+  setSelectedPet: React.Dispatch<React.SetStateAction<PetItemTypeWithID | null>>,
   setSelectedService: React.Dispatch<React.SetStateAction<ServiceItemType | null>>,
   setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressType | null>>,
   setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>,

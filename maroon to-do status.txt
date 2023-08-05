@@ -20,6 +20,9 @@ Full Stack TS changes
 	2. Figure out a way to divide up the globals.d.ts into different categories (ie public doctor vs private, patient, etc.)
 		Both back and fornt end
 	3. Add to eslint that a return type is required from all functions (error)
+	4. Get rid of the word 'type' in all types. Its obvious the'yre types
+	5. Go through the eslint changes here: https://chat.openai.com/share/b35d41ab-41f2-42ae-84fa-b40c0069d40e
+	
 
 Backend TS fixes
 	2. Move to globals	

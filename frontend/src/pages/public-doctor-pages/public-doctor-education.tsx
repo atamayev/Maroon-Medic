@@ -9,22 +9,21 @@ interface Props {
 
 export default function RenderEducationSection(props: Props) {
   const { preVetEducation, vetEducation, personalData } = props
-  if (!_.isEmpty(preVetEducation) && !_.isEmpty(vetEducation)) {
-    return (
-      <Card className = "card-bottom-margin">
-        <Card.Header>
-          Where did Dr. {_.upperFirst(personalData.LastName || "")} go to school?
-        </Card.Header>
-        <Card.Body>
-          <h3>Pre-Veterinary Education</h3>
-          {renderEducation(preVetEducation, true)}
+  if (_.isEmpty(preVetEducation) && _.isEmpty(vetEducation)) return null
+  return (
+    <Card className = "card-bottom-margin">
+      <Card.Header>
+        Where did Dr. {_.upperFirst(personalData.LastName || "")} go to school?
+      </Card.Header>
+      <Card.Body>
+        <h3>Pre-Veterinary Education</h3>
+        {renderEducation(preVetEducation, true)}
 
-          <h3>Veterinary Education</h3>
-          {renderEducation(vetEducation, false)}
-        </Card.Body>
-      </Card>
-    )
-  }
+        <h3>Veterinary Education</h3>
+        {renderEducation(vetEducation, false)}
+      </Card.Body>
+    </Card>
+  )
 }
 
 function renderEducation(educationList: EducationObjType[], hasMajor: boolean) {

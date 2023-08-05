@@ -11,21 +11,20 @@ interface CategoriesType {
 
 export default function RenderServiceSection(props: Props) {
   const { providedServices } = props
-  if (!_.isEmpty(providedServices)) {
-    return (
-      <Card className = "card-bottom-margin">
-        <Card.Header>
-          Provided Services
-        </Card.Header>
-        <Card.Body>
-          {renderProvidedServices(providedServices)}
-        </Card.Body>
-      </Card>
-    )
-  }
+  if (_.isEmpty(providedServices)) return null
+  return (
+    <Card className = "card-bottom-margin">
+      <Card.Header>
+        Provided Services
+      </Card.Header>
+      <Card.Body>
+        <RenderProvidedServices {...providedServices} />
+      </Card.Body>
+    </Card>
+  )
 }
 
-function renderProvidedServices(providedServices: ServiceItemType[]) {
+function RenderProvidedServices(providedServices: ServiceItemType[]) {
   const categories: CategoriesType = {}
   if (providedServices) {
     providedServices.forEach(service => {

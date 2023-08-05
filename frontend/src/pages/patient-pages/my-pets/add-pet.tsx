@@ -1,34 +1,48 @@
-import { Form, Button, Card,Container, Row, Col } from "react-bootstrap"
+import { Form, Button, Card, Container, Row, Col } from "react-bootstrap"
 import FormGroup from "../../../components/form-group"
 import { addPet } from "../../../custom-hooks/my-pets-hooks/save-my-pets"
 import { RenderMessageSection } from "../../../components/saved-message-section"
 
-const ifPetTypeSelected = (value, petTypes, newPetData, setNewPetData) => {
+const ifPetTypeSelected = (
+  value: string,
+  petTypes: ServicedPetItemType[],
+  newPetData: PetItemType,
+  setNewPetData: React.Dispatch<React.SetStateAction<PetItemType>>
+) => {
   // Find the selected pet type by its ID
   const selectedPetType = petTypes.find(PetType => PetType.pet_listID === JSON.parse(value))
-  const newPet = {
-    ...newPetData,
-    Pet: selectedPetType.Pet,
-    Pet_type: selectedPetType.Pet_type,
-    pet_listID: selectedPetType.pet_listID
-  }
+  if (selectedPetType) {
+    const newPet = {
+      ...newPetData,
+      Pet: selectedPetType.Pet,
+      Pet_type: selectedPetType.Pet_type,
+      pet_listID: selectedPetType.pet_listID
+    }
 
-  setNewPetData(newPet)
+    setNewPetData(newPet)
+  }
 }
 
-const ifInsuranceSelected = (value, insurances, newPetData, setNewPetData) => {
+const ifInsuranceSelected = (
+  value: string,
+  insurances: InsuranceItemType[],
+  newPetData: PetItemType,
+  setNewPetData: React.Dispatch<React.SetStateAction<PetItemType>>
+) => {
   // Find the selected insurance by its ID
   const selectedInsurance = insurances.find(insurance => insurance.insurance_listID === JSON.parse(value))
-  const newPet = {
-    ...newPetData,
-    insuranceName: selectedInsurance.Insurance_name,
-    insurance_listID: selectedInsurance.insurance_listID
-  }
+  if (selectedInsurance) {
+    const newPet = {
+      ...newPetData,
+      insuranceName: selectedInsurance.Insurance_name,
+      insurance_listID: selectedInsurance.insurance_listID
+    }
 
-  setNewPetData(newPet)
+    setNewPetData(newPet)
+  }
 }
 
-function areAllFieldsValid(petData) {
+function areAllFieldsValid(petData: PetItemType) {
   if (
     !petData.Name ||
     !petData.Gender ||
@@ -41,7 +55,13 @@ function areAllFieldsValid(petData) {
   return true
 }
 
-const handleInputChange = (event, petTypes, insurances, newPetData, setNewPetData) => {
+const handleInputChange = (
+  event: React.ChangeEvent<HTMLInputElement>,
+  newPetData: PetItemType,
+  petTypes: ServicedPetItemType[],
+  insurances: InsuranceItemType[],
+  setNewPetData: React.Dispatch<React.SetStateAction<PetItemType>>
+) => {
   const value = event.target.value
 
   if (event.target.name === "Pet_type") ifPetTypeSelected(value, petTypes, newPetData, setNewPetData)
@@ -55,31 +75,31 @@ const handleInputChange = (event, petTypes, insurances, newPetData, setNewPetDat
 interface AddPetProps {
   newPetData: PetItemType
   setNewPetData: React.Dispatch<React.SetStateAction<PetItemType>>
-  petTypes: PetTypeItemType[]
+  petTypes: ServicedPetItemType[]
   insurances: InsuranceItemType[]
   petConfirmation: ConfirmationMessage
   setPetConfirmation: (conf: ConfirmationMessage) => void
   setShowAddPet: React.Dispatch<React.SetStateAction<boolean>>
-  savedPetData: PetItemType[]
-  setSavedPetData: React.Dispatch<React.SetStateAction<PetItemType[]>>
+  savedPetData: PetItemTypeWithID[]
+  setSavedPetData: React.Dispatch<React.SetStateAction<PetItemTypeWithID[]>>
 }
 
 export const AddPet = (props: AddPetProps) => {
   const { newPetData, setNewPetData, petTypes, insurances, petConfirmation,
     setPetConfirmation, setShowAddPet, savedPetData, setSavedPetData } = props
 
-  const renderNewPetName = () => {
+  const RenderNewPetName = () => {
     if (!newPetData.Name) return <>Pet</>
     return <>{newPetData.Name}</>
   }
 
-  const renderDeleteButton = () => {
+  const RenderDeleteButton = () => {
     return (
       <Button
         variant = "danger"
         onClick = {() =>
         {
-          setNewPetData({})
+          setNewPetData({} as PetItemType)
           setShowAddPet(false)
         }}
       >
@@ -88,96 +108,98 @@ export const AddPet = (props: AddPetProps) => {
     )
   }
 
-  const renderNameSection = () => {
+  const RenderNameSection = () => {
     return (
       <FormGroup
         id = "formPetName"
         className = {"mb-3"}
         label = "Pet Name:"
         type = "text"
-        onChange = {(e) => handleInputChange (e, petTypes, insurances, newPetData, setNewPetData)}
+        onChange = {(e) => handleInputChange(e, newPetData, petTypes, insurances, setNewPetData)}
         name = "Name"
       />
     )
   }
 
-  const renderGenderSection = () => {
+  const RenderGenderSection = () => {
     return (
       <Form.Group id = "formPetGender">
         <Form.Label>Gender</Form.Label>
         <Form.Check type = "radio" label = "Male" name = "Gender" value = "Male"
-          onChange = {(e) => handleInputChange (e, petTypes, insurances, newPetData, setNewPetData)} />
+          onChange = {(e) => handleInputChange(e, newPetData, petTypes, insurances, setNewPetData)} />
 
         <Form.Check type = "radio" label = "Female" name = "Gender" value = "Female"
-          onChange = {(e) => handleInputChange (e, petTypes, insurances, newPetData, setNewPetData)} />
+          onChange = {(e) => handleInputChange(e, newPetData, petTypes, insurances, setNewPetData)} />
       </Form.Group>
     )
   }
 
-  const renderDOBSection = () => {
+  const RenderDOBSection = () => {
     return (
       <FormGroup
         id = "formPetDob"
         className = {"mb-3"}
         label = "Date of Birth"
         type = "date"
-        onChange = {(e) => handleInputChange (e, petTypes, insurances, newPetData, setNewPetData)}
+        onChange = {(e) => handleInputChange(e, newPetData, petTypes, insurances, setNewPetData)}
         name = "DOB"
       />
     )
   }
 
-  const renderPetTypeSection = () => {
+  const RenderPetTypeSection = () => {
     return (
-      <Form.Group id = "formPetType">
-        <Form.Label>Type of Pet</Form.Label>
-        <Form.Control
-          as = "select"
-          defaultValue = {""}
-          onChange = {(e) => handleInputChange (e, petTypes, insurances, newPetData, setNewPetData)}
-          name = "Pet_type"
-          required
-        >
-          <option value = "" disabled>Select</option>
-          {petTypes.map((PetType) => (
-            <option
-              key = {PetType.pet_listID}
-              value = {PetType.pet_listID}
-            >
-              {PetType.Pet}
-            </option>
-          ))}
-        </Form.Control>
-      </Form.Group>
+      <FormGroup
+        as = "select"
+        defaultValue = {""}
+        onChange = {
+          (e) => handleInputChange(e, newPetData, petTypes, insurances, setNewPetData)
+        }
+        name = "Pet_type"
+        required
+        id = "formPetType"
+        label = "Type of Pet"
+      >
+        <option value = "" disabled>Select</option>
+        {petTypes.map((PetType) => (
+          <option
+            key = {PetType.pet_listID}
+            value = {PetType.pet_listID}
+          >
+            {PetType.Pet}
+          </option>
+        ))}
+      </FormGroup>
     )
   }
 
-  const renderInsuranceSection = () => {
+  const RenderInsuranceSection = () => {
     return (
-      <Form.Group id = "formInsurance">
-        <Form.Label>Insurance</Form.Label>
-        <Form.Control
-          as = "select"
-          defaultValue = {""}
-          onChange = {(e) => handleInputChange (e, petTypes, insurances, newPetData, setNewPetData)}
-          name = "insurance"
-          required
-        >
-          <option value = "" disabled>Select</option>
-          {insurances.map((insurance) => (
-            <option
-              key = {insurance.insurance_listID}
-              value = {insurance.insurance_listID}
-            >
-              {insurance.Insurance_name}
-            </option>
-          ))}
-        </Form.Control>
-      </Form.Group>
+      <FormGroup
+        as = "select"
+        defaultValue = {""}
+        onChange = {
+          (e) => handleInputChange(e, newPetData, petTypes, insurances, setNewPetData)
+        }
+        name = "insurance"
+        required
+        id = "formInsurance"
+        label = "Insurance"
+      >
+        <option value = "" disabled>Select</option>
+        {insurances.map((insurance) => (
+          <option
+            key = {insurance.insurance_listID}
+            value = {insurance.insurance_listID}
+          >
+            {insurance.Insurance_name}
+          </option>
+        ))}
+      </FormGroup>
     )
   }
 
-  const renderAddButton = () => {
+  const RenderAddButton = () => {
     return (
       <div>
         <Button
@@ -188,7 +210,8 @@ export const AddPet = (props: AddPetProps) => {
             addPet(newPetData, setNewPetData, setPetConfirmation, savedPetData, setSavedPetData, setShowAddPet)
           }}
         >
-          Add {renderNewPetName()}
+          Add
+          <RenderNewPetName />
         </Button>
       </div>
     )
@@ -201,24 +224,24 @@ export const AddPet = (props: AddPetProps) => {
           <Row>
             <Col xs = {8}></Col>
             <Col xs = {4} className = "">
-              {renderDeleteButton()}
+              <RenderDeleteButton />
             </Col>
           </Row>
         </Container>
         <Card.Body>
           <Form>
-            {renderNameSection()}
+            <RenderNameSection />
 
-            {renderGenderSection()}
+            <RenderGenderSection />
 
-            {renderDOBSection()}
+            <RenderDOBSection />
 
-            {renderPetTypeSection()}
+            <RenderPetTypeSection />
 
-            {renderInsuranceSection()}
+            <RenderInsuranceSection />
 
             Upload image area
-            {renderAddButton()}
+            <RenderAddButton />
           </Form>
           <RenderMessageSection
             confirmationMessage = {petConfirmation}

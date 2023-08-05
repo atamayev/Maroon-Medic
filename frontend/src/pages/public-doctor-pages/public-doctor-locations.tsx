@@ -7,27 +7,26 @@ interface Props {
 
 export default function RenderLocationsSection(props: Props) {
   const { addresses } = props
-  if (!_.isEmpty(addresses)) {
-    return (
-      <Card className = "card-bottom-margin">
-        <Card.Header>
-          Locations
-        </Card.Header>
-        <Card.Body>
-          <RenderLocations {...addresses} />
-        </Card.Body>
-      </Card>
-    )
-  }
+  if (_.isEmpty(addresses)) return null
+  return (
+    <Card className = "card-bottom-margin">
+      <Card.Header>
+        Locations
+      </Card.Header>
+      <Card.Body>
+        <RenderLocations {...addresses} />
+      </Card.Body>
+    </Card>
+  )
 }
 
 function RenderLocations(addressesList: PublicAddressType[]) {
-  const renderInstantBook = (address: PublicAddressType) => {
+  const RenderInstantBook = ({ address }: {address: PublicAddressType}) => {
     if (address.instant_book) return <>Instant book available</>
     return <>Instant book unavailable</>
   }
 
-  const renderAddressSection = (address: PublicAddressType) => {
+  const RenderAddressSection = ({ address }: {address: PublicAddressType}) => {
     return (
       <>
         <h4>{address.address_title}</h4>
@@ -38,7 +37,7 @@ function RenderLocations(addressesList: PublicAddressType[]) {
     )
   }
 
-  const renderTimesSection = (address: PublicAddressType) => {
+  const RenderTimesSection = ({ address }: {address: PublicAddressType}) => {
     return (
       <div className = "col-md-6">
         <h5>Working hours:</h5>
@@ -51,20 +50,25 @@ function RenderLocations(addressesList: PublicAddressType[]) {
     )
   }
 
-  const renderPhone = (address: PublicAddressType) => {
-    if (address.Phone) return <p>Phone: {address.Phone}</p>
+  const RenderPhone = ({ address }: {address: PublicAddressType}) => {
+    if (!address.Phone) return null
+    return <p>Phone: {address.Phone}</p>
   }
 
-  return addressesList.map((address: PublicAddressType) => (
-    <div key = {address.addressesID}>
-      <div className = "row">
-        <div className = "col-md-6">
-          {renderAddressSection(address)}
-          {renderInstantBook(address)}
-          {renderPhone(address)}
+  return (
+    <>
+      {addressesList.map((address: PublicAddressType) => (
+        <div key = {address.addressesID}>
+          <div className = "row">
+            <div className = "col-md-6">
+              <RenderAddressSection address = {address} />
+              <RenderInstantBook address = {address} />
+              <RenderPhone address = {address} />
+            </div>
+            <RenderTimesSection address = {address} />
+          </div>
         </div>
-        {renderTimesSection(address)}
-      </div>
-    </div>
-  ))
+      ))}
+    </>
+  )
 }

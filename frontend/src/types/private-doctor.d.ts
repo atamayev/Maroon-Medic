@@ -16,6 +16,12 @@ declare global {
     Verified: boolean
   }
 
+  interface ServiceData {
+    service_and_category_listID: number
+    Service_time: string
+    Service_price: number
+  }
+
   type ServiceItemType = {
     service_and_category_listID: number
     Category_name: string

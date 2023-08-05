@@ -11,18 +11,17 @@ interface CategoriesType {
 
 export default function RenderServicedPetsSection(props: Props) {
   const { servicedPets } = props
-  if (!_.isEmpty(servicedPets)) {
-    return (
-      <Card className = "card-bottom-margin">
-        <Card.Header>
-          Serviced Pets
-        </Card.Header>
-        <Card.Body>
-          {renderServicedPets(servicedPets)}
-        </Card.Body>
-      </Card>
-    )
-  }
+  if (_.isEmpty(servicedPets)) return null
+  return (
+    <Card className = "card-bottom-margin">
+      <Card.Header>
+        Serviced Pets
+      </Card.Header>
+      <Card.Body>
+        {renderServicedPets(servicedPets)}
+      </Card.Body>
+    </Card>
+  )
 }
 
 function renderServicedPets(servicedPets: ServicedPetsType[]) {
