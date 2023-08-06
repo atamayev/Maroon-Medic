@@ -9,7 +9,7 @@ export const handlePetChange = (
   setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressType | null>>,
   setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>,
   setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
-) => {
+): void => {
   const value = event.target.value
   const selectedPetObject = savedPetData.find(pet => pet.pet_infoID.toString() === value)
   setSelectedPet(selectedPetObject || null)
@@ -28,7 +28,7 @@ export const handleServiceChange = (
   setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressType | null>>,
   setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>,
   setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
-) => {
+): void => {
   const value = event.target.value
   const selectedServiceObject = providedServices.find(service => service.service_and_category_listID.toString() === value)
   setSelectedService(selectedServiceObject || null)
@@ -46,7 +46,7 @@ export const handleLocationChange = (
   setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>,
   setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>,
   setNoAvailableTimesMessage: React.Dispatch<React.SetStateAction<boolean>>
-) => {
+): void => {
   const value = event.target.value
   const selectedLocationObject = addresses.find(location => location.addressesID.toString() === value)
 
@@ -69,7 +69,7 @@ export const handleDayChange = (
   event: React.ChangeEvent<HTMLInputElement>,
   setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>,
   setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
-) => {
+): void => {
   const value = event.target.value
   setSelectedDay(value === "Select..." ? null : value)
   if (value === "Select...") setSelectedTime(null)
@@ -78,7 +78,7 @@ export const handleDayChange = (
 export const handleTimeChange = (
   event: React.ChangeEvent<HTMLInputElement>,
   setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
-) => {
+): void => {
   const value = event.target.value
   setSelectedTime(value === "Select..." ? null : value)
 }
@@ -92,7 +92,7 @@ export function finalizeBookingClick(
   serviceMinutes: number,
   personalData: PersonalDataType,
   selectedPet: PetItemTypeWithID
-) {
+): void {
   const bookingDetails = {
     selectedService: selectedService ? selectedService : null,
     selectedLocation: selectedLocation ? selectedLocation : null,

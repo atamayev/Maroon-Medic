@@ -10,7 +10,7 @@ async function modifyPatientLanguages(
   newSpokenLanguages: LanguageItemType[],
   setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
   setLanguagesConfirmation: (conf: ConfirmationMessage) => void
-) {
+): Promise<void> {
   let response
   try {
     response = await operation(languageID)
@@ -34,7 +34,7 @@ export async function addPatientLanguages(
   newSpokenLanguages: LanguageItemType[],
   setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
   setLanguagesConfirmation: (conf: ConfirmationMessage) => void
-) {
+): Promise<void> {
   return await modifyPatientLanguages(
     PrivatePatientDataService.addLanguage, languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation
   )
@@ -45,7 +45,7 @@ export async function deletePatientLanguages(
   newSpokenLanguages: LanguageItemType[],
   setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
   setLanguagesConfirmation: (conf: ConfirmationMessage) => void
-) {
+): Promise<void> {
   return await modifyPatientLanguages(
     PrivatePatientDataService.deleteLanguage, languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation
   )

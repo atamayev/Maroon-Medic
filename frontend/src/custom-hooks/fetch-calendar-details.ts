@@ -24,7 +24,9 @@ interface CalendarData {
   Patient_LastName: string
 }
 
-export async function FillDoctorCalendarDetails(setEvents: React.Dispatch<React.SetStateAction<DoctorCalendarEventType[]>>) {
+export async function FillDoctorCalendarDetails(
+  setEvents: React.Dispatch<React.SetStateAction<DoctorCalendarEventType[]>>
+): Promise<void> {
   try {
     const response = await CalendarDataService.fillCalendarDetails()
     if (response.status === 200) {

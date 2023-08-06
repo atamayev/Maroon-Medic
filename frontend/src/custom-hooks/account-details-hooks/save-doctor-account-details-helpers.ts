@@ -10,7 +10,7 @@ export async function modifyDoctorLanguages(
   newSpokenLanguages: LanguageItemType[],
   setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
   setLanguagesConfirmation: (conf: ConfirmationMessage) => void
-) {
+): Promise<void> {
   let response
   try {
     response = await operation(languageID)
@@ -39,7 +39,7 @@ export async function modifyDoctorSpecialties(
   setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItemType[]>>,
   setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void,
   callback: () => void
-) {
+): Promise<void> {
   let response
   try {
     response = await operation(specialtyID)
@@ -68,7 +68,7 @@ export async function modifyServicedPets(
   newServicedPets: ServicedPetItemType[],
   setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItemType[]>>,
   setPetsConfirmation: (conf: ConfirmationMessage) => void
-) {
+): Promise<void> {
   let response
   try {
     response = await operation(petID)
@@ -96,7 +96,7 @@ export async function modifyAddressData(
   address: DoctorAddressDataType,
   setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressDataType[]>>,
   setAddressesConfirmation: (conf: ConfirmationMessage) => void
-) {
+): Promise<void> {
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
 
   try {
@@ -130,7 +130,7 @@ export async function deleteAddressData(
   addressID: number,
   setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressDataType[]>>,
   setAddressesConfirmation: (conf: ConfirmationMessage) => void
-) {
+): Promise<void> {
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
 
   try {
@@ -162,7 +162,7 @@ export async function modifyServicesData(
   setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemType[]>>,
   setServicesConfirmation: (conf: ConfirmationMessage) => void,
   setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemType[]>> | null = null
-) {
+): Promise<void> {
   try {
     const response = await operation(serviceObject)
 

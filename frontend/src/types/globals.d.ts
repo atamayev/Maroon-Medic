@@ -79,6 +79,12 @@ declare global {
   }
 
   type DayIndeces = 0 | 1 | 2 | 3 | 4 | 5 | 6 | null
+
+  type VerifyContextReturnType = Promise<{verified: boolean, userType?: DoctorOrPatient}>
+
+  interface VerifyContextType {
+    userVerification: (clearSession: boolean) => VerifyContextReturnType
+  }
 }
 
 export {}

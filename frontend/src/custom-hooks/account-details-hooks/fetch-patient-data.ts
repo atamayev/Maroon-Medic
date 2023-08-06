@@ -2,7 +2,9 @@ import ListsDataService from "../../services/lists-data-service"
 import PrivatePatientDataService from "../../services/private-patient-data-service"
 import { handle401AxiosError } from "src/utils/handle-errors"
 
-export async function FillLists(setListDetails: React.Dispatch<React.SetStateAction<PatientListDetailsType>>) {
+export async function FillLists(
+  setListDetails: React.Dispatch<React.SetStateAction<PatientListDetailsType>>
+): Promise<void> {
   try {
     const response = await ListsDataService.fillPatientLists()
     if (response) {
@@ -14,7 +16,9 @@ export async function FillLists(setListDetails: React.Dispatch<React.SetStateAct
   }
 }
 
-export async function FillPatientAccountDetails(setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>) {
+export async function FillPatientAccountDetails(
+  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>
+): Promise<void> {
   try {
     const response = await PrivatePatientDataService.fillAccountDetails()
     if (response) {

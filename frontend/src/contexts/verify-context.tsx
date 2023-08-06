@@ -4,14 +4,6 @@ import AuthDataService from "../services/auth-data-service"
 import { invalidUserAction } from "../custom-hooks/user-verification-snippets"
 import CookieUtils from "src/utils/cookie"
 
-type UserTypes = DoctorOrPatient
-
-type VerifyContextReturnType = Promise<{verified: boolean, userType?: UserTypes}>
-
-interface VerifyContextType {
-  userVerification: (clearSession: boolean) => VerifyContextReturnType
-}
-
 const createDefaultContext = (): VerifyContextType => ({ userVerification: () => Promise.resolve({verified: false}) })
 
 const VerifyContext = createContext<VerifyContextType>(createDefaultContext())

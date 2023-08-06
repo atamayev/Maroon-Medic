@@ -17,7 +17,7 @@ export async function addPet(
   savedPetData: PetItemTypeWithID[],
   setSavedPetData: React.Dispatch<React.SetStateAction<PetItemTypeWithID[]>>,
   setShowAddPet: React.Dispatch<React.SetStateAction<boolean>>
-) {
+): Promise<void> {
   let response
 
   try {
@@ -44,7 +44,7 @@ export async function deletePet(
   savedPetData: PetItemTypeWithID[],
   setSavedPetData: React.Dispatch<React.SetStateAction<PetItemTypeWithID[]>>,
   setPetConfirmation: (conf: ConfirmationMessage) => void
-) {
+): Promise<void> {
   let response
 
   try {

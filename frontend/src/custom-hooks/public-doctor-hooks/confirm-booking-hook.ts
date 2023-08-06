@@ -11,7 +11,7 @@ export async function confirmBooking(
   personalData: PersonalDataType,
   selectedPet: PetItemTypeWithID,
   message: string
-) {
+): Promise<void> {
   const AppointmentObject = {
     Service_and_category_list_ID: selectedService.service_and_category_listID,
     appointmentDate: selectedDay,

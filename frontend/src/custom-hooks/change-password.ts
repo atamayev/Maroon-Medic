@@ -6,7 +6,7 @@ export const handleChangePassword = async (
   setMessage: React.Dispatch<React.SetStateAction<string>>,
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   type: DoctorOrPatient
-) => {
+): Promise<void> => {
   setMessage("")
   if (changePasswordObject.newPassword !== changePasswordObject.newConfirmPassword) return setMessage("New passwords don't match")
   else {

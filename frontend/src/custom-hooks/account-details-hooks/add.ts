@@ -8,8 +8,8 @@ export const handleAddLanguage = (
   setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
   listDetails: DoctorListDetailsType | PatientListDetailsType,
   setLanguagesConfirmation: (conf: ConfirmationMessage) => void,
-  doctorOrPatient: "doctor" | "patient"
-) => {
+  doctorOrPatient: doctorOrpatient
+): void => {
   const selectedLanguage = listDetails.languages.find((lang) => lang.language_listID === selectedLanguageID)
 
   if (selectedLanguage) {
@@ -31,7 +31,7 @@ export const handleAddSpecialty = (
   setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>,
   listDetails: DoctorListDetailsType,
   setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void
-) => {
+): void => {
   const selectedSpecialty = listDetails.specialties.find((spec) => spec.specialties_listID === selectedSpecialtyID)
   if (selectedSpecialty) {
     const newDoctorSpecialties = [...doctorSpecialties, selectedSpecialty]
@@ -48,7 +48,7 @@ export const handleAddEducation = (
   setTimeState: React.Dispatch<React.SetStateAction<TimeStateType>>,
   selectedMajor: string | null = null,
   setSelectedMajor: React.Dispatch<React.SetStateAction<string>> | null = null
-) => {
+): EducationObjType => {
   const selectedEducationObj: EducationObjType = {
     School_name: selectedSchool,
     Education_type: selectedEducationType,
@@ -75,7 +75,7 @@ export const handleAddEducation = (
 export const handleAddAccordion = (
   addresses: DoctorAddressDataType[],
   setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressDataType[]>>
-) => {
+): void => {
   let maxPriority = Math.max(...addresses.map(address => address.address_priority))
   if (maxPriority === -Infinity) maxPriority = 0
   setAddresses(

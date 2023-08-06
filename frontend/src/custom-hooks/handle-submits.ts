@@ -10,7 +10,7 @@ export const handleLoginSubmit = async (
   setError: React.Dispatch<React.SetStateAction<string>>,
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   VetOrPatient: VetOrPatient
-) => {
+): Promise<void> => {
   setError("")
   try {
     setLoading(true)
@@ -40,7 +40,7 @@ export const handleRegisterSubmit = async (
   setError: React.Dispatch<React.SetStateAction<string>>,
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   VetOrPatient: VetOrPatient
-) => {
+): Promise<void> => {
   setError("")
   if (registerInformationObject.password !== passwordConfirm) return setError("Passwords do not match")
   try {
@@ -60,7 +60,7 @@ export const handleNewUserSubmit = async (
   setError: React.Dispatch<React.SetStateAction<string>>,
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   VetOrPatient: VetOrPatient
-) => {
+): Promise<void> => {
   setError("")
   try {
     setLoading(true)

@@ -8,7 +8,9 @@ type LoginHistoryItem = {
   Login_at: string
 }
 
-export async function fetchLoginHistory(setLoginHistory: React.Dispatch<React.SetStateAction<LoginHistoryItem[]>>) {
+export async function fetchLoginHistory(
+  setLoginHistory: React.Dispatch<React.SetStateAction<LoginHistoryItem[]>>
+): Promise<void> {
   try {
     const response = await AuthDataService.fetchLoginHistry()
     if (response) {
@@ -24,10 +26,12 @@ export async function fetchLoginHistory(setLoginHistory: React.Dispatch<React.Se
   }
 }
 
-export function useLoginHistory (userType: DoctorOrPatientOrNull, expectedUserType: DoctorOrPatient) {
+export function useLoginHistory(
+  userType: DoctorOrPatientOrNull, expectedUserType: DoctorOrPatient
+): LoginHistoryItem[] {
   const [loginHistory, setLoginHistory] = useState<LoginHistoryItem[]>([])
 
-  const checkForLoginHistory = async () => {
+  const checkForLoginHistory: () => Promise<void> = async () => {
     try {
       const storedLoginHistory = sessionStorage.getItem("LoginHistory")
       if (storedLoginHistory) setLoginHistory(JSON.parse(storedLoginHistory))

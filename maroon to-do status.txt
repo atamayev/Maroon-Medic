@@ -3,12 +3,12 @@ To-do:
 
 ASAP:
 Frontend TS Fixes:
-	1. Give return types to all functions, for functions that don't return, make the return type void
-	3. go through https://www.sitepoint.com/how-to-migrate-a-react-app-to-typescript/, other recommended ts config setup
 	6. Bring back the max lines per function
 	9. Accomodate for all res.status().jsons that were previously just res.jsons
 	10. Change all 'render___' functions to be 'Render...', and make them JSX components intead of const functions <Render.../>
 		Search for all {r
+	11. Move all hooks out of .tsx files, and into regular .ts files in the custom hooks folder
+
 
 Backend TS fixes
 	2. Move to globals	
@@ -24,7 +24,14 @@ Full Stack TS changes
 	4. Get rid of the word 'type' in all types. Its obvious the'yre types
 	5. Go through the eslint changes here: https://chat.openai.com/share/b35d41ab-41f2-42ae-84fa-b40c0069d40e
 	6. Run recommended linting checks (go through the eslint files, and make sure nothing uncommented.
-
+		"no-eval": "error",
+		"curly": "error",
+		"no-duplicate-imports": "error",
+		"@typescript-eslint/no-unnecessary-type-assertion": "error"
+		"no-var": "error",
+		"prefer-spread": "error",
+		"no-use-before-define": "error",
+		"@typescript-eslint/no-empty-interface": "error",
 
 
 Change gender, other commonly used options to enum (only if the value is used in multiple places). If not, enum not necessary

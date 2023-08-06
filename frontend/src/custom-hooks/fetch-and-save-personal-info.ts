@@ -29,7 +29,7 @@ export const handleSavePersonalInfo = async (
   personalInfo: PersonalInfoType,
   setPersonalInfoConfirmation: (conf: ConfirmationMessage) => void,
   userType: DoctorOrPatient
-) => {
+): Promise<void> => {
   const storedPersonalInfoData = sessionStorage.getItem(`${userType}PersonalInfo`)
   const stringifiedPersonalInfoData = JSON.stringify(personalInfo)
 
@@ -56,7 +56,11 @@ export const handleSavePersonalInfo = async (
   }
 }
 
-export function usePersonalInfo(userType: DoctorOrPatientOrNull, expectedUserType: DoctorOrPatient) {
+export function usePersonalInfo(
+  userType: DoctorOrPatientOrNull,
+  expectedUserType: DoctorOrPatient
+): {personalInfo: PersonalInfoType, setPersonalInfo: React.Dispatch<React.SetStateAction<PersonalInfoType>>}
+{
   const [personalInfo, setPersonalInfo] = useState<PersonalInfoType>({
     FirstName: "",
     LastName: "",
@@ -68,7 +72,7 @@ export function usePersonalInfo(userType: DoctorOrPatientOrNull, expectedUserTyp
 
   useEffect(() => {
     if (userType !== expectedUserType) return
-    const fetchAndSetPersonalInfo = async () => {
+    const fetchAndSetPersonalInfo: () => Promise<void> = async () => {
       try {
         const storedPersonalInfoData = sessionStorage.getItem(`${userType}PersonalInfo`)
         if (storedPersonalInfoData) setPersonalInfo(JSON.parse(storedPersonalInfoData))

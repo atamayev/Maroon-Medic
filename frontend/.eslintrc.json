@@ -55,8 +55,15 @@
         "prefer-const": "error",
         "max-len": ["error", { "code": 140 }],
         "react/prop-types": "off",
-        // "@typescript-eslint/explicit-function-return-type": "warn",
+        "@typescript-eslint/explicit-function-return-type": ["warn"],
         "require-await": "error"
-
-    }
+    },
+    "overrides": [
+        {
+          "files": ["*.jsx", "*.tsx", "./src/services/*.ts"],
+          "rules": {
+            "@typescript-eslint/explicit-function-return-type": "off"
+          }
+        }
+    ]
 }
