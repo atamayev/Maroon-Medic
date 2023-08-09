@@ -7,7 +7,7 @@ type InsuranceItem = {
 }
 
 export default new class FetchPatientAccountDataDB {
-  async retrievePatientLanguages (PatientID: number): Promise<LanguageItemType[]> {
+  async languages (PatientID: number): Promise<LanguageItemType[]> {
     const sql = `SELECT ${mysqlTables.language_list}.Language_name, ${mysqlTables.language_list}.language_listID
       FROM ${mysqlTables.language_list}
           JOIN ${mysqlTables.language_mapping} ON ${mysqlTables.language_list}.language_listID = ${mysqlTables.language_mapping}.Language_ID
@@ -22,7 +22,7 @@ export default new class FetchPatientAccountDataDB {
     return languages
   }
 
-  async retrievePetData (PatientID: number): Promise<PetItemType[]> {
+  async petData (PatientID: number): Promise<PetItemType[]> {
     const sql = `SELECT ${mysqlTables.pet_info}.Name, ${mysqlTables.pet_info}.Gender, ${mysqlTables.pet_info}.DOB,
     ${mysqlTables.pet_list}.Pet, ${mysqlTables.pet_list}.Pet_type, ${mysqlTables.pet_info}.pet_infoID
         FROM ${mysqlTables.pet_info}
@@ -38,7 +38,7 @@ export default new class FetchPatientAccountDataDB {
     return petData
   }
 
-  async retrievePetInsurances (petInfoID: number): Promise<string> {
+  async petInsurances (petInfoID: number): Promise<string> {
     const sql = `SELECT ${mysqlTables.insurance_list}.Insurance_name
         FROM ${mysqlTables.insurance_list}
             JOIN ${mysqlTables.insurance_mapping} ON

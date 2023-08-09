@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express"
 import { UUID_to_ID } from "../setup-and-security/UUID"
-import { clearCookies } from "./cookie-operations"
+import Cookie from "./cookie-operations"
 
 export default new class GetIDFromUUID {
-  async getDoctorIDFromUUID(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
+  async doctor(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
     const DoctorUUID = req.cookies.DoctorUUID
     let DoctorID: number
     try {
@@ -11,12 +11,12 @@ export default new class GetIDFromUUID {
       req.DoctorID = DoctorID
       next()
     } catch (error: unknown) {
-      clearCookies(res, "Doctor")
+      Cookie.clearAll(res, "Doctor")
       return res.status(401).json({ shouldRedirect: true, redirectURL: "/vet-login" })
     }
   }
 
-  async getPatientIDFromUUID(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
+  async patient(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
     const PatientUUID = req.cookies.PatientUUID
     let PatientID: number
     try {
@@ -24,7 +24,7 @@ export default new class GetIDFromUUID {
       req.PatientID = PatientID
       next()
     } catch (error: unknown) {
-      clearCookies(res, "Patient")
+      Cookie.clearAll(res, "Patient")
       return res.status(401).json({ shouldRedirect: true, redirectURL: "/patient-login" })
     }
   }

@@ -1,9 +1,9 @@
-export default new class CookieUtils {
-  checkCookieForContext(name: string): boolean {
+export default new class CheckCookie {
+  forContext(name: string): boolean {
     return document.cookie.split(";").some((item) => item.trim().startsWith(name + "="))
   }
 
-  checkCookieForNewUser(name: string): boolean {
+  forNewUser(name: string): boolean {
     return document.cookie.split(";").some((item) => item.trim().startsWith(name))
   }
 }

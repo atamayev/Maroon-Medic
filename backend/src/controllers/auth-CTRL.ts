@@ -7,7 +7,7 @@ import AuthDB from "../db/auth-DB"
 import TimeUtils from "../utils/time"
 import Hash from "../setup-and-security/hash"
 import { loginHistory } from "../utils/account-tracker"
-import { clearCookies } from "../utils/cookie-operations"
+import Cookie from "../utils/cookie-operations"
 import { ID_to_UUID, UUID_to_ID } from "../setup-and-security/UUID"
 
 export async function jwtVerify (req: Request, res: Response): Promise<Response> {
@@ -23,7 +23,7 @@ export async function jwtVerify (req: Request, res: Response): Promise<Response>
   if ("DoctorAccessToken" in cookies && "DoctorUUID" in cookies) response.type = "Doctor"
   else if ("PatientAccessToken" in cookies && "PatientUUID" in cookies) response.type = "Patient"
   else {
-    clearCookies(res, undefined)
+    Cookie.clearAll(res, undefined)
     return res.status(401).json({ shouldRedirect: true, redirectURL: "/" })
   }
 
@@ -42,7 +42,7 @@ export async function jwtVerify (req: Request, res: Response): Promise<Response>
     //   let redirectURL
     //   if (response.type === "Doctor") redirectURL = "/vet-login"
     //   else if (response.type === "Patient") redirectURL = "/patient-login"
-    //   clearCookies(res, undefined)
+    //   Cookie.clearAll(res, undefined)
     //   return res.status(401).json({ shouldRedirect: true, redirectURL: redirectURL })
     // }
 
@@ -54,14 +54,14 @@ export async function jwtVerify (req: Request, res: Response): Promise<Response>
     } else {
       if (response.type === "Doctor") redirectURL = "/vet-login"
       else if (response.type === "Patient") redirectURL = "/patient-login"
-      clearCookies(res, undefined)
+      Cookie.clearAll(res, undefined)
       return res.status(401).json({ shouldRedirect: true, redirectURL: redirectURL })
     }
   } catch (error: unknown) {
     let redirectURL: string = "/"
     if (response.type === "Doctor") redirectURL = "/vet-login"
     else if (response.type === "Patient") redirectURL = "/patient-login"
-    clearCookies(res, undefined)
+    Cookie.clearAll(res, undefined)
     return res.status(401).json({ shouldRedirect: true, redirectURL: redirectURL })
   }
 }
@@ -113,7 +113,7 @@ export async function login (req: Request, res: Response): Promise<Response> {
 
     await loginHistory(ID)
 
-    clearCookies(res, loginType)
+    Cookie.clearAll(res, loginType)
 
     // const expires = new Date(Date.now() + expirationTime *1000)
 
@@ -192,7 +192,7 @@ export async function register (req: Request, res: Response): Promise<Response> 
 
   await loginHistory(UserID)
 
-  clearCookies(res, registerType)
+  Cookie.clearAll(res, registerType)
 
   return res
     .cookie(`${registerType}AccessToken`, token, {
@@ -232,7 +232,7 @@ export async function fetchLoginHistory (req: Request, res: Response): Promise<R
     const loginHistory = await AuthDB.retrieveLoginHistory(User_ID)
     return res.status(200).json(loginHistory)
   } catch (error: unknown) {
-    clearCookies(res, userType)
+    Cookie.clearAll(res, userType)
     return res.status(401).json({ shouldRedirect: true, redirectURL: "/" })
   }
 }
@@ -327,7 +327,7 @@ export async function logout (req: Request, res: Response): Promise<Response> {
   }
 
   try {
-    clearCookies(res, type)
+    Cookie.clearAll(res, type)
     return res.status(200).json()
   } catch (error: unknown) {
     return res.status(500).json({ error: `Error in logging ${type} out` })

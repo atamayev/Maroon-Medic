@@ -12,8 +12,12 @@ export default new class CalendarDB {
     return DoctorID
   }
 
-  async addAppointment (dateTime: MysqlTimestamp, AppointmentObject: AppointmentObject, DoctorID: number, createdAt: MysqlTimestamp)
-  : Promise<void> {
+  async addAppointment (
+    dateTime: MysqlTimestamp,
+    AppointmentObject: AppointmentObject,
+    DoctorID: number,
+    createdAt: MysqlTimestamp
+  ): Promise<void> {
     const sql = `INSERT INTO ${mysqlTables.appointments}
       (appointment_date, appointment_price, appointment_timespan, patient_message, Doctor_confirmation_status,
         Service_and_category_list_ID, pet_info_ID, Doctor_ID, Addresses_ID, Created_at)

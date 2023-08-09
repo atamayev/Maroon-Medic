@@ -8,7 +8,7 @@ import { usePatientDashboardData } from "../../custom-hooks/fetch-and-use-dashbo
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
 import Header from "../header"
 import PatientHeader from "./patient-header"
-import CookieUtils from "src/utils/cookie"
+import CheckCookie from "src/utils/cookie-check"
 
 export default function PatientDashboard() {
   const { userType } = useSimpleUserVerification()
@@ -18,7 +18,7 @@ export default function PatientDashboard() {
   const [personalInfo, setPersonalInfo] = useState(parsedData)
   const [pastAppointments, setPastAppointments] = useState<PatientDashboardDataType[]>([])
   const [upcomingAppointments, setUpcomingAppointments] = useState<PatientDashboardDataType[]>([])
-  const newPatient = CookieUtils.checkCookieForNewUser("PatientNewUser")
+  const newPatient = CheckCookie.forNewUser("PatientNewUser")
 
   useEffect(() => {
     if (userType !== "Patient") return

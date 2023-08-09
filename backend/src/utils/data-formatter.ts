@@ -1,10 +1,8 @@
 import { Dayjs } from "dayjs"
 import TimeUtils from "./time"
 
-
-
-export default new class DataFormatter {
-  formatPersonalData(results: {FirstName: string, LastName: string, Gender: string, DOB: string}): FormattedPersonalData {
+export default new class Format {
+  personalData(results: {FirstName: string, LastName: string, Gender: string, DOB: string}): FormattedPersonalData {
     const DOB: Dayjs = TimeUtils.simpleDayJSConvert(results.DOB)
     const PersonalData = {
       FirstName: results.FirstName,
@@ -17,7 +15,7 @@ export default new class DataFormatter {
     return PersonalData
   }
 
-  formatEducationDates (date: Date | string): string {
+  educationDates (date: Date | string): string {
     const formattedDate = new Date(date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
     return formattedDate
   }

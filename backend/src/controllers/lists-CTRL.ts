@@ -1,19 +1,19 @@
-import FetchAllLists from "../utils/fetch-all-lists"
+import FetchAll from "../utils/fetch-all-lists"
 import OperationHandler from "../utils/operation-handler"
 import { Request, Response } from "express"
 
 export async function fetchDoctorLists (req: Request, res: Response): Promise<Response> {
   try {
     const response: DoctorListDetailsType = {
-      languages             : await FetchAllLists.fetchAllLanguages(),
-      servicesAndCategories : await FetchAllLists.fetchAllServicesAndCategories(),
-      specialties           : await FetchAllLists.fetchAllSpecialties(),
-      preVetSchools         : await FetchAllLists.fetchAllPreVetSchools(),
-      preVetEducationTypes  : await FetchAllLists.fetchAllPreVetEducationTypes(),
-      majors                : await FetchAllLists.fetchAllMajors(),
-      vetSchools            : await FetchAllLists.fetchAllVetSchools(),
-      vetEducationTypes     : await FetchAllLists.fetchAllVetEducationTypes(),
-      pets                  : await FetchAllLists.fetchAllPetTypes()
+      languages             : await FetchAll.languages(),
+      servicesAndCategories : await FetchAll.servicesAndCategories(),
+      specialties           : await FetchAll.specialties(),
+      preVetSchools         : await FetchAll.preVetSchools(),
+      preVetEducationTypes  : await FetchAll.preVetEducationTypes(),
+      majors                : await FetchAll.majors(),
+      vetSchools            : await FetchAll.vetSchools(),
+      vetEducationTypes     : await FetchAll.vetEducationTypes(),
+      pets                  : await FetchAll.petTypes()
     }
     return res.status(200).json(response)
   } catch (error: unknown) {
@@ -24,7 +24,7 @@ export async function fetchDoctorLists (req: Request, res: Response): Promise<Re
 export async function fetchPatientLists (req: Request, res: Response): Promise<void> {
   const operation: () => Promise<PatientListDetailsType> = async () => {
     const response: PatientListDetailsType = {
-      languages: await FetchAllLists.fetchAllLanguages()
+      languages: await FetchAll.languages()
     }
     return response
   }
@@ -33,14 +33,14 @@ export async function fetchPatientLists (req: Request, res: Response): Promise<v
 
 export async function fetchPetTypes (req: Request, res: Response): Promise<void> {
   const operation: () => Promise<ServicedPetItemType[]> = async () => {
-    return await FetchAllLists.fetchAllPetTypes()
+    return await FetchAll.petTypes()
   }
   await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }
 
 export async function fetchInsurances (req: Request, res: Response): Promise<void> {
   const operation: () => Promise<InsuranceItemType[]> = async () => {
-    return await FetchAllLists.fetchAllInsurances()
+    return await FetchAll.insurances()
   }
   await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }

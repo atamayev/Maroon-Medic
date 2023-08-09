@@ -1,5 +1,5 @@
 import SearchDB from "../db/search-DB"
-import FetchAllLists from "../utils/fetch-all-lists"
+import FetchAll from "../utils/fetch-all-lists"
 import OperationHandler from "../utils/operation-handler"
 import { Request, Response } from "express"
 
@@ -28,21 +28,14 @@ export async function fetchUsers (req: Request, res: Response): Promise<void> {
 //In the future, patients will be able to filter for docs by language_spoken, insurances, etc.
 export async function fetchAllLanguages (req: Request, res: Response): Promise<void> {
   const operation: () => Promise<LanguageItemType[]> = async () => {
-    return await FetchAllLists.fetchAllLanguages()
+    return await FetchAll.languages()
   }
   await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }
 
 export async function fetchAllServicesAndCategories (req: Request, res: Response): Promise<void> {
   const operation: () => Promise<ServiceListItemType[]> = async () => {
-    return await FetchAllLists.fetchAllServicesAndCategories()
-  }
-  await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
-}
-
-export async function fetchAllInsurances (req: Request, res: Response): Promise<void> {
-  const operation: () => Promise<InsuranceItemType[]> = async () => {
-    return await FetchAllLists.fetchAllInsurances()
+    return await FetchAll.servicesAndCategories()
   }
   await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }

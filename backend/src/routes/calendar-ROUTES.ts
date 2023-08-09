@@ -8,7 +8,7 @@ import GetIDFromUUID from "../utils/getIDFromUUID"
 const router = express.Router()
 
 router.post("/make-appointment", makeAppointment)
-router.get("/get-doctor-calendar-details", GetIDFromUUID.getDoctorIDFromUUID, getDoctorCalendarDetails)
+router.get("/get-doctor-calendar-details", GetIDFromUUID.doctor, getDoctorCalendarDetails)
 router.patch("/confirm-appointment", confirmAppointment)
 
 export default router

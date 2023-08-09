@@ -4,7 +4,7 @@ import {
   fetchDashboardData,
   fetchPersonalData,
   fetchAccountDetails,
-  fetchPetData,
+  pets,
 } from "../controllers/private-patient-data/private-patient-data-CTRL"
 import {
   savePersonalData,
@@ -20,7 +20,7 @@ router.post("/new-patient", newPatient)
 router.get("/fetch-dashboard-data", fetchDashboardData)
 router.get("/fetch-personal-data", fetchPersonalData)
 router.get("/fetch-account-details-data", fetchAccountDetails)
-router.get("/fetch-pet-data", fetchPetData)
+router.get("/fetch-pet-data", pets)
 router.post("/add-language", addLanguage)
 router.delete("/delete-language/:languageID", deleteLanguage)
 

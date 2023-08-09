@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { Request, Response } from "express"
 import TimeUtils from "../../utils/time"
-import DataFormatter from "../../utils/data-formatter"
+import Format from "../../utils/data-formatter"
 import OperationHandler from "../../utils/operation-handler"
 import PrivateDoctorDataDB from "../../db/private-doctor-data/private-doctor-data-DB"
 import FetchDoctorAccountData from "../../utils/fetch-account-and-public-data/fetch-doctor-account-data"
@@ -47,7 +47,7 @@ export async function fetchPersonalData (req: Request, res: Response): Promise<R
     const unformattedPersonaData = await PrivateDoctorDataDB.retrievePersonalDoctorData(DoctorID)
     if (_.isEmpty(unformattedPersonaData)) return res.status(200).json(PersonalData)
     else {
-      PersonalData = DataFormatter.formatPersonalData(unformattedPersonaData)
+      PersonalData = Format.personalData(unformattedPersonaData)
       return res.status(200).json(PersonalData)
     }
   } catch (error: unknown) {
@@ -59,19 +59,19 @@ export async function fetchAccountDetails (req: Request, res: Response): Promise
   const DoctorID = req.DoctorID
 
   try {
-    const verificationAndPublicAv = await FetchDoctorAccountData.fetchVerifiedAndPubliclyAvailable(DoctorID)
+    const verificationAndPublicAv = await FetchDoctorAccountData.verifiedAndPubliclyAvailable(DoctorID)
     const response: DoctorAccountDetails = {
-      languages            : await FetchDoctorAccountData.fetchDoctorLanguages(DoctorID),
-      services             : await FetchDoctorAccountData.fetchDoctorServices(DoctorID),
-      specialties          : await FetchDoctorAccountData.fetchDoctorSpecialties(DoctorID),
-      preVetEducation      : await FetchDoctorAccountData.fetchPreVetEducation(DoctorID),
-      vetEducation         : await FetchDoctorAccountData.fetchVetEducation(DoctorID),
-      addressData          : await FetchDoctorAccountData.fetchDoctorAddressData(DoctorID),
-      description          : await FetchDoctorAccountData.fetchDescriptionData(DoctorID),
-      servicedPets         : await FetchDoctorAccountData.fetchServicedPets(DoctorID),
+      languages            : await FetchDoctorAccountData.languages(DoctorID),
+      services             : await FetchDoctorAccountData.services(DoctorID),
+      specialties          : await FetchDoctorAccountData.specialties(DoctorID),
+      preVetEducation      : await FetchDoctorAccountData.preVetEducation(DoctorID),
+      vetEducation         : await FetchDoctorAccountData.vetEducation(DoctorID),
+      addressData          : await FetchDoctorAccountData.addresses(DoctorID),
+      description          : await FetchDoctorAccountData.description(DoctorID),
+      servicedPets         : await FetchDoctorAccountData.servicedPets(DoctorID),
       verified             : verificationAndPublicAv.Verified,
       publiclyAvailable    : verificationAndPublicAv.PubliclyAvailable
-      // response.pictures             = await FetchDoctorAccountData.fetchDoctorPictures(DoctorID)
+      // response.pictures             = await FetchDoctorAccountData.pictures(DoctorID)
     }
     return res.status(200).json(response)
   } catch (error: unknown) {

@@ -2,7 +2,7 @@ import { AxiosError } from "axios"
 import { createContext } from "react"
 import AuthDataService from "../services/auth-data-service"
 import { invalidUserAction } from "../custom-hooks/user-verification-snippets"
-import CookieUtils from "src/utils/cookie"
+import CheckCookie from "src/utils/cookie-check"
 
 const createDefaultContext = (): VerifyContextType => ({ userVerification: () => Promise.resolve({verified: false}) })
 
@@ -27,7 +27,7 @@ const handleError = (error: unknown, clearSession: boolean) => {
 const VerifyContextProvider = ({ children }: VerifyContextProviderProps) => {
   async function userVerification(clearSession: boolean): VerifyContextReturnType {
     try {
-      if (!CookieUtils.checkCookieForContext("DoctorAccessToken") && !CookieUtils.checkCookieForContext("PatientAccessToken")) {
+      if (!CheckCookie.forContext("DoctorAccessToken") && !CheckCookie.forContext("PatientAccessToken")) {
         return clearAndReturnFalse(clearSession)
       }
 

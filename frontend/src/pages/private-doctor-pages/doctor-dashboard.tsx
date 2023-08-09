@@ -10,7 +10,7 @@ import { useDoctorDashboardData } from "../../custom-hooks/fetch-and-use-dashboa
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
 import Header from "../header"
 import DoctorHeader from "./doctor-header"
-import CookieUtils from "src/utils/cookie"
+import CheckCookie from "src/utils/cookie-check"
 
 async function approveAppointment (
   setStatus: React.Dispatch<React.SetStateAction<AppointmentStatusType>>,
@@ -49,7 +49,7 @@ export default function DoctorDashboard() {
   const [personalInfo, setPersonalInfo] = useState(parsedData)
   const [pastAppointments, setPastAppointments] = useState<DoctorDashboardDataType[]>([])
   const [upcomingAppointments, setUpcomingAppointments] = useState<DoctorDashboardDataType[]>([])
-  const newDoctor = CookieUtils.checkCookieForNewUser("DoctorNewUser")
+  const newDoctor = CheckCookie.forNewUser("DoctorNewUser")
 
   useEffect(() => {
     if (userType !== "Doctor") return

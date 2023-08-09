@@ -1,5 +1,5 @@
 import _ from "lodash"
-import DataFormatter from "../data-formatter"
+import Format from "../data-formatter"
 import FetchPublicDoctorDataDB from "../../db/fetch-public-doctor-data-DB"
 
 export default new class FetchPublicDoctorData {
@@ -20,8 +20,8 @@ export default new class FetchPublicDoctorData {
       const educationData = await retrievalFunction(DoctorID)
       const newResults = educationData.map((object: T) => ({
         ...object,
-        Start_Date: DataFormatter.formatEducationDates(object.Start_Date),
-        End_Date: DataFormatter.formatEducationDates(object.End_Date)
+        Start_Date: Format.educationDates(object.Start_Date),
+        End_Date: Format.educationDates(object.End_Date)
       }))
       return newResults
     } catch (error: unknown) {
@@ -29,34 +29,34 @@ export default new class FetchPublicDoctorData {
     }
   }
 
-  async fetchDoctorLanguages (DoctorID: number): Promise<LanguagesData[]> {
-    const result = await this.#fetchDoctorData(DoctorID, FetchPublicDoctorDataDB.retrieveDoctorLanguages)
+  async languages (DoctorID: number): Promise<LanguagesData[]> {
+    const result = await this.#fetchDoctorData(DoctorID, FetchPublicDoctorDataDB.languages)
     return result as LanguagesData[]
   }
 
-  async fetchDoctorSpecialties (DoctorID: number): Promise<SpecialtiesData[]> {
-    const result = await this.#fetchDoctorData(DoctorID, FetchPublicDoctorDataDB.retrieveDoctorSpecialties)
+  async specialties (DoctorID: number): Promise<SpecialtiesData[]> {
+    const result = await this.#fetchDoctorData(DoctorID, FetchPublicDoctorDataDB.specialties)
     return result as SpecialtiesData[]
   }
 
-  async fetchPreVetEducation(DoctorID: number): Promise<PreVetEducationItemType[]> {
-    return await this.#fetchEducationData<PreVetEducationItemType>(DoctorID, FetchPublicDoctorDataDB.retrievePreVetEducation)
+  async preVetEducation(DoctorID: number): Promise<PreVetEducationItemType[]> {
+    return await this.#fetchEducationData<PreVetEducationItemType>(DoctorID, FetchPublicDoctorDataDB.preVetEducation)
   }
 
-  async fetchVetEducation(DoctorID: number): Promise<VetEducationItemType[]> {
-    return await this.#fetchEducationData<VetEducationItemType>(DoctorID, FetchPublicDoctorDataDB.retrieveVetEducation)
+  async vetEducation(DoctorID: number): Promise<VetEducationItemType[]> {
+    return await this.#fetchEducationData<VetEducationItemType>(DoctorID, FetchPublicDoctorDataDB.vetEducation)
   }
 
-  async fetchServicedPets (DoctorID: number): Promise<ServicedPetData[]> {
-    const result = await this.#fetchDoctorData(DoctorID, FetchPublicDoctorDataDB.retrieveServicedPets)
+  async servicedPets (DoctorID: number): Promise<ServicedPetData[]> {
+    const result = await this.#fetchDoctorData(DoctorID, FetchPublicDoctorDataDB.servicedPets)
     return result as ServicedPetData[]
   }
 
-  async fetchDoctorAddressData (DoctorID: number): Promise<PublicAddressData[]> {
+  async addresses (DoctorID: number): Promise<PublicAddressData[]> {
     let addressData
 
     try {
-      addressData = await FetchPublicDoctorDataDB.retrieveAddressData(DoctorID)
+      addressData = await FetchPublicDoctorDataDB.addressData(DoctorID)
     } catch (error: unknown) {
       return []
     }
@@ -65,7 +65,7 @@ export default new class FetchPublicDoctorData {
       // Create a new array of modified addressData objects
       addressData = await Promise.all(addressData.map(async address => {
         try {
-          const availabilityData = await FetchPublicDoctorDataDB.retrieveAvailabilityData(address.addressesID)
+          const availabilityData = await FetchPublicDoctorDataDB.availabilityData(address.addressesID)
           return { ...address, times: availabilityData }
         } catch (error: unknown) {
           console.error(error)
@@ -76,8 +76,8 @@ export default new class FetchPublicDoctorData {
     return addressData as PublicAddressData[]
   }
 
-  async fetchDoctorPersonalInfo (DoctorID: number): Promise<DoctorPersonalInfo> {
-    const result = await this.#fetchDoctorData<DoctorPersonalInfo>(DoctorID, FetchPublicDoctorDataDB.retrievePersonalData)
+  async personalInfo (DoctorID: number): Promise<DoctorPersonalInfo> {
+    const result = await this.#fetchDoctorData<DoctorPersonalInfo>(DoctorID, FetchPublicDoctorDataDB.personalData)
     return result as DoctorPersonalInfo
   }
 }()
