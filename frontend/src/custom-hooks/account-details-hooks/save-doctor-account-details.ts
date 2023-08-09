@@ -11,13 +11,13 @@ import {
 } from "./save-doctor-account-details-helpers"
 import { handle401AxiosErrorAndSetMessageType } from "src/utils/handle-errors"
 
-export function addDoctorLanguages(
+export async function addDoctorLanguages(
   languageID: number,
   newSpokenLanguages: LanguageItem[],
   setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
   setLanguagesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
-  return modifyDoctorLanguages(
+  return await modifyDoctorLanguages(
     PrivateDoctorDataService.addLanguage,
     languageID,
     newSpokenLanguages,
@@ -26,13 +26,13 @@ export function addDoctorLanguages(
   )
 }
 
-export function deleteDoctorLanguages(
+export async function deleteDoctorLanguages(
   languageID: number,
   newSpokenLanguages: LanguageItem[],
   setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
   setLanguagesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
-  return modifyDoctorLanguages(
+  return await modifyDoctorLanguages(
     PrivateDoctorDataService.deleteLanguage,
     languageID,
     newSpokenLanguages,
@@ -41,13 +41,13 @@ export function deleteDoctorLanguages(
   )
 }
 
-export function addServices(
+export async function addServices(
   newServiceObject: ServiceItem,
   providedServices: ServiceItem[],
   setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>>,
   setServicesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
-  return modifyServicesData(
+  return await modifyServicesData(
     PrivateDoctorDataService.addService,
     newServiceObject,
     providedServices,
@@ -56,13 +56,13 @@ export function addServices(
   )
 }
 
-export function updateServices(
+export async function updateServices(
   newServiceObject: ServiceItem,
   providedServices: ServiceItem[],
   setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>>,
   setServicesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
-  return modifyServicesData(
+  return await modifyServicesData(
     PrivateDoctorDataService.updateService,
     newServiceObject,
     providedServices,
@@ -71,14 +71,14 @@ export function updateServices(
   )
 }
 
-export function deleteServices(
+export async function deleteServices(
   serviceObject: ServiceItem,
   providedServices: ServiceItem[],
   setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>>,
   setServicesConfirmation: (conf: ConfirmationMessage) => void,
   setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>> | null,
 ): Promise<void> {
-  return modifyServicesData(
+  return await modifyServicesData(
     PrivateDoctorDataService.deleteService,
     serviceObject,
     providedServices,
@@ -88,14 +88,14 @@ export function deleteServices(
   )
 }
 
-export function addSpecialties(
+export async function addSpecialties(
   specialtyID: number,
   newDoctorSpecialties: SpecialtyItem[],
   setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>,
   setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>,
   setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
-  return modifyDoctorSpecialties(
+  return await modifyDoctorSpecialties(
     PrivateDoctorDataService.addSpecialty,
     specialtyID,
     newDoctorSpecialties,
@@ -105,14 +105,14 @@ export function addSpecialties(
   )
 }
 
-export function deleteSpecialties(
+export async function deleteSpecialties(
   specialtyID: number,
   newDoctorSpecialties: SpecialtyItem[],
   setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>,
   setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>,
   setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
-  return modifyDoctorSpecialties(
+  return await modifyDoctorSpecialties(
     PrivateDoctorDataService.deleteSpecialty,
     specialtyID,
     newDoctorSpecialties,
@@ -238,29 +238,29 @@ export async function deleteVetEducation(
   }
 }
 
-export function addLocation(
+export async function addLocation(
   address: DoctorAddressData,
   setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>,
   setAddressesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
-  return modifyAddressData(PrivateDoctorDataService.addAddressData, address, setAddresses, setAddressesConfirmation)
+  return await modifyAddressData(PrivateDoctorDataService.addAddressData, address, setAddresses, setAddressesConfirmation)
 }
 
-export function updateLocation(
+export async function updateLocation(
   address: DoctorAddressData,
   setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>,
   setAddressesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
-  return modifyAddressData(PrivateDoctorDataService.updateAddressData, address, setAddresses, setAddressesConfirmation)
+  return await modifyAddressData(PrivateDoctorDataService.updateAddressData, address, setAddresses, setAddressesConfirmation)
 }
 
-export function deleteLocation(
+export async function deleteLocation(
   address: number,
   setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>,
   setAddressesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
   //Consider adding another modifyAddressData
-  return deleteAddressData(address, setAddresses, setAddressesConfirmation)
+  return await deleteAddressData(address, setAddresses, setAddressesConfirmation)
 }
 
 export async function saveDescription(
@@ -289,22 +289,22 @@ export async function saveDescription(
   }
 }
 
-export function addServicedPets(
+export async function addServicedPets(
   petID: number,
   newServicedPets: ServicedPetItem[],
   setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItem[]>>,
   setPetsConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
-  return modifyServicedPets(PrivateDoctorDataService.addServicedPet, petID, newServicedPets, setServicedPets, setPetsConfirmation)
+  return await modifyServicedPets(PrivateDoctorDataService.addServicedPet, petID, newServicedPets, setServicedPets, setPetsConfirmation)
 }
 
-export function deleteServicedPets(
+export async function deleteServicedPets(
   petID: number,
   newServicedPets: ServicedPetItem[],
   setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItem[]>>,
   setPetsConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
-  return modifyServicedPets(PrivateDoctorDataService.deleteServicedPet, petID, newServicedPets, setServicedPets, setPetsConfirmation)
+  return await modifyServicedPets(PrivateDoctorDataService.deleteServicedPet, petID, newServicedPets, setServicedPets, setPetsConfirmation)
 }
 
 export async function handlePublicAvailibilityToggle (

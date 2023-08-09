@@ -108,7 +108,9 @@
   },
   "include": [
     "src/types/**/*.d.ts",
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "./.eslintrc.json",
+    "src/index.ts"
   ],
   "exclude": [
     "node_modules"

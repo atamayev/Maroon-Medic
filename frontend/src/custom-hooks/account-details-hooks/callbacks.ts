@@ -75,9 +75,9 @@ export const useHandleAddSpecialty = (
   setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>,
   listDetails: DoctorListDetails,
   setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void
-): (e: React.ChangeEvent<HTMLSelectElement>) => void => {
-  return useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    handleAddSpecialty(
+): (e: React.ChangeEvent<HTMLSelectElement>) => Promise<void> => {
+  return useCallback(async (e: React.ChangeEvent<HTMLSelectElement>) => {
+    await handleAddSpecialty(
       Number(e.target.value),
       doctorSpecialties,
       setDoctorSpecialties,
@@ -93,15 +93,15 @@ export const useHandleCheckboxChange = (
   setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItem[]>>,
   setPetsConfirmation: (conf: ConfirmationMessage) => void
 ): (e: React.ChangeEvent<HTMLInputElement>, pet: ServicedPetItem) => void => {
-  return useCallback((event: React.ChangeEvent<HTMLInputElement>, pet: ServicedPetItem) => {
+  return useCallback(async (event: React.ChangeEvent<HTMLInputElement>, pet: ServicedPetItem) => {
     if (event.target.checked) {
       const newServicedPets = [...servicedPets, pet]
       setServicedPets(newServicedPets)
-      addServicedPets(pet.pet_listID, newServicedPets, setServicedPets, setPetsConfirmation)
+      await addServicedPets(pet.pet_listID, newServicedPets, setServicedPets, setPetsConfirmation)
     } else {
       const newServicedPets = servicedPets.filter(p => p.pet_listID !== pet.pet_listID)
       setServicedPets(newServicedPets)
-      deleteServicedPets(pet.pet_listID, newServicedPets, setServicedPets, setPetsConfirmation)
+      await deleteServicedPets(pet.pet_listID, newServicedPets, setServicedPets, setPetsConfirmation)
     }
   }, [servicedPets, setServicedPets, setPetsConfirmation])
 }

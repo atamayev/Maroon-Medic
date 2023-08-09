@@ -7,10 +7,9 @@ Frontend TS Fixes:
 	12. Login Problem. Clicking the button re-loads teh page, probably an e.prevent default problem
 
 Full Stack TS changes
-	7. https://medium.com/@kevinschaffter/top-ten-lint-rules-for-any-typescript-codebase-cb3148e67aca
-		Complexity seems important
 	8. Don't abbreviate variable names
 	9. Change all DB fields to snake case, change sql accordingly
+	10. Solve all eslint commented out stuff
 
 Change gender, other commonly used options to enum (only if the value is used in multiple places). If not, enum not necessary
 

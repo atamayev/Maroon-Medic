@@ -33,7 +33,7 @@ export async function jwtVerify (req: Request, res: Response): Promise<Response>
     const JWTKey = response.type === "Patient" ? process.env.PATIENT_JWT_KEY! : process.env.DOCTOR_JWT_KEY!
     payload = jwt.verify(AccessToken, JWTKey) as JwtPayload
 
-    if (typeof payload === "object" && payload !== null) {
+    if (typeof payload === "object") {
       if (response.type === "Doctor") decodedUUID = (payload as JwtPayload).DoctorID as string
       else if (response.type === "Patient") decodedUUID = (payload as JwtPayload).PatientID as string
     }
@@ -229,8 +229,8 @@ export async function fetchLoginHistory (req: Request, res: Response): Promise<R
 
   try {
     const User_ID = await UUID_to_ID(UUID)
-    const loginHistory = await AuthDB.retrieveLoginHistory(User_ID)
-    return res.status(200).json(loginHistory)
+    const loginHistoryRecords = await AuthDB.retrieveLoginHistory(User_ID)
+    return res.status(200).json(loginHistoryRecords)
   } catch (error: unknown) {
     Cookie.clearAll(res, userType)
     return res.status(401).json({ shouldRedirect: true, redirectURL: "/" })

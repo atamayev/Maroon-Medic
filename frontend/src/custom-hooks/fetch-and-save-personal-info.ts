@@ -16,10 +16,8 @@ async function fetchPersonalInfoData(
     else if (userType === "Patient") response = await PrivatePatientDataService.fillPersonalData()
     else throw new Error(`Invalid userType: ${userType}`)
 
-    if (response) {
-      setPersonalInfo(response.data)
-      sessionStorage.setItem(`${userType}PersonalInfo`, JSON.stringify(response.data))
-    }
+    setPersonalInfo(response.data)
+    sessionStorage.setItem(`${userType}PersonalInfo`, JSON.stringify(response.data))
   } catch (error: unknown) {
     handle401AxiosError(error)
   }

@@ -71,9 +71,9 @@ function RenderIsPets (props: Props) {
             <div key = {pet.pet_listID} style = {{ paddingLeft: "20px" }}>
               <input
                 type = "checkbox"
-                id = {`${petType}-${pet?.pet_listID}`}
+                id = {`${petType}-${pet.pet_listID}`}
                 name = "pet"
-                value = {pet?.pet_listID}
+                value = {pet.pet_listID}
                 checked = {servicedPets.find((serviced) => serviced.pet_listID === pet.pet_listID) !== undefined}
                 onChange = {(event) => {handleCheckboxChange(event, pet)}}
               />
@@ -99,7 +99,7 @@ function RenderIsPets (props: Props) {
     )
   }
 
-  if (_.isEmpty(_.uniq(listDetails.pets?.map((item) => item.Pet_type)))) return <>Loading...</>
+  if (_.isEmpty(_.uniq(listDetails.pets.map((item) => item.Pet_type)))) return <>Loading...</>
 
   return (
     <>

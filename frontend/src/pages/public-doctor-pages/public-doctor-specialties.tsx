@@ -28,8 +28,11 @@ function RenderSpecialties(doctorSpecialties: OrganizationSpecialtyName[]) {
   const organizations: CategoriesType = {}
   if (doctorSpecialties) {
     doctorSpecialties.forEach(specialty => {
-      if (!organizations[specialty.Organization_name]) organizations[specialty.Organization_name] = []
-      organizations[specialty.Organization_name].push(specialty)
+      if (!organizations[specialty.Organization_name]) {
+        organizations[specialty.Organization_name] = []
+      } else {
+        organizations[specialty.Organization_name].push(specialty)
+      }
     })
   }
 

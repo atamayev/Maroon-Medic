@@ -2,22 +2,23 @@ import dotenv from "dotenv"
 import express from "express"
 import cors from "cors"
 import cookieParser from "cookie-parser"
-import { connectDatabase } from "./src/setup-and-security/connect"
-import redisClient from "./src/setup-and-security/redis"
-import authRoutes from "./src/routes/auth-ROUTES"
-import privateDoctorDataRoutes from "./src/routes/private-doctor-data-ROUTES"
-import privatePatientDataRoutes from "./src/routes/private-patient-data-ROUTES"
-import publicDoctorDataRoutes from "./src/routes/public-doctor-data-ROUTES"
-import searchRoutes from "./src/routes/search-ROUTES"
-import calendarRoutes from "./src/routes/calendar-ROUTES"
-import listsRoutes from "./src/routes/lists-ROUTES"
-import GetIDFromUUID from "./src/utils/getIDFromUUID"
+import { connectDatabase } from "./setup-and-security/connect"
+import redisClient from "./setup-and-security/redis"
+import authRoutes from "./routes/auth-ROUTES"
+import privateDoctorDataRoutes from "./routes/private-doctor-data-ROUTES"
+import privatePatientDataRoutes from "./routes/private-patient-data-ROUTES"
+import publicDoctorDataRoutes from "./routes/public-doctor-data-ROUTES"
+import searchRoutes from "./routes/search-ROUTES"
+import calendarRoutes from "./routes/calendar-ROUTES"
+import listsRoutes from "./routes/lists-ROUTES"
+import GetIDFromUUID from "./utils/getIDFromUUID"
 
 dotenv.config()
 
 const port = process.env.PORT || 8000
 
 // Confirmation of MYSQL Connection
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 connectDatabase()
 
 redisClient.on("error", function (err) {

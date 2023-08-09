@@ -25,18 +25,18 @@ function usePetData(userType: DoctorOrPatientOrNull) {
   const parsedData = storedData && JSON.parse(storedData)
   const [savedPetData, setSavedPetData] = useState<SavedPetItem[]>(parsedData || [])
 
-  const fetchAndSetPetData = async () => {
-    if (userType === "Patient") {
-      try {
-        const storedPetData = sessionStorage.getItem("PatientPetData")
-        if (storedPetData) setSavedPetData(JSON.parse(storedPetData))
-        else await fetchPetData(setSavedPetData)
-      } catch (error) {
+  useEffect(() => {
+    const fetchAndSetPetData = async () => {
+      if (userType === "Patient") {
+        try {
+          const storedPetData = sessionStorage.getItem("PatientPetData")
+          if (storedPetData) setSavedPetData(JSON.parse(storedPetData))
+          else await fetchPetData(setSavedPetData)
+        } catch (error) {
+        }
       }
     }
-  }
 
-  useEffect(() => {
     fetchAndSetPetData()
   }, [userType])
 

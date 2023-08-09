@@ -90,7 +90,7 @@ export default new class FetchDoctorAccountData {
   async verifiedAndPubliclyAvailable (DoctorID: number): Promise<DoctorStatus> {
     try {
       const status = await FetchDoctorAccountDataDB.verifiedAndPubliclyAvailableStatus(DoctorID)
-      return status || {PubliclyAvailable: false, Verified: false}
+      return status
     } catch (error: unknown) {
       return {PubliclyAvailable: false, Verified: false}
     }

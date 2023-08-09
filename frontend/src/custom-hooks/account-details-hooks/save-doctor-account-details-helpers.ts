@@ -57,7 +57,7 @@ export async function modifyDoctorSpecialties(
     setSpecialtiesConfirmation({messageType: "problem"})
     return
   }
-  if (callback) callback()
+  callback()
 }
 type ServicedPetsOperationsType = typeof PrivateDoctorDataService.deleteServicedPet |
                                    typeof PrivateDoctorDataService.addServicedPet
@@ -100,7 +100,7 @@ export async function modifyAddressData(
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
 
   try {
-    const { times, ...addressData } = address || {}
+    const { times, ...addressData } = address
     const response = await operation(addressData, times)
 
     if (response.status === 200) {

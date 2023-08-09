@@ -47,7 +47,7 @@ async function FillDoctorAccountDetails(
 ) {
   try {
     const response = await PrivateDoctorDataService.fillAccountDetails()
-    if (response) {
+    if (response && response.data) {
       if (response.data.languages) setSpokenLanguages(response.data.languages)
       if (response.data.services) {
         setProvidedServices(response.data.services)

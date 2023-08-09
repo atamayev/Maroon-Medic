@@ -24,18 +24,18 @@ export const handleAddLanguage = (
   }
 }
 
-export const handleAddSpecialty = (
+export const handleAddSpecialty = async (
   selectedSpecialtyID: number,
   doctorSpecialties: SpecialtyItem[],
   setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>,
   setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>,
   listDetails: DoctorListDetails,
   setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void
-): void => {
+): Promise<void> => {
   const selectedSpecialty = listDetails.specialties.find((spec) => spec.specialties_listID === selectedSpecialtyID)
   if (selectedSpecialty) {
     const newDoctorSpecialties = [...doctorSpecialties, selectedSpecialty]
-    addSpecialties(selectedSpecialtyID, newDoctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation)
+    await addSpecialties(selectedSpecialtyID, newDoctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation)
   }
 }
 

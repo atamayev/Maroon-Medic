@@ -1,3 +1,4 @@
+import _ from "lodash"
 import { useContext, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { SearchContext } from "../contexts/search-context"
@@ -16,7 +17,7 @@ export default function SpecificDoctorsList() {
   }, [searchTerm])
 
   const RenderSearchResults = () => {
-    if (!items) return <div> No results</div>
+    if (_.isEmpty(items)) return <div> No results</div>
     // This has no function rn, since there are less than 1000 vets. once there are more, only the first 100 will be returned
     const data = items.slice(0, 1000)
     return <SearchResults data = {data}/>
