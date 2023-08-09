@@ -23,12 +23,12 @@ interface CalendarData {
 }
 
 export async function FillDoctorCalendarDetails(
-  setEvents: React.Dispatch<React.SetStateAction<DoctorCalendarEventType[]>>
+  setEvents: React.Dispatch<React.SetStateAction<DoctorCalendarEvent[]>>
 ): Promise<void> {
   try {
     const response = await CalendarDataService.fillCalendarDetails()
     if (response.status === 200) {
-      const events: DoctorCalendarEventType[] = response.data.map((appointment: CalendarData) => {
+      const events: DoctorCalendarEvent[] = response.data.map((appointment: CalendarData) => {
         const startTime = new Date(appointment.appointment_date)
         const endTime = new Date(startTime)
         endTime.setMinutes(startTime.getMinutes() + appointment.appointment_timespan)

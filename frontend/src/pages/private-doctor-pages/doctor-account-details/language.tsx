@@ -7,9 +7,9 @@ import { useLanguageOptions, useUpdateDeleteStatuses } from "../../../custom-hoo
 import { useHandleAddLanguage, useHandleDeleteLanguage } from "../../../custom-hooks/account-details-hooks/callbacks"
 
 interface Props {
-  listDetails: DoctorListDetailsType
-  spokenLanguages: LanguageItemType[]
-  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>
+  listDetails: DoctorListDetails
+  spokenLanguages: LanguageItem[]
+  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>
 }
 
 export default function RenderLanguageSection(props: Props) {

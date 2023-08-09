@@ -2,13 +2,13 @@ import _ from "lodash"
 import { useEffect, useMemo } from "react"
 
 interface DeleteStatusProps {
-  [key: number]: DeleteStatusesType
+  [key: number]: DeleteStatuses
 }
 
 export function useUpdateDeleteStatuses(
   deleteStatuses: DeleteStatusesDictionary,
   setDeleteStatuses: React.Dispatch<React.SetStateAction<DeleteStatusProps>>,
-  spokenLanguages: LanguageItemType[]
+  spokenLanguages: LanguageItem[]
 ) {
   useEffect(() => {
     const newDeleteStatuses = { ...deleteStatuses }
@@ -25,7 +25,7 @@ export function useUpdateDeleteStatuses(
   }, [spokenLanguages])
 }
 
-export function useLanguageOptions(languages: LanguageItemType[], spokenLanguages: LanguageItemType[]): JSX.Element[] {
+export function useLanguageOptions(languages: LanguageItem[], spokenLanguages: LanguageItem[]): JSX.Element[] {
   return useMemo(() => {
     if (!(_.isArray(languages) && !_.isEmpty(languages))) return []
 

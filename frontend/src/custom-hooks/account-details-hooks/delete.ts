@@ -2,9 +2,9 @@ import { deletePatientLanguages } from "./save-patient-account-details"
 import { deleteDoctorLanguages, deleteSpecialties } from "./save-doctor-account-details"
 
 export const handleDeleteLanguage = (
-  language: LanguageItemType,
-  spokenLanguages: LanguageItemType[],
-  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
+  language: LanguageItem,
+  spokenLanguages: LanguageItem[],
+  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
   setLanguagesConfirmation: (conf: ConfirmationMessage) => void,
   doctorOrPatient: doctorOrpatient
 ): void => {
@@ -18,9 +18,9 @@ export const handleDeleteLanguage = (
 }
 
 export const handleDeleteSpecialty = (
-  specialty: SpecialtyItemType,
-  doctorSpecialties: SpecialtyItemType[],
-  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItemType[]>>,
+  specialty: SpecialtyItem,
+  doctorSpecialties: SpecialtyItem[],
+  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>,
   setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>,
   setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void
 ): void => {

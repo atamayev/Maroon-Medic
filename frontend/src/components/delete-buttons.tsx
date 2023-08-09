@@ -1,8 +1,8 @@
 import { Button } from "react-bootstrap"
 
 interface NevermindAndInitialDeleteButtonProps {
-  status: DeleteStatusesType,
-  setStatus: (status: DeleteStatusesType) => void
+  status: DeleteStatuses,
+  setStatus: (status: DeleteStatuses) => void
 }
 
 export const RenderNevermindButton = ({status, setStatus}: NevermindAndInitialDeleteButtonProps) => {
@@ -32,7 +32,7 @@ export const RenderInitialDeleteButton = ({status, setStatus}: NevermindAndIniti
 }
 
 interface ConfirmDeleteButtonProps<T> {
-  status: DeleteStatusesType,
+  status: DeleteStatuses,
   dataType: T,
   handleDeleteOnClick: (dataType: T) => void
 }
@@ -51,8 +51,8 @@ export const RenderConfirmDeleteButton = <T,>({status, dataType, handleDeleteOnC
 }
 
 interface DeleteButtonOptionsProps<T> {
-  status: DeleteStatusesType,
-  setStatus: (status: DeleteStatusesType) => void,
+  status: DeleteStatuses,
+  setStatus: (status: DeleteStatuses) => void,
   dataType: T,
   handleDeleteOnClick: (dataType: T) => void
 }

@@ -4,9 +4,9 @@ To-do:
 ASAP:
 Frontend TS Fixes:
 	11. Move all hooks out of .tsx files, and into regular .ts files in the custom hooks folder
+	12. Login Problem. Clicking the button re-loads teh page, probably an e.prevent default problem
 
 Full Stack TS changes
-	4. Get rid of the word 'type' in all types. Its obvious the'yre types
 	7. https://medium.com/@kevinschaffter/top-ten-lint-rules-for-any-typescript-codebase-cb3148e67aca
 		Complexity seems important
 	8. Don't abbreviate variable names

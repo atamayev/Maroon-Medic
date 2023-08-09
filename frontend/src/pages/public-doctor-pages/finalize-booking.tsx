@@ -16,13 +16,13 @@ export function FinalizeBookingPage() {
   const navigate = useNavigate()
   const { userType } = useSimpleUserVerification(false)
 
-  let selectedService: ServiceItemType
-  let selectedLocation: PublicAddressType
+  let selectedService: ServiceItem
+  let selectedLocation: PublicAddressData
   let selectedDay: string
   let selectedTime: string
   let serviceMinutes: number
-  let personalData: PersonalDataType
-  let selectedPet: PetItemTypeWithID
+  let personalData: DoctorPersonalData
+  let selectedPet: SavedPetItem
 
   const storedData = sessionStorage.getItem("bookingDetails")
   const parsedData = storedData && JSON.parse(storedData)

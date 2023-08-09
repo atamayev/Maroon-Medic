@@ -2,11 +2,11 @@ import _ from "lodash"
 import { Card } from "react-bootstrap"
 
 interface Props {
-  providedServices: ServiceItemType[]
+  providedServices: ServiceItem[]
 }
 
 interface CategoriesType {
-  [key: string]: ServiceItemType[]
+  [key: string]: ServiceItem[]
 }
 
 export default function RenderServiceSection(props: Props) {
@@ -24,7 +24,7 @@ export default function RenderServiceSection(props: Props) {
   )
 }
 
-function RenderProvidedServices(providedServices: ServiceItemType[]) {
+function RenderProvidedServices(providedServices: ServiceItem[]) {
   const categories: CategoriesType = {}
   if (providedServices) {
     providedServices.forEach(service => {

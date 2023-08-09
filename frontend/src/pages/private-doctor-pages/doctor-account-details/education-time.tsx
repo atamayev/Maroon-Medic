@@ -1,8 +1,8 @@
 import { months, educationYears } from "../../../utils/constants"
 
 interface Props {
-  timeState: TimeStateType
-  setTimeState: React.Dispatch<React.SetStateAction<TimeStateType>>
+  timeState: TimeState
+  setTimeState: React.Dispatch<React.SetStateAction<TimeState>>
 }
 
 export default function EducationTime(props: Props) {

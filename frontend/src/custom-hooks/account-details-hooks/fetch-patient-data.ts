@@ -3,7 +3,7 @@ import PrivatePatientDataService from "../../services/private-patient-data-servi
 import { handle401AxiosError } from "src/utils/handle-errors"
 
 export async function FillLists(
-  setListDetails: React.Dispatch<React.SetStateAction<PatientListDetailsType>>
+  setListDetails: React.Dispatch<React.SetStateAction<PatientListDetails>>
 ): Promise<void> {
   try {
     const response = await ListsDataService.fillPatientLists()
@@ -17,7 +17,7 @@ export async function FillLists(
 }
 
 export async function FillPatientAccountDetails(
-  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>
+  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>
 ): Promise<void> {
   try {
     const response = await PrivatePatientDataService.fillAccountDetails()

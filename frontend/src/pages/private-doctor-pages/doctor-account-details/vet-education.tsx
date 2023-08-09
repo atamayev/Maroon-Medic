@@ -12,9 +12,9 @@ import {
 import EducationTime from "./education-time"
 
 interface Props {
-  listDetails: DoctorListDetailsType
-  vetEducation: VetEducationItemType[]
-  setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItemType[]>>
+  listDetails: DoctorListDetails
+  vetEducation: VetEducationItem[]
+  setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItem[]>>
 }
 
 export default function RenderVetEducationSection (props: Props) {
@@ -134,7 +134,7 @@ function RenderIsVetEducation(props: Props) {
       <Button
         onClick = {() => {
           const selectedEducationObj = handleAddEducation()
-          saveVetEducation(selectedEducationObj as VetEducationItemType)
+          saveVetEducation(selectedEducationObj as VetEducationItem)
         }}
       >
         Add
@@ -144,10 +144,10 @@ function RenderIsVetEducation(props: Props) {
 
   const handleDeleteOnClick = useHandleDeleteVetEducation(vetEducation, setVetEducation, setVetEducationConfirmation)
 
-  const RenderSingleSavedEducation = (VetEducation: VetEducationItemType) => {
+  const RenderSingleSavedEducation = (VetEducation: VetEducationItem) => {
     const status = deleteStatuses[VetEducation.vet_education_mappingID] || "initial"
 
-    const setStatus = (newStatus: DeleteStatusesType) => {
+    const setStatus = (newStatus: DeleteStatuses) => {
       setDeleteStatuses((prevStatuses) => ({
         ...prevStatuses,
         [VetEducation.vet_education_mappingID]: newStatus,
@@ -158,7 +158,7 @@ function RenderIsVetEducation(props: Props) {
       <li>
         {VetEducation.School_name}, {VetEducation.Education_type}
         {" (" + VetEducation.Start_Date} - {VetEducation.End_Date + ") "}
-        <DeleteButtonOptions<VetEducationItemType>
+        <DeleteButtonOptions<VetEducationItem>
           status = {status}
           setStatus = {setStatus}
           dataType = {VetEducation}

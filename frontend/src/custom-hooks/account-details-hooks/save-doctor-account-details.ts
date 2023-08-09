@@ -13,8 +13,8 @@ import { handle401AxiosErrorAndSetMessageType } from "src/utils/handle-errors"
 
 export function addDoctorLanguages(
   languageID: number,
-  newSpokenLanguages: LanguageItemType[],
-  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
+  newSpokenLanguages: LanguageItem[],
+  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
   setLanguagesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
   return modifyDoctorLanguages(
@@ -28,8 +28,8 @@ export function addDoctorLanguages(
 
 export function deleteDoctorLanguages(
   languageID: number,
-  newSpokenLanguages: LanguageItemType[],
-  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
+  newSpokenLanguages: LanguageItem[],
+  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
   setLanguagesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
   return modifyDoctorLanguages(
@@ -42,9 +42,9 @@ export function deleteDoctorLanguages(
 }
 
 export function addServices(
-  newServiceObject: ServiceItemType,
-  providedServices: ServiceItemType[],
-  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemType[]>>,
+  newServiceObject: ServiceItem,
+  providedServices: ServiceItem[],
+  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>>,
   setServicesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
   return modifyServicesData(
@@ -57,9 +57,9 @@ export function addServices(
 }
 
 export function updateServices(
-  newServiceObject: ServiceItemType,
-  providedServices: ServiceItemType[],
-  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemType[]>>,
+  newServiceObject: ServiceItem,
+  providedServices: ServiceItem[],
+  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>>,
   setServicesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
   return modifyServicesData(
@@ -72,11 +72,11 @@ export function updateServices(
 }
 
 export function deleteServices(
-  serviceObject: ServiceItemType,
-  providedServices: ServiceItemType[],
-  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemType[]>>,
+  serviceObject: ServiceItem,
+  providedServices: ServiceItem[],
+  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>>,
   setServicesConfirmation: (conf: ConfirmationMessage) => void,
-  setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemType[]>> | null,
+  setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>> | null,
 ): Promise<void> {
   return modifyServicesData(
     PrivateDoctorDataService.deleteService,
@@ -90,8 +90,8 @@ export function deleteServices(
 
 export function addSpecialties(
   specialtyID: number,
-  newDoctorSpecialties: SpecialtyItemType[],
-  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItemType[]>>,
+  newDoctorSpecialties: SpecialtyItem[],
+  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>,
   setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>,
   setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
@@ -107,8 +107,8 @@ export function addSpecialties(
 
 export function deleteSpecialties(
   specialtyID: number,
-  newDoctorSpecialties: SpecialtyItemType[],
-  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItemType[]>>,
+  newDoctorSpecialties: SpecialtyItem[],
+  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>,
   setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>,
   setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
@@ -123,26 +123,26 @@ export function deleteSpecialties(
 }
 
 export async function addPreVetEducation(
-  preVetEducationObject: PreVetEducationItemType,
-  preVetEducation: PreVetEducationItemType[],
-  setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItemType[]>>,
-  listDetails: DoctorListDetailsType,
+  preVetGeneralEducationItem: PreVetEducationItem,
+  preVetEducation: PreVetEducationItem[],
+  setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItem[]>>,
+  listDetails: DoctorListDetails,
   setPreVetEducationConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
   try {
-    const mappedPreVetEducationObject = {
+    const mappedPreVetGeneralEducationItem = {
       School_ID: listDetails.preVetSchools
-        .find(school => school.School_name === preVetEducationObject.School_name)!.pre_vet_school_listID,
-      Major_ID: listDetails.majors.find(major => major.Major_name === preVetEducationObject.Major_name)!.major_listID,
+        .find(school => school.School_name === preVetGeneralEducationItem.School_name)!.pre_vet_school_listID,
+      Major_ID: listDetails.majors.find(major => major.Major_name === preVetGeneralEducationItem.Major_name)!.major_listID,
       Education_type_ID: listDetails.preVetEducationTypes.find(
-        educationType => educationType.Education_type === preVetEducationObject.Education_type)!.pre_vet_education_typeID,
-      Start_date: moment(preVetEducationObject.Start_Date, "MMMM D, YYYY").format("YYYY-MM-DD"),
-      End_date: moment(preVetEducationObject.End_Date, "MMMM D, YYYY").format("YYYY-MM-DD")
+        educationType => educationType.Education_type === preVetGeneralEducationItem.Education_type)!.pre_vet_education_typeID,
+      Start_date: moment(preVetGeneralEducationItem.Start_Date, "MMMM D, YYYY").format("YYYY-MM-DD"),
+      End_date: moment(preVetGeneralEducationItem.End_Date, "MMMM D, YYYY").format("YYYY-MM-DD")
     }
-    const response = await PrivateDoctorDataService.addPreVetEducationData(mappedPreVetEducationObject)
+    const response = await PrivateDoctorDataService.addPreVetEducationData(mappedPreVetGeneralEducationItem)
     if (response.status === 200) {
-      preVetEducationObject.pre_vet_education_mappingID = response.data
-      const newPreVetEducation = [...preVetEducation, preVetEducationObject]
+      preVetGeneralEducationItem.pre_vet_education_mappingID = response.data
+      const newPreVetEducation = [...preVetEducation, preVetGeneralEducationItem]
       setPreVetEducation(newPreVetEducation)
       const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") || "{}")
       DoctorAccountDetails.preVetEducation = newPreVetEducation
@@ -159,8 +159,8 @@ export async function addPreVetEducation(
 
 export async function deletePreVetEducation(
   preVetEducationMappingID: number,
-  preVetEducation: PreVetEducationItemType[],
-  setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItemType[]>>,
+  preVetEducation: PreVetEducationItem[],
+  setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItem[]>>,
   setPreVetEducationConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
   try {
@@ -182,24 +182,24 @@ export async function deletePreVetEducation(
 }
 
 export async function addVetEducation(
-  vetEducationObject: VetEducationItemType,
-  vetEducation: VetEducationItemType[],
-  setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItemType[]>>,
-  listDetails: DoctorListDetailsType,
+  vetGeneralEducationItem: VetEducationItem,
+  vetEducation: VetEducationItem[],
+  setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItem[]>>,
+  listDetails: DoctorListDetails,
   setVetEducationConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
   try {
-    const mappedVetEducationObject = {
-      School_ID: listDetails.vetSchools.find(school => school.School_name === vetEducationObject.School_name)!.vet_school_listID,
+    const mappedVetGeneralEducationItem = {
+      School_ID: listDetails.vetSchools.find(school => school.School_name === vetGeneralEducationItem.School_name)!.vet_school_listID,
       Education_type_ID: listDetails.vetEducationTypes.find(
-        educationType => educationType.Education_type === vetEducationObject.Education_type)!.vet_education_typeID,
-      Start_date: moment(vetEducationObject.Start_Date, "MMMM D, YYYY").format("YYYY-MM-DD"),
-      End_date: moment(vetEducationObject.End_Date, "MMMM D, YYYY").format("YYYY-MM-DD")
+        educationType => educationType.Education_type === vetGeneralEducationItem.Education_type)!.vet_education_typeID,
+      Start_date: moment(vetGeneralEducationItem.Start_Date, "MMMM D, YYYY").format("YYYY-MM-DD"),
+      End_date: moment(vetGeneralEducationItem.End_Date, "MMMM D, YYYY").format("YYYY-MM-DD")
     }
-    const response = await PrivateDoctorDataService.addVetEducationData(mappedVetEducationObject)
+    const response = await PrivateDoctorDataService.addVetEducationData(mappedVetGeneralEducationItem)
     if (response.status === 200) {
-      vetEducationObject.vet_education_mappingID = response.data
-      const newVetEducation = [...vetEducation, vetEducationObject]
+      vetGeneralEducationItem.vet_education_mappingID = response.data
+      const newVetEducation = [...vetEducation, vetGeneralEducationItem]
       setVetEducation(newVetEducation)
       const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") || "{}")
       DoctorAccountDetails.vetEducation = newVetEducation
@@ -216,8 +216,8 @@ export async function addVetEducation(
 
 export async function deleteVetEducation(
   vetEducationMappingID: number,
-  vetEducation: VetEducationItemType[],
-  setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItemType[]>>,
+  vetEducation: VetEducationItem[],
+  setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItem[]>>,
   setVetEducationConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
   try {
@@ -239,16 +239,16 @@ export async function deleteVetEducation(
 }
 
 export function addLocation(
-  address: DoctorAddressDataType,
-  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressDataType[]>>,
+  address: DoctorAddressData,
+  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>,
   setAddressesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
   return modifyAddressData(PrivateDoctorDataService.addAddressData, address, setAddresses, setAddressesConfirmation)
 }
 
 export function updateLocation(
-  address: DoctorAddressDataType,
-  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressDataType[]>>,
+  address: DoctorAddressData,
+  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>,
   setAddressesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
   return modifyAddressData(PrivateDoctorDataService.updateAddressData, address, setAddresses, setAddressesConfirmation)
@@ -256,7 +256,7 @@ export function updateLocation(
 
 export function deleteLocation(
   address: number,
-  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressDataType[]>>,
+  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>,
   setAddressesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
   //Consider adding another modifyAddressData
@@ -291,8 +291,8 @@ export async function saveDescription(
 
 export function addServicedPets(
   petID: number,
-  newServicedPets: ServicedPetItemType[],
-  setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItemType[]>>,
+  newServicedPets: ServicedPetItem[],
+  setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItem[]>>,
   setPetsConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
   return modifyServicedPets(PrivateDoctorDataService.addServicedPet, petID, newServicedPets, setServicedPets, setPetsConfirmation)
@@ -300,8 +300,8 @@ export function addServicedPets(
 
 export function deleteServicedPets(
   petID: number,
-  newServicedPets: ServicedPetItemType[],
-  setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItemType[]>>,
+  newServicedPets: ServicedPetItem[],
+  setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItem[]>>,
   setPetsConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
   return modifyServicedPets(PrivateDoctorDataService.deleteServicedPet, petID, newServicedPets, setServicedPets, setPetsConfirmation)

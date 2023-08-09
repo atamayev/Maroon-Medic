@@ -16,8 +16,8 @@ export default function PatientDashboard() {
   const storedData = sessionStorage.getItem("PatientPersonalInfo")
   const parsedData = storedData && JSON.parse(storedData)
   const [personalInfo, setPersonalInfo] = useState(parsedData)
-  const [pastAppointments, setPastAppointments] = useState<PatientDashboardDataType[]>([])
-  const [upcomingAppointments, setUpcomingAppointments] = useState<PatientDashboardDataType[]>([])
+  const [pastAppointments, setPastAppointments] = useState<PatientDashboardData[]>([])
+  const [upcomingAppointments, setUpcomingAppointments] = useState<PatientDashboardData[]>([])
   const newPatient = CheckCookie.forNewUser("PatientNewUser")
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export default function PatientDashboard() {
 
   if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
 
-  const RenderAppointmentConfirmationStatus = ({appointment} : {appointment: PatientDashboardDataType}) => {
+  const RenderAppointmentConfirmationStatus = ({appointment} : {appointment: PatientDashboardData}) => {
     if (appointment.Doctor_confirmation_status === false) {
       return (
         <OverlayTrigger
@@ -78,7 +78,7 @@ export default function PatientDashboard() {
     )
   }
 
-  const RenderMessageSection = ({appointment} : {appointment: PatientDashboardDataType}) => {
+  const RenderMessageSection = ({appointment} : {appointment: PatientDashboardData}) => {
     if (!appointment.patient_message) return null
     return (
       <span style = {{ display: "block" }}>
@@ -88,7 +88,7 @@ export default function PatientDashboard() {
     )
   }
 
-  const UpcomingAppointmentCard = ({appointment}: {appointment: PatientDashboardDataType}) => {
+  const UpcomingAppointmentCard = ({appointment}: {appointment: PatientDashboardData}) => {
     return (
       <>
         <Card style = {{ margin: "0 10px", position: "relative" }}>
@@ -106,7 +106,7 @@ export default function PatientDashboard() {
     )
   }
 
-  const PastAppointmentCard = ({appointment}: {appointment: PatientDashboardDataType}) => {
+  const PastAppointmentCard = ({appointment}: {appointment: PatientDashboardData}) => {
     return (
       <>
         <Card style = {{ margin: "0 10px", position: "relative" }}>
@@ -121,7 +121,7 @@ export default function PatientDashboard() {
     )
   }
 
-  const RenderUpcomingAppointments = ({upcomingAppointments} : {upcomingAppointments: PatientDashboardDataType[]}) => {
+  const RenderUpcomingAppointments = ({upcomingAppointments} : {upcomingAppointments: PatientDashboardData[]}) => {
     if (_.isEmpty(upcomingAppointments)) return <>No upcoming appointments</>
     return (
       <>
@@ -132,7 +132,7 @@ export default function PatientDashboard() {
     )
   }
 
-  const RenderPastAppointments = ({pastAppointments} : {pastAppointments: PatientDashboardDataType[]}) => {
+  const RenderPastAppointments = ({pastAppointments} : {pastAppointments: PatientDashboardData[]}) => {
     if (_.isEmpty(pastAppointments)) return <>No past appointments</>
     return (
       <>

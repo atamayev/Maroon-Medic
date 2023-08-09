@@ -7,7 +7,7 @@ import {handleNewUserSubmit} from "../../custom-hooks/handle-submits"
 import Header from "../header"
 
 export default function NewPatient () {
-  const [newPatientInfo, setNewPatientInfo] = useState<PersonalInfoType>({
+  const [newPatientInfo, setNewPatientInfo] = useState<BirthDateInfo>({
     FirstName: "",
     LastName: "",
     DOB_month: "",

@@ -11,9 +11,9 @@ import { useHandleDeletePreVetEducation,
 import EducationTime from "./education-time"
 
 interface Props {
-  listDetails: DoctorListDetailsType
-  preVetEducation: PreVetEducationItemType[]
-  setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItemType[]>>
+  listDetails: DoctorListDetails
+  preVetEducation: PreVetEducationItem[]
+  setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItem[]>>
 }
 
 export default function RenderPreVetEducationSection(props: Props) {
@@ -162,7 +162,7 @@ function RenderIsPreVetEducation(props: Props) {
       <Button
         onClick = {() => {
           const selectedEducationObj = handleAddEducation()
-          saveEducation(selectedEducationObj as PreVetEducationItemType)
+          saveEducation(selectedEducationObj as PreVetEducationItem)
         }}
       >
         Add
@@ -172,10 +172,10 @@ function RenderIsPreVetEducation(props: Props) {
 
   const handleDeleteOnClick = useHandleDeletePreVetEducation(preVetEducation, setPreVetEducation, setPreVetEducationConfirmation)
 
-  const RenderSingleSavedEducation = (preVetEducation: PreVetEducationItemType) => {
-    const status: DeleteStatusesType = deleteStatuses[preVetEducation.pre_vet_education_mappingID] || "initial"
+  const RenderSingleSavedEducation = (preVetEducation: PreVetEducationItem) => {
+    const status: DeleteStatuses = deleteStatuses[preVetEducation.pre_vet_education_mappingID] || "initial"
 
-    const setStatus = (newStatus: DeleteStatusesType) => {
+    const setStatus = (newStatus: DeleteStatuses) => {
       setDeleteStatuses((prevStatuses) => ({
         ...prevStatuses,
         [preVetEducation.pre_vet_education_mappingID]: newStatus,
@@ -186,7 +186,7 @@ function RenderIsPreVetEducation(props: Props) {
       <li>
         {preVetEducation.School_name}, {preVetEducation.Education_type} in {preVetEducation.Major_name}
         {" ("}{preVetEducation.Start_Date} - {preVetEducation.End_Date}{") "}
-        <DeleteButtonOptions<PreVetEducationItemType>
+        <DeleteButtonOptions<PreVetEducationItem>
           status = {status}
           setStatus = {setStatus}
           dataType = {preVetEducation}

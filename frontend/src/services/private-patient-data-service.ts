@@ -1,7 +1,7 @@
 import http from "../http-common"
 
 export default new class PrivatePatientDataService {
-  async addingPatientInfo(newPatientObject: PersonalInfoType) {
+  async addingPatientInfo(newPatientObject: BirthDateInfo) {
     return await http.post("private-patient-data/new-patient", {newPatientObject})
   }
   async fillDashboard() {
@@ -10,7 +10,7 @@ export default new class PrivatePatientDataService {
   async fillPersonalData() {
     return await http.get("/private-patient-data/fetch-personal-data")
   }
-  async savePersonalData(personalInfo: PersonalInfoType) {
+  async savePersonalData(personalInfo: BirthDateInfo) {
     return await http.post("/private-patient-data/save-personal-data", {personalInfo})
   }
   async fillAccountDetails() {
@@ -25,7 +25,7 @@ export default new class PrivatePatientDataService {
   async fetchPetData() {
     return await http.get("/private-patient-data/fetch-pet-data")
   }
-  async addPetData(PetData: PetItemType) {
+  async addPetData(PetData: PetItemForCreation) {
     return await http.post("/private-patient-data/add-pet-data", {PetData})
   }
   async deletePetData(petID: number) {

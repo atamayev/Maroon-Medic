@@ -14,9 +14,9 @@ import { AddPet } from "./add-pet"
 function usePetData(userType: DoctorOrPatientOrNull) {
   const storedData = sessionStorage.getItem("PatientPetData")
   const parsedData = storedData && JSON.parse(storedData)
-  const [savedPetData, setSavedPetData] = useState<PetItemTypeWithID[]>(parsedData || [])
-  const [petTypes, setPetTypes] = useState<ServicedPetItemType[]>([])
-  const [insurances, setInsurances] = useState<InsuranceItemType[]>([])
+  const [savedPetData, setSavedPetData] = useState<SavedPetItem[]>(parsedData || [])
+  const [petTypes, setPetTypes] = useState<ServicedPetItem[]>([])
+  const [insurances, setInsurances] = useState<InsuranceItem[]>([])
 
   const fetchAndSetPetData = async () => {
     try {
@@ -44,8 +44,8 @@ function usePetData(userType: DoctorOrPatientOrNull) {
 }
 
 const handleShowModal = (
-  pet: PetItemTypeWithID,
-  setPetToDelete: React.Dispatch<React.SetStateAction<PetItemTypeWithID | null>>,
+  pet: SavedPetItem,
+  setPetToDelete: React.Dispatch<React.SetStateAction<SavedPetItem | null>>,
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   setPetToDelete(pet)
@@ -59,16 +59,16 @@ const handleCloseModal = (setShowModal: React.Dispatch<React.SetStateAction<bool
 export default function MyPets() {
   const { userType } = useSimpleUserVerification()
   const [petConfirmation, setPetConfirmation] = useConfirmationMessage()
-  const [newPetData, setNewPetData] = useState<PetItemType>(
+  const [newPetData, setNewPetData] = useState<PetItemForCreation>(
     {Name: "", Gender:"", DOB: "", Pet: "", Pet_type: "", insuranceName: "", pet_listID: -1, insurance_listID: -1}
   )
   const [showAddPet, setShowAddPet] = useState(false)
   const [showModal, setShowModal] = useState(false)
-  const [petToDelete, setPetToDelete] = useState<PetItemTypeWithID | null>(null)
+  const [petToDelete, setPetToDelete] = useState<SavedPetItem | null>(null)
   const { savedPetData, setSavedPetData, petTypes, insurances } = usePetData(userType)
   if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
 
-  const RenderSavedPetDataTitle = ({pet} : {pet: PetItemTypeWithID}) => {
+  const RenderSavedPetDataTitle = ({pet} : {pet: SavedPetItem}) => {
     return (
       <Card.Title>
         {pet.Name}
@@ -83,7 +83,7 @@ export default function MyPets() {
     )
   }
 
-  const RenderSavedPetDataText = ({pet} : {pet: PetItemTypeWithID}) => {
+  const RenderSavedPetDataText = ({pet} : {pet: SavedPetItem}) => {
     return (
       <div>
         <p>{pet.Pet}</p>

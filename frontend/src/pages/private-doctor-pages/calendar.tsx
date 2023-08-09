@@ -11,7 +11,7 @@ import DoctorHeader from "./doctor-header"
 
 const localizer = momentLocalizer(moment)
 
-const CustomEvent = ({ event }: {event: DoctorCalendarEventType}) => {
+const CustomEvent = ({ event }: {event: DoctorCalendarEvent}) => {
   let CSS
   if (event.Doctor_confirmation_status === false) CSS = "status-pending"
   else CSS = "status-confirmed"
@@ -19,7 +19,7 @@ const CustomEvent = ({ event }: {event: DoctorCalendarEventType}) => {
 }
 
 function useDoctorCalendarData(userType: DoctorOrPatientOrNull) {
-  const [events, setEvents] = useState<DoctorCalendarEventType[]>([])
+  const [events, setEvents] = useState<DoctorCalendarEvent[]>([])
 
   const fetchAndSetCalendarData = async () => {
     try {

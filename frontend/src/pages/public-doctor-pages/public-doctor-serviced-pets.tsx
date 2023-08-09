@@ -2,11 +2,11 @@ import _ from "lodash"
 import { Card } from "react-bootstrap"
 
 interface Props {
-  servicedPets: ServicedPetsType[]
+  servicedPets: ServicedPetData[]
 }
 
 interface CategoriesType {
-  [key: string]: ServicedPetsType[]
+  [key: string]: ServicedPetData[]
 }
 
 export default function RenderServicedPetsSection(props: Props) {
@@ -24,7 +24,7 @@ export default function RenderServicedPetsSection(props: Props) {
   )
 }
 
-function RenderServicedPets({servicedPets} : {servicedPets: ServicedPetsType[]}) {
+function RenderServicedPets({servicedPets} : {servicedPets: ServicedPetData[]}) {
   const categories: CategoriesType = {}
   if (servicedPets) {
     servicedPets.forEach(Pet => {

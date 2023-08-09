@@ -2,9 +2,9 @@ import _ from "lodash"
 import { Card } from "react-bootstrap"
 
 interface Props {
-  preVetEducation: EducationObjType[]
-  vetEducation: EducationType[]
-  personalData: PersonalDataType
+  preVetEducation: GeneralEducationItem[]
+  vetEducation: EducationBase[]
+  personalData: DoctorPersonalData
 }
 
 export default function RenderEducationSection(props: Props) {
@@ -26,7 +26,7 @@ export default function RenderEducationSection(props: Props) {
   )
 }
 
-function RenderEducation({educationList, hasMajor} : {educationList: EducationObjType[], hasMajor: boolean}) {
+function RenderEducation({educationList, hasMajor} : {educationList: GeneralEducationItem[], hasMajor: boolean}) {
   return (
     <>
       {educationList.map((edu, index) => (

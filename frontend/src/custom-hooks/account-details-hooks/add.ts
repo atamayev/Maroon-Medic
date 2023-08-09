@@ -4,9 +4,9 @@ import { addDoctorLanguages, addSpecialties } from "./save-doctor-account-detail
 
 export const handleAddLanguage = (
   selectedLanguageID: number,
-  spokenLanguages: LanguageItemType[],
-  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
-  listDetails: DoctorListDetailsType | PatientListDetailsType,
+  spokenLanguages: LanguageItem[],
+  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
+  listDetails: DoctorListDetails | PatientListDetails,
   setLanguagesConfirmation: (conf: ConfirmationMessage) => void,
   doctorOrPatient: doctorOrpatient
 ): void => {
@@ -26,10 +26,10 @@ export const handleAddLanguage = (
 
 export const handleAddSpecialty = (
   selectedSpecialtyID: number,
-  doctorSpecialties: SpecialtyItemType[],
-  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItemType[]>>,
+  doctorSpecialties: SpecialtyItem[],
+  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>,
   setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>,
-  listDetails: DoctorListDetailsType,
+  listDetails: DoctorListDetails,
   setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void
 ): void => {
   const selectedSpecialty = listDetails.specialties.find((spec) => spec.specialties_listID === selectedSpecialtyID)
@@ -44,12 +44,12 @@ export const handleAddEducation = (
   setSelectedSchool: React.Dispatch<React.SetStateAction<string>>,
   selectedEducationType: string,
   setSelectedEducationType: React.Dispatch<React.SetStateAction<string>>,
-  timeState: TimeStateType,
-  setTimeState: React.Dispatch<React.SetStateAction<TimeStateType>>,
+  timeState: TimeState,
+  setTimeState: React.Dispatch<React.SetStateAction<TimeState>>,
   selectedMajor: string | null = null,
   setSelectedMajor: React.Dispatch<React.SetStateAction<string>> | null = null
-): EducationObjType => {
-  const selectedEducationObj: EducationObjType = {
+): GeneralEducationItem => {
+  const selectedEducationObj: GeneralEducationItem = {
     School_name: selectedSchool,
     Education_type: selectedEducationType,
     Start_Date: moment(`${timeState.startYear}-${timeState.startMonth}-1`,"YYYY-MMMM-D").format("MMMM D, YYYY"),
@@ -73,8 +73,8 @@ export const handleAddEducation = (
 
 
 export const handleAddAccordion = (
-  addresses: DoctorAddressDataType[],
-  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressDataType[]>>
+  addresses: DoctorAddressData[],
+  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>
 ): void => {
   let maxPriority = Math.max(...addresses.map(address => address.address_priority))
   if (maxPriority === -Infinity) maxPriority = 0

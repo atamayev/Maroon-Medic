@@ -1,7 +1,7 @@
 import FormGroup from "../../../components/form-group"
 
 interface Props {
-  address: DoctorAddressDataType
+  address: DoctorAddressData
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>, addressPriority: number) => void
 }
 

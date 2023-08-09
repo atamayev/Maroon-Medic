@@ -3,10 +3,10 @@ import { NavigateFunction } from "react-router-dom"
 
 export const handlePetChange = (
   event: React.ChangeEvent<HTMLInputElement>,
-  savedPetData: PetItemTypeWithID[],
-  setSelectedPet: React.Dispatch<React.SetStateAction<PetItemTypeWithID | null>>,
-  setSelectedService: React.Dispatch<React.SetStateAction<ServiceItemType | null>>,
-  setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressType | null>>,
+  savedPetData: SavedPetItem[],
+  setSelectedPet: React.Dispatch<React.SetStateAction<SavedPetItem | null>>,
+  setSelectedService: React.Dispatch<React.SetStateAction<ServiceItem | null>>,
+  setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressData | null>>,
   setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>,
   setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
 ): void => {
@@ -23,9 +23,9 @@ export const handlePetChange = (
 
 export const handleServiceChange = (
   event: React.ChangeEvent<HTMLInputElement>,
-  providedServices: ServiceItemType[],
-  setSelectedService: React.Dispatch<React.SetStateAction<ServiceItemType | null>>,
-  setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressType | null>>,
+  providedServices: ServiceItem[],
+  setSelectedService: React.Dispatch<React.SetStateAction<ServiceItem | null>>,
+  setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressData | null>>,
   setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>,
   setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
 ): void => {
@@ -41,8 +41,8 @@ export const handleServiceChange = (
 
 export const handleLocationChange = (
   event: React.ChangeEvent<HTMLInputElement>,
-  addresses: PublicAddressType[],
-  setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressType | null>>,
+  addresses: PublicAddressData[],
+  setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressData | null>>,
   setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>,
   setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>,
   setNoAvailableTimesMessage: React.Dispatch<React.SetStateAction<boolean>>
@@ -85,13 +85,13 @@ export const handleTimeChange = (
 
 export function finalizeBookingClick(
   navigate: NavigateFunction,
-  selectedService: ServiceItemType,
-  selectedLocation: PublicAddressType,
+  selectedService: ServiceItem,
+  selectedLocation: PublicAddressData,
   selectedDay: string,
   selectedTime: string,
   serviceMinutes: number,
-  personalData: PersonalDataType,
-  selectedPet: PetItemTypeWithID
+  personalData: DoctorPersonalData,
+  selectedPet: SavedPetItem
 ): void {
   const bookingDetails = {
     selectedService: selectedService ? selectedService : null,

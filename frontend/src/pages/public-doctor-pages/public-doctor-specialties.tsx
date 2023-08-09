@@ -2,11 +2,11 @@ import _ from "lodash"
 import { Card } from "react-bootstrap"
 
 interface Props {
-  doctorSpecialties: SpecialtyType[]
+  doctorSpecialties: OrganizationSpecialtyName[]
 }
 
 interface CategoriesType {
-  [key: string]: SpecialtyType[]
+  [key: string]: OrganizationSpecialtyName[]
 }
 
 export default function RenderSpecialtiesSection(props: Props) {
@@ -24,7 +24,7 @@ export default function RenderSpecialtiesSection(props: Props) {
   )
 }
 
-function RenderSpecialties(doctorSpecialties: SpecialtyType[]) {
+function RenderSpecialties(doctorSpecialties: OrganizationSpecialtyName[]) {
   const organizations: CategoriesType = {}
   if (doctorSpecialties) {
     doctorSpecialties.forEach(specialty => {

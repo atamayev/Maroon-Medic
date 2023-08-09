@@ -2,7 +2,7 @@ import _ from "lodash"
 import { Card } from "react-bootstrap"
 
 interface Props {
-  addresses: PublicAddressType[]
+  addresses: PublicAddressData[]
 }
 
 export default function RenderLocationsSection(props: Props) {
@@ -20,13 +20,13 @@ export default function RenderLocationsSection(props: Props) {
   )
 }
 
-function RenderLocations(addressesList: PublicAddressType[]) {
-  const RenderInstantBook = ({ address }: {address: PublicAddressType}) => {
+function RenderLocations(addressesList: PublicAddressData[]) {
+  const RenderInstantBook = ({ address }: {address: PublicAddressData}) => {
     if (address.instant_book) return <>Instant book available</>
     return <>Instant book unavailable</>
   }
 
-  const RenderAddressSection = ({ address }: {address: PublicAddressType}) => {
+  const RenderAddressSection = ({ address }: {address: PublicAddressData}) => {
     return (
       <>
         <h4>{address.address_title}</h4>
@@ -37,7 +37,7 @@ function RenderLocations(addressesList: PublicAddressType[]) {
     )
   }
 
-  const RenderTimesSection = ({ address }: {address: PublicAddressType}) => {
+  const RenderTimesSection = ({ address }: {address: PublicAddressData}) => {
     return (
       <div className = "col-md-6">
         <h5>Working hours:</h5>
@@ -50,14 +50,14 @@ function RenderLocations(addressesList: PublicAddressType[]) {
     )
   }
 
-  const RenderPhone = ({ address }: {address: PublicAddressType}) => {
+  const RenderPhone = ({ address }: {address: PublicAddressData}) => {
     if (!address.Phone) return null
     return <p>Phone: {address.Phone}</p>
   }
 
   return (
     <>
-      {addressesList.map((address: PublicAddressType) => (
+      {addressesList.map((address: PublicAddressData) => (
         <div key = {address.addressesID}>
           <div className = "row">
             <div className = "col-md-6">

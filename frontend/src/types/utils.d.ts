@@ -6,22 +6,22 @@ declare global {
 
   type MysqlTimestamp = string
 
-  type DeleteStatusesType = "deleting" | "initial"
+  type DeleteStatuses = "deleting" | "initial"
 
   type DeleteStatusesDictionary = {
-    [key: number]: DeleteStatusesType;
+    [key: number]: DeleteStatuses;
   }
 
-  type DeleteButtonDataTypes = LanguageItemType | SpecialtyItemType | PreVetEducationItemType | VetEducationItemType
+  type DayOfWeek = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday"
 
-  type DayOfWeekType = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday"
-
-  type AppointmentStatusType = "approved" | "pending" | "confirming"
+  type AppointmentStatus = "approved" | "pending" | "confirming"
 
   type ConfirmationMessage = {
     messageType: "saved" | "same" | "problem" | "none" | null,
     timeoutId?: number | null
   }
+
+  type DayIndeces = 0 | 1 | 2 | 3 | 4 | 5 | 6 | null
 }
 
 export {}

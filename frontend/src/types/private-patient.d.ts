@@ -1,10 +1,10 @@
 declare global {
-  interface PatientDashboardDataType extends DashboardDataType {
+  interface PatientDashboardData extends DashboardDataType {
     Doctor_FirstName: string
     Doctor_LastName: string
   }
 
-  interface BasePetItem {
+  interface BasePetInfo {
     Name: string
     Gender: string
     DOB: string
@@ -14,13 +14,13 @@ declare global {
   }
 
   //This is the type for the pet data when it is being 'created' (not saved)
-  type PetItemType = BasePetItem & {
+  type PetItemForCreation = BasePetInfo & {
     pet_listID: number
     insurance_listID: number
   }
 
   //This is the type for the pet data when it already saved
-  type PetItemTypeWithID = BasePetItem & {
+  type SavedPetItem = BasePetInfo & {
     pet_infoID: number
   }
 }

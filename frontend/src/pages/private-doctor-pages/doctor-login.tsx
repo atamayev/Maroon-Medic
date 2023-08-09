@@ -7,7 +7,7 @@ import Header from "../header"
 
 export default function DoctorLogin() {
   const [loginInformationObject, setLoginInformationObject] =
-    useState<LoginAndRegisterInformationType>({loginType: "Doctor", email: "", password: ""})
+    useState<AuthCredentials>({loginType: "Doctor", email: "", password: ""})
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)

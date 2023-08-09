@@ -21,16 +21,16 @@ export const RenderSelectLanguageSection = ({handleLanguageChange, languageOptio
 }
 
 interface SingleLanguageProps {
-  language: LanguageItemType,
+  language: LanguageItem,
   deleteStatuses: DeleteStatusesDictionary,
   setDeleteStatuses: React.Dispatch<React.SetStateAction<DeleteStatusesDictionary>>
-  handleDeleteLanguage: (language: LanguageItemType) => void
+  handleDeleteLanguage: (language: LanguageItem) => void
 }
 
 const RenderSingleSavedLanguage = ({language, deleteStatuses, setDeleteStatuses, handleDeleteLanguage}: SingleLanguageProps) => {
   const status = deleteStatuses[language.language_listID] || "initial"
 
-  const setStatus = (newStatus: DeleteStatusesType) => {
+  const setStatus = (newStatus: DeleteStatuses) => {
     setDeleteStatuses((prevStatuses) => ({
       ...prevStatuses,
       [language.language_listID]: newStatus,
@@ -40,7 +40,7 @@ const RenderSingleSavedLanguage = ({language, deleteStatuses, setDeleteStatuses,
   return (
     <li>
       {language.Language_name}
-      <DeleteButtonOptions<LanguageItemType>
+      <DeleteButtonOptions<LanguageItem>
         status = {status}
         setStatus = {setStatus}
         dataType = {language}
@@ -51,10 +51,10 @@ const RenderSingleSavedLanguage = ({language, deleteStatuses, setDeleteStatuses,
 }
 
 interface SavedLanguageList {
-  spokenLanguages: LanguageItemType[],
+  spokenLanguages: LanguageItem[],
   deleteStatuses: DeleteStatusesDictionary,
   setDeleteStatuses: React.Dispatch<React.SetStateAction<DeleteStatusesDictionary>>
-  handleDeleteLanguage: (language: LanguageItemType) => void
+  handleDeleteLanguage: (language: LanguageItem) => void
 }
 
 export const RenderSavedLanguageList = ({spokenLanguages, deleteStatuses, setDeleteStatuses, handleDeleteLanguage}: SavedLanguageList) => {

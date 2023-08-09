@@ -3,13 +3,13 @@ import { NavigateFunction } from "react-router-dom"
 
 export async function confirmBooking(
   navigate: NavigateFunction,
-  selectedService: ServiceItemType,
-  selectedLocation: PublicAddressType,
+  selectedService: ServiceItem,
+  selectedLocation: PublicAddressData,
   selectedDay: string,
   selectedTime: string,
   serviceMinutes: number,
-  personalData: PersonalDataType,
-  selectedPet: PetItemTypeWithID,
+  personalData: DoctorPersonalData,
+  selectedPet: SavedPetItem,
   message: string
 ): Promise<void> {
   const AppointmentObject = {

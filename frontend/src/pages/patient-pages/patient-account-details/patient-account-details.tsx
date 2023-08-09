@@ -7,8 +7,8 @@ import PatientHeader from "../patient-header"
 import RenderLanguageSection from "./language"
 
 function usePatientAccountDetails(
-  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
-  setListDetails: React.Dispatch<React.SetStateAction<PatientListDetailsType>>,
+  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
+  setListDetails: React.Dispatch<React.SetStateAction<PatientListDetails>>,
   userType: DoctorOrPatientOrNull
 ) {
   const fetchAndSetAccountDetails = async () => {
@@ -31,9 +31,9 @@ function usePatientAccountDetails(
 
 export default function PatientAccountDetails() {
   const { userType } = useSimpleUserVerification()
-  const [listDetails, setListDetails] = useState({} as PatientListDetailsType)
+  const [listDetails, setListDetails] = useState({} as PatientListDetails)
   const PatientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails") || "{}")
-  const [spokenLanguages, setSpokenLanguages] = useState<LanguageItemType[]>(PatientAccountDetails?.languages || [])
+  const [spokenLanguages, setSpokenLanguages] = useState<LanguageItem[]>(PatientAccountDetails?.languages || [])
   usePatientAccountDetails(setSpokenLanguages, setListDetails, userType)
   if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
 

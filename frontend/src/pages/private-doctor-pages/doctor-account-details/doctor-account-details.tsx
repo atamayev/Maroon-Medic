@@ -20,7 +20,7 @@ import RenderPersonalInfoLinkSection from "./personalInfoLink"
 import ListsDataService from "../../../services/lists-data-service"
 import { handle401AxiosError } from "src/utils/handle-errors"
 
-async function FillLists(setListDetails: React.Dispatch<React.SetStateAction<DoctorListDetailsType>>) {
+async function FillLists(setListDetails: React.Dispatch<React.SetStateAction<DoctorListDetails>>) {
   try {
     const response = await ListsDataService.fillDoctorLists()
     if (response) {
@@ -33,15 +33,15 @@ async function FillLists(setListDetails: React.Dispatch<React.SetStateAction<Doc
 }
 
 async function FillDoctorAccountDetails(
-  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
-  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemType[]>>,
+  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
+  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>>,
   setExpandedCategories: React.Dispatch<React.SetStateAction<string[]>>,
-  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItemType[]>>,
-  setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItemType[]>>,
-  setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItemType[]>>,
-  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressDataType[]>>,
+  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>,
+  setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItem[]>>,
+  setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItem[]>>,
+  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>,
   setDescription: React.Dispatch<React.SetStateAction<string>>,
-  setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItemType[]>>,
+  setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItem[]>>,
   setExpandedPetTypes: React.Dispatch<React.SetStateAction<string[]>>,
   setPubliclyAvailable: React.Dispatch<React.SetStateAction<boolean>>
 ) {
@@ -51,7 +51,7 @@ async function FillDoctorAccountDetails(
       if (response.data.languages) setSpokenLanguages(response.data.languages)
       if (response.data.services) {
         setProvidedServices(response.data.services)
-        setExpandedCategories(response.data.services.map((service: ServiceItemType) => service.Category_name))
+        setExpandedCategories(response.data.services.map((service: ServiceItem) => service.Category_name))
       }
       if (response.data.specialties) setDoctorSpecialties(response.data.specialties)
       if (response.data.preVetEducation) setPreVetEducation(response.data.preVetEducation)
@@ -60,7 +60,7 @@ async function FillDoctorAccountDetails(
       if (response.data.description) setDescription(response.data.description)
       if (response.data.servicedPets) {
         setServicedPets(response.data.servicedPets)
-        setExpandedPetTypes(response.data.servicedPets.map((pet: ServicedPetItemType) => pet.Pet_type))
+        setExpandedPetTypes(response.data.servicedPets.map((pet: ServicedPetItem) => pet.Pet_type))
       }
       if (_.has(response.data, "publiclyAvailable")) setPubliclyAvailable(response.data.publiclyAvailable)
       // if (response.data.pictures) ; //set pictures
@@ -72,16 +72,16 @@ async function FillDoctorAccountDetails(
 }
 
 function useDoctorAccountDetails(
-  setListDetails: React.Dispatch<React.SetStateAction<DoctorListDetailsType>>,
-  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
-  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemType[]>>,
+  setListDetails: React.Dispatch<React.SetStateAction<DoctorListDetails>>,
+  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
+  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>>,
   setExpandedCategories: React.Dispatch<React.SetStateAction<string[]>>,
-  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItemType[]>>,
-  setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItemType[]>>,
-  setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItemType[]>>,
-  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressDataType[]>>,
+  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>,
+  setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItem[]>>,
+  setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItem[]>>,
+  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>,
   setDescription: React.Dispatch<React.SetStateAction<string>>,
-  setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItemType[]>>,
+  setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItem[]>>,
   setExpandedPetTypes: React.Dispatch<React.SetStateAction<string[]>>,
   setPubliclyAvailable: React.Dispatch<React.SetStateAction<boolean>>
 ) {
@@ -102,7 +102,7 @@ function useDoctorAccountDetails(
           setExpandedPetTypes,
           setPubliclyAvailable
         )
-      } else setExpandedCategories(JSON.parse(storedAccountDetails).services?.map((service: ServiceItemType) => service.Category_name))
+      } else setExpandedCategories(JSON.parse(storedAccountDetails).services?.map((service: ServiceItem) => service.Category_name))
 
       const storedListDetails = sessionStorage.getItem("ListDetails")
       if (storedListDetails) setListDetails(JSON.parse(storedListDetails))
@@ -119,7 +119,7 @@ function useDoctorAccountDetails(
 
 export default function DoctorAccountDetails() {
   const { userType } = useSimpleUserVerification()
-  const [listDetails, setListDetails] = useState<DoctorListDetailsType>({
+  const [listDetails, setListDetails] = useState<DoctorListDetails>({
     languages: [],
     servicesAndCategories: [],
     specialties: [],
@@ -134,25 +134,25 @@ export default function DoctorAccountDetails() {
 
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
 
-  const [spokenLanguages, setSpokenLanguages] = useState<LanguageItemType[]>(DoctorAccountDetails?.languages || [])
+  const [spokenLanguages, setSpokenLanguages] = useState<LanguageItem[]>(DoctorAccountDetails?.languages || [])
 
-  const [providedServices, setProvidedServices] = useState<ServiceItemType[]>(DoctorAccountDetails?.services || [])
+  const [providedServices, setProvidedServices] = useState<ServiceItem[]>(DoctorAccountDetails?.services || [])
   const [expandedCategories, setExpandedCategories] = useState<string[]>([])
 
-  const [doctorSpecialties, setDoctorSpecialties] = useState<SpecialtyItemType[]>(DoctorAccountDetails?.specialties || [])
+  const [doctorSpecialties, setDoctorSpecialties] = useState<SpecialtyItem[]>(DoctorAccountDetails?.specialties || [])
 
-  const [preVetEducation, setPreVetEducation] = useState<PreVetEducationItemType[]>(DoctorAccountDetails?.preVetEducation || [])
+  const [preVetEducation, setPreVetEducation] = useState<PreVetEducationItem[]>(DoctorAccountDetails?.preVetEducation || [])
 
-  const [vetEducation, setVetEducation] = useState<VetEducationItemType[]>(DoctorAccountDetails?.vetEducation || [])
+  const [vetEducation, setVetEducation] = useState<VetEducationItem[]>(DoctorAccountDetails?.vetEducation || [])
 
-  const [addresses, setAddresses] = useState<DoctorAddressDataType[]>(
+  const [addresses, setAddresses] = useState<DoctorAddressData[]>(
     DoctorAccountDetails?.addressData ||
     [{ address_priority: 0, addressesID: -1, address_title: "", address_line_1: "", address_line_2: "", city: "",
       state: "", zip: "", country: "", Phone: [], address_public_status: true, instant_book: false, times:[]}])
 
   const [description, setDescription] = useState<string>(DoctorAccountDetails?.description || "")
 
-  const [servicedPets, setServicedPets] = useState<ServicedPetItemType[]>(DoctorAccountDetails?.servicedPets || [])
+  const [servicedPets, setServicedPets] = useState<ServicedPetItem[]>(DoctorAccountDetails?.servicedPets || [])
   const [expandedPetTypes, setExpandedPetTypes] = useState<string[]>([])
 
   const [publiclyAvailable, setPubliclyAvailable] = useState<boolean>(DoctorAccountDetails?.publiclyAvailable || false)

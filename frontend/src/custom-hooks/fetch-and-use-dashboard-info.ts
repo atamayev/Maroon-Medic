@@ -4,10 +4,10 @@ import PrivateDoctorDataService from "../services/private-doctor-data-service"
 import PrivatePatientDataService from "../services/private-patient-data-service"
 
 export function useDoctorDashboardData(): {
-  dashboardData: DoctorDashboardDataType[],
-  setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardDataType[]>>}
+  dashboardData: DoctorDashboardData[],
+  setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardData[]>>}
 {
-  const [dashboardData, setDashboardData] = useState<DoctorDashboardDataType[]>([])
+  const [dashboardData, setDashboardData] = useState<DoctorDashboardData[]>([])
 
   const fetchAndSetDashboardData: () => Promise<void> = async () => {
     await fetchDoctorDashboardData(setDashboardData)
@@ -21,7 +21,7 @@ export function useDoctorDashboardData(): {
 }
 
 async function fetchDoctorDashboardData(
-  setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardDataType[]>>
+  setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardData[]>>
 ): Promise<void> {
   try {
     const response = await PrivateDoctorDataService.fillDashboard()
@@ -35,10 +35,10 @@ async function fetchDoctorDashboardData(
 }
 
 export function usePatientDashboardData(): {
-  dashboardData: PatientDashboardDataType[],
-  setDashboardData: React.Dispatch<React.SetStateAction<PatientDashboardDataType[]>>}
+  dashboardData: PatientDashboardData[],
+  setDashboardData: React.Dispatch<React.SetStateAction<PatientDashboardData[]>>}
 {
-  const [dashboardData, setDashboardData] = useState<PatientDashboardDataType[]>([])
+  const [dashboardData, setDashboardData] = useState<PatientDashboardData[]>([])
 
   const fetchAndSetDashboardData: () => Promise<void> = async () => {
     await fetchPatientDashboardData(setDashboardData)
@@ -52,7 +52,7 @@ export function usePatientDashboardData(): {
 }
 
 async function fetchPatientDashboardData(
-  setDashboardData: React.Dispatch<React.SetStateAction<PatientDashboardDataType[]>>
+  setDashboardData: React.Dispatch<React.SetStateAction<PatientDashboardData[]>>
 ): Promise<void> {
   try {
     const response = await PrivatePatientDataService.fillDashboard()

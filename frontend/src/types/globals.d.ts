@@ -1,12 +1,12 @@
 declare global {
-  type PersonalDataType = {
+  interface DoctorPersonalData {
     FirstName: string
     LastName: string
     Gender: string
     NVI: number
   }
 
-  type PersonalInfoType = {
+  interface BirthDateInfo {
     FirstName: string,
     LastName: string,
     DOB_month: string,
@@ -15,7 +15,7 @@ declare global {
     Gender: string
   }
 
-  type TimeStateType = {
+  interface TimeState {
     startMonth: string
     startYear: string
     endMonth: string
@@ -37,12 +37,12 @@ declare global {
     Phone: string
   }
 
-  type DoctorAddressDataType = BaseAddressData & {
-    times: AvailabilityDataType[]
+  type DoctorAddressData = BaseAddressData & {
+    times: DoctorAvailability[]
   }
 
-  type AvailabilityDataType = {
-    Day_of_week: DayOfWeekType
+  type DoctorAvailability = {
+    Day_of_week: DayOfWeek
     Start_time: string
     End_time: string
   }
@@ -65,7 +65,7 @@ declare global {
     country: string
   }
 
-  interface LoginAndRegisterInformationType {
+  interface AuthCredentials {
     loginType: DoctorOrPatient
     email: string
     password: string
@@ -77,8 +77,6 @@ declare global {
     newPassword: string
     newConfirmPassword: string
   }
-
-  type DayIndeces = 0 | 1 | 2 | 3 | 4 | 5 | 6 | null
 
   type VerifyContextReturnType = Promise<{verified: boolean, userType?: DoctorOrPatient}>
 

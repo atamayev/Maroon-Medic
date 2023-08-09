@@ -3,7 +3,7 @@ import PrivatePatientDataService from "../../services/private-patient-data-servi
 import { handle401AxiosError } from "src/utils/handle-errors"
 
 export async function fetchPetData(
-  setSavedPetData: React.Dispatch<React.SetStateAction<PetItemTypeWithID[]>>
+  setSavedPetData: React.Dispatch<React.SetStateAction<SavedPetItem[]>>
 ): Promise<void> {
   try {
     const response = await PrivatePatientDataService.fetchPetData()
@@ -17,7 +17,7 @@ export async function fetchPetData(
 }
 
 export async function FillPetTypes(
-  setPetTypes: React.Dispatch<React.SetStateAction<ServicedPetItemType[]>>
+  setPetTypes: React.Dispatch<React.SetStateAction<ServicedPetItem[]>>
 ): Promise<void> {
   try {
     const response = await ListsDataService.fillPetTypes()
@@ -31,7 +31,7 @@ export async function FillPetTypes(
 }
 
 export async function FillInsurances(
-  setInsurances: React.Dispatch<React.SetStateAction<InsuranceItemType[]>>
+  setInsurances: React.Dispatch<React.SetStateAction<InsuranceItem[]>>
 ): Promise<void> {
   try {
     const response = await ListsDataService.fillInsurances()

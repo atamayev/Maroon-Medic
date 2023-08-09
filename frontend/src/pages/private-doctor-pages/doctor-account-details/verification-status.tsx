@@ -3,6 +3,7 @@ import { Card, Button } from "react-bootstrap"
 interface Props {
   verified: boolean
 }
+
 export default function RenderVerificationSection (props: Props) {
   return (
     <>

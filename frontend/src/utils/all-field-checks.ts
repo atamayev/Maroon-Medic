@@ -1,4 +1,4 @@
-export function areAllFieldsValid(address: DoctorAddressDataType): boolean {
+export function areAllFieldsValid(address: DoctorAddressData): boolean {
   if (
     !address.address_title ||
     !address.address_line_1 ||
@@ -17,7 +17,7 @@ export function areAllFieldsValid(address: DoctorAddressDataType): boolean {
   return true
 }
 
-export function areAllTimesValid(address: DoctorAddressDataType): boolean {
+export function areAllTimesValid(address: DoctorAddressData): boolean {
   for (const time of address.times) {
     if (new Date(`1970-01-01T${time.End_time}:00`) <= new Date(`1970-01-01T${time.Start_time}:00`)) return false
   }

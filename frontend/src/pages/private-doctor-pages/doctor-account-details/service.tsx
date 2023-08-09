@@ -8,9 +8,9 @@ import { handleNumericInput, preventNonNumericalInput, validateDropInput, valida
 import { RenderMessageSection } from "../../../components/saved-message-section"
 
 interface Props {
-  listDetails: DoctorListDetailsType
-  providedServices: ServiceItemType[]
-  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemType[]>>
+  listDetails: DoctorListDetails
+  providedServices: ServiceItem[]
+  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>>
   expandedCategories: string[]
   setExpandedCategories: React.Dispatch<React.SetStateAction<string[]>>
 }
@@ -31,7 +31,7 @@ export default function RenderServiceSection (props: Props) {
 function RenderIsVetServices (props: Props) {
   const [servicesConfirmation, setServicesConfirmation] = useConfirmationMessage()
   const { listDetails, providedServices, setProvidedServices, expandedCategories, setExpandedCategories } = props
-  const [selectedServices, setSelectedServices] = useState<ServiceItemType[]>([])
+  const [selectedServices, setSelectedServices] = useState<ServiceItem[]>([])
 
   useEffect(() => {
     //Initialize selectedServices to providedServices
@@ -41,7 +41,7 @@ function RenderIsVetServices (props: Props) {
   }, [providedServices])
 
   type CategoriesType = {
-    [key: string]: ServiceListItemType[]
+    [key: string]: ServiceListItem[]
   }
 
   const categories: CategoriesType = {}
@@ -67,7 +67,7 @@ function RenderIsVetServices (props: Props) {
   if (_.isEmpty(_.uniq(listDetails.servicesAndCategories?.map((item) => item.Category_name)))) return <>Loading...</>
 
   const RenderIsSelectedService = (
-    {service, selectedService} : {service: ServiceListItemType, selectedService: ServiceItemType | undefined}
+    {service, selectedService} : {service: ServiceListItem, selectedService: ServiceItem | undefined}
   ) => {
     if (!selectedService) return null
     return (
@@ -78,7 +78,7 @@ function RenderIsVetServices (props: Props) {
     )
   }
 
-  const RenderServices = ({category, services} : {category: string, services: ServiceListItemType[]}) => {
+  const RenderServices = ({category, services} : {category: string, services: ServiceListItem[]}) => {
     if (!(services.length <= 1 || expandedCategories.includes(category))) return null
 
     return (
@@ -96,7 +96,7 @@ function RenderIsVetServices (props: Props) {
     )
   }
 
-  const RenderServiceCheckbox = ({service, category} : {service: ServiceListItemType, category: string}) => {
+  const RenderServiceCheckbox = ({service, category} : {service: ServiceListItem, category: string}) => {
     return (
       <>
         <RenderActionButton service = {service} />
@@ -124,7 +124,7 @@ function RenderIsVetServices (props: Props) {
     )
   }
 
-  const RenderActionButton = ({service} : {service: ServiceListItemType}) => {
+  const RenderActionButton = ({service} : {service: ServiceListItem}) => {
     const selectedService = selectedServices.find(s => s.service_and_category_listID === service.service_and_category_listID)
     const providedService = providedServices.find(s => s.service_and_category_listID === service.service_and_category_listID)
 
@@ -174,7 +174,7 @@ function RenderIsVetServices (props: Props) {
     return null
   }
 
-  const RenderServiceTimeInput = ({service, selectedService} : {service: ServiceListItemType, selectedService: ServiceItemType}) => {
+  const RenderServiceTimeInput = ({service, selectedService} : {service: ServiceListItem, selectedService: ServiceItem}) => {
     return (
       <select
         id = {`time-${service.service_and_category_listID}`}
@@ -202,7 +202,7 @@ function RenderIsVetServices (props: Props) {
     )
   }
 
-  const RenderServicePriceInput = ({service, selectedService} : {service: ServiceListItemType, selectedService: ServiceItemType}) => {
+  const RenderServicePriceInput = ({service, selectedService} : {service: ServiceListItem, selectedService: ServiceItem}) => {
     return (
       <input
         type = "text"
@@ -229,7 +229,7 @@ function RenderIsVetServices (props: Props) {
     )
   }
 
-  const RenderToggleCategory = ({category, services} : {category: string, services: ServiceListItemType[]}) => {
+  const RenderToggleCategory = ({category, services} : {category: string, services: ServiceListItem[]}) => {
     if (services.length <= 1) return null
 
     const isOpen = expandedCategories.includes(category)

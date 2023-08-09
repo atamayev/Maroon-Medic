@@ -8,7 +8,7 @@ import Header from "../header"
 export default function PatietRegister() {
   const type = "Patient"
   const [registerInformationObject, setRegisterInformationObject] =
-  useState<LoginAndRegisterInformationType>({loginType: type, email: "", password: ""})
+  useState<AuthCredentials>({loginType: type, email: "", password: ""})
   const [passwordConfirm, setPasswordConfirm] = useState("")
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)

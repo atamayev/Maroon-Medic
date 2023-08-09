@@ -5,7 +5,7 @@ import PrivatePatientDataService from "../services/private-patient-data-service"
 import { handle401AxiosErrorAndSetCustomError } from "src/utils/handle-errors"
 
 export const handleLoginSubmit = async (
-  loginInformationObject: LoginAndRegisterInformationType,
+  loginInformationObject: AuthCredentials,
   navigate: NavigateFunction,
   setError: React.Dispatch<React.SetStateAction<string>>,
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,
@@ -30,7 +30,7 @@ export const handleLoginSubmit = async (
 }
 
 export const handleRegisterSubmit = async (
-  registerInformationObject: LoginAndRegisterInformationType,
+  registerInformationObject: AuthCredentials,
   passwordConfirm: string,
   navigate: NavigateFunction,
   setError: React.Dispatch<React.SetStateAction<string>>,
@@ -51,7 +51,7 @@ export const handleRegisterSubmit = async (
 }
 
 export const handleNewUserSubmit = async (
-  newInfo: PersonalInfoType,
+  newInfo: BirthDateInfo,
   navigate: NavigateFunction,
   setError: React.Dispatch<React.SetStateAction<string>>,
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,

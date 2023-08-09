@@ -11,13 +11,13 @@ import {
 } from "./save-doctor-account-details"
 
 export const useHandleDeleteLanguage = (
-  spokenLanguages: LanguageItemType[],
-  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
+  spokenLanguages: LanguageItem[],
+  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
   setLanguagesConfirmation: (conf: ConfirmationMessage) => void,
   doctorOrPatient: doctorOrpatient
-): ((language: LanguageItemType) => void) => {
+): ((language: LanguageItem) => void) => {
   return useCallback(
-    (language: LanguageItemType) => {
+    (language: LanguageItem) => {
       handleDeleteLanguage(
         language,
         spokenLanguages,
@@ -31,9 +31,9 @@ export const useHandleDeleteLanguage = (
 }
 
 export const useHandleAddLanguage = (
-  spokenLanguages: LanguageItemType[],
-  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
-  listDetails: DoctorListDetailsType | PatientListDetailsType,
+  spokenLanguages: LanguageItem[],
+  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
+  listDetails: DoctorListDetails | PatientListDetails,
   setLanguagesConfirmation: (conf: ConfirmationMessage) => void,
   doctorOrPatient: doctorOrpatient
 ): (e: React.ChangeEvent<HTMLSelectElement>) => void => {
@@ -50,13 +50,13 @@ export const useHandleAddLanguage = (
 }
 
 export const useHandleDeleteSpecialty = (
-  doctorSpecialties: SpecialtyItemType[],
-  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItemType[]>>,
+  doctorSpecialties: SpecialtyItem[],
+  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>,
   setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void,
   setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>
-): ((specialty: SpecialtyItemType) => void) => {
+): ((specialty: SpecialtyItem) => void) => {
   return useCallback(
-    (specialty: SpecialtyItemType) => {
+    (specialty: SpecialtyItem) => {
       handleDeleteSpecialty(
         specialty,
         doctorSpecialties,
@@ -70,10 +70,10 @@ export const useHandleDeleteSpecialty = (
 }
 
 export const useHandleAddSpecialty = (
-  doctorSpecialties: SpecialtyItemType[],
-  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItemType[]>>,
+  doctorSpecialties: SpecialtyItem[],
+  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>,
   setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>,
-  listDetails: DoctorListDetailsType,
+  listDetails: DoctorListDetails,
   setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void
 ): (e: React.ChangeEvent<HTMLSelectElement>) => void => {
   return useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -89,11 +89,11 @@ export const useHandleAddSpecialty = (
 }
 
 export const useHandleCheckboxChange = (
-  servicedPets: ServicedPetItemType[],
-  setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItemType[]>>,
+  servicedPets: ServicedPetItem[],
+  setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItem[]>>,
   setPetsConfirmation: (conf: ConfirmationMessage) => void
-): (e: React.ChangeEvent<HTMLInputElement>, pet: ServicedPetItemType) => void => {
-  return useCallback((event: React.ChangeEvent<HTMLInputElement>, pet: ServicedPetItemType) => {
+): (e: React.ChangeEvent<HTMLInputElement>, pet: ServicedPetItem) => void => {
+  return useCallback((event: React.ChangeEvent<HTMLInputElement>, pet: ServicedPetItem) => {
     if (event.target.checked) {
       const newServicedPets = [...servicedPets, pet]
       setServicedPets(newServicedPets)
@@ -107,11 +107,11 @@ export const useHandleCheckboxChange = (
 }
 
 export const useHandleDeletePreVetEducation = (
-  preVetEducation: PreVetEducationItemType[],
-  setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItemType[]>>,
+  preVetEducation: PreVetEducationItem[],
+  setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItem[]>>,
   setPreVetEducationConfirmation: (conf: ConfirmationMessage) => void
-): (PreVetEducation: PreVetEducationItemType) => void => {
-  return useCallback((PreVetEducation: PreVetEducationItemType) => {
+): (PreVetEducation: PreVetEducationItem) => void => {
+  return useCallback((PreVetEducation: PreVetEducationItem) => {
     deletePreVetEducation(
       PreVetEducation.pre_vet_education_mappingID,
       preVetEducation,
@@ -126,11 +126,11 @@ export const useHandleAddPreVetEducation = (
   setSelectedPreVetSchool: React.Dispatch<React.SetStateAction<string>>,
   selectedPreVetEducationType: string,
   setSelectedPreVetEducationType: React.Dispatch<React.SetStateAction<string>>,
-  timeState: TimeStateType,
-  setTimeState: React.Dispatch<React.SetStateAction<TimeStateType>>,
+  timeState: TimeState,
+  setTimeState: React.Dispatch<React.SetStateAction<TimeState>>,
   selectedMajor: string,
   setSelectedMajor: React.Dispatch<React.SetStateAction<string>>
-): () => EducationObjType => {
+): () => GeneralEducationItem => {
   return useCallback(() => {
     return handleAddEducation(
       selectedPreVetSchool, setSelectedPreVetSchool,
@@ -147,12 +147,12 @@ export const useHandleAddPreVetEducation = (
 }
 
 export const useSaveAddPreVetEducation = (
-  preVetEducation: PreVetEducationItemType[],
-  setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItemType[]>>,
-  listDetails: DoctorListDetailsType,
+  preVetEducation: PreVetEducationItem[],
+  setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItem[]>>,
+  listDetails: DoctorListDetails,
   setPreVetEducationConfirmation: (conf: ConfirmationMessage) => void
-): ((selectedEducationObj: PreVetEducationItemType) => void) => {
-  return useCallback((selectedEducationObj: PreVetEducationItemType) => {
+): ((selectedEducationObj: PreVetEducationItem) => void) => {
+  return useCallback((selectedEducationObj: PreVetEducationItem) => {
     addPreVetEducation(
       selectedEducationObj,
       preVetEducation,
@@ -164,11 +164,11 @@ export const useSaveAddPreVetEducation = (
 }
 
 export const useHandleDeleteVetEducation = (
-  vetEducation: VetEducationItemType[],
-  setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItemType[]>>,
+  vetEducation: VetEducationItem[],
+  setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItem[]>>,
   setVetEducationConfirmation: (conf: ConfirmationMessage) => void
-): ((VetEducation: VetEducationItemType) => void) => {
-  return useCallback((VetEducation: VetEducationItemType) => {
+): ((VetEducation: VetEducationItem) => void) => {
+  return useCallback((VetEducation: VetEducationItem) => {
     deleteVetEducation(
       VetEducation.vet_education_mappingID,
       vetEducation,
@@ -183,9 +183,9 @@ export const useHandleAddVetEducation = (
   setSelectedVetSchool: React.Dispatch<React.SetStateAction<string>>,
   selectedVetEducationType: string,
   setSelectedVetEducationType: React.Dispatch<React.SetStateAction<string>>,
-  timeState: TimeStateType,
-  setTimeState: React.Dispatch<React.SetStateAction<TimeStateType>>
-): () => EducationObjType => {
+  timeState: TimeState,
+  setTimeState: React.Dispatch<React.SetStateAction<TimeState>>
+): () => GeneralEducationItem => {
   return useCallback(() => {
     return handleAddEducation(
       selectedVetSchool, setSelectedVetSchool,
@@ -200,12 +200,12 @@ export const useHandleAddVetEducation = (
 }
 
 export const useSaveAddVetEducation = (
-  vetEducation: VetEducationItemType[],
-  setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItemType[]>>,
-  listDetails: DoctorListDetailsType,
+  vetEducation: VetEducationItem[],
+  setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItem[]>>,
+  listDetails: DoctorListDetails,
   setVetEducationConfirmation: (conf: ConfirmationMessage) => void
-): ((selectedEducationObj: VetEducationItemType) => void) => {
-  return useCallback((selectedEducationObj: VetEducationItemType) => {
+): ((selectedEducationObj: VetEducationItem) => void) => {
+  return useCallback((selectedEducationObj: VetEducationItem) => {
     addVetEducation(
       selectedEducationObj,
       vetEducation,

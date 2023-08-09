@@ -23,7 +23,7 @@ import { getDayIndex } from "src/utils/time"
 function usePetData(userType: DoctorOrPatientOrNull) {
   const storedData = sessionStorage.getItem("PatientPetData")
   const parsedData = storedData && JSON.parse(storedData)
-  const [savedPetData, setSavedPetData] = useState<PetItemTypeWithID[]>(parsedData || [])
+  const [savedPetData, setSavedPetData] = useState<SavedPetItem[]>(parsedData || [])
 
   const fetchAndSetPetData = async () => {
     if (userType === "Patient") {
@@ -44,18 +44,18 @@ function usePetData(userType: DoctorOrPatientOrNull) {
 }
 
 interface Props {
-  providedServices: ServiceItemType[]
-  addresses: PublicAddressType[]
-  personalData: PersonalDataType
+  providedServices: ServiceItem[]
+  addresses: PublicAddressData[]
+  personalData: DoctorPersonalData
 }
 
 export default function RenderBookingSection(props: Props) {
   const { userType } = useSimpleUserVerification(false)
   const { savedPetData } = usePetData(userType)
   const { providedServices, addresses, personalData } = props
-  const [selectedPet, setSelectedPet] = useState<PetItemTypeWithID | null>(null)
-  const [selectedService, setSelectedService] = useState<ServiceItemType | null>(null)
-  const [selectedLocation, setSelectedLocation] = useState<PublicAddressType |null>(null)
+  const [selectedPet, setSelectedPet] = useState<SavedPetItem | null>(null)
+  const [selectedService, setSelectedService] = useState<ServiceItem | null>(null)
+  const [selectedLocation, setSelectedLocation] = useState<PublicAddressData |null>(null)
   const [noAvailableTimesMessage, setNoAvailableTimesMessage] = useState(false)
   const [selectedDay, setSelectedDay] = useState<string | null>(null)
   const [selectedTime, setSelectedTime] = useState<string | null>(null)

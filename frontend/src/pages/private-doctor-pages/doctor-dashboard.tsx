@@ -13,10 +13,10 @@ import DoctorHeader from "./doctor-header"
 import CheckCookie from "src/utils/cookie-check"
 
 async function approveAppointment (
-  setStatus: React.Dispatch<React.SetStateAction<AppointmentStatusType>>,
+  setStatus: React.Dispatch<React.SetStateAction<AppointmentStatus>>,
   appointmentsID: number,
-  dashboardData: DoctorDashboardDataType[],
-  setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardDataType[]>>
+  dashboardData: DoctorDashboardData[],
+  setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardData[]>>
 ) {
   try {
     const response = await CalendarDataService.confirmAppointment(appointmentsID)
@@ -47,8 +47,8 @@ export default function DoctorDashboard() {
   const storedData = sessionStorage.getItem("DoctorPersonalInfo")
   const parsedData = storedData && JSON.parse(storedData)
   const [personalInfo, setPersonalInfo] = useState(parsedData)
-  const [pastAppointments, setPastAppointments] = useState<DoctorDashboardDataType[]>([])
-  const [upcomingAppointments, setUpcomingAppointments] = useState<DoctorDashboardDataType[]>([])
+  const [pastAppointments, setPastAppointments] = useState<DoctorDashboardData[]>([])
+  const [upcomingAppointments, setUpcomingAppointments] = useState<DoctorDashboardData[]>([])
   const newDoctor = CheckCookie.forNewUser("DoctorNewUser")
 
   useEffect(() => {
@@ -83,14 +83,14 @@ export default function DoctorDashboard() {
 
   if (userType !== "Doctor") return <UnauthorizedUser patientOrDoctor = {"vet"}/>
 
-  const returnDoctorConfirmationStatus = (appointment: DoctorDashboardDataType) => {
+  const returnDoctorConfirmationStatus = (appointment: DoctorDashboardData) => {
     if (appointment.Doctor_confirmation_status === false) return "pending"
     return "approved"
   }
 
   const RenderPendingAppointment = ({ status, setStatus } :
-    { status: AppointmentStatusType,
-      setStatus: React.Dispatch<React.SetStateAction<AppointmentStatusType>>
+    { status: AppointmentStatus,
+      setStatus: React.Dispatch<React.SetStateAction<AppointmentStatus>>
     }
   ) => {
     if (status !== "pending") return null
@@ -105,9 +105,9 @@ export default function DoctorDashboard() {
   }
 
   const RenderConfirmedAppointment = ( { status, setStatus, appointment } :
-    { status: AppointmentStatusType,
-      setStatus: React.Dispatch<React.SetStateAction<AppointmentStatusType>>,
-      appointment: DoctorDashboardDataType
+    { status: AppointmentStatus,
+      setStatus: React.Dispatch<React.SetStateAction<AppointmentStatus>>,
+      appointment: DoctorDashboardData
     }
   ) => {
     if (status !== "confirming") return null
@@ -124,7 +124,7 @@ export default function DoctorDashboard() {
     )
   }
 
-  const RenderApprovedAppointment = ({ status } : { status: AppointmentStatusType }) => {
+  const RenderApprovedAppointment = ({ status } : { status: AppointmentStatus }) => {
     if (status !== "approved") return null
     return (
       <Badge pill style = {{ position: "absolute", top: "10px", right: "10px" }}>
@@ -133,7 +133,7 @@ export default function DoctorDashboard() {
     )
   }
 
-  const RenderMessageSection = ({ appointment }: { appointment: DoctorDashboardDataType }) => {
+  const RenderMessageSection = ({ appointment }: { appointment: DoctorDashboardData }) => {
     if (!appointment.patient_message) return null
     return (
       <span style={{ display: "block" }}>
@@ -143,8 +143,8 @@ export default function DoctorDashboard() {
     )
   }
 
-  const UpcomingAppointmentCard = ({ appointment }: { appointment: DoctorDashboardDataType }) => {
-    const [status, setStatus] = useState<AppointmentStatusType>(returnDoctorConfirmationStatus(appointment))
+  const UpcomingAppointmentCard = ({ appointment }: { appointment: DoctorDashboardData }) => {
+    const [status, setStatus] = useState<AppointmentStatus>(returnDoctorConfirmationStatus(appointment))
 
     return (
       <Card style = {{ margin: "0 10px", position: "relative" }} className = "mb-3">
@@ -163,7 +163,7 @@ export default function DoctorDashboard() {
     )
   }
 
-  const PastAppointmentCard = ({ appointment }: { appointment: DoctorDashboardDataType }) => {
+  const PastAppointmentCard = ({ appointment }: { appointment: DoctorDashboardData }) => {
     return (
       <Card style = {{ margin: "0 10px", position: "relative" }} className = "mb-3">
         <Card.Body>
@@ -175,7 +175,7 @@ export default function DoctorDashboard() {
     )
   }
 
-  const RenderUpcomingAppointments = ({ upcomingAppointments }: { upcomingAppointments: DoctorDashboardDataType[] }) => {
+  const RenderUpcomingAppointments = ({ upcomingAppointments }: { upcomingAppointments: DoctorDashboardData[] }) => {
     if (_.isEmpty(upcomingAppointments)) return <>No upcoming appointments</>
     return (
       <>
@@ -186,7 +186,7 @@ export default function DoctorDashboard() {
     )
   }
 
-  const RenderPastAppointments = ({ pastAppointments } : { pastAppointments: DoctorDashboardDataType[] }) => {
+  const RenderPastAppointments = ({ pastAppointments } : { pastAppointments: DoctorDashboardData[] }) => {
     if (_.isEmpty(pastAppointments)) return <>No past appointments</>
     return (
       <>

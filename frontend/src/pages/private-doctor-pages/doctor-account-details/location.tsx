@@ -23,8 +23,8 @@ import {
 import { areAllFieldsValid, areAllTimesValid } from "../../../utils/all-field-checks"
 
 interface Props {
-  addresses: DoctorAddressDataType[]
-  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressDataType[]>>
+  addresses: DoctorAddressData[]
+  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>
 }
 
 export default function RenderLocationSection(props: Props) {
@@ -99,10 +99,10 @@ function AddressForm(props: Props) {
 
 interface AddressAccordionProps {
   index: number
-  address: DoctorAddressDataType
+  address: DoctorAddressData
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>, addressPriority: number) => void
-  addresses: DoctorAddressDataType[]
-  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressDataType[]>>
+  addresses: DoctorAddressData[]
+  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>
   setAddressesConfirmation: (conf: ConfirmationMessage) => void
 }
 
@@ -110,7 +110,7 @@ const AddressAccordionItem = (props: AddressAccordionProps) => {
   const { index, address, handleInputChange, addresses, setAddresses, setAddressesConfirmation } = props
   const handleToggleChange = (
     addressPriority: number,
-    field: keyof Pick<DoctorAddressDataType, "address_public_status" | "instant_book">
+    field: keyof Pick<DoctorAddressData, "address_public_status" | "instant_book">
   ) => {
     // Create a copy of the addresses state
     const updatedAddresses = [...addresses]
@@ -125,7 +125,7 @@ const AddressAccordionItem = (props: AddressAccordionProps) => {
     setAddresses(updatedAddresses)
   }
 
-  const handleTimesChange = (newTimesFn: React.SetStateAction<AvailabilityDataType[]>, addressPriority: number) => {
+  const handleTimesChange = (newTimesFn: React.SetStateAction<DoctorAvailability[]>, addressPriority: number) => {
     const newAddresses = addresses.map(address => {
       if (address.address_priority === addressPriority) {
         const newTimes = typeof newTimesFn === "function" ? newTimesFn(address.times) : newTimesFn
@@ -185,7 +185,7 @@ const AddressAccordionItem = (props: AddressAccordionProps) => {
 
   const RenderUpdateLocationButton = () => {
     const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
-    const originalAddress = DoctorAccountDetails.addressData.find((addr: DoctorAddressDataType) => addr.addressesID === address.addressesID)
+    const originalAddress = DoctorAccountDetails.addressData.find((addr: DoctorAddressData) => addr.addressesID === address.addressesID)
     const isAddressSame = _.isEqual(originalAddress, address)
     if (isAddressSame) return null
 
@@ -305,26 +305,26 @@ const AddressAccordionItem = (props: AddressAccordionProps) => {
 }
 
 interface WeekDaysProps {
-  times: AvailabilityDataType[]
-  setTimes: React.Dispatch<React.SetStateAction<AvailabilityDataType[]>>
+  times: DoctorAvailability[]
+  setTimes: React.Dispatch<React.SetStateAction<DoctorAvailability[]>>
 }
 
 const WeekDays = (props: WeekDaysProps) => {
   const { times, setTimes } = props
 
-  const handleDayToggle = (day: DayOfWeekType) => {
+  const handleDayToggle = (day: DayOfWeek) => {
     if (times.some(time => time.Day_of_week === day)) setTimes(times.filter(time => time.Day_of_week !== day))
     else setTimes([...times, { Day_of_week: day, Start_time: "", End_time: "" }])
   }
 
-  const handleTimeChange = (day: DayOfWeekType, timeType: "Start_time" | "End_time" | "", newTime: string) => {
+  const handleTimeChange = (day: DayOfWeek, timeType: "Start_time" | "End_time" | "", newTime: string) => {
     setTimes(times.map(time =>
       time.Day_of_week === day ? { ...time, [timeType]: newTime } : time
     ))
   }
 
   interface DayProp {
-    day: DayOfWeekType
+    day: DayOfWeek
   }
 
   const RenderPickStartTime: React.FC<DayProp> = ({ day }) => {
@@ -347,7 +347,7 @@ const WeekDays = (props: WeekDaysProps) => {
     )
   }
 
-  const RenderPickTime = ({ times, day }: {times: AvailabilityDataType[], day: DayOfWeekType}) => {
+  const RenderPickTime = ({ times, day }: {times: DoctorAvailability[], day: DayOfWeek}) => {
     const matchedTime = times.find(time => time.Day_of_week === day)
 
     if (!matchedTime) return null

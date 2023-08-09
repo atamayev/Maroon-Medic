@@ -5,7 +5,7 @@ import PrivatePatientDataService from "../services/private-patient-data-service"
 import { handle401AxiosError } from "src/utils/handle-errors"
 
 async function fetchPersonalInfoData(
-  setPersonalInfo: React.Dispatch<React.SetStateAction<PersonalInfoType>>,
+  setPersonalInfo: React.Dispatch<React.SetStateAction<BirthDateInfo>>,
   userType: DoctorOrPatient
 ): Promise<void>
 {
@@ -26,7 +26,7 @@ async function fetchPersonalInfoData(
 }
 
 export const handleSavePersonalInfo = async (
-  personalInfo: PersonalInfoType,
+  personalInfo: BirthDateInfo,
   setPersonalInfoConfirmation: (conf: ConfirmationMessage) => void,
   userType: DoctorOrPatient
 ): Promise<void> => {
@@ -55,9 +55,9 @@ export const handleSavePersonalInfo = async (
 export function usePersonalInfo(
   userType: DoctorOrPatientOrNull,
   expectedUserType: DoctorOrPatient
-): {personalInfo: PersonalInfoType, setPersonalInfo: React.Dispatch<React.SetStateAction<PersonalInfoType>>}
+): {personalInfo: BirthDateInfo, setPersonalInfo: React.Dispatch<React.SetStateAction<BirthDateInfo>>}
 {
-  const [personalInfo, setPersonalInfo] = useState<PersonalInfoType>({
+  const [personalInfo, setPersonalInfo] = useState<BirthDateInfo>({
     FirstName: "",
     LastName: "",
     DOB_month: "",

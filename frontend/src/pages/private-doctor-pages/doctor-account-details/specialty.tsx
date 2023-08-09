@@ -7,9 +7,9 @@ import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-m
 import { useHandleAddSpecialty, useHandleDeleteSpecialty } from "../../../custom-hooks/account-details-hooks/callbacks"
 
 interface Props {
-  listDetails: DoctorListDetailsType
-  doctorSpecialties: SpecialtyItemType[]
-  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItemType[]>>
+  listDetails: DoctorListDetails
+  doctorSpecialties: SpecialtyItem[]
+  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>
 }
 
 export default function RenderSpecialtySection (props: Props) {
@@ -26,7 +26,7 @@ export default function RenderSpecialtySection (props: Props) {
 }
 
 interface DeleteStatusProps {
-  [key: number]: DeleteStatusesType
+  [key: number]: DeleteStatuses
 }
 
 function RenderIsSpecialty(props: Props) {
@@ -122,10 +122,10 @@ function RenderIsSpecialty(props: Props) {
     setSpecialtiesConfirmation, setSelectedOrganization
   )
 
-  const RenderSingleSavedSpecialty = (specialty: SpecialtyItemType) => {
+  const RenderSingleSavedSpecialty = (specialty: SpecialtyItem) => {
     const status = deleteStatuses[specialty.specialties_listID] || "initial"
 
-    const setStatus = (newStatus: DeleteStatusesType) => {
+    const setStatus = (newStatus: DeleteStatuses) => {
       setDeleteStatuses((prevStatuses) => ({
         ...prevStatuses,
         [specialty.specialties_listID]: newStatus,
@@ -135,7 +135,7 @@ function RenderIsSpecialty(props: Props) {
     return (
       <li>
         {specialty.Organization_name} - {specialty.Specialty_name}{" "}
-        <DeleteButtonOptions<SpecialtyItemType>
+        <DeleteButtonOptions<SpecialtyItem>
           status = {status}
           setStatus = {setStatus}
           dataType = {specialty}

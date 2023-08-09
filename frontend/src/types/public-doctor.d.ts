@@ -1,19 +1,19 @@
 declare global {
-  type spokenLanguagesType = {
+  type LanguageName = {
     Language_name: string
   }
 
-  type SpecialtyType = {
+  type OrganizationSpecialtyName = {
     Organization_name: string
     Specialty_name: string
   }
 
-  type ServicedPetsType = {
+  type ServicedPetData = {
     pet_type: string
     pet: string
   }
 
-  type PublicAddressType = {
+  type PublicAddressData = {
     addressesID: number
     address_priority: number
     address_title: string
@@ -25,7 +25,7 @@ declare global {
     country: string
     instant_book: boolean
     Phone: string
-    times: AvailabilityDataType[]
+    times: DoctorAvailability[]
   }
 }
 

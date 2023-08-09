@@ -14,16 +14,16 @@ import FormGroup from "./form-group"
 import { UnauthorizedUserBodyText } from "./user-type-unauth"
 
 interface BaseProps {
-  selectedPet: PetItemTypeWithID | null
-  setSelectedService: React.Dispatch<React.SetStateAction<ServiceItemType | null>>
-  setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressType | null>>
+  selectedPet: SavedPetItem | null
+  setSelectedService: React.Dispatch<React.SetStateAction<ServiceItem | null>>
+  setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressData | null>>
   setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>
   setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
 }
 
 interface ChoosePetProps extends BaseProps {
-  savedPetData: PetItemTypeWithID[]
-  setSelectedPet: React.Dispatch<React.SetStateAction<PetItemTypeWithID | null>>
+  savedPetData: SavedPetItem[]
+  setSelectedPet: React.Dispatch<React.SetStateAction<SavedPetItem | null>>
 }
 
 export const RenderChoosePet = (props: ChoosePetProps) => {
@@ -74,7 +74,7 @@ export const RenderChoosePet = (props: ChoosePetProps) => {
 }
 
 interface SelectServiceProps extends BaseProps {
-  providedServices: ServiceItemType[]
+  providedServices: ServiceItem[]
 }
 
 export const RenderSelectService = (props: SelectServiceProps) => {
@@ -110,10 +110,10 @@ export const RenderSelectService = (props: SelectServiceProps) => {
 }
 
 interface SelectLocationProps {
-  addresses: PublicAddressType[]
-  selectedService: ServiceItemType | null
+  addresses: PublicAddressData[]
+  selectedService: ServiceItem | null
   setNoAvailableTimesMessage: React.Dispatch<React.SetStateAction<boolean>>
-  setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressType | null>>
+  setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressData | null>>
   setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>
   setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
 }
@@ -153,7 +153,7 @@ export const RenderSelectLocation = (props: SelectLocationProps) => {
 
 interface NoAvailableTimesProps {
   noAvailableTimesMessage: boolean
-  personalData: PersonalDataType
+  personalData: DoctorPersonalData
 }
 
 export const RenderNoAvailableTimes = (props: NoAvailableTimesProps) => {
@@ -165,12 +165,12 @@ export const RenderNoAvailableTimes = (props: NoAvailableTimesProps) => {
 }
 
 interface SelectDayProps {
-  selectedService: ServiceItemType | null
-  selectedLocation: PublicAddressType | null
+  selectedService: ServiceItem | null
+  selectedLocation: PublicAddressData | null
   setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>
   setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
   selectedDay: string | null
-  personalData: PersonalDataType
+  personalData: DoctorPersonalData
   availableDates: string[]
 }
 
@@ -198,8 +198,8 @@ export const RenderSelectDay = (props: SelectDayProps) => {
 }
 
 interface SelectTimeProps {
-  selectedService: ServiceItemType | null
-  selectedLocation: PublicAddressType | null
+  selectedService: ServiceItem | null
+  selectedLocation: PublicAddressData | null
   selectedDay: string | null
   setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
   availableTimes: string[]
@@ -229,13 +229,13 @@ export const RenderSelectTime = (props: SelectTimeProps) => {
 }
 
 interface FinalizeBookingProps {
-  selectedService: ServiceItemType | null
-  selectedLocation: PublicAddressType | null
+  selectedService: ServiceItem | null
+  selectedLocation: PublicAddressData | null
   selectedDay: string | null
   selectedTime: string | null
   serviceMinutes: number
-  personalData: PersonalDataType
-  selectedPet: PetItemTypeWithID | null
+  personalData: DoctorPersonalData
+  selectedPet: SavedPetItem | null
   navigate: NavigateFunction
 }
 
@@ -272,7 +272,7 @@ export const RenderPatientNotLoggedIn = () => {
   )
 }
 
-export const RenderDoctorDoesNotOfferServices = (personalData: PersonalDataType) => {
+export const RenderDoctorDoesNotOfferServices = (personalData: DoctorPersonalData) => {
   return (
     <Card className="card-bottom-margin">
       <Card.Header>Ready to make a booking?</Card.Header>
@@ -281,7 +281,7 @@ export const RenderDoctorDoesNotOfferServices = (personalData: PersonalDataType)
   )
 }
 
-export const RenderDoctorDoesNotHaveLocations = (personalData: PersonalDataType) => {
+export const RenderDoctorDoesNotHaveLocations = (personalData: DoctorPersonalData) => {
   return (
     <Card className="card-bottom-margin">
       <Card.Header>Ready to make a booking?</Card.Header>
@@ -292,7 +292,7 @@ export const RenderDoctorDoesNotHaveLocations = (personalData: PersonalDataType)
 
 interface RenderAvailableDatesProps {
   selectedDay: string;
-  personalData: PersonalDataType;
+  personalData: DoctorPersonalData;
   availableDates: string[];
 }
 
@@ -316,7 +316,7 @@ const RenderAvailableDates = ({
   )
 }
 
-const ConfirmOrRequestMessage = (selectedLocation: PublicAddressType) => {
+const ConfirmOrRequestMessage = (selectedLocation: PublicAddressData) => {
   if (selectedLocation.instant_book) return <>Confirm</>
   return <>Request</>
 }

@@ -4,8 +4,8 @@ import { RenderFirstNameSection, RenderLastNameSection, RenderGenderSection, Ren
 interface Props {
   handleSubmit: () => void,
   error: string,
-  newInfo: PersonalInfoType,
-  setNewInfo: (newInfo: PersonalInfoType) => void,
+  newInfo: BirthDateInfo,
+  setNewInfo: (newInfo: BirthDateInfo) => void,
   loading: boolean
 }
 

@@ -9,7 +9,7 @@ interface EducationData {
 }
 
 export default new class PrivateDoctorDataService {
-  async addingDoctorInfo(newDoctorObject: PersonalInfoType) {
+  async addingDoctorInfo(newDoctorObject: BirthDateInfo) {
     return await http.post("private-doctor-data/new-doctor", {newDoctorObject})
   }
   async fillDashboard() {
@@ -18,7 +18,7 @@ export default new class PrivateDoctorDataService {
   async fillPersonalData() {
     return await http.get("/private-doctor-data/fetch-personal-data")
   }
-  async savePersonalData(personalInfo: PersonalInfoType) {
+  async savePersonalData(personalInfo: BirthDateInfo) {
     return await http.post("/private-doctor-data/save-personal-data", {personalInfo})
   }
   async fillAccountDetails() {
@@ -60,19 +60,19 @@ export default new class PrivateDoctorDataService {
   async deleteVetEducationData(vetEducationID: number) {
     return await http.delete(`/private-doctor-data/delete-vet-education-data/${vetEducationID}`)
   }
-  async addService(serviceObject: ServiceItemType) {
+  async addService(serviceObject: ServiceItem) {
     return await http.post("/private-doctor-data/add-service", {serviceObject})
   }
-  async updateService(serviceObject: ServiceItemType) {
+  async updateService(serviceObject: ServiceItem) {
     return await http.patch("/private-doctor-data/update-service", {serviceObject})
   }
-  async deleteService(serviceObject: ServiceItemType) {
+  async deleteService(serviceObject: ServiceItem) {
     return await http.delete(`/private-doctor-data/delete-service/${serviceObject.service_and_category_listID}`)
   }
-  async addAddressData(AddressData: BaseAddressData, Times: AvailabilityDataType[]) {
+  async addAddressData(AddressData: BaseAddressData, Times: DoctorAvailability[]) {
     return await http.post("/private-doctor-data/add-address", {AddressData, Times})
   }
-  async updateAddressData(AddressData: BaseAddressData, Times: AvailabilityDataType[]) {
+  async updateAddressData(AddressData: BaseAddressData, Times: DoctorAvailability[]) {
     return await http.post("/private-doctor-data/update-address", {AddressData, Times})
   }
   async deleteAddressData(addressID: number) {

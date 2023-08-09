@@ -5,9 +5,9 @@ import { RenderMessageSection } from "../../../components/saved-message-section"
 
 const ifPetTypeSelected = (
   value: string,
-  petTypes: ServicedPetItemType[],
-  newPetData: PetItemType,
-  setNewPetData: React.Dispatch<React.SetStateAction<PetItemType>>
+  petTypes: ServicedPetItem[],
+  newPetData: PetItemForCreation,
+  setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>
 ) => {
   // Find the selected pet type by its ID
   const selectedPetType = petTypes.find(PetType => PetType.pet_listID === JSON.parse(value))
@@ -25,9 +25,9 @@ const ifPetTypeSelected = (
 
 const ifInsuranceSelected = (
   value: string,
-  insurances: InsuranceItemType[],
-  newPetData: PetItemType,
-  setNewPetData: React.Dispatch<React.SetStateAction<PetItemType>>
+  insurances: InsuranceItem[],
+  newPetData: PetItemForCreation,
+  setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>
 ) => {
   // Find the selected insurance by its ID
   const selectedInsurance = insurances.find(insurance => insurance.insurance_listID === JSON.parse(value))
@@ -42,7 +42,7 @@ const ifInsuranceSelected = (
   }
 }
 
-function areAllFieldsValid(petData: PetItemType) {
+function areAllFieldsValid(petData: PetItemForCreation) {
   if (
     !petData.Name ||
     !petData.Gender ||
@@ -57,10 +57,10 @@ function areAllFieldsValid(petData: PetItemType) {
 
 const handleInputChange = (
   event: React.ChangeEvent<HTMLInputElement>,
-  newPetData: PetItemType,
-  petTypes: ServicedPetItemType[],
-  insurances: InsuranceItemType[],
-  setNewPetData: React.Dispatch<React.SetStateAction<PetItemType>>
+  newPetData: PetItemForCreation,
+  petTypes: ServicedPetItem[],
+  insurances: InsuranceItem[],
+  setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>
 ) => {
   const value = event.target.value
 
@@ -73,15 +73,15 @@ const handleInputChange = (
 }
 
 interface AddPetProps {
-  newPetData: PetItemType
-  setNewPetData: React.Dispatch<React.SetStateAction<PetItemType>>
-  petTypes: ServicedPetItemType[]
-  insurances: InsuranceItemType[]
+  newPetData: PetItemForCreation
+  setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>
+  petTypes: ServicedPetItem[]
+  insurances: InsuranceItem[]
   petConfirmation: ConfirmationMessage
   setPetConfirmation: (conf: ConfirmationMessage) => void
   setShowAddPet: React.Dispatch<React.SetStateAction<boolean>>
-  savedPetData: PetItemTypeWithID[]
-  setSavedPetData: React.Dispatch<React.SetStateAction<PetItemTypeWithID[]>>
+  savedPetData: SavedPetItem[]
+  setSavedPetData: React.Dispatch<React.SetStateAction<SavedPetItem[]>>
 }
 
 export const AddPet = (props: AddPetProps) => {
@@ -99,7 +99,7 @@ export const AddPet = (props: AddPetProps) => {
         variant = "danger"
         onClick = {() =>
         {
-          setNewPetData({} as PetItemType)
+          setNewPetData({} as PetItemForCreation)
           setShowAddPet(false)
         }}
       >

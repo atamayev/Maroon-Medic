@@ -6,10 +6,10 @@ import { handleTogglePetType } from "../../../custom-hooks/account-details-hooks
 import { useHandleCheckboxChange } from "../../../custom-hooks/account-details-hooks/callbacks"
 
 interface Props {
-  listDetails: DoctorListDetailsType
-  servicedPets: ServicedPetItemType[]
+  listDetails: DoctorListDetails
+  servicedPets: ServicedPetItem[]
   expandedPetTypes: string[]
-  setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItemType[]>>
+  setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItem[]>>
   setExpandedPetTypes: React.Dispatch<React.SetStateAction<string[]>>
 }
 
@@ -31,7 +31,7 @@ function RenderIsPets (props: Props) {
   const [petsConfirmation, setPetsConfirmation] = useConfirmationMessage()
 
   type PetTypesType = {
-    [key: string]: ServicedPetItemType[]
+    [key: string]: ServicedPetItem[]
   }
 
   const petTypes: PetTypesType = {}
@@ -42,7 +42,7 @@ function RenderIsPets (props: Props) {
     })
   }
 
-  const isTogglePetType = (pets: ServicedPetItemType[], petType: string) => {
+  const isTogglePetType = (pets: ServicedPetItem[], petType: string) => {
     if (pets.length <= 1) return null
 
     const isOpen = expandedPetTypes.includes(petType)
@@ -61,7 +61,7 @@ function RenderIsPets (props: Props) {
 
   const handleCheckboxChange = useHandleCheckboxChange(servicedPets, setServicedPets, setPetsConfirmation)
 
-  const RenderShowPetsSection = ({pets, petType} : {pets: ServicedPetItemType[], petType: string}) => {
+  const RenderShowPetsSection = ({pets, petType} : {pets: ServicedPetItem[], petType: string}) => {
     if (pets.length > 1 && !expandedPetTypes.includes(petType)) return null
 
     return (

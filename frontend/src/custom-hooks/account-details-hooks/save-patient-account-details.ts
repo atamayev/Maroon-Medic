@@ -7,8 +7,8 @@ type LanguageOperationsType = typeof PrivatePatientDataService.deleteLanguage |
 async function modifyPatientLanguages(
   operation: LanguageOperationsType,
   languageID: number,
-  newSpokenLanguages: LanguageItemType[],
-  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
+  newSpokenLanguages: LanguageItem[],
+  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
   setLanguagesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
   let response
@@ -31,8 +31,8 @@ async function modifyPatientLanguages(
 
 export async function addPatientLanguages(
   languageID: number,
-  newSpokenLanguages: LanguageItemType[],
-  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
+  newSpokenLanguages: LanguageItem[],
+  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
   setLanguagesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
   return await modifyPatientLanguages(
@@ -42,8 +42,8 @@ export async function addPatientLanguages(
 
 export async function deletePatientLanguages(
   languageID: number,
-  newSpokenLanguages: LanguageItemType[],
-  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
+  newSpokenLanguages: LanguageItem[],
+  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
   setLanguagesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
   return await modifyPatientLanguages(

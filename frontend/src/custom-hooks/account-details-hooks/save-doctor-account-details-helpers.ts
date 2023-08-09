@@ -7,8 +7,8 @@ type LanguageOperationsType = typeof PrivateDoctorDataService.deleteLanguage |
 export async function modifyDoctorLanguages(
   operation: LanguageOperationsType,
   languageID: number,
-  newSpokenLanguages: LanguageItemType[],
-  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItemType[]>>,
+  newSpokenLanguages: LanguageItem[],
+  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
   setLanguagesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
   let response
@@ -35,8 +35,8 @@ type SpecialtyOperationsType = typeof PrivateDoctorDataService.deleteSpecialty |
 export async function modifyDoctorSpecialties(
   operation: SpecialtyOperationsType,
   specialtyID: number,
-  newDoctorSpecialties: SpecialtyItemType[],
-  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItemType[]>>,
+  newDoctorSpecialties: SpecialtyItem[],
+  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>,
   setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void,
   callback: () => void
 ): Promise<void> {
@@ -65,8 +65,8 @@ type ServicedPetsOperationsType = typeof PrivateDoctorDataService.deleteServiced
 export async function modifyServicedPets(
   operation: ServicedPetsOperationsType,
   petID: number,
-  newServicedPets: ServicedPetItemType[],
-  setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItemType[]>>,
+  newServicedPets: ServicedPetItem[],
+  setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItem[]>>,
   setPetsConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
   let response
@@ -93,8 +93,8 @@ type AddressOperationsType = typeof PrivateDoctorDataService.updateAddressData |
 
 export async function modifyAddressData(
   operation: AddressOperationsType,
-  address: DoctorAddressDataType,
-  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressDataType[]>>,
+  address: DoctorAddressData,
+  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>,
   setAddressesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
@@ -111,7 +111,7 @@ export async function modifyAddressData(
         newAddressData = [...DoctorAccountDetails.addressData, address]
       } else if (operation === PrivateDoctorDataService.updateAddressData) {
         newAddressData = DoctorAccountDetails.addressData.map(
-          (addr: DoctorAddressDataType) => addr.addressesID === address.addressesID ? address : addr)
+          (addr: DoctorAddressData) => addr.addressesID === address.addressesID ? address : addr)
       } else {
         throw new Error("Unknown operation")
       }
@@ -128,7 +128,7 @@ export async function modifyAddressData(
 
 export async function deleteAddressData(
   addressID: number,
-  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressDataType[]>>,
+  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>,
   setAddressesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
   const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
@@ -139,7 +139,7 @@ export async function deleteAddressData(
 
     if (response.status === 200) {
       const newAddressData = DoctorAccountDetails.addressData.filter(
-        (addr: DoctorAddressDataType) => addr.addressesID !== addressID)
+        (addr: DoctorAddressData) => addr.addressesID !== addressID)
 
       DoctorAccountDetails.addressData = newAddressData
       setAddresses(newAddressData)
@@ -157,11 +157,11 @@ type ServiceOperationsType = typeof PrivateDoctorDataService.deleteService |
 
 export async function modifyServicesData(
   operation: ServiceOperationsType,
-  serviceObject: ServiceItemType,
-  providedServices: ServiceItemType[],
-  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemType[]>>,
+  serviceObject: ServiceItem,
+  providedServices: ServiceItem[],
+  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>>,
   setServicesConfirmation: (conf: ConfirmationMessage) => void,
-  setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemType[]>> | null = null
+  setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>> | null = null
 ): Promise<void> {
   try {
     const response = await operation(serviceObject)

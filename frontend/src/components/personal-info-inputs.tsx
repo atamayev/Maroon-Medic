@@ -3,8 +3,8 @@ import { months, days, birthYears } from "../utils/constants"
 import FormGroup from "./form-group"
 
 interface Props {
-  personalInfo: PersonalInfoType,
-  setPersonalInfo: (personalInfo: PersonalInfoType) => void
+  personalInfo: BirthDateInfo,
+  setPersonalInfo: (personalInfo: BirthDateInfo) => void
 }
 
 export const RenderFirstNameSection = ({personalInfo, setPersonalInfo}: Props) => {
