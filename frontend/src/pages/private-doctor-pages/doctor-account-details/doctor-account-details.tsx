@@ -85,7 +85,6 @@ function useDoctorAccountDetails(
   setExpandedPetTypes: React.Dispatch<React.SetStateAction<string[]>>,
   setPubliclyAvailable: React.Dispatch<React.SetStateAction<boolean>>
 ) {
-
   const getDoctorAccountDetails = async () => {
     try {
       const storedAccountDetails = sessionStorage.getItem("DoctorAccountDetails")

@@ -34,7 +34,10 @@ function RenderIsVetServices (props: Props) {
   const [selectedServices, setSelectedServices] = useState<ServiceItemType[]>([])
 
   useEffect(() => {
-    if (providedServices) setSelectedServices(providedServices)//initialize selectedServices to providedServices
+    //Initialize selectedServices to providedServices
+    if (providedServices) {
+      setSelectedServices(providedServices)
+    }
   }, [providedServices])
 
   type CategoriesType = {

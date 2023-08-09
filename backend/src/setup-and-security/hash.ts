@@ -4,7 +4,8 @@ import { hash as _hash, compare } from "bcrypt"
 
 export default new class Hash {
   async hashCredentials(unhashedData: string): Promise<string> {
-    const saltRounds = process.env.SALT_ROUNDS!
+    const defaultSaltRounds: number = 10
+    const saltRounds = +process.env.SALT_ROUNDS || defaultSaltRounds
     try {
       const hashedData = await _hash(unhashedData, saltRounds)
       return hashedData

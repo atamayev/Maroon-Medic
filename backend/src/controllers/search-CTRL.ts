@@ -25,7 +25,7 @@ export async function fetchUsers (req: Request, res: Response): Promise<void> {
 }
 
 // The following three functions are here for filtering purposes.
-//In the future, pts will be able to filter for docs by language_spoken, insurances, etc.
+//In the future, patients will be able to filter for docs by language_spoken, insurances, etc.
 export async function fetchAllLanguages (req: Request, res: Response): Promise<void> {
   const operation: () => Promise<LanguageItemType[]> = async () => {
     return await FetchAllLists.fetchAllLanguages()

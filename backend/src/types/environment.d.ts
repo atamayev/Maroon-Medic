@@ -16,7 +16,7 @@ declare global {
       ENCRYPTION_SECRET_KEY: string
 
       // Hash:
-      SALT_ROUNDS: string
+      SALT_ROUNDS: number
 
       // JWT
       DOCTOR_JWT_KEY: string

@@ -29,7 +29,7 @@ export default function Doctor () {
   const [servicedPets, setServicedPets] = useState([])
   const [personalData, setPersonalData] = useState<PersonalDataType>({FirstName: "", LastName: "", Gender: "", NVI: 0})
 
-  const idNumber = Number(id) // create a new variable
+  const idNumber = Number(id)
 
   async function FillDoctorData(idNumber: number) {
     try {

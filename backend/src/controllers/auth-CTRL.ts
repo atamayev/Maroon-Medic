@@ -259,7 +259,7 @@ export async function changePassword (req: Request, res: Response): Promise<Resp
     if (!isOldPasswordMatch) return res.status(400).json("Old Password is incorrect")
     else {
       const isSamePassword = await Hash.checkPassword(newPassword, hashedOldPassword)
-      if (isSamePassword) return res.status(400).json("New Password cannot be the same as the old password")
+      if (isSamePassword) return res.status(402).json("New Password cannot be the same as the old password")
 
       const newHashedPassword = await Hash.hashCredentials(newPassword)
       await AuthDB.updatePassword(newHashedPassword, UserID)

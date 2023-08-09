@@ -99,8 +99,7 @@ export default function Header (props: HeaderProps) {
   const { userType } = useSimpleUserVerification(false)
   const { headerData } = useSetHeaderData(userType)
   const { searchTerm, setSearchTerm } = useContext(SearchContext)
-  console.log(userType, headerData)
-
+  console.log(userType)
   const handleLogout = async () => {
     try {
       const response = await AuthDataService.logout()

@@ -126,13 +126,13 @@ export default function EducationTime(props: Props) {
                 months.indexOf(newEndMonth) < months.indexOf(timeState.startMonth) &&
                 timeState.startYear === newEndYear
               ) {
-                newEndMonth = ""  // Reset end month if it doesn't pass the validity check
+                newEndMonth = ""
               }
 
               setTimeState(prevState => ({
                 ...prevState,
                 endYear: newEndYear,
-                endMonth: newEndMonth  // Update end month
+                endMonth: newEndMonth
               }))
             }}
           >

@@ -1,7 +1,6 @@
 import { useContext, useState, useEffect } from "react"
 import { VerifyContext } from "../contexts/verify-context"
 
-
 export default function useSimpleUserVerification(
   clearSession = true
 ): { userVerification: (clearSession: boolean) => VerifyContextReturnType, userType: DoctorOrPatientOrNull }

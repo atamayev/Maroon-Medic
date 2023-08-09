@@ -10,9 +10,9 @@ export default new class DataFormatter {
       FirstName: results.FirstName,
       LastName: results.LastName,
       Gender: results.Gender,
-      DOB_month: DOB.format("MMMM"),  // getting month name
-      DOB_day: DOB.date(),  // getting day
-      DOB_year: DOB.year()  // getting year
+      DOB_month: DOB.format("MMMM"),
+      DOB_day: DOB.date(),
+      DOB_year: DOB.year()
     }
     return PersonalData
   }

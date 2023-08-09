@@ -178,6 +178,7 @@ export async function modifyServicesData(
         newProvidedServices = providedServices.filter(service =>
           service.service_and_category_listID !== serviceObject.service_and_category_listID
         )
+        // eslint-disable-next-line max-depth
         if (setSelectedServices) setSelectedServices(newProvidedServices)
       } else {
         throw new Error("Unknown operation")

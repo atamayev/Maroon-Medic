@@ -46,7 +46,7 @@ function RenderIsDescription(props: Props) {
         id = "Description"
         value = {description}
         onChange = {event => {handleDescriptionChange(event)}}
-        maxLength = {1000} // limit to 1000 characters
+        maxLength = {1000}
         as = "textarea"
         rows = {3}
       />

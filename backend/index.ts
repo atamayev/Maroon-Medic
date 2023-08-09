@@ -4,7 +4,6 @@ import cors from "cors"
 import cookieParser from "cookie-parser"
 import { connectDatabase } from "./src/setup-and-security/connect"
 import redisClient from "./src/setup-and-security/redis"
-//ROUTES:
 import authRoutes from "./src/routes/auth-ROUTES"
 import privateDoctorDataRoutes from "./src/routes/private-doctor-data-ROUTES"
 import privatePatientDataRoutes from "./src/routes/private-patient-data-ROUTES"
@@ -59,7 +58,7 @@ app.use(cors({
 }))
 
 app.use(cookieParser())
-app.use(express.json()) // allows server to read json format responses
+app.use(express.json())
 
 app.use("/api/auth", authRoutes)
 app.use("/api/private-doctor-data", GetIDFromUUID.getDoctorIDFromUUID, privateDoctorDataRoutes)
@@ -68,9 +67,7 @@ app.use("/api/public-doctor-data", publicDoctorDataRoutes)
 app.use("/api/search", searchRoutes)
 app.use("/api/calendar", calendarRoutes)
 app.use("/api/lists", listsRoutes)
-
-// Any route not specified above is not found
-app.use("*", (req, res) => res.status(404).json({ error: "Route not found"})) // any link that was not previously designated is 404
+app.use("*", (req, res) => res.status(404).json({ error: "Route not found"}))
 
 // Initialization of server:
 app.listen(port, () => {

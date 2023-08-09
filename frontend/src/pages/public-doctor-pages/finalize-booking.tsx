@@ -52,7 +52,8 @@ export function FinalizeBookingPage() {
   }, [message])
 
   if (!browserLocation.state && !sessionBookingDetails) {
-    return null // or render some kind of loading spinner
+    //Or render some kind of loading spinner
+    return null
   }
 
   if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>

@@ -69,7 +69,7 @@ export default new class FetchPublicDoctorData {
           return { ...address, times: availabilityData }
         } catch (error: unknown) {
           console.error(error)
-          return { ...address, times: [] } // fallback in case of an error
+          return { ...address, times: [] }
         }
       }))
     }

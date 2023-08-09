@@ -57,9 +57,10 @@ export default function DoctorDashboard() {
       const sessionInfo = sessionStorage.getItem("DoctorPersonalInfo")
       if (sessionInfo) {
         setPersonalInfo(JSON.parse(sessionInfo))
-        clearInterval(interval) // Clear the interval once the data is set
+        clearInterval(interval)
       }
-    }, 10) // Check every 10 miliseconds
+      // Check every 10 miliseconds
+    }, 10)
 
     // Clean up interval on unmount
     return () => clearInterval(interval)

@@ -79,13 +79,14 @@ export default function RenderBookingSection(props: Props) {
     }
   }, [savedPetData])
 
-  function convertToMinutes(input: string) {
+  function convertToMinutes(input: string): number {
     if (typeof input === "string") {
       const value = parseInt(input.split(" ")[0])
       if (input.includes("hour")) return moment.duration(value, "hours").asMinutes()
       else if (input.includes("day")) return moment.duration(value, "days").asMinutes()
       else return value
     }
+    return 0
   }
 
   useEffect(() => {
@@ -102,11 +103,12 @@ export default function RenderBookingSection(props: Props) {
         let currentTime = moment().hour(Number(start[0])).minute(Number(start[1]))
         const endTime = moment().hour(Number(end[0])).minute(Number(end[1]))
 
-        const serviceMinutes = convertToMinutes(selectedServiceObject.Service_time)  // Converts the time to minutes
+        const serviceMinutes = convertToMinutes(selectedServiceObject.Service_time)
         setServiceMinutes(serviceMinutes!)
 
         while (currentTime.isBefore(endTime)) {
-          times.push(currentTime.format("h:mm A")) // Change "HH:mm" to "h:mm A"
+          // Change "HH:mm" to "h:mm A":
+          times.push(currentTime.format("h:mm A"))
           currentTime = currentTime.clone().add(serviceMinutes, "minutes")
         }
         setAvailableTimes(times)

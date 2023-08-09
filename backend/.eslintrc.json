@@ -56,6 +56,8 @@
 		"prefer-spread": "error",
 		"@typescript-eslint/no-empty-interface": "error",
         "max-depth": ["warn", 3],
+        "no-inline-comments": "warn",
+        "max-params": ["warn", 4],
 
         //For catching Security vulnerabilities:
         "security/detect-buffer-noassert": "warn",

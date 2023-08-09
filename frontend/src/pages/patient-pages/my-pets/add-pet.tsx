@@ -205,7 +205,7 @@ export const AddPet = (props: AddPetProps) => {
         <Button
           variant = "primary"
           type = "submit"
-          disabled = {!areAllFieldsValid(newPetData)} // Check for both field validity
+          disabled = {!areAllFieldsValid(newPetData)}
           onClick = {() => {
             addPet(newPetData, setNewPetData, setPetConfirmation, savedPetData, setSavedPetData, setShowAddPet)
           }}

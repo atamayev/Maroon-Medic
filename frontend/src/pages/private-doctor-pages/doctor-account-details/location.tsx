@@ -175,7 +175,7 @@ const AddressAccordionItem = (props: AddressAccordionProps) => {
     return (
       <Button
         variant = "success"
-        disabled = {!areAllFieldsValid(address) || !areAllTimesValid(address)} // Check for both field and time validity
+        disabled = {!areAllFieldsValid(address) || !areAllTimesValid(address)}
         onClick = {() => addLocation(address, setAddresses, setAddressesConfirmation)}
       >
         Add Location
@@ -192,7 +192,7 @@ const AddressAccordionItem = (props: AddressAccordionProps) => {
     return (
       <Button
         variant = "secondary"
-        disabled = {!areAllFieldsValid(address) || !areAllTimesValid(address)} // Check for both field and time validity
+        disabled = {!areAllFieldsValid(address) || !areAllTimesValid(address)}
         onClick = {() => updateLocation(address, setAddresses, setAddressesConfirmation)}
       >
         Update Location
@@ -201,8 +201,10 @@ const AddressAccordionItem = (props: AddressAccordionProps) => {
   }
 
   const RenderSaveOrUpdateButton = () => {
-    if (address.addressesID !== -1) return <RenderUpdateLocationButton/>  // If addressID exists, Render update button
-    return <RenderAddLocationButton/> // If addressID doesn't exist, Render save button
+    // If addressID previously exists, Render update button
+    if (address.addressesID !== -1) return <RenderUpdateLocationButton/>
+    // If addressID doesn't exist, Render add button
+    return <RenderAddLocationButton/>
   }
 
   const handleDeleteAddress = () => {

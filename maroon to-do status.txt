@@ -3,20 +3,13 @@ To-do:
 
 ASAP:
 Frontend TS Fixes:
-	9. Search across all Form onsubmit. should have an e.preventDefault to prevent re-load.
 	11. Move all hooks out of .tsx files, and into regular .ts files in the custom hooks folder
-
-Backend TS fixes
-	3. try updating Personal DAta DOB, breaks
 
 Full Stack TS changes
 	4. Get rid of the word 'type' in all types. Its obvious the'yre types
-	5. Add         "max-depth": ["warn", 4], and max params
-	6. Go through all code, check for comments. If comments are neccessary, that means the code is not simple enough
 	7. https://medium.com/@kevinschaffter/top-ten-lint-rules-for-any-typescript-codebase-cb3148e67aca
-		Complety seems important
+		Complexity seems important
 	8. Don't abbreviate variable names
-
 	
 Change gender, other commonly used options to enum (only if the value is used in multiple places). If not, enum not necessary
 
@@ -44,6 +37,7 @@ added a appointment_timespan, and add petID to the Appointments table. - need to
 	uncomment this: // "max-lines-per-function": ["warn", {"max": 60, "skipBlankLines": true, "skipComments": true}],
 Make the auth token and cookie stored in a class, like in context.ts in deployment manager
 	reading from memory is faster than from session storage
+	Create an auth class to store all of this stuff. Make the class have UUID, AccessToken, userType
 
 Move data like personal info into a context. If it's used by multiple components, move it into a context. Every time you navigate, show the context data, but call the API to check for changes simultaneously
 -mini bug when making a booking. make a booking with `changes in behavior`. The time is 10 AM- 10AM. Should say something like (10AM (july 17) - 10AM (july 18))

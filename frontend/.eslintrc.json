@@ -64,7 +64,9 @@
 		"no-var": "error",
 		"prefer-spread": "error",
 		"@typescript-eslint/no-empty-interface": "error",
-        "max-depth": ["warn", 3]
+        "max-depth": ["warn", 3],
+        // "max-params": ["warn", 4],
+        "no-inline-comments": "warn"
     },
     "overrides": [
         {

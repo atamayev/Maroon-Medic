@@ -39,7 +39,7 @@ export default function LoginAndRegistrationForm({
         <FormGroup
           id = "confirm-password"
           label = "Password Confirmation"
-          type = {isShowPassword()} // Switch input type based on showPassword state
+          type = {isShowPassword()}
           placeholder = "Confirm Password"
           onChange = {(event) => setPasswordConfirm(event.target.value)}
           required
@@ -98,7 +98,7 @@ export default function LoginAndRegistrationForm({
           <FormGroup
             id = "password"
             label = "Password"
-            type = {isShowPassword()} // Switch input type based on showPassword state
+            type = {isShowPassword()}
             placeholder = "Password"
             onChange = {(event) => setCredentials({...credentials, password: event.target.value})}
             required

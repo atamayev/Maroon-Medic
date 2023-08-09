@@ -1,3 +1,4 @@
+/* eslint-disable no-inline-comments */
 // Function to handle numeric and single decimal point input
 export const handleNumericInput = (event: React.ChangeEvent<HTMLInputElement>, callback: (value: string) => void): void => {
   const re = /^[0-9]*[.,]?[0-9]*$/

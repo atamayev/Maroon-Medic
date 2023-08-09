@@ -2,7 +2,7 @@ import {useState, useEffect } from "react"
 import { AxiosResponse } from "axios"
 import PrivateDoctorDataService from "../services/private-doctor-data-service"
 import PrivatePatientDataService from "../services/private-patient-data-service"
-import { handle401AxiosError, handle401AxiosErrorAndSetMessageType } from "src/utils/handle-errors"
+import { handle401AxiosError } from "src/utils/handle-errors"
 
 async function fetchPersonalInfoData(
   setPersonalInfo: React.Dispatch<React.SetStateAction<PersonalInfoType>>,
@@ -34,19 +34,15 @@ export const handleSavePersonalInfo = async (
   const stringifiedPersonalInfoData = JSON.stringify(personalInfo)
 
   try {
-    if (stringifiedPersonalInfoData !== storedPersonalInfoData) {// if there is a change, and handlesave is used:
-      try {
-        let response: AxiosResponse
-        if (userType === "Doctor") response = await PrivateDoctorDataService.savePersonalData(personalInfo)
-        else if (userType === "Patient") response = await PrivatePatientDataService.savePersonalData(personalInfo)
-        else throw new Error(`Invalid userType: ${userType}`)
+    if (stringifiedPersonalInfoData !== storedPersonalInfoData) {
+      let response: AxiosResponse
+      if (userType === "Doctor") response = await PrivateDoctorDataService.savePersonalData(personalInfo)
+      else if (userType === "Patient") response = await PrivatePatientDataService.savePersonalData(personalInfo)
+      else throw new Error(`Invalid userType: ${userType}`)
 
-        if (response.status === 200) {
-          sessionStorage.setItem(`${userType}PersonalInfo`, JSON.stringify(personalInfo))
-          setPersonalInfoConfirmation({messageType: "saved"})
-        }
-      } catch (error: unknown) {
-        handle401AxiosErrorAndSetMessageType(error, setPersonalInfoConfirmation)
+      if (response.status === 200) {
+        sessionStorage.setItem(`${userType}PersonalInfo`, JSON.stringify(personalInfo))
+        setPersonalInfoConfirmation({messageType: "saved"})
       }
     } else {
       setPersonalInfoConfirmation({messageType: "same"})
