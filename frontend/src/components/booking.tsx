@@ -33,7 +33,7 @@ export const RenderChoosePet = (props: ChoosePetProps) => {
     return (
       <div className="col-md-6">
         You need to add a pet to make an appointment
-        <Link to={"/my-pets"}>
+        <Link to = {"/my-pets"}>
           <Button variant="primary">
             <p>Add a Pet</p>
           </Button>
@@ -47,10 +47,10 @@ export const RenderChoosePet = (props: ChoosePetProps) => {
   return (
     <div className="col-md-6">
       <FormGroup
-        as="select"
-        id="petSelect"
-        label="Select a pet"
-        onChange={(e) =>
+        as = "select"
+        id = "petSelect"
+        label = "Select a pet"
+        onChange ={(e) =>
           handlePetChange(
             e,
             savedPetData,
@@ -187,7 +187,11 @@ export const RenderSelectDay = (props: SelectDayProps) => {
         onChange={(e) => handleDayChange(e, setSelectedDay, setSelectedTime)}
       >
         <option>Select...</option>
-        {RenderAvailableDates(selectedDay, personalData, availableDates)}
+        <RenderAvailableDates
+          selectedDay = {selectedDay}
+          personalData = {personalData}
+          availableDates = {availableDates}
+        />
       </FormGroup>
     </div>
   )
@@ -254,7 +258,7 @@ export const RenderFinalizeBookingButton = (props: FinalizeBookingProps) => {
       )}
       variant="primary"
     >
-      Click to {RenderInstantBook(selectedLocation)} an appointment
+      Click to {ConfirmOrRequestMessage(selectedLocation)} an appointment
     </Button>
   )
 }
@@ -286,21 +290,33 @@ export const RenderDoctorDoesNotHaveLocations = (personalData: PersonalDataType)
   )
 }
 
-const RenderAvailableDates = (selectedDay: string, personalData: PersonalDataType, availableDates: string[]) => {
+interface RenderAvailableDatesProps {
+  selectedDay: string;
+  personalData: PersonalDataType;
+  availableDates: string[];
+}
+
+const RenderAvailableDates = ({
+  selectedDay,
+  personalData,
+  availableDates,
+}: RenderAvailableDatesProps) => {
   if (selectedDay === `Dr. ${_.upperFirst(personalData.LastName || "")} does not currently have any open appointments at this location`) {
     return <option disabled>{selectedDay}</option>
   }
 
   return (
-    availableDates.map((date) => (
-      <option key={date} value={date}>
-        {date}
-      </option>
-    ))
+    <>
+      {availableDates.map((date) => (
+        <option key={date} value={date}>
+          {date}
+        </option>
+      ))}
+    </>
   )
 }
 
-const RenderInstantBook = (selectedLocation: PublicAddressType) => {
+const ConfirmOrRequestMessage = (selectedLocation: PublicAddressType) => {
   if (selectedLocation.instant_book) return <>Confirm</>
   return <>Request</>
 }

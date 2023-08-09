@@ -151,73 +151,73 @@ export default function RenderBookingSection(props: Props) {
         <Card.Header>Ready to make a booking?</Card.Header>
         <Card.Body>
           <div className = "row">
-            {RenderChoosePet({
-              savedPetData,
-              selectedPet,
-              setSelectedPet,
-              setSelectedService,
-              setSelectedLocation,
-              setSelectedDay,
-              setSelectedTime
-            })}
+            <RenderChoosePet
+              savedPetData = {savedPetData}
+              selectedPet = {selectedPet}
+              setSelectedPet = {setSelectedPet}
+              setSelectedService = {setSelectedService}
+              setSelectedLocation = {setSelectedLocation}
+              setSelectedDay = {setSelectedDay}
+              setSelectedTime = {setSelectedTime}
+            />
           </div>
 
           <div className = "row">
-            {RenderSelectService({
-              providedServices,
-              selectedPet,
-              setSelectedService,
-              setSelectedLocation,
-              setSelectedDay,
-              setSelectedTime
-            })}
+            <RenderSelectService
+              providedServices = {providedServices}
+              selectedPet = {selectedPet}
+              setSelectedService = {setSelectedService}
+              setSelectedLocation = {setSelectedLocation}
+              setSelectedDay = {setSelectedDay}
+              setSelectedTime = {setSelectedTime}
+            />
 
-            {RenderSelectLocation({
-              addresses,
-              selectedService,
-              setNoAvailableTimesMessage,
-              setSelectedLocation,
-              setSelectedDay,
-              setSelectedTime
-            })}
+            <RenderSelectLocation
+              addresses = {addresses}
+              selectedService = {selectedService}
+              setNoAvailableTimesMessage = {setNoAvailableTimesMessage}
+              setSelectedLocation = {setSelectedLocation}
+              setSelectedDay = {setSelectedDay}
+              setSelectedTime = {setSelectedTime}
+            />
           </div>
 
-          {RenderNoAvailableTimes({
-            noAvailableTimesMessage,
-            personalData
-          })}
+          <RenderNoAvailableTimes
+            noAvailableTimesMessage = {noAvailableTimesMessage}
+            personalData = {personalData}
+          />
 
           <div className = "row">
-            {RenderSelectDay({
-              selectedService,
-              selectedLocation,
-              setSelectedDay,
-              setSelectedTime,
-              selectedDay,
-              personalData,
-              availableDates
-            })}
+            <RenderSelectDay
+              selectedService = {selectedService}
+              selectedLocation = {selectedLocation}
+              setSelectedDay = {setSelectedDay}
+              setSelectedTime = {setSelectedTime}
+              selectedDay = {selectedDay}
+              personalData = {personalData}
+              availableDates = {availableDates}
+            />
 
-            {RenderSelectTime({
-              selectedService,
-              selectedLocation,
-              selectedDay,
-              setSelectedTime,
-              availableTimes,
-              serviceMinutes
-            })}
+            <RenderSelectTime
+              selectedService = {selectedService}
+              selectedLocation = {selectedLocation}
+              selectedDay = {selectedDay}
+              setSelectedTime = {setSelectedTime}
+              availableTimes = {availableTimes}
+              serviceMinutes = {serviceMinutes}
+            />
           </div>
 
-          {RenderFinalizeBookingButton({
-            selectedService,
-            selectedLocation,
-            selectedDay,
-            selectedTime,
-            serviceMinutes,
-            personalData,
-            selectedPet,
-            navigate
-          })}
+          <RenderFinalizeBookingButton
+            selectedService = {selectedService}
+            selectedLocation = {selectedLocation}
+            selectedDay = {selectedDay}
+            selectedTime = {selectedTime}
+            serviceMinutes = {serviceMinutes}
+            personalData = {personalData}
+            selectedPet = {selectedPet}
+            navigate = {navigate}
+          />
         </Card.Body>
       </Card>
     )

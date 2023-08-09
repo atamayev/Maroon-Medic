@@ -2,8 +2,6 @@ import { mysqlTables } from "../utils/table-names-list"
 import { connectDatabase } from "../setup-and-security/connect"
 import { RowDataPacket } from "mysql2"
 
-type MysqlTimestamp = string
-
 export default new class UUIDDB {
   async createNewUUID (UUID: string, createdAt: MysqlTimestamp, UserID: number): Promise<void> {
     const sql = `INSERT INTO ${mysqlTables.uuid_reference} (UUID, Created_at, User_ID) VALUES (?, ?, ?)`

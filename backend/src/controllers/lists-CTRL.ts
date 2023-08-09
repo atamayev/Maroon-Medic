@@ -2,25 +2,9 @@ import FetchAllLists from "../utils/fetch-all-lists"
 import OperationHandler from "../utils/operation-handler"
 import { Request, Response } from "express"
 
-interface DoctorList {
-  languages: LanguageItemType[]
-  servicesAndCategories: ServiceListItemType[]
-  specialties: SpecialtyItemType[]
-  preVetSchools: PreVetSchoolType[]
-  preVetEducationTypes: PreVetEducationTypeType[]
-  majors: MajorType[]
-  vetSchools: VetSchoolListType[]
-  vetEducationTypes: VetEducationTypeType[]
-  pets: ServicedPetItemType[]
-}
-
-interface PatientList {
-  languages: LanguageItemType[]
-}
-
 export async function fetchDoctorLists (req: Request, res: Response): Promise<Response> {
   try {
-    const response: DoctorList = {
+    const response: DoctorListDetailsType = {
       languages             : await FetchAllLists.fetchAllLanguages(),
       servicesAndCategories : await FetchAllLists.fetchAllServicesAndCategories(),
       specialties           : await FetchAllLists.fetchAllSpecialties(),
@@ -38,8 +22,8 @@ export async function fetchDoctorLists (req: Request, res: Response): Promise<Re
 }
 
 export async function fetchPatientLists (req: Request, res: Response): Promise<void> {
-  const operation: () => Promise<PatientList> = async () => {
-    const response: PatientList = {
+  const operation: () => Promise<PatientListDetailsType> = async () => {
+    const response: PatientListDetailsType = {
       languages: await FetchAllLists.fetchAllLanguages()
     }
     return response

@@ -1,8 +1,6 @@
 import CalendarDataService from "../services/calendar-data-service"
 import { handle401AxiosError } from "src/utils/handle-errors"
 
-type MysqlTimestamp = string
-
 interface CalendarData {
   appointmentsID: number
   appointment_date: MysqlTimestamp

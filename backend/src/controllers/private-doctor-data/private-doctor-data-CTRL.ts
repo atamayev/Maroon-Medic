@@ -6,19 +6,6 @@ import OperationHandler from "../../utils/operation-handler"
 import PrivateDoctorDataDB from "../../db/private-doctor-data/private-doctor-data-DB"
 import FetchDoctorAccountData from "../../utils/fetch-account-and-public-data/fetch-doctor-account-data"
 
-interface DoctorResponse {
-  languages: LanguageItemType[]
-  services: ServiceItemType[]
-  specialties: SpecialtyItemType[]
-  preVetEducation: PreVetEducationItemType[]
-  vetEducation: VetEducationItemType[]
-  addressData: DoctorAddressDataType[]
-  description: string
-  servicedPets: ServicedPetItemType[]
-  verified: boolean
-  publiclyAvailable: boolean
-}
-
 export async function newDoctor (req: Request, res: Response): Promise<void> {
   const DoctorID = req.DoctorID
 
@@ -73,7 +60,7 @@ export async function fetchAccountDetails (req: Request, res: Response): Promise
 
   try {
     const verificationAndPublicAv = await FetchDoctorAccountData.fetchVerifiedAndPubliclyAvailable(DoctorID)
-    const response: DoctorResponse = {
+    const response: DoctorAccountDetails = {
       languages            : await FetchDoctorAccountData.fetchDoctorLanguages(DoctorID),
       services             : await FetchDoctorAccountData.fetchDoctorServices(DoctorID),
       specialties          : await FetchDoctorAccountData.fetchDoctorSpecialties(DoctorID),

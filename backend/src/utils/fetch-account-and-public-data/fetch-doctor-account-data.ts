@@ -54,7 +54,7 @@ export default new class FetchDoctorAccountData {
     return result as VetEducationItemType[]
   }
 
-  async fetchDoctorAddressData (DoctorID: number): Promise<DoctorAddressDataType[]> {
+  async fetchDoctorAddressData (DoctorID: number): Promise<PrivateDoctorAddressData[]> {
     try {
       const addressData = await FetchDoctorAccountDataDB.retrieveAddressData(DoctorID)
 

@@ -2,16 +2,6 @@ import { mysqlTables } from "../../utils/table-names-list"
 import { connectDatabase } from "../../setup-and-security/connect"
 import { RowDataPacket } from "mysql2"
 
-type PetItem = {
-  Name: string
-  Gender: string
-  DOB: string
-  Pet: string
-  Pet_type: string
-  pet_infoID: number
-  insuranceName: string
-}
-
 type InsuranceItem = {
   Insurance_name: string
 }
@@ -32,7 +22,7 @@ export default new class FetchPatientAccountDataDB {
     return languages
   }
 
-  async retrievePetData (PatientID: number): Promise<PetItem[]> {
+  async retrievePetData (PatientID: number): Promise<PetItemType[]> {
     const sql = `SELECT ${mysqlTables.pet_info}.Name, ${mysqlTables.pet_info}.Gender, ${mysqlTables.pet_info}.DOB,
     ${mysqlTables.pet_list}.Pet, ${mysqlTables.pet_list}.Pet_type, ${mysqlTables.pet_info}.pet_infoID
         FROM ${mysqlTables.pet_info}
@@ -44,7 +34,7 @@ export default new class FetchPatientAccountDataDB {
 
     const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values) as RowDataPacket[]
-    const petData = results.map((row: RowDataPacket) => row as PetItem)
+    const petData = results.map((row: RowDataPacket) => row as PetItemType)
     return petData
   }
 

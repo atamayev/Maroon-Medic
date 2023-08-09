@@ -2,44 +2,15 @@ import { mysqlTables } from "../../utils/table-names-list"
 import { connectDatabase } from "../../setup-and-security/connect"
 import { RowDataPacket } from "mysql2"
 
-type MysqlTimestamp = string
-
-type PatientInfo = {
-  FirstName: string
-  LastName: string
-  Gender: string
-  DOB: MysqlTimestamp
-}
-
-interface DashboardData {
-  appointmentsID: number
-  appointment_date: MysqlTimestamp
-  appointment_price: number
-  patient_message: string
-  Doctor_confirmation_status: boolean
-  Created_at: MysqlTimestamp
-  Category_name: string
-  Service_name: string
-  address_title: string
-  address_line_1: string
-  address_line_2: string
-  city: string
-  state: string
-  zip: string
-  country: string
-  Doctor_FirstName: string
-  Doctor_LastName: string
-}
-
 export default new class PrivatePatientDataDB {
-  async addNewPatientInfo (patientInfo: PatientInfo, dateOfBirth: MysqlTimestamp, UserID: number): Promise<void> {
+  async addNewPatientInfo (patientInfo: BasicUserInfo, dateOfBirth: MysqlTimestamp, UserID: number): Promise<void> {
     const sql = `INSERT INTO ${mysqlTables.basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?, ?, ?, ?, ?)`
     const values = [patientInfo.FirstName, patientInfo.LastName, patientInfo.Gender, dateOfBirth, UserID]
     const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async retrievePatientDashboard (PatientID: number): Promise<DashboardData[]> {
+  async retrievePatientDashboard (PatientID: number): Promise<PatientDashboardDataType[]> {
     const sql = `SELECT
           ${mysqlTables.appointments}.AppointmentsID, ${mysqlTables.appointments}.appointment_date,
           ${mysqlTables.appointments}.appointment_price, ${mysqlTables.appointments}.patient_message,
@@ -62,10 +33,10 @@ export default new class PrivatePatientDataDB {
     const values = [PatientID]
     const connection = await connectDatabase()
     const [dashboardData] = await connection.execute(sql, values) as RowDataPacket[]
-    return dashboardData as DashboardData[]
+    return dashboardData as PatientDashboardDataType[]
   }
 
-  async retrievePersonalPatientData (PatientID: number): Promise<PatientInfo> {
+  async retrievePersonalPatientData (PatientID: number): Promise<BasicUserInfo> {
     const sql = `SELECT FirstName, LastName, Gender, DOB FROM ${mysqlTables.basic_user_info} WHERE User_ID = ?`
     const values = [PatientID]
     const connection = await connectDatabase()

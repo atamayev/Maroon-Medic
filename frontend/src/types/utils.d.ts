@@ -6,11 +6,11 @@ declare global {
 
   type MysqlTimestamp = string
 
+  type DeleteStatusesType = "deleting" | "initial"
+
   type DeleteStatusesDictionary = {
     [key: number]: DeleteStatusesType;
-  };
-
-  type DeleteStatusesType = "deleting" | "initial"
+  }
 
   type DeleteButtonDataTypes = LanguageItemType | SpecialtyItemType | PreVetEducationItemType | VetEducationItemType
 

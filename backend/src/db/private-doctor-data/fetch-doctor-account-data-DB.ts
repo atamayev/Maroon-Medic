@@ -92,7 +92,7 @@ export default new class FetchDoctorAccountDataDB {
     return vetEducation
   }
 
-  async retrieveAddressData (DoctorID: number): Promise<DoctorAddressDataType[]> {
+  async retrieveAddressData (DoctorID: number): Promise<PrivateDoctorAddressData[]> {
     const sql = `SELECT ${mysqlTables.addresses}.addressesID, ${mysqlTables.addresses}.address_title,
     ${mysqlTables.addresses}.address_line_1, ${mysqlTables.addresses}.address_line_2, ${mysqlTables.addresses}.city,
     ${mysqlTables.addresses}.state, ${mysqlTables.addresses}.zip,
@@ -106,7 +106,7 @@ export default new class FetchDoctorAccountDataDB {
 
     const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values) as RowDataPacket[]
-    const addressData = results.map((row: RowDataPacket) => row as DoctorAddressDataType)
+    const addressData = results.map((row: RowDataPacket) => row as PrivateDoctorAddressData)
     return addressData
   }
 

@@ -17,16 +17,16 @@ export default function RenderEducationSection(props: Props) {
       </Card.Header>
       <Card.Body>
         <h3>Pre-Veterinary Education</h3>
-        {renderEducation(preVetEducation, true)}
+        <RenderEducation educationList = {preVetEducation} hasMajor = {true} />
 
         <h3>Veterinary Education</h3>
-        {renderEducation(vetEducation, false)}
+        <RenderEducation educationList = {vetEducation} hasMajor = {true} />
       </Card.Body>
     </Card>
   )
 }
 
-function renderEducation(educationList: EducationObjType[], hasMajor: boolean) {
+function RenderEducation({educationList, hasMajor} : {educationList: EducationObjType[], hasMajor: boolean}) {
   return (
     <>
       {educationList.map((edu, index) => (

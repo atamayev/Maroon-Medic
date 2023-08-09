@@ -1,5 +1,4 @@
 declare global {
-  type MysqlTimestamp = string
   interface AppointmentObject {
     appointmentPrice: number
     appointmentTimespan: number

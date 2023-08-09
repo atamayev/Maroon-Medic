@@ -2,19 +2,10 @@ import { mysqlTables } from "../../utils/table-names-list"
 import { connectDatabase } from "../../setup-and-security/connect"
 import { OkPacket, RowDataPacket } from "mysql2"
 
-type MysqlTimestamp = string
-
 interface PersonalInfo {
   FirstName: string
   LastName: string
   Gender: string
-}
-
-interface PetPersonalInfo {
-  Name: string
-  Gender: string
-  DOB: MysqlTimestamp
-  pet_listID: number
 }
 
 export default new class SavePatientDataDB {

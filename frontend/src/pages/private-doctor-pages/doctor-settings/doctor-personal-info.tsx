@@ -27,11 +27,14 @@ export default function DoctorPersonalInfo() {
       <DoctorHeader/>
       <Card>
         <Card.Body>
-          <Form onSubmit = {() => handleSavePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)}>
-            {RenderFirstNameSection({personalInfo: personalInfo, setPersonalInfo: setPersonalInfo})}
-            {RenderLastNameSection({personalInfo: personalInfo, setPersonalInfo: setPersonalInfo})}
-            {RenderGenderSection({personalInfo: personalInfo, setPersonalInfo: setPersonalInfo})}
-            {RenderDOBSection({personalInfo: personalInfo, setPersonalInfo: setPersonalInfo})}
+          <Form onSubmit = {(e) => {
+            e.preventDefault()
+            handleSavePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)
+          }}>
+            <RenderFirstNameSection personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
+            <RenderLastNameSection personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
+            <RenderGenderSection personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
+            <RenderDOBSection personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
             <Button type = "submit" className = "btn btn-primary w-100">Save</Button>
             <RenderMessageSection
               confirmationMessage = {personalInfoConfirmation}

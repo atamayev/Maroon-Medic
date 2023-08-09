@@ -232,14 +232,14 @@ export default function DoctorDashboard() {
     )
   }
 
-  const RenderWelcomeOrBack = () => {
+  const WelcomeOrBack = () => {
     if (newDoctor) return <> to MaroonMedic</>
     return <> back</>
   }
 
   const RenderisPersonalInfo = () => {
     if (!personalInfo) return <>Loading...</>
-    return <p>Welcome{RenderWelcomeOrBack()}, Dr. {_.upperFirst(personalInfo.LastName || "")}</p>
+    return <p>Welcome{WelcomeOrBack()}, Dr. {_.upperFirst(personalInfo.LastName || "")}</p>
   }
 
   return (

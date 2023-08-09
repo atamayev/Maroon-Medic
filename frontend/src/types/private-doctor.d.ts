@@ -22,12 +22,9 @@ declare global {
     Service_price: number
   }
 
-  type ServiceItemType = {
-    service_and_category_listID: number
+  type ServiceItemType = ServiceData & {
     Category_name: string
     Service_name: string
-    Service_time: string
-    Service_price: number
   }
 
   interface EducationType {

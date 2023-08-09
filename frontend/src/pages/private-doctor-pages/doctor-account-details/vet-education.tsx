@@ -60,7 +60,7 @@ function RenderIsVetEducation(props: Props) {
     setDeleteStatuses(newDeleteStatuses)
   }, [vetEducation])
 
-  const renderSelectSchool = () => {
+  const RenderSelectSchool = () => {
     return (
       <div>
         <label htmlFor = "vet-school">Select a Veterinary School: </label>
@@ -83,7 +83,7 @@ function RenderIsVetEducation(props: Props) {
     )
   }
 
-  const renderSelectEducationType = () => {
+  const RenderSelectEducationType = () => {
     if (!selectedVetSchool) return null
     return (
       <div>
@@ -107,7 +107,7 @@ function RenderIsVetEducation(props: Props) {
     )
   }
 
-  const renderEducationTime = () => {
+  const RenderEducationTime = () => {
     if (!selectedVetEducationType) return null
     return (
       <EducationTime
@@ -128,7 +128,7 @@ function RenderIsVetEducation(props: Props) {
     listDetails, setVetEducationConfirmation
   )
 
-  const renderAddAndSaveButton = () => {
+  const RenderAddAndSaveButton = () => {
     if (!allChoicesFilled) return null
     return (
       <Button
@@ -168,7 +168,7 @@ function RenderIsVetEducation(props: Props) {
     )
   }
 
-  const renderSavedEducationList = () => {
+  const RenderSavedEducationList = () => {
     return (
       <ul>
         {vetEducation.map((VetEducation) => (
@@ -185,15 +185,15 @@ function RenderIsVetEducation(props: Props) {
 
   return (
     <>
-      {renderSelectSchool()}
+      <RenderSelectSchool />
 
-      {renderSelectEducationType()}
+      <RenderSelectEducationType />
 
-      {renderEducationTime()}
+      <RenderEducationTime />
 
-      {renderAddAndSaveButton()}
+      <RenderAddAndSaveButton />
 
-      {renderSavedEducationList()}
+      <RenderSavedEducationList />
 
       <RenderMessageSection
         confirmationMessage = {vetEducationConfirmation}

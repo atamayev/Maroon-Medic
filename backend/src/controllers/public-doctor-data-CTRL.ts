@@ -4,24 +4,12 @@ import FetchPublicDoctorData from "../utils/fetch-account-and-public-data/fetch-
 import FetchDoctorAccountData from "../utils/fetch-account-and-public-data/fetch-doctor-account-data"
 import { Request, Response } from "express"
 
-interface DoctorResponse {
-  doctorLanguages: LanguagesData[]
-  doctorServices: ServiceItemType[]
-  doctorSpecialties: SpecialtiesData[]
-  doctorPreVetEducation: PreVetEducationItemType[]
-  doctorVetEducation: VetEducationItemType[]
-  doctorAddressData: AddressData[]
-  description: string
-  servicedPets: ServicedPetData[]
-  doctorPersonalInfo: DoctorPersonalInfo
-}
-
 export async function returnDoctorPageData (req: Request, res: Response): Promise<Response> {
   const NVI = Number(req.params.id)
   const DoctorID: number = Number(await OperationHandler.executeAsyncAndReturnValue(res, CalendarDB.retrieveDoctorIDFromNVI, NVI))
 
   try {
-    const response: DoctorResponse = {
+    const response: PublicDoctorAccountDetails = {
       doctorLanguages:       await FetchPublicDoctorData.fetchDoctorLanguages(DoctorID),
       doctorServices:        await FetchDoctorAccountData.fetchDoctorServices(DoctorID),
       doctorSpecialties:     await FetchPublicDoctorData.fetchDoctorSpecialties(DoctorID),

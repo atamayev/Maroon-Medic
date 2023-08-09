@@ -10,12 +10,6 @@ import { loginHistory } from "../utils/account-tracker"
 import { clearCookies } from "../utils/cookie-operations"
 import { ID_to_UUID, UUID_to_ID } from "../setup-and-security/UUID"
 
-interface JwtPayload {
-  DoctorID?: string
-  PatientID?: string
-  exp?: number
-}
-
 export async function jwtVerify (req: Request, res: Response): Promise<Response> {
   const cookies = req.cookies
   let AccessToken: string
@@ -70,11 +64,6 @@ export async function jwtVerify (req: Request, res: Response): Promise<Response>
     clearCookies(res, undefined)
     return res.status(401).json({ shouldRedirect: true, redirectURL: redirectURL })
   }
-}
-
-type UserIDAndPassword = {
-  password: string,
-  UserID: number,
 }
 
 export async function login (req: Request, res: Response): Promise<Response> {
@@ -228,7 +217,7 @@ export async function register (req: Request, res: Response): Promise<Response> 
 export async function fetchLoginHistory (req: Request, res: Response): Promise<Response> {
   const cookies = req.cookies
   let UUID: string = ""
-  let userType: "Doctor" | "Patient" = "Patient"
+  let userType: DoctorOrPatient = "Patient"
 
   if ("DoctorUUID" in cookies || "DoctorAccessToken" in cookies) {
     UUID = cookies.DoctorUUID
@@ -312,7 +301,7 @@ export async function newPatientConfirmation (req: Request, res: Response): Prom
 }
 
 export async function logout (req: Request, res: Response): Promise<Response> {
-  let type!: "Doctor" | "Patient"
+  let type: DoctorOrPatient = "Patient"
   try {
     const cookies = req.cookies
     let UUID: string = ""

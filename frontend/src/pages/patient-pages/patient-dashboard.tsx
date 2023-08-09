@@ -51,7 +51,7 @@ export default function PatientDashboard() {
 
   if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
 
-  const renderAppointmentConfirmationStatus = (appointment: PatientDashboardDataType) => {
+  const RenderAppointmentConfirmationStatus = ({appointment} : {appointment: PatientDashboardDataType}) => {
     if (appointment.Doctor_confirmation_status === false) {
       return (
         <OverlayTrigger
@@ -76,7 +76,7 @@ export default function PatientDashboard() {
     )
   }
 
-  const renderMessageSection = (appointment: PatientDashboardDataType) => {
+  const RenderMessageSection = ({appointment} : {appointment: PatientDashboardDataType}) => {
     if (!appointment.patient_message) return null
     return (
       <span style = {{ display: "block" }}>
@@ -93,10 +93,10 @@ export default function PatientDashboard() {
           <Card.Body>
             <Card.Title>
               Appointment with Dr. {appointment.Doctor_FirstName} {appointment.Doctor_LastName} on {appointment.appointment_date}
-              {renderAppointmentConfirmationStatus(appointment)}
+              <RenderAppointmentConfirmationStatus appointment = {appointment} />
             </Card.Title>
             <Card.Text>
-              {renderMessageSection(appointment)}
+              <RenderMessageSection appointment = {appointment} />
             </Card.Text>
           </Card.Body>
         </Card>
@@ -111,7 +111,7 @@ export default function PatientDashboard() {
           <Card.Body>
             <Card.Title>
               Appointment with Dr. {appointment.Doctor_FirstName} {appointment.Doctor_LastName} on {appointment.appointment_date}
-              {renderAppointmentConfirmationStatus(appointment)}
+              <RenderAppointmentConfirmationStatus appointment = {appointment} />
             </Card.Title>
           </Card.Body>
         </Card>
@@ -119,7 +119,7 @@ export default function PatientDashboard() {
     )
   }
 
-  const renderUpcomingAppointments = (upcomingAppointments: PatientDashboardDataType[]) => {
+  const RenderUpcomingAppointments = ({upcomingAppointments} : {upcomingAppointments: PatientDashboardDataType[]}) => {
     if (_.isEmpty(upcomingAppointments)) return <>No upcoming appointments</>
     return (
       <>
@@ -130,7 +130,7 @@ export default function PatientDashboard() {
     )
   }
 
-  const renderPastAppointments = (pastAppointments: PatientDashboardDataType[]) => {
+  const RenderPastAppointments = ({pastAppointments} : {pastAppointments: PatientDashboardDataType[]}) => {
     if (_.isEmpty(pastAppointments)) return <>No past appointments</>
     return (
       <>
@@ -141,7 +141,7 @@ export default function PatientDashboard() {
     )
   }
 
-  const renderUpcomingAppointmentsCard = () => {
+  const RenderUpcomingAppointmentsCard = () => {
     return (
       <>
         <Card style = {{margin: "0 10px" }} className = "mb-3">
@@ -149,14 +149,14 @@ export default function PatientDashboard() {
             <h1>Upcoming Appointments</h1>
           </Card.Header>
           <Card.Body>
-            {renderUpcomingAppointments(upcomingAppointments)}
+            <RenderUpcomingAppointments upcomingAppointments = {upcomingAppointments} />
           </Card.Body>
         </Card>
       </>
     )
   }
 
-  const renderPastAppointmentsCard = () => {
+  const RenderPastAppointmentsCard = () => {
     return (
       <>
         <Card style = {{margin: "0 10px" }}>
@@ -164,39 +164,39 @@ export default function PatientDashboard() {
             <h1>Past Appointments</h1>
           </Card.Header>
           <Card.Body>
-            {renderPastAppointments(pastAppointments)}
+            <RenderPastAppointments pastAppointments = {pastAppointments} />
           </Card.Body>
         </Card>
       </>
     )
   }
 
-  const renderDashboardData = () => {
+  const RenderDashboardData = () => {
     if (_.isEmpty(dashboardData)) return <>No upcoming appointments</>
     return (
       <>
-        {renderUpcomingAppointmentsCard()}
-        {renderPastAppointmentsCard()}
+        <RenderUpcomingAppointmentsCard />
+        <RenderPastAppointmentsCard />
       </>
     )
   }
 
-  const renderWelcomeOrBack = () => {
+  const WelcomeOrBack = () => {
     if (newPatient) return <> to MaroonMedic</>
     return <> back</>
   }
 
-  const renderisPersonalInfo = () => {
+  const RenderisPersonalInfo = () => {
     if (!personalInfo) return <>Loading...</>
-    return <p>Welcome{renderWelcomeOrBack()}, {personalInfo.FirstName}</p>
+    return <p>Welcome{WelcomeOrBack()}, {personalInfo.FirstName}</p>
   }
 
   return (
     <div>
       <Header dropdown = {true} search = {true} />
       <PatientHeader />
-      {renderisPersonalInfo()}
-      {renderDashboardData()}
+      <RenderisPersonalInfo />
+      <RenderDashboardData />
     </div>
   )
 }

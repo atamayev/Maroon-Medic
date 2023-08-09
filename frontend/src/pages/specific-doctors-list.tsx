@@ -15,19 +15,17 @@ export default function SpecificDoctorsList() {
     fetchData()
   }, [searchTerm])
 
-  const renderSearchResults = () => {
+  const RenderSearchResults = () => {
     if (!items) return <div> No results</div>
-    else {
-      // This has no function rn, since there are less than 1000 vets. once there are more, only the first 100 will be returned
-      const data = items.slice(0, 1000)
-      return <SearchResults data = {data}/>
-    }
+    // This has no function rn, since there are less than 1000 vets. once there are more, only the first 100 will be returned
+    const data = items.slice(0, 1000)
+    return <SearchResults data = {data}/>
   }
 
   return (
     <>
       <Header search = {true} dropdown = {true}/>
-      {renderSearchResults()}
+      <RenderSearchResults />
     </>
   )
 }

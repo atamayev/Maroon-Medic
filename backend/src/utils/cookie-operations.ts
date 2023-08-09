@@ -1,8 +1,7 @@
 import { Response } from "express"
 //Type is either Doctor or Patient
-type UserType = "Doctor" | "Patient";
 
-export function clearCookies(res: Response, type: string[] | UserType = ["Doctor", "Patient"]): void {
+export function clearCookies(res: Response, type: string[] | DoctorOrPatient = ["Doctor", "Patient"]): void {
   const cookieNames = ["AccessToken", "UUID", "NewUser"]
 
   // ensure type is always an array

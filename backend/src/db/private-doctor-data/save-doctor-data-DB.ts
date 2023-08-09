@@ -2,28 +2,6 @@ import { mysqlTables } from "../../utils/table-names-list"
 import { connectDatabase } from "../../setup-and-security/connect"
 import { OkPacket, RowDataPacket } from "mysql2"
 
-type MysqlTimestamp = string
-
-type ServiceItem = {
-  service_and_category_listID: number
-  Service_time: string
-  Service_price: number
-}
-
-type AddressData = {
-  addressesID: number
-  address_title: string
-  address_line_1: string
-  address_line_2: string
-  city: string
-  state: string
-  zip: string
-  country: string
-  address_priority: number
-  instant_book: boolean
-  address_public_status: boolean
-}
-
 type PhoneData = {
   addressesID: number
   phone: string
@@ -182,7 +160,7 @@ export default new class SaveDoctorDataDB {
     await connection.execute(sql, values)
   }
 
-  async addAddressRecord (addressObject: AddressData, DoctorID: number): Promise<number> {
+  async addAddressRecord (addressObject: PrivateDoctorAddressLessTimesAndPhone, DoctorID: number): Promise<number> {
     const sql = `INSERT INTO ${mysqlTables.addresses}
           (address_title, address_line_1, address_line_2, city, state, zip, country,
             address_public_status, address_priority, instant_book, Doctor_ID)
@@ -202,7 +180,7 @@ export default new class SaveDoctorDataDB {
     await connection.execute(sql, values)
   }
 
-  async updateAddressRecord (updatedAddressObject: AddressData): Promise<void> {
+  async updateAddressRecord (updatedAddressObject: PrivateDoctorAddressLessTimesAndPhone): Promise<void> {
     const sql = `UPDATE ${mysqlTables.addresses}
           SET address_title = ?, address_line_1 = ?, address_line_2 = ?, city = ?,
           state = ?, zip = ?, country = ?, address_public_status = ?, instant_book = ?

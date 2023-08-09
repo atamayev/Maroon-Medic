@@ -1,17 +1,10 @@
 import { Dayjs } from "dayjs"
 import TimeUtils from "./time"
 
-interface PersonalData {
-  FirstName: string
-  LastName: string
-  Gender: string
-  DOB_month: string
-  DOB_day: number
-  DOB_year: number
-}
+
 
 export default new class DataFormatter {
-  formatPersonalData(results: {FirstName: string, LastName: string, Gender: string, DOB: string}): PersonalData {
+  formatPersonalData(results: {FirstName: string, LastName: string, Gender: string, DOB: string}): FormattedPersonalData {
     const DOB: Dayjs = TimeUtils.simpleDayJSConvert(results.DOB)
     const PersonalData = {
       FirstName: results.FirstName,

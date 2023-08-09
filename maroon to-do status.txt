@@ -3,37 +3,21 @@ To-do:
 
 ASAP:
 Frontend TS Fixes:
-	6. Bring back the max lines per function
-	9. Accomodate for all res.status().jsons that were previously just res.jsons
-	10. Change all 'render___' functions to be 'Render...', and make them JSX components intead of const functions <Render.../>
-		Search for all {r
+	9. Search across all Form onsubmit. should have an e.preventDefault to prevent re-load.
 	11. Move all hooks out of .tsx files, and into regular .ts files in the custom hooks folder
 
-
 Backend TS fixes
-	2. Move to globals	
-		type LoginOrRegisterType = "Doctor" | "Patient"
-		type MysqlTimestamp = string
+	3. try updating Personal DAta DOB, breaks
 
 Full Stack TS changes
-	1. Take full advantage of globals.d.ts to create reoccuring types
-	2. Figure out a way to divide up the globals.d.ts into different categories (ie public doctor vs private, patient, etc.)
-		Both back and fornt end
-	3. Add to eslint that a return type is required from all functions (error)
-		Require-await, and also explicit return ...
 	4. Get rid of the word 'type' in all types. Its obvious the'yre types
-	5. Go through the eslint changes here: https://chat.openai.com/share/b35d41ab-41f2-42ae-84fa-b40c0069d40e
-	6. Run recommended linting checks (go through the eslint files, and make sure nothing uncommented.
-		"no-eval": "error",
-		"curly": "error",
-		"no-duplicate-imports": "error",
-		"@typescript-eslint/no-unnecessary-type-assertion": "error"
-		"no-var": "error",
-		"prefer-spread": "error",
-		"no-use-before-define": "error",
-		"@typescript-eslint/no-empty-interface": "error",
+	5. Add         "max-depth": ["warn", 4], and max params
+	6. Go through all code, check for comments. If comments are neccessary, that means the code is not simple enough
+	7. https://medium.com/@kevinschaffter/top-ten-lint-rules-for-any-typescript-codebase-cb3148e67aca
+		Complety seems important
+	8. Don't abbreviate variable names
 
-
+	
 Change gender, other commonly used options to enum (only if the value is used in multiple places). If not, enum not necessary
 
 Merge the vet dashboard/patient dashboard urls into one page. Will save a lot of re-direct logic, also it's useless to have different dashboard routes.
@@ -57,7 +41,7 @@ added a appointment_timespan, and add petID to the Appointments table. - need to
 			think about the best way to structure the acess token/ uuid thing
 
 -CODE CONCISION: Cut any function more than 100 lines into parts. I don't want massive functions - most can be distilled into smaller parts
-
+	uncomment this: // "max-lines-per-function": ["warn", {"max": 60, "skipBlankLines": true, "skipComments": true}],
 Make the auth token and cookie stored in a class, like in context.ts in deployment manager
 	reading from memory is faster than from session storage
 

@@ -7,10 +7,14 @@ interface Props {
 export default function RenderPersonalInfoSection(props: Props) {
   const { personalData } = props
   if (!personalData) return null
-  return <h3> {RenderPersonalInfo(personalData)} </h3>
+  return (
+    <h3>
+      <RenderPersonalInfo personalData = {personalData} />
+    </h3>
+  )
 }
 
-function RenderPersonalInfo(props: PersonalDataType) {
-  const {FirstName, LastName} = props
+function RenderPersonalInfo({personalData}: {personalData: PersonalDataType}) {
+  const {FirstName, LastName} = personalData
   return <> Dr. {""} {_.upperFirst(FirstName || "")} {""} {_.upperFirst(LastName || "")} </>
 }

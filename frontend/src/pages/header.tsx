@@ -67,7 +67,6 @@ function useSetHeaderData(userType: DoctorOrPatientOrNull) {
 
 async function fetchPersonalInfo (type: DoctorOrPatient, setHeaderData: React.Dispatch<React.SetStateAction<string>>) {
   let response
-  console.log(type)
   if (type === "Doctor") {
     try {
       response = await PrivateDoctorDataService.fillPersonalData()
@@ -116,58 +115,56 @@ export default function Header (props: HeaderProps) {
     else window.location.href = "/"
   }, [location])
 
-  const renderDropdown = () => {
-    if (dropdown === true) {
-      return (
-        <Dropdown className = "menu-container">
-          <Dropdown.Toggle
-            variant = "dark"
-            id = "dropdown-basic"
-            className = "menu-trigger menu-active"
-          >
-            {headerData}
-            <img src = {pic} alt = "profile" height = {20} className = "ml-2" />
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            {renderDropdownItems()}
-          </Dropdown.Menu>
-        </Dropdown>
-      )
-    }
+  const RenderDropdown = () => {
+    if (dropdown === false) return null
+    return (
+      <Dropdown className = "menu-container">
+        <Dropdown.Toggle
+          variant = "dark"
+          id = "dropdown-basic"
+          className = "menu-trigger menu-active"
+        >
+          {headerData}
+          <img src = {pic} alt = "profile" height = {20} className = "ml-2" />
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+          <RenderDropdownItems />
+        </Dropdown.Menu>
+      </Dropdown>
+    )
   }
 
-  const renderDropdownItems = () => {
-    if (dropdown === true) {
-      if (userType === "Doctor") {
-        return (
-          <div>
-            <Dropdown.Item onClick = {handleLogout}>Sign out</Dropdown.Item>
-            <Dropdown.Item href = "/vet-dashboard">Vet Dashboard</Dropdown.Item>
-            <Dropdown.Item href = "/vet-account-details">Account Details</Dropdown.Item>
-          </div>
-        )
-      }
-      else if (userType === "Patient") {
-        return (
-          <div>
-            <Dropdown.Item onClick = {handleLogout}>Sign out</Dropdown.Item>
-            <Dropdown.Item href = "/patient-dashboard">Patient Dashboard</Dropdown.Item>
-            <Dropdown.Item href = "/patient-account-details">Account Settings</Dropdown.Item>
-          </div>
-        )
-      }
+  const RenderDropdownItems = () => {
+    if (dropdown === false) return null
+    if (userType === "Doctor") {
       return (
         <div>
-          <Dropdown.Item href = "/vet-register" className = "fw-bold">Vet Sign up</Dropdown.Item>
-          <Dropdown.Item href = "/vet-login">Vet Log In</Dropdown.Item>
-          <Dropdown.Item href = "/patient-register" className = "fw-bold">Patient Sign up</Dropdown.Item>
-          <Dropdown.Item href = "/patient-login">Patient Log In</Dropdown.Item>
-
-          <Dropdown.Divider />
-          <Dropdown.Item href = "/help">Help</Dropdown.Item>
+          <Dropdown.Item onClick = {handleLogout}>Sign out</Dropdown.Item>
+          <Dropdown.Item href = "/vet-dashboard">Vet Dashboard</Dropdown.Item>
+          <Dropdown.Item href = "/vet-account-details">Account Details</Dropdown.Item>
         </div>
       )
     }
+    else if (userType === "Patient") {
+      return (
+        <div>
+          <Dropdown.Item onClick = {handleLogout}>Sign out</Dropdown.Item>
+          <Dropdown.Item href = "/patient-dashboard">Patient Dashboard</Dropdown.Item>
+          <Dropdown.Item href = "/patient-account-details">Account Settings</Dropdown.Item>
+        </div>
+      )
+    }
+    return (
+      <div>
+        <Dropdown.Item href = "/vet-register" className = "fw-bold">Vet Sign up</Dropdown.Item>
+        <Dropdown.Item href = "/vet-login">Vet Log In</Dropdown.Item>
+        <Dropdown.Item href = "/patient-register" className = "fw-bold">Patient Sign up</Dropdown.Item>
+        <Dropdown.Item href = "/patient-login">Patient Log In</Dropdown.Item>
+
+        <Dropdown.Divider />
+        <Dropdown.Item href = "/help">Help</Dropdown.Item>
+      </div>
+    )
   }
 
   const searchDefaultValue = () => {
@@ -175,39 +172,38 @@ export default function Header (props: HeaderProps) {
     return searchTerm || ""
   }
 
-  const renderSearch = () => {
-    if (search === true) {
-      return (
-        <>
-          <input
-            type = "search"
-            id = "search-input"
-            className = "form-control mr-sm-2"
-            placeholder = "Search"
-            aria-label = "Search"
-            defaultValue = {searchDefaultValue()}
-            onKeyUp = {handleKeyUp}
-          />
-          <div className = "input-group-append">
-            <button
-              className = "btn btn-dark"
-              type = "button"
-              onClick = {() => {
-                const inputElement = document.getElementById("search-input")
-                if (inputElement) {
-                  handleSearch((inputElement as HTMLInputElement).value, setSearchTerm)
-                }
-              }}
-            >
-              Search
-            </button>
-          </div>
-        </>
-      )
-    }
+  const RenderSearch = () => {
+    if (search === false) return null
+    return (
+      <>
+        <input
+          type = "search"
+          id = "search-input"
+          className = "form-control mr-sm-2"
+          placeholder = "Search"
+          aria-label = "Search"
+          defaultValue = {searchDefaultValue()}
+          onKeyUp = {handleKeyUp}
+        />
+        <div className = "input-group-append">
+          <button
+            className = "btn btn-dark"
+            type = "button"
+            onClick = {() => {
+              const inputElement = document.getElementById("search-input")
+              if (inputElement) {
+                handleSearch((inputElement as HTMLInputElement).value, setSearchTerm)
+              }
+            }}
+          >
+            Search
+          </button>
+        </div>
+      </>
+    )
   }
 
-  const renderLogo = () => {
+  const RenderLogo = () => {
     return (
       <img
         src = {logo}
@@ -225,11 +221,13 @@ export default function Header (props: HeaderProps) {
     <header>
       <nav className = "navbar navbar-expand-lg navbar-light bg-light">
         <div className = "container">
-          {renderLogo()}
+          <RenderLogo />
           <div className = "navbar-collapse" id = "navbarSupportedContent">
-            {renderSearch()}
+            <RenderSearch />
             <ul className = "navbar-nav ml-auto">
-              <li className = "nav-item">{renderDropdown()}</li>
+              <li className = "nav-item">
+                <RenderDropdown />
+              </li>
             </ul>
           </div>
         </div>

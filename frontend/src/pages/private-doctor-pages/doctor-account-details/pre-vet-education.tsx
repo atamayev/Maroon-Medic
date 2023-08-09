@@ -4,8 +4,10 @@ import { Card, Button } from "react-bootstrap"
 import { DeleteButtonOptions } from "../../../components/delete-buttons"
 import { RenderMessageSection } from "../../../components/saved-message-section"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
-import { useHandleDeletePreVetEducation } from "../../../custom-hooks/account-details-hooks/callbacks"
-import { useHandleAddPreVetEducation, useSaveAddPreVetEducation } from "../../../custom-hooks/account-details-hooks/callbacks"
+import { useHandleDeletePreVetEducation,
+  useHandleAddPreVetEducation,
+  useSaveAddPreVetEducation
+} from "../../../custom-hooks/account-details-hooks/callbacks"
 import EducationTime from "./education-time"
 
 interface Props {
@@ -58,7 +60,7 @@ function RenderIsPreVetEducation(props: Props) {
     setDeleteStatuses(newDeleteStatuses)
   }, [preVetEducation])
 
-  const renderSelectSchool = () => {
+  const RenderSelectSchool = () => {
     return (
       <div>
         <label htmlFor = "pre-vet-school">Select a school: </label>
@@ -81,7 +83,7 @@ function RenderIsPreVetEducation(props: Props) {
     )
   }
 
-  const renderSelectMajor = () => {
+  const RenderSelectMajor = () => {
     if (!selectedPreVetSchool) return null
 
     return (
@@ -106,7 +108,7 @@ function RenderIsPreVetEducation(props: Props) {
     )
   }
 
-  const renderSelectEducationType = () => {
+  const RenderSelectEducationType = () => {
     if (!selectedMajor) return null
 
     return (
@@ -131,7 +133,7 @@ function RenderIsPreVetEducation(props: Props) {
     )
   }
 
-  const renderEducationTime = () => {
+  const RenderEducationTime = () => {
     if (!selectedPreVetEducationType) return null
 
     return (
@@ -154,7 +156,7 @@ function RenderIsPreVetEducation(props: Props) {
     listDetails, setPreVetEducationConfirmation
   )
 
-  const renderAddAndSaveButton = () => {
+  const RenderAddAndSaveButton = () => {
     if (!allChoicesFilled) return null
     return (
       <Button
@@ -194,7 +196,7 @@ function RenderIsPreVetEducation(props: Props) {
     )
   }
 
-  const renderSavedEducationList = () => {
+  const RenderSavedEducationList = () => {
     return (
       <ul>
         {preVetEducation.map((preVetEducation) => (
@@ -211,17 +213,17 @@ function RenderIsPreVetEducation(props: Props) {
 
   return (
     <>
-      {renderSelectSchool()}
+      <RenderSelectSchool />
 
-      {renderSelectMajor()}
+      <RenderSelectMajor />
 
-      {renderSelectEducationType()}
+      <RenderSelectEducationType />
 
-      {renderEducationTime()}
+      <RenderEducationTime />
 
-      {renderAddAndSaveButton()}
+      <RenderAddAndSaveButton />
 
-      {renderSavedEducationList()}
+      <RenderSavedEducationList />
       <RenderMessageSection
         confirmationMessage = {preVetEducationConfirmation}
         whatIsBeingSaved = "Pre-Vet Education"

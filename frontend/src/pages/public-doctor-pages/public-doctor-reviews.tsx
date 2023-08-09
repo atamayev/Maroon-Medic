@@ -1,7 +1,11 @@
 import { Card } from "react-bootstrap"
 
-interface Props {
+type ReviewsType = {
+  [key: string]: string
+}
 
+interface Props {
+  reviews?: ReviewsType[]
 }
 
 export default function RenderReviewsSection(props: Props) {
@@ -14,7 +18,7 @@ export default function RenderReviewsSection(props: Props) {
         Reviews
       </Card.Header>
       <Card.Body>
-        {renderReviews(props)}
+        <RenderReviews props = {props}/>
       </Card.Body>
     </Card>
   )
@@ -23,7 +27,7 @@ export default function RenderReviewsSection(props: Props) {
 }
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-function renderReviews(props: Props) {
+function RenderReviews({props} : {props: Props}) {
 
   return (
     <>

@@ -56,7 +56,15 @@
         "max-len": ["error", { "code": 140 }],
         "react/prop-types": "off",
         "@typescript-eslint/explicit-function-return-type": ["warn"],
-        "require-await": "error"
+        "require-await": "error",
+        "@typescript-eslint/no-explicit-any": "error",
+        "@typescript-eslint/prefer-as-const": "error",
+        "no-eval": "error",
+		"no-duplicate-imports": "error",
+		"no-var": "error",
+		"prefer-spread": "error",
+		"@typescript-eslint/no-empty-interface": "error",
+        "max-depth": ["warn", 3]
     },
     "overrides": [
         {

@@ -17,11 +17,7 @@ export const handleLoginSubmit = async (
     const response = await AuthDataService.login(loginInformationObject)
     if (response.status === 200) {
       if ((sessionStorage.getItem("bookingDetails") !== null) && VetOrPatient === "Patient") {
-        let bookingDetails
-        try {
-          bookingDetails = JSON.parse(sessionStorage.getItem("bookingDetails") ?? "{}")
-        } catch (error) {
-        }
+        const bookingDetails = JSON.parse(sessionStorage.getItem("bookingDetails") ?? "{}")
         navigate("/finalize-booking", { state: bookingDetails })
       }
       else navigate(`/${VetOrPatient.toLowerCase()}-dashboard`)

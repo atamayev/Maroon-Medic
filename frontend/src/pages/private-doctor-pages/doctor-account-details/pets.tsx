@@ -20,7 +20,7 @@ export default function RenderPetsSection (props: Props) {
         Serviced Pets
       </Card.Header>
       <Card.Body>
-        {RenderIsPets(props)}
+        <RenderIsPets {...props} />
       </Card.Body>
     </Card>
   )
@@ -46,21 +46,22 @@ function RenderIsPets (props: Props) {
     if (pets.length <= 1) return null
 
     const isOpen = expandedPetTypes.includes(petType)
-    const renderIsOpen = () => {
-      if (isOpen) return "^"
-      return "v"
+
+    const RenderIsOpen = () => {
+      if (isOpen) return <>^</>
+      return <>v</>
     }
 
     return (
       <Button onClick={() => handleTogglePetType(petType, setExpandedPetTypes)}>
-        {renderIsOpen()}
+        <RenderIsOpen />
       </Button>
     )
   }
 
   const handleCheckboxChange = useHandleCheckboxChange(servicedPets, setServicedPets, setPetsConfirmation)
 
-  const renderShowPetsSection = (pets: ServicedPetItemType[], petType: string) => {
+  const RenderShowPetsSection = ({pets, petType} : {pets: ServicedPetItemType[], petType: string}) => {
     if (pets.length > 1 && !expandedPetTypes.includes(petType)) return null
 
     return (
@@ -84,14 +85,14 @@ function RenderIsPets (props: Props) {
     )
   }
 
-  const renderPets = () => {
+  const RenderPets = () => {
     return (
       <>
         {Object.entries(petTypes).map(([petType, pets]) => (
           <div key = {petType} style = {{ marginBottom: "10px" }}>
             <label htmlFor = {petType}>{petType}</label>
             {isTogglePetType(pets, petType)}
-            {renderShowPetsSection(pets, petType)}
+            <RenderShowPetsSection pets = {pets} petType = {petType} />
           </div>
         ))}
       </>
@@ -102,7 +103,7 @@ function RenderIsPets (props: Props) {
 
   return (
     <>
-      {renderPets()}
+      <RenderPets />
       <RenderMessageSection
         confirmationMessage = {petsConfirmation}
         whatIsBeingSaved = "Pets Serviced"

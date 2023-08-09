@@ -2,9 +2,6 @@ import { v4 as uuidv4 } from "uuid"
 import UUIDDB from "../db/UUID-DB"
 import TimeUtils from "../utils/time"
 
-// These functions are made to not send the ID back and forth from server to client.
-// Instead, a UUID (Universally Unique Identifier) is created, which matches to a ID, and is sent back and forth
-
 export async function ID_to_UUID(UserID: number): Promise<string> {
   const UUID = uuidv4()
   const createdAt = TimeUtils.createFormattedDate()

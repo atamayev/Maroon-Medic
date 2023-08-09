@@ -78,7 +78,7 @@ export default new class FetchPublicDoctorDataDB {
     return servicedPets
   }
 
-  async retrieveAddressData (DoctorID: number): Promise<AddressData[]> {
+  async retrieveAddressData (DoctorID: number): Promise<PublicAddressData[]> {
     const sql = `SELECT
           ${mysqlTables.addresses}.addressesID, ${mysqlTables.addresses}.address_title, ${mysqlTables.addresses}.address_line_1,
           ${mysqlTables.addresses}.address_line_2, ${mysqlTables.addresses}.city, ${mysqlTables.addresses}.state,
@@ -93,7 +93,7 @@ export default new class FetchPublicDoctorDataDB {
     const values = [DoctorID]
     const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values) as RowDataPacket[]
-    const addressData = results.map((row: RowDataPacket) => row as AddressData)
+    const addressData = results.map((row: RowDataPacket) => row as PublicAddressData)
     return addressData
   }
 

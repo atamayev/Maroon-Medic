@@ -6,10 +6,6 @@ import OperationHandler from "../../utils/operation-handler"
 import PrivatePatientDataDB from "../../db/private-patient-data/private-patient-data-DB"
 import FetchPatientAccountData from "../../utils/fetch-account-and-public-data/fetch-patient-account-data"
 
-interface PatientResponse {
-  languages: LanguageItemType[]
-}
-
 export async function newPatient (req: Request, res: Response): Promise<void> {
   const PatientID = req.PatientID
 
@@ -74,7 +70,7 @@ export async function fetchPetData (req: Request, res: Response): Promise<void> 
 export async function fetchAccountDetails (req: Request, res: Response): Promise<Response> {
   const PatientID = req.PatientID
   try {
-    const response: PatientResponse = {
+    const response: PatientAccountDetails = {
       languages: await FetchPatientAccountData.fetchPatientLanguages(PatientID)
     }
     return res.status(200).json(response)

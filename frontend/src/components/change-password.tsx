@@ -34,7 +34,7 @@ export default function ChangePassword(props: Props) {
     return <Alert variant = "danger" className = "mt-3 mb-0">{message}</Alert>
   }
 
-  const renderShowPassword = () => {
+  const isShowPassword = () => {
     if (showPassword) return "text"
     return "password"
   }
@@ -43,11 +43,15 @@ export default function ChangePassword(props: Props) {
     <Card>
       <Card.Body>
         <h2 className = "text-center mb-4">Change Password</h2>
-        <Form onSubmit = {handleSubmit}>
+        <Form onSubmit = {(e) => {
+          e.preventDefault()
+          handleSubmit()
+        }}
+        >
           <FormGroup
             id = "current-password"
             label = "Current Password"
-            type = {renderShowPassword()}
+            type = {isShowPassword()}
             placeholder = "SuperSecretPassword"
             value = {credentials.currentPassword || ""}
             onChange = {(event) => setCredentials({...credentials, currentPassword: event.target.value})}
@@ -57,7 +61,7 @@ export default function ChangePassword(props: Props) {
           <FormGroup
             id = "new-password"
             label = "New Password"
-            type = {renderShowPassword()}
+            type = {isShowPassword()}
             placeholder = "NewSuperSecretPassword"
             value = {credentials.newPassword || ""}
             onChange = {(event) => setCredentials({...credentials, newPassword: event.target.value})}
@@ -67,7 +71,7 @@ export default function ChangePassword(props: Props) {
           <FormGroup
             id = "confirm-new-password"
             label = "Confirm New Password"
-            type = {renderShowPassword()}
+            type = {isShowPassword()}
             placeholder = "NewSuperSecretPassword"
             value = {credentials.newConfirmPassword || ""}
             onChange = {(event) => setCredentials({...credentials, newConfirmPassword: event.target.value})}

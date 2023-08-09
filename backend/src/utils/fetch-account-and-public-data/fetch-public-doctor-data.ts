@@ -2,21 +2,6 @@ import _ from "lodash"
 import DataFormatter from "../data-formatter"
 import FetchPublicDoctorDataDB from "../../db/fetch-public-doctor-data-DB"
 
-type AddressData = {
-  addressesID: number
-  address_priority: number
-  address_title: string
-  address_line_1: string
-  address_line_2: string
-  city: string
-  state: string
-  zip: string
-  country: string
-  instant_book: boolean
-  Phone: string
-  times: AvailabilityDataType[]
-}
-
 export default new class FetchPublicDoctorData {
   async #fetchDoctorData<T>(DoctorID: number, retrievalFunction: (id: number) => Promise<T | T[]>): Promise<T | T[]> {
     try {
@@ -33,10 +18,10 @@ export default new class FetchPublicDoctorData {
   ): Promise<T[]> {
     try {
       const educationData = await retrievalFunction(DoctorID)
-      const newResults = educationData.map((obj: T) => ({
-        ...obj,
-        Start_Date: DataFormatter.formatEducationDates(obj.Start_Date),
-        End_Date: DataFormatter.formatEducationDates(obj.End_Date)
+      const newResults = educationData.map((object: T) => ({
+        ...object,
+        Start_Date: DataFormatter.formatEducationDates(object.Start_Date),
+        End_Date: DataFormatter.formatEducationDates(object.End_Date)
       }))
       return newResults
     } catch (error: unknown) {
@@ -67,7 +52,7 @@ export default new class FetchPublicDoctorData {
     return result as ServicedPetData[]
   }
 
-  async fetchDoctorAddressData (DoctorID: number): Promise<AddressData[]> {
+  async fetchDoctorAddressData (DoctorID: number): Promise<PublicAddressData[]> {
     let addressData
 
     try {
@@ -88,7 +73,7 @@ export default new class FetchPublicDoctorData {
         }
       }))
     }
-    return addressData as AddressData[]
+    return addressData as PublicAddressData[]
   }
 
   async fetchDoctorPersonalInfo (DoctorID: number): Promise<DoctorPersonalInfo> {

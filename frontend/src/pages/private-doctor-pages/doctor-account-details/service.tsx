@@ -63,17 +63,19 @@ function RenderIsVetServices (props: Props) {
 
   if (_.isEmpty(_.uniq(listDetails.servicesAndCategories?.map((item) => item.Category_name)))) return <>Loading...</>
 
-  const renderIsSelectedService = (service: ServiceListItemType, selectedService: ServiceItemType | undefined) => {
+  const RenderIsSelectedService = (
+    {service, selectedService} : {service: ServiceListItemType, selectedService: ServiceItemType | undefined}
+  ) => {
     if (!selectedService) return null
     return (
       <>
-        {renderServiceTimeInput(service, selectedService)}
-        {renderServicePriceInput(service, selectedService)}
+        <RenderServiceTimeInput service = {service} selectedService = {selectedService} />
+        <RenderServicePriceInput service = {service} selectedService = {selectedService} />
       </>
     )
   }
 
-  const renderServices = (category: string, services: ServiceListItemType[]) => {
+  const RenderServices = ({category, services} : {category: string, services: ServiceListItemType[]}) => {
     if (!(services.length <= 1 || expandedCategories.includes(category))) return null
 
     return (
@@ -82,8 +84,8 @@ function RenderIsVetServices (props: Props) {
           const selectedService = selectedServices.find(s => s.service_and_category_listID === service.service_and_category_listID)
           return (
             <div key = {service.service_and_category_listID} style = {{ paddingLeft: "20px" }}>
-              {renderServiceCheckbox(service, category)}
-              {renderIsSelectedService(service, selectedService)}
+              <RenderServiceCheckbox service = {service} category = {category} />
+              <RenderIsSelectedService service = {service} selectedService = {selectedService} />
             </div>
           )
         })}
@@ -91,10 +93,10 @@ function RenderIsVetServices (props: Props) {
     )
   }
 
-  const renderServiceCheckbox = (service: ServiceListItemType, category: string) => {
+  const RenderServiceCheckbox = ({service, category} : {service: ServiceListItemType, category: string}) => {
     return (
       <>
-        {renderActionButton(service)}
+        <RenderActionButton service = {service} />
         <input
           type = "checkbox"
           id = {`${category}-${service?.service_and_category_listID}`}
@@ -119,7 +121,7 @@ function RenderIsVetServices (props: Props) {
     )
   }
 
-  const renderActionButton = (service: ServiceListItemType) => {
+  const RenderActionButton = ({service} : {service: ServiceListItemType}) => {
     const selectedService = selectedServices.find(s => s.service_and_category_listID === service.service_and_category_listID)
     const providedService = providedServices.find(s => s.service_and_category_listID === service.service_and_category_listID)
 
@@ -169,7 +171,7 @@ function RenderIsVetServices (props: Props) {
     return null
   }
 
-  const renderServiceTimeInput = (service: ServiceListItemType, selectedService: ServiceItemType) => {
+  const RenderServiceTimeInput = ({service, selectedService} : {service: ServiceListItemType, selectedService: ServiceItemType}) => {
     return (
       <select
         id = {`time-${service.service_and_category_listID}`}
@@ -197,7 +199,7 @@ function RenderIsVetServices (props: Props) {
     )
   }
 
-  const renderServicePriceInput = (service: ServiceListItemType, selectedService: ServiceItemType) => {
+  const RenderServicePriceInput = ({service, selectedService} : {service: ServiceListItemType, selectedService: ServiceItemType}) => {
     return (
       <input
         type = "text"
@@ -224,18 +226,18 @@ function RenderIsVetServices (props: Props) {
     )
   }
 
-  const renderToggleCategory = (category: string, services: ServiceListItemType[]) => {
+  const RenderToggleCategory = ({category, services} : {category: string, services: ServiceListItemType[]}) => {
     if (services.length <= 1) return null
 
     const isOpen = expandedCategories.includes(category)
-    const renderIsOpen = () => {
-      if (isOpen) return "^"
-      return "v"
+    const RenderIsOpen = () => {
+      if (isOpen) return <>^</>
+      return <>v</>
     }
 
     return (
       <Button onClick = {() => handleToggleCategory(category, setExpandedCategories)}>
-        {renderIsOpen()}
+        <RenderIsOpen />
       </Button>
     )
   }
@@ -245,8 +247,8 @@ function RenderIsVetServices (props: Props) {
       {Object.entries(categories).map(([category, services]) => (
         <div key = {category} style = {{ marginBottom: "10px" }}>
           <label htmlFor = {category}>{category}</label>
-          {renderToggleCategory(category, services)}
-          {renderServices(category, services)}
+          <RenderToggleCategory category = {category} services = {services} />
+          <RenderServices category = {category} services = {services} />
         </div>
       ))}
 

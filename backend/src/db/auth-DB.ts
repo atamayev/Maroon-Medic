@@ -2,17 +2,9 @@ import { mysqlTables } from "../utils/table-names-list"
 import { connectDatabase } from "../setup-and-security/connect"
 import { OkPacket, RowDataPacket } from "mysql2"
 
-type LoginOrRegisterType = "Doctor" | "Patient"
-type MysqlTimestamp = string
-
 type LoginHistoryRecord = {
   login_historyID: number,
   Login_at: string,
-}
-
-type UserIDAndPassword = {
-  password: string,
-  UserID: number,
 }
 
 export default new class AuthDB {
@@ -25,7 +17,7 @@ export default new class AuthDB {
     return Boolean(doesRecordExist)
   }
 
-  async retrieveUserIDAndPassword (username: string, loginType: LoginOrRegisterType): Promise<UserIDAndPassword> {
+  async retrieveUserIDAndPassword (username: string, loginType: DoctorOrPatient): Promise<UserIDAndPassword> {
     const sql = `SELECT UserID, password FROM ${mysqlTables.credentials} WHERE email = ? AND User_type = ? AND isActive = 1`
     const values = [username, loginType]
     const connection = await connectDatabase()
@@ -34,7 +26,7 @@ export default new class AuthDB {
     return resultsObject
   }
 
-  async checkIfAccountExists (username: string, registrationType: LoginOrRegisterType): Promise<boolean> {
+  async checkIfAccountExists (username: string, registrationType: DoctorOrPatient): Promise<boolean> {
     //Consider adding isActive as a search parameter. If a user deletes their account,
     //should they be allowed to create a new one with the same email?
     const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.credentials} WHERE email = ? AND User_type = ?) as 'exists' `
@@ -49,7 +41,7 @@ export default new class AuthDB {
     username: string,
     password: string,
     createdAt: MysqlTimestamp,
-    registrationType: LoginOrRegisterType
+    registrationType: DoctorOrPatient
   ): Promise<number> {
     const sql = `INSERT INTO ${mysqlTables.credentials} (email, password, Created_at, User_type) VALUES (?, ?, ?, ?)`
     const values = [username, password, createdAt, registrationType]

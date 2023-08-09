@@ -18,13 +18,13 @@ export default function RenderServicedPetsSection(props: Props) {
         Serviced Pets
       </Card.Header>
       <Card.Body>
-        {renderServicedPets(servicedPets)}
+        <RenderServicedPets servicedPets = {servicedPets} />
       </Card.Body>
     </Card>
   )
 }
 
-function renderServicedPets(servicedPets: ServicedPetsType[]) {
+function RenderServicedPets({servicedPets} : {servicedPets: ServicedPetsType[]}) {
   const categories: CategoriesType = {}
   if (servicedPets) {
     servicedPets.forEach(Pet => {

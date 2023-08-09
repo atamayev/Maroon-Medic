@@ -68,9 +68,7 @@ export default function MyPets() {
   const { savedPetData, setSavedPetData, petTypes, insurances } = usePetData(userType)
   if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
 
-  const renderSavedPetDataTitle = (
-    pet: PetItemTypeWithID
-  ) => {
+  const RenderSavedPetDataTitle = ({pet} : {pet: PetItemTypeWithID}) => {
     return (
       <Card.Title>
         {pet.Name}
@@ -85,7 +83,7 @@ export default function MyPets() {
     )
   }
 
-  const renderSavedPetDataText = (pet: PetItemTypeWithID) => {
+  const RenderSavedPetDataText = ({pet} : {pet: PetItemTypeWithID}) => {
     return (
       <div>
         <p>{pet.Pet}</p>
@@ -97,14 +95,14 @@ export default function MyPets() {
     )
   }
 
-  const renderSavedPetDataMap = () => {
+  const RenderSavedPetDataMap = () => {
     return (
       <>
         {savedPetData.map((pet) => (
           <Card key = {pet.pet_infoID} style = {{ width: "18rem", marginTop: "10px" }} className = "mb-3">
             <Card.Body>
-              {renderSavedPetDataTitle(pet)}
-              {renderSavedPetDataText(pet)}
+              <RenderSavedPetDataTitle pet = {pet} />
+              <RenderSavedPetDataText pet = {pet} />
             </Card.Body>
           </Card>
         ))}
@@ -112,7 +110,7 @@ export default function MyPets() {
     )
   }
 
-  const renderModal = () => {
+  const RenderModal = () => {
     return (
       <Modal show = {showModal} onHide = {() => handleCloseModal(setShowModal)}>
         <Modal.Header closeButton>
@@ -137,17 +135,17 @@ export default function MyPets() {
     )
   }
 
-  const renderSavedPetData = () => {
+  const RenderSavedPetData = () => {
     if (_.isEmpty(savedPetData)) return null
     return (
       <>
-        {renderSavedPetDataMap()}
-        {renderModal()}
+        <RenderSavedPetDataMap />
+        <RenderModal />
       </>
     )
   }
 
-  const renderShowAddPet = () => {
+  const RenderShowAddPet = () => {
     if (showAddPet) return null
     return (
       <>
@@ -161,7 +159,7 @@ export default function MyPets() {
     )
   }
 
-  const renderAddPet = () => {
+  const RenderAddPet = () => {
     if (!showAddPet) return null
     return (
       <AddPet
@@ -182,9 +180,9 @@ export default function MyPets() {
     <>
       <Header dropdown = {true} search = {true}/>
       <PatientHeader/>
-      {renderSavedPetData()}
-      {renderShowAddPet()}
-      {renderAddPet()}
+      <RenderSavedPetData />
+      <RenderShowAddPet />
+      <RenderAddPet />
     </>
   )
 }

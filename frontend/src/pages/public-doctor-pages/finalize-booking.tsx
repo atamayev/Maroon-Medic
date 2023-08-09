@@ -57,12 +57,12 @@ export function FinalizeBookingPage() {
 
   if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
 
-  const renderConfirmOrRequestBook = () => {
+  const ConfirmOrRequestBook = () => {
     if (selectedLocation.instant_book) return <>Confirm</>
     return <>Request</>
   }
 
-  const renderMessageSection = () => {
+  const RenderMessageSection = () => {
     return (
       <FormGroup
         id = "Message"
@@ -82,7 +82,7 @@ export function FinalizeBookingPage() {
     return {color: "black"}
   }
 
-  const renderCharacterLimit = () => {
+  const RenderCharacterLimit = () => {
     return (
       <span style = {{ display: "block", ...counterStyleLimit() }}>
         Character Limit: {message.length} / 100
@@ -118,9 +118,9 @@ export function FinalizeBookingPage() {
         </Card.Text>
         <span style = {{ display: "block" }}>
           <strong>Write a message to Dr. {_.upperFirst(personalData.LastName || "")}:</strong>
-          {renderMessageSection()}
+          <RenderMessageSection />
         </span>
-        {renderCharacterLimit()}
+        <RenderCharacterLimit />
       </>
     )
   }
@@ -144,7 +144,7 @@ export function FinalizeBookingPage() {
             )
           }}
         >
-          {renderConfirmOrRequestBook()}
+          {ConfirmOrRequestBook()}
         </Button>
       </>
     )
@@ -163,7 +163,7 @@ export function FinalizeBookingPage() {
       <Header dropdown = {true} search = {true}/>
       <div className = "container mt-5">
         <Card>
-          <Card.Header as = "h2">{renderConfirmOrRequestBook()} an Appointment</Card.Header>
+          <Card.Header as = "h2">{ConfirmOrRequestBook()} an Appointment</Card.Header>
           <Card.Body>
             <Card.Title as = "h3">
               <RenderPersonalInfo />
