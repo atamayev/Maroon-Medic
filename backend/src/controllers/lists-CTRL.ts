@@ -4,7 +4,7 @@ import { Request, Response } from "express"
 
 export async function fetchDoctorLists (req: Request, res: Response): Promise<Response> {
   try {
-    const response: DoctorListDetailsType = {
+    const response: DoctorListDetails = {
       languages             : await FetchAll.languages(),
       servicesAndCategories : await FetchAll.servicesAndCategories(),
       specialties           : await FetchAll.specialties(),
@@ -22,8 +22,8 @@ export async function fetchDoctorLists (req: Request, res: Response): Promise<Re
 }
 
 export async function fetchPatientLists (req: Request, res: Response): Promise<void> {
-  const operation: () => Promise<PatientListDetailsType> = async () => {
-    const response: PatientListDetailsType = {
+  const operation: () => Promise<PatientListDetails> = async () => {
+    const response: PatientListDetails = {
       languages: await FetchAll.languages()
     }
     return response
@@ -32,14 +32,14 @@ export async function fetchPatientLists (req: Request, res: Response): Promise<v
 }
 
 export async function fetchPetTypes (req: Request, res: Response): Promise<void> {
-  const operation: () => Promise<ServicedPetItemType[]> = async () => {
+  const operation: () => Promise<ServicedPetItem[]> = async () => {
     return await FetchAll.petTypes()
   }
   await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }
 
 export async function fetchInsurances (req: Request, res: Response): Promise<void> {
-  const operation: () => Promise<InsuranceItemType[]> = async () => {
+  const operation: () => Promise<InsuranceItem[]> = async () => {
     return await FetchAll.insurances()
   }
   await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])

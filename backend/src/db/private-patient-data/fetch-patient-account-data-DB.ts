@@ -7,7 +7,7 @@ type InsuranceItem = {
 }
 
 export default new class FetchPatientAccountDataDB {
-  async languages (PatientID: number): Promise<LanguageItemType[]> {
+  async languages (PatientID: number): Promise<LanguageItem[]> {
     const sql = `SELECT ${mysqlTables.language_list}.Language_name, ${mysqlTables.language_list}.language_listID
       FROM ${mysqlTables.language_list}
           JOIN ${mysqlTables.language_mapping} ON ${mysqlTables.language_list}.language_listID = ${mysqlTables.language_mapping}.Language_ID
@@ -18,11 +18,11 @@ export default new class FetchPatientAccountDataDB {
 
     const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values) as RowDataPacket[]
-    const languages = results.map((row: RowDataPacket) => row as LanguageItemType)
+    const languages = results.map((row: RowDataPacket) => row as LanguageItem)
     return languages
   }
 
-  async petData (PatientID: number): Promise<PetItemType[]> {
+  async petData (PatientID: number): Promise<CompletePetInfo[]> {
     const sql = `SELECT ${mysqlTables.pet_info}.Name, ${mysqlTables.pet_info}.Gender, ${mysqlTables.pet_info}.DOB,
     ${mysqlTables.pet_list}.Pet, ${mysqlTables.pet_list}.Pet_type, ${mysqlTables.pet_info}.pet_infoID
         FROM ${mysqlTables.pet_info}
@@ -34,7 +34,7 @@ export default new class FetchPatientAccountDataDB {
 
     const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values) as RowDataPacket[]
-    const petData = results.map((row: RowDataPacket) => row as PetItemType)
+    const petData = results.map((row: RowDataPacket) => row as CompletePetInfo)
     return petData
   }
 

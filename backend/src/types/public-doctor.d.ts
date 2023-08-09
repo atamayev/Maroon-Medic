@@ -1,9 +1,9 @@
 declare global {
-  type LanguagesData = {
+  type LanguageName = {
     Language_name: string
   }
 
-  type SpecialtiesData = {
+  type OrganizationSpecialtyName = {
     Organization_name: string
     Specialty_name: string
   }
@@ -15,15 +15,15 @@ declare global {
 
   type PublicAddressData = AddressData & {
     Phone: string
-    times: AvailabilityDataType[]
+    times: DoctorAvailability[]
   }
 
   interface PublicDoctorAccountDetails {
-    doctorLanguages: LanguagesData[]
-    doctorServices: ServiceItemType[]
-    doctorSpecialties: SpecialtiesData[]
-    doctorPreVetEducation: PreVetEducationItemType[]
-    doctorVetEducation: VetEducationItemType[]
+    doctorLanguages: LanguageName[]
+    doctorServices: DetailedServiceItem[]
+    doctorSpecialties: OrganizationSpecialtyName[]
+    doctorPreVetEducation: PreVetEducation[]
+    doctorVetEducation: VetEducation[]
     doctorAddressData: PublicAddressData[]
     description: string
     servicedPets: ServicedPetData[]

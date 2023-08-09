@@ -27,14 +27,14 @@ export async function fetchUsers (req: Request, res: Response): Promise<void> {
 // The following three functions are here for filtering purposes.
 //In the future, patients will be able to filter for docs by language_spoken, insurances, etc.
 export async function fetchAllLanguages (req: Request, res: Response): Promise<void> {
-  const operation: () => Promise<LanguageItemType[]> = async () => {
+  const operation: () => Promise<LanguageItem[]> = async () => {
     return await FetchAll.languages()
   }
   await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }
 
 export async function fetchAllServicesAndCategories (req: Request, res: Response): Promise<void> {
-  const operation: () => Promise<ServiceListItemType[]> = async () => {
+  const operation: () => Promise<ServiceListItem[]> = async () => {
     return await FetchAll.servicesAndCategories()
   }
   await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])

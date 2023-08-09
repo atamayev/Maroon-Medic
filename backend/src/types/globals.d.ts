@@ -5,18 +5,18 @@ declare global {
     Service_price: number
   }
 
-  type ServiceItemType = ServiceItem & {
+  type DetailedServiceItem = ServiceItem & {
     Category_name: string
     Service_name: string
   }
 
-  type SpecialtyItemType = {
+  type OrganizationSpecialty = {
     specialties_listID: number
     Organization_name: string
     Specialty_name: string
   }
 
-  type AvailabilityDataType = {
+  type DoctorAvailability = {
     Day_of_week: string
     Start_time: string
     End_time: string
@@ -27,7 +27,7 @@ declare global {
     LastName: string
   }
 
-  type BasicUserInfo = BasicPersonalInfo & {
+  type UserInfo = BasicPersonalInfo & {
     Gender: string
     DOB: MysqlTimestamp
   }

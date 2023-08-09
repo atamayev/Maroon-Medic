@@ -20,43 +20,43 @@ export default new class FetchAll {
     }
   }
 
-  async insurances(): Promise<InsuranceItemType[]> {
+  async insurances(): Promise<InsuranceItem[]> {
     return await this.#fetchAll(mysqlTables.insurance_list)
   }
 
-  async languages(): Promise<LanguageItemType[]> {
+  async languages(): Promise<LanguageItem[]> {
     return await this.#fetchAll(mysqlTables.language_list)
   }
 
-  async servicesAndCategories(): Promise<ServiceListItemType[]> {
+  async servicesAndCategories(): Promise<ServiceListItem[]> {
     return await this.#fetchAll(mysqlTables.service_and_category_list)
   }
 
-  async specialties(): Promise<SpecialtyItemType[]> {
+  async specialties(): Promise<OrganizationSpecialty[]> {
     return await this.#fetchAll(mysqlTables.specialties_list)
   }
 
-  async preVetSchools(): Promise<PreVetSchoolType[]> {
+  async preVetSchools(): Promise<PreVetSchool[]> {
     return await this.#fetchAll(mysqlTables.pre_vet_school_list)
   }
 
-  async preVetEducationTypes(): Promise<PreVetEducationTypeType[]> {
+  async preVetEducationTypes(): Promise<PreVetEducationType[]> {
     return await this.#fetchAll(mysqlTables.pre_vet_education_type_list)
   }
 
-  async majors(): Promise<MajorType[]> {
+  async majors(): Promise<Major[]> {
     return await this.#fetchAll(mysqlTables.major_list)
   }
 
-  async vetSchools(): Promise<VetSchoolListType[]> {
+  async vetSchools(): Promise<VetSchool[]> {
     return await this.#fetchAll(mysqlTables.vet_school_list)
   }
 
-  async vetEducationTypes(): Promise<VetEducationTypeType[]> {
+  async vetEducationTypes(): Promise<VetEducationType[]> {
     return await this.#fetchAll(mysqlTables.vet_education_type_list)
   }
 
-  async petTypes(): Promise<ServicedPetItemType[]> {
+  async petTypes(): Promise<ServicedPetItem[]> {
     return await this.#fetchAll(mysqlTables.pet_list)
   }
 }()

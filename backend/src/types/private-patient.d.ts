@@ -1,21 +1,21 @@
 declare global {
-  interface PatientDashboardDataType extends DashboardDataType {
+  interface PatientDashboardData extends DashboardDataType {
     Doctor_FirstName: string
     Doctor_LastName: string
   }
 
   interface PatientAccountDetails {
-    languages: LanguageItemType[]
+    languages: LanguageItem[]
   }
 
-  interface PetPersonalInfo {
+  interface PetDetails {
     Name: string
     Gender: string
     DOB: MysqlTimestamp
     pet_listID: number
   }
 
-  type PetItemType = {
+  interface CompletePetInfo {
     Name: string
     Gender: string
     DOB: string

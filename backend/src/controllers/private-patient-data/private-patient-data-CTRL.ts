@@ -61,7 +61,7 @@ export async function fetchPersonalData (req: Request, res: Response): Promise<R
 
 export async function pets (req: Request, res: Response): Promise<void> {
   const PatientID = req.PatientID
-  const operation: () => Promise<PetItemType[]> = async () => {
+  const operation: () => Promise<CompletePetInfo[]> = async () => {
     return await FetchPatientAccountData.pets(PatientID)
   }
   await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])

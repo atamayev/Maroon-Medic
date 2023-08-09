@@ -12,7 +12,7 @@ export default new class FetchDoctorAccountData {
     }
   }
 
-  async #fetchEducationData<T extends EducationItemType>(
+  async #fetchEducationData<T extends EducationItem>(
     DoctorID: number,
     retrievalFunction: (id: number) => Promise<T[]>
   ): Promise<T[]> {
@@ -29,29 +29,29 @@ export default new class FetchDoctorAccountData {
     }
   }
 
-  async languages (DoctorID: number): Promise<LanguageItemType[]> {
+  async languages (DoctorID: number): Promise<LanguageItem[]> {
     const result = await this.#fetchDoctorAccountData(DoctorID, FetchDoctorAccountDataDB.languages)
-    return result as LanguageItemType[]
+    return result as LanguageItem[]
   }
 
-  async services (DoctorID: number): Promise<ServiceItemType[]> {
+  async services (DoctorID: number): Promise<DetailedServiceItem[]> {
     const result = await this.#fetchDoctorAccountData(DoctorID, FetchDoctorAccountDataDB.services)
-    return result as ServiceItemType[]
+    return result as DetailedServiceItem[]
   }
 
-  async specialties (DoctorID: number): Promise<SpecialtyItemType[]> {
+  async specialties (DoctorID: number): Promise<OrganizationSpecialty[]> {
     const result = await this.#fetchDoctorAccountData(DoctorID, FetchDoctorAccountDataDB.specialties)
-    return result as SpecialtyItemType[]
+    return result as OrganizationSpecialty[]
   }
 
-  async preVetEducation(DoctorID: number): Promise<PreVetEducationItemType[]> {
-    const result = await this.#fetchEducationData<PreVetEducationItemType>(DoctorID, FetchDoctorAccountDataDB.preVetEducation)
-    return result as PreVetEducationItemType[]
+  async preVetEducation(DoctorID: number): Promise<PreVetEducation[]> {
+    const result = await this.#fetchEducationData<PreVetEducation>(DoctorID, FetchDoctorAccountDataDB.preVetEducation)
+    return result as PreVetEducation[]
   }
 
-  async vetEducation(DoctorID: number): Promise<VetEducationItemType[]> {
-    const result = await this.#fetchEducationData<VetEducationItemType>(DoctorID, FetchDoctorAccountDataDB.vetEducation)
-    return result as VetEducationItemType[]
+  async vetEducation(DoctorID: number): Promise<VetEducation[]> {
+    const result = await this.#fetchEducationData<VetEducation>(DoctorID, FetchDoctorAccountDataDB.vetEducation)
+    return result as VetEducation[]
   }
 
   async addresses (DoctorID: number): Promise<PrivateDoctorAddressData[]> {
@@ -82,12 +82,12 @@ export default new class FetchDoctorAccountData {
     }
   }
 
-  async servicedPets (DoctorID: number): Promise<ServicedPetItemType[]> {
+  async servicedPets (DoctorID: number): Promise<ServicedPetItem[]> {
     const result = await this.#fetchDoctorAccountData(DoctorID, FetchDoctorAccountDataDB.servicedPets)
-    return result as ServicedPetItemType[]
+    return result as ServicedPetItem[]
   }
 
-  async verifiedAndPubliclyAvailable (DoctorID: number): Promise<DoctorStatusType> {
+  async verifiedAndPubliclyAvailable (DoctorID: number): Promise<DoctorStatus> {
     try {
       const status = await FetchDoctorAccountDataDB.verifiedAndPubliclyAvailableStatus(DoctorID)
       return status || {PubliclyAvailable: false, Verified: false}
@@ -96,8 +96,8 @@ export default new class FetchDoctorAccountData {
     }
   }
 
-  async pictures (DoctorID: number): Promise<PicturesItemType[]> {
+  async pictures (DoctorID: number): Promise<PicturesItem[]> {
     const result = await this.#fetchDoctorAccountData(DoctorID, FetchDoctorAccountDataDB.pictures)
-    return result as PicturesItemType[]
+    return result as PicturesItem[]
   }
 }()

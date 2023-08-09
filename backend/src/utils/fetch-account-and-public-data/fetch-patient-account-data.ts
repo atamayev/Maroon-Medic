@@ -2,7 +2,7 @@ import _ from "lodash"
 import FetchPatientAccountDataDB from "../../db/private-patient-data/fetch-patient-account-data-DB"
 
 export default new class FetchPatientAccountData {
-  async languages (PatientID: number): Promise<LanguageItemType[]> {
+  async languages (PatientID: number): Promise<LanguageItem[]> {
     try {
       const languages = await FetchPatientAccountDataDB.languages(PatientID)
       return languages
@@ -11,7 +11,7 @@ export default new class FetchPatientAccountData {
     }
   }
 
-  async pets (PatientID: number): Promise<PetItemType[]> {
+  async pets (PatientID: number): Promise<CompletePetInfo[]> {
     try {
       const retrievePetData = await FetchPatientAccountDataDB.petData(PatientID)
 

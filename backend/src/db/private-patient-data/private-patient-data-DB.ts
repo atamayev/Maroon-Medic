@@ -3,14 +3,14 @@ import { connectDatabase } from "../../setup-and-security/connect"
 import { RowDataPacket } from "mysql2"
 
 export default new class PrivatePatientDataDB {
-  async addNewPatientInfo (patientInfo: BasicUserInfo, dateOfBirth: MysqlTimestamp, UserID: number): Promise<void> {
+  async addNewPatientInfo (patientInfo: UserInfo, dateOfBirth: MysqlTimestamp, UserID: number): Promise<void> {
     const sql = `INSERT INTO ${mysqlTables.basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?, ?, ?, ?, ?)`
     const values = [patientInfo.FirstName, patientInfo.LastName, patientInfo.Gender, dateOfBirth, UserID]
     const connection = await connectDatabase()
     await connection.execute(sql, values)
   }
 
-  async retrievePatientDashboard (PatientID: number): Promise<PatientDashboardDataType[]> {
+  async retrievePatientDashboard (PatientID: number): Promise<PatientDashboardData[]> {
     const sql = `SELECT
           ${mysqlTables.appointments}.AppointmentsID, ${mysqlTables.appointments}.appointment_date,
           ${mysqlTables.appointments}.appointment_price, ${mysqlTables.appointments}.patient_message,
@@ -33,10 +33,10 @@ export default new class PrivatePatientDataDB {
     const values = [PatientID]
     const connection = await connectDatabase()
     const [dashboardData] = await connection.execute(sql, values) as RowDataPacket[]
-    return dashboardData as PatientDashboardDataType[]
+    return dashboardData as PatientDashboardData[]
   }
 
-  async retrievePersonalPatientData (PatientID: number): Promise<BasicUserInfo> {
+  async retrievePersonalPatientData (PatientID: number): Promise<UserInfo> {
     const sql = `SELECT FirstName, LastName, Gender, DOB FROM ${mysqlTables.basic_user_info} WHERE User_ID = ?`
     const values = [PatientID]
     const connection = await connectDatabase()

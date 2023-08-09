@@ -1,72 +1,67 @@
 declare global {
-  interface DoctorListDetailsType {
-    languages: LanguageItemType[]
-    servicesAndCategories: ServiceListItemType[]
-    specialties: SpecialtyItemType[]
-    preVetSchools: PreVetSchoolType[]
-    preVetEducationTypes: PreVetEducationTypeType[]
-    majors: MajorType[]
-    vetSchools: VetSchoolListType[]
-    vetEducationTypes: VetEducationTypeType[]
-    pets: ServicedPetItemType[]
+  interface DoctorListDetails {
+    languages: LanguageItem[]
+    servicesAndCategories: ServiceListItem[]
+    specialties: OrganizationSpecialty[]
+    preVetSchools: PreVetSchool[]
+    preVetEducationTypes: PreVetEducationType[]
+    majors: Major[]
+    vetSchools: VetSchool[]
+    vetEducationTypes: VetEducationType[]
+    pets: ServicedPetItem[]
   }
 
-  interface PatientListDetailsType {
-    languages: LanguageItemType[]
+  interface PatientListDetails {
+    languages: LanguageItem[]
   }
 
-  type ServiceListItemType = {
+  type ServiceListItem = {
     service_and_category_listID: number
     Category_name: string
     Service_name: string
   }
 
-  type ServicedPetItemType = {
+  type ServicedPetItem = {
     pet_listID: number
     Pet: string
     Pet_type: string
   }
 
-  type PreVetSchoolType = {
+  type PreVetSchool = {
     pre_vet_school_listID: number
     School_name: string
   }
 
-  type MajorType = {
+  type Major = {
     major_listID: number
     Major_name: string
   }
 
-  type PreVetEducationTypeType = {
+  type PreVetEducationType = {
     pre_vet_education_typeID: number
     Education_type: string
   }
 
-  type VetSchoolListType = {
+  type VetSchool = {
     vet_school_listID: number
     School_name: string
   }
 
-  type VetEducationTypeType = {
+  type VetEducationType = {
     vet_education_typeID: number
     Education_type: string
   }
 
-  type InsuranceItemType = {
+  type InsuranceItem = {
     insurance_listID: number
     Insurance_name: string
   }
 
-  type LanguageItemType = {
+  type LanguageItem = {
     language_listID: number
     Language_name: string
   }
 
-  type ServiceListItemType = {
-    service_and_category_listID: number
-    Category_name: string
-    Service_name: string
-  }
 }
 
 export {}
