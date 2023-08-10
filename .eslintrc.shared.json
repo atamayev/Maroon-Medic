@@ -51,12 +51,12 @@
         "max-depth": ["warn", 3],
         "no-inline-comments": "warn",
         "no-nested-ternary": "error",
-        // "@typescript-eslint/no-floating-promises": "warn",
-        // "@typescript-eslint/no-unnecessary-condition": "error",
-        // "max-lines-per-function": ["warn", {"max": 60, "skipBlankLines": true, "skipComments": true}],
-        // "max-params": ["warn", 4],
-        // "complexity": ["warn", 9],
-        // "no-shadow": "off",
-        // "@typescript-eslint/no-shadow": "error"
+        "@typescript-eslint/no-floating-promises": "warn",
+        "@typescript-eslint/no-unnecessary-condition": "error",
+        "max-lines-per-function": ["warn", {"max": 60, "skipBlankLines": true, "skipComments": true}],
+        "max-params": ["warn", 4],
+        "complexity": ["warn", 9],
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": "error"
     }
 }

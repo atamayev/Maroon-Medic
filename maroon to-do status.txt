@@ -9,7 +9,7 @@ Frontend TS Fixes:
 Full Stack TS changes
 	8. Don't abbreviate variable names
 	9. Change all DB fields to snake case, change sql accordingly
-	10. Solve all eslint commented out stuff
+	10. Uncomment ESlint
 
 Change gender, other commonly used options to enum (only if the value is used in multiple places). If not, enum not necessary
 

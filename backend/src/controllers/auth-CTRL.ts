@@ -2,74 +2,44 @@ import _ from "lodash"
 import dotenv from "dotenv"
 dotenv.config()
 import { Response, Request } from "express"
-import jwt from "jsonwebtoken"
 import AuthDB from "../db/auth-DB"
 import TimeUtils from "../utils/time"
 import Hash from "../setup-and-security/hash"
 import { loginHistory } from "../utils/account-tracker"
 import Cookie from "../utils/cookie-operations"
 import { ID_to_UUID, UUID_to_ID } from "../setup-and-security/UUID"
+import { getUserInfo, handleLogoutInDB, getUserType, getDecodedUUID, validateUserType, signJWT } from "src/utils/auth-helper"
 
-export async function jwtVerify (req: Request, res: Response): Promise<Response> {
+export async function jwtVerify(req: Request, res: Response): Promise<Response> {
   const cookies = req.cookies
-  let AccessToken: string
-  const response = {
-    isValid: false,
-    type: ""
-  }
-  let decodedUUID: string = ""
-  let payload: JwtPayload
+  const responseType = getUserType(cookies)
 
-  if ("DoctorAccessToken" in cookies && "DoctorUUID" in cookies) response.type = "Doctor"
-  else if ("PatientAccessToken" in cookies && "PatientUUID" in cookies) response.type = "Patient"
-  else {
+  if (!responseType) {
     Cookie.clearAll(res, undefined)
     return res.status(401).json({ shouldRedirect: true, redirectURL: "/" })
   }
 
   try {
-    let redirectURL: string = "/"
-    AccessToken = req.cookies[`${response.type}AccessToken`]
-    const JWTKey = response.type === "Patient" ? process.env.PATIENT_JWT_KEY! : process.env.DOCTOR_JWT_KEY!
-    payload = jwt.verify(AccessToken, JWTKey) as JwtPayload
-
-    if (typeof payload === "object") {
-      if (response.type === "Doctor") decodedUUID = (payload as JwtPayload).DoctorID as string
-      else if (response.type === "Patient") decodedUUID = (payload as JwtPayload).PatientID as string
-    }
-    //If want to implement expiration, do it here
-    //if (Date.now() >= decodedUUID.exp * 1000) {
-    //   let redirectURL
-    //   if (response.type === "Doctor") redirectURL = "/vet-login"
-    //   else if (response.type === "Patient") redirectURL = "/patient-login"
-    //   Cookie.clearAll(res, undefined)
-    //   return res.status(401).json({ shouldRedirect: true, redirectURL: redirectURL })
-    // }
-
+    const AccessToken = req.cookies[`${responseType}AccessToken`]
+    const decodedUUID = getDecodedUUID(responseType, AccessToken)
     const doesRecordExist = await AuthDB.checkIfUUIDExists(decodedUUID)
 
     if (doesRecordExist) {
-      response.isValid = true
-      return res.status(200).json(response)
-    } else {
-      if (response.type === "Doctor") redirectURL = "/vet-login"
-      else if (response.type === "Patient") redirectURL = "/patient-login"
-      Cookie.clearAll(res, undefined)
-      return res.status(401).json({ shouldRedirect: true, redirectURL: redirectURL })
+      return res.status(200).json({ isValid: true, type: responseType })
     }
   } catch (error: unknown) {
-    let redirectURL: string = "/"
-    if (response.type === "Doctor") redirectURL = "/vet-login"
-    else if (response.type === "Patient") redirectURL = "/patient-login"
-    Cookie.clearAll(res, undefined)
-    return res.status(401).json({ shouldRedirect: true, redirectURL: redirectURL })
+    // Log or handle error if needed
   }
+
+  const redirectURL = responseType === "Doctor" ? "/vet-login" : "/patient-login"
+  Cookie.clearAll(res, undefined)
+  return res.status(401).json({ shouldRedirect: true, redirectURL: redirectURL })
 }
 
 export async function login (req: Request, res: Response): Promise<Response> {
   const { email, password, loginType } = req.body.loginInformationObject
 
-  if (loginType !== "Doctor" && loginType !== "Patient") return res.status(400).json("Invalid User Type")
+  if (!validateUserType(loginType)) return res.status(400).json("Invalid User Type")
 
   let results: UserIDAndPassword
   let hashedPassword: string
@@ -91,52 +61,30 @@ export async function login (req: Request, res: Response): Promise<Response> {
   }
 
   if (bool === false) return res.status(400).json("Wrong Username or Password!")
-  else {
-    const IDKey = `${loginType}ID`
-    const ID = results.UserID
-    const UUID = await ID_to_UUID(ID)
+  const IDKey = `${loginType}ID`
+  const UUID = await ID_to_UUID(results.UserID)
+  const payload = { [IDKey]: UUID }
 
-    // const expirationTime = 20 // not using this right now.
+  const token = signJWT(payload, loginType)
+  if (!token) return res.status(500).json({ error: "Problem with Signing JWT" })
 
-    const payload = {
-      [IDKey]: UUID,
-      // exp: Math.floor(Date.now()/1000) +expirationTime // temporarily taking out expiration to make sure system is running smoothly
-    }
-    const JWTKey = loginType === "Patient" ? process.env.PATIENT_JWT_KEY! : process.env.DOCTOR_JWT_KEY!
+  await loginHistory(results.UserID)
 
-    let token: string
-    try {
-      token = jwt.sign(payload, JWTKey)
-    } catch (error: unknown) {
-      return res.status(500).json({ error: "Problem with Signing JWT" })
-    }
+  Cookie.clearAll(res, loginType)
 
-    await loginHistory(ID)
+  // const expires = new Date(Date.now() + expirationTime *1000)
 
-    Cookie.clearAll(res, loginType)
-
-    // const expires = new Date(Date.now() + expirationTime *1000)
-
-    return res
-      .cookie(`${loginType}AccessToken`, token, {
-        // expires,
-        // httpOnly: true,
-        // secure:true
-      })
-      .cookie(`${loginType}UUID`, UUID, {
-        // expires,
-        // httpOnly: true,
-        // secure:true
-      })
-      .status(200)
-      .json()
-  }
+  return res
+    .cookie(`${loginType}AccessToken`, token)
+    .cookie(`${loginType}UUID`, UUID)
+    .status(200)
+    .json()
 }
 
 export async function register (req: Request, res: Response): Promise<Response> {
   const {email, password, registerType} = req.body.registerInformationObject
 
-  if (registerType !== "Doctor" && registerType !== "Patient") return res.status(400).json("Invalid User Type")
+  if (!validateUserType(registerType)) return res.status(400).json("Invalid User Type")
 
   let doesAccountExist: boolean
   try {
@@ -174,42 +122,20 @@ export async function register (req: Request, res: Response): Promise<Response> 
 
   const IDKey = `${registerType}ID`
   const UUID = await ID_to_UUID(UserID)
+  const payload = { [IDKey]: UUID }
 
-  // const expirationTime = 20 // not using this right now.
-  const payload = {
-    [IDKey]: UUID,
-    // exp: Math.floor(Date.now()/1000) +expirationTime // temporarily taking out expiration to make sure system is running smoothly
-  }
-  const JWTKey = registerType === "Doctor" ? process.env.DOCTOR_JWT_KEY! : process.env.PATIENT_JWT_KEY!
-  let token: string
-  try {
-    token = jwt.sign(payload, JWTKey)
-  } catch (error: unknown) {
-    return res.status(500).json({ error: "Problem with Signing JWT" })
-  }
+  const token = signJWT(payload, registerType)
+  if (!token) return res.status(500).json({ error: "Problem with Signing JWT" })
 
   const newUserUUID = await ID_to_UUID(UserID)
-
   await loginHistory(UserID)
 
   Cookie.clearAll(res, registerType)
 
   return res
-    .cookie(`${registerType}AccessToken`, token, {
-      // expires,
-      // httpOnly: true,
-      // secure:true
-    })
-    .cookie(`${registerType}UUID`, UUID, {
-      // expires,
-      // httpOnly: true,
-      // secure:true
-    })
-    .cookie(`${registerType}NewUser`, newUserUUID, {
-      // expires,
-      // httpOnly: true,
-      // secure:true
-    })
+    .cookie(`${registerType}AccessToken`, token)
+    .cookie(`${registerType}UUID`, UUID)
+    .cookie(`${registerType}NewUser`, newUserUUID)
     .status(200)
     .json()
 }
@@ -300,31 +226,10 @@ export async function newPatientConfirmation (req: Request, res: Response): Prom
   }
 }
 
-export async function logout (req: Request, res: Response): Promise<Response> {
-  let type: DoctorOrPatient = "Patient"
-  try {
-    const cookies = req.cookies
-    let UUID: string = ""
-    let newUserUUID: string = ""
+export async function logout(req: Request, res: Response): Promise<Response> {
+  const { type, UUID, newUserUUID } = getUserInfo(req.cookies)
 
-    if ("DoctorUUID" in cookies || "DoctorAccessToken" in cookies) {
-      UUID = cookies.DoctorUUID
-      type = "Doctor"
-      if ("DoctorNewUser" in cookies) newUserUUID = cookies.DoctorNewUser
-    } else if ("PatientUUID" in cookies || "PatientAccessToken" in cookies) {
-      UUID = cookies.PatientUUID
-      type = "Patient"
-      if ("PatientNewUser" in cookies) newUserUUID = cookies.PatientNewUser
-    }
-
-    if (UUID) await AuthDB.deleteUUIDUponLogout(UUID)
-
-    if (newUserUUID) await AuthDB.deleteUUIDUponLogout(newUserUUID)
-
-  } catch (error: unknown) {
-    //Not doing this because it will not clear the cookies in the next try catch block
-    // return res.status(500).json({ error: `Error in accessing DB` })
-  }
+  await handleLogoutInDB(UUID, newUserUUID)
 
   try {
     Cookie.clearAll(res, type)
