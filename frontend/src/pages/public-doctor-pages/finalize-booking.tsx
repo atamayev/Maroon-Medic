@@ -9,7 +9,7 @@ import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verifi
 import { confirmBooking } from "../../custom-hooks/public-doctor-hooks/confirm-booking-hook"
 import Header from "../header"
 
-export function FinalizeBookingPage() {
+export default function FinalizeBookingPage() {
   const [message, setMessage] = useState("")
   const [isMessageOverLimit, setIsMessageOverLimit] = useState(false)
   const browserLocation = useLocation()
@@ -43,7 +43,7 @@ export function FinalizeBookingPage() {
   // Ensures that the user is not able to navigate back to finalize booking right after making an appointment
   useEffect(() => {
     if ((browserLocation.state && browserLocation.state.finalized) || !sessionBookingDetails) {
-      navigate("/patient-dashboard")
+      navigate("/dashboard")
     }
   }, [browserLocation, navigate, sessionBookingDetails])
 

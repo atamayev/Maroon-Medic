@@ -7,8 +7,7 @@ export const useConfirmNotLoggedIn = (clearSession = true): void => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (userType === "Patient") navigate("/patient-dashboard")
-    else if (userType === "Doctor") navigate("/vet-dashboard")
+    if (userType ) navigate("/dashboard")
   }, [userType, navigate])
 }
 

@@ -30,7 +30,7 @@ export async function confirmBooking(
     if (response.status === 200) {
       sessionStorage.removeItem("bookingDetails")
       // Ensures that the user is not able to navigate back to finalize booking right after making an appointment:
-      navigate("/patient-dashboard", { state: { finalized: true } })
+      navigate("/dashboard", { state: { finalized: true } })
     }
   } catch (error) {
     // if (error.response.status === 401) invalidUserAction(error.response.data)

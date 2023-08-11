@@ -5,22 +5,22 @@ export default function DoctorHeader() {
   return (
     <Nav justify variant = "pills" className = "justify-content-center">
       <AccountNavHeader
-        href = "/vet-dashboard"
+        href = "/dashboard"
         eventKey = "link-1"
         title = "Dashboard"
       />
       <AccountNavHeader
-        href = "/vet-calendar"
+        href = "/calendar"
         eventKey = "link-2"
         title = "Calendar"
       />
       <AccountNavHeader
-        href = "/vet-account-details"
+        href = "/account-details"
         eventKey = "link-3"
         title = "Account Details"
       />
       <AccountNavHeader
-        href = "/vet-settings"
+        href = "/settings"
         eventKey = "link-4"
         title = "Settings"
       />

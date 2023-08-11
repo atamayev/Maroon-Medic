@@ -25,7 +25,8 @@ export async function fetchLoginHistory(
 }
 
 export function useLoginHistory(
-  userType: DoctorOrPatientOrNull, expectedUserType: DoctorOrPatient
+  userType: DoctorOrPatientOrNull,
+  expectedUserType: DoctorOrPatient
 ): LoginHistoryItem[] {
   const [loginHistory, setLoginHistory] = useState<LoginHistoryItem[]>([])
 

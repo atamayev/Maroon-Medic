@@ -5,7 +5,7 @@ import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-ver
 import Header from "../../header"
 import PatientHeader from "../patient-header"
 
-export default function PatientSettings() {
+export default function PatientSettingsCards() {
   const { userType } = useSimpleUserVerification()
 
   if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>

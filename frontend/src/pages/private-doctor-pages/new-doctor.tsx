@@ -26,7 +26,7 @@ export default function NewDoctor () {
       const doctorResult = await AuthDataService.newDoctorConfirmation()
       if (doctorResult.data === false) navigate("/vet-register")
     }
-    else if (result.verified === true && result.userType === "Patient") navigate("/patient-dashboard")
+    else if (result.verified === true && result.userType === "Patient") navigate("/dashboard")
     else navigate("/vet-register")
   }
 

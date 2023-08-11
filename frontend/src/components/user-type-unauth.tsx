@@ -34,3 +34,26 @@ export function UnauthorizedUser(vetOrpatient: Props): JSX.Element {
     </>
   )
 }
+
+export const NullUser = () => {
+  return (
+    <>
+      <Header dropdown = {true} search = {true}/>
+      <Card>
+        <Card.Body>
+          <p>You are not logged in. Please make an account, or login below</p>
+          <Link to = "/patient-register">
+            <Button variant = "primary">
+              <p>Register</p>
+            </Button>
+          </Link>
+          <Link to = "/patient-login">
+            <Button variant = "primary">
+              <p>Login</p>
+            </Button>
+          </Link>
+        </Card.Body>
+      </Card>
+    </>
+  )
+}

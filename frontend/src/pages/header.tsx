@@ -135,21 +135,12 @@ export default function Header (props: HeaderProps) {
 
   const RenderDropdownItems = () => {
     if (dropdown === false) return null
-    if (userType === "Doctor") {
+    if (userType === "Doctor" || userType === "Patient") {
       return (
         <div>
           <Dropdown.Item onClick = {handleLogout}>Sign out</Dropdown.Item>
-          <Dropdown.Item href = "/vet-dashboard">Vet Dashboard</Dropdown.Item>
-          <Dropdown.Item href = "/vet-account-details">Account Details</Dropdown.Item>
-        </div>
-      )
-    }
-    else if (userType === "Patient") {
-      return (
-        <div>
-          <Dropdown.Item onClick = {handleLogout}>Sign out</Dropdown.Item>
-          <Dropdown.Item href = "/patient-dashboard">Patient Dashboard</Dropdown.Item>
-          <Dropdown.Item href = "/patient-account-details">Account Settings</Dropdown.Item>
+          <Dropdown.Item href = "/dashboard">Dashboard</Dropdown.Item>
+          <Dropdown.Item href = "/account-details">Account Details</Dropdown.Item>
         </div>
       )
     }

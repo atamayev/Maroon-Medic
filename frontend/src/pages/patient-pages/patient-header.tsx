@@ -5,7 +5,7 @@ export default function PatientHeader() {
   return (
     <Nav justify variant = "pills" className = "justify-content-center">
       <AccountNavHeader
-        href = "/patient-dashboard"
+        href = "/dashboard"
         eventKey = "link-1"
         title = "Dashboard"
       />
@@ -15,12 +15,12 @@ export default function PatientHeader() {
         title = "My Pets"
       />
       <AccountNavHeader
-        href = "/patient-account-details"
+        href = "/account-details"
         eventKey = "link-3"
         title = "Account Details"
       />
       <AccountNavHeader
-        href = "/patient-settings"
+        href = "/settings"
         eventKey = "link-4"
         title = "Settings"
       />

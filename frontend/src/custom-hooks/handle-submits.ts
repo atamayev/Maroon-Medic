@@ -22,7 +22,7 @@ export const handleLoginSubmit = async (
         const bookingDetails = JSON.parse(sessionStorage.getItem("bookingDetails") ?? "{}")
         navigate("/finalize-booking", { state: bookingDetails })
       }
-      else navigate(`/${VetOrPatient.toLowerCase()}-dashboard`)
+      else navigate("/dashboard")
     }
     else setError("Login didn't work")
   } catch (error: unknown) {
@@ -80,7 +80,7 @@ export const handleNewUserSubmit = async (
         } catch (error) {
         }
       }
-      else navigate(`/${VetOrPatient.toLowerCase()}-dashboard`)
+      else navigate("/dashboard")
     }
     else setError("Unable to add new user. Please reload and try again.")
   } catch (error: unknown) {

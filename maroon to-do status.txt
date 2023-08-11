@@ -5,9 +5,6 @@ ASAP:
 Full Stack TS changes
 	9. Change all DB fields to snake case, change sql accordingly
 
-Merge the vet dashboard/patient dashboard urls into one page. Will save a lot of re-direct logic, also it's useless to have different dashboard routes.
-	Same for all teh other 'vet-specific' routes that are in common wiht patient specific routes. 
-	after doing this, can get rid of all of the expectedUserType (since both docs and patients can access)
 
 added a appointment_timespan, and add petID to the Appointments table. - need to change the front-end accordingly
 
@@ -25,6 +22,7 @@ added a appointment_timespan, and add petID to the Appointments table. - need to
 
 -CODE CONCISION: Cut any function more than 100 lines into parts. I don't want massive functions - most can be distilled into smaller parts
 	uncomment this: // "max-lines-per-function": ["warn", {"max": 60, "skipBlankLines": true, "skipComments": true}],
+
 Make the auth token and cookie stored in a class, like in context.ts in deployment manager
 	reading from memory is faster than from session storage
 	Create an auth class to store all of this stuff. Make the class have UUID, AccessToken, userType
