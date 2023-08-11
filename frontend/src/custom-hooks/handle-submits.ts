@@ -5,6 +5,7 @@ import PrivatePatientDataService from "../services/private-patient-data-service"
 import { handle401AxiosErrorAndSetCustomError } from "src/utils/handle-errors"
 
 export const handleLoginSubmit = async (
+  e: React.FormEvent<HTMLFormElement>,
   loginInformationObject: AuthCredentials,
   navigate: NavigateFunction,
   setError: React.Dispatch<React.SetStateAction<string>>,
@@ -13,6 +14,7 @@ export const handleLoginSubmit = async (
 ): Promise<void> => {
   setError("")
   try {
+    e.preventDefault()
     setLoading(true)
     const response = await AuthDataService.login(loginInformationObject)
     if (response.status === 200) {
@@ -30,6 +32,7 @@ export const handleLoginSubmit = async (
 }
 
 export const handleRegisterSubmit = async (
+  e: React.FormEvent<HTMLFormElement>,
   registerInformationObject: AuthCredentials,
   passwordConfirm: string,
   navigate: NavigateFunction,
@@ -37,6 +40,7 @@ export const handleRegisterSubmit = async (
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   VetOrPatient: VetOrPatient
 ): Promise<void> => {
+  e.preventDefault()
   setError("")
   if (registerInformationObject.password !== passwordConfirm) return setError("Passwords do not match")
   try {
@@ -51,6 +55,7 @@ export const handleRegisterSubmit = async (
 }
 
 export const handleNewUserSubmit = async (
+  e: React.FormEvent<HTMLFormElement>,
   newInfo: BirthDateInfo,
   navigate: NavigateFunction,
   setError: React.Dispatch<React.SetStateAction<string>>,
@@ -59,6 +64,7 @@ export const handleNewUserSubmit = async (
 ): Promise<void> => {
   setError("")
   try {
+    e.preventDefault()
     setLoading(true)
     let response
     if (VetOrPatient === "Vet") response = await PrivateDoctorDataService.addingDoctorInfo(newInfo)

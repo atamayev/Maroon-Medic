@@ -19,7 +19,7 @@ export default function DoctorPersonalInfo() {
   const {personalInfo, setPersonalInfo } = usePersonalInfo(userType, "Doctor")
   const [personalInfoConfirmation, setPersonalInfoConfirmation] = useConfirmationMessage()
 
-  if (userType !== "Doctor") return <UnauthorizedUser patientOrDoctor = {"vet"}/>
+  if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
   return (
     <div>

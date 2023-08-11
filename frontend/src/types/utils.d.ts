@@ -3,6 +3,7 @@ declare global {
   type DoctorOrPatientOrNull = DoctorOrPatient | null
   type VetOrPatient = "Vet" | "Patient"
   type doctorOrpatient = "doctor" | "patient"
+  type vetOrpatient = "vet" | "patient"
 
   type MysqlTimestamp = string
 

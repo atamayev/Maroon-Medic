@@ -56,7 +56,7 @@ export function FinalizeBookingPage() {
     return null
   }
 
-  if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
+  if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
   const ConfirmOrRequestBook = () => {
     if (selectedLocation.instant_book) return <>Confirm</>

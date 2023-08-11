@@ -3,7 +3,7 @@ import moment from "moment"
 import { useState, useEffect } from "react"
 import { Card } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
-import { fetchPetData } from "../../custom-hooks/my-pets-hooks/my-pets"
+import { generateTimeSlots, usePetData } from "src/custom-hooks/public-doctor-hooks/booking-page-hooks"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
 import {
   RenderChoosePet,
@@ -19,29 +19,6 @@ import {
 
 } from "src/components/booking"
 import { getDayIndex } from "src/utils/time"
-
-function usePetData(userType: DoctorOrPatientOrNull) {
-  const storedData = sessionStorage.getItem("PatientPetData")
-  const parsedData = storedData && JSON.parse(storedData)
-  const [savedPetData, setSavedPetData] = useState<SavedPetItem[]>(parsedData || [])
-
-  useEffect(() => {
-    const fetchAndSetPetData = async () => {
-      if (userType === "Patient") {
-        try {
-          const storedPetData = sessionStorage.getItem("PatientPetData")
-          if (storedPetData) setSavedPetData(JSON.parse(storedPetData))
-          else await fetchPetData(setSavedPetData)
-        } catch (error) {
-        }
-      }
-    }
-
-    fetchAndSetPetData()
-  }, [userType])
-
-  return { savedPetData }
-}
 
 interface Props {
   providedServices: ServiceItem[]
@@ -79,40 +56,9 @@ export default function RenderBookingSection(props: Props) {
     }
   }, [savedPetData])
 
-  function convertToMinutes(input: string): number {
-    if (typeof input === "string") {
-      const value = parseInt(input.split(" ")[0])
-      if (input.includes("hour")) return moment.duration(value, "hours").asMinutes()
-      else if (input.includes("day")) return moment.duration(value, "days").asMinutes()
-      else return value
-    }
-    return 0
-  }
-
   useEffect(() => {
     if (selectedDay && selectedLocationObject && selectedServiceObject && selectedPetObject) {
-      // Get the working hours for the selected day
-      const selectedDayOfWeek = moment(selectedDay, "dddd, MMMM Do, YYYY").format("dddd")
-      const workingHours = selectedLocationObject.times.find(time => time.Day_of_week === selectedDayOfWeek)
-
-      if (workingHours) {
-        const times = []
-        const start = workingHours.Start_time.split(":")
-        const end = workingHours.End_time.split(":")
-
-        let currentTime = moment().hour(Number(start[0])).minute(Number(start[1]))
-        const endTime = moment().hour(Number(end[0])).minute(Number(end[1]))
-
-        const ServiceMinutes = convertToMinutes(selectedServiceObject.Service_time)
-        setServiceMinutes(ServiceMinutes)
-
-        while (currentTime.isBefore(endTime)) {
-          // Change "HH:mm" to "h:mm A":
-          times.push(currentTime.format("h:mm A"))
-          currentTime = currentTime.clone().add(ServiceMinutes, "minutes")
-        }
-        setAvailableTimes(times)
-      }
+      generateTimeSlots(selectedDay, selectedLocationObject, selectedServiceObject, setAvailableTimes, setServiceMinutes)
     }
   }, [selectedDay, selectedLocationObject, selectedServiceObject, selectedPetObject])
 

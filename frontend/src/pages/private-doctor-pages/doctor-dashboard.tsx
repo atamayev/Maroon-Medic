@@ -81,7 +81,7 @@ export default function DoctorDashboard() {
     }
   }, [dashboardData])
 
-  if (userType !== "Doctor") return <UnauthorizedUser patientOrDoctor = {"vet"}/>
+  if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
   const returnDoctorConfirmationStatus = (appointment: DoctorDashboardData) => {
     if (appointment.Doctor_confirmation_status === false) return "pending"

@@ -8,7 +8,7 @@ import DoctorHeader from "../doctor-header"
 export default function DoctorSettingsCards() {
   const { userType } = useSimpleUserVerification()
 
-  if (userType !== "Doctor") return <UnauthorizedUser patientOrDoctor = {"vet"}/>
+  if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
   return (
     <>

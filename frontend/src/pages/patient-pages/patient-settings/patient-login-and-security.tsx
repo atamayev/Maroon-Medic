@@ -11,7 +11,7 @@ export default function PatientLoginAndSecurity() {
 
   const loginHistory = useLoginHistory(userType, "Patient")
 
-  if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
+  if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
   return (
     <>

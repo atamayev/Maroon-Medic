@@ -1,10 +1,9 @@
 import moment from "moment"
-import { useEffect, useState } from "react"
 import { Calendar, momentLocalizer } from "react-big-calendar"
 import "react-big-calendar/lib/css/react-big-calendar.css"
 import "../../styles/calendar.css"
+import { useDoctorCalendarData } from "src/custom-hooks/calendar"
 import { UnauthorizedUser } from "../../components/user-type-unauth"
-import { FillDoctorCalendarDetails } from "../../custom-hooks/fetch-calendar-details"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
 import Header from "../header"
 import DoctorHeader from "./doctor-header"
@@ -18,30 +17,11 @@ const CustomEvent = ({ event }: {event: DoctorCalendarEvent}) => {
   return <div className = {CSS}> {event.title} </div>
 }
 
-function useDoctorCalendarData(userType: DoctorOrPatientOrNull) {
-  const [events, setEvents] = useState<DoctorCalendarEvent[]>([])
-
-  const fetchAndSetCalendarData = async () => {
-    try {
-      const storedCalendarData = sessionStorage.getItem("DoctorCalendarDetails")
-      if (!storedCalendarData) await FillDoctorCalendarDetails(setEvents)
-    } catch (error) {
-    }
-  }
-
-  useEffect(() => {
-    if (userType !== "Doctor") return
-    fetchAndSetCalendarData()
-  }, [])
-
-  return events
-}
-
 export default function DoctorCalendar() {
   const { userType } = useSimpleUserVerification()
   const events = useDoctorCalendarData(userType)
 
-  if (userType !== "Doctor") return <UnauthorizedUser patientOrDoctor = {"vet"}/>
+  if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
   return (
     <div>

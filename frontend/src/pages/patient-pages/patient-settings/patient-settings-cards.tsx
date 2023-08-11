@@ -8,7 +8,7 @@ import PatientHeader from "../patient-header"
 export default function PatientSettings() {
   const { userType } = useSimpleUserVerification()
 
-  if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
+  if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
   return (
     <>

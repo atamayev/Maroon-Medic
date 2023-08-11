@@ -2,7 +2,7 @@ import { Card, Button, Form, Alert } from "react-bootstrap"
 import { RenderFirstNameSection, RenderLastNameSection, RenderGenderSection, RenderDOBSection } from "./personal-info-inputs"
 
 interface Props {
-  handleSubmit: () => void,
+  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void,
   error: string,
   newInfo: BirthDateInfo,
   setNewInfo: (newInfo: BirthDateInfo) => void,

@@ -51,7 +51,7 @@ export default function PatientDashboard() {
     }
   }, [dashboardData])
 
-  if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
+  if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
   const RenderAppointmentConfirmationStatus = ({appointment} : {appointment: PatientDashboardData}) => {
     if (appointment.Doctor_confirmation_status === false) {

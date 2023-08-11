@@ -7,7 +7,7 @@ interface Props {
 export default function RenderPersonalInfoSection(props: Props) {
   const { personalData } = props
 
-  if (!personalData) return null
+  if (_.isEmpty(personalData)) return null
 
   return (
     <h3>

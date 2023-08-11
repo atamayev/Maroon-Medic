@@ -2,22 +2,20 @@ import {Link} from "react-router-dom"
 import {Button, Card} from "react-bootstrap"
 import Header from "../pages/header"
 
-type PatientOrDoctor = "patient" | "vet"
-
 interface Props {
-  patientOrDoctor: PatientOrDoctor
+  vetOrpatient: vetOrpatient
 }
 
-export const UnauthorizedUserBodyText = ({patientOrDoctor}: Props) => {
+export const UnauthorizedUserBodyText = ({vetOrpatient}: Props) => {
   return (
     <Card.Body>
-      <p>You are not logged in as a {patientOrDoctor}. Please make an account, or login below</p>
-      <Link to = {`/${patientOrDoctor}-register`}>
+      <p>You are not logged in as a {vetOrpatient}. Please make an account, or login below</p>
+      <Link to = {`/${vetOrpatient}-register`}>
         <Button variant = "primary">
           <p>Register</p>
         </Button>
       </Link>
-      <Link to = {`/${patientOrDoctor}-login`}>
+      <Link to = {`/${vetOrpatient}-login`}>
         <Button variant = "primary">
           <p>Login</p>
         </Button>
@@ -26,12 +24,12 @@ export const UnauthorizedUserBodyText = ({patientOrDoctor}: Props) => {
   )
 }
 
-export function UnauthorizedUser(patientOrDoctor: Props): JSX.Element {
+export function UnauthorizedUser(vetOrpatient: Props): JSX.Element {
   return (
     <>
       <Header dropdown = {true} search = {true}/>
       <Card>
-        {UnauthorizedUserBodyText(patientOrDoctor)}
+        {UnauthorizedUserBodyText(vetOrpatient)}
       </Card>
     </>
   )

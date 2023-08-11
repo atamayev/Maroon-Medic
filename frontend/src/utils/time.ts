@@ -1,3 +1,5 @@
+import moment from "moment"
+
 export function getDayIndex(day: string): DayIndeces {
   switch (day) {
   case "Sunday": return 0
@@ -9,4 +11,14 @@ export function getDayIndex(day: string): DayIndeces {
   case "Saturday": return 6
   default: return null
   }
+}
+
+export function convertToMinutes(input: string): number {
+  if (typeof input === "string") {
+    const value = parseInt(input.split(" ")[0])
+    if (input.includes("hour")) return moment.duration(value, "hours").asMinutes()
+    else if (input.includes("day")) return moment.duration(value, "days").asMinutes()
+    else return value
+  }
+  return 0
 }

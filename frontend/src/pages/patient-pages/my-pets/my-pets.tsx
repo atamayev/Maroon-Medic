@@ -1,47 +1,15 @@
 import _ from "lodash"
 import moment from "moment"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Card, Button, Modal  } from "react-bootstrap"
 import { UnauthorizedUser } from "../../../components/user-type-unauth"
 import { deletePet } from "../../../custom-hooks/my-pets-hooks/save-my-pets"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
-import { FillInsurances, FillPetTypes, fetchPetData } from "../../../custom-hooks/my-pets-hooks/my-pets"
+import { usePetData } from "src/custom-hooks/my-pets-hooks/my-pets"
 import Header from "../../header"
 import PatientHeader from "../patient-header"
 import { AddPet } from "./add-pet"
-
-function usePetData(userType: DoctorOrPatientOrNull) {
-  const storedData = sessionStorage.getItem("PatientPetData")
-  const parsedData = storedData && JSON.parse(storedData)
-  const [savedPetData, setSavedPetData] = useState<SavedPetItem[]>(parsedData || [])
-  const [petTypes, setPetTypes] = useState<ServicedPetItem[]>([])
-  const [insurances, setInsurances] = useState<InsuranceItem[]>([])
-
-  const fetchAndSetPetData = async () => {
-    try {
-      const storedPetData = sessionStorage.getItem("PatientPetData")
-      if (storedPetData) setSavedPetData(JSON.parse(storedPetData))
-      else await fetchPetData(setSavedPetData)
-
-      const storedPetTypes = sessionStorage.getItem("PetTypes")
-      if (storedPetTypes) setPetTypes(JSON.parse(storedPetTypes))
-      else await FillPetTypes(setPetTypes)
-
-      const storedInsurances = sessionStorage.getItem("Insurances")
-      if (storedInsurances) setInsurances(JSON.parse(storedInsurances))
-      else await FillInsurances(setInsurances)
-    } catch (error) {
-    }
-  }
-
-  useEffect(() => {
-    if (userType !== "Patient") return
-    fetchAndSetPetData()
-  }, [userType])
-
-  return { savedPetData, setSavedPetData, petTypes, insurances }
-}
 
 const handleShowModal = (
   pet: SavedPetItem,
@@ -66,7 +34,7 @@ export default function MyPets() {
   const [showModal, setShowModal] = useState(false)
   const [petToDelete, setPetToDelete] = useState<SavedPetItem | null>(null)
   const { savedPetData, setSavedPetData, petTypes, insurances } = usePetData(userType)
-  if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
+  if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
   const RenderSavedPetDataTitle = ({pet} : {pet: SavedPetItem}) => {
     return (

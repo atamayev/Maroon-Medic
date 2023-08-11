@@ -1,5 +1,63 @@
 import _ from "lodash"
+import moment from "moment"
+import { useEffect, useState } from "react"
 import { NavigateFunction } from "react-router-dom"
+import { fetchPetData } from "../my-pets-hooks/my-pets"
+import { convertToMinutes } from "src/utils/time"
+
+export function usePetData(userType: DoctorOrPatientOrNull): { savedPetData: SavedPetItem[] } {
+  const storedData = sessionStorage.getItem("PatientPetData")
+  const parsedData = storedData && JSON.parse(storedData)
+  const [savedPetData, setSavedPetData] = useState<SavedPetItem[]>(parsedData || [])
+
+  useEffect(() => {
+    const fetchAndSetPetData: () => void = async () => {
+      if (userType === "Patient") {
+        try {
+          const storedPetData = sessionStorage.getItem("PatientPetData")
+          if (storedPetData) setSavedPetData(JSON.parse(storedPetData))
+          else await fetchPetData(setSavedPetData)
+        } catch (error) {
+        }
+      }
+    }
+
+    fetchAndSetPetData()
+  }, [userType])
+
+  return { savedPetData }
+}
+
+export const generateTimeSlots = (
+  selectedDay: string,
+  selectedLocationObject: PublicAddressData,
+  selectedServiceObject: ServiceItem,
+  setAvailableTimes: React.Dispatch<React.SetStateAction<string[]>>,
+  setServiceMinutes: React.Dispatch<React.SetStateAction<number>>
+): void => {
+  // Get the working hours for the selected day
+  const selectedDayOfWeek = moment(selectedDay, "dddd, MMMM Do, YYYY").format("dddd")
+  const workingHours = selectedLocationObject.times.find(time => time.Day_of_week === selectedDayOfWeek)
+
+  if (workingHours) {
+    const times = []
+    const start = workingHours.Start_time.split(":")
+    const end = workingHours.End_time.split(":")
+
+    let currentTime = moment().hour(Number(start[0])).minute(Number(start[1]))
+    const endTime = moment().hour(Number(end[0])).minute(Number(end[1]))
+
+    const ServiceMinutes = convertToMinutes(selectedServiceObject.Service_time)
+    setServiceMinutes(ServiceMinutes)
+
+    while (currentTime.isBefore(endTime)) {
+      // Change "HH:mm" to "h:mm A":
+      times.push(currentTime.format("h:mm A"))
+      currentTime = currentTime.clone().add(ServiceMinutes, "minutes")
+    }
+    setAvailableTimes(times)
+  }
+}
 
 export const handlePetChange = (
   event: React.ChangeEvent<HTMLInputElement>,

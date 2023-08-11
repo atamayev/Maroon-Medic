@@ -10,7 +10,7 @@ export default function DoctorLoginAndSecurity() {
   const { userType } = useSimpleUserVerification()
   const loginHistory = useLoginHistory(userType, "Doctor")
 
-  if (userType !== "Doctor") return <UnauthorizedUser patientOrDoctor = {"vet"}/>
+  if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
   return (
     <>

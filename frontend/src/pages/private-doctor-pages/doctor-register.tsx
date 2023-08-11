@@ -21,8 +21,9 @@ export default function DoctorRegister() {
     <>
       <Header dropdown = {true} search = {true}/>
       <LoginAndRegistrationForm
-        handleSubmit = {() =>
+        handleSubmit = {(e) =>
           handleRegisterSubmit(
+            e,
             registerInformationObject,
             passwordConfirm,
             navigate,

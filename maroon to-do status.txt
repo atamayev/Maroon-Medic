@@ -2,25 +2,15 @@ To-do:
 
 
 ASAP:
-Frontend TS Fixes:
-	11. Move all hooks out of .tsx files, and into regular .ts files in the custom hooks folder
-	12. Login Problem. Clicking the button re-loads teh page, probably an e.prevent default problem
-
 Full Stack TS changes
-	8. Don't abbreviate variable names
 	9. Change all DB fields to snake case, change sql accordingly
-	10. Uncomment ESlint
-
-Change gender, other commonly used options to enum (only if the value is used in multiple places). If not, enum not necessary
 
 Merge the vet dashboard/patient dashboard urls into one page. Will save a lot of re-direct logic, also it's useless to have different dashboard routes.
 	Same for all teh other 'vet-specific' routes that are in common wiht patient specific routes. 
 	after doing this, can get rid of all of the expectedUserType (since both docs and patients can access)
 
-
--React browser warnins when adding pre_vet/vet education (see 7/4 keys commit)
-
 added a appointment_timespan, and add petID to the Appointments table. - need to change the front-end accordingly
+
 -add choose your pet to make an appointment. if the user isn't logged in, show a login/register button in the booking section.
 	the first question should be: choose which pet you would like to take to the vet
 		if the user only has one vet, skip that question, and just set the state to that pet/pettype

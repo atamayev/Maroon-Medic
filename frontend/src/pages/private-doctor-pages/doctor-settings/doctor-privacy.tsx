@@ -6,7 +6,7 @@ import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-ver
 export default function DoctorPrivacy() {
   const { userType } = useSimpleUserVerification()
 
-  if (userType !== "Doctor") return <UnauthorizedUser patientOrDoctor = {"vet"}/>
+  if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
   return (
     <>

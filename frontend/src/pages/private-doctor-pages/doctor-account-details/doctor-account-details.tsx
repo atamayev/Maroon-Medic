@@ -1,7 +1,5 @@
-import _ from "lodash"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { UnauthorizedUser } from "../../../components/user-type-unauth"
-import PrivateDoctorDataService from "../../../services/private-doctor-data-service"
 import Header from "../../header"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import DoctorHeader from "../doctor-header"
@@ -17,104 +15,9 @@ import RenderPublicStatusSection from "./public-status"
 import RenderVerificationSection from "./verification-status"
 import RenderPreVetEducationSection from "./pre-vet-education"
 import RenderPersonalInfoLinkSection from "./personalInfoLink"
-import ListsDataService from "../../../services/lists-data-service"
-import { handle401AxiosError } from "src/utils/handle-errors"
+import { useDoctorAccountDetails } from "src/custom-hooks/account-details-hooks/fetch-doctor-data"
 
-async function FillLists(setListDetails: React.Dispatch<React.SetStateAction<DoctorListDetails>>) {
-  try {
-    const response = await ListsDataService.fillDoctorLists()
-    setListDetails(response.data)
-    sessionStorage.setItem("ListDetails", JSON.stringify(response.data))
-  } catch (error: unknown) {
-    handle401AxiosError(error)
-  }
-}
-
-async function FillDoctorAccountDetails(
-  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
-  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>>,
-  setExpandedCategories: React.Dispatch<React.SetStateAction<string[]>>,
-  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>,
-  setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItem[]>>,
-  setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItem[]>>,
-  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>,
-  setDescription: React.Dispatch<React.SetStateAction<string>>,
-  setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItem[]>>,
-  setExpandedPetTypes: React.Dispatch<React.SetStateAction<string[]>>,
-  setPubliclyAvailable: React.Dispatch<React.SetStateAction<boolean>>
-) {
-  try {
-    const response = await PrivateDoctorDataService.fillAccountDetails()
-    if (response.data) {
-      if (response.data.languages) setSpokenLanguages(response.data.languages)
-      if (response.data.services) {
-        setProvidedServices(response.data.services)
-        setExpandedCategories(response.data.services.map((service: ServiceItem) => service.Category_name))
-      }
-      if (response.data.specialties) setDoctorSpecialties(response.data.specialties)
-      if (response.data.preVetEducation) setPreVetEducation(response.data.preVetEducation)
-      if (response.data.vetEducation) setVetEducation(response.data.vetEducation)
-      if (response.data.addressData) setAddresses(response.data.addressData)
-      if (response.data.description) setDescription(response.data.description)
-      if (response.data.servicedPets) {
-        setServicedPets(response.data.servicedPets)
-        setExpandedPetTypes(response.data.servicedPets.map((pet: ServicedPetItem) => pet.Pet_type))
-      }
-      if (_.has(response.data, "publiclyAvailable")) setPubliclyAvailable(response.data.publiclyAvailable)
-      // if (response.data.pictures) ; //set pictures
-      sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(response.data))
-    }
-  } catch (error: unknown) {
-    handle401AxiosError(error)
-  }
-}
-
-function useDoctorAccountDetails(
-  setListDetails: React.Dispatch<React.SetStateAction<DoctorListDetails>>,
-  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
-  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>>,
-  setExpandedCategories: React.Dispatch<React.SetStateAction<string[]>>,
-  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>,
-  setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItem[]>>,
-  setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItem[]>>,
-  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>,
-  setDescription: React.Dispatch<React.SetStateAction<string>>,
-  setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItem[]>>,
-  setExpandedPetTypes: React.Dispatch<React.SetStateAction<string[]>>,
-  setPubliclyAvailable: React.Dispatch<React.SetStateAction<boolean>>
-) {
-  const getDoctorAccountDetails = async () => {
-    try {
-      const storedAccountDetails = sessionStorage.getItem("DoctorAccountDetails")
-      if (!storedAccountDetails) {
-        await FillDoctorAccountDetails(
-          setSpokenLanguages,
-          setProvidedServices,
-          setExpandedCategories,
-          setDoctorSpecialties,
-          setPreVetEducation,
-          setVetEducation,
-          setAddresses,
-          setDescription,
-          setServicedPets,
-          setExpandedPetTypes,
-          setPubliclyAvailable
-        )
-      } else setExpandedCategories(JSON.parse(storedAccountDetails).services?.map((service: ServiceItem) => service.Category_name))
-
-      const storedListDetails = sessionStorage.getItem("ListDetails")
-      if (storedListDetails) setListDetails(JSON.parse(storedListDetails))
-      else await FillLists(setListDetails)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  useEffect(() => {
-    getDoctorAccountDetails()
-  }, [])
-}
-
+// eslint-disable-next-line complexity
 export default function DoctorAccountDetails() {
   const { userType } = useSimpleUserVerification()
   const [listDetails, setListDetails] = useState<DoctorListDetails>({
@@ -156,8 +59,7 @@ export default function DoctorAccountDetails() {
   const [publiclyAvailable, setPubliclyAvailable] = useState<boolean>(doctorAccountDetails?.publiclyAvailable || false)
   const verified: boolean = doctorAccountDetails?.verified || false
 
-  useDoctorAccountDetails(
-    setListDetails,
+  const dispatchers: DoctorAccountDispatchers = {
     setSpokenLanguages,
     setProvidedServices,
     setExpandedCategories,
@@ -169,9 +71,15 @@ export default function DoctorAccountDetails() {
     setServicedPets,
     setExpandedPetTypes,
     setPubliclyAvailable
+  }
+
+  useDoctorAccountDetails(
+    setListDetails,
+    setExpandedCategories,
+    dispatchers
   )
 
-  if (userType !== "Doctor") return <UnauthorizedUser patientOrDoctor = {"vet"}/>
+  if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
   return (
     <div>
