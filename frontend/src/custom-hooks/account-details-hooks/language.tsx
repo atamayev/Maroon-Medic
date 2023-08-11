@@ -32,8 +32,8 @@ export function useLanguageOptions(languages: LanguageItem[], spokenLanguages: L
     return languages
       .filter((language) => !spokenLanguages.find((spoken) => spoken.language_listID === language.language_listID))
       .map((language) => (
-        <option key = {language?.language_listID} value = {language?.language_listID}>
-          {language?.Language_name}
+        <option key = {language.language_listID} value = {language.language_listID}>
+          {language.Language_name}
         </option>
       ))
   }, [languages, spokenLanguages])

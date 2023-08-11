@@ -94,8 +94,8 @@ export function finalizeBookingClick(
   selectedPet: SavedPetItem
 ): void {
   const bookingDetails = {
-    selectedService: selectedService ? selectedService : null,
-    selectedLocation: selectedLocation ? selectedLocation : null,
+    selectedService: selectedService,
+    selectedLocation: selectedLocation,
     selectedDay,
     selectedTime,
     serviceMinutes,

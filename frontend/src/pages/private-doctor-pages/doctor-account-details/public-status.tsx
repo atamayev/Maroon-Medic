@@ -32,7 +32,7 @@ function RenderIsPubliclyAvailable (props: Props) {
     <div>
       {/* All of this logic must be kept in this component, or else the toggle button will not work: */}
       <ToggleButtonGroup type = "radio" name = "options"
-        value = {publiclyAvailable ?? 0}
+        value = {publiclyAvailable}
         onChange = {(value) => handlePublicAvailibilityToggle(value, setPubliclyAvailable, setPubliclyAvailableConfirmation)}
       >
         <ToggleButton

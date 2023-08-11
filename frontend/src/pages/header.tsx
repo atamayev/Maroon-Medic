@@ -74,7 +74,7 @@ async function fetchPersonalInfo (type: DoctorOrPatient, setHeaderData: React.Di
       handle401AxiosError(error)
     }
   }
-  else if (type === "Patient") {
+  else {
     try {
       response = await PrivatePatientDataService.fillPersonalData()
     } catch (error: unknown) {

@@ -54,7 +54,7 @@ function RenderIsVetServices (props: Props) {
   }
 
   const timeOptions = [
-    ...Array.from({ length: 11 }, (_, i) => ((i + 1) * 5) + " minutes"),
+    ...Array.from({ length: 11 }, (x, i) => ((i + 1) * 5) + " minutes"),
     "1 hour",
     "2 hours",
     "3 hours",
@@ -64,7 +64,7 @@ function RenderIsVetServices (props: Props) {
     "3 days",
   ]
 
-  if (_.isEmpty(_.uniq(listDetails.servicesAndCategories?.map((item) => item.Category_name)))) return <>Loading...</>
+  if (_.isEmpty(_.uniq(listDetails.servicesAndCategories.map((item) => item.Category_name)))) return <>Loading...</>
 
   const RenderIsSelectedService = (
     {service, selectedService} : {service: ServiceListItem, selectedService: ServiceItem | undefined}
@@ -102,9 +102,9 @@ function RenderIsVetServices (props: Props) {
         <RenderActionButton service = {service} />
         <input
           type = "checkbox"
-          id = {`${category}-${service?.service_and_category_listID}`}
+          id = {`${category}-${service.service_and_category_listID}`}
           name = "service"
-          value = {service?.service_and_category_listID}
+          value = {service.service_and_category_listID}
           checked = {
             selectedServices.find((provided) => provided.service_and_category_listID === service.service_and_category_listID) !== undefined
           }
@@ -179,7 +179,7 @@ function RenderIsVetServices (props: Props) {
       <select
         id = {`time-${service.service_and_category_listID}`}
         required
-        value = {selectedService?.Service_time || ""}
+        value = {selectedService.Service_time || ""}
         onChange = {(e) => {
           const updatedServices = selectedServices.map((s) => {
             if (s.service_and_category_listID === service.service_and_category_listID) {
@@ -209,7 +209,7 @@ function RenderIsVetServices (props: Props) {
         placeholder = "Service Price ($)"
         id = {`price-${service.service_and_category_listID}`}
         required
-        value = {selectedService?.Service_price?.toString() || ""}
+        value = {selectedService.Service_price.toString() || ""}
         onChange = {(e) => handleNumericInput(
           e,
           (newVal) => {

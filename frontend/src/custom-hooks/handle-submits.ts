@@ -62,11 +62,11 @@ export const handleNewUserSubmit = async (
     setLoading(true)
     let response
     if (VetOrPatient === "Vet") response = await PrivateDoctorDataService.addingDoctorInfo(newInfo)
-    else if (VetOrPatient === "Patient") response = await PrivatePatientDataService.addingPatientInfo(newInfo)
+    else response = await PrivatePatientDataService.addingPatientInfo(newInfo)
 
-    if (response && response.status === 200) {
+    if (response.status === 200) {
       if (VetOrPatient === "Vet") sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(newInfo))
-      else if (VetOrPatient === "Patient") sessionStorage.setItem("PatientPersonalInfo", JSON.stringify(newInfo))
+      else sessionStorage.setItem("PatientPersonalInfo", JSON.stringify(newInfo))
       if ((sessionStorage.getItem("bookingDetails")) && VetOrPatient === "Patient") {
         try {
           const bookingDetails = JSON.parse(sessionStorage.getItem("bookingDetails") || "{}")

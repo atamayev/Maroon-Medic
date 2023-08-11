@@ -13,8 +13,7 @@ async function fetchPersonalInfoData(
     let response: AxiosResponse
 
     if (userType === "Doctor") response = await PrivateDoctorDataService.fillPersonalData()
-    else if (userType === "Patient") response = await PrivatePatientDataService.fillPersonalData()
-    else throw new Error(`Invalid userType: ${userType}`)
+    else response = await PrivatePatientDataService.fillPersonalData()
 
     setPersonalInfo(response.data)
     sessionStorage.setItem(`${userType}PersonalInfo`, JSON.stringify(response.data))
@@ -35,8 +34,7 @@ export const handleSavePersonalInfo = async (
     if (stringifiedPersonalInfoData !== storedPersonalInfoData) {
       let response: AxiosResponse
       if (userType === "Doctor") response = await PrivateDoctorDataService.savePersonalData(personalInfo)
-      else if (userType === "Patient") response = await PrivatePatientDataService.savePersonalData(personalInfo)
-      else throw new Error(`Invalid userType: ${userType}`)
+      else response = await PrivatePatientDataService.savePersonalData(personalInfo)
 
       if (response.status === 200) {
         sessionStorage.setItem(`${userType}PersonalInfo`, JSON.stringify(personalInfo))

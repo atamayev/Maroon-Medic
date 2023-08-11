@@ -9,6 +9,7 @@ interface Props {
   description: string
   setDescription: React.Dispatch<React.SetStateAction<string>>
 }
+
 export default function RenderDescriptionSection (props: Props) {
   return (
     <Card className = "mb-3">

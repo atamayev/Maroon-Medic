@@ -52,7 +52,7 @@ function RenderIsPreVetEducation(props: Props) {
     // Go through each status
     for (const preVetEducationMappingID in newDeleteStatuses) {
       // If the language ID does not exist in the vetEducation list, delete the status
-      if (!preVetEducation.some((preVetEducation) => preVetEducation.pre_vet_education_mappingID === Number(preVetEducationMappingID))) {
+      if (!preVetEducation.some((_preVetEducation) => _preVetEducation.pre_vet_education_mappingID === Number(preVetEducationMappingID))) {
         delete newDeleteStatuses[preVetEducationMappingID]
       }
     }
@@ -172,24 +172,24 @@ function RenderIsPreVetEducation(props: Props) {
 
   const handleDeleteOnClick = useHandleDeletePreVetEducation(preVetEducation, setPreVetEducation, setPreVetEducationConfirmation)
 
-  const RenderSingleSavedEducation = (preVetEducation: PreVetEducationItem) => {
-    const status: DeleteStatuses = deleteStatuses[preVetEducation.pre_vet_education_mappingID] || "initial"
+  const RenderSingleSavedEducation = (singlePreVetEducation: PreVetEducationItem) => {
+    const status: DeleteStatuses = deleteStatuses[singlePreVetEducation.pre_vet_education_mappingID] || "initial"
 
     const setStatus = (newStatus: DeleteStatuses) => {
       setDeleteStatuses((prevStatuses) => ({
         ...prevStatuses,
-        [preVetEducation.pre_vet_education_mappingID]: newStatus,
+        [singlePreVetEducation.pre_vet_education_mappingID]: newStatus,
       }))
     }
 
     return (
       <li>
-        {preVetEducation.School_name}, {preVetEducation.Education_type} in {preVetEducation.Major_name}
-        {" ("}{preVetEducation.Start_Date} - {preVetEducation.End_Date}{") "}
+        {singlePreVetEducation.School_name}, {singlePreVetEducation.Education_type} in {singlePreVetEducation.Major_name}
+        {" ("}{singlePreVetEducation.Start_Date} - {singlePreVetEducation.End_Date}{") "}
         <DeleteButtonOptions<PreVetEducationItem>
           status = {status}
           setStatus = {setStatus}
-          dataType = {preVetEducation}
+          dataType = {singlePreVetEducation}
           handleDeleteOnClick = {handleDeleteOnClick}
         />
       </li>
@@ -199,17 +199,17 @@ function RenderIsPreVetEducation(props: Props) {
   const RenderSavedEducationList = () => {
     return (
       <ul>
-        {preVetEducation.map((preVetEducation) => (
+        {preVetEducation.map((_preVetEducation) => (
           <RenderSingleSavedEducation
-            key = {preVetEducation.pre_vet_education_mappingID}
-            {...preVetEducation}
+            key = {_preVetEducation.pre_vet_education_mappingID}
+            {..._preVetEducation}
           />
         ))}
       </ul>
     )
   }
 
-  if (_.isEmpty(_.uniq(listDetails.preVetSchools?.map((item) => item.School_name)))) return <p> Loading... </p>
+  if (_.isEmpty(_.uniq(listDetails.preVetSchools.map((item) => item.School_name)))) return <p> Loading... </p>
 
   return (
     <>

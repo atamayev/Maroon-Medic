@@ -23,10 +23,8 @@ import { handle401AxiosError } from "src/utils/handle-errors"
 async function FillLists(setListDetails: React.Dispatch<React.SetStateAction<DoctorListDetails>>) {
   try {
     const response = await ListsDataService.fillDoctorLists()
-    if (response) {
-      setListDetails(response.data)
-      sessionStorage.setItem("ListDetails", JSON.stringify(response.data))
-    }
+    setListDetails(response.data)
+    sessionStorage.setItem("ListDetails", JSON.stringify(response.data))
   } catch (error: unknown) {
     handle401AxiosError(error)
   }
@@ -47,7 +45,7 @@ async function FillDoctorAccountDetails(
 ) {
   try {
     const response = await PrivateDoctorDataService.fillAccountDetails()
-    if (response && response.data) {
+    if (response.data) {
       if (response.data.languages) setSpokenLanguages(response.data.languages)
       if (response.data.services) {
         setProvidedServices(response.data.services)
@@ -132,31 +130,31 @@ export default function DoctorAccountDetails() {
   })
   //const [carouselIndex, setCarouselIndex] = useState(0)
 
-  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
+  const doctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
 
-  const [spokenLanguages, setSpokenLanguages] = useState<LanguageItem[]>(DoctorAccountDetails?.languages || [])
+  const [spokenLanguages, setSpokenLanguages] = useState<LanguageItem[]>(doctorAccountDetails?.languages || [])
 
-  const [providedServices, setProvidedServices] = useState<ServiceItem[]>(DoctorAccountDetails?.services || [])
+  const [providedServices, setProvidedServices] = useState<ServiceItem[]>(doctorAccountDetails?.services || [])
   const [expandedCategories, setExpandedCategories] = useState<string[]>([])
 
-  const [doctorSpecialties, setDoctorSpecialties] = useState<SpecialtyItem[]>(DoctorAccountDetails?.specialties || [])
+  const [doctorSpecialties, setDoctorSpecialties] = useState<SpecialtyItem[]>(doctorAccountDetails?.specialties || [])
 
-  const [preVetEducation, setPreVetEducation] = useState<PreVetEducationItem[]>(DoctorAccountDetails?.preVetEducation || [])
+  const [preVetEducation, setPreVetEducation] = useState<PreVetEducationItem[]>(doctorAccountDetails?.preVetEducation || [])
 
-  const [vetEducation, setVetEducation] = useState<VetEducationItem[]>(DoctorAccountDetails?.vetEducation || [])
+  const [vetEducation, setVetEducation] = useState<VetEducationItem[]>(doctorAccountDetails?.vetEducation || [])
 
   const [addresses, setAddresses] = useState<DoctorAddressData[]>(
-    DoctorAccountDetails?.addressData ||
+    doctorAccountDetails?.addressData ||
     [{ address_priority: 0, addressesID: -1, address_title: "", address_line_1: "", address_line_2: "", city: "",
       state: "", zip: "", country: "", Phone: [], address_public_status: true, instant_book: false, times:[]}])
 
-  const [description, setDescription] = useState<string>(DoctorAccountDetails?.description || "")
+  const [description, setDescription] = useState<string>(doctorAccountDetails?.description || "")
 
-  const [servicedPets, setServicedPets] = useState<ServicedPetItem[]>(DoctorAccountDetails?.servicedPets || [])
+  const [servicedPets, setServicedPets] = useState<ServicedPetItem[]>(doctorAccountDetails?.servicedPets || [])
   const [expandedPetTypes, setExpandedPetTypes] = useState<string[]>([])
 
-  const [publiclyAvailable, setPubliclyAvailable] = useState<boolean>(DoctorAccountDetails?.publiclyAvailable || false)
-  const verified: boolean = DoctorAccountDetails?.verified || false
+  const [publiclyAvailable, setPubliclyAvailable] = useState<boolean>(doctorAccountDetails?.publiclyAvailable || false)
+  const verified: boolean = doctorAccountDetails?.verified || false
 
   useDoctorAccountDetails(
     setListDetails,

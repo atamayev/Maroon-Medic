@@ -35,11 +35,11 @@ function RenderServicedPets({servicedPets} : {servicedPets: ServicedPetData[]}) 
 
   return (
     <>
-      {Object.entries(categories).map(([petType, pets], index) => (
-        <div key={index} style={{ marginBottom: "10px" }}>
+      {Object.entries(categories).map(([petType, pets], outerIndex) => (
+        <div key = {outerIndex} style = {{ marginBottom: "10px" }}>
           <h3>{petType}</h3>
-          {pets.map((Pet, index) => (
-            <p key={index}>
+          {pets.map((Pet, innerIndex) => (
+            <p key = {innerIndex}>
               {Pet.pet}
             </p>
           ))}

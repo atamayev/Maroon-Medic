@@ -1,3 +1,4 @@
+import _ from "lodash"
 import SingleDoctor from "./single-doctor-search-result"
 
 type DoctorData = {
@@ -12,6 +13,8 @@ interface Props {
 
 export default function SearchResults(props: Props) {
   const { data } = props
+  if (_.isEmpty(data)) return <p> Loading... </p>
+
   return (
     <div className = "card-container" style = {{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gridGap: "16px" }}>
       {data.map((item) => {

@@ -6,7 +6,9 @@ interface Props {
 
 export default function RenderPersonalInfoSection(props: Props) {
   const { personalData } = props
+
   if (!personalData) return null
+
   return (
     <h3>
       <RenderPersonalInfo personalData = {personalData} />

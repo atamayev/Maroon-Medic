@@ -18,13 +18,13 @@ export default function RenderServiceSection(props: Props) {
         Provided Services
       </Card.Header>
       <Card.Body>
-        <RenderProvidedServices {...providedServices} />
+        <RenderProvidedServices providedServices = {providedServices} />
       </Card.Body>
     </Card>
   )
 }
 
-function RenderProvidedServices(providedServices: ServiceItem[]) {
+function RenderProvidedServices({providedServices} : {providedServices: ServiceItem[]}) {
   const categories: CategoriesType = {}
   if (providedServices) {
     providedServices.forEach(service => {
@@ -35,11 +35,11 @@ function RenderProvidedServices(providedServices: ServiceItem[]) {
 
   return (
     <>
-      {Object.entries(categories).map(([category, services], index) => (
-        <div key = {index} style = {{ marginBottom: "10px" }}>
+      {Object.entries(categories).map(([category, services], outerIndex) => (
+        <div key = {outerIndex} style = {{ marginBottom: "10px" }}>
           <h3>{category}</h3>
-          {services.map((service, index) => (
-            <p key = {index}>
+          {services.map((service, innerIndex) => (
+            <p key = {innerIndex}>
               {service.Service_name} - {service.Service_time}, ${service.Service_price}
             </p>
           ))}

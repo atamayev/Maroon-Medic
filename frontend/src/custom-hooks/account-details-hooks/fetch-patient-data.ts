@@ -7,10 +7,8 @@ export async function FillLists(
 ): Promise<void> {
   try {
     const response = await ListsDataService.fillPatientLists()
-    if (response) {
-      setListDetails(response.data)
-      sessionStorage.setItem("ListDetails", JSON.stringify(response.data))
-    }
+    setListDetails(response.data)
+    sessionStorage.setItem("ListDetails", JSON.stringify(response.data))
   } catch (error: unknown) {
     handle401AxiosError(error)
   }
@@ -21,10 +19,8 @@ export async function FillPatientAccountDetails(
 ): Promise<void> {
   try {
     const response = await PrivatePatientDataService.fillAccountDetails()
-    if (response) {
-      if (response.data.languages) setSpokenLanguages(response.data.languages)
-      sessionStorage.setItem("PatientAccountDetails", JSON.stringify(response.data))
-    }
+    if (response.data.languages) setSpokenLanguages(response.data.languages)
+    sessionStorage.setItem("PatientAccountDetails", JSON.stringify(response.data))
   } catch (error: unknown) {
     handle401AxiosError(error)
   }

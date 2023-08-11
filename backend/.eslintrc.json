@@ -15,6 +15,9 @@
         "security"
     ],
     "rules": {
+        "max-params": ["warn", 4],
+        "@typescript-eslint/no-floating-promises": "warn",
+
         "security/detect-buffer-noassert": "warn",
         "security/detect-child-process": "warn",
         "security/detect-disable-mustache-escape": "warn",

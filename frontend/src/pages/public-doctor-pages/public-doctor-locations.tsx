@@ -14,13 +14,13 @@ export default function RenderLocationsSection(props: Props) {
         Locations
       </Card.Header>
       <Card.Body>
-        <RenderLocations {...addresses} />
+        <RenderLocations addressesList = {addresses} />
       </Card.Body>
     </Card>
   )
 }
 
-function RenderLocations(addressesList: PublicAddressData[]) {
+function RenderLocations({addressesList}: {addressesList: PublicAddressData[]}) {
   const RenderInstantBook = ({ address }: {address: PublicAddressData}) => {
     if (address.instant_book) return <>Instant book available</>
     return <>Instant book unavailable</>

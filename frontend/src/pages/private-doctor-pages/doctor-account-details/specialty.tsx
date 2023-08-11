@@ -64,7 +64,7 @@ function RenderIsSpecialty(props: Props) {
           onChange = {(e) => setSelectedOrganization(e.target.value)}
         >
           <option value = "" disabled>Choose an organization</option>
-          {_.uniq(listDetails.specialties?.map((item) => item.Organization_name)).map(
+          {_.uniq(listDetails.specialties.map((item) => item.Organization_name)).map(
             (organization) => (
               <option key = {organization} value = {organization}>
                 {organization}
@@ -158,7 +158,7 @@ function RenderIsSpecialty(props: Props) {
     )
   }
 
-  if (_.isEmpty(_.uniq(listDetails.specialties?.map((item) => item.Organization_name)))) return <p>Loading...</p>
+  if (_.isEmpty(_.uniq(listDetails.specialties.map((item) => item.Organization_name)))) return <p>Loading...</p>
 
   return (
     <>

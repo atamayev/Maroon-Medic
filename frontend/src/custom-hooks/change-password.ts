@@ -14,7 +14,6 @@ export const handleChangePassword = async (
     try {
       setLoading(true)
       const response = await AuthDataService.changePassword(changePasswordObject)
-      console.log(response)
       if (response.status === 400) {
         setMessage("Old Password is incorrect")
       } if (response.status === 402) {

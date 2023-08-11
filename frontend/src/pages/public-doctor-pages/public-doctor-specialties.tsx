@@ -18,31 +18,28 @@ export default function RenderSpecialtiesSection(props: Props) {
         Doctor Organizations and Specialites
       </Card.Header>
       <Card.Body>
-        <RenderSpecialties {...doctorSpecialties} />
+        <RenderSpecialties doctorSpecialties = {doctorSpecialties} />
       </Card.Body>
     </Card>
   )
 }
 
-function RenderSpecialties(doctorSpecialties: OrganizationSpecialtyName[]) {
+function RenderSpecialties({doctorSpecialties} : {doctorSpecialties: OrganizationSpecialtyName[]}) {
   const organizations: CategoriesType = {}
-  if (doctorSpecialties) {
-    doctorSpecialties.forEach(specialty => {
-      if (!organizations[specialty.Organization_name]) {
-        organizations[specialty.Organization_name] = []
-      } else {
-        organizations[specialty.Organization_name].push(specialty)
-      }
-    })
-  }
+  doctorSpecialties.forEach(specialty => {
+    if (!organizations[specialty.Organization_name]) {
+      organizations[specialty.Organization_name] = []
+    }
+    (organizations[specialty.Organization_name] as OrganizationSpecialtyName[]).push(specialty)
+  })
 
   return (
     <>
-      {Object.entries(organizations).map(([organization, specialties], index) => (
-        <div key = {index} style = {{ marginBottom: "10px" }}>
+      {Object.entries(organizations).map(([organization, specialties], outerIndex) => (
+        <div key = {outerIndex} style = {{ marginBottom: "10px" }}>
           <h3>{organization}</h3>
-          {specialties.map((specialty, index) => (
-            <p key = {index}>
+          {specialties.map((specialty, innerIndex) => (
+            <p key = {innerIndex}>
               {specialty.Specialty_name}
             </p>
           ))}

@@ -12,7 +12,7 @@ export const handleDeleteLanguage = async (
   if (doctorOrPatient === "doctor") {
     await deleteDoctorLanguages(language.language_listID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
   }
-  else if (doctorOrPatient === "patient") {
+  else {
     await deletePatientLanguages(language.language_listID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
   }
 }

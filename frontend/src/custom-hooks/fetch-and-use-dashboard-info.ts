@@ -25,10 +25,8 @@ async function fetchDoctorDashboardData(
 ): Promise<void> {
   try {
     const response = await PrivateDoctorDataService.fillDashboard()
-    if (response) {
-      setDashboardData(response.data)
-      sessionStorage.setItem("DoctorDashboardData", JSON.stringify(response.data))
-    }
+    setDashboardData(response.data)
+    sessionStorage.setItem("DoctorDashboardData", JSON.stringify(response.data))
   } catch (error: unknown) {
     handle401AxiosError(error)
   }
@@ -56,10 +54,8 @@ async function fetchPatientDashboardData(
 ): Promise<void> {
   try {
     const response = await PrivatePatientDataService.fillDashboard()
-    if (response) {
-      setDashboardData(response.data)
-      sessionStorage.setItem("PatientDashboardData", JSON.stringify(response.data))
-    }
+    setDashboardData(response.data)
+    sessionStorage.setItem("PatientDashboardData", JSON.stringify(response.data))
   } catch (error: unknown) {
     handle401AxiosError(error)
   }

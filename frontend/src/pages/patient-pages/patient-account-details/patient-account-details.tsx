@@ -32,8 +32,8 @@ function usePatientAccountDetails(
 export default function PatientAccountDetails() {
   const { userType } = useSimpleUserVerification()
   const [listDetails, setListDetails] = useState({} as PatientListDetails)
-  const PatientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails") || "{}")
-  const [spokenLanguages, setSpokenLanguages] = useState<LanguageItem[]>(PatientAccountDetails?.languages || [])
+  const patientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails") || "{}")
+  const [spokenLanguages, setSpokenLanguages] = useState<LanguageItem[]>(patientAccountDetails?.languages || [])
   usePatientAccountDetails(setSpokenLanguages, setListDetails, userType)
   if (userType !== "Patient") return <UnauthorizedUser patientOrDoctor = {"patient"}/>
 

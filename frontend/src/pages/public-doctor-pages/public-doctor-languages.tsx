@@ -14,13 +14,13 @@ export default function RenderLanguageSection(props: Props) {
         Spoken Languages
       </Card.Header>
       <Card.Body>
-        <RenderSpokenLanguages {...spokenLanguages} />
+        <RenderSpokenLanguages spokenLanguages = {spokenLanguages} />
       </Card.Body>
     </Card>
   )
 }
 
-function RenderSpokenLanguages(spokenLanguages: LanguageName[]) {
+function RenderSpokenLanguages({spokenLanguages}: {spokenLanguages: LanguageName[]}) {
   return (
     <>
       {spokenLanguages.map((language, index) => (

@@ -14,7 +14,7 @@
       "."
     ],
     "ext": "ts",
-    "exec": "ts-node --files ./index.ts"
+    "exec": "ts-node --files ./src/index.ts"
   },
   "author": "",
   "license": "ISC",

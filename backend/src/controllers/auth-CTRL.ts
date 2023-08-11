@@ -8,7 +8,7 @@ import Hash from "../setup-and-security/hash"
 import { loginHistory } from "../utils/account-tracker"
 import Cookie from "../utils/cookie-operations"
 import { ID_to_UUID, UUID_to_ID } from "../setup-and-security/UUID"
-import { getUserInfo, handleLogoutInDB, getUserType, getDecodedUUID, validateUserType, signJWT } from "src/utils/auth-helper"
+import { getUserInfo, handleLogoutInDB, getUserType, getDecodedUUID, validateUserType, signJWT } from "../utils/auth-helper"
 
 export async function jwtVerify(req: Request, res: Response): Promise<Response> {
   const cookies = req.cookies

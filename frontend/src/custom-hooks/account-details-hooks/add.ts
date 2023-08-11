@@ -2,24 +2,24 @@ import moment from "moment"
 import { addPatientLanguages } from "./save-patient-account-details"
 import { addDoctorLanguages, addSpecialties } from "./save-doctor-account-details"
 
-export const handleAddLanguage = (
+export const handleAddLanguage = async (
   selectedLanguageID: number,
   spokenLanguages: LanguageItem[],
   setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
   listDetails: DoctorListDetails | PatientListDetails,
   setLanguagesConfirmation: (conf: ConfirmationMessage) => void,
   doctorOrPatient: doctorOrpatient
-): void => {
+): Promise<void> => {
   const selectedLanguage = listDetails.languages.find((lang) => lang.language_listID === selectedLanguageID)
 
   if (selectedLanguage) {
     const newSpokenLanguages = [...spokenLanguages, selectedLanguage]
 
     if (doctorOrPatient === "doctor") {
-      addDoctorLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
+      await addDoctorLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
     }
-    else if (doctorOrPatient === "patient") {
-      addPatientLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
+    else {
+      await addPatientLanguages(selectedLanguageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
     }
   }
 }
@@ -35,7 +35,13 @@ export const handleAddSpecialty = async (
   const selectedSpecialty = listDetails.specialties.find((spec) => spec.specialties_listID === selectedSpecialtyID)
   if (selectedSpecialty) {
     const newDoctorSpecialties = [...doctorSpecialties, selectedSpecialty]
-    await addSpecialties(selectedSpecialtyID, newDoctorSpecialties, setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation)
+    await addSpecialties(
+      selectedSpecialtyID,
+      newDoctorSpecialties,
+      setDoctorSpecialties,
+      setSelectedOrganization,
+      setSpecialtiesConfirmation
+    )
   }
 }
 

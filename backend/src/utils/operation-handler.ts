@@ -51,7 +51,7 @@ export default new class OperationHandler {
     try {
       return await fn(...args)
     } catch (error: any) {
-      console.error(error)
+      console.log(error)
       res.status(400).json()
       // throw error // This is necessary to stop execution of the caller function if the check fails
     }

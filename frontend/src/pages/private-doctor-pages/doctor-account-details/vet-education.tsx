@@ -181,7 +181,7 @@ function RenderIsVetEducation(props: Props) {
     )
   }
 
-  if (_.isEmpty(_.uniq(listDetails.vetSchools?.map((item) => item.School_name)))) return <p>Loading...</p>
+  if (_.isEmpty(_.uniq(listDetails.vetSchools.map((item) => item.School_name)))) return <p>Loading...</p>
 
   return (
     <>

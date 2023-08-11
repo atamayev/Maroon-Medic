@@ -39,15 +39,15 @@ export default function PatientDashboard() {
   useEffect(() => {
     if (!_.isEmpty(dashboardData) && userType === "Patient") {
       const now = moment()
-      const pastAppointments = dashboardData.filter(appointment =>
+      const pastPatientAppointments = dashboardData.filter(appointment =>
         moment(appointment.appointment_date, "MMMM Do, YYYY, h:mm A") < now
       )
-      const upcomingAppointments = dashboardData.filter(appointment =>
+      const upcomingPatientAppointments = dashboardData.filter(appointment =>
         moment(appointment.appointment_date, "MMMM Do, YYYY, h:mm A") >= now
       )
 
-      setPastAppointments(pastAppointments)
-      setUpcomingAppointments(upcomingAppointments)
+      setPastAppointments(pastPatientAppointments)
+      setUpcomingAppointments(upcomingPatientAppointments)
     }
   }, [dashboardData])
 
@@ -121,22 +121,22 @@ export default function PatientDashboard() {
     )
   }
 
-  const RenderUpcomingAppointments = ({upcomingAppointments} : {upcomingAppointments: PatientDashboardData[]}) => {
-    if (_.isEmpty(upcomingAppointments)) return <>No upcoming appointments</>
+  const RenderUpcomingAppointments = ({upcomingPatientAppointments} : {upcomingPatientAppointments: PatientDashboardData[]}) => {
+    if (_.isEmpty(upcomingPatientAppointments)) return <>No upcoming appointments</>
     return (
       <>
-        {upcomingAppointments.map((appointment) => (
+        {upcomingPatientAppointments.map((appointment) => (
           <UpcomingAppointmentCard key = {appointment.appointmentsID} appointment = {appointment} />
         ))}
       </>
     )
   }
 
-  const RenderPastAppointments = ({pastAppointments} : {pastAppointments: PatientDashboardData[]}) => {
-    if (_.isEmpty(pastAppointments)) return <>No past appointments</>
+  const RenderPastAppointments = ({pastPatientAppointments} : {pastPatientAppointments: PatientDashboardData[]}) => {
+    if (_.isEmpty(pastPatientAppointments)) return <>No past appointments</>
     return (
       <>
-        {pastAppointments.map((appointment) => (
+        {pastPatientAppointments.map((appointment) => (
           <PastAppointmentCard key = {appointment.appointmentsID} appointment = {appointment} />
         ))}
       </>
@@ -151,7 +151,7 @@ export default function PatientDashboard() {
             <h1>Upcoming Appointments</h1>
           </Card.Header>
           <Card.Body>
-            <RenderUpcomingAppointments upcomingAppointments = {upcomingAppointments} />
+            <RenderUpcomingAppointments upcomingPatientAppointments = {upcomingAppointments} />
           </Card.Body>
         </Card>
       </>
@@ -166,7 +166,7 @@ export default function PatientDashboard() {
             <h1>Past Appointments</h1>
           </Card.Header>
           <Card.Body>
-            <RenderPastAppointments pastAppointments = {pastAppointments} />
+            <RenderPastAppointments pastPatientAppointments = {pastAppointments} />
           </Card.Body>
         </Card>
       </>

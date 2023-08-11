@@ -1,4 +1,4 @@
-import AuthDB from "src/db/auth-DB"
+import AuthDB from "../db/auth-DB"
 import jwt from "jsonwebtoken"
 
 export function getUserInfo(cookies: Express.Request["cookies"]): { type: DoctorOrPatient, UUID: string, newUserUUID: string } {

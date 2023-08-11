@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { useState, useEffect} from "react"
 import {useParams} from "react-router-dom"
 import PublicDoctorDataService from "../../services/public-doctor-data-service"
@@ -31,21 +32,19 @@ export default function Doctor () {
 
   const idNumber = Number(id)
 
-  async function FillDoctorData(idNumber: number) {
+  async function FillDoctorData(IDNumber: number) {
     try {
-      const response = await PublicDoctorDataService.getSingleDoctor(idNumber)
-      if (response) {
-        if (response.data.doctorLanguages) setSpokenLanguages(response.data.doctorLanguages)
-        if (response.data.doctorServices) setProvidedServices(response.data.doctorServices)
-        if (response.data.doctorSpecialties) setDoctorSpecialties(response.data.doctorSpecialties)
-        if (response.data.doctorPreVetEducation) setPreVetEducation(response.data.doctorPreVetEducation)
-        if (response.data.doctorVetEducation) setVetEducation(response.data.doctorVetEducation)
-        if (response.data.doctorAddressData) setAddresses(response.data.doctorAddressData)
-        if (response.data.description) setDescription(response.data.description)
-        if (response.data.servicedPets) setServicedPets(response.data.servicedPets)
-        // if (response.data.doctorPictures) ;// Somehow set pictures.
-        if (response.data.doctorPersonalInfo) setPersonalData(response.data.doctorPersonalInfo)
-      }
+      const response = await PublicDoctorDataService.getSingleDoctor(IDNumber)
+      if (response.data.doctorLanguages) setSpokenLanguages(response.data.doctorLanguages)
+      if (response.data.doctorServices) setProvidedServices(response.data.doctorServices)
+      if (response.data.doctorSpecialties) setDoctorSpecialties(response.data.doctorSpecialties)
+      if (response.data.doctorPreVetEducation) setPreVetEducation(response.data.doctorPreVetEducation)
+      if (response.data.doctorVetEducation) setVetEducation(response.data.doctorVetEducation)
+      if (response.data.doctorAddressData) setAddresses(response.data.doctorAddressData)
+      if (response.data.description) setDescription(response.data.description)
+      if (response.data.servicedPets) setServicedPets(response.data.servicedPets)
+      // if (response.data.doctorPictures) ;// Somehow set pictures.
+      if (response.data.doctorPersonalInfo) setPersonalData(response.data.doctorPersonalInfo)
     } catch (error) {
     }
   }

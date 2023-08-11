@@ -126,12 +126,12 @@ const AddressAccordionItem = (props: AddressAccordionProps) => {
   }
 
   const handleTimesChange = (newTimesFn: React.SetStateAction<DoctorAvailability[]>, addressPriority: number) => {
-    const newAddresses = addresses.map(address => {
-      if (address.address_priority === addressPriority) {
-        const newTimes = typeof newTimesFn === "function" ? newTimesFn(address.times) : newTimesFn
-        return { ...address, times: newTimes }
+    const newAddresses = addresses.map(singleAddress => {
+      if (singleAddress.address_priority === addressPriority) {
+        const newTimes = typeof newTimesFn === "function" ? newTimesFn(singleAddress.times) : newTimesFn
+        return { ...singleAddress, times: newTimes }
       }
-      return address
+      return singleAddress
     })
     setAddresses(newAddresses)
   }
@@ -347,8 +347,8 @@ const WeekDays = (props: WeekDaysProps) => {
     )
   }
 
-  const RenderPickTime = ({ times, day }: {times: DoctorAvailability[], day: DayOfWeek}) => {
-    const matchedTime = times.find(time => time.Day_of_week === day)
+  const RenderPickTime = ({ doctorTimes, day }: {doctorTimes: DoctorAvailability[], day: DayOfWeek}) => {
+    const matchedTime = doctorTimes.find(time => time.Day_of_week === day)
 
     if (!matchedTime) return null
 
@@ -371,7 +371,7 @@ const WeekDays = (props: WeekDaysProps) => {
             checked = {times.some(time => time.Day_of_week === day)}
             onChange = {() => handleDayToggle(day)}
           />
-          <RenderPickTime times = {times} day = {day} />
+          <RenderPickTime doctorTimes = {times} day = {day} />
         </div>
       ))}
     </div>

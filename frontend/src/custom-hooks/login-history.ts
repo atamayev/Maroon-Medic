@@ -13,14 +13,12 @@ export async function fetchLoginHistory(
 ): Promise<void> {
   try {
     const response = await AuthDataService.fetchLoginHistry()
-    if (response) {
-      const formattedData = response.data.map((item: LoginHistoryItem) => ({
-        ...item,
-        Login_at: moment(item.Login_at).format("MMMM Do, YYYY [at] h:mmA"),
-      }))
-      setLoginHistory(formattedData)
-      sessionStorage.setItem("LoginHistory", JSON.stringify(formattedData))
-    }
+    const formattedData = response.data.map((item: LoginHistoryItem) => ({
+      ...item,
+      Login_at: moment(item.Login_at).format("MMMM Do, YYYY [at] h:mmA"),
+    }))
+    setLoginHistory(formattedData)
+    sessionStorage.setItem("LoginHistory", JSON.stringify(formattedData))
   } catch (error: unknown) {
     handle401AxiosError(error)
   }

@@ -93,7 +93,7 @@ export default function RenderBookingSection(props: Props) {
     if (selectedDay && selectedLocationObject && selectedServiceObject && selectedPetObject) {
       // Get the working hours for the selected day
       const selectedDayOfWeek = moment(selectedDay, "dddd, MMMM Do, YYYY").format("dddd")
-      const workingHours = selectedLocationObject?.times.find(time => time.Day_of_week === selectedDayOfWeek)
+      const workingHours = selectedLocationObject.times.find(time => time.Day_of_week === selectedDayOfWeek)
 
       if (workingHours) {
         const times = []
@@ -103,13 +103,13 @@ export default function RenderBookingSection(props: Props) {
         let currentTime = moment().hour(Number(start[0])).minute(Number(start[1]))
         const endTime = moment().hour(Number(end[0])).minute(Number(end[1]))
 
-        const serviceMinutes = convertToMinutes(selectedServiceObject.Service_time)
-        setServiceMinutes(serviceMinutes!)
+        const ServiceMinutes = convertToMinutes(selectedServiceObject.Service_time)
+        setServiceMinutes(ServiceMinutes)
 
         while (currentTime.isBefore(endTime)) {
           // Change "HH:mm" to "h:mm A":
           times.push(currentTime.format("h:mm A"))
-          currentTime = currentTime.clone().add(serviceMinutes, "minutes")
+          currentTime = currentTime.clone().add(ServiceMinutes, "minutes")
         }
         setAvailableTimes(times)
       }
@@ -143,7 +143,7 @@ export default function RenderBookingSection(props: Props) {
     )
   }
 
-  const renderMakeBooking = () => {
+  const RenderMakeBooking = () => {
     if (userType !== "Patient") return RenderPatientNotLoggedIn()
     if ( _.isEmpty(addresses)) return RenderDoctorDoesNotHaveLocations(personalData)
     if ( _.isEmpty(providedServices)) return RenderDoctorDoesNotOfferServices(personalData)
@@ -225,5 +225,5 @@ export default function RenderBookingSection(props: Props) {
     )
   }
 
-  return renderMakeBooking()
+  return <RenderMakeBooking />
 }

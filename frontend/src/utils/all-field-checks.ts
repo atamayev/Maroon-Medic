@@ -1,20 +1,23 @@
-export function areAllFieldsValid(address: DoctorAddressData): boolean {
-  if (
-    !address.address_title ||
-    !address.address_line_1 ||
-    !address.city ||
-    !address.state ||
-    !address.zip ||
-    !address.country
-  ) {
-    return false
-  }
+function isAddressValid(address: DoctorAddressData): boolean {
+  return !!(
+    address.address_title &&
+    address.address_line_1 &&
+    address.city &&
+    address.state &&
+    address.zip &&
+    address.country
+  )
+}
 
-  // Check for days that are checked off (exist in times array)
-  for (const time of address.times) {
+function areTimesValid(times: { Start_time?: string; End_time?: string }[]): boolean {
+  for (const time of times) {
     if (!time.Start_time || !time.End_time) return false
   }
   return true
+}
+
+export function areAllFieldsValid(address: DoctorAddressData): boolean {
+  return isAddressValid(address) && areTimesValid(address.times)
 }
 
 export function areAllTimesValid(address: DoctorAddressData): boolean {
