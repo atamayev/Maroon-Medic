@@ -1,6 +1,7 @@
 import ReactDOM from "react-dom/client"
 import {BrowserRouter, Routes, Route} from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css"
+import "./styles/index.css"
 import { disableReactDevTools } from "@fvilers/disable-react-devtools"
 import App from "./App"
 import { VerifyContextProvider } from "./contexts/verify-context"

@@ -1,5 +1,4 @@
 import _ from "lodash"
-import { Card, Button } from "react-bootstrap"
 import { Link } from "react-router-dom"
 
 type DoctorData = {
@@ -15,15 +14,15 @@ interface Props {
 export default function SingleDoctor(props: Props) {
   const { FirstName, LastName, NVI } = props.doctorData
   return (
-    <Card style = {{ margin: "0 10px", gridColumn: "span 1", gridRow: "span 1" }}>
-      <Card.Body>
-        <Card.Title>  Dr. {_.upperFirst(FirstName || "")} {_.upperFirst(LastName || "")}</Card.Title>
-        <Link to = {`/vet/${NVI}`}>
-          <Button variant = "primary">
+    <div className="bg-white shadow-lg rounded-lg p-4 m-2 grid grid-cols-1 grid-rows-1">
+      <div className="flex flex-col">
+        <h2 className="text-lg font-semibold mb-2">Dr. {_.upperFirst(FirstName || "")} {_.upperFirst(LastName || "")}</h2>
+        <Link to={`/vet/${NVI}`} className="text-white">
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             <p>Click Me! NVI: {NVI}</p>
-          </Button>
+          </button>
         </Link>
-      </Card.Body>
-    </Card>
+      </div>
+    </div>
   )
 }

@@ -114,6 +114,8 @@
     "src/types/**/*.d.ts",
     "src/",
     "./.eslintrc.json",
+    "./postcss.config.js",
+    "./tailwind.config.js"
   ],
   "exclude": [
     "node_modules"

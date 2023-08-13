@@ -2,9 +2,26 @@ To-do:
 
 
 ASAP:
+
+Make the auth token and cookie stored in a class, like in context.ts in deployment manager
+	reading from memory is faster than from session storage
+	Create an auth class to store all of this stuff. Make the class have UUID, AccessToken, userType
+
+After creating classes to store data in, can remove all of the useStates, since the data is held on the class level
+
+Classes vs useState:
+	Use classes when you need to use variables across components.
+
+Classes vs session storage:
+	Use classes when data is sensitive
+
+Bootstrap --> Tailwind
+
+-to fix the header re-rendering problem, can make the header component appear on every page (in the app.tsx), but have another disabled parameter, that is off by default, but exists only on specific pages that need it
+	use gpt to figure out a simpler solution
+
 Full Stack TS changes
 	9. Change all DB fields to snake case, change sql accordingly
-
 
 added a appointment_timespan, and add petID to the Appointments table. - need to change the front-end accordingly
 
@@ -23,12 +40,9 @@ added a appointment_timespan, and add petID to the Appointments table. - need to
 -CODE CONCISION: Cut any function more than 100 lines into parts. I don't want massive functions - most can be distilled into smaller parts
 	uncomment this: // "max-lines-per-function": ["warn", {"max": 60, "skipBlankLines": true, "skipComments": true}],
 
-Make the auth token and cookie stored in a class, like in context.ts in deployment manager
-	reading from memory is faster than from session storage
-	Create an auth class to store all of this stuff. Make the class have UUID, AccessToken, userType
-
 Move data like personal info into a context. If it's used by multiple components, move it into a context. Every time you navigate, show the context data, but call the API to check for changes simultaneously
--mini bug when making a booking. make a booking with `changes in behavior`. The time is 10 AM- 10AM. Should say something like (10AM (july 17) - 10AM (july 18))
+
+-mini bug when making a booking. make a booking with `changes in behavior`. The time is 10 AM- 10AM (it's a full day appointment). Should say something like (10AM (july 17) - 10AM (july 18))
 
 -start figuring out only being able to make appointments during available time slots (shouldn't be able to book an appointment while that time slot is booked)
 
@@ -99,3 +113,5 @@ inactivity logout ( 5 mins). implement on the verification level (in the jwt)
 	For example, the Doctor_ID didn't used to be in the Appointments table. The address ID was joined from the addresses table, and the DoctorID was extracted from there.
 	Even though that is normalized (not duplicating Doctor ID twice), it leads to performance problems, since the enter addresses table is joined with appointments, just to retrieve the DoctorID
 	Check for any other SQL operations which perform heavy joins that could have an efficiency boost from de-normalizing data
+
+-Implement scrollSpy into Account Details, other components to make scrolling through various sections easier

@@ -8,7 +8,6 @@ import PatientHeader from "../patient-header"
 
 export default function PatientLoginAndSecurity() {
   const { userType } = useSimpleUserVerification()
-
   const loginHistory = useLoginHistory(userType, "Patient")
 
   if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
@@ -19,8 +18,8 @@ export default function PatientLoginAndSecurity() {
       <PatientHeader/>
       <ChangePassword type = {userType}/>
       <h1>Login History</h1>
-      {loginHistory.map((item) => (
-        <LoginHistory key = {item.login_historyID} loginHistoryItem = {item} />
+      {loginHistory.map((item, index) => (
+        <LoginHistory key = {index} loginHistoryItem = {item} />
       ))}
     </>
   )

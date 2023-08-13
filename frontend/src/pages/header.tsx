@@ -1,7 +1,6 @@
 import _ from "lodash"
-import {Dropdown} from "react-bootstrap"
 import {useLocation} from "react-router-dom"
-import {useCallback, useState, useEffect, useContext } from "react"
+import {useCallback, useState, useEffect, useContext, useRef } from "react"
 import logo from "../images/logo.svg"
 import pic from "../images/ProfileImage.jpg"
 import { SearchContext } from "../contexts/search-context"
@@ -115,21 +114,56 @@ export default function Header (props: HeaderProps) {
   }, [location])
 
   const RenderDropdown = () => {
+    const [isOpen, setIsOpen] = useState(false)
+
+    const dropdownRef = useRef<HTMLDivElement>(null)
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+
+    useEffect(() => {
+      document.addEventListener("mousedown", handleClickOutside)
+      return () => document.removeEventListener("mousedown", handleClickOutside)
+    }, [])
+
     if (dropdown === false) return null
+
     return (
-      <Dropdown className = "menu-container">
-        <Dropdown.Toggle
-          variant = "dark"
-          id = "dropdown-basic"
-          className = "menu-trigger menu-active"
+      <div className="relative inline-block text-left" ref = {dropdownRef}>
+        <button
+          type="button"
+          className="bg-gray-800 text-white rounded px-4 py-2 flex items-center text-sm"
+          id="menu-button"
+          aria-expanded="false"
+          aria-haspopup="true"
+          onClick={() => setIsOpen(!isOpen)}
         >
-          {headerData}
-          <img src = {pic} alt = "profile" height = {20} className = "ml-2" />
-        </Dropdown.Toggle>
-        <Dropdown.Menu>
+          <span className="max-w-xs truncate">
+            {headerData}
+          </span>
+          <img src={pic} alt="profile" className="ml-2 h-5 w-5" />
+        </button>
+        {RenderDropdownItemsSection(isOpen)}
+      </div>
+    )
+  }
+
+  const RenderDropdownItemsSection = (isOpen: boolean) => {
+    if (!isOpen) return null
+    return (
+      <div
+        className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+        role="menu"
+        aria-orientation="vertical"
+        aria-labelledby="menu-button"
+      >
+        <div className="py-1" role="none">
           <RenderDropdownItems />
-        </Dropdown.Menu>
-      </Dropdown>
+        </div>
+      </div>
     )
   }
 
@@ -137,23 +171,22 @@ export default function Header (props: HeaderProps) {
     if (dropdown === false) return null
     if (userType === "Doctor" || userType === "Patient") {
       return (
-        <div>
-          <Dropdown.Item onClick = {handleLogout}>Sign out</Dropdown.Item>
-          <Dropdown.Item href = "/dashboard">Dashboard</Dropdown.Item>
-          <Dropdown.Item href = "/account-details">Account Details</Dropdown.Item>
-        </div>
+        <>
+          <a href="/dashboard" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem">Dashboard</a>
+          <a href="/account-details" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem">Account Details</a>
+          <button onClick={handleLogout} className="text-gray-700 block px-4 py-2 text-sm" role="menuitem">Sign out</button>
+        </>
       )
     }
     return (
-      <div>
-        <Dropdown.Item href = "/vet-register" className = "fw-bold">Vet Sign up</Dropdown.Item>
-        <Dropdown.Item href = "/vet-login">Vet Log In</Dropdown.Item>
-        <Dropdown.Item href = "/patient-register" className = "fw-bold">Patient Sign up</Dropdown.Item>
-        <Dropdown.Item href = "/patient-login">Patient Log In</Dropdown.Item>
-
-        <Dropdown.Divider />
-        <Dropdown.Item href = "/help">Help</Dropdown.Item>
-      </div>
+      <>
+        <a href="/vet-register" className="font-bold text-gray-700 block px-4 py-2 text-sm" role="menuitem">Vet Sign up</a>
+        <a href="/vet-login" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem">Vet Log In</a>
+        <a href="/patient-register" className="font-bold text-gray-700 block px-4 py-2 text-sm" role="menuitem">Patient Sign up</a>
+        <a href="/patient-login" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem">Patient Log In</a>
+        <div className="border-t border-gray-100"></div>
+        <a href="/help" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem">Help</a>
+      </>
     )
   }
 
@@ -165,31 +198,29 @@ export default function Header (props: HeaderProps) {
   const RenderSearch = () => {
     if (search === false) return null
     return (
-      <>
+      <div className="flex items-center justify-center space-x-2 w-full">
         <input
-          type = "search"
-          id = "search-input"
-          className = "form-control mr-sm-2"
-          placeholder = "Search"
-          aria-label = "Search"
-          defaultValue = {searchDefaultValue()}
-          onKeyUp = {handleKeyUp}
+          type="search"
+          id="search-input"
+          className="border border-gray-500 bg-white rounded py-2 px-4 w-1/2 "
+          placeholder="Search"
+          aria-label="Search"
+          defaultValue={searchDefaultValue()}
+          onKeyUp={handleKeyUp}
         />
-        <div className = "input-group-append">
-          <button
-            className = "btn btn-dark"
-            type = "button"
-            onClick = {() => {
-              const inputElement = document.getElementById("search-input")
-              if (inputElement) {
-                handleSearch((inputElement as HTMLInputElement).value, setSearchTerm)
-              }
-            }}
-          >
-            Search
-          </button>
-        </div>
-      </>
+        <button
+          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:ring focus:ring-opacity-50"
+          type="button"
+          onClick={() => {
+            const inputElement = document.getElementById("search-input")
+            if (inputElement) {
+              handleSearch((inputElement as HTMLInputElement).value, setSearchTerm)
+            }
+          }}
+        >
+          Search
+        </button>
+      </div>
     )
   }
 
@@ -208,17 +239,17 @@ export default function Header (props: HeaderProps) {
   }
 
   return (
-    <header>
-      <nav className = "navbar navbar-expand-lg navbar-light bg-light">
-        <div className = "container">
+    <header className="bg-white shadow rounded-b-md">
+      <nav className="container mx-auto px-4 py-2 flex justify-between items-center">
+        <div className="w-1/4">
           <RenderLogo />
-          <div className = "navbar-collapse" id = "navbarSupportedContent">
-            <RenderSearch />
-            <ul className = "navbar-nav ml-auto">
-              <li className = "nav-item">
-                <RenderDropdown />
-              </li>
-            </ul>
+        </div>
+        <div className="w-1/2">
+          <RenderSearch />
+        </div>
+        <div className="w-1/4 flex justify-end">
+          <div className="flex items-center">
+            <RenderDropdown />
           </div>
         </div>
       </nav>
