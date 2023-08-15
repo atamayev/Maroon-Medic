@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom"
 import {handleRegisterSubmit} from "../../custom-hooks/handle-submits"
 import { useConfirmNotLoggedIn } from "../../custom-hooks/user-verification-snippets"
 import LoginAndRegistrationForm from "../../components/login-and-registration-form"
-import Header from "../header"
+import Header from "../../components/header/header"
 
 export default function DoctorRegister() {
   const [registerInformationObject, setRegisterInformationObject] =

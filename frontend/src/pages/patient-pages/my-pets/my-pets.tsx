@@ -7,7 +7,7 @@ import { deletePet } from "../../../custom-hooks/my-pets-hooks/save-my-pets"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import { usePetData } from "src/custom-hooks/my-pets-hooks/my-pets"
-import Header from "../../header"
+import Header from "../../../components/header/header"
 import PatientHeader from "../patient-header"
 import { AddPet } from "./add-pet"
 

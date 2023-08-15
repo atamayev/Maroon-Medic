@@ -8,7 +8,7 @@ import CalendarDataService from "../../services/calendar-data-service"
 import { invalidUserAction } from "../../custom-hooks/user-verification-snippets"
 import { useDoctorDashboardData } from "../../custom-hooks/fetch-and-use-dashboard-info"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
-import Header from "../header"
+import Header from "../../components/header/header"
 import DoctorHeader from "./doctor-header"
 import CheckCookie from "src/utils/cookie-check"
 

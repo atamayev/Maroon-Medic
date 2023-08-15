@@ -7,7 +7,7 @@ import FormGroup from "../../components/form-group"
 import { UnauthorizedUser } from "../../components/user-type-unauth"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
 import { confirmBooking } from "../../custom-hooks/public-doctor-hooks/confirm-booking-hook"
-import Header from "../header"
+import Header from "../../components/header/header"
 
 export default function FinalizeBookingPage() {
   const [message, setMessage] = useState("")

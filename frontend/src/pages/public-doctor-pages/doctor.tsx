@@ -2,7 +2,7 @@
 import { useState, useEffect} from "react"
 import {useParams} from "react-router-dom"
 import PublicDoctorDataService from "../../services/public-doctor-data-service"
-import Header from "../header"
+import Header from "../../components/header/header"
 import "./card.css"
 import RenderBookingSection from "./public-doctor-booking"
 import RenderReviewsSection from "./public-doctor-reviews"

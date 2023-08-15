@@ -1,10 +1,10 @@
 import { Routes, Route } from "react-router-dom"
 import { Container } from "react-bootstrap"
 //Publicly accessible:
-import HomeDoctorsList from "./pages/home-doctors-list"
+import HomeDoctorsList from "./components/doctors-search-list/home-doctors-list"
 import SpecificDoctorsList from "./pages/specific-doctors-list"
 import Doctor from "./pages/public-doctor-pages/doctor"
-import Footer from "./pages/footer"
+import Footer from "./components/footer/footer-section"
 import Missing from "./pages/missing"
 import FinalizeBookingPage from "./pages/public-doctor-pages/finalize-booking"
 import Help from "./pages/help"

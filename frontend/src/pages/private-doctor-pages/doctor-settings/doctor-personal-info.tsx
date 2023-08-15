@@ -11,7 +11,7 @@ import {
   RenderDOBSection,
   RenderGenderSection
 } from "../../../components/personal-info-inputs"
-import Header from "../../header"
+import Header from "../../../components/header/header"
 import DoctorHeader from "../doctor-header"
 
 export default function DoctorPersonalInfo() {

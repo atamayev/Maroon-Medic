@@ -1,6 +1,6 @@
 import {Link} from "react-router-dom"
 import {Button, Card} from "react-bootstrap"
-import Header from "../pages/header"
+import Header from "./header/header"
 
 interface Props {
   vetOrpatient: vetOrpatient

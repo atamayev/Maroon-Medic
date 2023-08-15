@@ -1,4 +1,4 @@
-import Header from "../../header"
+import Header from "../../../components/header/header"
 import PatientHeader from "../patient-header"
 import { UnauthorizedUser } from "../../../components/user-type-unauth"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"

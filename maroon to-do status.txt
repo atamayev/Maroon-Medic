@@ -2,15 +2,17 @@ To-do:
 
 
 ASAP:
+-make sure that each component is named the same as the file. there shouldn't be more than one large component per file
+Make personal info it's own context
+Combine authContext and verify context. make it into a memoized class, initialized as null in index.tsx
 
 Make the auth token and cookie stored in a class, like in context.ts in deployment manager
 	reading from memory is faster than from session storage
 	Create an auth class to store all of this stuff. Make the class have UUID, AccessToken, userType
 
-After creating classes to store data in, can remove all of the useStates, since the data is held on the class level
-
 Classes vs useState:
 	Use classes when you need to use variables across components.
+	useState is used for temporary memory within a component
 
 Classes vs session storage:
 	Use classes when data is sensitive

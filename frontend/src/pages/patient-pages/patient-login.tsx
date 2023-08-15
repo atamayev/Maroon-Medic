@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom"
 import {handleLoginSubmit} from "../../custom-hooks/handle-submits"
 import LoginAndRegistrationForm from "../../components/login-and-registration-form"
 import { useConfirmNotLoggedIn } from "../../custom-hooks/user-verification-snippets"
-import Header from "../header"
+import Header from "../../components/header/header"
 
 export default function PatientLogin() {
   const type = "Patient"

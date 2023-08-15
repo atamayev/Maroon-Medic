@@ -4,7 +4,7 @@ import { VerifyContext } from "../../contexts/verify-context"
 import AuthDataService from "../../services/auth-data-service"
 import NewAccountForm from "../../components/new-account-form"
 import {handleNewUserSubmit} from "../../custom-hooks/handle-submits"
-import Header from "../header"
+import Header from "../../components/header/header"
 
 export default function NewDoctor () {
   const [newDoctorInfo, setNewDoctorInfo] = useState<BirthDateInfo>({

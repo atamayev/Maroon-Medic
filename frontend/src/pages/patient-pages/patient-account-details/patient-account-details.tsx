@@ -2,7 +2,7 @@ import { useState } from "react"
 import { UnauthorizedUser } from "../../../components/user-type-unauth"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import { usePatientAccountDetails } from "src/custom-hooks/account-details-hooks/fetch-patient-data"
-import Header from "../../header"
+import Header from "../../../components/header/header"
 import PatientHeader from "../patient-header"
 import RenderLanguageSection from "./language"
 

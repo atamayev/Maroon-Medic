@@ -61,7 +61,12 @@ function RenderIsPets (props: Props) {
 
   const handleCheckboxChange = useHandleCheckboxChange(servicedPets, setServicedPets, setPetsConfirmation)
 
-  const RenderShowPetsSection = ({pets, petType} : {pets: ServicedPetItem[], petType: string}) => {
+  interface RenderShowPetsSectionProps {
+    pets: ServicedPetItem[]
+    petType: string
+  }
+
+  const RenderShowPetsSection = ({pets, petType} : RenderShowPetsSectionProps) => {
     if (pets.length > 1 && !expandedPetTypes.includes(petType)) return null
 
     return (

@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { UnauthorizedUser } from "../../../components/user-type-unauth"
-import Header from "../../header"
+import Header from "../../../components/header/header"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import DoctorHeader from "../doctor-header"
 import RenderPetsSection from "./pets"

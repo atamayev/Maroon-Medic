@@ -2,7 +2,7 @@ import { CardGroup } from "react-bootstrap"
 import SettingsLinks from "../../../components/settings-links"
 import { UnauthorizedUser } from "../../../components/user-type-unauth"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
-import Header from "../../header"
+import Header from "../../../components/header/header"
 import DoctorHeader from "../doctor-header"
 
 export default function DoctorSettingsCards() {

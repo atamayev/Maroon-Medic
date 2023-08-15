@@ -26,7 +26,12 @@ export default function RenderEducationSection(props: Props) {
   )
 }
 
-function RenderEducation({educationList, hasMajor} : {educationList: GeneralEducationItem[], hasMajor: boolean}) {
+interface RenderEducationProps {
+  educationList: GeneralEducationItem[]
+  hasMajor: boolean
+}
+
+function RenderEducation({educationList, hasMajor} : RenderEducationProps) {
   return (
     <>
       {educationList.map((edu, index) => (

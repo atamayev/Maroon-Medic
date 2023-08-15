@@ -83,6 +83,10 @@ declare global {
   interface VerifyContextType {
     userVerification: (clearSession: boolean) => VerifyContextReturnType
   }
+
+  type LoginHistoryItem = {
+    Login_at: string
+  }
 }
 
 export {}

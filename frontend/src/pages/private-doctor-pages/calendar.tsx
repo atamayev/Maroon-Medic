@@ -5,7 +5,7 @@ import "../../styles/calendar.css"
 import { useDoctorCalendarData } from "src/custom-hooks/calendar"
 import { UnauthorizedUser } from "../../components/user-type-unauth"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
-import Header from "../header"
+import Header from "../../components/header/header"
 import DoctorHeader from "./doctor-header"
 
 const localizer = momentLocalizer(moment)

@@ -6,7 +6,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 import { UnauthorizedUser } from "../../components/user-type-unauth"
 import { usePatientDashboardData } from "../../custom-hooks/fetch-and-use-dashboard-info"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
-import Header from "../header"
+import Header from "../../components/header/header"
 import PatientHeader from "./patient-header"
 import CheckCookie from "src/utils/cookie-check"
 
