@@ -1,0 +1,42 @@
+name: Lint
+
+on: push
+
+jobs:
+  lint-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Node.js for backend
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'
+
+    - name: Install dependencies for backend
+      run: npm install
+      working-directory: ./backend
+
+    - name: Run linter for backend
+      run: npm run lint
+      working-directory: ./backend
+
+  lint-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Node.js for frontend
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'
+
+    - name: Install dependencies for frontend
+      run: npm install
+      working-directory: ./frontend
+
+    - name: Run linter for frontend
+      run: npm run lint
+      working-directory: ./frontend
