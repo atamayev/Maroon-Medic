@@ -10,7 +10,7 @@ function petDataOperations(petData: PetItemForCreation, responseData: number): S
   }
 }
 
-export async function addPet(
+export default async function addPet(
   petData: PetItemForCreation,
   setPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>,
   setPetConfirmation: (conf: ConfirmationMessage) => void,
@@ -34,29 +34,6 @@ export async function addPet(
     setPetConfirmation({messageType: "saved"})
     setPetData({} as PetItemForCreation)
     setShowAddPet(false)
-  } else {
-    setPetConfirmation({messageType: "problem"})
-  }
-}
-
-export async function deletePet(
-  pet_infoID: number,
-  savedPetData: SavedPetItem[],
-  setSavedPetData: React.Dispatch<React.SetStateAction<SavedPetItem[]>>,
-  setPetConfirmation: (conf: ConfirmationMessage) => void
-): Promise<void> {
-  let response
-
-  try {
-    response = await PrivatePatientDataService.deletePetData(pet_infoID)
-  } catch (error: unknown) {
-    handle401AxiosErrorAndSetMessageType(error, setPetConfirmation)
-  }
-
-  if (response && response.status === 200) {
-    const updatedSavedPetData = savedPetData.filter(item => item.pet_infoID !== pet_infoID)
-    setSavedPetData(updatedSavedPetData)
-    sessionStorage.setItem("PatientPetData", JSON.stringify(updatedSavedPetData))
   } else {
     setPetConfirmation({messageType: "problem"})
   }

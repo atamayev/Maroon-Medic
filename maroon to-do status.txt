@@ -6,6 +6,7 @@ ASAP:
 Make personal info it's own context
 Combine authContext and verify context. make it into a memoized class, initialized as null in index.tsx
 
+-remove all 'renderX'
 Make the auth token and cookie stored in a class, like in context.ts in deployment manager
 	reading from memory is faster than from session storage
 	Create an auth class to store all of this stuff. Make the class have UUID, AccessToken, userType
@@ -17,6 +18,7 @@ Classes vs useState:
 Classes vs session storage:
 	Use classes when data is sensitive
 
+-change dropdown links to Link from href
 Bootstrap --> Tailwind
 
 -to fix the header re-rendering problem, can make the header component appear on every page (in the app.tsx), but have another disabled parameter, that is off by default, but exists only on specific pages that need it

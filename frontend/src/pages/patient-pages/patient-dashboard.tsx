@@ -1,24 +1,23 @@
 import _ from "lodash"
 import moment from "moment"
 import { useEffect, useState } from "react"
-import { Card, Badge, Tooltip } from "react-bootstrap"
-import OverlayTrigger from "react-bootstrap/OverlayTrigger"
-import { UnauthorizedUser } from "../../components/user-type-unauth"
+import UnauthorizedUser from "../../components/unauthorized-user/unauthorized-user"
 import { usePatientDashboardData } from "../../custom-hooks/fetch-and-use-dashboard-info"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
 import Header from "../../components/header/header"
 import PatientHeader from "./patient-header"
-import CheckCookie from "src/utils/cookie-check"
+import UpcomingAppointmentsSection from "src/components/patient-dashboard/upcoming-appointments/upcoming-appointments-section"
+import PastAppointmentsSection from "src/components/patient-dashboard/past-appointments/past-appointments-section"
+import PersonalInfo from "src/components/patient-dashboard/personal-info"
 
 export default function PatientDashboard() {
   const { userType } = useSimpleUserVerification()
   const { dashboardData } = usePatientDashboardData()
   const storedData = sessionStorage.getItem("PatientPersonalInfo")
   const parsedData = storedData && JSON.parse(storedData)
-  const [personalInfo, setPersonalInfo] = useState(parsedData)
+  const [personalInfo, setPersonalInfo] = useState(parsedData as BirthDateInfo)
   const [pastAppointments, setPastAppointments] = useState<PatientDashboardData[]>([])
   const [upcomingAppointments, setUpcomingAppointments] = useState<PatientDashboardData[]>([])
-  const newPatient = CheckCookie.forNewUser("PatientNewUser")
 
   useEffect(() => {
     if (userType !== "Patient") return
@@ -53,152 +52,22 @@ export default function PatientDashboard() {
 
   if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
-  const RenderAppointmentConfirmationStatus = ({appointment} : {appointment: PatientDashboardData}) => {
-    if (appointment.Doctor_confirmation_status === false) {
-      return (
-        <OverlayTrigger
-          placement = "top"
-          overlay = {<Tooltip id = {"tooltip-top"}>Dr. {appointment.Doctor_FirstName} has not yet approved your appointment.</Tooltip>}
-        >
-          <Badge pill style = {{ position: "absolute", top: "10px", right: "10px", border: "2px solid yellow" }}>
-            Pending approval
-          </Badge>
-        </OverlayTrigger>
-      )
-    }
-    return (
-      <OverlayTrigger
-        placement = "top"
-        overlay = {<Tooltip id = {"tooltip-top"}>Dr. {appointment.Doctor_FirstName} is looking forward to the appointment.</Tooltip>}
-      >
-        <Badge pill style = {{ position: "absolute", top: "10px", right: "10px" }}>
-          Appointment approved
-        </Badge>
-      </OverlayTrigger>
-    )
-  }
-
-  const RenderMessageSection = ({appointment} : {appointment: PatientDashboardData}) => {
-    if (!appointment.patient_message) return null
-    return (
-      <span style = {{ display: "block" }}>
-        Your Message: {""}
-        {appointment.patient_message}
-      </span>
-    )
-  }
-
-  const UpcomingAppointmentCard = ({appointment}: {appointment: PatientDashboardData}) => {
-    return (
-      <>
-        <Card style = {{ margin: "0 10px", position: "relative" }}>
-          <Card.Body>
-            <Card.Title>
-              Appointment with Dr. {appointment.Doctor_FirstName} {appointment.Doctor_LastName} on {appointment.appointment_date}
-              <RenderAppointmentConfirmationStatus appointment = {appointment} />
-            </Card.Title>
-            <Card.Text>
-              <RenderMessageSection appointment = {appointment} />
-            </Card.Text>
-          </Card.Body>
-        </Card>
-      </>
-    )
-  }
-
-  const PastAppointmentCard = ({appointment}: {appointment: PatientDashboardData}) => {
-    return (
-      <>
-        <Card style = {{ margin: "0 10px", position: "relative" }}>
-          <Card.Body>
-            <Card.Title>
-              Appointment with Dr. {appointment.Doctor_FirstName} {appointment.Doctor_LastName} on {appointment.appointment_date}
-              <RenderAppointmentConfirmationStatus appointment = {appointment} />
-            </Card.Title>
-          </Card.Body>
-        </Card>
-      </>
-    )
-  }
-
-  const RenderUpcomingAppointments = ({upcomingPatientAppointments} : {upcomingPatientAppointments: PatientDashboardData[]}) => {
-    if (_.isEmpty(upcomingPatientAppointments)) return <>No upcoming appointments</>
-    return (
-      <>
-        {upcomingPatientAppointments.map((appointment) => (
-          <UpcomingAppointmentCard key = {appointment.appointmentsID} appointment = {appointment} />
-        ))}
-      </>
-    )
-  }
-
-  const RenderPastAppointments = ({pastPatientAppointments} : {pastPatientAppointments: PatientDashboardData[]}) => {
-    if (_.isEmpty(pastPatientAppointments)) return <>No past appointments</>
-    return (
-      <>
-        {pastPatientAppointments.map((appointment) => (
-          <PastAppointmentCard key = {appointment.appointmentsID} appointment = {appointment} />
-        ))}
-      </>
-    )
-  }
-
-  const RenderUpcomingAppointmentsCard = () => {
-    return (
-      <>
-        <Card style = {{margin: "0 10px" }} className = "mb-3">
-          <Card.Header>
-            <h1>Upcoming Appointments</h1>
-          </Card.Header>
-          <Card.Body>
-            <RenderUpcomingAppointments upcomingPatientAppointments = {upcomingAppointments} />
-          </Card.Body>
-        </Card>
-      </>
-    )
-  }
-
-  const RenderPastAppointmentsCard = () => {
-    return (
-      <>
-        <Card style = {{margin: "0 10px" }}>
-          <Card.Header>
-            <h1>Past Appointments</h1>
-          </Card.Header>
-          <Card.Body>
-            <RenderPastAppointments pastPatientAppointments = {pastAppointments} />
-          </Card.Body>
-        </Card>
-      </>
-    )
-  }
-
-  const RenderDashboardData = () => {
+  const DashboardData = () => {
     if (_.isEmpty(dashboardData)) return <>No upcoming appointments</>
     return (
       <>
-        <RenderUpcomingAppointmentsCard />
-        <RenderPastAppointmentsCard />
+        <UpcomingAppointmentsSection upcomingAppointments = {upcomingAppointments} />
+        <PastAppointmentsSection pastAppointments = {pastAppointments}/>
       </>
     )
-  }
-
-  const WelcomeOrBack = () => {
-    if (newPatient) return <> to MaroonMedic</>
-    return <> back</>
-  }
-
-  const RenderisPersonalInfo = () => {
-    if (!personalInfo) return <>Loading...</>
-    return <p>Welcome{WelcomeOrBack()}, {personalInfo.FirstName}</p>
   }
 
   return (
     <div>
       <Header dropdown = {true} search = {true} />
       <PatientHeader />
-      <RenderisPersonalInfo />
-      <RenderDashboardData />
+      <PersonalInfo personalInfo = {personalInfo} />
+      <DashboardData />
     </div>
   )
 }

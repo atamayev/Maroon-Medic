@@ -1,6 +1,6 @@
 import { Form, Button, Card, Container, Row, Col } from "react-bootstrap"
 import FormGroup from "../../../components/form-group"
-import { addPet } from "../../../custom-hooks/my-pets-hooks/save-my-pets"
+import addPet from "src/custom-hooks/my-pets-hooks/add-pet"
 import { RenderMessageSection } from "../../../components/saved-message-section"
 
 const ifPetTypeSelected = (
@@ -223,7 +223,7 @@ export const AddPet = (props: AddPetProps) => {
         <Container>
           <Row>
             <Col xs = {8}></Col>
-            <Col xs = {4} className = "">
+            <Col xs = {4}>
               <RenderDeleteButton />
             </Col>
           </Row>

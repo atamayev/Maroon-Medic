@@ -1,7 +1,7 @@
 import LoginHistory from "../../../components/login-history"
 import ChangePassword from "../../../components/change-password"
 import { useLoginHistory } from "../../../custom-hooks/login-history"
-import { UnauthorizedUser } from "../../../components/user-type-unauth"
+import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import Header from "../../../components/header/header"
 import PatientHeader from "../patient-header"

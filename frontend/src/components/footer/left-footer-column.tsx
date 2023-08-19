@@ -1,6 +1,6 @@
 import { MDBCol } from "mdb-react-ui-kit"
 
-export const LeftFooterColumn = () => {
+const LeftFooterColumn = () => {
   return (
     <MDBCol md = "3" lg = "4" xl = "3" className = "mx-auto mb-4">
       <h6 className = "fw-bold mb-4 text-white"> MaroonMedic </h6>
@@ -16,3 +16,5 @@ export const LeftFooterColumn = () => {
     </MDBCol>
   )
 }
+
+export default LeftFooterColumn

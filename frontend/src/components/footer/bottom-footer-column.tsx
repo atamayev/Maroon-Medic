@@ -1,4 +1,4 @@
-export const BottomFooterColumn = () => {
+const BottomFooterColumn = () => {
   return (
     <div className = "text-center p-4 text-white" style = {{ backgroundColor: "rgb(0, 0, 0)" }}>
     Copyright © {new Date().getFullYear()}
@@ -6,3 +6,5 @@ export const BottomFooterColumn = () => {
     </div>
   )
 }
+
+export default BottomFooterColumn

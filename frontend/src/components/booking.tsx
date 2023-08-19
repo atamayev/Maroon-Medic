@@ -11,7 +11,7 @@ import {
   finalizeBookingClick
 } from "src/custom-hooks/public-doctor-hooks/booking-page-hooks"
 import FormGroup from "./form-group"
-import { UnauthorizedUserBodyText } from "./user-type-unauth"
+import UnauthorizedUserBodyText from "./unauthorized-user/unauthorized-user-body-text"
 
 interface BaseProps {
   selectedPet: SavedPetItem | null

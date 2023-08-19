@@ -2,34 +2,38 @@ import AuthDataService from "src/services/auth-data-service"
 import {useCallback } from "react"
 import { Location, useLocation } from "react-router-dom"
 
-const handleRefresh = (location: Location) => useCallback(() => {
+const useHandleRefresh = (location: Location) => useCallback(() => {
   if (location.pathname === "/") window.location.reload()
   else window.location.href = "/"
 }, [location])
-
-const handleLogout = async (location: Location) => {
-  try {
-    const response = await AuthDataService.logout()
-    if (response.status === 200) sessionStorage.clear()
-  } catch (error) {
-  }
-  handleRefresh(location)
-}
 
 interface Props {
   dropdown?: boolean
   userType: DoctorOrPatientOrNull
 }
 
-export const DropdownItems = ({dropdown, userType} : Props) => {
+const DropdownItems = ({dropdown, userType} : Props) => {
   const location = useLocation()
+  const handleRefresh = useHandleRefresh(location)
+
+  const handleLogout = async () => {
+    try {
+      const response = await AuthDataService.logout()
+      if (response.status === 200) sessionStorage.clear()
+    } catch (error) {
+    }
+    handleRefresh()
+  }
+
+  //TODO: Change the hrefs to Links (no refresh)
+
   if (dropdown === false) return null
   if (userType === "Doctor" || userType === "Patient") {
     return (
       <>
         <a href="/dashboard" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem">Dashboard</a>
         <a href="/account-details" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem">Account Details</a>
-        <button onClick={() => handleLogout(location)} className="text-gray-700 block px-4 py-2 text-sm" role="menuitem">Sign out</button>
+        <button onClick = {handleLogout} className="text-gray-700 block px-4 py-2 text-sm" role="menuitem">Sign out</button>
       </>
     )
   }
@@ -44,3 +48,5 @@ export const DropdownItems = ({dropdown, userType} : Props) => {
     </>
   )
 }
+
+export default DropdownItems

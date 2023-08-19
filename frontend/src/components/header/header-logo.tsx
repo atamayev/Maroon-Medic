@@ -1,4 +1,4 @@
-import logo from "../images/logo.svg"
+import logo from "../../images/logo.svg"
 
 const handleHome = () => {
   sessionStorage.setItem("searchTerm", "")

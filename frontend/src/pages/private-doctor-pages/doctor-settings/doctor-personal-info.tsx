@@ -1,6 +1,6 @@
 
 import { Card, Button, Form } from "react-bootstrap"
-import { UnauthorizedUser } from "../../../components/user-type-unauth"
+import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
 import { RenderMessageSection } from "../../../components/saved-message-section"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"

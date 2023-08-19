@@ -1,6 +1,6 @@
 import { CardGroup } from "react-bootstrap"
 import SettingsLinks from "../../../components/settings-links"
-import { UnauthorizedUser } from "../../../components/user-type-unauth"
+import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import Header from "../../../components/header/header"
 import PatientHeader from "../patient-header"

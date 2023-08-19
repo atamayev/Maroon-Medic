@@ -1,6 +1,6 @@
 import Header from "../../../components/header/header"
 import DoctorHeader from "../doctor-header"
-import { UnauthorizedUser } from "../../../components/user-type-unauth"
+import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 
 export default function DoctorPrivacy() {

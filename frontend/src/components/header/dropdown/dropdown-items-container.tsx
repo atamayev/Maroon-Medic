@@ -1,4 +1,4 @@
-import { DropdownItems } from "./dropdown-items"
+import DropdownItems from "./dropdown-items"
 
 interface Props {
   isOpen: boolean

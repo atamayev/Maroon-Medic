@@ -1,9 +1,9 @@
 import { MDBFooter, MDBContainer, MDBRow } from "mdb-react-ui-kit"
-import "../styles/footer.css"
-import { LeftFooterColumn } from "./left-footer-column"
-import { CenterFooterColumn } from "./center-footer-column"
-import { RightFooterColumn } from "./right-footer-column"
-import { BottomFooterColumn } from "./bottom-footer-column"
+import "../../styles/footer.css"
+import LeftFooterColumn from "./left-footer-column"
+import CenterFooterColumn from "./center-footer-column"
+import RightFooterColumn from "./right-footer-column"
+import BottomFooterColumn from "./bottom-footer-column"
 
 export default function Footer() {
   return (

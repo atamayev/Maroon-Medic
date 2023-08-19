@@ -1,5 +1,5 @@
 import useSimpleUserVerification from "src/custom-hooks/use-simple-user-verification"
-import { NullUser } from "./user-type-unauth"
+import NullUser from "./unauthorized-user/null-user"
 
 interface Props {
   DoctorComponentToRender: JSX.Element

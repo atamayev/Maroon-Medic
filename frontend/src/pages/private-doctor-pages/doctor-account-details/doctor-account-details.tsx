@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { UnauthorizedUser } from "../../../components/user-type-unauth"
+import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
 import Header from "../../../components/header/header"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import DoctorHeader from "../doctor-header"
