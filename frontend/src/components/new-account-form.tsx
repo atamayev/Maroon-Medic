@@ -1,5 +1,8 @@
 import { Card, Button, Form, Alert } from "react-bootstrap"
-import { RenderFirstNameSection, RenderLastNameSection, RenderGenderSection, RenderDOBSection } from "./personal-info-inputs"
+import FirstNameInput from "./personal-info-inputs/first-name-input"
+import LastNameInput from "./personal-info-inputs/last-name-input"
+import GenderSection from "./personal-info-inputs/gender-input"
+import DOBSection from "./date-of-birth/dob-section"
 
 interface Props {
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void,
@@ -15,7 +18,7 @@ export default function NewAccountForm({
   newInfo,
   setNewInfo,
   loading
-}: Props
+} : Props
 ) {
   const RenderErrorMessage = () => {
     if (!error) return null
@@ -28,10 +31,10 @@ export default function NewAccountForm({
         <Card.Body>
           <RenderErrorMessage />
           <Form onSubmit = {handleSubmit}>
-            <RenderFirstNameSection personalInfo = {newInfo} setPersonalInfo = {setNewInfo} />
-            <RenderLastNameSection personalInfo = {newInfo} setPersonalInfo = {setNewInfo} />
-            <RenderGenderSection personalInfo = {newInfo} setPersonalInfo = {setNewInfo} />
-            <RenderDOBSection personalInfo = {newInfo} setPersonalInfo = {setNewInfo} />
+            <FirstNameInput personalInfo = {newInfo} setPersonalInfo = {setNewInfo} />
+            <LastNameInput personalInfo = {newInfo} setPersonalInfo = {setNewInfo} />
+            <GenderSection personalInfo = {newInfo} setPersonalInfo = {setNewInfo} />
+            <DOBSection personalInfo = {newInfo} setPersonalInfo = {setNewInfo} />
             <Button type = "submit" className = "w-100" disabled = {loading}>Submit</Button>
           </Form>
         </Card.Body>

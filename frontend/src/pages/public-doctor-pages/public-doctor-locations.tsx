@@ -1,12 +1,7 @@
 import _ from "lodash"
 import { Card } from "react-bootstrap"
 
-interface Props {
-  addresses: PublicAddressData[]
-}
-
-export default function RenderLocationsSection(props: Props) {
-  const { addresses } = props
+export default function RenderLocationsSection( { addresses } : {addresses: PublicAddressData[]}) {
   if (_.isEmpty(addresses)) return null
   return (
     <Card className = "card-bottom-margin">

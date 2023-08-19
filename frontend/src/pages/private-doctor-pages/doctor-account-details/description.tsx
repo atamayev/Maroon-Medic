@@ -3,7 +3,7 @@ import { Card, Button, Form } from "react-bootstrap"
 import FormGroup from "../../../components/form-group"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
 import { saveDescription } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details"
-import { RenderMessageSection } from "../../../components/saved-message-section"
+import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 
 interface Props {
   description: string
@@ -78,7 +78,7 @@ function RenderIsDescription(props: Props) {
       <RenderDescriptionInput />
       <RenderCharacterLimit />
       <RenderSaveButton />
-      <RenderMessageSection
+      <SavedConfirmationMessage
         confirmationMessage = {descriptionConfirmation}
         whatIsBeingSaved = "Description"
       />

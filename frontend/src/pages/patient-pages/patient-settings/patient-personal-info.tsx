@@ -1,15 +1,13 @@
 import { Card, Button, Form } from "react-bootstrap"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
-import { RenderMessageSection } from "../../../components/saved-message-section"
+import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import { usePersonalInfo, handleSavePersonalInfo } from "../../../custom-hooks/fetch-and-save-personal-info"
-import {
-  RenderFirstNameSection,
-  RenderLastNameSection,
-  RenderDOBSection,
-  RenderGenderSection
-} from "../../../components/personal-info-inputs"
+import FirstNameInput from "src/components/personal-info-inputs/first-name-input"
+import LastNameInput from "src/components/personal-info-inputs/last-name-input"
+import GenderSection from "src/components/personal-info-inputs/gender-input"
+import DOBSection from "src/components/date-of-birth/dob-section"
 import Header from "../../../components/header/header"
 import PatientHeader from "../patient-header"
 
@@ -31,12 +29,12 @@ export default function PatientPersonalInfo() {
             e.preventDefault()
             handleSavePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)
           }}>
-            <RenderFirstNameSection personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
-            <RenderLastNameSection personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
-            <RenderGenderSection personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
-            <RenderDOBSection personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
+            <FirstNameInput personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
+            <LastNameInput personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
+            <GenderSection personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
+            <DOBSection personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
             <Button type = "submit" className = "btn btn-primary w-100">Save</Button>
-            <RenderMessageSection
+            <SavedConfirmationMessage
               confirmationMessage = {personalInfoConfirmation}
               whatIsBeingSaved = "Personal Info"
             />

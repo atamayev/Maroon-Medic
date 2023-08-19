@@ -1,12 +1,7 @@
 import _ from "lodash"
 import { Card } from "react-bootstrap"
 
-interface Props {
-  spokenLanguages: LanguageName[]
-}
-
-export default function RenderLanguageSection(props: Props) {
-  const { spokenLanguages } = props
+export default function RenderLanguageSection({spokenLanguages}: {spokenLanguages: LanguageName[]}) {
   if (_.isEmpty(spokenLanguages)) return null
   return (
     <Card className = "card-bottom-margin">

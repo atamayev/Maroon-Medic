@@ -5,19 +5,16 @@ import { Card } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
 import { generateTimeSlots, usePetData } from "src/custom-hooks/public-doctor-hooks/booking-page-hooks"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
-import {
-  RenderChoosePet,
-  RenderSelectService,
-  RenderSelectLocation,
-  RenderNoAvailableTimes,
-  RenderSelectDay,
-  RenderSelectTime,
-  RenderFinalizeBookingButton,
-  RenderPatientNotLoggedIn,
-  RenderDoctorDoesNotHaveLocations,
-  RenderDoctorDoesNotOfferServices,
-
-} from "src/components/booking"
+import NoAvailableTimes from "src/components/booking/no-available-times"
+import PatientNotLoggedIn from "src/components/booking/patient-not-logged-in"
+import SelectLocation from "src/components/booking/select-location"
+import ChoosePet from "src/components/booking/choose-pet"
+import SelectService from "src/components/booking/select-service"
+import SelectDay from "src/components/booking/select-day"
+import SelectTime from "src/components/booking/select-time"
+import FinalizeBookingButton from "src/components/booking/finalize-booking-button"
+import DoctorDoesNotHaveLocations from "src/components/booking/doctor-does-not-have-locations"
+import DoctorDoesNotOfferServices from "src/components/booking/doctor-does-not-offer-services"
 import { getDayIndex } from "src/utils/time"
 
 interface Props {
@@ -26,10 +23,10 @@ interface Props {
   personalData: DoctorPersonalData
 }
 
-export default function RenderBookingSection(props: Props) {
+export default function BookingSection(props: Props) {
+  const { providedServices, addresses, personalData } = props
   const { userType } = useSimpleUserVerification(false)
   const { savedPetData } = usePetData(userType)
-  const { providedServices, addresses, personalData } = props
   const [selectedPet, setSelectedPet] = useState<SavedPetItem | null>(null)
   const [selectedService, setSelectedService] = useState<ServiceItem | null>(null)
   const [selectedLocation, setSelectedLocation] = useState<PublicAddressData |null>(null)
@@ -89,17 +86,17 @@ export default function RenderBookingSection(props: Props) {
     )
   }
 
-  const RenderMakeBooking = () => {
-    if (userType !== "Patient") return RenderPatientNotLoggedIn()
-    if ( _.isEmpty(addresses)) return RenderDoctorDoesNotHaveLocations(personalData)
-    if ( _.isEmpty(providedServices)) return RenderDoctorDoesNotOfferServices(personalData)
+  const MakeBooking = () => {
+    if (userType !== "Patient") return PatientNotLoggedIn()
+    if ( _.isEmpty(addresses)) return DoctorDoesNotHaveLocations(personalData)
+    if ( _.isEmpty(providedServices)) return DoctorDoesNotOfferServices(personalData)
 
     return (
       <Card className = "card-bottom-margin">
         <Card.Header>Ready to make a booking?</Card.Header>
         <Card.Body>
           <div className = "row">
-            <RenderChoosePet
+            <ChoosePet
               savedPetData = {savedPetData}
               selectedPet = {selectedPet}
               setSelectedPet = {setSelectedPet}
@@ -111,7 +108,7 @@ export default function RenderBookingSection(props: Props) {
           </div>
 
           <div className = "row">
-            <RenderSelectService
+            <SelectService
               providedServices = {providedServices}
               selectedPet = {selectedPet}
               setSelectedService = {setSelectedService}
@@ -120,7 +117,7 @@ export default function RenderBookingSection(props: Props) {
               setSelectedTime = {setSelectedTime}
             />
 
-            <RenderSelectLocation
+            <SelectLocation
               addresses = {addresses}
               selectedService = {selectedService}
               setNoAvailableTimesMessage = {setNoAvailableTimesMessage}
@@ -130,13 +127,13 @@ export default function RenderBookingSection(props: Props) {
             />
           </div>
 
-          <RenderNoAvailableTimes
+          <NoAvailableTimes
             noAvailableTimesMessage = {noAvailableTimesMessage}
             personalData = {personalData}
           />
 
           <div className = "row">
-            <RenderSelectDay
+            <SelectDay
               selectedService = {selectedService}
               selectedLocation = {selectedLocation}
               setSelectedDay = {setSelectedDay}
@@ -146,7 +143,7 @@ export default function RenderBookingSection(props: Props) {
               availableDates = {availableDates}
             />
 
-            <RenderSelectTime
+            <SelectTime
               selectedService = {selectedService}
               selectedLocation = {selectedLocation}
               selectedDay = {selectedDay}
@@ -156,7 +153,7 @@ export default function RenderBookingSection(props: Props) {
             />
           </div>
 
-          <RenderFinalizeBookingButton
+          <FinalizeBookingButton
             selectedService = {selectedService}
             selectedLocation = {selectedLocation}
             selectedDay = {selectedDay}
@@ -171,5 +168,5 @@ export default function RenderBookingSection(props: Props) {
     )
   }
 
-  return <RenderMakeBooking />
+  return <MakeBooking />
 }

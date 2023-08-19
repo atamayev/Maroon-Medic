@@ -1,7 +1,7 @@
 import { Form, Button, Card, Container, Row, Col } from "react-bootstrap"
 import FormGroup from "../../../components/form-group"
 import addPet from "src/custom-hooks/my-pets-hooks/add-pet"
-import { RenderMessageSection } from "../../../components/saved-message-section"
+import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 
 const ifPetTypeSelected = (
   value: string,
@@ -243,7 +243,7 @@ export const AddPet = (props: AddPetProps) => {
             Upload image area
             <RenderAddButton />
           </Form>
-          <RenderMessageSection
+          <SavedConfirmationMessage
             confirmationMessage = {petConfirmation}
             whatIsBeingSaved = "Pet"
           />

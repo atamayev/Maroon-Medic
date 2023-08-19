@@ -1,10 +1,11 @@
 import { useState } from "react"
 import { Card } from "react-bootstrap"
-import { RenderMessageSection } from "../../../components/saved-message-section"
+import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
-import { RenderSelectLanguageSection, RenderSavedLanguageList } from "../../../components/language"
+import SavedLanguageList from "src/components/language/saved-languages-list"
 import { useLanguageOptions, useUpdateDeleteStatuses } from "../../../custom-hooks/account-details-hooks/language"
 import { useHandleAddLanguage, useHandleDeleteLanguage } from "../../../custom-hooks/account-details-hooks/callbacks"
+import SelectLanguage from "src/components/language/select-language"
 
 interface Props {
   listDetails: PatientListDetails
@@ -40,17 +41,17 @@ function RenderIsPatientLanguages(props: Props) {
 
   return (
     <>
-      <RenderSelectLanguageSection
+      <SelectLanguage
         handleLanguageChange = {handleLanguageChange}
         languageOptions = {languageOptions}
       />
-      <RenderSavedLanguageList
+      <SavedLanguageList
         spokenLanguages = {spokenLanguages}
         deleteStatuses = {deleteStatuses}
         setDeleteStatuses = {setDeleteStatuses}
         handleDeleteLanguage = {handleDeleteLanguage}
       />
-      <RenderMessageSection
+      <SavedConfirmationMessage
         confirmationMessage = {languagesConfirmation}
         whatIsBeingSaved = "Languages"
       />

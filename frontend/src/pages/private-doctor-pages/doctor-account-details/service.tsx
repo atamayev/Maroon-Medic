@@ -5,7 +5,7 @@ import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-m
 import { handleToggleCategory } from "../../../custom-hooks/account-details-hooks/select"
 import { addServices, deleteServices, updateServices } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details"
 import { handleNumericInput, preventNonNumericalInput, validateDropInput, validatePasteInput } from "../../../utils/input-validation"
-import { RenderMessageSection } from "../../../components/saved-message-section"
+import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 
 interface Props {
   listDetails: DoctorListDetails
@@ -255,7 +255,7 @@ function RenderIsVetServices (props: Props) {
         </div>
       ))}
 
-      <RenderMessageSection
+      <SavedConfirmationMessage
         confirmationMessage = {servicesConfirmation}
         whatIsBeingSaved = "Services"
       />

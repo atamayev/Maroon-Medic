@@ -1,16 +1,11 @@
 import _ from "lodash"
 import { Card } from "react-bootstrap"
 
-interface Props {
-  doctorSpecialties: OrganizationSpecialtyName[]
-}
-
 interface CategoriesType {
   [key: string]: OrganizationSpecialtyName[]
 }
 
-export default function RenderSpecialtiesSection(props: Props) {
-  const { doctorSpecialties } = props
+export default function RenderSpecialtiesSection({doctorSpecialties} : {doctorSpecialties: OrganizationSpecialtyName[]}) {
   if (_.isEmpty(doctorSpecialties)) return null
   return (
     <Card className = "card-bottom-margin">

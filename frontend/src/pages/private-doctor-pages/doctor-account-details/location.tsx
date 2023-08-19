@@ -5,7 +5,7 @@ import TimePicker from "react-time-picker"
 import {Card, Accordion, Form, Button, Container, Row, Col} from "react-bootstrap"
 import "../../../styles/location.css"
 import { daysOfWeek } from "../../../utils/constants"
-import { RenderMessageSection } from "../../../components/saved-message-section"
+import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import { handleAddAccordion } from "../../../custom-hooks/account-details-hooks/add"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
 import { addLocation, deleteLocation, updateLocation } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details"
@@ -89,7 +89,7 @@ function AddressForm(props: Props) {
         <RenderAddressAccordionItems />
       </Accordion>
       <RenderAddNewLocationButton />
-      <RenderMessageSection
+      <SavedConfirmationMessage
         confirmationMessage = {addressesConfirmation}
         whatIsBeingSaved = "Locations"
       />

@@ -1,8 +1,8 @@
 import _ from "lodash"
 import { useState, useEffect, useMemo } from "react"
 import { Card } from "react-bootstrap"
-import { DeleteButtonOptions } from "../../../components/delete-buttons"
-import { RenderMessageSection } from "../../../components/saved-message-section"
+import { DeleteButtonOptions } from "../../../components/delete-buttons/delete-button-options"
+import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
 import { useHandleAddSpecialty, useHandleDeleteSpecialty } from "../../../custom-hooks/account-details-hooks/callbacks"
 
@@ -165,7 +165,7 @@ function RenderIsSpecialty(props: Props) {
       <RenderSelectOrganization />
       <RenderSelectSpecialty />
       <RenderSavedSpecialtyList />
-      <RenderMessageSection
+      <SavedConfirmationMessage
         confirmationMessage = {specialtiesConfirmation}
         whatIsBeingSaved = "Specialties"
       />

@@ -1,12 +1,7 @@
 import _ from "lodash"
 
-interface Props {
-  personalData: DoctorPersonalData
-}
 
-export default function RenderPersonalInfoSection(props: Props) {
-  const { personalData } = props
-
+export default function RenderPersonalInfoSection( {personalData} : { personalData: DoctorPersonalData }) {
   if (_.isEmpty(personalData)) return null
 
   return (
@@ -18,5 +13,10 @@ export default function RenderPersonalInfoSection(props: Props) {
 
 function RenderPersonalInfo({personalData}: {personalData: DoctorPersonalData}) {
   const {FirstName, LastName} = personalData
-  return <> Dr. {""} {_.upperFirst(FirstName || "")} {""} {_.upperFirst(LastName || "")} </>
+  return (
+    <>
+      Dr. {""} {_.upperFirst(FirstName || "")}
+      {""} {_.upperFirst(LastName || "")}
+    </>
+  )
 }

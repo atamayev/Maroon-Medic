@@ -1,8 +1,8 @@
 import _ from "lodash"
 import { useState, useEffect } from "react"
 import { Card, Button } from "react-bootstrap"
-import { DeleteButtonOptions } from "../../../components/delete-buttons"
-import { RenderMessageSection } from "../../../components/saved-message-section"
+import { DeleteButtonOptions } from "../../../components/delete-buttons/delete-button-options"
+import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
 import { useHandleDeletePreVetEducation,
   useHandleAddPreVetEducation,
@@ -224,7 +224,7 @@ function RenderIsPreVetEducation(props: Props) {
       <RenderAddAndSaveButton />
 
       <RenderSavedEducationList />
-      <RenderMessageSection
+      <SavedConfirmationMessage
         confirmationMessage = {preVetEducationConfirmation}
         whatIsBeingSaved = "Pre-Vet Education"
       />

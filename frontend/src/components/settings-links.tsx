@@ -8,6 +8,7 @@ interface Props {
 
 export default function SettingsLinks(props: Props): JSX.Element {
   const { SettingsLink, title } = props
+
   return (
     <Link to = {`${SettingsLink}`} style = {{ textDecoration: "none" }}>
       <Card border = "primary" style = {{ width: "18rem" }}>

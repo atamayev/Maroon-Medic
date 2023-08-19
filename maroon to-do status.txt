@@ -20,6 +20,8 @@ Classes vs session storage:
 
 -change dropdown links to Link from href
 Bootstrap --> Tailwind
+	in this process, change the color theme to match a lion's mane
+
 
 -to fix the header re-rendering problem, can make the header component appear on every page (in the app.tsx), but have another disabled parameter, that is off by default, but exists only on specific pages that need it
 	use gpt to figure out a simpler solution

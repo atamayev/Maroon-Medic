@@ -4,7 +4,7 @@ import {useParams} from "react-router-dom"
 import PublicDoctorDataService from "../../services/public-doctor-data-service"
 import Header from "../../components/header/header"
 import "./card.css"
-import RenderBookingSection from "./public-doctor-booking"
+import BookingSection from "./public-doctor-booking"
 import RenderReviewsSection from "./public-doctor-reviews"
 import RenderServiceSection from "./public-doctor-services"
 import RenderLanguageSection from "./public-doctor-languages"
@@ -59,7 +59,7 @@ export default function Doctor () {
       <RenderPersonalInfoSection
         personalData = {personalData}
       />
-      <RenderBookingSection
+      <BookingSection
         providedServices = {providedServices}
         addresses = {addresses}
         personalData = {personalData}

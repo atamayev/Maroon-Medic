@@ -1,16 +1,11 @@
 import _ from "lodash"
 import { Card } from "react-bootstrap"
 
-interface Props {
-  providedServices: ServiceItem[]
-}
-
 interface CategoriesType {
   [key: string]: ServiceItem[]
 }
 
-export default function RenderServiceSection(props: Props) {
-  const { providedServices } = props
+export default function RenderServiceSection({providedServices} : {providedServices: ServiceItem[]}) {
   if (_.isEmpty(providedServices)) return null
   return (
     <Card className = "card-bottom-margin">

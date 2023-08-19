@@ -1,5 +1,5 @@
 import LoginHistory from "../../../components/login-history"
-import ChangePassword from "../../../components/change-password"
+import ChangePassword from "../../../components/change-password/change-password"
 import { useLoginHistory } from "../../../custom-hooks/login-history"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"

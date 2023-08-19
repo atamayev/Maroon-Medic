@@ -87,6 +87,19 @@ declare global {
   type LoginHistoryItem = {
     Login_at: string
   }
+
+  interface PersonalInfoProps {
+    personalInfo: BirthDateInfo,
+    setPersonalInfo: (personalInfo: BirthDateInfo) => void
+  }
+
+  interface BaseBookingProps {
+    selectedPet: SavedPetItem | null
+    setSelectedService: React.Dispatch<React.SetStateAction<ServiceItem | null>>
+    setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressData | null>>
+    setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>
+    setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
+  }
 }
 
 export {}

@@ -20,8 +20,17 @@ export default function RenderVerificationSection (props: Props) {
   )
 }
 
-function RenderIsVerification (props: Props) {
-  const { verified } = props
-  if (verified) return <Button variant = "success" disabled>✓ (Your identity is Verified) </Button>
-  else return <Button variant = "danger" disabled>X (Your identity is Not Verified)</Button>
+function RenderIsVerification ( {verified} : {verified: boolean}) {
+  if (verified) {
+    return (
+      <Button variant = "success" disabled>
+        ✓ (Your identity is Verified)
+      </Button>
+    )
+  }
+  return (
+    <Button variant = "danger" disabled>
+      X (Your identity is Not Verified)
+    </Button>
+  )
 }

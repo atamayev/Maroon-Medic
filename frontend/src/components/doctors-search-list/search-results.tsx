@@ -11,8 +11,7 @@ interface Props {
   data: DoctorData[]
 }
 
-export default function SearchResults(props: Props) {
-  const { data } = props
+export default function SearchResults( { data } : { data: DoctorData[] }) {
   if (_.isEmpty(data)) return <p> Loading... </p>
 
   return (

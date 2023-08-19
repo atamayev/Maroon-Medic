@@ -63,7 +63,7 @@ export default function FinalizeBookingPage() {
     return <>Request</>
   }
 
-  const RenderMessageSection = () => {
+  const CustomPatientMessage = () => {
     return (
       <FormGroup
         id = "Message"
@@ -119,7 +119,7 @@ export default function FinalizeBookingPage() {
         </Card.Text>
         <span style = {{ display: "block" }}>
           <strong>Write a message to Dr. {_.upperFirst(personalData.LastName || "")}:</strong>
-          <RenderMessageSection />
+          <CustomPatientMessage />
         </span>
         <RenderCharacterLimit />
       </>

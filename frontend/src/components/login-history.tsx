@@ -1,12 +1,9 @@
 import { Card } from "react-bootstrap"
 
-interface Props {
-  loginHistoryItem: { Login_at: string }
-}
-
-export default function LoginHistory(props: Props) {
-  const {loginHistoryItem} = props
-
+export default function LoginHistory(
+  { loginHistoryItem } :
+  {loginHistoryItem: { Login_at: string } }
+) {
   return (
     <Card className = "mb-3">
       <Card.Body>
