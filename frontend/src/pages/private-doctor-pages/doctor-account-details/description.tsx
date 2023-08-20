@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Card, Form } from "react-bootstrap"
-import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
+import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import DescriptionInput from "src/components/doctor-account-details/description/description-input"
 import SaveDescriptionButton from "src/components/doctor-account-details/description/save-description-button"

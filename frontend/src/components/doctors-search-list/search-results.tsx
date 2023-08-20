@@ -6,11 +6,6 @@ type DoctorData = {
   FirstName: string,
   LastName: string,
 }
-
-interface Props {
-  data: DoctorData[]
-}
-
 export default function SearchResults( { data } : { data: DoctorData[] }) {
   if (_.isEmpty(data)) return <p> Loading... </p>
 

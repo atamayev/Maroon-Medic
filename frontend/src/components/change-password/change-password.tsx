@@ -5,10 +5,6 @@ import CurrentPasswordInput from "./current-password-input"
 import NewPasswordInput from "./new-password"
 import SavedPasswordMessage from "./saved-password-message"
 
-interface Props {
-  type: DoctorOrPatient
-}
-
 export default function ChangePassword( { type } : { type: DoctorOrPatient }) {
   const [credentials, setCredentials] = useState<ChangePasswordObject>({
     userType: type,

@@ -1,14 +1,18 @@
 import _ from "lodash"
 import { useState, useEffect } from "react"
-import { Card, Button } from "react-bootstrap"
-import { DeleteButtonOptions } from "../../../components/delete-buttons/delete-button-options"
+import { Card } from "react-bootstrap"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
-import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
-import { useHandleDeletePreVetEducation,
-  useHandleAddPreVetEducation,
+import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
+import { useHandleAddPreVetEducation,
   useSaveAddPreVetEducation
 } from "../../../custom-hooks/account-details-hooks/callbacks"
-import EducationTime from "../../../components/doctor-account-details/education-time/education-time"
+import SelectPreVetSchool from "src/components/doctor-account-details/education/pre-vet-education/select-pre-vet-school"
+import SelectMajor from "src/components/doctor-account-details/education/pre-vet-education/select-major"
+import SelectPreVetEducationType from "src/components/doctor-account-details/education/pre-vet-education/select-pre-vet-education-type"
+import SavedPreVetEducationList from "src/components/doctor-account-details/education/pre-vet-education/saved-pre-vet-education-list"
+import PreVetEducationTime from "src/components/doctor-account-details/education/pre-vet-education/pre-vet-education-time"
+import AddAndSavePreVetEducationButton
+  from "src/components/doctor-account-details/education/pre-vet-education/add-and-save-pre-vet-education-button"
 
 interface Props {
   listDetails: DoctorListDetails
@@ -43,8 +47,8 @@ function RenderIsPreVetEducation(props: Props) {
   })
   const [preVetEducationConfirmation, setPreVetEducationConfirmation] = useConfirmationMessage()
 
-  const allChoicesFilled = selectedPreVetSchool && selectedMajor && selectedPreVetEducationType &&
-    timeState.startMonth && timeState.endMonth && timeState.startYear && timeState.endYear
+  const allChoicesFilled = Boolean(selectedPreVetSchool && selectedMajor && selectedPreVetEducationType &&
+    timeState.startMonth && timeState.endMonth && timeState.startYear && timeState.endYear)
 
   useEffect(() => {
     const newDeleteStatuses = { ...deleteStatuses }
@@ -60,90 +64,6 @@ function RenderIsPreVetEducation(props: Props) {
     setDeleteStatuses(newDeleteStatuses)
   }, [preVetEducation])
 
-  const RenderSelectSchool = () => {
-    return (
-      <div>
-        <label htmlFor = "pre-vet-school">Select a school: </label>
-        <select
-          id = "pre-vet-school"
-          name = "pre-vet-school"
-          value = {selectedPreVetSchool}
-          onChange = {(e) => setSelectedPreVetSchool(e.target.value)}
-        >
-          <option value = "" disabled>Choose a School</option>
-          {_.uniqBy(listDetails.preVetSchools, "School_name").map(
-            (school) => (
-              <option key = {school.pre_vet_school_listID} value = {school.School_name}>
-                {school.School_name}
-              </option>
-            )
-          )}
-        </select>
-      </div>
-    )
-  }
-
-  const RenderSelectMajor = () => {
-    if (!selectedPreVetSchool) return null
-
-    return (
-      <>
-        <label htmlFor = "major">Select a Major: </label>
-        <select
-          id = "major"
-          name = "major"
-          value = {selectedMajor}
-          onChange = {(event) => setSelectedMajor(event.target.value)}
-        >
-          <option value = "" disabled>Choose a major</option>
-          {_.uniqBy(listDetails.majors, "Major_name").map(
-            (major) => (
-              <option key = {major.major_listID} value = {major.Major_name}>
-                {major.Major_name}
-              </option>
-            )
-          )}
-        </select>
-      </>
-    )
-  }
-
-  const RenderSelectEducationType = () => {
-    if (!selectedMajor) return null
-
-    return (
-      <div>
-        <label htmlFor = "education-type">Select a Type of Education: </label>
-        <select
-          id = "education-type"
-          name = "education-type"
-          value = {selectedPreVetEducationType}
-          onChange = {(event) => setSelectedPreVetEducationType(event.target.value)}
-        >
-          <option value = "" disabled>Choose an Education Type</option>
-          {_.uniqBy(listDetails.preVetEducationTypes, "Education_type").map(
-            (preVetEdType) => (
-              <option key = {preVetEdType.pre_vet_education_typeID} value = {preVetEdType.Education_type}>
-                {preVetEdType.Education_type}
-              </option>
-            )
-          )}
-        </select>
-      </div>
-    )
-  }
-
-  const RenderEducationTime = () => {
-    if (!selectedPreVetEducationType) return null
-
-    return (
-      <EducationTime
-        timeState = {timeState}
-        setTimeState = {setTimeState}
-      />
-    )
-  }
-
   const handleAddEducation = useHandleAddPreVetEducation(
     selectedPreVetSchool, setSelectedPreVetSchool,
     selectedPreVetEducationType, setSelectedPreVetEducationType,
@@ -151,79 +71,55 @@ function RenderIsPreVetEducation(props: Props) {
     selectedMajor, setSelectedMajor
   )
 
-  const saveEducation = useSaveAddPreVetEducation(
+  const savePreVetEducation = useSaveAddPreVetEducation(
     preVetEducation, setPreVetEducation,
     listDetails, setPreVetEducationConfirmation
   )
-
-  const RenderAddAndSaveButton = () => {
-    if (!allChoicesFilled) return null
-    return (
-      <Button
-        onClick = {() => {
-          const selectedEducationObj = handleAddEducation()
-          saveEducation(selectedEducationObj as PreVetEducationItem)
-        }}
-      >
-        Add
-      </Button>
-    )
-  }
-
-  const handleDeleteOnClick = useHandleDeletePreVetEducation(preVetEducation, setPreVetEducation, setPreVetEducationConfirmation)
-
-  const RenderSingleSavedEducation = (singlePreVetEducation: PreVetEducationItem) => {
-    const status: DeleteStatuses = deleteStatuses[singlePreVetEducation.pre_vet_education_mappingID] || "initial"
-
-    const setStatus = (newStatus: DeleteStatuses) => {
-      setDeleteStatuses((prevStatuses) => ({
-        ...prevStatuses,
-        [singlePreVetEducation.pre_vet_education_mappingID]: newStatus,
-      }))
-    }
-
-    return (
-      <li>
-        {singlePreVetEducation.School_name}, {singlePreVetEducation.Education_type} in {singlePreVetEducation.Major_name}
-        {" ("}{singlePreVetEducation.Start_Date} - {singlePreVetEducation.End_Date}{") "}
-        <DeleteButtonOptions<PreVetEducationItem>
-          status = {status}
-          setStatus = {setStatus}
-          dataType = {singlePreVetEducation}
-          handleDeleteOnClick = {handleDeleteOnClick}
-        />
-      </li>
-    )
-  }
-
-  const RenderSavedEducationList = () => {
-    return (
-      <ul>
-        {preVetEducation.map((_preVetEducation) => (
-          <RenderSingleSavedEducation
-            key = {_preVetEducation.pre_vet_education_mappingID}
-            {..._preVetEducation}
-          />
-        ))}
-      </ul>
-    )
-  }
 
   if (_.isEmpty(_.uniq(listDetails.preVetSchools.map((item) => item.School_name)))) return <p> Loading... </p>
 
   return (
     <>
-      <RenderSelectSchool />
+      <SelectPreVetSchool
+        listDetails = {listDetails}
+        selectedPreVetSchool = {selectedPreVetSchool}
+        setSelectedPreVetSchool = {setSelectedPreVetSchool}
+      />
 
-      <RenderSelectMajor />
+      <SelectMajor
+        listDetails = {listDetails}
+        selectedPreVetSchool = {selectedPreVetSchool}
+        selectedMajor = {selectedMajor}
+        setSelectedMajor = {setSelectedMajor}
+      />
 
-      <RenderSelectEducationType />
+      <SelectPreVetEducationType
+        listDetails = {listDetails}
+        selectedPreVetEducationType = {selectedPreVetEducationType}
+        selectedMajor = {selectedMajor}
+        setSelectedPreVetEducationType = {setSelectedPreVetEducationType}
+      />
 
-      <RenderEducationTime />
+      <PreVetEducationTime
+        selectedPreVetEducationType = {selectedPreVetEducationType}
+        timeState = {timeState}
+        setTimeState = {setTimeState}
+      />
 
-      <RenderAddAndSaveButton />
+      <AddAndSavePreVetEducationButton
+        handleAddEducation = {handleAddEducation}
+        saveEducation = {savePreVetEducation}
+        allChoicesFilled = {allChoicesFilled}
+      />
 
-      <RenderSavedEducationList />
+      <SavedPreVetEducationList
+        preVetEducation = {preVetEducation}
+        setPreVetEducation = {setPreVetEducation}
+        deleteStatuses = {deleteStatuses}
+        setDeleteStatuses = {setDeleteStatuses}
+        setPreVetEducationConfirmation = {setPreVetEducationConfirmation}
+      />
+
       <SavedConfirmationMessage
         confirmationMessage = {preVetEducationConfirmation}
         whatIsBeingSaved = "Pre-Vet Education"

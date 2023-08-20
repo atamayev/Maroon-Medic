@@ -2,7 +2,7 @@
 import { Card, Button, Form } from "react-bootstrap"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
-import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
+import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import { handleSavePersonalInfo, usePersonalInfo } from "../../../custom-hooks/fetch-and-save-personal-info"
 import FirstNameInput from "src/components/personal-info-inputs/first-name-input"

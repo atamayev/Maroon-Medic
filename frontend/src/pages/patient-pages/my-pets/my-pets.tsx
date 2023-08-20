@@ -1,6 +1,6 @@
 import { useState } from "react"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
-import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
+import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import { usePetData } from "src/custom-hooks/my-pets-hooks/my-pets"
 import Header from "../../../components/header/header"

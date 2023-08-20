@@ -1,9 +1,9 @@
 import _ from "lodash"
 import { useState, useEffect, useMemo } from "react"
 import { Card } from "react-bootstrap"
-import { DeleteButtonOptions } from "../../../components/delete-buttons/delete-button-options"
+import DeleteButtonOptions from "../../../components/delete-buttons/delete-button-options"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
-import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
+import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import { useHandleAddSpecialty, useHandleDeleteSpecialty } from "../../../custom-hooks/account-details-hooks/callbacks"
 
 interface Props {

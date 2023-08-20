@@ -1,9 +1,8 @@
 import _ from "lodash"
-import { Card, Button} from "react-bootstrap"
+import { Card } from "react-bootstrap"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
-import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
-import { handleTogglePetType } from "../../../custom-hooks/account-details-hooks/select"
-import { useHandleCheckboxChange } from "../../../custom-hooks/account-details-hooks/callbacks"
+import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
+import Pets from "src/components/doctor-account-details/pets/pets"
 
 interface Props {
   listDetails: DoctorListDetails
@@ -42,73 +41,18 @@ function RenderIsPets (props: Props) {
     })
   }
 
-  const isTogglePetType = (pets: ServicedPetItem[], petType: string) => {
-    if (pets.length <= 1) return null
-
-    const isOpen = expandedPetTypes.includes(petType)
-
-    const RenderIsOpen = () => {
-      if (isOpen) return <>^</>
-      return <>v</>
-    }
-
-    return (
-      <Button onClick={() => handleTogglePetType(petType, setExpandedPetTypes)}>
-        <RenderIsOpen />
-      </Button>
-    )
-  }
-
-  const handleCheckboxChange = useHandleCheckboxChange(servicedPets, setServicedPets, setPetsConfirmation)
-
-  interface RenderShowPetsSectionProps {
-    pets: ServicedPetItem[]
-    petType: string
-  }
-
-  const RenderShowPetsSection = ({pets, petType} : RenderShowPetsSectionProps) => {
-    if (pets.length > 1 && !expandedPetTypes.includes(petType)) return null
-
-    return (
-      <div>
-        {pets.map(pet => {
-          return (
-            <div key = {pet.pet_listID} style = {{ paddingLeft: "20px" }}>
-              <input
-                type = "checkbox"
-                id = {`${petType}-${pet.pet_listID}`}
-                name = "pet"
-                value = {pet.pet_listID}
-                checked = {servicedPets.find((serviced) => serviced.pet_listID === pet.pet_listID) !== undefined}
-                onChange = {(event) => {handleCheckboxChange(event, pet)}}
-              />
-              <label htmlFor = {`${petType}-${pet.pet_listID}`}>{pet.Pet}</label>
-            </div>
-          )
-        })}
-      </div>
-    )
-  }
-
-  const RenderPets = () => {
-    return (
-      <>
-        {Object.entries(petTypes).map(([petType, pets]) => (
-          <div key = {petType} style = {{ marginBottom: "10px" }}>
-            <label htmlFor = {petType}>{petType}</label>
-            {isTogglePetType(pets, petType)}
-            <RenderShowPetsSection pets = {pets} petType = {petType} />
-          </div>
-        ))}
-      </>
-    )
-  }
-
   if (_.isEmpty(_.uniq(listDetails.pets.map((item) => item.Pet_type)))) return <>Loading...</>
 
   return (
     <>
-      <RenderPets />
+      <Pets
+        petTypes = {petTypes}
+        servicedPets = {servicedPets}
+        expandedPetTypes = {expandedPetTypes}
+        setServicedPets = {setServicedPets}
+        setExpandedPetTypes = {setExpandedPetTypes}
+        setPetsConfirmation = {setPetsConfirmation}
+      />
       <SavedConfirmationMessage
         confirmationMessage = {petsConfirmation}
         whatIsBeingSaved = "Pets Serviced"

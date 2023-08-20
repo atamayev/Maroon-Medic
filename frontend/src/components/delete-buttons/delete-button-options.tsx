@@ -9,7 +9,7 @@ interface DeleteButtonOptionsProps<T> {
   handleDeleteOnClick: (dataType: T) => void
 }
 
-export const DeleteButtonOptions = <T,>({status, setStatus, dataType, handleDeleteOnClick}: DeleteButtonOptionsProps<T>) => {
+const DeleteButtonOptions = <T,>({status, setStatus, dataType, handleDeleteOnClick}: DeleteButtonOptionsProps<T>) => {
   return (
     <>
       <InitialDeleteButton status = {status} setStatus = {setStatus}/>
@@ -22,3 +22,5 @@ export const DeleteButtonOptions = <T,>({status, setStatus, dataType, handleDele
     </>
   )
 }
+
+export default DeleteButtonOptions

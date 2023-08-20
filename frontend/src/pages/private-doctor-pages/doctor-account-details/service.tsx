@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { useEffect, useState } from "react"
 import { Card, Button } from "react-bootstrap"
-import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
+import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import { handleToggleCategory } from "../../../custom-hooks/account-details-hooks/select"
 import { addServices, deleteServices, updateServices } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details"
 import { handleNumericInput, preventNonNumericalInput, validateDropInput, validatePasteInput } from "../../../utils/input-validation"

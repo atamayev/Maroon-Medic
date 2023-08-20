@@ -1,4 +1,4 @@
-import { DeleteButtonOptions } from "../delete-buttons/delete-button-options"
+import DeleteButtonOptions from "../delete-buttons/delete-button-options"
 
 interface SingleLanguageProps {
   language: LanguageItem,
