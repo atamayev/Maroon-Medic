@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { Card } from "react-bootstrap"
 
-export const DoctorDoesNotHaveLocations = (personalData: DoctorPersonalData) => {
+export const DoctorDoesNotHaveLocations = ({ personalData } : { personalData: DoctorPersonalData }) => {
   return (
     <Card className="card-bottom-margin">
       <Card.Header>Ready to make a booking?</Card.Header>

@@ -7,6 +7,8 @@ Make personal info it's own context
 Combine authContext and verify context. make it into a memoized class, initialized as null in index.tsx
 
 -remove all 'renderX'
+- go through all the components in new-pet. see if all them need all of the props that are given to them. why should insurance sectionneed petTypes? maybe make the handleinput change params optional?
+
 Make the auth token and cookie stored in a class, like in context.ts in deployment manager
 	reading from memory is faster than from session storage
 	Create an auth class to store all of this stuff. Make the class have UUID, AccessToken, userType
@@ -20,6 +22,9 @@ Classes vs session storage:
 
 -change dropdown links to Link from href
 Bootstrap --> Tailwind
+	During this process, use GPT, and make the starting text: "I am transitioning my React JS site from using bootstrap to tailwindCSS"
+	"i want my color theme to be the colors of a lion (ie yellow, amber, brown, and some green for contrast)."
+	"I will give you bootstrap components, and I want you to transition them to be tailwind css, while keeping the main content the same."
 	in this process, change the color theme to match a lion's mane
 
 

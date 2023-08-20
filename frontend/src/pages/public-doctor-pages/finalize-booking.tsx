@@ -1,13 +1,13 @@
-import _ from "lodash"
-import moment from "moment"
 import { useEffect, useState } from "react"
 import { Card, Button } from "react-bootstrap"
 import { useNavigate, useLocation } from "react-router-dom"
-import FormGroup from "../../components/form-group"
 import UnauthorizedUser from "../../components/unauthorized-user/unauthorized-user"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
 import { confirmBooking } from "../../custom-hooks/public-doctor-hooks/confirm-booking-hook"
 import Header from "../../components/header/header"
+import DoctorPersonalInfo from "src/components/finalize-booking/doctor-personal-info"
+import CustomPatientMessage from "src/components/finalize-booking/custom-patient-message"
+import FinalizeBookingCardText from "src/components/finalize-booking/finalize-booking-card-text"
 
 export default function FinalizeBookingPage() {
   const [message, setMessage] = useState("")
@@ -16,13 +16,15 @@ export default function FinalizeBookingPage() {
   const navigate = useNavigate()
   const { userType } = useSimpleUserVerification(false)
 
-  let selectedService: ServiceItem
-  let selectedLocation: PublicAddressData
-  let selectedDay: string
-  let selectedTime: string
-  let serviceMinutes: number
-  let personalData: DoctorPersonalData
-  let selectedPet: SavedPetItem
+  let selectedService: ServiceItem = {Service_name: "", Service_price: -1,
+    service_and_category_listID: -1, Category_name: "", Service_time: ""}
+  let selectedLocation: PublicAddressData = {address_title: "", address_line_1: "", address_line_2: "", instant_book: false,
+    addressesID: -1, city: "", state: "", zip: "", country: "", address_priority: -1, Phone: "", times: []}
+  let selectedDay: string = ""
+  let selectedTime: string = ""
+  let serviceMinutes: number = -1
+  let personalData: DoctorPersonalData = {FirstName: "", LastName: "", Gender: "", NVI: -1}
+  let selectedPet: SavedPetItem = {Name: "", Gender: "", DOB: "", Pet: "", Pet_type: "", insuranceName: "", pet_infoID: -1}
 
   const storedData = sessionStorage.getItem("bookingDetails")
   const parsedData = storedData && JSON.parse(storedData)
@@ -63,70 +65,7 @@ export default function FinalizeBookingPage() {
     return <>Request</>
   }
 
-  const CustomPatientMessage = () => {
-    return (
-      <FormGroup
-        id = "Message"
-        value = {message}
-        onChange = {event => {
-          const value = event.target.value
-          setMessage(value)
-        }}
-        maxLength = {100}
-        as = "textarea"
-      />
-    )
-  }
-
-  const counterStyleLimit = () => {
-    if (isMessageOverLimit) return {color: "red"}
-    return {color: "black"}
-  }
-
-  const RenderCharacterLimit = () => {
-    return (
-      <span style = {{ display: "block", ...counterStyleLimit() }}>
-        Character Limit: {message.length} / 100
-      </span>
-    )
-  }
-
-  const RenderCardText = () => {
-    return (
-      <>
-        <Card.Text>
-          <span style = {{ display: "block" }}>
-            <strong>Pet:</strong> {selectedPet.Name}
-          </span>
-          <span style = {{ display: "block" }}>
-            <strong>Service:</strong> {selectedService.Service_name}
-          </span>
-          <span style = {{ display: "block" }}>
-            <strong>
-              Location:
-            </strong>
-            {selectedLocation.address_title}:  {selectedLocation.address_line_1} {selectedLocation.address_line_2}
-          </span>
-          <span style = {{ display: "block" }}>
-            <strong>Day:</strong> {selectedDay}
-          </span>
-          <span style = {{ display: "block" }}>
-            <strong>Time:</strong> {selectedTime} - {moment(selectedTime, "HH:mm").add(serviceMinutes, "minutes").format("h:mm A")}
-          </span>
-          <span style = {{ display: "block" }}>
-            <strong>Price:</strong> ${selectedService.Service_price}
-          </span>
-        </Card.Text>
-        <span style = {{ display: "block" }}>
-          <strong>Write a message to Dr. {_.upperFirst(personalData.LastName || "")}:</strong>
-          <CustomPatientMessage />
-        </span>
-        <RenderCharacterLimit />
-      </>
-    )
-  }
-
-  const RenderConfirmBookingButton = () => {
+  const ConfirmBookingButton = () => {
     return (
       <>
         <Button
@@ -151,14 +90,6 @@ export default function FinalizeBookingPage() {
     )
   }
 
-  const RenderPersonalInfo = () => {
-    return (
-      <>
-        Dr. {""} {_.upperFirst(personalData.FirstName || "")} {""} {_.upperFirst(personalData.LastName || "")}
-      </>
-    )
-  }
-
   return (
     <>
       <Header dropdown = {true} search = {true}/>
@@ -167,10 +98,23 @@ export default function FinalizeBookingPage() {
           <Card.Header as = "h2">{ConfirmOrRequestBook()} an Appointment</Card.Header>
           <Card.Body>
             <Card.Title as = "h3">
-              <RenderPersonalInfo />
+              <DoctorPersonalInfo personalData = {personalData}/>
             </Card.Title>
-            <RenderCardText />
-            <RenderConfirmBookingButton />
+            <FinalizeBookingCardText
+              selectedService = {selectedService}
+              selectedLocation = {selectedLocation}
+              selectedDay = {selectedDay}
+              selectedTime = {selectedTime}
+              serviceMinutes = {serviceMinutes}
+              selectedPet = {selectedPet}
+            />
+            <CustomPatientMessage
+              message = {message}
+              setMessage = {setMessage}
+              isMessageOverLimit = {isMessageOverLimit}
+              personalData = {personalData}
+            />
+            <ConfirmBookingButton />
           </Card.Body>
         </Card>
       </div>

@@ -8,7 +8,7 @@ import { useHandleDeletePreVetEducation,
   useHandleAddPreVetEducation,
   useSaveAddPreVetEducation
 } from "../../../custom-hooks/account-details-hooks/callbacks"
-import EducationTime from "./education-time"
+import EducationTime from "../../../components/doctor-account-details/education-time/education-time"
 
 interface Props {
   listDetails: DoctorListDetails

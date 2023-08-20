@@ -9,25 +9,23 @@ import SavedConfirmationMessage from "../../../components/saved-confirmation-mes
 import { handleAddAccordion } from "../../../custom-hooks/account-details-hooks/add"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
 import { addLocation, deleteLocation, updateLocation } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details"
-import {
-  RenderAddressTitleInput,
-  RenderAddressLine1Input,
-  RenderAddressLine2Input,
-  RenderCityInput,
-  RenderCountryInput,
-  RenderPhoneNumberInput,
-  RenderStateInput,
-  RenderZipCodeInput,
-  RenderLocationMapData
-} from "./location-fields"
 import { areAllFieldsValid, areAllTimesValid } from "../../../utils/all-field-checks"
+import AddressTitleInput from "src/components/doctor-account-details/location/address-title-input"
+import AddressLine1Input from "src/components/doctor-account-details/location/address-line-1-input"
+import AddressLine2Input from "src/components/doctor-account-details/location/address-line-2-input"
+import CityInput from "src/components/doctor-account-details/location/city-input"
+import StateInput from "src/components/doctor-account-details/location/state-input"
+import ZipCodeInput from "src/components/doctor-account-details/location/zip-code-input"
+import CountryInput from "src/components/doctor-account-details/location/country-input"
+import PhoneNumberInput from "src/components/doctor-account-details/location/phone-number-input"
+import LocationMapData from "src/components/doctor-account-details/location/map-data"
 
 interface Props {
   addresses: DoctorAddressData[]
   setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>
 }
 
-export default function RenderLocationSection(props: Props) {
+export default function LocationSection(props: Props) {
   return (
     <Card className = "mb-3">
       <Card.Header>
@@ -52,7 +50,7 @@ function AddressForm(props: Props) {
     setAddresses(newAddresses)
   }
 
-  const RenderAddressAccordionItems = () => {
+  const AddressAccordionItems = () => {
     return (
       <>
         {addresses.sort((a, b) => a.address_priority - b.address_priority).map((address, index) => (
@@ -71,7 +69,7 @@ function AddressForm(props: Props) {
     )
   }
 
-  const RenderAddNewLocationButton = () => {
+  const AddNewLocationButton = () => {
     return (
       <Button
         variant = "primary"
@@ -86,9 +84,9 @@ function AddressForm(props: Props) {
   return (
     <>
       <Accordion >
-        <RenderAddressAccordionItems />
+        <AddressAccordionItems />
       </Accordion>
-      <RenderAddNewLocationButton />
+      <AddNewLocationButton />
       <SavedConfirmationMessage
         confirmationMessage = {addressesConfirmation}
         whatIsBeingSaved = "Locations"
@@ -136,12 +134,12 @@ const AddressAccordionItem = (props: AddressAccordionProps) => {
     setAddresses(newAddresses)
   }
 
-  const RenderAddressTitleSection = () => {
+  const AddressTitleSection = () => {
     if (address.address_title) return <>{address.address_title}</>
     return <>{("Address #" + (index + 1))}</>
   }
 
-  const RenderPublicStatus = () => {
+  const PublicStatus = () => {
     return (
       <>
         <span>Public Status:</span>
@@ -156,7 +154,7 @@ const AddressAccordionItem = (props: AddressAccordionProps) => {
     )
   }
 
-  const RenderInstantBook = () => {
+  const InstantBook = () => {
     return (
       <>
         <span>Instant book:</span>
@@ -171,7 +169,7 @@ const AddressAccordionItem = (props: AddressAccordionProps) => {
     )
   }
 
-  const RenderAddLocationButton = () => {
+  const AddLocationButton = () => {
     return (
       <Button
         variant = "success"
@@ -183,7 +181,7 @@ const AddressAccordionItem = (props: AddressAccordionProps) => {
     )
   }
 
-  const RenderUpdateLocationButton = () => {
+  const UpdateLocationButton = () => {
     const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
     const originalAddress = DoctorAccountDetails.addressData.find((addr: DoctorAddressData) => addr.addressesID === address.addressesID)
     const isAddressSame = _.isEqual(originalAddress, address)
@@ -200,11 +198,11 @@ const AddressAccordionItem = (props: AddressAccordionProps) => {
     )
   }
 
-  const RenderSaveOrUpdateButton = () => {
-    // If addressID previously exists, Render update button
-    if (address.addressesID !== -1) return <RenderUpdateLocationButton/>
-    // If addressID doesn't exist, Render add button
-    return <RenderAddLocationButton/>
+  const SaveOrUpdateButton = () => {
+    // If addressID previously exists,  update button
+    if (address.addressesID !== -1) return <UpdateLocationButton/>
+    // If addressID doesn't exist,  add button
+    return <AddLocationButton/>
   }
 
   const handleDeleteAddress = () => {
@@ -212,7 +210,7 @@ const AddressAccordionItem = (props: AddressAccordionProps) => {
     else deleteLocation(address.addressesID, setAddresses, setAddressesConfirmation)
   }
 
-  const RenderDeleteLocationButton = () => {
+  const DeleteLocationButton = () => {
     return (
       <Button
         variant = "danger"
@@ -224,23 +222,23 @@ const AddressAccordionItem = (props: AddressAccordionProps) => {
     )
   }
 
-  const RenderAccordionHeader = () => {
+  const AccordionHeader = () => {
     return (
       <Accordion.Header>
         <Container>
           <Row>
             <Col xs = {4} className = "d-flex align-items-center">
-              <RenderPublicStatus/>
-              <RenderInstantBook/>
+              <PublicStatus/>
+              <InstantBook/>
             </Col>
             <Col xs = {4} className = "text-center font-weight-bold">
-              <RenderAddressTitleSection/>
+              <AddressTitleSection/>
             </Col>
             <Col xs = {4} className = "text-right">
               <div className = "align-items-left">
-                <RenderSaveOrUpdateButton/>
+                <SaveOrUpdateButton/>
               </div>
-              <RenderDeleteLocationButton/>
+              <DeleteLocationButton/>
             </Col>
           </Row>
         </Container>
@@ -248,32 +246,32 @@ const AddressAccordionItem = (props: AddressAccordionProps) => {
     )
   }
 
-  const RenderFirstAccordionBodyRow = () => {
+  const FirstAccordionBodyRow = () => {
     return (
       <div className = "row">
-        <RenderAddressTitleInput address = {address} handleInputChange = {handleInputChange} />
-        <RenderAddressLine1Input address = {address} handleInputChange = {handleInputChange} />
-        <RenderAddressLine2Input address = {address} handleInputChange = {handleInputChange} />
-        <RenderCityInput address = {address} handleInputChange = {handleInputChange} />
+        <AddressTitleInput address = {address} handleInputChange = {handleInputChange} />
+        <AddressLine1Input address = {address} handleInputChange = {handleInputChange} />
+        <AddressLine2Input address = {address} handleInputChange = {handleInputChange} />
+        <CityInput address = {address} handleInputChange = {handleInputChange} />
       </div>
     )
   }
 
-  const RenderSecondAccordionBodyRow = () => {
+  const SecondAccordionBodyRow = () => {
     return (
       <div className = "row">
-        <RenderStateInput address = {address} handleInputChange = {handleInputChange} />
-        <RenderZipCodeInput address = {address} handleInputChange = {handleInputChange} />
-        <RenderCountryInput address = {address} handleInputChange = {handleInputChange} />
-        <RenderPhoneNumberInput address = {address} handleInputChange = {handleInputChange} />
+        <StateInput address = {address} handleInputChange = {handleInputChange} />
+        <ZipCodeInput address = {address} handleInputChange = {handleInputChange} />
+        <CountryInput address = {address} handleInputChange = {handleInputChange} />
+        <PhoneNumberInput address = {address} handleInputChange = {handleInputChange} />
       </div>
     )
   }
 
-  const RenderMapsDataAndWeekDays = () => {
+  const MapsDataAndWeekDays = () => {
     return (
       <div className = "row">
-        <RenderLocationMapData />
+        <LocationMapData />
         <div className = "col-md-6">
           <WeekDays
             times = {address.times}
@@ -284,13 +282,13 @@ const AddressAccordionItem = (props: AddressAccordionProps) => {
     )
   }
 
-  const RenderAccordionBody = () => {
+  const AccordionBody = () => {
     return (
       <Accordion.Body>
         <Form>
-          <RenderFirstAccordionBodyRow/>
-          <RenderSecondAccordionBodyRow/>
-          <RenderMapsDataAndWeekDays/>
+          <FirstAccordionBodyRow/>
+          <SecondAccordionBodyRow/>
+          <MapsDataAndWeekDays/>
         </Form>
       </Accordion.Body>
     )
@@ -298,8 +296,8 @@ const AddressAccordionItem = (props: AddressAccordionProps) => {
 
   return (
     <Accordion.Item eventKey = {address.address_priority.toString()} style = {{ marginBottom: "10px" }}>
-      <RenderAccordionHeader />
-      <RenderAccordionBody />
+      <AccordionHeader />
+      <AccordionBody />
     </Accordion.Item>
   )
 }
@@ -327,7 +325,7 @@ const WeekDays = (props: WeekDaysProps) => {
     day: DayOfWeek
   }
 
-  const RenderPickStartTime: React.FC<DayProp> = ({ day }) => {
+  const PickStartTime: React.FC<DayProp> = ({ day }) => {
     return (
       <TimePicker
         className = "ml-3"
@@ -337,7 +335,7 @@ const WeekDays = (props: WeekDaysProps) => {
     )
   }
 
-  const RenderPickEndTime: React.FC<DayProp> = ({ day }) => {
+  const PickEndTime: React.FC<DayProp> = ({ day }) => {
     return (
       <TimePicker
         className = "ml-3"
@@ -347,16 +345,16 @@ const WeekDays = (props: WeekDaysProps) => {
     )
   }
 
-  const RenderPickTime = ({ doctorTimes, day }: {doctorTimes: DoctorAvailability[], day: DayOfWeek}) => {
+  const PickTime = ({ doctorTimes, day }: {doctorTimes: DoctorAvailability[], day: DayOfWeek}) => {
     const matchedTime = doctorTimes.find(time => time.Day_of_week === day)
 
     if (!matchedTime) return null
 
     return (
       <>
-        <RenderPickStartTime day = {day}/>
+        <PickStartTime day = {day}/>
         -
-        <RenderPickEndTime day = {day} />
+        <PickEndTime day = {day} />
       </>
     )
   }
@@ -371,7 +369,7 @@ const WeekDays = (props: WeekDaysProps) => {
             checked = {times.some(time => time.Day_of_week === day)}
             onChange = {() => handleDayToggle(day)}
           />
-          <RenderPickTime doctorTimes = {times} day = {day} />
+          <PickTime doctorTimes = {times} day = {day} />
         </div>
       ))}
     </div>

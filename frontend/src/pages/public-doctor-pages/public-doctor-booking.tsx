@@ -16,6 +16,7 @@ import FinalizeBookingButton from "src/components/booking/finalize-booking-butto
 import DoctorDoesNotHaveLocations from "src/components/booking/doctor-does-not-have-locations"
 import DoctorDoesNotOfferServices from "src/components/booking/doctor-does-not-offer-services"
 import { getDayIndex } from "src/utils/time"
+import NoLocationHasTimes from "src/components/booking/no-location-has-times"
 
 interface Props {
   providedServices: ServiceItem[]
@@ -75,21 +76,11 @@ export default function BookingSection(props: Props) {
 
   const anyLocationHasTimes = addresses.some(location => location.times && !_.isEmpty(location.times))
 
-  if (!anyLocationHasTimes) {
-    return (
-      <Card className = "card-bottom-margin">
-        <Card.Header>Ready to make a booking?</Card.Header>
-        <Card.Body>
-          Dr. {_.upperFirst(personalData.LastName || "")} does not currently have any open time slots for appointments.
-        </Card.Body>
-      </Card>
-    )
-  }
-
   const MakeBooking = () => {
-    if (userType !== "Patient") return PatientNotLoggedIn()
-    if ( _.isEmpty(addresses)) return DoctorDoesNotHaveLocations(personalData)
-    if ( _.isEmpty(providedServices)) return DoctorDoesNotOfferServices(personalData)
+    if (userType !== "Patient") return <PatientNotLoggedIn />
+    if (!anyLocationHasTimes) return <NoLocationHasTimes personalData = {personalData} />
+    if (_.isEmpty(addresses)) return <DoctorDoesNotHaveLocations personalData = {personalData} />
+    if (_.isEmpty(providedServices)) return <DoctorDoesNotOfferServices personalData = {personalData} />
 
     return (
       <Card className = "card-bottom-margin">

@@ -1,5 +1,7 @@
 import _ from "lodash"
 import { Card } from "react-bootstrap"
+import AddressSection from "src/components/public-doctor-locations/address-section"
+import TimesSection from "src/components/public-doctor-locations/times-section"
 
 export default function RenderLocationsSection( { addresses } : {addresses: PublicAddressData[]}) {
   if (_.isEmpty(addresses)) return null
@@ -16,36 +18,12 @@ export default function RenderLocationsSection( { addresses } : {addresses: Publ
 }
 
 function RenderLocations({addressesList}: {addressesList: PublicAddressData[]}) {
-  const RenderInstantBook = ({ address }: {address: PublicAddressData}) => {
+  const InstantBook = ({ address }: {address: PublicAddressData}) => {
     if (address.instant_book) return <>Instant book available</>
     return <>Instant book unavailable</>
   }
 
-  const RenderAddressSection = ({ address }: {address: PublicAddressData}) => {
-    return (
-      <>
-        <h4>{address.address_title}</h4>
-        <p>{address.address_line_1}</p>
-        <p>{address.address_line_2}</p>
-        <p>{address.city}, {address.state} {address.zip}, {address.country}</p>
-      </>
-    )
-  }
-
-  const RenderTimesSection = ({ address }: {address: PublicAddressData}) => {
-    return (
-      <div className = "col-md-6">
-        <h5>Working hours:</h5>
-        {address.times.map((time, index) => (
-          <p key = {index}>
-            {time.Day_of_week}: {time.Start_time} - {time.End_time}
-          </p>
-        ))}
-      </div>
-    )
-  }
-
-  const RenderPhone = ({ address }: {address: PublicAddressData}) => {
+  const PhoneSection = ({ address }: {address: PublicAddressData}) => {
     if (!address.Phone) return null
     return <p>Phone: {address.Phone}</p>
   }
@@ -56,11 +34,11 @@ function RenderLocations({addressesList}: {addressesList: PublicAddressData[]}) 
         <div key = {address.addressesID}>
           <div className = "row">
             <div className = "col-md-6">
-              <RenderAddressSection address = {address} />
-              <RenderInstantBook address = {address} />
-              <RenderPhone address = {address} />
+              <AddressSection address = {address} />
+              <InstantBook address = {address} />
+              <PhoneSection address = {address} />
             </div>
-            <RenderTimesSection address = {address} />
+            <TimesSection address = {address} />
           </div>
         </div>
       ))}

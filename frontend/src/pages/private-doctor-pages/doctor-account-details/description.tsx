@@ -1,9 +1,10 @@
-import { useEffect, useState, useCallback } from "react"
-import { Card, Button, Form } from "react-bootstrap"
-import FormGroup from "../../../components/form-group"
+import { useEffect, useState } from "react"
+import { Card, Form } from "react-bootstrap"
 import { useConfirmationMessage } from "../../../custom-hooks/use-confirmation-message"
-import { saveDescription } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
+import DescriptionInput from "src/components/doctor-account-details/description/description-input"
+import SaveDescriptionButton from "src/components/doctor-account-details/description/save-description-button"
+import DescriptionCharacterLimit from "src/components/doctor-account-details/description/character-limit"
 
 interface Props {
   description: string
@@ -32,52 +33,22 @@ function RenderIsDescription(props: Props) {
     if (description || description === "") setIsDescriptionOverLimit(description.length >= 1000)
   }, [description])
 
-  const counterStyleLimit = () => {
-    if (isDescriptionOverLimit) return {color: "red"}
-    return {color: "black"}
-  }
-
-  const handleDescriptionChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setDescription(event.target.value)
-  }, [setDescription])
-
-  const RenderDescriptionInput = () => {
-    return (
-      <FormGroup
-        id = "Description"
-        value = {description}
-        onChange = {event => {handleDescriptionChange(event)}}
-        maxLength = {1000}
-        as = "textarea"
-        rows = {3}
-      />
-    )
-  }
-
-  const RenderCharacterLimit = () => {
-    return (
-      <div style = {counterStyleLimit()}>
-        Character Limit: {description.length} / 1000
-      </div>
-    )
-  }
-
-  const RenderSaveButton = () => {
-    return (
-      <Button
-        variant = "success"
-        onClick = {() => saveDescription(description, setDescriptionConfirmation)}
-      >
-        Save
-      </Button>
-    )
-  }
-
   return (
     <Form>
-      <RenderDescriptionInput />
-      <RenderCharacterLimit />
-      <RenderSaveButton />
+      <DescriptionInput
+        description = {description}
+        setDescription = {setDescription}
+      />
+
+      <DescriptionCharacterLimit
+        description = {description}
+        isDescriptionOverLimit = {isDescriptionOverLimit}
+      />
+
+      <SaveDescriptionButton
+        description = {description}
+        setDescriptionConfirmation = {setDescriptionConfirmation}
+      />
       <SavedConfirmationMessage
         confirmationMessage = {descriptionConfirmation}
         whatIsBeingSaved = "Description"
