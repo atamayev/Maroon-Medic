@@ -1,18 +1,14 @@
 import DeleteButtonOptions from "src/components/delete-buttons/delete-button-options"
-import { useHandleDeletePreVetEducation } from "src/custom-hooks/account-details-hooks/callbacks"
 
 interface Props {
-  preVetEducation: PreVetEducationItem[]
   singlePreVetEducation: PreVetEducationItem
   deleteStatuses: DeleteStatusesDictionary
   setDeleteStatuses: React.Dispatch<React.SetStateAction<DeleteStatusesDictionary>>
-  setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItem[]>>
-  setPreVetEducationConfirmation: (conf: ConfirmationMessage) => void
+  handleDeleteOnClick: (PreVetEducation: PreVetEducationItem) => void
 }
 
 const SingleSavedPreVetEducation = (props: Props) => {
-  const { preVetEducation, singlePreVetEducation,
-    deleteStatuses, setDeleteStatuses, setPreVetEducation, setPreVetEducationConfirmation } = props
+  const { singlePreVetEducation, deleteStatuses, setDeleteStatuses, handleDeleteOnClick } = props
 
   const status: DeleteStatuses = deleteStatuses[singlePreVetEducation.pre_vet_education_mappingID] || "initial"
 
@@ -22,8 +18,6 @@ const SingleSavedPreVetEducation = (props: Props) => {
       [singlePreVetEducation.pre_vet_education_mappingID]: newStatus,
     }))
   }
-
-  const handleDeleteOnClick = useHandleDeletePreVetEducation(preVetEducation, setPreVetEducation, setPreVetEducationConfirmation)
 
   return (
     <li>

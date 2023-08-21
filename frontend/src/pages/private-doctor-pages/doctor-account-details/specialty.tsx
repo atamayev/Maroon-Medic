@@ -1,10 +1,12 @@
 import _ from "lodash"
 import { useState, useEffect, useMemo } from "react"
 import { Card } from "react-bootstrap"
-import DeleteButtonOptions from "../../../components/delete-buttons/delete-button-options"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import { useHandleAddSpecialty, useHandleDeleteSpecialty } from "../../../custom-hooks/account-details-hooks/callbacks"
+import SelectOrganization from "src/components/doctor-account-details/specialty/select-organization"
+import SelectSpecialty from "src/components/doctor-account-details/specialty/select-specialty"
+import SavedSpecialtyList from "src/components/doctor-account-details/specialty/saved-specialty-list"
 
 interface Props {
   listDetails: DoctorListDetails
@@ -53,28 +55,6 @@ function RenderIsSpecialty(props: Props) {
     setDeleteStatuses(newDeleteStatuses)
   }, [doctorSpecialties])
 
-  const RenderSelectOrganization = () => {
-    return (
-      <div>
-        <label htmlFor = "organization">Select an organization: </label>
-        <select
-          id = "organization"
-          name = "organization"
-          value = {selectedOrganization}
-          onChange = {(e) => setSelectedOrganization(e.target.value)}
-        >
-          <option value = "" disabled>Choose an organization</option>
-          {_.uniq(listDetails.specialties.map((item) => item.Organization_name)).map(
-            (organization) => (
-              <option key = {organization} value = {organization}>
-                {organization}
-              </option>
-            ))}
-        </select>
-      </div>
-    )
-  }
-
   const specificSpecialtiesOptions = useMemo(() => {
     return specialties
       .filter((specialty) =>
@@ -98,73 +78,34 @@ function RenderIsSpecialty(props: Props) {
     setSpecialtiesConfirmation
   )
 
-  const RenderSelectSpecialty = () => {
-    if (!selectedOrganization) return null
-
-    return (
-      <div>
-        <label htmlFor = "specialty">Select a specialty: </label>
-        <select
-          id = "specialty"
-          name = "specialty"
-          value = {""}
-          onChange = {(e) => handleSpecialtyChange(e)}
-        >
-          <option value = "" disabled>Choose a specialty</option>
-          {specificSpecialtiesOptions}
-        </select>
-      </div>
-    )
-  }
-
   const handleDeleteSpecialty = useHandleDeleteSpecialty(
     doctorSpecialties, setDoctorSpecialties,
     setSpecialtiesConfirmation, setSelectedOrganization
   )
 
-  const RenderSingleSavedSpecialty = (specialty: SpecialtyItem) => {
-    const status = deleteStatuses[specialty.specialties_listID] || "initial"
-
-    const setStatus = (newStatus: DeleteStatuses) => {
-      setDeleteStatuses((prevStatuses) => ({
-        ...prevStatuses,
-        [specialty.specialties_listID]: newStatus,
-      }))
-    }
-
-    return (
-      <li>
-        {specialty.Organization_name} - {specialty.Specialty_name}{" "}
-        <DeleteButtonOptions<SpecialtyItem>
-          status = {status}
-          setStatus = {setStatus}
-          dataType = {specialty}
-          handleDeleteOnClick = {handleDeleteSpecialty}
-        />
-      </li>
-    )
-  }
-
-  const RenderSavedSpecialtyList = () => {
-    return (
-      <ul>
-        {doctorSpecialties.map((specialty) => (
-          <RenderSingleSavedSpecialty
-            key = {specialty.specialties_listID}
-            {...specialty}
-          />
-        ))}
-      </ul>
-    )
-  }
-
   if (_.isEmpty(_.uniq(listDetails.specialties.map((item) => item.Organization_name)))) return <p>Loading...</p>
 
   return (
     <>
-      <RenderSelectOrganization />
-      <RenderSelectSpecialty />
-      <RenderSavedSpecialtyList />
+      <SelectOrganization
+        listDetails = {listDetails}
+        selectedOrganization = {selectedOrganization}
+        setSelectedOrganization = {setSelectedOrganization}
+      />
+
+      <SelectSpecialty
+        selectedOrganization = {selectedOrganization}
+        specificSpecialtiesOptions = {specificSpecialtiesOptions}
+        handleSpecialtyChange = {handleSpecialtyChange}
+      />
+
+      <SavedSpecialtyList
+        doctorSpecialties = {doctorSpecialties}
+        deleteStatuses = {deleteStatuses}
+        setDeleteStatuses = {setDeleteStatuses}
+        handleDeleteSpecialty = {handleDeleteSpecialty}
+      />
+
       <SavedConfirmationMessage
         confirmationMessage = {specialtiesConfirmation}
         whatIsBeingSaved = "Specialties"

@@ -5,7 +5,8 @@ import SavedConfirmationMessage from "../../../components/saved-confirmation-mes
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import {
   useSaveAddVetEducation,
-  useHandleAddVetEducation
+  useHandleAddVetEducation,
+  useHandleDeleteVetEducation
 } from "../../../custom-hooks/account-details-hooks/callbacks"
 import SelectVetSchool from "src/components/doctor-account-details/education/vet-education/select-vet-school"
 import SelectVetEducationType from "src/components/doctor-account-details/education/vet-education/select-vet-education-type"
@@ -73,6 +74,8 @@ function RenderIsVetEducation(props: Props) {
     listDetails, setVetEducationConfirmation
   )
 
+  const handleDeleteOnClick = useHandleDeleteVetEducation(vetEducation, setVetEducation, setVetEducationConfirmation)
+
   if (_.isEmpty(_.uniq(listDetails.vetSchools.map((item) => item.School_name)))) return <p>Loading...</p>
 
   return (
@@ -106,8 +109,7 @@ function RenderIsVetEducation(props: Props) {
         vetEducation = {vetEducation}
         deleteStatuses = {deleteStatuses}
         setDeleteStatuses = {setDeleteStatuses}
-        setVetEducation = {setVetEducation}
-        setVetEducationConfirmation = {setVetEducationConfirmation}
+        handleDeleteOnClick = {handleDeleteOnClick}
       />
 
       <SavedConfirmationMessage

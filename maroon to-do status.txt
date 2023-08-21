@@ -2,11 +2,14 @@ To-do:
 
 
 ASAP:
+-Bug: Fix services not changing from -1
+
 -make sure that each component is named the same as the file. there shouldn't be more than one large component per file
+-remove all 'renderX'
+
 Make personal info it's own context
 Combine authContext and verify context. make it into a memoized class, initialized as null in index.tsx
 
--remove all 'renderX'
 - go through all the components in new-pet. see if all them need all of the props that are given to them. why should insurance sectionneed petTypes? maybe make the handleinput change params optional?
 
 Make the auth token and cookie stored in a class, like in context.ts in deployment manager

@@ -4,24 +4,21 @@ interface Props {
   preVetEducation: PreVetEducationItem[]
   deleteStatuses: DeleteStatusesDictionary
   setDeleteStatuses: React.Dispatch<React.SetStateAction<DeleteStatusesDictionary>>
-  setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItem[]>>
-  setPreVetEducationConfirmation: (conf: ConfirmationMessage) => void
+  handleDeleteOnClick: (PreVetEducation: PreVetEducationItem) => void
 }
 
 const SavedPreVetEducationList = (props: Props) => {
-  const { preVetEducation, deleteStatuses, setDeleteStatuses, setPreVetEducation, setPreVetEducationConfirmation } = props
+  const { preVetEducation, deleteStatuses, setDeleteStatuses, handleDeleteOnClick } = props
 
   return (
     <ul>
-      {preVetEducation.map((_preVetEducation) => (
+      {preVetEducation.map((singlePreVetEducation) => (
         <SingleSavedPreVetEducation
-          key = {_preVetEducation.pre_vet_education_mappingID}
-          preVetEducation = {preVetEducation}
-          singlePreVetEducation = {_preVetEducation}
+          key = {singlePreVetEducation.pre_vet_education_mappingID}
+          singlePreVetEducation = {singlePreVetEducation}
           deleteStatuses = {deleteStatuses}
           setDeleteStatuses = {setDeleteStatuses}
-          setPreVetEducation = {setPreVetEducation}
-          setPreVetEducationConfirmation = {setPreVetEducationConfirmation}
+          handleDeleteOnClick = {handleDeleteOnClick}
         />
       ))}
     </ul>

@@ -4,6 +4,7 @@ import { Card } from "react-bootstrap"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import { useHandleAddPreVetEducation,
+  useHandleDeletePreVetEducation,
   useSaveAddPreVetEducation
 } from "../../../custom-hooks/account-details-hooks/callbacks"
 import SelectPreVetSchool from "src/components/doctor-account-details/education/pre-vet-education/select-pre-vet-school"
@@ -76,6 +77,8 @@ function RenderIsPreVetEducation(props: Props) {
     listDetails, setPreVetEducationConfirmation
   )
 
+  const handleDeleteOnClick = useHandleDeletePreVetEducation(preVetEducation, setPreVetEducation, setPreVetEducationConfirmation)
+
   if (_.isEmpty(_.uniq(listDetails.preVetSchools.map((item) => item.School_name)))) return <p> Loading... </p>
 
   return (
@@ -114,10 +117,9 @@ function RenderIsPreVetEducation(props: Props) {
 
       <SavedPreVetEducationList
         preVetEducation = {preVetEducation}
-        setPreVetEducation = {setPreVetEducation}
         deleteStatuses = {deleteStatuses}
         setDeleteStatuses = {setDeleteStatuses}
-        setPreVetEducationConfirmation = {setPreVetEducationConfirmation}
+        handleDeleteOnClick = {handleDeleteOnClick}
       />
 
       <SavedConfirmationMessage

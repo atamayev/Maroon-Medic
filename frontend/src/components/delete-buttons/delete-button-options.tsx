@@ -16,8 +16,8 @@ const DeleteButtonOptions = <T,>({status, setStatus, dataType, handleDeleteOnCli
       <NevermindButton status={status} setStatus={setStatus}/>
       <ConfirmDeleteButton<T>
         status = {status}
-        dataType={dataType}
-        handleDeleteOnClick={handleDeleteOnClick}
+        dataType = {dataType}
+        handleDeleteOnClick = {handleDeleteOnClick}
       />
     </>
   )
