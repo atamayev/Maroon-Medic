@@ -1,8 +1,5 @@
-import { NavigateFunction } from "react-router-dom"
 import { Button } from "react-bootstrap"
-import {
-  finalizeBookingClick
-} from "src/custom-hooks/public-doctor-hooks/booking-page-hooks"
+import useFinalizeBookingClick from "src/custom-hooks/public-doctor/use-finalize-booking-click"
 
 interface FinalizeBookingProps {
   selectedService: ServiceItem | null
@@ -12,7 +9,6 @@ interface FinalizeBookingProps {
   serviceMinutes: number
   personalData: DoctorPersonalData
   selectedPet: SavedPetItem | null
-  navigate: NavigateFunction
 }
 
 const ConfirmOrRequestMessage = (selectedLocation: PublicAddressData) => {
@@ -21,14 +17,13 @@ const ConfirmOrRequestMessage = (selectedLocation: PublicAddressData) => {
 }
 
 export const FinalizeBookingButton = (props: FinalizeBookingProps) => {
-  const { selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet, navigate } = props
+  const { selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet } = props
   if (!(selectedService && selectedLocation && selectedDay && selectedTime)) return null
 
   return (
     <Button
       className="mt-3"
-      onClick={() => finalizeBookingClick(
-        navigate,
+      onClick={() => useFinalizeBookingClick(
         selectedService,
         selectedLocation,
         selectedDay,

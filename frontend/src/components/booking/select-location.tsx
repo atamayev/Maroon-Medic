@@ -1,5 +1,5 @@
 import FormGroup from "../form-group"
-import { handleLocationChange } from "src/custom-hooks/public-doctor-hooks/booking-page-hooks"
+import handleLocationChange from "src/helper-functions/public-doctor/booking-page/handle-location-change"
 
 interface SelectLocationProps {
   addresses: PublicAddressData[]

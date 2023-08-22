@@ -1,8 +1,7 @@
+import { useNavigate } from "react-router-dom"
 import CalendarDataService from "../../services/calendar-data-service"
-import { NavigateFunction } from "react-router-dom"
 
-export async function confirmBooking(
-  navigate: NavigateFunction,
+export async function useConfirmBooking(
   selectedService: ServiceItem,
   selectedLocation: PublicAddressData,
   selectedDay: string,
@@ -12,6 +11,7 @@ export async function confirmBooking(
   selectedPet: SavedPetItem,
   message: string
 ): Promise<void> {
+  const navigate = useNavigate()
   const AppointmentObject = {
     Service_and_category_list_ID: selectedService.service_and_category_listID,
     appointmentDate: selectedDay,

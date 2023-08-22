@@ -2,8 +2,8 @@ import _ from "lodash"
 import moment from "moment"
 import { useState, useEffect } from "react"
 import { Card } from "react-bootstrap"
-import { useNavigate } from "react-router-dom"
-import { generateTimeSlots, usePetData } from "src/custom-hooks/public-doctor-hooks/booking-page-hooks"
+import useFetchAndSetPetData from "src/custom-hooks/public-doctor/use-fetch-and-set-pet-data"
+import generateTimeSlots from "src/helper-functions/public-doctor/booking-page/generate-time-slots"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
 import NoAvailableTimes from "src/components/booking/no-available-times"
 import PatientNotLoggedIn from "src/components/booking/patient-not-logged-in"
@@ -27,7 +27,7 @@ interface Props {
 export default function BookingSection(props: Props) {
   const { providedServices, addresses, personalData } = props
   const { userType } = useSimpleUserVerification(false)
-  const { savedPetData } = usePetData(userType)
+  const { savedPetData } = useFetchAndSetPetData(userType)
   const [selectedPet, setSelectedPet] = useState<SavedPetItem | null>(null)
   const [selectedService, setSelectedService] = useState<ServiceItem | null>(null)
   const [selectedLocation, setSelectedLocation] = useState<PublicAddressData |null>(null)
@@ -37,7 +37,6 @@ export default function BookingSection(props: Props) {
   const [availableTimes, setAvailableTimes] = useState<string[]>([])
   const [availableDates, setAvailableDates] = useState<string[]>([])
   const [serviceMinutes, setServiceMinutes] = useState<number>(0)
-  const navigate = useNavigate()
 
   // Get selected service object
   const selectedServiceObject = providedServices.find(
@@ -152,7 +151,6 @@ export default function BookingSection(props: Props) {
             serviceMinutes = {serviceMinutes}
             personalData = {personalData}
             selectedPet = {selectedPet}
-            navigate = {navigate}
           />
         </Card.Body>
       </Card>

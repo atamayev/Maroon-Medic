@@ -1,5 +1,5 @@
 import FormGroup from "../form-group"
-import { handleDayChange } from "src/custom-hooks/public-doctor-hooks/booking-page-hooks"
+import handleDayChange from "src/helper-functions/public-doctor/booking-page/handle-day-change"
 import AvailableDates from "./available-dates"
 
 interface SelectDayProps {

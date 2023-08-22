@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap"
-import { handleTogglePetType } from "src/custom-hooks/account-details-hooks/select"
+import togglePetType from "src/helper-functions/account-details/toggle/toggle-pet-type"
 
 interface Props {
   pets: ServicedPetItem[]
@@ -20,7 +20,7 @@ const IsTogglePetType = (props: Props) => {
   }
 
   return (
-    <Button onClick={() => handleTogglePetType(petType, setExpandedPetTypes)}>
+    <Button onClick={() => togglePetType(petType, setExpandedPetTypes)}>
       <RenderIsOpen />
     </Button>
   )

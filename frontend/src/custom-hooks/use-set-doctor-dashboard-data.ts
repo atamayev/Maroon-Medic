@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import fetchDoctorDashboardData from "src/helper-functions/private-doctor/fetch-doctor-dashboard-data"
 
-export default function useRetrieveDoctorDashboardData(): {
+export default function useSetDoctorDashboardData(): {
   dashboardData: DoctorDashboardData[],
   setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardData[]>>}
 {

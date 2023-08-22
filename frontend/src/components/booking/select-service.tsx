@@ -1,5 +1,5 @@
-import { handleServiceChange } from "src/custom-hooks/public-doctor-hooks/booking-page-hooks"
 import FormGroup from "../form-group"
+import handleServiceChange from "src/helper-functions/public-doctor/booking-page/handle-service-change"
 
 interface SelectServiceProps extends BaseBookingProps {
   providedServices: ServiceItem[]

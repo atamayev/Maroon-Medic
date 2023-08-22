@@ -3,7 +3,7 @@ import { Card, Button } from "react-bootstrap"
 import { useNavigate, useLocation } from "react-router-dom"
 import UnauthorizedUser from "../../components/unauthorized-user/unauthorized-user"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
-import { confirmBooking } from "../../custom-hooks/public-doctor-hooks/confirm-booking-hook"
+import { useConfirmBooking } from "../../custom-hooks/public-doctor/use-confirm-booking"
 import Header from "../../components/header/header"
 import DoctorPersonalInfo from "src/components/finalize-booking/doctor-personal-info"
 import CustomPatientMessage from "src/components/finalize-booking/custom-patient-message"
@@ -71,8 +71,7 @@ export default function FinalizeBookingPage() {
         <Button
           variant = "primary"
           onClick = {() => {
-            confirmBooking(
-              navigate,
+            useConfirmBooking(
               selectedService,
               selectedLocation,
               selectedDay,

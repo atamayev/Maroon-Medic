@@ -1,6 +1,6 @@
 import moment from "moment"
 import FormGroup from "../form-group"
-import { handleTimeChange } from "src/custom-hooks/public-doctor-hooks/booking-page-hooks"
+import handleTimeChange from "src/helper-functions/public-doctor/booking-page/handle-time-change"
 
 interface SelectTimeProps {
   selectedService: ServiceItem | null

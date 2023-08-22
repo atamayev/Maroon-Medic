@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import fetchPersonalInfoData from "src/helper-functions/shared/fetch-personal-info-data"
 
-export default function useRetrievePersonalInfo(
+export default function useSetPersonalInfo(
   userType: DoctorOrPatientOrNull,
   expectedUserType: DoctorOrPatient
 ): {personalInfo: BirthDateInfo, setPersonalInfo: React.Dispatch<React.SetStateAction<BirthDateInfo>>}

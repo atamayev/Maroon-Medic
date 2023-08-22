@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap"
-import { updateServices, addServices, deleteServices } from "src/custom-hooks/account-details-hooks/save-doctor-account-details"
+import { updateServices, addServices, deleteServices } from "src/helper-functions/account-details/save/save-doctor-account-details"
 
 interface Props {
   service: ServiceListItem

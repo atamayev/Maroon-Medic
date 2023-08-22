@@ -1,4 +1,4 @@
-import PrivateDoctorDataService from "../../services/private-doctor-data-service"
+import PrivateDoctorDataService from "../../../services/private-doctor-data-service"
 import { handle401AxiosErrorAndSetMessageType } from "src/utils/handle-errors"
 
 type LanguageOperationsType = typeof PrivateDoctorDataService.deleteLanguage |

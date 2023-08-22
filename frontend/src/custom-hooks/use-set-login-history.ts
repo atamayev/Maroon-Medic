@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import fetchLoginHistory from "src/helper-functions/shared/fetch-login-history"
 
-export default function useRetrieveLoginHistory(
+export default function useSetLoginHistory(
   userType: DoctorOrPatientOrNull,
   expectedUserType: DoctorOrPatient
 ): LoginHistoryItem[] {

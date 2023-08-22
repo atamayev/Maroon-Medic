@@ -1,5 +1,5 @@
-import { addDoctorLanguages } from "src/custom-hooks/account-details-hooks/save-doctor-account-details"
-import { addPatientLanguages } from "src/custom-hooks/account-details-hooks/save-patient-account-details"
+import { addDoctorLanguages } from "src/helper-functions/account-details/save/save-doctor-account-details"
+import { addPatientLanguages } from "src/helper-functions/account-details/save/save-patient-account-details"
 
 export const addLanguage = async (
   selectedLanguageID: number,

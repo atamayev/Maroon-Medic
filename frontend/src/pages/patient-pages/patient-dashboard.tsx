@@ -2,7 +2,7 @@ import _ from "lodash"
 import moment from "moment"
 import { useEffect, useState } from "react"
 import UnauthorizedUser from "../../components/unauthorized-user/unauthorized-user"
-import useRetrievePatientDashboardData from "src/custom-hooks/use-retrieve-patient-dashboard-data"
+import useSetPatientDashboardData from "src/custom-hooks/use-set-patient-dashboard-data"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
 import Header from "../../components/header/header"
 import PatientHeader from "./patient-header"
@@ -12,7 +12,7 @@ import PersonalInfo from "src/components/patient-dashboard/personal-info"
 
 export default function PatientDashboard() {
   const { userType } = useSimpleUserVerification()
-  const { dashboardData } = useRetrievePatientDashboardData()
+  const { dashboardData } = useSetPatientDashboardData()
   const storedData = sessionStorage.getItem("PatientPersonalInfo")
   const parsedData = storedData && JSON.parse(storedData)
   const [personalInfo, setPersonalInfo] = useState(parsedData as BirthDateInfo)

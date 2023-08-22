@@ -3,8 +3,9 @@ import { Card } from "react-bootstrap"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import SavedLanguageList from "src/components/language/saved-languages-list"
-import { useGenerateLanguageOptions, useUpdateDeleteLanguageStatuses } from "../../../custom-hooks/account-details-hooks/language"
-import { useHandleAddLanguage, useHandleDeleteLanguage } from "../../../custom-hooks/account-details-hooks/callbacks"
+import useUpdateDeleteLanguageStatuses from "src/custom-hooks/account-details/use-update-delete-language-statuses"
+import useGenerateLanguageOptions from "src/custom-hooks/account-details/use-generate-language-options"
+import { useHandleAddLanguage, useHandleDeleteLanguage } from "../../../custom-hooks/account-details/callbacks/callbacks"
 import SelectLanguage from "src/components/language/select-language"
 
 interface Props {

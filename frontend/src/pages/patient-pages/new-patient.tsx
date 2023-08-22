@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom"
 import { VerifyContext } from "../../contexts/verify-context"
 import AuthDataService from "../../services/auth-data-service"
 import NewAccountForm from "../../components/new-account-form"
-import { useNewUserSubmit } from "../../custom-hooks/auth-submits/use-new-user-submit"
+import useNewUserSubmit from "../../custom-hooks/auth-submits/use-new-user-submit"
 import Header from "../../components/header/header"
 
 export default function NewPatient () {
@@ -19,6 +19,8 @@ export default function NewPatient () {
   const [loading, setLoading] = useState(false)
   const {userVerification} = useContext(VerifyContext)
   const navigate = useNavigate()
+
+  const { newUserSubmit } = useNewUserSubmit(setError, setLoading, "Patient")
 
   const verifyNewPatient = async () => {
     const result = await userVerification(false)
@@ -38,14 +40,7 @@ export default function NewPatient () {
     <>
       <Header/>
       <NewAccountForm
-        handleSubmit = {(e) =>
-          useNewUserSubmit(
-            e,
-            newPatientInfo,
-            setError,
-            setLoading,
-            "Patient"
-          )}
+        handleSubmit = {(e) => newUserSubmit(e, newPatientInfo)}
         newInfo = {newPatientInfo}
         setNewInfo = {setNewPatientInfo}
         error = {error}

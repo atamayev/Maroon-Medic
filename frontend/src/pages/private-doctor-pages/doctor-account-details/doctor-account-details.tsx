@@ -15,7 +15,7 @@ import RenderPublicStatusSection from "./public-status"
 import RenderVerificationSection from "./verification-status"
 import RenderPreVetEducationSection from "./pre-vet-education"
 import RenderPersonalInfoLinkSection from "./personalInfoLink"
-import { useDoctorAccountDetails } from "src/custom-hooks/account-details-hooks/fetch-doctor-data"
+import useSetDoctorAccountDetails from "src/custom-hooks/account-details/use-set-doctor-account-details"
 
 // eslint-disable-next-line complexity
 export default function DoctorAccountDetails() {
@@ -73,7 +73,7 @@ export default function DoctorAccountDetails() {
     setPubliclyAvailable
   }
 
-  useDoctorAccountDetails(
+  useSetDoctorAccountDetails(
     setListDetails,
     setExpandedCategories,
     dispatchers

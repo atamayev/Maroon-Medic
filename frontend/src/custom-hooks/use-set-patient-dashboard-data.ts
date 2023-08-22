@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import fetchPatientDashboardData from "src/helper-functions/patient/fetch-patient-dashboard-data"
 
-export default function useRetrievePatientDashboardData(): {
+export default function useSetPatientDashboardData(): {
   dashboardData: PatientDashboardData[],
   setDashboardData: React.Dispatch<React.SetStateAction<PatientDashboardData[]>>}
 {

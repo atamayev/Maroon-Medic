@@ -2,7 +2,7 @@ import _ from "lodash"
 import moment from "moment"
 import { useEffect, useState } from "react"
 import UnauthorizedUser from "../../components/unauthorized-user/unauthorized-user"
-import useRetrieveDoctorDashboardData from "src/custom-hooks/use-retrieve-doctor-dashboard-data"
+import useSetDoctorDashboardData from "src/custom-hooks/use-set-doctor-dashboard-data"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
 import Header from "../../components/header/header"
 import DoctorHeader from "./doctor-header"
@@ -12,7 +12,7 @@ import UpcomingAppointmentsSection from "src/components/doctor-dashboard/upcomin
 
 export default function DoctorDashboard() {
   const { userType } = useSimpleUserVerification()
-  const { dashboardData, setDashboardData } = useRetrieveDoctorDashboardData()
+  const { dashboardData, setDashboardData } = useSetDoctorDashboardData()
   const storedData = sessionStorage.getItem("DoctorPersonalInfo")
   const parsedData = storedData && JSON.parse(storedData)
   const [personalInfo, setPersonalInfo] = useState(parsedData)

@@ -1,21 +1,9 @@
 /* eslint-disable complexity */
 import _ from "lodash"
-import { useEffect } from "react"
-import ListsDataService from "src/services/lists-data-service"
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
 import { handle401AxiosError } from "src/utils/handle-errors"
 
-async function FillLists(setListDetails: React.Dispatch<React.SetStateAction<DoctorListDetails>>): Promise<void> {
-  try {
-    const response = await ListsDataService.fillDoctorLists()
-    setListDetails(response.data)
-    sessionStorage.setItem("ListDetails", JSON.stringify(response.data))
-  } catch (error: unknown) {
-    handle401AxiosError(error)
-  }
-}
-
-async function FillDoctorAccountDetails(
+export default async function FetchDoctorAccountDetails(
   dispatchers: DoctorAccountDispatchers
 ): Promise<void> {
   try {
@@ -42,29 +30,4 @@ async function FillDoctorAccountDetails(
   } catch (error: unknown) {
     handle401AxiosError(error)
   }
-}
-
-export function useDoctorAccountDetails(
-  setListDetails: React.Dispatch<React.SetStateAction<DoctorListDetails>>,
-  setExpandedCategories: React.Dispatch<React.SetStateAction<string[]>>,
-  dispatchers: DoctorAccountDispatchers
-): void {
-  const getDoctorAccountDetails: () => void = async () => {
-    try {
-      const storedAccountDetails = sessionStorage.getItem("DoctorAccountDetails")
-      if (!storedAccountDetails) {
-        await FillDoctorAccountDetails(dispatchers)
-      } else setExpandedCategories(JSON.parse(storedAccountDetails).services?.map((service: ServiceItem) => service.Category_name))
-
-      const storedListDetails = sessionStorage.getItem("ListDetails")
-      if (storedListDetails) setListDetails(JSON.parse(storedListDetails))
-      else await FillLists(setListDetails)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  useEffect(() => {
-    getDoctorAccountDetails()
-  }, [])
 }

@@ -1,6 +1,7 @@
 import { Card, ToggleButton, ToggleButtonGroup } from "react-bootstrap"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
-import { handlePublicAvailibilityToggle } from "../../../custom-hooks/account-details-hooks/save-doctor-account-details"
+
+import { handlePublicAvailibilityToggle } from "../../../helper-functions/account-details/save/save-doctor-account-details"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 
 interface Props {

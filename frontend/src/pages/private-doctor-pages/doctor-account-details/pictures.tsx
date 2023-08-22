@@ -1,5 +1,5 @@
 import { Carousel } from "react-bootstrap"
-// import { handleSelectCarousel } from "../../../Custom Hooks/Hooks for Doctor Account Details/select"
+// import selectCarousel from "src/helper-functions/account-details/select-carousel"
 
 interface Props {
   carouselIndex: number
@@ -12,7 +12,7 @@ export default function RenderPicturesSection (props: Props) {
   return (
     <>
       Edit Pictures:
-      {/* <Carousel activeIndex = {carouselIndex} onSelect = {() =>handleSelectCarousel(carouselIndex, setCarouselIndex)}> */}
+      {/* <Carousel activeIndex = {carouselIndex} onSelect = {() =>selectCarousel(carouselIndex, setCarouselIndex)}> */}
       <Carousel activeIndex = {carouselIndex}>
         <Carousel.Item>
           <img

@@ -1,4 +1,4 @@
-import { useHandleCheckboxChange } from "src/custom-hooks/account-details-hooks/callbacks"
+import { useHandleCheckboxChange } from "src/custom-hooks/account-details/callbacks/callbacks"
 
 interface Props {
   pets: ServicedPetItem[]

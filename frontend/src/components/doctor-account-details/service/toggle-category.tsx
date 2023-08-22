@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap"
-import { handleToggleCategory } from "src/custom-hooks/account-details-hooks/select"
+import toggleServiceCategory from "src/helper-functions/account-details/toggle/toggle-service-category"
 
 interface Props {
   category: string
@@ -19,7 +19,7 @@ const ToggleCategory = (props: Props) => {
   }
 
   return (
-    <Button onClick = {() => handleToggleCategory(category, setExpandedCategories)}>
+    <Button onClick = {() => toggleServiceCategory(category, setExpandedCategories)}>
       <RenderIsOpen />
     </Button>
   )

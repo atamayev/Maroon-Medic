@@ -1,6 +1,6 @@
-import {useState, useEffect,useRef } from "react"
+import { useState, useEffect, useRef } from "react"
 import pic from "../../../images/ProfileImage.jpg"
-import { useSetHeaderData } from "src/custom-hooks/header"
+import { useSetHeaderData } from "src/custom-hooks/use-set-header-data"
 import { DropdownItemsContainer } from "./dropdown-items-container"
 import { observer } from "mobx-react"
 

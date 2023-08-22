@@ -1,16 +1,17 @@
 import { useState } from "react"
-import handleLoginSubmit from "src/custom-hooks/auth-submits/handle-login-submit"
+import useLoginSubmit from "src/custom-hooks/auth-submits/use-login-submit"
 import LoginAndRegistrationForm from "../../components/login-and-registration-form/login-and-registration-form"
-import useConfirmNotLoggedIn from "../../custom-hooks/user-verification-snippets"
+import useConfirmNotLoggedIn from "../../custom-hooks/use-confirm-not-logged-in"
 import Header from "../../components/header/header"
 
 export default function PatientLogin() {
-  const type = "Patient"
+  const VetOrPatient = "Patient"
   const [loginInformationObject, setLoginInformationObject] =
-  useState<AuthCredentials>({loginType: type, email: "", password: ""})
+  useState<AuthCredentials>({loginType: VetOrPatient, email: "", password: ""})
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const { loginSubmit } = useLoginSubmit(setError, setLoading, VetOrPatient)
 
   useConfirmNotLoggedIn(false)
 
@@ -18,18 +19,11 @@ export default function PatientLogin() {
     <>
       <Header dropdown = {true} search = {true}/>
       <LoginAndRegistrationForm
-        handleSubmit = {(e) =>
-          handleLoginSubmit(
-            e,
-            loginInformationObject,
-            setError,
-            setLoading,
-            type
-          )}
+        handleSubmit = {(e) => loginSubmit(e, loginInformationObject)}
         credentials = {loginInformationObject}
         setCredentials = {setLoginInformationObject}
         error = {error}
-        VetOrPatient = {type}
+        VetOrPatient = {VetOrPatient}
         loading = {loading}
         loginOrSignUp = "Login"
         showPassword = {showPassword}

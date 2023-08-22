@@ -1,6 +1,6 @@
 import moment from "moment"
-import PrivateDoctorDataService from "../../services/private-doctor-data-service"
-import shouldSaveDescription from "../../utils/save-account-details"
+import PrivateDoctorDataService from "src/services/private-doctor-data-service"
+import shouldSaveDescription from "src/utils/save-account-details"
 import {
   modifyDoctorLanguages,
   modifyServicesData,

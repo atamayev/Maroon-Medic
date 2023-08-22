@@ -1,9 +1,9 @@
 import { useState, useEffect, useContext } from "react"
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { VerifyContext } from "../../contexts/verify-context"
 import AuthDataService from "../../services/auth-data-service"
 import NewAccountForm from "../../components/new-account-form"
-import { useNewUserSubmit } from "../../custom-hooks/auth-submits/use-new-user-submit"
+import useNewUserSubmit from "../../custom-hooks/auth-submits/use-new-user-submit"
 import Header from "../../components/header/header"
 
 export default function NewDoctor () {
@@ -19,6 +19,8 @@ export default function NewDoctor () {
   const [loading, setLoading] = useState(false)
   const {userVerification} = useContext(VerifyContext)
   const navigate = useNavigate()
+
+  const { newUserSubmit } = useNewUserSubmit(setError, setLoading, "Vet")
 
   const verifyNewDoctor = async () => {
     const result = await userVerification(false)
@@ -38,14 +40,7 @@ export default function NewDoctor () {
     <>
       <Header/>
       <NewAccountForm
-        handleSubmit = {(e) =>
-          useNewUserSubmit(
-            e,
-            newDoctorInfo,
-            setError,
-            setLoading,
-            "Vet"
-          )}
+        handleSubmit = {(e) => newUserSubmit(e, newDoctorInfo)}
         newInfo = {newDoctorInfo}
         setNewInfo = {setNewDoctorInfo}
         error = {error}

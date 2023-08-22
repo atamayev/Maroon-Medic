@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { Button } from "react-bootstrap"
 import { areAllFieldsValid, areAllTimesValid } from "src/utils/all-field-checks"
-import { updateLocation } from "src/custom-hooks/account-details-hooks/save-doctor-account-details"
+import { updateLocation } from "src/helper-functions/account-details/save/save-doctor-account-details"
 
 interface Props {
   address: DoctorAddressData

@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { Link } from "react-router-dom"
 import { Button } from "react-bootstrap"
-import { handlePetChange } from "src/custom-hooks/public-doctor-hooks/booking-page-hooks"
+import handlePetChange from "src/helper-functions/public-doctor/booking-page/handle-pet-change"
 import FormGroup from "../form-group"
 
 interface ChoosePetProps extends BaseBookingProps {

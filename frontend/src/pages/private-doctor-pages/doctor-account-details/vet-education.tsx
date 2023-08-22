@@ -7,7 +7,7 @@ import {
   useSaveAddVetEducation,
   useHandleAddVetEducation,
   useHandleDeleteVetEducation
-} from "../../../custom-hooks/account-details-hooks/callbacks"
+} from "../../../custom-hooks/account-details/callbacks/callbacks"
 import SelectVetSchool from "src/components/doctor-account-details/education/vet-education/select-vet-school"
 import SelectVetEducationType from "src/components/doctor-account-details/education/vet-education/select-vet-education-type"
 import VetEducationTime from "src/components/doctor-account-details/education/vet-education/vet-education-time"

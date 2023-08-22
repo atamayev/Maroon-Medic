@@ -1,17 +1,18 @@
 import { useState } from "react"
-import handleRegisterSubmit from "src/custom-hooks/auth-submits/handle-register-submit"
+import useRegisterSubmit from "src/custom-hooks/auth-submits/use-register-submit"
 import LoginAndRegistrationForm from "../../components/login-and-registration-form/login-and-registration-form"
-import useConfirmNotLoggedIn from "../../custom-hooks/user-verification-snippets"
+import useConfirmNotLoggedIn from "../../custom-hooks/use-confirm-not-logged-in"
 import Header from "../../components/header/header"
 
 export default function PatietRegister() {
-  const type = "Patient"
+  const VetOrPatiet = "Patient"
   const [registerInformationObject, setRegisterInformationObject] =
-  useState<AuthCredentials>({loginType: type, email: "", password: ""})
+  useState<AuthCredentials>({loginType: VetOrPatiet, email: "", password: ""})
   const [passwordConfirm, setPasswordConfirm] = useState("")
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const { registerSubmit } = useRegisterSubmit(setError, setLoading, VetOrPatiet)
 
   useConfirmNotLoggedIn(false)
 
@@ -19,20 +20,12 @@ export default function PatietRegister() {
     <>
       <Header dropdown = {true} search = {true}/>
       <LoginAndRegistrationForm
-        handleSubmit = {(e) =>
-          handleRegisterSubmit(
-            e,
-            registerInformationObject,
-            passwordConfirm,
-            setError,
-            setLoading,
-            type
-          )}
+        handleSubmit = {(e) => registerSubmit(e, registerInformationObject, passwordConfirm)}
         credentials = {registerInformationObject}
         setCredentials = {setRegisterInformationObject}
         setPasswordConfirm = {setPasswordConfirm}
         error = {error}
-        VetOrPatient = {type}
+        VetOrPatient = {VetOrPatiet}
         loading = {loading}
         loginOrSignUp = "Sign up"
         showPassword = {showPassword}

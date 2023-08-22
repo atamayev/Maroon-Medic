@@ -1,4 +1,4 @@
-import { addSpecialties } from "src/custom-hooks/account-details-hooks/save-doctor-account-details"
+import { addSpecialties } from "src/helper-functions/account-details/save/save-doctor-account-details"
 
 export const addSpecialty = async (
   selectedSpecialtyID: number,

@@ -11,7 +11,7 @@ import {
   deletePreVetEducation,
   deleteServicedPets,
   deleteVetEducation
-} from "./save-doctor-account-details"
+} from "../../../helper-functions/account-details/save/save-doctor-account-details"
 
 export const useHandleDeleteLanguage = (
   spokenLanguages: LanguageItem[],

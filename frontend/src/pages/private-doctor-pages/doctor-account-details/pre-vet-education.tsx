@@ -6,7 +6,7 @@ import useConfirmationMessage from "../../../custom-hooks/use-confirmation-messa
 import { useHandleAddPreVetEducation,
   useHandleDeletePreVetEducation,
   useSaveAddPreVetEducation
-} from "../../../custom-hooks/account-details-hooks/callbacks"
+} from "../../../custom-hooks/account-details/callbacks/callbacks"
 import SelectPreVetSchool from "src/components/doctor-account-details/education/pre-vet-education/select-pre-vet-school"
 import SelectMajor from "src/components/doctor-account-details/education/pre-vet-education/select-major"
 import SelectPreVetEducationType from "src/components/doctor-account-details/education/pre-vet-education/select-pre-vet-education-type"

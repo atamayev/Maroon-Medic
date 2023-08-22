@@ -14,33 +14,42 @@ const useAssignBookingDetailsNavigateToFinalizeBooking = (): void => {
   }
 }
 
-export const useNewUserSubmit = async (
-  e: React.FormEvent<HTMLFormElement>,
-  newInfo: BirthDateInfo,
+const useNewUserSubmit = (
   setError: React.Dispatch<React.SetStateAction<string>>,
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   VetOrPatient: VetOrPatient
-): Promise<void> => {
-  setError("")
-  try {
-    e.preventDefault()
-    setLoading(true)
-    const navigate = useNavigate()
-    let response
-    if (VetOrPatient === "Vet") response = await PrivateDoctorDataService.addingDoctorInfo(newInfo)
-    else response = await PrivatePatientDataService.addingPatientInfo(newInfo)
+): { newUserSubmit: (e: React.FormEvent<HTMLFormElement>, newInfo: BirthDateInfo) => Promise<void>} => {
+  const navigate = useNavigate()
 
-    if (response.status === 200) {
-      if (VetOrPatient === "Vet") sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(newInfo))
-      else sessionStorage.setItem("PatientPersonalInfo", JSON.stringify(newInfo))
-      if ((sessionStorage.getItem("bookingDetails")) && VetOrPatient === "Patient") {
-        useAssignBookingDetailsNavigateToFinalizeBooking()
+  const newUserSubmit = async (
+    e: React.FormEvent<HTMLFormElement>,
+    newInfo: BirthDateInfo
+  ): Promise<void> => {
+
+    setError("")
+    try {
+      e.preventDefault()
+      setLoading(true)
+      let response
+      if (VetOrPatient === "Vet") response = await PrivateDoctorDataService.addingDoctorInfo(newInfo)
+      else response = await PrivatePatientDataService.addingPatientInfo(newInfo)
+
+      if (response.status === 200) {
+        if (VetOrPatient === "Vet") sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(newInfo))
+        else sessionStorage.setItem("PatientPersonalInfo", JSON.stringify(newInfo))
+        if ((sessionStorage.getItem("bookingDetails")) && VetOrPatient === "Patient") {
+          useAssignBookingDetailsNavigateToFinalizeBooking()
+        }
+        else navigate("/dashboard")
       }
-      else navigate("/dashboard")
+      else setError("Unable to add new user. Please reload and try again.")
+    } catch (error: unknown) {
+      handle401AxiosErrorAndSetCustomError(error, setError)
     }
-    else setError("Unable to add new user. Please reload and try again.")
-  } catch (error: unknown) {
-    handle401AxiosErrorAndSetCustomError(error, setError)
+    setLoading(false)
   }
-  setLoading(false)
+
+  return { newUserSubmit }
 }
+
+export default useNewUserSubmit
