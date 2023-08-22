@@ -1,8 +1,7 @@
-import {useState} from "react"
-import {useNavigate} from "react-router-dom"
-import {handleRegisterSubmit} from "../../custom-hooks/handle-submits"
+import { useState } from "react"
+import handleRegisterSubmit from "src/custom-hooks/auth-submits/handle-register-submit"
 import LoginAndRegistrationForm from "../../components/login-and-registration-form/login-and-registration-form"
-import { useConfirmNotLoggedIn } from "../../custom-hooks/user-verification-snippets"
+import useConfirmNotLoggedIn from "../../custom-hooks/user-verification-snippets"
 import Header from "../../components/header/header"
 
 export default function PatietRegister() {
@@ -12,7 +11,6 @@ export default function PatietRegister() {
   const [passwordConfirm, setPasswordConfirm] = useState("")
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
 
   useConfirmNotLoggedIn(false)
@@ -26,7 +24,6 @@ export default function PatietRegister() {
             e,
             registerInformationObject,
             passwordConfirm,
-            navigate,
             setError,
             setLoading,
             type

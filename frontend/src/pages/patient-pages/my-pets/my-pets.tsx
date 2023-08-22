@@ -2,7 +2,7 @@ import { useState } from "react"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
-import { usePetData } from "src/custom-hooks/my-pets-hooks/my-pets"
+import useFetchPetData from "src/custom-hooks/use-fetch-pet-data"
 import Header from "../../../components/header/header"
 import PatientHeader from "../patient-header"
 import NewPet from "./new-pet"
@@ -18,7 +18,7 @@ export default function MyPets() {
   const [showAddPet, setShowAddPet] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [petToDelete, setPetToDelete] = useState<SavedPetItem | null>(null)
-  const { savedPetData, setSavedPetData, petTypes, insurances } = usePetData(userType)
+  const { savedPetData, setSavedPetData, petTypes, insurances } = useFetchPetData(userType)
   if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
   const RenderAddPet = () => {

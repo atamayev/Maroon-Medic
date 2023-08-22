@@ -1,5 +1,5 @@
 import FormGroup from "../form-group"
-import handleInputChange from "src/custom-hooks/new-pet/handle-input-change"
+import handleInputChange from "src/helper-functions/patient/new-pet/handle-input-change/handle-input-change"
 
 interface Props {
   newPetData: PetItemForCreation

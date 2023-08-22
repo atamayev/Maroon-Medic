@@ -1,5 +1,5 @@
 import { AxiosError } from "axios"
-import { invalidUserAction } from "src/custom-hooks/user-verification-snippets"
+import invalidUserAction from "./invalid-user-action"
 
 export const handle401AxiosError = (error: unknown): void => {
   if (error instanceof AxiosError) {

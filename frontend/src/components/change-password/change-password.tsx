@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Button, Card, Form } from "react-bootstrap"
-import { handleChangePassword } from "../../custom-hooks/change-password"
+import changePassword from "../../helper-functions/shared/change-password"
 import CurrentPasswordInput from "./current-password-input"
 import NewPasswordInput from "./new-password"
 import SavedPasswordMessage from "./saved-password-message"
@@ -22,7 +22,7 @@ export default function ChangePassword( { type } : { type: DoctorOrPatient }) {
   }
 
   const handleSubmit = async () => {
-    await handleChangePassword(credentials, setCredentials, setMessage, setLoading, type)
+    await changePassword(credentials, setCredentials, setMessage, setLoading, type)
   }
 
   const isShowPassword = () => {

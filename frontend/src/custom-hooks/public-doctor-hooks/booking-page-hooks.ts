@@ -2,7 +2,7 @@ import _ from "lodash"
 import moment from "moment"
 import { useEffect, useState } from "react"
 import { NavigateFunction } from "react-router-dom"
-import { fetchPetData } from "../my-pets-hooks/my-pets"
+import fetchPetData from "src/helper-functions/patient/my-pets/fetch-pet-data"
 import { convertToMinutes } from "src/utils/time"
 
 export function usePetData(userType: DoctorOrPatientOrNull): { savedPetData: SavedPetItem[] } {

@@ -3,7 +3,7 @@ import { Card } from "react-bootstrap"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import SavedLanguageList from "src/components/language/saved-languages-list"
-import { useLanguageOptions, useUpdateDeleteStatuses } from "../../../custom-hooks/account-details-hooks/language"
+import { useGenerateLanguageOptions, useUpdateDeleteLanguageStatuses } from "../../../custom-hooks/account-details-hooks/language"
 import { useHandleAddLanguage, useHandleDeleteLanguage } from "../../../custom-hooks/account-details-hooks/callbacks"
 import SelectLanguage from "src/components/language/select-language"
 
@@ -31,9 +31,9 @@ function RenderIsPatientLanguages(props: Props) {
   const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
   const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage()
 
-  useUpdateDeleteStatuses(deleteStatuses, setDeleteStatuses, spokenLanguages)
+  useUpdateDeleteLanguageStatuses(deleteStatuses, setDeleteStatuses, spokenLanguages)
 
-  const languageOptions = useLanguageOptions(listDetails.languages, spokenLanguages)
+  const languageOptions = useGenerateLanguageOptions(listDetails.languages, spokenLanguages)
 
   const handleLanguageChange = useHandleAddLanguage(spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, "patient")
 

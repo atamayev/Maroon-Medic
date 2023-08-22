@@ -1,0 +1,20 @@
+import { deleteDoctorLanguages } from "src/custom-hooks/account-details-hooks/save-doctor-account-details"
+import { deletePatientLanguages } from "src/custom-hooks/account-details-hooks/save-patient-account-details"
+
+export const deleteLanguage = async (
+  language: LanguageItem,
+  spokenLanguages: LanguageItem[],
+  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
+  setLanguagesConfirmation: (conf: ConfirmationMessage) => void,
+  doctorOrPatient: doctorOrpatient
+): Promise<void> => {
+  const newSpokenLanguages = spokenLanguages.filter(l => l.language_listID !== language.language_listID)
+  if (doctorOrPatient === "doctor") {
+    await deleteDoctorLanguages(language.language_listID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
+  }
+  else {
+    await deletePatientLanguages(language.language_listID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
+  }
+}
+
+export default deleteLanguage

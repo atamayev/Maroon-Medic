@@ -1,7 +1,7 @@
 import { Button } from "react-bootstrap"
 import { AxiosError } from "axios"
 import CalendarDataService from "src/services/calendar-data-service"
-import { invalidUserAction } from "src/custom-hooks/user-verification-snippets"
+import invalidUserAction from "src/utils/invalid-user-action"
 
 async function approveAppointment (
   setStatus: React.Dispatch<React.SetStateAction<AppointmentStatus>>,

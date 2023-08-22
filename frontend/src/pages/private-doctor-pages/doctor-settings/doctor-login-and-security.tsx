@@ -1,7 +1,7 @@
 import { observer } from "mobx-react"
 import LoginHistory from "../../../components/login-history"
 import ChangePassword from "../../../components/change-password/change-password"
-import { useLoginHistory } from "../../../custom-hooks/login-history"
+import useRetrieveLoginHistory from "../../../custom-hooks/use-retrieve-login-history"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import Header from "../../../components/header/header"
@@ -9,7 +9,7 @@ import DoctorHeader from "../doctor-header"
 
 const DoctorLoginAndSecurity = () => {
   const { userType } = useSimpleUserVerification()
-  const loginHistory = useLoginHistory(userType, "Doctor")
+  const loginHistory = useRetrieveLoginHistory(userType, "Doctor")
 
   if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 

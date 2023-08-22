@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap"
-import { handleAddAccordion } from "src/custom-hooks/account-details-hooks/add"
+import addAccordion from "src/helper-functions/account-details/add/add-accordion"
 
 interface Props {
   addresses: DoctorAddressData[]
@@ -12,7 +12,7 @@ const AddNewLocationButton = (props: Props) => {
   return (
     <Button
       variant = "primary"
-      onClick = {() => handleAddAccordion(addresses, setAddresses)}
+      onClick = {() => addAccordion(addresses, setAddresses)}
       style = {{ marginRight: "10px" }}
     >
       Add New Location

@@ -1,5 +1,5 @@
 import { Button, Modal } from "react-bootstrap"
-import { deletePet } from "src/custom-hooks/my-pets-hooks/delete-pet"
+import deletePet from "src/helper-functions/patient/my-pets/delete-pet"
 
 const handleCloseModal = (setShowModal: React.Dispatch<React.SetStateAction<boolean>>) => {
   setShowModal(false)

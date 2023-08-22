@@ -1,7 +1,7 @@
-import AuthDataService from "../services/auth-data-service"
+import AuthDataService from "../../services/auth-data-service"
 import axios from "axios"
 
-export const handleChangePassword = async (
+const changePassword = async (
   changePasswordObject: ChangePasswordObject,
   setCredentials: React.Dispatch<React.SetStateAction<ChangePasswordObject>>,
   setMessage: React.Dispatch<React.SetStateAction<string>>,
@@ -35,3 +35,5 @@ export const handleChangePassword = async (
     }
   }
 }
+
+export default changePassword

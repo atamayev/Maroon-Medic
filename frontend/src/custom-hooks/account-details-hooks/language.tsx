@@ -5,7 +5,7 @@ interface DeleteStatusProps {
   [key: number]: DeleteStatuses
 }
 
-export function useUpdateDeleteStatuses(
+export function useUpdateDeleteLanguageStatuses(
   deleteStatuses: DeleteStatusesDictionary,
   setDeleteStatuses: React.Dispatch<React.SetStateAction<DeleteStatusProps>>,
   spokenLanguages: LanguageItem[]
@@ -25,7 +25,7 @@ export function useUpdateDeleteStatuses(
   }, [spokenLanguages])
 }
 
-export function useLanguageOptions(languages: LanguageItem[], spokenLanguages: LanguageItem[]): JSX.Element[] {
+export function useGenerateLanguageOptions(languages: LanguageItem[], spokenLanguages: LanguageItem[]): JSX.Element[] {
   return useMemo(() => {
     if (!(_.isArray(languages) && !_.isEmpty(languages))) return []
 

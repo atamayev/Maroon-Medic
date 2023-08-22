@@ -1,7 +1,7 @@
 import { handle401AxiosErrorAndSetMessageType } from "src/utils/handle-errors"
-import PrivatePatientDataService from "../../services/private-patient-data-service"
+import PrivatePatientDataService from "../../../services/private-patient-data-service"
 
-export async function deletePet(
+export default async function deletePet(
   pet_infoID: number,
   savedPetData: SavedPetItem[],
   setSavedPetData: React.Dispatch<React.SetStateAction<SavedPetItem[]>>,

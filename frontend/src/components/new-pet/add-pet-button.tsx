@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap"
-import addPet from "src/custom-hooks/new-pet/add-pet"
+import addPet from "src/helper-functions/patient/new-pet/add-pet"
 
 function areAllFieldsValid(petData: PetItemForCreation) {
   if (

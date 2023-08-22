@@ -1,5 +1,5 @@
 import { handle401AxiosErrorAndSetMessageType } from "src/utils/handle-errors"
-import PrivatePatientDataService from "../../services/private-patient-data-service"
+import PrivatePatientDataService from "../../../services/private-patient-data-service"
 
 function petDataOperations(petData: PetItemForCreation, responseData: number): SavedPetItem {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

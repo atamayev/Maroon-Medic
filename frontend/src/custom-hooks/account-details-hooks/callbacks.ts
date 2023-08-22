@@ -1,6 +1,9 @@
 import { useCallback } from "react"
-import { handleDeleteLanguage, handleDeleteSpecialty } from "./delete"
-import { handleAddLanguage, handleAddSpecialty, handleAddEducation } from "./add"
+import deleteLanguage from "src/helper-functions/account-details/delete/delete-language"
+import deleteSpecialty from "src/helper-functions/account-details/delete/delete-specialty"
+import addLanguage from "src/helper-functions/account-details/add/add-language"
+import addSpecialty from "src/helper-functions/account-details/add/add-sepcialty"
+import addEducation from "src/helper-functions/account-details/add/add-education"
 import {
   addPreVetEducation,
   addServicedPets,
@@ -18,7 +21,7 @@ export const useHandleDeleteLanguage = (
 ): ((language: LanguageItem) => void) => {
   return useCallback(
     async (language: LanguageItem) => {
-      await handleDeleteLanguage(
+      await deleteLanguage(
         language,
         spokenLanguages,
         setSpokenLanguages,
@@ -39,7 +42,7 @@ export const useHandleAddLanguage = (
 ): (e: React.ChangeEvent<HTMLSelectElement>) => void => {
   return useCallback(
     async (e: React.ChangeEvent<HTMLSelectElement>) => {
-      await handleAddLanguage(
+      await addLanguage(
         Number(e.target.value),
         spokenLanguages,
         setSpokenLanguages,
@@ -58,7 +61,7 @@ export const useHandleDeleteSpecialty = (
 ): ((specialty: SpecialtyItem) => void) => {
   return useCallback(
     async (specialty: SpecialtyItem) => {
-      await handleDeleteSpecialty(
+      await deleteSpecialty(
         specialty,
         doctorSpecialties,
         setDoctorSpecialties,
@@ -78,7 +81,7 @@ export const useHandleAddSpecialty = (
   setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void
 ): (e: React.ChangeEvent<HTMLSelectElement>) => Promise<void> => {
   return useCallback(async (e: React.ChangeEvent<HTMLSelectElement>) => {
-    await handleAddSpecialty(
+    await addSpecialty(
       Number(e.target.value),
       doctorSpecialties,
       setDoctorSpecialties,
@@ -135,7 +138,7 @@ export const useHandleAddPreVetEducation = (
   setSelectedMajor: React.Dispatch<React.SetStateAction<string>>
 ): () => GeneralEducationItem => {
   return useCallback(() => {
-    return handleAddEducation(
+    return addEducation(
       selectedPreVetSchool, setSelectedPreVetSchool,
       selectedPreVetEducationType, setSelectedPreVetEducationType,
       timeState, setTimeState,
@@ -192,7 +195,7 @@ export const useHandleAddVetEducation = (
   setTimeState: React.Dispatch<React.SetStateAction<TimeState>>
 ): () => GeneralEducationItem => {
   return useCallback(() => {
-    return handleAddEducation(
+    return addEducation(
       selectedVetSchool, setSelectedVetSchool,
       selectedVetEducationType, setSelectedVetEducationType,
       timeState, setTimeState,

@@ -4,7 +4,8 @@ import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
-import { handleSavePersonalInfo, usePersonalInfo } from "../../../custom-hooks/fetch-and-save-personal-info"
+import useRetrievePersonalInfo from "../../../custom-hooks/use-retrieve-personal-info"
+import savePersonalInfo from "src/helper-functions/shared/save-personal-info"
 import FirstNameInput from "src/components/personal-info-inputs/first-name-input"
 import LastNameInput from "src/components/personal-info-inputs/last-name-input"
 import GenderSection from "src/components/personal-info-inputs/gender-input"
@@ -14,7 +15,7 @@ import DoctorHeader from "../doctor-header"
 
 export default function DoctorPersonalInfo() {
   const { userType } = useSimpleUserVerification()
-  const {personalInfo, setPersonalInfo } = usePersonalInfo(userType, "Doctor")
+  const {personalInfo, setPersonalInfo } = useRetrievePersonalInfo(userType, "Doctor")
   const [personalInfoConfirmation, setPersonalInfoConfirmation] = useConfirmationMessage()
 
   if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
@@ -27,7 +28,7 @@ export default function DoctorPersonalInfo() {
         <Card.Body>
           <Form onSubmit = {(e) => {
             e.preventDefault()
-            handleSavePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)
+            savePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)
           }}>
             <FirstNameInput personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
             <LastNameInput personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />

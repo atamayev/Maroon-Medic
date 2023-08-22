@@ -1,7 +1,7 @@
 import { AxiosError } from "axios"
 import { createContext } from "react"
 import AuthDataService from "../services/auth-data-service"
-import { invalidUserAction } from "../custom-hooks/user-verification-snippets"
+import invalidUserAction from "src/utils/invalid-user-action"
 import CheckCookie from "src/utils/cookie-check"
 
 const createDefaultContext = (): VerifyContextType => ({ userVerification: () => Promise.resolve({verified: false}) })

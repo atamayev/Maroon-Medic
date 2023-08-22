@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom"
 import { VerifyContext } from "../../contexts/verify-context"
 import AuthDataService from "../../services/auth-data-service"
 import NewAccountForm from "../../components/new-account-form"
-import {handleNewUserSubmit} from "../../custom-hooks/handle-submits"
+import { useNewUserSubmit } from "../../custom-hooks/auth-submits/use-new-user-submit"
 import Header from "../../components/header/header"
 
 export default function NewPatient () {
@@ -39,10 +39,9 @@ export default function NewPatient () {
       <Header/>
       <NewAccountForm
         handleSubmit = {(e) =>
-          handleNewUserSubmit(
+          useNewUserSubmit(
             e,
             newPatientInfo,
-            navigate,
             setError,
             setLoading,
             "Patient"

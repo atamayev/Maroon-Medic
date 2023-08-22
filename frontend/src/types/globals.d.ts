@@ -51,6 +51,7 @@ declare global {
     appointmentsID: number
     appointment_date: MysqlTimestamp
     appointment_price: number
+    appointment_timespan: number
     patient_message: string
     Doctor_confirmation_status: boolean
     Created_at: MysqlTimestamp
@@ -84,7 +85,7 @@ declare global {
     userVerification: (clearSession: boolean) => VerifyContextReturnType
   }
 
-  type LoginHistoryItem = {
+  interface LoginHistoryItem {
     Login_at: string
   }
 

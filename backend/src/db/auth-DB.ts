@@ -74,7 +74,7 @@ export default new class AuthDB {
   }
 
   async retrieveLoginHistory (UserID: number): Promise<LoginHistoryRecord[]> {
-    const sql = `SELECT login_historyID, Login_at FROM ${mysqlTables.login_history} WHERE User_ID = ? ORDER BY Login_at DESC`
+    const sql = `SELECT Login_at FROM ${mysqlTables.login_history} WHERE User_ID = ? ORDER BY Login_at DESC`
     const values = [UserID]
     const connection = await connectDatabase()
     const [results] = await connection.execute(sql, values)
