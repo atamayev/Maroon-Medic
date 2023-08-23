@@ -13,16 +13,16 @@ interface Props {
   setExpandedCategories: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-export default function RenderServiceSection (props: Props) {
+export default function ServiceSection (props: Props) {
   return (
     <AccountDetailsCard
       title = "Vet Services"
-      content = {<RenderIsVetServices {...props} />}
+      content = {<VetServices {...props} />}
     />
   )
 }
 
-function RenderIsVetServices (props: Props) {
+function VetServices (props: Props) {
   const [servicesConfirmation, setServicesConfirmation] = useConfirmationMessage()
   const { listDetails, providedServices, setProvidedServices, expandedCategories, setExpandedCategories } = props
   const [selectedServices, setSelectedServices] = useState<ServiceItem[]>([])

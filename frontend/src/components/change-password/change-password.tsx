@@ -17,7 +17,7 @@ export default function ChangePassword( { type } : { type: DoctorOrPatient }) {
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
-  const RenderHideOrShowPassword = () => {
+  const HideOrShowPassword = () => {
     if (showPassword) return "Hide Password"
     return "Show Password"
   }
@@ -60,7 +60,7 @@ export default function ChangePassword( { type } : { type: DoctorOrPatient }) {
           className="mt-3"
           colorClass="bg-orange-600"
           hoverClass="hover:bg-orange-700"
-          title={RenderHideOrShowPassword()}
+          title={HideOrShowPassword()}
           onClick={() => (setShowPassword(!showPassword))}
         />
 

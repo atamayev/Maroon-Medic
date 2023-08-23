@@ -5,17 +5,17 @@ interface CategoriesType {
   [key: string]: ServicedPetData[]
 }
 
-export default function RenderServicedPetsSection({servicedPets} : {servicedPets: ServicedPetData[]}) {
+export default function ServicedPetsSection({servicedPets} : {servicedPets: ServicedPetData[]}) {
   if (_.isEmpty(servicedPets)) return null
   return (
     <PublicDoctorCard
       title = "Serviced Pets"
-      content = {<RenderServicedPets servicedPets = {servicedPets} />}
+      content = {<ServicedPets servicedPets = {servicedPets} />}
     />
   )
 }
 
-function RenderServicedPets({servicedPets} : {servicedPets: ServicedPetData[]}) {
+function ServicedPets({servicedPets} : {servicedPets: ServicedPetData[]}) {
   const categories: CategoriesType = {}
   if (servicedPets) {
     servicedPets.forEach(Pet => {

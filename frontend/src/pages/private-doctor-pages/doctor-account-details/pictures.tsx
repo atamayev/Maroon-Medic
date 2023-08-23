@@ -2,8 +2,9 @@ interface Props {
   carouselIndex: number
   setCarouselIndex: React.Dispatch<React.SetStateAction<number>>
 }
+//This component is untested and may need to be modified
 
-export default function RenderPicturesSection(props: Props) {
+export default function PicturesSection(props: Props) {
   const { carouselIndex, setCarouselIndex } = props
   const images = [
     "../../Images/ProfileImage.jpg",

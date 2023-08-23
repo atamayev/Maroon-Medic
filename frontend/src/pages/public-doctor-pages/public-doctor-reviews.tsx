@@ -8,14 +8,14 @@ interface Props {
   reviews?: ReviewsType[]
 }
 
-export default function RenderReviewsSection(props: Props) {
+export default function ReviewsSection(props: Props) {
   // const { spokenLanguages } = props
 
   // if (!_.isEmpty(spokenLanguages)) {
   return (
     <PublicDoctorCard
       title = "Reviews"
-      content = {<RenderReviews props = {props} />}
+      content = {<Reviews props = {props} />}
     />
   )
   // }
@@ -23,7 +23,7 @@ export default function RenderReviewsSection(props: Props) {
 }
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-function RenderReviews({props} : {props: Props}) {
+function Reviews({props} : {props: Props}) {
 
   return (
     <>

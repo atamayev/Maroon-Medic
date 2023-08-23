@@ -15,22 +15,18 @@ interface Props {
   setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>
 }
 
-export default function RenderSpecialtySection (props: Props) {
+export default function SpecialtySection (props: Props) {
   return (
     <AccountDetailsCard
       title = "Specialties"
-      content = {<RenderIsSpecialty {...props}/>}
+      content = {<VetSpecialties {...props}/>}
     />
   )
 }
 
-interface DeleteStatusProps {
-  [key: number]: DeleteStatuses
-}
-
-function RenderIsSpecialty(props: Props) {
+function VetSpecialties(props: Props) {
   const [selectedOrganization, setSelectedOrganization] = useState("")
-  const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusProps>({})
+  const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
   const {listDetails, doctorSpecialties, setDoctorSpecialties} = props
   const [specialtiesConfirmation, setSpecialtiesConfirmation] = useConfirmationMessage()
 

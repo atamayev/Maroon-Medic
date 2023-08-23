@@ -5,8 +5,8 @@ import SharedPagesTemplate from "src/components/shared-pages-template"
 export default function Privacy() {
   return (
     <SharedPagesTemplate
-      DoctorComponentToRender = {<DoctorPrivacy/>}
-      PatientComponentToRender = {<PatientPrivacy/>}
+      DoctorContent = {<DoctorPrivacy/>}
+      PatientContent = {<PatientPrivacy/>}
     />
   )
 }

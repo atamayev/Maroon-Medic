@@ -4,12 +4,12 @@ interface Props {
   description: string
 }
 
-export default function RenderDescriptionSection(props: Props) {
+export default function DescriptionSection(props: Props) {
   if (!props.description) return null
-  return <> <RenderDescription {...props}/> </>
+  return <VetDescription {...props}/>
 }
 
-function RenderDescription(props: Props) {
+function VetDescription(props: Props) {
   const Description = props.description
   return (
     <PublicDoctorCard

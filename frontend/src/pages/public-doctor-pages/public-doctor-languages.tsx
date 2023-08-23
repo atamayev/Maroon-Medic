@@ -1,17 +1,17 @@
 import _ from "lodash"
 import PublicDoctorCard from "src/components/public-doctor-card"
 
-export default function RenderLanguageSection({spokenLanguages}: {spokenLanguages: LanguageName[]}) {
+export default function LanguageSection({spokenLanguages}: {spokenLanguages: LanguageName[]}) {
   if (_.isEmpty(spokenLanguages)) return null
   return (
     <PublicDoctorCard
       title = "Languages"
-      content = {<RenderSpokenLanguages spokenLanguages = {spokenLanguages} />}
+      content = {<SpokenLanguages spokenLanguages = {spokenLanguages} />}
     />
   )
 }
 
-function RenderSpokenLanguages({spokenLanguages}: {spokenLanguages: LanguageName[]}) {
+function SpokenLanguages({spokenLanguages}: {spokenLanguages: LanguageName[]}) {
   return (
     <>
       {spokenLanguages.map((language, index) => (

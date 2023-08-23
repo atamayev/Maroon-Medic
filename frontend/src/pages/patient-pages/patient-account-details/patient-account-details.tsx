@@ -4,7 +4,7 @@ import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-ver
 import { usePatientAccountDetails } from "src/custom-hooks/account-details/use-set-patient-account-details"
 import Header from "../../../components/header/header"
 import PatientHeader from "../patient-header"
-import RenderLanguageSection from "./language"
+import PatientLanguageSection from "./language"
 
 export default function PatientAccountDetails() {
   const { userType } = useSimpleUserVerification()
@@ -20,7 +20,7 @@ export default function PatientAccountDetails() {
     <div>
       <Header dropdown = {true} search = {true} />
       <PatientHeader/>
-      <RenderLanguageSection
+      <PatientLanguageSection
         listDetails = {listDetails}
         spokenLanguages = {spokenLanguages}
         setSpokenLanguages = {setSpokenLanguages}

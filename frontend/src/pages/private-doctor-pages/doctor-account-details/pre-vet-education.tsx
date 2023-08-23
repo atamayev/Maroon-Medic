@@ -20,16 +20,16 @@ interface Props {
   setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItem[]>>
 }
 
-export default function RenderPreVetEducationSection(props: Props) {
+export default function PreVetEducationSection(props: Props) {
   return (
     <AccountDetailsCard
       title = "Pre-vet education"
-      content = {<RenderIsPreVetEducation {...props} />}
+      content = {<PreVetEducation {...props} />}
     />
   )
 }
 
-function RenderIsPreVetEducation(props: Props) {
+function PreVetEducation(props: Props) {
   const { listDetails, preVetEducation, setPreVetEducation } = props
   const [selectedPreVetSchool, setSelectedPreVetSchool] = useState<string>("")
   const [selectedMajor, setSelectedMajor] = useState<string>("")

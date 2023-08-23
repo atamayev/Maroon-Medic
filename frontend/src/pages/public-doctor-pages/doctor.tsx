@@ -5,15 +5,15 @@ import PublicDoctorDataService from "../../services/public-doctor-data-service"
 import Header from "../../components/header/header"
 import "./card.css"
 import BookingSection from "./public-doctor-booking"
-import RenderReviewsSection from "./public-doctor-reviews"
-import RenderServiceSection from "./public-doctor-services"
-import RenderLanguageSection from "./public-doctor-languages"
-import RenderLocationsSection from "./public-doctor-locations"
-import RenderEducationSection from "./public-doctor-education"
-import RenderSpecialtiesSection from "./public-doctor-specialties"
-import RenderPersonalInfoSection from "./public-doctor-personal-info"
-import RenderDescriptionSection from "./public-doctor-description"
-import RenderServicedPetsSection from "./public-doctor-serviced-pets"
+import ReviewsSection from "./public-doctor-reviews"
+import ServiceSection from "./public-doctor-services"
+import LanguageSection from "./public-doctor-languages"
+import LocationsSection from "./public-doctor-locations"
+import EducationSection from "./public-doctor-education"
+import SpecialtiesSection from "./public-doctor-specialties"
+import PersonalInfoSection from "./public-doctor-personal-info"
+import DescriptionSection from "./public-doctor-description"
+import ServicedPetsSection from "./public-doctor-serviced-pets"
 
 export default function Doctor () {
   const { id } = useParams()
@@ -56,7 +56,7 @@ export default function Doctor () {
   return (
     <>
       <Header dropdown = {true} search = {true}/>
-      <RenderPersonalInfoSection
+      <PersonalInfoSection
         personalData = {personalData}
       />
       <BookingSection
@@ -64,30 +64,30 @@ export default function Doctor () {
         addresses = {addresses}
         personalData = {personalData}
       />
-      <RenderDescriptionSection
+      <DescriptionSection
         description = {description}
       />
-      <RenderLocationsSection
+      <LocationsSection
         addresses = {addresses}
       />
-      <RenderServicedPetsSection
+      <ServicedPetsSection
         servicedPets = {servicedPets}
       />
-      <RenderLanguageSection
+      <LanguageSection
         spokenLanguages = {spokenLanguages}
       />
-      <RenderServiceSection
+      <ServiceSection
         providedServices = {providedServices}
       />
-      <RenderEducationSection
+      <EducationSection
         preVetEducation = {preVetEducation}
         vetEducation = {vetEducation}
         personalData = {personalData}
       />
-      <RenderSpecialtiesSection
+      <SpecialtiesSection
         doctorSpecialties = {doctorSpecialties}
       />
-      <RenderReviewsSection
+      <ReviewsSection
       />
     </>
   )

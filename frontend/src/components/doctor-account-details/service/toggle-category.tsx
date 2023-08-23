@@ -13,7 +13,7 @@ const ToggleCategory = (props: Props) => {
   if (services.length <= 1) return null
 
   const isOpen = expandedCategories.includes(category)
-  const RenderIsOpen = () => {
+  const IsOpen = () => {
     if (isOpen) return "^"
     return "v"
   }
@@ -23,7 +23,7 @@ const ToggleCategory = (props: Props) => {
       className = "mr-3"
       colorClass = "bg-blue-600"
       hoverClass = "hover:bg-blue-700"
-      title = {RenderIsOpen()}
+      title = {IsOpen()}
       onClick = {() => toggleServiceCategory(category, setExpandedCategories)}
     />
   )

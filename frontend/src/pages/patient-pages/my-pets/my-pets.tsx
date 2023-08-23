@@ -21,7 +21,7 @@ export default function MyPets() {
   const { savedPetData, setSavedPetData, petTypes, insurances } = useFetchPetData(userType)
   if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
-  const RenderAddPet = () => {
+  const AddPet = () => {
     if (!showAddPet) return null
     return (
       <NewPet
@@ -54,7 +54,7 @@ export default function MyPets() {
       />
 
       <ShowAddPet showAddPet = {showAddPet} setShowAddPet = {setShowAddPet} />
-      <RenderAddPet />
+      <AddPet />
     </>
   )
 }

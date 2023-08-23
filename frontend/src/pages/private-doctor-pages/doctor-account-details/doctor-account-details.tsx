@@ -3,18 +3,18 @@ import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized
 import Header from "../../../components/header/header"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import DoctorHeader from "../doctor-header"
-import RenderPetsSection from "./pets"
-import RenderServiceSection from "./service"
-import RenderLanguageSection from "./language"
-import RenderLocationSection from "./location"
-//import RenderPicturesSection from "./pictures"
-import RenderSpecialtySection from "./specialty"
-import RenderVetEducationSection from "./vet-education"
-import RenderDescriptionSection from "./description"
-import RenderPublicStatusSection from "./public-status"
-import RenderVerificationSection from "./verification-status"
-import RenderPreVetEducationSection from "./pre-vet-education"
-import RenderPersonalInfoLinkSection from "./personalInfoLink"
+import PetsSection from "./pets"
+import ServiceSection from "./service"
+import LanguageSection from "./language"
+import LocationSection from "./location"
+//import PicturesSection from "./pictures"
+import SpecialtySection from "./specialty"
+import VetEducationSection from "./vet-education"
+import DescriptionSection from "./description"
+import PublicStatusSection from "./public-status"
+import VerificationSection from "./verification-status"
+import PreVetEducationSection from "./pre-vet-education"
+import PersonalInfoLinkSection from "./personalInfoLink"
 import useSetDoctorAccountDetails from "src/custom-hooks/account-details/use-set-doctor-account-details"
 
 // eslint-disable-next-line complexity
@@ -85,58 +85,58 @@ export default function DoctorAccountDetails() {
     <div>
       <Header dropdown = {true}/>
       <DoctorHeader/>
-      <RenderPreVetEducationSection
+      <PreVetEducationSection
         listDetails = {listDetails}
         preVetEducation = {preVetEducation}
         setPreVetEducation = {setPreVetEducation}
       />
-      <RenderVetEducationSection
+      <VetEducationSection
         listDetails = {listDetails}
         vetEducation = {vetEducation}
         setVetEducation = {setVetEducation}
       />
-      <RenderDescriptionSection
+      <DescriptionSection
         description = {description}
         setDescription = {setDescription}
       />
-      <RenderPersonalInfoLinkSection/>
-      {/* <RenderPicturesSection
+      <PersonalInfoLinkSection/>
+      {/* <PicturesSection
         carouselIndex = {carouselIndex}
         setCarouselIndex = {setCarouselIndex}
       /> */}
-      <RenderPetsSection
+      <PetsSection
         listDetails = {listDetails}
         servicedPets = {servicedPets}
         setServicedPets = {setServicedPets}
         expandedPetTypes = {expandedPetTypes}
         setExpandedPetTypes = {setExpandedPetTypes}
       />
-      <RenderSpecialtySection
+      <SpecialtySection
         listDetails = {listDetails}
         doctorSpecialties = {doctorSpecialties}
         setDoctorSpecialties = {setDoctorSpecialties}
       />
-      <RenderLanguageSection
+      <LanguageSection
         listDetails = {listDetails}
         spokenLanguages = {spokenLanguages}
         setSpokenLanguages = {setSpokenLanguages}
       />
-      <RenderServiceSection
+      <ServiceSection
         listDetails = {listDetails}
         providedServices = {providedServices}
         setProvidedServices = {setProvidedServices}
         expandedCategories = {expandedCategories}
         setExpandedCategories = {setExpandedCategories}
       />
-      <RenderLocationSection
+      <LocationSection
         addresses = {addresses}
         setAddresses = {setAddresses}
       />
-      <RenderPublicStatusSection
+      <PublicStatusSection
         publiclyAvailable = {publiclyAvailable}
         setPubliclyAvailable = {setPubliclyAvailable}
       />
-      <RenderVerificationSection
+      <VerificationSection
         verified = {verified}
       />
     </div>

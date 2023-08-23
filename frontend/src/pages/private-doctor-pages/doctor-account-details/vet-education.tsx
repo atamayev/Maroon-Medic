@@ -18,16 +18,16 @@ interface Props {
   setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItem[]>>
 }
 
-export default function RenderVetEducationSection (props: Props) {
+export default function VetEducationSection (props: Props) {
   return (
     <AccountDetailsCard
       title = "Vet Education"
-      content = {<RenderIsVetEducation {...props} />}
+      content = {<VetEducation {...props} />}
     />
   )
 }
 
-function RenderIsVetEducation(props: Props) {
+function VetEducation(props: Props) {
   const { listDetails, vetEducation, setVetEducation } = props
   const [selectedVetSchool, setSelectedVetSchool] = useState("")
   const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
@@ -49,7 +49,7 @@ function RenderIsVetEducation(props: Props) {
     // Go through each status
     for (const vetEducationMappingID in newDeleteStatuses) {
       // If the language ID does not exist in the vetEducation list, delete the status
-      if (!vetEducation.some((VetEducation) => VetEducation.vet_education_mappingID === Number(vetEducationMappingID))) {
+      if (!vetEducation.some((_vetEducation) => _vetEducation.vet_education_mappingID === Number(vetEducationMappingID))) {
         delete newDeleteStatuses[vetEducationMappingID]
       }
     }

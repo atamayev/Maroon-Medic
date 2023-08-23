@@ -3,17 +3,17 @@ import PublicDoctorCard from "src/components/public-doctor-card"
 import AddressSection from "src/components/public-doctor-locations/address-section"
 import TimesSection from "src/components/public-doctor-locations/times-section"
 
-export default function RenderLocationsSection( { addresses } : {addresses: PublicAddressData[]}) {
+export default function LocationsSection( { addresses } : {addresses: PublicAddressData[]}) {
   if (_.isEmpty(addresses)) return null
   return (
     <PublicDoctorCard
       title = "Locations"
-      content = {<RenderLocations addressesList = {addresses} />}
+      content = {<Locations addressesList = {addresses} />}
     />
   )
 }
 
-function RenderLocations({addressesList}: {addressesList: PublicAddressData[]}) {
+function Locations({addressesList}: {addressesList: PublicAddressData[]}) {
   const InstantBook = ({ address }: {address: PublicAddressData}) => {
     if (address.instant_book) return <>Instant book available</>
     return <>Instant book unavailable</>

@@ -8,7 +8,7 @@ Bugs:
 3. Fix services not changing from -1 (make sure -1 cannot be entered,or else db errors out)
 
 To-do:
-4. -remove all 'renderX'
+-make sure that if there are more than 2 props, they are destructured in the body of the component, not in the parameters
 5.-make sure that each component is named the same as the file. there shouldn't be more than one large component per file
 	bring back the max lines rule
 6. Cut down the backend CTRL files

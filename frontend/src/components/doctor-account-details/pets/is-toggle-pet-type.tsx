@@ -14,7 +14,7 @@ const IsTogglePetType = (props: Props) => {
 
   const isOpen = expandedPetTypes.includes(petType)
 
-  const RenderIsOpen = () => {
+  const IsOpen = () => {
     if (isOpen) return "^"
     return "v"
   }
@@ -24,7 +24,7 @@ const IsTogglePetType = (props: Props) => {
       className = "mr-3"
       colorClass = "bg-blue-600"
       hoverClass = "hover:bg-blue-700"
-      title = {RenderIsOpen()}
+      title = {IsOpen()}
       onClick={() => togglePetType(petType, setExpandedPetTypes)}
     />
   )

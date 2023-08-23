@@ -5,8 +5,8 @@ import SharedPagesTemplate from "src/components/shared-pages-template"
 export default function LoginAndSecurity() {
   return (
     <SharedPagesTemplate
-      DoctorComponentToRender = {<DoctorLoginAndSecurity/>}
-      PatientComponentToRender = {<PatientLoginAndSecurity/>}
+      DoctorContent = {<DoctorLoginAndSecurity/>}
+      PatientContent = {<PatientLoginAndSecurity/>}
     />
   )
 }

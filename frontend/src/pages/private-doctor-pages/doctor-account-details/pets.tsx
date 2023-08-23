@@ -12,16 +12,16 @@ interface Props {
   setExpandedPetTypes: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-export default function RenderPetsSection (props: Props) {
+export default function PetsSection (props: Props) {
   return (
     <AccountDetailsCard
       title = "Serviced Pets"
-      content = {<RenderIsPets {...props} />}
+      content = {<PetsServiced {...props} />}
     />
   )
 }
 
-function RenderIsPets (props: Props) {
+function PetsServiced (props: Props) {
   const { listDetails, servicedPets, expandedPetTypes, setServicedPets, setExpandedPetTypes } = props
   const [petsConfirmation, setPetsConfirmation] = useConfirmationMessage()
 

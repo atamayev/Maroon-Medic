@@ -15,16 +15,16 @@ interface Props {
   setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>
 }
 
-export default function RenderLanguageSection(props: Props) {
+export default function LanguageSection(props: Props) {
   return (
     <AccountDetailsCard
       title = "Languages"
-      content = {<RenderIsVetLanguages {...props} />}
+      content = {<VetLanguages {...props} />}
     />
   )
 }
 
-function RenderIsVetLanguages(props: Props) {
+function VetLanguages(props: Props) {
   const {listDetails, spokenLanguages, setSpokenLanguages} = props
   const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
   const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage()

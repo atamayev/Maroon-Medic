@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import Button from "src/components/button"
 
-export default function RenderPersonalInfoLinkSection() {
+export default function PersonalInfoLinkSection() {
   return (
     <div className="mb-3 p-4 border rounded shadow">
       Looking to edit your Profile Information? {""}

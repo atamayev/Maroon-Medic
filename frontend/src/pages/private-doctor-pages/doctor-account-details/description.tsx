@@ -11,16 +11,16 @@ interface Props {
   setDescription: React.Dispatch<React.SetStateAction<string>>
 }
 
-export default function RenderDescriptionSection (props: Props) {
+export default function DescriptionSection (props: Props) {
   return (
     <AccountDetailsCard
       title = "Languages"
-      content = {<RenderIsDescription {...props} />}
+      content = {<Description {...props} />}
     />
   )
 }
 
-function RenderIsDescription(props: Props) {
+function Description(props: Props) {
   const { description, setDescription } = props
   const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false)
   const [descriptionConfirmation, setDescriptionConfirmation] = useConfirmationMessage()

@@ -8,16 +8,16 @@ interface Props {
   setPubliclyAvailable: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function RenderPublicStatusSection (props: Props) {
+export default function PublicStatusSection (props: Props) {
   return (
     <AccountDetailsCard
       title = "Public Availbility Status"
-      content = {<RenderIsPubliclyAvailable {...props} />}
+      content = {<PublicAvailability {...props} />}
     />
   )
 }
 
-function RenderIsPubliclyAvailable (props: Props) {
+function PublicAvailability (props: Props) {
   const { publiclyAvailable, setPubliclyAvailable } = props
   const [publiclyAvailableConfirmation, setPubliclyAvailableConfirmation] = useConfirmationMessage()
 

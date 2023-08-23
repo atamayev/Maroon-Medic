@@ -5,16 +5,16 @@ interface Props {
   verified: boolean
 }
 
-export default function RenderVerificationSection (props: Props) {
+export default function VerificationSection (props: Props) {
   return (
     <AccountDetailsCard
       title = "Verification Status"
-      content = {<RenderIsVerification {...props} />}
+      content = {<VetVerification {...props} />}
     />
   )
 }
 
-function RenderIsVerification ( {verified} : {verified: boolean}) {
+function VetVerification ( {verified} : {verified: boolean}) {
   if (verified) {
     return (
       <>

@@ -15,7 +15,7 @@ function areAllFieldsValid(petData: PetItemForCreation) {
 }
 
 
-const RenderNewPetName = (petName: string | null) => {
+const newPetName = (petName: string | null) => {
   if (!petName) return "Pet"
   return {petName}
 }
@@ -39,7 +39,7 @@ const AddPetButton = (props: Props) => {
         //need to make this button  a 'submit' button
         colorClass = "bg-amber-500"
         hoverClass = "hover:bg-amber-600"
-        title = {`Add ${RenderNewPetName(newPetData.Name)}`}
+        title = {`Add ${newPetName(newPetData.Name)}`}
         onClick = {() => {
           addPet(newPetData, setNewPetData, setPetConfirmation, savedPetData, setSavedPetData, setShowAddPet)
         }}

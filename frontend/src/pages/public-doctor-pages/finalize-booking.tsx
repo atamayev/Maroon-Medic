@@ -54,7 +54,7 @@ export default function FinalizeBookingPage() {
   }, [message])
 
   if (!browserLocation.state && !sessionBookingDetails) {
-    //Or render some kind of loading spinner
+    //Or show some kind of loading spinner
     return null
   }
 

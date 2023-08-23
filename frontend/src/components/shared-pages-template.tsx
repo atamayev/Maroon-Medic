@@ -2,19 +2,19 @@ import useSimpleUserVerification from "src/custom-hooks/use-simple-user-verifica
 import NullUser from "./unauthorized-user/null-user"
 
 interface Props {
-  DoctorComponentToRender: JSX.Element
-  PatientComponentToRender: JSX.Element
+  DoctorContent: JSX.Element
+  PatientContent: JSX.Element
 }
 
 export default function SharedPagesTemplate(props: Props) {
-  const { DoctorComponentToRender, PatientComponentToRender } = props
+  const { DoctorContent, PatientContent } = props
   const { userType } = useSimpleUserVerification()
 
-  const RenderComponent = () => {
-    if (userType === "Doctor") return DoctorComponentToRender
-    else if (userType === "Patient") return PatientComponentToRender
-    else return <NullUser/>
+  const Component = () => {
+    if (userType === "Doctor") return DoctorContent
+    else if (userType === "Patient") return PatientContent
+    return <NullUser/>
   }
 
-  return <RenderComponent/>
+  return <Component/>
 }

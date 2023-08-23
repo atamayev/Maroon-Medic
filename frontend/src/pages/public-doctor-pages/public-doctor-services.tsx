@@ -5,17 +5,17 @@ interface CategoriesType {
   [key: string]: ServiceItem[]
 }
 
-export default function RenderServiceSection({providedServices} : {providedServices: ServiceItem[]}) {
+export default function ServiceSection({providedServices} : {providedServices: ServiceItem[]}) {
   if (_.isEmpty(providedServices)) return null
   return (
     <PublicDoctorCard
       title = "Provided Services"
-      content = {<RenderProvidedServices providedServices = {providedServices} />}
+      content = {<ProvidedServices providedServices = {providedServices} />}
     />
   )
 }
 
-function RenderProvidedServices({providedServices} : {providedServices: ServiceItem[]}) {
+function ProvidedServices({providedServices} : {providedServices: ServiceItem[]}) {
   const categories: CategoriesType = {}
   if (providedServices) {
     providedServices.forEach(service => {

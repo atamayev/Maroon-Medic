@@ -20,7 +20,7 @@ export default function NewAccountForm({
   loading
 } : Props
 ) {
-  const RenderErrorMessage = () => {
+  const ErrorMessage = () => {
     if (!error) return null
     return (
       <div className="bg-red-600 text-white p-3 rounded-md mb-4">
@@ -32,7 +32,7 @@ export default function NewAccountForm({
   return (
     <div className="bg-white border rounded-lg shadow-md p-6">
       <div>
-        <RenderErrorMessage />
+        <ErrorMessage />
         <form onSubmit={handleSubmit}>
           <FirstNameInput personalInfo={newInfo} setPersonalInfo={setNewInfo} />
           <LastNameInput personalInfo={newInfo} setPersonalInfo={setNewInfo} />

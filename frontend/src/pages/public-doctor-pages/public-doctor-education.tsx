@@ -7,7 +7,7 @@ interface Props {
   personalData: DoctorPersonalData
 }
 
-export default function RenderEducationSection(props: Props) {
+export default function EducationSection(props: Props) {
   const { preVetEducation, vetEducation, personalData } = props
   if (_.isEmpty(preVetEducation) && _.isEmpty(vetEducation)) return null
   return (
@@ -16,22 +16,22 @@ export default function RenderEducationSection(props: Props) {
       content = {
         <>
           <h3>Pre-Veterinary Education</h3>
-          <RenderEducation educationList = {preVetEducation} hasMajor = {true} />
+          <Education educationList = {preVetEducation} hasMajor = {true} />
 
           <h3>Veterinary Education</h3>
-          <RenderEducation educationList = {vetEducation} hasMajor = {true} />
+          <Education educationList = {vetEducation} hasMajor = {true} />
         </>
       }
     />
   )
 }
 
-interface RenderEducationProps {
+interface EducationProps {
   educationList: GeneralEducationItem[]
   hasMajor: boolean
 }
 
-function RenderEducation({educationList, hasMajor} : RenderEducationProps) {
+function Education({educationList, hasMajor} : EducationProps) {
   return (
     <>
       {educationList.map((edu, index) => (

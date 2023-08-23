@@ -1,12 +1,8 @@
 import { useEffect } from "react"
 
-interface DeleteStatusProps {
-  [key: number]: DeleteStatuses
-}
-
 export default function useUpdateDeleteLanguageStatuses(
   deleteStatuses: DeleteStatusesDictionary,
-  setDeleteStatuses: React.Dispatch<React.SetStateAction<DeleteStatusProps>>,
+  setDeleteStatuses: React.Dispatch<React.SetStateAction<DeleteStatusesDictionary>>,
   spokenLanguages: LanguageItem[]
 ): void {
   useEffect(() => {
