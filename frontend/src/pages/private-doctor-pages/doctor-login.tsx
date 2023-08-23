@@ -13,8 +13,7 @@ export default function DoctorLogin() {
   const [showPassword, setShowPassword] = useState(false)
   const { loginSubmit } = useLoginSubmit(setError, setLoading, VetOrPatient)
 
-
-  useConfirmNotLoggedIn()
+  useConfirmNotLoggedIn(false)
 
   return (
     <>

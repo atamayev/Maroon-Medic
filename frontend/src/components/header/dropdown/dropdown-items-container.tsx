@@ -8,6 +8,7 @@ interface Props {
 
 export const DropdownItemsContainer = ({isOpen, dropdown, userType} : Props) => {
   if (!isOpen) return null
+
   return (
     <div
       className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"

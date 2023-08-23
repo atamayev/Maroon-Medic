@@ -3,7 +3,6 @@ To-do:
 
 ASAP:
 
-1. Change the hrefs to Links (no refresh) dropdown items
 2. Tailwind conversion. Move off ouf bootstrap and MDB (see comment below)
 3. Bug: Fix services not changing from -1 (make sure -1 cannot be entered,or else db errors out)
 4. -remove all 'renderX'

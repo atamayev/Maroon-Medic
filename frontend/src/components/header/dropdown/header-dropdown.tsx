@@ -29,7 +29,7 @@ const HeaderDropdown = ({dropdown, userType} : Props) => {
   if (dropdown === false) return null
 
   return (
-    <div className="w-1/4 flex justify-end">
+    <div className="w-1/4 flex justify-end position: relative z-10">
       <div className="flex items-center">
         <div className="relative inline-block text-left" ref = {dropdownRef}>
           <button
