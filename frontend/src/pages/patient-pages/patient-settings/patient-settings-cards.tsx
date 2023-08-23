@@ -1,4 +1,3 @@
-import { CardGroup } from "react-bootstrap"
 import SettingsLinks from "../../../components/settings-links"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
@@ -14,11 +13,11 @@ export default function PatientSettingsCards() {
     <>
       <Header dropdown = {true} search = {true}/>
       <PatientHeader/>
-      <CardGroup>
+      <div className="flex flex-col items-center">
         <SettingsLinks SettingsLink = {"personal-information"} title = {"Personal Information"}/>
         <SettingsLinks SettingsLink = {"privacy"} title = {"Privacy"}/>
         <SettingsLinks SettingsLink = {"login-and-security"} title = {"Login & Security"}/>
-      </CardGroup>
+      </div>
     </>
   )
 }

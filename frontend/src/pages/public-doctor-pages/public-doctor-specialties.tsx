@@ -1,5 +1,5 @@
 import _ from "lodash"
-import { Card } from "react-bootstrap"
+import PublicDoctorCard from "src/components/public-doctor-card"
 
 interface CategoriesType {
   [key: string]: OrganizationSpecialtyName[]
@@ -8,14 +8,10 @@ interface CategoriesType {
 export default function RenderSpecialtiesSection({doctorSpecialties} : {doctorSpecialties: OrganizationSpecialtyName[]}) {
   if (_.isEmpty(doctorSpecialties)) return null
   return (
-    <Card className = "card-bottom-margin">
-      <Card.Header>
-        Doctor Organizations and Specialites
-      </Card.Header>
-      <Card.Body>
-        <RenderSpecialties doctorSpecialties = {doctorSpecialties} />
-      </Card.Body>
-    </Card>
+    <PublicDoctorCard
+      title = "Specialties"
+      content = {<RenderSpecialties doctorSpecialties = {doctorSpecialties} />}
+    />
   )
 }
 

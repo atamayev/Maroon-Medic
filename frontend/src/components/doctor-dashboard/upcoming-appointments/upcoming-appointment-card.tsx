@@ -1,4 +1,3 @@
-import { Card } from "react-bootstrap"
 import { useState } from "react"
 import MessageSection from "../message-section"
 import PendingAppointment from "../pending-appointment"
@@ -18,25 +17,25 @@ const UpcomingAppointmentCard = ({ appointment, dashboardData, setDashboardData 
   const [status, setStatus] = useState<AppointmentStatus>(returnDoctorConfirmationStatus(appointment))
 
   return (
-    <Card style = {{ margin: "0 10px", position: "relative" }} className = "mb-3">
-      <Card.Body>
-        <Card.Title>
+    <div className="mb-3 relative border border-brown-400 bg-yellow-100 rounded" style={{ margin: "0 10px" }}>
+      <div className="p-4">
+        <h1 className="text-brown-800 text-lg">
           Appointment with {appointment.Patient_FirstName} {appointment.Patient_LastName} on {appointment.appointment_date}
-        </Card.Title>
-        <Card.Text>
-          <MessageSection appointment = {appointment} />
-          <PendingAppointment status = {status} setStatus = {setStatus} />
+        </h1>
+        <div>
+          <MessageSection appointment={appointment} />
+          <PendingAppointment status={status} setStatus={setStatus} />
           <ConfirmedAppointment
-            status = {status}
-            setStatus = {setStatus}
-            appointment = {appointment}
-            dashboardData = {dashboardData}
-            setDashboardData = {setDashboardData}
+            status={status}
+            setStatus={setStatus}
+            appointment={appointment}
+            dashboardData={dashboardData}
+            setDashboardData={setDashboardData}
           />
-          <ApprovedAppointment status = {status} />
-        </Card.Text>
-      </Card.Body>
-    </Card>
+          <ApprovedAppointment status={status} />
+        </div>
+      </div>
+    </div>
   )
 }
 

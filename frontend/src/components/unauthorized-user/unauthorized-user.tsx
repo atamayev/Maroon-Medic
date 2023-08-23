@@ -1,4 +1,3 @@
-import { Card } from "react-bootstrap"
 import Header from "../header/header"
 import UnauthorizedUserBodyText from "./unauthorized-user-body-text"
 
@@ -10,9 +9,9 @@ export default function UnauthorizedUser(vetOrpatient: Props): JSX.Element {
   return (
     <>
       <Header dropdown = {true} search = {true}/>
-      <Card>
+      <div className="bg-yellow-100 border border-brown-400 rounded p-4">
         {UnauthorizedUserBodyText(vetOrpatient)}
-      </Card>
+      </div>
     </>
   )
 }

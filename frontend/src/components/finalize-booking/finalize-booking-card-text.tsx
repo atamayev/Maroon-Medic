@@ -1,5 +1,4 @@
 import moment from "moment"
-import { Card } from "react-bootstrap"
 
 interface Props {
   selectedService: ServiceItem,
@@ -14,32 +13,34 @@ const FinalizeBookingCardText = (props: Props) => {
   const { selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, selectedPet } = props
 
   return (
-    <>
-      <Card.Text>
-        <span style = {{ display: "block" }}>
-          <strong>Pet:</strong> {selectedPet.Name}
-        </span>
-        <span style = {{ display: "block" }}>
-          <strong>Service:</strong> {selectedService.Service_name}
-        </span>
-        <span style = {{ display: "block" }}>
-          <strong>
-            Location:
-          </strong>
-          {selectedLocation.address_title}:  {selectedLocation.address_line_1} {selectedLocation.address_line_2}
-        </span>
-        <span style = {{ display: "block" }}>
-          <strong>Day:</strong> {selectedDay}
-        </span>
-        <span style = {{ display: "block" }}>
-          <strong>Time:</strong> {selectedTime} - {moment(selectedTime, "HH:mm").add(serviceMinutes, "minutes").format("h:mm A")}
-        </span>
-        <span style = {{ display: "block" }}>
-          <strong>Price:</strong> ${selectedService.Service_price}
-        </span>
-      </Card.Text>
-    </>
+    <div className="bg-yellow-100 p-4 rounded border border-brown-400">
+      <div className="block text-brown-800 mb-1">
+        <strong className="font-bold">Pet:</strong> {selectedPet.Name}
+      </div>
+      <div className="block text-brown-800 mb-1">
+        <strong className="font-bold">Service:</strong> {selectedService.Service_name}
+      </div>
+      <div className="block text-brown-800 mb-1">
+        <strong className="font-bold">
+          Location:
+        </strong>
+        {selectedLocation.address_title}:  {selectedLocation.address_line_1} {selectedLocation.address_line_2}
+      </div>
+      <div className="block text-brown-800 mb-1">
+        <strong className="font-bold">Day:</strong> {selectedDay}
+      </div>
+      <div className="block text-brown-800 mb-1">
+        <strong className="font-bold">
+          Time:
+        </strong>
+        {selectedTime} - {moment(selectedTime, "HH:mm").add(serviceMinutes, "minutes").format("h:mm A")}
+      </div>
+      <div className="block text-brown-800 mb-1">
+        <strong className="font-bold">Price:</strong> ${selectedService.Service_price}
+      </div>
+    </div>
   )
+
 }
 
 export default FinalizeBookingCardText

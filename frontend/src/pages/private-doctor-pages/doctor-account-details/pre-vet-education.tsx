@@ -1,6 +1,5 @@
 import _ from "lodash"
 import { useState, useEffect } from "react"
-import { Card } from "react-bootstrap"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import useDeletePreVetEducation from "src/custom-hooks/account-details/callbacks/use-delete-pre-vet-education"
@@ -13,6 +12,7 @@ import SavedPreVetEducationList from "src/components/doctor-account-details/educ
 import PreVetEducationTime from "src/components/doctor-account-details/education/pre-vet-education/pre-vet-education-time"
 import AddAndSavePreVetEducationButton
   from "src/components/doctor-account-details/education/pre-vet-education/add-and-save-pre-vet-education-button"
+import AccountDetailsCard from "src/components/account-details-card"
 
 interface Props {
   listDetails: DoctorListDetails
@@ -22,14 +22,10 @@ interface Props {
 
 export default function RenderPreVetEducationSection(props: Props) {
   return (
-    <Card className = "mb-3 mt-3">
-      <Card.Header>
-        Pre-vet education
-      </Card.Header>
-      <Card.Body>
-        <RenderIsPreVetEducation {...props} />
-      </Card.Body>
-    </Card>
+    <AccountDetailsCard
+      title = "Pre-vet education"
+      content = {<RenderIsPreVetEducation {...props} />}
+    />
   )
 }
 

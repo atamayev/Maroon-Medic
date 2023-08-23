@@ -1,4 +1,3 @@
-import { Card } from "react-bootstrap"
 import Button from "src/components/button"
 
 interface Props {
@@ -17,8 +16,10 @@ const SavedPetDataTitle = (props: Props) => {
   const {pet, setPetToDelete, setShowModal} = props
 
   return (
-    <Card.Title>
-      {pet.Name}
+    <div className="flex justify-between items-center p-2 bg-yellow-200 border-b border-brown-400">
+      <span className="text-brown-800 font-bold">
+        {pet.Name}
+      </span>
       <Button
         colorClass = "bg-red-500"
         hoverClass = "hover:bg-red-600"
@@ -26,7 +27,7 @@ const SavedPetDataTitle = (props: Props) => {
         onClick = {() => handleShowModal({pet, setPetToDelete, setShowModal})}
         className = "float-right"
       />
-    </Card.Title>
+    </div>
   )
 }
 

@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom"
-import { Container } from "react-bootstrap"
 //Publicly accessible:
 import HomeDoctorsList from "./components/doctors-search-list/home-doctors-list"
 import SpecificDoctorsList from "./components/doctors-search-list/specific-doctors-list"
@@ -32,7 +31,7 @@ import LoginAndSecurity from "./pages/shared-pages/login-and-security"
 export default function App() {
   return (
     <>
-      <Container className = "d-flex" style = {{minHeight: "100vh"}}>
+      <div className="flex min-h-screen">
         <div className = "w-100" style = {{maxWidth: "4000px"}}>
           <Routes>
             <Route path = "/" element = {<HomeDoctorsList/>} />
@@ -64,7 +63,7 @@ export default function App() {
           </Routes>
 
         </div>
-      </Container>
+      </div>
       <Footer />
     </>
   )

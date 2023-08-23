@@ -1,5 +1,4 @@
 
-import { Card, Form } from "react-bootstrap"
 import Button from "src/components/button"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
@@ -25,12 +24,13 @@ export default function DoctorPersonalInfo() {
     <div>
       <Header dropdown = {true}/>
       <DoctorHeader/>
-      <Card>
-        <Card.Body>
-          <Form onSubmit = {(e) => {
-            e.preventDefault()
-            savePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)
-          }}>
+      <div className="bg-yellow-100 border border-brown-400 rounded p-4 mb-4">
+        <div className="p-4">
+          <form
+            onSubmit = {(e) => {
+              e.preventDefault()
+              savePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)
+            }}>
             <FirstNameInput personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
             <LastNameInput personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
             <GenderSection personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
@@ -45,9 +45,9 @@ export default function DoctorPersonalInfo() {
               confirmationMessage = {personalInfoConfirmation}
               whatIsBeingSaved = "Personal Info"
             />
-          </Form>
-        </Card.Body>
-      </Card>
+          </form>
+        </div>
+      </div>
     </div>
   )
 }

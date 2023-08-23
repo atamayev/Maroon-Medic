@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import { Card} from "react-bootstrap"
 import Button from "src/components/button"
 import { useNavigate, useLocation } from "react-router-dom"
 import UnauthorizedUser from "../../components/unauthorized-user/unauthorized-user"
@@ -94,29 +93,31 @@ export default function FinalizeBookingPage() {
     <>
       <Header dropdown = {true} search = {true}/>
       <div className = "container mt-5">
-        <Card>
-          <Card.Header as = "h2">{ConfirmOrRequestBook()} an Appointment</Card.Header>
-          <Card.Body>
-            <Card.Title as = "h3">
-              <DoctorPersonalInfo personalData = {personalData}/>
-            </Card.Title>
+        <div className="bg-white border border-gray-300 rounded p-4 mb-4">
+          <div className="border-b pb-2 mb-4">
+            <h2>{ConfirmOrRequestBook()} an Appointment</h2>
+          </div>
+          <div className="p-4">
+            <h3>
+              <DoctorPersonalInfo personalData={personalData} />
+            </h3>
             <FinalizeBookingCardText
-              selectedService = {selectedService}
-              selectedLocation = {selectedLocation}
-              selectedDay = {selectedDay}
-              selectedTime = {selectedTime}
-              serviceMinutes = {serviceMinutes}
-              selectedPet = {selectedPet}
+              selectedService={selectedService}
+              selectedLocation={selectedLocation}
+              selectedDay={selectedDay}
+              selectedTime={selectedTime}
+              serviceMinutes={serviceMinutes}
+              selectedPet={selectedPet}
             />
             <CustomPatientMessage
-              message = {message}
-              setMessage = {setMessage}
-              isMessageOverLimit = {isMessageOverLimit}
-              personalData = {personalData}
+              message={message}
+              setMessage={setMessage}
+              isMessageOverLimit={isMessageOverLimit}
+              personalData={personalData}
             />
             <ConfirmBookingButton />
-          </Card.Body>
-        </Card>
+          </div>
+        </div>
       </div>
     </>
   )

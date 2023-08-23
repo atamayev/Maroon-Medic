@@ -1,5 +1,5 @@
 import _ from "lodash"
-import { Card } from "react-bootstrap"
+import PublicDoctorCard from "src/components/public-doctor-card"
 
 interface Props {
   preVetEducation: GeneralEducationItem[]
@@ -11,18 +11,18 @@ export default function RenderEducationSection(props: Props) {
   const { preVetEducation, vetEducation, personalData } = props
   if (_.isEmpty(preVetEducation) && _.isEmpty(vetEducation)) return null
   return (
-    <Card className = "card-bottom-margin">
-      <Card.Header>
-        Where did Dr. {_.upperFirst(personalData.LastName || "")} go to school?
-      </Card.Header>
-      <Card.Body>
-        <h3>Pre-Veterinary Education</h3>
-        <RenderEducation educationList = {preVetEducation} hasMajor = {true} />
+    <PublicDoctorCard
+      title = {`Where did Dr. ${_.upperFirst(personalData.LastName || "")} go to school?`}
+      content = {
+        <>
+          <h3>Pre-Veterinary Education</h3>
+          <RenderEducation educationList = {preVetEducation} hasMajor = {true} />
 
-        <h3>Veterinary Education</h3>
-        <RenderEducation educationList = {vetEducation} hasMajor = {true} />
-      </Card.Body>
-    </Card>
+          <h3>Veterinary Education</h3>
+          <RenderEducation educationList = {vetEducation} hasMajor = {true} />
+        </>
+      }
+    />
   )
 }
 

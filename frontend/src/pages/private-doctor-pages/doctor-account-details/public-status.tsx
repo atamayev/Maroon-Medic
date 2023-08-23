@@ -1,7 +1,8 @@
-import { Card, ToggleButton, ToggleButtonGroup } from "react-bootstrap"
+import { ToggleButton, ToggleButtonGroup } from "react-bootstrap"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import updatePublicAvailibility from "../../../helper-functions/account-details/save/doctor-account-details/update-public-availibility"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
+import AccountDetailsCard from "src/components/account-details-card"
 
 interface Props {
   publiclyAvailable: boolean
@@ -10,17 +11,10 @@ interface Props {
 
 export default function RenderPublicStatusSection (props: Props) {
   return (
-    <>
-      <Card className = "mb-3 mt-3">
-        <Card.Header>
-          Public Availbility Status
-        </Card.Header>
-        <Card.Body>
-          Would you like your profile to be available through search results?
-          <RenderIsPubliclyAvailable {...props} />
-        </Card.Body>
-      </Card>
-    </>
+    <AccountDetailsCard
+      title = "Public Availbility Status"
+      content = {<RenderIsPubliclyAvailable {...props} />}
+    />
   )
 }
 
@@ -30,6 +24,7 @@ function RenderIsPubliclyAvailable (props: Props) {
 
   return (
     <div>
+      Would you like your profile to be available through search results?
       {/* All of this logic must be kept in this component, or else the toggle button will not work: */}
       <ToggleButtonGroup type = "radio" name = "options"
         value = {publiclyAvailable}

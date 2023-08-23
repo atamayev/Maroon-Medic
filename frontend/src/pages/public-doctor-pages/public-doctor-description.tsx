@@ -1,4 +1,4 @@
-import { Card } from "react-bootstrap"
+import PublicDoctorCard from "src/components/public-doctor-card"
 
 interface Props {
   description: string
@@ -12,15 +12,9 @@ export default function RenderDescriptionSection(props: Props) {
 function RenderDescription(props: Props) {
   const Description = props.description
   return (
-    <>
-      <Card className = "card-bottom-margin">
-        <Card.Header>
-          Description
-        </Card.Header>
-        <Card.Body>
-          {Description}
-        </Card.Body>
-      </Card>
-    </>
+    <PublicDoctorCard
+      title = "Description"
+      content = {<>{Description}</>}
+    />
   )
 }

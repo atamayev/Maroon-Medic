@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom"
-import { Card } from "react-bootstrap"
 import Button from "../button"
 
 interface Props {
@@ -8,7 +7,7 @@ interface Props {
 
 const UnauthorizedUserBodyText = ({vetOrpatient}: Props) => {
   return (
-    <Card.Body>
+    <div className="bg-yellow-100 border border-brown-400 rounded p-4">
       <p>You are not logged in as a {vetOrpatient}. Please make an account, or login below</p>
       <Link to = {`/${vetOrpatient}-register`}>
         <Button
@@ -24,7 +23,7 @@ const UnauthorizedUserBodyText = ({vetOrpatient}: Props) => {
           title = "Login"
         />
       </Link>
-    </Card.Body>
+    </div>
   )
 }
 

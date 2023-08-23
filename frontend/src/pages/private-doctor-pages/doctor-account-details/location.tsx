@@ -1,10 +1,11 @@
 import "react-toggle/style.css"
-import { Card, Accordion } from "react-bootstrap"
+import { Accordion } from "react-bootstrap"
 import "../../../styles/location.css"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import AddNewLocationButton from "src/components/doctor-account-details/location/add-new-location-button"
 import AddressAccordionMap from "src/components/doctor-account-details/location/address-accordion-map"
+import AccountDetailsCard from "src/components/account-details-card"
 
 interface Props {
   addresses: DoctorAddressData[]
@@ -13,14 +14,10 @@ interface Props {
 
 export default function LocationSection(props: Props) {
   return (
-    <Card className = "mb-3">
-      <Card.Header>
-        Locations
-      </Card.Header>
-      <Card.Body>
-        <AddressForm {...props} />
-      </Card.Body>
-    </Card>
+    <AccountDetailsCard
+      title = "Locations"
+      content = {<AddressForm {...props} />}
+    />
   )
 }
 

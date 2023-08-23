@@ -1,22 +1,21 @@
-import { Card } from "react-bootstrap"
 import AppointmentConfirmationStatus from "../appointment-confirmation-status"
 import MessageSection from "../message-section"
 
-const UpcomingAppointmentCard = ({appointment}: {appointment: PatientDashboardData}) => {
+const UpcomingAppointmentCard = ({ appointment }: { appointment: PatientDashboardData }) => {
   return (
-    <>
-      <Card style = {{ margin: "0 10px", position: "relative" }}>
-        <Card.Body>
-          <Card.Title>
+    <div className="mb-3 bg-yellow-100 border border-brown-400 rounded" style={{ margin: "0 10px", position: "relative" }}>
+      <div className="p-4">
+        <div className="flex justify-between items-center mb-2">
+          <span className="text-brown-800 font-bold">
             Appointment with Dr. {appointment.Doctor_FirstName} {appointment.Doctor_LastName} on {appointment.appointment_date}
-            <AppointmentConfirmationStatus appointment = {appointment} />
-          </Card.Title>
-          <Card.Text>
-            <MessageSection appointment = {appointment} />
-          </Card.Text>
-        </Card.Body>
-      </Card>
-    </>
+          </span>
+          <AppointmentConfirmationStatus appointment={appointment} />
+        </div>
+        <div className="text-amber-700">
+          <MessageSection appointment={appointment} />
+        </div>
+      </div>
+    </div>
   )
 }
 

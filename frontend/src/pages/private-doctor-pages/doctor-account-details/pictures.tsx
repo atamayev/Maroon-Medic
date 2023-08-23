@@ -5,6 +5,7 @@ interface Props {
   carouselIndex: number
   setCarouselIndex: React.Dispatch<React.SetStateAction<number>>
 }
+
 //Non-functional, just here for completion
 export default function RenderPicturesSection (props: Props) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

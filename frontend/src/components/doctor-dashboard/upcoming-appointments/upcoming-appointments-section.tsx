@@ -1,4 +1,3 @@
-import { Card } from "react-bootstrap"
 import UpcomingAppointmentsMap from "./upcoming-appointments-map"
 
 const UpcomingAppointmentsSection = ({ upcomingDoctorAppointments, dashboardData, setDashboardData } :
@@ -8,18 +7,18 @@ const UpcomingAppointmentsSection = ({ upcomingDoctorAppointments, dashboardData
    }
 ) => {
   return (
-    <Card style = {{margin: "0 10px" }}>
-      <Card.Header>
+    <div className="border border-brown-400 bg-yellow-100 rounded ml-2 mr-2">
+      <div className="p-4 bg-amber-400 text-white">
         <h1>Past Appointments</h1>
-      </Card.Header>
-      <Card.Body>
+      </div>
+      <div className="p-4">
         <UpcomingAppointmentsMap
-          upcomingDoctorAppointments = {upcomingDoctorAppointments}
-          dashboardData = {dashboardData}
-          setDashboardData = {setDashboardData}
+          upcomingDoctorAppointments={upcomingDoctorAppointments}
+          dashboardData={dashboardData}
+          setDashboardData={setDashboardData}
         />
-      </Card.Body>
-    </Card>
+      </div>
+    </div>
   )
 }
 

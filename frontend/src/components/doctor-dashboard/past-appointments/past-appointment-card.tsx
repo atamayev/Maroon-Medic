@@ -1,14 +1,12 @@
-import { Card } from "react-bootstrap"
-
 const PastAppointmentCard = ({ appointment }: { appointment: DoctorDashboardData }) => {
   return (
-    <Card style = {{ margin: "0 10px", position: "relative" }} className = "mb-3">
-      <Card.Body>
-        <Card.Title>
+    <div className="mb-3 relative" style={{ margin: "0 10px" }}>
+      <div className="p-4 border border-brown-400 bg-yellow-100 rounded">
+        <h1 className="text-brown-800 text-lg">
           Appointment with {appointment.Patient_FirstName} {appointment.Patient_LastName} on {appointment.appointment_date}
-        </Card.Title>
-      </Card.Body>
-    </Card>
+        </h1>
+      </div>
+    </div>
   )
 }
 

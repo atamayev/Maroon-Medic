@@ -1,19 +1,15 @@
 import _ from "lodash"
-import { Card } from "react-bootstrap"
+import PublicDoctorCard from "src/components/public-doctor-card"
 import AddressSection from "src/components/public-doctor-locations/address-section"
 import TimesSection from "src/components/public-doctor-locations/times-section"
 
 export default function RenderLocationsSection( { addresses } : {addresses: PublicAddressData[]}) {
   if (_.isEmpty(addresses)) return null
   return (
-    <Card className = "card-bottom-margin">
-      <Card.Header>
-        Locations
-      </Card.Header>
-      <Card.Body>
-        <RenderLocations addressesList = {addresses} />
-      </Card.Body>
-    </Card>
+    <PublicDoctorCard
+      title = "Locations"
+      content = {<RenderLocations addressesList = {addresses} />}
+    />
   )
 }
 

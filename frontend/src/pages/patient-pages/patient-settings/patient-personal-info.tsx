@@ -1,4 +1,3 @@
-import { Card, Form } from "react-bootstrap"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
@@ -25,29 +24,32 @@ export default function PatientPersonalInfo() {
     <div>
       <Header dropdown = {true} search = {true}/>
       <PatientHeader/>
-      <Card>
-        <Card.Body>
-          <Form onSubmit = {(e) => {
-            e.preventDefault()
-            savePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)
-          }}>
-            <FirstNameInput personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
-            <LastNameInput personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
-            <GenderSection personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
-            <DOBSection personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
+      <div className="bg-yellow-100 border border-brown-400 rounded p-4 mb-4">
+        <div className="p-4">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault()
+              savePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)
+            }}
+            className="space-y-4"
+          >
+            <FirstNameInput personalInfo={personalInfo} setPersonalInfo={setPersonalInfo} />
+            <LastNameInput personalInfo={personalInfo} setPersonalInfo={setPersonalInfo} />
+            <GenderSection personalInfo={personalInfo} setPersonalInfo={setPersonalInfo} />
+            <DOBSection personalInfo={personalInfo} setPersonalInfo={setPersonalInfo} />
             <Button
-              title = "Save"
-              className = "w-100"
-              colorClass = "bg-green-600"
-              hoverClass = "hover:bg-green-700"
+              title="Save"
+              className="w-full"
+              colorClass="bg-green-600"
+              hoverClass="hover:bg-green-700"
             />
             <SavedConfirmationMessage
-              confirmationMessage = {personalInfoConfirmation}
-              whatIsBeingSaved = "Personal Info"
+              confirmationMessage={personalInfoConfirmation}
+              whatIsBeingSaved="Personal Info"
             />
-          </Form>
-        </Card.Body>
-      </Card>
+          </form>
+        </div>
+      </div>
     </div>
   )
 }

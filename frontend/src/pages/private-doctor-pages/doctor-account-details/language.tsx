@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { Card } from "react-bootstrap"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import SavedLanguageList from "src/components/language/saved-languages-list"
@@ -8,6 +7,7 @@ import useGenerateLanguageOptions from "src/custom-hooks/account-details/use-gen
 import useDeleteLanguage from "src/custom-hooks/account-details/callbacks/use-delete-language"
 import useAddLanguage from "src/custom-hooks/account-details/callbacks/use-add-language"
 import SelectLanguage from "src/components/language/select-language"
+import AccountDetailsCard from "src/components/account-details-card"
 
 interface Props {
   listDetails: DoctorListDetails
@@ -17,14 +17,10 @@ interface Props {
 
 export default function RenderLanguageSection(props: Props) {
   return (
-    <Card className = "mb-3">
-      <Card.Header>
-        Languages
-      </Card.Header>
-      <Card.Body>
-        <RenderIsVetLanguages {...props} />
-      </Card.Body>
-    </Card>
+    <AccountDetailsCard
+      title = "Languages"
+      content = {<RenderIsVetLanguages {...props} />}
+    />
   )
 }
 

@@ -10,7 +10,7 @@ const InitialDeleteButton = ({status, setStatus}: Props) => {
 
   return (
     <Button
-      className = "mt-3"
+      className = "mt-3 mx-3"
       colorClass = "bg-red-600"
       hoverClass = "hover:bg-red-700"
       title = "Delete"

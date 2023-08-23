@@ -1,17 +1,13 @@
 import _ from "lodash"
-import { Card } from "react-bootstrap"
+import PublicDoctorCard from "src/components/public-doctor-card"
 
 export default function RenderLanguageSection({spokenLanguages}: {spokenLanguages: LanguageName[]}) {
   if (_.isEmpty(spokenLanguages)) return null
   return (
-    <Card className = "card-bottom-margin">
-      <Card.Header>
-        Spoken Languages
-      </Card.Header>
-      <Card.Body>
-        <RenderSpokenLanguages spokenLanguages = {spokenLanguages} />
-      </Card.Body>
-    </Card>
+    <PublicDoctorCard
+      title = "Languages"
+      content = {<RenderSpokenLanguages spokenLanguages = {spokenLanguages} />}
+    />
   )
 }
 

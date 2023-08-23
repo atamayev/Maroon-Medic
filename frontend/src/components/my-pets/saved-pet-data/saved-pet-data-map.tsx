@@ -1,4 +1,3 @@
-import { Card } from "react-bootstrap"
 import SavedPetDataTitle from "./saved-pet-data-title"
 import SavedPetDataText from "./saved-pet-data-text"
 
@@ -15,12 +14,16 @@ const SavedPetDataMap = (props: Props) => {
   return (
     <>
       {savedPetData.map((pet) => (
-        <Card key = {pet.pet_infoID} style = {{ width: "18rem", marginTop: "10px" }} className = "mb-3">
-          <Card.Body>
-            <SavedPetDataTitle pet = {pet} setPetToDelete = {setPetToDelete} setShowModal = {setShowModal}/>
-            <SavedPetDataText pet = {pet} />
-          </Card.Body>
-        </Card>
+        <div
+          key={pet.pet_infoID}
+          className="mb-3 bg-yellow-100 border border-brown-400 rounded"
+          style={{ width: "18rem", marginTop: "10px" }}
+        >
+          <div className="p-4">
+            <SavedPetDataTitle pet={pet} setPetToDelete={setPetToDelete} setShowModal={setShowModal} />
+            <SavedPetDataText pet={pet} />
+          </div>
+        </div>
       ))}
     </>
   )

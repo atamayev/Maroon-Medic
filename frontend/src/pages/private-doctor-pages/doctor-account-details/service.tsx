@@ -1,9 +1,9 @@
 import _ from "lodash"
 import { useEffect, useState } from "react"
-import { Card } from "react-bootstrap"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import ServiceList from "src/components/doctor-account-details/service/service-list"
+import AccountDetailsCard from "src/components/account-details-card"
 
 interface Props {
   listDetails: DoctorListDetails
@@ -15,14 +15,10 @@ interface Props {
 
 export default function RenderServiceSection (props: Props) {
   return (
-    <Card className = "mb-3">
-      <Card.Header>
-        Vet Services
-      </Card.Header>
-      <Card.Body>
-        <RenderIsVetServices {...props} />
-      </Card.Body>
-    </Card>
+    <AccountDetailsCard
+      title = "Vet Services"
+      content = {<RenderIsVetServices {...props} />}
+    />
   )
 }
 

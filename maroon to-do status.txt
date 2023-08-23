@@ -8,7 +8,8 @@ ASAP:
 4. -remove all 'renderX'
 5.-make sure that each component is named the same as the file. there shouldn't be more than one large component per file
 	bring back the max lines rule
-2. Cut down the backend CTRL files
+6. Cut down the backend CTRL files
+7. Fix the dashboard not renders, and the booking page problem
 
 Make personal info it's own context
 Combine authContext and verify context. make it into a memoized class, initialized as null in index.tsx
@@ -31,6 +32,7 @@ Bootstrap --> Tailwind
 	During this process, use GPT, and make the starting text: "I am transitioning my React JS site from using bootstrap to tailwindCSS"
 	"i want my color theme to be the colors of a lion (ie yellow, amber, brown, and some green for contrast)."
 	"I will give you bootstrap components, and I want you to transition them to be tailwind css, while keeping the main content the same."
+	Do not use css files. i want everything in-line
 	in this process, change the color theme to match a lion's mane
 
 

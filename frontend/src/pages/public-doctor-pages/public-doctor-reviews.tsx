@@ -1,4 +1,4 @@
-import { Card } from "react-bootstrap"
+import PublicDoctorCard from "src/components/public-doctor-card"
 
 type ReviewsType = {
   [key: string]: string
@@ -13,14 +13,10 @@ export default function RenderReviewsSection(props: Props) {
 
   // if (!_.isEmpty(spokenLanguages)) {
   return (
-    <Card className = "card-bottom-margin">
-      <Card.Header>
-        Reviews
-      </Card.Header>
-      <Card.Body>
-        <RenderReviews props = {props}/>
-      </Card.Body>
-    </Card>
+    <PublicDoctorCard
+      title = "Reviews"
+      content = {<RenderReviews props = {props} />}
+    />
   )
   // }
 

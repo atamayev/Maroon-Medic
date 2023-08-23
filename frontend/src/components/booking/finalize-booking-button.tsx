@@ -1,4 +1,4 @@
-import { Button } from "react-bootstrap"
+import Button from "../button"
 import useFinalizeBookingClick from "src/custom-hooks/public-doctor/use-finalize-booking-click"
 
 interface FinalizeBookingProps {
@@ -22,6 +22,7 @@ export const FinalizeBookingButton = (props: FinalizeBookingProps) => {
 
   return (
     <Button
+      title = {`Click to ${ConfirmOrRequestMessage(selectedLocation)} an appointment`}
       className="mt-3"
       onClick={() => useFinalizeBookingClick(
         selectedService,
@@ -32,10 +33,9 @@ export const FinalizeBookingButton = (props: FinalizeBookingProps) => {
         personalData,
         selectedPet!
       )}
-      variant="primary"
-    >
-      Click to {ConfirmOrRequestMessage(selectedLocation)} an appointment
-    </Button>
+      colorClass = "bg-green-600"
+      hoverClass = "hover:bg-green-700"
+    />
   )
 }
 

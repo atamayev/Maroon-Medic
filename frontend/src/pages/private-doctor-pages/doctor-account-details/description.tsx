@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
-import { Card, Form } from "react-bootstrap"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import DescriptionInput from "src/components/doctor-account-details/description/description-input"
 import SaveDescriptionButton from "src/components/doctor-account-details/description/save-description-button"
 import DescriptionCharacterLimit from "src/components/doctor-account-details/description/character-limit"
+import AccountDetailsCard from "src/components/account-details-card"
 
 interface Props {
   description: string
@@ -13,14 +13,10 @@ interface Props {
 
 export default function RenderDescriptionSection (props: Props) {
   return (
-    <Card className = "mb-3">
-      <Card.Header>
-        Description
-      </Card.Header>
-      <Card.Body>
-        <RenderIsDescription {...props} />
-      </Card.Body>
-    </Card>
+    <AccountDetailsCard
+      title = "Languages"
+      content = {<RenderIsDescription {...props} />}
+    />
   )
 }
 
@@ -34,7 +30,9 @@ function RenderIsDescription(props: Props) {
   }, [description])
 
   return (
-    <Form>
+    <form
+      className="space-y-4"
+    >
       <DescriptionInput
         description = {description}
         setDescription = {setDescription}
@@ -53,6 +51,6 @@ function RenderIsDescription(props: Props) {
         confirmationMessage = {descriptionConfirmation}
         whatIsBeingSaved = "Description"
       />
-    </Form>
+    </form>
   )
 }

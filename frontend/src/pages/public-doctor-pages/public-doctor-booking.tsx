@@ -1,7 +1,6 @@
 import _ from "lodash"
 import moment from "moment"
 import { useState, useEffect } from "react"
-import { Card } from "react-bootstrap"
 import useFetchAndSetPetData from "src/custom-hooks/public-doctor/use-fetch-and-set-pet-data"
 import generateTimeSlots from "src/helper-functions/public-doctor/booking-page/generate-time-slots"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
@@ -82,78 +81,78 @@ export default function BookingSection(props: Props) {
     if (_.isEmpty(providedServices)) return <DoctorDoesNotOfferServices personalData = {personalData} />
 
     return (
-      <Card className = "card-bottom-margin">
-        <Card.Header>Ready to make a booking?</Card.Header>
-        <Card.Body>
-          <div className = "row">
-            <ChoosePet
-              savedPetData = {savedPetData}
-              selectedPet = {selectedPet}
-              setSelectedPet = {setSelectedPet}
-              setSelectedService = {setSelectedService}
-              setSelectedLocation = {setSelectedLocation}
-              setSelectedDay = {setSelectedDay}
-              setSelectedTime = {setSelectedTime}
-            />
-          </div>
+      <div className="bg-white border border-gray-300 rounded p-4 mb-4 card-bottom-margin">
+        <div className="border-b pb-2 mb-4">
+          <h2>Ready to make a booking?</h2>
+        </div>
+        <div className = "row">
+          <ChoosePet
+            savedPetData = {savedPetData}
+            selectedPet = {selectedPet}
+            setSelectedPet = {setSelectedPet}
+            setSelectedService = {setSelectedService}
+            setSelectedLocation = {setSelectedLocation}
+            setSelectedDay = {setSelectedDay}
+            setSelectedTime = {setSelectedTime}
+          />
+        </div>
 
-          <div className = "row">
-            <SelectService
-              providedServices = {providedServices}
-              selectedPet = {selectedPet}
-              setSelectedService = {setSelectedService}
-              setSelectedLocation = {setSelectedLocation}
-              setSelectedDay = {setSelectedDay}
-              setSelectedTime = {setSelectedTime}
-            />
-
-            <SelectLocation
-              addresses = {addresses}
-              selectedService = {selectedService}
-              setNoAvailableTimesMessage = {setNoAvailableTimesMessage}
-              setSelectedLocation = {setSelectedLocation}
-              setSelectedDay = {setSelectedDay}
-              setSelectedTime = {setSelectedTime}
-            />
-          </div>
-
-          <NoAvailableTimes
-            noAvailableTimesMessage = {noAvailableTimesMessage}
-            personalData = {personalData}
+        <div className = "row">
+          <SelectService
+            providedServices = {providedServices}
+            selectedPet = {selectedPet}
+            setSelectedService = {setSelectedService}
+            setSelectedLocation = {setSelectedLocation}
+            setSelectedDay = {setSelectedDay}
+            setSelectedTime = {setSelectedTime}
           />
 
-          <div className = "row">
-            <SelectDay
-              selectedService = {selectedService}
-              selectedLocation = {selectedLocation}
-              setSelectedDay = {setSelectedDay}
-              setSelectedTime = {setSelectedTime}
-              selectedDay = {selectedDay}
-              personalData = {personalData}
-              availableDates = {availableDates}
-            />
+          <SelectLocation
+            addresses = {addresses}
+            selectedService = {selectedService}
+            setNoAvailableTimesMessage = {setNoAvailableTimesMessage}
+            setSelectedLocation = {setSelectedLocation}
+            setSelectedDay = {setSelectedDay}
+            setSelectedTime = {setSelectedTime}
+          />
+        </div>
 
-            <SelectTime
-              selectedService = {selectedService}
-              selectedLocation = {selectedLocation}
-              selectedDay = {selectedDay}
-              setSelectedTime = {setSelectedTime}
-              availableTimes = {availableTimes}
-              serviceMinutes = {serviceMinutes}
-            />
-          </div>
+        <NoAvailableTimes
+          noAvailableTimesMessage = {noAvailableTimesMessage}
+          personalData = {personalData}
+        />
 
-          <FinalizeBookingButton
+        <div className = "row">
+          <SelectDay
+            selectedService = {selectedService}
+            selectedLocation = {selectedLocation}
+            setSelectedDay = {setSelectedDay}
+            setSelectedTime = {setSelectedTime}
+            selectedDay = {selectedDay}
+            personalData = {personalData}
+            availableDates = {availableDates}
+          />
+
+          <SelectTime
             selectedService = {selectedService}
             selectedLocation = {selectedLocation}
             selectedDay = {selectedDay}
-            selectedTime = {selectedTime}
+            setSelectedTime = {setSelectedTime}
+            availableTimes = {availableTimes}
             serviceMinutes = {serviceMinutes}
-            personalData = {personalData}
-            selectedPet = {selectedPet}
           />
-        </Card.Body>
-      </Card>
+        </div>
+
+        <FinalizeBookingButton
+          selectedService = {selectedService}
+          selectedLocation = {selectedLocation}
+          selectedDay = {selectedDay}
+          selectedTime = {selectedTime}
+          serviceMinutes = {serviceMinutes}
+          personalData = {personalData}
+          selectedPet = {selectedPet}
+        />
+      </div>
     )
   }
 

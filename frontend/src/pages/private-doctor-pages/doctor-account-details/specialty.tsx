@@ -1,6 +1,5 @@
 import _ from "lodash"
 import { useState, useEffect, useMemo } from "react"
-import { Card } from "react-bootstrap"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import useDeleteSpecialty from "src/custom-hooks/account-details/callbacks/use-delete-specialty"
@@ -8,6 +7,7 @@ import useAddSpecialty from "src/custom-hooks/account-details/callbacks/use-add-
 import SelectOrganization from "src/components/doctor-account-details/specialty/select-organization"
 import SelectSpecialty from "src/components/doctor-account-details/specialty/select-specialty"
 import SavedSpecialtyList from "src/components/doctor-account-details/specialty/saved-specialty-list"
+import AccountDetailsCard from "src/components/account-details-card"
 
 interface Props {
   listDetails: DoctorListDetails
@@ -17,14 +17,10 @@ interface Props {
 
 export default function RenderSpecialtySection (props: Props) {
   return (
-    <Card className = "mb-3">
-      <Card.Header>
-        Specialties
-      </Card.Header>
-      <Card.Body>
-        <RenderIsSpecialty {...props}/>
-      </Card.Body>
-    </Card>
+    <AccountDetailsCard
+      title = "Specialties"
+      content = {<RenderIsSpecialty {...props}/>}
+    />
   )
 }
 

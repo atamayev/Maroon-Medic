@@ -1,8 +1,8 @@
 import _ from "lodash"
-import { Card } from "react-bootstrap"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import Pets from "src/components/doctor-account-details/pets/pets"
+import AccountDetailsCard from "src/components/account-details-card"
 
 interface Props {
   listDetails: DoctorListDetails
@@ -14,14 +14,10 @@ interface Props {
 
 export default function RenderPetsSection (props: Props) {
   return (
-    <Card className = "mb-3">
-      <Card.Header>
-        Serviced Pets
-      </Card.Header>
-      <Card.Body>
-        <RenderIsPets {...props} />
-      </Card.Body>
-    </Card>
+    <AccountDetailsCard
+      title = "Serviced Pets"
+      content = {<RenderIsPets {...props} />}
+    />
   )
 }
 
