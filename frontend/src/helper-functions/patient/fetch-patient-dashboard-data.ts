@@ -1,4 +1,4 @@
-import { handle401AxiosError } from "src/utils/handle-errors"
+import handle401AxiosError from "src/utils/handle-errors/handle-401-axios-error"
 import PrivatePatientDataService from "src/services/private-patient-data-service"
 
 export default async function fetchPatientDashboardData(

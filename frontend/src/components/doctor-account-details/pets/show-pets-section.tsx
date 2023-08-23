@@ -1,4 +1,4 @@
-import { useHandleCheckboxChange } from "src/custom-hooks/account-details/callbacks/callbacks"
+import usePetsCheckboxChange from "src/custom-hooks/account-details/callbacks/use-pets-checkbox-change"
 
 interface Props {
   pets: ServicedPetItem[]
@@ -11,7 +11,7 @@ interface Props {
 const ShowPetsSection = (props: Props) => {
   const { pets, petType, servicedPets, setServicedPets, setPetsConfirmation, expandedPetTypes } = props
 
-  const handleCheckboxChange = useHandleCheckboxChange(servicedPets, setServicedPets, setPetsConfirmation)
+  const handleCheckboxChange = usePetsCheckboxChange(servicedPets, setServicedPets, setPetsConfirmation)
 
   if (pets.length > 1 && !expandedPetTypes.includes(petType)) return null
 

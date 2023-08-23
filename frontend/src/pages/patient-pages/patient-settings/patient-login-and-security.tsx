@@ -17,7 +17,6 @@ export default function PatientLoginAndSecurity() {
       <Header dropdown = {true}/>
       <PatientHeader/>
       <ChangePassword type = {userType}/>
-      <h1>Login History</h1>
       {loginHistory.map((item, index) => (
         <LoginHistory key = {index} loginHistoryItem = {item} />
       ))}

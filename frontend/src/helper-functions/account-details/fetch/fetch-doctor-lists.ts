@@ -1,5 +1,5 @@
 import ListsDataService from "src/services/lists-data-service"
-import { handle401AxiosError } from "src/utils/handle-errors"
+import handle401AxiosError from "src/utils/handle-errors/handle-401-axios-error"
 
 export default async function fetchDoctorLists(setListDetails: React.Dispatch<React.SetStateAction<DoctorListDetails>>): Promise<void> {
   try {

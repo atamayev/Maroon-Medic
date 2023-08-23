@@ -22,3 +22,5 @@ export const fetchAndSetPetData = async (
   } catch (error) {
   }
 }
+
+export default fetchAndSetPetData

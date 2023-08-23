@@ -1,7 +1,6 @@
 import { Card, ToggleButton, ToggleButtonGroup } from "react-bootstrap"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
-
-import { handlePublicAvailibilityToggle } from "../../../helper-functions/account-details/save/save-doctor-account-details"
+import updatePublicAvailibility from "../../../helper-functions/account-details/save/doctor-account-details/update-public-availibility"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 
 interface Props {
@@ -34,7 +33,7 @@ function RenderIsPubliclyAvailable (props: Props) {
       {/* All of this logic must be kept in this component, or else the toggle button will not work: */}
       <ToggleButtonGroup type = "radio" name = "options"
         value = {publiclyAvailable}
-        onChange = {(value) => handlePublicAvailibilityToggle(value, setPubliclyAvailable, setPubliclyAvailableConfirmation)}
+        onChange = {(value) => updatePublicAvailibility(value, setPubliclyAvailable, setPubliclyAvailableConfirmation)}
       >
         <ToggleButton
           id = "tbg-radio-1"

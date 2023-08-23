@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom"
 import PrivateDoctorDataService from "../../services/private-doctor-data-service"
 import PrivatePatientDataService from "../../services/private-patient-data-service"
-import { handle401AxiosErrorAndSetCustomError } from "src/utils/handle-errors"
+import handle401AxiosErrorAndSetCustomError from "src/utils/handle-errors/handle-401-axios-error-and-set-custom-error"
 
 const useAssignBookingDetailsNavigateToFinalizeBooking = (): void => {
   const navigate = useNavigate()

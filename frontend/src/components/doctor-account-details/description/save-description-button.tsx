@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap"
-import { saveDescription } from "src/helper-functions/account-details/save/save-doctor-account-details"
+import saveDescription from "src/helper-functions/account-details/save/doctor-account-details/save-description"
 
 interface Props {
   description: string

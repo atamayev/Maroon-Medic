@@ -1,5 +1,5 @@
-import { handle401AxiosErrorAndSetMessageType } from "src/utils/handle-errors"
 import PrivatePatientDataService from "../../../services/private-patient-data-service"
+import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle-401-axios-error-and-set-message-type"
 
 export default async function deletePet(
   pet_infoID: number,

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import AuthDataService from "../../services/auth-data-service"
-import { handle401AxiosErrorAndSetCustomError } from "src/utils/handle-errors"
+import handle401AxiosErrorAndSetCustomError from "src/utils/handle-errors/handle-401-axios-error-and-set-custom-error"
 
 const useLoginSubmit = (
   setError: React.Dispatch<React.SetStateAction<string>>,

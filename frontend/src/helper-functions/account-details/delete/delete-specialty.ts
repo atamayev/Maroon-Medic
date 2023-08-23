@@ -1,4 +1,4 @@
-import { deleteSpecialties } from "src/helper-functions/account-details/save/save-doctor-account-details"
+import deleteSpecialties from "../save/doctor-account-details/delete-specialties"
 
 export const deleteSpecialty = async (
   specialty: SpecialtyItem,

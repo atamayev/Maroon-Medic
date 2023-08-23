@@ -1,5 +1,5 @@
 import CalendarDataService from "../../services/calendar-data-service"
-import { handle401AxiosError } from "src/utils/handle-errors"
+import handle401AxiosError from "src/utils/handle-errors/handle-401-axios-error"
 
 export default async function fetchDoctorCalendarDetails(): Promise<DoctorCalendarEvent[] | undefined> {
   try {

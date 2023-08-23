@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap"
-import { addLocation } from "src/helper-functions/account-details/save/save-doctor-account-details"
+import addLocation from "src/helper-functions/account-details/save/doctor-account-details/add-location"
 import { areAllFieldsValid, areAllTimesValid } from "src/utils/all-field-checks"
 
 interface Props {

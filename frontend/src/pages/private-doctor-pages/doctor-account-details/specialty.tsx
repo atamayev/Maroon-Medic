@@ -3,7 +3,8 @@ import { useState, useEffect, useMemo } from "react"
 import { Card } from "react-bootstrap"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
-import { useHandleAddSpecialty, useHandleDeleteSpecialty } from "../../../custom-hooks/account-details/callbacks/callbacks"
+import useDeleteSpecialty from "src/custom-hooks/account-details/callbacks/use-delete-specialty"
+import useAddSpecialty from "src/custom-hooks/account-details/callbacks/use-add-specialty"
 import SelectOrganization from "src/components/doctor-account-details/specialty/select-organization"
 import SelectSpecialty from "src/components/doctor-account-details/specialty/select-specialty"
 import SavedSpecialtyList from "src/components/doctor-account-details/specialty/saved-specialty-list"
@@ -70,7 +71,7 @@ function RenderIsSpecialty(props: Props) {
       ))
   }, [specialties, doctorSpecialties])
 
-  const handleSpecialtyChange = useHandleAddSpecialty(
+  const handleSpecialtyChange = useAddSpecialty(
     doctorSpecialties,
     setDoctorSpecialties,
     setSelectedOrganization,
@@ -78,7 +79,7 @@ function RenderIsSpecialty(props: Props) {
     setSpecialtiesConfirmation
   )
 
-  const handleDeleteSpecialty = useHandleDeleteSpecialty(
+  const handleDeleteSpecialty = useDeleteSpecialty(
     doctorSpecialties, setDoctorSpecialties,
     setSpecialtiesConfirmation, setSelectedOrganization
   )

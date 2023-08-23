@@ -3,10 +3,9 @@ import { useState, useEffect } from "react"
 import { Card } from "react-bootstrap"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
-import { useHandleAddPreVetEducation,
-  useHandleDeletePreVetEducation,
-  useSaveAddPreVetEducation
-} from "../../../custom-hooks/account-details/callbacks/callbacks"
+import useDeletePreVetEducation from "src/custom-hooks/account-details/callbacks/use-delete-pre-vet-education"
+import useAddPreVetEducation from "src/custom-hooks/account-details/callbacks/use-add-pre-vet-education"
+import useSaveAddPreVetEducation from "src/custom-hooks/account-details/callbacks/use-save-add-pre-vet-education"
 import SelectPreVetSchool from "src/components/doctor-account-details/education/pre-vet-education/select-pre-vet-school"
 import SelectMajor from "src/components/doctor-account-details/education/pre-vet-education/select-major"
 import SelectPreVetEducationType from "src/components/doctor-account-details/education/pre-vet-education/select-pre-vet-education-type"
@@ -65,7 +64,7 @@ function RenderIsPreVetEducation(props: Props) {
     setDeleteStatuses(newDeleteStatuses)
   }, [preVetEducation])
 
-  const handleAddEducation = useHandleAddPreVetEducation(
+  const handleAddEducation = useAddPreVetEducation(
     selectedPreVetSchool, setSelectedPreVetSchool,
     selectedPreVetEducationType, setSelectedPreVetEducationType,
     timeState, setTimeState,
@@ -77,7 +76,7 @@ function RenderIsPreVetEducation(props: Props) {
     listDetails, setPreVetEducationConfirmation
   )
 
-  const handleDeleteOnClick = useHandleDeletePreVetEducation(preVetEducation, setPreVetEducation, setPreVetEducationConfirmation)
+  const handleDeleteOnClick = useDeletePreVetEducation(preVetEducation, setPreVetEducation, setPreVetEducationConfirmation)
 
   if (_.isEmpty(_.uniq(listDetails.preVetSchools.map((item) => item.School_name)))) return <p> Loading... </p>
 

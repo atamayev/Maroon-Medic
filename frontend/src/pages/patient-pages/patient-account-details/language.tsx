@@ -5,7 +5,8 @@ import useConfirmationMessage from "../../../custom-hooks/use-confirmation-messa
 import SavedLanguageList from "src/components/language/saved-languages-list"
 import useGenerateLanguageOptions from "src/custom-hooks/account-details/use-generate-language-options"
 import useUpdateDeleteLanguageStatuses from "src/custom-hooks/account-details/use-update-delete-language-statuses"
-import { useHandleAddLanguage, useHandleDeleteLanguage } from "../../../custom-hooks/account-details/callbacks/callbacks"
+import useDeleteLanguage from "src/custom-hooks/account-details/callbacks/use-delete-language"
+import useAddLanguage from "src/custom-hooks/account-details/callbacks/use-add-language"
 import SelectLanguage from "src/components/language/select-language"
 
 interface Props {
@@ -36,9 +37,9 @@ function RenderIsPatientLanguages(props: Props) {
 
   const languageOptions = useGenerateLanguageOptions(listDetails.languages, spokenLanguages)
 
-  const handleLanguageChange = useHandleAddLanguage(spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, "patient")
+  const handleLanguageChange = useAddLanguage(spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, "patient")
 
-  const handleDeleteLanguage = useHandleDeleteLanguage(spokenLanguages, setSpokenLanguages, setLanguagesConfirmation, "patient")
+  const handleDeleteLanguage = useDeleteLanguage(spokenLanguages, setSpokenLanguages, setLanguagesConfirmation, "patient")
 
   return (
     <>

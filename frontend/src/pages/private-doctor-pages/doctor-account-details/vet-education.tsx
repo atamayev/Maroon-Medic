@@ -3,11 +3,9 @@ import { useState, useEffect } from "react"
 import { Card } from "react-bootstrap"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
-import {
-  useSaveAddVetEducation,
-  useHandleAddVetEducation,
-  useHandleDeleteVetEducation
-} from "../../../custom-hooks/account-details/callbacks/callbacks"
+import useDeleteVetEducation from "src/custom-hooks/account-details/callbacks/use-delete-vet-education"
+import useAddVetEducation from "src/custom-hooks/account-details/callbacks/use-add-vet-education"
+import useSaveAddVetEducation from "../../../custom-hooks/account-details/callbacks/use-save-add-vet-education"
 import SelectVetSchool from "src/components/doctor-account-details/education/vet-education/select-vet-school"
 import SelectVetEducationType from "src/components/doctor-account-details/education/vet-education/select-vet-education-type"
 import VetEducationTime from "src/components/doctor-account-details/education/vet-education/vet-education-time"
@@ -63,7 +61,7 @@ function RenderIsVetEducation(props: Props) {
     setDeleteStatuses(newDeleteStatuses)
   }, [vetEducation])
 
-  const handleAddEducation = useHandleAddVetEducation(
+  const handleAddEducation = useAddVetEducation(
     selectedVetSchool, setSelectedVetSchool,
     selectedVetEducationType, setSelectedVetEducationType,
     timeState,setTimeState
@@ -74,7 +72,7 @@ function RenderIsVetEducation(props: Props) {
     listDetails, setVetEducationConfirmation
   )
 
-  const handleDeleteOnClick = useHandleDeleteVetEducation(vetEducation, setVetEducation, setVetEducationConfirmation)
+  const handleDeleteOnClick = useDeleteVetEducation(vetEducation, setVetEducation, setVetEducationConfirmation)
 
   if (_.isEmpty(_.uniq(listDetails.vetSchools.map((item) => item.School_name)))) return <p>Loading...</p>
 

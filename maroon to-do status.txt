@@ -3,16 +3,13 @@ To-do:
 
 ASAP:
 
-
-1. Finish hooks simplification (seperate file per hook/hook category)
-	1. Break up the custom hooks into a helper functions folder. Only leave 'use ...' in the custom hooks folder
-	2. If a hook (ie usenavigate) is being passed down, delete it, and just call that hook from within the function
-		remove all of this: import { NavigateFunction } from "react-router-dom"
-	3. Minimize import { (not importing by default). Make sure all functions have their own file
-2. Tailwind conversion
+1. Change the hrefs to Links (no refresh) dropdown items
+2. Tailwind conversion. Move off ouf bootstrap and MDB (see comment below)
 3. Bug: Fix services not changing from -1 (make sure -1 cannot be entered,or else db errors out)
 4. -remove all 'renderX'
 5.-make sure that each component is named the same as the file. there shouldn't be more than one large component per file
+	bring back the max lines rule
+2. Cut down the backend CTRL files
 
 Make personal info it's own context
 Combine authContext and verify context. make it into a memoized class, initialized as null in index.tsx

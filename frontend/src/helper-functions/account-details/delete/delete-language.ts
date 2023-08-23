@@ -1,5 +1,5 @@
-import { deleteDoctorLanguages } from "src/helper-functions/account-details/save/save-doctor-account-details"
-import { deletePatientLanguages } from "src/helper-functions/account-details/save/save-patient-account-details"
+import deletePatientLanguages from "src/helper-functions/account-details/save/patient-account-details/delete-patient-languages"
+import deleteDoctorLanguages from "../save/doctor-account-details/delete-doctor-languages"
 
 export const deleteLanguage = async (
   language: LanguageItem,

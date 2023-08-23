@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { fetchAndSetPetData } from "src/helper-functions/patient/my-pets/fetch-and-set-pet-data"
+import fetchAndSetPetData from "src/helper-functions/patient/my-pets/fetch-and-set-pet-data"
 
 export function useFetchPetData(userType: DoctorOrPatientOrNull): {
   savedPetData: SavedPetItem[]

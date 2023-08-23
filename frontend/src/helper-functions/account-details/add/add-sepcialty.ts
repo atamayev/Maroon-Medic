@@ -1,4 +1,4 @@
-import { addSpecialties } from "src/helper-functions/account-details/save/save-doctor-account-details"
+import addSpecialties from "../save/doctor-account-details/add-specialties"
 
 export const addSpecialty = async (
   selectedSpecialtyID: number,

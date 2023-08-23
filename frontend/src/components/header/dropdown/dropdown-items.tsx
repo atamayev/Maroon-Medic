@@ -1,11 +1,15 @@
 import AuthDataService from "src/services/auth-data-service"
 import {useCallback } from "react"
-import { Location, useLocation } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 
-const useHandleRefresh = (location: Location) => useCallback(() => {
-  if (location.pathname === "/") window.location.reload()
-  else window.location.href = "/"
-}, [location])
+const useHandleRefresh = () => {
+  const location = useLocation()
+
+  return useCallback(() => {
+    if (location.pathname === "/") window.location.reload()
+    else window.location.href = "/"
+  }, [location])
+}
 
 interface Props {
   dropdown?: boolean
@@ -13,8 +17,7 @@ interface Props {
 }
 
 const DropdownItems = ({dropdown, userType} : Props) => {
-  const location = useLocation()
-  const handleRefresh = useHandleRefresh(location)
+  const handleRefresh = useHandleRefresh()
 
   const handleLogout = async () => {
     try {
