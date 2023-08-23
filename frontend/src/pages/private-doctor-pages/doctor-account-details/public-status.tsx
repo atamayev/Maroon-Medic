@@ -1,6 +1,5 @@
-import { ToggleButton, ToggleButtonGroup } from "react-bootstrap"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
-import updatePublicAvailibility from "../../../helper-functions/account-details/save/doctor-account-details/update-public-availibility"
+import updatePublicAvailability from "../../../helper-functions/account-details/save/doctor-account-details/update-public-availability"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import AccountDetailsCard from "src/components/account-details-card"
 
@@ -24,40 +23,28 @@ function RenderIsPubliclyAvailable (props: Props) {
 
   return (
     <div>
-      Would you like your profile to be available through search results?
+      <p>Would you like your profile to be available through search results?</p>
       {/* All of this logic must be kept in this component, or else the toggle button will not work: */}
-      <ToggleButtonGroup type = "radio" name = "options"
-        value = {publiclyAvailable}
-        onChange = {(value) => updatePublicAvailibility(value, setPubliclyAvailable, setPubliclyAvailableConfirmation)}
-      >
-        <ToggleButton
-          id = "tbg-radio-1"
-          value = {0}
-          style = {{
-            backgroundColor: !publiclyAvailable ? "red" : "white",
-            color: !publiclyAvailable ? "white" : "black",
-            borderColor: "black"
-          }}
+      <div className="flex">
+        <button
+          value={0}
+          onClick={() => updatePublicAvailability(false, setPubliclyAvailable, setPubliclyAvailableConfirmation)}
+          className={`border-black p-2 ${!publiclyAvailable ? "bg-red-500 text-white" : "bg-white text-black"}`}
         >
           No
-        </ToggleButton>
+        </button>
 
-        <ToggleButton
-          id = "tbg-radio-2"
-          value = {1}
-          style =
-            {{
-              backgroundColor: publiclyAvailable ? "green" : "white",
-              color: publiclyAvailable ? "white" : "black",
-              borderColor: "black"
-            }}
+        <button
+          value={1}
+          onClick={() => updatePublicAvailability(true, setPubliclyAvailable, setPubliclyAvailableConfirmation)}
+          className={`border-black p-2 ${publiclyAvailable ? "bg-green-500 text-white" : "bg-white text-black"}`}
         >
           Yes
-        </ToggleButton>
-      </ToggleButtonGroup>
+        </button>
+      </div>
       <SavedConfirmationMessage
-        confirmationMessage = {publiclyAvailableConfirmation}
-        whatIsBeingSaved = "Public Availability Status"
+        confirmationMessage={publiclyAvailableConfirmation}
+        whatIsBeingSaved="Public Availability Status"
       />
     </div>
   )

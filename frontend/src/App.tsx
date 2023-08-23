@@ -31,8 +31,8 @@ import LoginAndSecurity from "./pages/shared-pages/login-and-security"
 export default function App() {
   return (
     <>
-      <div className="flex min-h-screen">
-        <div className = "w-100" style = {{maxWidth: "4000px"}}>
+      <div className="flex min-h-screen justify-center">
+        <div className = "w-5/6" style = {{maxWidth: "4000px"}}>
           <Routes>
             <Route path = "/" element = {<HomeDoctorsList/>} />
             <Route path = "/s/:query" element = {<SpecificDoctorsList/>} />

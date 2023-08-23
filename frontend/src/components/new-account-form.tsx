@@ -1,4 +1,3 @@
-import { Card, Form, Alert } from "react-bootstrap"
 import FirstNameInput from "./personal-info-inputs/first-name-input"
 import LastNameInput from "./personal-info-inputs/last-name-input"
 import GenderSection from "./personal-info-inputs/gender-input"
@@ -23,29 +22,31 @@ export default function NewAccountForm({
 ) {
   const RenderErrorMessage = () => {
     if (!error) return null
-    return <Alert variant = "danger">{error}</Alert>
+    return (
+      <div className="bg-red-600 text-white p-3 rounded-md mb-4">
+        {error}
+      </div>
+    )
   }
 
   return (
-    <div>
-      <Card>
-        <Card.Body>
-          <RenderErrorMessage />
-          <Form onSubmit = {handleSubmit}>
-            <FirstNameInput personalInfo = {newInfo} setPersonalInfo = {setNewInfo} />
-            <LastNameInput personalInfo = {newInfo} setPersonalInfo = {setNewInfo} />
-            <GenderSection personalInfo = {newInfo} setPersonalInfo = {setNewInfo} />
-            <DOBSection personalInfo = {newInfo} setPersonalInfo = {setNewInfo} />
-            <Button
-              className = "w-100"
-              colorClass = "bg-yellow-400"
-              hoverClass = "hover:bg-yellow-600"
-              title = "Submit"
-              disabled = {loading}
-            />
-          </Form>
-        </Card.Body>
-      </Card>
+    <div className="bg-white border rounded-lg shadow-md p-6">
+      <div>
+        <RenderErrorMessage />
+        <form onSubmit={handleSubmit}>
+          <FirstNameInput personalInfo={newInfo} setPersonalInfo={setNewInfo} />
+          <LastNameInput personalInfo={newInfo} setPersonalInfo={setNewInfo} />
+          <GenderSection personalInfo={newInfo} setPersonalInfo={setNewInfo} />
+          <DOBSection personalInfo={newInfo} setPersonalInfo={setNewInfo} />
+          <Button
+            className="w-100"
+            colorClass="bg-yellow-400"
+            hoverClass="hover:bg-yellow-600"
+            title="Submit"
+            disabled={loading}
+          />
+        </form>
+      </div>
     </div>
   )
 }
