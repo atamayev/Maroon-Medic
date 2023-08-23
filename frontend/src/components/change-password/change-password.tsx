@@ -1,5 +1,6 @@
 import { useState } from "react"
-import { Button, Card, Form } from "react-bootstrap"
+import Button from "../button"
+import { Card, Form } from "react-bootstrap"
 import changePassword from "../../helper-functions/shared/change-password"
 import CurrentPasswordInput from "./current-password-input"
 import NewPasswordInput from "./new-password"
@@ -17,8 +18,8 @@ export default function ChangePassword( { type } : { type: DoctorOrPatient }) {
   const [showPassword, setShowPassword] = useState(false)
 
   const RenderHideOrShowPassword = () => {
-    if (showPassword) return <>Hide Password</>
-    return <>Show Password</>
+    if (showPassword) return "Hide Password"
+    return "Show Password"
   }
 
   const handleSubmit = async () => {
@@ -57,15 +58,23 @@ export default function ChangePassword( { type } : { type: DoctorOrPatient }) {
             setCredentials = {setCredentials}
           />
 
-          <Button onClick = {() => (setShowPassword(!showPassword))} className = "mt-3">
-            <RenderHideOrShowPassword />
-          </Button>
+          <Button
+            className = "mt-3"
+            colorClass = "bg-orange-600"
+            hoverClass = "hover:bg-orange-700"
+            title = {RenderHideOrShowPassword()}
+            onClick = {() => (setShowPassword(!showPassword))}
+          />
 
           <SavedPasswordMessage message = {message} />
 
-          <Button disabled = {loading} className = "mt-3 w-100" type = "submit">
-          Change Password
-          </Button>
+          <Button
+            className = "mt-3 w-100"
+            colorClass = "bg-emerald-600"
+            hoverClass = "hover:bg-emerald-700"
+            title = "Change Password"
+            disabled = {loading}
+          />
         </Form>
       </Card.Body>
     </Card>

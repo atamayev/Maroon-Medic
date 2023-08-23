@@ -1,4 +1,4 @@
-import { Button } from "react-bootstrap"
+import Button from "../button"
 import { AxiosError } from "axios"
 import CalendarDataService from "src/services/calendar-data-service"
 import invalidUserAction from "src/utils/invalid-user-action"
@@ -44,12 +44,17 @@ const ConfirmedAppointment = ( { status, setStatus, appointment, dashboardData, 
   return (
     <span style={{ display: "block" }}>
       <Button
-        variant = "success"
+        colorClass = "bg-green-600"
+        hoverClass = "hover:bg-green-700"
         onClick = {() => approveAppointment(setStatus, appointment.appointmentsID, dashboardData, setDashboardData)}
-      >
-        Approve Appointment
-      </Button>
-      <Button variant = "danger" onClick = {() => setStatus("pending")}>X</Button>
+        title = "Approve Appointment"
+      />
+      <Button
+        colorClass="bg-red-600"
+        hoverClass="hover:bg-red-700"
+        onClick = {() => setStatus("pending")}
+        title = "X"
+      />
     </span>
   )
 }

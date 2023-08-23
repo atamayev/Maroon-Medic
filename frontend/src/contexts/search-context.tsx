@@ -43,7 +43,6 @@ export const SearchContextProvider = (props: Props) => {
       }
       if (result) setItems(result.data)
     } catch (error) {
-      console.log(error)
     }
   }
 

@@ -1,5 +1,6 @@
 import React from "react"
-import { Card, Button, Form, Alert } from "react-bootstrap"
+import { Card, Form, Alert } from "react-bootstrap"
+import Button from "../button"
 import ConfirmPassword from "./confirm-password"
 import SubLoginInformation from "./sub-login-information"
 import SubRegisterInformation from "./sub-register-information"
@@ -37,8 +38,8 @@ export default function LoginAndRegistrationForm({
   }
 
   const HideOrShowPassword = () => {
-    if (showPassword) return <>Hide Password</>
-    return <>Show Password</>
+    if (showPassword) return "Hide Password"
+    return "Show Password"
   }
 
   const ErrorMessage = () => {
@@ -68,15 +69,24 @@ export default function LoginAndRegistrationForm({
             showPassword = {isShowPassword()}
           />
 
-          <Button onClick = {() => (setShowPassword(!showPassword))} className = "mt-3">
-            <HideOrShowPassword />
-          </Button>
+          <Button
+            className = "mt-3"
+            colorClass = "bg-blue-600"
+            hoverClass = "hover:bg-blue-700"
+            onClick = {() => (setShowPassword(!showPassword))}
+            title = {HideOrShowPassword()}
+          />
 
           <ErrorMessage />
 
-          <Button disabled = {loading} className = "mt-3 w-100" type = "submit">
-            {loginOrSignUp}
-          </Button>
+          <Button
+            className = "mt-3 w-100"
+            colorClass = "bg-blue-600"
+            hoverClass = "hover:bg-blue-700"
+            disabled = {loading}
+            title = {loginOrSignUp}
+          />
+
         </Form>
 
         <SubLoginInformation

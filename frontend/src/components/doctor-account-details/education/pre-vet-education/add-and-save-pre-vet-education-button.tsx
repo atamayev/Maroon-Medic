@@ -1,5 +1,5 @@
 
-import { Button } from "react-bootstrap"
+import Button from "src/components/button"
 
 interface Props {
   handleAddEducation: () => GeneralEducationItem
@@ -14,13 +14,15 @@ const AddAndSavePreVetEducationButton = (props: Props) => {
 
   return (
     <Button
+      className = "mt-3"
+      colorClass = "bg-green-600"
+      hoverClass = "hover:bg-green-700"
+      title = "Add"
       onClick = {() => {
         const selectedEducationObj = handleAddEducation()
         saveEducation(selectedEducationObj as PreVetEducationItem)
       }}
-    >
-      Add
-    </Button>
+    />
   )
 }
 

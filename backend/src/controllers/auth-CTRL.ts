@@ -82,13 +82,13 @@ export async function login (req: Request, res: Response): Promise<Response> {
 }
 
 export async function register (req: Request, res: Response): Promise<Response> {
-  const {email, password, registerType} = req.body.registerInformationObject
+  const {email, password, loginType } = req.body.registerInformationObject
 
-  if (!validateUserType(registerType)) return res.status(400).json("Invalid User Type")
+  if (!validateUserType(loginType)) return res.status(400).json("Invalid User Type")
 
   let doesAccountExist: boolean
   try {
-    doesAccountExist = await AuthDB.checkIfAccountExists(email, registerType)
+    doesAccountExist = await AuthDB.checkIfAccountExists(email, loginType)
   } catch (error: unknown) {
     return res.status(500).json({ error: "Problem with existing email search" })
   }
@@ -107,12 +107,12 @@ export async function register (req: Request, res: Response): Promise<Response> 
 
   let UserID: number
   try {
-    UserID = await AuthDB.addNewUserCredentials(email, hashedPassword, createdAt, registerType)
+    UserID = await AuthDB.addNewUserCredentials(email, hashedPassword, createdAt, loginType)
   } catch (error: unknown) {
     return res.status(500).json({ error: "Problem with Data Insertion" })
   }
 
-  if (registerType === "Doctor") {
+  if (loginType === "Doctor") {
     try {
       await AuthDB.addDoctorSpecificDetails(UserID)
     } catch (error: unknown) {
@@ -120,22 +120,22 @@ export async function register (req: Request, res: Response): Promise<Response> 
     }
   }
 
-  const IDKey = `${registerType}ID`
+  const IDKey = `${loginType}ID`
   const UUID = await ID_to_UUID(UserID)
   const payload = { [IDKey]: UUID }
 
-  const token = signJWT(payload, registerType)
+  const token = signJWT(payload, loginType)
   if (!token) return res.status(500).json({ error: "Problem with Signing JWT" })
 
   const newUserUUID = await ID_to_UUID(UserID)
   await loginHistory(UserID)
 
-  Cookie.clearAll(res, registerType)
+  Cookie.clearAll(res, loginType)
 
   return res
-    .cookie(`${registerType}AccessToken`, token)
-    .cookie(`${registerType}UUID`, UUID)
-    .cookie(`${registerType}NewUser`, newUserUUID)
+    .cookie(`${loginType}AccessToken`, token)
+    .cookie(`${loginType}UUID`, UUID)
+    .cookie(`${loginType}NewUser`, newUserUUID)
     .status(200)
     .json()
 }

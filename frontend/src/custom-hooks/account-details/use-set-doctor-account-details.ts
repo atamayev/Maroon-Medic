@@ -18,7 +18,6 @@ export default function useSetDoctorAccountDetails(
       if (storedListDetails) setListDetails(JSON.parse(storedListDetails))
       else await fetchDoctorLists(setListDetails)
     } catch (error) {
-      console.log(error)
     }
   }
 

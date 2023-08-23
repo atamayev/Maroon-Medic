@@ -1,4 +1,4 @@
-import { Button } from "react-bootstrap"
+import Button from "../button"
 
 const PendingAppointment = ({ status, setStatus } :
   { status: AppointmentStatus,
@@ -8,11 +8,11 @@ const PendingAppointment = ({ status, setStatus } :
   if (status !== "pending") return null
   return (
     <Button
-      variant = "warning"
+      colorClass = "bg-amber-600"
+      hoverClass = "hover:bg-amber-700"
       onClick = {() => {setStatus("confirming")}}
-    >
-      Pending approval
-    </Button>
+      title = "Pending approval"
+    />
   )
 }
 

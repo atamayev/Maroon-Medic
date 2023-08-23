@@ -1,6 +1,7 @@
-import {Link} from "react-router-dom"
-import {Button, Card} from "react-bootstrap"
+import { Link} from "react-router-dom"
+import { Card } from "react-bootstrap"
 import Header from "../header/header"
+import Button from "../button"
 
 const NullUser = () => {
   return (
@@ -10,14 +11,18 @@ const NullUser = () => {
         <Card.Body>
           <p>You are not logged in. Please make an account, or login below</p>
           <Link to = "/patient-register">
-            <Button variant = "primary">
-              <p>Register</p>
-            </Button>
+            <Button
+              colorClass = "bg-green-600"
+              hoverClass = "hover:bg-green-700"
+              title = "Register"
+            />
           </Link>
           <Link to = "/patient-login">
-            <Button variant = "primary">
-              <p>Login</p>
-            </Button>
+            <Button
+              colorClass = "bg-green-600"
+              hoverClass = "hover:bg-green-700"
+              title = "Login"
+            />
           </Link>
         </Card.Body>
       </Card>

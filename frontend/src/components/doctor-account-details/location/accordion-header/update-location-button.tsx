@@ -1,5 +1,5 @@
 import _ from "lodash"
-import { Button } from "react-bootstrap"
+import Button from "src/components/button"
 import { areAllFieldsValid, areAllTimesValid } from "src/utils/all-field-checks"
 import updateLocation from "src/helper-functions/account-details/save/doctor-account-details/update-location"
 
@@ -19,12 +19,13 @@ const UpdateLocationButton = (props: Props) => {
 
   return (
     <Button
-      variant = "secondary"
-      disabled = {!areAllFieldsValid(address) || !areAllTimesValid(address)}
+      className = "mr-3 float-right"
+      colorClass = "bg-amber-600"
+      hoverClass = "hover:bg-amber-700"
+      title = "Update Location"
       onClick = {() => updateLocation(address, setAddresses, setAddressesConfirmation)}
-    >
-      Update Location
-    </Button>
+      disabled = {!areAllFieldsValid(address) || !areAllTimesValid(address)}
+    />
   )
 }
 

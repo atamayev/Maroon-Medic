@@ -1,5 +1,6 @@
 
-import { Card, Button, Form } from "react-bootstrap"
+import { Card, Form } from "react-bootstrap"
+import Button from "src/components/button"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
@@ -34,7 +35,12 @@ export default function DoctorPersonalInfo() {
             <LastNameInput personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
             <GenderSection personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
             <DOBSection personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
-            <Button type = "submit" className = "btn btn-primary w-100">Save</Button>
+            <Button
+              title = "Save"
+              className = "w-100"
+              colorClass = "bg-green-600"
+              hoverClass = "hover:bg-green-700"
+            />
             <SavedConfirmationMessage
               confirmationMessage = {personalInfoConfirmation}
               whatIsBeingSaved = "Personal Info"

@@ -26,7 +26,6 @@ const useLoginSubmit = (
         } else navigate("/dashboard")
       } else setError("Login didn't work")
     } catch (error: unknown) {
-      console.log(error)
       handle401AxiosErrorAndSetCustomError(error, setError)
     }
     setLoading(false)

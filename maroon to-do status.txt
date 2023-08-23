@@ -3,7 +3,7 @@ To-do:
 
 ASAP:
 
-2. Tailwind conversion. Move off ouf bootstrap and MDB (see comment below)
+2. Tailwind conversion. Move off ouf bootstrap (see comment below)
 3. Bug: Fix services not changing from -1 (make sure -1 cannot be entered,or else db errors out)
 4. -remove all 'renderX'
 5.-make sure that each component is named the same as the file. there shouldn't be more than one large component per file

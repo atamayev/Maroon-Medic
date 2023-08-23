@@ -1,4 +1,4 @@
-import { Button } from "react-bootstrap"
+import Button from "src/components/button"
 import addLocation from "src/helper-functions/account-details/save/doctor-account-details/add-location"
 import { areAllFieldsValid, areAllTimesValid } from "src/utils/all-field-checks"
 
@@ -13,12 +13,13 @@ const AddLocationButton = (props: Props) => {
 
   return (
     <Button
-      variant = "success"
-      disabled = {!areAllFieldsValid(address) || !areAllTimesValid(address)}
+      className = "mr-3"
+      colorClass = "bg-green-600"
+      hoverClass = "hover:bg-green-700"
+      title = "Add Location"
       onClick = {() => addLocation(address, setAddresses, setAddressesConfirmation)}
-    >
-      Add Location
-    </Button>
+      disabled = {!areAllFieldsValid(address) || !areAllTimesValid(address)}
+    />
   )
 }
 

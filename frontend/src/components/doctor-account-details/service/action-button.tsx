@@ -1,4 +1,4 @@
-import { Button } from "react-bootstrap"
+import Button from "src/components/button"
 import updateServices from "src/helper-functions/account-details/save/doctor-account-details/update-services"
 import addServices from "src/helper-functions/account-details/save/doctor-account-details/add-services"
 import deleteServices from "src/helper-functions/account-details/save/doctor-account-details/delete-services"
@@ -23,40 +23,55 @@ const ActionButton = (props: Props) => {
   // check if service time and price are filled
   const isFilled = isSelected && selectedService.Service_time && selectedService.Service_price
 
+  const DeleteServiceButton = () => {
+    return (
+      <Button
+        onClick = {() => deleteServices(
+          selectedService!,
+          providedServices,
+          setProvidedServices,
+          setServicesConfirmation,
+          setSelectedServices
+        )}
+        title = "Delete"
+        colorClass = "bg-red-600"
+        hoverClass = "hover:bg-red-700"
+      />
+    )
+  }
+
+  const UpdateServiceButton = () => {
+    return (
+      <Button
+        onClick = {() => updateServices(selectedService!, providedServices, setProvidedServices, setServicesConfirmation)}
+        title = "Update"
+        colorClass = "bg-amber-600"
+        hoverClass = "hover:bg-amber-700"
+      />
+    )
+  }
+
+  const AddServiceButton = () => {
+    return (
+      <Button
+        onClick = {() => addServices(selectedService!, providedServices, setProvidedServices, setServicesConfirmation)}
+        title = "Add"
+        colorClass = "bg-green-600"
+        hoverClass = "hover:bg-green-700"
+      />
+    )
+  }
+
   if (isSelected && isFilled) {
     if (isProvided) {
       if (providedService.Service_time === selectedService.Service_time &&
           providedService.Service_price === selectedService.Service_price) {
-        return (
-          <Button variant = "danger"
-            onClick = {() => deleteServices(
-              selectedService,
-              providedServices,
-              setProvidedServices,
-              setServicesConfirmation,
-              setSelectedServices
-            )}
-          >
-            Delete
-          </Button>
-        )
+        return <DeleteServiceButton/>
       } else {
-        return (
-          <Button variant = "secondary"
-            onClick = {() => updateServices(selectedService, providedServices, setProvidedServices, setServicesConfirmation)}
-          >
-            Update
-          </Button>
-        )
+        return <UpdateServiceButton />
       }
     } else {
-      return (
-        <Button variant = "success"
-          onClick = {() => addServices(selectedService, providedServices, setProvidedServices, setServicesConfirmation)}
-        >
-          Add
-        </Button>
-      )
+      return <AddServiceButton />
     }
   }
 

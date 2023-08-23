@@ -1,4 +1,4 @@
-import { Button } from "react-bootstrap"
+import Button from "src/components/button"
 import toggleServiceCategory from "src/helper-functions/account-details/toggle/toggle-service-category"
 
 interface Props {
@@ -14,14 +14,18 @@ const ToggleCategory = (props: Props) => {
 
   const isOpen = expandedCategories.includes(category)
   const RenderIsOpen = () => {
-    if (isOpen) return <>^</>
-    return <>v</>
+    if (isOpen) return "^"
+    return "v"
   }
 
   return (
-    <Button onClick = {() => toggleServiceCategory(category, setExpandedCategories)}>
-      <RenderIsOpen />
-    </Button>
+    <Button
+      className = "mr-3"
+      colorClass = "bg-blue-600"
+      hoverClass = "hover:bg-blue-700"
+      title = {RenderIsOpen()}
+      onClick = {() => toggleServiceCategory(category, setExpandedCategories)}
+    />
   )
 }
 

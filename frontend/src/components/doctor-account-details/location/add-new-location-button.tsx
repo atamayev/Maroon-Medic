@@ -1,4 +1,4 @@
-import { Button } from "react-bootstrap"
+import Button from "src/components/button"
 import addAccordion from "src/helper-functions/account-details/add/add-accordion"
 
 interface Props {
@@ -11,12 +11,12 @@ const AddNewLocationButton = (props: Props) => {
 
   return (
     <Button
-      variant = "primary"
+      className = "mr-3"
+      colorClass = "bg-green-600"
+      hoverClass = "hover:bg-green-700"
+      title = "Add New Location"
       onClick = {() => addAccordion(addresses, setAddresses)}
-      style = {{ marginRight: "10px" }}
-    >
-      Add New Location
-    </Button>
+    />
   )
 }
 

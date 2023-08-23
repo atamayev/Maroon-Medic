@@ -1,4 +1,4 @@
-import { Button } from "react-bootstrap"
+import Button from "../button"
 
 interface Props {
   status: DeleteStatuses,
@@ -10,11 +10,12 @@ const NevermindButton = ({status, setStatus}: Props) => {
 
   return (
     <Button
-      variant = "secondary"
+      className = "mt-3 mx-3"
+      colorClass = "bg-amber-600"
+      hoverClass = "hover:bg-amber-700"
+      title = "Nevermind"
       onClick = {() => setStatus("initial")}
-    >
-      Nevermind
-    </Button>
+    />
   )
 }
 

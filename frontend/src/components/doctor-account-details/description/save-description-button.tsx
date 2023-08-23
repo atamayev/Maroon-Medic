@@ -1,4 +1,4 @@
-import { Button } from "react-bootstrap"
+import Button from "src/components/button"
 import saveDescription from "src/helper-functions/account-details/save/doctor-account-details/save-description"
 
 interface Props {
@@ -11,11 +11,12 @@ const SaveDescriptionButton = (props: Props) => {
 
   return (
     <Button
-      variant = "success"
+      className = "mt-3"
+      colorClass = "bg-green-600"
+      hoverClass = "hover:bg-green-700"
+      title = "Save"
       onClick = {() => saveDescription(description, setDescriptionConfirmation)}
-    >
-      Save
-    </Button>
+    />
   )
 }
 

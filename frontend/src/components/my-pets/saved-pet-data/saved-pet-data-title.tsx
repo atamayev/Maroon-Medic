@@ -1,4 +1,5 @@
-import { Card, Button } from "react-bootstrap"
+import { Card } from "react-bootstrap"
+import Button from "src/components/button"
 
 interface Props {
   pet: SavedPetItem
@@ -19,12 +20,12 @@ const SavedPetDataTitle = (props: Props) => {
     <Card.Title>
       {pet.Name}
       <Button
-        variant = "danger"
-        style = {{ float: "right" }}
+        colorClass = "bg-red-500"
+        hoverClass = "hover:bg-red-600"
+        title = "X"
         onClick = {() => handleShowModal({pet, setPetToDelete, setShowModal})}
-      >
-        X
-      </Button>
+        className = "float-right"
+      />
     </Card.Title>
   )
 }

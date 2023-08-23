@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
-import { Card, Button } from "react-bootstrap"
+import { Card} from "react-bootstrap"
+import Button from "src/components/button"
 import { useNavigate, useLocation } from "react-router-dom"
 import UnauthorizedUser from "../../components/unauthorized-user/unauthorized-user"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
@@ -61,15 +62,17 @@ export default function FinalizeBookingPage() {
   if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
   const ConfirmOrRequestBook = () => {
-    if (selectedLocation.instant_book) return <>Confirm</>
-    return <>Request</>
+    if (selectedLocation.instant_book) return "Confirm"
+    return "Request"
   }
 
   const ConfirmBookingButton = () => {
     return (
       <>
         <Button
-          variant = "primary"
+          colorClass = "bg-green-600"
+          hoverClass = "hover:bg-green-700"
+          title = {ConfirmOrRequestBook()}
           onClick = {() => {
             useConfirmBooking(
               selectedService,
@@ -82,9 +85,7 @@ export default function FinalizeBookingPage() {
               message
             )
           }}
-        >
-          {ConfirmOrRequestBook()}
-        </Button>
+        />
       </>
     )
   }

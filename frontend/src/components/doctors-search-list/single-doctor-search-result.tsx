@@ -1,5 +1,6 @@
 import _ from "lodash"
 import { Link } from "react-router-dom"
+import Button from "../button"
 
 type DoctorData = {
   NVI: number,
@@ -18,9 +19,12 @@ export default function SingleDoctor(props: Props) {
       <div className="flex flex-col">
         <h2 className="text-lg font-semibold mb-2">Dr. {_.upperFirst(FirstName || "")} {_.upperFirst(LastName || "")}</h2>
         <Link to={`/vet/${NVI}`} className="text-white">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            <p>Click Me! NVI: {NVI}</p>
-          </button>
+          <Button
+            colorClass = "bg-blue-500"
+            hoverClass = "hover:bg-blue-700"
+            className = "text-white font-bold py-2 px-4 rounded"
+            title = {`Click Me! NVI: ${NVI}`}
+          />
         </Link>
       </div>
     </div>

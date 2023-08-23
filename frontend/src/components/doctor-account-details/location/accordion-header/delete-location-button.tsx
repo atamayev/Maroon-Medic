@@ -1,4 +1,4 @@
-import { Button } from "react-bootstrap"
+import Button from "src/components/button"
 import deleteLocation from "src/helper-functions/account-details/save/doctor-account-details/delete-location"
 
 interface Props {
@@ -18,12 +18,12 @@ const DeleteLocationButton = (props: Props) => {
 
   return (
     <Button
-      variant = "danger"
-      size = "sm"
-      onClick = {() => handleDeleteAddress()} style = {{ float: "right" }}
-    >
-      Delete Location
-    </Button>
+      className = "mr-3 float-right"
+      colorClass = "bg-red-600"
+      hoverClass = "hover:bg-red-700"
+      title = "Delete Location"
+      onClick = {() => handleDeleteAddress()}
+    />
   )
 }
 

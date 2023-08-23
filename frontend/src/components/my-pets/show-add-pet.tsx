@@ -1,4 +1,4 @@
-import { Button } from "react-bootstrap"
+import Button from "../button"
 
 interface Props {
   showAddPet: boolean
@@ -11,14 +11,12 @@ const ShowAddPet = (props: Props) => {
   if (showAddPet) return null
 
   return (
-    <>
-      <Button
-        variant = "primary"
-        onClick = {() => {setShowAddPet(true)}}
-      >
-        Add a Pet
-      </Button>
-    </>
+    <Button
+      colorClass = "bg-green-600"
+      hoverClass = "hover:bg-green-700"
+      onClick = {() => {setShowAddPet(true)}}
+      title = "Add a Pet"
+    />
   )
 }
 

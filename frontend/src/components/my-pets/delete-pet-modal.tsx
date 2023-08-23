@@ -1,4 +1,5 @@
-import { Button, Modal } from "react-bootstrap"
+import { Modal } from "react-bootstrap"
+import Button from "../button"
 import deletePet from "src/helper-functions/patient/my-pets/delete-pet"
 
 const handleCloseModal = (setShowModal: React.Dispatch<React.SetStateAction<boolean>>) => {
@@ -24,18 +25,23 @@ const DeletePetModal = (props: Props) => {
       </Modal.Header>
       <Modal.Body>Are you sure you want to delete {petToDelete?.Name}?</Modal.Body>
       <Modal.Footer>
-        <Button variant = "secondary" onClick = {() => handleCloseModal(setShowModal)}>
-          Close
-        </Button>
         <Button
-          variant = "danger"
+          title = "Close"
+          colorClass= "bg-gray-500"
+          hoverClass = "hover:bg-gray-600"
+          onClick = {() => handleCloseModal(setShowModal)}
+        />
+
+        <Button
+          title = "Delete"
+          colorClass= "bg-red-500"
+          hoverClass = "hover:bg-red-600"
           onClick = {() => {
             deletePet(petToDelete!.pet_infoID, savedPetData, setSavedPetData, setPetConfirmation)
             handleCloseModal(setShowModal)
           }}
-        >
-          Delete
-        </Button>
+        />
+
       </Modal.Footer>
     </Modal>
   )

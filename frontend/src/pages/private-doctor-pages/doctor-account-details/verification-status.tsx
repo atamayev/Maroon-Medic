@@ -1,4 +1,5 @@
-import { Card, Button } from "react-bootstrap"
+import { Card } from "react-bootstrap"
+import Button from "src/components/button"
 
 interface Props {
   verified: boolean
@@ -23,14 +24,19 @@ export default function RenderVerificationSection (props: Props) {
 function RenderIsVerification ( {verified} : {verified: boolean}) {
   if (verified) {
     return (
-      <Button variant = "success" disabled>
-        ✓ (Your identity is Verified)
-      </Button>
+      <Button
+        colorClass = "bg-green-500"
+        hoverClass = "hover:bg-green-500"
+        title = "✓ (Your identity is Verified)"
+        disabled
+      />
     )
   }
   return (
-    <Button variant = "danger" disabled>
-      X (Your identity is Not Verified)
-    </Button>
+    <Button
+      colorClass = "bg-red-500"
+      hoverClass = "hover:bg-red-600"
+      title = "X (Your identity is Not Verified)"
+    />
   )
 }

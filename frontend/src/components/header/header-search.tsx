@@ -1,4 +1,5 @@
 import { useLocation } from "react-router-dom"
+import Button from "../button"
 
 const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
   if (event.key === "Enter") {
@@ -50,18 +51,18 @@ const HeaderSearch = ({search, searchTerm, setSearchTerm} : Props) => {
           defaultValue={searchDefaultValue(searchTerm, location.pathname)}
           onKeyUp={handleKeyUp}
         />
-        <button
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:ring focus:ring-opacity-50"
-          type="button"
-          onClick={() => {
+        <Button
+          colorClass = "bg-blue-500"
+          hoverClass = "hover:bg-blue-600"
+          className = "text-white py-2 px-4 rounded focus:ring focus:ring-opacity-50"
+          title = "Search"
+          onClick = {() => {
             const inputElement = document.getElementById("search-input")
             if (inputElement) {
               handleSearch((inputElement as HTMLInputElement).value, setSearchTerm)
             }
           }}
-        >
-          Search
-        </button>
+        />
       </div>
     </div>
   )

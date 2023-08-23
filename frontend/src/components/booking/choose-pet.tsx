@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { Link } from "react-router-dom"
-import { Button } from "react-bootstrap"
+import Button from "../button"
 import handlePetChange from "src/helper-functions/public-doctor/booking-page/handle-pet-change"
 import FormGroup from "../form-group"
 
@@ -16,10 +16,13 @@ const ChoosePet = (props: ChoosePetProps) => {
     return (
       <div className="col-md-6">
         You need to add a pet to make an appointment
-        <Link to = {"/my-pets"}>
-          <Button variant="primary">
-            <p>Add a Pet</p>
-          </Button>
+        <Link to = "/my-pets">
+          <Button
+            className = "w-100"
+            colorClass = "bg-amber-400"
+            hoverClass = "hover:bg-amber-600"
+            title = "Add a Pet"
+          />
         </Link>
       </div>
     )

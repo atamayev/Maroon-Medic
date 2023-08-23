@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
-import { Card, Button } from "react-bootstrap"
+import { Card } from "react-bootstrap"
+import Button from "src/components/button"
 
 export default function RenderPersonalInfoLinkSection() {
   return (
@@ -7,9 +8,12 @@ export default function RenderPersonalInfoLinkSection() {
       <Card.Body>
         Looking to edit your Profile Information? {""}
         <Link to = {"/settings/personal-information"}>
-          <Button variant = "primary" className = "btn btn-primary p-1">
-            <p>Edit Personal Information</p>
-          </Button>
+          <Button
+            className = "p-1"
+            colorClass = "bg-green-600"
+            hoverClass = "hover:bg-green-700"
+            title = "Edit Personal Information"
+          />
         </Link>
       </Card.Body>
     </Card>

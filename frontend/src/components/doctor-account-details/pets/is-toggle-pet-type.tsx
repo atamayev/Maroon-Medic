@@ -1,4 +1,4 @@
-import { Button } from "react-bootstrap"
+import Button from "src/components/button"
 import togglePetType from "src/helper-functions/account-details/toggle/toggle-pet-type"
 
 interface Props {
@@ -15,14 +15,18 @@ const IsTogglePetType = (props: Props) => {
   const isOpen = expandedPetTypes.includes(petType)
 
   const RenderIsOpen = () => {
-    if (isOpen) return <>^</>
-    return <>v</>
+    if (isOpen) return "^"
+    return "v"
   }
 
   return (
-    <Button onClick={() => togglePetType(petType, setExpandedPetTypes)}>
-      <RenderIsOpen />
-    </Button>
+    <Button
+      className = "mr-3"
+      colorClass = "bg-blue-600"
+      hoverClass = "hover:bg-blue-700"
+      title = {RenderIsOpen()}
+      onClick={() => togglePetType(petType, setExpandedPetTypes)}
+    />
   )
 }
 

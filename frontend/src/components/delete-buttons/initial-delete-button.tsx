@@ -1,4 +1,4 @@
-import { Button } from "react-bootstrap"
+import Button from "../button"
 
 interface Props {
   status: DeleteStatuses,
@@ -10,11 +10,12 @@ const InitialDeleteButton = ({status, setStatus}: Props) => {
 
   return (
     <Button
-      variant = "danger"
+      className = "mt-3"
+      colorClass = "bg-red-600"
+      hoverClass = "hover:bg-red-700"
+      title = "Delete"
       onClick = {() => setStatus("deleting")}
-    >
-      Delete
-    </Button>
+    />
   )
 }
 

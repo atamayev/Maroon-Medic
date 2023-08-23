@@ -1,8 +1,9 @@
-import { Card, Button, Form, Alert } from "react-bootstrap"
+import { Card, Form, Alert } from "react-bootstrap"
 import FirstNameInput from "./personal-info-inputs/first-name-input"
 import LastNameInput from "./personal-info-inputs/last-name-input"
 import GenderSection from "./personal-info-inputs/gender-input"
 import DOBSection from "./date-of-birth/dob-section"
+import Button from "./button"
 
 interface Props {
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void,
@@ -35,7 +36,13 @@ export default function NewAccountForm({
             <LastNameInput personalInfo = {newInfo} setPersonalInfo = {setNewInfo} />
             <GenderSection personalInfo = {newInfo} setPersonalInfo = {setNewInfo} />
             <DOBSection personalInfo = {newInfo} setPersonalInfo = {setNewInfo} />
-            <Button type = "submit" className = "w-100" disabled = {loading}>Submit</Button>
+            <Button
+              className = "w-100"
+              colorClass = "bg-yellow-400"
+              hoverClass = "hover:bg-yellow-600"
+              title = "Submit"
+              disabled = {loading}
+            />
           </Form>
         </Card.Body>
       </Card>

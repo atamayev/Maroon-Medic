@@ -1,4 +1,4 @@
-import { Button } from "react-bootstrap"
+import Button from "../button"
 
 interface Props<T> {
   status: DeleteStatuses,
@@ -11,11 +11,12 @@ const ConfirmDeleteButton = <T,>({status, dataType, handleDeleteOnClick}: Props<
 
   return (
     <Button
-      variant="danger"
+      className = "mt-3"
+      colorClass = "bg-red-600"
+      hoverClass = "hover:bg-red-700"
+      title = "Confirm Delete"
       onClick={() => handleDeleteOnClick(dataType)}
-    >
-      Confirm Delete
-    </Button>
+    />
   )
 }
 

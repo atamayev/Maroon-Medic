@@ -1,4 +1,4 @@
-import { Button } from "react-bootstrap"
+import Button from "../button"
 import addPet from "src/helper-functions/patient/new-pet/add-pet"
 
 function areAllFieldsValid(petData: PetItemForCreation) {
@@ -15,9 +15,9 @@ function areAllFieldsValid(petData: PetItemForCreation) {
 }
 
 
-const RenderNewPetName = ({ petName } : { petName: string | null }) => {
-  if (!petName) return <>Pet</>
-  return <>{petName}</>
+const RenderNewPetName = (petName: string | null) => {
+  if (!petName) return "Pet"
+  return {petName}
 }
 
 interface Props {
@@ -36,16 +36,15 @@ const AddPetButton = (props: Props) => {
   return (
     <div>
       <Button
-        variant = "primary"
-        type = "submit"
-        disabled = {!areAllFieldsValid(newPetData)}
+        //need to make this button  a 'submit' button
+        colorClass = "bg-amber-500"
+        hoverClass = "hover:bg-amber-600"
+        title = {`Add ${RenderNewPetName(newPetData.Name)}`}
         onClick = {() => {
           addPet(newPetData, setNewPetData, setPetConfirmation, savedPetData, setSavedPetData, setShowAddPet)
         }}
-      >
-        Add
-        <RenderNewPetName petName = {newPetData.Name}/>
-      </Button>
+        disabled = {!areAllFieldsValid(newPetData)}
+      />
     </div>
   )
 }

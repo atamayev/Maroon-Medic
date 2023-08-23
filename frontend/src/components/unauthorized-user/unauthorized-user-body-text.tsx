@@ -1,5 +1,6 @@
-import {Link} from "react-router-dom"
-import {Button, Card} from "react-bootstrap"
+import { Link } from "react-router-dom"
+import { Card } from "react-bootstrap"
+import Button from "../button"
 
 interface Props {
   vetOrpatient: vetOrpatient
@@ -10,14 +11,18 @@ const UnauthorizedUserBodyText = ({vetOrpatient}: Props) => {
     <Card.Body>
       <p>You are not logged in as a {vetOrpatient}. Please make an account, or login below</p>
       <Link to = {`/${vetOrpatient}-register`}>
-        <Button variant = "primary">
-          <p>Register</p>
-        </Button>
+        <Button
+          colorClass = "bg-green-600"
+          hoverClass = "hover:bg-green-700"
+          title = "Register"
+        />
       </Link>
       <Link to = {`/${vetOrpatient}-login`}>
-        <Button variant = "primary">
-          <p>Login</p>
-        </Button>
+        <Button
+          colorClass = "bg-green-600"
+          hoverClass = "hover:bg-green-700"
+          title = "Login"
+        />
       </Link>
     </Card.Body>
   )
