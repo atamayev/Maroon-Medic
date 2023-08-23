@@ -1,4 +1,3 @@
-import { Accordion,  Container, Row, Col } from "react-bootstrap"
 import PublicStatus from "./public-status"
 import InstantBook from "./instant-book"
 import SaveOrUpdateButton from "./save-or-update-button"
@@ -11,10 +10,11 @@ interface Props {
   addresses: DoctorAddressData[]
   setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>
   setAddressesConfirmation: (conf: ConfirmationMessage) => void
+  toggleOpen: () => void
 }
 
 const AccordionHeader = (props: Props) => {
-  const { index, address, addresses, setAddresses, setAddressesConfirmation } = props
+  const { index, address, addresses, setAddresses, setAddressesConfirmation, toggleOpen } = props
 
   const handleToggleChange = (
     addressPriority: number,
@@ -34,43 +34,39 @@ const AccordionHeader = (props: Props) => {
   }
 
   return (
-    <Accordion.Header>
-      <Container>
-        <Row>
-          <Col xs = {4} className = "d-flex align-items-center">
-            <PublicStatus
-              address = {address}
-              handleToggleChange = {handleToggleChange}
-            />
-            <InstantBook
-              address = {address}
-              handleToggleChange = {handleToggleChange}
-            />
-          </Col>
-          <Col xs = {4} className = "text-center font-weight-bold">
-            <AddressTitle
-              address = {address}
-              index = {index}
-            />
-          </Col>
-          <Col xs = {4} className = "text-right">
-            <div className = "align-items-left">
-              <SaveOrUpdateButton
-                address = {address}
-                setAddresses = {setAddresses}
-                setAddressesConfirmation = {setAddressesConfirmation}
-              />
-            </div>
-            <DeleteLocationButton
-              address = {address}
-              addresses = {addresses}
-              setAddresses = {setAddresses}
-              setAddressesConfirmation = {setAddressesConfirmation}
-            />
-          </Col>
-        </Row>
-      </Container>
-    </Accordion.Header>
+    <div onClick = {toggleOpen} className = "flex justify-between items-center p-4 bg-yellow-500 text-white cursor-pointer">
+      <div className = "flex space-x-4">
+        <PublicStatus
+          address = {address}
+          handleToggleChange = {handleToggleChange}
+        />
+        <InstantBook
+          address = {address}
+          handleToggleChange = {handleToggleChange}
+        />
+      </div>
+      <div className = "text-center font-bold">
+        <AddressTitle
+          address = {address}
+          index = {index}
+        />
+      </div>
+      <div className = "flex justify-end items-center">
+        <div className = "flex items-center">
+          <SaveOrUpdateButton
+            address = {address}
+            setAddresses = {setAddresses}
+            setAddressesConfirmation = {setAddressesConfirmation}
+          />
+        </div>
+        <DeleteLocationButton
+          address = {address}
+          addresses = {addresses}
+          setAddresses = {setAddresses}
+          setAddressesConfirmation = {setAddressesConfirmation}
+        />
+      </div>
+    </div>
   )
 }
 

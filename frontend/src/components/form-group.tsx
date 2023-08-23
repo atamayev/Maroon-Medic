@@ -1,5 +1,4 @@
 import React from "react"
-import { Form } from "react-bootstrap"
 
 interface Props {
   as?: React.ElementType,
@@ -36,12 +35,13 @@ export default function FormGroup({
   value,
   children
 }: Props) {
+  const Component = as || "input"
 
   return (
-    <Form.Group id = {id} className = {className}>
-      <Form.Label>{label}</Form.Label>
-      <Form.Control
-        as = {as}
+    <div id = {id} className= {`mb-4 ${className}`}>
+      {label && <label htmlFor = {id} className = "block text-sm font-medium text-gray-600">{label}</label>}
+      <Component
+        className ="mt-1 p-2 w-full border rounded-md text-gray-900"
         defaultValue = {defaultValue}
         id = {id}
         maxLength = {maxLength}
@@ -51,11 +51,11 @@ export default function FormGroup({
         placeholder = {placeholder}
         required = {required}
         rows = {rows}
-        type = {type}
+        type = {type || "text"}
         value = {value}
       >
         {children}
-      </Form.Control>
-    </Form.Group>
+      </Component>
+    </div>
   )
 }

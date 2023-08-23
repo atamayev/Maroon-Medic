@@ -1,4 +1,3 @@
-import { Form, Card, Container, Row, Col } from "react-bootstrap"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import DeleteButton from "src/components/new-pet/delete-button"
 import PetNameSection from "src/components/new-pet/name-section"
@@ -25,74 +24,72 @@ const NewPet = (props: AddPetProps) => {
     setPetConfirmation, setShowAddPet, savedPetData, setSavedPetData } = props
 
   return (
-    <>
-      <Card>
-        <Container>
-          <Row>
-            <Col xs = {8}></Col>
-            <Col xs = {4}>
-              <DeleteButton
-                setNewPetData = {setNewPetData}
-                setShowAddPet = {setShowAddPet}
-              />
-            </Col>
-          </Row>
-        </Container>
-        <Card.Body>
-          <Form>
-            <PetNameSection
-              newPetData = {newPetData}
-              petTypes = {petTypes}
-              insurances = {insurances}
-              setNewPetData = {setNewPetData}
+    <div className="bg-white shadow rounded overflow-hidden">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-row">
+          <div className="flex-grow"></div>
+          <div className="w-1/3">
+            <DeleteButton
+              setNewPetData={setNewPetData}
+              setShowAddPet={setShowAddPet}
             />
-
-            <PetGenderSection
-              newPetData = {newPetData}
-              petTypes = {petTypes}
-              insurances = {insurances}
-              setNewPetData = {setNewPetData}
-            />
-
-            <DOBSection
-              newPetData = {newPetData}
-              petTypes = {petTypes}
-              insurances = {insurances}
-              setNewPetData = {setNewPetData}
-            />
-
-            <PetTypeSection
-              newPetData = {newPetData}
-              petTypes = {petTypes}
-              insurances = {insurances}
-              setNewPetData = {setNewPetData}
-            />
-
-            <InsuranceSection
-              newPetData = {newPetData}
-              petTypes = {petTypes}
-              insurances = {insurances}
-              setNewPetData = {setNewPetData}
-            />
-
-            Upload image area
-            <AddPetButton
-              newPetData = {newPetData}
-              setNewPetData = {setNewPetData}
-              setPetConfirmation = {setPetConfirmation}
-              setShowAddPet = {setShowAddPet}
-              savedPetData = {savedPetData}
-              setSavedPetData = {setSavedPetData}
-            />
-
-          </Form>
-          <SavedConfirmationMessage
-            confirmationMessage = {petConfirmation}
-            whatIsBeingSaved = "Pet"
+          </div>
+        </div>
+      </div>
+      <div className="p-4">
+        <form>
+          <PetNameSection
+            newPetData={newPetData}
+            petTypes={petTypes}
+            insurances={insurances}
+            setNewPetData={setNewPetData}
           />
-        </Card.Body>
-      </Card>
-    </>
+
+          <PetGenderSection
+            newPetData={newPetData}
+            petTypes={petTypes}
+            insurances={insurances}
+            setNewPetData={setNewPetData}
+          />
+
+          <DOBSection
+            newPetData={newPetData}
+            petTypes={petTypes}
+            insurances={insurances}
+            setNewPetData={setNewPetData}
+          />
+
+          <PetTypeSection
+            newPetData={newPetData}
+            petTypes={petTypes}
+            insurances={insurances}
+            setNewPetData={setNewPetData}
+          />
+
+          <InsuranceSection
+            newPetData={newPetData}
+            petTypes={petTypes}
+            insurances={insurances}
+            setNewPetData={setNewPetData}
+          />
+
+          {/* Upload image area */}
+          <AddPetButton
+            newPetData={newPetData}
+            setNewPetData={setNewPetData}
+            setPetConfirmation={setPetConfirmation}
+            setShowAddPet={setShowAddPet}
+            savedPetData={savedPetData}
+            setSavedPetData={setSavedPetData}
+          />
+
+        </form>
+        <SavedConfirmationMessage
+          confirmationMessage={petConfirmation}
+          whatIsBeingSaved="Pet"
+        />
+      </div>
+    </div>
   )
 }
 

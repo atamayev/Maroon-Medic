@@ -1,18 +1,15 @@
 .react-time-picker__wrapper {
     display: flex;
-    /* justify-content: space-between; */
     border: 1px solid #ccc;
     border-radius: 4px;
-    /* padding: 0.5em; */
 }
 
 .react-time-picker__inputGroup__input {
   width: 10%;
-
   border: none;
   padding: 0.15em;
-  min-width: 50px !important; /* adjust width as needed */
-  min-height: 30px !important; /* adjust height as needed */
+  min-width: 50px !important;
+  min-height: 30px !important;
 
 }
 

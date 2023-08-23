@@ -1,4 +1,4 @@
-import { Accordion } from "react-bootstrap"
+import { useState } from "react"
 import AccordionBody from "./accordion-body/accordion-body"
 import AccordionHeader from "./accordion-header/accordion-header"
 
@@ -13,21 +13,25 @@ interface AddressAccordionProps {
 const AddressAccordionItem = (props: AddressAccordionProps) => {
   const { index, address, addresses, setAddresses, setAddressesConfirmation } = props
 
+  const [isOpen, setIsOpen] = useState(false)
+
   return (
-    <Accordion.Item eventKey = {address.address_priority.toString()} style = {{ marginBottom: "10px" }}>
+    <div className="mb-4">
       <AccordionHeader
         index = {index}
         address = {address}
         addresses = {addresses}
         setAddresses = {setAddresses}
         setAddressesConfirmation = {setAddressesConfirmation}
+        toggleOpen={() => setIsOpen(!isOpen)}
       />
       <AccordionBody
+        isOpen={isOpen}
         address = {address}
         addresses = {addresses}
         setAddresses = {setAddresses}
       />
-    </Accordion.Item>
+    </div>
   )
 }
 

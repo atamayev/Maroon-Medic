@@ -1,11 +1,11 @@
 import "react-toggle/style.css"
-import { Accordion } from "react-bootstrap"
 import "../../../styles/location.css"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import AddNewLocationButton from "src/components/doctor-account-details/location/add-new-location-button"
 import AddressAccordionMap from "src/components/doctor-account-details/location/address-accordion-map"
 import AccountDetailsCard from "src/components/account-details-card"
+import TailwindAccordion from "src/components/tailwind-accordion"
 
 interface Props {
   addresses: DoctorAddressData[]
@@ -27,13 +27,11 @@ function AddressForm(props: Props) {
 
   return (
     <>
-      <Accordion >
-        <AddressAccordionMap
-          addresses = {addresses}
-          setAddresses = {setAddresses}
-          setAddressesConfirmation = {setAddressesConfirmation}
-        />
-      </Accordion>
+      <AddressAccordionMap
+        addresses = {addresses}
+        setAddresses = {setAddresses}
+        setAddressesConfirmation = {setAddressesConfirmation}
+      />
       <AddNewLocationButton
         addresses = {addresses}
         setAddresses = {setAddresses}

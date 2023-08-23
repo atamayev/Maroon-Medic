@@ -11,11 +11,12 @@ import DoctorHeader from "./doctor-header"
 
 const localizer = momentLocalizer(moment)
 
-const CustomEvent = ({ event }: {event: DoctorCalendarEvent}) => {
-  let CSS
-  if (event.Doctor_confirmation_status === false) CSS = "status-pending"
-  else CSS = "status-confirmed"
-  return <div className = {CSS}> {event.title} </div>
+const CustomEvent = ({ event }: { event: DoctorCalendarEvent }) => {
+  let tailwindCSS = ""
+  if (event.Doctor_confirmation_status === false) tailwindCSS = "bg-orange-400"
+  else tailwindCSS = "bg-blue-400"
+
+  return <div className={tailwindCSS}> {event.title} </div>
 }
 
 export default function DoctorCalendar() {
