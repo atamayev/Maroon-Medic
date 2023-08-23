@@ -109,7 +109,8 @@
   "include": [
     "src/types/**/*.d.ts",
     "src/",
-    "./.eslintrc.json"
+    "./.eslintrc.json",
+    "./webpack.config.js"
   ],
   "exclude": [
     "node_modules"

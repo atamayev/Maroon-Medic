@@ -3,12 +3,11 @@ To-do:
 
 ASAP:
 Bugs:
-1. Update location not working
-2. Delete location should require confirmation
+1. Update location button not working
+2. Delete location button should require confirmation
 3. Fix services not changing from -1 (make sure -1 cannot be entered,or else db errors out)
 
-2. Tailwind conversion. Move off ouf bootstrap (see comment below)
-3. Bug: 
+To-do:
 4. -remove all 'renderX'
 5.-make sure that each component is named the same as the file. there shouldn't be more than one large component per file
 	bring back the max lines rule
@@ -30,14 +29,6 @@ Classes vs useState:
 
 Classes vs session storage:
 	Use classes when data is sensitive
-
-Bootstrap --> Tailwind
-	During this process, use GPT, and make the starting text: "I am transitioning my React JS site from using bootstrap to tailwindCSS"
-	"i want my color theme to be the colors of a lion (ie yellow, amber, brown, and some green for contrast)."
-	"I will give you bootstrap components, and I want you to transition them to be tailwind css, while keeping the main content the same."
-	Do not use css files. i want everything in-line
-	in this process, change the color theme to match a lion's mane
-
 
 -to fix the header re-rendering problem, can make the header component appear on every page (in the app.tsx), but have another disabled parameter, that is off by default, but exists only on specific pages that need it
 	use gpt to figure out a simpler solution
@@ -76,8 +67,6 @@ Move data like personal info into a context. If it's used by multiple components
 -think about how isActive should work - what actually happens when a user deletes their account. should a new user be allowed to make an account with that same email instantaneosly?
 
 make the phone number input in the location.js only accept numbers (Phone input)
-
--Move from bootstrap to tailwind
 
 -duplicate entries need to be accounted for when added to DB. Unique constraints. when the same data is entered into the pre_vet_edcatinn_mapping table, it gives an error, but doesn't enter the data.
 	Make the error on the front-end be say something like: duplicate entry. Or, don't allow the user to add the same entry twice
