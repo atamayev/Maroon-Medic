@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import Header from "../components/header/header"
 
 export default function Missing () {
@@ -7,7 +8,7 @@ export default function Missing () {
       <article style = {{ padding: "100px" }}>
         <h1>Oops!</h1>
         <p>Page Not Found</p>
-        <a href = "/">Visit Our Homepage</a>
+        <Link to = "/">Visit Our Homepage</Link>
       </article>
     </>
   )

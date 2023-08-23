@@ -1,19 +1,19 @@
-import { MDBCol } from "mdb-react-ui-kit"
+import { Link } from "react-router-dom"
 
 const LeftFooterColumn = () => {
   return (
-    <MDBCol md = "3" lg = "4" xl = "3" className = "mx-auto mb-4">
-      <h6 className = "fw-bold mb-4 text-white"> MaroonMedic </h6>
+    <div className="md:w-1/4 lg:w-1/3 xl:w-1/4 mx-auto mb-4">
+      <h6 className="font-bold mb-4 text-yellow-400"> MaroonMedic </h6>
       <p>
-        <a href = "/" className = "link" style = {{ textDecoration: "none" }}>Home</a>
+        <a href="/" className="text-amber-400 underline">Home</a>
       </p>
       <p>
-        <a href = "/about" className = "link" style = {{ textDecoration: "none" }}>About Us</a>
+        <Link to ="/about" className="text-amber-400 underline">About Us</Link>
       </p>
       <p>
-        <a href = "/help" className = "link" style = {{ textDecoration: "none" }}>Help</a>
+        <Link to="/help" className="text-amber-400 underline">Help</Link>
       </p>
-    </MDBCol>
+    </div>
   )
 }
 
