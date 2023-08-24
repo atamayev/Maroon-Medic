@@ -28,9 +28,6 @@ Classes vs useState:
 Classes vs session storage:
 	Use classes when data is sensitive
 
--to fix the header re-rendering problem, can make the header component appear on every page (in the app.tsx), but have another disabled parameter, that is off by default, but exists only on specific pages that need it
-	use gpt to figure out a simpler solution
-
 Full Stack TS changes
 	9. Change all DB fields to snake case, change sql accordingly
 
@@ -54,10 +51,6 @@ Move data like personal info into a context. If it's used by multiple components
 
 -start figuring out only being able to make appointments during available time slots (shouldn't be able to book an appointment while that time slot is booked)
 
--consider combining the two add preVet Education callback functions
-
--stop the header from re-rendering on every link change. figure out a way to make it constant
-
 -try making an appointment, not requesting (in finalize-booking), going back, and making a different appointmet. does session storage updat?
 -think about how isActive should work - what actually happens when a user deletes their account. should a new user be allowed to make an account with that same email instantaneosly?
 
@@ -79,7 +72,7 @@ On the vet dashboard, make the appointments clickable, shows the patients detail
 	Should go to a newly created appointment page, which nicely lays out the appointment details.
 	If that event is clicked on from calendar view, it should go to that link as well
 
-- go throgh DoctorDashboard Layout txt file
+- go through DoctorDashboard Layout txt file
 
 LATER:
 

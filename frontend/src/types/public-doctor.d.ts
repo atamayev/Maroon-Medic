@@ -24,7 +24,7 @@ declare global {
     zip: string
     country: string
     instant_book: boolean
-    Phone: string
+    phone: string
     times: DoctorAvailability[]
   }
 }

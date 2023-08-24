@@ -73,7 +73,7 @@ export default new class PrivateDoctorDataService {
 		return await http.post("/private-doctor-data/add-address", {AddressData, Times})
 	}
 	async updateAddressData(AddressData: BaseAddressData, Times: DoctorAvailability[]) {
-		return await http.post("/private-doctor-data/update-address", {AddressData, Times})
+		return await http.patch("/private-doctor-data/update-address", {AddressData, Times})
 	}
 	async deleteAddressData(addressID: number) {
 		return await http.delete(`/private-doctor-data/delete-address/${addressID}`)

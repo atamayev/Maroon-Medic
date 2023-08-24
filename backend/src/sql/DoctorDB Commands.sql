@@ -261,15 +261,15 @@ select * from addresses where isactive;
 SELECT * FROM addresses inner join phone on addresses.addressesID = phone.address_ID WHERE addresses.isactive;
 -- update addresses set isActive = 0 where Doctor_ID;
 
-CREATE TABLE phone(
+CREATE TABLE doctor_phone_numbers(
 	phone_numbersID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	Phone VARCHAR(150),
+	phone VARCHAR(150),
 	phone_type varchar(20), -- cell, office, fax
 	address_ID INT unsigned NOT NULL,
 	FOREIGN KEY (address_ID) REFERENCES addresses(addressesID)
 );
 
-SELECT * FROM phone;
+SELECT * FROM doctor_phone_numbers;
 
 CREATE TABLE booking_availability(
 	booking_availabilityID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,

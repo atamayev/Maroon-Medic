@@ -23,6 +23,7 @@ const DeleteLocationButton = (props: Props) => {
 			hoverClass = "hover:bg-red-700"
 			title = "Delete Location"
 			onClick = {() => handleDeleteAddress()}
+			textColor = "text-white"
 		/>
 	)
 }

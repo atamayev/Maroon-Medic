@@ -20,8 +20,8 @@ function Locations({ addressesList }: { addressesList: PublicAddressData[] }) {
 	}
 
 	const PhoneSection = ({ address }: {address: PublicAddressData}) => {
-		if (!address.Phone) return null
-		return <p>Phone: {address.Phone}</p>
+		if (!address.phone) return null
+		return <p>Phone: {address.phone}</p>
 	}
 
 	return (

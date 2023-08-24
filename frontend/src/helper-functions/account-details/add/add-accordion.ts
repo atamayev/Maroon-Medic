@@ -16,7 +16,7 @@ export const addAccordion = (
 				state: "",
 				zip: "",
 				country: "",
-				Phone: "",
+				phone: "",
 				address_public_status: true,
 				instant_book: false,
 				times:[]

@@ -19,4 +19,12 @@ export default new class Format {
 		const formattedDate = new Date(date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
 		return formattedDate
 	}
+
+	dataToBoolean (addressData: PrivateDoctorAddressData[]): PrivateDoctorAddressData[] {
+		return addressData.map((address) => ({
+			...address,
+			address_public_status: Boolean(address.address_public_status),
+			instant_book: Boolean(address.instant_book),
+		}))
+	}
 }()

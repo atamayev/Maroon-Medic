@@ -24,7 +24,8 @@ export default async function modifyAddressData(
 				newAddressData = [...DoctorAccountDetails.addressData, address]
 			} else if (operation === PrivateDoctorDataService.updateAddressData) {
 				newAddressData = DoctorAccountDetails.addressData.map(
-					(addr: DoctorAddressData) => addr.addressesID === address.addressesID ? address : addr)
+					(addr: DoctorAddressData) => addr.addressesID === address.addressesID ? address : addr
+				)
 			} else {
 				throw new Error("Unknown operation")
 			}

@@ -2,6 +2,7 @@ import _ from "lodash"
 import { RowDataPacket } from "mysql2"
 import { mysqlTables } from "../../utils/table-names-list"
 import { connectDatabase } from "../../setup-and-security/connect"
+import Format from "../../utils/data-formatter"
 
 interface DescriptionData {
   Description: string
@@ -107,7 +108,8 @@ export default new class FetchDoctorAccountDataDB {
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
 		const addressData = results.map((row: RowDataPacket) => row as PrivateDoctorAddressData)
-		return addressData
+		const newAddressData = Format.dataToBoolean(addressData)
+		return newAddressData
 	}
 
 	async availabilityData (addressID: number): Promise<DoctorAvailability[]> {
@@ -125,9 +127,9 @@ export default new class FetchDoctorAccountDataDB {
 	}
 
 	async phoneData (addressID: number): Promise<string> {
-		const sql = `SELECT ${mysqlTables.phone}.Phone
-      FROM ${mysqlTables.phone}
-      WHERE ${mysqlTables.phone}.address_ID = ?`
+		const sql = `SELECT ${mysqlTables.doctor_phone_numbers}.Phone
+      FROM ${mysqlTables.doctor_phone_numbers}
+      WHERE ${mysqlTables.doctor_phone_numbers}.address_ID = ?`
 
 		const values = [addressID]
 

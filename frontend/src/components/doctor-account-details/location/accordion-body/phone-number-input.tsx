@@ -13,7 +13,7 @@ export const PhoneNumberInput = ({address, handleInputChange}: Props) => {
 				label = "Phone Number"
 				type = "number"
 				placeholder = "Phone Number"
-				value = {address.Phone}
+				value = {address.phone}
 				onChange = {(event) => handleInputChange(event, address.address_priority)}
 				name = "phone"
 			/>

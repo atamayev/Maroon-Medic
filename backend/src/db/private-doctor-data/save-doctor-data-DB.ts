@@ -174,7 +174,7 @@ export default new class SaveDoctorDataDB {
 	}
 
 	async addPhoneRecord (phone: string, addressID: number): Promise<void> {
-		const sql = `INSERT INTO ${mysqlTables.phone} (Phone, address_ID) VALUES (?, ?)`
+		const sql = `INSERT INTO ${mysqlTables.doctor_phone_numbers} (Phone, address_ID) VALUES (?, ?)`
 		const values = [phone, addressID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
@@ -193,7 +193,7 @@ export default new class SaveDoctorDataDB {
 	}
 
 	async checkIfPhoneExists (addressID: number): Promise<boolean> {
-		const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.phone} WHERE address_ID = ?) as 'exists' `
+		const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.doctor_phone_numbers} WHERE address_ID = ?) as 'exists' `
 		const values = [addressID]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values)
@@ -202,14 +202,14 @@ export default new class SaveDoctorDataDB {
 	}
 
 	async updatePhoneRecord (updatedPhoneObject: PhoneData): Promise<void> {
-		const sql = `UPDATE ${mysqlTables.phone} SET phone = ? WHERE address_ID = ?`
+		const sql = `UPDATE ${mysqlTables.doctor_phone_numbers} SET phone = ? WHERE address_ID = ?`
 		const values = [updatedPhoneObject.phone, updatedPhoneObject.addressesID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
 	async deletePhoneRecord (addressID: number): Promise<void> {
-		const sql = `DELETE FROM ${mysqlTables.phone} WHERE address_ID = ?`
+		const sql = `DELETE FROM ${mysqlTables.doctor_phone_numbers} WHERE address_ID = ?`
 		const values = [addressID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)

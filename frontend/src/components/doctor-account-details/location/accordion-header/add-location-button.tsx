@@ -19,6 +19,7 @@ const AddLocationButton = (props: Props) => {
 			title = "Add Location"
 			onClick = {() => addLocation(address, setAddresses, setAddressesConfirmation)}
 			disabled = {!areAllFieldsValid(address) || !areAllTimesValid(address)}
+			textColor = "text-white"
 		/>
 	)
 }

@@ -40,7 +40,7 @@ declare global {
     country: string
     instant_book: boolean
     address_public_status: boolean
-    Phone: string
+    phone: string
   }
 
   type DoctorAddressData = BaseAddressData & {

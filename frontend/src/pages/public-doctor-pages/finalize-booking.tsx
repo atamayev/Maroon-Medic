@@ -19,7 +19,7 @@ export default function FinalizeBookingPage() {
 	let selectedService: ServiceItem = {Service_name: "", Service_price: -1,
 		service_and_category_listID: -1, Category_name: "", Service_time: ""}
 	let selectedLocation: PublicAddressData = {address_title: "", address_line_1: "", address_line_2: "", instant_book: false,
-		addressesID: -1, city: "", state: "", zip: "", country: "", address_priority: -1, Phone: "", times: []}
+		addressesID: -1, city: "", state: "", zip: "", country: "", address_priority: -1, phone: "", times: []}
 	let selectedDay: string = ""
 	let selectedTime: string = ""
 	let serviceMinutes: number = -1
