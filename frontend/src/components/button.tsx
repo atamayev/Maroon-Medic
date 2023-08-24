@@ -1,16 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface Props {
 	title: string
-  disabled?: boolean
-  onClick?: (e: any) => void | Promise<void>
-  className?: string
-  colorClass: string
+	disabled?: boolean
+	onClick?: (e: any) => void | Promise<void>
+	className?: string
+	colorClass: string
 	hoverClass: string
+	textColor?: string
 }
 
 export default function Button (props: Props) {
 	let backgroundColor
 	let hoverColor
+	let textColor
 	if (props.disabled) {
 		backgroundColor = "bg-gray-400"
 		hoverColor = ""
@@ -18,7 +20,9 @@ export default function Button (props: Props) {
 		backgroundColor = props.colorClass || "bg-black"
 		hoverColor = props.hoverClass || ""
 	}
-	const css = `transition-all duration-200 rounded p-2 ${backgroundColor} ${hoverColor} text-white ${props.className}`
+	if (props.textColor) textColor = props.textColor
+
+	const css = `transition-all duration-100 rounded p-2 ${backgroundColor} ${hoverColor} ${textColor} ${props.className}`
 
 	return (
 		<button

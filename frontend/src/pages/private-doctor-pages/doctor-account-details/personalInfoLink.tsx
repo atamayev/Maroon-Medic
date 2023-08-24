@@ -7,10 +7,11 @@ export default function PersonalInfoLinkSection() {
       Looking to edit your Profile Information? {""}
 			<Link to="/settings/personal-information">
 				<Button
-					className="p-1"
-					colorClass="bg-green-600"
-					hoverClass="hover:bg-green-700"
-					title="Edit Personal Information"
+					className = "p-1 font-mediums"
+					colorClass = "bg-green-700"
+					hoverClass = "hover:bg-green-800"
+					title = "Edit Personal Information"
+					textColor = "text-white"
 				/>
 			</Link>
 		</div>

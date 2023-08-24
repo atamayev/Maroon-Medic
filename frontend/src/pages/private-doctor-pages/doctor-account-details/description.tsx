@@ -47,6 +47,7 @@ function Description(props: Props) {
 				description = {description}
 				setDescriptionConfirmation = {setDescriptionConfirmation}
 			/>
+
 			<SavedConfirmationMessage
 				confirmationMessage = {descriptionConfirmation}
 				whatIsBeingSaved = "Description"

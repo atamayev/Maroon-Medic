@@ -27,15 +27,17 @@ const ActionButton = (props: Props) => {
 		return (
 			<Button
 				onClick = {() => deleteServices(
-          selectedService!,
-          providedServices,
-          setProvidedServices,
-          setServicesConfirmation,
-          setSelectedServices
+					selectedService!,
+					providedServices,
+					setProvidedServices,
+					setServicesConfirmation,
+					setSelectedServices
 				)}
 				title = "Delete"
 				colorClass = "bg-red-600"
 				hoverClass = "hover:bg-red-700"
+				textColor = "text-white"
+				className = "my-1"
 			/>
 		)
 	}

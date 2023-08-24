@@ -29,7 +29,7 @@ function PublicAvailability (props: Props) {
 				<button
 					value={0}
 					onClick={() => updatePublicAvailability(false, setPubliclyAvailable, setPubliclyAvailableConfirmation)}
-					className={`border-black p-2 ${!publiclyAvailable ? "bg-red-500 text-white" : "bg-white text-black"}`}
+					className={`border-black p-2 ${!publiclyAvailable ? "bg-red-600 text-white" : "bg-white text-black"}`}
 				>
           No
 				</button>
@@ -37,7 +37,7 @@ function PublicAvailability (props: Props) {
 				<button
 					value={1}
 					onClick={() => updatePublicAvailability(true, setPubliclyAvailable, setPubliclyAvailableConfirmation)}
-					className={`border-black p-2 ${publiclyAvailable ? "bg-green-500 text-white" : "bg-white text-black"}`}
+					className={`border-black p-2 ${publiclyAvailable ? "bg-green-700 text-white" : "bg-white text-black"}`}
 				>
           Yes
 				</button>

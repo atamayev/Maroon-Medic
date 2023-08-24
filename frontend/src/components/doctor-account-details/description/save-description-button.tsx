@@ -11,11 +11,12 @@ const SaveDescriptionButton = (props: Props) => {
 
 	return (
 		<Button
-			className = "mt-3"
-			colorClass = "bg-green-600"
-			hoverClass = "hover:bg-green-700"
+			className = "mt-3 text-medium"
+			colorClass = "bg-green-700"
+			hoverClass = "hover:bg-green-800"
 			title = "Save"
 			onClick = {() => saveDescription(description, setDescriptionConfirmation)}
+			textColor = "text-white"
 		/>
 	)
 }

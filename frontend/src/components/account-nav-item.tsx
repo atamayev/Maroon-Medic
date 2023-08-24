@@ -20,7 +20,7 @@ const PillItem = (props: PillItemProps) => {
 				to = {to}
 				className = "font-bold text-center w-full"
 			>
-				<div className={`rounded text-black border px-2 py-2  ${classes}`}>
+				<div className = {`rounded text-black border p-2 transition-all duration-100 ${classes}`}>
 					{label}
 				</div>
 			</Link>

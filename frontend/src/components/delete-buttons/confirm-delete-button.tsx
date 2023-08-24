@@ -12,11 +12,12 @@ const ConfirmDeleteButton = <T,>(props: Props<T>) => {
 
 	return (
 		<Button
-			className = "mt-3"
+			className = "mt-3 font-normal"
 			colorClass = "bg-red-600"
 			hoverClass = "hover:bg-red-700"
 			title = "Confirm Delete"
 			onClick={() => handleDeleteOnClick(dataType)}
+			textColor = "text-white"
 		/>
 	)
 }

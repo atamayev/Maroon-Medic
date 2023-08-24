@@ -12,10 +12,11 @@ const AddNewLocationButton = (props: Props) => {
 	return (
 		<Button
 			className = "mr-3"
-			colorClass = "bg-green-600"
-			hoverClass = "hover:bg-green-700"
+			colorClass = "bg-green-700"
+			hoverClass = "hover:bg-green-800"
 			title = "Add New Location"
 			onClick = {() => addAccordion(addresses, setAddresses)}
+			textColor = "text-white"
 		/>
 	)
 }

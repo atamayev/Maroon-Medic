@@ -20,8 +20,8 @@ const DropdownItems = ({ dropdown } : Props) => {
 	const { userType } = useSimpleUserVerification(false)
 
 	const handleRefresh = useHandleRefresh()
-	const unboldedDropdownItemCSS = "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
-	const boldedDropdownItemCSS = "font-bold text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
+	const unboldedDropdownItemCSS = "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 transition-all duration-100"
+	const boldedDropdownItemCSS = "font-bold text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 transition-all duration-100"
 
 	const handleLogout = async () => {
 		try {

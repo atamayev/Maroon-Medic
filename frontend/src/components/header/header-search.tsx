@@ -56,7 +56,7 @@ const HeaderSearch = (props: Props) => {
 				<Button
 					colorClass = "bg-blue-500"
 					hoverClass = "hover:bg-blue-600"
-					className = "text-white py-2 px-4 rounded focus:ring focus:ring-opacity-50"
+					className = "text-white py-2 px-4 rounded focus:ring focus:ring-opacity-50 font-medium"
 					title = "Search"
 					onClick = {() => {
 						const inputElement = document.getElementById("search-input")
