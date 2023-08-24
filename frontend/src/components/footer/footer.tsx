@@ -4,19 +4,19 @@ import RightFooterColumn from "./right-footer-column"
 import BottomFooterRow from "./bottom-footer-row"
 
 export default function Footer() {
-  return (
-    <footer className="bg-gray-700 align-items-center justify-center">
-      <div className="text-center text-md-start mt-5 w-full">
-        <div className="mt-3 flex flex-wrap">
-          <LeftFooterColumn />
+	return (
+		<footer className="bg-gray-700 align-items-center justify-center">
+			<div className="text-center text-md-start mt-5 w-full">
+				<div className="mt-3 flex flex-wrap">
+					<LeftFooterColumn />
 
-          <CenterFooterColumn />
+					<CenterFooterColumn />
 
-          <RightFooterColumn />
-        </div>
-      </div>
+					<RightFooterColumn />
+				</div>
+			</div>
 
-      <BottomFooterRow />
-    </footer>
-  )
+			<BottomFooterRow />
+		</footer>
+	)
 }

@@ -9,23 +9,23 @@ interface SavedLanguageList {
 }
 
 export const SavedLanguageList = (props: SavedLanguageList) => {
-  const { spokenLanguages, deleteStatuses, setDeleteStatuses, handleDeleteLanguage } = props
+	const { spokenLanguages, deleteStatuses, setDeleteStatuses, handleDeleteLanguage } = props
 
-  if (!_.isArray(spokenLanguages) || _.isEmpty(spokenLanguages)) return null
+	if (!_.isArray(spokenLanguages) || _.isEmpty(spokenLanguages)) return null
 
-  return (
-    <ul>
-      {spokenLanguages.map((language) => (
-        <SingleSavedLanguage
-          key = {language.language_listID}
-          language = {language}
-          deleteStatuses = {deleteStatuses}
-          setDeleteStatuses = {setDeleteStatuses}
-          handleDeleteLanguage = {handleDeleteLanguage}
-        />
-      ))}
-    </ul>
-  )
+	return (
+		<ul>
+			{spokenLanguages.map((language) => (
+				<SingleSavedLanguage
+					key = {language.language_listID}
+					language = {language}
+					deleteStatuses = {deleteStatuses}
+					setDeleteStatuses = {setDeleteStatuses}
+					handleDeleteLanguage = {handleDeleteLanguage}
+				/>
+			))}
+		</ul>
+	)
 }
 
 export default SavedLanguageList

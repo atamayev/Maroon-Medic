@@ -4,10 +4,10 @@ interface ResponseData {
 }
 
 const invalidUserAction = (responseData: ResponseData): void => {
-  if (responseData.shouldRedirect) {
-    sessionStorage.clear()
-    window.location.href = responseData.redirectURL
-  }
+	if (responseData.shouldRedirect) {
+		sessionStorage.clear()
+		window.location.href = responseData.redirectURL
+	}
 }
 
 export default invalidUserAction

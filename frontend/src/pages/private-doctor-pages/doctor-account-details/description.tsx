@@ -12,45 +12,45 @@ interface Props {
 }
 
 export default function DescriptionSection (props: Props) {
-  return (
-    <AccountDetailsCard
-      title = "Languages"
-      content = {<Description {...props} />}
-    />
-  )
+	return (
+		<AccountDetailsCard
+			title = "Languages"
+			content = {<Description {...props} />}
+		/>
+	)
 }
 
 function Description(props: Props) {
-  const { description, setDescription } = props
-  const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false)
-  const [descriptionConfirmation, setDescriptionConfirmation] = useConfirmationMessage()
+	const { description, setDescription } = props
+	const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false)
+	const [descriptionConfirmation, setDescriptionConfirmation] = useConfirmationMessage()
 
-  useEffect(() => {
-    if (description || description === "") setIsDescriptionOverLimit(description.length >= 1000)
-  }, [description])
+	useEffect(() => {
+		if (description || description === "") setIsDescriptionOverLimit(description.length >= 1000)
+	}, [description])
 
-  return (
-    <form
-      className="space-y-4"
-    >
-      <DescriptionInput
-        description = {description}
-        setDescription = {setDescription}
-      />
+	return (
+		<form
+			className="space-y-4"
+		>
+			<DescriptionInput
+				description = {description}
+				setDescription = {setDescription}
+			/>
 
-      <DescriptionCharacterLimit
-        description = {description}
-        isDescriptionOverLimit = {isDescriptionOverLimit}
-      />
+			<DescriptionCharacterLimit
+				description = {description}
+				isDescriptionOverLimit = {isDescriptionOverLimit}
+			/>
 
-      <SaveDescriptionButton
-        description = {description}
-        setDescriptionConfirmation = {setDescriptionConfirmation}
-      />
-      <SavedConfirmationMessage
-        confirmationMessage = {descriptionConfirmation}
-        whatIsBeingSaved = "Description"
-      />
-    </form>
-  )
+			<SaveDescriptionButton
+				description = {description}
+				setDescriptionConfirmation = {setDescriptionConfirmation}
+			/>
+			<SavedConfirmationMessage
+				confirmationMessage = {descriptionConfirmation}
+				whatIsBeingSaved = "Description"
+			/>
+		</form>
+	)
 }

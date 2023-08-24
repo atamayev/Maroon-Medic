@@ -20,84 +20,84 @@ interface Props {
 }
 
 export default function LoginAndRegistrationForm({
-  handleSubmit,
-  credentials,
-  setCredentials,
-  setPasswordConfirm,
-  error,
-  VetOrPatient,
-  loginOrSignUp,
-  loading,
-  showPassword,
-  setShowPassword }: Props
+	handleSubmit,
+	credentials,
+	setCredentials,
+	setPasswordConfirm,
+	error,
+	VetOrPatient,
+	loginOrSignUp,
+	loading,
+	showPassword,
+	setShowPassword }: Props
 ) {
-  const isShowPassword = () => {
-    if (showPassword) return "text"
-    return "password"
-  }
+	const isShowPassword = () => {
+		if (showPassword) return "text"
+		return "password"
+	}
 
-  const HideOrShowPassword = () => {
-    if (showPassword) return "Hide Password"
-    return "Show Password"
-  }
+	const HideOrShowPassword = () => {
+		if (showPassword) return "Hide Password"
+		return "Show Password"
+	}
 
-  const ErrorMessage = () => {
-    if (!error) return null
-    return <div className="alert alert-danger mt-3 mb-0">{error}</div>
-  }
+	const ErrorMessage = () => {
+		if (!error) return null
+		return <div className="alert alert-danger mt-3 mb-0">{error}</div>
+	}
 
-  return (
-    <div className="bg-white shadow rounded-lg p-6">
-      <h2 className="text-center mb-4">{VetOrPatient} {loginOrSignUp}</h2>
-      <form onSubmit={handleSubmit}>
-        <EmailInput
-          credentials={credentials}
-          setCredentials={setCredentials}
-        />
+	return (
+		<div className="bg-white shadow rounded-lg p-6">
+			<h2 className="text-center mb-4">{VetOrPatient} {loginOrSignUp}</h2>
+			<form onSubmit={handleSubmit}>
+				<EmailInput
+					credentials={credentials}
+					setCredentials={setCredentials}
+				/>
 
-        <PasswordInput
-          credentials={credentials}
-          setCredentials={setCredentials}
-          showPassword={isShowPassword()}
-        />
+				<PasswordInput
+					credentials={credentials}
+					setCredentials={setCredentials}
+					showPassword={isShowPassword()}
+				/>
 
-        <ConfirmPassword
-          loginOrSignUp={loginOrSignUp}
-          setPasswordConfirm={setPasswordConfirm}
-          showPassword={isShowPassword()}
-        />
+				<ConfirmPassword
+					loginOrSignUp={loginOrSignUp}
+					setPasswordConfirm={setPasswordConfirm}
+					showPassword={isShowPassword()}
+				/>
 
-        <Button
-          className="mt-3"
-          colorClass="bg-blue-600"
-          hoverClass="hover:bg-blue-700"
-          onClick={() => (setShowPassword(!showPassword))}
-          title={HideOrShowPassword()}
-        />
+				<Button
+					className="mt-3"
+					colorClass="bg-blue-600"
+					hoverClass="hover:bg-blue-700"
+					onClick={() => (setShowPassword(!showPassword))}
+					title={HideOrShowPassword()}
+				/>
 
-        <ErrorMessage />
+				<ErrorMessage />
 
-        <Button
-          className="mt-3 w-full"
-          colorClass="bg-blue-600"
-          hoverClass="hover:bg-blue-700"
-          disabled={loading}
-          title={loginOrSignUp}
-        />
+				<Button
+					className="mt-3 w-full"
+					colorClass="bg-blue-600"
+					hoverClass="hover:bg-blue-700"
+					disabled={loading}
+					title={loginOrSignUp}
+				/>
 
-      </form>
+			</form>
 
-      <SubLoginInformation
-        loginOrSignUp={loginOrSignUp}
-        VetOrPatient={VetOrPatient}
-      />
+			<SubLoginInformation
+				loginOrSignUp={loginOrSignUp}
+				VetOrPatient={VetOrPatient}
+			/>
 
-      <SubRegisterInformation
-        loginOrSignUp={loginOrSignUp}
-        VetOrPatient={VetOrPatient}
-      />
+			<SubRegisterInformation
+				loginOrSignUp={loginOrSignUp}
+				VetOrPatient={VetOrPatient}
+			/>
 
-    </div>
-  )
+		</div>
+	)
 
 }

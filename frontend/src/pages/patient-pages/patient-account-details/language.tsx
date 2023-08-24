@@ -16,43 +16,43 @@ interface Props {
 }
 
 export default function PatientLanguageSection(props: Props) {
-  return (
-    <AccountDetailsCard
-      title = "Languages"
-      content = {<PatientLanguages {...props} />}
-    />
-  )
+	return (
+		<AccountDetailsCard
+			title = "Languages"
+			content = {<PatientLanguages {...props} />}
+		/>
+	)
 }
 
 function PatientLanguages(props: Props) {
-  const {listDetails, spokenLanguages, setSpokenLanguages} = props
-  const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
-  const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage()
+	const {listDetails, spokenLanguages, setSpokenLanguages} = props
+	const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
+	const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage()
 
-  useUpdateDeleteLanguageStatuses(deleteStatuses, setDeleteStatuses, spokenLanguages)
+	useUpdateDeleteLanguageStatuses(deleteStatuses, setDeleteStatuses, spokenLanguages)
 
-  const languageOptions = useGenerateLanguageOptions(listDetails.languages, spokenLanguages)
+	const languageOptions = useGenerateLanguageOptions(listDetails.languages, spokenLanguages)
 
-  const handleLanguageChange = useAddLanguage(spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, "patient")
+	const handleLanguageChange = useAddLanguage(spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, "patient")
 
-  const handleDeleteLanguage = useDeleteLanguage(spokenLanguages, setSpokenLanguages, setLanguagesConfirmation, "patient")
+	const handleDeleteLanguage = useDeleteLanguage(spokenLanguages, setSpokenLanguages, setLanguagesConfirmation, "patient")
 
-  return (
-    <>
-      <SelectLanguage
-        handleLanguageChange = {handleLanguageChange}
-        languageOptions = {languageOptions}
-      />
-      <SavedLanguageList
-        spokenLanguages = {spokenLanguages}
-        deleteStatuses = {deleteStatuses}
-        setDeleteStatuses = {setDeleteStatuses}
-        handleDeleteLanguage = {handleDeleteLanguage}
-      />
-      <SavedConfirmationMessage
-        confirmationMessage = {languagesConfirmation}
-        whatIsBeingSaved = "Languages"
-      />
-    </>
-  )
+	return (
+		<>
+			<SelectLanguage
+				handleLanguageChange = {handleLanguageChange}
+				languageOptions = {languageOptions}
+			/>
+			<SavedLanguageList
+				spokenLanguages = {spokenLanguages}
+				deleteStatuses = {deleteStatuses}
+				setDeleteStatuses = {setDeleteStatuses}
+				handleDeleteLanguage = {handleDeleteLanguage}
+			/>
+			<SavedConfirmationMessage
+				confirmationMessage = {languagesConfirmation}
+				whatIsBeingSaved = "Languages"
+			/>
+		</>
+	)
 }

@@ -9,25 +9,25 @@ interface Props {
 }
 
 const IsTogglePetType = (props: Props) => {
-  const { pets, petType, expandedPetTypes, setExpandedPetTypes } = props
-  if (pets.length <= 1) return null
+	const { pets, petType, expandedPetTypes, setExpandedPetTypes } = props
+	if (pets.length <= 1) return null
 
-  const isOpen = expandedPetTypes.includes(petType)
+	const isOpen = expandedPetTypes.includes(petType)
 
-  const IsOpen = () => {
-    if (isOpen) return "^"
-    return "v"
-  }
+	const IsOpen = () => {
+		if (isOpen) return "^"
+		return "v"
+	}
 
-  return (
-    <Button
-      className = "mr-3"
-      colorClass = "bg-blue-600"
-      hoverClass = "hover:bg-blue-700"
-      title = {IsOpen()}
-      onClick={() => togglePetType(petType, setExpandedPetTypes)}
-    />
-  )
+	return (
+		<Button
+			className = "mr-3"
+			colorClass = "bg-blue-600"
+			hoverClass = "hover:bg-blue-700"
+			title = {IsOpen()}
+			onClick={() => togglePetType(petType, setExpandedPetTypes)}
+		/>
+	)
 }
 
 export default IsTogglePetType

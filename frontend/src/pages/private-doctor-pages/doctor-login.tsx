@@ -5,30 +5,30 @@ import LoginAndRegistrationForm from "../../components/login-and-registration-fo
 import Header from "../../components/header/header"
 
 export default function DoctorLogin() {
-  const [loginInformationObject, setLoginInformationObject] =
+	const [loginInformationObject, setLoginInformationObject] =
     useState<AuthCredentials>({loginType: "Doctor", email: "", password: ""})
-  const VetOrPatient = "Vet"
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
-  const { loginSubmit } = useLoginSubmit(setError, setLoading, VetOrPatient)
+	const VetOrPatient = "Vet"
+	const [error, setError] = useState("")
+	const [loading, setLoading] = useState(false)
+	const [showPassword, setShowPassword] = useState(false)
+	const { loginSubmit } = useLoginSubmit(setError, setLoading, VetOrPatient)
 
-  useConfirmNotLoggedIn(false)
+	useConfirmNotLoggedIn(false)
 
-  return (
-    <>
-      <Header dropdown = {true} search = {true}/>
-      <LoginAndRegistrationForm
-        handleSubmit = {(e) => loginSubmit(e, loginInformationObject)}
-        credentials = {loginInformationObject}
-        setCredentials = {setLoginInformationObject}
-        error = {error}
-        VetOrPatient = {VetOrPatient}
-        loading = {loading}
-        loginOrSignUp = "Login"
-        showPassword = {showPassword}
-        setShowPassword = {setShowPassword}
-      />
-    </>
-  )
+	return (
+		<>
+			<Header dropdown = {true} search = {true}/>
+			<LoginAndRegistrationForm
+				handleSubmit = {(e) => loginSubmit(e, loginInformationObject)}
+				credentials = {loginInformationObject}
+				setCredentials = {setLoginInformationObject}
+				error = {error}
+				VetOrPatient = {VetOrPatient}
+				loading = {loading}
+				loginOrSignUp = "Login"
+				showPassword = {showPassword}
+				setShowPassword = {setShowPassword}
+			/>
+		</>
+	)
 }

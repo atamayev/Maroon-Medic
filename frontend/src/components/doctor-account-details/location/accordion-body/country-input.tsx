@@ -6,19 +6,19 @@ interface Props {
 }
 
 export const CountryInput = ({address, handleInputChange}: Props) => {
-  return (
-    <div className = "col-md-3">
-      <FormGroup
-        className = "mb-3"
-        label = "Country *"
-        type = "text"
-        placeholder = "Country"
-        value = {address.country || ""}
-        onChange = {(event) => handleInputChange(event, address.address_priority)}
-        name = "country"
-      />
-    </div>
-  )
+	return (
+		<div className = "col-md-3">
+			<FormGroup
+				className = "mb-3"
+				label = "Country *"
+				type = "text"
+				placeholder = "Country"
+				value = {address.country || ""}
+				onChange = {(event) => handleInputChange(event, address.address_priority)}
+				name = "country"
+			/>
+		</div>
+	)
 }
 
 export default CountryInput

@@ -13,26 +13,26 @@ interface SelectDayProps {
 }
 
 const SelectDay = (props: SelectDayProps) => {
-  const { selectedService, selectedLocation, setSelectedDay, setSelectedTime, selectedDay, personalData, availableDates } = props
-  if (!(selectedService && selectedLocation && selectedDay)) return null
+	const { selectedService, selectedLocation, setSelectedDay, setSelectedTime, selectedDay, personalData, availableDates } = props
+	if (!(selectedService && selectedLocation && selectedDay)) return null
 
-  return (
-    <div className="col-md-6">
-      <FormGroup
-        as="select"
-        id="daySelect"
-        label="Select a date"
-        onChange={(e) => handleDayChange(e, setSelectedDay, setSelectedTime)}
-      >
-        <option>Select...</option>
-        <AvailableDates
-          selectedDay = {selectedDay}
-          personalData = {personalData}
-          availableDates = {availableDates}
-        />
-      </FormGroup>
-    </div>
-  )
+	return (
+		<div className="col-md-6">
+			<FormGroup
+				as="select"
+				id="daySelect"
+				label="Select a date"
+				onChange={(e) => handleDayChange(e, setSelectedDay, setSelectedTime)}
+			>
+				<option>Select...</option>
+				<AvailableDates
+					selectedDay = {selectedDay}
+					personalData = {personalData}
+					availableDates = {availableDates}
+				/>
+			</FormGroup>
+		</div>
+	)
 }
 
 export default SelectDay

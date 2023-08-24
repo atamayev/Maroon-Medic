@@ -20,77 +20,77 @@ interface AddPetProps {
 }
 
 const NewPet = (props: AddPetProps) => {
-  const { newPetData, setNewPetData, petTypes, insurances, petConfirmation,
-    setPetConfirmation, setShowAddPet, savedPetData, setSavedPetData } = props
+	const { newPetData, setNewPetData, petTypes, insurances, petConfirmation,
+		setPetConfirmation, setShowAddPet, savedPetData, setSavedPetData } = props
 
-  return (
-    <div className="bg-white shadow rounded overflow-hidden">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-row">
-          <div className="flex-grow"></div>
-          <div className="w-1/3">
-            <DeleteButton
-              setNewPetData={setNewPetData}
-              setShowAddPet={setShowAddPet}
-            />
-          </div>
-        </div>
-      </div>
-      <div className="p-4">
-        <form>
-          <PetNameSection
-            newPetData={newPetData}
-            petTypes={petTypes}
-            insurances={insurances}
-            setNewPetData={setNewPetData}
-          />
+	return (
+		<div className="bg-white shadow rounded overflow-hidden">
+			<div className="container mx-auto px-4">
+				<div className="flex flex-row">
+					<div className="flex-grow"></div>
+					<div className="w-1/3">
+						<DeleteButton
+							setNewPetData={setNewPetData}
+							setShowAddPet={setShowAddPet}
+						/>
+					</div>
+				</div>
+			</div>
+			<div className="p-4">
+				<form>
+					<PetNameSection
+						newPetData={newPetData}
+						petTypes={petTypes}
+						insurances={insurances}
+						setNewPetData={setNewPetData}
+					/>
 
-          <PetGenderSection
-            newPetData={newPetData}
-            petTypes={petTypes}
-            insurances={insurances}
-            setNewPetData={setNewPetData}
-          />
+					<PetGenderSection
+						newPetData={newPetData}
+						petTypes={petTypes}
+						insurances={insurances}
+						setNewPetData={setNewPetData}
+					/>
 
-          <DOBSection
-            newPetData={newPetData}
-            petTypes={petTypes}
-            insurances={insurances}
-            setNewPetData={setNewPetData}
-          />
+					<DOBSection
+						newPetData={newPetData}
+						petTypes={petTypes}
+						insurances={insurances}
+						setNewPetData={setNewPetData}
+					/>
 
-          <PetTypeSection
-            newPetData={newPetData}
-            petTypes={petTypes}
-            insurances={insurances}
-            setNewPetData={setNewPetData}
-          />
+					<PetTypeSection
+						newPetData={newPetData}
+						petTypes={petTypes}
+						insurances={insurances}
+						setNewPetData={setNewPetData}
+					/>
 
-          <InsuranceSection
-            newPetData={newPetData}
-            petTypes={petTypes}
-            insurances={insurances}
-            setNewPetData={setNewPetData}
-          />
+					<InsuranceSection
+						newPetData={newPetData}
+						petTypes={petTypes}
+						insurances={insurances}
+						setNewPetData={setNewPetData}
+					/>
 
-          {/* Upload image area */}
-          <AddPetButton
-            newPetData={newPetData}
-            setNewPetData={setNewPetData}
-            setPetConfirmation={setPetConfirmation}
-            setShowAddPet={setShowAddPet}
-            savedPetData={savedPetData}
-            setSavedPetData={setSavedPetData}
-          />
+					{/* Upload image area */}
+					<AddPetButton
+						newPetData={newPetData}
+						setNewPetData={setNewPetData}
+						setPetConfirmation={setPetConfirmation}
+						setShowAddPet={setShowAddPet}
+						savedPetData={savedPetData}
+						setSavedPetData={setSavedPetData}
+					/>
 
-        </form>
-        <SavedConfirmationMessage
-          confirmationMessage={petConfirmation}
-          whatIsBeingSaved="Pet"
-        />
-      </div>
-    </div>
-  )
+				</form>
+				<SavedConfirmationMessage
+					confirmationMessage={petConfirmation}
+					whatIsBeingSaved="Pet"
+				/>
+			</div>
+		</div>
+	)
 }
 
 export default NewPet

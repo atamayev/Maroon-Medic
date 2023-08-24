@@ -9,16 +9,16 @@ interface Props {
 }
 
 const FirstAccordionBodyRow = (props: Props) => {
-  const {address, handleInputChange} = props
+	const {address, handleInputChange} = props
 
-  return (
-    <div className = "row">
-      <AddressTitleInput address = {address} handleInputChange = {handleInputChange} />
-      <AddressLine1Input address = {address} handleInputChange = {handleInputChange} />
-      <AddressLine2Input address = {address} handleInputChange = {handleInputChange} />
-      <CityInput address = {address} handleInputChange = {handleInputChange} />
-    </div>
-  )
+	return (
+		<div className = "row">
+			<AddressTitleInput address = {address} handleInputChange = {handleInputChange} />
+			<AddressLine1Input address = {address} handleInputChange = {handleInputChange} />
+			<AddressLine2Input address = {address} handleInputChange = {handleInputChange} />
+			<CityInput address = {address} handleInputChange = {handleInputChange} />
+		</div>
+	)
 }
 
 export default FirstAccordionBodyRow

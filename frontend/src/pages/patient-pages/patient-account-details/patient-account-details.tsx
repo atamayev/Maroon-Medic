@@ -7,24 +7,24 @@ import PatientHeader from "../patient-header"
 import PatientLanguageSection from "./language"
 
 export default function PatientAccountDetails() {
-  const { userType } = useSimpleUserVerification()
-  const [listDetails, setListDetails] = useState({} as PatientListDetails)
-  const patientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails") || "{}")
-  const [spokenLanguages, setSpokenLanguages] = useState<LanguageItem[]>(patientAccountDetails?.languages || [])
+	const { userType } = useSimpleUserVerification()
+	const [listDetails, setListDetails] = useState({} as PatientListDetails)
+	const patientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails") || "{}")
+	const [spokenLanguages, setSpokenLanguages] = useState<LanguageItem[]>(patientAccountDetails?.languages || [])
 
-  usePatientAccountDetails(setSpokenLanguages, setListDetails, userType)
+	usePatientAccountDetails(setSpokenLanguages, setListDetails, userType)
 
-  if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
+	if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
-  return (
-    <div>
-      <Header dropdown = {true} search = {true} />
-      <PatientHeader/>
-      <PatientLanguageSection
-        listDetails = {listDetails}
-        spokenLanguages = {spokenLanguages}
-        setSpokenLanguages = {setSpokenLanguages}
-      />
-    </div>
-  )
+	return (
+		<div>
+			<Header dropdown = {true} search = {true} />
+			<PatientHeader/>
+			<PatientLanguageSection
+				listDetails = {listDetails}
+				spokenLanguages = {spokenLanguages}
+				setSpokenLanguages = {setSpokenLanguages}
+			/>
+		</div>
+	)
 }

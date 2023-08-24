@@ -1,11 +1,10 @@
 import ReactDOM from "react-dom/client"
-import {BrowserRouter, Routes, Route} from "react-router-dom"
-import "bootstrap/dist/css/bootstrap.min.css"
-import "./styles/index.css"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { disableReactDevTools } from "@fvilers/disable-react-devtools"
-import App from "./App"
 import { VerifyContextProvider } from "./contexts/verify-context"
 import { SearchContextProvider } from "./contexts/search-context"
+import "./styles/index.css"
+import App from "./App"
 
 if (process.env.NODE_ENV === "production") disableReactDevTools()
 
@@ -14,17 +13,17 @@ const root = ReactDOM.createRoot(
 )
 
 root.render(
-  // <React.StrictMode>
-  <BrowserRouter>
-    <VerifyContextProvider>
-      <SearchContextProvider>
+	// <React.StrictMode>
+	<BrowserRouter>
+		<VerifyContextProvider>
+			<SearchContextProvider>
 
-        <Routes>
-          <Route path = "/*" element = {<App/>} />
-        </Routes>
+				<Routes>
+					<Route path = "/*" element = {<App/>} />
+				</Routes>
 
-      </SearchContextProvider>
-    </VerifyContextProvider>
-  </BrowserRouter>
-  // </React.StrictMode>
+			</SearchContextProvider>
+		</VerifyContextProvider>
+	</BrowserRouter>
+	// </React.StrictMode>
 )

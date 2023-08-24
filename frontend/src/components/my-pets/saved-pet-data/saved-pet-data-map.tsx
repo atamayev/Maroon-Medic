@@ -9,24 +9,24 @@ interface Props {
 }
 
 const SavedPetDataMap = (props: Props) => {
-  const { savedPetData, setPetToDelete, setShowModal } = props
+	const { savedPetData, setPetToDelete, setShowModal } = props
 
-  return (
-    <>
-      {savedPetData.map((pet) => (
-        <div
-          key={pet.pet_infoID}
-          className="mb-3 bg-yellow-100 border border-brown-400 rounded"
-          style={{ width: "18rem", marginTop: "10px" }}
-        >
-          <div className="p-4">
-            <SavedPetDataTitle pet={pet} setPetToDelete={setPetToDelete} setShowModal={setShowModal} />
-            <SavedPetDataText pet={pet} />
-          </div>
-        </div>
-      ))}
-    </>
-  )
+	return (
+		<>
+			{savedPetData.map((pet) => (
+				<div
+					key={pet.pet_infoID}
+					className="mb-3 bg-yellow-100 border border-brown-400 rounded"
+					style={{ width: "18rem", marginTop: "10px" }}
+				>
+					<div className="p-4">
+						<SavedPetDataTitle pet={pet} setPetToDelete={setPetToDelete} setShowModal={setShowModal} />
+						<SavedPetDataText pet={pet} />
+					</div>
+				</div>
+			))}
+		</>
+	)
 }
 
 export default SavedPetDataMap

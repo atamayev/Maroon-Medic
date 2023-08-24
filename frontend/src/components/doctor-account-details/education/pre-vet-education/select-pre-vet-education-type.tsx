@@ -8,30 +8,30 @@ interface Props {
 }
 
 const SelectPreVetEducationType = (props: Props) => {
-  const { listDetails, selectedPreVetEducationType, selectedMajor, setSelectedPreVetEducationType } = props
+	const { listDetails, selectedPreVetEducationType, selectedMajor, setSelectedPreVetEducationType } = props
 
-  if (!selectedMajor) return null
+	if (!selectedMajor) return null
 
-  return (
-    <div>
-      <label htmlFor = "education-type">Select a Type of Education: </label>
-      <select
-        id = "education-type"
-        name = "education-type"
-        value = {selectedPreVetEducationType}
-        onChange = {(event) => setSelectedPreVetEducationType(event.target.value)}
-      >
-        <option value = "" disabled>Choose an Education Type</option>
-        {_.uniqBy(listDetails.preVetEducationTypes, "Education_type").map(
-          (preVetEdType) => (
-            <option key = {preVetEdType.pre_vet_education_typeID} value = {preVetEdType.Education_type}>
-              {preVetEdType.Education_type}
-            </option>
-          )
-        )}
-      </select>
-    </div>
-  )
+	return (
+		<div>
+			<label htmlFor = "education-type">Select a Type of Education: </label>
+			<select
+				id = "education-type"
+				name = "education-type"
+				value = {selectedPreVetEducationType}
+				onChange = {(event) => setSelectedPreVetEducationType(event.target.value)}
+			>
+				<option value = "" disabled>Choose an Education Type</option>
+				{_.uniqBy(listDetails.preVetEducationTypes, "Education_type").map(
+					(preVetEdType) => (
+						<option key = {preVetEdType.pre_vet_education_typeID} value = {preVetEdType.Education_type}>
+							{preVetEdType.Education_type}
+						</option>
+					)
+				)}
+			</select>
+		</div>
+	)
 }
 
 export default SelectPreVetEducationType

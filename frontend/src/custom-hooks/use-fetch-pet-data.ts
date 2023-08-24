@@ -7,18 +7,18 @@ export function useFetchPetData(userType: DoctorOrPatientOrNull): {
   petTypes: ServicedPetItem[]
   insurances: InsuranceItem[]
 } {
-  const storedData = sessionStorage.getItem("PatientPetData")
-  const parsedData = storedData && JSON.parse(storedData)
-  const [savedPetData, setSavedPetData] = useState<SavedPetItem[]>(parsedData || [])
-  const [petTypes, setPetTypes] = useState<ServicedPetItem[]>([])
-  const [insurances, setInsurances] = useState<InsuranceItem[]>([])
+	const storedData = sessionStorage.getItem("PatientPetData")
+	const parsedData = storedData && JSON.parse(storedData)
+	const [savedPetData, setSavedPetData] = useState<SavedPetItem[]>(parsedData || [])
+	const [petTypes, setPetTypes] = useState<ServicedPetItem[]>([])
+	const [insurances, setInsurances] = useState<InsuranceItem[]>([])
 
-  useEffect(() => {
-    if (userType !== "Patient") return
-    fetchAndSetPetData(setSavedPetData, setPetTypes, setInsurances)
-  }, [userType])
+	useEffect(() => {
+		if (userType !== "Patient") return
+		fetchAndSetPetData(setSavedPetData, setPetTypes, setInsurances)
+	}, [userType])
 
-  return { savedPetData, setSavedPetData, petTypes, insurances }
+	return { savedPetData, setSavedPetData, petTypes, insurances }
 }
 
 export default useFetchPetData

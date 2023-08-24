@@ -9,18 +9,18 @@ interface Props {
 }
 
 const DOBSection = (props: Props) => {
-  const { newPetData, petTypes, insurances, setNewPetData } = props
+	const { newPetData, petTypes, insurances, setNewPetData } = props
 
-  return (
-    <FormGroup
-      id = "formPetDob"
-      className = {"mb-3"}
-      label = "Date of Birth"
-      type = "date"
-      onChange = {(e) => handleInputChange(e, newPetData, petTypes, insurances, setNewPetData)}
-      name = "DOB"
-    />
-  )
+	return (
+		<FormGroup
+			id = "formPetDob"
+			className = {"mb-3"}
+			label = "Date of Birth"
+			type = "date"
+			onChange = {(e) => handleInputChange(e, newPetData, petTypes, insurances, setNewPetData)}
+			name = "DOB"
+		/>
+	)
 }
 
 export default DOBSection

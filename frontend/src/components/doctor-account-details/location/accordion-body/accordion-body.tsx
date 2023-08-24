@@ -10,35 +10,35 @@ interface Props {
 }
 
 const AccordionBody = (props: Props) => {
-  const { isOpen, address, setAddresses, addresses } = props
+	const { isOpen, address, setAddresses, addresses } = props
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, addressPriority: number) => {
-    const newAddresses = addresses.map(_address => {
-      if (_address.address_priority === addressPriority) return { ..._address, [event.target.name]: event.target.value }
-      return _address
-    })
-    setAddresses(newAddresses)
-  }
+	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, addressPriority: number) => {
+		const newAddresses = addresses.map(_address => {
+			if (_address.address_priority === addressPriority) return { ..._address, [event.target.name]: event.target.value }
+			return _address
+		})
+		setAddresses(newAddresses)
+	}
 
-  return (
-    <div className={`transition-all duration-300 ease-in-out ${isOpen ? "max-h-screen" : "max-h-0"} overflow-hidden`}>
-      <form className="p-4">
-        <FirstAccordionBodyRow
-          address={address}
-          handleInputChange={handleInputChange}
-        />
-        <SecondAccordionBodyRow
-          address={address}
-          handleInputChange={handleInputChange}
-        />
-        <MapDataAndWeekDays
-          address={address}
-          setAddresses={setAddresses}
-          addresses={addresses}
-        />
-      </form>
-    </div>
-  )
+	return (
+		<div className={`transition-all duration-300 ease-in-out ${isOpen ? "max-h-screen" : "max-h-0"} overflow-hidden`}>
+			<form className="p-4">
+				<FirstAccordionBodyRow
+					address={address}
+					handleInputChange={handleInputChange}
+				/>
+				<SecondAccordionBodyRow
+					address={address}
+					handleInputChange={handleInputChange}
+				/>
+				<MapDataAndWeekDays
+					address={address}
+					setAddresses={setAddresses}
+					addresses={addresses}
+				/>
+			</form>
+		</div>
+	)
 }
 
 export default AccordionBody

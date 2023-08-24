@@ -1,9 +1,9 @@
 import express from "express"
 import {
-  fetchDoctorLists,
-  fetchPatientLists,
-  fetchPetTypes,
-  fetchInsurances
+	fetchDoctorLists,
+	fetchPatientLists,
+	fetchPetTypes,
+	fetchInsurances
 
 } from "../controllers/lists-CTRL"
 

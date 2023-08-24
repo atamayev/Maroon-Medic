@@ -7,19 +7,19 @@ interface Props {
 }
 
 const CurrentPasswordInput = (props: Props) => {
-  const { isShowPassword, credentials, setCredentials } = props
+	const { isShowPassword, credentials, setCredentials } = props
 
-  return (
-    <FormGroup
-      id = "current-password"
-      label = "Current Password"
-      type = {isShowPassword}
-      placeholder = "SuperSecretPassword"
-      value = {credentials.currentPassword || ""}
-      onChange = {(event) => setCredentials({...credentials, currentPassword: event.target.value})}
-      required
-    />
-  )
+	return (
+		<FormGroup
+			id = "current-password"
+			label = "Current Password"
+			type = {isShowPassword}
+			placeholder = "SuperSecretPassword"
+			value = {credentials.currentPassword || ""}
+			onChange = {(event) => setCredentials({...credentials, currentPassword: event.target.value})}
+			required
+		/>
+	)
 }
 
 export default CurrentPasswordInput

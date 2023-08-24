@@ -7,21 +7,21 @@ interface Props {
 }
 
 const AvailableDates = (props: Props) => {
-  const { selectedDay, personalData, availableDates } = props
+	const { selectedDay, personalData, availableDates } = props
 
-  if (selectedDay === `Dr. ${_.upperFirst(personalData.LastName || "")} does not currently have any open appointments at this location`) {
-    return <option disabled>{selectedDay}</option>
-  }
+	if (selectedDay === `Dr. ${_.upperFirst(personalData.LastName || "")} does not currently have any open appointments at this location`) {
+		return <option disabled>{selectedDay}</option>
+	}
 
-  return (
-    <>
-      {availableDates.map((date) => (
-        <option key={date} value={date}>
-          {date}
-        </option>
-      ))}
-    </>
-  )
+	return (
+		<>
+			{availableDates.map((date) => (
+				<option key={date} value={date}>
+					{date}
+				</option>
+			))}
+		</>
+	)
 }
 
 export default AvailableDates

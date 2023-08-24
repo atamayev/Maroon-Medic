@@ -11,28 +11,28 @@ interface AddressAccordionProps {
 }
 
 const AddressAccordionItem = (props: AddressAccordionProps) => {
-  const { index, address, addresses, setAddresses, setAddressesConfirmation } = props
+	const { index, address, addresses, setAddresses, setAddressesConfirmation } = props
 
-  const [isOpen, setIsOpen] = useState(false)
+	const [isOpen, setIsOpen] = useState(false)
 
-  return (
-    <div className="mb-4">
-      <AccordionHeader
-        index = {index}
-        address = {address}
-        addresses = {addresses}
-        setAddresses = {setAddresses}
-        setAddressesConfirmation = {setAddressesConfirmation}
-        toggleOpen={() => setIsOpen(!isOpen)}
-      />
-      <AccordionBody
-        isOpen={isOpen}
-        address = {address}
-        addresses = {addresses}
-        setAddresses = {setAddresses}
-      />
-    </div>
-  )
+	return (
+		<div className="mb-4">
+			<AccordionHeader
+				index = {index}
+				address = {address}
+				addresses = {addresses}
+				setAddresses = {setAddresses}
+				setAddressesConfirmation = {setAddressesConfirmation}
+				toggleOpen={() => setIsOpen(!isOpen)}
+			/>
+			<AccordionBody
+				isOpen={isOpen}
+				address = {address}
+				addresses = {addresses}
+				setAddresses = {setAddresses}
+			/>
+		</div>
+	)
 }
 
 export default AddressAccordionItem

@@ -7,15 +7,15 @@ interface Props {
 }
 
 const PreVetEducationTime = (props: Props) => {
-  const { selectedPreVetEducationType, timeState, setTimeState } = props
-  if (!selectedPreVetEducationType) return null
+	const { selectedPreVetEducationType, timeState, setTimeState } = props
+	if (!selectedPreVetEducationType) return null
 
-  return (
-    <EducationTime
-      timeState = {timeState}
-      setTimeState = {setTimeState}
-    />
-  )
+	return (
+		<EducationTime
+			timeState = {timeState}
+			setTimeState = {setTimeState}
+		/>
+	)
 }
 
 export default PreVetEducationTime

@@ -9,18 +9,18 @@ interface Props {
 }
 
 const AddLocationButton = (props: Props) => {
-  const {address, setAddresses, setAddressesConfirmation} = props
+	const {address, setAddresses, setAddressesConfirmation} = props
 
-  return (
-    <Button
-      className = "mr-3"
-      colorClass = "bg-green-600"
-      hoverClass = "hover:bg-green-700"
-      title = "Add Location"
-      onClick = {() => addLocation(address, setAddresses, setAddressesConfirmation)}
-      disabled = {!areAllFieldsValid(address) || !areAllTimesValid(address)}
-    />
-  )
+	return (
+		<Button
+			className = "mr-3"
+			colorClass = "bg-green-600"
+			hoverClass = "hover:bg-green-700"
+			title = "Add Location"
+			onClick = {() => addLocation(address, setAddresses, setAddressesConfirmation)}
+			disabled = {!areAllFieldsValid(address) || !areAllTimesValid(address)}
+		/>
+	)
 }
 
 export default AddLocationButton

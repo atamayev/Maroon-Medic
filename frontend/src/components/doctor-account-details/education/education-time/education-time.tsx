@@ -9,14 +9,14 @@ interface Props {
 }
 
 export default function EducationTime(props: Props) {
-  const { timeState, setTimeState } = props
+	const { timeState, setTimeState } = props
 
-  return (
-    <div>
-      <SelectStartMonth timeState = {timeState} setTimeState = {setTimeState} />
-      <SelectStartYear timeState = {timeState} setTimeState = {setTimeState} />
-      <SelectEndMonth timeState = {timeState} setTimeState = {setTimeState} />
-      <SelectEndYear timeState = {timeState} setTimeState = {setTimeState} />
-    </div>
-  )
+	return (
+		<div>
+			<SelectStartMonth timeState = {timeState} setTimeState = {setTimeState} />
+			<SelectStartYear timeState = {timeState} setTimeState = {setTimeState} />
+			<SelectEndMonth timeState = {timeState} setTimeState = {setTimeState} />
+			<SelectEndYear timeState = {timeState} setTimeState = {setTimeState} />
+		</div>
+	)
 }

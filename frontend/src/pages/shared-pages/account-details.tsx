@@ -3,10 +3,10 @@ import DoctorAccountDetails from "../private-doctor-pages/doctor-account-details
 import SharedPagesTemplate from "src/components/shared-pages-template"
 
 export default function AccountDetails() {
-  return (
-    <SharedPagesTemplate
-      DoctorContent = {<DoctorAccountDetails/>}
-      PatientContent = {<PatientAccountDetails/>}
-    />
-  )
+	return (
+		<SharedPagesTemplate
+			DoctorContent = {<DoctorAccountDetails/>}
+			PatientContent = {<PatientAccountDetails/>}
+		/>
+	)
 }

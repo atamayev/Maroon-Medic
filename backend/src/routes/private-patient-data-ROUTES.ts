@@ -1,17 +1,17 @@
 import express from "express"
 import {
-  newPatient,
-  fetchDashboardData,
-  fetchPersonalData,
-  fetchAccountDetails,
-  pets,
+	newPatient,
+	fetchDashboardData,
+	fetchPersonalData,
+	fetchAccountDetails,
+	pets,
 } from "../controllers/private-patient-data/private-patient-data-CTRL"
 import {
-  savePersonalData,
-  addLanguage,
-  deleteLanguage,
-  addPet,
-  deletePet,
+	savePersonalData,
+	addLanguage,
+	deleteLanguage,
+	addPet,
+	deletePet,
 } from "../controllers/private-patient-data/save-patient-data-CTRL"
 
 const router = express.Router()

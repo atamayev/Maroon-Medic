@@ -1,9 +1,9 @@
 import express from "express"
 import {
-  searchByQuery,
-  fetchUsers,
-  fetchAllLanguages,
-  fetchAllServicesAndCategories
+	searchByQuery,
+	fetchUsers,
+	fetchAllLanguages,
+	fetchAllServicesAndCategories
 } from "../controllers/search-CTRL"
 
 const router = express.Router()

@@ -8,22 +8,22 @@ interface Props {
 }
 
 export default function EducationSection(props: Props) {
-  const { preVetEducation, vetEducation, personalData } = props
-  if (_.isEmpty(preVetEducation) && _.isEmpty(vetEducation)) return null
-  return (
-    <PublicDoctorCard
-      title = {`Where did Dr. ${_.upperFirst(personalData.LastName || "")} go to school?`}
-      content = {
-        <>
-          <h3>Pre-Veterinary Education</h3>
-          <Education educationList = {preVetEducation} hasMajor = {true} />
+	const { preVetEducation, vetEducation, personalData } = props
+	if (_.isEmpty(preVetEducation) && _.isEmpty(vetEducation)) return null
+	return (
+		<PublicDoctorCard
+			title = {`Where did Dr. ${_.upperFirst(personalData.LastName || "")} go to school?`}
+			content = {
+				<>
+					<h3>Pre-Veterinary Education</h3>
+					<Education educationList = {preVetEducation} hasMajor = {true} />
 
-          <h3>Veterinary Education</h3>
-          <Education educationList = {vetEducation} hasMajor = {true} />
-        </>
-      }
-    />
-  )
+					<h3>Veterinary Education</h3>
+					<Education educationList = {vetEducation} hasMajor = {true} />
+				</>
+			}
+		/>
+	)
 }
 
 interface EducationProps {
@@ -32,15 +32,15 @@ interface EducationProps {
 }
 
 function Education({ educationList, hasMajor } : EducationProps) {
-  return (
-    <>
-      {educationList.map((edu, index) => (
-        <p key = {index}>
-          {edu.School_name}, {edu.Education_type}
-          {hasMajor ? ` in ${edu.Major_name}` : ""} {" "}
+	return (
+		<>
+			{educationList.map((edu, index) => (
+				<p key = {index}>
+					{edu.School_name}, {edu.Education_type}
+					{hasMajor ? ` in ${edu.Major_name}` : ""} {" "}
           ({edu.Start_Date} - {edu.End_Date})
-        </p>
-      ))}
-    </>
-  )
+				</p>
+			))}
+		</>
+	)
 }

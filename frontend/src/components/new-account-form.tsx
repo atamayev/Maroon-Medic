@@ -13,35 +13,35 @@ interface Props {
 }
 
 export default function NewAccountForm(props: Props) {
-  const { handleSubmit, error, newInfo, setNewInfo, loading } = props
+	const { handleSubmit, error, newInfo, setNewInfo, loading } = props
 
-  const ErrorMessage = () => {
-    if (!error) return null
-    return (
-      <div className="bg-red-600 text-white p-3 rounded-md mb-4">
-        {error}
-      </div>
-    )
-  }
+	const ErrorMessage = () => {
+		if (!error) return null
+		return (
+			<div className="bg-red-600 text-white p-3 rounded-md mb-4">
+				{error}
+			</div>
+		)
+	}
 
-  return (
-    <div className="bg-white border rounded-lg shadow-md p-6">
-      <div>
-        <ErrorMessage />
-        <form onSubmit={handleSubmit}>
-          <FirstNameInput personalInfo={newInfo} setPersonalInfo={setNewInfo} />
-          <LastNameInput personalInfo={newInfo} setPersonalInfo={setNewInfo} />
-          <GenderSection personalInfo={newInfo} setPersonalInfo={setNewInfo} />
-          <DOBSection personalInfo={newInfo} setPersonalInfo={setNewInfo} />
-          <Button
-            className="w-100"
-            colorClass="bg-yellow-400"
-            hoverClass="hover:bg-yellow-600"
-            title="Submit"
-            disabled={loading}
-          />
-        </form>
-      </div>
-    </div>
-  )
+	return (
+		<div className="bg-white border rounded-lg shadow-md p-6">
+			<div>
+				<ErrorMessage />
+				<form onSubmit={handleSubmit}>
+					<FirstNameInput personalInfo={newInfo} setPersonalInfo={setNewInfo} />
+					<LastNameInput personalInfo={newInfo} setPersonalInfo={setNewInfo} />
+					<GenderSection personalInfo={newInfo} setPersonalInfo={setNewInfo} />
+					<DOBSection personalInfo={newInfo} setPersonalInfo={setNewInfo} />
+					<Button
+						className="w-100"
+						colorClass="bg-yellow-400"
+						hoverClass="hover:bg-yellow-600"
+						title="Submit"
+						disabled={loading}
+					/>
+				</form>
+			</div>
+		</div>
+	)
 }

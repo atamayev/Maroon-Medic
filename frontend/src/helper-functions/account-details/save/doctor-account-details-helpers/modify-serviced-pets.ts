@@ -5,27 +5,27 @@ type ServicedPetsOperationsType = typeof PrivateDoctorDataService.deleteServiced
                                    typeof PrivateDoctorDataService.addServicedPet
 
 export default async function modifyServicedPets(
-  operation: ServicedPetsOperationsType,
-  petID: number,
-  newServicedPets: ServicedPetItem[],
-  setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItem[]>>,
-  setPetsConfirmation: (conf: ConfirmationMessage) => void
+	operation: ServicedPetsOperationsType,
+	petID: number,
+	newServicedPets: ServicedPetItem[],
+	setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItem[]>>,
+	setPetsConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
-  let response
-  try {
-    response = await operation(petID)
-  } catch (error: unknown) {
-    handle401AxiosErrorAndSetMessageType(error, setPetsConfirmation)
-    return
-  }
-  if (response.status === 200) {
-    setServicedPets(newServicedPets)
-    const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
-    DoctorAccountDetails.servicedPets = newServicedPets
-    sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
-    setPetsConfirmation({messageType: "saved"})
-  } else {
-    setPetsConfirmation({messageType: "problem"})
-    return
-  }
+	let response
+	try {
+		response = await operation(petID)
+	} catch (error: unknown) {
+		handle401AxiosErrorAndSetMessageType(error, setPetsConfirmation)
+		return
+	}
+	if (response.status === 200) {
+		setServicedPets(newServicedPets)
+		const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
+		DoctorAccountDetails.servicedPets = newServicedPets
+		sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
+		setPetsConfirmation({messageType: "saved"})
+	} else {
+		setPetsConfirmation({messageType: "problem"})
+		return
+	}
 }

@@ -12,31 +12,31 @@ interface FinalizeBookingProps {
 }
 
 const ConfirmOrRequestMessage = (selectedLocation: PublicAddressData) => {
-  if (selectedLocation.instant_book) return <>Confirm</>
-  return <>Request</>
+	if (selectedLocation.instant_book) return <>Confirm</>
+	return <>Request</>
 }
 
 export const FinalizeBookingButton = (props: FinalizeBookingProps) => {
-  const { selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet } = props
-  if (!(selectedService && selectedLocation && selectedDay && selectedTime)) return null
+	const { selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet } = props
+	if (!(selectedService && selectedLocation && selectedDay && selectedTime)) return null
 
-  return (
-    <Button
-      title = {`Click to ${ConfirmOrRequestMessage(selectedLocation)} an appointment`}
-      className="mt-3"
-      onClick={() => useFinalizeBookingClick(
-        selectedService,
-        selectedLocation,
-        selectedDay,
-        selectedTime,
-        serviceMinutes,
-        personalData,
+	return (
+		<Button
+			title = {`Click to ${ConfirmOrRequestMessage(selectedLocation)} an appointment`}
+			className="mt-3"
+			onClick={() => useFinalizeBookingClick(
+				selectedService,
+				selectedLocation,
+				selectedDay,
+				selectedTime,
+				serviceMinutes,
+				personalData,
         selectedPet!
-      )}
-      colorClass = "bg-green-600"
-      hoverClass = "hover:bg-green-700"
-    />
-  )
+			)}
+			colorClass = "bg-green-600"
+			hoverClass = "hover:bg-green-700"
+		/>
+	)
 }
 
 export default FinalizeBookingButton

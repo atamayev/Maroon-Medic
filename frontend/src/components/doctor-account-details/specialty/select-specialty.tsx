@@ -5,24 +5,24 @@ interface Props {
 }
 
 const SelectSpecialty = (props: Props) => {
-  const { handleSpecialtyChange, selectedOrganization, specificSpecialtiesOptions } = props
+	const { handleSpecialtyChange, selectedOrganization, specificSpecialtiesOptions } = props
 
-  if (!selectedOrganization) return null
+	if (!selectedOrganization) return null
 
-  return (
-    <div>
-      <label htmlFor = "specialty">Select a specialty: </label>
-      <select
-        id = "specialty"
-        name = "specialty"
-        value = {""}
-        onChange = {(e) => handleSpecialtyChange(e)}
-      >
-        <option value = "" disabled>Choose a specialty</option>
-        {specificSpecialtiesOptions}
-      </select>
-    </div>
-  )
+	return (
+		<div>
+			<label htmlFor = "specialty">Select a specialty: </label>
+			<select
+				id = "specialty"
+				name = "specialty"
+				value = {""}
+				onChange = {(e) => handleSpecialtyChange(e)}
+			>
+				<option value = "" disabled>Choose a specialty</option>
+				{specificSpecialtiesOptions}
+			</select>
+		</div>
+	)
 }
 
 export default SelectSpecialty

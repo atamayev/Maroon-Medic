@@ -7,19 +7,19 @@ interface Props {
 }
 
 const ConfirmNewPasswordInput = (props: Props) => {
-  const { isShowPassword, credentials, setCredentials } = props
+	const { isShowPassword, credentials, setCredentials } = props
 
-  return (
-    <FormGroup
-      id = "confirm-new-password"
-      label = "Confirm New Password"
-      type = {isShowPassword}
-      placeholder = "NewSuperSecretPassword"
-      value = {credentials.newConfirmPassword || ""}
-      onChange = {(event) => setCredentials({...credentials, newConfirmPassword: event.target.value})}
-      required
-    />
-  )
+	return (
+		<FormGroup
+			id = "confirm-new-password"
+			label = "Confirm New Password"
+			type = {isShowPassword}
+			placeholder = "NewSuperSecretPassword"
+			value = {credentials.newConfirmPassword || ""}
+			onChange = {(event) => setCredentials({...credentials, newConfirmPassword: event.target.value})}
+			required
+		/>
+	)
 }
 
 export default ConfirmNewPasswordInput

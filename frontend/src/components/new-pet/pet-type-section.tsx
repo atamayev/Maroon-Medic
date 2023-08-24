@@ -9,31 +9,31 @@ interface Props {
 }
 
 const PetTypeSection = (props: Props) => {
-  const { newPetData, petTypes, insurances, setNewPetData } = props
+	const { newPetData, petTypes, insurances, setNewPetData } = props
 
-  return (
-    <FormGroup
-      as = "select"
-      defaultValue = {""}
-      onChange = {
-        (e) => handleInputChange(e, newPetData, petTypes, insurances, setNewPetData)
-      }
-      name = "Pet_type"
-      required
-      id = "formPetType"
-      label = "Type of Pet"
-    >
-      <option value = "" disabled>Select</option>
-      {petTypes.map((PetType) => (
-        <option
-          key = {PetType.pet_listID}
-          value = {PetType.pet_listID}
-        >
-          {PetType.Pet}
-        </option>
-      ))}
-    </FormGroup>
-  )
+	return (
+		<FormGroup
+			as = "select"
+			defaultValue = {""}
+			onChange = {
+				(e) => handleInputChange(e, newPetData, petTypes, insurances, setNewPetData)
+			}
+			name = "Pet_type"
+			required
+			id = "formPetType"
+			label = "Type of Pet"
+		>
+			<option value = "" disabled>Select</option>
+			{petTypes.map((PetType) => (
+				<option
+					key = {PetType.pet_listID}
+					value = {PetType.pet_listID}
+				>
+					{PetType.Pet}
+				</option>
+			))}
+		</FormGroup>
+	)
 }
 
 export default PetTypeSection

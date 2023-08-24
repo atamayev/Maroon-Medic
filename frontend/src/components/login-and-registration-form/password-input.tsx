@@ -7,18 +7,18 @@ interface Props {
 }
 
 const PasswordInput = (props: Props) => {
-  const { credentials, setCredentials, showPassword } = props
+	const { credentials, setCredentials, showPassword } = props
 
-  return (
-    <FormGroup
-      id = "password"
-      label = "Password"
-      type = {showPassword}
-      placeholder = "Password"
-      onChange = {(event) => setCredentials({...credentials, password: event.target.value})}
-      required
-    />
-  )
+	return (
+		<FormGroup
+			id = "password"
+			label = "Password"
+			type = {showPassword}
+			placeholder = "Password"
+			onChange = {(event) => setCredentials({...credentials, password: event.target.value})}
+			required
+		/>
+	)
 }
 
 export default PasswordInput

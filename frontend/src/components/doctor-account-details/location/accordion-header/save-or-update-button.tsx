@@ -8,26 +8,26 @@ interface Props {
 }
 
 const SaveOrUpdateButton = (props: Props) => {
-  const { address, setAddresses, setAddressesConfirmation } = props
-  const nonExistantAddressesID = -1
+	const { address, setAddresses, setAddressesConfirmation } = props
+	const nonExistantAddressesID = -1
 
-  if (address.addressesID === nonExistantAddressesID) {
-    return (
-      <AddLocationButton
-        address = {address}
-        setAddresses = {setAddresses}
-        setAddressesConfirmation = {setAddressesConfirmation}
-      />
-    )
-  }
+	if (address.addressesID === nonExistantAddressesID) {
+		return (
+			<AddLocationButton
+				address = {address}
+				setAddresses = {setAddresses}
+				setAddressesConfirmation = {setAddressesConfirmation}
+			/>
+		)
+	}
 
-  return (
-    <UpdateLocationButton
-      address = {address}
-      setAddresses = {setAddresses}
-      setAddressesConfirmation = {setAddressesConfirmation}
-    />
-  )
+	return (
+		<UpdateLocationButton
+			address = {address}
+			setAddresses = {setAddresses}
+			setAddressesConfirmation = {setAddressesConfirmation}
+		/>
+	)
 }
 
 export default SaveOrUpdateButton

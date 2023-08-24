@@ -13,43 +13,43 @@ import PatientHeader from "../patient-header"
 import Button from "src/components/button"
 
 export default function PatientPersonalInfo() {
-  const { userType } = useSimpleUserVerification()
+	const { userType } = useSimpleUserVerification()
 
-  const {personalInfo, setPersonalInfo} = useSetPersonalInfo(userType, "Patient")
-  const [personalInfoConfirmation, setPersonalInfoConfirmation] = useConfirmationMessage()
+	const {personalInfo, setPersonalInfo} = useSetPersonalInfo(userType, "Patient")
+	const [personalInfoConfirmation, setPersonalInfoConfirmation] = useConfirmationMessage()
 
-  if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
+	if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
-  return (
-    <div>
-      <Header dropdown = {true} search = {true}/>
-      <PatientHeader/>
-      <div className="bg-yellow-100 border border-brown-400 rounded p-4 mb-4">
-        <div className="p-4">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault()
-              savePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)
-            }}
-            className="space-y-4"
-          >
-            <FirstNameInput personalInfo={personalInfo} setPersonalInfo={setPersonalInfo} />
-            <LastNameInput personalInfo={personalInfo} setPersonalInfo={setPersonalInfo} />
-            <GenderSection personalInfo={personalInfo} setPersonalInfo={setPersonalInfo} />
-            <DOBSection personalInfo={personalInfo} setPersonalInfo={setPersonalInfo} />
-            <Button
-              title="Save"
-              className="w-full"
-              colorClass="bg-green-600"
-              hoverClass="hover:bg-green-700"
-            />
-            <SavedConfirmationMessage
-              confirmationMessage={personalInfoConfirmation}
-              whatIsBeingSaved="Personal Info"
-            />
-          </form>
-        </div>
-      </div>
-    </div>
-  )
+	return (
+		<div>
+			<Header dropdown = {true} search = {true}/>
+			<PatientHeader/>
+			<div className="bg-yellow-100 border border-brown-400 rounded p-4 mb-4">
+				<div className="p-4">
+					<form
+						onSubmit={(e) => {
+							e.preventDefault()
+							savePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)
+						}}
+						className="space-y-4"
+					>
+						<FirstNameInput personalInfo={personalInfo} setPersonalInfo={setPersonalInfo} />
+						<LastNameInput personalInfo={personalInfo} setPersonalInfo={setPersonalInfo} />
+						<GenderSection personalInfo={personalInfo} setPersonalInfo={setPersonalInfo} />
+						<DOBSection personalInfo={personalInfo} setPersonalInfo={setPersonalInfo} />
+						<Button
+							title="Save"
+							className="w-full"
+							colorClass="bg-green-600"
+							hoverClass="hover:bg-green-700"
+						/>
+						<SavedConfirmationMessage
+							confirmationMessage={personalInfoConfirmation}
+							whatIsBeingSaved="Personal Info"
+						/>
+					</form>
+				</div>
+			</div>
+		</div>
+	)
 }

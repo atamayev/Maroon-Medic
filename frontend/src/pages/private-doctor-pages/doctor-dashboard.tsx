@@ -11,66 +11,66 @@ import PastAppointmentsSection from "src/components/doctor-dashboard/past-appoin
 import UpcomingAppointmentsSection from "src/components/doctor-dashboard/upcoming-appointments/upcoming-appointments-section"
 
 export default function DoctorDashboard() {
-  const { userType } = useSimpleUserVerification()
-  const { dashboardData, setDashboardData } = useSetDoctorDashboardData()
-  const storedData = sessionStorage.getItem("DoctorPersonalInfo")
-  const parsedData = storedData && JSON.parse(storedData)
-  const [personalInfo, setPersonalInfo] = useState(parsedData)
-  const [pastAppointments, setPastAppointments] = useState<DoctorDashboardData[]>([])
-  const [upcomingAppointments, setUpcomingAppointments] = useState<DoctorDashboardData[]>([])
+	const { userType } = useSimpleUserVerification()
+	const { dashboardData, setDashboardData } = useSetDoctorDashboardData()
+	const storedData = sessionStorage.getItem("DoctorPersonalInfo")
+	const parsedData = storedData && JSON.parse(storedData)
+	const [personalInfo, setPersonalInfo] = useState(parsedData)
+	const [pastAppointments, setPastAppointments] = useState<DoctorDashboardData[]>([])
+	const [upcomingAppointments, setUpcomingAppointments] = useState<DoctorDashboardData[]>([])
 
-  useEffect(() => {
-    if (userType !== "Doctor") return
-    const interval = setInterval(() => {
-      const sessionInfo = sessionStorage.getItem("DoctorPersonalInfo")
-      if (sessionInfo) {
-        setPersonalInfo(JSON.parse(sessionInfo))
-        clearInterval(interval)
-      }
-      // Check every 10 miliseconds
-    }, 10)
+	useEffect(() => {
+		if (userType !== "Doctor") return
+		const interval = setInterval(() => {
+			const sessionInfo = sessionStorage.getItem("DoctorPersonalInfo")
+			if (sessionInfo) {
+				setPersonalInfo(JSON.parse(sessionInfo))
+				clearInterval(interval)
+			}
+			// Check every 10 miliseconds
+		}, 10)
 
-    // Clean up interval on unmount
-    return () => clearInterval(interval)
-  }, [])
+		// Clean up interval on unmount
+		return () => clearInterval(interval)
+	}, [])
 
-  useEffect(() => {
-    if (!_.isEmpty(dashboardData) && userType === "Doctor") {
-      const now = moment()
-      const pastDoctorAppointments = dashboardData.filter(appointment =>
-        moment(appointment.appointment_date, "MMMM Do, YYYY, h:mm A") < now
-      )
-      const upcomingDoctorAppointments = dashboardData.filter(appointment =>
-        moment(appointment.appointment_date, "MMMM Do, YYYY, h:mm A") >= now
-      )
+	useEffect(() => {
+		if (!_.isEmpty(dashboardData) && userType === "Doctor") {
+			const now = moment()
+			const pastDoctorAppointments = dashboardData.filter(appointment =>
+				moment(appointment.appointment_date, "MMMM Do, YYYY, h:mm A") < now
+			)
+			const upcomingDoctorAppointments = dashboardData.filter(appointment =>
+				moment(appointment.appointment_date, "MMMM Do, YYYY, h:mm A") >= now
+			)
 
-      setPastAppointments(pastDoctorAppointments)
-      setUpcomingAppointments(upcomingDoctorAppointments)
-    }
-  }, [dashboardData])
+			setPastAppointments(pastDoctorAppointments)
+			setUpcomingAppointments(upcomingDoctorAppointments)
+		}
+	}, [dashboardData])
 
-  if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
+	if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
-  const DashboardData = () => {
-    if (_.isEmpty(dashboardData)) return <>No upcoming appointments</>
-    return (
-      <>
-        <UpcomingAppointmentsSection
-          upcomingDoctorAppointments = {upcomingAppointments}
-          dashboardData = {dashboardData}
-          setDashboardData = {setDashboardData}
-        />
-        <PastAppointmentsSection pastAppointments = {pastAppointments}/>
-      </>
-    )
-  }
+	const DashboardData = () => {
+		if (_.isEmpty(dashboardData)) return <>No upcoming appointments</>
+		return (
+			<>
+				<UpcomingAppointmentsSection
+					upcomingDoctorAppointments = {upcomingAppointments}
+					dashboardData = {dashboardData}
+					setDashboardData = {setDashboardData}
+				/>
+				<PastAppointmentsSection pastAppointments = {pastAppointments}/>
+			</>
+		)
+	}
 
-  return (
-    <>
-      <Header dropdown = {true}/>
-      <DoctorHeader/>
-      <PersonalInfo personalInfo = {personalInfo} />
-      <DashboardData />
-    </>
-  )
+	return (
+		<>
+			<Header dropdown = {true}/>
+			<DoctorHeader/>
+			<PersonalInfo personalInfo = {personalInfo} />
+			<DashboardData />
+		</>
+	)
 }

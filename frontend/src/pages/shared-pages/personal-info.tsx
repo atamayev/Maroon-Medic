@@ -3,10 +3,10 @@ import PatientPersonalInfo from "../patient-pages/patient-settings/patient-perso
 import SharedPagesTemplate from "src/components/shared-pages-template"
 
 export default function PersonalInfo() {
-  return (
-    <SharedPagesTemplate
-      DoctorContent = {<DoctorPersonalInfo/>}
-      PatientContent = {<PatientPersonalInfo/>}
-    />
-  )
+	return (
+		<SharedPagesTemplate
+			DoctorContent = {<DoctorPersonalInfo/>}
+			PatientContent = {<PatientPersonalInfo/>}
+		/>
+	)
 }

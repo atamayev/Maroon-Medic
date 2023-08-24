@@ -12,33 +12,33 @@ interface Props {
 }
 
 export default function LocationSection(props: Props) {
-  return (
-    <AccountDetailsCard
-      title = "Locations"
-      content = {<AddressForm {...props} />}
-    />
-  )
+	return (
+		<AccountDetailsCard
+			title = "Locations"
+			content = {<AddressForm {...props} />}
+		/>
+	)
 }
 
 function AddressForm(props: Props) {
-  const { addresses, setAddresses } = props
-  const [addressesConfirmation, setAddressesConfirmation] = useConfirmationMessage()
+	const { addresses, setAddresses } = props
+	const [addressesConfirmation, setAddressesConfirmation] = useConfirmationMessage()
 
-  return (
-    <>
-      <AddressAccordionMap
-        addresses = {addresses}
-        setAddresses = {setAddresses}
-        setAddressesConfirmation = {setAddressesConfirmation}
-      />
-      <AddNewLocationButton
-        addresses = {addresses}
-        setAddresses = {setAddresses}
-      />
-      <SavedConfirmationMessage
-        confirmationMessage = {addressesConfirmation}
-        whatIsBeingSaved = "Locations"
-      />
-    </>
-  )
+	return (
+		<>
+			<AddressAccordionMap
+				addresses = {addresses}
+				setAddresses = {setAddresses}
+				setAddressesConfirmation = {setAddressesConfirmation}
+			/>
+			<AddNewLocationButton
+				addresses = {addresses}
+				setAddresses = {setAddresses}
+			/>
+			<SavedConfirmationMessage
+				confirmationMessage = {addressesConfirmation}
+				whatIsBeingSaved = "Locations"
+			/>
+		</>
+	)
 }

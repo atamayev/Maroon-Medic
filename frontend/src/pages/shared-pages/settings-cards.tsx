@@ -3,10 +3,10 @@ import PatientSettingsCards from "../patient-pages/patient-settings/patient-sett
 import SharedPagesTemplate from "src/components/shared-pages-template"
 
 export default function SettingsCards() {
-  return (
-    <SharedPagesTemplate
-      DoctorContent = {<DoctorSettingsCards/>}
-      PatientContent = {<PatientSettingsCards/>}
-    />
-  )
+	return (
+		<SharedPagesTemplate
+			DoctorContent = {<DoctorSettingsCards/>}
+			PatientContent = {<PatientSettingsCards/>}
+		/>
+	)
 }

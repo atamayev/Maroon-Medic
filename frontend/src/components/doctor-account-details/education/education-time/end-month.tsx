@@ -6,44 +6,44 @@ interface Props {
 }
 
 const SelectEndMonth = (props: Props) => {
-  const { timeState, setTimeState } = props
-  let monthsToDisplay = months
+	const { timeState, setTimeState } = props
+	let monthsToDisplay = months
 
-  if (timeState.startYear === timeState.endYear) {
-    const startMonthIndex = months.indexOf(timeState.startMonth)
-    monthsToDisplay = months.slice(startMonthIndex + 1)
-  }
+	if (timeState.startYear === timeState.endYear) {
+		const startMonthIndex = months.indexOf(timeState.startMonth)
+		monthsToDisplay = months.slice(startMonthIndex + 1)
+	}
 
-  return (
-    <div>
-      <label>
+	return (
+		<div>
+			<label>
         End Month:
-        <select
-          name = "endMonth"
-          value = {timeState.endMonth || ""}
-          onChange = {e => {
-            const newEndMonth = e.target.value
+				<select
+					name = "endMonth"
+					value = {timeState.endMonth || ""}
+					onChange = {e => {
+						const newEndMonth = e.target.value
 
-            // Check if the selected end month is before or the same as the start month
-            // and if the start and end years are the same
-            if (
-              months.indexOf(newEndMonth) < months.indexOf(timeState.startMonth) &&
+						// Check if the selected end month is before or the same as the start month
+						// and if the start and end years are the same
+						if (
+							months.indexOf(newEndMonth) < months.indexOf(timeState.startMonth) &&
               timeState.startYear === timeState.endYear
-            ) {
-              return
-            }
+						) {
+							return
+						}
 
-            setTimeState(prevState => ({...prevState, endMonth: newEndMonth}))
-          }}
-        >
-          <option value = "" disabled>Select an End Month</option>
-          {monthsToDisplay.map(month => (
-            <option key = {month} value = {month}>{month}</option>
-          ))}
-        </select>
-      </label>
-    </div>
-  )
+						setTimeState(prevState => ({...prevState, endMonth: newEndMonth}))
+					}}
+				>
+					<option value = "" disabled>Select an End Month</option>
+					{monthsToDisplay.map(month => (
+						<option key = {month} value = {month}>{month}</option>
+					))}
+				</select>
+			</label>
+		</div>
+	)
 }
 
 export default SelectEndMonth

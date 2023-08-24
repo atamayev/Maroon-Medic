@@ -8,22 +8,22 @@ interface Props {
 }
 
 const AddAndSaveVetEducationButton = (props: Props) => {
-  const { handleAddEducation, saveVetEducation, allChoicesFilled } = props
+	const { handleAddEducation, saveVetEducation, allChoicesFilled } = props
 
-  if (!allChoicesFilled) return null
+	if (!allChoicesFilled) return null
 
-  return (
-    <Button
-      className = "mt-3"
-      colorClass = "bg-green-600"
-      hoverClass = "hover:bg-green-700"
-      title = "Add"
-      onClick = {() => {
-        const selectedEducationObj = handleAddEducation()
-        saveVetEducation(selectedEducationObj as VetEducationItem)
-      }}
-    />
-  )
+	return (
+		<Button
+			className = "mt-3"
+			colorClass = "bg-green-600"
+			hoverClass = "hover:bg-green-700"
+			title = "Add"
+			onClick = {() => {
+				const selectedEducationObj = handleAddEducation()
+				saveVetEducation(selectedEducationObj as VetEducationItem)
+			}}
+		/>
+	)
 }
 
 export default AddAndSaveVetEducationButton

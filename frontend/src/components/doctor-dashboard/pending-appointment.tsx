@@ -6,17 +6,17 @@ interface Props {
 }
 
 const PendingAppointment = (props: Props) => {
-  const { status, setStatus } = props
+	const { status, setStatus } = props
 
-  if (status !== "pending") return null
-  return (
-    <Button
-      colorClass = "bg-amber-600"
-      hoverClass = "hover:bg-amber-700"
-      onClick = {() => {setStatus("confirming")}}
-      title = "Pending approval"
-    />
-  )
+	if (status !== "pending") return null
+	return (
+		<Button
+			colorClass = "bg-amber-600"
+			hoverClass = "hover:bg-amber-700"
+			onClick = {() => {setStatus("confirming")}}
+			title = "Pending approval"
+		/>
+	)
 }
 
 export default PendingAppointment

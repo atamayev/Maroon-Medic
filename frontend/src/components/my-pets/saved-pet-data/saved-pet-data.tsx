@@ -13,30 +13,30 @@ interface Props {
 }
 
 const SavedPetData = (props: Props) => {
-  const { savedPetData, setSavedPetData, showModal,
-    setShowModal, petToDelete, setPetConfirmation, setPetToDelete } = props
+	const { savedPetData, setSavedPetData, showModal,
+		setShowModal, petToDelete, setPetConfirmation, setPetToDelete } = props
 
-  if (_.isEmpty(savedPetData)) return null
+	if (_.isEmpty(savedPetData)) return null
 
-  return (
-    <>
-      <SavedPetDataMap
-        savedPetData = {savedPetData}
-        setSavedPetData = {setSavedPetData}
-        setShowModal = {setShowModal}
-        setPetToDelete = {setPetToDelete}
-      />
+	return (
+		<>
+			<SavedPetDataMap
+				savedPetData = {savedPetData}
+				setSavedPetData = {setSavedPetData}
+				setShowModal = {setShowModal}
+				setPetToDelete = {setPetToDelete}
+			/>
 
-      <DeletePetModal
-        showModal = {showModal}
-        setShowModal = {setShowModal}
-        petToDelete = {petToDelete}
-        savedPetData = {savedPetData}
-        setSavedPetData = {setSavedPetData}
-        setPetConfirmation = {setPetConfirmation}
-      />
-    </>
-  )
+			<DeletePetModal
+				showModal = {showModal}
+				setShowModal = {setShowModal}
+				petToDelete = {petToDelete}
+				savedPetData = {savedPetData}
+				setSavedPetData = {setSavedPetData}
+				setPetConfirmation = {setPetConfirmation}
+			/>
+		</>
+	)
 }
 
 export default SavedPetData

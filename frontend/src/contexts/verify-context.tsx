@@ -9,8 +9,8 @@ const createDefaultContext = (): VerifyContextType => ({ userVerification: () =>
 const VerifyContext = createContext<VerifyContextType>(createDefaultContext())
 
 function clearAndReturnFalse(clearSession: boolean): {verified: boolean} {
-  if (clearSession) sessionStorage.clear()
-  return { verified: false }
+	if (clearSession) sessionStorage.clear()
+	return { verified: false }
 }
 
 interface VerifyContextProviderProps {
@@ -18,39 +18,39 @@ interface VerifyContextProviderProps {
 }
 
 const handleError = (error: unknown, clearSession: boolean) => {
-  if (error instanceof AxiosError && error.response?.status === 401) {
-    invalidUserAction(error.response.data)
-  }
-  return clearAndReturnFalse(clearSession)
+	if (error instanceof AxiosError && error.response?.status === 401) {
+		invalidUserAction(error.response.data)
+	}
+	return clearAndReturnFalse(clearSession)
 }
 
 const VerifyContextProvider = ({ children }: VerifyContextProviderProps) => {
-  async function userVerification(clearSession: boolean): VerifyContextReturnType {
-    try {
-      if (!CheckCookie.forContext("DoctorAccessToken") && !CheckCookie.forContext("PatientAccessToken")) {
-        return clearAndReturnFalse(clearSession)
-      }
+	async function userVerification(clearSession: boolean): VerifyContextReturnType {
+		try {
+			if (!CheckCookie.forContext("DoctorAccessToken") && !CheckCookie.forContext("PatientAccessToken")) {
+				return clearAndReturnFalse(clearSession)
+			}
 
-      const response = await AuthDataService.verify()
+			const response = await AuthDataService.verify()
 
-      if (response.data.isValid !== true) {
-        return clearAndReturnFalse(clearSession)
-      }
+			if (response.data.isValid !== true) {
+				return clearAndReturnFalse(clearSession)
+			}
 
-      return {
-        verified: true,
-        userType: response.data.type,
-      }
-    } catch (error: unknown) {
-      return handleError(error, clearSession)
-    }
-  }
+			return {
+				verified: true,
+				userType: response.data.type,
+			}
+		} catch (error: unknown) {
+			return handleError(error, clearSession)
+		}
+	}
 
-  return (
-    <VerifyContext.Provider value={{ userVerification }}>
-      {children}
-    </VerifyContext.Provider>
-  )
+	return (
+		<VerifyContext.Provider value={{ userVerification }}>
+			{children}
+		</VerifyContext.Provider>
+	)
 }
 
 export { VerifyContext, VerifyContextProvider }

@@ -16,79 +16,79 @@ import DescriptionSection from "./public-doctor-description"
 import ServicedPetsSection from "./public-doctor-serviced-pets"
 
 export default function Doctor () {
-  const { id } = useParams()
-  const [spokenLanguages, setSpokenLanguages] = useState([])
-  const [providedServices, setProvidedServices] = useState([])
-  const [doctorSpecialties, setDoctorSpecialties] = useState([])
-  const [preVetEducation, setPreVetEducation] = useState([])
-  const [vetEducation, setVetEducation] = useState([])
-  const [addresses, setAddresses] = useState<PublicAddressData[]>(
-    [{ address_priority: 0, addressesID: -1, address_title: "", address_line_1  : "", address_line_2: "",
-      city: "", state: "", zip: "", country: "", Phone: "", instant_book: false, times:[]
-    }])
-  const [description, setDescription] = useState("")
-  const [servicedPets, setServicedPets] = useState([])
-  const [personalData, setPersonalData] = useState<DoctorPersonalData>({FirstName: "", LastName: "", Gender: "", NVI: 0})
+	const { id } = useParams()
+	const [spokenLanguages, setSpokenLanguages] = useState([])
+	const [providedServices, setProvidedServices] = useState([])
+	const [doctorSpecialties, setDoctorSpecialties] = useState([])
+	const [preVetEducation, setPreVetEducation] = useState([])
+	const [vetEducation, setVetEducation] = useState([])
+	const [addresses, setAddresses] = useState<PublicAddressData[]>(
+		[{ address_priority: 0, addressesID: -1, address_title: "", address_line_1  : "", address_line_2: "",
+			city: "", state: "", zip: "", country: "", Phone: "", instant_book: false, times:[]
+		}])
+	const [description, setDescription] = useState("")
+	const [servicedPets, setServicedPets] = useState([])
+	const [personalData, setPersonalData] = useState<DoctorPersonalData>({FirstName: "", LastName: "", Gender: "", NVI: 0})
 
-  const idNumber = Number(id)
+	const idNumber = Number(id)
 
-  async function FillDoctorData(IDNumber: number) {
-    try {
-      const response = await PublicDoctorDataService.getSingleDoctor(IDNumber)
-      if (response.data.doctorLanguages) setSpokenLanguages(response.data.doctorLanguages)
-      if (response.data.doctorServices) setProvidedServices(response.data.doctorServices)
-      if (response.data.doctorSpecialties) setDoctorSpecialties(response.data.doctorSpecialties)
-      if (response.data.doctorPreVetEducation) setPreVetEducation(response.data.doctorPreVetEducation)
-      if (response.data.doctorVetEducation) setVetEducation(response.data.doctorVetEducation)
-      if (response.data.doctorAddressData) setAddresses(response.data.doctorAddressData)
-      if (response.data.description) setDescription(response.data.description)
-      if (response.data.servicedPets) setServicedPets(response.data.servicedPets)
-      // if (response.data.doctorPictures) ;// Somehow set pictures.
-      if (response.data.doctorPersonalInfo) setPersonalData(response.data.doctorPersonalInfo)
-    } catch (error) {
-    }
-  }
+	async function FillDoctorData(IDNumber: number) {
+		try {
+			const response = await PublicDoctorDataService.getSingleDoctor(IDNumber)
+			if (response.data.doctorLanguages) setSpokenLanguages(response.data.doctorLanguages)
+			if (response.data.doctorServices) setProvidedServices(response.data.doctorServices)
+			if (response.data.doctorSpecialties) setDoctorSpecialties(response.data.doctorSpecialties)
+			if (response.data.doctorPreVetEducation) setPreVetEducation(response.data.doctorPreVetEducation)
+			if (response.data.doctorVetEducation) setVetEducation(response.data.doctorVetEducation)
+			if (response.data.doctorAddressData) setAddresses(response.data.doctorAddressData)
+			if (response.data.description) setDescription(response.data.description)
+			if (response.data.servicedPets) setServicedPets(response.data.servicedPets)
+			// if (response.data.doctorPictures) ;// Somehow set pictures.
+			if (response.data.doctorPersonalInfo) setPersonalData(response.data.doctorPersonalInfo)
+		} catch (error) {
+		}
+	}
 
-  useEffect(() => {
-    FillDoctorData(idNumber)
-  }, [])
+	useEffect(() => {
+		FillDoctorData(idNumber)
+	}, [])
 
-  return (
-    <>
-      <Header dropdown = {true} search = {true}/>
-      <PersonalInfoSection
-        personalData = {personalData}
-      />
-      <BookingSection
-        providedServices = {providedServices}
-        addresses = {addresses}
-        personalData = {personalData}
-      />
-      <DescriptionSection
-        description = {description}
-      />
-      <LocationsSection
-        addresses = {addresses}
-      />
-      <ServicedPetsSection
-        servicedPets = {servicedPets}
-      />
-      <LanguageSection
-        spokenLanguages = {spokenLanguages}
-      />
-      <ServiceSection
-        providedServices = {providedServices}
-      />
-      <EducationSection
-        preVetEducation = {preVetEducation}
-        vetEducation = {vetEducation}
-        personalData = {personalData}
-      />
-      <SpecialtiesSection
-        doctorSpecialties = {doctorSpecialties}
-      />
-      <ReviewsSection
-      />
-    </>
-  )
+	return (
+		<>
+			<Header dropdown = {true} search = {true}/>
+			<PersonalInfoSection
+				personalData = {personalData}
+			/>
+			<BookingSection
+				providedServices = {providedServices}
+				addresses = {addresses}
+				personalData = {personalData}
+			/>
+			<DescriptionSection
+				description = {description}
+			/>
+			<LocationsSection
+				addresses = {addresses}
+			/>
+			<ServicedPetsSection
+				servicedPets = {servicedPets}
+			/>
+			<LanguageSection
+				spokenLanguages = {spokenLanguages}
+			/>
+			<ServiceSection
+				providedServices = {providedServices}
+			/>
+			<EducationSection
+				preVetEducation = {preVetEducation}
+				vetEducation = {vetEducation}
+				personalData = {personalData}
+			/>
+			<SpecialtiesSection
+				doctorSpecialties = {doctorSpecialties}
+			/>
+			<ReviewsSection
+			/>
+		</>
+	)
 }

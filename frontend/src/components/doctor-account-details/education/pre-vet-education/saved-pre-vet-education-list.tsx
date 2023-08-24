@@ -8,21 +8,21 @@ interface Props {
 }
 
 const SavedPreVetEducationList = (props: Props) => {
-  const { preVetEducation, deleteStatuses, setDeleteStatuses, handleDeleteOnClick } = props
+	const { preVetEducation, deleteStatuses, setDeleteStatuses, handleDeleteOnClick } = props
 
-  return (
-    <ul>
-      {preVetEducation.map((singlePreVetEducation) => (
-        <SingleSavedPreVetEducation
-          key = {singlePreVetEducation.pre_vet_education_mappingID}
-          singlePreVetEducation = {singlePreVetEducation}
-          deleteStatuses = {deleteStatuses}
-          setDeleteStatuses = {setDeleteStatuses}
-          handleDeleteOnClick = {handleDeleteOnClick}
-        />
-      ))}
-    </ul>
-  )
+	return (
+		<ul>
+			{preVetEducation.map((singlePreVetEducation) => (
+				<SingleSavedPreVetEducation
+					key = {singlePreVetEducation.pre_vet_education_mappingID}
+					singlePreVetEducation = {singlePreVetEducation}
+					deleteStatuses = {deleteStatuses}
+					setDeleteStatuses = {setDeleteStatuses}
+					handleDeleteOnClick = {handleDeleteOnClick}
+				/>
+			))}
+		</ul>
+	)
 }
 
 export default SavedPreVetEducationList

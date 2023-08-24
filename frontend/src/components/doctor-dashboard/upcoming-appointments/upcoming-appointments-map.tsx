@@ -7,19 +7,19 @@ const UpcomingAppointmentsMap = ({ upcomingDoctorAppointments, dashboardData, se
     setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardData[]>>
    }
 ) => {
-  if (_.isEmpty(upcomingDoctorAppointments)) return <>No upcoming appointments</>
-  return (
-    <>
-      {upcomingDoctorAppointments.map((appointment) => (
-        <UpcomingAppointmentCard
-          key = {appointment.appointmentsID}
-          appointment = {appointment}
-          dashboardData = {dashboardData}
-          setDashboardData = {setDashboardData}
-        />
-      ))}
-    </>
-  )
+	if (_.isEmpty(upcomingDoctorAppointments)) return <>No upcoming appointments</>
+	return (
+		<>
+			{upcomingDoctorAppointments.map((appointment) => (
+				<UpcomingAppointmentCard
+					key = {appointment.appointmentsID}
+					appointment = {appointment}
+					dashboardData = {dashboardData}
+					setDashboardData = {setDashboardData}
+				/>
+			))}
+		</>
+	)
 }
 
 export default UpcomingAppointmentsMap

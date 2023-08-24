@@ -7,19 +7,19 @@ import Header from "../../../components/header/header"
 import PatientHeader from "../patient-header"
 
 export default function PatientLoginAndSecurity() {
-  const { userType } = useSimpleUserVerification()
-  const loginHistory = useSetLoginHistory(userType, "Patient")
+	const { userType } = useSimpleUserVerification()
+	const loginHistory = useSetLoginHistory(userType, "Patient")
 
-  if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
+	if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
-  return (
-    <>
-      <Header dropdown = {true}/>
-      <PatientHeader/>
-      <ChangePassword type = {userType}/>
-      {loginHistory.map((item, index) => (
-        <LoginHistory key = {index} loginHistoryItem = {item} />
-      ))}
-    </>
-  )
+	return (
+		<>
+			<Header dropdown = {true}/>
+			<PatientHeader/>
+			<ChangePassword type = {userType}/>
+			{loginHistory.map((item, index) => (
+				<LoginHistory key = {index} loginHistoryItem = {item} />
+			))}
+		</>
+	)
 }

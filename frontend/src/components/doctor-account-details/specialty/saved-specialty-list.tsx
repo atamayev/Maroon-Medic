@@ -8,21 +8,21 @@ interface Props {
 }
 
 const SavedSpecialtyList = (props: Props) => {
-  const { doctorSpecialties, deleteStatuses, setDeleteStatuses, handleDeleteSpecialty } = props
+	const { doctorSpecialties, deleteStatuses, setDeleteStatuses, handleDeleteSpecialty } = props
 
-  return (
-    <ul>
-      {doctorSpecialties.map((specialty) => (
-        <SingleSavedSpecialty
-          key = {specialty.specialties_listID}
-          deleteStatuses = {deleteStatuses}
-          setDeleteStatuses = {setDeleteStatuses}
-          specialty = {specialty}
-          handleDeleteSpecialty = {handleDeleteSpecialty}
-        />
-      ))}
-    </ul>
-  )
+	return (
+		<ul>
+			{doctorSpecialties.map((specialty) => (
+				<SingleSavedSpecialty
+					key = {specialty.specialties_listID}
+					deleteStatuses = {deleteStatuses}
+					setDeleteStatuses = {setDeleteStatuses}
+					specialty = {specialty}
+					handleDeleteSpecialty = {handleDeleteSpecialty}
+				/>
+			))}
+		</ul>
+	)
 }
 
 export default SavedSpecialtyList

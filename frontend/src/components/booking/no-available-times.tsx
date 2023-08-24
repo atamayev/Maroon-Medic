@@ -6,11 +6,11 @@ interface NoAvailableTimesProps {
 }
 
 const NoAvailableTimes = (props: NoAvailableTimesProps) => {
-  const { noAvailableTimesMessage, personalData } = props
-  if (!noAvailableTimesMessage) return null
-  return <>
+	const { noAvailableTimesMessage, personalData } = props
+	if (!noAvailableTimesMessage) return null
+	return <>
     Dr. {_.upperFirst(personalData.LastName || "")} does not currently have any open appointments at this location
-  </>
+	</>
 }
 
 export default NoAvailableTimes

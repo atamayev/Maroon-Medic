@@ -9,7 +9,7 @@ Bugs:
 
 To-do:
 7. Fix the dashboard not renders, and the booking page problem
-
+8. break up backend into 1functions /file (besides for db)
 Make personal info it's own context
 Combine authContext and verify context. make it into a memoized class, initialized as null in index.tsx
 

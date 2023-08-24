@@ -9,31 +9,31 @@ interface Props {
 }
 
 const InsuranceSection = (props: Props) => {
-  const { newPetData, petTypes, insurances, setNewPetData } = props
+	const { newPetData, petTypes, insurances, setNewPetData } = props
 
-  return (
-    <FormGroup
-      as = "select"
-      defaultValue = {""}
-      onChange = {
-        (e) => handleInputChange(e, newPetData, petTypes, insurances, setNewPetData)
-      }
-      name = "insurance"
-      required
-      id = "formInsurance"
-      label = "Insurance"
-    >
-      <option value = "" disabled>Select</option>
-      {insurances.map((insurance) => (
-        <option
-          key = {insurance.insurance_listID}
-          value = {insurance.insurance_listID}
-        >
-          {insurance.Insurance_name}
-        </option>
-      ))}
-    </FormGroup>
-  )
+	return (
+		<FormGroup
+			as = "select"
+			defaultValue = {""}
+			onChange = {
+				(e) => handleInputChange(e, newPetData, petTypes, insurances, setNewPetData)
+			}
+			name = "insurance"
+			required
+			id = "formInsurance"
+			label = "Insurance"
+		>
+			<option value = "" disabled>Select</option>
+			{insurances.map((insurance) => (
+				<option
+					key = {insurance.insurance_listID}
+					value = {insurance.insurance_listID}
+				>
+					{insurance.Insurance_name}
+				</option>
+			))}
+		</FormGroup>
+	)
 }
 
 export default InsuranceSection

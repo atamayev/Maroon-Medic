@@ -16,93 +16,93 @@ interface Props {
 }
 
 export default function SpecialtySection (props: Props) {
-  return (
-    <AccountDetailsCard
-      title = "Specialties"
-      content = {<VetSpecialties {...props}/>}
-    />
-  )
+	return (
+		<AccountDetailsCard
+			title = "Specialties"
+			content = {<VetSpecialties {...props}/>}
+		/>
+	)
 }
 
 function VetSpecialties(props: Props) {
-  const [selectedOrganization, setSelectedOrganization] = useState("")
-  const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
-  const {listDetails, doctorSpecialties, setDoctorSpecialties} = props
-  const [specialtiesConfirmation, setSpecialtiesConfirmation] = useConfirmationMessage()
+	const [selectedOrganization, setSelectedOrganization] = useState("")
+	const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
+	const {listDetails, doctorSpecialties, setDoctorSpecialties} = props
+	const [specialtiesConfirmation, setSpecialtiesConfirmation] = useConfirmationMessage()
 
-  const specialties = selectedOrganization
-    ? listDetails.specialties.filter((item) => item.Organization_name === selectedOrganization)
-    : []
+	const specialties = selectedOrganization
+		? listDetails.specialties.filter((item) => item.Organization_name === selectedOrganization)
+		: []
 
-  useEffect(() => {
-    const newDeleteStatuses = { ...deleteStatuses }
+	useEffect(() => {
+		const newDeleteStatuses = { ...deleteStatuses }
 
-    // Go through each status
-    for (const specialityListID in newDeleteStatuses) {
-      // If the language ID does not exist in the spokenLanguages list, delete the status
-      if (!doctorSpecialties.some((speciality) => speciality.specialties_listID === Number(specialityListID))) {
-        delete newDeleteStatuses[specialityListID]
-      }
-    }
+		// Go through each status
+		for (const specialityListID in newDeleteStatuses) {
+			// If the language ID does not exist in the spokenLanguages list, delete the status
+			if (!doctorSpecialties.some((speciality) => speciality.specialties_listID === Number(specialityListID))) {
+				delete newDeleteStatuses[specialityListID]
+			}
+		}
 
-    setDeleteStatuses(newDeleteStatuses)
-  }, [doctorSpecialties])
+		setDeleteStatuses(newDeleteStatuses)
+	}, [doctorSpecialties])
 
-  const specificSpecialtiesOptions = useMemo(() => {
-    return specialties
-      .filter((specialty) =>
-        !doctorSpecialties.find(
-          (doctorSpecialty) =>
-            doctorSpecialty.specialties_listID === specialty.specialties_listID
-        )
-      )
-      .map((specialty) => (
-        <option key = {specialty.specialties_listID} value = {specialty.specialties_listID}>
-          {specialty.Specialty_name}
-        </option>
-      ))
-  }, [specialties, doctorSpecialties])
+	const specificSpecialtiesOptions = useMemo(() => {
+		return specialties
+			.filter((specialty) =>
+				!doctorSpecialties.find(
+					(doctorSpecialty) =>
+						doctorSpecialty.specialties_listID === specialty.specialties_listID
+				)
+			)
+			.map((specialty) => (
+				<option key = {specialty.specialties_listID} value = {specialty.specialties_listID}>
+					{specialty.Specialty_name}
+				</option>
+			))
+	}, [specialties, doctorSpecialties])
 
-  const handleSpecialtyChange = useAddSpecialty(
-    doctorSpecialties,
-    setDoctorSpecialties,
-    setSelectedOrganization,
-    listDetails,
-    setSpecialtiesConfirmation
-  )
+	const handleSpecialtyChange = useAddSpecialty(
+		doctorSpecialties,
+		setDoctorSpecialties,
+		setSelectedOrganization,
+		listDetails,
+		setSpecialtiesConfirmation
+	)
 
-  const handleDeleteSpecialty = useDeleteSpecialty(
-    doctorSpecialties, setDoctorSpecialties,
-    setSpecialtiesConfirmation, setSelectedOrganization
-  )
+	const handleDeleteSpecialty = useDeleteSpecialty(
+		doctorSpecialties, setDoctorSpecialties,
+		setSpecialtiesConfirmation, setSelectedOrganization
+	)
 
-  if (_.isEmpty(_.uniq(listDetails.specialties.map((item) => item.Organization_name)))) return <p>Loading...</p>
+	if (_.isEmpty(_.uniq(listDetails.specialties.map((item) => item.Organization_name)))) return <p>Loading...</p>
 
-  return (
-    <>
-      <SelectOrganization
-        listDetails = {listDetails}
-        selectedOrganization = {selectedOrganization}
-        setSelectedOrganization = {setSelectedOrganization}
-      />
+	return (
+		<>
+			<SelectOrganization
+				listDetails = {listDetails}
+				selectedOrganization = {selectedOrganization}
+				setSelectedOrganization = {setSelectedOrganization}
+			/>
 
-      <SelectSpecialty
-        selectedOrganization = {selectedOrganization}
-        specificSpecialtiesOptions = {specificSpecialtiesOptions}
-        handleSpecialtyChange = {handleSpecialtyChange}
-      />
+			<SelectSpecialty
+				selectedOrganization = {selectedOrganization}
+				specificSpecialtiesOptions = {specificSpecialtiesOptions}
+				handleSpecialtyChange = {handleSpecialtyChange}
+			/>
 
-      <SavedSpecialtyList
-        doctorSpecialties = {doctorSpecialties}
-        deleteStatuses = {deleteStatuses}
-        setDeleteStatuses = {setDeleteStatuses}
-        handleDeleteSpecialty = {handleDeleteSpecialty}
-      />
+			<SavedSpecialtyList
+				doctorSpecialties = {doctorSpecialties}
+				deleteStatuses = {deleteStatuses}
+				setDeleteStatuses = {setDeleteStatuses}
+				handleDeleteSpecialty = {handleDeleteSpecialty}
+			/>
 
-      <SavedConfirmationMessage
-        confirmationMessage = {specialtiesConfirmation}
-        whatIsBeingSaved = "Specialties"
-      />
-    </>
-  )
+			<SavedConfirmationMessage
+				confirmationMessage = {specialtiesConfirmation}
+				whatIsBeingSaved = "Specialties"
+			/>
+		</>
+	)
 }

@@ -17,34 +17,34 @@ interface Props {
 }
 
 const ServiceList = (props: Props) => {
-  const { categories, expandedCategories, setExpandedCategories,
-    selectedServices, setSelectedServices, providedServices, setProvidedServices, setServicesConfirmation } = props
+	const { categories, expandedCategories, setExpandedCategories,
+		selectedServices, setSelectedServices, providedServices, setProvidedServices, setServicesConfirmation } = props
 
-  return (
-    <>
-      {Object.entries(categories).map(([category, services]) => (
-        <div key = {category} style = {{ marginBottom: "10px" }}>
-          <label htmlFor = {category}>{category}</label>
-          <ToggleCategory
-            category = {category}
-            services = {services}
-            expandedCategories = {expandedCategories}
-            setExpandedCategories = {setExpandedCategories}
-          />
-          <ServicesMap
-            category = {category}
-            services = {services}
-            expandedCategories = {expandedCategories}
-            selectedServices = {selectedServices}
-            setSelectedServices = {setSelectedServices}
-            providedServices = {providedServices}
-            setProvidedServices = {setProvidedServices}
-            setServicesConfirmation = {setServicesConfirmation}
-          />
-        </div>
-      ))}
-    </>
-  )
+	return (
+		<>
+			{Object.entries(categories).map(([category, services]) => (
+				<div key = {category} style = {{ marginBottom: "10px" }}>
+					<label htmlFor = {category}>{category}</label>
+					<ToggleCategory
+						category = {category}
+						services = {services}
+						expandedCategories = {expandedCategories}
+						setExpandedCategories = {setExpandedCategories}
+					/>
+					<ServicesMap
+						category = {category}
+						services = {services}
+						expandedCategories = {expandedCategories}
+						selectedServices = {selectedServices}
+						setSelectedServices = {setSelectedServices}
+						providedServices = {providedServices}
+						setProvidedServices = {setProvidedServices}
+						setServicesConfirmation = {setServicesConfirmation}
+					/>
+				</div>
+			))}
+		</>
+	)
 }
 
 export default ServiceList

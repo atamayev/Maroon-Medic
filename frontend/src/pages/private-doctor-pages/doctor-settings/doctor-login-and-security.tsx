@@ -8,23 +8,23 @@ import Header from "../../../components/header/header"
 import DoctorHeader from "../doctor-header"
 
 const DoctorLoginAndSecurity = () => {
-  const { userType } = useSimpleUserVerification()
-  const loginHistory = useSetLoginHistory(userType, "Doctor")
+	const { userType } = useSimpleUserVerification()
+	const loginHistory = useSetLoginHistory(userType, "Doctor")
 
-  if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
+	if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
-  return (
-    <>
-      <Header dropdown = {true}/>
-      <DoctorHeader/>
-      <ChangePassword type = {userType}/>
-      {loginHistory.map((item, index) => (
-        <LoginHistory key = {index} loginHistoryItem = {item} />
-      ))}
-      {/* Later add update history here as well. Create an update history table which has the login_history table as a foreign key.
+	return (
+		<>
+			<Header dropdown = {true}/>
+			<DoctorHeader/>
+			<ChangePassword type = {userType}/>
+			{loginHistory.map((item, index) => (
+				<LoginHistory key = {index} loginHistoryItem = {item} />
+			))}
+			{/* Later add update history here as well. Create an update history table which has the login_history table as a foreign key.
       Within each login session, show what the user changed. */}
-    </>
-  )
+		</>
+	)
 }
 
 export default observer(DoctorLoginAndSecurity)

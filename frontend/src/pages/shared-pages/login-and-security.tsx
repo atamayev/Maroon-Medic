@@ -3,10 +3,10 @@ import DoctorLoginAndSecurity from "../private-doctor-pages/doctor-settings/doct
 import SharedPagesTemplate from "src/components/shared-pages-template"
 
 export default function LoginAndSecurity() {
-  return (
-    <SharedPagesTemplate
-      DoctorContent = {<DoctorLoginAndSecurity/>}
-      PatientContent = {<PatientLoginAndSecurity/>}
-    />
-  )
+	return (
+		<SharedPagesTemplate
+			DoctorContent = {<DoctorLoginAndSecurity/>}
+			PatientContent = {<PatientLoginAndSecurity/>}
+		/>
+	)
 }

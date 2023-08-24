@@ -14,25 +14,25 @@ interface Props {
 }
 
 export default function ServiceSection (props: Props) {
-  return (
-    <AccountDetailsCard
-      title = "Vet Services"
-      content = {<VetServices {...props} />}
-    />
-  )
+	return (
+		<AccountDetailsCard
+			title = "Vet Services"
+			content = {<VetServices {...props} />}
+		/>
+	)
 }
 
 function VetServices (props: Props) {
-  const [servicesConfirmation, setServicesConfirmation] = useConfirmationMessage()
-  const { listDetails, providedServices, setProvidedServices, expandedCategories, setExpandedCategories } = props
-  const [selectedServices, setSelectedServices] = useState<ServiceItem[]>([])
+	const [servicesConfirmation, setServicesConfirmation] = useConfirmationMessage()
+	const { listDetails, providedServices, setProvidedServices, expandedCategories, setExpandedCategories } = props
+	const [selectedServices, setSelectedServices] = useState<ServiceItem[]>([])
 
-  useEffect(() => {
-    //Initialize selectedServices to providedServices
-    if (providedServices) {
-      setSelectedServices(providedServices)
-    }
-  }, [providedServices])
+	useEffect(() => {
+		//Initialize selectedServices to providedServices
+		if (providedServices) {
+			setSelectedServices(providedServices)
+		}
+	}, [providedServices])
 
   type CategoriesType = {
     [key: string]: ServiceListItem[]
@@ -41,31 +41,31 @@ function VetServices (props: Props) {
   const categories: CategoriesType = {}
 
   if (listDetails.servicesAndCategories) {
-    listDetails.servicesAndCategories.forEach(service => {
-      if (!categories[service.Category_name]) categories[service.Category_name] = []
-      categories[service.Category_name].push(service)
-    })
+  	listDetails.servicesAndCategories.forEach(service => {
+  		if (!categories[service.Category_name]) categories[service.Category_name] = []
+  		categories[service.Category_name].push(service)
+  	})
   }
 
   if (_.isEmpty(_.uniq(listDetails.servicesAndCategories.map((item) => item.Category_name)))) return <>Loading...</>
 
   return (
-    <>
-      <ServiceList
-        categories = {categories}
-        expandedCategories = {expandedCategories}
-        setExpandedCategories = {setExpandedCategories}
-        selectedServices = {selectedServices}
-        setSelectedServices = {setSelectedServices}
-        providedServices = {providedServices}
-        setProvidedServices = {setProvidedServices}
-        setServicesConfirmation = {setServicesConfirmation}
-      />
+  	<>
+  		<ServiceList
+  			categories = {categories}
+  			expandedCategories = {expandedCategories}
+  			setExpandedCategories = {setExpandedCategories}
+  			selectedServices = {selectedServices}
+  			setSelectedServices = {setSelectedServices}
+  			providedServices = {providedServices}
+  			setProvidedServices = {setProvidedServices}
+  			setServicesConfirmation = {setServicesConfirmation}
+  		/>
 
-      <SavedConfirmationMessage
-        confirmationMessage = {servicesConfirmation}
-        whatIsBeingSaved = "Services"
-      />
-    </>
+  		<SavedConfirmationMessage
+  			confirmationMessage = {servicesConfirmation}
+  			whatIsBeingSaved = "Services"
+  		/>
+  	</>
   )
 }

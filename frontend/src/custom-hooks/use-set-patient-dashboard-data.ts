@@ -5,15 +5,15 @@ export default function useSetPatientDashboardData(): {
   dashboardData: PatientDashboardData[],
   setDashboardData: React.Dispatch<React.SetStateAction<PatientDashboardData[]>>}
 {
-  const [dashboardData, setDashboardData] = useState<PatientDashboardData[]>([])
+	const [dashboardData, setDashboardData] = useState<PatientDashboardData[]>([])
 
-  const fetchAndSetDashboardData: () => Promise<void> = async () => {
-    await fetchPatientDashboardData(setDashboardData)
-  }
+	const fetchAndSetDashboardData: () => Promise<void> = async () => {
+		await fetchPatientDashboardData(setDashboardData)
+	}
 
-  useEffect(() => {
-    fetchAndSetDashboardData()
-  }, [])
+	useEffect(() => {
+		fetchAndSetDashboardData()
+	}, [])
 
-  return {dashboardData, setDashboardData}
+	return {dashboardData, setDashboardData}
 }

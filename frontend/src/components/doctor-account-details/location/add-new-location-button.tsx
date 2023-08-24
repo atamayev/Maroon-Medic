@@ -7,17 +7,17 @@ interface Props {
 }
 
 const AddNewLocationButton = (props: Props) => {
-  const { addresses, setAddresses } = props
+	const { addresses, setAddresses } = props
 
-  return (
-    <Button
-      className = "mr-3"
-      colorClass = "bg-green-600"
-      hoverClass = "hover:bg-green-700"
-      title = "Add New Location"
-      onClick = {() => addAccordion(addresses, setAddresses)}
-    />
-  )
+	return (
+		<Button
+			className = "mr-3"
+			colorClass = "bg-green-600"
+			hoverClass = "hover:bg-green-700"
+			title = "Add New Location"
+			onClick = {() => addAccordion(addresses, setAddresses)}
+		/>
+	)
 }
 
 export default AddNewLocationButton

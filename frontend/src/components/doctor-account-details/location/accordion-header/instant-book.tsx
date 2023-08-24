@@ -9,20 +9,20 @@ interface Props {
 }
 
 const InstantBook = (props: Props) => {
-  const {address, handleToggleChange} = props
+	const {address, handleToggleChange} = props
 
-  return (
-    <>
-      <span>Instant book:</span>
-      <div onClick = {(event) => event.stopPropagation()}>
-        <Toggle
-          id = {`${address.address_priority}`}
-          checked = {address.instant_book}
-          onChange = {() => handleToggleChange(address.address_priority, "instant_book")}
-        />
-      </div>
-    </>
-  )
+	return (
+		<>
+			<span>Instant book:</span>
+			<div onClick = {(event) => event.stopPropagation()}>
+				<Toggle
+					id = {`${address.address_priority}`}
+					checked = {address.instant_book}
+					onChange = {() => handleToggleChange(address.address_priority, "instant_book")}
+				/>
+			</div>
+		</>
+	)
 }
 
 export default InstantBook

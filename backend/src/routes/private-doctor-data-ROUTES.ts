@@ -1,30 +1,30 @@
 import express from "express"
 import {
-  newDoctor,
-  fetchDashboardData,
-  fetchPersonalData,
-  fetchAccountDetails
+	newDoctor,
+	fetchDashboardData,
+	fetchPersonalData,
+	fetchAccountDetails
 } from "../controllers/private-doctor-data/private-doctor-data-CTRL"
 import {
-  savePersonalData,
-  saveDescriptionData,
-  addLanguage,
-  deleteLanguage,
-  addSpecialty,
-  deleteSpecialty,
-  addServicedPet,
-  deleteServicedPet,
-  savePublicAvailibilityData,
-  addService,
-  deleteService,
-  updateService,
-  addPreVetEducationData,
-  deletePreVetEducationData,
-  addVetEducationData,
-  deleteVetEducationData,
-  addAddress,
-  deleteAddress,
-  updateAddress
+	savePersonalData,
+	saveDescriptionData,
+	addLanguage,
+	deleteLanguage,
+	addSpecialty,
+	deleteSpecialty,
+	addServicedPet,
+	deleteServicedPet,
+	savePublicAvailibilityData,
+	addService,
+	deleteService,
+	updateService,
+	addPreVetEducationData,
+	deletePreVetEducationData,
+	addVetEducationData,
+	deleteVetEducationData,
+	addAddress,
+	deleteAddress,
+	updateAddress
 } from "../controllers/private-doctor-data/save-doctor-data-CTRL"
 
 const router = express.Router()

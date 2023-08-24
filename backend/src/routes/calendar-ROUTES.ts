@@ -1,8 +1,8 @@
 import express from "express"
 import {
-  getDoctorCalendarDetails,
-  makeAppointment,
-  confirmAppointment
+	getDoctorCalendarDetails,
+	makeAppointment,
+	confirmAppointment
 } from "../controllers/calendar-CTRL"
 import GetIDFromUUID from "../utils/getIDFromUUID"
 const router = express.Router()

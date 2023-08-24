@@ -6,17 +6,17 @@ interface Props {
 }
 
 const NevermindButton = ({ status, setStatus }: Props) => {
-  if (status !== "deleting") return null
+	if (status !== "deleting") return null
 
-  return (
-    <Button
-      className = "mt-3 mx-3"
-      colorClass = "bg-amber-600"
-      hoverClass = "hover:bg-amber-700"
-      title = "Nevermind"
-      onClick = {() => setStatus("initial")}
-    />
-  )
+	return (
+		<Button
+			className = "mt-3 mx-3"
+			colorClass = "bg-amber-600"
+			hoverClass = "hover:bg-amber-700"
+			title = "Nevermind"
+			onClick = {() => setStatus("initial")}
+		/>
+	)
 }
 
 export default NevermindButton

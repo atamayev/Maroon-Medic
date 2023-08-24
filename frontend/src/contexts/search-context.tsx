@@ -13,36 +13,36 @@ interface SearchContextType {
 }
 
 const defaultSearchContext: SearchContextType = {
-  searchTerm: "",
-  setSearchTerm: () => {},
-  items: [],
-  fetchData: () => {},
+	searchTerm: "",
+	setSearchTerm: () => {},
+	items: [],
+	fetchData: () => {},
 }
 
 export const SearchContext = createContext<SearchContextType>(defaultSearchContext)
 
 export const SearchContextProvider = (props: Props) => {
-  const [searchTerm, setSearchTerm] = useState(sessionStorage.getItem("searchTerm") || "")
-  const [items, setItems] = useState([])
+	const [searchTerm, setSearchTerm] = useState(sessionStorage.getItem("searchTerm") || "")
+	const [items, setItems] = useState([])
 
-  async function fetchData () {
-    const pathname = window.location.pathname
+	async function fetchData () {
+		const pathname = window.location.pathname
 
-    try {
-      let result
-      if (pathname === "/") {
-        result = await SearchDataService.fetchAllUsers()
-      } else if (pathname.startsWith("/s/")) {
-        result = await SearchDataService.searchByQuery(searchTerm)
-      }
-      if (result) setItems(result.data)
-    } catch (error) {
-    }
-  }
+		try {
+			let result
+			if (pathname === "/") {
+				result = await SearchDataService.fetchAllUsers()
+			} else if (pathname.startsWith("/s/")) {
+				result = await SearchDataService.searchByQuery(searchTerm)
+			}
+			if (result) setItems(result.data)
+		} catch (error) {
+		}
+	}
 
-  return (
-    <SearchContext.Provider value = {{ searchTerm, setSearchTerm, items, fetchData }}>
-      {props.children}
-    </SearchContext.Provider>
-  )
+	return (
+		<SearchContext.Provider value = {{ searchTerm, setSearchTerm, items, fetchData }}>
+			{props.children}
+		</SearchContext.Provider>
+	)
 }

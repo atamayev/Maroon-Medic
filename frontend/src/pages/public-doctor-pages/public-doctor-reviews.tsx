@@ -9,25 +9,25 @@ interface Props {
 }
 
 export default function ReviewsSection(props: Props) {
-  // const { spokenLanguages } = props
+	// const { spokenLanguages } = props
 
-  // if (!_.isEmpty(spokenLanguages)) {
-  return (
-    <PublicDoctorCard
-      title = "Reviews"
-      content = {<Reviews props = {props} />}
-    />
-  )
-  // }
+	// if (!_.isEmpty(spokenLanguages)) {
+	return (
+		<PublicDoctorCard
+			title = "Reviews"
+			content = {<Reviews props = {props} />}
+		/>
+	)
+	// }
 
 }
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 function Reviews({ props } : { props: Props }) {
 
-  return (
-    <>
+	return (
+		<>
       Reviews Section
-    </>
-  )
+		</>
+	)
 }

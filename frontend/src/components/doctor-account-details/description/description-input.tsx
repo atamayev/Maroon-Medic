@@ -7,22 +7,22 @@ interface Props {
 }
 
 const DescriptionInput = (props: Props) => {
-  const { description, setDescription } = props
+	const { description, setDescription } = props
 
-  const handleDescriptionChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setDescription(event.target.value)
-  }, [setDescription])
+	const handleDescriptionChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+		setDescription(event.target.value)
+	}, [setDescription])
 
-  return (
-    <FormGroup
-      id = "Description"
-      value = {description}
-      onChange = {event => {handleDescriptionChange(event)}}
-      maxLength = {1000}
-      as = "textarea"
-      rows = {3}
-    />
-  )
+	return (
+		<FormGroup
+			id = "Description"
+			value = {description}
+			onChange = {event => {handleDescriptionChange(event)}}
+			maxLength = {1000}
+			as = "textarea"
+			rows = {3}
+		/>
+	)
 }
 
 export default DescriptionInput

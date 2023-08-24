@@ -10,23 +10,23 @@ interface Props {
 }
 
 const UpdateLocationButton = (props: Props) => {
-  const {address, setAddresses, setAddressesConfirmation} = props
+	const {address, setAddresses, setAddressesConfirmation} = props
 
-  const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
-  const originalAddress = DoctorAccountDetails.addressData.find((addr: DoctorAddressData) => addr.addressesID === address.addressesID)
-  const isAddressSame = _.isEqual(originalAddress, address)
-  if (isAddressSame) return null
+	const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
+	const originalAddress = DoctorAccountDetails.addressData.find((addr: DoctorAddressData) => addr.addressesID === address.addressesID)
+	const isAddressSame = _.isEqual(originalAddress, address)
+	if (isAddressSame) return null
 
-  return (
-    <Button
-      className = "mr-3 float-right"
-      colorClass = "bg-amber-600"
-      hoverClass = "hover:bg-amber-700"
-      title = "Update Location"
-      onClick = {() => updateLocation(address, setAddresses, setAddressesConfirmation)}
-      disabled = {!areAllFieldsValid(address) || !areAllTimesValid(address)}
-    />
-  )
+	return (
+		<Button
+			className = "mr-3 float-right"
+			colorClass = "bg-amber-600"
+			hoverClass = "hover:bg-amber-700"
+			title = "Update Location"
+			onClick = {() => updateLocation(address, setAddresses, setAddressesConfirmation)}
+			disabled = {!areAllFieldsValid(address) || !areAllTimesValid(address)}
+		/>
+	)
 }
 
 export default UpdateLocationButton

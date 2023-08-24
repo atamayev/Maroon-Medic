@@ -9,26 +9,26 @@ interface Props {
 }
 
 const IsSelectedService = (props: Props) => {
-  const { service, selectedService, selectedServices, setSelectedServices } = props
+	const { service, selectedService, selectedServices, setSelectedServices } = props
 
-  if (!selectedService) return null
+	if (!selectedService) return null
 
-  return (
-    <>
-      <ServiceTimeInput
-        service = {service}
-        selectedService = {selectedService}
-        selectedServices = {selectedServices}
-        setSelectedServices = {setSelectedServices}
-      />
-      <ServicePriceInput
-        service = {service}
-        selectedService = {selectedService}
-        selectedServices = {selectedServices}
-        setSelectedServices = {setSelectedServices}
-      />
-    </>
-  )
+	return (
+		<>
+			<ServiceTimeInput
+				service = {service}
+				selectedService = {selectedService}
+				selectedServices = {selectedServices}
+				setSelectedServices = {setSelectedServices}
+			/>
+			<ServicePriceInput
+				service = {service}
+				selectedService = {selectedService}
+				selectedServices = {selectedServices}
+				setSelectedServices = {setSelectedServices}
+			/>
+		</>
+	)
 }
 
 export default IsSelectedService

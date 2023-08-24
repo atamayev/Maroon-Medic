@@ -13,17 +13,17 @@ interface Props {
 }
 
 export default function PetsSection (props: Props) {
-  return (
-    <AccountDetailsCard
-      title = "Serviced Pets"
-      content = {<PetsServiced {...props} />}
-    />
-  )
+	return (
+		<AccountDetailsCard
+			title = "Serviced Pets"
+			content = {<PetsServiced {...props} />}
+		/>
+	)
 }
 
 function PetsServiced (props: Props) {
-  const { listDetails, servicedPets, expandedPetTypes, setServicedPets, setExpandedPetTypes } = props
-  const [petsConfirmation, setPetsConfirmation] = useConfirmationMessage()
+	const { listDetails, servicedPets, expandedPetTypes, setServicedPets, setExpandedPetTypes } = props
+	const [petsConfirmation, setPetsConfirmation] = useConfirmationMessage()
 
   type PetTypesType = {
     [key: string]: ServicedPetItem[]
@@ -31,28 +31,28 @@ function PetsServiced (props: Props) {
 
   const petTypes: PetTypesType = {}
   if (listDetails.pets) {
-    listDetails.pets.forEach(petType => {
-      if (!petTypes[petType.Pet_type]) petTypes[petType.Pet_type] = []
-      petTypes[petType.Pet_type].push(petType)
-    })
+  	listDetails.pets.forEach(petType => {
+  		if (!petTypes[petType.Pet_type]) petTypes[petType.Pet_type] = []
+  		petTypes[petType.Pet_type].push(petType)
+  	})
   }
 
   if (_.isEmpty(_.uniq(listDetails.pets.map((item) => item.Pet_type)))) return <>Loading...</>
 
   return (
-    <>
-      <Pets
-        petTypes = {petTypes}
-        servicedPets = {servicedPets}
-        expandedPetTypes = {expandedPetTypes}
-        setServicedPets = {setServicedPets}
-        setExpandedPetTypes = {setExpandedPetTypes}
-        setPetsConfirmation = {setPetsConfirmation}
-      />
-      <SavedConfirmationMessage
-        confirmationMessage = {petsConfirmation}
-        whatIsBeingSaved = "Pets Serviced"
-      />
-    </>
+  	<>
+  		<Pets
+  			petTypes = {petTypes}
+  			servicedPets = {servicedPets}
+  			expandedPetTypes = {expandedPetTypes}
+  			setServicedPets = {setServicedPets}
+  			setExpandedPetTypes = {setExpandedPetTypes}
+  			setPetsConfirmation = {setPetsConfirmation}
+  		/>
+  		<SavedConfirmationMessage
+  			confirmationMessage = {petsConfirmation}
+  			whatIsBeingSaved = "Pets Serviced"
+  		/>
+  	</>
   )
 }

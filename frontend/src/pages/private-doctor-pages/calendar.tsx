@@ -11,41 +11,41 @@ import DoctorHeader from "./doctor-header"
 const localizer = momentLocalizer(moment)
 
 const CustomEvent = ({ event }: { event: DoctorCalendarEvent }) => {
-  let tailwindCSS = ""
-  if (event.Doctor_confirmation_status === false) tailwindCSS = "bg-orange-400"
-  else tailwindCSS = "bg-blue-400"
+	let tailwindCSS = ""
+	if (event.Doctor_confirmation_status === false) tailwindCSS = "bg-orange-400"
+	else tailwindCSS = "bg-blue-400"
 
-  return <div className={tailwindCSS}> {event.title} </div>
+	return <div className={tailwindCSS}> {event.title} </div>
 }
 
 export default function DoctorCalendar() {
-  const [events, setEvents] = useState<DoctorCalendarEvent[]>([])
-  const { userType } = useSimpleUserVerification()
+	const [events, setEvents] = useState<DoctorCalendarEvent[]>([])
+	const { userType } = useSimpleUserVerification()
 
-  useEffect(() => {
-    const fetchCalendarData = async () => {
-      const calendarData = await retrieveDoctorCalendarData(userType)
-      setEvents(calendarData)
-    }
-    fetchCalendarData()
-  }, [])
+	useEffect(() => {
+		const fetchCalendarData = async () => {
+			const calendarData = await retrieveDoctorCalendarData(userType)
+			setEvents(calendarData)
+		}
+		fetchCalendarData()
+	}, [])
 
-  if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
+	if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
-  return (
-    <div>
-      <Header dropdown = {true} />
-      <DoctorHeader />
-      <Calendar
-        localizer = {localizer}
-        defaultDate = {new Date()}
-        defaultView = "month"
-        events = {events}
-        style = {{ height: "100vh" }}
-        components = {{
-          event: CustomEvent,
-        }}
-      />
-    </div>
-  )
+	return (
+		<div>
+			<Header dropdown = {true} />
+			<DoctorHeader />
+			<Calendar
+				localizer = {localizer}
+				defaultDate = {new Date()}
+				defaultView = "month"
+				events = {events}
+				style = {{ height: "100vh" }}
+				components = {{
+					event: CustomEvent,
+				}}
+			/>
+		</div>
+	)
 }

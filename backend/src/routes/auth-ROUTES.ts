@@ -1,13 +1,13 @@
 import express from "express"
 import {
-  register,
-  login,
-  logout,
-  jwtVerify,
-  fetchLoginHistory,
-  changePassword,
-  newDoctorConfirmation,
-  newPatientConfirmation
+	register,
+	login,
+	logout,
+	jwtVerify,
+	fetchLoginHistory,
+	changePassword,
+	newDoctorConfirmation,
+	newPatientConfirmation
 } from "../controllers/auth-CTRL"
 
 const router = express.Router()

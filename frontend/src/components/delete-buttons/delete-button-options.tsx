@@ -10,19 +10,19 @@ interface DeleteButtonOptionsProps<T> {
 }
 
 const DeleteButtonOptions = <T,>(props: DeleteButtonOptionsProps<T>) => {
-  const { status, setStatus, dataType, handleDeleteOnClick } = props
+	const { status, setStatus, dataType, handleDeleteOnClick } = props
 
-  return (
-    <>
-      <InitialDeleteButton status = {status} setStatus = {setStatus}/>
-      <NevermindButton status={status} setStatus={setStatus}/>
-      <ConfirmDeleteButton<T>
-        status = {status}
-        dataType = {dataType}
-        handleDeleteOnClick = {handleDeleteOnClick}
-      />
-    </>
-  )
+	return (
+		<>
+			<InitialDeleteButton status = {status} setStatus = {setStatus}/>
+			<NevermindButton status={status} setStatus={setStatus}/>
+			<ConfirmDeleteButton<T>
+				status = {status}
+				dataType = {dataType}
+				handleDeleteOnClick = {handleDeleteOnClick}
+			/>
+		</>
+	)
 }
 
 export default DeleteButtonOptions

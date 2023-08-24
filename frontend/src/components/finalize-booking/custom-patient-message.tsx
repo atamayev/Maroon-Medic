@@ -7,18 +7,18 @@ interface CharacterLimitProps {
 }
 
 const CharacterLimit = (props: CharacterLimitProps) => {
-  const { message, isMessageOverLimit } = props
+	const { message, isMessageOverLimit } = props
 
-  const counterStyleLimit = () => {
-    if (isMessageOverLimit) return {color: "red"}
-    return {color: "black"}
-  }
+	const counterStyleLimit = () => {
+		if (isMessageOverLimit) return {color: "red"}
+		return {color: "black"}
+	}
 
-  return (
-    <span style = {{ display: "block", ...counterStyleLimit() }}>
+	return (
+		<span style = {{ display: "block", ...counterStyleLimit() }}>
       Character Limit: {message.length} / 100
-    </span>
-  )
+		</span>
+	)
 }
 
 interface Props {
@@ -29,29 +29,29 @@ interface Props {
 }
 
 const CustomPatientMessage = (props: Props) => {
-  const { message, setMessage, isMessageOverLimit, personalData } = props
+	const { message, setMessage, isMessageOverLimit, personalData } = props
 
-  return (
-    <>
-      <span style = {{ display: "block" }}>
-        <strong>Write a message to Dr. {_.upperFirst(personalData.LastName || "")}:</strong>
-        <FormGroup
-          id = "Message"
-          value = {message}
-          onChange = {event => {
-            const value = event.target.value
-            setMessage(value)
-          }}
-          maxLength = {100}
-          as = "textarea"
-        />
-      </span>
-      <CharacterLimit
-        message = {message}
-        isMessageOverLimit = {isMessageOverLimit}
-      />
-    </>
-  )
+	return (
+		<>
+			<span style = {{ display: "block" }}>
+				<strong>Write a message to Dr. {_.upperFirst(personalData.LastName || "")}:</strong>
+				<FormGroup
+					id = "Message"
+					value = {message}
+					onChange = {event => {
+						const value = event.target.value
+						setMessage(value)
+					}}
+					maxLength = {100}
+					as = "textarea"
+				/>
+			</span>
+			<CharacterLimit
+				message = {message}
+				isMessageOverLimit = {isMessageOverLimit}
+			/>
+		</>
+	)
 }
 
 export default CustomPatientMessage

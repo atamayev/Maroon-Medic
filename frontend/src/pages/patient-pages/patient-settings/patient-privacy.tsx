@@ -4,15 +4,15 @@ import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 
 export default function PatientPrivacy() {
-  const { userType } = useSimpleUserVerification()
+	const { userType } = useSimpleUserVerification()
 
-  if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
+	if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
-  return (
-    <>
-      <Header dropdown = {true} search = {true}/>
-      <PatientHeader/>
+	return (
+		<>
+			<Header dropdown = {true} search = {true}/>
+			<PatientHeader/>
       PatientPrivacy
-    </>
-  )
+		</>
+	)
 }

@@ -7,17 +7,17 @@ interface Props {
 }
 
 const SaveDescriptionButton = (props: Props) => {
-  const { description, setDescriptionConfirmation } = props
+	const { description, setDescriptionConfirmation } = props
 
-  return (
-    <Button
-      className = "mt-3"
-      colorClass = "bg-green-600"
-      hoverClass = "hover:bg-green-700"
-      title = "Save"
-      onClick = {() => saveDescription(description, setDescriptionConfirmation)}
-    />
-  )
+	return (
+		<Button
+			className = "mt-3"
+			colorClass = "bg-green-600"
+			hoverClass = "hover:bg-green-700"
+			title = "Save"
+			onClick = {() => saveDescription(description, setDescriptionConfirmation)}
+		/>
+	)
 }
 
 export default SaveDescriptionButton

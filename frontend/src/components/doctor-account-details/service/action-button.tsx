@@ -13,69 +13,69 @@ interface Props {
 }
 
 const ActionButton = (props: Props) => {
-  const { service, providedServices, setProvidedServices, selectedServices, setServicesConfirmation, setSelectedServices } = props
-  const selectedService = selectedServices.find(s => s.service_and_category_listID === service.service_and_category_listID)
-  const providedService = providedServices.find(s => s.service_and_category_listID === service.service_and_category_listID)
+	const { service, providedServices, setProvidedServices, selectedServices, setServicesConfirmation, setSelectedServices } = props
+	const selectedService = selectedServices.find(s => s.service_and_category_listID === service.service_and_category_listID)
+	const providedService = providedServices.find(s => s.service_and_category_listID === service.service_and_category_listID)
 
-  const isSelected = selectedService !== undefined
-  const isProvided = providedService !== undefined
+	const isSelected = selectedService !== undefined
+	const isProvided = providedService !== undefined
 
-  // check if service time and price are filled
-  const isFilled = isSelected && selectedService.Service_time && selectedService.Service_price
+	// check if service time and price are filled
+	const isFilled = isSelected && selectedService.Service_time && selectedService.Service_price
 
-  const DeleteServiceButton = () => {
-    return (
-      <Button
-        onClick = {() => deleteServices(
+	const DeleteServiceButton = () => {
+		return (
+			<Button
+				onClick = {() => deleteServices(
           selectedService!,
           providedServices,
           setProvidedServices,
           setServicesConfirmation,
           setSelectedServices
-        )}
-        title = "Delete"
-        colorClass = "bg-red-600"
-        hoverClass = "hover:bg-red-700"
-      />
-    )
-  }
+				)}
+				title = "Delete"
+				colorClass = "bg-red-600"
+				hoverClass = "hover:bg-red-700"
+			/>
+		)
+	}
 
-  const UpdateServiceButton = () => {
-    return (
-      <Button
-        onClick = {() => updateServices(selectedService!, providedServices, setProvidedServices, setServicesConfirmation)}
-        title = "Update"
-        colorClass = "bg-amber-600"
-        hoverClass = "hover:bg-amber-700"
-      />
-    )
-  }
+	const UpdateServiceButton = () => {
+		return (
+			<Button
+				onClick = {() => updateServices(selectedService!, providedServices, setProvidedServices, setServicesConfirmation)}
+				title = "Update"
+				colorClass = "bg-amber-600"
+				hoverClass = "hover:bg-amber-700"
+			/>
+		)
+	}
 
-  const AddServiceButton = () => {
-    return (
-      <Button
-        onClick = {() => addServices(selectedService!, providedServices, setProvidedServices, setServicesConfirmation)}
-        title = "Add"
-        colorClass = "bg-green-600"
-        hoverClass = "hover:bg-green-700"
-      />
-    )
-  }
+	const AddServiceButton = () => {
+		return (
+			<Button
+				onClick = {() => addServices(selectedService!, providedServices, setProvidedServices, setServicesConfirmation)}
+				title = "Add"
+				colorClass = "bg-green-600"
+				hoverClass = "hover:bg-green-700"
+			/>
+		)
+	}
 
-  if (isSelected && isFilled) {
-    if (isProvided) {
-      if (providedService.Service_time === selectedService.Service_time &&
+	if (isSelected && isFilled) {
+		if (isProvided) {
+			if (providedService.Service_time === selectedService.Service_time &&
           providedService.Service_price === selectedService.Service_price) {
-        return <DeleteServiceButton/>
-      } else {
-        return <UpdateServiceButton />
-      }
-    } else {
-      return <AddServiceButton />
-    }
-  }
+				return <DeleteServiceButton/>
+			} else {
+				return <UpdateServiceButton />
+			}
+		} else {
+			return <AddServiceButton />
+		}
+	}
 
-  return null
+	return null
 }
 
 export default ActionButton

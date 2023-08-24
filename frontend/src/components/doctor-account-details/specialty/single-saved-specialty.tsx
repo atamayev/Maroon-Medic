@@ -8,28 +8,28 @@ interface Props {
 }
 
 const SingleSavedSpecialty = (props: Props) => {
-  const { deleteStatuses, setDeleteStatuses, specialty, handleDeleteSpecialty } = props
+	const { deleteStatuses, setDeleteStatuses, specialty, handleDeleteSpecialty } = props
 
-  const status = deleteStatuses[specialty.specialties_listID] || "initial"
+	const status = deleteStatuses[specialty.specialties_listID] || "initial"
 
-  const setStatus = (newStatus: DeleteStatuses) => {
-    setDeleteStatuses((prevStatuses) => ({
-      ...prevStatuses,
-      [specialty.specialties_listID]: newStatus,
-    }))
-  }
+	const setStatus = (newStatus: DeleteStatuses) => {
+		setDeleteStatuses((prevStatuses) => ({
+			...prevStatuses,
+			[specialty.specialties_listID]: newStatus,
+		}))
+	}
 
-  return (
-    <li>
-      {specialty.Organization_name} - {specialty.Specialty_name}{" "}
-      <DeleteButtonOptions<SpecialtyItem>
-        status = {status}
-        setStatus = {setStatus}
-        dataType = {specialty}
-        handleDeleteOnClick = {handleDeleteSpecialty}
-      />
-    </li>
-  )
+	return (
+		<li>
+			{specialty.Organization_name} - {specialty.Specialty_name}{" "}
+			<DeleteButtonOptions<SpecialtyItem>
+				status = {status}
+				setStatus = {setStatus}
+				dataType = {specialty}
+				handleDeleteOnClick = {handleDeleteSpecialty}
+			/>
+		</li>
+	)
 }
 
 export default SingleSavedSpecialty

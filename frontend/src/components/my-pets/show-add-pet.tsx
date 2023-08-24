@@ -6,18 +6,18 @@ interface Props {
 }
 
 const ShowAddPet = (props: Props) => {
-  const { showAddPet, setShowAddPet } = props
+	const { showAddPet, setShowAddPet } = props
 
-  if (showAddPet) return null
+	if (showAddPet) return null
 
-  return (
-    <Button
-      colorClass = "bg-green-600"
-      hoverClass = "hover:bg-green-700"
-      onClick = {() => {setShowAddPet(true)}}
-      title = "Add a Pet"
-    />
-  )
+	return (
+		<Button
+			colorClass = "bg-green-600"
+			hoverClass = "hover:bg-green-700"
+			onClick = {() => {setShowAddPet(true)}}
+			title = "Add a Pet"
+		/>
+	)
 }
 
 export default ShowAddPet

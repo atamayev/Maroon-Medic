@@ -1,9 +1,9 @@
 export const selectCarousel = (
-  selectedIndex: number,
-  setCarouselIndex: React.Dispatch<React.SetStateAction<number>>
+	selectedIndex: number,
+	setCarouselIndex: React.Dispatch<React.SetStateAction<number>>
 ): void => {
-  setCarouselIndex(selectedIndex)
-  // from React Bootstrap
+	setCarouselIndex(selectedIndex)
+	// from React Bootstrap
 }
 
 export default selectCarousel

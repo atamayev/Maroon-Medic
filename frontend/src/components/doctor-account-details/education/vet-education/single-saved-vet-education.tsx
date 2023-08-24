@@ -8,29 +8,29 @@ interface Props {
 }
 
 const SingleSavedVetEducation = (props: Props) => {
-  const { singleVetEducation, deleteStatuses, setDeleteStatuses, handleDeleteOnClick } = props
+	const { singleVetEducation, deleteStatuses, setDeleteStatuses, handleDeleteOnClick } = props
 
-  const status = deleteStatuses[singleVetEducation.vet_education_mappingID] || "initial"
+	const status = deleteStatuses[singleVetEducation.vet_education_mappingID] || "initial"
 
-  const setStatus = (newStatus: DeleteStatuses) => {
-    setDeleteStatuses((prevStatuses) => ({
-      ...prevStatuses,
-      [singleVetEducation.vet_education_mappingID]: newStatus,
-    }))
-  }
+	const setStatus = (newStatus: DeleteStatuses) => {
+		setDeleteStatuses((prevStatuses) => ({
+			...prevStatuses,
+			[singleVetEducation.vet_education_mappingID]: newStatus,
+		}))
+	}
 
-  return (
-    <li>
-      {singleVetEducation.School_name}, {singleVetEducation.Education_type}
-      {" (" + singleVetEducation.Start_Date} - {singleVetEducation.End_Date + ") "}
-      <DeleteButtonOptions<VetEducationItem>
-        status = {status}
-        setStatus = {setStatus}
-        dataType = {singleVetEducation}
-        handleDeleteOnClick = {handleDeleteOnClick}
-      />
-    </li>
-  )
+	return (
+		<li>
+			{singleVetEducation.School_name}, {singleVetEducation.Education_type}
+			{" (" + singleVetEducation.Start_Date} - {singleVetEducation.End_Date + ") "}
+			<DeleteButtonOptions<VetEducationItem>
+				status = {status}
+				setStatus = {setStatus}
+				dataType = {singleVetEducation}
+				handleDeleteOnClick = {handleDeleteOnClick}
+			/>
+		</li>
+	)
 }
 
 export default SingleSavedVetEducation

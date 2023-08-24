@@ -3,36 +3,36 @@ import { connectDatabase } from "../setup-and-security/connect"
 import { RowDataPacket } from "mysql2"
 
 export default new class CalendarDB {
-  async retrieveDoctorIDFromNVI (NVI: number): Promise<number> {
-    const sql = `SELECT Doctor_ID FROM ${mysqlTables.doctor_specific_info} WHERE NVI = ?`
-    const values = [NVI]
-    const connection = await connectDatabase()
-    const [results] = await connection.execute(sql, values)
-    const DoctorID = (results as RowDataPacket[])[0].Doctor_ID
-    return DoctorID
-  }
+	async retrieveDoctorIDFromNVI (NVI: number): Promise<number> {
+		const sql = `SELECT Doctor_ID FROM ${mysqlTables.doctor_specific_info} WHERE NVI = ?`
+		const values = [NVI]
+		const connection = await connectDatabase()
+		const [results] = await connection.execute(sql, values)
+		const DoctorID = (results as RowDataPacket[])[0].Doctor_ID
+		return DoctorID
+	}
 
-  async addAppointment (
-    dateTime: MysqlTimestamp,
-    AppointmentObject: AppointmentObject,
-    DoctorID: number,
-    createdAt: MysqlTimestamp
-  ): Promise<void> {
-    const sql = `INSERT INTO ${mysqlTables.appointments}
+	async addAppointment (
+		dateTime: MysqlTimestamp,
+		AppointmentObject: AppointmentObject,
+		DoctorID: number,
+		createdAt: MysqlTimestamp
+	): Promise<void> {
+		const sql = `INSERT INTO ${mysqlTables.appointments}
       (appointment_date, appointment_price, appointment_timespan, patient_message, Doctor_confirmation_status,
         Service_and_category_list_ID, pet_info_ID, Doctor_ID, Addresses_ID, Created_at)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
 
-    const values = [dateTime, AppointmentObject.appointmentPrice, AppointmentObject.appointmentTimespan, AppointmentObject.message,
-      AppointmentObject.InstantBook, AppointmentObject.Service_and_category_list_ID,
-      AppointmentObject.selectedPetID, DoctorID, AppointmentObject.AddressesID, createdAt
-    ]
-    const connection = await connectDatabase()
-    await connection.execute(sql, values)
-  }
+		const values = [dateTime, AppointmentObject.appointmentPrice, AppointmentObject.appointmentTimespan, AppointmentObject.message,
+			AppointmentObject.InstantBook, AppointmentObject.Service_and_category_list_ID,
+			AppointmentObject.selectedPetID, DoctorID, AppointmentObject.AddressesID, createdAt
+		]
+		const connection = await connectDatabase()
+		await connection.execute(sql, values)
+	}
 
-  async retrieveDoctorCalendarDetails (DoctorID: number): Promise<CalendarData[]> {
-    const sql = `SELECT
+	async retrieveDoctorCalendarDetails (DoctorID: number): Promise<CalendarData[]> {
+		const sql = `SELECT
         ${mysqlTables.appointments}.mysqlTables.appointmentsID, ${mysqlTables.appointments}.appointment_date,
         ${mysqlTables.appointments}.appointment_price, ${mysqlTables.appointments}.appointment_timespan,
         ${mysqlTables.appointments}.patient_message, ${mysqlTables.appointments}.Doctor_confirmation_status,
@@ -57,16 +57,16 @@ export default new class CalendarDB {
       WHERE
         ${mysqlTables.appointments}.Doctor_ID = ?`
 
-    const values = [DoctorID]
-    const connection = await connectDatabase()
-    const [calendarDetalis] = await connection.execute(sql, values) as RowDataPacket[]
-    return calendarDetalis as CalendarData[]
-  }
+		const values = [DoctorID]
+		const connection = await connectDatabase()
+		const [calendarDetalis] = await connection.execute(sql, values) as RowDataPacket[]
+		return calendarDetalis as CalendarData[]
+	}
 
-  async confirmAppointmentStatus (appointmentID: number): Promise<void> {
-    const sql = `UPDATE ${mysqlTables.appointments} SET Doctor_confirmation_status = 1 WHERE appointmentsID = ?`
-    const values = [appointmentID]
-    const connection = await connectDatabase()
-    await connection.execute(sql, values)
-  }
+	async confirmAppointmentStatus (appointmentID: number): Promise<void> {
+		const sql = `UPDATE ${mysqlTables.appointments} SET Doctor_confirmation_status = 1 WHERE appointmentsID = ?`
+		const values = [appointmentID]
+		const connection = await connectDatabase()
+		await connection.execute(sql, values)
+	}
 }()

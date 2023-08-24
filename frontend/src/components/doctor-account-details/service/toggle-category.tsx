@@ -9,24 +9,24 @@ interface Props {
 }
 
 const ToggleCategory = (props: Props) => {
-  const { category, services, expandedCategories, setExpandedCategories } = props
-  if (services.length <= 1) return null
+	const { category, services, expandedCategories, setExpandedCategories } = props
+	if (services.length <= 1) return null
 
-  const isOpen = expandedCategories.includes(category)
-  const IsOpen = () => {
-    if (isOpen) return "^"
-    return "v"
-  }
+	const isOpen = expandedCategories.includes(category)
+	const IsOpen = () => {
+		if (isOpen) return "^"
+		return "v"
+	}
 
-  return (
-    <Button
-      className = "mr-3"
-      colorClass = "bg-blue-600"
-      hoverClass = "hover:bg-blue-700"
-      title = {IsOpen()}
-      onClick = {() => toggleServiceCategory(category, setExpandedCategories)}
-    />
-  )
+	return (
+		<Button
+			className = "mr-3"
+			colorClass = "bg-blue-600"
+			hoverClass = "hover:bg-blue-700"
+			title = {IsOpen()}
+			onClick = {() => toggleServiceCategory(category, setExpandedCategories)}
+		/>
+	)
 }
 
 export default ToggleCategory
