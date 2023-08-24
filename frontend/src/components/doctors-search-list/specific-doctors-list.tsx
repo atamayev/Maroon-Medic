@@ -3,7 +3,6 @@ import { useContext, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { SearchContext } from "src/contexts/search-context"
 import SearchResults from "./search-results"
-import Header from "../header/header"
 
 export default function SpecificDoctorsList() {
 	const {searchTerm, items, setSearchTerm, fetchData} = useContext(SearchContext)
@@ -23,10 +22,5 @@ export default function SpecificDoctorsList() {
 		return <SearchResults data = {data}/>
 	}
 
-	return (
-		<>
-			<Header search = {true} dropdown = {true}/>
-			<FormattedSearchResults />
-		</>
-	)
+	return <FormattedSearchResults />
 }

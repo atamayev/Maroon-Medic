@@ -16,5 +16,5 @@ export default function SharedPagesTemplate(props: Props) {
 		return <NullUser/>
 	}
 
-	return <Component/>
+	return <Component />
 }

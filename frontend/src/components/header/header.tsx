@@ -7,8 +7,8 @@ import HeaderSearch from "./header-search"
 import HeaderDropdown from "./dropdown/header-dropdown"
 
 interface HeaderProps {
-  dropdown?: boolean,
-  search?: boolean
+  dropdown: boolean,
+  search: boolean
 }
 
 const Header = (props: HeaderProps) => {

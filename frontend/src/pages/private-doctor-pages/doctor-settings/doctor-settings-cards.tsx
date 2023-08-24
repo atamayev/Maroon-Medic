@@ -1,7 +1,6 @@
 import SettingsLinks from "../../../components/settings-links"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
-import Header from "../../../components/header/header"
 import DoctorHeader from "../doctor-header"
 
 export default function DoctorSettingsCards() {
@@ -11,7 +10,6 @@ export default function DoctorSettingsCards() {
 
 	return (
 		<>
-			<Header dropdown = {true}/>
 			<DoctorHeader/>
 			<div className="flex flex-col items-center">
 				<SettingsLinks SettingsLink = {"personal-information"} title = {"Personal Information"}/>

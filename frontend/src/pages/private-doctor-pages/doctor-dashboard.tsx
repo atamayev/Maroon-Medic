@@ -4,7 +4,6 @@ import { useEffect, useState } from "react"
 import UnauthorizedUser from "../../components/unauthorized-user/unauthorized-user"
 import useSetDoctorDashboardData from "src/custom-hooks/use-set-doctor-dashboard-data"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
-import Header from "../../components/header/header"
 import DoctorHeader from "./doctor-header"
 import PersonalInfo from "src/components/doctor-dashboard/personal-info"
 import PastAppointmentsSection from "src/components/doctor-dashboard/past-appointments/past-appointments-section"
@@ -67,7 +66,6 @@ export default function DoctorDashboard() {
 
 	return (
 		<>
-			<Header dropdown = {true}/>
 			<DoctorHeader/>
 			<PersonalInfo personalInfo = {personalInfo} />
 			<DashboardData />

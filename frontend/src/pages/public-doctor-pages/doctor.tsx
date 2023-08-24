@@ -2,7 +2,6 @@
 import { useState, useEffect} from "react"
 import {useParams} from "react-router-dom"
 import PublicDoctorDataService from "../../services/public-doctor-data-service"
-import Header from "../../components/header/header"
 import "./card.css"
 import BookingSection from "./public-doctor-booking"
 import ReviewsSection from "./public-doctor-reviews"
@@ -55,7 +54,6 @@ export default function Doctor () {
 
 	return (
 		<>
-			<Header dropdown = {true} search = {true}/>
 			<PersonalInfoSection
 				personalData = {personalData}
 			/>

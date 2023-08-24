@@ -3,7 +3,6 @@ import ChangePassword from "../../../components/change-password/change-password"
 import useSetLoginHistory from "../../../custom-hooks/use-set-login-history"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
-import Header from "../../../components/header/header"
 import PatientHeader from "../patient-header"
 
 export default function PatientLoginAndSecurity() {
@@ -14,7 +13,6 @@ export default function PatientLoginAndSecurity() {
 
 	return (
 		<>
-			<Header dropdown = {true}/>
 			<PatientHeader/>
 			<ChangePassword type = {userType}/>
 			{loginHistory.map((item, index) => (

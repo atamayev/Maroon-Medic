@@ -3,6 +3,7 @@ import pic from "../../../images/ProfileImage.jpg"
 import { useSetHeaderData } from "src/custom-hooks/use-set-header-data"
 import { DropdownItemsContainer } from "./dropdown-items-container"
 import { observer } from "mobx-react"
+import { useLocation } from "react-router-dom"
 
 interface Props {
   dropdown?: boolean
@@ -10,6 +11,7 @@ interface Props {
 }
 
 const HeaderDropdown = ({ dropdown, userType } : Props) => {
+	const location = useLocation()
 	const { headerData } = useSetHeaderData(userType)
 	const [isOpen, setIsOpen] = useState(false)
 
@@ -25,6 +27,10 @@ const HeaderDropdown = ({ dropdown, userType } : Props) => {
 		document.addEventListener("mousedown", handleClickOutside)
 		return () => document.removeEventListener("mousedown", handleClickOutside)
 	}, [])
+
+	useEffect(() => {
+		setIsOpen(false)
+	}, [location])
 
 	if (dropdown === false) return null
 

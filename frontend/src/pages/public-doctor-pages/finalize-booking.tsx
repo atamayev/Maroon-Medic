@@ -4,7 +4,6 @@ import { useNavigate, useLocation } from "react-router-dom"
 import UnauthorizedUser from "../../components/unauthorized-user/unauthorized-user"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
 import useConfirmBooking from "../../custom-hooks/public-doctor/use-confirm-booking"
-import Header from "../../components/header/header"
 import DoctorPersonalInfo from "src/components/finalize-booking/doctor-personal-info"
 import CustomPatientMessage from "src/components/finalize-booking/custom-patient-message"
 import FinalizeBookingCardText from "src/components/finalize-booking/finalize-booking-card-text"
@@ -93,35 +92,32 @@ export default function FinalizeBookingPage() {
 	}
 
 	return (
-		<>
-			<Header dropdown = {true} search = {true}/>
-			<div className = "container mt-5">
-				<div className="bg-white border border-gray-300 rounded p-4 mb-4">
-					<div className="border-b pb-2 mb-4">
-						<h2>{ConfirmOrRequestBook()} an Appointment</h2>
-					</div>
-					<div className="p-4">
-						<h3>
-							<DoctorPersonalInfo personalData={personalData} />
-						</h3>
-						<FinalizeBookingCardText
-							selectedService={selectedService}
-							selectedLocation={selectedLocation}
-							selectedDay={selectedDay}
-							selectedTime={selectedTime}
-							serviceMinutes={serviceMinutes}
-							selectedPet={selectedPet}
-						/>
-						<CustomPatientMessage
-							message={message}
-							setMessage={setMessage}
-							isMessageOverLimit={isMessageOverLimit}
-							personalData={personalData}
-						/>
-						<ConfirmBookingButton />
-					</div>
+		<div className = "container mt-5">
+			<div className="bg-white border border-gray-300 rounded p-4 mb-4">
+				<div className="border-b pb-2 mb-4">
+					<h2>{ConfirmOrRequestBook()} an Appointment</h2>
+				</div>
+				<div className="p-4">
+					<h3>
+						<DoctorPersonalInfo personalData={personalData} />
+					</h3>
+					<FinalizeBookingCardText
+						selectedService={selectedService}
+						selectedLocation={selectedLocation}
+						selectedDay={selectedDay}
+						selectedTime={selectedTime}
+						serviceMinutes={serviceMinutes}
+						selectedPet={selectedPet}
+					/>
+					<CustomPatientMessage
+						message={message}
+						setMessage={setMessage}
+						isMessageOverLimit={isMessageOverLimit}
+						personalData={personalData}
+					/>
+					<ConfirmBookingButton />
 				</div>
 			</div>
-		</>
+		</div>
 	)
 }

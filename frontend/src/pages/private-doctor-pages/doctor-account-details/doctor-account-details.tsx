@@ -1,6 +1,5 @@
 import { useState } from "react"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
-import Header from "../../../components/header/header"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import DoctorHeader from "../doctor-header"
 import PetsSection from "./pets"
@@ -83,7 +82,6 @@ export default function DoctorAccountDetails() {
 
 	return (
 		<div>
-			<Header dropdown = {true}/>
 			<DoctorHeader/>
 			<PreVetEducationSection
 				listDetails = {listDetails}
@@ -101,9 +99,9 @@ export default function DoctorAccountDetails() {
 			/>
 			<PersonalInfoLinkSection/>
 			{/* <PicturesSection
-        carouselIndex = {carouselIndex}
-        setCarouselIndex = {setCarouselIndex}
-      /> */}
+				carouselIndex = {carouselIndex}
+				setCarouselIndex = {setCarouselIndex}
+			/> */}
 			<PetsSection
 				listDetails = {listDetails}
 				servicedPets = {servicedPets}

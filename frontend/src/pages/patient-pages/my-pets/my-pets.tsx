@@ -3,7 +3,6 @@ import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import useFetchPetData from "src/custom-hooks/use-fetch-pet-data"
-import Header from "../../../components/header/header"
 import PatientHeader from "../patient-header"
 import NewPet from "./new-pet"
 import ShowAddPet from "src/components/my-pets/show-add-pet"
@@ -19,6 +18,7 @@ export default function MyPets() {
 	const [showModal, setShowModal] = useState(false)
 	const [petToDelete, setPetToDelete] = useState<SavedPetItem | null>(null)
 	const { savedPetData, setSavedPetData, petTypes, insurances } = useFetchPetData(userType)
+
 	if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
 	const AddPet = () => {
@@ -40,7 +40,6 @@ export default function MyPets() {
 
 	return (
 		<>
-			<Header dropdown = {true} search = {true}/>
 			<PatientHeader/>
 
 			<SavedPetData

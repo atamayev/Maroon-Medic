@@ -8,7 +8,6 @@ import FirstNameInput from "src/components/personal-info-inputs/first-name-input
 import LastNameInput from "src/components/personal-info-inputs/last-name-input"
 import GenderSection from "src/components/personal-info-inputs/gender-input"
 import DOBSection from "src/components/date-of-birth/dob-section"
-import Header from "../../../components/header/header"
 import PatientHeader from "../patient-header"
 import Button from "src/components/button"
 
@@ -22,7 +21,6 @@ export default function PatientPersonalInfo() {
 
 	return (
 		<div>
-			<Header dropdown = {true} search = {true}/>
 			<PatientHeader/>
 			<div className="bg-yellow-100 border border-brown-400 rounded p-4 mb-4">
 				<div className="p-4">

@@ -4,7 +4,6 @@ import ChangePassword from "../../../components/change-password/change-password"
 import useSetLoginHistory from "../../../custom-hooks/use-set-login-history"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
-import Header from "../../../components/header/header"
 import DoctorHeader from "../doctor-header"
 
 const DoctorLoginAndSecurity = () => {
@@ -15,7 +14,6 @@ const DoctorLoginAndSecurity = () => {
 
 	return (
 		<>
-			<Header dropdown = {true}/>
 			<DoctorHeader/>
 			<ChangePassword type = {userType}/>
 			{loginHistory.map((item, index) => (

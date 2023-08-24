@@ -36,7 +36,14 @@ const DropdownItems = ({ dropdown, userType } : Props) => {
 			<>
 				<Link to="/dashboard" className={unboldedDropdownItemCSS} role="menuitem">Dashboard</Link>
 				<Link to="/account-details" className={unboldedDropdownItemCSS} role="menuitem">Account Details</Link>
-				<button onClick={handleLogout} className={unboldedDropdownItemCSS} role="menuitem">Sign out</button>
+				<div className = "block">
+					<button
+						onClick={handleLogout}
+						className={unboldedDropdownItemCSS + " w-full text-left"} role="menuitem"
+					>
+						Sign out
+					</button>
+				</div>
 			</>
 		)
 	}

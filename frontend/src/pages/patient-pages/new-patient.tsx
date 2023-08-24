@@ -4,7 +4,6 @@ import { VerifyContext } from "../../contexts/verify-context"
 import AuthDataService from "../../services/auth-data-service"
 import NewAccountForm from "../../components/new-account-form"
 import useNewUserSubmit from "../../custom-hooks/auth-submits/use-new-user-submit"
-import Header from "../../components/header/header"
 
 export default function NewPatient () {
 	const [newPatientInfo, setNewPatientInfo] = useState<BirthDateInfo>({
@@ -37,15 +36,12 @@ export default function NewPatient () {
 	}, [])
 
 	return (
-		<>
-			<Header/>
-			<NewAccountForm
-				handleSubmit = {(e) => newUserSubmit(e, newPatientInfo)}
-				newInfo = {newPatientInfo}
-				setNewInfo = {setNewPatientInfo}
-				error = {error}
-				loading = {loading}
-			/>
-		</>
+		<NewAccountForm
+			handleSubmit = {(e) => newUserSubmit(e, newPatientInfo)}
+			newInfo = {newPatientInfo}
+			setNewInfo = {setNewPatientInfo}
+			error = {error}
+			loading = {loading}
+		/>
 	)
 }

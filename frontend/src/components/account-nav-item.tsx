@@ -1,4 +1,3 @@
-import React from "react"
 import { Link, useLocation } from "react-router-dom"
 
 type PillItemProps = {
@@ -6,7 +5,8 @@ type PillItemProps = {
   to: string
 }
 
-const PillItem: React.FC<PillItemProps> = ({ label, to }) => {
+const PillItem = (props: PillItemProps) => {
+	const { label, to } = props
 	const location = useLocation()
 	const isActive = location.pathname.startsWith(to)
 
@@ -15,12 +15,14 @@ const PillItem: React.FC<PillItemProps> = ({ label, to }) => {
 	else classes = "bg-white border-blue-500 hover:bg-blue-700 hover:text-white"
 
 	return (
-		<div className={`rounded text-black border px-2 py-2 inline-flex items-center justify-center flex-grow flex-shrink ${classes}`}>
+		<div className = "inline-flex items-center justify-center flex-grow flex-shrink">
 			<Link
 				to = {to}
 				className = "font-bold text-center w-full"
 			>
-				{label}
+				<div className={`rounded text-black border px-2 py-2  ${classes}`}>
+					{label}
+				</div>
 			</Link>
 		</div>
 	)

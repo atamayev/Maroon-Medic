@@ -5,7 +5,6 @@ import "react-big-calendar/lib/css/react-big-calendar.css"
 import retrieveDoctorCalendarData from "src/helper-functions/private-doctor/retrieve-doctor-calendar-data"
 import UnauthorizedUser from "../../components/unauthorized-user/unauthorized-user"
 import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
-import Header from "../../components/header/header"
 import DoctorHeader from "./doctor-header"
 
 const localizer = momentLocalizer(moment)
@@ -34,7 +33,6 @@ export default function DoctorCalendar() {
 
 	return (
 		<div>
-			<Header dropdown = {true} />
 			<DoctorHeader />
 			<Calendar
 				localizer = {localizer}
