@@ -17,13 +17,16 @@ const Header = (props: HeaderProps) => {
 	const { searchTerm, setSearchTerm } = useContext(SearchContext)
 
 	return (
-		<header className="bg-white shadow rounded-b-md">
-			<nav className="container mx-auto px-4 py-2 flex justify-between items-center">
-				<Logo />
-				<HeaderSearch search = {search} searchTerm = {searchTerm} setSearchTerm = {setSearchTerm}/>
-				<HeaderDropdown dropdown = {dropdown} userType = {userType} />
-			</nav>
-		</header>
+		<>
+			<header className="bg-white shadow rounded-b-md">
+				<nav className="container mx-auto px-4 py-2 flex justify-between items-center">
+					<Logo />
+					<HeaderSearch search = {search} searchTerm = {searchTerm} setSearchTerm = {setSearchTerm}/>
+					<HeaderDropdown dropdown = {dropdown} userType = {userType} />
+				</nav>
+			</header>
+			<div className="border-t border-gray-500"></div>
+		</>
 	)
 }
 

@@ -34,7 +34,7 @@ const HeaderDropdown = ({ dropdown, userType } : Props) => {
 				<div className="relative inline-block text-left" ref = {dropdownRef}>
 					<button
 						type="button"
-						className="bg-gray-800 text-white rounded px-4 py-2 flex items-center text-sm"
+						className="bg-gray-800 text-white rounded px-4 py-2 flex items-center text-sm hover:shadow-lg"
 						id="menu-button"
 						aria-expanded="false"
 						aria-haspopup="true"

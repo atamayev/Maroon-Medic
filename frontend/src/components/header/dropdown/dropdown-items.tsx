@@ -18,6 +18,8 @@ interface Props {
 
 const DropdownItems = ({ dropdown, userType } : Props) => {
 	const handleRefresh = useHandleRefresh()
+	const unboldedDropdownItemCSS = "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
+	const boldedDropdownItemCSS = "font-bold text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
 
 	const handleLogout = async () => {
 		try {
@@ -32,20 +34,20 @@ const DropdownItems = ({ dropdown, userType } : Props) => {
 	if (userType === "Doctor" || userType === "Patient") {
 		return (
 			<>
-				<Link to="/dashboard" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem">Dashboard</Link>
-				<Link to="/account-details" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem">Account Details</Link>
-				<button onClick={handleLogout} className="text-gray-700 block px-4 py-2 text-sm" role="menuitem">Sign out</button>
+				<Link to="/dashboard" className={unboldedDropdownItemCSS} role="menuitem">Dashboard</Link>
+				<Link to="/account-details" className={unboldedDropdownItemCSS} role="menuitem">Account Details</Link>
+				<button onClick={handleLogout} className={unboldedDropdownItemCSS} role="menuitem">Sign out</button>
 			</>
 		)
 	}
 	return (
 		<>
-			<Link to="/vet-register" className="font-bold text-gray-700 block px-4 py-2 text-sm" role="menuitem">Vet Sign up</Link>
-			<Link to="/vet-login" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem">Vet Log In</Link>
-			<Link to="/patient-register" className="font-bold text-gray-700 block px-4 py-2 text-sm" role="menuitem">Patient Sign up</Link>
-			<Link to="/patient-login" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem">Patient Log In</Link>
+			<Link to="/vet-register" className={boldedDropdownItemCSS} role="menuitem">Vet Sign up</Link>
+			<Link to="/vet-login" className={unboldedDropdownItemCSS} role="menuitem">Vet Log In</Link>
+			<Link to="/patient-register" className={boldedDropdownItemCSS} role="menuitem">Patient Sign up</Link>
+			<Link to="/patient-login" className={unboldedDropdownItemCSS} role="menuitem">Patient Log In</Link>
 			<div className="border-t border-gray-100"></div>
-			<Link to="/help" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem">Help</Link>
+			<Link to="/help" className={unboldedDropdownItemCSS} role="menuitem">Help</Link>
 		</>
 	)
 }
