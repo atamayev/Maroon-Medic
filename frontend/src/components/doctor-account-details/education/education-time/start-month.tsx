@@ -19,7 +19,9 @@ const SelectStartMonth = (props: Props) => {
 						const newStartMonth = e.target.value
 						let newEndMonth = timeState.endMonth
 
-						if (months.indexOf(newStartMonth) >= months.indexOf(timeState.endMonth) && timeState.startYear === timeState.endYear) {
+						if (months.indexOf(newStartMonth) >= months.indexOf(timeState.endMonth)
+							&& timeState.startYear === timeState.endYear
+						) {
 							newEndMonth = ""
 						}
 

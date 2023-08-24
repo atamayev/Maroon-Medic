@@ -32,9 +32,11 @@ export default function FinalizeBookingPage() {
 	const sessionBookingDetails = parsedData
 
 	if (browserLocation.state) {
-		({ selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet } = browserLocation.state)
+		({ selectedService, selectedLocation, selectedDay, selectedTime,
+			serviceMinutes, personalData, selectedPet } = browserLocation.state)
 	} else if (sessionBookingDetails) {
-		({ selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, personalData, selectedPet } = sessionBookingDetails)
+		({ selectedService, selectedLocation, selectedDay, selectedTime,
+			serviceMinutes, personalData, selectedPet } = sessionBookingDetails)
 	}
 
 	useEffect(() => {

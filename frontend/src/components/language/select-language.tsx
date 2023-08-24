@@ -10,7 +10,8 @@ const SelectLanguage = ({handleLanguageChange, languageOptions}: SelectLanguageP
 			name="language"
 			value=""
 			onChange={(e) => handleLanguageChange(e)}
-			className="text-brown-800 bg-yellow-100 border border-brown-400 rounded px-3 py-2 w-full focus:outline-none focus:border-amber-500"
+			className = "text-brown-800 bg-yellow-100 border border-brown-400 \
+				rounded px-3 py-2 w-full focus:outline-none focus:border-amber-500"
 		>
 			<option value="" disabled className="text-brown-600">
         Choose a language

@@ -35,7 +35,8 @@ const SelectLocation = (props: SelectLocationProps) => {
 				<option>Select...</option>
 				{addresses.map((address) => (
 					<option key={address.addressesID} value={address.addressesID}>
-						{address.address_title}: ({address.address_line_1} {address.address_line_2}, {address.city}, {address.state}, {address.zip})
+						{address.address_title}: ({address.address_line_1} {address.address_line_2},
+						{address.city}, {address.state}, {address.zip})
 					</option>
 				))}
 			</FormGroup>

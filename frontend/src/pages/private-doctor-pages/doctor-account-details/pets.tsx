@@ -25,34 +25,34 @@ function PetsServiced (props: Props) {
 	const { listDetails, servicedPets, expandedPetTypes, setServicedPets, setExpandedPetTypes } = props
 	const [petsConfirmation, setPetsConfirmation] = useConfirmationMessage()
 
-  type PetTypesType = {
-    [key: string]: ServicedPetItem[]
-  }
+	type PetTypesType = {
+	[key: string]: ServicedPetItem[]
+	}
 
-  const petTypes: PetTypesType = {}
-  if (listDetails.pets) {
-  	listDetails.pets.forEach(petType => {
-  		if (!petTypes[petType.Pet_type]) petTypes[petType.Pet_type] = []
-  		petTypes[petType.Pet_type].push(petType)
-  	})
-  }
+	const petTypes: PetTypesType = {}
+	if (listDetails.pets) {
+		listDetails.pets.forEach(petType => {
+			if (!petTypes[petType.Pet_type]) petTypes[petType.Pet_type] = []
+			petTypes[petType.Pet_type].push(petType)
+		})
+	}
 
-  if (_.isEmpty(_.uniq(listDetails.pets.map((item) => item.Pet_type)))) return <>Loading...</>
+	if (_.isEmpty(_.uniq(listDetails.pets.map((item) => item.Pet_type)))) return <>Loading...</>
 
-  return (
-  	<>
-  		<Pets
-  			petTypes = {petTypes}
-  			servicedPets = {servicedPets}
-  			expandedPetTypes = {expandedPetTypes}
-  			setServicedPets = {setServicedPets}
-  			setExpandedPetTypes = {setExpandedPetTypes}
-  			setPetsConfirmation = {setPetsConfirmation}
-  		/>
-  		<SavedConfirmationMessage
-  			confirmationMessage = {petsConfirmation}
-  			whatIsBeingSaved = "Pets Serviced"
-  		/>
-  	</>
-  )
+	return (
+		<>
+			<Pets
+				petTypes = {petTypes}
+				servicedPets = {servicedPets}
+				expandedPetTypes = {expandedPetTypes}
+				setServicedPets = {setServicedPets}
+				setExpandedPetTypes = {setExpandedPetTypes}
+				setPetsConfirmation = {setPetsConfirmation}
+			/>
+			<SavedConfirmationMessage
+				confirmationMessage = {petsConfirmation}
+				whatIsBeingSaved = "Pets Serviced"
+			/>
+		</>
+	)
 }

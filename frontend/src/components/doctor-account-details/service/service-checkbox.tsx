@@ -30,7 +30,9 @@ const ServiceCheckbox = (props: Props) => {
 				name = "service"
 				value = {service.service_and_category_listID}
 				checked = {
-					selectedServices.find((provided) => provided.service_and_category_listID === service.service_and_category_listID) !== undefined
+					selectedServices.find(
+						(provided) => provided.service_and_category_listID === service.service_and_category_listID
+					) !== undefined
 				}
 				onChange = {(event) => {
 					if (event.target.checked) {
@@ -38,7 +40,9 @@ const ServiceCheckbox = (props: Props) => {
 					}
 					else {
 						setSelectedServices(
-							selectedServices.filter(servicef => servicef.service_and_category_listID !== service.service_and_category_listID)
+							selectedServices.filter(
+								servicef => servicef.service_and_category_listID !== service.service_and_category_listID
+							)
 						)
 					}
 				}}

@@ -7,5 +7,11 @@ export default async function deleteServicedPets(
 	setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItem[]>>,
 	setPetsConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
-	return await modifyServicedPets(PrivateDoctorDataService.deleteServicedPet, petID, newServicedPets, setServicedPets, setPetsConfirmation)
+	return await modifyServicedPets(
+		PrivateDoctorDataService.deleteServicedPet,
+		petID,
+		newServicedPets,
+		setServicedPets,
+		setPetsConfirmation
+	)
 }

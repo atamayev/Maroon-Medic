@@ -52,7 +52,9 @@ const ConfirmedAppointment = (props: ConfirmedAppointmentProps) => {
 			<Button
 				colorClass = "bg-green-600"
 				hoverClass = "hover:bg-green-700"
-				onClick = {() => approveAppointment({setStatus, appointmentsID: appointment.appointmentsID, dashboardData, setDashboardData})}
+				onClick = {
+					() => approveAppointment({setStatus, appointmentsID: appointment.appointmentsID, dashboardData, setDashboardData})
+				}
 				title = "Approve Appointment"
 			/>
 			<Button
