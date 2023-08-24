@@ -2,12 +2,6 @@ import _ from "lodash"
 import { Link } from "react-router-dom"
 import Button from "../button"
 
-type DoctorData = {
-  NVI: number,
-  FirstName: string,
-  LastName: string,
-}
-
 interface Props {
   doctorData: DoctorData
 }

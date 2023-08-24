@@ -3,12 +3,15 @@ import { AxiosError } from "axios"
 import CalendarDataService from "src/services/calendar-data-service"
 import invalidUserAction from "src/utils/invalid-user-action"
 
-async function approveAppointment (
+interface ApproveAppointmentProps {
   setStatus: React.Dispatch<React.SetStateAction<AppointmentStatus>>,
   appointmentsID: number,
   dashboardData: DoctorDashboardData[],
   setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardData[]>>
-) {
+}
+
+async function approveAppointment (props: ApproveAppointmentProps) {
+  const { setStatus, appointmentsID, dashboardData, setDashboardData } = props
   try {
     const response = await CalendarDataService.confirmAppointment(appointmentsID)
     if (response.status === 200) {
@@ -32,21 +35,24 @@ async function approveAppointment (
   }
 }
 
-const ConfirmedAppointment = ( { status, setStatus, appointment, dashboardData, setDashboardData } :
-  { status: AppointmentStatus,
-    setStatus: React.Dispatch<React.SetStateAction<AppointmentStatus>>,
-    appointment: DoctorDashboardData,
-    dashboardData: DoctorDashboardData[],
-    setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardData[]>>
-  }
-) => {
+interface ConfirmedAppointmentProps {
+  status: AppointmentStatus,
+  setStatus: React.Dispatch<React.SetStateAction<AppointmentStatus>>,
+  appointment: DoctorDashboardData,
+  dashboardData: DoctorDashboardData[],
+  setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardData[]>>
+}
+
+const ConfirmedAppointment = (props: ConfirmedAppointmentProps) => {
+  const { status, setStatus, appointment, dashboardData, setDashboardData } = props
+
   if (status !== "confirming") return null
   return (
     <span style={{ display: "block" }}>
       <Button
         colorClass = "bg-green-600"
         hoverClass = "hover:bg-green-700"
-        onClick = {() => approveAppointment(setStatus, appointment.appointmentsID, dashboardData, setDashboardData)}
+        onClick = {() => approveAppointment({setStatus, appointmentsID: appointment.appointmentsID, dashboardData, setDashboardData})}
         title = "Approve Appointment"
       />
       <Button

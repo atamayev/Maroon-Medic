@@ -5,7 +5,7 @@ interface CategoriesType {
   [key: string]: OrganizationSpecialtyName[]
 }
 
-export default function SpecialtiesSection({doctorSpecialties} : {doctorSpecialties: OrganizationSpecialtyName[]}) {
+export default function SpecialtiesSection({ doctorSpecialties } : { doctorSpecialties: OrganizationSpecialtyName[] }) {
   if (_.isEmpty(doctorSpecialties)) return null
   return (
     <PublicDoctorCard
@@ -15,7 +15,7 @@ export default function SpecialtiesSection({doctorSpecialties} : {doctorSpecialt
   )
 }
 
-function Specialties({doctorSpecialties} : {doctorSpecialties: OrganizationSpecialtyName[]}) {
+function Specialties({ doctorSpecialties } : { doctorSpecialties: OrganizationSpecialtyName[] }) {
   const organizations: CategoriesType = {}
   doctorSpecialties.forEach(specialty => {
     if (!organizations[specialty.Organization_name]) {

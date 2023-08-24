@@ -6,7 +6,9 @@ interface Props {
   userType: DoctorOrPatientOrNull
 }
 
-export const DropdownItemsContainer = ({isOpen, dropdown, userType} : Props) => {
+export const DropdownItemsContainer = (props: Props) => {
+  const { isOpen, dropdown, userType } = props
+
   if (!isOpen) return null
 
   return (

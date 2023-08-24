@@ -1,6 +1,6 @@
 import { months } from "../../utils/constants"
 
-const SelectMonth = ({personalInfo, setPersonalInfo}: PersonalInfoProps) => {
+const SelectMonth = ({ personalInfo, setPersonalInfo }: PersonalInfoProps) => {
   return (
     <>
       <label>

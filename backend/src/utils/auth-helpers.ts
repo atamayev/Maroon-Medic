@@ -1,5 +1,6 @@
-import AuthDB from "../db/auth-DB"
 import jwt from "jsonwebtoken"
+import Hash from "../setup-and-security/hash"
+import AuthDB from "../db/auth-DB"
 
 export function getUserInfo(cookies: Express.Request["cookies"]): { type: DoctorOrPatient, UUID: string, newUserUUID: string } {
   let type: DoctorOrPatient = "Patient"
@@ -59,3 +60,23 @@ export function signJWT(payload: object, userType: "Doctor" | "Patient"): string
   }
 }
 
+export async function doesAccountExist(
+  email: string,
+  loginType: DoctorOrPatient
+): Promise<{ exists: boolean, accountExistError?: string }> {
+  try {
+    const exists = await AuthDB.checkIfAccountExists(email, loginType)
+    return { exists }
+  } catch (error: unknown) {
+    return { exists: false, accountExistError: "Problem with existing email search" }
+  }
+}
+
+export async function hashPassword(password: string): Promise<{ hashedPassword: string, hashError?: string }> {
+  try {
+    const hashedPassword = await Hash.hashCredentials(password)
+    return { hashedPassword }
+  } catch (error: unknown) {
+    return { hashedPassword: "", hashError: "Problem with hashing password" }
+  }
+}

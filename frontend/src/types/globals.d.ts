@@ -6,6 +6,12 @@ declare global {
     NVI: number
   }
 
+  interface DoctorData {
+    FirstName: string
+    LastName: string
+    NVI: number
+  }
+
   interface BirthDateInfo {
     FirstName: string,
     LastName: string,

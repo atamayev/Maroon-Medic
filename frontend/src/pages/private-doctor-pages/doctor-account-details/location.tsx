@@ -5,7 +5,6 @@ import useConfirmationMessage from "../../../custom-hooks/use-confirmation-messa
 import AddNewLocationButton from "src/components/doctor-account-details/location/add-new-location-button"
 import AddressAccordionMap from "src/components/doctor-account-details/location/address-accordion-map"
 import AccountDetailsCard from "src/components/account-details-card"
-import TailwindAccordion from "src/components/tailwind-accordion"
 
 interface Props {
   addresses: DoctorAddressData[]

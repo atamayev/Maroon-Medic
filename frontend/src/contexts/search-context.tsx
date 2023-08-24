@@ -5,12 +5,6 @@ interface Props {
   children: JSX.Element | JSX.Element[]
 }
 
-type DoctorData = {
-  NVI: number
-  FirstName: string
-  LastName: string
-}
-
 interface SearchContextType {
   searchTerm: string
   setSearchTerm: (value: string) => void

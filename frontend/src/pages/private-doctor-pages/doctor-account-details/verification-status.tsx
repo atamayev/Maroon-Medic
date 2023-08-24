@@ -14,7 +14,7 @@ export default function VerificationSection (props: Props) {
   )
 }
 
-function VetVerification ( {verified} : {verified: boolean}) {
+function VetVerification ({ verified } : { verified: boolean }) {
   if (verified) {
     return (
       <>

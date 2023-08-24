@@ -1,6 +1,6 @@
 import { days } from "../../utils/constants"
 
-const SelectDay = ({personalInfo, setPersonalInfo}: PersonalInfoProps) => {
+const SelectDay = ({ personalInfo, setPersonalInfo }: PersonalInfoProps) => {
   return (
     <>
       <label>

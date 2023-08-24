@@ -9,7 +9,7 @@ interface Props {
   userType: DoctorOrPatientOrNull
 }
 
-const HeaderDropdown = ({dropdown, userType} : Props) => {
+const HeaderDropdown = ({ dropdown, userType } : Props) => {
   const { headerData } = useSetHeaderData(userType)
   const [isOpen, setIsOpen] = useState(false)
 

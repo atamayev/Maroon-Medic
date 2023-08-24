@@ -23,6 +23,7 @@ interface Props {
   personalData: DoctorPersonalData
 }
 
+// eslint-disable-next-line max-lines-per-function
 export default function BookingSection(props: Props) {
   const { providedServices, addresses, personalData } = props
   const { userType } = useSimpleUserVerification(false)

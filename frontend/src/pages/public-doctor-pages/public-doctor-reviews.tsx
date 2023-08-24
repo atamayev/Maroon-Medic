@@ -23,7 +23,7 @@ export default function ReviewsSection(props: Props) {
 }
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-function Reviews({props} : {props: Props}) {
+function Reviews({ props } : { props: Props }) {
 
   return (
     <>

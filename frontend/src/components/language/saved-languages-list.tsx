@@ -8,8 +8,11 @@ interface SavedLanguageList {
   handleDeleteLanguage: (language: LanguageItem) => void
 }
 
-export const SavedLanguageList = ({spokenLanguages, deleteStatuses, setDeleteStatuses, handleDeleteLanguage}: SavedLanguageList) => {
+export const SavedLanguageList = (props: SavedLanguageList) => {
+  const { spokenLanguages, deleteStatuses, setDeleteStatuses, handleDeleteLanguage } = props
+
   if (!_.isArray(spokenLanguages) || _.isEmpty(spokenLanguages)) return null
+
   return (
     <ul>
       {spokenLanguages.map((language) => (

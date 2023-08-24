@@ -1,11 +1,13 @@
 import UpcomingAppointmentsMap from "./upcoming-appointments-map"
 
-const UpcomingAppointmentsSection = ({ upcomingDoctorAppointments, dashboardData, setDashboardData } :
-  { upcomingDoctorAppointments: DoctorDashboardData[],
-    dashboardData: DoctorDashboardData[],
-    setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardData[]>>
-   }
-) => {
+interface Props {
+  upcomingDoctorAppointments: DoctorDashboardData[],
+  dashboardData: DoctorDashboardData[],
+  setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardData[]>>
+}
+const UpcomingAppointmentsSection = (props: Props) => {
+  const { upcomingDoctorAppointments, dashboardData, setDashboardData } = props
+
   return (
     <div className="border border-brown-400 bg-yellow-100 rounded ml-2 mr-2">
       <div className="p-4 bg-amber-400 text-white">
@@ -13,9 +15,9 @@ const UpcomingAppointmentsSection = ({ upcomingDoctorAppointments, dashboardData
       </div>
       <div className="p-4">
         <UpcomingAppointmentsMap
-          upcomingDoctorAppointments={upcomingDoctorAppointments}
-          dashboardData={dashboardData}
-          setDashboardData={setDashboardData}
+          upcomingDoctorAppointments = {upcomingDoctorAppointments}
+          dashboardData = {dashboardData}
+          setDashboardData = {setDashboardData}
         />
       </div>
     </div>

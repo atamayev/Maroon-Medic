@@ -1,6 +1,6 @@
 import moment from "moment"
 
-const SavedPetDataText = ({pet} : {pet: SavedPetItem}) => {
+const SavedPetDataText = ({ pet } : { pet: SavedPetItem }) => {
   return (
     <div>
       <p>{pet.Pet}</p>

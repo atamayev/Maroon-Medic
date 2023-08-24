@@ -9,6 +9,7 @@ import DoctorPersonalInfo from "src/components/finalize-booking/doctor-personal-
 import CustomPatientMessage from "src/components/finalize-booking/custom-patient-message"
 import FinalizeBookingCardText from "src/components/finalize-booking/finalize-booking-card-text"
 
+// eslint-disable-next-line max-lines-per-function
 export default function FinalizeBookingPage() {
   const [message, setMessage] = useState("")
   const [isMessageOverLimit, setIsMessageOverLimit] = useState(false)

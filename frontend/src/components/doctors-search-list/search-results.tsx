@@ -1,11 +1,6 @@
 import _ from "lodash"
 import SingleDoctor from "./single-doctor-search-result"
 
-type DoctorData = {
-  NVI: number,
-  FirstName: string,
-  LastName: string,
-}
 export default function SearchResults( { data } : { data: DoctorData[] }) {
   if (_.isEmpty(data)) return <p> Loading... </p>
 

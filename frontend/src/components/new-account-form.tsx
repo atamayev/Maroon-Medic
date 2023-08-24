@@ -12,14 +12,9 @@ interface Props {
   loading: boolean
 }
 
-export default function NewAccountForm({
-  handleSubmit,
-  error,
-  newInfo,
-  setNewInfo,
-  loading
-} : Props
-) {
+export default function NewAccountForm(props: Props) {
+  const { handleSubmit, error, newInfo, setNewInfo, loading } = props
+
   const ErrorMessage = () => {
     if (!error) return null
     return (

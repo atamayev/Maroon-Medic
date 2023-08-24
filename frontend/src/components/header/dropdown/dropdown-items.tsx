@@ -16,7 +16,7 @@ interface Props {
   userType: DoctorOrPatientOrNull
 }
 
-const DropdownItems = ({dropdown, userType} : Props) => {
+const DropdownItems = ({ dropdown, userType } : Props) => {
   const handleRefresh = useHandleRefresh()
 
   const handleLogout = async () => {

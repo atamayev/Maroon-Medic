@@ -1,7 +1,14 @@
 import _ from "lodash"
 import FormGroup from "../form-group"
 
-const CharacterLimit = ({ message, isMessageOverLimit } : { message: string, isMessageOverLimit: boolean }) => {
+interface CharacterLimitProps {
+  message: string,
+  isMessageOverLimit: boolean
+}
+
+const CharacterLimit = (props: CharacterLimitProps) => {
+  const { message, isMessageOverLimit } = props
+
   const counterStyleLimit = () => {
     if (isMessageOverLimit) return {color: "red"}
     return {color: "black"}
@@ -14,13 +21,16 @@ const CharacterLimit = ({ message, isMessageOverLimit } : { message: string, isM
   )
 }
 
-const CustomPatientMessage = ({ message, setMessage, isMessageOverLimit, personalData } :
-  { message: string,
-    setMessage: React.Dispatch<React.SetStateAction<string>>,
-    isMessageOverLimit: boolean,
-    personalData: DoctorPersonalData
-  }
-) => {
+interface Props {
+  message: string,
+  setMessage: React.Dispatch<React.SetStateAction<string>>,
+  isMessageOverLimit: boolean,
+  personalData: DoctorPersonalData
+}
+
+const CustomPatientMessage = (props: Props) => {
+  const { message, setMessage, isMessageOverLimit, personalData } = props
+
   return (
     <>
       <span style = {{ display: "block" }}>

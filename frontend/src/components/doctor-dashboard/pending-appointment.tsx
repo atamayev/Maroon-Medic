@@ -1,10 +1,13 @@
 import Button from "../button"
 
-const PendingAppointment = ({ status, setStatus } :
-  { status: AppointmentStatus,
-    setStatus: React.Dispatch<React.SetStateAction<AppointmentStatus>>
-  }
-) => {
+interface Props {
+  status: AppointmentStatus,
+  setStatus: React.Dispatch<React.SetStateAction<AppointmentStatus>>
+}
+
+const PendingAppointment = (props: Props) => {
+  const { status, setStatus } = props
+
   if (status !== "pending") return null
   return (
     <Button

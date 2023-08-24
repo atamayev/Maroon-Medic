@@ -1,6 +1,6 @@
 import FormGroup from "../form-group"
 
-const FirstNameInput = ({personalInfo, setPersonalInfo}: PersonalInfoProps) => {
+const FirstNameInput = ({ personalInfo, setPersonalInfo }: PersonalInfoProps) => {
   return (
     <FormGroup
       id = "FirstName"

@@ -35,7 +35,9 @@ interface Props {
   setSearchTerm: (value: string) => void
 }
 
-const HeaderSearch = ({search, searchTerm, setSearchTerm} : Props) => {
+const HeaderSearch = (props: Props) => {
+  const { search = true, searchTerm, setSearchTerm } = props
+
   const location = useLocation()
 
   if (search === false) return null

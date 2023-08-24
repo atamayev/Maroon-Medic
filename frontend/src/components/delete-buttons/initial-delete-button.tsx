@@ -5,7 +5,7 @@ interface Props {
   setStatus: (status: DeleteStatuses) => void
 }
 
-const InitialDeleteButton = ({status, setStatus}: Props) => {
+const InitialDeleteButton = ({ status, setStatus }: Props) => {
   if (status !== "initial") return null
 
   return (

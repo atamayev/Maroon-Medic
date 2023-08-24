@@ -9,11 +9,14 @@ const returnDoctorConfirmationStatus = (appointment: DoctorDashboardData) => {
   return "approved"
 }
 
-const UpcomingAppointmentCard = ({ appointment, dashboardData, setDashboardData } :
-  { appointment: DoctorDashboardData,
-    dashboardData: DoctorDashboardData[],
-    setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardData[]>>
-  }) => {
+interface Props {
+  appointment: DoctorDashboardData,
+  dashboardData: DoctorDashboardData[],
+  setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardData[]>>
+}
+const UpcomingAppointmentCard = (props: Props) => {
+  const { appointment, dashboardData, setDashboardData } = props
+
   const [status, setStatus] = useState<AppointmentStatus>(returnDoctorConfirmationStatus(appointment))
 
   return (

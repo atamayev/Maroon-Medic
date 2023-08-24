@@ -8,10 +8,6 @@ Bugs:
 3. Fix services not changing from -1 (make sure -1 cannot be entered,or else db errors out)
 
 To-do:
--make sure that if there are more than 2 props, they are destructured in the body of the component, not in the parameters
-5.-make sure that each component is named the same as the file. there shouldn't be more than one large component per file
-	bring back the max lines rule
-6. Cut down the backend CTRL files
 7. Fix the dashboard not renders, and the booking page problem
 
 Make personal info it's own context
@@ -49,9 +45,6 @@ added a appointment_timespan, and add petID to the Appointments table. - need to
 		or, make the UUID be a header (ie authorizatoin header) whenever sending a req back and forth
 			don't make it doctorUUID or patientUUID, just make it UUID. same for AccessToken
 			think about the best way to structure the acess token/ uuid thing
-
--CODE CONCISION: Cut any function more than 100 lines into parts. I don't want massive functions - most can be distilled into smaller parts
-	uncomment this: // "max-lines-per-function": ["warn", {"max": 60, "skipBlankLines": true, "skipComments": true}],
 
 Move data like personal info into a context. If it's used by multiple components, move it into a context. Every time you navigate, show the context data, but call the API to check for changes simultaneously
 

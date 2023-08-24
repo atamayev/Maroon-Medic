@@ -8,7 +8,16 @@ import Hash from "../setup-and-security/hash"
 import { loginHistory } from "../utils/account-tracker"
 import Cookie from "../utils/cookie-operations"
 import { ID_to_UUID, UUID_to_ID } from "../setup-and-security/UUID"
-import { getUserInfo, handleLogoutInDB, getUserType, getDecodedUUID, validateUserType, signJWT } from "../utils/auth-helper"
+import {
+  getUserInfo,
+  handleLogoutInDB,
+  getUserType,
+  getDecodedUUID,
+  validateUserType,
+  signJWT,
+  doesAccountExist,
+  hashPassword
+} from "../utils/auth-helpers"
 
 export async function jwtVerify(req: Request, res: Response): Promise<Response> {
   const cookies = req.cookies
@@ -86,22 +95,12 @@ export async function register (req: Request, res: Response): Promise<Response> 
 
   if (!validateUserType(loginType)) return res.status(400).json("Invalid User Type")
 
-  let doesAccountExist: boolean
-  try {
-    doesAccountExist = await AuthDB.checkIfAccountExists(email, loginType)
-  } catch (error: unknown) {
-    return res.status(500).json({ error: "Problem with existing email search" })
-  }
+  const { exists, accountExistError } = await doesAccountExist(email, loginType)
+  if (accountExistError) return res.status(500).json({ error: accountExistError })
+  else if (exists) return res.status(400).json("Email already exists!")
 
-  let hashedPassword: string
-  if (doesAccountExist) return res.status(400).json("User already exists!")
-  else {
-    try {
-      hashedPassword = await Hash.hashCredentials(password)
-    } catch (error: unknown) {
-      return res.status(500).json({ error: "Problem with Password Hashing" })
-    }
-  }
+  const {hashedPassword, hashError} = await hashPassword(password)
+  if (hashError) return res.status(500).json({ error: hashError })
 
   const createdAt = TimeUtils.createFormattedDate()
 

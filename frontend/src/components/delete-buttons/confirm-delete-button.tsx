@@ -6,7 +6,8 @@ interface Props<T> {
   handleDeleteOnClick: (dataType: T) => void
 }
 
-const ConfirmDeleteButton = <T,>({status, dataType, handleDeleteOnClick}: Props<T>) => {
+const ConfirmDeleteButton = <T,>(props: Props<T>) => {
+  const { status, dataType, handleDeleteOnClick } = props
   if (status !== "deleting") return null
 
   return (

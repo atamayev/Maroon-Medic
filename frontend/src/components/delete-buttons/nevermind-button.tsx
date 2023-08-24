@@ -5,7 +5,7 @@ interface Props {
   setStatus: (status: DeleteStatuses) => void
 }
 
-const NevermindButton = ({status, setStatus}: Props) => {
+const NevermindButton = ({ status, setStatus }: Props) => {
   if (status !== "deleting") return null
 
   return (

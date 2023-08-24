@@ -1,6 +1,6 @@
 import { birthYears } from "../../utils/constants"
 
-const SelectYear = ({personalInfo, setPersonalInfo}: PersonalInfoProps) => {
+const SelectYear = ({ personalInfo, setPersonalInfo }: PersonalInfoProps) => {
   return (
     <>
       <label>

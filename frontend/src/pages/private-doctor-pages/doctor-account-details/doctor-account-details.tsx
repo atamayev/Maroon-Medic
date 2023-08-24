@@ -17,7 +17,7 @@ import PreVetEducationSection from "./pre-vet-education"
 import PersonalInfoLinkSection from "./personalInfoLink"
 import useSetDoctorAccountDetails from "src/custom-hooks/account-details/use-set-doctor-account-details"
 
-// eslint-disable-next-line complexity
+// eslint-disable-next-line complexity, max-lines-per-function
 export default function DoctorAccountDetails() {
   const { userType } = useSimpleUserVerification()
   const [listDetails, setListDetails] = useState<DoctorListDetails>({

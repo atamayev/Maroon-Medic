@@ -31,7 +31,7 @@ interface EducationProps {
   hasMajor: boolean
 }
 
-function Education({educationList, hasMajor} : EducationProps) {
+function Education({ educationList, hasMajor } : EducationProps) {
   return (
     <>
       {educationList.map((edu, index) => (
