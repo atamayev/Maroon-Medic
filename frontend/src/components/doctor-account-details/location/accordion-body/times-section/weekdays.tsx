@@ -60,7 +60,7 @@ const WeekDays = (props: WeekDaysProps) => {
 	}
 
 	return (
-		<div>
+		<div className = "w-full md:w-3/4 px-2 mb-3 ml-10">
 			{daysOfWeek.map((day) => (
 				<div key = {day} className = "mb-3 d-flex align-items-center">
 					<label className = "mr-3">{day}</label>

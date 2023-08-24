@@ -3,11 +3,10 @@ import DropdownItems from "./dropdown-items"
 interface Props {
   isOpen: boolean
   dropdown?: boolean
-  userType: DoctorOrPatientOrNull
 }
 
 export const DropdownItemsContainer = (props: Props) => {
-	const { isOpen, dropdown, userType } = props
+	const { isOpen, dropdown } = props
 
 	if (!isOpen) return null
 
@@ -19,7 +18,7 @@ export const DropdownItemsContainer = (props: Props) => {
 			aria-labelledby="menu-button"
 		>
 			<div className="py-1" role="none">
-				<DropdownItems dropdown = {dropdown} userType = {userType} />
+				<DropdownItems dropdown = {dropdown} />
 			</div>
 		</div>
 	)

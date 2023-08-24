@@ -47,7 +47,7 @@ const HeaderSearch = (props: Props) => {
 				<input
 					type="search"
 					id="search-input"
-					className="border border-gray-500 bg-white rounded py-2 px-4 w-1/2 "
+					className="border border-gray-300 bg-white rounded py-2 px-4 w-1/2 "
 					placeholder="Search"
 					aria-label="Search"
 					defaultValue={searchDefaultValue(searchTerm, location.pathname)}

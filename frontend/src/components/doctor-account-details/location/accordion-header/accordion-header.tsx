@@ -34,7 +34,7 @@ const AccordionHeader = (props: Props) => {
 	}
 
 	return (
-		<div onClick = {toggleOpen} className = "flex justify-between items-center p-4 bg-yellow-500 text-white cursor-pointer">
+		<div onClick = {toggleOpen} className = "flex justify-between items-center p-3 bg-gray-200 text-black cursor-pointer">
 			<div className = "flex space-x-4">
 				<PublicStatus
 					address = {address}

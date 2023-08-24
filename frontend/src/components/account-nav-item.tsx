@@ -11,8 +11,8 @@ const PillItem = (props: PillItemProps) => {
 	const isActive = location.pathname.startsWith(to)
 
 	let classes
-	if (isActive) classes = "bg-blue-300 border-blue-700"
-	else classes = "bg-white border-blue-500 hover:bg-blue-700 hover:text-white"
+	if (isActive) classes = "bg-orange-200 border-orange-400"
+	else classes = "bg-white border-orange-400 hover:bg-orange-300"
 
 	return (
 		<div className = "inline-flex items-center justify-center flex-grow flex-shrink">

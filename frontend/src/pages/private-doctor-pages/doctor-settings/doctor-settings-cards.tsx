@@ -11,7 +11,7 @@ export default function DoctorSettingsCards() {
 	return (
 		<>
 			<DoctorHeader/>
-			<div className="flex flex-col items-center">
+			<div className="flex flex-row items-center justify-center">
 				<SettingsLinks SettingsLink = {"personal-information"} title = {"Personal Information"}/>
 				<SettingsLinks SettingsLink = {"privacy"} title = {"Privacy"}/>
 				<SettingsLinks SettingsLink = {"login-and-security"} title = {"Login & Security"}/>

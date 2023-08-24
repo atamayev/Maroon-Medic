@@ -7,7 +7,7 @@ const handleHome = () => {
 
 const Logo = () => {
 	return (
-		<div className="w-1/4">
+		<div className="w-1/4 flex justify-start">
 			<img
 				src = {logo}
 				alt = "Logo"

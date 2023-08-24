@@ -22,14 +22,12 @@ const MapDataAndWeekDays = (props: Props) => {
 	}
 
 	return (
-		<div className = "row">
+		<div className = "flex flex-wrap">
 			<LocationMapData />
-			<div className = "col-md-6">
-				<WeekDays
-					times = {address.times}
-					setTimes = {newTimes => handleTimesChange(newTimes, address.address_priority)}
-				/>
-			</div>
+			<WeekDays
+				times = {address.times}
+				setTimes = {newTimes => handleTimesChange(newTimes, address.address_priority)}
+			/>
 		</div>
 	)
 }

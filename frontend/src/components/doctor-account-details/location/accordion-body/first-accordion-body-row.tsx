@@ -12,7 +12,7 @@ const FirstAccordionBodyRow = (props: Props) => {
 	const {address, handleInputChange} = props
 
 	return (
-		<div className = "row">
+		<div className = "flex flex-wrap">
 			<AddressTitleInput address = {address} handleInputChange = {handleInputChange} />
 			<AddressLine1Input address = {address} handleInputChange = {handleInputChange} />
 			<AddressLine2Input address = {address} handleInputChange = {handleInputChange} />

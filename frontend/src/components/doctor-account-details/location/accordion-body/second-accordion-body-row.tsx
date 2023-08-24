@@ -12,7 +12,7 @@ const SecondAccordionBodyRow = (props: Props) => {
 	const {address, handleInputChange} = props
 
 	return (
-		<div className = "row">
+		<div className = "flex flex-wrap">
 			<StateInput address = {address} handleInputChange = {handleInputChange} />
 			<ZipCodeInput address = {address} handleInputChange = {handleInputChange} />
 			<CountryInput address = {address} handleInputChange = {handleInputChange} />

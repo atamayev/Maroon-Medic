@@ -1,6 +1,7 @@
 import AuthDataService from "src/services/auth-data-service"
 import { useCallback } from "react"
 import { useLocation, Link } from "react-router-dom"
+import useSimpleUserVerification from "src/custom-hooks/use-simple-user-verification"
 
 const useHandleRefresh = () => {
 	const location = useLocation()
@@ -13,10 +14,11 @@ const useHandleRefresh = () => {
 
 interface Props {
   dropdown?: boolean
-  userType: DoctorOrPatientOrNull
 }
 
-const DropdownItems = ({ dropdown, userType } : Props) => {
+const DropdownItems = ({ dropdown } : Props) => {
+	const { userType } = useSimpleUserVerification(false)
+
 	const handleRefresh = useHandleRefresh()
 	const unboldedDropdownItemCSS = "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
 	const boldedDropdownItemCSS = "font-bold text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"

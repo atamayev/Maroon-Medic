@@ -7,12 +7,11 @@ import { useLocation } from "react-router-dom"
 
 interface Props {
   dropdown?: boolean
-  userType: DoctorOrPatientOrNull
 }
 
-const HeaderDropdown = ({ dropdown, userType } : Props) => {
+const HeaderDropdown = ({ dropdown } : Props) => {
 	const location = useLocation()
-	const { headerData } = useSetHeaderData(userType)
+	const { headerData } = useSetHeaderData()
 	const [isOpen, setIsOpen] = useState(false)
 
 	const dropdownRef = useRef<HTMLDivElement>(null)
@@ -51,7 +50,7 @@ const HeaderDropdown = ({ dropdown, userType } : Props) => {
 						</span>
 						<img src = {pic} alt="profile" className="ml-2 h-5 w-5" />
 					</button>
-					<DropdownItemsContainer isOpen = {isOpen} dropdown = {dropdown} userType = {userType}/>
+					<DropdownItemsContainer isOpen = {isOpen} dropdown = {dropdown} />
 				</div>
 			</div>
 		</div>
