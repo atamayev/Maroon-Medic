@@ -11,8 +11,7 @@ Bugs:
 
 To-do:
 7. Fix the dashboard not renders, and the booking page problem
-8. break up backend into 1functions /file (besides for db)
-
+9. Add little images to the doctor/patient headers (like a gear icon for settings, calendar for calendar)
 
 Make personal info it's own context
 Combine authContext and verify context. make it into a memoized class, initialized as null in index.tsx

@@ -1,14 +1,11 @@
 import express from "express"
-import {
-	register,
-	login,
-	logout,
-	jwtVerify,
-	fetchLoginHistory,
-	changePassword,
-	newDoctorConfirmation,
-	newPatientConfirmation
-} from "../controllers/auth-CTRL"
+import fetchLoginHistory from "../controllers/auth/fetch-login-history"
+import jwtVerify from "../controllers/auth/jwt-verify"
+import login from "../controllers/auth/login"
+import register from "../controllers/auth/register"
+import changePassword from "../controllers/auth/change-password"
+import logout from "../controllers/auth/logout"
+import { newDoctorConfirmation, newPatientConfirmation } from "../controllers/auth/new-user-confirmation"
 
 const router = express.Router()
 
