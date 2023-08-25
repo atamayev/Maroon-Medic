@@ -3,7 +3,7 @@ import handleDayChange from "src/helper-functions/public-doctor/booking-page/han
 import AvailableDates from "./available-dates"
 
 interface SelectDayProps {
-  selectedService: ServiceItem | null
+  selectedService: ServiceItemNotNullablePrice | null
   selectedLocation: PublicAddressData | null
   setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>
   setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>

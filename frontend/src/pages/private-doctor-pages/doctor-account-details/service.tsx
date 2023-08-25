@@ -7,8 +7,8 @@ import AccountDetailsCard from "src/components/account-details-card"
 
 interface Props {
   listDetails: DoctorListDetails
-  providedServices: ServiceItem[]
-  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>>
+  providedServices: ServiceItemNotNullablePrice[]
+  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemNotNullablePrice[]>>
   expandedCategories: string[]
   setExpandedCategories: React.Dispatch<React.SetStateAction<string[]>>
 }
@@ -25,7 +25,7 @@ export default function ServiceSection (props: Props) {
 function VetServices (props: Props) {
 	const [servicesConfirmation, setServicesConfirmation] = useConfirmationMessage()
 	const { listDetails, providedServices, setProvidedServices, expandedCategories, setExpandedCategories } = props
-	const [selectedServices, setSelectedServices] = useState<ServiceItem[]>([])
+	const [selectedServices, setSelectedServices] = useState<ServiceItemNullablePrice[]>([])
 
 	useEffect(() => {
 		//Initialize selectedServices to providedServices

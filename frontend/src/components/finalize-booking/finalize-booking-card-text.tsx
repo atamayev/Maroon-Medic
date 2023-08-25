@@ -1,7 +1,7 @@
 import moment from "moment"
 
 interface Props {
-  selectedService: ServiceItem,
+  selectedService: ServiceItemNotNullablePrice,
   selectedLocation: PublicAddressData,
   selectedDay: string,
   selectedTime: string,

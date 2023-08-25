@@ -4,7 +4,7 @@ import { convertToMinutes } from "src/utils/time"
 const generateTimeSlots = (
 	selectedDay: string,
 	selectedLocationObject: PublicAddressData,
-	selectedServiceObject: ServiceItem,
+	selectedServiceObject: ServiceItemNotNullablePrice,
 	setAvailableTimes: React.Dispatch<React.SetStateAction<string[]>>,
 	setServiceMinutes: React.Dispatch<React.SetStateAction<number>>
 ): void => {

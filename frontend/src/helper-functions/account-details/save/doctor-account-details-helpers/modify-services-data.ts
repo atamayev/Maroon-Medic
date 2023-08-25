@@ -7,11 +7,11 @@ type ServiceOperationsType = typeof PrivateDoctorDataService.deleteService |
 
 export default async function modifyServicesData(
 	operation: ServiceOperationsType,
-	serviceObject: ServiceItem,
-	providedServices: ServiceItem[],
-	setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>>,
+	serviceObject: ServiceItemNotNullablePrice,
+	providedServices: ServiceItemNotNullablePrice[],
+	setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemNotNullablePrice[]>>,
 	setServicesConfirmation: (conf: ConfirmationMessage) => void,
-	setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>> | null = null
+	setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemNullablePrice[]>> | null = null
 ): Promise<void> {
 	try {
 		const response = await operation(serviceObject)

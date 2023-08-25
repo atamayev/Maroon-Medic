@@ -12,7 +12,11 @@ export default function useSetDoctorAccountDetails(
 			const storedAccountDetails = sessionStorage.getItem("DoctorAccountDetails")
 			if (!storedAccountDetails) {
 				await FetchDoctorAccountDetails(dispatchers)
-			} else setExpandedCategories(JSON.parse(storedAccountDetails).services?.map((service: ServiceItem) => service.Category_name))
+			} else {
+				setExpandedCategories(
+					JSON.parse(storedAccountDetails).services?.map((service: ServiceItemNotNullablePrice) => service.Category_name)
+				)
+			}
 
 			const storedListDetails = sessionStorage.getItem("ListDetails")
 			if (storedListDetails) setListDetails(JSON.parse(storedListDetails))

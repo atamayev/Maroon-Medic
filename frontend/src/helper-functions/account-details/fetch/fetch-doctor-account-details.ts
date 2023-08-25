@@ -12,7 +12,9 @@ export default async function FetchDoctorAccountDetails(
 			if (response.data.languages) dispatchers.setSpokenLanguages(response.data.languages)
 			if (response.data.services) {
 				dispatchers.setProvidedServices(response.data.services)
-				dispatchers.setExpandedCategories(response.data.services.map((service: ServiceItem) => service.Category_name))
+				dispatchers.setExpandedCategories(
+					response.data.services.map((service: ServiceItemNotNullablePrice) => service.Category_name)
+				)
 			}
 			if (response.data.specialties) dispatchers.setDoctorSpecialties(response.data.specialties)
 			if (response.data.preVetEducation) dispatchers.setPreVetEducation(response.data.preVetEducation)

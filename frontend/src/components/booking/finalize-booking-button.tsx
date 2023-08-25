@@ -2,7 +2,7 @@ import Button from "../button"
 import useFinalizeBookingClick from "src/custom-hooks/public-doctor/use-finalize-booking-click"
 
 interface FinalizeBookingProps {
-  selectedService: ServiceItem | null
+  selectedService: ServiceItemNotNullablePrice | null
   selectedLocation: PublicAddressData | null
   selectedDay: string | null
   selectedTime: string | null

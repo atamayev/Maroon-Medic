@@ -1,9 +1,14 @@
 /* eslint-disable no-inline-comments */
 // Function to handle numeric and single decimal point input
-export const handleNumericInput = (event: React.ChangeEvent<HTMLInputElement>, callback: (value: string) => void): void => {
-	const re = /^[0-9]*[.,]?[0-9]*$/
-	if (event.target.value === "" || re.test(event.target.value)) {
-		callback(event.target.value)
+export const handleNumericInput = (
+	event: React.ChangeEvent<HTMLInputElement>,
+	callback: (value: string) => void
+): void => {
+	const re = /^[0-9]*\.?[0-9]*$/ // Allow numbers that start with a dot (e.g., .5)
+	const value = event.target.value
+
+	if (value === "" || value.endsWith(".") || re.test(value)) {
+		callback(value)
 	}
 }
 

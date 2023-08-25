@@ -2,14 +2,14 @@ import ServiceCheckbox from "./service-checkbox"
 import IsSelectedService from "./is-selected-service"
 
 interface Props {
-  category: string
-  services: ServiceListItem[]
-  expandedCategories: string[]
-  selectedServices: ServiceItem[]
-  setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>>
-  providedServices: ServiceItem[]
-  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>>
-  setServicesConfirmation: (conf: ConfirmationMessage) => void
+	category: string
+	services: ServiceListItem[]
+	expandedCategories: string[]
+	selectedServices: ServiceItemNullablePrice[]
+	setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemNullablePrice[]>>
+	providedServices: ServiceItemNotNullablePrice[]
+	setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemNotNullablePrice[]>>
+	setServicesConfirmation: (conf: ConfirmationMessage) => void
 }
 
 const ServicesMap = (props: Props) => {

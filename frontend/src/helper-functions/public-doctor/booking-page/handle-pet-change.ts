@@ -2,7 +2,7 @@ const handlePetChange = (
 	event: React.ChangeEvent<HTMLInputElement>,
 	savedPetData: SavedPetItem[],
 	setSelectedPet: React.Dispatch<React.SetStateAction<SavedPetItem | null>>,
-	setSelectedService: React.Dispatch<React.SetStateAction<ServiceItem | null>>,
+	setSelectedService: React.Dispatch<React.SetStateAction<ServiceItemNotNullablePrice | null>>,
 	setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressData | null>>,
 	setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>,
 	setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>

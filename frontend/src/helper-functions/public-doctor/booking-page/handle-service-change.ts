@@ -1,7 +1,7 @@
 const handleServiceChange = (
 	event: React.ChangeEvent<HTMLInputElement>,
-	providedServices: ServiceItem[],
-	setSelectedService: React.Dispatch<React.SetStateAction<ServiceItem | null>>,
+	providedServices: ServiceItemNotNullablePrice[],
+	setSelectedService: React.Dispatch<React.SetStateAction<ServiceItemNotNullablePrice | null>>,
 	setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressData | null>>,
 	setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>,
 	setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>

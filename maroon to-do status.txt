@@ -8,7 +8,7 @@ Bugs:
 	- go through all the components in new-pet. see if all them need all of the props that are given to them. why should insurance sectionneed petTypes? maybe make the handleinput change params optional?
 
 To-do:
-7. Fix the dashboard not renders, and the booking page problem
+7. Fix the dashboard data not showing, and the unable to make a booking problem
 9. Add little images to the doctor/patient headers (like a gear icon for settings, calendar for calendar)
 10. Make the pets in the patient header be the pets that the user has
 

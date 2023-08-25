@@ -1,4 +1,4 @@
-import IsTogglePetType from "./is-toggle-pet-type"
+import OpenClosePetType from "./open-close-pet-type"
 import ShowPetsSection from "./show-pets-section"
 
 type PetTypesType = {
@@ -14,7 +14,7 @@ interface Props {
   setPetsConfirmation: (conf: ConfirmationMessage) => void
 }
 
-const Pets = (props: Props) => {
+const ServicedPets = (props: Props) => {
 	const { petTypes, servicedPets, expandedPetTypes, setServicedPets,
 		setExpandedPetTypes, setPetsConfirmation } = props
 
@@ -23,7 +23,7 @@ const Pets = (props: Props) => {
 			{Object.entries(petTypes).map(([petType, pets]) => (
 				<div key = {petType} style = {{ marginBottom: "10px" }}>
 					<label htmlFor = {petType}>{petType}</label>
-					<IsTogglePetType
+					<OpenClosePetType
 						pets = {pets}
 						petType = {petType}
 						expandedPetTypes = {expandedPetTypes}
@@ -43,4 +43,4 @@ const Pets = (props: Props) => {
 	)
 }
 
-export default Pets
+export default ServicedPets

@@ -2,10 +2,10 @@ import _ from "lodash"
 import PublicDoctorCard from "src/components/public-doctor-card"
 
 interface CategoriesType {
-  [key: string]: ServiceItem[]
+	[key: string]: ServiceItemNotNullablePrice[]
 }
 
-export default function ServiceSection({ providedServices } : { providedServices: ServiceItem[] }) {
+export default function ServiceSection({ providedServices } : { providedServices: ServiceItemNotNullablePrice[] }) {
 	if (_.isEmpty(providedServices)) return null
 	return (
 		<PublicDoctorCard
@@ -15,7 +15,7 @@ export default function ServiceSection({ providedServices } : { providedServices
 	)
 }
 
-function ProvidedServices({ providedServices } : { providedServices: ServiceItem[] }) {
+function ProvidedServices({ providedServices } : { providedServices: ServiceItemNotNullablePrice[] }) {
 	const categories: CategoriesType = {}
 	if (providedServices) {
 		providedServices.forEach(service => {

@@ -1,9 +1,9 @@
 import _ from "lodash"
 
 interface Props {
-  selectedDay: string;
-  personalData: DoctorPersonalData;
-  availableDates: string[];
+	selectedDay: string;
+	personalData: DoctorPersonalData;
+	availableDates: string[];
 }
 
 const AvailableDates = (props: Props) => {

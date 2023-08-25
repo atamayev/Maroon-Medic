@@ -14,9 +14,16 @@ declare global {
   type ServiceItem = {
     service_and_category_listID: number
     Service_time: string
-    Service_price: number
     Category_name: string
     Service_name: string
+  }
+
+  interface ServiceItemNullablePrice extends ServiceItem {
+    Service_price: number | null
+  }
+
+  interface ServiceItemNotNullablePrice extends ServiceItem{
+    Service_price: number
   }
 
   interface EducationBase {
@@ -46,7 +53,7 @@ declare global {
 
   type DoctorAccountDispatchers = {
     setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
-    setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>>,
+    setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemNotNullablePrice[]>>,
     setExpandedCategories: React.Dispatch<React.SetStateAction<string[]>>,
     setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>,
     setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItem[]>>,

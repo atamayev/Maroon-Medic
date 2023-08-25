@@ -8,7 +8,7 @@ interface Props {
   setExpandedCategories: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-const ToggleCategory = (props: Props) => {
+const OpenCloseServiceCategory = (props: Props) => {
 	const { category, services, expandedCategories, setExpandedCategories } = props
 	if (services.length <= 1) return null
 
@@ -20,7 +20,7 @@ const ToggleCategory = (props: Props) => {
 
 	return (
 		<Button
-			className = "mr-3"
+			className = "ml-2"
 			colorClass = "bg-blue-600"
 			hoverClass = "hover:bg-blue-700"
 			title = {IsOpen()}
@@ -30,4 +30,4 @@ const ToggleCategory = (props: Props) => {
 	)
 }
 
-export default ToggleCategory
+export default OpenCloseServiceCategory

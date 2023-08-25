@@ -8,7 +8,7 @@ interface Props {
   setExpandedPetTypes: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-const IsTogglePetType = (props: Props) => {
+const OpenClosePetType = (props: Props) => {
 	const { pets, petType, expandedPetTypes, setExpandedPetTypes } = props
 	if (pets.length <= 1) return null
 
@@ -21,13 +21,14 @@ const IsTogglePetType = (props: Props) => {
 
 	return (
 		<Button
-			className = "mr-3"
+			className = "ml-2"
 			colorClass = "bg-blue-600"
 			hoverClass = "hover:bg-blue-700"
 			title = {IsOpen()}
 			onClick={() => togglePetType(petType, setExpandedPetTypes)}
+			textColor = "text-white"
 		/>
 	)
 }
 
-export default IsTogglePetType
+export default OpenClosePetType

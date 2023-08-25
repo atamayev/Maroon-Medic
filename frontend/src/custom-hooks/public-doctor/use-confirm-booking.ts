@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom"
 import CalendarDataService from "../../services/calendar-data-service"
 
 export default async function useConfirmBooking(
-	selectedService: ServiceItem,
+	selectedService: ServiceItemNotNullablePrice,
 	selectedLocation: PublicAddressData,
 	selectedDay: string,
 	selectedTime: string,

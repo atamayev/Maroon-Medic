@@ -5,16 +5,19 @@ import deleteServices from "src/helper-functions/account-details/save/doctor-acc
 
 interface Props {
   service: ServiceListItem
-  providedServices: ServiceItem[]
-  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>>
-  selectedServices: ServiceItem[]
+  providedServices: ServiceItemNotNullablePrice[]
+  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemNotNullablePrice[]>>
+  selectedServices: ServiceItemNullablePrice[]
   setServicesConfirmation: (conf: ConfirmationMessage) => void
-  setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>>
+  setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemNullablePrice[]>>
 }
 
-const ActionButton = (props: Props) => {
+const ServiceActionButton = (props: Props) => {
 	const { service, providedServices, setProvidedServices, selectedServices, setServicesConfirmation, setSelectedServices } = props
-	const selectedService = selectedServices.find(s => s.service_and_category_listID === service.service_and_category_listID)
+	const selectedService =
+		selectedServices.find(
+			s => s.service_and_category_listID === service.service_and_category_listID
+		) as ServiceItemNotNullablePrice | undefined
 	const providedService = providedServices.find(s => s.service_and_category_listID === service.service_and_category_listID)
 
 	const isSelected = selectedService !== undefined
@@ -84,4 +87,4 @@ const ActionButton = (props: Props) => {
 	return null
 }
 
-export default ActionButton
+export default ServiceActionButton

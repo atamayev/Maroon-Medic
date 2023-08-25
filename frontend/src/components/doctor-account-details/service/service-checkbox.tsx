@@ -1,12 +1,12 @@
-import ActionButton from "./action-button"
+import ServiceActionButton from "./service-action-button"
 
 interface Props {
   service: ServiceListItem
   category: string
-  selectedServices: ServiceItem[]
-  setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>>
-  providedServices: ServiceItem[]
-  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>>
+  selectedServices: ServiceItemNullablePrice[]
+  setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemNullablePrice[]>>
+  providedServices: ServiceItemNotNullablePrice[]
+  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemNotNullablePrice[]>>
   setServicesConfirmation: (conf: ConfirmationMessage) => void
 }
 
@@ -16,7 +16,7 @@ const ServiceCheckbox = (props: Props) => {
 
 	return (
 		<>
-			<ActionButton
+			<ServiceActionButton
 				service = {service}
 				providedServices = {providedServices}
 				setProvidedServices = {setProvidedServices}
@@ -36,12 +36,12 @@ const ServiceCheckbox = (props: Props) => {
 				}
 				onChange = {(event) => {
 					if (event.target.checked) {
-						setSelectedServices([...selectedServices, {...service, Service_price: 0, Service_time: ""}])
+						setSelectedServices([...selectedServices, {...service, Service_price: null, Service_time: ""}])
 					}
 					else {
 						setSelectedServices(
 							selectedServices.filter(
-								servicef => servicef.service_and_category_listID !== service.service_and_category_listID
+								_service => _service.service_and_category_listID !== service.service_and_category_listID
 							)
 						)
 					}

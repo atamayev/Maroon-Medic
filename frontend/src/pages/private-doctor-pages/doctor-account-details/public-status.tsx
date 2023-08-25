@@ -25,7 +25,7 @@ function PublicAvailability (props: Props) {
 		<div>
 			<p>Would you like your profile to be available through search results?</p>
 			{/* All of this logic must be kept in this component, or else the toggle button will not work: */}
-			<div className="flex">
+			<div className = "flex mt-1">
 				<button
 					value = {0}
 					onClick = {() =>

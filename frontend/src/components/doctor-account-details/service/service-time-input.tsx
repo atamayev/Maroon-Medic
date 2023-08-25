@@ -1,8 +1,8 @@
 interface Props {
   service: ServiceListItem
-  selectedService: ServiceItem
-  selectedServices: ServiceItem[]
-  setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>>
+  selectedService: ServiceItemNullablePrice
+  selectedServices: ServiceItemNullablePrice[]
+  setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemNullablePrice[]>>
 }
 
 const timeOptions = [

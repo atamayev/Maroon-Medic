@@ -3,7 +3,7 @@ import handleLocationChange from "src/helper-functions/public-doctor/booking-pag
 
 interface SelectLocationProps {
   addresses: PublicAddressData[]
-  selectedService: ServiceItem | null
+  selectedService: ServiceItemNotNullablePrice | null
   setNoAvailableTimesMessage: React.Dispatch<React.SetStateAction<boolean>>
   setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressData | null>>
   setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>

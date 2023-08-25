@@ -3,7 +3,7 @@ import FormGroup from "../form-group"
 import handleTimeChange from "src/helper-functions/public-doctor/booking-page/handle-time-change"
 
 interface SelectTimeProps {
-  selectedService: ServiceItem | null
+  selectedService: ServiceItemNotNullablePrice | null
   selectedLocation: PublicAddressData | null
   selectedDay: string | null
   setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>

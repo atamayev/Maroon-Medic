@@ -18,9 +18,9 @@ import { getDayIndex } from "src/utils/time"
 import NoLocationHasTimes from "src/components/booking/no-location-has-times"
 
 interface Props {
-  providedServices: ServiceItem[]
-  addresses: PublicAddressData[]
-  personalData: DoctorPersonalData
+	providedServices: ServiceItemNotNullablePrice[]
+	addresses: PublicAddressData[]
+	personalData: DoctorPersonalData
 }
 
 // eslint-disable-next-line max-lines-per-function
@@ -29,7 +29,7 @@ export default function BookingSection(props: Props) {
 	const { userType } = useSimpleUserVerification(false)
 	const { savedPetData } = useFetchAndSetPetData(userType)
 	const [selectedPet, setSelectedPet] = useState<SavedPetItem | null>(null)
-	const [selectedService, setSelectedService] = useState<ServiceItem | null>(null)
+	const [selectedService, setSelectedService] = useState<ServiceItemNotNullablePrice | null>(null)
 	const [selectedLocation, setSelectedLocation] = useState<PublicAddressData |null>(null)
 	const [noAvailableTimesMessage, setNoAvailableTimesMessage] = useState(false)
 	const [selectedDay, setSelectedDay] = useState<string | null>(null)

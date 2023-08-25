@@ -36,7 +36,7 @@ export default function DoctorAccountDetails() {
 
 	const [spokenLanguages, setSpokenLanguages] = useState<LanguageItem[]>(doctorAccountDetails?.languages || [])
 
-	const [providedServices, setProvidedServices] = useState<ServiceItem[]>(doctorAccountDetails?.services || [])
+	const [providedServices, setProvidedServices] = useState<ServiceItemNotNullablePrice[]>(doctorAccountDetails?.services || [])
 	const [expandedCategories, setExpandedCategories] = useState<string[]>([])
 
 	const [doctorSpecialties, setDoctorSpecialties] = useState<SpecialtyItem[]>(doctorAccountDetails?.specialties || [])

@@ -2,10 +2,10 @@ import ServicePriceInput from "./service-price-input"
 import ServiceTimeInput from "./service-time-input"
 
 interface Props {
-  service: ServiceListItem
-  selectedService: ServiceItem | undefined
-  selectedServices: ServiceItem[]
-  setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>>
+	service: ServiceListItem
+	selectedService: ServiceItemNullablePrice | undefined
+	selectedServices: ServiceItemNullablePrice[]
+	setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemNullablePrice[]>>
 }
 
 const IsSelectedService = (props: Props) => {

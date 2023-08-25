@@ -60,13 +60,13 @@ export default new class PrivateDoctorDataService {
 	async deleteVetEducationData(vetEducationID: number) {
 		return await http.delete(`/private-doctor-data/delete-vet-education-data/${vetEducationID}`)
 	}
-	async addService(serviceObject: ServiceItem) {
+	async addService(serviceObject: ServiceItemNotNullablePrice) {
 		return await http.post("/private-doctor-data/add-service", {serviceObject})
 	}
-	async updateService(serviceObject: ServiceItem) {
+	async updateService(serviceObject: ServiceItemNotNullablePrice) {
 		return await http.patch("/private-doctor-data/update-service", {serviceObject})
 	}
-	async deleteService(serviceObject: ServiceItem) {
+	async deleteService(serviceObject: ServiceItemNotNullablePrice) {
 		return await http.delete(`/private-doctor-data/delete-service/${serviceObject.service_and_category_listID}`)
 	}
 	async addAddressData(AddressData: BaseAddressData, Times: DoctorAvailability[]) {

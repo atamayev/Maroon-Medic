@@ -1,19 +1,19 @@
 import ServicesMap from "./services-map"
-import ToggleCategory from "./toggle-category"
+import OpenCloseServiceCategory from "./open-close-service-category"
 
 type CategoriesType = {
   [key: string]: ServiceListItem[]
 }
 
 interface Props {
-  categories: CategoriesType
-  expandedCategories: string[]
-  setExpandedCategories: React.Dispatch<React.SetStateAction<string[]>>
-  selectedServices: ServiceItem[]
-  setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>>
-  providedServices: ServiceItem[]
-  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItem[]>>
-  setServicesConfirmation: (conf: ConfirmationMessage) => void
+	categories: CategoriesType
+	expandedCategories: string[]
+	setExpandedCategories: React.Dispatch<React.SetStateAction<string[]>>
+	selectedServices: ServiceItemNullablePrice[]
+	setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemNullablePrice[]>>
+	providedServices: ServiceItemNotNullablePrice[]
+	setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemNotNullablePrice[]>>
+	setServicesConfirmation: (conf: ConfirmationMessage) => void
 }
 
 const ServiceList = (props: Props) => {
@@ -25,7 +25,7 @@ const ServiceList = (props: Props) => {
 			{Object.entries(categories).map(([category, services]) => (
 				<div key = {category} style = {{ marginBottom: "10px" }}>
 					<label htmlFor = {category}>{category}</label>
-					<ToggleCategory
+					<OpenCloseServiceCategory
 						category = {category}
 						services = {services}
 						expandedCategories = {expandedCategories}
