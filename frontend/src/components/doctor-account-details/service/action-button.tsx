@@ -37,7 +37,7 @@ const ActionButton = (props: Props) => {
 				colorClass = "bg-red-600"
 				hoverClass = "hover:bg-red-700"
 				textColor = "text-white"
-				className = "my-1"
+				className = "my-1 mr-1"
 			/>
 		)
 	}
@@ -49,6 +49,8 @@ const ActionButton = (props: Props) => {
 				title = "Update"
 				colorClass = "bg-amber-600"
 				hoverClass = "hover:bg-amber-700"
+				textColor = "text-white"
+				className = "my-1 mr-1"
 			/>
 		)
 	}
@@ -60,6 +62,8 @@ const ActionButton = (props: Props) => {
 				title = "Add"
 				colorClass = "bg-green-600"
 				hoverClass = "hover:bg-green-700"
+				textColor = "text-white"
+				className = "my-1 mr-1"
 			/>
 		)
 	}

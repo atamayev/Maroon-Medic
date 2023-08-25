@@ -27,19 +27,27 @@ function PublicAvailability (props: Props) {
 			{/* All of this logic must be kept in this component, or else the toggle button will not work: */}
 			<div className="flex">
 				<button
-					value={0}
-					onClick={() => updatePublicAvailability(false, setPubliclyAvailable, setPubliclyAvailableConfirmation)}
-					className={`border-black p-2 ${!publiclyAvailable ? "bg-red-600 text-white" : "bg-white text-black"}`}
+					value = {0}
+					onClick = {() =>
+						updatePublicAvailability(false, publiclyAvailable, setPubliclyAvailable, setPubliclyAvailableConfirmation)
+					}
+					className = {`border-red-400 border p-2 mr-2 rounded w-14 transition-all duration-100
+						${!publiclyAvailable ? "bg-red-600 text-white" : "bg-white text-black hover:bg-red-300"}
+					`}
 				>
-          No
+					No
 				</button>
 
 				<button
-					value={1}
-					onClick={() => updatePublicAvailability(true, setPubliclyAvailable, setPubliclyAvailableConfirmation)}
-					className={`border-black p-2 ${publiclyAvailable ? "bg-green-700 text-white" : "bg-white text-black"}`}
+					value = {1}
+					onClick = {() =>
+						updatePublicAvailability(true, publiclyAvailable, setPubliclyAvailable, setPubliclyAvailableConfirmation)
+					}
+					className = {`border-green-500 border p-2 rounded w-14 transition-all duration-100
+						${publiclyAvailable ? "bg-green-700 text-white" : "bg-white text-black hover:bg-green-400"}
+					`}
 				>
-          Yes
+					Yes
 				</button>
 			</div>
 			<SavedConfirmationMessage

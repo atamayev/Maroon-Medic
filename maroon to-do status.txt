@@ -10,6 +10,7 @@ Bugs:
 To-do:
 7. Fix the dashboard not renders, and the booking page problem
 9. Add little images to the doctor/patient headers (like a gear icon for settings, calendar for calendar)
+10. Make the pets in the patient header be the pets that the user has
 
 Make personal info it's own context
 Combine authContext and verify context. make it into a memoized class, initialized as null in index.tsx

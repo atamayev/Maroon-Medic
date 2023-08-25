@@ -25,6 +25,7 @@ const ToggleCategory = (props: Props) => {
 			hoverClass = "hover:bg-blue-700"
 			title = {IsOpen()}
 			onClick = {() => toggleServiceCategory(category, setExpandedCategories)}
+			textColor = "text-white"
 		/>
 	)
 }

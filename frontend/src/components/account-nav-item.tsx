@@ -3,10 +3,12 @@ import { Link, useLocation } from "react-router-dom"
 type PillItemProps = {
   label: string
   to: string
+  image: string
+  imageAlt?: string
 }
 
 const PillItem = (props: PillItemProps) => {
-	const { label, to } = props
+	const { label, to, image, imageAlt } = props
 	const location = useLocation()
 	const isActive = location.pathname.startsWith(to)
 
@@ -21,7 +23,13 @@ const PillItem = (props: PillItemProps) => {
 				className = "font-bold text-center w-full"
 			>
 				<div className = {`rounded text-black border p-2 transition-all duration-100 ${classes}`}>
-					{label}
+					<span>
+						{imageAlt}
+					</span>
+					{" "} {label} {""}
+					<span>
+						{image}
+					</span>
 				</div>
 			</Link>
 		</div>

@@ -3,9 +3,14 @@ import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle
 
 export default async function updatePublicAvailability (
 	value: boolean,
+	publiclyAvailable: boolean,
 	setPubliclyAvailable: React.Dispatch<React.SetStateAction<boolean>>,
 	setPubliclyAvailableConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
+	if (value === publiclyAvailable) {
+		setPubliclyAvailableConfirmation({messageType: "same"})
+		return
+	}
 	const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") || "{}")
 	try {
 		const response = await PrivateDoctorDataService.savePublicAvailibility(value)

@@ -108,7 +108,7 @@ export default new class FetchDoctorAccountDataDB {
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
 		const addressData = results.map((row: RowDataPacket) => row as PrivateDoctorAddressData)
-		const newAddressData = Format.dataToBoolean(addressData)
+		const newAddressData = Format.addressDataToBoolean(addressData)
 		return newAddressData
 	}
 

@@ -34,7 +34,7 @@ const ServiceTimeInput = (props: Props) => {
 			}}
 		>
 			<option value = "" disabled>
-        Service Time
+				Service Time
 			</option>
 			{timeOptions.map((time) => (
 				<option key = {time} value = {time}>

@@ -20,7 +20,7 @@ export default new class Format {
 		return formattedDate
 	}
 
-	dataToBoolean (addressData: PrivateDoctorAddressData[]): PrivateDoctorAddressData[] {
+	addressDataToBoolean (addressData: PrivateDoctorAddressData[]): PrivateDoctorAddressData[] {
 		return addressData.map((address) => ({
 			...address,
 			address_public_status: Boolean(address.address_public_status),

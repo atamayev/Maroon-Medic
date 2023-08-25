@@ -36,7 +36,7 @@ const ServiceCheckbox = (props: Props) => {
 				}
 				onChange = {(event) => {
 					if (event.target.checked) {
-						setSelectedServices([...selectedServices, {...service, Service_price: -1, Service_time: ""}])
+						setSelectedServices([...selectedServices, {...service, Service_price: 0, Service_time: ""}])
 					}
 					else {
 						setSelectedServices(
