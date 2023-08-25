@@ -1,5 +1,6 @@
 import { Dayjs } from "dayjs"
 import TimeUtils from "./time"
+import _ from "lodash"
 
 export default new class Format {
 	personalData(results: {FirstName: string, LastName: string, Gender: string, DOB: string}): FormattedPersonalData {
@@ -26,5 +27,13 @@ export default new class Format {
 			address_public_status: Boolean(address.address_public_status),
 			instant_book: Boolean(address.instant_book),
 		}))
+	}
+
+	servicePriceToNumber (services: DetailedServiceItem[]): DetailedServiceItem[] {
+		const updatedServices = _.map(services, (service) => {
+			const price = Number(service.Service_price)
+			return { ...service, Service_price: isNaN(price) ? 0 : price }
+		})
+		return updatedServices
 	}
 }()

@@ -23,7 +23,6 @@ export async function returnDoctorPageData (req: Request, res: Response): Promis
 		response.doctorPersonalInfo.NVI = NVI
 		return res.status(200).json(response)
 	} catch (error: unknown) {
-		console.log(error)
 		return res.status(400).json([])
 	}
 }

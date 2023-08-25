@@ -3,7 +3,6 @@ To-do:
 
 ASAP:
 Bugs:
-3. Fix services not changing from -1 (make sure -1 cannot be entered,or else db errors out)
 4. Unable to add a new pet (object?)
 	- go through all the components in new-pet. see if all them need all of the props that are given to them. why should insurance sectionneed petTypes? maybe make the handleinput change params optional?
 
@@ -113,3 +112,5 @@ inactivity logout ( 5 mins). implement on the verification level (in the jwt)
 	Check for any other SQL operations which perform heavy joins that could have an efficiency boost from de-normalizing data
 
 -Implement scrollSpy into Account Details, other components to make scrolling through various sections easier
+
+-Allow for entering a decimal place service price (while typing). Permit the user to enter 10.50 instead of 1050, and then a . between 10 and 50.

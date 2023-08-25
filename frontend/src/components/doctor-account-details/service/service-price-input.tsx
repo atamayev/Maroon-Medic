@@ -39,7 +39,6 @@ const ServicePriceInput = (props: Props) => {
 						console.log(newVal)
 						const updatedServices = selectedServices.map(s => {
 							if (s.service_and_category_listID === service.service_and_category_listID) {
-								console.log("Number(newVal)", parseFloat(newVal))
 								return { ...s, Service_price: Number(newVal) }
 							}
 							return s

@@ -36,7 +36,8 @@ export default new class FetchDoctorAccountData {
 
 	async services (DoctorID: number): Promise<DetailedServiceItem[]> {
 		const result = await this.#fetchDoctorAccountData(DoctorID, FetchDoctorAccountDataDB.services)
-		return result as DetailedServiceItem[]
+		const updatedResult = Format.servicePriceToNumber(result as DetailedServiceItem[])
+		return updatedResult as DetailedServiceItem[]
 	}
 
 	async specialties (DoctorID: number): Promise<OrganizationSpecialty[]> {
