@@ -15,6 +15,9 @@ const UpdateLocationButton = (props: Props) => {
 	const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
 	const originalAddress = DoctorAccountDetails.addressData.find((addr: DoctorAddressData) => addr.addressesID === address.addressesID)
 	const isAddressSame = _.isEqual(originalAddress, address)
+	console.log("originalAddress", originalAddress)
+	console.log("address", address)
+	console.log(isAddressSame)
 	if (isAddressSame) return null
 
 	return (
@@ -25,6 +28,7 @@ const UpdateLocationButton = (props: Props) => {
 			title = "Update Location"
 			onClick = {() => updateLocation(address, setAddresses, setAddressesConfirmation)}
 			disabled = {!areAllFieldsValid(address) || !areAllTimesValid(address)}
+			textColor = "text-white"
 		/>
 	)
 }

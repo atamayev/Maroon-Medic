@@ -64,7 +64,7 @@ export default new class FetchDoctorAccountData {
 					address.times = times
 
 					const phoneData = await FetchDoctorAccountDataDB.phoneData(address.addressesID)
-					address.Phone = phoneData
+					address.phone = phoneData
 				}
 			}
 			return addressData

@@ -127,7 +127,7 @@ export default new class FetchDoctorAccountDataDB {
 	}
 
 	async phoneData (addressID: number): Promise<string> {
-		const sql = `SELECT ${mysqlTables.doctor_phone_numbers}.Phone
+		const sql = `SELECT ${mysqlTables.doctor_phone_numbers}.phone
       FROM ${mysqlTables.doctor_phone_numbers}
       WHERE ${mysqlTables.doctor_phone_numbers}.address_ID = ?`
 
@@ -136,7 +136,7 @@ export default new class FetchDoctorAccountDataDB {
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
 		let phone = ""
-		if (!_.isEmpty(results)) phone = results[0].Phone
+		if (!_.isEmpty(results)) phone = results[0].phone
 		return phone
 	}
 

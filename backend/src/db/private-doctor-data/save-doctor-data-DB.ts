@@ -174,7 +174,7 @@ export default new class SaveDoctorDataDB {
 	}
 
 	async addPhoneRecord (phone: string, addressID: number): Promise<void> {
-		const sql = `INSERT INTO ${mysqlTables.doctor_phone_numbers} (Phone, address_ID) VALUES (?, ?)`
+		const sql = `INSERT INTO ${mysqlTables.doctor_phone_numbers} (phone, address_ID) VALUES (?, ?)`
 		const values = [phone, addressID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
@@ -229,9 +229,16 @@ export default new class SaveDoctorDataDB {
 		await connection.execute(sql, values)
 	}
 
+	async deleteSpecificDayAvailbilityData (availbilityObject: DoctorAvailability, addressID: number): Promise<void> {
+		const sql = `DELETE FROM ${mysqlTables.booking_availability} WHERE address_ID = ? AND Day_of_week = ?`
+		const values = [addressID, availbilityObject.Day_of_week]
+		const connection = await connectDatabase()
+		await connection.execute(sql, values)
+	}
+
 	async updateTimeAvailbilityData (availbilityObject: DoctorAvailability, addressID: number): Promise<void> {
 		const sql = `UPDATE ${mysqlTables.booking_availability} SET Start_time = ?, End_time = ? WHERE Day_of_week = ? AND address_ID = ?`
-		const values = [availbilityObject.Day_of_week, availbilityObject.Start_time, availbilityObject.End_time, addressID]
+		const values = [availbilityObject.Start_time, availbilityObject.End_time, availbilityObject.Day_of_week, addressID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}

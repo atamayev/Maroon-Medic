@@ -84,7 +84,7 @@ export default new class FetchPublicDoctorDataDB {
           ${mysqlTables.addresses}.address_line_2, ${mysqlTables.addresses}.city, ${mysqlTables.addresses}.state,
           ${mysqlTables.addresses}.zip, ${mysqlTables.addresses}.country, ${mysqlTables.addresses}.address_priority,
           ${mysqlTables.addresses}.instant_book,
-          ${mysqlTables.doctor_phone_numbers}.Phone
+          ${mysqlTables.doctor_phone_numbers}.phone
       FROM ${mysqlTables.addresses}, ${mysqlTables.doctor_phone_numbers}
       WHERE
           ${mysqlTables.addresses}.addressesID = ${mysqlTables.doctor_phone_numbers}.address_ID AND ${mysqlTables.addresses}.Doctor_ID = ?

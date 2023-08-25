@@ -3,7 +3,6 @@ To-do:
 
 ASAP:
 Bugs:
-1. Update location button not working
 2. Delete location button should require confirmation
 3. Fix services not changing from -1 (make sure -1 cannot be entered,or else db errors out)
 4. Unable to add a new pet (object?)

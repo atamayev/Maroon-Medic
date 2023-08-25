@@ -3,6 +3,7 @@ import { Response, Request } from "express"
 import TimeUtils from "../../utils/time"
 import OperationHandler from "../../utils/operation-handler"
 import SaveDoctorDataDB from "../../db/private-doctor-data/save-doctor-data-DB"
+import findAppointmentTimeDifference from "../../utils/find-appointment-time-difference"
 
 export async function savePersonalData (req: Request, res: Response): Promise<void> {
 	const DoctorID = req.DoctorID
@@ -177,7 +178,7 @@ export async function updateAddress (req: Request, res: Response): Promise<void>
 	await OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, phoneOperation)
 
 	const timeOperation: () => Promise<void> = async () => {
-		await SaveDoctorDataDB.updateTimeAvailbilityData(TimesData, AddressData.addressesID)
+		await findAppointmentTimeDifference(TimesData, AddressData.addressesID)
 	}
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, timeOperation)
 }

@@ -64,7 +64,7 @@ declare global {
   }
 
   type PrivateDoctorAddressData = AddressData & {
-    Phone: string
+    phone: string
     times: DoctorAvailability[]
     address_public_status: boolean
   }

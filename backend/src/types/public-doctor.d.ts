@@ -14,7 +14,7 @@ declare global {
   }
 
   type PublicAddressData = AddressData & {
-    Phone: string
+    phone: string
     times: DoctorAvailability[]
   }
 
