@@ -12,11 +12,11 @@ const SavedPetDataMap = (props: Props) => {
 	const { savedPetData, setPetToDelete, setShowModal } = props
 
 	return (
-		<>
+		<div className="flex flex-wrap">
 			{savedPetData.map((pet) => (
 				<div
 					key={pet.pet_infoID}
-					className="mb-3 bg-yellow-100 border border-brown-400 rounded"
+					className="m-3 bg-yellow-100 border border-brown-400 rounded"
 					style={{ width: "18rem", marginTop: "10px" }}
 				>
 					<div className="p-4">
@@ -25,7 +25,7 @@ const SavedPetDataMap = (props: Props) => {
 					</div>
 				</div>
 			))}
-		</>
+		</div>
 	)
 }
 

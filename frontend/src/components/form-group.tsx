@@ -3,7 +3,6 @@ import React from "react"
 interface Props {
   as?: React.ElementType,
   className?: string,
-  defaultValue?: string,
   id?: string,
   label?: string,
   maxLength?: number,
@@ -21,7 +20,6 @@ interface Props {
 export default function FormGroup({
 	as,
 	className,
-	defaultValue,
 	id,
 	label,
 	maxLength,
@@ -42,7 +40,6 @@ export default function FormGroup({
 			{label && <label htmlFor = {id} className = "block text-sm font-medium text-gray-600">{label}</label>}
 			<Component
 				className ="mt-1 p-2 w-full border rounded-md text-gray-900"
-				defaultValue = {defaultValue}
 				id = {id}
 				maxLength = {maxLength}
 				name = {name}

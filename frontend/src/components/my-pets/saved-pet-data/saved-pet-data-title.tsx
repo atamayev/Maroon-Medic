@@ -26,6 +26,7 @@ const SavedPetDataTitle = (props: Props) => {
 				title = "X"
 				onClick = {() => handleShowModal({pet, setPetToDelete, setShowModal})}
 				className = "float-right"
+				textColor = "text-white"
 			/>
 		</div>
 	)

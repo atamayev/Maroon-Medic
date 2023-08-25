@@ -1,23 +1,22 @@
 import ifInsuranceSelected from "./if-insurance-selected"
 import ifPetTypeSelected from "./if-pet-type-selected"
 
-const handleInputChange = (
+const handlePetInfoInput = (
 	event: React.ChangeEvent<HTMLInputElement>,
 	newPetData: PetItemForCreation,
-	petTypes: ServicedPetItem[],
-	insurances: InsuranceItem[],
-	setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>
+	setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>,
+	specialData?:  ServicedPetItem[] | InsuranceItem[]
 ): void => {
 	const value = event.target.value
 
 	if (event.target.name === "Pet_type") {
-		ifPetTypeSelected(value, petTypes, newPetData, setNewPetData)
+		ifPetTypeSelected(value, specialData as ServicedPetItem[], newPetData, setNewPetData)
 	} else if (event.target.name === "insurance") {
-		ifInsuranceSelected(value, insurances, newPetData, setNewPetData)
+		ifInsuranceSelected(value, specialData as InsuranceItem[], newPetData, setNewPetData)
 	} else {
 		const newPet = { ...newPetData, [event.target.name]: value }
 		setNewPetData(newPet)
 	}
 }
 
-export default handleInputChange
+export default handlePetInfoInput

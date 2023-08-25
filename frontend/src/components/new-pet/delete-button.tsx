@@ -17,6 +17,7 @@ const DeleteButton = (props: Props) => {
 				setNewPetData({} as PetItemForCreation)
 				setShowAddPet(false)
 			}}
+			textColor = "text-white"
 		/>
 	)
 }

@@ -16,6 +16,7 @@ const ShowAddPet = (props: Props) => {
 			hoverClass = "hover:bg-green-700"
 			onClick = {() => {setShowAddPet(true)}}
 			title = "Add a Pet"
+			textColor = "text-white"
 		/>
 	)
 }

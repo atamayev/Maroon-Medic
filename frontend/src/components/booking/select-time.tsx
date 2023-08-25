@@ -21,6 +21,7 @@ const SelectTime = (props: SelectTimeProps) => {
 				id="timeSelect"
 				label="Select a time"
 				onChange={(e) => handleTimeChange(e, setSelectedTime)}
+				value = {selectedDay || ""}
 			>
 				<option>Select...</option>
 				{availableTimes.map((time) => (

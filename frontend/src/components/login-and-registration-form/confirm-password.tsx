@@ -2,12 +2,13 @@ import FormGroup from "../form-group"
 
 interface Props {
   loginOrSignUp: "Login" | "Sign up",
+  passwordConfirm: string,
   setPasswordConfirm?: (passwordConfirm: string) => void,
   showPassword: "text" | "password",
 }
 
 const ConfirmPassword = (props: Props) => {
-	const { loginOrSignUp, setPasswordConfirm, showPassword } = props
+	const { loginOrSignUp, passwordConfirm, setPasswordConfirm, showPassword } = props
 
 	if (loginOrSignUp === "Sign up" && setPasswordConfirm) {
 		return (
@@ -18,6 +19,7 @@ const ConfirmPassword = (props: Props) => {
 				placeholder = "Confirm Password"
 				onChange = {(event) => setPasswordConfirm(event.target.value)}
 				required
+				value = {passwordConfirm || ""}
 			/>
 		)
 	}

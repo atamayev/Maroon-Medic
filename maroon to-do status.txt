@@ -2,13 +2,8 @@ To-do:
 
 
 ASAP:
-Bugs:
-4. Unable to add a new pet (object?)
-	- go through all the components in new-pet. see if all them need all of the props that are given to them. why should insurance sectionneed petTypes? maybe make the handleinput change params optional?
 
-To-do:
 7. Fix the dashboard data not showing, and the unable to make a booking problem
-9. Add little images to the doctor/patient headers (like a gear icon for settings, calendar for calendar)
 10. Make the pets in the patient header be the pets that the user has
 
 Make personal info it's own context
@@ -27,7 +22,7 @@ Classes vs session storage:
 	Use classes when data is sensitive
 
 Full Stack TS changes
-	9. Change all DB fields to snake case, change sql accordingly
+	Change all DB fields to snake case, change sql accordingly
 
 added a appointment_timespan, and add petID to the Appointments table. - need to change the front-end accordingly
 
@@ -44,7 +39,9 @@ added a appointment_timespan, and add petID to the Appointments table. - need to
 			think about the best way to structure the acess token/ uuid thing
 
 Move data like personal info into a context. If it's used by multiple components, move it into a context. Every time you navigate, show the context data, but call the API to check for changes simultaneously
-
+On the My-Pets page, make each pet have it's own 'row' card, similar to addersses in doctor account details (shouldn't be able to close/open, always open)
+	show something like the picture on the left side, and then the details on the right. Details can include past appointments, other stuff (can always add later)
+	
 -mini bug when making a booking. make a booking with `changes in behavior`. The time is 10 AM- 10AM (it's a full day appointment). Should say something like (10AM (july 17) - 10AM (july 18))
 
 -start figuring out only being able to make appointments during available time slots (shouldn't be able to book an appointment while that time slot is booked)

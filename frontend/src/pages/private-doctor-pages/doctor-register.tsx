@@ -20,6 +20,7 @@ export default function DoctorRegister() {
 			handleSubmit = {(e) => registerSubmit(e, registerInformationObject, passwordConfirm)}
 			credentials = {registerInformationObject}
 			setCredentials = {setRegisterInformationObject}
+			passwordConfirm = {passwordConfirm}
 			setPasswordConfirm = {setPasswordConfirm}
 			error = {error}
 			VetOrPatient = {VetOrPatient}

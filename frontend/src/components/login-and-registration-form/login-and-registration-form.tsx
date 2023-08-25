@@ -11,6 +11,7 @@ interface Props {
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void,
   credentials: AuthCredentials,
   setCredentials: (credentials: AuthCredentials) => void,
+  passwordConfirm?: string,
   setPasswordConfirm?: (passwordConfirm: string) => void,
   error: string,
   VetOrPatient: VetOrPatient,
@@ -24,6 +25,7 @@ export default function LoginAndRegistrationForm({
 	handleSubmit,
 	credentials,
 	setCredentials,
+	passwordConfirm,
 	setPasswordConfirm,
 	error,
 	VetOrPatient,
@@ -71,6 +73,7 @@ export default function LoginAndRegistrationForm({
 
 					<ConfirmPassword
 						loginOrSignUp = {loginOrSignUp}
+						passwordConfirm = {passwordConfirm!}
 						setPasswordConfirm = {setPasswordConfirm}
 						showPassword = {isShowPassword()}
 					/>

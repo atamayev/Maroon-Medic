@@ -17,6 +17,7 @@ const PasswordInput = (props: Props) => {
 			placeholder = "Password"
 			onChange = {(event) => setCredentials({...credentials, password: event.target.value})}
 			required
+			value = {credentials.password || ""}
 		/>
 	)
 }

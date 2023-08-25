@@ -1,14 +1,12 @@
-import handleInputChange from "src/helper-functions/patient/new-pet/handle-input-change/handle-input-change"
+import handlePetInfoInput from "src/helper-functions/patient/new-pet/handle-input-change/handle-pet-info-input"
 
 interface Props {
   newPetData: PetItemForCreation
-  petTypes: ServicedPetItem[]
-  insurances: InsuranceItem[]
   setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>
 }
 
 const PetGenderSection = (props: Props) => {
-	const { newPetData, petTypes, insurances, setNewPetData } = props
+	const { newPetData, setNewPetData } = props
 
 	return (
 		<div className="mb-4" id="formPetGender">
@@ -19,8 +17,10 @@ const PetGenderSection = (props: Props) => {
 						type="radio"
 						name="Gender"
 						value="Male"
-						onChange={(e) => handleInputChange(e, newPetData, petTypes, insurances, setNewPetData)}
+						checked = {newPetData.Gender === "Male"}
+						onChange={(e) => handlePetInfoInput(e, newPetData, setNewPetData)}
 						className="form-radio text-green-600"
+						required
 					/>
 					<span className="ml-2">Male</span>
 				</label>
@@ -29,8 +29,10 @@ const PetGenderSection = (props: Props) => {
 						type="radio"
 						name="Gender"
 						value="Female"
-						onChange={(e) => handleInputChange(e, newPetData, petTypes, insurances, setNewPetData)}
+						checked = {newPetData.Gender === "Female"}
+						onChange={(e) => handlePetInfoInput(e, newPetData, setNewPetData)}
 						className="form-radio text-green-600"
+						required
 					/>
 					<span className="ml-2">Female</span>
 				</label>

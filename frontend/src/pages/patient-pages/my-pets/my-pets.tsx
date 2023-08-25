@@ -21,23 +21,6 @@ export default function MyPets() {
 
 	if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
-	const AddPet = () => {
-		if (!showAddPet) return null
-		return (
-			<NewPet
-				newPetData = {newPetData}
-				setNewPetData = {setNewPetData}
-				petTypes = {petTypes}
-				insurances = {insurances}
-				petConfirmation = {petConfirmation}
-				setPetConfirmation = {setPetConfirmation}
-				setShowAddPet = {setShowAddPet}
-				savedPetData = {savedPetData}
-				setSavedPetData = {setSavedPetData}
-			/>
-		)
-	}
-
 	return (
 		<>
 			<PatientHeader/>
@@ -53,7 +36,18 @@ export default function MyPets() {
 			/>
 
 			<ShowAddPet showAddPet = {showAddPet} setShowAddPet = {setShowAddPet} />
-			<AddPet />
+			<NewPet
+				newPetData = {newPetData}
+				setNewPetData = {setNewPetData}
+				petTypes = {petTypes}
+				insurances = {insurances}
+				petConfirmation = {petConfirmation}
+				setPetConfirmation = {setPetConfirmation}
+				showAddPet = {showAddPet}
+				setShowAddPet = {setShowAddPet}
+				savedPetData = {savedPetData}
+				setSavedPetData = {setSavedPetData}
+			/>
 		</>
 	)
 }

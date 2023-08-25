@@ -36,7 +36,6 @@ const ServicePriceInput = (props: Props) => {
 				onChange={(e) => handleNumericInput(
 					e,
 					(newVal) => {
-						console.log(newVal)
 						const updatedServices = selectedServices.map(s => {
 							if (s.service_and_category_listID === service.service_and_category_listID) {
 								return { ...s, Service_price: Number(newVal) }

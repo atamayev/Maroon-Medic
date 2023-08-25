@@ -15,6 +15,7 @@ const EmailInput = (props: Props) => {
 			placeholder = "abc@123.com"
 			onChange = {(event) => setCredentials({...credentials, email: event.target.value})}
 			required
+			value = {credentials.email || ""}
 		/>
 	)
 }

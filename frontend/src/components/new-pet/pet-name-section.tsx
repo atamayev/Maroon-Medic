@@ -6,21 +6,21 @@ interface Props {
   setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>
 }
 
-const DOBSection = (props: Props) => {
-	const { newPetData, setNewPetData } = props
+const PetNameSection = (props: Props) => {
+	const { newPetData,  setNewPetData } = props
 
 	return (
 		<FormGroup
-			id = "formPetDob"
 			className = "mb-3"
-			label = "Date of Birth"
-			type = "date"
+			label = "Pet Name:"
+			type = "text"
 			onChange = {(e) => handlePetInfoInput(e, newPetData, setNewPetData)}
-			name = "DOB"
-			value = {newPetData.DOB || ""}
+			name = "Name"
+			placeholder = "Hedwig"
 			required
+			value = {newPetData.Name || ""}
 		/>
 	)
 }
 
-export default DOBSection
+export default PetNameSection
