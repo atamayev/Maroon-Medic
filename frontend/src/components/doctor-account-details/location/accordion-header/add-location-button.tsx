@@ -17,7 +17,10 @@ const AddLocationButton = (props: Props) => {
 			colorClass = "bg-green-600"
 			hoverClass = "hover:bg-green-700"
 			title = "Add Location"
-			onClick = {() => addLocation(address, setAddresses, setAddressesConfirmation)}
+			onClick = {(e: React.MouseEvent) => {
+				e.stopPropagation()
+				addLocation(address, setAddresses, setAddressesConfirmation)
+			}}
 			disabled = {!areAllFieldsValid(address) || !areAllTimesValid(address)}
 			textColor = "text-white"
 		/>

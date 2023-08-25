@@ -3,7 +3,6 @@ To-do:
 
 ASAP:
 Bugs:
-2. Delete location button should require confirmation
 3. Fix services not changing from -1 (make sure -1 cannot be entered,or else db errors out)
 4. Unable to add a new pet (object?)
 	- go through all the components in new-pet. see if all them need all of the props that are given to them. why should insurance sectionneed petTypes? maybe make the handleinput change params optional?
