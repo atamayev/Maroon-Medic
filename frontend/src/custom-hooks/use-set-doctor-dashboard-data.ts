@@ -15,5 +15,5 @@ export default function useSetDoctorDashboardData(): {
 		fetchAndSetDashboardData()
 	}, [])
 
-	return {dashboardData, setDashboardData}
+	return { dashboardData, setDashboardData }
 }

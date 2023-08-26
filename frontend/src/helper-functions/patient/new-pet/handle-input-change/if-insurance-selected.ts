@@ -4,8 +4,7 @@ const ifInsuranceSelected = (
 	newPetData: PetItemForCreation,
 	setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>
 ): void => {
-	// Find the selected insurance by its ID
-	const selectedInsurance = insurances.find(insurance => insurance.insurance_listID === JSON.parse(value))
+	const selectedInsurance = insurances.find(insurance => insurance.Insurance_name === value)
 	if (selectedInsurance) {
 		const newPet = {
 			...newPetData,

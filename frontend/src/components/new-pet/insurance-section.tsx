@@ -9,7 +9,6 @@ interface Props {
 
 const InsuranceSection = (props: Props) => {
 	const { newPetData, insurances, setNewPetData } = props
-	console.log("newPetData", newPetData)
 
 	return (
 		<FormGroup
@@ -21,12 +20,13 @@ const InsuranceSection = (props: Props) => {
 			required
 			id = "formInsurance"
 			label = "Insurance"
+			value = {newPetData.insuranceName || ""}
 		>
 			<option value = "" disabled>Select</option>
 			{insurances.map((insurance) => (
 				<option
 					key = {insurance.insurance_listID}
-					value = {insurance.insurance_listID}
+					value = {insurance.Insurance_name}
 				>
 					{insurance.Insurance_name}
 				</option>
