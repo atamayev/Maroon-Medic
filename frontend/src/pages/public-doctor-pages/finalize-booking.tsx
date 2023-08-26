@@ -16,26 +16,18 @@ export default function FinalizeBookingPage() {
 	const navigate = useNavigate()
 	const { userType } = useSimpleUserVerification(false)
 
-	let selectedService: ServiceItemNotNullablePrice = {Service_name: "", Service_price: -1,
-		service_and_category_listID: -1, Category_name: "", Service_time: ""}
-	let selectedLocation: PublicAddressData = {address_title: "", address_line_1: "", address_line_2: "", instant_book: false,
-		addressesID: -1, city: "", state: "", zip: "", country: "", address_priority: -1, phone: "", times: []}
-	let selectedDay: string = ""
-	let selectedTime: string = ""
+	let appointmentInformation: AppointmentInformation = {} as AppointmentInformation
 	let serviceMinutes: number = -1
 	let personalData: DoctorPersonalData = {FirstName: "", LastName: "", Gender: "", NVI: -1}
-	let selectedPet: SavedPetItem = {Name: "", Gender: "", DOB: "", Pet: "", Pet_type: "", insuranceName: "", pet_infoID: -1}
 
 	const storedData = sessionStorage.getItem("bookingDetails")
 	const parsedData = storedData && JSON.parse(storedData)
 	const sessionBookingDetails = parsedData
 
 	if (browserLocation.state) {
-		({ selectedService, selectedLocation, selectedDay, selectedTime,
-			serviceMinutes, personalData, selectedPet } = browserLocation.state)
+		({ appointmentInformation, serviceMinutes, personalData } = browserLocation.state)
 	} else if (sessionBookingDetails) {
-		({ selectedService, selectedLocation, selectedDay, selectedTime,
-			serviceMinutes, personalData, selectedPet } = sessionBookingDetails)
+		({ appointmentInformation, serviceMinutes, personalData } = sessionBookingDetails)
 	}
 
 	useEffect(() => {
@@ -63,31 +55,27 @@ export default function FinalizeBookingPage() {
 	if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
 	const ConfirmOrRequestBook = () => {
-		if (selectedLocation.instant_book) return "Confirm"
+		if (appointmentInformation.selectedLocation?.instant_book) return "Confirm"
 		return "Request"
 	}
 
 	const ConfirmBookingButton = () => {
+		const confirmBooking = useConfirmBooking()
 		return (
-			<>
-				<Button
-					colorClass = "bg-green-600"
-					hoverClass = "hover:bg-green-700"
-					title = {ConfirmOrRequestBook()}
-					onClick = {() => {
-						useConfirmBooking(
-							selectedService,
-							selectedLocation,
-							selectedDay,
-							selectedTime,
-							serviceMinutes,
-							personalData,
-							selectedPet,
-							message
-						)
-					}}
-				/>
-			</>
+			<Button
+				colorClass = "bg-green-600"
+				hoverClass = "hover:bg-green-700"
+				title = {ConfirmOrRequestBook()}
+				onClick = {() => {
+					confirmBooking({
+						appointmentInformation,
+						serviceMinutes,
+						personalData,
+						message
+					})
+				}}
+				textColor = "text-white"
+			/>
 		)
 	}
 
@@ -102,12 +90,8 @@ export default function FinalizeBookingPage() {
 						<DoctorPersonalInfo personalData={personalData} />
 					</h3>
 					<FinalizeBookingCardText
-						selectedService={selectedService}
-						selectedLocation={selectedLocation}
-						selectedDay={selectedDay}
-						selectedTime={selectedTime}
+						appointmentInformation={appointmentInformation}
 						serviceMinutes={serviceMinutes}
-						selectedPet={selectedPet}
 					/>
 					<CustomPatientMessage
 						message={message}

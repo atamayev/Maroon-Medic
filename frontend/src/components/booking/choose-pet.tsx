@@ -4,18 +4,17 @@ import Button from "../button"
 import handlePetChange from "src/helper-functions/public-doctor/booking-page/handle-pet-change"
 import FormGroup from "../form-group"
 
-interface ChoosePetProps extends BaseBookingProps {
-  savedPetData: SavedPetItem[]
-  setSelectedPet: React.Dispatch<React.SetStateAction<SavedPetItem | null>>
+interface ChoosePetProps extends AppointmentBookingProps {
+	savedPetData: SavedPetItem[]
 }
 
 const ChoosePet = (props: ChoosePetProps) => {
-	const { savedPetData, setSelectedPet, selectedPet, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime } = props
+	const { savedPetData, appointmentInformation, setAppointmentInformation } = props
 
 	if (_.isEmpty(savedPetData)) {
 		return (
 			<div className="col-md-6">
-        You need to add a pet to make an appointment
+			You need to add a pet to make an appointment
 				<Link to = "/my-pets">
 					<Button
 						className = "w-100"
@@ -28,7 +27,7 @@ const ChoosePet = (props: ChoosePetProps) => {
 		)
 	}
 
-	if (savedPetData.length === 1) return <div className="col-md-6">Selected Pet: {selectedPet?.Name}</div>
+	if (savedPetData.length === 1) return <div className="col-md-6">Selected Pet: {appointmentInformation.selectedPet?.Name}</div>
 
 	return (
 		<div className="col-md-6">
@@ -36,19 +35,17 @@ const ChoosePet = (props: ChoosePetProps) => {
 				as = "select"
 				id = "petSelect"
 				label = "Select a pet"
-				onChange ={(e) =>
+				onChange = {(e) =>
 					handlePetChange(
 						e,
 						savedPetData,
-						setSelectedPet,
-						setSelectedService,
-						setSelectedLocation,
-						setSelectedDay,
-						setSelectedTime
+						setAppointmentInformation
 					)
 				}
+				value = {_.toString(appointmentInformation.selectedPet?.pet_infoID) || ""}
+				required = {true}
 			>
-				<option>Select...</option>
+				<option value = "" disabled>Select...</option>
 				{savedPetData.map((pet, index) => (
 					<option key={index} value={pet.pet_infoID}>
 						{pet.Name}

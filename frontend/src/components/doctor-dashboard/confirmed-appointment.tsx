@@ -5,19 +5,19 @@ import invalidUserAction from "src/utils/invalid-user-action"
 
 interface ApproveAppointmentProps {
   setStatus: React.Dispatch<React.SetStateAction<AppointmentStatus>>,
-  appointmentsID: number,
+  AppointmentsID: number,
   dashboardData: DoctorDashboardData[],
   setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardData[]>>
 }
 
 async function approveAppointment (props: ApproveAppointmentProps) {
-	const { setStatus, appointmentsID, dashboardData, setDashboardData } = props
+	const { setStatus, AppointmentsID, dashboardData, setDashboardData } = props
 	try {
-		const response = await CalendarDataService.confirmAppointment(appointmentsID)
+		const response = await CalendarDataService.confirmAppointment(AppointmentsID)
 		if (response.status === 200) {
 			// Update the Doctor_confirmation_status for the specific appointment
 			const updatedDashboardData = dashboardData.map(appointment => {
-				if (appointment.appointmentsID === appointmentsID) return { ...appointment, Doctor_confirmation_status: true }
+				if (appointment.AppointmentsID === AppointmentsID) return { ...appointment, Doctor_confirmation_status: true }
 				return appointment
 			})
 			setDashboardData(updatedDashboardData)
@@ -53,7 +53,7 @@ const ConfirmedAppointment = (props: ConfirmedAppointmentProps) => {
 				colorClass = "bg-green-600"
 				hoverClass = "hover:bg-green-700"
 				onClick = {
-					() => approveAppointment({setStatus, appointmentsID: appointment.appointmentsID, dashboardData, setDashboardData})
+					() => approveAppointment({setStatus, AppointmentsID: appointment.AppointmentsID, dashboardData, setDashboardData})
 				}
 				title = "Approve Appointment"
 			/>

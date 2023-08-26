@@ -6,7 +6,7 @@ const PastAppointmentsMap = ({ pastPatientAppointments } : { pastPatientAppointm
 	return (
 		<>
 			{pastPatientAppointments.map((appointment) => (
-				<PastAppointmentCard key = {appointment.appointmentsID} appointment = {appointment} />
+				<PastAppointmentCard key = {appointment.AppointmentsID} appointment = {appointment} />
 			))}
 		</>
 	)

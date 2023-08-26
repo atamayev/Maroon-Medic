@@ -54,19 +54,19 @@ declare global {
   }
 
   interface DashboardDataType {
-	appointmentsID: number
+	AppointmentsID: number
+	Doctor_confirmation_status: boolean
+	Category_name: string
+	Created_at: MysqlTimestamp
+	Service_name: string
+	address_line_1: string
+	address_line_2: string
+	address_title: string
 	appointment_date: MysqlTimestamp
 	appointment_price: number
 	appointment_timespan: number
-	patient_message: string
-	Doctor_confirmation_status: boolean
-	Created_at: MysqlTimestamp
-	Category_name: string
-	Service_name: string
-	address_title: string
-	address_line_1: string
-	address_line_2: string
 	city: string
+	patient_message: string
 	state: string
 	zip: string
 	country: string
@@ -100,12 +100,9 @@ declare global {
 	setPersonalInfo: (personalInfo: BirthDateInfo) => void
   }
 
-  interface BaseBookingProps {
-	selectedPet: SavedPetItem | null
-	setSelectedService: React.Dispatch<React.SetStateAction<ServiceItemNotNullablePrice | null>>
-	setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressData | null>>
-	setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>
-	setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
+  interface AppointmentBookingProps {
+	appointmentInformation: AppointmentInformation
+	setAppointmentInformation: React.Dispatch<React.SetStateAction<AppointmentInformation>>
   }
 }
 

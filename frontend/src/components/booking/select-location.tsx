@@ -1,20 +1,16 @@
+import _ from "lodash"
 import FormGroup from "../form-group"
 import handleLocationChange from "src/helper-functions/public-doctor/booking-page/handle-location-change"
 
-interface SelectLocationProps {
+interface SelectLocationProps extends AppointmentBookingProps {
   addresses: PublicAddressData[]
-  selectedService: ServiceItemNotNullablePrice | null
   setNoAvailableTimesMessage: React.Dispatch<React.SetStateAction<boolean>>
-  setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressData | null>>
-  setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>
-  setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
 }
 
 const SelectLocation = (props: SelectLocationProps) => {
-	const { addresses, selectedService, setNoAvailableTimesMessage,
-		setSelectedLocation, setSelectedDay, setSelectedTime } = props
+	const { addresses, appointmentInformation, setAppointmentInformation, setNoAvailableTimesMessage } = props
 
-	if (!selectedService) return null
+	if (!appointmentInformation.selectedService) return null
 
 	return (
 		<div className="col-md-6">
@@ -26,17 +22,16 @@ const SelectLocation = (props: SelectLocationProps) => {
 					handleLocationChange(
 						e,
 						addresses,
-						setSelectedLocation,
-						setSelectedDay,
-						setSelectedTime,
+						setAppointmentInformation,
 						setNoAvailableTimesMessage
 					)}
+				value = {_.toString(appointmentInformation.selectedLocation?.addressesID) || ""}
 			>
-				<option>Select...</option>
+				<option value = "" disabled>Select...</option>
 				{addresses.map((address) => (
 					<option key={address.addressesID} value={address.addressesID}>
-						{address.address_title}: ({address.address_line_1} {address.address_line_2},
-						{address.city}, {address.state}, {address.zip})
+						{address.address_title}: ({address.address_line_1} {address.address_line_2}, {" "}
+						{address.city}, {" "} {address.state}, {" "} {address.zip})
 					</option>
 				))}
 			</FormGroup>

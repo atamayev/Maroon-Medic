@@ -16,16 +16,17 @@ export default new class CalendarDB {
 		dateTime: MysqlTimestamp,
 		AppointmentObject: AppointmentObject,
 		DoctorID: number,
+		PatientID: number,
 		createdAt: MysqlTimestamp
 	): Promise<void> {
 		const sql = `INSERT INTO ${mysqlTables.appointments}
       (appointment_date, appointment_price, appointment_timespan, patient_message, Doctor_confirmation_status,
-        Service_and_category_list_ID, pet_info_ID, Doctor_ID, Addresses_ID, Created_at)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+        Service_and_category_list_ID, pet_info_ID, Patient_ID, Doctor_ID, Addresses_ID, Created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
 
 		const values = [dateTime, AppointmentObject.appointmentPrice, AppointmentObject.appointmentTimespan, AppointmentObject.message,
 			AppointmentObject.InstantBook, AppointmentObject.Service_and_category_list_ID,
-			AppointmentObject.selectedPetID, DoctorID, AppointmentObject.AddressesID, createdAt
+			AppointmentObject.selectedPetID, PatientID, DoctorID, AppointmentObject.AddressesID, createdAt
 		]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)

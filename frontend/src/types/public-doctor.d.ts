@@ -27,6 +27,14 @@ declare global {
     phone: string
     times: DoctorAvailability[]
   }
+
+  interface AppointmentInformation {
+	selectedPet: SavedPetItem | null
+	selectedService: ServiceItemNotNullablePrice | null
+	selectedLocation: PublicAddressData | null
+	selectedDay: string | null
+	selectedTime: string | null
+  }
 }
 
 export {}

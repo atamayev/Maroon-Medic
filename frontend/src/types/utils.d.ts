@@ -10,7 +10,7 @@ declare global {
   type DeleteStatuses = "deleting" | "initial"
 
   type DeleteStatusesDictionary = {
-    [key: number]: DeleteStatuses;
+    [key: number]: DeleteStatuses
   }
 
   type DayOfWeek = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday"

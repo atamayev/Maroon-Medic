@@ -2,19 +2,18 @@ import FormGroup from "../form-group"
 import handleDayChange from "src/helper-functions/public-doctor/booking-page/handle-day-change"
 import AvailableDates from "./available-dates"
 
-interface SelectDayProps {
-  selectedService: ServiceItemNotNullablePrice | null
-  selectedLocation: PublicAddressData | null
-  setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>
-  setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
-  selectedDay: string | null
+interface SelectDayProps extends AppointmentBookingProps {
   personalData: DoctorPersonalData
   availableDates: string[]
 }
 
 const SelectDay = (props: SelectDayProps) => {
-	const { selectedService, selectedLocation, setSelectedDay, setSelectedTime, selectedDay, personalData, availableDates } = props
-	if (!(selectedService && selectedLocation && selectedDay)) return null
+	const { appointmentInformation, setAppointmentInformation, personalData, availableDates } = props
+	if (!(
+		appointmentInformation.selectedService &&
+		appointmentInformation.selectedLocation &&
+		appointmentInformation.selectedPet)
+	) return null
 
 	return (
 		<div className="col-md-6">
@@ -22,11 +21,12 @@ const SelectDay = (props: SelectDayProps) => {
 				as="select"
 				id="daySelect"
 				label="Select a date"
-				onChange={(e) => handleDayChange(e, setSelectedDay, setSelectedTime)}
+				onChange={(e) => handleDayChange(e, setAppointmentInformation)}
+				value = {appointmentInformation.selectedDay || ""}
 			>
-				<option>Select...</option>
+				<option value = "" disabled>Select...</option>
 				<AvailableDates
-					selectedDay = {selectedDay}
+					appointmentInformation = {appointmentInformation}
 					personalData = {personalData}
 					availableDates = {availableDates}
 				/>

@@ -28,7 +28,7 @@ export default function PicturesSection(props: Props) {
 
 	return (
 		<>
-      Edit Pictures:
+			Edit Pictures:
 			<div className="relative w-full">
 				<img className="d-block w-100" src={images[carouselIndex]} alt={captions[carouselIndex]} />
 				<div className="absolute top-1/2 left-4 transform -translate-y-1/2 cursor-pointer" onClick={handlePrev}>

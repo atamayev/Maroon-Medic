@@ -3,7 +3,9 @@ To-do:
 
 ASAP:
 
-7. Fix the dashboard data not showing, and the unable to make a booking problem
+9. Full Stack TS changes
+	Change all DB fields to snake case, change sql accordingly
+	make casing lowercase for hte appointments table
 10. Make the pets in the patient header be the pets that the user has
 
 Make personal info it's own context
@@ -20,11 +22,6 @@ Classes vs useState:
 
 Classes vs session storage:
 	Use classes when data is sensitive
-
-Full Stack TS changes
-	Change all DB fields to snake case, change sql accordingly
-
-added a appointment_timespan, and add petID to the Appointments table. - need to change the front-end accordingly
 
 -add choose your pet to make an appointment. if the user isn't logged in, show a login/register button in the booking section.
 	the first question should be: choose which pet you would like to take to the vet

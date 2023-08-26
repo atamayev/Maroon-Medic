@@ -3,26 +3,33 @@ import _ from "lodash"
 const handleLocationChange = (
 	event: React.ChangeEvent<HTMLInputElement>,
 	addresses: PublicAddressData[],
-	setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressData | null>>,
-	setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>,
-	setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>,
+	setAppointmentInformation: React.Dispatch<React.SetStateAction<AppointmentInformation>>,
 	setNoAvailableTimesMessage: React.Dispatch<React.SetStateAction<boolean>>
 ): void => {
 	const value = event.target.value
 	const selectedLocationObject = addresses.find(location => location.addressesID.toString() === value)
 
 	if (value === "Select...") {
-		setSelectedLocation(null)
+		setAppointmentInformation(prev => ({
+			...prev,
+			selectedLocation: null,
+			selectedDay: null,
+			selectedTime: null,
+		}))
 		setNoAvailableTimesMessage(false)
-		setSelectedDay(null)
-		setSelectedTime(null)
 	} else if (_.isEmpty(selectedLocationObject?.times)) {
 		setNoAvailableTimesMessage(true)
-		setSelectedLocation(null)
-		setSelectedTime(null)
+		setAppointmentInformation(prev => ({
+			...prev,
+			selectedLocation: null,
+			selectedTime: null,
+		}))
 	} else {
 		setNoAvailableTimesMessage(false)
-		setSelectedLocation(selectedLocationObject!)
+		setAppointmentInformation(prev => ({
+			...prev,
+			selectedLocation: selectedLocationObject!
+		}))
 	}
 }
 

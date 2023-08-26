@@ -1,14 +1,15 @@
+import _ from "lodash"
 import FormGroup from "../form-group"
 import handleServiceChange from "src/helper-functions/public-doctor/booking-page/handle-service-change"
 
-interface SelectServiceProps extends BaseBookingProps {
+interface SelectServiceProps extends AppointmentBookingProps {
   providedServices: ServiceItemNotNullablePrice[]
 }
 
 const SelectService = (props: SelectServiceProps) => {
-	const { providedServices, selectedPet, setSelectedService, setSelectedLocation, setSelectedDay, setSelectedTime } = props
+	const { providedServices, appointmentInformation, setAppointmentInformation } = props
 
-	if (!selectedPet) return null
+	if (_.isNil(appointmentInformation.selectedPet)) return null
 
 	return (
 		<div className="col-md-6">
@@ -20,13 +21,11 @@ const SelectService = (props: SelectServiceProps) => {
 					handleServiceChange(
 						e,
 						providedServices,
-						setSelectedService,
-						setSelectedLocation,
-						setSelectedDay,
-						setSelectedTime
+						setAppointmentInformation,
 					)}
+				value = {_.toString(appointmentInformation.selectedService?.service_and_category_listID) || ""}
 			>
-				<option>Select...</option>
+				<option value = "" disabled>Select...</option>
 				{providedServices.map((service, index) => (
 					<option key={index} value={service.service_and_category_listID}>
 						{service.Category_name} - {service.Service_name}

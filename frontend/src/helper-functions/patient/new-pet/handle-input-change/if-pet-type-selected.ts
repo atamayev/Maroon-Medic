@@ -12,7 +12,6 @@ const ifPetTypeSelected = (
 			Pet_type: selectedPetType.Pet_type,
 			pet_listID: selectedPetType.pet_listID
 		}
-		console.log(newPet)
 
 		setNewPetData(newPet)
 	}

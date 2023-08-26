@@ -1,20 +1,22 @@
 const handlePetChange = (
 	event: React.ChangeEvent<HTMLInputElement>,
 	savedPetData: SavedPetItem[],
-	setSelectedPet: React.Dispatch<React.SetStateAction<SavedPetItem | null>>,
-	setSelectedService: React.Dispatch<React.SetStateAction<ServiceItemNotNullablePrice | null>>,
-	setSelectedLocation: React.Dispatch<React.SetStateAction<PublicAddressData | null>>,
-	setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>,
-	setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
+	setAppointmentInformation: React.Dispatch<React.SetStateAction<AppointmentInformation>>,
 ): void => {
 	const value = event.target.value
 	const selectedPetObject = savedPetData.find(pet => pet.pet_infoID.toString() === value)
-	setSelectedPet(selectedPetObject || null)
+	setAppointmentInformation(prev => ({
+		...prev,
+		selectedPet: selectedPetObject || null,
+	}))
 	if (value === "Select...") {
-		setSelectedService(null)
-		setSelectedLocation(null)
-		setSelectedDay(null)
-		setSelectedTime(null)
+		setAppointmentInformation(prev => ({
+			...prev,
+			selectedService: null,
+			selectedLocation: null,
+			selectedDay: null,
+			selectedTime: null,
+		}))
 	}
 }
 

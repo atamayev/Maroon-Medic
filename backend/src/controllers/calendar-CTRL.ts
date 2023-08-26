@@ -5,7 +5,9 @@ import OperationHandler from "../utils/operation-handler"
 
 export async function makeAppointment(req: Request, res: Response): Promise<void> {
 	const AppointmentObject = req.body.AppointmentObject
+	const PatientID = req.PatientID
 	const NVI = AppointmentObject.NVI
+
 	const DoctorID: number = Number(await OperationHandler.executeAsyncAndReturnValue(res, CalendarDB.retrieveDoctorIDFromNVI, NVI))
 
 	const createdAt = TimeUtils.createFormattedDate()
@@ -15,7 +17,7 @@ export async function makeAppointment(req: Request, res: Response): Promise<void
 		AppointmentObject.appointmentTime
 	)
 	const operation: () => Promise<void> = async () => await CalendarDB.addAppointment(
-		mysqlDateTime, AppointmentObject, DoctorID, createdAt
+		mysqlDateTime, AppointmentObject, DoctorID, PatientID, createdAt
 	)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }

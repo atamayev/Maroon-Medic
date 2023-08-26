@@ -28,41 +28,43 @@ export default function BookingSection(props: Props) {
 	const { providedServices, addresses, personalData } = props
 	const { userType } = useSimpleUserVerification(false)
 	const { savedPetData } = useFetchAndSetPetData(userType)
-	const [selectedPet, setSelectedPet] = useState<SavedPetItem | null>(null)
-	const [selectedService, setSelectedService] = useState<ServiceItemNotNullablePrice | null>(null)
-	const [selectedLocation, setSelectedLocation] = useState<PublicAddressData |null>(null)
-	const [noAvailableTimesMessage, setNoAvailableTimesMessage] = useState(false)
-	const [selectedDay, setSelectedDay] = useState<string | null>(null)
-	const [selectedTime, setSelectedTime] = useState<string | null>(null)
+	const [appointmentInformation, setAppointmentInformation] = useState<AppointmentInformation>({
+		selectedPet: null,
+		selectedService: null,
+		selectedLocation: null,
+		selectedDay: null,
+		selectedTime: null
+	} as AppointmentInformation)
 	const [availableTimes, setAvailableTimes] = useState<string[]>([])
 	const [availableDates, setAvailableDates] = useState<string[]>([])
 	const [serviceMinutes, setServiceMinutes] = useState<number>(0)
-
-	// Get selected service object
-	const selectedServiceObject = providedServices.find(
-		service => service.service_and_category_listID === selectedService?.service_and_category_listID)
-
-	// Get selected location object
-	const selectedLocationObject = addresses.find(location => location.addressesID === selectedLocation?.addressesID)
-
-	const selectedPetObject = savedPetData.find(pet => pet.pet_infoID === selectedPet?.pet_infoID)
+	const [noAvailableTimesMessage, setNoAvailableTimesMessage] = useState(false)
 
 	useEffect(() => {
 		if (savedPetData.length === 1) {
-			setSelectedPet(savedPetData[0])
+			setAppointmentInformation({
+				...appointmentInformation,
+				selectedPet: savedPetData[0]
+			})
 		}
 	}, [savedPetData])
 
 	useEffect(() => {
-		if (selectedDay && selectedLocationObject && selectedServiceObject && selectedPetObject) {
-			generateTimeSlots(selectedDay, selectedLocationObject, selectedServiceObject, setAvailableTimes, setServiceMinutes)
+		if (appointmentInformation.selectedDay && appointmentInformation.selectedLocation && appointmentInformation.selectedService) {
+			generateTimeSlots(
+				appointmentInformation.selectedDay,
+				appointmentInformation.selectedLocation,
+				appointmentInformation.selectedService,
+				setAvailableTimes,
+				setServiceMinutes
+			)
 		}
-	}, [selectedDay, selectedLocationObject, selectedServiceObject, selectedPetObject])
+	}, [appointmentInformation.selectedDay, appointmentInformation.selectedLocation, appointmentInformation.selectedService])
 
 	useEffect(() => {
-		if (!selectedLocationObject) return
+		if (!appointmentInformation.selectedLocation) return
 
-		const daysOfWeek = selectedLocationObject.times.map(time => getDayIndex(time.Day_of_week))
+		const daysOfWeek = appointmentInformation.selectedLocation.times.map(time => getDayIndex(time.Day_of_week))
 		const dates = []
 		let date = moment()
 		while (dates.length < 10) {
@@ -71,7 +73,7 @@ export default function BookingSection(props: Props) {
 			date = date.clone().add(1, "days")
 		}
 		setAvailableDates(dates)
-	}, [selectedLocationObject])
+	}, [appointmentInformation.selectedLocation])
 
 	const anyLocationHasTimes = addresses.some(location => location.times && !_.isEmpty(location.times))
 
@@ -89,32 +91,23 @@ export default function BookingSection(props: Props) {
 				<div className = "row">
 					<ChoosePet
 						savedPetData = {savedPetData}
-						selectedPet = {selectedPet}
-						setSelectedPet = {setSelectedPet}
-						setSelectedService = {setSelectedService}
-						setSelectedLocation = {setSelectedLocation}
-						setSelectedDay = {setSelectedDay}
-						setSelectedTime = {setSelectedTime}
+						appointmentInformation = {appointmentInformation}
+						setAppointmentInformation = {setAppointmentInformation}
 					/>
 				</div>
 
 				<div className = "row">
 					<SelectService
 						providedServices = {providedServices}
-						selectedPet = {selectedPet}
-						setSelectedService = {setSelectedService}
-						setSelectedLocation = {setSelectedLocation}
-						setSelectedDay = {setSelectedDay}
-						setSelectedTime = {setSelectedTime}
+						appointmentInformation = {appointmentInformation}
+						setAppointmentInformation = {setAppointmentInformation}
 					/>
 
 					<SelectLocation
 						addresses = {addresses}
-						selectedService = {selectedService}
+						appointmentInformation = {appointmentInformation}
+						setAppointmentInformation = {setAppointmentInformation}
 						setNoAvailableTimesMessage = {setNoAvailableTimesMessage}
-						setSelectedLocation = {setSelectedLocation}
-						setSelectedDay = {setSelectedDay}
-						setSelectedTime = {setSelectedTime}
 					/>
 				</div>
 
@@ -125,33 +118,24 @@ export default function BookingSection(props: Props) {
 
 				<div className = "row">
 					<SelectDay
-						selectedService = {selectedService}
-						selectedLocation = {selectedLocation}
-						setSelectedDay = {setSelectedDay}
-						setSelectedTime = {setSelectedTime}
-						selectedDay = {selectedDay}
+						appointmentInformation = {appointmentInformation}
+						setAppointmentInformation = {setAppointmentInformation}
 						personalData = {personalData}
 						availableDates = {availableDates}
 					/>
 
 					<SelectTime
-						selectedService = {selectedService}
-						selectedLocation = {selectedLocation}
-						selectedDay = {selectedDay}
-						setSelectedTime = {setSelectedTime}
+						appointmentInformation = {appointmentInformation}
+						setAppointmentInformation = {setAppointmentInformation}
 						availableTimes = {availableTimes}
 						serviceMinutes = {serviceMinutes}
 					/>
 				</div>
 
 				<FinalizeBookingButton
-					selectedService = {selectedService}
-					selectedLocation = {selectedLocation}
-					selectedDay = {selectedDay}
-					selectedTime = {selectedTime}
+					appointmentInformation = {appointmentInformation}
 					serviceMinutes = {serviceMinutes}
 					personalData = {personalData}
-					selectedPet = {selectedPet}
 				/>
 			</div>
 		)

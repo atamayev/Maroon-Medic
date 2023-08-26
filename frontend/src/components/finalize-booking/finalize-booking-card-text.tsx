@@ -1,42 +1,40 @@
 import moment from "moment"
 
 interface Props {
-  selectedService: ServiceItemNotNullablePrice,
-  selectedLocation: PublicAddressData,
-  selectedDay: string,
-  selectedTime: string,
-  serviceMinutes: number,
-  selectedPet: SavedPetItem
+	appointmentInformation: AppointmentInformation,
+	serviceMinutes: number,
 }
 
 const FinalizeBookingCardText = (props: Props) => {
-	const { selectedService, selectedLocation, selectedDay, selectedTime, serviceMinutes, selectedPet } = props
+	const { appointmentInformation, serviceMinutes } = props
 
 	return (
 		<div className="bg-yellow-100 p-4 rounded border border-brown-400">
 			<div className="block text-brown-800 mb-1">
-				<strong className="font-bold">Pet:</strong> {selectedPet.Name}
+				<strong className="font-bold">Pet:</strong> {appointmentInformation.selectedPet!.Name}
 			</div>
 			<div className="block text-brown-800 mb-1">
-				<strong className="font-bold">Service:</strong> {selectedService.Service_name}
-			</div>
-			<div className="block text-brown-800 mb-1">
-				<strong className="font-bold">
-          Location:
-				</strong>
-				{selectedLocation.address_title}:  {selectedLocation.address_line_1} {selectedLocation.address_line_2}
-			</div>
-			<div className="block text-brown-800 mb-1">
-				<strong className="font-bold">Day:</strong> {selectedDay}
+				<strong className="font-bold">Service:</strong> {appointmentInformation.selectedService!.Service_name}
 			</div>
 			<div className="block text-brown-800 mb-1">
 				<strong className="font-bold">
-          Time:
+					Location:
 				</strong>
-				{selectedTime} - {moment(selectedTime, "HH:mm").add(serviceMinutes, "minutes").format("h:mm A")}
+				{" "} {appointmentInformation.selectedLocation!.address_title}: {" "}
+				{appointmentInformation.selectedLocation!.address_line_1} {" "} {appointmentInformation.selectedLocation!.address_line_2}
 			</div>
 			<div className="block text-brown-800 mb-1">
-				<strong className="font-bold">Price:</strong> ${selectedService.Service_price}
+				<strong className="font-bold">Day:</strong> {appointmentInformation.selectedDay}
+			</div>
+			<div className="block text-brown-800 mb-1">
+				<strong className="font-bold">
+					Time:
+				</strong>
+				{" "} {appointmentInformation.selectedTime} - {" "}
+				{moment(appointmentInformation.selectedTime, "HH:mm").add(serviceMinutes, "minutes").format("h:mm A")}
+			</div>
+			<div className="block text-brown-800 mb-1">
+				<strong className="font-bold">Price:</strong> ${appointmentInformation.selectedService!.Service_price}
 			</div>
 		</div>
 	)

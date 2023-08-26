@@ -1,11 +1,21 @@
 const handleDayChange = (
 	event: React.ChangeEvent<HTMLInputElement>,
-	setSelectedDay: React.Dispatch<React.SetStateAction<string | null>>,
-	setSelectedTime: React.Dispatch<React.SetStateAction<string | null>>
+	setAppointmentInformation: React.Dispatch<React.SetStateAction<AppointmentInformation>>,
 ): void => {
 	const value = event.target.value
-	setSelectedDay(value === "Select..." ? null : value)
-	if (value === "Select...") setSelectedTime(null)
+
+	if (value === "Select...") {
+		setAppointmentInformation(prev => ({
+			...prev,
+			selectedTime: null,
+			selectedDay: null
+		}))
+	} else {
+		setAppointmentInformation(prev => ({
+			...prev,
+			selectedDay: value
+		}))
+	}
 }
 
 export default handleDayChange

@@ -14,7 +14,7 @@ const SelectLanguage = ({handleLanguageChange, languageOptions}: SelectLanguageP
 				rounded px-3 py-2 w-full focus:outline-none focus:border-amber-500"
 		>
 			<option value="" disabled className="text-brown-600">
-        Choose a language
+				Choose a language
 			</option>
 			{languageOptions}
 		</select>
