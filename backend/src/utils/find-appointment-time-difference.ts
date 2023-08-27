@@ -17,22 +17,18 @@ export default async function findAppointmentTimeDifference (newTimes: DoctorAva
 		// If the day exists in the new data but not in the old data, it should be added
 		if (newTimeSlot && !oldTimeSlot) {
 			await SaveDoctorDataDB.addAvailbilityData(newTimeSlot, addressID)
-			console.log(`The record for ${day} should be added to the DB.`)
 			continue
 		}
 
 		// If the day exists in the old data but not in the new data, it should be deleted
 		if (!newTimeSlot && oldTimeSlot) {
 			await SaveDoctorDataDB.deleteSpecificDayAvailbilityData(oldTimeSlot, addressID)
-			console.log(`The record for ${day} should be deleted from the DB.`)
 			continue
 		}
 
 		// If the start/end times differ for the same day, the record needs to be updated
 		if (newTimeSlot && oldTimeSlot && !_.isEqual(newTimeSlot, oldTimeSlot)) {
-			console.log(newTimeSlot, oldTimeSlot)
 			await SaveDoctorDataDB.updateTimeAvailbilityData(newTimeSlot, addressID)
-			console.log(`The record for ${day} needs to be updated in the DB.`)
 		}
 	}
 }

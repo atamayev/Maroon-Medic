@@ -27,7 +27,6 @@ export async function fetchDashboardData (req: Request, res: Response): Promise<
 			singleAppointment.appointment_date = TimeUtils.convertMySQLDateIntoReadableString(singleAppointment.appointment_date)
 			singleAppointment.created_at = TimeUtils.convertMySQLDateIntoReadableString(singleAppointment.created_at)
 		}
-		console.log(DashboardData)
 		return res.status(200).json(DashboardData)
 	} catch (error: unknown) {
 		return res.status(500).json([])
