@@ -22,11 +22,11 @@ const ServiceTimeInput = (props: Props) => {
 		<select
 			id = {`time-${service.service_and_category_listID}`}
 			required
-			value = {selectedService.Service_time || ""}
+			value = {selectedService.serviceTime || ""}
 			onChange = {(e) => {
 				const updatedServices = selectedServices.map((s) => {
 					if (s.service_and_category_listID === service.service_and_category_listID) {
-						return { ...s, Service_time: e.target.value }
+						return { ...s, serviceTime: e.target.value }
 					}
 					return s
 				})

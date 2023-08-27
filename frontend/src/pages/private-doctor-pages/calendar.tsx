@@ -11,7 +11,7 @@ const localizer = momentLocalizer(moment)
 
 const CustomEvent = ({ event }: { event: DoctorCalendarEvent }) => {
 	let tailwindCSS = ""
-	if (event.doctor_confirmation_status === false) tailwindCSS = "bg-orange-400"
+	if (event.doctorConfirmationStatus === false) tailwindCSS = "bg-orange-400"
 	else tailwindCSS = "bg-blue-400"
 
 	return <div className={tailwindCSS}> {event.title} </div>

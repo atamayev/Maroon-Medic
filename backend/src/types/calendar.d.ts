@@ -15,10 +15,10 @@ declare global {
 	appointment_price: number
 	patient_message: string
 	appointment_timespan: number
-	Doctor_confirmation_status: boolean
+	doctorConfirmationStatus: boolean
 	created_at: MysqlTimestamp
-	Category_name: string
-	Service_name: string
+	categoryName: string
+	serviceName: string
 	address_title: string
 	address_line_1: string
 	address_line_2: string

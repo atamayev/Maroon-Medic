@@ -17,8 +17,8 @@ declare global {
 
   type ServiceListItem = {
     service_and_category_listID: number
-    Category_name: string
-    Service_name: string
+    categoryName: string
+    serviceName: string
   }
 
   type ServicedPetItem = {
@@ -29,37 +29,37 @@ declare global {
 
   type PreVetSchool = {
     pre_vet_school_listID: number
-    School_name: string
+    schoolName: string
   }
 
   type Major = {
     major_listID: number
-    Major_name: string
+    majorName: string
   }
 
   type PreVetEducationType = {
     pre_vet_education_typeID: number
-    Education_type: string
+    educationType: string
   }
 
   type VetSchool = {
     vet_school_listID: number
-    School_name: string
+    schoolName: string
   }
 
   type VetEducationType = {
     vet_education_typeID: number
-    Education_type: string
+    educationType: string
   }
 
   type InsuranceItem = {
     insurance_listID: number
-    Insurance_name: string
+    insurance_name: string
   }
 
   type LanguageItem = {
     language_listID: number
-    Language_name: string
+    languageName: string
   }
 
 }

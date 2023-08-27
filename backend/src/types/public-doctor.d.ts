@@ -1,11 +1,11 @@
 declare global {
   type LanguageName = {
-    Language_name: string
+    languageName: string
   }
 
   type OrganizationSpecialtyName = {
-    Organization_name: string
-    Specialty_name: string
+    organizationName: string
+    specialtyName: string
   }
 
   type ServicedPetData = {

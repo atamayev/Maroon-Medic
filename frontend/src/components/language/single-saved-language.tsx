@@ -21,7 +21,7 @@ const SingleSavedLanguage = (props: SingleLanguageProps) => {
 
 	return (
 		<li>
-			{language.Language_name}
+			{language.languageName}
 			<DeleteButtonOptions<LanguageItem>
 				status = {status}
 				setStatus = {setStatus}

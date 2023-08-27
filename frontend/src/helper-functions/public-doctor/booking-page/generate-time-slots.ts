@@ -10,17 +10,17 @@ const generateTimeSlots = (
 ): void => {
 	// Get the working hours for the selected day
 	const selectedDayOfWeek = moment(selectedDay, "dddd, MMMM Do, YYYY").format("dddd")
-	const workingHours = selectedLocationObject.times.find(time => time.Day_of_week === selectedDayOfWeek)
+	const workingHours = selectedLocationObject.times.find(time => time.dayOfWeek === selectedDayOfWeek)
 
 	if (workingHours) {
 		const times = []
-		const start = workingHours.Start_time.split(":")
-		const end = workingHours.End_time.split(":")
+		const start = workingHours.startTime.split(":")
+		const end = workingHours.endTime.split(":")
 
 		let currentTime = moment().hour(Number(start[0])).minute(Number(start[1]))
 		const endTime = moment().hour(Number(end[0])).minute(Number(end[1]))
 
-		const ServiceMinutes = convertToMinutes(selectedServiceObject.Service_time)
+		const ServiceMinutes = convertToMinutes(selectedServiceObject.serviceTime)
 		setServiceMinutes(ServiceMinutes)
 
 		while (currentTime.isBefore(endTime)) {

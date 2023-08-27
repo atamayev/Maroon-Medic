@@ -9,7 +9,7 @@ export default async function fetchLoginHistory(
 		const response = await AuthDataService.fetchLoginHistry()
 		const formattedData = response.data.map((item: LoginHistoryItem) => ({
 			...item,
-			Login_at: moment(item.Login_at).format("MMMM Do, YYYY [at] h:mmA"),
+			loginAt: moment(item.loginAt).format("MMMM Do, YYYY [at] h:mmA"),
 		}))
 		setLoginHistory(formattedData)
 		sessionStorage.setItem("LoginHistory", JSON.stringify(formattedData))

@@ -1,4 +1,4 @@
-INSERT INTO insurance_list (Insurance_name) VALUES
+INSERT INTO insurance_list (insurance_name) VALUES
 ('AKC'),
 ('ASPCA'),
 ('Embrace'),
@@ -16,7 +16,7 @@ INSERT INTO insurance_list (Insurance_name) VALUES
 ('Spot'),
 ('Trupanion');
 
-INSERT INTO service_and_category_list (Category_name, Service_name) VALUES
+INSERT INTO service_and_category_list (category_name, service_name) VALUES
 ('Allergies & Dermatology',	'Allergies & Dermatology'),
 ('Behavioral Consultations',	'Behavioral Issues'),
 ('Behavioral Consultations',	'Changes in Behavior'),
@@ -167,46 +167,45 @@ INSERT INTO service_and_category_list (Category_name, Service_name) VALUES
 ('Wellness Care',	'Wellness & Preventive Care')
 ;
 
-INSERT INTO pet_list (pet, pet_type)
-VALUES ('Alpaca', 'Farm Animal'),
-       ('Budgie', 'Bird'),
-       ('Canary', 'Bird'),
-       ('Cat', 'Cat'),
-       ('Chicken', 'Farm Animal'),
-       ('Chinchilla', 'Small Mammal'),
-       ('Cockatiel', 'Bird'),
-       ('Cow', 'Farm Animal'),
-       ('Crab', 'Aquatic'),
-       ('Dog', 'Dog'),
-       ('Donkey', 'Farm Animal'),
-       ('Duck', 'Farm Animal'),
-       ('Ferret', 'Small Mammal'),
-       ('Fish', 'Aquatic'),
-       ('Frog', 'Amphibian'),
-       ('Goat', 'Farm Animal'),
-       ('Goose', 'Farm Animal'),
-       ('Guinea Pig', 'Small Mammal'),
-       ('Hamster', 'Small Mammal'),
-       ('Hedgehog', 'Small Mammal'),
-       ('Horse', 'Horse'),
-       ('Iguana', 'Reptile'),
-       ('Lizard', 'Reptile'),
-       ('Lovebird', 'Bird'),
-       ('Mouse', 'Small Mammal'),
-       ('Mule', 'Farm Animal'),
-       ('Parrot', 'Bird'),
-       ('Pigeon', 'Bird'),
-       ('Pig', 'Farm Animal'),
-       ('Rabbit', 'Small Mammal'),
-       ('Rat', 'Small Mammal'),
-       ('Sheep', 'Farm Animal'),
-       ('Snake', 'Reptile'),
-       ('Squirrel', 'Small Mammal'),
-       ('Tarantula', 'Invertebrate'),
-       ('Toad', 'Amphibian'),
-       ('Turtle', 'Reptile');
+INSERT INTO pet_list (pet, pet_type) VALUES ('Alpaca', 'Farm Animal'),
+('Budgie', 'Bird'),
+('Canary', 'Bird'),
+('Cat', 'Cat'),
+('Chicken', 'Farm Animal'),
+('Chinchilla', 'Small Mammal'),
+('Cockatiel', 'Bird'),
+('Cow', 'Farm Animal'),
+('Crab', 'Aquatic'),
+('Dog', 'Dog'),
+('Donkey', 'Farm Animal'),
+('Duck', 'Farm Animal'),
+('Ferret', 'Small Mammal'),
+('Fish', 'Aquatic'),
+('Frog', 'Amphibian'),
+('Goat', 'Farm Animal'),
+('Goose', 'Farm Animal'),
+('Guinea Pig', 'Small Mammal'),
+('Hamster', 'Small Mammal'),
+('Hedgehog', 'Small Mammal'),
+('Horse', 'Horse'),
+('Iguana', 'Reptile'),
+('Lizard', 'Reptile'),
+('Lovebird', 'Bird'),
+('Mouse', 'Small Mammal'),
+('Mule', 'Farm Animal'),
+('Parrot', 'Bird'),
+('Pigeon', 'Bird'),
+('Pig', 'Farm Animal'),
+('Rabbit', 'Small Mammal'),
+('Rat', 'Small Mammal'),
+('Sheep', 'Farm Animal'),
+('Snake', 'Reptile'),
+('Squirrel', 'Small Mammal'),
+('Tarantula', 'Invertebrate'),
+('Toad', 'Amphibian'),
+('Turtle', 'Reptile');
 
-INSERT INTO language_list (Language_name) VALUES
+INSERT INTO language_list (language_name) VALUES
 ('Afrikaans'),
 ('Albanian'),
 ('Arabic'),
@@ -289,7 +288,7 @@ INSERT INTO language_list (Language_name) VALUES
 ('Yiddish')
 ;
 
-INSERT INTO pre_vet_school_list (School_name) VALUES
+INSERT INTO pre_vet_school_list (school_name) VALUES
 ("A.T. Still University"),
 ("Abilene Christian University"),
 ("Abraham Baldwin Agricultural College"),
@@ -2363,7 +2362,7 @@ INSERT INTO major_list (Major_name) VALUES
 ("Zoology")
 ;
 
-INSERT INTO pre_vet_education_type_list (Education_type) VALUES
+INSERT INTO pre_vet_education_type_list (educationType) VALUES
 ('Associate of Arts (A.A.)'),
 ('Associate of Science (A.S.)'),
 ('Associate of Applied Science (A.A.S.)'),
@@ -2379,7 +2378,7 @@ INSERT INTO pre_vet_education_type_list (Education_type) VALUES
 ('Juris Doctor (J.D.)')
 ;
 
-INSERT INTO vet_school_list (School_name) VALUES
+INSERT INTO vet_school_list (school_name) VALUES
 ("Auburn University"),
 ("Colorado State University"),
 ("Cornell University"),
@@ -2437,13 +2436,13 @@ INSERT INTO vet_school_list (School_name) VALUES
 ("Western University of Health Sciences")
 ;
 
-INSERT INTO vet_education_type_list (Education_type) VALUES
+INSERT INTO vet_education_type_list (educationType) VALUES
 ('ACVS Fellowship'),
 ('Doctor of Veterinary Medicine (D.V.M)'),
 ('Veterinariae Medicinae Doctoris (V.M.D)')
 ;
 
-INSERT INTO specialties_list (Organization_name, Specialty_name) VALUES
+INSERT INTO specialties_list (organizationName, specialty_name) VALUES
 ('American Board of Veterinary Practitioners',	'Avian'),
 ('American Board of Veterinary Practitioners',	'Beef cattle'),
 ('American Board of Veterinary Practitioners',	'Canine and feline'),

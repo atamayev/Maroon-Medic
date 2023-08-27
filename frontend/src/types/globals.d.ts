@@ -48,17 +48,17 @@ declare global {
   }
 
   type DoctorAvailability = {
-	Day_of_week: DayOfWeek
-	Start_time: string
-	End_time: string
+	dayOfWeek: DayOfWeek
+	startTime: string
+	endTime: string
   }
 
   interface DashboardDataType {
 	appointmentsID: number
-	doctor_confirmation_status: boolean
-	Category_name: string
+	doctorConfirmationStatus: boolean
+	categoryName: string
 	created_at: MysqlTimestamp
-	Service_name: string
+	serviceName: string
 	address_line_1: string
 	address_line_2: string
 	address_title: string
@@ -93,7 +93,7 @@ declare global {
   }
 
   interface LoginHistoryItem {
-	Login_at: string
+	loginAt: string
   }
 
   interface PersonalInfoProps {

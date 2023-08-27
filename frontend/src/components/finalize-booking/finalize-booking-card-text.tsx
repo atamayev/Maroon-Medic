@@ -14,7 +14,7 @@ const FinalizeBookingCardText = (props: Props) => {
 				<strong className="font-bold">Pet:</strong> {appointmentInformation.selectedPet!.name}
 			</div>
 			<div className="block text-brown-800 mb-1">
-				<strong className="font-bold">Service:</strong> {appointmentInformation.selectedService!.Service_name}
+				<strong className="font-bold">Service:</strong> {appointmentInformation.selectedService!.serviceName}
 			</div>
 			<div className="block text-brown-800 mb-1">
 				<strong className="font-bold">
@@ -34,7 +34,7 @@ const FinalizeBookingCardText = (props: Props) => {
 				{moment(appointmentInformation.selectedTime, "HH:mm").add(serviceMinutes, "minutes").format("h:mm A")}
 			</div>
 			<div className="block text-brown-800 mb-1">
-				<strong className="font-bold">Price:</strong> ${appointmentInformation.selectedService!.Service_price}
+				<strong className="font-bold">Price:</strong> ${appointmentInformation.selectedService!.servicePrice}
 			</div>
 		</div>
 	)

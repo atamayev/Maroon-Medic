@@ -64,7 +64,7 @@ export default function BookingSection(props: Props) {
 	useEffect(() => {
 		if (!appointmentInformation.selectedLocation) return
 
-		const daysOfWeek = appointmentInformation.selectedLocation.times.map(time => getDayIndex(time.Day_of_week))
+		const daysOfWeek = appointmentInformation.selectedLocation.times.map(time => getDayIndex(time.dayOfWeek))
 		const dates = []
 		let date = moment()
 		while (dates.length < 10) {

@@ -11,9 +11,9 @@ export default async function addVetEducation(
 ): Promise<void> {
 	try {
 		const mappedVetGeneralEducationItem = {
-			School_ID: listDetails.vetSchools.find(school => school.School_name === vetGeneralEducationItem.School_name)!.vet_school_listID,
+			School_ID: listDetails.vetSchools.find(school => school.schoolName === vetGeneralEducationItem.schoolName)!.vet_school_listID,
 			Education_type_ID: listDetails.vetEducationTypes.find(
-				educationType => educationType.Education_type === vetGeneralEducationItem.Education_type)!.vet_education_typeID,
+				educationType => educationType.educationType === vetGeneralEducationItem.educationType)!.vet_education_typeID,
 			Start_date: moment(vetGeneralEducationItem.Start_Date, "MMMM D, YYYY").format("YYYY-MM-DD"),
 			End_date: moment(vetGeneralEducationItem.End_Date, "MMMM D, YYYY").format("YYYY-MM-DD")
 		}

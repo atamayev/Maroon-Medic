@@ -32,13 +32,13 @@ const ServicePriceInput = (props: Props) => {
 				placeholder = "Service Price ($)"
 				id = {`price-${service.service_and_category_listID}`}
 				required
-				value={_.isNumber(selectedService.Service_price) ? selectedService.Service_price : ""}
+				value={_.isNumber(selectedService.servicePrice) ? selectedService.servicePrice : ""}
 				onChange={(e) => handleNumericInput(
 					e,
 					(newVal) => {
 						const updatedServices = selectedServices.map(s => {
 							if (s.service_and_category_listID === service.service_and_category_listID) {
-								return { ...s, Service_price: Number(newVal) }
+								return { ...s, servicePrice: Number(newVal) }
 							}
 							return s
 						})

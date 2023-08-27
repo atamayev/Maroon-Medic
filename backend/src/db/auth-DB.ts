@@ -4,7 +4,7 @@ import { OkPacket, RowDataPacket } from "mysql2"
 
 type LoginHistoryRecord = {
   login_historyID: number,
-  Login_at: string,
+  login_at: string,
 }
 
 export default new class AuthDB {
@@ -74,7 +74,7 @@ export default new class AuthDB {
 	}
 
 	async retrieveLoginHistory (UserID: number): Promise<LoginHistoryRecord[]> {
-		const sql = `SELECT Login_at FROM ${mysqlTables.login_history} WHERE User_ID = ? ORDER BY Login_at DESC`
+		const sql = `SELECT login_at AS loginAt FROM ${mysqlTables.login_history} WHERE User_ID = ? ORDER BY login_at DESC`
 		const values = [UserID]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values)
@@ -96,7 +96,7 @@ export default new class AuthDB {
 	}
 
 	async addLoginHistory (UserID: number, loginTime: MysqlTimestamp): Promise<void> {
-		const sql = `INSERT INTO ${mysqlTables.login_history} (Login_at, IP_Address, User_ID) VALUES (?, ?, ?)`
+		const sql = `INSERT INTO ${mysqlTables.login_history} (login_at, IP_Address, User_ID) VALUES (?, ?, ?)`
 		const values = [loginTime, null, UserID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)

@@ -31,7 +31,7 @@ function VetSpecialties(props: Props) {
 	const [specialtiesConfirmation, setSpecialtiesConfirmation] = useConfirmationMessage()
 
 	const specialties = selectedOrganization
-		? listDetails.specialties.filter((item) => item.Organization_name === selectedOrganization)
+		? listDetails.specialties.filter((item) => item.organizationName === selectedOrganization)
 		: []
 
 	useEffect(() => {
@@ -58,7 +58,7 @@ function VetSpecialties(props: Props) {
 			)
 			.map((specialty) => (
 				<option key = {specialty.specialties_listID} value = {specialty.specialties_listID}>
-					{specialty.Specialty_name}
+					{specialty.specialtyName}
 				</option>
 			))
 	}, [specialties, doctorSpecialties])
@@ -76,7 +76,7 @@ function VetSpecialties(props: Props) {
 		setSpecialtiesConfirmation, setSelectedOrganization
 	)
 
-	if (_.isEmpty(_.uniq(listDetails.specialties.map((item) => item.Organization_name)))) return <p>Loading...</p>
+	if (_.isEmpty(_.uniq(listDetails.specialties.map((item) => item.organizationName)))) return <p>Loading...</p>
 
 	return (
 		<>

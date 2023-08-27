@@ -13,7 +13,7 @@ export default async function FetchDoctorAccountDetails(
 			if (response.data.services) {
 				dispatchers.setProvidedServices(response.data.services)
 				dispatchers.setExpandedCategories(
-					response.data.services.map((service: ServiceItemNotNullablePrice) => service.Category_name)
+					response.data.services.map((service: ServiceItemNotNullablePrice) => service.categoryName)
 				)
 			}
 			if (response.data.specialties) dispatchers.setDoctorSpecialties(response.data.specialties)

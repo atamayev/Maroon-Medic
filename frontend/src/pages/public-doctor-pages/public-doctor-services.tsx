@@ -19,8 +19,8 @@ function ProvidedServices({ providedServices } : { providedServices: ServiceItem
 	const categories: CategoriesType = {}
 	if (providedServices) {
 		providedServices.forEach(service => {
-			if (!categories[service.Category_name]) categories[service.Category_name] = []
-			categories[service.Category_name].push(service)
+			if (!categories[service.categoryName]) categories[service.categoryName] = []
+			categories[service.categoryName].push(service)
 		})
 	}
 
@@ -31,7 +31,7 @@ function ProvidedServices({ providedServices } : { providedServices: ServiceItem
 					<h3>{category}</h3>
 					{services.map((service, innerIndex) => (
 						<p key = {innerIndex}>
-							{service.Service_name} - {service.Service_time}, ${service.Service_price}
+							{service.serviceName} - {service.serviceTime}, ${service.servicePrice}
 						</p>
 					))}
 				</div>

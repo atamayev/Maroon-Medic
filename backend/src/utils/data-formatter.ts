@@ -31,8 +31,8 @@ export default new class Format {
 
 	servicePriceToNumber (services: DetailedServiceItem[]): DetailedServiceItem[] {
 		const updatedServices = _.map(services, (service) => {
-			const price = Number(service.Service_price)
-			return { ...service, Service_price: isNaN(price) ? 0 : price }
+			const price = Number(service.servicePrice)
+			return { ...service, servicePrice: isNaN(price) ? 0 : price }
 		})
 		return updatedServices
 	}

@@ -2,7 +2,7 @@ CREATE DATABASE MaroonDB;
 USE MaroonDB;
 SHOW TABLES;
 
-CREATE TABLE Credentials (
+CREATE TABLE credentials (
 	UserID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	email VARCHAR(150) NOT NULL,
 	password VARCHAR(150) NOT NULL,
@@ -11,9 +11,9 @@ CREATE TABLE Credentials (
 	is_active BOOLEAN NOT NULL DEFAULT 1
 );
 
-SELECT * FROM Credentials;
+SELECT * FROM credentials;
 
-CREATE TABLE Doctor_specific_info(
+CREATE TABLE doctor_specific_info(
 	NVI INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	verified BOOLEAN NOT NULL,
 	publicly_available BOOLEAN NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE Doctor_specific_info(
 	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
 )AUTO_INCREMENT = 1000000;
 
-SELECT * FROM Doctor_specific_info;
+SELECT * FROM doctor_specific_info;
 
 CREATE TABLE basic_user_info (
 	basic_user_infoID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -56,18 +56,15 @@ SELECT * FROM pet_mapping;
 
 CREATE TABLE pet_info ( -- specific info about each pet (from the Patient POV)
 	pet_infoID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	Name VARCHAR(150) NOT NULL,
+	name VARCHAR(150) NOT NULL,
 	gender VARCHAR(150) NOT NULL,
 	date_of_birth DATE NOT NULL,
 	Patient_ID INT unsigned NOT NULL,
 	pet_ID INT unsigned NOT NULL,
-	isActive BOOLEAN NOT NULL DEFAULT 1, -- set to 1 by default, when a patient deletes pet, set to 0.
+	is_active BOOLEAN NOT NULL DEFAULT 1, -- set to 1 by default, when a patient deletes pet, set to 0.
 	FOREIGN KEY (Patient_ID) REFERENCES Credentials(UserID),
 	FOREIGN KEY (pet_ID) REFERENCES pet_list(pet_listID)
 );
-
-ALTER TABLE pet_info
-CHANGE Name name VARCHAR(150) NOT NULL;
 
 SELECT * FROM pet_info;
 
@@ -83,7 +80,7 @@ SELECT * FROM UUID_reference;
 
 CREATE TABLE descriptions(
 	descriptionsID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	Description VARCHAR(2500),
+	description VARCHAR(2500),
 	Doctor_ID INT unsigned NOT NULL,
 	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
 );
@@ -92,7 +89,7 @@ SELECT * FROM descriptions;
 
 CREATE TABLE insurance_list(
 	insurance_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	Insurance_name VARCHAR(200)
+	insurance_name VARCHAR(200)
 );
 
 SELECT * FROM insurance_list;
@@ -110,21 +107,21 @@ SELECT * FROM insurance_mapping;
 
 CREATE TABLE service_and_category_list(
 	service_and_category_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	Category_name VARCHAR(250),
-	Service_name VARCHAR(250)
+	category_name VARCHAR(250),
+	service_name VARCHAR(250)
 );
 
 SELECT * FROM service_and_category_list;
 
 CREATE TABLE service_mapping(
 	service_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	Service_time VARCHAR(20) NOT NULL,
-	Service_price DECIMAL(5,2) NOT NULL CHECK(Service_price >= 0),
+	service_time VARCHAR(20) NOT NULL,
+	service_price DECIMAL(5,2) NOT NULL CHECK(Service_price >= 0),
 	Service_and_Category_ID INT unsigned NOT NULL,
 	Doctor_ID INT unsigned NOT NULL,
 	FOREIGN KEY (Service_and_Category_ID) REFERENCES service_and_category_list(service_and_category_listID),
 	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID),
-	UNIQUE (Service_time, Service_and_Category_ID, Doctor_ID)
+	UNIQUE (service_time, Service_and_Category_ID, Doctor_ID)
 );
 
 SELECT * FROM service_mapping;
@@ -139,7 +136,7 @@ CREATE TABLE pictures(
 
 CREATE TABLE language_list(
 	language_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	Language_name VARCHAR(150)
+	language_name VARCHAR(150)
 );
 
 SELECT * FROM language_list;
@@ -157,21 +154,21 @@ SELECT * FROM language_mapping;
 
 CREATE TABLE pre_vet_school_list(
 	pre_vet_school_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	School_name VARCHAR(300)
+	school_name VARCHAR(300)
 );
 
 SELECT * FROM pre_vet_school_list;
 
 CREATE TABLE major_list(
 	major_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	Major_name VARCHAR(300)
+	major_name VARCHAR(300)
 );
 
 SELECT * FROM major_list;
 
 CREATE TABLE pre_vet_education_type_list(
 	pre_vet_education_typeID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	Education_type VARCHAR(150)
+	education_type VARCHAR(150)
 );
 
 SELECT * FROM pre_vet_education_type_list;
@@ -195,7 +192,7 @@ SELECT * FROM pre_vet_education_mapping;
 
 CREATE TABLE vet_school_list(
 	vet_school_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	School_name VARCHAR(300)
+	school_name VARCHAR(300)
 );
 
 SELECT * FROM vet_school_list;
@@ -224,8 +221,8 @@ SELECT * FROM vet_education_mapping;
 
 CREATE TABLE specialties_list(
 	specialties_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	Organization_name VARCHAR(300),
-	Specialty_name VARCHAR(300)
+	organization_name VARCHAR(300),
+	specialty_name VARCHAR(300)
 );
 
 SELECT * FROM specialties_list;
@@ -253,7 +250,7 @@ CREATE TABLE addresses(
 	address_priority INT,
 	address_public_status BOOLEAN NOT NULL,
 	instant_book BOOLEAN NOT NULL,
-	isActive BOOLEAN NOT NULL DEFAULT 1, -- set to 1 by default, when a doc deletes address, set to 0.
+	is_active BOOLEAN NOT NULL DEFAULT 1, -- set to 1 by default, when a doc deletes address, set to 0.
 	Doctor_ID INT unsigned NOT NULL,
 	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
 );
@@ -261,7 +258,7 @@ CREATE TABLE addresses(
 select * from addresses;
 select * from addresses where isactive;
 SELECT * FROM addresses inner join phone on addresses.addressesID = phone.address_ID WHERE addresses.isactive;
--- update addresses set isActive = 0 where Doctor_ID;
+-- update addresses set is_active = 0 where Doctor_ID;
 
 CREATE TABLE doctor_phone_numbers(
 	phone_numbersID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -275,14 +272,14 @@ SELECT * FROM doctor_phone_numbers;
 
 CREATE TABLE booking_availability(
 	booking_availabilityID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	Day_of_week VARCHAR(10),
-	Start_time VARCHAR(10),
-	End_time VARCHAR(10),
+	day_of_week VARCHAR(10),
+	start_time VARCHAR(10),
+	end_time VARCHAR(10),
 	address_ID INT unsigned NOT NULL,
 	FOREIGN KEY (address_ID) REFERENCES addresses(addressesID)
 );
 
-SELECT * FROM booking_availability JOIN addresses ON booking_availability.address_ID = addresses.addressesID where addresses.isActive;
+SELECT * FROM booking_availability JOIN addresses ON booking_availability.address_ID = addresses.addressesID where addresses.is_active;
 SELECT * FROM booking_availability;
 
 CREATE TABLE login_history(

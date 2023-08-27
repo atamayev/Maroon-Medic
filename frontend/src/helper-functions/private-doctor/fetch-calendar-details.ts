@@ -10,10 +10,10 @@ export default async function fetchDoctorCalendarDetails(): Promise<DoctorCalend
 				const endTime = new Date(startTime)
 				endTime.setMinutes(startTime.getMinutes() + appointment.appointment_timespan)
 				return {
-					title: appointment.Service_name,
+					title: appointment.serviceName,
 					start: startTime,
 					end: endTime,
-					doctor_confirmation_status: appointment.doctor_confirmation_status
+					doctorConfirmationStatus: appointment.doctorConfirmationStatus
 				}
 			})
 			return events

@@ -36,8 +36,8 @@ function Education({ educationList, hasMajor } : EducationProps) {
 		<>
 			{educationList.map((edu, index) => (
 				<p key = {index}>
-					{edu.School_name}, {edu.Education_type}
-					{hasMajor ? ` in ${edu.Major_name}` : ""} {" "}
+					{edu.schoolName}, {edu.educationType}
+					{hasMajor ? ` in ${edu.majorName}` : ""} {" "}
           ({edu.Start_Date} - {edu.End_Date})
 				</p>
 			))}

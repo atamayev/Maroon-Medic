@@ -1,25 +1,25 @@
 declare global {
   type ServiceItem = {
-    service_and_category_listID: number
-    Service_time: string
-    Service_price: number
+	service_and_category_listID: number
+	serviceTime: string
+	servicePrice: number
   }
 
   type DetailedServiceItem = ServiceItem & {
-    Category_name: string
-    Service_name: string
+    categoryName: string
+    serviceName: string
   }
 
   type OrganizationSpecialty = {
-    specialties_listID: number
-    Organization_name: string
-    Specialty_name: string
+	specialties_listID: number
+	organizationName: string
+	specialtyName: string
   }
 
   type DoctorAvailability = {
-    Day_of_week: string
-    Start_time: string
-    End_time: string
+    dayOfWeek: string
+    startTime: string
+    endTime: string
   }
 
   interface BasicPersonalInfo {
@@ -37,10 +37,10 @@ declare global {
     appointment_date: MysqlTimestamp
     appointment_price: number
     patient_message: string
-    Doctor_confirmation_status: boolean
+    doctorConfirmationStatus: boolean
     created_at: MysqlTimestamp
-    Category_name: string
-    Service_name: string
+    categoryName: string
+    serviceName: string
     address_title: string
     address_line_1: string
     address_line_2: string

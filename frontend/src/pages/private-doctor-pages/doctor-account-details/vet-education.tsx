@@ -70,7 +70,7 @@ function VetEducation(props: Props) {
 
 	const handleDeleteOnClick = useDeleteVetEducation(vetEducation, setVetEducation, setVetEducationConfirmation)
 
-	if (_.isEmpty(_.uniq(listDetails.vetSchools.map((item) => item.School_name)))) return <p>Loading...</p>
+	if (_.isEmpty(_.uniq(listDetails.vetSchools.map((item) => item.schoolName)))) return <p>Loading...</p>
 
 	return (
 		<>

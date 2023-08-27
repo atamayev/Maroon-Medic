@@ -1,6 +1,6 @@
 USE MaroonDB;
 
-CREATE TABLE Appointments(
+CREATE TABLE appointments(
 	appointmentsID INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	appointment_date DATETIME NOT NULL,
 	appointment_price DECIMAL(5,2) NOT NULL CHECK(appointment_price >= 0),
@@ -20,6 +20,9 @@ CREATE TABLE Appointments(
 	FOREIGN KEY (Addresses_ID) REFERENCES addresses(addressesID),
 	UNIQUE (appointment_date, Service_and_category_list_ID, pet_info_ID, Doctor_ID)
 );
+
+ALTER TABLE appointments
+CHANGE Doctor_confirmation_status doctor_confirmation_status BOOLEAN NOT NULL;
 
 SELECT * FROM appointments;
 UPDATE Appointments set Doctor_confirmation_status = 0 where Doctor_ID;

@@ -21,7 +21,7 @@ const SingleSavedSpecialty = (props: Props) => {
 
 	return (
 		<li>
-			{specialty.Organization_name} - {specialty.Specialty_name}{" "}
+			{specialty.organizationName} - {specialty.specialtyName}{" "}
 			<DeleteButtonOptions<SpecialtyItem>
 				status = {status}
 				setStatus = {setStatus}

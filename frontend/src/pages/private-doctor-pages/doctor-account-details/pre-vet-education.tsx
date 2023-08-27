@@ -76,7 +76,7 @@ function PreVetEducation(props: Props) {
 
 	const handleDeleteOnClick = useDeletePreVetEducation(preVetEducation, setPreVetEducation, setPreVetEducationConfirmation)
 
-	if (_.isEmpty(_.uniq(listDetails.preVetSchools.map((item) => item.School_name)))) return <p> Loading... </p>
+	if (_.isEmpty(_.uniq(listDetails.preVetSchools.map((item) => item.schoolName)))) return <p> Loading... </p>
 
 	return (
 		<>

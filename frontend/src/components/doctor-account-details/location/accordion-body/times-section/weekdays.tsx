@@ -11,13 +11,13 @@ const WeekDays = (props: WeekDaysProps) => {
 	const { times, setTimes } = props
 
 	const handleDayToggle = (day: DayOfWeek) => {
-		if (times.some(time => time.Day_of_week === day)) setTimes(times.filter(time => time.Day_of_week !== day))
-		else setTimes([...times, { Day_of_week: day, Start_time: "", End_time: "" }])
+		if (times.some(time => time.dayOfWeek === day)) setTimes(times.filter(time => time.dayOfWeek !== day))
+		else setTimes([...times, { dayOfWeek: day, startTime: "", endTime: "" }])
 	}
 
-	const handleTimeChange = (day: DayOfWeek, timeType: "Start_time" | "End_time" | "", newTime: string) => {
+	const handleTimeChange = (day: DayOfWeek, timeType: "startTime" | "endTime" | "", newTime: string) => {
 		setTimes(times.map(time =>
-			time.Day_of_week === day ? { ...time, [timeType]: newTime } : time
+			time.dayOfWeek === day ? { ...time, [timeType]: newTime } : time
 		))
 	}
 
@@ -29,8 +29,8 @@ const WeekDays = (props: WeekDaysProps) => {
 		return (
 			<TimePicker
 				className = "ml-3"
-				onChange = {(value) => value && handleTimeChange(day, "Start_time", value)}
-				value = {times.find(time => time.Day_of_week === day)?.Start_time}
+				onChange = {(value) => value && handleTimeChange(day, "startTime", value)}
+				value = {times.find(time => time.dayOfWeek === day)?.startTime}
 			/>
 		)
 	}
@@ -39,14 +39,14 @@ const WeekDays = (props: WeekDaysProps) => {
 		return (
 			<TimePicker
 				className = "ml-3"
-				onChange = {(value) => value && handleTimeChange(day, "End_time", value)}
-				value = {times.find(time => time.Day_of_week === day)?.End_time}
+				onChange = {(value) => value && handleTimeChange(day, "endTime", value)}
+				value = {times.find(time => time.dayOfWeek === day)?.endTime}
 			/>
 		)
 	}
 
 	const PickTime = ({ doctorTimes, day }: {doctorTimes: DoctorAvailability[], day: DayOfWeek}) => {
-		const matchedTime = doctorTimes.find(time => time.Day_of_week === day)
+		const matchedTime = doctorTimes.find(time => time.dayOfWeek === day)
 
 		if (!matchedTime) return null
 
@@ -66,7 +66,7 @@ const WeekDays = (props: WeekDaysProps) => {
 					<label className = "mr-3">{day}</label>
 					<Toggle
 						id = {day}
-						checked = {times.some(time => time.Day_of_week === day)}
+						checked = {times.some(time => time.dayOfWeek === day)}
 						onChange = {() => handleDayToggle(day)}
 					/>
 					<PickTime doctorTimes = {times} day = {day} />

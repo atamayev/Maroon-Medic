@@ -9,7 +9,7 @@ export default function useGenerateLanguageOptions(languages: LanguageItem[], sp
 			.filter((language) => !spokenLanguages.find((spoken) => spoken.language_listID === language.language_listID))
 			.map((language) => (
 				<option key = {language.language_listID} value = {language.language_listID}>
-					{language.Language_name}
+					{language.languageName}
 				</option>
 			))
 	}, [languages, spokenLanguages])

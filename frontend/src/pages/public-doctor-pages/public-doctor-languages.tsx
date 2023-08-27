@@ -16,7 +16,7 @@ function SpokenLanguages({ spokenLanguages }: { spokenLanguages: LanguageName[] 
 		<>
 			{spokenLanguages.map((language, index) => (
 				<p key = {index}>
-					{language.Language_name}
+					{language.languageName}
 				</p>
 			))}
 		</>

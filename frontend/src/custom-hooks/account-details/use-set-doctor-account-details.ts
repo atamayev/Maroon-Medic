@@ -14,7 +14,7 @@ export default function useSetDoctorAccountDetails(
 				await FetchDoctorAccountDetails(dispatchers)
 			} else {
 				setExpandedCategories(
-					JSON.parse(storedAccountDetails).services?.map((service: ServiceItemNotNullablePrice) => service.Category_name)
+					JSON.parse(storedAccountDetails).services?.map((service: ServiceItemNotNullablePrice) => service.categoryName)
 				)
 			}
 

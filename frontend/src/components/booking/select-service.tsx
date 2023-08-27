@@ -28,7 +28,7 @@ const SelectService = (props: SelectServiceProps) => {
 				<option value = "" disabled>Select...</option>
 				{providedServices.map((service, index) => (
 					<option key={index} value={service.service_and_category_listID}>
-						{service.Category_name} - {service.Service_name}
+						{service.categoryName} - {service.serviceName}
 					</option>
 				))}
 			</FormGroup>

@@ -27,15 +27,15 @@ declare global {
   }
 
   interface EducationItem {
-    School_name: string
-    Education_type: string
+    schoolName: string
+    educationType: string
     Start_Date: string
     End_Date: string
   }
 
   type PreVetEducation = EducationItem & {
     pre_vet_education_mappingID: number
-    Major_name: string
+    majorName: string
   }
 
   type VetEducation = EducationItem & {

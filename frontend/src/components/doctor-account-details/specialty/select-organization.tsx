@@ -19,7 +19,7 @@ const SelectOrganization = (props: Props) => {
 				onChange = {(e) => setSelectedOrganization(e.target.value)}
 			>
 				<option value = "" disabled>Choose an organization</option>
-				{_.uniq(listDetails.specialties.map((item) => item.Organization_name)).map(
+				{_.uniq(listDetails.specialties.map((item) => item.organizationName)).map(
 					(organization) => (
 						<option key = {organization} value = {organization}>
 							{organization}

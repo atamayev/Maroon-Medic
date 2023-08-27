@@ -5,7 +5,7 @@ import ConfirmedAppointment from "../confirmed-appointment"
 import ApprovedAppointment from "../approved-appointment"
 
 const returnDoctorConfirmationStatus = (appointment: DoctorDashboardData) => {
-	if (appointment.doctor_confirmation_status === false) return "pending"
+	if (appointment.doctorConfirmationStatus === false) return "pending"
 	return "approved"
 }
 

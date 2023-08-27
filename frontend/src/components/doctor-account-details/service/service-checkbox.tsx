@@ -36,7 +36,7 @@ const ServiceCheckbox = (props: Props) => {
 				}
 				onChange = {(event) => {
 					if (event.target.checked) {
-						setSelectedServices([...selectedServices, {...service, Service_price: null, Service_time: ""}])
+						setSelectedServices([...selectedServices, {...service, servicePrice: null, serviceTime: ""}])
 					}
 					else {
 						setSelectedServices(
@@ -47,7 +47,7 @@ const ServiceCheckbox = (props: Props) => {
 					}
 				}}
 			/>
-			<label htmlFor = {`${category}-${service.service_and_category_listID}`}>{service.Service_name}</label>
+			<label htmlFor = {`${category}-${service.service_and_category_listID}`}>{service.serviceName}</label>
 		</>
 	)
 }

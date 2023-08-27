@@ -26,9 +26,9 @@ const InsuranceSection = (props: Props) => {
 			{insurances.map((insurance) => (
 				<option
 					key = {insurance.insurance_listID}
-					value = {insurance.Insurance_name}
+					value = {insurance.insurance_name}
 				>
-					{insurance.Insurance_name}
+					{insurance.insurance_name}
 				</option>
 			))}
 		</FormGroup>

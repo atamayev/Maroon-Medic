@@ -9,9 +9,9 @@ function isAddressValid(address: DoctorAddressData): boolean {
 	)
 }
 
-function areTimesValid(times: { Start_time?: string; End_time?: string }[]): boolean {
+function areTimesValid(times: { startTime?: string; endTime?: string }[]): boolean {
 	for (const time of times) {
-		if (!time.Start_time || !time.End_time) return false
+		if (!time.startTime || !time.endTime) return false
 	}
 	return true
 }
@@ -22,7 +22,7 @@ export function areAllFieldsValid(address: DoctorAddressData): boolean {
 
 export function areAllTimesValid(address: DoctorAddressData): boolean {
 	for (const time of address.times) {
-		if (new Date(`1970-01-01T${time.End_time}:00`) <= new Date(`1970-01-01T${time.Start_time}:00`)) return false
+		if (new Date(`1970-01-01T${time.endTime}:00`) <= new Date(`1970-01-01T${time.startTime}:00`)) return false
 	}
 	return true
 }

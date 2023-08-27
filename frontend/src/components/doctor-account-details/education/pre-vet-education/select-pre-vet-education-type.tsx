@@ -22,10 +22,10 @@ const SelectPreVetEducationType = (props: Props) => {
 				onChange = {(event) => setSelectedPreVetEducationType(event.target.value)}
 			>
 				<option value = "" disabled>Choose an Education Type</option>
-				{_.uniqBy(listDetails.preVetEducationTypes, "Education_type").map(
+				{_.uniqBy(listDetails.preVetEducationTypes, "educationType").map(
 					(preVetEdType) => (
-						<option key = {preVetEdType.pre_vet_education_typeID} value = {preVetEdType.Education_type}>
-							{preVetEdType.Education_type}
+						<option key = {preVetEdType.pre_vet_education_typeID} value = {preVetEdType.educationType}>
+							{preVetEdType.educationType}
 						</option>
 					)
 				)}

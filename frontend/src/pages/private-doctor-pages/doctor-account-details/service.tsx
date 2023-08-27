@@ -42,12 +42,12 @@ function VetServices (props: Props) {
 
 	if (listDetails.servicesAndCategories) {
 		listDetails.servicesAndCategories.forEach(service => {
-			if (!categories[service.Category_name]) categories[service.Category_name] = []
-			categories[service.Category_name].push(service)
+			if (!categories[service.categoryName]) categories[service.categoryName] = []
+			categories[service.categoryName].push(service)
 		})
 	}
 
-	if (_.isEmpty(_.uniq(listDetails.servicesAndCategories.map((item) => item.Category_name)))) return <>Loading...</>
+	if (_.isEmpty(_.uniq(listDetails.servicesAndCategories.map((item) => item.categoryName)))) return <>Loading...</>
 
 	return (
 		<>

@@ -15,9 +15,9 @@ async function approveAppointment (props: ApproveAppointmentProps) {
 	try {
 		const response = await CalendarDataService.confirmAppointment(appointmentsID)
 		if (response.status === 200) {
-			// Update the doctor_confirmation_status for the specific appointment
+			// Update the doctorConfirmationStatus for the specific appointment
 			const updatedDashboardData = dashboardData.map(appointment => {
-				if (appointment.appointmentsID === appointmentsID) return { ...appointment, doctor_confirmation_status: true }
+				if (appointment.appointmentsID === appointmentsID) return { ...appointment, doctorConfirmationStatus: true }
 				return appointment
 			})
 			setDashboardData(updatedDashboardData)

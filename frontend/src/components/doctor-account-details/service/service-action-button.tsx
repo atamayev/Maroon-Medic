@@ -24,7 +24,7 @@ const ServiceActionButton = (props: Props) => {
 	const isProvided = providedService !== undefined
 
 	// check if service time and price are filled
-	const isFilled = isSelected && selectedService.Service_time && selectedService.Service_price
+	const isFilled = isSelected && selectedService.serviceTime && selectedService.servicePrice
 
 	const DeleteServiceButton = () => {
 		return (
@@ -73,8 +73,8 @@ const ServiceActionButton = (props: Props) => {
 
 	if (isSelected && isFilled) {
 		if (isProvided) {
-			if (providedService.Service_time === selectedService.Service_time &&
-          providedService.Service_price === selectedService.Service_price) {
+			if (providedService.serviceTime === selectedService.serviceTime &&
+          providedService.servicePrice === selectedService.servicePrice) {
 				return <DeleteServiceButton/>
 			} else {
 				return <UpdateServiceButton />

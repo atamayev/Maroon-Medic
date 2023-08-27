@@ -24,8 +24,8 @@ export default new class PrivateDoctorDataService {
 	async fillAccountDetails() {
 		return await http.get("/private-doctor-data/fetch-account-details-data")
 	}
-	async saveDescriptionData(Description: string) {
-		return await http.post("/private-doctor-data/save-description-data", {Description})
+	async saveDescriptionData(description: string) {
+		return await http.post("/private-doctor-data/save-description-data", {description})
 	}
 	async addLanguage(languageID: number) {
 		return await http.post("/private-doctor-data/add-language", {languageID})

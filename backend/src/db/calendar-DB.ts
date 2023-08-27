@@ -20,7 +20,7 @@ export default new class CalendarDB {
 		createdAt: MysqlTimestamp
 	): Promise<void> {
 		const sql = `INSERT INTO ${mysqlTables.appointments}
-      (appointment_date, appointment_price, appointment_timespan, patient_message, Doctor_confirmation_status,
+      (appointment_date, appointment_price, appointment_timespan, patient_message, doctor_confirmation_status,
         Service_and_category_list_ID, pet_info_ID, Patient_ID, Doctor_ID, Addresses_ID, created_at)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
 
@@ -36,9 +36,10 @@ export default new class CalendarDB {
 		const sql = `SELECT
         ${mysqlTables.appointments}.mysqlTables.appointmentsID, ${mysqlTables.appointments}.appointment_date,
         ${mysqlTables.appointments}.appointment_price, ${mysqlTables.appointments}.appointment_timespan,
-        ${mysqlTables.appointments}.patient_message, ${mysqlTables.appointments}.Doctor_confirmation_status,
+        ${mysqlTables.appointments}.patient_message, ${mysqlTables.appointments}.doctor_confirmation_status AS doctorConfirmationStatus,
         ${mysqlTables.appointments}.created_at,
-        ${mysqlTables.service_and_category_list}.Category_name, ${mysqlTables.service_and_category_list}.Service_name,
+        ${mysqlTables.service_and_category_list}.category_name AS categoryName,
+		${mysqlTables.service_and_category_list}.service_name AS serviceName,
         ${mysqlTables.addresses}.address_title, ${mysqlTables.addresses}.address_line_1,
         ${mysqlTables.addresses}.address_line_2, ${mysqlTables.addresses}.city,
         ${mysqlTables.addresses}.state, ${mysqlTables.addresses}.zip, ${mysqlTables.addresses}.country,
@@ -65,7 +66,7 @@ export default new class CalendarDB {
 	}
 
 	async confirmAppointmentStatus (appointmentID: number): Promise<void> {
-		const sql = `UPDATE ${mysqlTables.appointments} SET Doctor_confirmation_status = 1 WHERE appointmentsID = ?`
+		const sql = `UPDATE ${mysqlTables.appointments} SET doctor_confirmation_status = 1 WHERE appointmentsID = ?`
 		const values = [appointmentID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)

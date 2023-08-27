@@ -15,9 +15,10 @@ export default new class PrivateDoctorDataDB {
 		const sql = `SELECT
           ${mysqlTables.appointments}.appointmentsID, ${mysqlTables.appointments}.appointment_date,
 		  ${mysqlTables.appointments}.appointment_price, ${mysqlTables.appointments}.appointment_timespan,
-		  ${mysqlTables.appointments}.patient_message, ${mysqlTables.appointments}.Doctor_confirmation_status,
+		  ${mysqlTables.appointments}.patient_message, ${mysqlTables.appointments}.doctor_confirmation_status AS doctorConfirmationStatus,
           ${mysqlTables.appointments}.created_at,
-          ${mysqlTables.service_and_category_list}.Category_name, ${mysqlTables.service_and_category_list}.Service_name,
+          ${mysqlTables.service_and_category_list}.category_name AS categoryName,
+		  ${mysqlTables.service_and_category_list}.service_name AS serviceName,
           ${mysqlTables.addresses}.address_title, ${mysqlTables.addresses}.address_line_1, ${mysqlTables.addresses}.address_line_2,
           ${mysqlTables.addresses}.city, ${mysqlTables.addresses}.state, ${mysqlTables.addresses}.zip, ${mysqlTables.addresses}.country,
           ${mysqlTables.basic_user_info}.first_name AS Patient_FirstName, ${mysqlTables.basic_user_info}.last_name AS Patient_LastName

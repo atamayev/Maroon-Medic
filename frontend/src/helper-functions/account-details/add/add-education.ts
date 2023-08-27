@@ -11,12 +11,12 @@ export const addEducation = (
 	setSelectedMajor: React.Dispatch<React.SetStateAction<string>> | null = null
 ): GeneralEducationItem => {
 	const selectedEducationObj: GeneralEducationItem = {
-		School_name: selectedSchool,
-		Education_type: selectedEducationType,
+		schoolName: selectedSchool,
+		educationType: selectedEducationType,
 		Start_Date: moment(`${timeState.startYear}-${timeState.startMonth}-1`,"YYYY-MMMM-D").format("MMMM D, YYYY"),
 		End_Date: moment(`${timeState.endYear}-${timeState.endMonth}-1`,"YYYY-MMMM-D").format("MMMM D, YYYY"),
 	}
-	if (selectedMajor) selectedEducationObj.Major_name = selectedMajor
+	if (selectedMajor) selectedEducationObj.majorName = selectedMajor
 
 	setSelectedSchool("")
 	setSelectedEducationType("")

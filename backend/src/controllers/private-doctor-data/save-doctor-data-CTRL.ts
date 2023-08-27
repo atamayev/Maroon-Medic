@@ -24,7 +24,7 @@ export async function savePersonalData (req: Request, res: Response): Promise<vo
 
 export async function saveDescriptionData (req: Request, res: Response): Promise<void> {
 	const DoctorID = req.DoctorID
-	const description = req.body.Description
+	const description = req.body.description
 
 	const doesDescriptionExist = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.checkIfDescriptionExists, DoctorID)
 

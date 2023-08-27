@@ -3,12 +3,12 @@ import { connectDatabase } from "../../setup-and-security/connect"
 import { RowDataPacket } from "mysql2"
 
 type InsuranceItem = {
-  Insurance_name: string
+	insurance_name: string
 }
 
 export default new class FetchPatientAccountDataDB {
 	async languages (PatientID: number): Promise<LanguageItem[]> {
-		const sql = `SELECT ${mysqlTables.language_list}.Language_name, ${mysqlTables.language_list}.language_listID
+		const sql = `SELECT ${mysqlTables.language_list}.language_name AS languageName, ${mysqlTables.language_list}.language_listID
       FROM ${mysqlTables.language_list}
           JOIN ${mysqlTables.language_mapping} ON ${mysqlTables.language_list}.language_listID = ${mysqlTables.language_mapping}.Language_ID
       WHERE
@@ -29,7 +29,7 @@ export default new class FetchPatientAccountDataDB {
         FROM ${mysqlTables.pet_info}
             JOIN ${mysqlTables.pet_list} ON ${mysqlTables.pet_info}.pet_ID = ${mysqlTables.pet_list}.pet_listID
         WHERE
-            ${mysqlTables.pet_info}.isActive = 1 AND ${mysqlTables.pet_info}.Patient_ID = ?`
+            ${mysqlTables.pet_info}.is_active = 1 AND ${mysqlTables.pet_info}.Patient_ID = ?`
 
 		const values = [PatientID]
 
@@ -40,7 +40,7 @@ export default new class FetchPatientAccountDataDB {
 	}
 
 	async petInsurances (petInfoID: number): Promise<string> {
-		const sql = `SELECT ${mysqlTables.insurance_list}.Insurance_name
+		const sql = `SELECT ${mysqlTables.insurance_list}.insurance_name
         FROM ${mysqlTables.insurance_list}
             JOIN ${mysqlTables.insurance_mapping} ON
             ${mysqlTables.insurance_list}.insurance_listID = ${mysqlTables.insurance_mapping}.Insurance_ID
@@ -51,7 +51,7 @@ export default new class FetchPatientAccountDataDB {
 
 		const connection = await connectDatabase()
 		const [insuranceResults] = await connection.execute(sql, values) as RowDataPacket[]
-		const insurance = (insuranceResults[0] as InsuranceItem).Insurance_name
+		const insurance = (insuranceResults[0] as InsuranceItem).insurance_name
 		return insurance as string
 	}
 }()

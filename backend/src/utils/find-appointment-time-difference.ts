@@ -6,8 +6,8 @@ import SaveDoctorDataDB from "../db/private-doctor-data/save-doctor-data-DB"
 export default async function findAppointmentTimeDifference (newTimes: DoctorAvailability[], addressID: number): Promise<void> {
 	const oldTimes = await FetchDoctorAccountDataDB.availabilityData(addressID)
 
-	const groupedNewData = _.keyBy(newTimes, "Day_of_week")
-	const groupedOldData = _.keyBy(oldTimes, "Day_of_week")
+	const groupedNewData = _.keyBy(newTimes, "dayOfWeek")
+	const groupedOldData = _.keyBy(oldTimes, "dayOfWeek")
 
 	const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 	for (const day of days) {

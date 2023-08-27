@@ -2,11 +2,11 @@ SELECT
     a.appointmentsID,
     a.appointment_date,
     a.patient_message,
-    a.Doctor_confirmation_status,
+    a.doctor_confirmation_status,
     a.created_at,
     s.Category_name,
-    s.Service_name,
-    sm.Service_time,
+    s.service_name,
+    sm.service_time,
     ad.address_title,
     ad.address_line_1,
     ad.address_line_2,
@@ -24,4 +24,4 @@ FROM
     INNER JOIN service_mapping sm ON a.Service_and_category_list_ID = sm.Service_and_Category_ID AND a.Doctor_ID = sm.Doctor_ID
 WHERE
     a.Patient_ID = 3
-    and a.Doctor_confirmation_status = 1;
+    and a.doctor_confirmation_status = 1;

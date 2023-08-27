@@ -18,10 +18,10 @@ export default function SpecialtiesSection({ doctorSpecialties } : { doctorSpeci
 function Specialties({ doctorSpecialties } : { doctorSpecialties: OrganizationSpecialtyName[] }) {
 	const organizations: CategoriesType = {}
 	doctorSpecialties.forEach(specialty => {
-		if (!organizations[specialty.Organization_name]) {
-			organizations[specialty.Organization_name] = []
+		if (!organizations[specialty.organizationName]) {
+			organizations[specialty.organizationName] = []
 		}
-		(organizations[specialty.Organization_name] as OrganizationSpecialtyName[]).push(specialty)
+		(organizations[specialty.organizationName] as OrganizationSpecialtyName[]).push(specialty)
 	})
 
 	return (
@@ -31,7 +31,7 @@ function Specialties({ doctorSpecialties } : { doctorSpecialties: OrganizationSp
 					<h3>{organization}</h3>
 					{specialties.map((specialty, innerIndex) => (
 						<p key = {innerIndex}>
-							{specialty.Specialty_name}
+							{specialty.specialtyName}
 						</p>
 					))}
 				</div>

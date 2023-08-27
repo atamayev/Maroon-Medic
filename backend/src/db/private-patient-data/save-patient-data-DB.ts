@@ -64,7 +64,7 @@ export default new class SavePatientDataDB {
 	}
 
 	async deletePet(petID: number): Promise<void> {
-		const sql = `UPDATE ${mysqlTables.pet_info} SET isActive = 0 WHERE pet_infoID = ?`
+		const sql = `UPDATE ${mysqlTables.pet_info} SET is_active = 0 WHERE pet_infoID = ?`
 		const values = [petID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)

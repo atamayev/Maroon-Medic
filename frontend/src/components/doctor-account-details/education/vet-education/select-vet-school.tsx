@@ -19,10 +19,10 @@ const SelectVetSchool = (props: Props) => {
 				onChange = {(e) => setSelectedVetSchool(e.target.value)}
 			>
 				<option value = "" disabled>Choose a School</option>
-				{_.uniqBy(listDetails.vetSchools, "School_name").map(
+				{_.uniqBy(listDetails.vetSchools, "schoolName").map(
 					(school) => (
-						<option key = {school.vet_school_listID} value = {school.School_name}>
-							{school.School_name}
+						<option key = {school.vet_school_listID} value = {school.schoolName}>
+							{school.schoolName}
 						</option>
 					)
 				)}

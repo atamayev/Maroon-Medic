@@ -21,7 +21,7 @@ const SingleSavedVetEducation = (props: Props) => {
 
 	return (
 		<li>
-			{singleVetEducation.School_name}, {singleVetEducation.Education_type}
+			{singleVetEducation.schoolName}, {singleVetEducation.educationType}
 			{" (" + singleVetEducation.Start_Date} - {singleVetEducation.End_Date + ") "}
 			<DeleteButtonOptions<VetEducationItem>
 				status = {status}

@@ -8,38 +8,38 @@ declare global {
     title: string
     start: Date
     end: Date
-    doctor_confirmation_status: boolean
+    doctorConfirmationStatus: boolean
   }
 
   type ServiceItem = {
     service_and_category_listID: number
-    Service_time: string
-    Category_name: string
-    Service_name: string
+    serviceTime: string
+    categoryName: string
+    serviceName: string
   }
 
   interface ServiceItemNullablePrice extends ServiceItem {
-    Service_price: number | null
+    servicePrice: number | null
   }
 
   interface ServiceItemNotNullablePrice extends ServiceItem{
-    Service_price: number
+    servicePrice: number
   }
 
   interface EducationBase {
-    School_name: string
-    Education_type: string
+    schoolName: string
+    educationType: string
     Start_Date: string
     End_Date: string
   }
 
   type GeneralEducationItem = EducationBase & {
-    Major_name?: string
+    majorName?: string
   }
 
   type PreVetEducationItem = EducationBase & {
     pre_vet_education_mappingID: number
-    Major_name: string
+    majorName: string
   }
 
   type VetEducationItem = EducationBase & {
