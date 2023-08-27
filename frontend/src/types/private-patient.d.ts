@@ -5,11 +5,11 @@ declare global {
   }
 
   interface BasePetInfo {
-    Name: string
-    Gender: string
-    DOB: string
-    Pet: string
-    Pet_type: string
+    name: string
+    gender: string
+    dateOfBirth: string
+    pet: string
+    petType: string
     insuranceName: string
   }
 

@@ -17,16 +17,18 @@ export default new class SaveDoctorDataDB {
 		return Boolean(doesRecordExist)
 	}
 
-	async updatePersonalData (personalInfo: DoctorPersonalInfoWithoutNVI, DOB: MysqlTimestamp, DoctorID: number): Promise<void> {
-		const sql = `UPDATE ${mysqlTables.basic_user_info} SET FirstName = ?, LastName = ?, Gender = ?, DOB = ? WHERE User_ID = ?`
-		const values = [personalInfo.FirstName, personalInfo.LastName, personalInfo.Gender, DOB, DoctorID]
+	async updatePersonalData (personalInfo: DoctorPersonalInfoWithoutNVI, dateOfBirth: MysqlTimestamp, DoctorID: number): Promise<void> {
+		const sql = `UPDATE ${mysqlTables.basic_user_info} SET first_name = ?, last_name = ?, gender = ?, date_of_birth = ?
+			WHERE User_ID = ?`
+		const values = [personalInfo.FirstName, personalInfo.LastName, personalInfo.gender, dateOfBirth, DoctorID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
-	async addPersonalData (personalInfo: DoctorPersonalInfoWithoutNVI, DOB: MysqlTimestamp, DoctorID: number): Promise<void> {
-		const sql = `INSERT INTO ${mysqlTables.basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?, ?, ?, ?, ?)`
-		const values = [personalInfo.FirstName, personalInfo.LastName, personalInfo.Gender, DOB, DoctorID]
+	async addPersonalData (personalInfo: DoctorPersonalInfoWithoutNVI, dateOfBirth: MysqlTimestamp, DoctorID: number): Promise<void> {
+		const sql = `INSERT INTO ${mysqlTables.basic_user_info} (first_name, last_name, gender, date_of_birth, User_ID)
+			VALUES (?, ?, ?, ?, ?)`
+		const values = [personalInfo.FirstName, personalInfo.LastName, personalInfo.gender, dateOfBirth, DoctorID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
@@ -244,7 +246,7 @@ export default new class SaveDoctorDataDB {
 	}
 
 	async updatePublicAvilability (newstatus: boolean, DoctorID: number): Promise<void> {
-		const sql = `UPDATE ${mysqlTables.doctor_specific_info} SET publiclyAvailable = ? WHERE Doctor_ID = ?`
+		const sql = `UPDATE ${mysqlTables.doctor_specific_info} SET publicly_available = ? WHERE Doctor_ID = ?`
 		const values = [newstatus, DoctorID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)

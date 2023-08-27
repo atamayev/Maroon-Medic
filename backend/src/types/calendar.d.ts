@@ -16,7 +16,7 @@ declare global {
 	patient_message: string
 	appointment_timespan: number
 	Doctor_confirmation_status: boolean
-	Created_at: MysqlTimestamp
+	created_at: MysqlTimestamp
 	Category_name: string
 	Service_name: string
 	address_title: string
@@ -26,6 +26,7 @@ declare global {
 	state: string
 	zip: string
 	country: string
+	petName: string
 	Patient_FirstName: string
 	Patient_LastName: string
   }

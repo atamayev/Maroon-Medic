@@ -18,7 +18,7 @@ export default new class AuthDB {
 	}
 
 	async retrieveUserIDAndPassword (username: string, loginType: DoctorOrPatient): Promise<UserIDAndPassword> {
-		const sql = `SELECT UserID, password FROM ${mysqlTables.credentials} WHERE email = ? AND User_type = ? AND isActive = 1`
+		const sql = `SELECT UserID, password FROM ${mysqlTables.credentials} WHERE email = ? AND user_type = ? AND is_active = 1`
 		const values = [username, loginType]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
@@ -27,9 +27,9 @@ export default new class AuthDB {
 	}
 
 	async checkIfAccountExists (username: string, registrationType: DoctorOrPatient): Promise<boolean> {
-		//Consider adding isActive as a search parameter. If a user deletes their account,
+		//Consider adding is_active as a search parameter. If a user deletes their account,
 		//should they be allowed to create a new one with the same email?
-		const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.credentials} WHERE email = ? AND User_type = ?) as 'exists' `
+		const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.credentials} WHERE email = ? AND user_type = ?) as 'exists' `
 		const values = [username, registrationType]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values)
@@ -43,7 +43,7 @@ export default new class AuthDB {
 		createdAt: MysqlTimestamp,
 		registrationType: DoctorOrPatient
 	): Promise<number> {
-		const sql = `INSERT INTO ${mysqlTables.credentials} (email, password, Created_at, User_type) VALUES (?, ?, ?, ?)`
+		const sql = `INSERT INTO ${mysqlTables.credentials} (email, password, created_at, user_type) VALUES (?, ?, ?, ?)`
 		const values = [username, password, createdAt, registrationType]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values)
@@ -51,7 +51,7 @@ export default new class AuthDB {
 	}
 
 	async addDoctorSpecificDetails (UserID: number): Promise<void> {
-		const sql = `INSERT INTO ${mysqlTables.doctor_specific_info} (verified, publiclyAvailable, Doctor_ID) VALUES (?, ?, ?)`
+		const sql = `INSERT INTO ${mysqlTables.doctor_specific_info} (verified, publicly_available, Doctor_ID) VALUES (?, ?, ?)`
 		const values = [true, true, UserID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)

@@ -12,7 +12,7 @@ const UpcomingAppointmentsMap = ({ upcomingDoctorAppointments, dashboardData, se
 		<>
 			{upcomingDoctorAppointments.map((appointment) => (
 				<UpcomingAppointmentCard
-					key = {appointment.AppointmentsID}
+					key = {appointment.appointmentsID}
 					appointment = {appointment}
 					dashboardData = {dashboardData}
 					setDashboardData = {setDashboardData}

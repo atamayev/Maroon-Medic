@@ -11,7 +11,7 @@ const FinalizeBookingCardText = (props: Props) => {
 	return (
 		<div className="bg-yellow-100 p-4 rounded border border-brown-400">
 			<div className="block text-brown-800 mb-1">
-				<strong className="font-bold">Pet:</strong> {appointmentInformation.selectedPet!.Name}
+				<strong className="font-bold">Pet:</strong> {appointmentInformation.selectedPet!.name}
 			</div>
 			<div className="block text-brown-800 mb-1">
 				<strong className="font-bold">Service:</strong> {appointmentInformation.selectedService!.Service_name}

@@ -13,7 +13,7 @@ export default async function fetchDoctorCalendarDetails(): Promise<DoctorCalend
 					title: appointment.Service_name,
 					start: startTime,
 					end: endTime,
-					Doctor_confirmation_status: appointment.Doctor_confirmation_status
+					doctor_confirmation_status: appointment.doctor_confirmation_status
 				}
 			})
 			return events

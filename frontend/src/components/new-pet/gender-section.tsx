@@ -17,7 +17,7 @@ const PetGenderSection = (props: Props) => {
 						type="radio"
 						name="Gender"
 						value="Male"
-						checked = {newPetData.Gender === "Male"}
+						checked = {newPetData.gender === "Male"}
 						onChange={(e) => handlePetInfoInput(e, newPetData, setNewPetData)}
 						className="form-radio text-green-600"
 						required
@@ -29,7 +29,7 @@ const PetGenderSection = (props: Props) => {
 						type="radio"
 						name="Gender"
 						value="Female"
-						checked = {newPetData.Gender === "Female"}
+						checked = {newPetData.gender === "Female"}
 						onChange={(e) => handlePetInfoInput(e, newPetData, setNewPetData)}
 						className="form-radio text-green-600"
 						required

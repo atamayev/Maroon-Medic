@@ -28,7 +28,7 @@ const ShowPetsSection = (props: Props) => {
 						checked = {servicedPets.find((serviced) => serviced.pet_listID === pet.pet_listID) !== undefined}
 						onChange = {(event) => {handleCheckboxChange(event, pet)}}
 					/>
-					<label htmlFor = {`${petType}-${pet.pet_listID}`}>{pet.Pet}</label>
+					<label htmlFor = {`${petType}-${pet.pet_listID}`}>{pet.pet}</label>
 				</div>
 			))}
 		</div>

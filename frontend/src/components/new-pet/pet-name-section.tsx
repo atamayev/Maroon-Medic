@@ -18,7 +18,7 @@ const PetNameSection = (props: Props) => {
 			name = "Name"
 			placeholder = "Hedwig"
 			required
-			value = {newPetData.Name || ""}
+			value = {newPetData.name || ""}
 		/>
 	)
 }

@@ -14,19 +14,19 @@ const PetTypeSection = (props: Props) => {
 		<FormGroup
 			as = "select"
 			onChange = {(e) => handlePetInfoInput(e, newPetData, setNewPetData, petTypes)}
-			name = "Pet_type"
+			name = "petType"
 			required
 			id = "formPetType"
 			label = "Type of Pet"
-			value = {newPetData.Pet || ""}
+			value = {newPetData.pet || ""}
 		>
 			<option value = "" disabled>Select</option>
 			{petTypes.map((PetType) => (
 				<option
 					key = {PetType.pet_listID}
-					value = {PetType.Pet}
+					value = {PetType.pet}
 				>
-					{PetType.Pet}
+					{PetType.pet}
 				</option>
 			))}
 		</FormGroup>

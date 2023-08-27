@@ -17,7 +17,7 @@ const DOBSection = (props: Props) => {
 			type = "date"
 			onChange = {(e) => handlePetInfoInput(e, newPetData, setNewPetData)}
 			name = "DOB"
-			value = {newPetData.DOB || ""}
+			value = {newPetData.dateOfBirth || ""}
 			required
 		/>
 	)

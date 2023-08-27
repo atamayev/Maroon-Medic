@@ -5,8 +5,8 @@ const SelectMonth = ({ personalInfo, setPersonalInfo }: PersonalInfoProps) => {
 		<>
 			<label>
         Month:
-				<select required value = {personalInfo.DOB_month || ""}
-					onChange = {(event) => setPersonalInfo({...personalInfo, DOB_month: event.target.value})}
+				<select required value = {personalInfo.birthMonth || ""}
+					onChange = {(event) => setPersonalInfo({...personalInfo, birthMonth: event.target.value})}
 				>
 					<option value = "" disabled>
             Select Month

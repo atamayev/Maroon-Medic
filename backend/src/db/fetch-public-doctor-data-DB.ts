@@ -65,7 +65,7 @@ export default new class FetchPublicDoctorDataDB {
 	}
 
 	async servicedPets (DoctorID: number): Promise<ServicedPetData[]> {
-		const sql = `SELECT ${mysqlTables.pet_list}.pet, ${mysqlTables.pet_list}.pet_type
+		const sql = `SELECT ${mysqlTables.pet_list}.pet, ${mysqlTables.pet_list}.pet_type AS petType
         FROM ${mysqlTables.pet_list}
             JOIN ${mysqlTables.pet_mapping} ON ${mysqlTables.pet_list}.pet_listID = ${mysqlTables.pet_mapping}.pet_ID
         WHERE
@@ -109,7 +109,8 @@ export default new class FetchPublicDoctorDataDB {
 	}
 
 	async personalData (DoctorID: number): Promise<DoctorPersonalInfo> {
-		const sql = `SELECT FirstName, LastName, Gender FROM ${mysqlTables.basic_user_info} WHERE User_ID = ?`
+		const sql = `SELECT first_name AS FirstName, last_name AS LastName, gender FROM
+			${mysqlTables.basic_user_info} WHERE User_ID = ?`
 		const values = [DoctorID]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]

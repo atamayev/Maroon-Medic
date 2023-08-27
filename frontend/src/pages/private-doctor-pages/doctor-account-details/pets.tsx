@@ -32,12 +32,12 @@ function PetsServiced (props: Props) {
 	const petTypes: PetTypesType = {}
 	if (listDetails.pets) {
 		listDetails.pets.forEach(petType => {
-			if (!petTypes[petType.Pet_type]) petTypes[petType.Pet_type] = []
-			petTypes[petType.Pet_type].push(petType)
+			if (!petTypes[petType.petType]) petTypes[petType.petType] = []
+			petTypes[petType.petType].push(petType)
 		})
 	}
 
-	if (_.isEmpty(_.uniq(listDetails.pets.map((item) => item.Pet_type)))) return <>Loading...</>
+	if (_.isEmpty(_.uniq(listDetails.pets.map((item) => item.petType)))) return <>Loading...</>
 
 	return (
 		<>

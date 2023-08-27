@@ -6,9 +6,9 @@ CREATE TABLE Credentials (
 	UserID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	email VARCHAR(150) NOT NULL,
 	password VARCHAR(150) NOT NULL,
-	Created_at DATETIME NOT NULL,
-	User_type VARCHAR(20) NOT NULL, -- can be Doctor, Patient, admin, Administrator
-	isActive BOOLEAN NOT NULL DEFAULT 1
+	created_at DATETIME NOT NULL,
+	user_type VARCHAR(20) NOT NULL, -- can be Doctor, Patient, admin, Administrator
+	is_active BOOLEAN NOT NULL DEFAULT 1
 );
 
 SELECT * FROM Credentials;
@@ -16,7 +16,7 @@ SELECT * FROM Credentials;
 CREATE TABLE Doctor_specific_info(
 	NVI INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	verified BOOLEAN NOT NULL,
-	publiclyAvailable BOOLEAN NOT NULL,
+	publicly_available BOOLEAN NOT NULL,
 	Doctor_ID INT unsigned NOT NULL,
 	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
 )AUTO_INCREMENT = 1000000;
@@ -25,10 +25,10 @@ SELECT * FROM Doctor_specific_info;
 
 CREATE TABLE basic_user_info (
 	basic_user_infoID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	FirstName VARCHAR(150) NOT NULL,
-	LastName VARCHAR(150) NOT NULL,
-	Gender VARCHAR(150) NOT NULL,
-	DOB DATE NOT NULL,
+	first_name VARCHAR(150) NOT NULL,
+	last_name VARCHAR(150) NOT NULL,
+	gender VARCHAR(150) NOT NULL,
+	date_of_birth DATE NOT NULL,
 	User_ID INT unsigned NOT NULL,
 	FOREIGN KEY (User_ID) REFERENCES Credentials(UserID)
 );
@@ -37,8 +37,8 @@ SELECT * FROM basic_user_info;
 
 CREATE TABLE pet_list(
 	pet_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	Pet VARCHAR(30) NOT NULL,
-	Pet_type VARCHAR(30) NOT NULL
+	pet VARCHAR(30) NOT NULL,
+	pet_type VARCHAR(30) NOT NULL
 );
 
 SELECT * FROM pet_list;
@@ -57,8 +57,8 @@ SELECT * FROM pet_mapping;
 CREATE TABLE pet_info ( -- specific info about each pet (from the Patient POV)
 	pet_infoID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	Name VARCHAR(150) NOT NULL,
-	Gender VARCHAR(150) NOT NULL,
-	DOB DATE,
+	gender VARCHAR(150) NOT NULL,
+	date_of_birth DATE NOT NULL,
 	Patient_ID INT unsigned NOT NULL,
 	pet_ID INT unsigned NOT NULL,
 	isActive BOOLEAN NOT NULL DEFAULT 1, -- set to 1 by default, when a patient deletes pet, set to 0.
@@ -66,13 +66,15 @@ CREATE TABLE pet_info ( -- specific info about each pet (from the Patient POV)
 	FOREIGN KEY (pet_ID) REFERENCES pet_list(pet_listID)
 );
 
+ALTER TABLE pet_info
+CHANGE Name name VARCHAR(150) NOT NULL;
 
 SELECT * FROM pet_info;
 
 CREATE TABLE UUID_reference(
 	UUID_referenceID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	UUID VARCHAR(150) NOT NULL,
-	Created_at DATETIME NOT NULL,
+	created_at DATETIME NOT NULL,
 	User_ID INT unsigned NOT NULL,
 	FOREIGN KEY (User_ID) REFERENCES Credentials(UserID)
 );

@@ -27,7 +27,7 @@ const ChoosePet = (props: ChoosePetProps) => {
 		)
 	}
 
-	if (savedPetData.length === 1) return <div className="col-md-6">Selected Pet: {appointmentInformation.selectedPet?.Name}</div>
+	if (savedPetData.length === 1) return <div className="col-md-6">Selected Pet: {appointmentInformation.selectedPet?.name}</div>
 
 	return (
 		<div className="col-md-6">
@@ -48,7 +48,7 @@ const ChoosePet = (props: ChoosePetProps) => {
 				<option value = "" disabled>Select...</option>
 				{savedPetData.map((pet, index) => (
 					<option key={index} value={pet.pet_infoID}>
-						{pet.Name}
+						{pet.name}
 					</option>
 				))}
 			</FormGroup>

@@ -28,8 +28,8 @@ declare global {
   }
 
   type UserInfo = BasicPersonalInfo & {
-    Gender: string
-    DOB: MysqlTimestamp
+    gender: string
+    dateOfBirth: MysqlTimestamp
   }
 
   interface DashboardDataType {
@@ -38,7 +38,7 @@ declare global {
     appointment_price: number
     patient_message: string
     Doctor_confirmation_status: boolean
-    Created_at: MysqlTimestamp
+    created_at: MysqlTimestamp
     Category_name: string
     Service_name: string
     address_title: string

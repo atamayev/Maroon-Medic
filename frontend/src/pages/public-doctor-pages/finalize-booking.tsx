@@ -18,7 +18,7 @@ export default function FinalizeBookingPage() {
 
 	let appointmentInformation: AppointmentInformation = {} as AppointmentInformation
 	let serviceMinutes: number = -1
-	let personalData: DoctorPersonalData = {FirstName: "", LastName: "", Gender: "", NVI: -1}
+	let personalData: DoctorPersonalData = {FirstName: "", LastName: "", gender: "", NVI: -1}
 
 	const storedData = sessionStorage.getItem("bookingDetails")
 	const parsedData = storedData && JSON.parse(storedData)

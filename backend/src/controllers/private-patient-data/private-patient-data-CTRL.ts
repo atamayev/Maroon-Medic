@@ -12,9 +12,9 @@ export async function newPatient (req: Request, res: Response): Promise<void> {
 	const newPatientObject = req.body.newPatientObject
 
 	const dateOfBirth = TimeUtils.convertDOBStringIntoMySQLDate(
-		newPatientObject.DOB_month,
-		newPatientObject.DOB_day,
-		newPatientObject.DOB_year
+		newPatientObject.birthMonth,
+		newPatientObject.birthDay,
+		newPatientObject.birthYear
 	)
 	const operation: () => Promise<void> = async () => await PrivatePatientDataDB.addNewPatientInfo(
 		newPatientObject, dateOfBirth, PatientID
@@ -29,8 +29,9 @@ export async function fetchDashboardData (req: Request, res: Response): Promise<
 		const DashboardData = await PrivatePatientDataDB.retrievePatientDashboard(PatientID)
 		for (const singleAppointment of DashboardData) {
 			singleAppointment.appointment_date = TimeUtils.convertMySQLDateIntoReadableString(singleAppointment.appointment_date)
-			singleAppointment.Created_at = TimeUtils.convertMySQLDateIntoReadableString(singleAppointment.Created_at)
+			singleAppointment.created_at = TimeUtils.convertMySQLDateIntoReadableString(singleAppointment.created_at)
 		}
+		console.log(DashboardData)
 		return res.status(200).json(DashboardData)
 	} catch (error: unknown) {
 		return res.status(400).json([])
@@ -43,10 +44,10 @@ export async function fetchPersonalData (req: Request, res: Response): Promise<R
 	let PersonalData = {
 		FirstName: "",
 		LastName: "",
-		Gender: "",
-		DOB_month: "",
-		DOB_day: -1,
-		DOB_year: -1
+		gender: "",
+		birthMonth: "",
+		birthDay: -1,
+		birthYear: -1
 	}
 
 	try {

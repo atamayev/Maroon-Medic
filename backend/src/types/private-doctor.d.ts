@@ -5,12 +5,12 @@ declare global {
   }
 
   type DoctorPersonalInfoWithoutNVI = BasicPersonalInfo & {
-    Gender: string
+    gender: string
   }
 
   type DoctorPersonalInfo = BasicPersonalInfo & {
     NVI: number
-    Gender: string
+    gender: string
   }
 
   interface DoctorAccountDetails {

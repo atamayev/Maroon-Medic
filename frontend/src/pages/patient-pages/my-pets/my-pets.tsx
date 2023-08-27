@@ -12,7 +12,7 @@ export default function MyPets() {
 	const { userType } = useSimpleUserVerification()
 	const [petConfirmation, setPetConfirmation] = useConfirmationMessage()
 	const [newPetData, setNewPetData] = useState<PetItemForCreation>(
-		{Name: "", Gender:"", DOB: "", Pet: "", Pet_type: "", insuranceName: "", pet_listID: -1, insurance_listID: -1}
+		{name: "", gender:"", dateOfBirth: "", pet: "", petType: "", insuranceName: "", pet_listID: -1, insurance_listID: -1}
 	)
 	const [showAddPet, setShowAddPet] = useState(false)
 	const [showModal, setShowModal] = useState(false)

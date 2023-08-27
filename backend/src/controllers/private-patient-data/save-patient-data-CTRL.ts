@@ -9,7 +9,7 @@ export async function savePersonalData (req: Request, res: Response): Promise<vo
 
 	const personalInfo = req.body.personalInfo
 
-	const dateOfBirth = TimeUtils.convertDOBStringIntoMySQLDate(personalInfo.DOB_month, personalInfo.DOB_day, personalInfo.DOB_year)
+	const dateOfBirth = TimeUtils.convertDOBStringIntoMySQLDate(personalInfo.birthMonth, personalInfo.birthDay, personalInfo.birthYear)
 
 	if (doesRecordExist) {
 		const operation: () => Promise<void> = async () => await SavePatientDataDB.updatePersonalData(personalInfo, dateOfBirth, PatientID)

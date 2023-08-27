@@ -7,8 +7,8 @@ const GenderSection = ({ personalInfo, setPersonalInfo }: PersonalInfoProps) => 
 			id = "Gender"
 			label = "Gender:"
 			required = {true}
-			value = {personalInfo.Gender || ""}
-			onChange = {(event) => setPersonalInfo({...personalInfo, Gender: event.target.value})}
+			value = {personalInfo.gender || ""}
+			onChange = {(event) => setPersonalInfo({...personalInfo, gender: event.target.value})}
 		>
 			<option value = "" disabled>Select</option>
 			<option value = "Female">Female</option>

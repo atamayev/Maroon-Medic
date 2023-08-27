@@ -6,7 +6,9 @@ ASAP:
 9. Full Stack TS changes
 	Change all DB fields to snake case, change sql accordingly
 	make casing lowercase for hte appointments table
+	In doing this, change all variables to camelcase. (first_name AS firstName)
 10. Make the pets in the patient header be the pets that the user has
+11. Fix calendar appointments not rendering
 
 Make personal info it's own context
 Combine authContext and verify context. make it into a memoized class, initialized as null in index.tsx

@@ -17,10 +17,10 @@ declare global {
   interface FormattedPersonalData {
     FirstName: string
     LastName: string
-    Gender: string
-    DOB_month: string
-    DOB_day: number
-    DOB_year: number
+    gender: string
+    birthMonth: string
+    birthDay: number
+    birthYear: number
   }
 }
 

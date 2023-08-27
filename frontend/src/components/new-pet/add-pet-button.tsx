@@ -2,10 +2,10 @@ import Button from "../button"
 
 function areAllFieldsValid(petData: PetItemForCreation) {
 	if (
-		!petData.Name ||
-		!petData.Gender ||
-		!petData.DOB ||
-		!petData.Pet_type ||
+		!petData.name ||
+		!petData.gender ||
+		!petData.dateOfBirth ||
+		!petData.petType ||
 		!petData.insuranceName
 	) {
 		return false
@@ -32,7 +32,7 @@ const AddPetButton = (props: Props) => {
 				//need to make this button  a 'submit' button
 				colorClass = "bg-green-500"
 				hoverClass = "hover:bg-green-600"
-				title = {`Add ${newPetName(newPetData.Name)}`}
+				title = {`Add ${newPetName(newPetData.name)}`}
 				disabled = {!areAllFieldsValid(newPetData)}
 			/>
 		</div>

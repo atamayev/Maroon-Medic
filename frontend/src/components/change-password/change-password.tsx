@@ -5,6 +5,7 @@ import CurrentPasswordInput from "./current-password-input"
 import NewPasswordInput from "./new-password"
 import SavedPasswordMessage from "./saved-password-message"
 import ConfirmNewPasswordInput from "./confirm-new-password"
+import _ from "lodash"
 
 export default function ChangePassword( { type } : { type: DoctorOrPatient }) {
 	const [credentials, setCredentials] = useState<ChangePasswordObject>({
@@ -31,8 +32,24 @@ export default function ChangePassword( { type } : { type: DoctorOrPatient }) {
 		return "password"
 	}
 
+	const ShowPasswordButton = () => {
+		if (_.isEmpty(credentials.newPassword) && _.isEmpty(credentials.newConfirmPassword)) {
+			return null
+		}
+		return (
+			<Button
+				className="mt-3 ml-3"
+				colorClass="bg-orange-600"
+				hoverClass="hover:bg-orange-700"
+				title={HideOrShowPassword()}
+				onClick={() => (setShowPassword(!showPassword))}
+				textColor = "text-white"
+			/>
+		)
+	}
+
 	return (
-		<div className="bg-white shadow-md rounded p-6">
+		<div className="bg-white shadow-md rounded p-6 border m-2">
 			<h2 className="text-center mb-4 text-xl font-bold">Change Password</h2>
 			<form onSubmit={(e) => {
 				e.preventDefault()
@@ -56,14 +73,6 @@ export default function ChangePassword( { type } : { type: DoctorOrPatient }) {
 					setCredentials={setCredentials}
 				/>
 
-				<Button
-					className="mt-3"
-					colorClass="bg-orange-600"
-					hoverClass="hover:bg-orange-700"
-					title={HideOrShowPassword()}
-					onClick={() => (setShowPassword(!showPassword))}
-				/>
-
 				<SavedPasswordMessage message={message} />
 
 				<Button
@@ -72,7 +81,10 @@ export default function ChangePassword( { type } : { type: DoctorOrPatient }) {
 					hoverClass="hover:bg-emerald-700"
 					title="Change Password"
 					disabled={loading}
+					textColor = "text-white"
 				/>
+
+				<ShowPasswordButton />
 			</form>
 		</div>
 	)

@@ -3,7 +3,7 @@ SELECT
     a.appointment_date,
     a.patient_message,
     a.Doctor_confirmation_status,
-    a.Created_at,
+    a.created_at,
     s.Category_name,
     s.Service_name,
     sm.Service_time,
@@ -14,8 +14,8 @@ SELECT
     ad.state,
     ad.zip,
     ad.country,
-    bu.FirstName AS Doctor_FirstName,
-    bu.LastName AS Doctor_LastName
+    bu.first_name AS Doctor_FirstName,
+    bu.last_name AS Doctor_LastName
 FROM
     Appointments a
     INNER JOIN service_and_category_list s ON a.Service_and_category_list_ID = s.service_and_category_listID

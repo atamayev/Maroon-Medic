@@ -5,7 +5,7 @@ import { OkPacket, RowDataPacket } from "mysql2"
 interface PersonalInfo {
   FirstName: string
   LastName: string
-  Gender: string
+  gender: string
 }
 
 export default new class SavePatientDataDB {
@@ -18,16 +18,18 @@ export default new class SavePatientDataDB {
 		return Boolean(doesRecordExist)
 	}
 
-	async updatePersonalData (personalInfo: PersonalInfo, DOB: MysqlTimestamp, PatientID: number): Promise<void> {
-		const sql = `UPDATE ${mysqlTables.basic_user_info} SET FirstName = ?, LastName = ?, Gender = ?, DOB = ? WHERE User_ID = ?`
-		const values = [personalInfo.FirstName, personalInfo.LastName, personalInfo.Gender, DOB, PatientID]
+	async updatePersonalData (personalInfo: PersonalInfo, dateOfBirth: MysqlTimestamp, PatientID: number): Promise<void> {
+		const sql = `UPDATE ${mysqlTables.basic_user_info} SET first_name = ?, last_name = ?, gender = ?, date_of_birth = ?
+			WHERE User_ID = ?`
+		const values = [personalInfo.FirstName, personalInfo.LastName, personalInfo.gender, dateOfBirth, PatientID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
-	async addPersonalData (personalInfo: PersonalInfo, DOB: MysqlTimestamp, PatientID: number): Promise<void> {
-		const sql = `INSERT INTO ${mysqlTables.basic_user_info} (FirstName, LastName, Gender, DOB, User_ID) VALUES (?, ?, ?, ?, ?)`
-		const values = [personalInfo.FirstName, personalInfo.LastName, personalInfo.Gender, DOB, PatientID]
+	async addPersonalData (personalInfo: PersonalInfo, dateOfBirth: MysqlTimestamp, PatientID: number): Promise<void> {
+		const sql = `INSERT INTO ${mysqlTables.basic_user_info} (first_name, last_name, gender, date_of_birth, User_ID)
+			VALUES (?, ?, ?, ?, ?)`
+		const values = [personalInfo.FirstName, personalInfo.LastName, personalInfo.gender, dateOfBirth, PatientID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
@@ -47,8 +49,8 @@ export default new class SavePatientDataDB {
 	}
 
 	async addNewPet(petData: PetDetails, PatientID: number): Promise<number> {
-		const sql = `INSERT INTO ${mysqlTables.pet_info} (Name, Gender, DOB, Patient_ID, pet_ID) VALUES (?, ?, ?, ?, ?)`
-		const values = [petData.Name, petData.Gender, petData.DOB, PatientID, petData.pet_listID]
+		const sql = `INSERT INTO ${mysqlTables.pet_info} (name, gender, date_of_birth, Patient_ID, pet_ID) VALUES (?, ?, ?, ?, ?)`
+		const values = [petData.name, petData.gender, petData.dateOfBirth, PatientID, petData.pet_listID]
 		const connection = await connectDatabase()
 		const [result] = await connection.execute(sql, values)
 		return (result as OkPacket).insertId

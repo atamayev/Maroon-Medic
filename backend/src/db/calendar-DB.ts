@@ -21,7 +21,7 @@ export default new class CalendarDB {
 	): Promise<void> {
 		const sql = `INSERT INTO ${mysqlTables.appointments}
       (appointment_date, appointment_price, appointment_timespan, patient_message, Doctor_confirmation_status,
-        Service_and_category_list_ID, pet_info_ID, Patient_ID, Doctor_ID, Addresses_ID, Created_at)
+        Service_and_category_list_ID, pet_info_ID, Patient_ID, Doctor_ID, Addresses_ID, created_at)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
 
 		const values = [dateTime, AppointmentObject.appointmentPrice, AppointmentObject.appointmentTimespan, AppointmentObject.message,
@@ -37,13 +37,13 @@ export default new class CalendarDB {
         ${mysqlTables.appointments}.mysqlTables.appointmentsID, ${mysqlTables.appointments}.appointment_date,
         ${mysqlTables.appointments}.appointment_price, ${mysqlTables.appointments}.appointment_timespan,
         ${mysqlTables.appointments}.patient_message, ${mysqlTables.appointments}.Doctor_confirmation_status,
-        ${mysqlTables.appointments}.Created_at,
+        ${mysqlTables.appointments}.created_at,
         ${mysqlTables.service_and_category_list}.Category_name, ${mysqlTables.service_and_category_list}.Service_name,
         ${mysqlTables.addresses}.address_title, ${mysqlTables.addresses}.address_line_1,
         ${mysqlTables.addresses}.address_line_2, ${mysqlTables.addresses}.city,
         ${mysqlTables.addresses}.state, ${mysqlTables.addresses}.zip, ${mysqlTables.addresses}.country,
-        ${mysqlTables.basic_user_info}.FirstName AS Patient_FirstName, ${mysqlTables.basic_user_info}.LastName AS Patient_LastName,
-        ${mysqlTables.pet_info}.Name AS Pet_Name
+        ${mysqlTables.basic_user_info}.first_name AS Patient_FirstName, ${mysqlTables.basic_user_info}.last_name AS Patient_LastName,
+        ${mysqlTables.pet_info}.name as petName
       FROM ${mysqlTables.appointments}
         INNER JOIN ${mysqlTables.service_and_category_list} ON
           ${mysqlTables.appointments}.${mysqlTables.service_and_category_list}_ID =

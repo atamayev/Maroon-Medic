@@ -19,8 +19,8 @@ function ServicedPets({ servicedPets } : { servicedPets: ServicedPetData[] }) {
 	const categories: CategoriesType = {}
 	if (servicedPets) {
 		servicedPets.forEach(Pet => {
-			if (!categories[Pet.pet_type]) categories[Pet.pet_type] = []
-			categories[Pet.pet_type].push(Pet)
+			if (!categories[Pet.petType]) categories[Pet.petType] = []
+			categories[Pet.petType].push(Pet)
 		})
 	}
 

@@ -10,7 +10,7 @@ declare global {
 
   type ServicedPetData = {
     pet: string
-    pet_type: string
+    petType: string
   }
 
   type PublicAddressData = AddressData & {

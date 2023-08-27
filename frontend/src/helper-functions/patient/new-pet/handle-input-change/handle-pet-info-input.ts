@@ -9,7 +9,7 @@ const handlePetInfoInput = (
 ): void => {
 	const value = event.target.value
 
-	if (event.target.name === "Pet_type") {
+	if (event.target.name === "petType") {
 		ifPetTypeSelected(value, specialData as ServicedPetItem[], newPetData, setNewPetData)
 	} else if (event.target.name === "insurance") {
 		ifInsuranceSelected(value, specialData as InsuranceItem[], newPetData, setNewPetData)

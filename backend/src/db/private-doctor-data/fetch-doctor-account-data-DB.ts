@@ -155,7 +155,7 @@ export default new class FetchDoctorAccountDataDB {
 	}
 
 	async servicedPets (DoctorID: number): Promise<ServicedPetItem[]> {
-		const sql = `SELECT ${mysqlTables.pet_list}.pet, ${mysqlTables.pet_list}.pet_type, ${mysqlTables.pet_list}.pet_listID
+		const sql = `SELECT ${mysqlTables.pet_list}.pet, ${mysqlTables.pet_list}.pet_type AS petType, ${mysqlTables.pet_list}.pet_listID
       FROM ${mysqlTables.pet_list}
           JOIN ${mysqlTables.pet_mapping} ON ${mysqlTables.pet_list}.pet_listID = ${mysqlTables.pet_mapping}.pet_ID
       WHERE ${mysqlTables.pet_mapping}.Doctor_ID = ?`
@@ -169,7 +169,7 @@ export default new class FetchDoctorAccountDataDB {
 	}
 
 	async verifiedAndPubliclyAvailableStatus (DoctorID: number): Promise<DoctorStatus> {
-		const sql = `SELECT publiclyAvailable, verified
+		const sql = `SELECT publicly_available, verified
       FROM ${mysqlTables.doctor_specific_info}
       WHERE Doctor_ID = ?`
 
@@ -177,7 +177,7 @@ export default new class FetchDoctorAccountDataDB {
 
 		const connection = await connectDatabase()
 		const [statusResults] = await connection.execute(sql, values) as RowDataPacket[]
-		const status = {PubliclyAvailable: statusResults[0].publiclyAvailable, Verified: statusResults[0].verified} as DoctorStatus
+		const status = {PubliclyAvailable: statusResults[0].publicly_available, Verified: statusResults[0].verified} as DoctorStatus
 
 		return status
 	}

@@ -23,8 +23,8 @@ declare global {
 
   type ServicedPetItem = {
     pet_listID: number
-    Pet: string
-    Pet_type: string
+    pet: string
+    petType: string
   }
 
   type PreVetSchool = {

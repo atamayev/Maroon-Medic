@@ -23,7 +23,7 @@ export default async function FetchDoctorAccountDetails(
 			if (response.data.description) dispatchers.setDescription(response.data.description)
 			if (response.data.servicedPets) {
 				dispatchers.setServicedPets(response.data.servicedPets)
-				dispatchers.setExpandedPetTypes(response.data.servicedPets.map((pet: ServicedPetItem) => pet.Pet_type))
+				dispatchers.setExpandedPetTypes(response.data.servicedPets.map((pet: ServicedPetItem) => pet.petType))
 			}
 			if (_.has(response.data, "publiclyAvailable")) dispatchers.setPubliclyAvailable(response.data.publiclyAvailable)
 			// if (response.data.pictures) ; //set pictures

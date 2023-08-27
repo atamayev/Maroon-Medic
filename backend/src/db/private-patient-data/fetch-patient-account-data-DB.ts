@@ -23,8 +23,9 @@ export default new class FetchPatientAccountDataDB {
 	}
 
 	async petData (PatientID: number): Promise<CompletePetInfo[]> {
-		const sql = `SELECT ${mysqlTables.pet_info}.Name, ${mysqlTables.pet_info}.Gender, ${mysqlTables.pet_info}.DOB,
-    ${mysqlTables.pet_list}.Pet, ${mysqlTables.pet_list}.Pet_type, ${mysqlTables.pet_info}.pet_infoID
+		const sql = `SELECT ${mysqlTables.pet_info}.name, ${mysqlTables.pet_info}.gender,
+			${mysqlTables.pet_info}.date_of_birth AS dateOfBirth,
+    		${mysqlTables.pet_list}.pet, ${mysqlTables.pet_list}.pet_type AS petType, ${mysqlTables.pet_info}.pet_infoID
         FROM ${mysqlTables.pet_info}
             JOIN ${mysqlTables.pet_list} ON ${mysqlTables.pet_info}.pet_ID = ${mysqlTables.pet_list}.pet_listID
         WHERE

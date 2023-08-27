@@ -9,18 +9,18 @@ declare global {
   }
 
   interface PetDetails {
-    Name: string
-    Gender: string
-    DOB: MysqlTimestamp
+    name: string
+    gender: string
+    dateOfBirth: MysqlTimestamp
     pet_listID: number
   }
 
   interface CompletePetInfo {
-    Name: string
-    Gender: string
-    DOB: string
-    Pet: string
-    Pet_type: string
+    name: string
+    gender: string
+    dateOfBirth: string
+    pet: string
+    petType: string
     pet_infoID: number
     insuranceName: string
   }

@@ -5,8 +5,8 @@ const SelectYear = ({ personalInfo, setPersonalInfo }: PersonalInfoProps) => {
 		<>
 			<label>
         Year:
-				<select required value = {personalInfo.DOB_year || -1}
-					onChange = {(event) => setPersonalInfo({...personalInfo, DOB_year: +event.target.value})}
+				<select required value = {personalInfo.birthYear || -1}
+					onChange = {(event) => setPersonalInfo({...personalInfo, birthYear: +event.target.value})}
 				>
 					<option value = {-1} disabled>
             Select Year

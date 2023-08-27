@@ -3,15 +3,15 @@ import TimeUtils from "./time"
 import _ from "lodash"
 
 export default new class Format {
-	personalData(results: {FirstName: string, LastName: string, Gender: string, DOB: string}): FormattedPersonalData {
-		const DOB: Dayjs = TimeUtils.simpleDayJSConvert(results.DOB)
+	personalData(results: {FirstName: string, LastName: string, gender: string, dateOfBirth: string}): FormattedPersonalData {
+		const dateOfBirth: Dayjs = TimeUtils.simpleDayJSConvert(results.dateOfBirth)
 		const PersonalData = {
 			FirstName: results.FirstName,
 			LastName: results.LastName,
-			Gender: results.Gender,
-			DOB_month: DOB.format("MMMM"),
-			DOB_day: DOB.date(),
-			DOB_year: DOB.year()
+			gender: results.gender,
+			birthMonth: dateOfBirth.format("MMMM"),
+			birthDay: dateOfBirth.date(),
+			birthYear: dateOfBirth.year()
 		}
 		return PersonalData
 	}

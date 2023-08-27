@@ -5,8 +5,8 @@ const SelectDay = ({ personalInfo, setPersonalInfo }: PersonalInfoProps) => {
 		<>
 			<label>
         Day:
-				<select required value = {personalInfo.DOB_day || -1}
-					onChange = {(event) => setPersonalInfo({...personalInfo, DOB_day: +event.target.value})}
+				<select required value = {personalInfo.birthDay || -1}
+					onChange = {(event) => setPersonalInfo({...personalInfo, birthDay: +event.target.value})}
 				>
 					<option value = {-1} disabled>
             Select Day

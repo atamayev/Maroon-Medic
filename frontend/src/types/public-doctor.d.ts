@@ -9,7 +9,7 @@ declare global {
   }
 
   type ServicedPetData = {
-    pet_type: string
+    petType: string
     pet: string
   }
 

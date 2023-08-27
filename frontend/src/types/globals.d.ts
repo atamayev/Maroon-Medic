@@ -2,7 +2,7 @@ declare global {
   interface DoctorPersonalData {
 	FirstName: string
 	LastName: string
-	Gender: string
+	gender: string
 	NVI: number
   }
 
@@ -15,10 +15,10 @@ declare global {
   interface BirthDateInfo {
 	FirstName: string,
 	LastName: string,
-	DOB_month: string,
-	DOB_day: number,
-	DOB_year: number,
-	Gender: string
+	birthMonth: string,
+	birthDay: number,
+	birthYear: number,
+	gender: string
   }
 
   interface TimeState {
@@ -54,10 +54,10 @@ declare global {
   }
 
   interface DashboardDataType {
-	AppointmentsID: number
-	Doctor_confirmation_status: boolean
+	appointmentsID: number
+	doctor_confirmation_status: boolean
 	Category_name: string
-	Created_at: MysqlTimestamp
+	created_at: MysqlTimestamp
 	Service_name: string
 	address_line_1: string
 	address_line_2: string
@@ -68,8 +68,9 @@ declare global {
 	city: string
 	patient_message: string
 	state: string
-	zip: string
 	country: string
+	zip: string
+	petName: string
   }
 
   interface AuthCredentials {

@@ -18,7 +18,7 @@ const SavedPetDataTitle = (props: Props) => {
 	return (
 		<div className="flex justify-between items-center p-2 bg-yellow-200 border-b border-brown-400">
 			<span className="text-brown-800 font-bold">
-				{pet.Name}
+				{pet.name}
 			</span>
 			<Button
 				colorClass = "bg-red-500"
