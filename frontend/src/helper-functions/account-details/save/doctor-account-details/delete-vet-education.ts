@@ -10,7 +10,7 @@ export default async function deleteVetEducation(
 	try {
 		const response = await PrivateDoctorDataService.deleteVetEducationData(vetEducationMappingID)
 		if (response.status === 200) {
-			const newVetEducation = vetEducation.filter(object => object.vet_education_mappingID !== vetEducationMappingID)
+			const newVetEducation = vetEducation.filter(object => object.vetEducationMappingId !== vetEducationMappingID)
 			setVetEducation(newVetEducation)
 			const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") || "{}")
 			DoctorAccountDetails.vetEducation = newVetEducation

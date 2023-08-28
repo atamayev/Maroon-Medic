@@ -17,7 +17,7 @@ export const SavedLanguageList = (props: SavedLanguageList) => {
 		<ul>
 			{spokenLanguages.map((language) => (
 				<SingleSavedLanguage
-					key = {language.language_listID}
+					key = {language.languageListId}
 					language = {language}
 					deleteStatuses = {deleteStatuses}
 					setDeleteStatuses = {setDeleteStatuses}

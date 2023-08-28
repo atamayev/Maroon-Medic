@@ -20,8 +20,8 @@ export default new class FetchDoctorAccountData {
 			const educationData = await retrievalFunction(DoctorID)
 			const newResults = educationData.map((obj: T) => ({
 				...obj,
-				Start_Date: Format.educationDates(obj.Start_Date),
-				End_Date: Format.educationDates(obj.End_Date)
+				startDate: Format.educationDates(obj.startDate),
+				endDate: Format.educationDates(obj.endDate)
 			}))
 			return newResults
 		} catch (error: unknown) {

@@ -16,12 +16,12 @@ export default async function addPreVetEducation(
 			Major_ID: listDetails.majors.find(major => major.majorName === preVetGeneralEducationItem.majorName)!.major_listID,
 			Education_type_ID: listDetails.preVetEducationTypes.find(
 				educationType => educationType.educationType === preVetGeneralEducationItem.educationType)!.pre_vet_education_typeID,
-			Start_date: moment(preVetGeneralEducationItem.Start_Date, "MMMM D, YYYY").format("YYYY-MM-DD"),
-			End_date: moment(preVetGeneralEducationItem.End_Date, "MMMM D, YYYY").format("YYYY-MM-DD")
+			startDate: moment(preVetGeneralEducationItem.startDate, "MMMM D, YYYY").format("YYYY-MM-DD"),
+			endDate: moment(preVetGeneralEducationItem.endDate, "MMMM D, YYYY").format("YYYY-MM-DD")
 		}
 		const response = await PrivateDoctorDataService.addPreVetEducationData(mappedPreVetGeneralEducationItem)
 		if (response.status === 200) {
-			preVetGeneralEducationItem.pre_vet_education_mappingID = response.data
+			preVetGeneralEducationItem.preVetEducationMappingId = response.data
 			const newPreVetEducation = [...preVetEducation, preVetGeneralEducationItem]
 			setPreVetEducation(newPreVetEducation)
 			const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") || "{}")

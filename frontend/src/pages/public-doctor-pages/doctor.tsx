@@ -23,7 +23,7 @@ export default function Doctor () {
 	const [vetEducation, setVetEducation] = useState([])
 	const [addresses, setAddresses] = useState<PublicAddressData[]>(
 		[{ address_priority: 0, addressesID: -1, address_title: "", address_line_1  : "", address_line_2: "",
-			city: "", state: "", zip: "", country: "", phone: "", instant_book: false, times:[]
+			city: "", state: "", zip: "", country: "", phone: "", instantBook: false, times:[]
 		}])
 	const [description, setDescription] = useState("")
 	const [servicedPets, setServicedPets] = useState([])

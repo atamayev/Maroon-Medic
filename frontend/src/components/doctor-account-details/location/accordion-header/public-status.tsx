@@ -4,7 +4,7 @@ interface Props {
   address: DoctorAddressData
   handleToggleChange: (
     addressPriority: number,
-    field: keyof Pick<DoctorAddressData, "address_public_status" | "instant_book">
+    field: keyof Pick<DoctorAddressData, "address_public_status" | "instantBook">
   ) => void
 }
 

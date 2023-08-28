@@ -49,7 +49,7 @@ function VetEducation(props: Props) {
 		// Go through each status
 		for (const vetEducationMappingID in newDeleteStatuses) {
 			// If the language ID does not exist in the vetEducation list, delete the status
-			if (!vetEducation.some((_vetEducation) => _vetEducation.vet_education_mappingID === Number(vetEducationMappingID))) {
+			if (!vetEducation.some((_vetEducation) => _vetEducation.vetEducationMappingId === Number(vetEducationMappingID))) {
 				delete newDeleteStatuses[vetEducationMappingID]
 			}
 		}

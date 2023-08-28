@@ -9,7 +9,7 @@ interface FinalizeBookingProps {
 }
 
 const ConfirmOrRequestMessage = (selectedLocation: PublicAddressData) => {
-	if (selectedLocation.instant_book) return "Confirm"
+	if (selectedLocation.instantBook) return "Confirm"
 	return "Request"
 }
 

@@ -89,7 +89,7 @@ SELECT * FROM descriptions;
 
 CREATE TABLE insurance_list(
 	insurance_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	insurance_name VARCHAR(200)
+	insurance_name VARCHAR(200) NOT NULL
 );
 
 SELECT * FROM insurance_list;
@@ -107,8 +107,8 @@ SELECT * FROM insurance_mapping;
 
 CREATE TABLE service_and_category_list(
 	service_and_category_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	category_name VARCHAR(250),
-	service_name VARCHAR(250)
+	category_name VARCHAR(250) NOT NULL,
+	service_name VARCHAR(250) NOT NULL
 );
 
 SELECT * FROM service_and_category_list;
@@ -136,7 +136,7 @@ CREATE TABLE pictures(
 
 CREATE TABLE language_list(
 	language_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	language_name VARCHAR(150)
+	language_name VARCHAR(150) NOT NULL
 );
 
 SELECT * FROM language_list;
@@ -154,21 +154,21 @@ SELECT * FROM language_mapping;
 
 CREATE TABLE pre_vet_school_list(
 	pre_vet_school_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	school_name VARCHAR(300)
+	school_name VARCHAR(300) NOT NULL
 );
 
 SELECT * FROM pre_vet_school_list;
 
 CREATE TABLE major_list(
 	major_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	major_name VARCHAR(300)
+	major_name VARCHAR(300) NOT NULL
 );
 
 SELECT * FROM major_list;
 
 CREATE TABLE pre_vet_education_type_list(
 	pre_vet_education_typeID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	education_type VARCHAR(150)
+	education_type VARCHAR(150) NOT NULL
 );
 
 SELECT * FROM pre_vet_education_type_list;
@@ -178,8 +178,8 @@ CREATE TABLE pre_vet_education_mapping(
 	School_ID INT unsigned NOT NULL,
 	Major_ID INT unsigned NOT NULL,
 	Education_type_ID INT unsigned NOT NULL,
-	Start_Date DATE NOT NULL,
-	End_Date DATE NOT NULL,
+	start_date DATE NOT NULL,
+	end_date DATE NOT NULL,
 	Doctor_ID INT unsigned NOT NULL,
 	FOREIGN KEY (School_ID) REFERENCES pre_vet_school_list(pre_vet_school_listID),
 	FOREIGN KEY (Major_ID) REFERENCES major_list(major_listID),
@@ -192,14 +192,14 @@ SELECT * FROM pre_vet_education_mapping;
 
 CREATE TABLE vet_school_list(
 	vet_school_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	school_name VARCHAR(300)
+	school_name VARCHAR(300) NOT NULL
 );
 
 SELECT * FROM vet_school_list;
 
 CREATE TABLE vet_education_type_list(
 	vet_education_typeID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	Education_type VARCHAR(150)
+	education_type VARCHAR(150) NOT NULL
 );
 
 SELECT * FROM vet_education_type_list;
@@ -208,8 +208,8 @@ CREATE TABLE vet_education_mapping(
 	vet_education_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	School_ID INT unsigned NOT NULL,
 	Education_type_ID INT unsigned NOT NULL,
-	Start_Date DATE NOT NULL,
-	End_Date DATE NOT NULL,
+	start_date DATE NOT NULL,
+	end_date DATE NOT NULL,
 	Doctor_ID INT unsigned NOT NULL,
 	FOREIGN KEY (School_ID) REFERENCES vet_school_list(vet_school_listID),
 	FOREIGN KEY (Education_type_ID) REFERENCES vet_education_type_list(vet_education_typeID),
@@ -217,12 +217,13 @@ CREATE TABLE vet_education_mapping(
 	UNIQUE (School_ID, Education_type_ID, Doctor_ID)
 );
 
+
 SELECT * FROM vet_education_mapping;
 
 CREATE TABLE specialties_list(
 	specialties_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	organization_name VARCHAR(300),
-	specialty_name VARCHAR(300)
+	organization_name VARCHAR(300) NOT NULL,
+	specialty_name VARCHAR(300) NOT NULL
 );
 
 SELECT * FROM specialties_list;

@@ -38,7 +38,7 @@ function Education({ educationList, hasMajor } : EducationProps) {
 				<p key = {index}>
 					{edu.schoolName}, {edu.educationType}
 					{hasMajor ? ` in ${edu.majorName}` : ""} {" "}
-          ({edu.Start_Date} - {edu.End_Date})
+          ({edu.startDate} - {edu.endDate})
 				</p>
 			))}
 		</>

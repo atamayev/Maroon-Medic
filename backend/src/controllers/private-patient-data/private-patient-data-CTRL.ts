@@ -28,8 +28,8 @@ export async function fetchDashboardData (req: Request, res: Response): Promise<
 	try {
 		const DashboardData = await PrivatePatientDataDB.retrievePatientDashboard(PatientID)
 		for (const singleAppointment of DashboardData) {
-			singleAppointment.appointment_date = TimeUtils.convertMySQLDateIntoReadableString(singleAppointment.appointment_date)
-			singleAppointment.created_at = TimeUtils.convertMySQLDateIntoReadableString(singleAppointment.created_at)
+			singleAppointment.appointmentDate = TimeUtils.convertMySQLDateIntoReadableString(singleAppointment.appointmentDate)
+			singleAppointment.createdAt = TimeUtils.convertMySQLDateIntoReadableString(singleAppointment.createdAt)
 		}
 		return res.status(200).json(DashboardData)
 	} catch (error: unknown) {

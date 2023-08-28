@@ -6,9 +6,9 @@ export default function useGenerateLanguageOptions(languages: LanguageItem[], sp
 		if (!(_.isArray(languages) && !_.isEmpty(languages))) return []
 
 		return languages
-			.filter((language) => !spokenLanguages.find((spoken) => spoken.language_listID === language.language_listID))
+			.filter((language) => !spokenLanguages.find((spoken) => spoken.languageListId === language.languageListId))
 			.map((language) => (
-				<option key = {language.language_listID} value = {language.language_listID}>
+				<option key = {language.languageListId} value = {language.languageListId}>
 					{language.languageName}
 				</option>
 			))

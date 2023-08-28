@@ -3,7 +3,7 @@ import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle
 
 function petDataOperations(petData: PetItemForCreation, responseData: number): SavedPetItem {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { pet_listID, insurance_listID, ...rest } = petData
+	const { petListId, insurance_listID, ...rest } = petData
 	return {
 		...rest,
 		pet_infoID: responseData,

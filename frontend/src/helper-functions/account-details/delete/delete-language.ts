@@ -8,12 +8,12 @@ export const deleteLanguage = async (
 	setLanguagesConfirmation: (conf: ConfirmationMessage) => void,
 	doctorOrPatient: doctorOrpatient
 ): Promise<void> => {
-	const newSpokenLanguages = spokenLanguages.filter(l => l.language_listID !== language.language_listID)
+	const newSpokenLanguages = spokenLanguages.filter(l => l.languageListId !== language.languageListId)
 	if (doctorOrPatient === "doctor") {
-		await deleteDoctorLanguages(language.language_listID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
+		await deleteDoctorLanguages(language.languageListId, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
 	}
 	else {
-		await deletePatientLanguages(language.language_listID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
+		await deletePatientLanguages(language.languageListId, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
 	}
 }
 

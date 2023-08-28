@@ -14,12 +14,12 @@ export default async function addVetEducation(
 			School_ID: listDetails.vetSchools.find(school => school.schoolName === vetGeneralEducationItem.schoolName)!.vet_school_listID,
 			Education_type_ID: listDetails.vetEducationTypes.find(
 				educationType => educationType.educationType === vetGeneralEducationItem.educationType)!.vet_education_typeID,
-			Start_date: moment(vetGeneralEducationItem.Start_Date, "MMMM D, YYYY").format("YYYY-MM-DD"),
-			End_date: moment(vetGeneralEducationItem.End_Date, "MMMM D, YYYY").format("YYYY-MM-DD")
+			startDate: moment(vetGeneralEducationItem.startDate, "MMMM D, YYYY").format("YYYY-MM-DD"),
+			endDate: moment(vetGeneralEducationItem.endDate, "MMMM D, YYYY").format("YYYY-MM-DD")
 		}
 		const response = await PrivateDoctorDataService.addVetEducationData(mappedVetGeneralEducationItem)
 		if (response.status === 200) {
-			vetGeneralEducationItem.vet_education_mappingID = response.data
+			vetGeneralEducationItem.vetEducationMappingId = response.data
 			const newVetEducation = [...vetEducation, vetGeneralEducationItem]
 			setVetEducation(newVetEducation)
 			const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") || "{}")

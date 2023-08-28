@@ -6,7 +6,7 @@ const PastAppointmentCard = ({ appointment }: { appointment: PatientDashboardDat
 			<div className="p-4">
 				<div className="flex justify-between items-center">
 					<span className="text-brown-800 font-bold">
-            Appointment with Dr. {appointment.Doctor_FirstName} {appointment.Doctor_LastName} on {appointment.appointment_date}
+            Appointment with Dr. {appointment.Doctor_FirstName} {appointment.Doctor_LastName} on {appointment.appointmentDate}
 					</span>
 					<AppointmentConfirmationStatus appointment={appointment} />
 				</div>

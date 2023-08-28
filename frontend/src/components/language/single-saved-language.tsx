@@ -10,12 +10,12 @@ interface SingleLanguageProps {
 const SingleSavedLanguage = (props: SingleLanguageProps) => {
 	const { language, deleteStatuses, setDeleteStatuses, handleDeleteLanguage } = props
 
-	const status = deleteStatuses[language.language_listID] || "initial"
+	const status = deleteStatuses[language.languageListId] || "initial"
 
 	const setStatus = (newStatus: DeleteStatuses) => {
 		setDeleteStatuses((prevStatuses) => ({
 			...prevStatuses,
-			[language.language_listID]: newStatus,
+			[language.languageListId]: newStatus,
 		}))
 	}
 

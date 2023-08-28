@@ -1,6 +1,6 @@
 declare global {
   type ServiceItem = {
-	service_and_category_listID: number
+	serviceAndCategoryListId: number
 	serviceTime: string
 	servicePrice: number
   }
@@ -11,7 +11,7 @@ declare global {
   }
 
   type OrganizationSpecialty = {
-	specialties_listID: number
+	specialtiesListId: number
 	organizationName: string
 	specialtyName: string
   }
@@ -33,12 +33,12 @@ declare global {
   }
 
   interface DashboardDataType {
-    appointmentsID: number
-    appointment_date: MysqlTimestamp
-    appointment_price: number
-    patient_message: string
+    appointmentsId: number
+    appointmentDate: MysqlTimestamp
+    appointmentPrice: number
+    patientMessage: string
     doctorConfirmationStatus: boolean
-    created_at: MysqlTimestamp
+    createdAt: MysqlTimestamp
     categoryName: string
     serviceName: string
     address_title: string
@@ -60,7 +60,7 @@ declare global {
     state: string
     zip: string
     country: string
-    instant_book: boolean
+    instantBook: boolean
   }
 }
 

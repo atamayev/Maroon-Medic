@@ -14,7 +14,7 @@ const SavedVetEducationList = (props: Props) => {
 		<ul>
 			{vetEducation.map((singleVetEducation) => (
 				<SingleSavedVetEducation
-					key = {singleVetEducation.vet_education_mappingID}
+					key = {singleVetEducation.vetEducationMappingId}
 					singleVetEducation = {singleVetEducation}
 					deleteStatuses = {deleteStatuses}
 					setDeleteStatuses = {setDeleteStatuses}

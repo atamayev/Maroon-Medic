@@ -33,8 +33,8 @@ export default new class FetchPublicDoctorDataDB {
 
 	async preVetEducation (DoctorID: number): Promise<PreVetEducation[]> {
 		const sql = `SELECT ${mysqlTables.pre_vet_school_list}.school_name AS schoolName, ${mysqlTables.major_list}.major_name AS majorName,
-    ${mysqlTables.pre_vet_education_type_list}.education_type as educationType, ${mysqlTables.pre_vet_education_mapping}.Start_Date,
-    ${mysqlTables.pre_vet_education_mapping}.End_Date
+    ${mysqlTables.pre_vet_education_type_list}.education_type as educationType, ${mysqlTables.pre_vet_education_mapping}.start_date,
+    ${mysqlTables.pre_vet_education_mapping}.end_date
       FROM ${mysqlTables.pre_vet_education_mapping}, ${mysqlTables.pre_vet_school_list},
       ${mysqlTables.major_list}, ${mysqlTables.pre_vet_education_type_list}
       WHERE ${mysqlTables.pre_vet_education_mapping}.School_ID = ${mysqlTables.pre_vet_school_list}.pre_vet_school_listID
@@ -52,7 +52,7 @@ export default new class FetchPublicDoctorDataDB {
 	async vetEducation (DoctorID: number): Promise<VetEducation[]> {
 		const sql = `SELECT ${mysqlTables.vet_school_list}.school_name AS schoolName,
 			${mysqlTables.vet_education_type_list}.education_type as educationType,
-			${mysqlTables.vet_education_mapping}.Start_Date, ${mysqlTables.vet_education_mapping}.End_Date
+			${mysqlTables.vet_education_mapping}.start_date, ${mysqlTables.vet_education_mapping}.end_date
 			FROM ${mysqlTables.vet_education_mapping}, ${mysqlTables.vet_school_list}, ${mysqlTables.vet_education_type_list}
 			WHERE
 				${mysqlTables.vet_education_mapping}.School_ID = ${mysqlTables.vet_school_list}.vet_school_listID
@@ -85,7 +85,7 @@ export default new class FetchPublicDoctorDataDB {
           ${mysqlTables.addresses}.addressesID, ${mysqlTables.addresses}.address_title, ${mysqlTables.addresses}.address_line_1,
           ${mysqlTables.addresses}.address_line_2, ${mysqlTables.addresses}.city, ${mysqlTables.addresses}.state,
           ${mysqlTables.addresses}.zip, ${mysqlTables.addresses}.country, ${mysqlTables.addresses}.address_priority,
-          ${mysqlTables.addresses}.instant_book,
+          ${mysqlTables.addresses}.instant_book AS instantBook,
           ${mysqlTables.doctor_phone_numbers}.phone
       FROM ${mysqlTables.addresses}, ${mysqlTables.doctor_phone_numbers}
       WHERE

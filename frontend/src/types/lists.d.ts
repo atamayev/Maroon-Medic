@@ -22,7 +22,7 @@ declare global {
   }
 
   type ServicedPetItem = {
-    pet_listID: number
+    petListId: number
     pet: string
     petType: string
   }
@@ -58,13 +58,13 @@ declare global {
   }
 
   type SpecialtyItem = {
-    specialties_listID: number
+    specialtiesListId: number
     organizationName: string
     specialtyName: string
   }
 
   type LanguageItem = {
-    language_listID: number
+    languageListId: number
     languageName: string
   }
 }

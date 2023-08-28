@@ -21,12 +21,12 @@ export default new class CalendarDB {
 	): Promise<void> {
 		const sql = `INSERT INTO ${mysqlTables.appointments}
       (appointment_date, appointment_price, appointment_timespan, patient_message, doctor_confirmation_status,
-        Service_and_category_list_ID, pet_info_ID, Patient_ID, Doctor_ID, Addresses_ID, created_at)
+        service_and_category_list_ID, pet_info_ID, Patient_ID, Doctor_ID, Addresses_ID, created_at)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
 
 		const values = [dateTime, AppointmentObject.appointmentPrice, AppointmentObject.appointmentTimespan, AppointmentObject.message,
-			AppointmentObject.InstantBook, AppointmentObject.Service_and_category_list_ID,
-			AppointmentObject.selectedPetID, PatientID, DoctorID, AppointmentObject.AddressesID, createdAt
+			AppointmentObject.instantBook, AppointmentObject.serviceAndCategoryListID,
+			AppointmentObject.selectedPetID, PatientID, DoctorID, AppointmentObject.addressesID, createdAt
 		]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
@@ -34,24 +34,24 @@ export default new class CalendarDB {
 
 	async retrieveDoctorCalendarDetails (DoctorID: number): Promise<CalendarData[]> {
 		const sql = `SELECT
-        ${mysqlTables.appointments}.mysqlTables.appointmentsID, ${mysqlTables.appointments}.appointment_date,
-        ${mysqlTables.appointments}.appointment_price, ${mysqlTables.appointments}.appointment_timespan,
-        ${mysqlTables.appointments}.patient_message, ${mysqlTables.appointments}.doctor_confirmation_status AS doctorConfirmationStatus,
-        ${mysqlTables.appointments}.created_at,
+        ${mysqlTables.appointments}.mysqlTables.appointmentsID, ${mysqlTables.appointments}.appointment_date AS appointmentDate,
+        ${mysqlTables.appointments}.appointment_price AS appointmentPrice,
+		${mysqlTables.appointments}.appointment_timespan AS appointmentTimespan,
+		${mysqlTables.appointments}.patient_message AS patientMessage,
+		${mysqlTables.appointments}.doctor_confirmation_status AS doctorConfirmationStatus,
+		${mysqlTables.appointments}.created_at AS createdAt,
         ${mysqlTables.service_and_category_list}.category_name AS categoryName,
 		${mysqlTables.service_and_category_list}.service_name AS serviceName,
         ${mysqlTables.addresses}.address_title, ${mysqlTables.addresses}.address_line_1,
         ${mysqlTables.addresses}.address_line_2, ${mysqlTables.addresses}.city,
         ${mysqlTables.addresses}.state, ${mysqlTables.addresses}.zip, ${mysqlTables.addresses}.country,
         ${mysqlTables.basic_user_info}.first_name AS Patient_FirstName, ${mysqlTables.basic_user_info}.last_name AS Patient_LastName,
-        ${mysqlTables.pet_info}.name as petName
+        ${mysqlTables.pet_info}.name AS petName
       FROM ${mysqlTables.appointments}
         INNER JOIN ${mysqlTables.service_and_category_list} ON
-          ${mysqlTables.appointments}.${mysqlTables.service_and_category_list}_ID =
-          ${mysqlTables.service_and_category_list}.${mysqlTables.service_and_category_list}ID
+          ${mysqlTables.appointments}.service_and_category_list_ID = ${mysqlTables.service_and_category_list}.service_and_category_listID
         INNER JOIN ${mysqlTables.addresses} ON
-          ${mysqlTables.appointments}.${mysqlTables.addresses}_ID =
-          ${mysqlTables.addresses}.${mysqlTables.addresses}ID
+          ${mysqlTables.appointments}.addresses_ID = ${mysqlTables.addresses}.addressesID
           AND ${mysqlTables.addresses}.Doctor_ID = ${mysqlTables.appointments}.Doctor_ID
         INNER JOIN ${mysqlTables.pet_info} ON
         ${mysqlTables.appointments}.mysqlTables.pet_info_ID = ${mysqlTables.pet_info}.mysqlTables.pet_infoID

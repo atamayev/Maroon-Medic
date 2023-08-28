@@ -7,8 +7,8 @@ export const deleteSpecialty = async (
 	setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>,
 	setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> => {
-	const newDoctorSpecialties = doctorSpecialties.filter(s => s.specialties_listID !== specialty.specialties_listID)
-	await deleteSpecialties(specialty.specialties_listID, newDoctorSpecialties,
+	const newDoctorSpecialties = doctorSpecialties.filter(s => s.specialtiesListId !== specialty.specialtiesListId)
+	await deleteSpecialties(specialty.specialtiesListId, newDoctorSpecialties,
 		setDoctorSpecialties, setSelectedOrganization, setSpecialtiesConfirmation
 	)
 }

@@ -12,7 +12,7 @@ declare global {
     name: string
     gender: string
     dateOfBirth: MysqlTimestamp
-    pet_listID: number
+    petListId: number
   }
 
   interface CompletePetInfo {

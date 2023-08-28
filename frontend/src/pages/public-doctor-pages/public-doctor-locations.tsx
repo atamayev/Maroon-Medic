@@ -15,7 +15,7 @@ export default function LocationsSection( { addresses } : {addresses: PublicAddr
 
 function Locations({ addressesList }: { addressesList: PublicAddressData[] }) {
 	const InstantBook = ({ address }: {address: PublicAddressData}) => {
-		if (address.instant_book) return <>Instant book available</>
+		if (address.instantBook) return <>Instant book available</>
 		return <>Instant book unavailable</>
 	}
 

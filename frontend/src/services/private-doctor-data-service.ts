@@ -4,8 +4,8 @@ interface EducationData {
   School_ID: number
   Major_ID?: number
   Education_type_ID: number
-  Start_date: string
-  End_date: string
+  startDate: string
+  endDate: string
 }
 
 export default new class PrivateDoctorDataService {

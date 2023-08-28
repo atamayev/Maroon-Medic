@@ -7,10 +7,9 @@ ASAP:
 	Change all DB fields to snake case, change sql accordingly
 	make casing lowercase for hte appointments table
 	In doing this, change all variables to camelcase. (first_name AS firstName)
-	Enforce camelcase for variable names in TS
-
-Change all the list tables entries to be not null (ie specialty name, etc.)
-Change mysql table names to be snake case
+	Enforce camelcase for variable names in TS (remove all aliases from the DB commands, use the camelcase function instead)
+		ctrl f AS
+10. Enforce camel, pascal casing. see GPT
 10. Make the pets in the patient header be the pets that the user has
 11. Fix calendar appointments not rendering
 

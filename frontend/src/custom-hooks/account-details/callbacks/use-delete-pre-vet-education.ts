@@ -9,7 +9,7 @@ export const useDeletePreVetEducation = (
 	return useCallback(
 		async (PreVetEducation: PreVetEducationItem) => {
 			await deletePreVetEducation(
-				PreVetEducation.pre_vet_education_mappingID,
+				PreVetEducation.preVetEducationMappingId,
 				preVetEducation,
 				setPreVetEducation,
 				setPreVetEducationConfirmation

@@ -9,7 +9,7 @@ export const addLanguage = async (
 	setLanguagesConfirmation: (conf: ConfirmationMessage) => void,
 	doctorOrPatient: doctorOrpatient
 ): Promise<void> => {
-	const selectedLanguage = listDetails.languages.find((lang) => lang.language_listID === selectedLanguageID)
+	const selectedLanguage = listDetails.languages.find((lang) => lang.languageListId === selectedLanguageID)
 
 	if (selectedLanguage) {
 		const newSpokenLanguages = [...spokenLanguages, selectedLanguage]

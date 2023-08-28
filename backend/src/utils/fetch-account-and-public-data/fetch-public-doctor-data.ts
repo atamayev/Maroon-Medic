@@ -20,8 +20,8 @@ export default new class FetchPublicDoctorData {
 			const educationData = await retrievalFunction(DoctorID)
 			const newResults = educationData.map((object: T) => ({
 				...object,
-				Start_Date: Format.educationDates(object.Start_Date),
-				End_Date: Format.educationDates(object.End_Date)
+				startDate: Format.educationDates(object.startDate),
+				endDate: Format.educationDates(object.endDate)
 			}))
 			return newResults
 		} catch (error: unknown) {

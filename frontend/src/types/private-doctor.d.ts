@@ -29,8 +29,8 @@ declare global {
   interface EducationBase {
     schoolName: string
     educationType: string
-    Start_Date: string
-    End_Date: string
+    startDate: string
+    endDate: string
   }
 
   type GeneralEducationItem = EducationBase & {
@@ -38,12 +38,12 @@ declare global {
   }
 
   type PreVetEducationItem = EducationBase & {
-    pre_vet_education_mappingID: number
+    preVetEducationMappingId: number
     majorName: string
   }
 
   type VetEducationItem = EducationBase & {
-    vet_education_mappingID: number
+    vetEducationMappingId: number
   }
 
   type PicturesItem = {

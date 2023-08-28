@@ -16,6 +16,7 @@ export default new class FetchAll {
 			redisClient.set(tableName, JSON.stringify(results)).catch(error => console.error(error))
 			return results
 		} catch (error: unknown) {
+			console.log(error)
 			return []
 		}
 	}

@@ -6,9 +6,9 @@ export default async function fetchDoctorCalendarDetails(): Promise<DoctorCalend
 		const response = await CalendarDataService.fillCalendarDetails()
 		if (response.status === 200) {
 			const events: DoctorCalendarEvent[] = response.data.map((appointment: DoctorDashboardData) => {
-				const startTime = new Date(appointment.appointment_date)
+				const startTime = new Date(appointment.appointmentDate)
 				const endTime = new Date(startTime)
-				endTime.setMinutes(startTime.getMinutes() + appointment.appointment_timespan)
+				endTime.setMinutes(startTime.getMinutes() + appointment.appointmentTimespan)
 				return {
 					title: appointment.serviceName,
 					start: startTime,

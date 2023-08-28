@@ -38,7 +38,7 @@ declare global {
 	state: string
 	zip: string
 	country: string
-	instant_book: boolean
+	instantBook: boolean
 	address_public_status: boolean
 	phone: string
   }
@@ -54,19 +54,19 @@ declare global {
   }
 
   interface DashboardDataType {
-	appointmentsID: number
+	appointmentsId: number
 	doctorConfirmationStatus: boolean
 	categoryName: string
-	created_at: MysqlTimestamp
+	createdAt: MysqlTimestamp
 	serviceName: string
 	address_line_1: string
 	address_line_2: string
 	address_title: string
-	appointment_date: MysqlTimestamp
-	appointment_price: number
-	appointment_timespan: number
+	appointmentDate: MysqlTimestamp
+	appointmentPrice: number
+	appointmentTimespan: number
 	city: string
-	patient_message: string
+	patientMessage: string
 	state: string
 	country: string
 	zip: string

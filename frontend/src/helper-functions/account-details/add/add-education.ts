@@ -13,8 +13,8 @@ export const addEducation = (
 	const selectedEducationObj: GeneralEducationItem = {
 		schoolName: selectedSchool,
 		educationType: selectedEducationType,
-		Start_Date: moment(`${timeState.startYear}-${timeState.startMonth}-1`,"YYYY-MMMM-D").format("MMMM D, YYYY"),
-		End_Date: moment(`${timeState.endYear}-${timeState.endMonth}-1`,"YYYY-MMMM-D").format("MMMM D, YYYY"),
+		startDate: moment(`${timeState.startYear}-${timeState.startMonth}-1`,"YYYY-MMMM-D").format("MMMM D, YYYY"),
+		endDate: moment(`${timeState.endYear}-${timeState.endMonth}-1`,"YYYY-MMMM-D").format("MMMM D, YYYY"),
 	}
 	if (selectedMajor) selectedEducationObj.majorName = selectedMajor
 

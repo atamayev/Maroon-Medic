@@ -23,7 +23,7 @@ declare global {
     state: string
     zip: string
     country: string
-    instant_book: boolean
+    instantBook: boolean
     phone: string
     times: DoctorAvailability[]
   }

@@ -11,7 +11,7 @@ export default function useUpdateDeleteLanguageStatuses(
 		// Go through each status
 		for (const languageListID in newDeleteStatuses) {
 			// If the language ID does not exist in the spokenLanguages list, delete the status
-			if (!spokenLanguages.some((language) => language.language_listID === Number(languageListID))) {
+			if (!spokenLanguages.some((language) => language.languageListId === Number(languageListID))) {
 				delete newDeleteStatuses[languageListID]
 			}
 		}

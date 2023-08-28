@@ -16,13 +16,13 @@ declare global {
   }
 
   type ServiceListItem = {
-    service_and_category_listID: number
+    serviceAndCategoryListId: number
     categoryName: string
     serviceName: string
   }
 
   type ServicedPetItem = {
-    pet_listID: number
+    petListId: number
     pet: string
     petType: string
   }
@@ -58,10 +58,9 @@ declare global {
   }
 
   type LanguageItem = {
-    language_listID: number
+    languageListId: number
     languageName: string
   }
-
 }
 
 export {}

@@ -3,20 +3,20 @@ declare global {
 	appointmentPrice: number
 	appointmentTimespan: number
 	message: string
-	InstantBook: boolean
-	Service_and_category_list_ID: number
+	instantBook: boolean
+	serviceAndCategoryListID: number
 	selectedPetID: number
-	AddressesID: number
+	addressesID: number
   }
 
   interface CalendarData {
-	appointmentsID: number
-	appointment_date: MysqlTimestamp
-	appointment_price: number
-	patient_message: string
-	appointment_timespan: number
+	appointmentsId: number
+	appointmentDate: MysqlTimestamp
+	appointmentPrice: number
+	patientMessage: string
+	appointmentTimespan: number
 	doctorConfirmationStatus: boolean
-	created_at: MysqlTimestamp
+	createdAt: MysqlTimestamp
 	categoryName: string
 	serviceName: string
 	address_title: string

@@ -19,16 +19,16 @@ const ShowPetsSection = (props: Props) => {
 	return (
 		<div>
 			{pets.map((pet) => (
-				<div key = {pet.pet_listID} style = {{ paddingLeft: "20px" }}>
+				<div key = {pet.petListId} style = {{ paddingLeft: "20px" }}>
 					<input
 						type = "checkbox"
-						id = {`${petType}-${pet.pet_listID}`}
+						id = {`${petType}-${pet.petListId}`}
 						name = "pet"
-						value = {pet.pet_listID}
-						checked = {servicedPets.find((serviced) => serviced.pet_listID === pet.pet_listID) !== undefined}
+						value = {pet.petListId}
+						checked = {servicedPets.find((serviced) => serviced.petListId === pet.petListId) !== undefined}
 						onChange = {(event) => {handleCheckboxChange(event, pet)}}
 					/>
-					<label htmlFor = {`${petType}-${pet.pet_listID}`}>{pet.pet}</label>
+					<label htmlFor = {`${petType}-${pet.petListId}`}>{pet.pet}</label>
 				</div>
 			))}
 		</div>

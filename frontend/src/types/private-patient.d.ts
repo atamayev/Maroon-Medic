@@ -15,7 +15,7 @@ declare global {
 
   //This is the type for the pet data when it is being 'created' (not saved)
   type PetItemForCreation = BasePetInfo & {
-    pet_listID: number
+    petListId: number
     insurance_listID: number
   }
 

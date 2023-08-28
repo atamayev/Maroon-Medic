@@ -18,7 +18,7 @@ const AccordionHeader = (props: Props) => {
 
 	const handleToggleChange = (
 		addressPriority: number,
-		field: keyof Pick<DoctorAddressData, "address_public_status" | "instant_book">
+		field: keyof Pick<DoctorAddressData, "address_public_status" | "instantBook">
 	) => {
 		// Create a copy of the addresses state
 		const updatedAddresses = [...addresses]

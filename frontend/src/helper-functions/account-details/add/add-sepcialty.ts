@@ -8,7 +8,7 @@ export const addSpecialty = async (
 	listDetails: DoctorListDetails,
 	setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> => {
-	const selectedSpecialty = listDetails.specialties.find((spec) => spec.specialties_listID === selectedSpecialtyID)
+	const selectedSpecialty = listDetails.specialties.find((spec) => spec.specialtiesListId === selectedSpecialtyID)
 	if (selectedSpecialty) {
 		const newDoctorSpecialties = [...doctorSpecialties, selectedSpecialty]
 		await addSpecialties(

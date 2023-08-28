@@ -23,7 +23,7 @@ const PetTypeSection = (props: Props) => {
 			<option value = "" disabled>Select</option>
 			{petTypes.map((PetType) => (
 				<option
-					key = {PetType.pet_listID}
+					key = {PetType.petListId}
 					value = {PetType.pet}
 				>
 					{PetType.pet}

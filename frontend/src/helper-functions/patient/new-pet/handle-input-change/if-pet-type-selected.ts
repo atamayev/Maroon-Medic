@@ -10,7 +10,7 @@ const ifPetTypeSelected = (
 			...newPetData,
 			pet: selectedPetType.pet,
 			petType: selectedPetType.petType,
-			pet_listID: selectedPetType.pet_listID
+			petListId: selectedPetType.petListId
 		}
 
 		setNewPetData(newPet)

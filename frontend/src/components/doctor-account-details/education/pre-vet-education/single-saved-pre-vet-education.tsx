@@ -10,19 +10,19 @@ interface Props {
 const SingleSavedPreVetEducation = (props: Props) => {
 	const { singlePreVetEducation, deleteStatuses, setDeleteStatuses, handleDeleteOnClick } = props
 
-	const status: DeleteStatuses = deleteStatuses[singlePreVetEducation.pre_vet_education_mappingID] || "initial"
+	const status: DeleteStatuses = deleteStatuses[singlePreVetEducation.preVetEducationMappingId] || "initial"
 
 	const setStatus = (newStatus: DeleteStatuses) => {
 		setDeleteStatuses((prevStatuses) => ({
 			...prevStatuses,
-			[singlePreVetEducation.pre_vet_education_mappingID]: newStatus,
+			[singlePreVetEducation.preVetEducationMappingId]: newStatus,
 		}))
 	}
 
 	return (
 		<li>
 			{singlePreVetEducation.schoolName}, {singlePreVetEducation.educationType} in {singlePreVetEducation.majorName}
-			{" ("}{singlePreVetEducation.Start_Date} - {singlePreVetEducation.End_Date}{") "}
+			{" ("}{singlePreVetEducation.startDate} - {singlePreVetEducation.endDate}{") "}
 			<DeleteButtonOptions<PreVetEducationItem>
 				status = {status}
 				setStatus = {setStatus}

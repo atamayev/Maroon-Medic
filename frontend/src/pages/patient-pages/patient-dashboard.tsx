@@ -38,10 +38,10 @@ export default function PatientDashboard() {
 		if (!_.isEmpty(dashboardData) && userType === "Patient") {
 			const now = moment()
 			const pastPatientAppointments = dashboardData.filter(appointment =>
-				moment(appointment.appointment_date, "MMMM Do, YYYY, h:mm A") < now
+				moment(appointment.appointmentDate, "MMMM Do, YYYY, h:mm A") < now
 			)
 			const upcomingPatientAppointments = dashboardData.filter(appointment =>
-				moment(appointment.appointment_date, "MMMM Do, YYYY, h:mm A") >= now
+				moment(appointment.appointmentDate, "MMMM Do, YYYY, h:mm A") >= now
 			)
 
 			setPastAppointments(pastPatientAppointments)

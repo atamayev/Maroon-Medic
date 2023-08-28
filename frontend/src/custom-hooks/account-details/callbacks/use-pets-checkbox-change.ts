@@ -12,11 +12,11 @@ export const usePetsCheckboxChange = (
 			if (event.target.checked) {
 				const newServicedPets = [...servicedPets, pet]
 				setServicedPets(newServicedPets)
-				await addServicedPets(pet.pet_listID, newServicedPets, setServicedPets, setPetsConfirmation)
+				await addServicedPets(pet.petListId, newServicedPets, setServicedPets, setPetsConfirmation)
 			} else {
-				const newServicedPets = servicedPets.filter(p => p.pet_listID !== pet.pet_listID)
+				const newServicedPets = servicedPets.filter(p => p.petListId !== pet.petListId)
 				setServicedPets(newServicedPets)
-				await deleteServicedPets(pet.pet_listID, newServicedPets, setServicedPets, setPetsConfirmation)
+				await deleteServicedPets(pet.petListId, newServicedPets, setServicedPets, setPetsConfirmation)
 			}
 		}, [servicedPets, setServicedPets, setPetsConfirmation])
 }

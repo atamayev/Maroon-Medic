@@ -40,7 +40,7 @@ function VetSpecialties(props: Props) {
 		// Go through each status
 		for (const specialityListID in newDeleteStatuses) {
 			// If the language ID does not exist in the spokenLanguages list, delete the status
-			if (!doctorSpecialties.some((speciality) => speciality.specialties_listID === Number(specialityListID))) {
+			if (!doctorSpecialties.some((speciality) => speciality.specialtiesListId === Number(specialityListID))) {
 				delete newDeleteStatuses[specialityListID]
 			}
 		}
@@ -53,11 +53,11 @@ function VetSpecialties(props: Props) {
 			.filter((specialty) =>
 				!doctorSpecialties.find(
 					(doctorSpecialty) =>
-						doctorSpecialty.specialties_listID === specialty.specialties_listID
+						doctorSpecialty.specialtiesListId === specialty.specialtiesListId
 				)
 			)
 			.map((specialty) => (
-				<option key = {specialty.specialties_listID} value = {specialty.specialties_listID}>
+				<option key = {specialty.specialtiesListId} value = {specialty.specialtiesListId}>
 					{specialty.specialtyName}
 				</option>
 			))
