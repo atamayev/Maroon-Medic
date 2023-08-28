@@ -11,7 +11,7 @@ const SaveOrUpdateButton = (props: Props) => {
 	const { address, setAddresses, setAddressesConfirmation } = props
 	const nonExistantAddressesID = -1
 
-	if (address.addressesID === nonExistantAddressesID) {
+	if (address.addressesId === nonExistantAddressesID) {
 		return (
 			<AddLocationButton
 				address = {address}

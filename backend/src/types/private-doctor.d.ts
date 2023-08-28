@@ -1,7 +1,7 @@
 declare global {
   interface DoctorDashboardData extends DashboardDataType {
-    Patient_FirstName: string
-    Patient_LastName: string
+    patientFirstName: string
+    patientLastName: string
   }
 
   type DoctorPersonalInfoWithoutNVI = BasicPersonalInfo & {
@@ -43,19 +43,19 @@ declare global {
   }
 
   interface AddEducationItem {
-    School_ID: number
-    Education_type_ID: number
-    Start_date: string
-    End_date: string
+    schoolId: number
+    educationTypeId: number
+    startDate: string
+    endDate: string
   }
 
   type AddPreVetEducationItem = AddEducationItem & {
-    Major_ID: number
+    majorId: number
   }
 
   type DoctorStatus = {
-    PubliclyAvailable: boolean
-    Verified: boolean
+    publiclyAvailable: boolean
+    verified: boolean
   }
 
   type PicturesItem = {
@@ -66,11 +66,11 @@ declare global {
   type PrivateDoctorAddressData = AddressData & {
     phone: string
     times: DoctorAvailability[]
-    address_public_status: boolean
+    addressPublicStatus: boolean
   }
 
   type PrivateDoctorAddressLessTimesAndPhone = AddressData & {
-    address_public_status: boolean
+    addressPublicStatus: boolean
   }
 }
 

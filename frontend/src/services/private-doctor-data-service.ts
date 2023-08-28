@@ -1,9 +1,9 @@
 import http from "../http-common"
 
 interface EducationData {
-  School_ID: number
-  Major_ID?: number
-  Education_type_ID: number
+  schoolId: number
+  majorId?: number
+  educationTypeId: number
   startDate: string
   endDate: string
 }
@@ -67,7 +67,7 @@ export default new class PrivateDoctorDataService {
 		return await http.patch("/private-doctor-data/update-service", {serviceObject})
 	}
 	async deleteService(serviceObject: ServiceItemNotNullablePrice) {
-		return await http.delete(`/private-doctor-data/delete-service/${serviceObject.service_and_category_listID}`)
+		return await http.delete(`/private-doctor-data/delete-service/${serviceObject.serviceAndCategoryListId}`)
 	}
 	async addAddressData(AddressData: BaseAddressData, Times: DoctorAvailability[]) {
 		return await http.post("/private-doctor-data/add-address", {AddressData, Times})

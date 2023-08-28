@@ -5,12 +5,12 @@ const FirstNameInput = ({ personalInfo, setPersonalInfo }: PersonalInfoProps) =>
 		<FormGroup
 			id = "FirstName"
 			label = "First Name"
-			onChange = {event => setPersonalInfo({...personalInfo, FirstName: event.target.value})}
+			onChange = {event => setPersonalInfo({...personalInfo, firstName: event.target.value})}
 			pattern = "[A-Za-z]*"
 			placeholder = "First Name"
 			required
 			type = "text"
-			value = {personalInfo.FirstName || ""}
+			value = {personalInfo.firstName || ""}
 		/>
 	)
 }

@@ -20,8 +20,8 @@ const FinalizeBookingCardText = (props: Props) => {
 				<strong className="font-bold">
 					Location:
 				</strong>
-				{" "} {appointmentInformation.selectedLocation!.address_title}: {" "}
-				{appointmentInformation.selectedLocation!.address_line_1} {" "} {appointmentInformation.selectedLocation!.address_line_2}
+				{" "} {appointmentInformation.selectedLocation!.addressTitle}: {" "}
+				{appointmentInformation.selectedLocation!.addressLine1} {" "} {appointmentInformation.selectedLocation!.addressLine2}
 			</div>
 			<div className="block text-brown-800 mb-1">
 				<strong className="font-bold">Day:</strong> {appointmentInformation.selectedDay}

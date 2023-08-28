@@ -12,7 +12,7 @@ const MapDataAndWeekDays = (props: Props) => {
 
 	const handleTimesChange = (newTimesFn: React.SetStateAction<DoctorAvailability[]>, addressPriority: number) => {
 		const newAddresses = addresses.map(singleAddress => {
-			if (singleAddress.address_priority === addressPriority) {
+			if (singleAddress.addressPriority === addressPriority) {
 				const newTimes = typeof newTimesFn === "function" ? newTimesFn(singleAddress.times) : newTimesFn
 				return { ...singleAddress, times: newTimes }
 			}
@@ -26,7 +26,7 @@ const MapDataAndWeekDays = (props: Props) => {
 			<LocationMapData />
 			<WeekDays
 				times = {address.times}
-				setTimes = {newTimes => handleTimesChange(newTimes, address.address_priority)}
+				setTimes = {newTimes => handleTimesChange(newTimes, address.addressPriority)}
 			/>
 		</div>
 	)

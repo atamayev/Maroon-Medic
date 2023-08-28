@@ -14,11 +14,11 @@ declare global {
   }
 
   type PublicAddressData = {
-    addressesID: number
-    address_priority: number
-    address_title: string
-    address_line_1: string
-    address_line_2: string
+    addressesId: number
+    addressPriority: number
+    addressTitle: string
+    addressLine1: string
+    addressLine2: string
     city: string
     state: string
     zip: string

@@ -27,7 +27,7 @@ function Locations({ addressesList }: { addressesList: PublicAddressData[] }) {
 	return (
 		<>
 			{addressesList.map((address: PublicAddressData) => (
-				<div key = {address.addressesID}>
+				<div key = {address.addressesId}>
 					<div className = "row">
 						<div className = "col-md-6">
 							<AddressSection address = {address} />

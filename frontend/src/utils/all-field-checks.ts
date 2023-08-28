@@ -1,7 +1,7 @@
 function isAddressValid(address: DoctorAddressData): boolean {
 	return Boolean(
-		address.address_title &&
-    address.address_line_1 &&
+		address.addressTitle &&
+    address.addressLine1 &&
     address.city &&
     address.state &&
     address.zip &&

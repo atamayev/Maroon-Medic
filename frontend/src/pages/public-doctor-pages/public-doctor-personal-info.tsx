@@ -12,11 +12,11 @@ export default function PersonalInfoSection({ personalData } : { personalData: D
 }
 
 function PersonalInfo({ personalData }: { personalData: DoctorPersonalData }) {
-	const { FirstName, LastName } = personalData
+	const { firstName, lastName } = personalData
 	return (
 		<>
-      Dr. {""} {_.upperFirst(FirstName || "")}
-			{""} {_.upperFirst(LastName || "")}
+      Dr. {""} {_.upperFirst(firstName || "")}
+			{""} {_.upperFirst(lastName || "")}
 		</>
 	)
 }

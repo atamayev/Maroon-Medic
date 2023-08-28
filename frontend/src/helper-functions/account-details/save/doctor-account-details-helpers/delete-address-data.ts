@@ -14,7 +14,7 @@ export default async function deleteAddressData(
 
 		if (response.status === 200) {
 			const newAddressData = DoctorAccountDetails.addressData.filter(
-				(addr: DoctorAddressData) => addr.addressesID !== addressID)
+				(addr: DoctorAddressData) => addr.addressesId !== addressID)
 
 			DoctorAccountDetails.addressData = newAddressData
 			setAddresses(newAddressData)

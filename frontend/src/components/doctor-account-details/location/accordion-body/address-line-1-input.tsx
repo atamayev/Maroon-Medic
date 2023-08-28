@@ -13,9 +13,9 @@ const AddressLine1Input = ({address, handleInputChange}: Props) => {
 				label = "Address line 1 *"
 				type = "text"
 				placeholder = "Address line 1"
-				value = {address.address_line_1 || ""}
-				onChange = {(event) => handleInputChange(event, address.address_priority)}
-				name = "address_line_1"
+				value = {address.addressLine1 || ""}
+				onChange = {(event) => handleInputChange(event, address.addressPriority)}
+				name = "addressLine1"
 			/>
 		</div>
 	)

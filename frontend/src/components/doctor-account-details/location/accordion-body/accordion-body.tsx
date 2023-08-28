@@ -14,7 +14,7 @@ const AccordionBody = (props: Props) => {
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, addressPriority: number) => {
 		const newAddresses = addresses.map(_address => {
-			if (_address.address_priority === addressPriority) return { ..._address, [event.target.name]: event.target.value }
+			if (_address.addressPriority === addressPriority) return { ..._address, [event.target.name]: event.target.value }
 			return _address
 		})
 		setAddresses(newAddresses)

@@ -4,7 +4,7 @@ const handleServiceChange = (
 	setAppointmentInformation: React.Dispatch<React.SetStateAction<AppointmentInformation>>,
 ): void => {
 	const value = event.target.value
-	const selectedServiceObject = providedServices.find(service => service.service_and_category_listID.toString() === value)
+	const selectedServiceObject = providedServices.find(service => service.serviceAndCategoryListId.toString() === value)
 	setAppointmentInformation(prev => ({
 		...prev,
 		selectedService: selectedServiceObject || null,

@@ -121,7 +121,7 @@ export default new class FetchDoctorAccountDataDB {
 	}
 
 	async availabilityData (addressID: number): Promise<DoctorAvailability[]> {
-		const sql = `SELECT ${mysqlTables.booking_availability}.day_of_week as dayOfWeek,
+		const sql = `SELECT ${mysqlTables.booking_availability}.day_of_week,
 		${mysqlTables.booking_availability}.start_time, ${mysqlTables.booking_availability}.end_time
 		FROM ${mysqlTables.booking_availability}
 		WHERE ${mysqlTables.booking_availability}.address_ID = ?`
@@ -185,8 +185,13 @@ export default new class FetchDoctorAccountDataDB {
 		const values = [DoctorID]
 
 		const connection = await connectDatabase()
-		const [statusResults] = await connection.execute(sql, values) as RowDataPacket[]
-		const status = {PubliclyAvailable: statusResults[0].publicly_available, Verified: statusResults[0].verified} as DoctorStatus
+		const [results] = await connection.execute(sql, values) as RowDataPacket[]
+		const statusResults = results.map((row: RowDataPacket) => row as DoctorStatus)
+		const camelCasedverifiedAndPubliclyAvailableStatus = transformArrayOfObjectsToCamelCase(statusResults)
+		const status = {
+			publiclyAvailable: camelCasedverifiedAndPubliclyAvailableStatus[0].publiclyAvailable,
+			verified: camelCasedverifiedAndPubliclyAvailableStatus[0].verified
+		} as DoctorStatus
 
 		return status
 	}

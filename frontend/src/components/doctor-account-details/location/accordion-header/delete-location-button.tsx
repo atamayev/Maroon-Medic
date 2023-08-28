@@ -14,8 +14,8 @@ const DeleteLocationButton = (props: Props) => {
 	const [status, setStatus] = useState("initial" as DeleteStatuses)
 
 	const handleDeleteAddress = () => {
-		if (address.addressesID === -1) setAddresses(addresses.filter(addressf => addressf.address_priority !== address.address_priority))
-		else deleteLocation(address.addressesID, setAddresses, setAddressesConfirmation)
+		if (address.addressesId === -1) setAddresses(addresses.filter(addressf => addressf.addressPriority !== address.addressPriority))
+		else deleteLocation(address.addressesId, setAddresses, setAddressesConfirmation)
 	}
 
 	if (status !== "initial") {

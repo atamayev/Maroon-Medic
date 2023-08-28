@@ -7,7 +7,7 @@ const UpcomingAppointmentCard = ({ appointment }: { appointment: PatientDashboar
 			<div className="p-4">
 				<div className="flex justify-between items-center mb-2">
 					<span className="text-brown-800 font-bold">
-						Appointment with Dr. {appointment.Doctor_FirstName} {appointment.Doctor_LastName} on {appointment.appointmentDate}
+						Appointment with Dr. {appointment.doctorFirstName} {appointment.doctorLastName} on {appointment.appointmentDate}
 					</span>
 					<AppointmentConfirmationStatus appointment={appointment} />
 				</div>

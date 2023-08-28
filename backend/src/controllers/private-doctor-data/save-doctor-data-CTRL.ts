@@ -178,7 +178,7 @@ export async function updateAddress (req: Request, res: Response): Promise<void>
 	await OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, phoneOperation)
 
 	const timeOperation: () => Promise<void> = async () => {
-		await findAppointmentTimeDifference(TimesData, AddressData.addressesID)
+		await findAppointmentTimeDifference(TimesData, AddressData.addressesId)
 	}
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, timeOperation)
 }

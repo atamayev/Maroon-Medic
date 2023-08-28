@@ -16,7 +16,7 @@ declare global {
   }
 
   type ServiceListItem = {
-    service_and_category_listID: number
+    serviceAndCategoryListId: number
     categoryName: string
     serviceName: string
   }

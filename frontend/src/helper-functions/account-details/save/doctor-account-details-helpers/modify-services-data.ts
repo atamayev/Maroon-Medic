@@ -22,11 +22,11 @@ export default async function modifyServicesData(
 				newProvidedServices = [...providedServices, serviceObject]
 			} else if (operation === PrivateDoctorDataService.updateService) {
 				newProvidedServices = providedServices.map(service =>
-					service.service_and_category_listID === serviceObject.service_and_category_listID ? serviceObject : service
+					service.serviceAndCategoryListId === serviceObject.serviceAndCategoryListId ? serviceObject : service
 				)
 			} else if (operation === PrivateDoctorDataService.deleteService) {
 				newProvidedServices = providedServices.filter(service =>
-					service.service_and_category_listID !== serviceObject.service_and_category_listID
+					service.serviceAndCategoryListId !== serviceObject.serviceAndCategoryListId
 				)
 				// eslint-disable-next-line max-depth
 				if (setSelectedServices) setSelectedServices(newProvidedServices)

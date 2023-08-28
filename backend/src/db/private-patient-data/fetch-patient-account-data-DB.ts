@@ -1,6 +1,7 @@
 import { mysqlTables } from "../../utils/table-names-list"
 import { connectDatabase } from "../../setup-and-security/connect"
 import { RowDataPacket } from "mysql2"
+import { transformArrayOfObjectsToCamelCase } from "../../utils/transform-keys-to-camel-case"
 
 type InsuranceItem = {
 	insurance_name: string
@@ -23,9 +24,8 @@ export default new class FetchPatientAccountDataDB {
 	}
 
 	async petData (PatientID: number): Promise<CompletePetInfo[]> {
-		const sql = `SELECT ${mysqlTables.pet_info}.name, ${mysqlTables.pet_info}.gender,
-			${mysqlTables.pet_info}.date_of_birth AS dateOfBirth,
-    		${mysqlTables.pet_list}.pet, ${mysqlTables.pet_list}.pet_type AS petType, ${mysqlTables.pet_info}.pet_infoID
+		const sql = `SELECT ${mysqlTables.pet_info}.name, ${mysqlTables.pet_info}.gender, ${mysqlTables.pet_info}.date_of_birth,
+    		${mysqlTables.pet_list}.pet, ${mysqlTables.pet_list}.pet_type, ${mysqlTables.pet_info}.pet_infoID
         FROM ${mysqlTables.pet_info}
             JOIN ${mysqlTables.pet_list} ON ${mysqlTables.pet_info}.pet_ID = ${mysqlTables.pet_list}.pet_listID
         WHERE
@@ -36,7 +36,8 @@ export default new class FetchPatientAccountDataDB {
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
 		const petData = results.map((row: RowDataPacket) => row as CompletePetInfo)
-		return petData
+		const camelCasedPetData = transformArrayOfObjectsToCamelCase(petData)
+		return camelCasedPetData as CompletePetInfo[]
 	}
 
 	async petInsurances (petInfoID: number): Promise<string> {

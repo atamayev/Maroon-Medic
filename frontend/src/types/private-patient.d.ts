@@ -1,7 +1,7 @@
 declare global {
   interface PatientDashboardData extends DashboardDataType {
-    Doctor_FirstName: string
-    Doctor_LastName: string
+    doctorFirstName: string
+    doctorLastName: string
   }
 
   interface BasePetInfo {
@@ -21,7 +21,7 @@ declare global {
 
   //This is the type for the pet data when it already saved
   type SavedPetItem = BasePetInfo & {
-    pet_infoID: number
+    petInfoId: number
   }
 }
 

@@ -15,7 +15,7 @@ export function useSetHeaderData(): {
 		try {
 			if (userType === "Doctor") {
 				const storedInfo = sessionStorage.getItem("DoctorPersonalInfo")
-				if (storedInfo) setHeaderData("Dr. " + _.upperFirst(JSON.parse(storedInfo).LastName))
+				if (storedInfo) setHeaderData("Dr. " + _.upperFirst(JSON.parse(storedInfo).lastName))
 				else await fetchDoctorPersonalInfo(setHeaderData)
 			} else if (userType === "Patient") {
 				const storedInfo = sessionStorage.getItem("PatientPersonalInfo")

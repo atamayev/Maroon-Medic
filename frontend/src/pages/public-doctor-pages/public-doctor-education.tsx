@@ -12,7 +12,7 @@ export default function EducationSection(props: Props) {
 	if (_.isEmpty(preVetEducation) && _.isEmpty(vetEducation)) return null
 	return (
 		<PublicDoctorCard
-			title = {`Where did Dr. ${_.upperFirst(personalData.LastName || "")} go to school?`}
+			title = {`Where did Dr. ${_.upperFirst(personalData.lastName || "")} go to school?`}
 			content = {
 				<>
 					<h3>Pre-Veterinary Education</h3>

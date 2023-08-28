@@ -1,20 +1,20 @@
 declare global {
   interface DoctorPersonalData {
-	FirstName: string
-	LastName: string
+	firstName: string
+	lastName: string
 	gender: string
 	NVI: number
   }
 
   interface DoctorData {
-	FirstName: string
-	LastName: string
+	firstName: string
+	lastName: string
 	NVI: number
   }
 
   interface BirthDateInfo {
-	FirstName: string,
-	LastName: string,
+	firstName: string,
+	lastName: string,
 	birthMonth: string,
 	birthDay: number,
 	birthYear: number,
@@ -29,17 +29,17 @@ declare global {
   }
 
   interface BaseAddressData {
-	addressesID: number
-	address_priority: number
-	address_title: string
-	address_line_1: string
-	address_line_2: string
+	addressesId: number
+	addressPriority: number
+	addressTitle: string
+	addressLine1: string
+	addressLine2: string
 	city: string
 	state: string
 	zip: string
 	country: string
 	instantBook: boolean
-	address_public_status: boolean
+	addressPublicStatus: boolean
 	phone: string
   }
 
@@ -59,9 +59,9 @@ declare global {
 	categoryName: string
 	createdAt: MysqlTimestamp
 	serviceName: string
-	address_line_1: string
-	address_line_2: string
-	address_title: string
+	addressLine1: string
+	addressLine2: string
+	addressTitle: string
 	appointmentDate: MysqlTimestamp
 	appointmentPrice: number
 	appointmentTimespan: number

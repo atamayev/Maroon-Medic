@@ -1,13 +1,13 @@
 import { mysqlTables } from "../../utils/table-names-list"
 import { connectDatabase } from "../../setup-and-security/connect"
 import { RowDataPacket } from "mysql2"
-import { transformArrayOfObjectsToCamelCase } from "../../utils/transform-keys-to-camel-case"
+import { transformArrayOfObjectsToCamelCase, transformKeysToCamelCase } from "../../utils/transform-keys-to-camel-case"
 
 export default new class PrivateDoctorDataDB {
 	async addNewDoctorInfo (doctorInfo: UserInfo, dateOfBirth: MysqlTimestamp, UserID: number): Promise<void> {
 		const sql = `INSERT INTO ${mysqlTables.basic_user_info} (first_name, last_name, gender, date_of_birth, User_ID)
 			VALUES (?, ?, ?, ?, ?)`
-		const values = [doctorInfo.FirstName, doctorInfo.LastName, doctorInfo.gender, dateOfBirth, UserID]
+		const values = [doctorInfo.firstName, doctorInfo.lastName, doctorInfo.gender, dateOfBirth, UserID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
@@ -24,7 +24,7 @@ export default new class PrivateDoctorDataDB {
 		  ${mysqlTables.service_and_category_list}.service_name,
           ${mysqlTables.addresses}.address_title, ${mysqlTables.addresses}.address_line_1, ${mysqlTables.addresses}.address_line_2,
           ${mysqlTables.addresses}.city, ${mysqlTables.addresses}.state, ${mysqlTables.addresses}.zip, ${mysqlTables.addresses}.country,
-          ${mysqlTables.basic_user_info}.first_name AS Patient_FirstName, ${mysqlTables.basic_user_info}.last_name AS Patient_LastName
+          ${mysqlTables.basic_user_info}.first_name AS patientFirstName, ${mysqlTables.basic_user_info}.last_name AS patientLastName
       FROM ${mysqlTables.appointments}
           INNER JOIN ${mysqlTables.service_and_category_list} ON
 			${mysqlTables.appointments}.service_and_category_list_ID =
@@ -46,12 +46,12 @@ export default new class PrivateDoctorDataDB {
 	}
 
 	async retrievePersonalDoctorData (DoctorID: number): Promise<UserInfo> {
-		const sql = `SELECT first_name AS FirstName, last_name AS LastName, gender, date_of_birth as dateOfBirth
-			FROM ${mysqlTables.basic_user_info} WHERE User_ID = ?`
+		const sql = `SELECT first_name, last_name, gender, date_of_birth FROM ${mysqlTables.basic_user_info} WHERE User_ID = ?`
 		const values = [DoctorID]
 		const connection = await connectDatabase()
 		const [personalDataResults] = await connection.execute(sql, values) as RowDataPacket[]
 		const personalData = personalDataResults[0]
-		return personalData
+		const camelCasedPersonalData = transformKeysToCamelCase(personalData)
+		return camelCasedPersonalData as UserInfo
 	}
 }()

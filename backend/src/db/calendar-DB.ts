@@ -1,6 +1,7 @@
 import { mysqlTables } from "../utils/table-names-list"
 import { connectDatabase } from "../setup-and-security/connect"
 import { RowDataPacket } from "mysql2"
+import { transformArrayOfObjectsToCamelCase } from "../utils/transform-keys-to-camel-case"
 
 export default new class CalendarDB {
 	async retrieveDoctorIDFromNVI (NVI: number): Promise<number> {
@@ -25,8 +26,8 @@ export default new class CalendarDB {
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
 
 		const values = [dateTime, AppointmentObject.appointmentPrice, AppointmentObject.appointmentTimespan, AppointmentObject.message,
-			AppointmentObject.instantBook, AppointmentObject.serviceAndCategoryListID,
-			AppointmentObject.selectedPetID, PatientID, DoctorID, AppointmentObject.addressesID, createdAt
+			AppointmentObject.instantBook, AppointmentObject.serviceAndCategoryListId,
+			AppointmentObject.selectedPetId, PatientID, DoctorID, AppointmentObject.addressesId, createdAt
 		]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
@@ -34,18 +35,18 @@ export default new class CalendarDB {
 
 	async retrieveDoctorCalendarDetails (DoctorID: number): Promise<CalendarData[]> {
 		const sql = `SELECT
-        ${mysqlTables.appointments}.mysqlTables.appointmentsID, ${mysqlTables.appointments}.appointment_date AS appointmentDate,
-        ${mysqlTables.appointments}.appointment_price AS appointmentPrice,
-		${mysqlTables.appointments}.appointment_timespan AS appointmentTimespan,
-		${mysqlTables.appointments}.patient_message AS patientMessage,
-		${mysqlTables.appointments}.doctor_confirmation_status AS doctorConfirmationStatus,
-		${mysqlTables.appointments}.created_at AS createdAt,
-        ${mysqlTables.service_and_category_list}.category_name AS categoryName,
-		${mysqlTables.service_and_category_list}.service_name AS serviceName,
+        ${mysqlTables.appointments}.mysqlTables.appointmentsID, ${mysqlTables.appointments}.appointment_date,
+        ${mysqlTables.appointments}.appointment_price,
+		${mysqlTables.appointments}.appointment_timespan,
+		${mysqlTables.appointments}.patient_message,
+		${mysqlTables.appointments}.doctor_confirmation_status,
+		${mysqlTables.appointments}.created_at,
+        ${mysqlTables.service_and_category_list}.category_name,
+		${mysqlTables.service_and_category_list}.service_name,
         ${mysqlTables.addresses}.address_title, ${mysqlTables.addresses}.address_line_1,
         ${mysqlTables.addresses}.address_line_2, ${mysqlTables.addresses}.city,
         ${mysqlTables.addresses}.state, ${mysqlTables.addresses}.zip, ${mysqlTables.addresses}.country,
-        ${mysqlTables.basic_user_info}.first_name AS Patient_FirstName, ${mysqlTables.basic_user_info}.last_name AS Patient_LastName,
+        ${mysqlTables.basic_user_info}.first_name AS patientFirstName, ${mysqlTables.basic_user_info}.last_name AS patientLastName,
         ${mysqlTables.pet_info}.name AS petName
       FROM ${mysqlTables.appointments}
         INNER JOIN ${mysqlTables.service_and_category_list} ON
@@ -61,8 +62,10 @@ export default new class CalendarDB {
 
 		const values = [DoctorID]
 		const connection = await connectDatabase()
-		const [calendarDetalis] = await connection.execute(sql, values) as RowDataPacket[]
-		return calendarDetalis as CalendarData[]
+		const [results] = await connection.execute(sql, values) as RowDataPacket[]
+		const calendarData = results.map((row: RowDataPacket) => row as CalendarData)
+		const camelCasedCalendarData = transformArrayOfObjectsToCamelCase(calendarData)
+		return camelCasedCalendarData as CalendarData[]
 	}
 
 	async confirmAppointmentStatus (appointmentID: number): Promise<void> {

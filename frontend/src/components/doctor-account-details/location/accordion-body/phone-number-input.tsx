@@ -14,7 +14,7 @@ export const PhoneNumberInput = ({address, handleInputChange}: Props) => {
 				type = "number"
 				placeholder = "Phone Number"
 				value = {address.phone}
-				onChange = {(event) => handleInputChange(event, address.address_priority)}
+				onChange = {(event) => handleInputChange(event, address.addressPriority)}
 				name = "phone"
 			/>
 		</div>

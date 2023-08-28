@@ -7,10 +7,10 @@ const AppointmentConfirmationStatus = ({ appointment }: { appointment: PatientDa
 
 	if (appointment.doctorConfirmationStatus === false) {
 		badgeText = "Pending approval"
-		tooltipText = `Dr. ${appointment.Doctor_FirstName} has not yet approved your appointment.`
+		tooltipText = `Dr. ${appointment.doctorFirstName} has not yet approved your appointment.`
 	} else {
 		badgeText = "Appointment approved"
-		tooltipText = `Dr. ${appointment.Doctor_FirstName} is looking forward to the appointment.`
+		tooltipText = `Dr. ${appointment.doctorFirstName} is looking forward to the appointment.`
 	}
 
 	const TooltipMessage = () => {

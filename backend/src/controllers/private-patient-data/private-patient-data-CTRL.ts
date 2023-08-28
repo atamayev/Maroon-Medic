@@ -41,8 +41,8 @@ export async function fetchPersonalData (req: Request, res: Response): Promise<R
 	const PatientID = req.PatientID
 
 	let PersonalData = {
-		FirstName: "",
-		LastName: "",
+		firstName: "",
+		lastName: "",
 		gender: "",
 		birthMonth: "",
 		birthDay: -1,

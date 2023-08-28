@@ -15,7 +15,7 @@ const SavedPetDataMap = (props: Props) => {
 		<div className="flex flex-wrap">
 			{savedPetData.map((pet) => (
 				<div
-					key={pet.pet_infoID}
+					key={pet.petInfoId}
 					className="m-3 bg-yellow-100 border border-brown-400 rounded"
 					style={{ width: "18rem", marginTop: "10px" }}
 				>

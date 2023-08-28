@@ -10,7 +10,7 @@ interface AppointmentObject {
   AddressesID: number
   InstantBook: boolean
   message: string
-  selectedPetID: number
+  selectedPetId: number
 }
 
 export default new class CalendarDataService {

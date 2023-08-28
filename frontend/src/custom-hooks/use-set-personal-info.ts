@@ -7,8 +7,8 @@ export default function useSetPersonalInfo(
 ): {personalInfo: BirthDateInfo, setPersonalInfo: React.Dispatch<React.SetStateAction<BirthDateInfo>>}
 {
 	const [personalInfo, setPersonalInfo] = useState<BirthDateInfo>({
-		FirstName: "",
-		LastName: "",
+		firstName: "",
+		lastName: "",
 		birthMonth: "",
 		birthDay: -1,
 		birthYear: -1,

@@ -13,9 +13,9 @@ const AddressTitleInput = ({address, handleInputChange}: Props) => {
 				label = "Address Title *"
 				type = "text"
 				placeholder = "Address Title"
-				value = {address.address_title || ""}
-				onChange = {(event) => handleInputChange(event, address.address_priority)}
-				name = "address_title"
+				value = {address.addressTitle || ""}
+				onChange = {(event) => handleInputChange(event, address.addressPriority)}
+				name = "addressTitle"
 			/>
 		</div>
 	)

@@ -10,7 +10,7 @@ const NoAvailableTimes = (props: NoAvailableTimesProps) => {
 	if (!noAvailableTimesMessage) return null
 	return (
 		<>
-			Dr. {_.upperFirst(personalData.LastName || "")} does not currently have any open appointments at this location
+			Dr. {_.upperFirst(personalData.lastName || "")} does not currently have any open appointments at this location
 		</>
 	)
 }

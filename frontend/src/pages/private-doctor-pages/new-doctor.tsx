@@ -7,8 +7,8 @@ import useNewUserSubmit from "../../custom-hooks/auth-submits/use-new-user-submi
 
 export default function NewDoctor () {
 	const [newDoctorInfo, setNewDoctorInfo] = useState<BirthDateInfo>({
-		FirstName: "",
-		LastName: "",
+		firstName: "",
+		lastName: "",
 		birthMonth: "",
 		birthDay: -1,
 		birthYear: -1,

@@ -65,7 +65,7 @@ export default new class FetchPublicDoctorData {
 			// Create a new array of modified addressData objects
 			addressData = await Promise.all(addressData.map(async address => {
 				try {
-					const availabilityData = await FetchPublicDoctorDataDB.availabilityData(address.addressesID)
+					const availabilityData = await FetchPublicDoctorDataDB.availabilityData(address.addressesId)
 					return { ...address, times: availabilityData }
 				} catch (error: unknown) {
 					console.error(error)

@@ -37,8 +37,8 @@ export async function fetchPersonalData (req: Request, res: Response): Promise<R
 	const DoctorID = req.DoctorID
 
 	let PersonalData = {
-		FirstName: "",
-		LastName: "",
+		firstName: "",
+		lastName: "",
 		gender: "",
 		birthMonth: "",
 		birthDay: -1,
@@ -71,8 +71,8 @@ export async function fetchAccountDetails (req: Request, res: Response): Promise
 			addressData          : await FetchDoctorAccountData.addresses(DoctorID),
 			description          : await FetchDoctorAccountData.description(DoctorID),
 			servicedPets         : await FetchDoctorAccountData.servicedPets(DoctorID),
-			verified             : verificationAndPublicAv.Verified,
-			publiclyAvailable    : verificationAndPublicAv.PubliclyAvailable
+			verified             : verificationAndPublicAv.verified,
+			publiclyAvailable    : verificationAndPublicAv.publiclyAvailable
 			// response.pictures             = await FetchDoctorAccountData.pictures(DoctorID)
 		}
 		return res.status(200).json(response)

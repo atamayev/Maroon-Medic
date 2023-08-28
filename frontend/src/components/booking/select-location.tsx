@@ -25,12 +25,12 @@ const SelectLocation = (props: SelectLocationProps) => {
 						setAppointmentInformation,
 						setNoAvailableTimesMessage
 					)}
-				value = {_.toString(appointmentInformation.selectedLocation?.addressesID) || ""}
+				value = {_.toString(appointmentInformation.selectedLocation?.addressesId) || ""}
 			>
 				<option value = "" disabled>Select...</option>
 				{addresses.map((address) => (
-					<option key={address.addressesID} value={address.addressesID}>
-						{address.address_title}: ({address.address_line_1} {address.address_line_2}, {" "}
+					<option key={address.addressesId} value={address.addressesId}>
+						{address.addressTitle}: ({address.addressLine1} {address.addressLine2}, {" "}
 						{address.city}, {" "} {address.state}, {" "} {address.zip})
 					</option>
 				))}

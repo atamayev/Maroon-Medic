@@ -61,10 +61,10 @@ export default new class FetchDoctorAccountData {
 
 			if (!_.isEmpty(addressData)) {
 				for (const address of addressData) {
-					const times = await FetchDoctorAccountDataDB.availabilityData(address.addressesID)
+					const times = await FetchDoctorAccountDataDB.availabilityData(address.addressesId)
 					address.times = times
 
-					const phoneData = await FetchDoctorAccountDataDB.phoneData(address.addressesID)
+					const phoneData = await FetchDoctorAccountDataDB.phoneData(address.addressesId)
 					address.phone = phoneData
 				}
 			}
@@ -93,7 +93,7 @@ export default new class FetchDoctorAccountData {
 			const status = await FetchDoctorAccountDataDB.verifiedAndPubliclyAvailableStatus(DoctorID)
 			return status
 		} catch (error: unknown) {
-			return {PubliclyAvailable: false, Verified: false}
+			return {publiclyAvailable: false, verified: false}
 		}
 	}
 

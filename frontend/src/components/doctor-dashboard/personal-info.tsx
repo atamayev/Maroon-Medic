@@ -12,7 +12,7 @@ const PersonalInfo = ({ personalInfo } : {personalInfo : BirthDateInfo | null}) 
 	if (!personalInfo) return <>Loading...</>
 	return (
 		<p>
-      Welcome <WelcomeOrBack />, Dr. {_.upperFirst(personalInfo.LastName || "")}
+      Welcome <WelcomeOrBack />, Dr. {_.upperFirst(personalInfo.lastName || "")}
 		</p>
 	)
 }

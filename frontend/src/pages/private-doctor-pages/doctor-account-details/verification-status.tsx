@@ -18,7 +18,7 @@ function VetVerification ({ verified } : { verified: boolean }) {
 	if (verified) {
 		return (
 			<>
-        Account Verification Status:
+				Account Verification Status:
 				<Button
 					colorClass = "bg-green-500"
 					hoverClass = "hover:bg-green-500"
@@ -30,7 +30,7 @@ function VetVerification ({ verified } : { verified: boolean }) {
 	}
 	return (
 		<>
-    Account Verification Status:
+			Account Verification Status:
 			<Button
 				colorClass = "bg-red-500"
 				hoverClass = "hover:bg-red-600"

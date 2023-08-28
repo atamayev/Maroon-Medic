@@ -46,7 +46,7 @@ const DeletePetModal = (props: Props) => {
 							hoverClass="hover:bg-red-600"
 							className = "mx-2"
 							onClick={() => {
-								deletePet(petToDelete!.pet_infoID, savedPetData, setSavedPetData, setPetConfirmation)
+								deletePet(petToDelete!.petInfoId, savedPetData, setSavedPetData, setPetConfirmation)
 								handleCloseModal(setShowModal)
 							}}
 							textColor = "text-white"

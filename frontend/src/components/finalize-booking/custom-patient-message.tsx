@@ -33,7 +33,7 @@ const CustomPatientMessage = (props: Props) => {
 
 	return (
 		<>
-			<strong>Write a message to Dr. {_.upperFirst(personalData.LastName || "")}:</strong>
+			<strong>Write a message to Dr. {_.upperFirst(personalData.lastName || "")}:</strong>
 			<FormGroup
 				id = "Message"
 				value = {message}

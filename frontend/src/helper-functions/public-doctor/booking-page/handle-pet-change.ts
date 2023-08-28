@@ -4,7 +4,7 @@ const handlePetChange = (
 	setAppointmentInformation: React.Dispatch<React.SetStateAction<AppointmentInformation>>,
 ): void => {
 	const value = event.target.value
-	const selectedPetObject = savedPetData.find(pet => pet.pet_infoID.toString() === value)
+	const selectedPetObject = savedPetData.find(pet => pet.petInfoId.toString() === value)
 	setAppointmentInformation(prev => ({
 		...prev,
 		selectedPet: selectedPetObject || null,

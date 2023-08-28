@@ -10,7 +10,7 @@ const AvailableDates = (props: Props) => {
 	const { appointmentInformation, personalData, availableDates } = props
 
 	if (appointmentInformation.selectedDay ===
-		`Dr. ${_.upperFirst(personalData.LastName || "")} does not currently have any open appointments at this location`
+		`Dr. ${_.upperFirst(personalData.lastName || "")} does not currently have any open appointments at this location`
 	) {
 		return <option disabled>{appointmentInformation.selectedDay}</option>
 	}

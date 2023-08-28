@@ -4,7 +4,7 @@ const DoctorPersonalInfo = ({ personalData } : { personalData: DoctorPersonalDat
 	if (!personalData) return null
 	return (
 		<>
-      Dr. {""} {_.upperFirst(personalData.FirstName || "")} {""} {_.upperFirst(personalData.LastName || "")}
+      Dr. {""} {_.upperFirst(personalData.firstName || "")} {""} {_.upperFirst(personalData.lastName || "")}
 		</>
 	)
 }

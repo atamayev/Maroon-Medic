@@ -4,9 +4,9 @@ declare global {
 	appointmentTimespan: number
 	message: string
 	instantBook: boolean
-	serviceAndCategoryListID: number
-	selectedPetID: number
-	addressesID: number
+	serviceAndCategoryListId: number
+	selectedPetId: number
+	addressesId: number
   }
 
   interface CalendarData {
@@ -19,16 +19,16 @@ declare global {
 	createdAt: MysqlTimestamp
 	categoryName: string
 	serviceName: string
-	address_title: string
-	address_line_1: string
-	address_line_2: string
+	addressTitle: string
+	addressLine1: string
+	addressLine2: string
 	city: string
 	state: string
 	zip: string
 	country: string
 	petName: string
-	Patient_FirstName: string
-	Patient_LastName: string
+	patientFirstName: string
+	patientLastName: string
   }
 }
 

@@ -14,7 +14,7 @@ export const CountryInput = ({address, handleInputChange}: Props) => {
 				type = "text"
 				placeholder = "Country"
 				value = {address.country || ""}
-				onChange = {(event) => handleInputChange(event, address.address_priority)}
+				onChange = {(event) => handleInputChange(event, address.addressPriority)}
 				name = "country"
 			/>
 		</div>

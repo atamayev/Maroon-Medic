@@ -15,8 +15,8 @@ declare global {
   }
 
   interface FormattedPersonalData {
-    FirstName: string
-    LastName: string
+    firstName: string
+    lastName: string
     gender: string
     birthMonth: string
     birthDay: number

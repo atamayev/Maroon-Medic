@@ -6,7 +6,7 @@ interface Props {
 const AddressTitle = (props: Props) => {
 	const {address, index} = props
 
-	if (address.address_title) return <>{address.address_title}</>
+	if (address.addressTitle) return <>{address.addressTitle}</>
 	return <>{("Address #" + (index + 1))}</>
 }
 

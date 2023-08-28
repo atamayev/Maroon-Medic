@@ -4,7 +4,7 @@ interface Props {
   address: DoctorAddressData
   handleToggleChange: (
     addressPriority: number,
-    field: keyof Pick<DoctorAddressData, "address_public_status" | "instantBook">
+    field: keyof Pick<DoctorAddressData, "addressPublicStatus" | "instantBook">
   ) => void
 }
 
@@ -16,9 +16,9 @@ const InstantBook = (props: Props) => {
 			<span>Instant book:</span>
 			<div onClick = {(event) => event.stopPropagation()}>
 				<Toggle
-					id = {`${address.address_priority}`}
+					id = {`${address.addressPriority}`}
 					checked = {address.instantBook}
-					onChange = {() => handleToggleChange(address.address_priority, "instantBook")}
+					onChange = {() => handleToggleChange(address.addressPriority, "instantBook")}
 				/>
 			</div>
 		</>

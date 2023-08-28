@@ -11,10 +11,10 @@ const AddressAccordionMap = (props: Props) => {
 
 	return (
 		<>
-			{addresses.sort((a, b) => a.address_priority - b.address_priority).map((address, index) => (
+			{addresses.sort((a, b) => a.addressPriority - b.addressPriority).map((address, index) => (
 				<AddressAccordionItem
-					// do not change the key to addressesID, or saving locations gets messed up when adding multiple locations at once
-					key = {address.address_priority}
+					// do not change the key to addressesId, or saving locations gets messed up when adding multiple locations at once
+					key = {address.addressPriority}
 					index = {index}
 					address = {address}
 					addresses = {addresses}

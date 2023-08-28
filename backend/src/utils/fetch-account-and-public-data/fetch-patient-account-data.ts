@@ -17,7 +17,7 @@ export default new class FetchPatientAccountData {
 
 			if (!_.isEmpty(retrievePetData)) {
 				for (const pet of retrievePetData) {
-					const insuranceResults = await FetchPatientAccountDataDB.petInsurances(pet.pet_infoID)
+					const insuranceResults = await FetchPatientAccountDataDB.petInsurances(pet.petInfoId)
 					pet.insuranceName = insuranceResults || ""
 				}
 			}

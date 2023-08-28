@@ -42,12 +42,12 @@ const ChoosePet = (props: ChoosePetProps) => {
 						setAppointmentInformation
 					)
 				}
-				value = {_.toString(appointmentInformation.selectedPet?.pet_infoID) || ""}
+				value = {_.toString(appointmentInformation.selectedPet?.petInfoId) || ""}
 				required = {true}
 			>
 				<option value = "" disabled>Select...</option>
 				{savedPetData.map((pet, index) => (
-					<option key={index} value={pet.pet_infoID}>
+					<option key={index} value={pet.petInfoId}>
 						{pet.name}
 					</option>
 				))}

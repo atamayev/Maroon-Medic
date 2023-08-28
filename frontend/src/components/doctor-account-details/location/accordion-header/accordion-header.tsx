@@ -18,12 +18,12 @@ const AccordionHeader = (props: Props) => {
 
 	const handleToggleChange = (
 		addressPriority: number,
-		field: keyof Pick<DoctorAddressData, "address_public_status" | "instantBook">
+		field: keyof Pick<DoctorAddressData, "addressPublicStatus" | "instantBook">
 	) => {
 		// Create a copy of the addresses state
 		const updatedAddresses = [...addresses]
 		// Find the index of the address object with the matching priority
-		const addressIndex = updatedAddresses.findIndex(addr => addr.address_priority === addressPriority)
+		const addressIndex = updatedAddresses.findIndex(addr => addr.addressPriority === addressPriority)
 
 		if (field in updatedAddresses[addressIndex]) {
 			updatedAddresses[addressIndex][field] = !updatedAddresses[addressIndex][field]

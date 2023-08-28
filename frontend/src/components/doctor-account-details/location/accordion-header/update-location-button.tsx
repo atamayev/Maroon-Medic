@@ -13,7 +13,7 @@ const UpdateLocationButton = (props: Props) => {
 	const {address, setAddresses, setAddressesConfirmation} = props
 
 	const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
-	const originalAddress = DoctorAccountDetails.addressData.find((addr: DoctorAddressData) => addr.addressesID === address.addressesID)
+	const originalAddress = DoctorAccountDetails.addressData.find((addr: DoctorAddressData) => addr.addressesId === address.addressesId)
 	const isAddressSame = _.isEqual(originalAddress, address)
 
 	if (isAddressSame) return null

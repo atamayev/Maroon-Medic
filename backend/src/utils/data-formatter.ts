@@ -3,11 +3,11 @@ import TimeUtils from "./time"
 import _ from "lodash"
 
 export default new class Format {
-	personalData(results: {FirstName: string, LastName: string, gender: string, dateOfBirth: string}): FormattedPersonalData {
+	personalData(results: {firstName: string, lastName: string, gender: string, dateOfBirth: string}): FormattedPersonalData {
 		const dateOfBirth: Dayjs = TimeUtils.simpleDayJSConvert(results.dateOfBirth)
 		const PersonalData = {
-			FirstName: results.FirstName,
-			LastName: results.LastName,
+			firstName: results.firstName,
+			lastName: results.lastName,
 			gender: results.gender,
 			birthMonth: dateOfBirth.format("MMMM"),
 			birthDay: dateOfBirth.date(),
@@ -24,7 +24,7 @@ export default new class Format {
 	addressDataToBoolean (addressData: PrivateDoctorAddressData[]): PrivateDoctorAddressData[] {
 		return addressData.map((address) => ({
 			...address,
-			address_public_status: Boolean(address.address_public_status),
+			addressPublicStatus: Boolean(address.addressPublicStatus),
 			instantBook: Boolean(address.instantBook),
 		}))
 	}

@@ -21,9 +21,9 @@ const ServicesMap = (props: Props) => {
 	return (
 		<div>
 			{services.map(service => {
-				const selectedService = selectedServices.find(s => s.service_and_category_listID === service.service_and_category_listID)
+				const selectedService = selectedServices.find(s => s.serviceAndCategoryListId === service.serviceAndCategoryListId)
 				return (
-					<div key = {service.service_and_category_listID} style = {{ paddingLeft: "20px" }}>
+					<div key = {service.serviceAndCategoryListId} style = {{ paddingLeft: "20px" }}>
 						<ServiceCheckbox
 							service = {service}
 							category = {category}

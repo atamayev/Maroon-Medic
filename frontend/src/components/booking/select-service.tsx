@@ -23,11 +23,11 @@ const SelectService = (props: SelectServiceProps) => {
 						providedServices,
 						setAppointmentInformation,
 					)}
-				value = {_.toString(appointmentInformation.selectedService?.service_and_category_listID) || ""}
+				value = {_.toString(appointmentInformation.selectedService?.serviceAndCategoryListId) || ""}
 			>
 				<option value = "" disabled>Select...</option>
 				{providedServices.map((service, index) => (
-					<option key={index} value={service.service_and_category_listID}>
+					<option key={index} value={service.serviceAndCategoryListId}>
 						{service.categoryName} - {service.serviceName}
 					</option>
 				))}

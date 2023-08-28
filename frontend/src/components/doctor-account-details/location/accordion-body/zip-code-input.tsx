@@ -14,7 +14,7 @@ export const ZipCodeInput = ({address, handleInputChange}: Props) => {
 				type = "number"
 				placeholder = "Zip Code"
 				value = {address.zip || ""}
-				onChange = {(event) => handleInputChange(event, address.address_priority)}
+				onChange = {(event) => handleInputChange(event, address.addressPriority)}
 				name = "zip"
 			/>
 		</div>

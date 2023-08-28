@@ -16,9 +16,9 @@ const ServiceActionButton = (props: Props) => {
 	const { service, providedServices, setProvidedServices, selectedServices, setServicesConfirmation, setSelectedServices } = props
 	const selectedService =
 		selectedServices.find(
-			s => s.service_and_category_listID === service.service_and_category_listID
+			s => s.serviceAndCategoryListId === service.serviceAndCategoryListId
 		) as ServiceItemNotNullablePrice | undefined
-	const providedService = providedServices.find(s => s.service_and_category_listID === service.service_and_category_listID)
+	const providedService = providedServices.find(s => s.serviceAndCategoryListId === service.serviceAndCategoryListId)
 
 	const isSelected = selectedService !== undefined
 	const isProvided = providedService !== undefined

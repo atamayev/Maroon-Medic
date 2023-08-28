@@ -11,7 +11,7 @@ const PersonalInfo = ({ personalInfo } : {personalInfo : BirthDateInfo | null}) 
 	if (!personalInfo) return <>Loading...</>
 	return (
 		<p>
-      Welcome <WelcomeOrBack />, {personalInfo.FirstName}
+      Welcome <WelcomeOrBack />, {personalInfo.firstName}
 		</p>
 	)
 }

@@ -1,7 +1,7 @@
 declare global {
   interface DoctorDashboardData extends DashboardDataType {
-    Patient_FirstName: string
-    Patient_LastName: string
+    patientFirstName: string
+    patientLastName: string
   }
 
   interface DoctorCalendarEvent {
@@ -12,7 +12,7 @@ declare global {
   }
 
   type ServiceItem = {
-    service_and_category_listID: number
+    serviceAndCategoryListId: number
     serviceTime: string
     categoryName: string
     serviceName: string

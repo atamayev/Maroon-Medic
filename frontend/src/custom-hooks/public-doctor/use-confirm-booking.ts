@@ -12,16 +12,16 @@ export default function useConfirmBooking(): (props: ConfirmBookingProps) => Pro
 	const navigate = useNavigate()
 	return async ({appointmentInformation, serviceMinutes, personalData, message}: ConfirmBookingProps): Promise<void> => {
 		const AppointmentObject = {
-			Service_and_category_list_ID: appointmentInformation.selectedService!.service_and_category_listID,
+			Service_and_category_list_ID: appointmentInformation.selectedService!.serviceAndCategoryListId,
 			appointmentDate: appointmentInformation.selectedDay!,
 			appointmentTime: appointmentInformation.selectedTime!,
 			appointmentTimespan: serviceMinutes,
 			appointmentPrice: appointmentInformation.selectedService!.servicePrice,
 			NVI: personalData.NVI,
-			AddressesID: appointmentInformation.selectedLocation!.addressesID,
+			AddressesID: appointmentInformation.selectedLocation!.addressesId,
 			InstantBook: appointmentInformation.selectedLocation!.instantBook,
 			message: message,
-			selectedPetID: appointmentInformation.selectedPet!.pet_infoID
+			selectedPetId: appointmentInformation.selectedPet!.petInfoId
 		}
 
 		try {

@@ -22,12 +22,12 @@ export default function Doctor () {
 	const [preVetEducation, setPreVetEducation] = useState([])
 	const [vetEducation, setVetEducation] = useState([])
 	const [addresses, setAddresses] = useState<PublicAddressData[]>(
-		[{ address_priority: 0, addressesID: -1, address_title: "", address_line_1  : "", address_line_2: "",
+		[{ addressPriority: 0, addressesId: -1, addressTitle: "", addressLine1  : "", addressLine2: "",
 			city: "", state: "", zip: "", country: "", phone: "", instantBook: false, times:[]
 		}])
 	const [description, setDescription] = useState("")
 	const [servicedPets, setServicedPets] = useState([])
-	const [personalData, setPersonalData] = useState<DoctorPersonalData>({FirstName: "", LastName: "", gender: "", NVI: 0})
+	const [personalData, setPersonalData] = useState<DoctorPersonalData>({firstName: "", lastName: "", gender: "", NVI: 0})
 
 	const idNumber = Number(id)
 

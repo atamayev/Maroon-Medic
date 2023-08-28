@@ -1,7 +1,7 @@
 declare global {
   interface PatientDashboardData extends DashboardDataType {
-    Doctor_FirstName: string
-    Doctor_LastName: string
+    doctorFirstName: string
+    doctorLastName: string
   }
 
   interface PatientAccountDetails {
@@ -21,7 +21,7 @@ declare global {
     dateOfBirth: string
     pet: string
     petType: string
-    pet_infoID: number
+    petInfoId: number
     insuranceName: string
   }
 }

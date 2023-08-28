@@ -1,15 +1,15 @@
 import { mysqlTables } from "../utils/table-names-list"
 import { connectDatabase } from "../setup-and-security/connect"
 import { OkPacket, RowDataPacket } from "mysql2"
+import { transformArrayOfObjectsToCamelCase } from "../utils/transform-keys-to-camel-case"
 
 type LoginHistoryRecord = {
-  login_historyID: number,
-  login_at: string,
+  loginAt: string
 }
 
 export default new class AuthDB {
 	async checkIfUUIDExists (UUID: string): Promise<boolean> {
-		const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.uuid_reference} WHERE UUID = ?) as 'exists' `
+		const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.uuid_reference} WHERE UUID = ?) AS 'exists' `
 		const values = [UUID]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values)
@@ -29,7 +29,7 @@ export default new class AuthDB {
 	async checkIfAccountExists (username: string, registrationType: DoctorOrPatient): Promise<boolean> {
 		//Consider adding is_active as a search parameter. If a user deletes their account,
 		//should they be allowed to create a new one with the same email?
-		const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.credentials} WHERE email = ? AND user_type = ?) as 'exists' `
+		const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.credentials} WHERE email = ? AND user_type = ?) AS 'exists' `
 		const values = [username, registrationType]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values)
@@ -74,15 +74,17 @@ export default new class AuthDB {
 	}
 
 	async retrieveLoginHistory (UserID: number): Promise<LoginHistoryRecord[]> {
-		const sql = `SELECT login_at AS loginAt FROM ${mysqlTables.login_history} WHERE User_ID = ? ORDER BY login_at DESC`
+		const sql = `SELECT login_at FROM ${mysqlTables.login_history} WHERE User_ID = ? ORDER BY login_at DESC`
 		const values = [UserID]
 		const connection = await connectDatabase()
-		const [results] = await connection.execute(sql, values)
-		return results as LoginHistoryRecord[]
+		const [results] = await connection.execute(sql, values) as RowDataPacket[]
+		const loginHistory = results.map((row: RowDataPacket) => row as LoginHistoryRecord)
+		const camelCasedLoginHistory = transformArrayOfObjectsToCamelCase(loginHistory)
+		return camelCasedLoginHistory as LoginHistoryRecord[]
 	}
 
 	async checkIfUUIDsExist (newDoctorUUID: string, existingDoctorUUID: string): Promise<boolean> {
-		const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.uuid_reference} WHERE UUID = ?) as 'exists'`
+		const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.uuid_reference} WHERE UUID = ?) AS 'exists'`
 		const values1 = [newDoctorUUID]
 		const values2 = [existingDoctorUUID]
 

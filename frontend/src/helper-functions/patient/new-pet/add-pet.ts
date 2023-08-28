@@ -6,7 +6,7 @@ function petDataOperations(petData: PetItemForCreation, responseData: number): S
 	const { petListId, insurance_listID, ...rest } = petData
 	return {
 		...rest,
-		pet_infoID: responseData,
+		petInfoId: responseData,
 	}
 }
 
