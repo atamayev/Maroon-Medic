@@ -38,10 +38,10 @@ function VetSpecialties(props: Props) {
 		const newDeleteStatuses = { ...deleteStatuses }
 
 		// Go through each status
-		for (const specialityListID in newDeleteStatuses) {
-			// If the language ID does not exist in the spokenLanguages list, delete the status
-			if (!doctorSpecialties.some((speciality) => speciality.specialtiesListId === Number(specialityListID))) {
-				delete newDeleteStatuses[specialityListID]
+		for (const specialityListId in newDeleteStatuses) {
+			// If the language Id does not exist in the spokenLanguages list, delete the status
+			if (!doctorSpecialties.some((speciality) => speciality.specialtiesListId === Number(specialityListId))) {
+				delete newDeleteStatuses[specialityListId]
 			}
 		}
 

@@ -15,8 +15,8 @@ export default new class UUIDDB {
 		const values = [UUID]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
-		const userID = (results as RowDataPacket)[0].user_id
-		if (!userID) throw new Error("UUID not found")
-		return userID
+		const userId = (results as RowDataPacket)[0].user_id
+		if (!userId) throw new Error("UUID not found")
+		return userId
 	}
 }()

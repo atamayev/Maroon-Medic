@@ -34,16 +34,16 @@ export default new class SavePatientDataDB {
 		await connection.execute(sql, values)
 	}
 
-	async addLanguage(languageID: number, patientId: number): Promise<void> {
+	async addLanguage(languageId: number, patientId: number): Promise<void> {
 		const sql = `INSERT INTO ${mysqlTables.language_mapping} (language_id, user_id) VALUES (?, ?)`
-		const values = [languageID, patientId]
+		const values = [languageId, patientId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
-	async deleteLanguage(languageID: number, patientId: number): Promise<void> {
+	async deleteLanguage(languageId: number, patientId: number): Promise<void> {
 		const sql = `DELETE FROM ${mysqlTables.language_mapping} WHERE language_id = ? AND user_id = ?`
-		const values = [languageID, patientId]
+		const values = [languageId, patientId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
@@ -57,7 +57,7 @@ export default new class SavePatientDataDB {
 	}
 
 	async addNewPetInsurance (insuranceListID: number, petInfoID: number): Promise<void> {
-		const sql = `INSERT INTO ${mysqlTables.insurance_mapping} (Insurance_ID, pet_info_id) VALUES (?, ?)`
+		const sql = `INSERT INTO ${mysqlTables.insurance_mapping} (insurance_id, pet_info_id) VALUES (?, ?)`
 		const values = [insuranceListID, petInfoID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)

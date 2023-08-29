@@ -2,15 +2,15 @@ import PrivateDoctorDataService from "src/services/private-doctor-data-service"
 import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle-401-axios-error-and-set-message-type"
 
 export default async function deleteVetEducation(
-	vetEducationMappingID: number,
+	vetEducationMappingId: number,
 	vetEducation: VetEducationItem[],
 	setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItem[]>>,
 	setVetEducationConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
 	try {
-		const response = await PrivateDoctorDataService.deleteVetEducationData(vetEducationMappingID)
+		const response = await PrivateDoctorDataService.deleteVetEducationData(vetEducationMappingId)
 		if (response.status === 200) {
-			const newVetEducation = vetEducation.filter(object => object.vetEducationMappingId !== vetEducationMappingID)
+			const newVetEducation = vetEducation.filter(object => object.vetEducationMappingId !== vetEducationMappingId)
 			setVetEducation(newVetEducation)
 			const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") || "{}")
 			DoctorAccountDetails.vetEducation = newVetEducation

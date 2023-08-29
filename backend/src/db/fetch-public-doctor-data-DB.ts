@@ -23,7 +23,7 @@ export default new class FetchPublicDoctorDataDB {
 		const sql = `SELECT ${mysqlTables.specialties_list}.organization_name, ${mysqlTables.specialties_list}.specialty_name
 		FROM ${mysqlTables.specialties_list}
 			JOIN ${mysqlTables.specialty_mapping}
-			ON ${mysqlTables.specialties_list}.specialties_list_id = ${mysqlTables.specialty_mapping}.specialty_ID
+			ON ${mysqlTables.specialties_list}.specialties_list_id = ${mysqlTables.specialty_mapping}.specialty_id
 		WHERE ${mysqlTables.specialty_mapping}.doctor_id = ?`
 
 		const values = [doctorId]
@@ -95,7 +95,7 @@ export default new class FetchPublicDoctorDataDB {
           ${mysqlTables.doctor_phone_numbers}.phone
       FROM ${mysqlTables.addresses}, ${mysqlTables.doctor_phone_numbers}
       WHERE
-          ${mysqlTables.addresses}.addresses_id = ${mysqlTables.doctor_phone_numbers}.address_ID AND ${mysqlTables.addresses}.doctor_id = ?
+          ${mysqlTables.addresses}.addresses_id = ${mysqlTables.doctor_phone_numbers}.address_id AND ${mysqlTables.addresses}.doctor_id = ?
           AND ${mysqlTables.addresses}.address_public_status = 1 AND ${mysqlTables.addresses}.is_active = 1`
 
 		const values = [doctorId]
@@ -106,13 +106,13 @@ export default new class FetchPublicDoctorDataDB {
 		return camelCasedAddressData as PublicAddressData[]
 	}
 
-	async availabilityData (addressID: number): Promise<DoctorAvailability[]> {
+	async availabilityData (addressId: number): Promise<DoctorAvailability[]> {
 		const sql = `SELECT ${mysqlTables.booking_availability}.day_of_week,
 		${mysqlTables.booking_availability}.start_time, ${mysqlTables.booking_availability}.end_time
 		FROM ${mysqlTables.booking_availability}
-		WHERE ${mysqlTables.booking_availability}.address_ID = ?`
+		WHERE ${mysqlTables.booking_availability}.address_id = ?`
 
-		const values = [addressID]
+		const values = [addressId]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
 		const availabilityData = results.map((row: RowDataPacket) => row as DoctorAvailability)

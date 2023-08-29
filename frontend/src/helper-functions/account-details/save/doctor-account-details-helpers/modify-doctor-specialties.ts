@@ -6,7 +6,7 @@ type SpecialtyOperationsType = typeof PrivateDoctorDataService.deleteSpecialty |
 
 export default async function modifyDoctorSpecialties(
 	operation: SpecialtyOperationsType,
-	specialtyID: number,
+	specialtyId: number,
 	newDoctorSpecialties: SpecialtyItem[],
 	setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>,
 	setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void,
@@ -14,7 +14,7 @@ export default async function modifyDoctorSpecialties(
 ): Promise<void> {
 	let response
 	try {
-		response = await operation(specialtyID)
+		response = await operation(specialtyId)
 	} catch (error: unknown) {
 		handle401AxiosErrorAndSetMessageType(error, setSpecialtiesConfirmation)
 		return

@@ -41,15 +41,15 @@ export default new class FetchPatientAccountDataDB {
 		return camelCasedPetData as CompletePetInfo[]
 	}
 
-	async petInsurances (petInfoID: number): Promise<string> {
+	async petInsurances (petInfoId: number): Promise<string> {
 		const sql = `SELECT ${mysqlTables.insurance_list}.insurance_name
         FROM ${mysqlTables.insurance_list}
             JOIN ${mysqlTables.insurance_mapping} ON
-            ${mysqlTables.insurance_list}.insurance_list_id = ${mysqlTables.insurance_mapping}.Insurance_ID
+            ${mysqlTables.insurance_list}.insurance_list_id = ${mysqlTables.insurance_mapping}.insurance_id
         WHERE
             ${mysqlTables.insurance_mapping}.pet_info_id = ?`
 
-		const values = [petInfoID]
+		const values = [petInfoId]
 
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]

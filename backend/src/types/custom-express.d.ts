@@ -12,13 +12,13 @@ declare global {
         PatientNewUser?: string
       }
       params: {
-        languageID?: number
-        serviceID?: number
-        specialtyID?: number
-        preVetEducationID?: number
-        vetEducationID?: number
-        addressID?: number
-        servicedPetID?: number
+        languageId?: number
+        serviceId?: number
+        specialtyId?: number
+        preVetEducationId?: number
+        vetEducationId?: number
+        addressId?: number
+        servicedPetId?: number
         query?: string
       }
     }

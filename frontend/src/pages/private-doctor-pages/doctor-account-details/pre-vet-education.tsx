@@ -50,12 +50,12 @@ function PreVetEducation(props: Props) {
 		const newDeleteStatuses = { ...deleteStatuses }
 
 		// Go through each status
-		for (const preVetEducationMappingID in newDeleteStatuses) {
-			// If the language ID does not exist in the vetEducation list, delete the status
+		for (const preVetEducationMappingId in newDeleteStatuses) {
+			// If the language Id does not exist in the vetEducation list, delete the status
 			if (!preVetEducation.some(
-				(_preVetEducation) => _preVetEducation.preVetEducationMappingId === Number(preVetEducationMappingID)
+				(_preVetEducation) => _preVetEducation.preVetEducationMappingId === Number(preVetEducationMappingId)
 			)) {
-				delete newDeleteStatuses[preVetEducationMappingID]
+				delete newDeleteStatuses[preVetEducationMappingId]
 			}
 		}
 

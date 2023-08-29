@@ -27,10 +27,10 @@ export default new class PrivateDoctorDataDB {
           ${mysqlTables.basic_user_info}.first_name AS patientFirstName, ${mysqlTables.basic_user_info}.last_name AS patientLastName
       FROM ${mysqlTables.appointments}
           INNER JOIN ${mysqlTables.service_and_category_list} ON
-			${mysqlTables.appointments}.service_and_category_list_ID =
+			${mysqlTables.appointments}.service_and_category_list_id =
 			${mysqlTables.service_and_category_list}.service_and_category_list_id
           INNER JOIN ${mysqlTables.addresses} ON
-          	${mysqlTables.appointments}.addresses_ID = ${mysqlTables.addresses}.addresses_id
+          	${mysqlTables.appointments}.addresses_id = ${mysqlTables.addresses}.addresses_id
           	AND ${mysqlTables.addresses}.doctor_id = ${mysqlTables.appointments}.doctor_id
           INNER JOIN ${mysqlTables.basic_user_info} ON ${mysqlTables.appointments}.patient_id = ${mysqlTables.basic_user_info}.user_id
 		  INNER JOIN ${mysqlTables.pet_info} ON ${mysqlTables.appointments}.pet_info_id = ${mysqlTables.pet_info}.pet_info_id

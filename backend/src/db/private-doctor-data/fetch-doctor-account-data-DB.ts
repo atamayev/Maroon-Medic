@@ -49,7 +49,7 @@ export default new class FetchDoctorAccountDataDB {
 		${mysqlTables.specialties_list}.specialties_list_id
       FROM ${mysqlTables.specialties_list}
           JOIN ${mysqlTables.specialty_mapping}
-          ON ${mysqlTables.specialties_list}.specialties_list_id = ${mysqlTables.specialty_mapping}.specialty_ID
+          ON ${mysqlTables.specialties_list}.specialties_list_id = ${mysqlTables.specialty_mapping}.specialty_id
       WHERE
           ${mysqlTables.specialty_mapping}.doctor_id = ?`
 
@@ -64,7 +64,7 @@ export default new class FetchDoctorAccountDataDB {
 	async preVetEducation (doctorId: number): Promise<PreVetEducation[]> {
 		const sql = `SELECT ${mysqlTables.pre_vet_school_list}.school_name, ${mysqlTables.major_list}.major_name,
 			${mysqlTables.pre_vet_education_type_list}.education_type, ${mysqlTables.pre_vet_education_mapping}.start_date,
-			${mysqlTables.pre_vet_education_mapping}.end_date, ${mysqlTables.pre_vet_education_mapping}.pre_vet_education_mappingID
+			${mysqlTables.pre_vet_education_mapping}.end_date, ${mysqlTables.pre_vet_education_mapping}.pre_vet_education_mapping_id
 				FROM ${mysqlTables.pre_vet_education_mapping}, ${mysqlTables.pre_vet_school_list},
 			${mysqlTables.major_list}, ${mysqlTables.pre_vet_education_type_list}
 			WHERE
@@ -86,7 +86,7 @@ export default new class FetchDoctorAccountDataDB {
 		const sql = `SELECT ${mysqlTables.vet_school_list}.school_name,
 		${mysqlTables.vet_education_type_list}.education_type,
 		${mysqlTables.vet_education_mapping}.start_date, ${mysqlTables.vet_education_mapping}.end_date,
-		${mysqlTables.vet_education_mapping}.vet_education_mappingID
+		${mysqlTables.vet_education_mapping}.vet_education_mapping_id
 		FROM ${mysqlTables.vet_education_mapping}, ${mysqlTables.vet_school_list}, ${mysqlTables.vet_education_type_list}
 		WHERE
 			${mysqlTables.vet_education_mapping}.school_id = ${mysqlTables.vet_school_list}.vet_school_list_id
@@ -121,13 +121,13 @@ export default new class FetchDoctorAccountDataDB {
 		return camelCasedAddressData as PrivateDoctorAddressData[]
 	}
 
-	async availabilityData (addressID: number): Promise<DoctorAvailability[]> {
+	async availabilityData (addressId: number): Promise<DoctorAvailability[]> {
 		const sql = `SELECT ${mysqlTables.booking_availability}.day_of_week,
 		${mysqlTables.booking_availability}.start_time, ${mysqlTables.booking_availability}.end_time
 		FROM ${mysqlTables.booking_availability}
-		WHERE ${mysqlTables.booking_availability}.address_ID = ?`
+		WHERE ${mysqlTables.booking_availability}.address_id = ?`
 
-		const values = [addressID]
+		const values = [addressId]
 
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
@@ -136,12 +136,12 @@ export default new class FetchDoctorAccountDataDB {
 		return camelCasedAvailabilityData as DoctorAvailability[]
 	}
 
-	async phoneData (addressID: number): Promise<string> {
+	async phoneData (addressId: number): Promise<string> {
 		const sql = `SELECT ${mysqlTables.doctor_phone_numbers}.phone
       FROM ${mysqlTables.doctor_phone_numbers}
-      WHERE ${mysqlTables.doctor_phone_numbers}.address_ID = ?`
+      WHERE ${mysqlTables.doctor_phone_numbers}.address_id = ?`
 
-		const values = [addressID]
+		const values = [addressId]
 
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]

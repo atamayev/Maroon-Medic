@@ -20,7 +20,7 @@ export default new class CalendarDataService {
 	async fillCalendarDetails() {
 		return await http.get("/calendar/get-doctor-calendar-details")
 	}
-	async confirmAppointment(AppointmentID: number) {
-		return await http.patch("/calendar/confirm-appointment", {AppointmentID})
+	async confirmAppointment(appointmentId: number) {
+		return await http.patch("/calendar/confirm-appointment", {appointmentId})
 	}
 }()

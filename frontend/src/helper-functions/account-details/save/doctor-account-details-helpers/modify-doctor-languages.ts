@@ -6,14 +6,14 @@ type LanguageOperationsType = typeof PrivateDoctorDataService.deleteLanguage |
 
 export default async function modifyDoctorLanguages(
 	operation: LanguageOperationsType,
-	languageID: number,
+	languageId: number,
 	newSpokenLanguages: LanguageItem[],
 	setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
 	setLanguagesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
 	let response
 	try {
-		response = await operation(languageID)
+		response = await operation(languageId)
 	} catch (error: unknown) {
 		handle401AxiosErrorAndSetMessageType(error, setLanguagesConfirmation)
 		return

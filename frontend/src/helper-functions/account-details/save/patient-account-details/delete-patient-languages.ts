@@ -2,12 +2,12 @@ import PrivatePatientDataService from "../../../../services/private-patient-data
 import modifyPatientLanguages from "./modify-patient-languages"
 
 export default async function deletePatientLanguages(
-	languageID: number,
+	languageId: number,
 	newSpokenLanguages: LanguageItem[],
 	setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
 	setLanguagesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
 	return await modifyPatientLanguages(
-		PrivatePatientDataService.deleteLanguage, languageID, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation
+		PrivatePatientDataService.deleteLanguage, languageId, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation
 	)
 }

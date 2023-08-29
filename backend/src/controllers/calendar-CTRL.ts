@@ -31,8 +31,8 @@ export async function getDoctorCalendarDetails(req: Request, res: Response): Pro
 }
 
 export async function confirmAppointment (req: Request, res: Response): Promise<void> {
-	const AppointmentID = req.body.AppointmentID
+	const appointmentId = req.body.appointmentId
 
-	const operation: () => Promise<void> = async () => await CalendarDB.confirmAppointmentStatus(AppointmentID)
+	const operation: () => Promise<void> = async () => await CalendarDB.confirmAppointmentStatus(appointmentId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }

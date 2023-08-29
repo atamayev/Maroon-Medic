@@ -2,7 +2,7 @@ import PrivateDoctorDataService from "../../../../services/private-doctor-data-s
 import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle-401-axios-error-and-set-message-type"
 
 export default async function deleteAddressData(
-	addressID: number,
+	addressId: number,
 	setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>,
 	setAddressesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
@@ -10,11 +10,11 @@ export default async function deleteAddressData(
 
 	try {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		const response = await PrivateDoctorDataService.deleteAddressData(addressID)
+		const response = await PrivateDoctorDataService.deleteAddressData(addressId)
 
 		if (response.status === 200) {
 			const newAddressData = DoctorAccountDetails.addressData.filter(
-				(addr: DoctorAddressData) => addr.addressesId !== addressID)
+				(addr: DoctorAddressData) => addr.addressesId !== addressId)
 
 			DoctorAccountDetails.addressData = newAddressData
 			setAddresses(newAddressData)

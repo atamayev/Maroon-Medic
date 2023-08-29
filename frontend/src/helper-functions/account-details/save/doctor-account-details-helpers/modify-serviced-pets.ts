@@ -6,14 +6,14 @@ type ServicedPetsOperationsType = typeof PrivateDoctorDataService.deleteServiced
 
 export default async function modifyServicedPets(
 	operation: ServicedPetsOperationsType,
-	petID: number,
+	petId: number,
 	newServicedPets: ServicedPetItem[],
 	setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItem[]>>,
 	setPetsConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
 	let response
 	try {
-		response = await operation(petID)
+		response = await operation(petId)
 	} catch (error: unknown) {
 		handle401AxiosErrorAndSetMessageType(error, setPetsConfirmation)
 		return

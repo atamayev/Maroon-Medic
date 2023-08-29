@@ -9,9 +9,9 @@ interface Props {
 
 const SaveOrUpdateButton = (props: Props) => {
 	const { address, setAddresses, setAddressesConfirmation } = props
-	const nonExistantAddressesID = -1
+	const nonExistantAddressesId = -1
 
-	if (address.addressesId === nonExistantAddressesID) {
+	if (address.addressesId === nonExistantAddressesId) {
 		return (
 			<AddLocationButton
 				address = {address}

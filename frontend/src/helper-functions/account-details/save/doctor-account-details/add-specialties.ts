@@ -2,7 +2,7 @@ import PrivateDoctorDataService from "src/services/private-doctor-data-service"
 import modifyDoctorSpecialties from "../doctor-account-details-helpers/modify-doctor-specialties"
 
 export default async function addSpecialties(
-	specialtyID: number,
+	specialtyId: number,
 	newDoctorSpecialties: SpecialtyItem[],
 	setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>,
 	setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>,
@@ -10,7 +10,7 @@ export default async function addSpecialties(
 ): Promise<void> {
 	return await modifyDoctorSpecialties(
 		PrivateDoctorDataService.addSpecialty,
-		specialtyID,
+		specialtyId,
 		newDoctorSpecialties,
 		setDoctorSpecialties,
 		setSpecialtiesConfirmation,
