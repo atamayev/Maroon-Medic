@@ -11,9 +11,10 @@ interface DescriptionData {
 
 export default new class FetchDoctorAccountDataDB {
 	async languages (doctorId: number): Promise<LanguageItem[]> {
-		const sql = `SELECT ${mysqlTables.language_list}.language_name, ${mysqlTables.language_list}.language_listID
+		const sql = `SELECT ${mysqlTables.language_list}.language_name, ${mysqlTables.language_list}.language_list_id
       FROM ${mysqlTables.language_list}
-          JOIN ${mysqlTables.language_mapping} ON ${mysqlTables.language_list}.language_listID = ${mysqlTables.language_mapping}.Language_ID
+          JOIN ${mysqlTables.language_mapping}
+		  ON ${mysqlTables.language_list}.language_list_id = ${mysqlTables.language_mapping}.language_id
       WHERE
           ${mysqlTables.language_mapping}.user_id = ?`
 
@@ -27,11 +28,11 @@ export default new class FetchDoctorAccountDataDB {
 
 	async services (doctorId: number): Promise<DetailedServiceItem[]> {
 		const sql = `SELECT ${mysqlTables.service_and_category_list}.category_name, ${mysqlTables.service_and_category_list}.service_name,
-			${mysqlTables.service_and_category_list}.service_and_category_listID, ${mysqlTables.service_mapping}.service_time,
+			${mysqlTables.service_and_category_list}.service_and_category_list_id, ${mysqlTables.service_mapping}.service_time,
 			${mysqlTables.service_mapping}.service_price
 		FROM ${mysqlTables.service_and_category_list}
 			JOIN ${mysqlTables.service_mapping} ON
-			${mysqlTables.service_and_category_list}.service_and_category_listID = ${mysqlTables.service_mapping}.Service_and_Category_ID
+			${mysqlTables.service_and_category_list}.service_and_category_list_id = ${mysqlTables.service_mapping}.service_and_category_id
 		WHERE
 			${mysqlTables.service_mapping}.doctor_id = ?`
 
@@ -45,10 +46,10 @@ export default new class FetchDoctorAccountDataDB {
 
 	async specialties (doctorId: number): Promise<OrganizationSpecialty[]> {
 		const sql = `SELECT ${mysqlTables.specialties_list}.organization_name, ${mysqlTables.specialties_list}.specialty_name,
-		${mysqlTables.specialties_list}.specialties_listID
+		${mysqlTables.specialties_list}.specialties_list_id
       FROM ${mysqlTables.specialties_list}
           JOIN ${mysqlTables.specialty_mapping}
-          ON ${mysqlTables.specialties_list}.specialties_listID = ${mysqlTables.specialty_mapping}.specialty_ID
+          ON ${mysqlTables.specialties_list}.specialties_list_id = ${mysqlTables.specialty_mapping}.specialty_ID
       WHERE
           ${mysqlTables.specialty_mapping}.doctor_id = ?`
 
@@ -67,10 +68,10 @@ export default new class FetchDoctorAccountDataDB {
 				FROM ${mysqlTables.pre_vet_education_mapping}, ${mysqlTables.pre_vet_school_list},
 			${mysqlTables.major_list}, ${mysqlTables.pre_vet_education_type_list}
 			WHERE
-				${mysqlTables.pre_vet_education_mapping}.School_ID = ${mysqlTables.pre_vet_school_list}.pre_vet_school_listID
-				AND ${mysqlTables.pre_vet_education_mapping}.Major_ID = ${mysqlTables.major_list}.major_listID
-				AND ${mysqlTables.pre_vet_education_mapping}.Education_type_ID =
-					${mysqlTables.pre_vet_education_type_list}.pre_vet_education_typeID
+				${mysqlTables.pre_vet_education_mapping}.school_id = ${mysqlTables.pre_vet_school_list}.pre_vet_school_list_id
+				AND ${mysqlTables.pre_vet_education_mapping}.major_id = ${mysqlTables.major_list}.major_list_id
+				AND ${mysqlTables.pre_vet_education_mapping}.education_type_id =
+					${mysqlTables.pre_vet_education_type_list}.pre_vet_education_type_id
 				AND ${mysqlTables.pre_vet_education_mapping}.doctor_id = ?`
 
 		const values = [doctorId]
@@ -88,8 +89,8 @@ export default new class FetchDoctorAccountDataDB {
 		${mysqlTables.vet_education_mapping}.vet_education_mappingID
 		FROM ${mysqlTables.vet_education_mapping}, ${mysqlTables.vet_school_list}, ${mysqlTables.vet_education_type_list}
 		WHERE
-			${mysqlTables.vet_education_mapping}.School_ID = ${mysqlTables.vet_school_list}.vet_school_listID
-			AND ${mysqlTables.vet_education_mapping}.Education_type_ID = ${mysqlTables.vet_education_type_list}.vet_education_typeID
+			${mysqlTables.vet_education_mapping}.school_id = ${mysqlTables.vet_school_list}.vet_school_list_id
+			AND ${mysqlTables.vet_education_mapping}.education_type_id = ${mysqlTables.vet_education_type_list}.vet_education_type_id
 			AND ${mysqlTables.vet_education_mapping}.doctor_id = ?`
 
 		const values = [doctorId]
@@ -101,7 +102,7 @@ export default new class FetchDoctorAccountDataDB {
 	}
 
 	async addressData (doctorId: number): Promise<PrivateDoctorAddressData[]> {
-		const sql = `SELECT ${mysqlTables.addresses}.addressesID, ${mysqlTables.addresses}.address_title,
+		const sql = `SELECT ${mysqlTables.addresses}.addresses_id, ${mysqlTables.addresses}.address_title,
     ${mysqlTables.addresses}.address_line_1, ${mysqlTables.addresses}.address_line_2, ${mysqlTables.addresses}.city,
     ${mysqlTables.addresses}.state, ${mysqlTables.addresses}.zip,
       ${mysqlTables.addresses}.country, ${mysqlTables.addresses}.address_priority, ${mysqlTables.addresses}.address_public_status,
@@ -163,9 +164,9 @@ export default new class FetchDoctorAccountDataDB {
 	}
 
 	async servicedPets (doctorId: number): Promise<ServicedPetItem[]> {
-		const sql = `SELECT ${mysqlTables.pet_list}.pet, ${mysqlTables.pet_list}.pet_type, ${mysqlTables.pet_list}.pet_listID
+		const sql = `SELECT ${mysqlTables.pet_list}.pet, ${mysqlTables.pet_list}.pet_type, ${mysqlTables.pet_list}.pet_list_id
       FROM ${mysqlTables.pet_list}
-          JOIN ${mysqlTables.pet_mapping} ON ${mysqlTables.pet_list}.pet_listID = ${mysqlTables.pet_mapping}.pet_ID
+          JOIN ${mysqlTables.pet_mapping} ON ${mysqlTables.pet_list}.pet_list_id = ${mysqlTables.pet_mapping}.pet_id
       WHERE ${mysqlTables.pet_mapping}.doctor_id = ?`
 
 		const values = [doctorId]

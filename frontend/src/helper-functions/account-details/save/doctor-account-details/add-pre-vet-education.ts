@@ -12,10 +12,10 @@ export default async function addPreVetEducation(
 	try {
 		const mappedPreVetGeneralEducationItem = {
 			schoolId: listDetails.preVetSchools
-				.find(school => school.schoolName === preVetGeneralEducationItem.schoolName)!.pre_vet_school_listID,
-			majorId: listDetails.majors.find(major => major.majorName === preVetGeneralEducationItem.majorName)!.major_listID,
+				.find(school => school.schoolName === preVetGeneralEducationItem.schoolName)!.preVetSchoolListId,
+			majorId: listDetails.majors.find(major => major.majorName === preVetGeneralEducationItem.majorName)!.majorListId,
 			educationTypeId: listDetails.preVetEducationTypes.find(
-				educationType => educationType.educationType === preVetGeneralEducationItem.educationType)!.pre_vet_education_typeID,
+				educationType => educationType.educationType === preVetGeneralEducationItem.educationType)!.preVetEducationTypeId,
 			startDate: moment(preVetGeneralEducationItem.startDate, "MMMM D, YYYY").format("YYYY-MM-DD"),
 			endDate: moment(preVetGeneralEducationItem.endDate, "MMMM D, YYYY").format("YYYY-MM-DD")
 		}

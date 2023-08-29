@@ -23,7 +23,7 @@ const SelectVetEducationType = (props: Props) => {
 				<option value = "" disabled>Choose an Education Type</option>
 				{_.uniqBy(listDetails.vetEducationTypes, "educationType").map(
 					(vetEdType) => (
-						<option key = {vetEdType.vet_education_typeID} value = {vetEdType.educationType}>
+						<option key = {vetEdType.vetEducationTypeId} value = {vetEdType.educationType}>
 							{vetEdType.educationType}
 						</option>
 					)

@@ -47,8 +47,8 @@ declare global {
   }
 
   type PicturesItem = {
-    picture_link: string
-    picture_number: number
+    pictureLink: string
+    pictureNumber: number
   }
 
   type DoctorAccountDispatchers = {

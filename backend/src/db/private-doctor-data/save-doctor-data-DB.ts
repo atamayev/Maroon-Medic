@@ -57,42 +57,42 @@ export default new class SaveDoctorDataDB {
 	}
 
 	async addLanguage (languageID: number, doctorId: number): Promise<void> {
-		const sql = `INSERT INTO ${mysqlTables.language_mapping} (Language_ID, user_id) VALUES (?, ?)`
+		const sql = `INSERT INTO ${mysqlTables.language_mapping} (language_id, user_id) VALUES (?, ?)`
 		const values = [languageID, doctorId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
 	async deleteLanguage (languageID: number, doctorId: number): Promise<void> {
-		const sql = `DELETE FROM ${mysqlTables.language_mapping} WHERE Language_ID = ? AND user_id = ?`
+		const sql = `DELETE FROM ${mysqlTables.language_mapping} WHERE language_id = ? AND user_id = ?`
 		const values = [languageID, doctorId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
 	async addSpecialty (specialtyID: number, doctorId: number): Promise<void> {
-		const sql = `INSERT INTO ${mysqlTables.specialty_mapping} (Specialty_ID, doctor_id) VALUES (?, ?)`
+		const sql = `INSERT INTO ${mysqlTables.specialty_mapping} (specialty_id, doctor_id) VALUES (?, ?)`
 		const values = [specialtyID, doctorId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
 	async deleteSpecialty (specialtyID: number, doctorId: number): Promise<void> {
-		const sql = `DELETE FROM ${mysqlTables.specialty_mapping} WHERE Specialty_ID = ? AND doctor_id = ?`
+		const sql = `DELETE FROM ${mysqlTables.specialty_mapping} WHERE specialty_id = ? AND doctor_id = ?`
 		const values = [specialtyID, doctorId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
 	async addServicedPet (petID: number, doctorId: number): Promise<void> {
-		const sql = `INSERT INTO ${mysqlTables.pet_mapping} (pet_ID, doctor_id) VALUES (?, ?)`
+		const sql = `INSERT INTO ${mysqlTables.pet_mapping} (pet_id, doctor_id) VALUES (?, ?)`
 		const values = [petID, doctorId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
 	async deleteServicedPet (petID: number, doctorId: number): Promise<void> {
-		const sql = `DELETE FROM ${mysqlTables.pet_mapping} WHERE pet_ID = ? AND doctor_id = ?`
+		const sql = `DELETE FROM ${mysqlTables.pet_mapping} WHERE pet_id = ? AND doctor_id = ?`
 		const values = [petID, doctorId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
@@ -100,14 +100,14 @@ export default new class SaveDoctorDataDB {
 
 	async addServicesData (addedData: ServiceItem, doctorId: number): Promise<void> {
 		const sql = `INSERT INTO ${mysqlTables.service_mapping}
-    		(Service_and_Category_ID, service_time, service_price, doctor_id) VALUES (?, ?, ?, ?)`
+    		(service_and_category_id, service_time, service_price, doctor_id) VALUES (?, ?, ?, ?)`
 		const values = [addedData.serviceAndCategoryListId, addedData.serviceTime, addedData.servicePrice, doctorId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
 	async deleteServicesData (deletedDataID: number, doctorId: number): Promise<void> {
-		const sql = `DELETE FROM ${mysqlTables.service_mapping} WHERE Service_and_Category_ID = ? AND doctor_id = ?`
+		const sql = `DELETE FROM ${mysqlTables.service_mapping} WHERE service_and_category_id = ? AND doctor_id = ?`
 		const values = [deletedDataID, doctorId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
@@ -115,7 +115,7 @@ export default new class SaveDoctorDataDB {
 
 	async updateServicesData (updatedData: ServiceItem, doctorId: number): Promise<void> {
 		const sql = `UPDATE ${mysqlTables.service_mapping}
-			SET service_time = ?, service_price = ? WHERE Service_and_Category_ID = ? AND doctor_id = ?`
+			SET service_time = ?, service_price = ? WHERE service_and_category_id = ? AND doctor_id = ?`
 		const values = [updatedData.serviceTime, updatedData.servicePrice, updatedData.serviceAndCategoryListId, doctorId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
@@ -123,7 +123,7 @@ export default new class SaveDoctorDataDB {
 
 	async addPreVetEducationData (preVetEducationObject: AddPreVetEducationItem, doctorId: number): Promise<number> {
 		const sql = `INSERT INTO ${mysqlTables.pre_vet_education_mapping}
-    		(School_ID, Major_ID, Education_type_ID, start_date, end_date, doctor_id) VALUES (?, ?, ?, ?, ?, ?)`
+    		(school_id, major_id, education_type_id, start_date, end_date, doctor_id) VALUES (?, ?, ?, ?, ?, ?)`
 		const values = [preVetEducationObject.schoolId, preVetEducationObject.majorId, preVetEducationObject.educationTypeId,
 			preVetEducationObject.startDate, preVetEducationObject.endDate, doctorId]
 		const connection = await connectDatabase()
@@ -133,7 +133,7 @@ export default new class SaveDoctorDataDB {
 
 	async addVetEducationData (vetEducationObject: AddEducationItem, doctorId: number): Promise<number> {
 		const sql = `INSERT INTO ${mysqlTables.vet_education_mapping}
-    (School_ID, Education_type_ID, start_date, end_date, doctor_id) VALUES (?, ?, ?, ?, ?)`
+    (school_id, education_type_id, start_date, end_date, doctor_id) VALUES (?, ?, ?, ?, ?)`
 		const values = [vetEducationObject.schoolId, vetEducationObject.educationTypeId,
 			vetEducationObject.startDate, vetEducationObject.endDate, doctorId]
 		const connection = await connectDatabase()
@@ -156,7 +156,7 @@ export default new class SaveDoctorDataDB {
 	}
 
 	async deleteAddressRecord (addressID: number): Promise<void> {
-		const sql = `UPDATE ${mysqlTables.addresses} SET is_active = 0 WHERE addressesID = ?`
+		const sql = `UPDATE ${mysqlTables.addresses} SET is_active = 0 WHERE addresses_id = ?`
 		const values = [addressID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
@@ -186,7 +186,7 @@ export default new class SaveDoctorDataDB {
 		const sql = `UPDATE ${mysqlTables.addresses}
           SET address_title = ?, address_line_1 = ?, address_line_2 = ?, city = ?,
           state = ?, zip = ?, country = ?, address_public_status = ?, instant_book = ?
-          WHERE addressesID = ?`
+          WHERE addresses_id = ?`
 		const values = [updatedAddressObject.addressTitle, updatedAddressObject.addressLine1, updatedAddressObject.addressLine2,
 			updatedAddressObject.city, updatedAddressObject.state, updatedAddressObject.zip, updatedAddressObject.country,
 			updatedAddressObject.addressPublicStatus, updatedAddressObject.instantBook, updatedAddressObject.addressesId]

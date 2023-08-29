@@ -13,12 +13,12 @@ CREATE TABLE appointments(
 	doctor_id INT UNSIGNED NOT NULL,
 	addresses_id INT UNSIGNED NOT NULL,
 	created_at DATETIME NOT NULL,
-	FOREIGN KEY (service_and_category_list_id) REFERENCES service_and_category_list(service_and_category_listID),
+	FOREIGN KEY (service_and_category_list_id) REFERENCES service_and_category_list(service_and_category_list_id),
 	FOREIGN KEY (patient_id) REFERENCES Credentials(user_id),
-	FOREIGN KEY (pet_info_id) REFERENCES pet_info(pet_infoID),
+	FOREIGN KEY (pet_info_id) REFERENCES pet_info(pet_info_id),
 	FOREIGN KEY (doctor_id) REFERENCES Credentials(user_id),
-	FOREIGN KEY (addresses_id) REFERENCES addresses(addressesID),
-	UNIQUE (appointment_date, service_and_category_list_ID, pet_info_ID, doctor_id)
+	FOREIGN KEY (addresses_id) REFERENCES addresses(addresses_id),
+	UNIQUE (appointment_date, service_and_category_list_id, pet_info_id, doctor_id)
 );
 
 

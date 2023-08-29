@@ -28,33 +28,33 @@ declare global {
   }
 
   type PreVetSchool = {
-    pre_vet_school_listID: number
+    preVetSchoolListId: number
     schoolName: string
   }
 
   type Major = {
-    major_listID: number
+    majorListId: number
     majorName: string
   }
 
   type PreVetEducationType = {
-    pre_vet_education_typeID: number
+    preVetEducationTypeId: number
     educationType: string
   }
 
   type VetSchoolList = {
-    vet_school_listID: number
+    vetSchoolListId: number
     schoolName: string
   }
 
   type VetEducationType = {
-    vet_education_typeID: number
+    vetEducationTypeId: number
     educationType: string
   }
 
   type InsuranceItem = {
-    insurance_listID: number
-    insurance_name: string
+    insuranceListId: number
+    insuranceName: string
   }
 
   type SpecialtyItem = {

@@ -8,7 +8,7 @@ export async function loginHistory(userId: number): Promise<void> {
 		await AuthDB.addLoginHistory(userId, loginAt)
 		return
 	} catch (error: unknown) {
-		console.log("Problem with adding login history")
+		console.log("Problem with adding login history", error)
 	}
 }
 

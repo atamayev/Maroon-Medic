@@ -22,7 +22,7 @@ export default new class CalendarDB {
 	): Promise<void> {
 		const sql = `INSERT INTO ${mysqlTables.appointments}
       (appointment_date, appointment_price, appointment_timespan, patient_message, doctor_confirmation_status,
-        service_and_category_list_ID, pet_info_ID, patient_id, doctor_id, Addresses_ID, created_at)
+        service_and_category_list_ID, pet_info_id, patient_id, doctor_id, Addresses_ID, created_at)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
 
 		const values = [dateTime, AppointmentObject.appointmentPrice, AppointmentObject.appointmentTimespan, AppointmentObject.message,
@@ -35,7 +35,7 @@ export default new class CalendarDB {
 
 	async retrieveDoctorCalendarDetails (doctorId: number): Promise<CalendarData[]> {
 		const sql = `SELECT
-        ${mysqlTables.appointments}.mysqlTables.appointments_id, ${mysqlTables.appointments}.appointment_date,
+        ${mysqlTables.appointments}.appointments_id, ${mysqlTables.appointments}.appointment_date,
         ${mysqlTables.appointments}.appointment_price,
 		${mysqlTables.appointments}.appointment_timespan,
 		${mysqlTables.appointments}.patient_message,
@@ -50,12 +50,12 @@ export default new class CalendarDB {
         ${mysqlTables.pet_info}.name AS petName
       FROM ${mysqlTables.appointments}
         INNER JOIN ${mysqlTables.service_and_category_list} ON
-          ${mysqlTables.appointments}.service_and_category_list_ID = ${mysqlTables.service_and_category_list}.service_and_category_listID
+          ${mysqlTables.appointments}.service_and_category_list_ID = ${mysqlTables.service_and_category_list}.service_and_category_list_id
         INNER JOIN ${mysqlTables.addresses} ON
-          ${mysqlTables.appointments}.addresses_ID = ${mysqlTables.addresses}.addressesID
+          ${mysqlTables.appointments}.addresses_ID = ${mysqlTables.addresses}.addresses_id
           AND ${mysqlTables.addresses}.doctor_id = ${mysqlTables.appointments}.doctor_id
         INNER JOIN ${mysqlTables.pet_info} ON
-        ${mysqlTables.appointments}.mysqlTables.pet_info_ID = ${mysqlTables.pet_info}.mysqlTables.pet_infoID
+        ${mysqlTables.appointments}.pet_info_id = ${mysqlTables.pet_info}.pet_info_id
         INNER JOIN ${mysqlTables.basic_user_info} ON ${mysqlTables.pet_info}.patient_id = ${mysqlTables.basic_user_info}.user_id
       WHERE
         ${mysqlTables.appointments}.doctor_id = ?`

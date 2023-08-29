@@ -24,7 +24,7 @@ const SelectMajor = (props: Props) => {
 				<option value = "" disabled>Choose a major</option>
 				{_.uniqBy(listDetails.majors, "majorName").map(
 					(major) => (
-						<option key = {major.major_listID} value = {major.majorName}>
+						<option key = {major.majorListId} value = {major.majorName}>
 							{major.majorName}
 						</option>
 					)

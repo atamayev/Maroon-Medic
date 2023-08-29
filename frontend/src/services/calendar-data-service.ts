@@ -1,16 +1,16 @@
 import http from "../http-common"
 
 interface AppointmentObject {
-  Service_and_category_list_ID: number
-  appointmentDate: string
-  appointmentTime: string
-  appointmentTimespan: number
-  appointmentPrice: number
-  nvi: number
-  AddressesID: number
-  InstantBook: boolean
-  message: string
-  selectedPetId: number
+	serviceAndCategoryListId: number
+	appointmentDate: string
+	appointmentTime: string
+	appointmentTimespan: number
+	appointmentPrice: number
+	nvi: number
+	addressesId: number
+	InstantBook: boolean
+	message: string
+	selectedPetId: number
 }
 
 export default new class CalendarDataService {

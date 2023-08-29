@@ -1,6 +1,8 @@
 import redisClient from "../setup-and-security/redis"
 import { mysqlTables } from "./table-names-list"
 import { connectDatabase } from "../setup-and-security/connect"
+import { RowDataPacket } from "mysql2"
+import { transformArrayOfObjectsToCamelCase } from "./transform-keys-to-camel-case"
 
 export default new class FetchAll {
 	// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -12,9 +14,11 @@ export default new class FetchAll {
 
 		try {
 			const connection = await connectDatabase()
-			const [results] = await connection.execute(sql)
-			redisClient.set(tableName, JSON.stringify(results)).catch(error => console.error(error))
-			return results
+			const [results] = await connection.execute(sql) as RowDataPacket[]
+			const formattedResults = results.map((row: RowDataPacket) => row)
+			const camelCasedResults = transformArrayOfObjectsToCamelCase(formattedResults)
+			redisClient.set(tableName, JSON.stringify(camelCasedResults)).catch(error => console.error(error))
+			return camelCasedResults
 		} catch (error: unknown) {
 			console.log(error)
 			return []

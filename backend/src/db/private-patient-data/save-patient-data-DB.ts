@@ -35,21 +35,21 @@ export default new class SavePatientDataDB {
 	}
 
 	async addLanguage(languageID: number, patientId: number): Promise<void> {
-		const sql = `INSERT INTO ${mysqlTables.language_mapping} (Language_ID, user_id) VALUES (?, ?)`
+		const sql = `INSERT INTO ${mysqlTables.language_mapping} (language_id, user_id) VALUES (?, ?)`
 		const values = [languageID, patientId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
 	async deleteLanguage(languageID: number, patientId: number): Promise<void> {
-		const sql = `DELETE FROM ${mysqlTables.language_mapping} WHERE Language_ID = ? AND user_id = ?`
+		const sql = `DELETE FROM ${mysqlTables.language_mapping} WHERE language_id = ? AND user_id = ?`
 		const values = [languageID, patientId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
 	async addNewPet(petData: PetDetails, patientId: number): Promise<number> {
-		const sql = `INSERT INTO ${mysqlTables.pet_info} (name, gender, date_of_birth, patient_id, pet_ID) VALUES (?, ?, ?, ?, ?)`
+		const sql = `INSERT INTO ${mysqlTables.pet_info} (name, gender, date_of_birth, patient_id, pet_id) VALUES (?, ?, ?, ?, ?)`
 		const values = [petData.name, petData.gender, petData.dateOfBirth, patientId, petData.petListId]
 		const connection = await connectDatabase()
 		const [result] = await connection.execute(sql, values)
@@ -57,14 +57,14 @@ export default new class SavePatientDataDB {
 	}
 
 	async addNewPetInsurance (insuranceListID: number, petInfoID: number): Promise<void> {
-		const sql = `INSERT INTO ${mysqlTables.insurance_mapping} (Insurance_ID, pet_info_ID) VALUES (?, ?)`
+		const sql = `INSERT INTO ${mysqlTables.insurance_mapping} (Insurance_ID, pet_info_id) VALUES (?, ?)`
 		const values = [insuranceListID, petInfoID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
 	async deletePet(petID: number): Promise<void> {
-		const sql = `UPDATE ${mysqlTables.pet_info} SET is_active = 0 WHERE pet_infoID = ?`
+		const sql = `UPDATE ${mysqlTables.pet_info} SET is_active = 0 WHERE pet_info_id = ?`
 		const values = [petID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)

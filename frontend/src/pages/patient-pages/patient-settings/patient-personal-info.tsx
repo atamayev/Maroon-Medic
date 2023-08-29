@@ -40,6 +40,7 @@ export default function PatientPersonalInfo() {
 							className="w-full"
 							colorClass="bg-green-600"
 							hoverClass="hover:bg-green-700"
+							textColor = "text-white"
 						/>
 						<SavedConfirmationMessage
 							confirmationMessage={personalInfoConfirmation}

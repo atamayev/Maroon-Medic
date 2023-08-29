@@ -21,7 +21,7 @@ const SelectPreVetSchool = (props: Props) => {
 				<option value = "" disabled>Choose a School</option>
 				{_.uniqBy(listDetails.preVetSchools, "schoolName").map(
 					(school) => (
-						<option key = {school.pre_vet_school_listID} value = {school.schoolName}>
+						<option key = {school.preVetSchoolListId} value = {school.schoolName}>
 							{school.schoolName}
 						</option>
 					)

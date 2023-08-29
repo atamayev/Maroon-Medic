@@ -8,14 +8,12 @@ ASAP:
 	make casing lowercase for hte appointments table
 	In doing this, change all variables to camelcase. (first_name AS firstName)
 	Enforce camelcase for variable names in TS (remove all aliases from the DB commands, use the camelcase function instead)
-		ctrl f AS
-		CTRL f _ in the types folder of both front/backend
 		ctrl F 'ID'. should be Id after camelcasing
 10. Enforce camel, pascal casing. see GPT
 10. Make the pets in the patient header be the pets that the user has
 11. Fix calendar appointments not rendering
-
-Write the logic that makes sure that when making a booking, the vet is able to service the pet that the user has. See below
+12. Write the logic that makes sure that when making a booking, the vet is able to service the pet that the user has. See below
+13. Add insurance to make a booking
 
 -add choose your pet to make an appointment. if the user isn't logged in, show a login/register button in the booking section.
 	the first question should be: choose which pet you would like to take to the vet

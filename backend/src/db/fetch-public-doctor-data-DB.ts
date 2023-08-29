@@ -7,7 +7,8 @@ export default new class FetchPublicDoctorDataDB {
 	async languages (doctorId: number): Promise<LanguageName[]> {
 		const sql = `SELECT ${mysqlTables.language_list}.language_name
       FROM ${mysqlTables.language_list}
-          JOIN ${mysqlTables.language_mapping} ON ${mysqlTables.language_list}.language_listID = ${mysqlTables.language_mapping}.Language_ID
+          JOIN ${mysqlTables.language_mapping}
+		  ON ${mysqlTables.language_list}.language_list_id = ${mysqlTables.language_mapping}.language_id
       WHERE ${mysqlTables.language_mapping}.user_id = ?`
 
 		const values = [doctorId]
@@ -22,7 +23,7 @@ export default new class FetchPublicDoctorDataDB {
 		const sql = `SELECT ${mysqlTables.specialties_list}.organization_name, ${mysqlTables.specialties_list}.specialty_name
 		FROM ${mysqlTables.specialties_list}
 			JOIN ${mysqlTables.specialty_mapping}
-			ON ${mysqlTables.specialties_list}.specialties_listID = ${mysqlTables.specialty_mapping}.specialty_ID
+			ON ${mysqlTables.specialties_list}.specialties_list_id = ${mysqlTables.specialty_mapping}.specialty_ID
 		WHERE ${mysqlTables.specialty_mapping}.doctor_id = ?`
 
 		const values = [doctorId]
@@ -39,9 +40,10 @@ export default new class FetchPublicDoctorDataDB {
 		${mysqlTables.pre_vet_education_mapping}.end_date
 		FROM ${mysqlTables.pre_vet_education_mapping}, ${mysqlTables.pre_vet_school_list},
 		${mysqlTables.major_list}, ${mysqlTables.pre_vet_education_type_list}
-		WHERE ${mysqlTables.pre_vet_education_mapping}.School_ID = ${mysqlTables.pre_vet_school_list}.pre_vet_school_listID
-		AND ${mysqlTables.pre_vet_education_mapping}.Major_ID = ${mysqlTables.major_list}.major_listID
-		AND ${mysqlTables.pre_vet_education_mapping}.Education_type_ID = ${mysqlTables.pre_vet_education_type_list}.pre_vet_education_typeID
+		WHERE ${mysqlTables.pre_vet_education_mapping}.school_id = ${mysqlTables.pre_vet_school_list}.pre_vet_school_list_id
+		AND ${mysqlTables.pre_vet_education_mapping}.major_id = ${mysqlTables.major_list}.major_list_id
+		AND ${mysqlTables.pre_vet_education_mapping}.education_type_id =
+			${mysqlTables.pre_vet_education_type_list}.pre_vet_education_type_id
 		AND ${mysqlTables.pre_vet_education_mapping}.doctor_id = ?`
 
 		const values = [doctorId]
@@ -57,8 +59,8 @@ export default new class FetchPublicDoctorDataDB {
 			${mysqlTables.vet_education_mapping}.start_date, ${mysqlTables.vet_education_mapping}.end_date
 			FROM ${mysqlTables.vet_education_mapping}, ${mysqlTables.vet_school_list}, ${mysqlTables.vet_education_type_list}
 			WHERE
-				${mysqlTables.vet_education_mapping}.School_ID = ${mysqlTables.vet_school_list}.vet_school_listID
-				AND ${mysqlTables.vet_education_mapping}.Education_type_ID = ${mysqlTables.vet_education_type_list}.vet_education_typeID
+				${mysqlTables.vet_education_mapping}.school_id = ${mysqlTables.vet_school_list}.vet_school_list_id
+				AND ${mysqlTables.vet_education_mapping}.education_type_id = ${mysqlTables.vet_education_type_list}.vet_education_type_id
 				AND ${mysqlTables.vet_education_mapping}.doctor_id = ?`
 
 		const values = [doctorId]
@@ -72,7 +74,7 @@ export default new class FetchPublicDoctorDataDB {
 	async servicedPets (doctorId: number): Promise<ServicedPetData[]> {
 		const sql = `SELECT ${mysqlTables.pet_list}.pet, ${mysqlTables.pet_list}.pet_type
         FROM ${mysqlTables.pet_list}
-            JOIN ${mysqlTables.pet_mapping} ON ${mysqlTables.pet_list}.pet_listID = ${mysqlTables.pet_mapping}.pet_ID
+            JOIN ${mysqlTables.pet_mapping} ON ${mysqlTables.pet_list}.pet_list_id = ${mysqlTables.pet_mapping}.pet_id
         WHERE
             ${mysqlTables.pet_mapping}.doctor_id = ?`
 
@@ -86,14 +88,14 @@ export default new class FetchPublicDoctorDataDB {
 
 	async addressData (doctorId: number): Promise<PublicAddressData[]> {
 		const sql = `SELECT
-          ${mysqlTables.addresses}.addressesID, ${mysqlTables.addresses}.address_title, ${mysqlTables.addresses}.address_line_1,
+          ${mysqlTables.addresses}.addresses_id, ${mysqlTables.addresses}.address_title, ${mysqlTables.addresses}.address_line_1,
           ${mysqlTables.addresses}.address_line_2, ${mysqlTables.addresses}.city, ${mysqlTables.addresses}.state,
           ${mysqlTables.addresses}.zip, ${mysqlTables.addresses}.country, ${mysqlTables.addresses}.address_priority,
           ${mysqlTables.addresses}.instant_book,
           ${mysqlTables.doctor_phone_numbers}.phone
       FROM ${mysqlTables.addresses}, ${mysqlTables.doctor_phone_numbers}
       WHERE
-          ${mysqlTables.addresses}.addressesID = ${mysqlTables.doctor_phone_numbers}.address_ID AND ${mysqlTables.addresses}.doctor_id = ?
+          ${mysqlTables.addresses}.addresses_id = ${mysqlTables.doctor_phone_numbers}.address_ID AND ${mysqlTables.addresses}.doctor_id = ?
           AND ${mysqlTables.addresses}.address_public_status = 1 AND ${mysqlTables.addresses}.is_active = 1`
 
 		const values = [doctorId]

@@ -4,14 +4,15 @@ import { RowDataPacket } from "mysql2"
 import { transformArrayOfObjectsToCamelCase } from "../../utils/transform-keys-to-camel-case"
 
 type InsuranceItem = {
-	insurance_name: string
+	insuranceName: string
 }
 
 export default new class FetchPatientAccountDataDB {
 	async languages (patientId: number): Promise<LanguageItem[]> {
-		const sql = `SELECT ${mysqlTables.language_list}.language_name AS languageName, ${mysqlTables.language_list}.language_listID
+		const sql = `SELECT ${mysqlTables.language_list}.language_name, ${mysqlTables.language_list}.language_list_id
       FROM ${mysqlTables.language_list}
-          JOIN ${mysqlTables.language_mapping} ON ${mysqlTables.language_list}.language_listID = ${mysqlTables.language_mapping}.Language_ID
+          JOIN ${mysqlTables.language_mapping}
+		  ON ${mysqlTables.language_list}.language_list_id = ${mysqlTables.language_mapping}.language_id
       WHERE
           ${mysqlTables.language_mapping}.user_id = ?`
 
@@ -25,9 +26,9 @@ export default new class FetchPatientAccountDataDB {
 
 	async petData (patientId: number): Promise<CompletePetInfo[]> {
 		const sql = `SELECT ${mysqlTables.pet_info}.name, ${mysqlTables.pet_info}.gender, ${mysqlTables.pet_info}.date_of_birth,
-    		${mysqlTables.pet_list}.pet, ${mysqlTables.pet_list}.pet_type, ${mysqlTables.pet_info}.pet_infoID
+    		${mysqlTables.pet_list}.pet, ${mysqlTables.pet_list}.pet_type, ${mysqlTables.pet_info}.pet_info_id
         FROM ${mysqlTables.pet_info}
-            JOIN ${mysqlTables.pet_list} ON ${mysqlTables.pet_info}.pet_ID = ${mysqlTables.pet_list}.pet_listID
+            JOIN ${mysqlTables.pet_list} ON ${mysqlTables.pet_info}.pet_id = ${mysqlTables.pet_list}.pet_list_id
         WHERE
             ${mysqlTables.pet_info}.is_active = 1 AND ${mysqlTables.pet_info}.patient_id = ?`
 
@@ -44,15 +45,17 @@ export default new class FetchPatientAccountDataDB {
 		const sql = `SELECT ${mysqlTables.insurance_list}.insurance_name
         FROM ${mysqlTables.insurance_list}
             JOIN ${mysqlTables.insurance_mapping} ON
-            ${mysqlTables.insurance_list}.insurance_listID = ${mysqlTables.insurance_mapping}.Insurance_ID
+            ${mysqlTables.insurance_list}.insurance_list_id = ${mysqlTables.insurance_mapping}.Insurance_ID
         WHERE
-            ${mysqlTables.insurance_mapping}.pet_info_ID = ?`
+            ${mysqlTables.insurance_mapping}.pet_info_id = ?`
 
 		const values = [petInfoID]
 
 		const connection = await connectDatabase()
-		const [insuranceResults] = await connection.execute(sql, values) as RowDataPacket[]
-		const insurance = (insuranceResults[0] as InsuranceItem).insurance_name
+		const [results] = await connection.execute(sql, values) as RowDataPacket[]
+		const insuranceResults = results.map((row: RowDataPacket) => row)
+		const camelCasedPetData = transformArrayOfObjectsToCamelCase(insuranceResults)
+		const insurance = (camelCasedPetData[0] as InsuranceItem).insuranceName
 		return insurance as string
 	}
 }()
