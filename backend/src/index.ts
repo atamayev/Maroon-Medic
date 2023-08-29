@@ -11,7 +11,7 @@ import publicDoctorDataRoutes from "./routes/public-doctor-data-ROUTES"
 import searchRoutes from "./routes/search-ROUTES"
 import calendarRoutes from "./routes/calendar-ROUTES"
 import listsRoutes from "./routes/lists-ROUTES"
-import GetIDFromUUID from "./utils/getIDFromUUID"
+import GetIDFromUUID from "./utils/get-id-from-uuid"
 
 dotenv.config()
 

@@ -4,7 +4,7 @@ import {
 	makeAppointment,
 	confirmAppointment
 } from "../controllers/calendar-CTRL"
-import GetIDFromUUID from "../utils/getIDFromUUID"
+import GetIDFromUUID from "../utils/get-id-from-uuid"
 
 const router = express.Router()
 

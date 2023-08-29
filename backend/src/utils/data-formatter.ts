@@ -1,6 +1,6 @@
+import _ from "lodash"
 import { Dayjs } from "dayjs"
 import TimeUtils from "./time"
-import _ from "lodash"
 
 export default new class Format {
 	personalData(results: {firstName: string, lastName: string, gender: string, dateOfBirth: string}): FormattedPersonalData {

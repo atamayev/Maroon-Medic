@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 declare global {
   type DoctorOrPatient = "Doctor" | "Patient"
   type DoctorOrPatientOrNull = DoctorOrPatient | null
