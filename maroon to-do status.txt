@@ -15,20 +15,7 @@ ASAP:
 10. Make the pets in the patient header be the pets that the user has
 11. Fix calendar appointments not rendering
 
-Make personal info it's own context
-Combine authContext and verify context. make it into a memoized class, initialized as null in index.tsx
-
-
-Make the auth token and cookie stored in a class, like in context.ts in deployment manager
-	reading from memory is faster than from session storage
-	Create an auth class to store all of this stuff. Make the class have UUID, AccessToken, userType
-
-Classes vs useState:
-	Use classes when you need to use variables across components.
-	useState is used for temporary memory within a component
-
-Classes vs session storage:
-	Use classes when data is sensitive
+Write the logic that makes sure that when making a booking, the vet is able to service the pet that the user has. See below
 
 -add choose your pet to make an appointment. if the user isn't logged in, show a login/register button in the booking section.
 	the first question should be: choose which pet you would like to take to the vet
@@ -42,7 +29,24 @@ Classes vs session storage:
 			don't make it doctorUUID or patientUUID, just make it UUID. same for AccessToken
 			think about the best way to structure the acess token/ uuid thing
 
-Move data like personal info into a context. If it's used by multiple components, move it into a context. Every time you navigate, show the context data, but call the API to check for changes simultaneously
+CONTEXT
+			Make personal info it's own context
+			Combine authContext and verify context. make it into a memoized class, initialized as null in index.tsx
+
+
+			Make the auth token and cookie stored in a class, like in context.ts in deployment manager
+				reading from memory is faster than from session storage
+				Create an auth class to store all of this stuff. Make the class have UUID, AccessToken, userType
+
+			Classes vs useState:
+				Use classes when you need to use variables across components.
+				useState is used for temporary memory within a component
+
+			Classes vs session storage:
+				Use classes when data is sensitive
+
+			Move data like personal info into a context. If it's used by multiple components, move it into a context. Every time you navigate, show the context data, but call the API to check for changes simultaneously
+
 On the My-Pets page, make each pet have it's own 'row' card, similar to addersses in doctor account details (shouldn't be able to close/open, always open)
 	show something like the picture on the left side, and then the details on the right. Details can include past appointments, other stuff (can always add later)
 	

@@ -23,7 +23,7 @@ export default new class FetchPublicDoctorDataDB {
 		FROM ${mysqlTables.specialties_list}
 			JOIN ${mysqlTables.specialty_mapping}
 			ON ${mysqlTables.specialties_list}.specialties_listID = ${mysqlTables.specialty_mapping}.specialty_ID
-		WHERE ${mysqlTables.specialty_mapping}.Doctor_ID = ?`
+		WHERE ${mysqlTables.specialty_mapping}.doctor_id = ?`
 
 		const values = [DoctorID]
 		const connection = await connectDatabase()
@@ -42,7 +42,7 @@ export default new class FetchPublicDoctorDataDB {
 		WHERE ${mysqlTables.pre_vet_education_mapping}.School_ID = ${mysqlTables.pre_vet_school_list}.pre_vet_school_listID
 		AND ${mysqlTables.pre_vet_education_mapping}.Major_ID = ${mysqlTables.major_list}.major_listID
 		AND ${mysqlTables.pre_vet_education_mapping}.Education_type_ID = ${mysqlTables.pre_vet_education_type_list}.pre_vet_education_typeID
-		AND ${mysqlTables.pre_vet_education_mapping}.Doctor_ID = ?`
+		AND ${mysqlTables.pre_vet_education_mapping}.doctor_id = ?`
 
 		const values = [DoctorID]
 		const connection = await connectDatabase()
@@ -59,7 +59,7 @@ export default new class FetchPublicDoctorDataDB {
 			WHERE
 				${mysqlTables.vet_education_mapping}.School_ID = ${mysqlTables.vet_school_list}.vet_school_listID
 				AND ${mysqlTables.vet_education_mapping}.Education_type_ID = ${mysqlTables.vet_education_type_list}.vet_education_typeID
-				AND ${mysqlTables.vet_education_mapping}.Doctor_ID = ?`
+				AND ${mysqlTables.vet_education_mapping}.doctor_id = ?`
 
 		const values = [DoctorID]
 		const connection = await connectDatabase()
@@ -74,7 +74,7 @@ export default new class FetchPublicDoctorDataDB {
         FROM ${mysqlTables.pet_list}
             JOIN ${mysqlTables.pet_mapping} ON ${mysqlTables.pet_list}.pet_listID = ${mysqlTables.pet_mapping}.pet_ID
         WHERE
-            ${mysqlTables.pet_mapping}.Doctor_ID = ?`
+            ${mysqlTables.pet_mapping}.doctor_id = ?`
 
 		const values = [DoctorID]
 		const connection = await connectDatabase()
@@ -93,7 +93,7 @@ export default new class FetchPublicDoctorDataDB {
           ${mysqlTables.doctor_phone_numbers}.phone
       FROM ${mysqlTables.addresses}, ${mysqlTables.doctor_phone_numbers}
       WHERE
-          ${mysqlTables.addresses}.addressesID = ${mysqlTables.doctor_phone_numbers}.address_ID AND ${mysqlTables.addresses}.Doctor_ID = ?
+          ${mysqlTables.addresses}.addressesID = ${mysqlTables.doctor_phone_numbers}.address_ID AND ${mysqlTables.addresses}.doctor_id = ?
           AND ${mysqlTables.addresses}.address_public_status = 1 AND ${mysqlTables.addresses}.is_active = 1`
 
 		const values = [DoctorID]

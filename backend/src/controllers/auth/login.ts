@@ -15,11 +15,11 @@ export default async function login (req: Request, res: Response): Promise<Respo
 
 	if (!validateUserType(loginType)) return res.status(400).json("Invalid User Type")
 
-	let results: UserIDAndPassword
+	let results: UserIdAndPassword
 	let hashedPassword: string
 
 	try {
-		results = await AuthDB.retrieveUserIDAndPassword(email, loginType)
+		results = await AuthDB.retrieveUserIdAndPassword(email, loginType)
 		if (_.isEmpty(results)) return res.status(404).json("Username not found!")
 		else hashedPassword = results.password
 	} catch (error: unknown) {
@@ -36,13 +36,13 @@ export default async function login (req: Request, res: Response): Promise<Respo
 
 	if (bool === false) return res.status(400).json("Wrong Username or Password!")
 	const IDKey = `${loginType}ID`
-	const UUID = await ID_to_UUID(results.UserID)
+	const UUID = await ID_to_UUID(results.userId)
 	const payload = { [IDKey]: UUID }
 
 	const token = signJWT(payload, loginType)
 	if (!token) return res.status(500).json({ error: "Problem with Signing JWT" })
 
-	await loginHistory(results.UserID)
+	await loginHistory(results.userId)
 
 	Cookie.clearAll(res, loginType)
 

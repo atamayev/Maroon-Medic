@@ -7,7 +7,7 @@ export default function SearchResults( { data } : { data: DoctorData[] }) {
 	return (
 		<div className = "card-container" style = {{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gridGap: "16px" }}>
 			{data.map((item) => {
-				return <SingleDoctor key = {item.NVI} doctorData = {item} />
+				return <SingleDoctor key = {item.nvi} doctorData = {item} />
 			})}
 		</div>
 	)

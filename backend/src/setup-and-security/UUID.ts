@@ -2,15 +2,15 @@ import { v4 as uuidv4 } from "uuid"
 import UUIDDB from "../db/UUID-DB"
 import TimeUtils from "../utils/time"
 
-export async function ID_to_UUID(UserID: number): Promise<string> {
+export async function ID_to_UUID(userId: number): Promise<string> {
 	const UUID = uuidv4()
 	const createdAt = TimeUtils.createFormattedDate()
 
 	try {
-		await UUIDDB.createNewUUID(UUID, createdAt, UserID)
+		await UUIDDB.createNewUUID(UUID, createdAt, userId)
 		return UUID
 	} catch (error: unknown) {
-		throw new Error(`Unable to convert UserID to UUID ${UserID}`)
+		throw new Error(`Unable to convert userId to UUID ${userId}`)
 	}
 }
 
@@ -18,9 +18,9 @@ export async function UUID_to_ID(UUID: string): Promise<number> {
 	if (!UUID) throw new Error(`no UUID received in ${UUID_to_ID.name}`)
 
 	try {
-		const UserID = await UUIDDB.retrieveUUID(UUID)
-		return UserID
+		const userId = await UUIDDB.retrieveUUID(UUID)
+		return userId
 	} catch (error: unknown) {
-		throw new Error(`No UserID found for UUID: ${UUID}`)
+		throw new Error(`No userId found for UUID: ${UUID}`)
 	}
 }

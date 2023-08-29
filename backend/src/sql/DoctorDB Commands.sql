@@ -3,7 +3,7 @@ USE MaroonDB;
 SHOW TABLES;
 
 CREATE TABLE credentials (
-	UserID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	user_id INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	email VARCHAR(150) NOT NULL,
 	password VARCHAR(150) NOT NULL,
 	created_at DATETIME NOT NULL,
@@ -17,8 +17,8 @@ CREATE TABLE doctor_specific_info(
 	NVI INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	verified BOOLEAN NOT NULL,
 	publicly_available BOOLEAN NOT NULL,
-	Doctor_ID INT unsigned NOT NULL,
-	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
+	doctor_id INT unsigned NOT NULL,
+	FOREIGN KEY (doctor_id) REFERENCES credentials(user_id)
 )AUTO_INCREMENT = 1000000;
 
 SELECT * FROM doctor_specific_info;
@@ -29,8 +29,8 @@ CREATE TABLE basic_user_info (
 	last_name VARCHAR(150) NOT NULL,
 	gender VARCHAR(150) NOT NULL,
 	date_of_birth DATE NOT NULL,
-	User_ID INT unsigned NOT NULL,
-	FOREIGN KEY (User_ID) REFERENCES Credentials(UserID)
+	user_id INT unsigned NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES credentials(user_id)
 );
 
 SELECT * FROM basic_user_info;
@@ -46,10 +46,10 @@ SELECT * FROM pet_list;
 CREATE TABLE pet_mapping( -- which types of animals each vet services
 	pet_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	pet_ID INT unsigned NOT NULL,
-	Doctor_ID INT unsigned NOT NULL,
+	doctor_id INT unsigned NOT NULL,
 	FOREIGN KEY (pet_ID) REFERENCES pet_list(pet_listID),
-	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID),
-	UNIQUE (pet_ID, Doctor_ID)
+	FOREIGN KEY (doctor_id) REFERENCES credentials(user_id),
+	UNIQUE (pet_ID, doctor_id)
 );
 
 SELECT * FROM pet_mapping;
@@ -59,10 +59,10 @@ CREATE TABLE pet_info ( -- specific info about each pet (from the Patient POV)
 	name VARCHAR(150) NOT NULL,
 	gender VARCHAR(150) NOT NULL,
 	date_of_birth DATE NOT NULL,
-	Patient_ID INT unsigned NOT NULL,
+	patient_id INT unsigned NOT NULL,
 	pet_ID INT unsigned NOT NULL,
 	is_active BOOLEAN NOT NULL DEFAULT 1, -- set to 1 by default, when a patient deletes pet, set to 0.
-	FOREIGN KEY (Patient_ID) REFERENCES Credentials(UserID),
+	FOREIGN KEY (patient_id) REFERENCES credentials(user_id),
 	FOREIGN KEY (pet_ID) REFERENCES pet_list(pet_listID)
 );
 
@@ -72,8 +72,8 @@ CREATE TABLE UUID_reference(
 	UUID_referenceID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	UUID VARCHAR(150) NOT NULL,
 	created_at DATETIME NOT NULL,
-	User_ID INT unsigned NOT NULL,
-	FOREIGN KEY (User_ID) REFERENCES Credentials(UserID)
+	user_id INT unsigned NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES credentials(user_id)
 );
 
 SELECT * FROM UUID_reference;
@@ -81,8 +81,8 @@ SELECT * FROM UUID_reference;
 CREATE TABLE descriptions(
 	descriptionsID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	description VARCHAR(2500),
-	Doctor_ID INT unsigned NOT NULL,
-	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
+	doctor_id INT unsigned NOT NULL,
+	FOREIGN KEY (doctor_id) REFERENCES credentials(user_id)
 );
 
 SELECT * FROM descriptions;
@@ -118,10 +118,10 @@ CREATE TABLE service_mapping(
 	service_time VARCHAR(20) NOT NULL,
 	service_price DECIMAL(5,2) NOT NULL CHECK(Service_price >= 0),
 	Service_and_Category_ID INT unsigned NOT NULL,
-	Doctor_ID INT unsigned NOT NULL,
+	doctor_id INT unsigned NOT NULL,
 	FOREIGN KEY (Service_and_Category_ID) REFERENCES service_and_category_list(service_and_category_listID),
-	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID),
-	UNIQUE (service_time, Service_and_Category_ID, Doctor_ID)
+	FOREIGN KEY (doctor_id) REFERENCES credentials(user_id),
+	UNIQUE (service_time, Service_and_Category_ID, doctor_id)
 );
 
 SELECT * FROM service_mapping;
@@ -130,9 +130,11 @@ CREATE TABLE pictures(
 	picturesID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	picture_link VARCHAR(512),
 	picture_number INT, -- picture number is the primary, secondary, etc.
-	Doctor_ID INT unsigned NOT NULL,
-	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
+	doctor_id INT unsigned NOT NULL,
+	FOREIGN KEY (doctor_id) REFERENCES credentials(user_id)
 );
+
+SELECT * FROM pictures;
 
 CREATE TABLE language_list(
 	language_listID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -144,9 +146,9 @@ SELECT * FROM language_list;
 CREATE TABLE language_mapping(
 	language_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	Language_ID INT unsigned NOT NULL,
-	User_ID INT unsigned NOT NULL,
+	user_id INT unsigned NOT NULL,
 	FOREIGN KEY (Language_ID) REFERENCES language_list(language_listID),
-	FOREIGN KEY (User_ID) REFERENCES Credentials(UserID),
+	FOREIGN KEY (user_id) REFERENCES credentials(user_id),
 	UNIQUE (Language_ID, User_ID)
 );
 
@@ -180,12 +182,12 @@ CREATE TABLE pre_vet_education_mapping(
 	Education_type_ID INT unsigned NOT NULL,
 	start_date DATE NOT NULL,
 	end_date DATE NOT NULL,
-	Doctor_ID INT unsigned NOT NULL,
+	doctor_id INT unsigned NOT NULL,
 	FOREIGN KEY (School_ID) REFERENCES pre_vet_school_list(pre_vet_school_listID),
 	FOREIGN KEY (Major_ID) REFERENCES major_list(major_listID),
 	FOREIGN KEY (Education_type_ID) REFERENCES pre_vet_education_type_list(pre_vet_education_typeID),
-	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID),
-	UNIQUE (School_ID, Major_ID, Education_type_ID, Doctor_ID)
+	FOREIGN KEY (doctor_id) REFERENCES credentials(user_id),
+	UNIQUE (School_ID, Major_ID, Education_type_ID, doctor_id)
 );
 
 SELECT * FROM pre_vet_education_mapping;
@@ -210,11 +212,11 @@ CREATE TABLE vet_education_mapping(
 	Education_type_ID INT unsigned NOT NULL,
 	start_date DATE NOT NULL,
 	end_date DATE NOT NULL,
-	Doctor_ID INT unsigned NOT NULL,
+	doctor_id INT unsigned NOT NULL,
 	FOREIGN KEY (School_ID) REFERENCES vet_school_list(vet_school_listID),
 	FOREIGN KEY (Education_type_ID) REFERENCES vet_education_type_list(vet_education_typeID),
-	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID),
-	UNIQUE (School_ID, Education_type_ID, Doctor_ID)
+	FOREIGN KEY (doctor_id) REFERENCES credentials(user_id),
+	UNIQUE (School_ID, Education_type_ID, doctor_id)
 );
 
 
@@ -231,10 +233,10 @@ SELECT * FROM specialties_list;
 CREATE TABLE specialty_mapping(
 	specialty_mappingID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	Specialty_ID INT unsigned NOT NULL,
-	Doctor_ID INT unsigned NOT NULL,
+	doctor_id INT unsigned NOT NULL,
 	FOREIGN KEY (Specialty_ID) REFERENCES specialties_list(specialties_listID),
-	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID),
-	UNIQUE (Specialty_ID, Doctor_ID)
+	FOREIGN KEY (doctor_id) REFERENCES credentials(user_id),
+	UNIQUE (Specialty_ID, doctor_id)
 );
 
 SELECT * FROM specialty_mapping;
@@ -252,14 +254,14 @@ CREATE TABLE addresses(
 	address_public_status BOOLEAN NOT NULL,
 	instant_book BOOLEAN NOT NULL,
 	is_active BOOLEAN NOT NULL DEFAULT 1, -- set to 1 by default, when a doc deletes address, set to 0.
-	Doctor_ID INT unsigned NOT NULL,
-	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
+	doctor_id INT unsigned NOT NULL,
+	FOREIGN KEY (doctor_id) REFERENCES credentials(user_id)
 );
 
 select * from addresses;
 select * from addresses where isactive;
 SELECT * FROM addresses inner join phone on addresses.addressesID = phone.address_ID WHERE addresses.isactive;
--- update addresses set is_active = 0 where Doctor_ID;
+-- update addresses set is_active = 0 where doctor_id;
 
 CREATE TABLE doctor_phone_numbers(
 	phone_numbersID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -283,12 +285,15 @@ CREATE TABLE booking_availability(
 SELECT * FROM booking_availability JOIN addresses ON booking_availability.address_ID = addresses.addressesID where addresses.is_active;
 SELECT * FROM booking_availability;
 
+ALTER TABLE login_history
+CHANGE User_ID user_id INT unsigned NOT NULL;
+
 CREATE TABLE login_history(
 login_historyID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Login_at DATETIME NOT NULL,
+login_at DATETIME NOT NULL,
 IP_Address VARCHAR(15),
-User_ID INT unsigned NOT NULL,
-FOREIGN KEY (User_ID) REFERENCES Credentials(UserID));
+user_id INT unsigned NOT NULL,
+FOREIGN KEY (user_id) REFERENCES credentials(user_id));
 
 SELECT * FROM login_history;
 
@@ -298,8 +303,8 @@ SELECT * FROM login_history;
 -- 	Latest_Hours_before_booking VARCHAR(10),
 -- 	Hours_in_advance_cancelation VARCHAR(10),
 -- 	Appointment_time_slots VARCHAR(10),
--- 	Doctor_ID INT unsigned NOT NULL,
--- 	FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID)
+-- 	doctor_id INT unsigned NOT NULL,
+-- 	FOREIGN KEY (doctor_id) REFERENCES credentials(user_id)
 -- );
 
 -- SELECT * FROM detailed_booking_availability;
@@ -309,4 +314,4 @@ SELECT * FROM login_history;
 -- Updated_at VARCHAR(150),
 -- IP_Address INT unsigned,
 -- User_ID INT unsigned NOT NULL,
--- FOREIGN KEY (Doctor_ID) REFERENCES Credentials(UserID));
+-- FOREIGN KEY (doctor_id) REFERENCES credentials(user_id));

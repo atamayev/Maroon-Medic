@@ -3,7 +3,7 @@ import { SearchContext } from "../../contexts/search-context"
 import SearchResults from "./search-results"
 
 export default function HomeDoctorsList() {
-	const {items, fetchData, setSearchTerm } = useContext(SearchContext)
+	const { items, fetchData, setSearchTerm } = useContext(SearchContext)
 
 	useEffect(() => {
 		setSearchTerm("")

@@ -34,7 +34,7 @@ export default new class SaveDoctorDataDB {
 	}
 
 	async checkIfDescriptionExists (DoctorID: number): Promise<boolean> {
-		const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.descriptions} WHERE Doctor_ID = ?) AS 'exists' `
+		const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.descriptions} WHERE doctor_id = ?) AS 'exists' `
 		const values = [DoctorID]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values)
@@ -43,14 +43,14 @@ export default new class SaveDoctorDataDB {
 	}
 
 	async updateDescription (description: string, DoctorID: number): Promise<void> {
-		const sql = `UPDATE ${mysqlTables.descriptions} SET description = ? WHERE Doctor_ID = ?`
+		const sql = `UPDATE ${mysqlTables.descriptions} SET description = ? WHERE doctor_id = ?`
 		const values = [description, DoctorID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
 	async addDescription (description: string, DoctorID: number): Promise<void> {
-		const sql = `INSERT INTO ${mysqlTables.descriptions} (description, Doctor_ID) VALUES (?, ?)`
+		const sql = `INSERT INTO ${mysqlTables.descriptions} (description, doctor_id) VALUES (?, ?)`
 		const values = [description, DoctorID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
@@ -71,28 +71,28 @@ export default new class SaveDoctorDataDB {
 	}
 
 	async addSpecialty (specialtyID: number, DoctorID: number): Promise<void> {
-		const sql = `INSERT INTO ${mysqlTables.specialty_mapping} (Specialty_ID, Doctor_ID) VALUES (?, ?)`
+		const sql = `INSERT INTO ${mysqlTables.specialty_mapping} (Specialty_ID, doctor_id) VALUES (?, ?)`
 		const values = [specialtyID, DoctorID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
 	async deleteSpecialty (specialtyID: number, DoctorID: number): Promise<void> {
-		const sql = `DELETE FROM ${mysqlTables.specialty_mapping} WHERE Specialty_ID = ? AND Doctor_ID = ?`
+		const sql = `DELETE FROM ${mysqlTables.specialty_mapping} WHERE Specialty_ID = ? AND doctor_id = ?`
 		const values = [specialtyID, DoctorID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
 	async addServicedPet (petID: number, DoctorID: number): Promise<void> {
-		const sql = `INSERT INTO ${mysqlTables.pet_mapping} (pet_ID, Doctor_ID) VALUES (?, ?)`
+		const sql = `INSERT INTO ${mysqlTables.pet_mapping} (pet_ID, doctor_id) VALUES (?, ?)`
 		const values = [petID, DoctorID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
 	async deleteServicedPet (petID: number, DoctorID: number): Promise<void> {
-		const sql = `DELETE FROM ${mysqlTables.pet_mapping} WHERE pet_ID = ? AND Doctor_ID = ?`
+		const sql = `DELETE FROM ${mysqlTables.pet_mapping} WHERE pet_ID = ? AND doctor_id = ?`
 		const values = [petID, DoctorID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
@@ -100,14 +100,14 @@ export default new class SaveDoctorDataDB {
 
 	async addServicesData (addedData: ServiceItem, DoctorID: number): Promise<void> {
 		const sql = `INSERT INTO ${mysqlTables.service_mapping}
-    		(Service_and_Category_ID, service_time, service_price, Doctor_ID) VALUES (?, ?, ?, ?)`
+    		(Service_and_Category_ID, service_time, service_price, doctor_id) VALUES (?, ?, ?, ?)`
 		const values = [addedData.serviceAndCategoryListId, addedData.serviceTime, addedData.servicePrice, DoctorID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
 	async deleteServicesData (deletedDataID: number, DoctorID: number): Promise<void> {
-		const sql = `DELETE FROM ${mysqlTables.service_mapping} WHERE Service_and_Category_ID = ? AND Doctor_ID = ?`
+		const sql = `DELETE FROM ${mysqlTables.service_mapping} WHERE Service_and_Category_ID = ? AND doctor_id = ?`
 		const values = [deletedDataID, DoctorID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
@@ -115,7 +115,7 @@ export default new class SaveDoctorDataDB {
 
 	async updateServicesData (updatedData: ServiceItem, DoctorID: number): Promise<void> {
 		const sql = `UPDATE ${mysqlTables.service_mapping}
-			SET service_time = ?, service_price = ? WHERE Service_and_Category_ID = ? AND Doctor_ID = ?`
+			SET service_time = ?, service_price = ? WHERE Service_and_Category_ID = ? AND doctor_id = ?`
 		const values = [updatedData.serviceTime, updatedData.servicePrice, updatedData.serviceAndCategoryListId, DoctorID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
@@ -123,7 +123,7 @@ export default new class SaveDoctorDataDB {
 
 	async addPreVetEducationData (preVetEducationObject: AddPreVetEducationItem, DoctorID: number): Promise<number> {
 		const sql = `INSERT INTO ${mysqlTables.pre_vet_education_mapping}
-    		(School_ID, Major_ID, Education_type_ID, start_date, end_date, Doctor_ID) VALUES (?, ?, ?, ?, ?, ?)`
+    		(School_ID, Major_ID, Education_type_ID, start_date, end_date, doctor_id) VALUES (?, ?, ?, ?, ?, ?)`
 		const values = [preVetEducationObject.schoolId, preVetEducationObject.majorId, preVetEducationObject.educationTypeId,
 			preVetEducationObject.startDate, preVetEducationObject.endDate, DoctorID]
 		const connection = await connectDatabase()
@@ -133,7 +133,7 @@ export default new class SaveDoctorDataDB {
 
 	async addVetEducationData (vetEducationObject: AddEducationItem, DoctorID: number): Promise<number> {
 		const sql = `INSERT INTO ${mysqlTables.vet_education_mapping}
-    (School_ID, Education_type_ID, start_date, end_date, Doctor_ID) VALUES (?, ?, ?, ?, ?)`
+    (School_ID, Education_type_ID, start_date, end_date, doctor_id) VALUES (?, ?, ?, ?, ?)`
 		const values = [vetEducationObject.schoolId, vetEducationObject.educationTypeId,
 			vetEducationObject.startDate, vetEducationObject.endDate, DoctorID]
 		const connection = await connectDatabase()
@@ -165,7 +165,7 @@ export default new class SaveDoctorDataDB {
 	async addAddressRecord (addressObject: PrivateDoctorAddressLessTimesAndPhone, DoctorID: number): Promise<number> {
 		const sql = `INSERT INTO ${mysqlTables.addresses}
           (address_title, address_line_1, address_line_2, city, state, zip, country,
-            address_public_status, address_priority, instant_book, Doctor_ID)
+            address_public_status, address_priority, instant_book, doctor_id)
           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
 		const values = [addressObject.addressTitle, addressObject.addressLine1, addressObject.addressLine2,
 			addressObject.city, addressObject.state, addressObject.zip, addressObject.country,
@@ -246,7 +246,7 @@ export default new class SaveDoctorDataDB {
 	}
 
 	async updatePublicAvilability (newstatus: boolean, DoctorID: number): Promise<void> {
-		const sql = `UPDATE ${mysqlTables.doctor_specific_info} SET publicly_available = ? WHERE Doctor_ID = ?`
+		const sql = `UPDATE ${mysqlTables.doctor_specific_info} SET publicly_available = ? WHERE doctor_id = ?`
 		const values = [newstatus, DoctorID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)

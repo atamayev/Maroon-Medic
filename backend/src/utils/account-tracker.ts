@@ -1,11 +1,11 @@
 import AuthDB from "../db/auth-DB"
 import TimeUtils from "./time"
 
-export async function loginHistory(UserID: number): Promise<void> {
+export async function loginHistory(userId: number): Promise<void> {
 	const loginAt = TimeUtils.createFormattedDate()
 
 	try {
-		await AuthDB.addLoginHistory(UserID, loginAt)
+		await AuthDB.addLoginHistory(userId, loginAt)
 		return
 	} catch (error: unknown) {
 		console.log("Problem with adding login history")

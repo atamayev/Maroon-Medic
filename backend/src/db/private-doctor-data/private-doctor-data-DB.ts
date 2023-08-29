@@ -4,17 +4,17 @@ import { RowDataPacket } from "mysql2"
 import { transformArrayOfObjectsToCamelCase, transformKeysToCamelCase } from "../../utils/transform-keys-to-camel-case"
 
 export default new class PrivateDoctorDataDB {
-	async addNewDoctorInfo (doctorInfo: UserInfo, dateOfBirth: MysqlTimestamp, UserID: number): Promise<void> {
+	async addNewDoctorInfo (doctorInfo: UserInfo, dateOfBirth: MysqlTimestamp, userId: number): Promise<void> {
 		const sql = `INSERT INTO ${mysqlTables.basic_user_info} (first_name, last_name, gender, date_of_birth, User_ID)
 			VALUES (?, ?, ?, ?, ?)`
-		const values = [doctorInfo.firstName, doctorInfo.lastName, doctorInfo.gender, dateOfBirth, UserID]
+		const values = [doctorInfo.firstName, doctorInfo.lastName, doctorInfo.gender, dateOfBirth, userId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
 	async retrieveDoctorDashboard (DoctorID: number): Promise<DoctorDashboardData[]> {
 		const sql = `SELECT
-          ${mysqlTables.appointments}.appointmentsID, ${mysqlTables.appointments}.appointment_date,
+          ${mysqlTables.appointments}.appointments_id, ${mysqlTables.appointments}.appointment_date,
 		  ${mysqlTables.appointments}.appointment_price,
 		  ${mysqlTables.appointments}.appointment_timespan,
 		  ${mysqlTables.appointments}.patient_message,
@@ -31,11 +31,11 @@ export default new class PrivateDoctorDataDB {
 			${mysqlTables.service_and_category_list}.service_and_category_listID
           INNER JOIN ${mysqlTables.addresses} ON
           	${mysqlTables.appointments}.addresses_ID = ${mysqlTables.addresses}.addressesID
-          	AND ${mysqlTables.addresses}.Doctor_ID = ${mysqlTables.appointments}.Doctor_ID
-          INNER JOIN ${mysqlTables.basic_user_info} ON ${mysqlTables.appointments}.Patient_ID = ${mysqlTables.basic_user_info}.User_ID
+          	AND ${mysqlTables.addresses}.doctor_id = ${mysqlTables.appointments}.doctor_id
+          INNER JOIN ${mysqlTables.basic_user_info} ON ${mysqlTables.appointments}.patient_id = ${mysqlTables.basic_user_info}.User_ID
 		  INNER JOIN ${mysqlTables.pet_info} ON ${mysqlTables.appointments}.pet_info_ID = ${mysqlTables.pet_info}.pet_infoID
       WHERE
-          ${mysqlTables.appointments}.Doctor_ID = ?`
+          ${mysqlTables.appointments}.doctor_id = ?`
 
 		const values = [DoctorID]
 		const connection = await connectDatabase()

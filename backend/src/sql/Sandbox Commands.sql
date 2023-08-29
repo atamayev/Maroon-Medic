@@ -1,5 +1,5 @@
 SELECT
-    a.appointmentsID,
+    a.appointments_id,
     a.appointment_date,
     a.patient_message,
     a.doctor_confirmation_status,
@@ -19,9 +19,9 @@ SELECT
 FROM
     Appointments a
     INNER JOIN service_and_category_list s ON a.service_and_category_list_ID = s.service_and_category_listID
-    INNER JOIN addresses ad ON a.Addresses_ID = ad.addressesID AND ad.Doctor_ID = a.Doctor_ID
-    INNER JOIN basic_user_info bu ON a.Doctor_ID = bu.User_ID
-    INNER JOIN service_mapping sm ON a.service_and_category_list_ID = sm.Service_and_Category_ID AND a.Doctor_ID = sm.Doctor_ID
+    INNER JOIN addresses ad ON a.Addresses_ID = ad.addressesID AND ad.doctor_id = a.doctor_id
+    INNER JOIN basic_user_info bu ON a.doctor_id = bu.User_ID
+    INNER JOIN service_mapping sm ON a.service_and_category_list_ID = sm.Service_and_Category_ID AND a.doctor_id = sm.doctor_id
 WHERE
-    a.Patient_ID = 3
+    a.patient_id = 3
     and a.doctor_confirmation_status = 1;

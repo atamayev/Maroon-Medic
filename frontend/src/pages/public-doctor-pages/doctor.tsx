@@ -27,7 +27,7 @@ export default function Doctor () {
 		}])
 	const [description, setDescription] = useState("")
 	const [servicedPets, setServicedPets] = useState([])
-	const [personalData, setPersonalData] = useState<DoctorPersonalData>({firstName: "", lastName: "", gender: "", NVI: 0})
+	const [personalData, setPersonalData] = useState<DoctorPersonalData>({firstName: "", lastName: "", gender: "", nvi: 0})
 
 	const idNumber = Number(id)
 

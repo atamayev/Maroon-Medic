@@ -12,15 +12,15 @@ export default async function changePassword (req: Request, res: Response): Prom
 	else if (userType === "Doctor") UUID = cookies.DoctorUUID
 	else if (userType === "Patient") UUID = cookies.PatientUUID
 
-	let UserID: number
+	let userID: number
 	try {
-		UserID = await UUID_to_ID(UUID)
+		userID = await UUID_to_ID(UUID)
 	} catch (error: unknown) {
 		return res.status(401).json({ shouldRedirect: true, redirectURL: "/" })
 	}
 
 	try {
-		const hashedOldPassword = await AuthDB.retrieveUserPassword(UserID)
+		const hashedOldPassword = await AuthDB.retrieveUserPassword(userID)
 		const isOldPasswordMatch = await Hash.checkPassword(currentPassword, hashedOldPassword)
 		if (!isOldPasswordMatch) return res.status(400).json("Old Password is incorrect")
 		else {
@@ -28,7 +28,7 @@ export default async function changePassword (req: Request, res: Response): Prom
 			if (isSamePassword) return res.status(402).json("New Password cannot be the same as the old password")
 
 			const newHashedPassword = await Hash.hashCredentials(newPassword)
-			await AuthDB.updatePassword(newHashedPassword, UserID)
+			await AuthDB.updatePassword(newHashedPassword, userID)
 			return res.status(200).json()
 		}
 	} catch (error: unknown) {

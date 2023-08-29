@@ -29,7 +29,7 @@ export default new class FetchPatientAccountDataDB {
         FROM ${mysqlTables.pet_info}
             JOIN ${mysqlTables.pet_list} ON ${mysqlTables.pet_info}.pet_ID = ${mysqlTables.pet_list}.pet_listID
         WHERE
-            ${mysqlTables.pet_info}.is_active = 1 AND ${mysqlTables.pet_info}.Patient_ID = ?`
+            ${mysqlTables.pet_info}.is_active = 1 AND ${mysqlTables.pet_info}.patient_id = ?`
 
 		const values = [PatientID]
 

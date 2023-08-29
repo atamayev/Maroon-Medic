@@ -9,8 +9,8 @@ declare global {
     exp?: number
   }
 
-  type UserIDAndPassword = {
-    UserID: number
+  type UserIdAndPassword = {
+    userId: number
     password: string
   }
 

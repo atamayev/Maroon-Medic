@@ -32,6 +32,7 @@ export const SearchContextProvider = (props: Props) => {
 			let result
 			if (pathname === "/") {
 				result = await SearchDataService.fetchAllUsers()
+				console.log(result)
 			} else if (pathname.startsWith("/s/")) {
 				result = await SearchDataService.searchByQuery(searchTerm)
 			}

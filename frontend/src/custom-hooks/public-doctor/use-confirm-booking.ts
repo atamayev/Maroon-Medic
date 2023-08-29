@@ -17,7 +17,7 @@ export default function useConfirmBooking(): (props: ConfirmBookingProps) => Pro
 			appointmentTime: appointmentInformation.selectedTime!,
 			appointmentTimespan: serviceMinutes,
 			appointmentPrice: appointmentInformation.selectedService!.servicePrice,
-			NVI: personalData.NVI,
+			nvi: personalData.nvi,
 			AddressesID: appointmentInformation.selectedLocation!.addressesId,
 			InstantBook: appointmentInformation.selectedLocation!.instantBook,
 			message: message,

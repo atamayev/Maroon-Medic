@@ -6,7 +6,7 @@ interface AppointmentObject {
   appointmentTime: string
   appointmentTimespan: number
   appointmentPrice: number
-  NVI: number
+  nvi: number
   AddressesID: number
   InstantBook: boolean
   message: string

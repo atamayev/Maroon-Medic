@@ -25,30 +25,30 @@ export default async function register (req: Request, res: Response): Promise<Re
 
 	const createdAt = TimeUtils.createFormattedDate()
 
-	let UserID: number
+	let userId: number
 	try {
-		UserID = await AuthDB.addNewUserCredentials(email, hashedPassword, createdAt, loginType)
+		userId = await AuthDB.addNewUserCredentials(email, hashedPassword, createdAt, loginType)
 	} catch (error: unknown) {
 		return res.status(500).json({ error: "Problem with Data Insertion" })
 	}
 
 	if (loginType === "Doctor") {
 		try {
-			await AuthDB.addDoctorSpecificDetails(UserID)
+			await AuthDB.addDoctorSpecificDetails(userId)
 		} catch (error: unknown) {
 			return res.status(500).json({ error: "Problem with Data Insertion" })
 		}
 	}
 
 	const IDKey = `${loginType}ID`
-	const UUID = await ID_to_UUID(UserID)
+	const UUID = await ID_to_UUID(userId)
 	const payload = { [IDKey]: UUID }
 
 	const token = signJWT(payload, loginType)
 	if (!token) return res.status(500).json({ error: "Problem with Signing JWT" })
 
-	const newUserUUID = await ID_to_UUID(UserID)
-	await loginHistory(UserID)
+	const newUserUUID = await ID_to_UUID(userId)
+	await loginHistory(userId)
 
 	Cookie.clearAll(res, loginType)
 

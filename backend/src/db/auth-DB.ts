@@ -17,12 +17,14 @@ export default new class AuthDB {
 		return Boolean(doesRecordExist)
 	}
 
-	async retrieveUserIDAndPassword (username: string, loginType: DoctorOrPatient): Promise<UserIDAndPassword> {
-		const sql = `SELECT UserID, password FROM ${mysqlTables.credentials} WHERE email = ? AND user_type = ? AND is_active = 1`
+	async retrieveUserIdAndPassword (username: string, loginType: DoctorOrPatient): Promise<UserIdAndPassword> {
+		const sql = `SELECT user_id, password FROM ${mysqlTables.credentials} WHERE email = ? AND user_type = ? AND is_active = 1`
 		const values = [username, loginType]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
-		const resultsObject = results[0] as UserIDAndPassword
+		const userIDData = results.map((row: RowDataPacket) => row as UserIdAndPassword)
+		const camelCasedUserIdData = transformArrayOfObjectsToCamelCase(userIDData)
+		const resultsObject = camelCasedUserIdData[0] as UserIdAndPassword
 		return resultsObject
 	}
 
@@ -50,32 +52,32 @@ export default new class AuthDB {
 		return (results as OkPacket).insertId
 	}
 
-	async addDoctorSpecificDetails (UserID: number): Promise<void> {
-		const sql = `INSERT INTO ${mysqlTables.doctor_specific_info} (verified, publicly_available, Doctor_ID) VALUES (?, ?, ?)`
-		const values = [true, true, UserID]
+	async addDoctorSpecificDetails (userId: number): Promise<void> {
+		const sql = `INSERT INTO ${mysqlTables.doctor_specific_info} (verified, publicly_available, doctor_id) VALUES (?, ?, ?)`
+		const values = [true, true, userId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
-	async updatePassword (password: string, UserID: number): Promise<void> {
-		const sql = `UPDATE ${mysqlTables.credentials} SET password = ? WHERE UserID = ?`
-		const values = [password, UserID]
+	async updatePassword (password: string, userId: number): Promise<void> {
+		const sql = `UPDATE ${mysqlTables.credentials} SET password = ? WHERE user_id = ?`
+		const values = [password, userId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
-	async retrieveUserPassword (UserID: number): Promise<string> {
-		const sql = `SELECT password FROM ${mysqlTables.credentials} WHERE UserID = ?`
-		const values = [UserID]
+	async retrieveUserPassword (userId: number): Promise<string> {
+		const sql = `SELECT password FROM ${mysqlTables.credentials} WHERE user_id = ?`
+		const values = [userId]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values)
 		const password = (results as RowDataPacket[])[0].password
 		return password
 	}
 
-	async retrieveLoginHistory (UserID: number): Promise<LoginHistoryRecord[]> {
+	async retrieveLoginHistory (userId: number): Promise<LoginHistoryRecord[]> {
 		const sql = `SELECT login_at FROM ${mysqlTables.login_history} WHERE User_ID = ? ORDER BY login_at DESC`
-		const values = [UserID]
+		const values = [userId]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
 		const loginHistory = results.map((row: RowDataPacket) => row as LoginHistoryRecord)
@@ -97,9 +99,9 @@ export default new class AuthDB {
 		return false
 	}
 
-	async addLoginHistory (UserID: number, loginTime: MysqlTimestamp): Promise<void> {
+	async addLoginHistory (userId: number, loginTime: MysqlTimestamp): Promise<void> {
 		const sql = `INSERT INTO ${mysqlTables.login_history} (login_at, IP_Address, User_ID) VALUES (?, ?, ?)`
-		const values = [loginTime, null, UserID]
+		const values = [loginTime, null, userId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}

@@ -5,12 +5,13 @@ import { transformArrayOfObjectsToCamelCase } from "../utils/transform-keys-to-c
 
 export default new class CalendarDB {
 	async retrieveDoctorIDFromNVI (NVI: number): Promise<number> {
-		const sql = `SELECT Doctor_ID FROM ${mysqlTables.doctor_specific_info} WHERE NVI = ?`
+		const sql = `SELECT doctor_id FROM ${mysqlTables.doctor_specific_info} WHERE NVI = ?`
 		const values = [NVI]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values)
-		const DoctorID = (results as RowDataPacket[])[0].Doctor_ID
-		return DoctorID
+		console.log(results)
+		const doctorId = (results as RowDataPacket[])[0].doctor_id
+		return doctorId
 	}
 
 	async addAppointment (
@@ -22,7 +23,7 @@ export default new class CalendarDB {
 	): Promise<void> {
 		const sql = `INSERT INTO ${mysqlTables.appointments}
       (appointment_date, appointment_price, appointment_timespan, patient_message, doctor_confirmation_status,
-        service_and_category_list_ID, pet_info_ID, Patient_ID, Doctor_ID, Addresses_ID, created_at)
+        service_and_category_list_ID, pet_info_ID, patient_id, doctor_id, Addresses_ID, created_at)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
 
 		const values = [dateTime, AppointmentObject.appointmentPrice, AppointmentObject.appointmentTimespan, AppointmentObject.message,
@@ -35,7 +36,7 @@ export default new class CalendarDB {
 
 	async retrieveDoctorCalendarDetails (DoctorID: number): Promise<CalendarData[]> {
 		const sql = `SELECT
-        ${mysqlTables.appointments}.mysqlTables.appointmentsID, ${mysqlTables.appointments}.appointment_date,
+        ${mysqlTables.appointments}.mysqlTables.appointments_id, ${mysqlTables.appointments}.appointment_date,
         ${mysqlTables.appointments}.appointment_price,
 		${mysqlTables.appointments}.appointment_timespan,
 		${mysqlTables.appointments}.patient_message,
@@ -53,12 +54,12 @@ export default new class CalendarDB {
           ${mysqlTables.appointments}.service_and_category_list_ID = ${mysqlTables.service_and_category_list}.service_and_category_listID
         INNER JOIN ${mysqlTables.addresses} ON
           ${mysqlTables.appointments}.addresses_ID = ${mysqlTables.addresses}.addressesID
-          AND ${mysqlTables.addresses}.Doctor_ID = ${mysqlTables.appointments}.Doctor_ID
+          AND ${mysqlTables.addresses}.doctor_id = ${mysqlTables.appointments}.doctor_id
         INNER JOIN ${mysqlTables.pet_info} ON
         ${mysqlTables.appointments}.mysqlTables.pet_info_ID = ${mysqlTables.pet_info}.mysqlTables.pet_infoID
-        INNER JOIN ${mysqlTables.basic_user_info} ON ${mysqlTables.pet_info}.Patient_ID = ${mysqlTables.basic_user_info}.User_ID
+        INNER JOIN ${mysqlTables.basic_user_info} ON ${mysqlTables.pet_info}.patient_id = ${mysqlTables.basic_user_info}.User_ID
       WHERE
-        ${mysqlTables.appointments}.Doctor_ID = ?`
+        ${mysqlTables.appointments}.doctor_id = ?`
 
 		const values = [DoctorID]
 		const connection = await connectDatabase()
@@ -69,7 +70,7 @@ export default new class CalendarDB {
 	}
 
 	async confirmAppointmentStatus (appointmentID: number): Promise<void> {
-		const sql = `UPDATE ${mysqlTables.appointments} SET doctor_confirmation_status = 1 WHERE appointmentsID = ?`
+		const sql = `UPDATE ${mysqlTables.appointments} SET doctor_confirmation_status = 1 WHERE appointments_id = ?`
 		const values = [appointmentID]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)

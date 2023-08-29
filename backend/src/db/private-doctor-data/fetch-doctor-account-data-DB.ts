@@ -33,7 +33,7 @@ export default new class FetchDoctorAccountDataDB {
 			JOIN ${mysqlTables.service_mapping} ON
 			${mysqlTables.service_and_category_list}.service_and_category_listID = ${mysqlTables.service_mapping}.Service_and_Category_ID
 		WHERE
-			${mysqlTables.service_mapping}.Doctor_ID = ?`
+			${mysqlTables.service_mapping}.doctor_id = ?`
 
 		const values = [DoctorID]
 		const connection = await connectDatabase()
@@ -50,7 +50,7 @@ export default new class FetchDoctorAccountDataDB {
           JOIN ${mysqlTables.specialty_mapping}
           ON ${mysqlTables.specialties_list}.specialties_listID = ${mysqlTables.specialty_mapping}.specialty_ID
       WHERE
-          ${mysqlTables.specialty_mapping}.Doctor_ID = ?`
+          ${mysqlTables.specialty_mapping}.doctor_id = ?`
 
 		const values = [DoctorID]
 		const connection = await connectDatabase()
@@ -71,7 +71,7 @@ export default new class FetchDoctorAccountDataDB {
 				AND ${mysqlTables.pre_vet_education_mapping}.Major_ID = ${mysqlTables.major_list}.major_listID
 				AND ${mysqlTables.pre_vet_education_mapping}.Education_type_ID =
 					${mysqlTables.pre_vet_education_type_list}.pre_vet_education_typeID
-				AND ${mysqlTables.pre_vet_education_mapping}.Doctor_ID = ?`
+				AND ${mysqlTables.pre_vet_education_mapping}.doctor_id = ?`
 
 		const values = [DoctorID]
 		const connection = await connectDatabase()
@@ -90,7 +90,7 @@ export default new class FetchDoctorAccountDataDB {
 		WHERE
 			${mysqlTables.vet_education_mapping}.School_ID = ${mysqlTables.vet_school_list}.vet_school_listID
 			AND ${mysqlTables.vet_education_mapping}.Education_type_ID = ${mysqlTables.vet_education_type_list}.vet_education_typeID
-			AND ${mysqlTables.vet_education_mapping}.Doctor_ID = ?`
+			AND ${mysqlTables.vet_education_mapping}.doctor_id = ?`
 
 		const values = [DoctorID]
 		const connection = await connectDatabase()
@@ -108,7 +108,7 @@ export default new class FetchDoctorAccountDataDB {
       ${mysqlTables.addresses}.instant_book
       FROM ${mysqlTables.addresses}
       WHERE
-          ${mysqlTables.addresses}.is_active = 1 AND ${mysqlTables.addresses}.Doctor_ID = ? `
+          ${mysqlTables.addresses}.is_active = 1 AND ${mysqlTables.addresses}.doctor_id = ? `
 
 		const values = [DoctorID]
 
@@ -152,7 +152,7 @@ export default new class FetchDoctorAccountDataDB {
 	async descriptionData (DoctorID: number): Promise<string> {
 		const sql = `SELECT description
       FROM ${mysqlTables.descriptions}
-      WHERE Doctor_ID = ?`
+      WHERE doctor_id = ?`
 
 		const values = [DoctorID]
 
@@ -166,7 +166,7 @@ export default new class FetchDoctorAccountDataDB {
 		const sql = `SELECT ${mysqlTables.pet_list}.pet, ${mysqlTables.pet_list}.pet_type, ${mysqlTables.pet_list}.pet_listID
       FROM ${mysqlTables.pet_list}
           JOIN ${mysqlTables.pet_mapping} ON ${mysqlTables.pet_list}.pet_listID = ${mysqlTables.pet_mapping}.pet_ID
-      WHERE ${mysqlTables.pet_mapping}.Doctor_ID = ?`
+      WHERE ${mysqlTables.pet_mapping}.doctor_id = ?`
 
 		const values = [DoctorID]
 
@@ -180,7 +180,7 @@ export default new class FetchDoctorAccountDataDB {
 	async verifiedAndPubliclyAvailableStatus (DoctorID: number): Promise<DoctorStatus> {
 		const sql = `SELECT publicly_available, verified
       FROM ${mysqlTables.doctor_specific_info}
-      WHERE Doctor_ID = ?`
+      WHERE doctor_id = ?`
 
 		const values = [DoctorID]
 
@@ -199,7 +199,7 @@ export default new class FetchDoctorAccountDataDB {
 	async pictures (DoctorID: number): Promise<PicturesItem[]> {
 		const sql = `SELECT picture_link, picture_number
       FROM ${mysqlTables.pictures}
-      WHERE Doctor_ID = ?`
+      WHERE doctor_id = ?`
 
 		const values = [DoctorID]
 

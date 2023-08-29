@@ -3,13 +3,13 @@ declare global {
 	firstName: string
 	lastName: string
 	gender: string
-	NVI: number
+	nvi: number
   }
 
   interface DoctorData {
 	firstName: string
 	lastName: string
-	NVI: number
+	nvi: number
   }
 
   interface BirthDateInfo {
