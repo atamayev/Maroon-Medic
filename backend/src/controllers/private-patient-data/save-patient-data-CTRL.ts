@@ -36,12 +36,12 @@ export async function deleteLanguage (req: Request, res: Response): Promise<void
 
 export async function addPet (req: Request, res: Response): Promise<void> {
 	const patientId = req.patientId
-	const PetData = req.body.PetData
+	const petData = req.body.PetData
 
-	const petInfoId = await OperationHandler.executeAsyncAndReturnValue(res, SavePatientDataDB.addNewPet, PetData, patientId)
+	const petInfoId = await OperationHandler.executeAsyncAndReturnValue(res, SavePatientDataDB.addNewPet, petData, patientId)
 	const petInfoIdNumber = Number(petInfoId)
 	const operation: () => Promise<void> = async () => {
-		await SavePatientDataDB.addNewPetInsurance(PetData.insurance_list_id, petInfoIdNumber)
+		await SavePatientDataDB.addNewPetInsurance(petData.insurance_list_id, petInfoIdNumber)
 	}
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation, petInfoIdNumber)
 }

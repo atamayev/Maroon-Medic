@@ -26,12 +26,12 @@ export async function fetchDashboardData (req: Request, res: Response): Promise<
 	const patientId = req.patientId
 
 	try {
-		const DashboardData = await PrivatePatientDataDB.retrievePatientDashboard(patientId)
-		for (const singleAppointment of DashboardData) {
+		const dashboardData = await PrivatePatientDataDB.retrievePatientDashboard(patientId)
+		for (const singleAppointment of dashboardData) {
 			singleAppointment.appointmentDate = TimeUtils.convertMySQLDateIntoReadableString(singleAppointment.appointmentDate)
 			singleAppointment.createdAt = TimeUtils.convertMySQLDateIntoReadableString(singleAppointment.createdAt)
 		}
-		return res.status(200).json(DashboardData)
+		return res.status(200).json(dashboardData)
 	} catch (error: unknown) {
 		return res.status(400).json([])
 	}
@@ -40,7 +40,7 @@ export async function fetchDashboardData (req: Request, res: Response): Promise<
 export async function fetchPersonalData (req: Request, res: Response): Promise<Response> {
 	const patientId = req.patientId
 
-	let PersonalData = {
+	let personalData = {
 		firstName: "",
 		lastName: "",
 		gender: "",
@@ -51,13 +51,13 @@ export async function fetchPersonalData (req: Request, res: Response): Promise<R
 
 	try {
 		const unformattedPersonaData = await PrivatePatientDataDB.retrievePersonalPatientData(patientId)
-		if (_.isEmpty(unformattedPersonaData)) return res.status(200).json(PersonalData)
+		if (_.isEmpty(unformattedPersonaData)) return res.status(200).json(personalData)
 		else {
-			PersonalData = Format.personalData(unformattedPersonaData)
-			return res.status(200).json(PersonalData)
+			personalData = Format.personalData(unformattedPersonaData)
+			return res.status(200).json(personalData)
 		}
 	} catch (error: unknown) {
-		return res.status(400).json(PersonalData)
+		return res.status(400).json(personalData)
 	}
 }
 

@@ -18,6 +18,25 @@
         "max-params": ["warn", 4],
         "@typescript-eslint/no-floating-promises": "warn",
         "max-lines-per-function": ["warn", {"max": 40, "skipBlankLines": true, "skipComments": true}],
+		"@typescript-eslint/naming-convention": [
+			"error",
+			{
+				"selector": "variable",
+				"format": ["camelCase"]
+			},
+			{
+				"selector": "function",
+				"format": ["camelCase"]
+			},
+			{
+				"selector": "parameter",
+				"format": ["camelCase"]
+			},
+			{
+				"selector": "typeLike",
+				"format": ["PascalCase"]
+			}
+		],
 
         "security/detect-buffer-noassert": "warn",
         "security/detect-child-process": "warn",
@@ -30,5 +49,24 @@
         "security/detect-possible-timing-attacks": "warn",
         "security/detect-pseudoRandomBytes": "warn",
         "security/detect-unsafe-regex": "warn"
-    }
+	},
+
+	"overrides": [
+		{
+			"files": ["*.ts"],
+			"rules": {
+			"@typescript-eslint/naming-convention": [
+				"error",
+				{
+				"selector": "variable",
+				"format": ["camelCase"],
+				"filter": {
+					"regex": "^(UUID|NVI)$",
+					"match": false
+				}
+				}
+			]
+			}
+		}
+	]
 }

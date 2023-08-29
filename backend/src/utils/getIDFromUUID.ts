@@ -4,10 +4,10 @@ import Cookie from "./cookie-operations"
 
 export default new class GetIDFromUUID {
 	async doctor(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
-		const DoctorUUID = req.cookies.DoctorUUID
+		const doctorUUID = req.cookies.DoctorUUID
 		let doctorId: number
 		try {
-			doctorId = await UUID_to_ID(DoctorUUID)
+			doctorId = await UUID_to_ID(doctorUUID)
 			req.doctorId = doctorId
 			next()
 		} catch (error: unknown) {
@@ -17,10 +17,10 @@ export default new class GetIDFromUUID {
 	}
 
 	async patient(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
-		const PatientUUID = req.cookies.PatientUUID
+		const patientUUID = req.cookies.PatientUUID
 		let patientId: number
 		try {
-			patientId = await UUID_to_ID(PatientUUID)
+			patientId = await UUID_to_ID(patientUUID)
 			req.patientId = patientId
 			next()
 		} catch (error: unknown) {

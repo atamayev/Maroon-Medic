@@ -133,19 +133,19 @@ export async function deleteVetEducationData (req: Request, res: Response): Prom
 
 export async function addAddress (req: Request, res: Response): Promise<Response> {
 	const doctorId = req.doctorId
-	const AddressData = req.body.AddressData
-	const TimesData = req.body.Times
+	const addressData = req.body.AddressData
+	const timesData = req.body.Times
 
-	const insertId = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.addAddressRecord, AddressData, doctorId)
+	const insertId = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.addAddressRecord, addressData, doctorId)
 	const insertIdNumber = Number(insertId)
 
-	if (AddressData.phone) {
-		const operation: () => Promise<void> = async () => await SaveDoctorDataDB.addPhoneRecord(AddressData.phone, insertIdNumber)
+	if (addressData.phone) {
+		const operation: () => Promise<void> = async () => await SaveDoctorDataDB.addPhoneRecord(addressData.phone, insertIdNumber)
 		await OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, operation)
 	}
 
-	if (!_.isEmpty(TimesData)) {
-		for (const timeData of TimesData) {
+	if (!_.isEmpty(timesData)) {
+		for (const timeData of timesData) {
 			const operation: () => Promise<void> = async () => await SaveDoctorDataDB.addAvailbilityData(timeData, insertIdNumber)
 			await OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, operation)
 		}
@@ -168,17 +168,17 @@ export async function deleteAddress (req: Request, res: Response): Promise<void>
 }
 
 export async function updateAddress (req: Request, res: Response): Promise<void> {
-	const AddressData = req.body.AddressData
-	const TimesData = req.body.Times
+	const addressData = req.body.AddressData
+	const timesData = req.body.Times
 
-	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.updateAddressRecord(AddressData)
+	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.updateAddressRecord(addressData)
 	await OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, operation)
 
-	const phoneOperation: () => Promise<void> = async () => await SaveDoctorDataDB.updatePhoneRecord(AddressData)
+	const phoneOperation: () => Promise<void> = async () => await SaveDoctorDataDB.updatePhoneRecord(addressData)
 	await OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, phoneOperation)
 
 	const timeOperation: () => Promise<void> = async () => {
-		await findAppointmentTimeDifference(TimesData, AddressData.addressesId)
+		await findAppointmentTimeDifference(timesData, addressData.addressesId)
 	}
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, timeOperation)
 }

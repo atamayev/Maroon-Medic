@@ -5,7 +5,7 @@ import _ from "lodash"
 export default new class Format {
 	personalData(results: {firstName: string, lastName: string, gender: string, dateOfBirth: string}): FormattedPersonalData {
 		const dateOfBirth: Dayjs = TimeUtils.simpleDayJSConvert(results.dateOfBirth)
-		const PersonalData = {
+		const personalData = {
 			firstName: results.firstName,
 			lastName: results.lastName,
 			gender: results.gender,
@@ -13,7 +13,7 @@ export default new class Format {
 			birthDay: dateOfBirth.date(),
 			birthYear: dateOfBirth.year()
 		}
-		return PersonalData
+		return personalData
 	}
 
 	educationDates (date: Date | string): string {

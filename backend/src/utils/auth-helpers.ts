@@ -34,9 +34,9 @@ export function getUserType(cookies: Express.Request["cookies"]): "Doctor" | "Pa
 	return undefined
 }
 
-export function getDecodedUUID(responseType: string, AccessToken: string): string {
-	const JWTKey = responseType === "Patient" ? process.env.PATIENT_JWT_KEY! : process.env.DOCTOR_JWT_KEY!
-	const payload = jwt.verify(AccessToken, JWTKey) as JwtPayload
+export function getDecodedUUID(responseType: string, accessToken: string): string {
+	const jwtKey = responseType === "Patient" ? process.env.PATIENT_JWT_KEY! : process.env.DOCTOR_JWT_KEY!
+	const payload = jwt.verify(accessToken, jwtKey) as JwtPayload
 
 	if (typeof payload === "object") {
 		if (responseType === "Doctor") return (payload as JwtPayload).DoctorId as string
@@ -51,9 +51,9 @@ export function validateUserType(type: string): type is "Doctor" | "Patient" {
 }
 
 export function signJWT(payload: object, userType: "Doctor" | "Patient"): string | undefined {
-	const JWTKey = userType === "Patient" ? process.env.PATIENT_JWT_KEY! : process.env.DOCTOR_JWT_KEY!
+	const jwtKey = userType === "Patient" ? process.env.PATIENT_JWT_KEY! : process.env.DOCTOR_JWT_KEY!
 	try {
-		return jwt.sign(payload, JWTKey)
+		return jwt.sign(payload, jwtKey)
 	} catch (error: unknown) {
 		// Log or handle error if needed
 		return undefined

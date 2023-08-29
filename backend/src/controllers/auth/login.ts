@@ -35,9 +35,9 @@ export default async function login (req: Request, res: Response): Promise<Respo
 	}
 
 	if (bool === false) return res.status(400).json("Wrong Username or Password!")
-	const IDKey = `${loginType}Id`
+	const idKey = `${loginType}Id`
 	const UUID = await ID_to_UUID(results.userId)
-	const payload = { [IDKey]: UUID }
+	const payload = { [idKey]: UUID }
 
 	const token = signJWT(payload, loginType)
 	if (!token) return res.status(500).json({ error: "Problem with Signing JWT" })

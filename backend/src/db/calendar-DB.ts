@@ -15,7 +15,7 @@ export default new class CalendarDB {
 
 	async addAppointment (
 		dateTime: MysqlTimestamp,
-		AppointmentObject: AppointmentObject,
+		appointmentObject: AppointmentObject,
 		doctorId: number,
 		patientId: number,
 		createdAt: MysqlTimestamp
@@ -25,9 +25,9 @@ export default new class CalendarDB {
         service_and_category_list_id, pet_info_id, patient_id, doctor_id, addresses_id, created_at)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
 
-		const values = [dateTime, AppointmentObject.appointmentPrice, AppointmentObject.appointmentTimespan, AppointmentObject.message,
-			AppointmentObject.instantBook, AppointmentObject.serviceAndCategoryListId,
-			AppointmentObject.selectedPetId, patientId, doctorId, AppointmentObject.addressesId, createdAt
+		const values = [dateTime, appointmentObject.appointmentPrice, appointmentObject.appointmentTimespan, appointmentObject.message,
+			appointmentObject.instantBook, appointmentObject.serviceAndCategoryListId,
+			appointmentObject.selectedPetId, patientId, doctorId, appointmentObject.addressesId, createdAt
 		]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)

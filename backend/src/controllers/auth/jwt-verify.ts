@@ -13,8 +13,8 @@ export default async function jwtVerify(req: Request, res: Response): Promise<Re
 	}
 
 	try {
-		const AccessToken = req.cookies[`${responseType}AccessToken`]
-		const decodedUUID = getDecodedUUID(responseType, AccessToken)
+		const accessToken = req.cookies[`${responseType}AccessToken`]
+		const decodedUUID = getDecodedUUID(responseType, accessToken)
 		const doesRecordExist = await AuthDB.checkIfUUIDExists(decodedUUID)
 
 		if (doesRecordExist) {

@@ -40,9 +40,9 @@ export default async function register (req: Request, res: Response): Promise<Re
 		}
 	}
 
-	const IDKey = `${loginType}Id`
+	const idKey = `${loginType}Id`
 	const UUID = await ID_to_UUID(userId)
-	const payload = { [IDKey]: UUID }
+	const payload = { [idKey]: UUID }
 
 	const token = signJWT(payload, loginType)
 	if (!token) return res.status(500).json({ error: "Problem with Signing JWT" })

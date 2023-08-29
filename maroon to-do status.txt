@@ -8,6 +8,10 @@ ASAP:
 11. Fix calendar appointments not rendering
 12. Write the logic that makes sure that when making a booking, the vet is able to service the pet that the user has. See below
 13. Add insurance to make a booking
+14. change all created at's to 
+	Created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Updated_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+	Add a updated_at to all tables.
 
 -add choose your pet to make an appointment. if the user isn't logged in, show a login/register button in the booking section.
 	the first question should be: choose which pet you would like to take to the vet

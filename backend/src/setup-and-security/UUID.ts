@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { v4 as uuidv4 } from "uuid"
 import UUIDDB from "../db/UUID-DB"
 import TimeUtils from "../utils/time"
