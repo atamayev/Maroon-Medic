@@ -21,16 +21,16 @@ export async function savePersonalData (req: Request, res: Response): Promise<vo
 }
 
 export async function addLanguage (req: Request, res: Response): Promise<void> {
-	const languageID = req.body.languageID
+	const languageId = req.body.languageId
 	const patientId = req.patientId
-	const operation: () => Promise<void> = async () => await SavePatientDataDB.addLanguage(languageID, patientId)
+	const operation: () => Promise<void> = async () => await SavePatientDataDB.addLanguage(languageId, patientId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
 export async function deleteLanguage (req: Request, res: Response): Promise<void> {
-	const languageID: number = Number(req.params.languageID)
+	const languageId: number = Number(req.params.languageId)
 	const patientId = req.patientId
-	const operation: () => Promise<void> = async () => await SavePatientDataDB.deleteLanguage(languageID, patientId)
+	const operation: () => Promise<void> = async () => await SavePatientDataDB.deleteLanguage(languageId, patientId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
@@ -38,16 +38,16 @@ export async function addPet (req: Request, res: Response): Promise<void> {
 	const patientId = req.patientId
 	const PetData = req.body.PetData
 
-	const petInfoID = await OperationHandler.executeAsyncAndReturnValue(res, SavePatientDataDB.addNewPet, PetData, patientId)
-	const petInfoIDNumber = Number(petInfoID)
+	const petInfoId = await OperationHandler.executeAsyncAndReturnValue(res, SavePatientDataDB.addNewPet, PetData, patientId)
+	const petInfoIdNumber = Number(petInfoId)
 	const operation: () => Promise<void> = async () => {
-		await SavePatientDataDB.addNewPetInsurance(PetData.insurance_list_id, petInfoIDNumber)
+		await SavePatientDataDB.addNewPetInsurance(PetData.insurance_list_id, petInfoIdNumber)
 	}
-	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation, petInfoIDNumber)
+	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation, petInfoIdNumber)
 }
 
 export async function deletePet (req: Request, res: Response): Promise<void> {
-	const petID: number = Number(req.params.petID)
-	const operation: () => Promise<void> = async () => await SavePatientDataDB.deletePet(petID)
+	const petId: number = Number(req.params.petId)
+	const operation: () => Promise<void> = async () => await SavePatientDataDB.deletePet(petId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }

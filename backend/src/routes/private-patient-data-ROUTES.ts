@@ -22,10 +22,10 @@ router.get("/fetch-personal-data", fetchPersonalData)
 router.get("/fetch-account-details-data", fetchAccountDetails)
 router.get("/fetch-pet-data", pets)
 router.post("/add-language", addLanguage)
-router.delete("/delete-language/:languageID", deleteLanguage)
+router.delete("/delete-language/:languageId", deleteLanguage)
 
 router.post("/save-personal-data", savePersonalData)
 router.post("/add-pet-data", addPet)
-router.delete("/delete-pet-data/:petID", deletePet)
+router.delete("/delete-pet-data/:petId", deletePet)
 
 export default router

@@ -38,44 +38,44 @@ export async function saveDescriptionData (req: Request, res: Response): Promise
 }
 
 export async function addLanguage (req: Request, res: Response): Promise<void> {
-	const languageID: number = req.body.languageID
+	const languageId: number = req.body.languageId
 	const doctorId = req.doctorId
-	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.addLanguage(languageID, doctorId)
+	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.addLanguage(languageId, doctorId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
 export async function deleteLanguage (req: Request, res: Response): Promise<void> {
-	const languageID: number = Number(req.params.languageID)
+	const languageId: number = Number(req.params.languageId)
 	const doctorId = req.doctorId
-	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.deleteLanguage(languageID, doctorId)
+	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.deleteLanguage(languageId, doctorId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
 export async function addSpecialty (req: Request, res: Response): Promise<void> {
-	const specialtyID = req.body.specialtyID
+	const specialtyId = req.body.specialtyId
 	const doctorId = req.doctorId
-	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.addSpecialty(specialtyID, doctorId)
+	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.addSpecialty(specialtyId, doctorId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
 export async function deleteSpecialty (req: Request, res: Response): Promise<void> {
-	const specialtyID: number = Number(req.params.specialtyID)
+	const specialtyId: number = Number(req.params.specialtyId)
 	const doctorId = req.doctorId
-	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.deleteSpecialty(specialtyID, doctorId)
+	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.deleteSpecialty(specialtyId, doctorId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
 export async function addServicedPet (req: Request, res: Response): Promise<void> {
-	const servicedPetID = req.body.petID
+	const servicedPetId = req.body.petId
 	const doctorId = req.doctorId
-	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.addServicedPet(servicedPetID, doctorId)
+	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.addServicedPet(servicedPetId, doctorId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
 export async function deleteServicedPet (req: Request, res: Response): Promise<void> {
-	const servicedPetID: number = Number(req.params.servicedPetID)
+	const servicedPetId: number = Number(req.params.servicedPetId)
 	const doctorId = req.doctorId
-	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.deleteServicedPet(servicedPetID, doctorId)
+	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.deleteServicedPet(servicedPetId, doctorId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
@@ -94,9 +94,9 @@ export async function updateService (req: Request, res: Response): Promise<void>
 }
 
 export async function deleteService (req: Request, res: Response): Promise<void> {
-	const servicedPetID: number = Number(req.params.serviceID)
+	const servicedPetId: number = Number(req.params.serviceId)
 	const doctorId = req.doctorId
-	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.deleteServicesData(servicedPetID, doctorId)
+	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.deleteServicesData(servicedPetId, doctorId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
@@ -110,9 +110,9 @@ export async function addPreVetEducationData (req: Request, res: Response): Prom
 }
 
 export async function deletePreVetEducationData (req: Request, res: Response): Promise<void> {
-	const preVetEducationID: number = Number(req.params.preVetEducationID)
+	const preVetEducationId: number = Number(req.params.preVetEducationId)
 
-	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.deletePreVetEducationData(preVetEducationID)
+	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.deletePreVetEducationData(preVetEducationId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
@@ -126,8 +126,8 @@ export async function addVetEducationData (req: Request, res: Response): Promise
 }
 
 export async function deleteVetEducationData (req: Request, res: Response): Promise<void> {
-	const vetEducationID: number = Number(req.params.vetEducationID)
-	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.deleteVetEducationData(vetEducationID)
+	const vetEducationId: number = Number(req.params.vetEducationId)
+	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.deleteVetEducationData(vetEducationId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
@@ -136,34 +136,34 @@ export async function addAddress (req: Request, res: Response): Promise<Response
 	const AddressData = req.body.AddressData
 	const TimesData = req.body.Times
 
-	const insertID = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.addAddressRecord, AddressData, doctorId)
-	const insertIDNumber = Number(insertID)
+	const insertId = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.addAddressRecord, AddressData, doctorId)
+	const insertIdNumber = Number(insertId)
 
 	if (AddressData.phone) {
-		const operation: () => Promise<void> = async () => await SaveDoctorDataDB.addPhoneRecord(AddressData.phone, insertIDNumber)
+		const operation: () => Promise<void> = async () => await SaveDoctorDataDB.addPhoneRecord(AddressData.phone, insertIdNumber)
 		await OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, operation)
 	}
 
 	if (!_.isEmpty(TimesData)) {
 		for (const timeData of TimesData) {
-			const operation: () => Promise<void> = async () => await SaveDoctorDataDB.addAvailbilityData(timeData, insertIDNumber)
+			const operation: () => Promise<void> = async () => await SaveDoctorDataDB.addAvailbilityData(timeData, insertIdNumber)
 			await OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, operation)
 		}
 	}
 
-	return res.status(200).json(insertID)
+	return res.status(200).json(insertId)
 }
 
 export async function deleteAddress (req: Request, res: Response): Promise<void> {
-	const addressID: number = Number(req.params.addressID)
+	const addressId: number = Number(req.params.addressId)
 
-	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.deleteAddressRecord(addressID)
+	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.deleteAddressRecord(addressId)
 	await OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, operation)
 
-	const phoneOperation: () => Promise<void> = async () => await SaveDoctorDataDB.deletePhoneRecord(addressID)
+	const phoneOperation: () => Promise<void> = async () => await SaveDoctorDataDB.deletePhoneRecord(addressId)
 	await OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, phoneOperation)
 
-	const timeOperation: () => Promise<void> = async () => await SaveDoctorDataDB.deleteAvailbilityData(addressID)
+	const timeOperation: () => Promise<void> = async () => await SaveDoctorDataDB.deleteAvailbilityData(addressId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, timeOperation)
 }
 

@@ -56,16 +56,16 @@ export default new class SavePatientDataDB {
 		return (result as OkPacket).insertId
 	}
 
-	async addNewPetInsurance (insuranceListID: number, petInfoID: number): Promise<void> {
+	async addNewPetInsurance (insuranceListId: number, petInfoId: number): Promise<void> {
 		const sql = `INSERT INTO ${mysqlTables.insurance_mapping} (insurance_id, pet_info_id) VALUES (?, ?)`
-		const values = [insuranceListID, petInfoID]
+		const values = [insuranceListId, petInfoId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
-	async deletePet(petID: number): Promise<void> {
+	async deletePet(petId: number): Promise<void> {
 		const sql = `UPDATE ${mysqlTables.pet_info} SET is_active = 0 WHERE pet_info_id = ?`
-		const values = [petID]
+		const values = [petId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}

@@ -38,27 +38,27 @@ router.post("/save-personal-data", savePersonalData)
 router.post("/save-description-data", saveDescriptionData)
 
 router.post("/add-language", addLanguage)
-router.delete("/delete-language/:languageID", deleteLanguage)
+router.delete("/delete-language/:languageId", deleteLanguage)
 
 router.post("/add-specialty", addSpecialty)
-router.delete("/delete-specialty/:specialtyID", deleteSpecialty)
+router.delete("/delete-specialty/:specialtyId", deleteSpecialty)
 
 router.post("/add-serviced-pet", addServicedPet)
-router.delete("/delete-serviced-pet/:servicedPetID", deleteServicedPet)
+router.delete("/delete-serviced-pet/:servicedPetId", deleteServicedPet)
 
 router.post("/add-pre-vet-education-data", addPreVetEducationData)
-router.delete("/delete-pre-vet-education-data/:preVetEducationID", deletePreVetEducationData)
+router.delete("/delete-pre-vet-education-data/:preVetEducationId", deletePreVetEducationData)
 
 router.post("/add-vet-education-data", addVetEducationData)
-router.delete("/delete-vet-education-data/:vetEducationID", deleteVetEducationData)
+router.delete("/delete-vet-education-data/:vetEducationId", deleteVetEducationData)
 
 router.post("/add-service", addService)
 router.patch("/update-service", updateService)
-router.delete("/delete-service/:serviceID", deleteService)
+router.delete("/delete-service/:serviceId", deleteService)
 
 router.post("/add-address", addAddress)
 router.patch("/update-address", updateAddress)
-router.delete("/delete-address/:addressID", deleteAddress)
+router.delete("/delete-address/:addressId", deleteAddress)
 
 router.post("/save-public-availibility-data", savePublicAvailibilityData)
 

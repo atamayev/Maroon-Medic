@@ -3,12 +3,6 @@ To-do:
 
 ASAP:
 
-9. Full Stack TS changes
-	Change all DB fields to snake case, change sql accordingly (make the mapping table IDs camelcased)
-	make casing lowercase for hte appointments table
-	In doing this, change all variables to camelcase. (first_name AS firstName)
-	Enforce camelcase for variable names in TS (remove all aliases from the DB commands, use the camelcase function instead)
-		ctrl F 'ID'. should be Id after camelcasing
 10. Enforce camel, pascal casing. see GPT
 10. Make the pets in the patient header be the pets that the user has
 11. Fix calendar appointments not rendering
