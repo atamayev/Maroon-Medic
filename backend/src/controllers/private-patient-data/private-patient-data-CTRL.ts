@@ -7,7 +7,7 @@ import PrivatePatientDataDB from "../../db/private-patient-data/private-patient-
 import FetchPatientAccountData from "../../utils/fetch-account-and-public-data/fetch-patient-account-data"
 
 export async function newPatient (req: Request, res: Response): Promise<void> {
-	const PatientID = req.PatientID
+	const patientId = req.patientId
 
 	const newPatientObject = req.body.newPatientObject
 
@@ -17,16 +17,16 @@ export async function newPatient (req: Request, res: Response): Promise<void> {
 		newPatientObject.birthYear
 	)
 	const operation: () => Promise<void> = async () => await PrivatePatientDataDB.addNewPatientInfo(
-		newPatientObject, dateOfBirth, PatientID
+		newPatientObject, dateOfBirth, patientId
 	)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
 export async function fetchDashboardData (req: Request, res: Response): Promise<Response> {
-	const PatientID = req.PatientID
+	const patientId = req.patientId
 
 	try {
-		const DashboardData = await PrivatePatientDataDB.retrievePatientDashboard(PatientID)
+		const DashboardData = await PrivatePatientDataDB.retrievePatientDashboard(patientId)
 		for (const singleAppointment of DashboardData) {
 			singleAppointment.appointmentDate = TimeUtils.convertMySQLDateIntoReadableString(singleAppointment.appointmentDate)
 			singleAppointment.createdAt = TimeUtils.convertMySQLDateIntoReadableString(singleAppointment.createdAt)
@@ -38,7 +38,7 @@ export async function fetchDashboardData (req: Request, res: Response): Promise<
 }
 
 export async function fetchPersonalData (req: Request, res: Response): Promise<Response> {
-	const PatientID = req.PatientID
+	const patientId = req.patientId
 
 	let PersonalData = {
 		firstName: "",
@@ -50,7 +50,7 @@ export async function fetchPersonalData (req: Request, res: Response): Promise<R
 	}
 
 	try {
-		const unformattedPersonaData = await PrivatePatientDataDB.retrievePersonalPatientData(PatientID)
+		const unformattedPersonaData = await PrivatePatientDataDB.retrievePersonalPatientData(patientId)
 		if (_.isEmpty(unformattedPersonaData)) return res.status(200).json(PersonalData)
 		else {
 			PersonalData = Format.personalData(unformattedPersonaData)
@@ -62,18 +62,18 @@ export async function fetchPersonalData (req: Request, res: Response): Promise<R
 }
 
 export async function pets (req: Request, res: Response): Promise<void> {
-	const PatientID = req.PatientID
+	const patientId = req.patientId
 	const operation: () => Promise<CompletePetInfo[]> = async () => {
-		return await FetchPatientAccountData.pets(PatientID)
+		return await FetchPatientAccountData.pets(patientId)
 	}
 	await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }
 
 export async function fetchAccountDetails (req: Request, res: Response): Promise<Response> {
-	const PatientID = req.PatientID
+	const patientId = req.patientId
 	try {
 		const response: PatientAccountDetails = {
-			languages: await FetchPatientAccountData.languages(PatientID)
+			languages: await FetchPatientAccountData.languages(patientId)
 		}
 		return res.status(200).json(response)
 	} catch (error: unknown) {

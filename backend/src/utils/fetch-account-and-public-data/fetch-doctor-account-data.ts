@@ -3,9 +3,9 @@ import Format from "../data-formatter"
 import FetchDoctorAccountDataDB from "../../db/private-doctor-data/fetch-doctor-account-data-DB"
 
 export default new class FetchDoctorAccountData {
-	async #fetchDoctorAccountData<T>(DoctorID: number, retrievalFunction: (id: number) => Promise<T | T[]>): Promise<T | T[]> {
+	async #fetchDoctorAccountData<T>(doctorId: number, retrievalFunction: (id: number) => Promise<T | T[]>): Promise<T | T[]> {
 		try {
-			const data = await retrievalFunction(DoctorID)
+			const data = await retrievalFunction(doctorId)
 			return data
 		} catch (error: unknown) {
 			return []
@@ -13,11 +13,11 @@ export default new class FetchDoctorAccountData {
 	}
 
 	async #fetchEducationData<T extends EducationItem>(
-		DoctorID: number,
+		doctorId: number,
 		retrievalFunction: (id: number) => Promise<T[]>
 	): Promise<T[]> {
 		try {
-			const educationData = await retrievalFunction(DoctorID)
+			const educationData = await retrievalFunction(doctorId)
 			const newResults = educationData.map((obj: T) => ({
 				...obj,
 				startDate: Format.educationDates(obj.startDate),
@@ -29,35 +29,35 @@ export default new class FetchDoctorAccountData {
 		}
 	}
 
-	async languages (DoctorID: number): Promise<LanguageItem[]> {
-		const result = await this.#fetchDoctorAccountData(DoctorID, FetchDoctorAccountDataDB.languages)
+	async languages (doctorId: number): Promise<LanguageItem[]> {
+		const result = await this.#fetchDoctorAccountData(doctorId, FetchDoctorAccountDataDB.languages)
 		return result as LanguageItem[]
 	}
 
-	async services (DoctorID: number): Promise<DetailedServiceItem[]> {
-		const result = await this.#fetchDoctorAccountData(DoctorID, FetchDoctorAccountDataDB.services)
+	async services (doctorId: number): Promise<DetailedServiceItem[]> {
+		const result = await this.#fetchDoctorAccountData(doctorId, FetchDoctorAccountDataDB.services)
 		const updatedResult = Format.servicePriceToNumber(result as DetailedServiceItem[])
 		return updatedResult as DetailedServiceItem[]
 	}
 
-	async specialties (DoctorID: number): Promise<OrganizationSpecialty[]> {
-		const result = await this.#fetchDoctorAccountData(DoctorID, FetchDoctorAccountDataDB.specialties)
+	async specialties (doctorId: number): Promise<OrganizationSpecialty[]> {
+		const result = await this.#fetchDoctorAccountData(doctorId, FetchDoctorAccountDataDB.specialties)
 		return result as OrganizationSpecialty[]
 	}
 
-	async preVetEducation(DoctorID: number): Promise<PreVetEducation[]> {
-		const result = await this.#fetchEducationData<PreVetEducation>(DoctorID, FetchDoctorAccountDataDB.preVetEducation)
+	async preVetEducation(doctorId: number): Promise<PreVetEducation[]> {
+		const result = await this.#fetchEducationData<PreVetEducation>(doctorId, FetchDoctorAccountDataDB.preVetEducation)
 		return result as PreVetEducation[]
 	}
 
-	async vetEducation(DoctorID: number): Promise<VetEducation[]> {
-		const result = await this.#fetchEducationData<VetEducation>(DoctorID, FetchDoctorAccountDataDB.vetEducation)
+	async vetEducation(doctorId: number): Promise<VetEducation[]> {
+		const result = await this.#fetchEducationData<VetEducation>(doctorId, FetchDoctorAccountDataDB.vetEducation)
 		return result as VetEducation[]
 	}
 
-	async addresses (DoctorID: number): Promise<PrivateDoctorAddressData[]> {
+	async addresses (doctorId: number): Promise<PrivateDoctorAddressData[]> {
 		try {
-			const addressData = await FetchDoctorAccountDataDB.addressData(DoctorID)
+			const addressData = await FetchDoctorAccountDataDB.addressData(doctorId)
 
 			if (!_.isEmpty(addressData)) {
 				for (const address of addressData) {
@@ -74,31 +74,31 @@ export default new class FetchDoctorAccountData {
 		}
 	}
 
-	async description (DoctorID: number): Promise<string> {
+	async description (doctorId: number): Promise<string> {
 		try {
-			const description = await FetchDoctorAccountDataDB.descriptionData(DoctorID)
+			const description = await FetchDoctorAccountDataDB.descriptionData(doctorId)
 			return description || ""
 		} catch (error: unknown) {
 			return ""
 		}
 	}
 
-	async servicedPets (DoctorID: number): Promise<ServicedPetItem[]> {
-		const result = await this.#fetchDoctorAccountData(DoctorID, FetchDoctorAccountDataDB.servicedPets)
+	async servicedPets (doctorId: number): Promise<ServicedPetItem[]> {
+		const result = await this.#fetchDoctorAccountData(doctorId, FetchDoctorAccountDataDB.servicedPets)
 		return result as ServicedPetItem[]
 	}
 
-	async verifiedAndPubliclyAvailable (DoctorID: number): Promise<DoctorStatus> {
+	async verifiedAndPubliclyAvailable (doctorId: number): Promise<DoctorStatus> {
 		try {
-			const status = await FetchDoctorAccountDataDB.verifiedAndPubliclyAvailableStatus(DoctorID)
+			const status = await FetchDoctorAccountDataDB.verifiedAndPubliclyAvailableStatus(doctorId)
 			return status
 		} catch (error: unknown) {
 			return {publiclyAvailable: false, verified: false}
 		}
 	}
 
-	async pictures (DoctorID: number): Promise<PicturesItem[]> {
-		const result = await this.#fetchDoctorAccountData(DoctorID, FetchDoctorAccountDataDB.pictures)
+	async pictures (doctorId: number): Promise<PicturesItem[]> {
+		const result = await this.#fetchDoctorAccountData(doctorId, FetchDoctorAccountDataDB.pictures)
 		return result as PicturesItem[]
 	}
 }()

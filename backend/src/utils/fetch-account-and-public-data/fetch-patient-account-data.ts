@@ -2,18 +2,18 @@ import _ from "lodash"
 import FetchPatientAccountDataDB from "../../db/private-patient-data/fetch-patient-account-data-DB"
 
 export default new class FetchPatientAccountData {
-	async languages (PatientID: number): Promise<LanguageItem[]> {
+	async languages (patientId: number): Promise<LanguageItem[]> {
 		try {
-			const languages = await FetchPatientAccountDataDB.languages(PatientID)
+			const languages = await FetchPatientAccountDataDB.languages(patientId)
 			return languages
 		} catch (error: unknown) {
 			return []
 		}
 	}
 
-	async pets (PatientID: number): Promise<CompletePetInfo[]> {
+	async pets (patientId: number): Promise<CompletePetInfo[]> {
 		try {
-			const retrievePetData = await FetchPatientAccountDataDB.petData(PatientID)
+			const retrievePetData = await FetchPatientAccountDataDB.petData(patientId)
 
 			if (!_.isEmpty(retrievePetData)) {
 				for (const pet of retrievePetData) {

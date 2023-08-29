@@ -39,8 +39,8 @@ export function getDecodedUUID(responseType: string, AccessToken: string): strin
 	const payload = jwt.verify(AccessToken, JWTKey) as JwtPayload
 
 	if (typeof payload === "object") {
-		if (responseType === "Doctor") return (payload as JwtPayload).DoctorID as string
-		else return (payload as JwtPayload).PatientID as string
+		if (responseType === "Doctor") return (payload as JwtPayload).DoctorId as string
+		else return (payload as JwtPayload).PatientId as string
 	}
 
 	return ""

@@ -4,12 +4,11 @@ import { RowDataPacket } from "mysql2"
 import { transformArrayOfObjectsToCamelCase } from "../utils/transform-keys-to-camel-case"
 
 export default new class CalendarDB {
-	async retrieveDoctorIDFromNVI (NVI: number): Promise<number> {
+	async retrieveDoctorIdFromNVI (NVI: number): Promise<number> {
 		const sql = `SELECT doctor_id FROM ${mysqlTables.doctor_specific_info} WHERE NVI = ?`
 		const values = [NVI]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values)
-		console.log(results)
 		const doctorId = (results as RowDataPacket[])[0].doctor_id
 		return doctorId
 	}
@@ -17,8 +16,8 @@ export default new class CalendarDB {
 	async addAppointment (
 		dateTime: MysqlTimestamp,
 		AppointmentObject: AppointmentObject,
-		DoctorID: number,
-		PatientID: number,
+		doctorId: number,
+		patientId: number,
 		createdAt: MysqlTimestamp
 	): Promise<void> {
 		const sql = `INSERT INTO ${mysqlTables.appointments}
@@ -28,13 +27,13 @@ export default new class CalendarDB {
 
 		const values = [dateTime, AppointmentObject.appointmentPrice, AppointmentObject.appointmentTimespan, AppointmentObject.message,
 			AppointmentObject.instantBook, AppointmentObject.serviceAndCategoryListId,
-			AppointmentObject.selectedPetId, PatientID, DoctorID, AppointmentObject.addressesId, createdAt
+			AppointmentObject.selectedPetId, patientId, doctorId, AppointmentObject.addressesId, createdAt
 		]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
-	async retrieveDoctorCalendarDetails (DoctorID: number): Promise<CalendarData[]> {
+	async retrieveDoctorCalendarDetails (doctorId: number): Promise<CalendarData[]> {
 		const sql = `SELECT
         ${mysqlTables.appointments}.mysqlTables.appointments_id, ${mysqlTables.appointments}.appointment_date,
         ${mysqlTables.appointments}.appointment_price,
@@ -57,11 +56,11 @@ export default new class CalendarDB {
           AND ${mysqlTables.addresses}.doctor_id = ${mysqlTables.appointments}.doctor_id
         INNER JOIN ${mysqlTables.pet_info} ON
         ${mysqlTables.appointments}.mysqlTables.pet_info_ID = ${mysqlTables.pet_info}.mysqlTables.pet_infoID
-        INNER JOIN ${mysqlTables.basic_user_info} ON ${mysqlTables.pet_info}.patient_id = ${mysqlTables.basic_user_info}.User_ID
+        INNER JOIN ${mysqlTables.basic_user_info} ON ${mysqlTables.pet_info}.patient_id = ${mysqlTables.basic_user_info}.user_id
       WHERE
         ${mysqlTables.appointments}.doctor_id = ?`
 
-		const values = [DoctorID]
+		const values = [doctorId]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
 		const calendarData = results.map((row: RowDataPacket) => row as CalendarData)

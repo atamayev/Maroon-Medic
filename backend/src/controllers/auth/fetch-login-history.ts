@@ -17,8 +17,8 @@ export default async function fetchLoginHistory (req: Request, res: Response): P
 	}
 
 	try {
-		const User_ID = await UUID_to_ID(UUID)
-		const loginHistoryRecords = await AuthDB.retrieveLoginHistory(User_ID)
+		const userId = await UUID_to_ID(UUID)
+		const loginHistoryRecords = await AuthDB.retrieveLoginHistory(userId)
 		return res.status(200).json(loginHistoryRecords)
 	} catch (error: unknown) {
 		Cookie.clearAll(res, userType)

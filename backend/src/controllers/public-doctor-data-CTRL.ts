@@ -6,19 +6,19 @@ import { Request, Response } from "express"
 
 export async function returnDoctorPageData (req: Request, res: Response): Promise<Response> {
 	const NVI = Number(req.params.NVI)
-	const DoctorID: number = Number(await OperationHandler.executeAsyncAndReturnValue(res, CalendarDB.retrieveDoctorIDFromNVI, NVI))
+	const doctorId: number = Number(await OperationHandler.executeAsyncAndReturnValue(res, CalendarDB.retrieveDoctorIdFromNVI, NVI))
 
 	try {
 		const response: PublicDoctorAccountDetails = {
-			doctorLanguages:       await FetchPublicDoctorData.languages(DoctorID),
-			doctorServices:        await FetchDoctorAccountData.services(DoctorID),
-			doctorSpecialties:     await FetchPublicDoctorData.specialties(DoctorID),
-			doctorPreVetEducation: await FetchPublicDoctorData.preVetEducation(DoctorID),
-			doctorVetEducation:    await FetchPublicDoctorData.vetEducation(DoctorID),
-			doctorAddressData:     await FetchPublicDoctorData.addresses(DoctorID),
-			description:           await FetchDoctorAccountData.description(DoctorID),
-			servicedPets:          await FetchPublicDoctorData.servicedPets(DoctorID),
-			doctorPersonalInfo:    await FetchPublicDoctorData.personalInfo(DoctorID)
+			doctorLanguages:       await FetchPublicDoctorData.languages(doctorId),
+			doctorServices:        await FetchDoctorAccountData.services(doctorId),
+			doctorSpecialties:     await FetchPublicDoctorData.specialties(doctorId),
+			doctorPreVetEducation: await FetchPublicDoctorData.preVetEducation(doctorId),
+			doctorVetEducation:    await FetchPublicDoctorData.vetEducation(doctorId),
+			doctorAddressData:     await FetchPublicDoctorData.addresses(doctorId),
+			description:           await FetchDoctorAccountData.description(doctorId),
+			servicedPets:          await FetchPublicDoctorData.servicedPets(doctorId),
+			doctorPersonalInfo:    await FetchPublicDoctorData.personalInfo(doctorId)
 		}
 		response.doctorPersonalInfo.NVI = NVI
 		return res.status(200).json(response)

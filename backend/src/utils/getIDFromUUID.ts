@@ -5,10 +5,10 @@ import Cookie from "./cookie-operations"
 export default new class GetIDFromUUID {
 	async doctor(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 		const DoctorUUID = req.cookies.DoctorUUID
-		let DoctorID: number
+		let doctorId: number
 		try {
-			DoctorID = await UUID_to_ID(DoctorUUID)
-			req.DoctorID = DoctorID
+			doctorId = await UUID_to_ID(DoctorUUID)
+			req.doctorId = doctorId
 			next()
 		} catch (error: unknown) {
 			Cookie.clearAll(res, "Doctor")
@@ -18,10 +18,10 @@ export default new class GetIDFromUUID {
 
 	async patient(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 		const PatientUUID = req.cookies.PatientUUID
-		let PatientID: number
+		let patientId: number
 		try {
-			PatientID = await UUID_to_ID(PatientUUID)
-			req.PatientID = PatientID
+			patientId = await UUID_to_ID(PatientUUID)
+			req.patientId = patientId
 			next()
 		} catch (error: unknown) {
 			Cookie.clearAll(res, "Patient")

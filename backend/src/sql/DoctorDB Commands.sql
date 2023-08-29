@@ -149,7 +149,7 @@ CREATE TABLE language_mapping(
 	user_id INT unsigned NOT NULL,
 	FOREIGN KEY (Language_ID) REFERENCES language_list(language_listID),
 	FOREIGN KEY (user_id) REFERENCES credentials(user_id),
-	UNIQUE (Language_ID, User_ID)
+	UNIQUE (Language_ID, user_id)
 );
 
 SELECT * FROM language_mapping;
@@ -286,7 +286,7 @@ SELECT * FROM booking_availability JOIN addresses ON booking_availability.addres
 SELECT * FROM booking_availability;
 
 ALTER TABLE login_history
-CHANGE User_ID user_id INT unsigned NOT NULL;
+CHANGE user_id user_id INT unsigned NOT NULL;
 
 CREATE TABLE login_history(
 login_historyID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -313,5 +313,5 @@ SELECT * FROM login_history;
 -- profile_update_historyID INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 -- Updated_at VARCHAR(150),
 -- IP_Address INT unsigned,
--- User_ID INT unsigned NOT NULL,
+-- user_id INT unsigned NOT NULL,
 -- FOREIGN KEY (doctor_id) REFERENCES credentials(user_id));

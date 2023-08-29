@@ -10,14 +10,14 @@ interface DescriptionData {
 }
 
 export default new class FetchDoctorAccountDataDB {
-	async languages (DoctorID: number): Promise<LanguageItem[]> {
+	async languages (doctorId: number): Promise<LanguageItem[]> {
 		const sql = `SELECT ${mysqlTables.language_list}.language_name, ${mysqlTables.language_list}.language_listID
       FROM ${mysqlTables.language_list}
           JOIN ${mysqlTables.language_mapping} ON ${mysqlTables.language_list}.language_listID = ${mysqlTables.language_mapping}.Language_ID
       WHERE
-          ${mysqlTables.language_mapping}.User_ID = ?`
+          ${mysqlTables.language_mapping}.user_id = ?`
 
-		const values = [DoctorID]
+		const values = [doctorId]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
 		const languages = results.map((row: RowDataPacket) => row as LanguageItem)
@@ -25,7 +25,7 @@ export default new class FetchDoctorAccountDataDB {
 		return camelCasedLanguages as LanguageItem[]
 	}
 
-	async services (DoctorID: number): Promise<DetailedServiceItem[]> {
+	async services (doctorId: number): Promise<DetailedServiceItem[]> {
 		const sql = `SELECT ${mysqlTables.service_and_category_list}.category_name, ${mysqlTables.service_and_category_list}.service_name,
 			${mysqlTables.service_and_category_list}.service_and_category_listID, ${mysqlTables.service_mapping}.service_time,
 			${mysqlTables.service_mapping}.service_price
@@ -35,7 +35,7 @@ export default new class FetchDoctorAccountDataDB {
 		WHERE
 			${mysqlTables.service_mapping}.doctor_id = ?`
 
-		const values = [DoctorID]
+		const values = [doctorId]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
 		const services = results.map((row: RowDataPacket) => row as DetailedServiceItem)
@@ -43,7 +43,7 @@ export default new class FetchDoctorAccountDataDB {
 		return camelCasedServices as DetailedServiceItem[]
 	}
 
-	async specialties (DoctorID: number): Promise<OrganizationSpecialty[]> {
+	async specialties (doctorId: number): Promise<OrganizationSpecialty[]> {
 		const sql = `SELECT ${mysqlTables.specialties_list}.organization_name, ${mysqlTables.specialties_list}.specialty_name,
 		${mysqlTables.specialties_list}.specialties_listID
       FROM ${mysqlTables.specialties_list}
@@ -52,7 +52,7 @@ export default new class FetchDoctorAccountDataDB {
       WHERE
           ${mysqlTables.specialty_mapping}.doctor_id = ?`
 
-		const values = [DoctorID]
+		const values = [doctorId]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
 		const specialties = results.map((row: RowDataPacket) => row as OrganizationSpecialty)
@@ -60,7 +60,7 @@ export default new class FetchDoctorAccountDataDB {
 		return camelCasedSpecialties as OrganizationSpecialty[]
 	}
 
-	async preVetEducation (DoctorID: number): Promise<PreVetEducation[]> {
+	async preVetEducation (doctorId: number): Promise<PreVetEducation[]> {
 		const sql = `SELECT ${mysqlTables.pre_vet_school_list}.school_name, ${mysqlTables.major_list}.major_name,
 			${mysqlTables.pre_vet_education_type_list}.education_type, ${mysqlTables.pre_vet_education_mapping}.start_date,
 			${mysqlTables.pre_vet_education_mapping}.end_date, ${mysqlTables.pre_vet_education_mapping}.pre_vet_education_mappingID
@@ -73,7 +73,7 @@ export default new class FetchDoctorAccountDataDB {
 					${mysqlTables.pre_vet_education_type_list}.pre_vet_education_typeID
 				AND ${mysqlTables.pre_vet_education_mapping}.doctor_id = ?`
 
-		const values = [DoctorID]
+		const values = [doctorId]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
 		const preVetEducation = results.map((row: RowDataPacket) => row as PreVetEducation)
@@ -81,7 +81,7 @@ export default new class FetchDoctorAccountDataDB {
 		return camelCasedPreVetEducation as PreVetEducation[]
 	}
 
-	async vetEducation (DoctorID: number): Promise<VetEducation[]> {
+	async vetEducation (doctorId: number): Promise<VetEducation[]> {
 		const sql = `SELECT ${mysqlTables.vet_school_list}.school_name,
 		${mysqlTables.vet_education_type_list}.education_type,
 		${mysqlTables.vet_education_mapping}.start_date, ${mysqlTables.vet_education_mapping}.end_date,
@@ -92,7 +92,7 @@ export default new class FetchDoctorAccountDataDB {
 			AND ${mysqlTables.vet_education_mapping}.Education_type_ID = ${mysqlTables.vet_education_type_list}.vet_education_typeID
 			AND ${mysqlTables.vet_education_mapping}.doctor_id = ?`
 
-		const values = [DoctorID]
+		const values = [doctorId]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
 		const vetEducation = results.map((row: RowDataPacket) => row as VetEducation)
@@ -100,7 +100,7 @@ export default new class FetchDoctorAccountDataDB {
 		return camelCasedVetEducation as VetEducation[]
 	}
 
-	async addressData (DoctorID: number): Promise<PrivateDoctorAddressData[]> {
+	async addressData (doctorId: number): Promise<PrivateDoctorAddressData[]> {
 		const sql = `SELECT ${mysqlTables.addresses}.addressesID, ${mysqlTables.addresses}.address_title,
     ${mysqlTables.addresses}.address_line_1, ${mysqlTables.addresses}.address_line_2, ${mysqlTables.addresses}.city,
     ${mysqlTables.addresses}.state, ${mysqlTables.addresses}.zip,
@@ -110,7 +110,7 @@ export default new class FetchDoctorAccountDataDB {
       WHERE
           ${mysqlTables.addresses}.is_active = 1 AND ${mysqlTables.addresses}.doctor_id = ? `
 
-		const values = [DoctorID]
+		const values = [doctorId]
 
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
@@ -149,12 +149,12 @@ export default new class FetchDoctorAccountDataDB {
 		return phone
 	}
 
-	async descriptionData (DoctorID: number): Promise<string> {
+	async descriptionData (doctorId: number): Promise<string> {
 		const sql = `SELECT description
       FROM ${mysqlTables.descriptions}
       WHERE doctor_id = ?`
 
-		const values = [DoctorID]
+		const values = [doctorId]
 
 		const connection = await connectDatabase()
 		const [descriptionResults] = await connection.execute(sql, values) as RowDataPacket[]
@@ -162,13 +162,13 @@ export default new class FetchDoctorAccountDataDB {
 		return description.description
 	}
 
-	async servicedPets (DoctorID: number): Promise<ServicedPetItem[]> {
+	async servicedPets (doctorId: number): Promise<ServicedPetItem[]> {
 		const sql = `SELECT ${mysqlTables.pet_list}.pet, ${mysqlTables.pet_list}.pet_type, ${mysqlTables.pet_list}.pet_listID
       FROM ${mysqlTables.pet_list}
           JOIN ${mysqlTables.pet_mapping} ON ${mysqlTables.pet_list}.pet_listID = ${mysqlTables.pet_mapping}.pet_ID
       WHERE ${mysqlTables.pet_mapping}.doctor_id = ?`
 
-		const values = [DoctorID]
+		const values = [doctorId]
 
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
@@ -177,12 +177,12 @@ export default new class FetchDoctorAccountDataDB {
 		return camelCasedServicedPets as ServicedPetItem[]
 	}
 
-	async verifiedAndPubliclyAvailableStatus (DoctorID: number): Promise<DoctorStatus> {
+	async verifiedAndPubliclyAvailableStatus (doctorId: number): Promise<DoctorStatus> {
 		const sql = `SELECT publicly_available, verified
       FROM ${mysqlTables.doctor_specific_info}
       WHERE doctor_id = ?`
 
-		const values = [DoctorID]
+		const values = [doctorId]
 
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
@@ -196,12 +196,12 @@ export default new class FetchDoctorAccountDataDB {
 		return status
 	}
 
-	async pictures (DoctorID: number): Promise<PicturesItem[]> {
+	async pictures (doctorId: number): Promise<PicturesItem[]> {
 		const sql = `SELECT picture_link, picture_number
       FROM ${mysqlTables.pictures}
       WHERE doctor_id = ?`
 
-		const values = [DoctorID]
+		const values = [doctorId]
 
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]

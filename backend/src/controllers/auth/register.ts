@@ -40,7 +40,7 @@ export default async function register (req: Request, res: Response): Promise<Re
 		}
 	}
 
-	const IDKey = `${loginType}ID`
+	const IDKey = `${loginType}Id`
 	const UUID = await ID_to_UUID(userId)
 	const payload = { [IDKey]: UUID }
 

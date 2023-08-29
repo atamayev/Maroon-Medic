@@ -76,7 +76,7 @@ export default new class AuthDB {
 	}
 
 	async retrieveLoginHistory (userId: number): Promise<LoginHistoryRecord[]> {
-		const sql = `SELECT login_at FROM ${mysqlTables.login_history} WHERE User_ID = ? ORDER BY login_at DESC`
+		const sql = `SELECT login_at FROM ${mysqlTables.login_history} WHERE user_id = ? ORDER BY login_at DESC`
 		const values = [userId]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
@@ -100,7 +100,7 @@ export default new class AuthDB {
 	}
 
 	async addLoginHistory (userId: number, loginTime: MysqlTimestamp): Promise<void> {
-		const sql = `INSERT INTO ${mysqlTables.login_history} (login_at, IP_Address, User_ID) VALUES (?, ?, ?)`
+		const sql = `INSERT INTO ${mysqlTables.login_history} (login_at, IP_Address, user_id) VALUES (?, ?, ?)`
 		const values = [loginTime, null, userId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)

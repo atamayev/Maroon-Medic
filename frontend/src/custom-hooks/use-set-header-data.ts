@@ -19,7 +19,7 @@ export function useSetHeaderData(): {
 				else await fetchDoctorPersonalInfo(setHeaderData)
 			} else if (userType === "Patient") {
 				const storedInfo = sessionStorage.getItem("PatientPersonalInfo")
-				if (storedInfo) setHeaderData(JSON.parse(storedInfo).FirstName)
+				if (storedInfo) setHeaderData(JSON.parse(storedInfo).firstName)
 				else await fetchPatientPersonalInfo(setHeaderData)
 			}
 		} catch (error) {

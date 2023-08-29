@@ -7,22 +7,22 @@ import PrivateDoctorDataDB from "../../db/private-doctor-data/private-doctor-dat
 import FetchDoctorAccountData from "../../utils/fetch-account-and-public-data/fetch-doctor-account-data"
 
 export async function newDoctor (req: Request, res: Response): Promise<void> {
-	const DoctorID = req.DoctorID
+	const doctorId = req.doctorId
 
 	const newDoctorObject = req.body.newDoctorObject
 
 	const dateOfBirth = TimeUtils.convertDOBStringIntoMySQLDate(
 		newDoctorObject.birthMonth, newDoctorObject.birthDay, newDoctorObject.birthYear
 	)
-	const operation: () => Promise<void> = async () => await PrivateDoctorDataDB.addNewDoctorInfo(newDoctorObject, dateOfBirth, DoctorID)
+	const operation: () => Promise<void> = async () => await PrivateDoctorDataDB.addNewDoctorInfo(newDoctorObject, dateOfBirth, doctorId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
 export async function fetchDashboardData (req: Request, res: Response): Promise<Response> {
-	const DoctorID = req.DoctorID
+	const doctorId = req.doctorId
 
 	try {
-		const DashboardData = await PrivateDoctorDataDB.retrieveDoctorDashboard(DoctorID)
+		const DashboardData = await PrivateDoctorDataDB.retrieveDoctorDashboard(doctorId)
 		for (const singleAppointment of DashboardData) {
 			singleAppointment.appointmentDate = TimeUtils.convertMySQLDateIntoReadableString(singleAppointment.appointmentDate)
 			singleAppointment.createdAt = TimeUtils.convertMySQLDateIntoReadableString(singleAppointment.createdAt)
@@ -34,7 +34,7 @@ export async function fetchDashboardData (req: Request, res: Response): Promise<
 }
 
 export async function fetchPersonalData (req: Request, res: Response): Promise<Response> {
-	const DoctorID = req.DoctorID
+	const doctorId = req.doctorId
 
 	let PersonalData = {
 		firstName: "",
@@ -46,7 +46,7 @@ export async function fetchPersonalData (req: Request, res: Response): Promise<R
 	}
 
 	try {
-		const unformattedPersonaData = await PrivateDoctorDataDB.retrievePersonalDoctorData(DoctorID)
+		const unformattedPersonaData = await PrivateDoctorDataDB.retrievePersonalDoctorData(doctorId)
 		if (_.isEmpty(unformattedPersonaData)) return res.status(200).json(PersonalData)
 		else {
 			PersonalData = Format.personalData(unformattedPersonaData)
@@ -58,22 +58,22 @@ export async function fetchPersonalData (req: Request, res: Response): Promise<R
 }
 
 export async function fetchAccountDetails (req: Request, res: Response): Promise<Response> {
-	const DoctorID = req.DoctorID
+	const doctorId = req.doctorId
 
 	try {
-		const verificationAndPublicAv = await FetchDoctorAccountData.verifiedAndPubliclyAvailable(DoctorID)
+		const verificationAndPublicAv = await FetchDoctorAccountData.verifiedAndPubliclyAvailable(doctorId)
 		const response: DoctorAccountDetails = {
-			languages            : await FetchDoctorAccountData.languages(DoctorID),
-			services             : await FetchDoctorAccountData.services(DoctorID),
-			specialties          : await FetchDoctorAccountData.specialties(DoctorID),
-			preVetEducation      : await FetchDoctorAccountData.preVetEducation(DoctorID),
-			vetEducation         : await FetchDoctorAccountData.vetEducation(DoctorID),
-			addressData          : await FetchDoctorAccountData.addresses(DoctorID),
-			description          : await FetchDoctorAccountData.description(DoctorID),
-			servicedPets         : await FetchDoctorAccountData.servicedPets(DoctorID),
+			languages            : await FetchDoctorAccountData.languages(doctorId),
+			services             : await FetchDoctorAccountData.services(doctorId),
+			specialties          : await FetchDoctorAccountData.specialties(doctorId),
+			preVetEducation      : await FetchDoctorAccountData.preVetEducation(doctorId),
+			vetEducation         : await FetchDoctorAccountData.vetEducation(doctorId),
+			addressData          : await FetchDoctorAccountData.addresses(doctorId),
+			description          : await FetchDoctorAccountData.description(doctorId),
+			servicedPets         : await FetchDoctorAccountData.servicedPets(doctorId),
 			verified             : verificationAndPublicAv.verified,
 			publiclyAvailable    : verificationAndPublicAv.publiclyAvailable
-			// response.pictures             = await FetchDoctorAccountData.pictures(DoctorID)
+			// response.pictures             = await FetchDoctorAccountData.pictures(doctorId)
 		}
 		return res.status(200).json(response)
 	} catch (error: unknown) {

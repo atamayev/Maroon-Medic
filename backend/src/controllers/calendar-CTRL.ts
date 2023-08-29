@@ -5,10 +5,10 @@ import OperationHandler from "../utils/operation-handler"
 
 export async function makeAppointment(req: Request, res: Response): Promise<void> {
 	const AppointmentObject = req.body.AppointmentObject
-	const PatientID = req.PatientID
+	const patientId = req.patientId
 	const NVI = AppointmentObject.NVI
 
-	const DoctorID: number = Number(await OperationHandler.executeAsyncAndReturnValue(res, CalendarDB.retrieveDoctorIDFromNVI, NVI))
+	const doctorId: number = Number(await OperationHandler.executeAsyncAndReturnValue(res, CalendarDB.retrieveDoctorIdFromNVI, NVI))
 
 	const createdAt = TimeUtils.createFormattedDate()
 
@@ -17,15 +17,15 @@ export async function makeAppointment(req: Request, res: Response): Promise<void
 		AppointmentObject.appointmentTime
 	)
 	const operation: () => Promise<void> = async () => await CalendarDB.addAppointment(
-		mysqlDateTime, AppointmentObject, DoctorID, PatientID, createdAt
+		mysqlDateTime, AppointmentObject, doctorId, patientId, createdAt
 	)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
 export async function getDoctorCalendarDetails(req: Request, res: Response): Promise<void> {
-	const DoctorID = req.DoctorID
+	const doctorId = req.doctorId
 	const operation: () => Promise<CalendarData[]> = async () => {
-		return await CalendarDB.retrieveDoctorCalendarDetails(DoctorID)
+		return await CalendarDB.retrieveDoctorCalendarDetails(doctorId)
 	}
 	await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }

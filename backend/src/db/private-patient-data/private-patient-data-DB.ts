@@ -5,14 +5,14 @@ import { transformArrayOfObjectsToCamelCase, transformKeysToCamelCase } from "..
 
 export default new class PrivatePatientDataDB {
 	async addNewPatientInfo (patientInfo: UserInfo, dateOfBirth: MysqlTimestamp, userId: number): Promise<void> {
-		const sql = `INSERT INTO ${mysqlTables.basic_user_info} (first_name, last_name, gender, date_of_birth, User_ID)
+		const sql = `INSERT INTO ${mysqlTables.basic_user_info} (first_name, last_name, gender, date_of_birth, user_id)
 			VALUES (?, ?, ?, ?, ?)`
 		const values = [patientInfo.firstName, patientInfo.lastName, patientInfo.gender, dateOfBirth, userId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
-	async retrievePatientDashboard (PatientID: number): Promise<PatientDashboardData[]> {
+	async retrievePatientDashboard (patientId: number): Promise<PatientDashboardData[]> {
 		const sql = `SELECT
           ${mysqlTables.appointments}.appointments_id, ${mysqlTables.appointments}.appointment_date,
           ${mysqlTables.appointments}.appointment_price, ${mysqlTables.appointments}.patient_message,
@@ -29,11 +29,11 @@ export default new class PrivatePatientDataDB {
           INNER JOIN ${mysqlTables.addresses}
 			ON ${mysqlTables.appointments}.addresses_ID = ${mysqlTables.addresses}.addressesID
 			AND ${mysqlTables.addresses}.doctor_id = ${mysqlTables.appointments}.doctor_id
-          INNER JOIN ${mysqlTables.basic_user_info} ON ${mysqlTables.appointments}.doctor_id = ${mysqlTables.basic_user_info}.User_ID
+          INNER JOIN ${mysqlTables.basic_user_info} ON ${mysqlTables.appointments}.doctor_id = ${mysqlTables.basic_user_info}.user_id
       WHERE
           ${mysqlTables.appointments}.patient_id = ?`
 
-		const values = [PatientID]
+		const values = [patientId]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
 		const dashboardData = results.map((row: RowDataPacket) => row as DoctorDashboardData)
@@ -41,9 +41,9 @@ export default new class PrivatePatientDataDB {
 		return camelCasedDashboardData as PatientDashboardData[]
 	}
 
-	async retrievePersonalPatientData (PatientID: number): Promise<UserInfo> {
-		const sql = `SELECT first_name, last_name, gender, date_of_birth FROM ${mysqlTables.basic_user_info} WHERE User_ID = ?`
-		const values = [PatientID]
+	async retrievePersonalPatientData (patientId: number): Promise<UserInfo> {
+		const sql = `SELECT first_name, last_name, gender, date_of_birth FROM ${mysqlTables.basic_user_info} WHERE user_id = ?`
+		const values = [patientId]
 		const connection = await connectDatabase()
 		const [personalDataResults] = await connection.execute(sql, values) as RowDataPacket[]
 		const personalData = personalDataResults[0]

@@ -8,14 +8,14 @@ type InsuranceItem = {
 }
 
 export default new class FetchPatientAccountDataDB {
-	async languages (PatientID: number): Promise<LanguageItem[]> {
+	async languages (patientId: number): Promise<LanguageItem[]> {
 		const sql = `SELECT ${mysqlTables.language_list}.language_name AS languageName, ${mysqlTables.language_list}.language_listID
       FROM ${mysqlTables.language_list}
           JOIN ${mysqlTables.language_mapping} ON ${mysqlTables.language_list}.language_listID = ${mysqlTables.language_mapping}.Language_ID
       WHERE
-          ${mysqlTables.language_mapping}.User_ID = ?`
+          ${mysqlTables.language_mapping}.user_id = ?`
 
-		const values = [PatientID]
+		const values = [patientId]
 
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
@@ -23,7 +23,7 @@ export default new class FetchPatientAccountDataDB {
 		return languages
 	}
 
-	async petData (PatientID: number): Promise<CompletePetInfo[]> {
+	async petData (patientId: number): Promise<CompletePetInfo[]> {
 		const sql = `SELECT ${mysqlTables.pet_info}.name, ${mysqlTables.pet_info}.gender, ${mysqlTables.pet_info}.date_of_birth,
     		${mysqlTables.pet_list}.pet, ${mysqlTables.pet_list}.pet_type, ${mysqlTables.pet_info}.pet_infoID
         FROM ${mysqlTables.pet_info}
@@ -31,7 +31,7 @@ export default new class FetchPatientAccountDataDB {
         WHERE
             ${mysqlTables.pet_info}.is_active = 1 AND ${mysqlTables.pet_info}.patient_id = ?`
 
-		const values = [PatientID]
+		const values = [patientId]
 
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]

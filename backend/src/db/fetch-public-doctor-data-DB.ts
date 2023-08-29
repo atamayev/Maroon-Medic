@@ -4,13 +4,13 @@ import { connectDatabase } from "../setup-and-security/connect"
 import { transformArrayOfObjectsToCamelCase, transformKeysToCamelCase } from "../utils/transform-keys-to-camel-case"
 
 export default new class FetchPublicDoctorDataDB {
-	async languages (DoctorID: number): Promise<LanguageName[]> {
+	async languages (doctorId: number): Promise<LanguageName[]> {
 		const sql = `SELECT ${mysqlTables.language_list}.language_name
       FROM ${mysqlTables.language_list}
           JOIN ${mysqlTables.language_mapping} ON ${mysqlTables.language_list}.language_listID = ${mysqlTables.language_mapping}.Language_ID
-      WHERE ${mysqlTables.language_mapping}.User_ID = ?`
+      WHERE ${mysqlTables.language_mapping}.user_id = ?`
 
-		const values = [DoctorID]
+		const values = [doctorId]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
 		const languages = results.map((row: RowDataPacket) => row as LanguageName)
@@ -18,14 +18,14 @@ export default new class FetchPublicDoctorDataDB {
 		return camelCasedLanguages as LanguageName[]
 	}
 
-	async specialties (DoctorID: number): Promise<OrganizationSpecialtyName[]> {
+	async specialties (doctorId: number): Promise<OrganizationSpecialtyName[]> {
 		const sql = `SELECT ${mysqlTables.specialties_list}.organization_name, ${mysqlTables.specialties_list}.specialty_name
 		FROM ${mysqlTables.specialties_list}
 			JOIN ${mysqlTables.specialty_mapping}
 			ON ${mysqlTables.specialties_list}.specialties_listID = ${mysqlTables.specialty_mapping}.specialty_ID
 		WHERE ${mysqlTables.specialty_mapping}.doctor_id = ?`
 
-		const values = [DoctorID]
+		const values = [doctorId]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
 		const specialties = results.map((row: RowDataPacket) => row as OrganizationSpecialtyName)
@@ -33,7 +33,7 @@ export default new class FetchPublicDoctorDataDB {
 		return camelCasedSpecialties as OrganizationSpecialtyName[]
 	}
 
-	async preVetEducation (DoctorID: number): Promise<PreVetEducation[]> {
+	async preVetEducation (doctorId: number): Promise<PreVetEducation[]> {
 		const sql = `SELECT ${mysqlTables.pre_vet_school_list}.school_name, ${mysqlTables.major_list}.major_name,
 		${mysqlTables.pre_vet_education_type_list}.education_type, ${mysqlTables.pre_vet_education_mapping}.start_date,
 		${mysqlTables.pre_vet_education_mapping}.end_date
@@ -44,7 +44,7 @@ export default new class FetchPublicDoctorDataDB {
 		AND ${mysqlTables.pre_vet_education_mapping}.Education_type_ID = ${mysqlTables.pre_vet_education_type_list}.pre_vet_education_typeID
 		AND ${mysqlTables.pre_vet_education_mapping}.doctor_id = ?`
 
-		const values = [DoctorID]
+		const values = [doctorId]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
 		const preVetEducation = results.map((row: RowDataPacket) => row as PreVetEducation)
@@ -52,7 +52,7 @@ export default new class FetchPublicDoctorDataDB {
 		return camelCasedPreVetEducation as PreVetEducation[]
 	}
 
-	async vetEducation (DoctorID: number): Promise<VetEducation[]> {
+	async vetEducation (doctorId: number): Promise<VetEducation[]> {
 		const sql = `SELECT ${mysqlTables.vet_school_list}.school_name, ${mysqlTables.vet_education_type_list}.education_type,
 			${mysqlTables.vet_education_mapping}.start_date, ${mysqlTables.vet_education_mapping}.end_date
 			FROM ${mysqlTables.vet_education_mapping}, ${mysqlTables.vet_school_list}, ${mysqlTables.vet_education_type_list}
@@ -61,7 +61,7 @@ export default new class FetchPublicDoctorDataDB {
 				AND ${mysqlTables.vet_education_mapping}.Education_type_ID = ${mysqlTables.vet_education_type_list}.vet_education_typeID
 				AND ${mysqlTables.vet_education_mapping}.doctor_id = ?`
 
-		const values = [DoctorID]
+		const values = [doctorId]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
 		const vetEducation = results.map((row: RowDataPacket) => row as VetEducation)
@@ -69,14 +69,14 @@ export default new class FetchPublicDoctorDataDB {
 		return camelCasedVetEducation as VetEducation[]
 	}
 
-	async servicedPets (DoctorID: number): Promise<ServicedPetData[]> {
+	async servicedPets (doctorId: number): Promise<ServicedPetData[]> {
 		const sql = `SELECT ${mysqlTables.pet_list}.pet, ${mysqlTables.pet_list}.pet_type
         FROM ${mysqlTables.pet_list}
             JOIN ${mysqlTables.pet_mapping} ON ${mysqlTables.pet_list}.pet_listID = ${mysqlTables.pet_mapping}.pet_ID
         WHERE
             ${mysqlTables.pet_mapping}.doctor_id = ?`
 
-		const values = [DoctorID]
+		const values = [doctorId]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
 		const servicedPets = results.map((row: RowDataPacket) => row as ServicedPetData)
@@ -84,7 +84,7 @@ export default new class FetchPublicDoctorDataDB {
 		return camelCasedServicedPets as ServicedPetData[]
 	}
 
-	async addressData (DoctorID: number): Promise<PublicAddressData[]> {
+	async addressData (doctorId: number): Promise<PublicAddressData[]> {
 		const sql = `SELECT
           ${mysqlTables.addresses}.addressesID, ${mysqlTables.addresses}.address_title, ${mysqlTables.addresses}.address_line_1,
           ${mysqlTables.addresses}.address_line_2, ${mysqlTables.addresses}.city, ${mysqlTables.addresses}.state,
@@ -96,7 +96,7 @@ export default new class FetchPublicDoctorDataDB {
           ${mysqlTables.addresses}.addressesID = ${mysqlTables.doctor_phone_numbers}.address_ID AND ${mysqlTables.addresses}.doctor_id = ?
           AND ${mysqlTables.addresses}.address_public_status = 1 AND ${mysqlTables.addresses}.is_active = 1`
 
-		const values = [DoctorID]
+		const values = [doctorId]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
 		const addressData = results.map((row: RowDataPacket) => row as PublicAddressData)
@@ -118,9 +118,9 @@ export default new class FetchPublicDoctorDataDB {
 		return camelCasedAvailabilityData as DoctorAvailability[]
 	}
 
-	async personalData (DoctorID: number): Promise<DoctorPersonalInfo> {
-		const sql = `SELECT first_name, last_name, gender FROM ${mysqlTables.basic_user_info} WHERE User_ID = ?`
-		const values = [DoctorID]
+	async personalData (doctorId: number): Promise<DoctorPersonalInfo> {
+		const sql = `SELECT first_name, last_name, gender FROM ${mysqlTables.basic_user_info} WHERE user_id = ?`
+		const values = [doctorId]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
 		const personalData = results[0] as DoctorPersonalInfo

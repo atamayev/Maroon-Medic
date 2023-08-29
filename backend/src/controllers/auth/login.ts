@@ -35,7 +35,7 @@ export default async function login (req: Request, res: Response): Promise<Respo
 	}
 
 	if (bool === false) return res.status(400).json("Wrong Username or Password!")
-	const IDKey = `${loginType}ID`
+	const IDKey = `${loginType}Id`
 	const UUID = await ID_to_UUID(results.userId)
 	const payload = { [IDKey]: UUID }
 
@@ -54,4 +54,3 @@ export default async function login (req: Request, res: Response): Promise<Respo
 		.status(200)
 		.json()
 }
-

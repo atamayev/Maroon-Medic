@@ -1,8 +1,8 @@
 declare global {
   namespace Express {
     interface Request {
-      DoctorID: number
-      PatientID: number
+      doctorId: number
+      patientId: number
       cookies: {
         DoctorUUID?: string
         PatientUUID?: string
