@@ -1,5 +1,5 @@
 import { Response, Request } from "express"
-import AuthDB from "../../db/auth-DB"
+import AuthDB from "../../db/auth-db"
 import TimeUtils from "../../utils/time"
 import { loginHistory } from "../../utils/account-tracker"
 import Cookie from "../../utils/cookie-operations"

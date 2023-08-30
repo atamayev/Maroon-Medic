@@ -1,3 +1,4 @@
+// eslint-disable-next-line filenames/match-regex
 import { mysqlTables } from "../utils/table-names-list"
 import { connectDatabase } from "../setup-and-security/connect"
 import { RowDataPacket } from "mysql2"

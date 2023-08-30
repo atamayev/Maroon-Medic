@@ -1,4 +1,4 @@
-import AuthDB from "../db/auth-DB"
+import AuthDB from "../db/auth-db"
 import TimeUtils from "./time"
 
 export async function loginHistory(userId: number): Promise<void> {

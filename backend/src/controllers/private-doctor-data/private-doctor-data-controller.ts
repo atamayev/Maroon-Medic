@@ -3,7 +3,7 @@ import { Request, Response } from "express"
 import TimeUtils from "../../utils/time"
 import Format from "../../utils/data-formatter"
 import OperationHandler from "../../utils/operation-handler"
-import PrivateDoctorDataDB from "../../db/private-doctor-data/private-doctor-data-DB"
+import PrivateDoctorDataDB from "../../db/private-doctor-data/private-doctor-data-db"
 import FetchDoctorAccountData from "../../utils/fetch-account-and-public-data/fetch-doctor-account-data"
 
 export async function newDoctor (req: Request, res: Response): Promise<void> {

@@ -1,4 +1,4 @@
-import SearchDB from "../db/search-DB"
+import SearchDB from "../db/search-db"
 import FetchAll from "../utils/fetch-all-lists"
 import OperationHandler from "../utils/operation-handler"
 import { Request, Response } from "express"

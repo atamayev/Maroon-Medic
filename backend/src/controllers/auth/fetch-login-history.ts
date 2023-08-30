@@ -1,5 +1,5 @@
 import { Response, Request } from "express"
-import AuthDB from "../../db/auth-DB"
+import AuthDB from "../../db/auth-db"
 import Cookie from "../../utils/cookie-operations"
 import { UUID_to_ID } from "../../setup-and-security/UUID"
 

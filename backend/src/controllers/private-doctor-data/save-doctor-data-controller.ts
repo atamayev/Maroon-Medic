@@ -2,7 +2,7 @@ import _ from "lodash"
 import { Response, Request } from "express"
 import TimeUtils from "../../utils/time"
 import OperationHandler from "../../utils/operation-handler"
-import SaveDoctorDataDB from "../../db/private-doctor-data/save-doctor-data-DB"
+import SaveDoctorDataDB from "../../db/private-doctor-data/save-doctor-data-db"
 import findAppointmentTimeDifference from "../../utils/find-appointment-time-difference"
 
 export async function savePersonalData (req: Request, res: Response): Promise<void> {

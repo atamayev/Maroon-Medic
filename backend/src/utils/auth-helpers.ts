@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken"
 import Hash from "../setup-and-security/hash"
-import AuthDB from "../db/auth-DB"
+import AuthDB from "../db/auth-db"
 
 export function getUserInfo(cookies: Express.Request["cookies"]): { type: DoctorOrPatient, UUID: string, newUserUUID: string } {
 	let type: DoctorOrPatient = "Patient"

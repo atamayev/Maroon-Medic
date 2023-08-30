@@ -1,7 +1,7 @@
 import { Response, Request } from "express"
 import TimeUtils from "../../utils/time"
 import OperationHandler from "../../utils/operation-handler"
-import SavePatientDataDB from "../../db/private-patient-data/save-patient-data-DB"
+import SavePatientDataDB from "../../db/private-patient-data/save-patient-data-db"
 
 export async function savePersonalData (req: Request, res: Response): Promise<void> {
 	const patientId = req.patientId

@@ -1,5 +1,5 @@
 import { Response, Request } from "express"
-import AuthDB from "../../db/auth-DB"
+import AuthDB from "../../db/auth-db"
 
 export async function newDoctorConfirmation (req: Request, res: Response): Promise<Response> {
 	const doctorPermission = false

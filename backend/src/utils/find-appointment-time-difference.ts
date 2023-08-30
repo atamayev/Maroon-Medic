@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import _ from "lodash"
-import FetchDoctorAccountDataDB from "../db/private-doctor-data/fetch-doctor-account-data-DB"
-import SaveDoctorDataDB from "../db/private-doctor-data/save-doctor-data-DB"
+import FetchDoctorAccountDataDB from "../db/private-doctor-data/fetch-doctor-account-data-db"
+import SaveDoctorDataDB from "../db/private-doctor-data/save-doctor-data-db"
 
 export default async function findAppointmentTimeDifference (newTimes: DoctorAvailability[], addressId: number): Promise<void> {
 	const oldTimes = await FetchDoctorAccountDataDB.availabilityData(addressId)

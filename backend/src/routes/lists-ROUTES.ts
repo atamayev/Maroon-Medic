@@ -5,7 +5,7 @@ import {
 	fetchPetTypes,
 	fetchInsurances
 
-} from "../controllers/lists-CTRL"
+} from "../controllers/lists-controller"
 
 const router = express.Router()
 

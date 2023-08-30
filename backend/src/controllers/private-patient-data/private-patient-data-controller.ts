@@ -3,7 +3,7 @@ import { Response, Request } from "express"
 import TimeUtils from "../../utils/time"
 import Format from "../../utils/data-formatter"
 import OperationHandler from "../../utils/operation-handler"
-import PrivatePatientDataDB from "../../db/private-patient-data/private-patient-data-DB"
+import PrivatePatientDataDB from "../../db/private-patient-data/private-patient-data-db"
 import FetchPatientAccountData from "../../utils/fetch-account-and-public-data/fetch-patient-account-data"
 
 export async function newPatient (req: Request, res: Response): Promise<void> {

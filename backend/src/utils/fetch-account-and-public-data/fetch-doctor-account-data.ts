@@ -1,6 +1,6 @@
 import _ from "lodash"
 import Format from "../data-formatter"
-import FetchDoctorAccountDataDB from "../../db/private-doctor-data/fetch-doctor-account-data-DB"
+import FetchDoctorAccountDataDB from "../../db/private-doctor-data/fetch-doctor-account-data-db"
 
 export default new class FetchDoctorAccountData {
 	async #fetchDoctorAccountData<T>(doctorId: number, retrievalFunction: (id: number) => Promise<T | T[]>): Promise<T | T[]> {

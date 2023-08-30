@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import TimeUtils from "../utils/time"
-import CalendarDB from "../db/calendar-DB"
+import CalendarDB from "../db/calendar-db"
 import OperationHandler from "../utils/operation-handler"
 
 export async function makeAppointment(req: Request, res: Response): Promise<void> {

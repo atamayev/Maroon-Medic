@@ -4,7 +4,7 @@ import {
 	fetchDashboardData,
 	fetchPersonalData,
 	fetchAccountDetails
-} from "../controllers/private-doctor-data/private-doctor-data-CTRL"
+} from "../controllers/private-doctor-data/private-doctor-data-controller"
 import {
 	savePersonalData,
 	saveDescriptionData,
@@ -25,7 +25,7 @@ import {
 	addAddress,
 	deleteAddress,
 	updateAddress
-} from "../controllers/private-doctor-data/save-doctor-data-CTRL"
+} from "../controllers/private-doctor-data/save-doctor-data-controller"
 
 const router = express.Router()
 

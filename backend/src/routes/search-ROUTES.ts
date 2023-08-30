@@ -4,7 +4,7 @@ import {
 	fetchUsers,
 	fetchAllLanguages,
 	fetchAllServicesAndCategories
-} from "../controllers/search-CTRL"
+} from "../controllers/search-controller"
 
 const router = express.Router()
 

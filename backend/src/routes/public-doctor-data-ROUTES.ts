@@ -1,5 +1,5 @@
 import express from "express"
-import { returnDoctorPageData } from "../controllers/public-doctor-data-CTRL"
+import { returnDoctorPageData } from "../controllers/public-doctor-data-controller"
 
 const router = express.Router()
 

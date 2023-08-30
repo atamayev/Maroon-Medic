@@ -1,4 +1,4 @@
-import CalendarDB from "../db/calendar-DB"
+import CalendarDB from "../db/calendar-db"
 import OperationHandler from "../utils/operation-handler"
 import FetchPublicDoctorData from "../utils/fetch-account-and-public-data/fetch-public-doctor-data"
 import FetchDoctorAccountData from "../utils/fetch-account-and-public-data/fetch-doctor-account-data"

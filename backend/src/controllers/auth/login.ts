@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { Response, Request } from "express"
-import AuthDB from "../../db/auth-DB"
+import AuthDB from "../../db/auth-db"
 import Hash from "../../setup-and-security/hash"
 import { loginHistory } from "../../utils/account-tracker"
 import Cookie from "../../utils/cookie-operations"

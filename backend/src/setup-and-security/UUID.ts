@@ -1,6 +1,7 @@
+/* eslint-disable filenames/match-regex */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { v4 as uuidv4 } from "uuid"
-import UUIDDB from "../db/UUID-DB"
+import UUIDDB from "../db/UUID-db"
 import TimeUtils from "../utils/time"
 
 export async function ID_to_UUID(userId: number): Promise<string> {

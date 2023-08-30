@@ -1,5 +1,5 @@
 import _ from "lodash"
-import FetchPatientAccountDataDB from "../../db/private-patient-data/fetch-patient-account-data-DB"
+import FetchPatientAccountDataDB from "../../db/private-patient-data/fetch-patient-account-data-db"
 
 export default new class FetchPatientAccountData {
 	async languages (patientId: number): Promise<LanguageItem[]> {
