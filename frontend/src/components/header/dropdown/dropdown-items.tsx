@@ -16,7 +16,7 @@ interface Props {
   dropdown?: boolean
 }
 
-const DropdownItems = ({ dropdown } : Props) => {
+export default function DropdownItems ({ dropdown } : Props) {
 	const { userType } = useSimpleUserVerification(false)
 
 	const handleRefresh = useHandleRefresh()
@@ -60,5 +60,3 @@ const DropdownItems = ({ dropdown } : Props) => {
 		</>
 	)
 }
-
-export default DropdownItems

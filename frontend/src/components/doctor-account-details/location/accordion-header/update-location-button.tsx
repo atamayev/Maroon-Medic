@@ -9,7 +9,7 @@ interface Props {
   setAddressesConfirmation: (conf: ConfirmationMessage) => void
 }
 
-const UpdateLocationButton = (props: Props) => {
+export default function UpdateLocationButton (props: Props) {
 	const {address, setAddresses, setAddressesConfirmation} = props
 
 	const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
@@ -33,5 +33,3 @@ const UpdateLocationButton = (props: Props) => {
 		/>
 	)
 }
-
-export default UpdateLocationButton

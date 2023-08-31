@@ -31,9 +31,9 @@ export default function Doctor () {
 
 	const idNumber = Number(id)
 
-	async function FillDoctorData(IdNumber: number) {
+	async function FillDoctorData(doctorIDNumber: number) {
 		try {
-			const response = await PublicDoctorDataService.getSingleDoctor(IdNumber)
+			const response = await PublicDoctorDataService.getSingleDoctor(doctorIDNumber)
 			if (response.data.doctorLanguages) setSpokenLanguages(response.data.doctorLanguages)
 			if (response.data.doctorServices) setProvidedServices(response.data.doctorServices)
 			if (response.data.doctorSpecialties) setDoctorSpecialties(response.data.doctorSpecialties)

@@ -1,4 +1,4 @@
-const TimesSection = ({ address }: {address: PublicAddressData}) => {
+function TimesSection ({ address }: {address: PublicAddressData}) {
 	return (
 		<div className = "col-md-6">
 			<h5>Working hours:</h5>

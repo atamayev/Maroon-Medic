@@ -1,4 +1,4 @@
-const PastAppointmentCard = ({ appointment }: { appointment: DoctorDashboardData }) => {
+export default function PastAppointmentCard ({ appointment }: { appointment: DoctorDashboardData }) {
 	return (
 		<div className="mb-3 relative" style={{ margin: "0 10px" }}>
 			<div className="p-4 border border-brown-400 bg-yellow-100 rounded">
@@ -9,5 +9,3 @@ const PastAppointmentCard = ({ appointment }: { appointment: DoctorDashboardData
 		</div>
 	)
 }
-
-export default PastAppointmentCard

@@ -14,7 +14,7 @@ interface Props {
   setPetConfirmation: (conf: ConfirmationMessage) => void
 }
 
-const DeletePetModal = (props: Props) => {
+export default function DeletePetModal (props: Props) {
 	const { showModal, setShowModal, petToDelete, savedPetData, setSavedPetData, setPetConfirmation } = props
 
 	return (
@@ -65,5 +65,3 @@ const DeletePetModal = (props: Props) => {
 		</div>
 	)
 }
-
-export default DeletePetModal

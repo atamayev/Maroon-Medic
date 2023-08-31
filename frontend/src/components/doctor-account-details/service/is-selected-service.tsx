@@ -8,7 +8,7 @@ interface Props {
 	setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemNullablePrice[]>>
 }
 
-const IsSelectedService = (props: Props) => {
+export default function IsSelectedService (props: Props) {
 	const { service, selectedService, selectedServices, setSelectedServices } = props
 
 	if (!selectedService) return null
@@ -30,5 +30,3 @@ const IsSelectedService = (props: Props) => {
 		</>
 	)
 }
-
-export default IsSelectedService

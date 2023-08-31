@@ -7,7 +7,7 @@ interface Props {
   setAddressesConfirmation: (conf: ConfirmationMessage) => void
 }
 
-const SaveOrUpdateButton = (props: Props) => {
+export default function SaveOrUpdateButton (props: Props) {
 	const { address, setAddresses, setAddressesConfirmation } = props
 	const nonExistantAddressesId = -1
 
@@ -29,5 +29,3 @@ const SaveOrUpdateButton = (props: Props) => {
 		/>
 	)
 }
-
-export default SaveOrUpdateButton

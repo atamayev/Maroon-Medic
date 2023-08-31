@@ -5,7 +5,7 @@ interface Props {
 	setShowPassword: (showPassword: boolean) => void,
 }
 
-const ShowOrHidePasswordButton = (props: Props) => {
+export default function ShowOrHidePasswordButton (props: Props) {
 	const { showPassword, setShowPassword } = props
 
 	const hideOrShowPassword = () => {
@@ -24,5 +24,3 @@ const ShowOrHidePasswordButton = (props: Props) => {
 		/>
 	)
 }
-
-export default ShowOrHidePasswordButton

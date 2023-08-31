@@ -3,12 +3,12 @@ import addLocation from "src/helper-functions/account-details/save/doctor-accoun
 import { areAllFieldsValid, areAllTimesValid } from "src/utils/all-field-checks"
 
 interface Props {
-  address: DoctorAddressData
-  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>
-  setAddressesConfirmation: (conf: ConfirmationMessage) => void
+	address: DoctorAddressData
+	setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>
+	setAddressesConfirmation: (conf: ConfirmationMessage) => void
 }
 
-const AddLocationButton = (props: Props) => {
+export default function AddLocationButton (props: Props) {
 	const {address, setAddresses, setAddressesConfirmation} = props
 
 	return (
@@ -26,5 +26,3 @@ const AddLocationButton = (props: Props) => {
 		/>
 	)
 }
-
-export default AddLocationButton

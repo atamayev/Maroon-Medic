@@ -9,7 +9,7 @@ import DoctorHeader from "./doctor-header"
 
 const localizer = momentLocalizer(moment)
 
-const CustomEvent = ({ event }: { event: DoctorCalendarEvent }) => {
+function CustomEvent ({ event }: { event: DoctorCalendarEvent }) {
 	let tailwindCSS = ""
 	if (event.doctorConfirmationStatus === false) tailwindCSS = "bg-orange-400"
 	else tailwindCSS = "bg-blue-400"

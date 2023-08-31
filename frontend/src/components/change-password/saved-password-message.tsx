@@ -1,4 +1,4 @@
-const SavedPasswordMessage = ({ message }: { message: string }) => {
+export default function SavedPasswordMessage ({ message }: { message: string }) {
 	if (!message) return null
 
 	let alertClass = "px-4 py-3 rounded relative mt-3 mb-0"
@@ -15,5 +15,3 @@ const SavedPasswordMessage = ({ message }: { message: string }) => {
 		</div>
 	)
 }
-
-export default SavedPasswordMessage

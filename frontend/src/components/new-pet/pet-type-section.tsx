@@ -7,7 +7,7 @@ interface Props {
   setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>
 }
 
-const PetTypeSection = (props: Props) => {
+export default function PetTypeSection (props: Props) {
 	const { newPetData, petTypes, setNewPetData } = props
 
 	return (
@@ -21,16 +21,14 @@ const PetTypeSection = (props: Props) => {
 			value = {newPetData.pet || ""}
 		>
 			<option value = "" disabled>Select</option>
-			{petTypes.map((PetType) => (
+			{petTypes.map((petType) => (
 				<option
-					key = {PetType.petListId}
-					value = {PetType.pet}
+					key = {petType.petListId}
+					value = {petType.pet}
 				>
-					{PetType.pet}
+					{petType.pet}
 				</option>
 			))}
 		</FormGroup>
 	)
 }
-
-export default PetTypeSection

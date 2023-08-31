@@ -1,6 +1,6 @@
 import AppointmentConfirmationStatus from "../appointment-confirmation-status"
 
-const PastAppointmentCard = ({ appointment }: { appointment: PatientDashboardData }) => {
+export default function PastAppointmentCard ({ appointment }: { appointment: PatientDashboardData }) {
 	return (
 		<div className="mb-3 bg-yellow-100 border border-brown-400 rounded" style={{ margin: "0 10px", position: "relative" }}>
 			<div className="p-4">
@@ -14,5 +14,3 @@ const PastAppointmentCard = ({ appointment }: { appointment: PatientDashboardDat
 		</div>
 	)
 }
-
-export default PastAppointmentCard

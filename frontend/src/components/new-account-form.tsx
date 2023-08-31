@@ -15,7 +15,7 @@ interface Props {
 export default function NewAccountForm(props: Props) {
 	const { handleSubmit, error, newInfo, setNewInfo, loading } = props
 
-	const ErrorMessage = () => {
+	function ErrorMessage () {
 		if (!error) return null
 		return (
 			<div className="bg-red-600 text-white p-3 rounded-md mb-4">

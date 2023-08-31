@@ -20,13 +20,13 @@ const generateTimeSlots = (
 		let currentTime = moment().hour(Number(start[0])).minute(Number(start[1]))
 		const endTime = moment().hour(Number(end[0])).minute(Number(end[1]))
 
-		const ServiceMinutes = convertToMinutes(selectedServiceObject.serviceTime)
-		setServiceMinutes(ServiceMinutes)
+		const serviceMinutes = convertToMinutes(selectedServiceObject.serviceTime)
+		setServiceMinutes(serviceMinutes)
 
 		while (currentTime.isBefore(endTime)) {
 			// Change "HH:mm" to "h:mm A":
 			times.push(currentTime.format("h:mm A"))
-			currentTime = currentTime.clone().add(ServiceMinutes, "minutes")
+			currentTime = currentTime.clone().add(serviceMinutes, "minutes")
 		}
 		setAvailableTimes(times)
 	}

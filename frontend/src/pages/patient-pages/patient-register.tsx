@@ -4,15 +4,15 @@ import LoginAndRegistrationForm from "../../components/login-and-registration-fo
 import useConfirmNotLoggedIn from "../../custom-hooks/use-confirm-not-logged-in"
 
 export default function PatietRegister() {
-	const VetOrPatiet = "Patient"
+	const VetOrPatient = "Patient"
 	const [registerInformationObject, setRegisterInformationObject] = useState<AuthCredentials>(
-		{loginType: VetOrPatiet, email: "", password: ""}
+		{loginType: VetOrPatient, email: "", password: ""}
 	)
 	const [passwordConfirm, setPasswordConfirm] = useState("")
 	const [error, setError] = useState("")
 	const [loading, setLoading] = useState(false)
 	const [showPassword, setShowPassword] = useState(false)
-	const { registerSubmit } = useRegisterSubmit(setError, setLoading, VetOrPatiet)
+	const { registerSubmit } = useRegisterSubmit(setError, setLoading, VetOrPatient)
 
 	useConfirmNotLoggedIn(false)
 
@@ -24,7 +24,7 @@ export default function PatietRegister() {
 			passwordConfirm = {passwordConfirm}
 			setPasswordConfirm = {setPasswordConfirm}
 			error = {error}
-			VetOrPatient = {VetOrPatiet}
+			VetOrPatient = {VetOrPatient}
 			loading = {loading}
 			loginOrSignUp = "Sign up"
 			showPassword = {showPassword}

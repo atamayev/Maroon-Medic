@@ -4,7 +4,7 @@ const ifPetTypeSelected = (
 	newPetData: PetItemForCreation,
 	setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>
 ): void => {
-	const selectedPetType = petTypes.find(PetType => PetType.pet === value)
+	const selectedPetType = petTypes.find(petType => petType.pet === value)
 	if (selectedPetType) {
 		const newPet = {
 			...newPetData,

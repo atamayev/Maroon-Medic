@@ -4,11 +4,11 @@ import AddressLine2Input from "./address-line-2-input"
 import CityInput from "./city-input"
 
 interface Props {
-  address: DoctorAddressData
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>, addressPriority: number) => void
+	address: DoctorAddressData
+	handleInputChange: (event: React.ChangeEvent<HTMLInputElement>, addressPriority: number) => void
 }
 
-const FirstAccordionBodyRow = (props: Props) => {
+export default function FirstAccordionBodyRow (props: Props) {
 	const {address, handleInputChange} = props
 
 	return (
@@ -20,5 +20,3 @@ const FirstAccordionBodyRow = (props: Props) => {
 		</div>
 	)
 }
-
-export default FirstAccordionBodyRow

@@ -5,7 +5,7 @@ interface Props {
   VetOrPatient: VetOrPatient,
 }
 
-const SubRegisterInformation = (props: Props) => {
+export default function SubRegisterInformation (props: Props) {
 	const { loginOrSignUp, VetOrPatient } = props
 
 	if (loginOrSignUp !== "Sign up") return null
@@ -15,5 +15,3 @@ const SubRegisterInformation = (props: Props) => {
 		</div>
 	)
 }
-
-export default SubRegisterInformation

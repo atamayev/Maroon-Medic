@@ -2,11 +2,11 @@ import _ from "lodash"
 import FormGroup from "../form-group"
 
 interface CharacterLimitProps {
-  message: string,
-  isMessageOverLimit: boolean
+	message: string,
+	isMessageOverLimit: boolean
 }
 
-const CharacterLimit = (props: CharacterLimitProps) => {
+function CharacterLimit (props: CharacterLimitProps) {
 	const { message, isMessageOverLimit } = props
 
 	const counterStyleLimit = () => {
@@ -22,13 +22,13 @@ const CharacterLimit = (props: CharacterLimitProps) => {
 }
 
 interface Props {
-  message: string,
-  setMessage: React.Dispatch<React.SetStateAction<string>>,
-  isMessageOverLimit: boolean,
-  personalData: DoctorPersonalData
+	message: string,
+	setMessage: React.Dispatch<React.SetStateAction<string>>,
+	isMessageOverLimit: boolean,
+	personalData: DoctorPersonalData
 }
 
-const CustomPatientMessage = (props: Props) => {
+export default function CustomPatientMessage (props: Props) {
 	const { message, setMessage, isMessageOverLimit, personalData } = props
 
 	return (
@@ -51,5 +51,3 @@ const CustomPatientMessage = (props: Props) => {
 		</>
 	)
 }
-
-export default CustomPatientMessage

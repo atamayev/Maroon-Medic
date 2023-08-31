@@ -7,9 +7,9 @@ export const useDeleteVetEducation = (
 	setVetEducationConfirmation: (conf: ConfirmationMessage) => void
 ): ((VetEducation: VetEducationItem) => void) => {
 	return useCallback(
-		async (VetEducation: VetEducationItem) => {
+		async (vetEducationItem: VetEducationItem) => {
 			await deleteVetEducation(
-				VetEducation.vetEducationMappingId,
+				vetEducationItem.vetEducationMappingId,
 				vetEducation,
 				setVetEducation,
 				setVetEducationConfirmation

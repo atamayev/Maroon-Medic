@@ -21,7 +21,7 @@ interface AddPetProps {
   setSavedPetData: React.Dispatch<React.SetStateAction<SavedPetItem[]>>
 }
 
-const NewPet = (props: AddPetProps) => {
+export default function NewPet (props: AddPetProps) {
 	const { newPetData, setNewPetData, petTypes, insurances, petConfirmation,
 		setPetConfirmation, showAddPet, setShowAddPet, savedPetData, setSavedPetData } = props
 
@@ -83,5 +83,3 @@ const NewPet = (props: AddPetProps) => {
 		</div>
 	)
 }
-
-export default NewPet

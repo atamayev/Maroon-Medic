@@ -5,7 +5,7 @@ interface Props {
   VetOrPatient: VetOrPatient,
 }
 
-const ForgotPassword = (props: Props) => {
+function ForgotPassword (props: Props) {
 	const { loginOrSignUp, VetOrPatient } = props
 
 	if (loginOrSignUp !== "Login") return null

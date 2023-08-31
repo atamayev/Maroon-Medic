@@ -3,11 +3,11 @@ import FormGroup from "../form-group"
 import handleLocationChange from "src/helper-functions/public-doctor/booking-page/handle-location-change"
 
 interface SelectLocationProps extends AppointmentBookingProps {
-  addresses: PublicAddressData[]
-  setNoAvailableTimesMessage: React.Dispatch<React.SetStateAction<boolean>>
+	addresses: PublicAddressData[]
+	setNoAvailableTimesMessage: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SelectLocation = (props: SelectLocationProps) => {
+export default function SelectLocation (props: SelectLocationProps) {
 	const { addresses, appointmentInformation, setAppointmentInformation, setNoAvailableTimesMessage } = props
 
 	if (!appointmentInformation.selectedService) return null
@@ -38,5 +38,3 @@ const SelectLocation = (props: SelectLocationProps) => {
 		</div>
 	)
 }
-
-export default SelectLocation

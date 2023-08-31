@@ -12,8 +12,8 @@ const handleShowModal = (props: Props) => {
 	setShowModal(true)
 }
 
-const SavedPetDataTitle = (props: Props) => {
-	const {pet, setPetToDelete, setShowModal} = props
+export default function SavedPetDataTitle (props: Props) {
+	const { pet, setPetToDelete, setShowModal } = props
 
 	return (
 		<div className="flex justify-between items-center p-2 bg-yellow-200 border-b border-brown-400">
@@ -31,5 +31,3 @@ const SavedPetDataTitle = (props: Props) => {
 		</div>
 	)
 }
-
-export default SavedPetDataTitle

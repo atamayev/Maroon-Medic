@@ -1,7 +1,7 @@
 import _ from "lodash"
 import PastAppointmentCard from "./past-appointment-card"
 
-const PastAppointmentsMap = ({ pastPatientAppointments } : { pastPatientAppointments: PatientDashboardData[] }) => {
+function PastAppointmentsMap ({ pastPatientAppointments } : { pastPatientAppointments: PatientDashboardData[] }) {
 	if (_.isEmpty(pastPatientAppointments)) return <>No past appointments</>
 	return (
 		<>

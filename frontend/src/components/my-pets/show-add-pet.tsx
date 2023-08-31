@@ -5,7 +5,7 @@ interface Props {
   setShowAddPet: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const ShowAddPet = (props: Props) => {
+export default function ShowAddPet (props: Props) {
 	const { showAddPet, setShowAddPet } = props
 
 	if (showAddPet) return null
@@ -20,5 +20,3 @@ const ShowAddPet = (props: Props) => {
 		/>
 	)
 }
-
-export default ShowAddPet

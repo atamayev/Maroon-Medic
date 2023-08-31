@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import pic from "../../../images/ProfileImage.jpg"
 import { useSetHeaderData } from "src/custom-hooks/use-set-header-data"
-import { DropdownItemsContainer } from "./dropdown-items-container"
+import DropdownItemsContainer from "./dropdown-items-container"
 import { observer } from "mobx-react"
 import { useLocation } from "react-router-dom"
 
@@ -9,6 +9,7 @@ interface Props {
   dropdown?: boolean
 }
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const HeaderDropdown = ({ dropdown } : Props) => {
 	const location = useLocation()
 	const { headerData } = useSetHeaderData()

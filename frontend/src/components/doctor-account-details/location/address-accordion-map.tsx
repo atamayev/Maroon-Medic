@@ -6,7 +6,7 @@ interface Props {
   setAddressesConfirmation: (conf: ConfirmationMessage) => void
 }
 
-const AddressAccordionMap = (props: Props) => {
+export default function AddressAccordionMap (props: Props) {
 	const { addresses, setAddresses, setAddressesConfirmation } = props
 
 	return (
@@ -25,5 +25,3 @@ const AddressAccordionMap = (props: Props) => {
 		</>
 	)
 }
-
-export default AddressAccordionMap

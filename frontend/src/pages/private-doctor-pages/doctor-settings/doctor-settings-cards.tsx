@@ -12,9 +12,9 @@ export default function DoctorSettingsCards() {
 		<>
 			<DoctorHeader/>
 			<div className="flex flex-row items-center justify-center">
-				<SettingsLinks SettingsLink = {"personal-information"} title = {"Personal Information"}/>
-				<SettingsLinks SettingsLink = {"privacy"} title = {"Privacy"}/>
-				<SettingsLinks SettingsLink = {"login-and-security"} title = {"Login & Security"}/>
+				<SettingsLinks settingsLink = {"personal-information"} title = {"Personal Information"}/>
+				<SettingsLinks settingsLink = {"privacy"} title = {"Privacy"}/>
+				<SettingsLinks settingsLink = {"login-and-security"} title = {"Login & Security"}/>
 			</div>
 		</>
 	)

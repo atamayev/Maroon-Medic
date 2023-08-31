@@ -14,8 +14,8 @@ interface AppointmentObject {
 }
 
 export default new class CalendarDataService {
-	async makeAppointment(AppointmentObject: AppointmentObject) {
-		return await http.post("/calendar/make-appointment", {AppointmentObject})
+	async makeAppointment(appointmentObject: AppointmentObject) {
+		return await http.post("/calendar/make-appointment", {appointmentObject})
 	}
 	async fillCalendarDetails() {
 		return await http.get("/calendar/get-doctor-calendar-details")

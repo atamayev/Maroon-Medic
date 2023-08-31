@@ -8,12 +8,12 @@ interface FinalizeBookingProps {
 	personalData: DoctorPersonalData
 }
 
-const ConfirmOrRequestMessage = (selectedLocation: PublicAddressData) => {
+function ConfirmOrRequestMessage (selectedLocation: PublicAddressData) {
 	if (selectedLocation.instantBook) return "Confirm"
 	return "Request"
 }
 
-export const FinalizeBookingButton = (props: FinalizeBookingProps) => {
+export default function FinalizeBookingButton (props: FinalizeBookingProps) {
 	const { appointmentInformation, serviceMinutes, personalData } = props
 	const navigate = useNavigate()
 	if (_.some(appointmentInformation, value => value === null)) return null
@@ -40,5 +40,3 @@ export const FinalizeBookingButton = (props: FinalizeBookingProps) => {
 		/>
 	)
 }
-
-export default FinalizeBookingButton

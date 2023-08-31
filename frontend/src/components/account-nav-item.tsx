@@ -1,13 +1,13 @@
 import { Link, useLocation } from "react-router-dom"
 
 type PillItemProps = {
-  label: string
-  to: string
-  image: string
-  imageAlt?: string
+	label: string
+	to: string
+	image: string
+	imageAlt?: string
 }
 
-const PillItem = (props: PillItemProps) => {
+export default function PillItem (props: PillItemProps) {
 	const { label, to, image, imageAlt } = props
 	const location = useLocation()
 	const isActive = location.pathname.startsWith(to)
@@ -35,5 +35,3 @@ const PillItem = (props: PillItemProps) => {
 		</div>
 	)
 }
-
-export default PillItem

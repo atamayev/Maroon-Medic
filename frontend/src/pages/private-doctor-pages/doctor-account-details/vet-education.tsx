@@ -13,9 +13,9 @@ import SavedVetEducationList from "src/components/doctor-account-details/educati
 import AccountDetailsCard from "src/components/account-details-card"
 
 interface Props {
-  listDetails: DoctorListDetails
-  vetEducation: VetEducationItem[]
-  setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItem[]>>
+	listDetails: DoctorListDetails
+	vetEducation: VetEducationItem[]
+	setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItem[]>>
 }
 
 export default function VetEducationSection (props: Props) {
@@ -36,7 +36,7 @@ function VetEducation(props: Props) {
 		startMonth: "",
 		endMonth: "",
 		startYear: "",
-		endYear: "",
+		endYear: ""
 	})
 	const [vetEducationConfirmation, setVetEducationConfirmation] = useConfirmationMessage()
 
@@ -49,7 +49,7 @@ function VetEducation(props: Props) {
 		// Go through each status
 		for (const vetEducationMappingId in newDeleteStatuses) {
 			// If the language Id does not exist in the vetEducation list, delete the status
-			if (!vetEducation.some((_vetEducation) => _vetEducation.vetEducationMappingId === Number(vetEducationMappingId))) {
+			if (!vetEducation.some((vetEducationItem) => vetEducationItem.vetEducationMappingId === Number(vetEducationMappingId))) {
 				delete newDeleteStatuses[vetEducationMappingId]
 			}
 		}

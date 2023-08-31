@@ -18,9 +18,9 @@ export default function ServicedPetsSection({ servicedPets } : { servicedPets: S
 function ServicedPets({ servicedPets } : { servicedPets: ServicedPetData[] }) {
 	const categories: CategoriesType = {}
 	if (servicedPets) {
-		servicedPets.forEach(Pet => {
-			if (!categories[Pet.petType]) categories[Pet.petType] = []
-			categories[Pet.petType].push(Pet)
+		servicedPets.forEach(pet => {
+			if (!categories[pet.petType]) categories[pet.petType] = []
+			categories[pet.petType].push(pet)
 		})
 	}
 
@@ -29,9 +29,9 @@ function ServicedPets({ servicedPets } : { servicedPets: ServicedPetData[] }) {
 			{Object.entries(categories).map(([petType, pets], outerIndex) => (
 				<div key = {outerIndex} style = {{ marginBottom: "10px" }}>
 					<h3>{petType}</h3>
-					{pets.map((Pet, innerIndex) => (
+					{pets.map((pet, innerIndex) => (
 						<p key = {innerIndex}>
-							{Pet.pet}
+							{pet.pet}
 						</p>
 					))}
 				</div>

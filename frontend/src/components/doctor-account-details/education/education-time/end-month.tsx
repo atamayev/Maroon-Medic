@@ -1,11 +1,11 @@
 import { months } from "src/utils/constants"
 
 interface Props {
-  timeState: TimeState
-  setTimeState: React.Dispatch<React.SetStateAction<TimeState>>
+	timeState: TimeState
+	setTimeState: React.Dispatch<React.SetStateAction<TimeState>>
 }
 
-const SelectEndMonth = (props: Props) => {
+export default function SelectEndMonth (props: Props) {
 	const { timeState, setTimeState } = props
 	let monthsToDisplay = months
 
@@ -17,7 +17,7 @@ const SelectEndMonth = (props: Props) => {
 	return (
 		<div>
 			<label>
-        End Month:
+				End Month:
 				<select
 					name = "endMonth"
 					value = {timeState.endMonth || ""}
@@ -45,5 +45,3 @@ const SelectEndMonth = (props: Props) => {
 		</div>
 	)
 }
-
-export default SelectEndMonth

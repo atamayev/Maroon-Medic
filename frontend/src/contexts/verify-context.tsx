@@ -6,7 +6,8 @@ import CheckCookie from "src/utils/cookie-check"
 
 const createDefaultContext = (): VerifyContextType => ({ userVerification: () => Promise.resolve({verified: false}) })
 
-const VerifyContext = createContext<VerifyContextType>(createDefaultContext())
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const VerifyContext = createContext<VerifyContextType>(createDefaultContext())
 
 function clearAndReturnFalse(clearSession: boolean): {verified: boolean} {
 	if (clearSession) sessionStorage.clear()
@@ -24,7 +25,7 @@ const handleError = (error: unknown, clearSession: boolean) => {
 	return clearAndReturnFalse(clearSession)
 }
 
-const VerifyContextProvider = ({ children }: VerifyContextProviderProps) => {
+export function VerifyContextProvider ({ children }: VerifyContextProviderProps) {
 	async function userVerification(clearSession: boolean): VerifyContextReturnType {
 		try {
 			if (!CheckCookie.forContext("DoctorAccessToken") && !CheckCookie.forContext("PatientAccessToken")) {
@@ -52,5 +53,3 @@ const VerifyContextProvider = ({ children }: VerifyContextProviderProps) => {
 		</VerifyContext.Provider>
 	)
 }
-
-export { VerifyContext, VerifyContextProvider }

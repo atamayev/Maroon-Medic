@@ -1,11 +1,11 @@
 import Button from "../button"
 
 interface Props {
-  status: DeleteStatuses,
-  setStatus: (status: DeleteStatuses) => void
+	status: DeleteStatuses,
+	setStatus: (status: DeleteStatuses) => void
 }
 
-const InitialDeleteButton = ({ status, setStatus }: Props) => {
+export default function InitialDeleteButton ({ status, setStatus }: Props) {
 	if (status !== "initial") return null
 
 	return (
@@ -19,5 +19,3 @@ const InitialDeleteButton = ({ status, setStatus }: Props) => {
 		/>
 	)
 }
-
-export default InitialDeleteButton

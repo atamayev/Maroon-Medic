@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const TailwindAccordion = ({ children } : {children: any}) => {
+function TailwindAccordion ({ children } : {children: any}) {
 	const [isOpen, setIsOpen] = useState(false)
 
 	return (
@@ -11,7 +11,7 @@ const TailwindAccordion = ({ children } : {children: any}) => {
 				className="flex justify-between items-center p-4 bg-yellow-500 text-white font-semibold"
 				onClick={() => setIsOpen(!isOpen)}
 			>
-        Addresses
+				Addresses
 				<span>{isOpen ? "-" : "+"}</span>
 			</button>
 

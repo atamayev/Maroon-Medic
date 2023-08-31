@@ -1,16 +1,16 @@
 import ServiceActionButton from "./service-action-button"
 
 interface Props {
-  service: ServiceListItem
-  category: string
-  selectedServices: ServiceItemNullablePrice[]
-  setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemNullablePrice[]>>
-  providedServices: ServiceItemNotNullablePrice[]
-  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemNotNullablePrice[]>>
-  setServicesConfirmation: (conf: ConfirmationMessage) => void
+	service: ServiceListItem
+	category: string
+	selectedServices: ServiceItemNullablePrice[]
+	setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemNullablePrice[]>>
+	providedServices: ServiceItemNotNullablePrice[]
+	setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemNotNullablePrice[]>>
+	setServicesConfirmation: (conf: ConfirmationMessage) => void
 }
 
-const ServiceCheckbox = (props: Props) => {
+export default function ServiceCheckbox (props: Props) {
 	const { service, category, selectedServices, setSelectedServices,
 		providedServices, setProvidedServices, setServicesConfirmation } = props
 
@@ -41,7 +41,7 @@ const ServiceCheckbox = (props: Props) => {
 					else {
 						setSelectedServices(
 							selectedServices.filter(
-								_service => _service.serviceAndCategoryListId !== service.serviceAndCategoryListId
+								serviceItem => serviceItem.serviceAndCategoryListId !== service.serviceAndCategoryListId
 							)
 						)
 					}
@@ -51,5 +51,3 @@ const ServiceCheckbox = (props: Props) => {
 		</>
 	)
 }
-
-export default ServiceCheckbox

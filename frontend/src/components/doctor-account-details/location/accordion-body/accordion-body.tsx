@@ -3,19 +3,19 @@ import SecondAccordionBodyRow from "./second-accordion-body-row"
 import MapDataAndWeekDays from "./times-section/map-data-and-week-days"
 
 interface Props {
-  isOpen: boolean
-  address: DoctorAddressData
-  addresses: DoctorAddressData[]
-  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>
+	isOpen: boolean
+	address: DoctorAddressData
+	addresses: DoctorAddressData[]
+	setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>
 }
 
-const AccordionBody = (props: Props) => {
+export default function AccordionBody (props: Props) {
 	const { isOpen, address, setAddresses, addresses } = props
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, addressPriority: number) => {
-		const newAddresses = addresses.map(_address => {
-			if (_address.addressPriority === addressPriority) return { ..._address, [event.target.name]: event.target.value }
-			return _address
+		const newAddresses = addresses.map(addressItem => {
+			if (addressItem.addressPriority === addressPriority) return { ...addressItem, [event.target.name]: event.target.value }
+			return addressItem
 		})
 		setAddresses(newAddresses)
 	}
@@ -40,5 +40,3 @@ const AccordionBody = (props: Props) => {
 		</div>
 	)
 }
-
-export default AccordionBody

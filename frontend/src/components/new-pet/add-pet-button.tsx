@@ -23,7 +23,7 @@ interface Props {
   newPetData: PetItemForCreation
 }
 
-const AddPetButton = (props: Props) => {
+export default function AddPetButton (props: Props) {
 	const { newPetData } = props
 
 	return (
@@ -38,5 +38,3 @@ const AddPetButton = (props: Props) => {
 		</div>
 	)
 }
-
-export default AddPetButton

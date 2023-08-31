@@ -13,7 +13,7 @@ interface Props {
 	setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemNullablePrice[]>>
 }
 
-const ServicePriceInput = (props: Props) => {
+export default function ServicePriceInput (props: Props) {
 	const { service, selectedService, selectedServices, setSelectedServices } = props
 	return (
 		<span className = "ml-2" style={{ position: "relative" }}>
@@ -56,5 +56,3 @@ const ServicePriceInput = (props: Props) => {
 		</span>
 	)
 }
-
-export default ServicePriceInput

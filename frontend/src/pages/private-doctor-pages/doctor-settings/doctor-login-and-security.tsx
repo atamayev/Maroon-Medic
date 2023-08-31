@@ -6,7 +6,7 @@ import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import DoctorHeader from "../doctor-header"
 
-const DoctorLoginAndSecurity = () => {
+function DoctorLoginAndSecurity () {
 	const { userType } = useSimpleUserVerification()
 	const loginHistory = useSetLoginHistory(userType, "Doctor")
 

@@ -10,7 +10,7 @@ interface AddressAccordionProps {
   setAddressesConfirmation: (conf: ConfirmationMessage) => void
 }
 
-const AddressAccordionItem = (props: AddressAccordionProps) => {
+export default function AddressAccordionItem (props: AddressAccordionProps) {
 	const { index, address, addresses, setAddresses, setAddressesConfirmation } = props
 
 	const [isOpen, setIsOpen] = useState(false)
@@ -34,5 +34,3 @@ const AddressAccordionItem = (props: AddressAccordionProps) => {
 		</div>
 	)
 }
-
-export default AddressAccordionItem

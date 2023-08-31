@@ -4,11 +4,11 @@ import CountryInput from "./country-input"
 import PhoneNumberInput from "./phone-number-input"
 
 interface Props {
-  address: DoctorAddressData
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>, addressPriority: number) => void
+	address: DoctorAddressData
+	handleInputChange: (event: React.ChangeEvent<HTMLInputElement>, addressPriority: number) => void
 }
 
-const SecondAccordionBodyRow = (props: Props) => {
+export default function SecondAccordionBodyRow (props: Props) {
 	const {address, handleInputChange} = props
 
 	return (
@@ -20,5 +20,3 @@ const SecondAccordionBodyRow = (props: Props) => {
 		</div>
 	)
 }
-
-export default SecondAccordionBodyRow

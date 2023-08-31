@@ -1,3 +1,4 @@
+import _ from "lodash"
 import { useState } from "react"
 import Button from "../button"
 import changePassword from "../../helper-functions/shared/change-password"
@@ -5,7 +6,6 @@ import CurrentPasswordInput from "./current-password-input"
 import NewPasswordInput from "./new-password"
 import SavedPasswordMessage from "./saved-password-message"
 import ConfirmNewPasswordInput from "./confirm-new-password"
-import _ from "lodash"
 
 export default function ChangePassword( { type } : { type: DoctorOrPatient }) {
 	const [credentials, setCredentials] = useState<ChangePasswordObject>({
@@ -18,7 +18,7 @@ export default function ChangePassword( { type } : { type: DoctorOrPatient }) {
 	const [loading, setLoading] = useState(false)
 	const [showPassword, setShowPassword] = useState(false)
 
-	const HideOrShowPassword = () => {
+	function HideOrShowPassword () {
 		if (showPassword) return "Hide Password"
 		return "Show Password"
 	}
@@ -32,7 +32,7 @@ export default function ChangePassword( { type } : { type: DoctorOrPatient }) {
 		return "password"
 	}
 
-	const ShowPasswordButton = () => {
+	function ShowPasswordButton () {
 		if (_.isEmpty(credentials.newPassword) && _.isEmpty(credentials.newConfirmPassword)) {
 			return null
 		}

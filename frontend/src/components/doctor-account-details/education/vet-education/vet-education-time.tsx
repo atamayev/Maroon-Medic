@@ -1,12 +1,12 @@
 import EducationTime from "../education-time/education-time"
 
 interface Props {
-  selectedVetEducationType: string
-  timeState: TimeState
-  setTimeState: (value: React.SetStateAction<TimeState>) => void
+	selectedVetEducationType: string
+	timeState: TimeState
+	setTimeState: (value: React.SetStateAction<TimeState>) => void
 }
 
-const VetEducationTime = (props: Props) => {
+export default function VetEducationTime (props: Props) {
 	const { selectedVetEducationType, timeState, setTimeState } = props
 
 	if (!selectedVetEducationType) return null
@@ -17,5 +17,3 @@ const VetEducationTime = (props: Props) => {
 		/>
 	)
 }
-
-export default VetEducationTime

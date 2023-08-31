@@ -7,7 +7,7 @@ interface Props {
   showPassword: "text" | "password",
 }
 
-const ConfirmPassword = (props: Props) => {
+export default function ConfirmPassword (props: Props) {
 	const { loginOrSignUp, passwordConfirm, setPasswordConfirm, showPassword } = props
 
 	if (loginOrSignUp === "Sign up" && setPasswordConfirm) {
@@ -25,5 +25,3 @@ const ConfirmPassword = (props: Props) => {
 	}
 	return null
 }
-
-export default ConfirmPassword

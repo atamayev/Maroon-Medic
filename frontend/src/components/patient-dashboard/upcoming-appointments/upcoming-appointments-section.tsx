@@ -1,6 +1,6 @@
 import UpcomingAppointmentsMap from "./upcoming-appointments-map"
 
-const UpcomingAppointmentsSection = ({ upcomingAppointments }: { upcomingAppointments: PatientDashboardData[] }) => {
+function UpcomingAppointmentsSection ({ upcomingAppointments }: { upcomingAppointments: PatientDashboardData[] }) {
 	return (
 		<div className="mb-3 bg-yellow-100 border border-brown-400 rounded" style={{ margin: "0 10px" }}>
 			<div className="p-4 bg-amber-200 border-b border-brown-400">

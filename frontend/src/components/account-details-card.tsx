@@ -1,9 +1,9 @@
 interface Props {
-  title: string
-  content: JSX.Element
+	title: string
+	content: JSX.Element
 }
 
-const AccountDetailsCard = (props: Props) => {
+export default function AccountDetailsCard (props: Props) {
 	const {title, content} = props
 	return (
 		<div className="bg-zinc-100 border border-brown-400 rounded p-4 mb-3">
@@ -18,5 +18,3 @@ const AccountDetailsCard = (props: Props) => {
 		</div>
 	)
 }
-
-export default AccountDetailsCard

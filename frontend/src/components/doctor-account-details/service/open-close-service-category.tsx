@@ -8,12 +8,12 @@ interface Props {
   setExpandedCategories: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-const OpenCloseServiceCategory = (props: Props) => {
+export default function OpenCloseServiceCategory (props: Props) {
 	const { category, services, expandedCategories, setExpandedCategories } = props
 	if (services.length <= 1) return null
 
 	const isOpen = expandedCategories.includes(category)
-	const IsOpen = () => {
+	function IsOpen () {
 		if (isOpen) return "^"
 		return "v"
 	}
@@ -29,5 +29,3 @@ const OpenCloseServiceCategory = (props: Props) => {
 		/>
 	)
 }
-
-export default OpenCloseServiceCategory

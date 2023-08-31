@@ -1,13 +1,13 @@
 import DeleteButtonOptions from "src/components/delete-buttons/delete-button-options"
 
 interface Props {
-  singlePreVetEducation: PreVetEducationItem
-  deleteStatuses: DeleteStatusesDictionary
-  setDeleteStatuses: React.Dispatch<React.SetStateAction<DeleteStatusesDictionary>>
-  handleDeleteOnClick: (PreVetEducation: PreVetEducationItem) => void
+	singlePreVetEducation: PreVetEducationItem
+	deleteStatuses: DeleteStatusesDictionary
+	setDeleteStatuses: React.Dispatch<React.SetStateAction<DeleteStatusesDictionary>>
+	handleDeleteOnClick: (PreVetEducation: PreVetEducationItem) => void
 }
 
-const SingleSavedPreVetEducation = (props: Props) => {
+export default function SingleSavedPreVetEducation (props: Props) {
 	const { singlePreVetEducation, deleteStatuses, setDeleteStatuses, handleDeleteOnClick } = props
 
 	const status: DeleteStatuses = deleteStatuses[singlePreVetEducation.preVetEducationMappingId] || "initial"
@@ -32,5 +32,3 @@ const SingleSavedPreVetEducation = (props: Props) => {
 		</li>
 	)
 }
-
-export default SingleSavedPreVetEducation

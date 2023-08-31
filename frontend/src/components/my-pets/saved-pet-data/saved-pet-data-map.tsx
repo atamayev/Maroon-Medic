@@ -8,7 +8,7 @@ interface Props {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SavedPetDataMap = (props: Props) => {
+export default function SavedPetDataMap (props: Props) {
 	const { savedPetData, setPetToDelete, setShowModal } = props
 
 	return (
@@ -29,4 +29,3 @@ const SavedPetDataMap = (props: Props) => {
 	)
 }
 
-export default SavedPetDataMap

@@ -1,4 +1,4 @@
-const MessageSection = ({ appointment } : { appointment: PatientDashboardData }) => {
+function MessageSection ({ appointment } : { appointment: PatientDashboardData }) {
 	if (!appointment.patientMessage) return null
 	return (
 		<span style = {{ display: "block" }}>

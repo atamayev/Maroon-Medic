@@ -35,7 +35,7 @@ interface Props {
   setSearchTerm: (value: string) => void
 }
 
-const HeaderSearch = (props: Props) => {
+export default function HeaderSearch (props: Props) {
 	const { search = true, searchTerm, setSearchTerm } = props
 
 	const location = useLocation()
@@ -69,5 +69,3 @@ const HeaderSearch = (props: Props) => {
 		</div>
 	)
 }
-
-export default HeaderSearch

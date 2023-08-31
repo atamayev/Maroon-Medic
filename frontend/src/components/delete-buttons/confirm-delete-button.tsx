@@ -1,12 +1,12 @@
 import Button from "../button"
 
 interface Props<T> {
-  status: DeleteStatuses,
-  dataType: T,
-  handleDeleteOnClick: (dataType: T) => void
+	status: DeleteStatuses,
+	dataType: T,
+	handleDeleteOnClick: (dataType: T) => void
 }
 
-const ConfirmDeleteButton = <T,>(props: Props<T>) => {
+export default function ConfirmDeleteButton <T,>(props: Props<T>) {
 	const { status, dataType, handleDeleteOnClick } = props
 	if (status !== "deleting") return null
 
@@ -21,5 +21,3 @@ const ConfirmDeleteButton = <T,>(props: Props<T>) => {
 		/>
 	)
 }
-
-export default ConfirmDeleteButton

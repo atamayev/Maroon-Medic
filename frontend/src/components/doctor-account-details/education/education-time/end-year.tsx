@@ -1,11 +1,11 @@
 import { educationYears, months } from "src/utils/constants"
 
 interface Props {
-  timeState: TimeState
-  setTimeState: React.Dispatch<React.SetStateAction<TimeState>>
+	timeState: TimeState
+	setTimeState: React.Dispatch<React.SetStateAction<TimeState>>
 }
 
-const SelectEndYear = (props: Props) => {
+export default function SelectEndYear (props: Props) {
 	const { timeState, setTimeState } = props
 
 	const startYearIndex = educationYears.indexOf(Number(timeState.startYear))
@@ -47,5 +47,3 @@ const SelectEndYear = (props: Props) => {
 		</div>
 	)
 }
-
-export default SelectEndYear

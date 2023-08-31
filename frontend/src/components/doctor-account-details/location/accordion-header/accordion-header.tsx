@@ -5,15 +5,15 @@ import DeleteLocationButton from "./delete-location-button"
 import AddressTitle from "./address-title"
 
 interface Props {
-  index: number
-  address: DoctorAddressData
-  addresses: DoctorAddressData[]
-  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>
-  setAddressesConfirmation: (conf: ConfirmationMessage) => void
-  toggleOpen: () => void
+	index: number
+	address: DoctorAddressData
+	addresses: DoctorAddressData[]
+	setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>
+	setAddressesConfirmation: (conf: ConfirmationMessage) => void
+	toggleOpen: () => void
 }
 
-const AccordionHeader = (props: Props) => {
+export default function AccordionHeader (props: Props) {
 	const { index, address, addresses, setAddresses, setAddressesConfirmation, toggleOpen } = props
 
 	const handleToggleChange = (
@@ -69,5 +69,3 @@ const AccordionHeader = (props: Props) => {
 		</div>
 	)
 }
-
-export default AccordionHeader

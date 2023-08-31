@@ -1,9 +1,7 @@
-export const LocationMapData = () => {
+export default function LocationMapData () {
 	return (
 		<div className = "col-md-6">
-      Google Maps Placeholder
+			Google Maps Placeholder
 		</div>
 	)
 }
-
-export default LocationMapData

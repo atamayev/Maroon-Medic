@@ -8,7 +8,7 @@ interface Props {
   dropdown: boolean
 }
 
-const Layout = (props: Props) => {
+function Layout (props: Props) {
 	const { showHeader, children, search, dropdown } = props
 
 	return (

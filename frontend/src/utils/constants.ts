@@ -17,7 +17,7 @@ export const days = [...Array(31).keys()].map(i => i + 1)
 
 const currentYear = new Date().getFullYear()
 
-export const birthYears = Array.from({length: 63}, (_, i) => currentYear - i - 18)
+export const birthYears = Array.from({ length: 63 }, (unused, i) => currentYear - i - 18)
 
 export const educationYears = [...Array(60).keys()].map(i => i + currentYear - 60).reverse()
 

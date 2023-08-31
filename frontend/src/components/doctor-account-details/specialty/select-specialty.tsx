@@ -4,7 +4,7 @@ interface Props {
   handleSpecialtyChange: (e: React.ChangeEvent<HTMLSelectElement>) => Promise<void>
 }
 
-const SelectSpecialty = (props: Props) => {
+export default function SelectSpecialty (props: Props) {
 	const { handleSpecialtyChange, selectedOrganization, specificSpecialtiesOptions } = props
 
 	if (!selectedOrganization) return null
@@ -24,5 +24,3 @@ const SelectSpecialty = (props: Props) => {
 		</div>
 	)
 }
-
-export default SelectSpecialty

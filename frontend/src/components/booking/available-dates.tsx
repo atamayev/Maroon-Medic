@@ -6,7 +6,7 @@ interface Props {
 	availableDates: string[]
 }
 
-const AvailableDates = (props: Props) => {
+export default function AvailableDates (props: Props) {
 	const { appointmentInformation, personalData, availableDates } = props
 
 	if (appointmentInformation.selectedDay ===
@@ -25,5 +25,3 @@ const AvailableDates = (props: Props) => {
 		</>
 	)
 }
-
-export default AvailableDates

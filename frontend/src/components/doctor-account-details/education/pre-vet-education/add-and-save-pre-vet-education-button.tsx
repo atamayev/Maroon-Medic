@@ -2,12 +2,12 @@
 import Button from "src/components/button"
 
 interface Props {
-  handleAddEducation: () => GeneralEducationItem
-  saveEducation: (selectedEducationObj: PreVetEducationItem) => void
-  allChoicesFilled: boolean
+	handleAddEducation: () => GeneralEducationItem
+	saveEducation: (selectedEducationObj: PreVetEducationItem) => void
+	allChoicesFilled: boolean
 }
 
-const AddAndSavePreVetEducationButton = (props: Props) => {
+export default function AddAndSavePreVetEducationButton (props: Props) {
 	const { handleAddEducation, saveEducation, allChoicesFilled } = props
 
 	if (!allChoicesFilled) return null
@@ -26,5 +26,3 @@ const AddAndSavePreVetEducationButton = (props: Props) => {
 		/>
 	)
 }
-
-export default AddAndSavePreVetEducationButton

@@ -2,12 +2,12 @@ import LocationMapData from "./map-data"
 import WeekDays from "./weekdays"
 
 interface Props {
-  address: DoctorAddressData
-  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>
-  addresses: DoctorAddressData[]
+	address: DoctorAddressData
+	setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>
+	addresses: DoctorAddressData[]
 }
 
-const MapDataAndWeekDays = (props: Props) => {
+export default function MapDataAndWeekDays (props: Props) {
 	const { address, setAddresses, addresses } = props
 
 	const handleTimesChange = (newTimesFn: React.SetStateAction<DoctorAvailability[]>, addressPriority: number) => {
@@ -31,5 +31,3 @@ const MapDataAndWeekDays = (props: Props) => {
 		</div>
 	)
 }
-
-export default MapDataAndWeekDays

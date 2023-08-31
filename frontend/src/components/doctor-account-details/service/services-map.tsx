@@ -12,7 +12,7 @@ interface Props {
 	setServicesConfirmation: (conf: ConfirmationMessage) => void
 }
 
-const ServicesMap = (props: Props) => {
+export default function ServicesMap (props: Props) {
 	const { category, services, expandedCategories, selectedServices, setSelectedServices,
 		providedServices, setProvidedServices, setServicesConfirmation } = props
 
@@ -45,5 +45,3 @@ const ServicesMap = (props: Props) => {
 		</div>
 	)
 }
-
-export default ServicesMap

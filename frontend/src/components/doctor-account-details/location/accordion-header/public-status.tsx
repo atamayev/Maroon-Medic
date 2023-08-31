@@ -8,8 +8,8 @@ interface Props {
   ) => void
 }
 
-const PublicStatus = (props: Props) => {
-	const {address, handleToggleChange} = props
+export default function PublicStatus (props: Props) {
+	const { address, handleToggleChange } = props
 
 	return (
 		<>
@@ -24,5 +24,3 @@ const PublicStatus = (props: Props) => {
 		</>
 	)
 }
-
-export default PublicStatus

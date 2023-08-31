@@ -1,11 +1,11 @@
 import FormGroup from "src/components/form-group"
 
 interface Props {
-  address: DoctorAddressData
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>, addressPriority: number) => void
+	address: DoctorAddressData
+	handleInputChange: (event: React.ChangeEvent<HTMLInputElement>, addressPriority: number) => void
 }
 
-const StateInput = ({address, handleInputChange}: Props) => {
+export default function StateInput ({address, handleInputChange}: Props) {
 	return (
 		<div className="w-full md:w-1/4 px-2 mb-3">
 			<FormGroup
@@ -20,5 +20,3 @@ const StateInput = ({address, handleInputChange}: Props) => {
 		</div>
 	)
 }
-
-export default StateInput

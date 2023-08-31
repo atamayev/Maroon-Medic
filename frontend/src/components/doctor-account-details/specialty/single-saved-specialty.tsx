@@ -7,7 +7,7 @@ interface Props {
   handleDeleteSpecialty: (specialty: SpecialtyItem) => void
 }
 
-const SingleSavedSpecialty = (props: Props) => {
+export default function SingleSavedSpecialty (props: Props) {
 	const { deleteStatuses, setDeleteStatuses, specialty, handleDeleteSpecialty } = props
 
 	const status = deleteStatuses[specialty.specialtiesListId] || "initial"
@@ -31,5 +31,3 @@ const SingleSavedSpecialty = (props: Props) => {
 		</li>
 	)
 }
-
-export default SingleSavedSpecialty

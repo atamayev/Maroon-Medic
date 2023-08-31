@@ -4,7 +4,7 @@ import CalendarDB from "../db/calendar-db"
 import OperationHandler from "../utils/operation-handler"
 
 export async function makeAppointment(req: Request, res: Response): Promise<void> {
-	const appointmentObject = req.body.AppointmentObject
+	const appointmentObject = req.body.appointmentObject
 	const patientId = req.patientId
 	const NVI = appointmentObject.NVI
 

@@ -9,7 +9,7 @@ interface Props {
 	expandedPetTypes: string[]
 }
 
-const ShowPetsSection = (props: Props) => {
+export default function ShowPetsSection (props: Props) {
 	const { pets, petType, servicedPets, setServicedPets, setPetsConfirmation, expandedPetTypes } = props
 
 	const handleCheckboxChange = usePetsCheckboxChange(servicedPets, setServicedPets, setPetsConfirmation)
@@ -34,5 +34,3 @@ const ShowPetsSection = (props: Props) => {
 		</div>
 	)
 }
-
-export default ShowPetsSection

@@ -1,4 +1,4 @@
-const AddressSection = ({ address }: {address: PublicAddressData}) => {
+function AddressSection ({ address }: {address: PublicAddressData}) {
 	return (
 		<>
 			<h4>{address.addressTitle}</h4>

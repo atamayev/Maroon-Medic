@@ -1,6 +1,6 @@
 import moment from "moment"
 
-const SavedPetDataText = ({ pet } : { pet: SavedPetItem }) => {
+export default function SavedPetDataText ({ pet } : { pet: SavedPetItem }) {
 	return (
 		<div>
 			<p>{pet.pet}</p>
@@ -11,5 +11,3 @@ const SavedPetDataText = ({ pet } : { pet: SavedPetItem }) => {
 		</div>
 	)
 }
-
-export default SavedPetDataText

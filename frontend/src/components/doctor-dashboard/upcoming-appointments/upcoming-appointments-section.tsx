@@ -5,7 +5,7 @@ interface Props {
   dashboardData: DoctorDashboardData[],
   setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardData[]>>
 }
-const UpcomingAppointmentsSection = (props: Props) => {
+export default function UpcomingAppointmentsSection (props: Props) {
 	const { upcomingDoctorAppointments, dashboardData, setDashboardData } = props
 
 	return (
@@ -23,5 +23,3 @@ const UpcomingAppointmentsSection = (props: Props) => {
 		</div>
 	)
 }
-
-export default UpcomingAppointmentsSection

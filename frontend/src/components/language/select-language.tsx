@@ -3,7 +3,7 @@ interface SelectLanguageProps {
   handleLanguageChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
-const SelectLanguage = ({handleLanguageChange, languageOptions}: SelectLanguageProps) => {
+export default function SelectLanguage ({handleLanguageChange, languageOptions}: SelectLanguageProps) {
 	return (
 		<select
 			id="language"
@@ -20,5 +20,3 @@ const SelectLanguage = ({handleLanguageChange, languageOptions}: SelectLanguageP
 		</select>
 	)
 }
-
-export default SelectLanguage

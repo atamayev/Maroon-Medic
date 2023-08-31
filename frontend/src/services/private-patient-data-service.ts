@@ -25,8 +25,8 @@ export default new class PrivatePatientDataService {
 	async fetchPetData() {
 		return await http.get("/private-patient-data/fetch-pet-data")
 	}
-	async addPetData(PetData: PetItemForCreation) {
-		return await http.post("/private-patient-data/add-pet-data", {PetData})
+	async addPetData(petData: PetItemForCreation) {
+		return await http.post("/private-patient-data/add-pet-data", {petData})
 	}
 	async deletePetData(petId: number) {
 		return await http.delete(`/private-patient-data/delete-pet-data/${petId}`)

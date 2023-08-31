@@ -2,11 +2,11 @@ import Button from "src/components/button"
 import saveDescription from "src/helper-functions/account-details/save/doctor-account-details/save-description"
 
 interface Props {
-  description: string
-  setDescriptionConfirmation: (conf: ConfirmationMessage) => void
+	description: string
+	setDescriptionConfirmation: (conf: ConfirmationMessage) => void
 }
 
-const SaveDescriptionButton = (props: Props) => {
+export default function SaveDescriptionButton (props: Props) {
 	const { description, setDescriptionConfirmation } = props
 
 	return (
@@ -20,5 +20,3 @@ const SaveDescriptionButton = (props: Props) => {
 		/>
 	)
 }
-
-export default SaveDescriptionButton

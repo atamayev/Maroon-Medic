@@ -12,7 +12,7 @@ interface Props {
   setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemNullablePrice[]>>
 }
 
-const ServiceActionButton = (props: Props) => {
+export default function ServiceActionButton (props: Props) {
 	const { service, providedServices, setProvidedServices, selectedServices, setServicesConfirmation, setSelectedServices } = props
 	const selectedService =
 		selectedServices.find(
@@ -26,7 +26,7 @@ const ServiceActionButton = (props: Props) => {
 	// check if service time and price are filled
 	const isFilled = isSelected && selectedService.serviceTime && selectedService.servicePrice
 
-	const DeleteServiceButton = () => {
+	function DeleteServiceButton () {
 		return (
 			<Button
 				onClick = {() => deleteServices(
@@ -45,7 +45,7 @@ const ServiceActionButton = (props: Props) => {
 		)
 	}
 
-	const UpdateServiceButton = () => {
+	function UpdateServiceButton () {
 		return (
 			<Button
 				onClick = {() => updateServices(selectedService!, providedServices, setProvidedServices, setServicesConfirmation)}
@@ -58,7 +58,7 @@ const ServiceActionButton = (props: Props) => {
 		)
 	}
 
-	const AddServiceButton = () => {
+	function AddServiceButton () {
 		return (
 			<Button
 				onClick = {() => addServices(selectedService!, providedServices, setProvidedServices, setServicesConfirmation)}
@@ -86,5 +86,3 @@ const ServiceActionButton = (props: Props) => {
 
 	return null
 }
-
-export default ServiceActionButton

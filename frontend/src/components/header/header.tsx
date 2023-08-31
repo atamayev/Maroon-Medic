@@ -10,6 +10,7 @@ interface HeaderProps {
   search: boolean
 }
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const Header = (props: HeaderProps) => {
 	const { dropdown, search } = props
 	const { searchTerm, setSearchTerm } = useContext(SearchContext)

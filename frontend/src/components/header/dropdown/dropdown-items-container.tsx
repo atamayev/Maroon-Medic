@@ -1,11 +1,11 @@
 import DropdownItems from "./dropdown-items"
 
 interface Props {
-  isOpen: boolean
-  dropdown?: boolean
+	isOpen: boolean
+	dropdown?: boolean
 }
 
-export const DropdownItemsContainer = (props: Props) => {
+export default function DropdownItemsContainer (props: Props) {
 	const { isOpen, dropdown } = props
 
 	if (!isOpen) return null

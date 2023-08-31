@@ -10,11 +10,11 @@ export default function DescriptionSection(props: Props) {
 }
 
 function VetDescription(props: Props) {
-	const Description = props.description
+	const description = props.description
 	return (
 		<PublicDoctorCard
 			title = "Description"
-			content = {<>{Description}</>}
+			content = {<>{description}</>}
 		/>
 	)
 }

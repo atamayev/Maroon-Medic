@@ -12,7 +12,7 @@ interface Props {
   setPetToDelete: React.Dispatch<React.SetStateAction<SavedPetItem | null>>
 }
 
-const SavedPetData = (props: Props) => {
+export default function SavedPetData (props: Props) {
 	const { savedPetData, setSavedPetData, showModal,
 		setShowModal, petToDelete, setPetConfirmation, setPetToDelete } = props
 
@@ -38,5 +38,3 @@ const SavedPetData = (props: Props) => {
 		</>
 	)
 }
-
-export default SavedPetData

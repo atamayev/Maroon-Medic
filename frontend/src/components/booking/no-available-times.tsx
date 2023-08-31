@@ -1,11 +1,11 @@
 import _ from "lodash"
 
 interface NoAvailableTimesProps {
-  noAvailableTimesMessage: boolean
-  personalData: DoctorPersonalData
+	noAvailableTimesMessage: boolean
+	personalData: DoctorPersonalData
 }
 
-const NoAvailableTimes = (props: NoAvailableTimesProps) => {
+export default function NoAvailableTimes (props: NoAvailableTimesProps) {
 	const { noAvailableTimesMessage, personalData } = props
 	if (!noAvailableTimesMessage) return null
 	return (
@@ -14,5 +14,3 @@ const NoAvailableTimes = (props: NoAvailableTimesProps) => {
 		</>
 	)
 }
-
-export default NoAvailableTimes

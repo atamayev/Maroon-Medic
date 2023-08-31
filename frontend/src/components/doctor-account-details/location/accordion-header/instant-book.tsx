@@ -1,14 +1,14 @@
 import Toggle from "react-toggle"
 
 interface Props {
-  address: DoctorAddressData
-  handleToggleChange: (
-    addressPriority: number,
-    field: keyof Pick<DoctorAddressData, "addressPublicStatus" | "instantBook">
-  ) => void
+	address: DoctorAddressData
+	handleToggleChange: (
+	addressPriority: number,
+	field: keyof Pick<DoctorAddressData, "addressPublicStatus" | "instantBook">
+	) => void
 }
 
-const InstantBook = (props: Props) => {
+export default function InstantBook (props: Props) {
 	const {address, handleToggleChange} = props
 
 	return (
@@ -24,5 +24,3 @@ const InstantBook = (props: Props) => {
 		</>
 	)
 }
-
-export default InstantBook

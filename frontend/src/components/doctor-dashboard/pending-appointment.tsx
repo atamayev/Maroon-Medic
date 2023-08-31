@@ -5,7 +5,7 @@ interface Props {
   setStatus: React.Dispatch<React.SetStateAction<AppointmentStatus>>
 }
 
-const PendingAppointment = (props: Props) => {
+export default function PendingAppointment (props: Props) {
 	const { status, setStatus } = props
 
 	if (status !== "pending") return null
@@ -18,5 +18,3 @@ const PendingAppointment = (props: Props) => {
 		/>
 	)
 }
-
-export default PendingAppointment

@@ -30,7 +30,11 @@
 			"error",
 			{
 				"selector": "variable",
-				"format": ["camelCase"]
+				"format": ["camelCase"],
+				"filter": {
+				  "regex": "^(DoctorAccountDetails|PatientAccountDetails|VetOrPatient)$",
+				  "match": false
+				}
 			},
 			{
 				"selector": "function",
@@ -38,7 +42,11 @@
 			},
 			{
 				"selector": "parameter",
-				"format": ["camelCase"]
+				"format": ["camelCase"],
+				"filter": {
+					"regex": "^(DoctorAccountDetails|PatientAccountDetails|VetOrPatient)$",
+					"match": false
+				}
 			},
 			{
 				"selector": "typeLike",
@@ -51,20 +59,20 @@
         {
           "files": ["*.jsx", "*.tsx", "./src/services/*.ts"],
           "rules": {
-            "@typescript-eslint/explicit-function-return-type": "off"
+				"@typescript-eslint/explicit-function-return-type": "off"
           }
         },
         {
             "files": ["*.tsx"],
             "rules": {
-              "@typescript-eslint/no-floating-promises": "off"
+				"@typescript-eslint/no-floating-promises": "off"
             }
         },
         {
             "files": ["*.ts", "*.tsx"],
             "parserOptions": {
-              "project": "./tsconfig.json"
+				"project": "./tsconfig.json"
             }
-          }
+		}
     ]
 }

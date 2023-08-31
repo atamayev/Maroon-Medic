@@ -1,13 +1,13 @@
 import SingleSavedVetEducation from "./single-saved-vet-education"
 
 interface Props {
-  vetEducation: VetEducationItem[]
-  deleteStatuses: DeleteStatusesDictionary
-  setDeleteStatuses: React.Dispatch<React.SetStateAction<DeleteStatusesDictionary>>
-  handleDeleteOnClick: (VetEducation: VetEducationItem) => void
+	vetEducation: VetEducationItem[]
+	deleteStatuses: DeleteStatusesDictionary
+	setDeleteStatuses: React.Dispatch<React.SetStateAction<DeleteStatusesDictionary>>
+	handleDeleteOnClick: (VetEducation: VetEducationItem) => void
 }
 
-const SavedVetEducationList = (props: Props) => {
+export default function SavedVetEducationList (props: Props) {
 	const { vetEducation, deleteStatuses, setDeleteStatuses, handleDeleteOnClick } = props
 
 	return (
@@ -24,5 +24,3 @@ const SavedVetEducationList = (props: Props) => {
 		</ul>
 	)
 }
-
-export default SavedVetEducationList

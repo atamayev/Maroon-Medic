@@ -6,7 +6,7 @@ interface SelectServiceProps extends AppointmentBookingProps {
   providedServices: ServiceItemNotNullablePrice[]
 }
 
-const SelectService = (props: SelectServiceProps) => {
+export default function SelectService (props: SelectServiceProps) {
 	const { providedServices, appointmentInformation, setAppointmentInformation } = props
 
 	if (_.isNil(appointmentInformation.selectedPet)) return null
@@ -35,5 +35,3 @@ const SelectService = (props: SelectServiceProps) => {
 		</div>
 	)
 }
-
-export default SelectService

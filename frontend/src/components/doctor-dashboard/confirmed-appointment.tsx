@@ -43,7 +43,7 @@ interface ConfirmedAppointmentProps {
   setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardData[]>>
 }
 
-const ConfirmedAppointment = (props: ConfirmedAppointmentProps) => {
+export default function ConfirmedAppointment (props: ConfirmedAppointmentProps) {
 	const { status, setStatus, appointment, dashboardData, setDashboardData } = props
 
 	if (status !== "confirming") return null
@@ -66,5 +66,3 @@ const ConfirmedAppointment = (props: ConfirmedAppointmentProps) => {
 		</span>
 	)
 }
-
-export default ConfirmedAppointment

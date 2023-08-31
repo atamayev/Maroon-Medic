@@ -3,11 +3,11 @@ import TimePicker from "react-time-picker"
 import { daysOfWeek } from "src/utils/constants"
 
 interface WeekDaysProps {
-  times: DoctorAvailability[]
-  setTimes: React.Dispatch<React.SetStateAction<DoctorAvailability[]>>
+	times: DoctorAvailability[]
+	setTimes: React.Dispatch<React.SetStateAction<DoctorAvailability[]>>
 }
 
-const WeekDays = (props: WeekDaysProps) => {
+export default function WeekDays (props: WeekDaysProps) {
 	const { times, setTimes } = props
 
 	const handleDayToggle = (day: DayOfWeek) => {
@@ -25,7 +25,7 @@ const WeekDays = (props: WeekDaysProps) => {
 		day: DayOfWeek
 	}
 
-	const PickStartTime: React.FC<DayProp> = ({ day }) => {
+	function PickStartTime ({ day } : DayProp) {
 		return (
 			<TimePicker
 				className = "ml-3"
@@ -35,7 +35,7 @@ const WeekDays = (props: WeekDaysProps) => {
 		)
 	}
 
-	const PickEndTime: React.FC<DayProp> = ({ day }) => {
+	function PickEndTime ({ day } : DayProp) {
 		return (
 			<TimePicker
 				className = "ml-3"
@@ -45,7 +45,7 @@ const WeekDays = (props: WeekDaysProps) => {
 		)
 	}
 
-	const PickTime = ({ doctorTimes, day }: {doctorTimes: DoctorAvailability[], day: DayOfWeek}) => {
+	function PickTime ({ doctorTimes, day }: {doctorTimes: DoctorAvailability[], day: DayOfWeek}) {
 		const matchedTime = doctorTimes.find(time => time.dayOfWeek === day)
 
 		if (!matchedTime) return null
@@ -75,5 +75,3 @@ const WeekDays = (props: WeekDaysProps) => {
 		</div>
 	)
 }
-
-export default WeekDays

@@ -7,7 +7,7 @@ interface SingleLanguageProps {
   handleDeleteLanguage: (language: LanguageItem) => void
 }
 
-const SingleSavedLanguage = (props: SingleLanguageProps) => {
+function SingleSavedLanguage (props: SingleLanguageProps) {
 	const { language, deleteStatuses, setDeleteStatuses, handleDeleteLanguage } = props
 
 	const status = deleteStatuses[language.languageListId] || "initial"

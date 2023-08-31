@@ -15,7 +15,7 @@ export default function SpecificDoctorsList() {
 		fetchData()
 	}, [searchTerm])
 
-	const FormattedSearchResults = () => {
+	function FormattedSearchResults () {
 		if (_.isEmpty(items)) return <div> No results</div>
 		// This has no function rn, since there are less than 1000 vets. once there are more, only the first 100 will be returned
 		const data = items.slice(0, 1000)

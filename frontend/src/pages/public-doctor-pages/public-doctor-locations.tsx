@@ -14,12 +14,12 @@ export default function LocationsSection( { addresses } : {addresses: PublicAddr
 }
 
 function Locations({ addressesList }: { addressesList: PublicAddressData[] }) {
-	const InstantBook = ({ address }: {address: PublicAddressData}) => {
+	function InstantBook ({ address }: {address: PublicAddressData}) {
 		if (address.instantBook) return <>Instant book available</>
 		return <>Instant book unavailable</>
 	}
 
-	const PhoneSection = ({ address }: {address: PublicAddressData}) => {
+	function PhoneSection ({ address }: {address: PublicAddressData}) {
 		if (!address.phone) return null
 		return <p>Phone: {address.phone}</p>
 	}

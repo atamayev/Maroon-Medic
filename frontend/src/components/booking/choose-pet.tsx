@@ -8,7 +8,7 @@ interface ChoosePetProps extends AppointmentBookingProps {
 	savedPetData: SavedPetItem[]
 }
 
-const ChoosePet = (props: ChoosePetProps) => {
+export default function ChoosePet (props: ChoosePetProps) {
 	const { savedPetData, appointmentInformation, setAppointmentInformation } = props
 
 	if (_.isEmpty(savedPetData)) {
@@ -55,5 +55,3 @@ const ChoosePet = (props: ChoosePetProps) => {
 		</div>
 	)
 }
-
-export default ChoosePet

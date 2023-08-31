@@ -50,7 +50,7 @@ export default function DoctorDashboard() {
 
 	if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
-	const DashboardData = () => {
+	function DashboardData () {
 		if (_.isEmpty(dashboardData)) return <>No upcoming appointments</>
 		return (
 			<>

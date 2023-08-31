@@ -5,7 +5,7 @@ interface Props {
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>, addressPriority: number) => void
 }
 
-const AddressTitleInput = ({address, handleInputChange}: Props) => {
+export default function AddressTitleInput ({address, handleInputChange}: Props) {
 	return (
 		<div className="w-full md:w-1/4 px-2 mb-3">
 			<FormGroup
@@ -20,5 +20,3 @@ const AddressTitleInput = ({address, handleInputChange}: Props) => {
 		</div>
 	)
 }
-
-export default AddressTitleInput

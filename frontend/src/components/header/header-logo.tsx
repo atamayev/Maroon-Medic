@@ -5,7 +5,7 @@ const handleHome = () => {
 	window.location.href = "/"
 }
 
-const Logo = () => {
+export default function Logo () {
 	return (
 		<div className="w-1/4 flex justify-start">
 			<img
@@ -20,5 +20,3 @@ const Logo = () => {
 		</div>
 	)
 }
-
-export default Logo

@@ -6,7 +6,7 @@ interface Props {
   showPassword: "text" | "password",
 }
 
-const PasswordInput = (props: Props) => {
+export default function PasswordInput (props: Props) {
 	const { credentials, setCredentials, showPassword } = props
 
 	return (
@@ -21,5 +21,3 @@ const PasswordInput = (props: Props) => {
 		/>
 	)
 }
-
-export default PasswordInput

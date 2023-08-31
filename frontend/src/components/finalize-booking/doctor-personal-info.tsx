@@ -1,6 +1,6 @@
 import _ from "lodash"
 
-const DoctorPersonalInfo = ({ personalData } : { personalData: DoctorPersonalData | null }) => {
+export default function DoctorPersonalInfo ({ personalData } : { personalData: DoctorPersonalData | null }) {
 	if (!personalData) return null
 	return (
 		<>
@@ -8,5 +8,3 @@ const DoctorPersonalInfo = ({ personalData } : { personalData: DoctorPersonalDat
 		</>
 	)
 }
-
-export default DoctorPersonalInfo

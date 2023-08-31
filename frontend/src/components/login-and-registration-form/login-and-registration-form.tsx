@@ -39,7 +39,7 @@ export default function LoginAndRegistrationForm({
 		return "password"
 	}
 
-	const ErrorMessage = () => {
+	function ErrorMessage () {
 		if (!error) return null
 		return (
 			<div

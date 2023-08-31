@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import Button from "../button"
 
-const NullUser = () => {
+function NullUser () {
 	return (
 		<div className="mb-3 bg-yellow-100 border border-brown-400 rounded p-4">
 			<p>You are not logged in. Please make an account, or login below</p>

@@ -55,17 +55,17 @@
 		{
 			"files": ["*.ts"],
 			"rules": {
-			"@typescript-eslint/naming-convention": [
-				"error",
-				{
-				"selector": "variable",
-				"format": ["camelCase"],
-				"filter": {
-					"regex": "^(UUID|NVI)$",
-					"match": false
-				}
-				}
-			]
+				"@typescript-eslint/naming-convention": [
+					"error",
+					{
+						"selector": "variable",
+						"format": ["camelCase"],
+						"filter": {
+							"regex": "^(UUID|NVI)$",
+							"match": false
+						}
+					}
+				]
 			}
 		}
 	]

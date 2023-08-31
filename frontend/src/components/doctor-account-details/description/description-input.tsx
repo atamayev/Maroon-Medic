@@ -2,11 +2,11 @@ import FormGroup from "src/components/form-group"
 import { useCallback } from "react"
 
 interface Props {
-  description: string
-  setDescription: React.Dispatch<React.SetStateAction<string>>
+	description: string
+	setDescription: React.Dispatch<React.SetStateAction<string>>
 }
 
-const DescriptionInput = (props: Props) => {
+export default function DescriptionInput (props: Props) {
 	const { description, setDescription } = props
 
 	const handleDescriptionChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,5 +24,3 @@ const DescriptionInput = (props: Props) => {
 		/>
 	)
 }
-
-export default DescriptionInput

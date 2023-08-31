@@ -3,13 +3,13 @@ import InitialDeleteButton from "./initial-delete-button"
 import ConfirmDeleteButton from "./confirm-delete-button"
 
 interface DeleteButtonOptionsProps<T> {
-  status: DeleteStatuses,
-  setStatus: (status: DeleteStatuses) => void,
-  dataType: T,
-  handleDeleteOnClick: (dataType: T) => void
+	status: DeleteStatuses,
+	setStatus: (status: DeleteStatuses) => void,
+	dataType: T,
+	handleDeleteOnClick: (dataType: T) => void
 }
 
-const DeleteButtonOptions = <T,>(props: DeleteButtonOptionsProps<T>) => {
+export default function DeleteButtonOptions <T,>(props: DeleteButtonOptionsProps<T>) {
 	const { status, setStatus, dataType, handleDeleteOnClick } = props
 
 	return (
@@ -24,5 +24,3 @@ const DeleteButtonOptions = <T,>(props: DeleteButtonOptionsProps<T>) => {
 		</>
 	)
 }
-
-export default DeleteButtonOptions

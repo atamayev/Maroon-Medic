@@ -5,7 +5,7 @@ interface Props {
   VetOrPatient: VetOrPatient,
 }
 
-const NeedNewAccountLink = (props: Props) => {
+export default function NeedNewAccountLink (props: Props) {
 	const { loginOrSignUp, VetOrPatient } = props
 
 	if (loginOrSignUp !== "Login") return null
@@ -15,5 +15,3 @@ const NeedNewAccountLink = (props: Props) => {
 		</div>
 	)
 }
-
-export default NeedNewAccountLink

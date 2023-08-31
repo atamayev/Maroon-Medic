@@ -33,6 +33,7 @@ export default function FormGroup({
 	value,
 	children
 }: Props) {
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	const Component = as || "input"
 
 	return (

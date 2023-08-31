@@ -1,12 +1,12 @@
 import FormGroup from "../form-group"
 
 interface Props {
-  isShowPassword: "text" | "password",
-  credentials: ChangePasswordObject,
-  setCredentials: React.Dispatch<React.SetStateAction<ChangePasswordObject>>
+	isShowPassword: "text" | "password",
+	credentials: ChangePasswordObject,
+	setCredentials: React.Dispatch<React.SetStateAction<ChangePasswordObject>>
 }
 
-const NewPasswordInput = (props: Props) => {
+export default function NewPasswordInput (props: Props) {
 	const { isShowPassword, credentials, setCredentials } = props
 
 	return (
@@ -21,5 +21,3 @@ const NewPasswordInput = (props: Props) => {
 		/>
 	)
 }
-
-export default NewPasswordInput

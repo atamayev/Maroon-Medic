@@ -1,6 +1,6 @@
 import _ from "lodash"
 
-const DoctorDoesNotOfferServices = ({ personalData } : { personalData: DoctorPersonalData }) => {
+export default function DoctorDoesNotOfferServices ({ personalData } : { personalData: DoctorPersonalData }) {
 	return (
 		<div className="mb-4 border border-brown-400 bg-yellow-100 rounded">
 			<div className="p-4 bg-amber-400 text-white">Ready to make a booking?</div>
@@ -8,5 +8,3 @@ const DoctorDoesNotOfferServices = ({ personalData } : { personalData: DoctorPer
 		</div>
 	)
 }
-
-export default DoctorDoesNotOfferServices

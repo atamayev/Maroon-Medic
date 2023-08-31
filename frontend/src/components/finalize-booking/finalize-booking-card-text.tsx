@@ -5,7 +5,7 @@ interface Props {
 	serviceMinutes: number,
 }
 
-const FinalizeBookingCardText = (props: Props) => {
+export default function FinalizeBookingCardText (props: Props) {
 	const { appointmentInformation, serviceMinutes } = props
 
 	return (
@@ -40,5 +40,3 @@ const FinalizeBookingCardText = (props: Props) => {
 	)
 
 }
-
-export default FinalizeBookingCardText

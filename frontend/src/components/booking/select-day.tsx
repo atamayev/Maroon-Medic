@@ -3,11 +3,11 @@ import handleDayChange from "src/helper-functions/public-doctor/booking-page/han
 import AvailableDates from "./available-dates"
 
 interface SelectDayProps extends AppointmentBookingProps {
-  personalData: DoctorPersonalData
-  availableDates: string[]
+	personalData: DoctorPersonalData
+	availableDates: string[]
 }
 
-const SelectDay = (props: SelectDayProps) => {
+export default function SelectDay (props: SelectDayProps) {
 	const { appointmentInformation, setAppointmentInformation, personalData, availableDates } = props
 	if (!(
 		appointmentInformation.selectedService &&
@@ -34,5 +34,3 @@ const SelectDay = (props: SelectDayProps) => {
 		</div>
 	)
 }
-
-export default SelectDay

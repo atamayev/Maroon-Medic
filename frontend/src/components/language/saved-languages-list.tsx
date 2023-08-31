@@ -8,7 +8,7 @@ interface SavedLanguageList {
   handleDeleteLanguage: (language: LanguageItem) => void
 }
 
-export const SavedLanguageList = (props: SavedLanguageList) => {
+export default function SavedLanguageList (props: SavedLanguageList) {
 	const { spokenLanguages, deleteStatuses, setDeleteStatuses, handleDeleteLanguage } = props
 
 	if (!_.isArray(spokenLanguages) || _.isEmpty(spokenLanguages)) return null
@@ -27,5 +27,3 @@ export const SavedLanguageList = (props: SavedLanguageList) => {
 		</ul>
 	)
 }
-
-export default SavedLanguageList

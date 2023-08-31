@@ -36,7 +36,7 @@ export async function deleteLanguage (req: Request, res: Response): Promise<void
 
 export async function addPet (req: Request, res: Response): Promise<void> {
 	const patientId = req.patientId
-	const petData = req.body.PetData
+	const petData = req.body.petData
 
 	const petInfoId = await OperationHandler.executeAsyncAndReturnValue(res, SavePatientDataDB.addNewPet, petData, patientId)
 	const petInfoIdNumber = Number(petInfoId)

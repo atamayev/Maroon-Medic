@@ -133,8 +133,8 @@ export async function deleteVetEducationData (req: Request, res: Response): Prom
 
 export async function addAddress (req: Request, res: Response): Promise<Response> {
 	const doctorId = req.doctorId
-	const addressData = req.body.AddressData
-	const timesData = req.body.Times
+	const addressData = req.body.addressData
+	const timesData = req.body.times
 
 	const insertId = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.addAddressRecord, addressData, doctorId)
 	const insertIdNumber = Number(insertId)
@@ -168,8 +168,8 @@ export async function deleteAddress (req: Request, res: Response): Promise<void>
 }
 
 export async function updateAddress (req: Request, res: Response): Promise<void> {
-	const addressData = req.body.AddressData
-	const timesData = req.body.Times
+	const addressData = req.body.addressData
+	const timesData = req.body.times
 
 	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.updateAddressRecord(addressData)
 	await OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, operation)
@@ -186,7 +186,7 @@ export async function updateAddress (req: Request, res: Response): Promise<void>
 export async function savePublicAvailibilityData (req: Request, res: Response): Promise<void> {
 	const doctorId = req.doctorId
 
-	const publicAvailibility = req.body.PublicAvailibility
+	const publicAvailibility = req.body.publicAvailibility
 	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.updatePublicAvilability(publicAvailibility, doctorId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }

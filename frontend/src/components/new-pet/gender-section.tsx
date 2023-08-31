@@ -5,7 +5,7 @@ interface Props {
   setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>
 }
 
-const PetGenderSection = (props: Props) => {
+export default function PetGenderSection (props: Props) {
 	const { newPetData, setNewPetData } = props
 
 	return (
@@ -40,5 +40,3 @@ const PetGenderSection = (props: Props) => {
 		</div>
 	)
 }
-
-export default PetGenderSection

@@ -5,8 +5,8 @@ import SharedPagesTemplate from "src/components/shared-pages-template"
 export default function PersonalInfo() {
 	return (
 		<SharedPagesTemplate
-			DoctorContent = {<DoctorPersonalInfo/>}
-			PatientContent = {<PatientPersonalInfo/>}
+			doctorContent = {<DoctorPersonalInfo/>}
+			patientContent = {<PatientPersonalInfo/>}
 		/>
 	)
 }

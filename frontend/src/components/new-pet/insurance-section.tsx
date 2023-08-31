@@ -7,7 +7,7 @@ interface Props {
   setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>
 }
 
-const InsuranceSection = (props: Props) => {
+export default function InsuranceSection (props: Props) {
 	const { newPetData, insurances, setNewPetData } = props
 
 	return (
@@ -34,5 +34,3 @@ const InsuranceSection = (props: Props) => {
 		</FormGroup>
 	)
 }
-
-export default InsuranceSection

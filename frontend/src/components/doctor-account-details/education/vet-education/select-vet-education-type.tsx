@@ -1,13 +1,13 @@
 import _ from "lodash"
 
 interface Props {
-  listDetails: DoctorListDetails
-  selectedVetEducationType: string
-  selectedVetSchool: string
-  setSelectedVetEducationType: (value: React.SetStateAction<string>) => void
+	listDetails: DoctorListDetails
+	selectedVetEducationType: string
+	selectedVetSchool: string
+	setSelectedVetEducationType: (value: React.SetStateAction<string>) => void
 }
 
-const SelectVetEducationType = (props: Props) => {
+export default function SelectVetEducationType (props: Props) {
 	const { listDetails, selectedVetEducationType, selectedVetSchool, setSelectedVetEducationType } = props
 
 	if (!selectedVetSchool) return null
@@ -32,5 +32,3 @@ const SelectVetEducationType = (props: Props) => {
 		</div>
 	)
 }
-
-export default SelectVetEducationType

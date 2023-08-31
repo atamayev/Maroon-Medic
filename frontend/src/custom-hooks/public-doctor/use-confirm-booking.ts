@@ -11,7 +11,7 @@ interface ConfirmBookingProps {
 export default function useConfirmBooking(): (props: ConfirmBookingProps) => Promise<void> {
 	const navigate = useNavigate()
 	return async ({appointmentInformation, serviceMinutes, personalData, message}: ConfirmBookingProps): Promise<void> => {
-		const AppointmentObject = {
+		const appointmentObject = {
 			serviceAndCategoryListId: appointmentInformation.selectedService!.serviceAndCategoryListId,
 			appointmentDate: appointmentInformation.selectedDay!,
 			appointmentTime: appointmentInformation.selectedTime!,
@@ -25,7 +25,7 @@ export default function useConfirmBooking(): (props: ConfirmBookingProps) => Pro
 		}
 
 		try {
-			const response = await CalendarDataService.makeAppointment(AppointmentObject)
+			const response = await CalendarDataService.makeAppointment(appointmentObject)
 			if (response.status === 200) {
 				sessionStorage.removeItem("bookingDetails")
 				// Ensures that the user is not able to navigate back to finalize booking right after making an appointment:

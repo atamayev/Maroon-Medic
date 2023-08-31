@@ -1,4 +1,4 @@
-const MessageSection = ({ appointment }: { appointment: DoctorDashboardData }) => {
+export default function MessageSection ({ appointment }: { appointment: DoctorDashboardData }) {
 	if (!appointment.patientMessage) return null
 	return (
 		<span style={{ display: "block" }}>
@@ -7,5 +7,3 @@ const MessageSection = ({ appointment }: { appointment: DoctorDashboardData }) =
 		</span>
 	)
 }
-
-export default MessageSection

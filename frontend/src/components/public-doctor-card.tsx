@@ -3,7 +3,7 @@ interface Props {
   content: JSX.Element
 }
 
-const PublicDoctorCard = (props: Props) => {
+function PublicDoctorCard (props: Props) {
 	const {title, content} = props
 	return (
 		<div className="bg-zinc-100 border border-brown-400 rounded p-4 mb-3">

@@ -3,7 +3,7 @@ interface Props {
   whatIsBeingSaved: string
 }
 
-const SavedConfirmationMessage = ({confirmationMessage, whatIsBeingSaved}: Props) => {
+export default function SavedConfirmationMessage ({confirmationMessage, whatIsBeingSaved}: Props) {
 	const messageType = confirmationMessage.messageType
 	let messageContent = ""
 
@@ -22,5 +22,3 @@ const SavedConfirmationMessage = ({confirmationMessage, whatIsBeingSaved}: Props
 		</span>
 	)
 }
-
-export default SavedConfirmationMessage

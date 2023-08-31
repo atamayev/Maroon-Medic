@@ -6,7 +6,7 @@ interface Props {
   setSelectedOrganization: (value: React.SetStateAction<string>) => void
 }
 
-const SelectOrganization = (props: Props) => {
+export default function SelectOrganization (props: Props) {
 	const { listDetails, selectedOrganization, setSelectedOrganization } = props
 
 	return (
@@ -29,5 +29,3 @@ const SelectOrganization = (props: Props) => {
 		</div>
 	)
 }
-
-export default SelectOrganization

@@ -14,7 +14,7 @@ interface Props {
   setPetsConfirmation: (conf: ConfirmationMessage) => void
 }
 
-const ServicedPets = (props: Props) => {
+export default function ServicedPets (props: Props) {
 	const { petTypes, servicedPets, expandedPetTypes, setServicedPets,
 		setExpandedPetTypes, setPetsConfirmation } = props
 
@@ -42,5 +42,3 @@ const ServicedPets = (props: Props) => {
 		</>
 	)
 }
-
-export default ServicedPets

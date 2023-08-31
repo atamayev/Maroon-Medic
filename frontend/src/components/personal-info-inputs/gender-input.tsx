@@ -1,6 +1,6 @@
 import FormGroup from "../form-group"
 
-const GenderSection = ({ personalInfo, setPersonalInfo }: PersonalInfoProps) => {
+function GenderSection ({ personalInfo, setPersonalInfo }: PersonalInfoProps) {
 	return (
 		<FormGroup
 			as = "select"

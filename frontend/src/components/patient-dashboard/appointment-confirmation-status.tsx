@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const AppointmentConfirmationStatus = ({ appointment }: { appointment: PatientDashboardData }) => {
+function AppointmentConfirmationStatus ({ appointment }: { appointment: PatientDashboardData }) {
 	const [showTooltip, setShowTooltip] = useState(false)
 	let badgeText = ""
 	let tooltipText = ""
@@ -13,7 +13,7 @@ const AppointmentConfirmationStatus = ({ appointment }: { appointment: PatientDa
 		tooltipText = `Dr. ${appointment.doctorFirstName} is looking forward to the appointment.`
 	}
 
-	const TooltipMessage = () => {
+	function TooltipMessage () {
 		if (!showTooltip) return null
 		return (
 			<div className="absolute top-0 right-0 transform translate-x-full translate-y-full bg-black text-white text-xs rounded p-2">

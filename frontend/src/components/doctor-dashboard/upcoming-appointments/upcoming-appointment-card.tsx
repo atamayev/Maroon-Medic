@@ -10,11 +10,12 @@ const returnDoctorConfirmationStatus = (appointment: DoctorDashboardData) => {
 }
 
 interface Props {
-  appointment: DoctorDashboardData,
-  dashboardData: DoctorDashboardData[],
-  setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardData[]>>
+	appointment: DoctorDashboardData,
+	dashboardData: DoctorDashboardData[],
+	setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardData[]>>
 }
-const UpcomingAppointmentCard = (props: Props) => {
+
+export default function UpcomingAppointmentCard (props: Props) {
 	const { appointment, dashboardData, setDashboardData } = props
 
 	const [status, setStatus] = useState<AppointmentStatus>(returnDoctorConfirmationStatus(appointment))
@@ -41,5 +42,3 @@ const UpcomingAppointmentCard = (props: Props) => {
 		</div>
 	)
 }
-
-export default UpcomingAppointmentCard

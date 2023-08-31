@@ -7,7 +7,7 @@ interface SelectTimeProps  extends AppointmentBookingProps{
 	serviceMinutes: number
 }
 
-const SelectTime = (props: SelectTimeProps) => {
+export default function SelectTime (props: SelectTimeProps) {
 	const { appointmentInformation, setAppointmentInformation, availableTimes, serviceMinutes } = props
 	if (!(
 		appointmentInformation.selectedService &&
@@ -34,5 +34,3 @@ const SelectTime = (props: SelectTimeProps) => {
 		</div>
 	)
 }
-
-export default SelectTime

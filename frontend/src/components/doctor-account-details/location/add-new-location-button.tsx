@@ -6,7 +6,7 @@ interface Props {
   setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>
 }
 
-const AddNewLocationButton = (props: Props) => {
+export default function AddNewLocationButton (props: Props) {
 	const { addresses, setAddresses } = props
 
 	return (
@@ -20,5 +20,3 @@ const AddNewLocationButton = (props: Props) => {
 		/>
 	)
 }
-
-export default AddNewLocationButton

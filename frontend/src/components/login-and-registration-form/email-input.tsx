@@ -5,7 +5,7 @@ interface Props {
   setCredentials: (credentials: AuthCredentials) => void,
 }
 
-const EmailInput = (props: Props) => {
+export default function EmailInput (props: Props) {
 	const { credentials, setCredentials } = props
 	return (
 		<FormGroup
@@ -19,5 +19,3 @@ const EmailInput = (props: Props) => {
 		/>
 	)
 }
-
-export default EmailInput

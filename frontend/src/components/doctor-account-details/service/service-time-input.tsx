@@ -16,7 +16,7 @@ const timeOptions = [
 	"3 days",
 ]
 
-const ServiceTimeInput = (props: Props) => {
+export default function ServiceTimeInput (props: Props) {
 	const { service, selectedService, selectedServices, setSelectedServices } = props
 	return (
 		<select
@@ -44,5 +44,3 @@ const ServiceTimeInput = (props: Props) => {
 		</select>
 	)
 }
-
-export default ServiceTimeInput

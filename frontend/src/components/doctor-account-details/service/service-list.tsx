@@ -16,7 +16,7 @@ interface Props {
 	setServicesConfirmation: (conf: ConfirmationMessage) => void
 }
 
-const ServiceList = (props: Props) => {
+export default function ServiceList (props: Props) {
 	const { categories, expandedCategories, setExpandedCategories,
 		selectedServices, setSelectedServices, providedServices, setProvidedServices, setServicesConfirmation } = props
 
@@ -46,5 +46,3 @@ const ServiceList = (props: Props) => {
 		</>
 	)
 }
-
-export default ServiceList

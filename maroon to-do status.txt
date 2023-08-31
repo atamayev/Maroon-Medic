@@ -3,7 +3,6 @@ To-do:
 
 ASAP:
 
-10. Enforce camel, pascal casing. see GPT
 10. Make the pets in the patient header be the pets that the user has
 11. Fix calendar appointments not rendering
 12. Write the logic that makes sure that when making a booking, the vet is able to service the pet that the user has. See below

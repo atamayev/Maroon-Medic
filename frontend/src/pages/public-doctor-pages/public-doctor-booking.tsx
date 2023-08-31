@@ -77,7 +77,7 @@ export default function BookingSection(props: Props) {
 
 	const anyLocationHasTimes = addresses.some(location => location.times && !_.isEmpty(location.times))
 
-	const MakeBooking = () => {
+	function MakeBooking () {
 		if (userType !== "Patient") return <PatientNotLoggedIn />
 		if (!anyLocationHasTimes) return <NoLocationHasTimes personalData = {personalData} />
 		if (_.isEmpty(addresses)) return <DoctorDoesNotHaveLocations personalData = {personalData} />

@@ -1,9 +1,9 @@
 interface Props {
-  description: string
-  isDescriptionOverLimit: boolean
+	description: string
+	isDescriptionOverLimit: boolean
 }
 
-const DescriptionCharacterLimit = (props: Props) => {
+export default function DescriptionCharacterLimit (props: Props) {
 	const { description, isDescriptionOverLimit } = props
 
 	const counterStyleLimit = () => {
@@ -17,5 +17,3 @@ const DescriptionCharacterLimit = (props: Props) => {
 		</div>
 	)
 }
-
-export default DescriptionCharacterLimit

@@ -8,13 +8,13 @@ interface Props {
   setExpandedPetTypes: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-const OpenClosePetType = (props: Props) => {
+export default function OpenClosePetType (props: Props) {
 	const { pets, petType, expandedPetTypes, setExpandedPetTypes } = props
 	if (pets.length <= 1) return null
 
 	const isOpen = expandedPetTypes.includes(petType)
 
-	const IsOpen = () => {
+	function IsOpen () {
 		if (isOpen) return "^"
 		return "v"
 	}
@@ -30,5 +30,3 @@ const OpenClosePetType = (props: Props) => {
 		/>
 	)
 }
-
-export default OpenClosePetType

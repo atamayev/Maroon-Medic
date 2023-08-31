@@ -2,14 +2,14 @@ import { createContext, useState } from "react"
 import SearchDataService from "../services/search-data-service"
 
 interface Props {
-  children: JSX.Element | JSX.Element[]
+	children: JSX.Element | JSX.Element[]
 }
 
 interface SearchContextType {
-  searchTerm: string
-  setSearchTerm: (value: string) => void
-  items: DoctorData[]
-  fetchData: () => void
+	searchTerm: string
+	setSearchTerm: (value: string) => void
+	items: DoctorData[]
+	fetchData: () => void
 }
 
 const defaultSearchContext: SearchContextType = {
@@ -19,9 +19,10 @@ const defaultSearchContext: SearchContextType = {
 	fetchData: () => {},
 }
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export const SearchContext = createContext<SearchContextType>(defaultSearchContext)
 
-export const SearchContextProvider = (props: Props) => {
+export function SearchContextProvider (props: Props) {
 	const [searchTerm, setSearchTerm] = useState(sessionStorage.getItem("searchTerm") || "")
 	const [items, setItems] = useState([])
 

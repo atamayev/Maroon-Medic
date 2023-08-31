@@ -1,11 +1,11 @@
 import Button from "../button"
 
 interface Props {
-  status: DeleteStatuses,
-  setStatus: (status: DeleteStatuses) => void
+	status: DeleteStatuses,
+	setStatus: (status: DeleteStatuses) => void
 }
 
-const NevermindButton = ({ status, setStatus }: Props) => {
+export default function NevermindButton ({ status, setStatus }: Props) {
 	if (status !== "deleting") return null
 
 	return (
@@ -19,5 +19,3 @@ const NevermindButton = ({ status, setStatus }: Props) => {
 		/>
 	)
 }
-
-export default NevermindButton

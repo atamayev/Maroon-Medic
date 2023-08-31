@@ -5,7 +5,7 @@ interface Props{
   setShowAddPet: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const DeleteButton = (props: Props) => {
+export default function DeleteButton (props: Props) {
 	const { setNewPetData, setShowAddPet } = props
 	return (
 		<Button
@@ -21,5 +21,3 @@ const DeleteButton = (props: Props) => {
 		/>
 	)
 }
-
-export default DeleteButton

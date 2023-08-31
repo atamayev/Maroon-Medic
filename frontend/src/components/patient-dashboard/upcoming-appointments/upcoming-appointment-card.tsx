@@ -1,7 +1,7 @@
 import AppointmentConfirmationStatus from "../appointment-confirmation-status"
 import MessageSection from "../message-section"
 
-const UpcomingAppointmentCard = ({ appointment }: { appointment: PatientDashboardData }) => {
+export default function UpcomingAppointmentCard ({ appointment }: { appointment: PatientDashboardData }) {
 	return (
 		<div className="mb-3 bg-yellow-100 border border-brown-400 rounded" style={{ margin: "0 10px", position: "relative" }}>
 			<div className="p-4">
@@ -18,5 +18,3 @@ const UpcomingAppointmentCard = ({ appointment }: { appointment: PatientDashboar
 		</div>
 	)
 }
-
-export default UpcomingAppointmentCard
