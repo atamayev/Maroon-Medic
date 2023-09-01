@@ -98,9 +98,9 @@ export default new class AuthDB {
 		return false
 	}
 
-	async addLoginHistory (userId: number, loginTime: MysqlTimestamp): Promise<void> {
-		const sql = `INSERT INTO ${mysqlTables.login_history} (login_at, ip_address, user_id) VALUES (?, ?, ?)`
-		const values = [loginTime, null, userId]
+	async addLoginHistory (userId: number): Promise<void> {
+		const sql = `INSERT INTO ${mysqlTables.login_history} (ip_address, user_id) VALUES (?, ?)`
+		const values = [null, userId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}

@@ -7,8 +7,6 @@ ASAP:
 11. Fix calendar appointments not rendering
 12. Write the logic that makes sure that when making a booking, the vet is able to service the pet that the user has. See below
 13. Add insurance to make a booking
-14. Add a updated_at to all tables.
-    Updated_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 15. Change the JWT/access token to send through the auth header instead of as a cookie (better for security, mobile integration)
 
 

@@ -13,6 +13,7 @@ CREATE TABLE appointments(
 	doctor_id INT UNSIGNED NOT NULL,
 	addresses_id INT UNSIGNED NOT NULL,
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	FOREIGN KEY (service_and_category_list_id) REFERENCES service_and_category_list(service_and_category_list_id),
 	FOREIGN KEY (patient_id) REFERENCES Credentials(user_id),
 	FOREIGN KEY (pet_info_id) REFERENCES pet_info(pet_info_id),

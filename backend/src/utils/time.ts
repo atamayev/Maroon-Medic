@@ -3,13 +3,6 @@ import customParseFormat from "dayjs/plugin/customParseFormat"
 dayjs.extend(customParseFormat)
 
 export default new class TimeUtils {
-	createFormattedDate(): string {
-		const newDateObject = new Date()
-		const format = "YYYY-MM-DD HH:mm:ss"
-		const createdAt = dayjs(newDateObject).format(format)
-		return createdAt
-	}
-
 	cleanDateString(dateStr: string): string {
 		// Remove "th", "st", "nd", "rd" from the date
 		const newDateStr = dateStr.replace(/\b(\d+)(th|st|nd|rd)\b/g, "$1")
