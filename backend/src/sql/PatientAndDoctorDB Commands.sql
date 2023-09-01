@@ -12,7 +12,7 @@ CREATE TABLE appointments(
 	patient_id INT UNSIGNED NOT NULL,
 	doctor_id INT UNSIGNED NOT NULL,
 	addresses_id INT UNSIGNED NOT NULL,
-	created_at DATETIME NOT NULL,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	FOREIGN KEY (service_and_category_list_id) REFERENCES service_and_category_list(service_and_category_list_id),
 	FOREIGN KEY (patient_id) REFERENCES Credentials(user_id),
 	FOREIGN KEY (pet_info_id) REFERENCES pet_info(pet_info_id),
@@ -20,7 +20,6 @@ CREATE TABLE appointments(
 	FOREIGN KEY (addresses_id) REFERENCES addresses(addresses_id),
 	UNIQUE (appointment_date, service_and_category_list_id, pet_info_id, doctor_id)
 );
-
 
 SELECT * FROM appointments;
 UPDATE Appointments set Doctor_confirmation_status = 0 where doctor_id;

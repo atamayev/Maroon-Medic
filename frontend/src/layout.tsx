@@ -2,10 +2,10 @@ import Header from "./components/header/header"
 import Footer from "./components/footer/footer"
 
 interface Props {
-  showHeader: boolean
-  children: React.ReactNode
-  search: boolean
-  dropdown: boolean
+	showHeader: boolean
+	children: React.ReactNode
+	search: boolean
+	dropdown: boolean
 }
 
 function Layout (props: Props) {
@@ -24,7 +24,6 @@ function Layout (props: Props) {
 			<Footer />
 		</>
 	)
-
 }
 
 export default Layout

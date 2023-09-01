@@ -42,11 +42,10 @@ export default new class AuthDB {
 	async addNewUserCredentials (
 		username: string,
 		password: string,
-		createdAt: MysqlTimestamp,
 		registrationType: DoctorOrPatient
 	): Promise<number> {
-		const sql = `INSERT INTO ${mysqlTables.credentials} (email, password, created_at, user_type) VALUES (?, ?, ?, ?)`
-		const values = [username, password, createdAt, registrationType]
+		const sql = `INSERT INTO ${mysqlTables.credentials} (email, password, user_type) VALUES (?, ?, ?)`
+		const values = [username, password, registrationType]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values)
 		return (results as OkPacket).insertId

@@ -4,9 +4,9 @@ import { connectDatabase } from "../setup-and-security/connect"
 import { RowDataPacket } from "mysql2"
 
 export default new class UUIDDB {
-	async createNewUUID (UUID: string, createdAt: MysqlTimestamp, userId: number): Promise<void> {
-		const sql = `INSERT INTO ${mysqlTables.uuid_reference} (UUID, created_at, user_id) VALUES (?, ?, ?)`
-		const values = [UUID, createdAt, userId]
+	async createNewUUID (UUID: string, userId: number): Promise<void> {
+		const sql = `INSERT INTO ${mysqlTables.uuid_reference} (UUID, user_id) VALUES (?, ?)`
+		const values = [UUID, userId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}

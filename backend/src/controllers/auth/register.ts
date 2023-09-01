@@ -1,6 +1,5 @@
 import { Response, Request } from "express"
 import AuthDB from "../../db/auth-db"
-import TimeUtils from "../../utils/time"
 import { loginHistory } from "../../utils/account-tracker"
 import Cookie from "../../utils/cookie-operations"
 import { ID_to_UUID } from "../../setup-and-security/UUID"
@@ -23,11 +22,9 @@ export default async function register (req: Request, res: Response): Promise<Re
 	const {hashedPassword, hashError} = await hashPassword(password)
 	if (hashError) return res.status(500).json({ error: hashError })
 
-	const createdAt = TimeUtils.createFormattedDate()
-
 	let userId: number
 	try {
-		userId = await AuthDB.addNewUserCredentials(email, hashedPassword, createdAt, loginType)
+		userId = await AuthDB.addNewUserCredentials(email, hashedPassword, loginType)
 	} catch (error: unknown) {
 		return res.status(500).json({ error: "Problem with Data Insertion" })
 	}

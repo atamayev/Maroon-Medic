@@ -6,10 +6,11 @@ CREATE TABLE credentials (
 	user_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	email VARCHAR(150) NOT NULL,
 	password VARCHAR(150) NOT NULL,
-	created_at DATETIME NOT NULL,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	user_type VARCHAR(20) NOT NULL, -- can be Doctor, Patient, admin, Administrator
 	is_active BOOLEAN NOT NULL DEFAULT 1
 );
+
 
 SELECT * FROM credentials;
 
@@ -71,7 +72,7 @@ SELECT * FROM pet_info;
 CREATE TABLE UUID_reference(
 	UUID_reference_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	UUID VARCHAR(150) NOT NULL,
-	created_at DATETIME NOT NULL,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	user_id INT UNSIGNED NOT NULL,
 	FOREIGN KEY (user_id) REFERENCES credentials(user_id)
 );

@@ -1,15 +1,12 @@
-/* eslint-disable filenames/match-regex */
-/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/naming-convention, filenames/match-regex */
 import { v4 as uuidv4 } from "uuid"
 import UUIDDB from "../db/UUID-db"
-import TimeUtils from "../utils/time"
 
 export async function ID_to_UUID(userId: number): Promise<string> {
 	const UUID = uuidv4()
-	const createdAt = TimeUtils.createFormattedDate()
 
 	try {
-		await UUIDDB.createNewUUID(UUID, createdAt, userId)
+		await UUIDDB.createNewUUID(UUID, userId)
 		return UUID
 	} catch (error: unknown) {
 		throw new Error(`Unable to convert userId to UUID ${userId}`)
