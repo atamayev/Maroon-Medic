@@ -1,11 +1,4 @@
-import CheckCookie from "src/utils/cookie-check"
-
-function WelcomeOrBack () {
-	const newPatient = CheckCookie.forNewUser("PatientNewUser")
-
-	if (newPatient) return <> to MaroonMedic</>
-	return <> back</>
-}
+import WelcomeOrBack from "../welcome-or-back"
 
 function PersonalInfo ({ personalInfo } : {personalInfo : BirthDateInfo | null}) {
 	if (!personalInfo) return <>Loading...</>

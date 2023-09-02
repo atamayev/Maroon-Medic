@@ -84,17 +84,14 @@ export default new class AuthDB {
 		return camelCasedLoginHistory as LoginHistoryRecord[]
 	}
 
-	async checkIfUUIDsExist (newDoctorUUID: string, existingDoctorUUID: string): Promise<boolean> {
+	async checkIfUUIDsExist (existingDoctorUUID: string): Promise<boolean> {
 		const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.uuid_reference} WHERE UUID = ?) AS 'exists'`
-		const values1 = [newDoctorUUID]
 		const values2 = [existingDoctorUUID]
 
 		const connection = await connectDatabase()
-		const [results1] = await connection.execute(sql, values1)
-		const [results2] = await connection.execute(sql, values2)
-		const doesRecord1Exist = (results1 as RowDataPacket[])[0].exists
-		const doesRecord2Exist = (results2 as RowDataPacket[])[0].exists
-		if (doesRecord1Exist && doesRecord2Exist) return true
+		const [results] = await connection.execute(sql, values2)
+		const doesRecordExist = (results as RowDataPacket[])[0].exists
+		if (doesRecordExist) return true
 		return false
 	}
 

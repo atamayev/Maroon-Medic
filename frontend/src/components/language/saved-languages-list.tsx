@@ -2,10 +2,10 @@ import _ from "lodash"
 import SingleSavedLanguage from "./single-saved-language"
 
 interface SavedLanguageList {
-  spokenLanguages: LanguageItem[],
-  deleteStatuses: DeleteStatusesDictionary,
-  setDeleteStatuses: React.Dispatch<React.SetStateAction<DeleteStatusesDictionary>>
-  handleDeleteLanguage: (language: LanguageItem) => void
+	spokenLanguages: LanguageItem[],
+	deleteStatuses: DeleteStatusesDictionary,
+	setDeleteStatuses: React.Dispatch<React.SetStateAction<DeleteStatusesDictionary>>
+	handleDeleteLanguage: (language: LanguageItem) => void
 }
 
 export default function SavedLanguageList (props: SavedLanguageList) {

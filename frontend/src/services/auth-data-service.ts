@@ -4,15 +4,21 @@ export default new class AuthDataService {
 	async logout() {
 		return await http.post("auth/logout")
 	}
-	async verify() {
-		return await http.post("/auth/verify")
+	async verify(authToken: string | null) {
+		return await http.post("/auth/verify", {}, {
+			headers: {
+				"Authorization": `Bearer ${authToken}`
+			}
+		})
 	}
 	async login(loginInformationObject: AuthCredentials) {
-		return await http.post("/auth/login", {loginInformationObject},
+		return await http.post("/auth/login",
+			{loginInformationObject},
 			{withCredentials: true})
 	}
 	async register(registerInformationObject: AuthCredentials) {
-		return await http.post("/auth/register", {registerInformationObject},
+		return await http.post("/auth/register",
+			{registerInformationObject},
 			{withCredentials: true})
 	}
 	async newDoctorConfirmation() {

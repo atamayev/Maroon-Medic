@@ -7,6 +7,7 @@ import useConfirmBooking from "../../custom-hooks/public-doctor/use-confirm-book
 import DoctorPersonalInfo from "src/components/finalize-booking/doctor-personal-info"
 import CustomPatientMessage from "src/components/finalize-booking/custom-patient-message"
 import FinalizeBookingCardText from "src/components/finalize-booking/finalize-booking-card-text"
+import retrieveFromSessionStorage from "src/utils/retrieve-from-session-storage"
 
 // eslint-disable-next-line max-lines-per-function
 export default function FinalizeBookingPage() {
@@ -20,34 +21,32 @@ export default function FinalizeBookingPage() {
 	let serviceMinutes: number = -1
 	let personalData: DoctorPersonalData = {firstName: "", lastName: "", gender: "", nvi: -1}
 
-	const storedData = sessionStorage.getItem("bookingDetails")
-	const parsedData = storedData && JSON.parse(storedData)
-	const sessionBookingDetails = parsedData
+	const bookingDetails = retrieveFromSessionStorage("bookingDetails")
 
 	if (browserLocation.state) {
 		({ appointmentInformation, serviceMinutes, personalData } = browserLocation.state)
-	} else if (sessionBookingDetails) {
-		({ appointmentInformation, serviceMinutes, personalData } = sessionBookingDetails)
+	} else if (bookingDetails) {
+		({ appointmentInformation, serviceMinutes, personalData } = bookingDetails)
 	}
 
 	useEffect(() => {
-		if (!browserLocation.state  && !sessionBookingDetails) {
+		if (!browserLocation.state  && !bookingDetails) {
 			window.location.href = "/"
 		}
 	}, [browserLocation])
 
 	// Ensures that the user is not able to navigate back to finalize booking right after making an appointment
 	useEffect(() => {
-		if ((browserLocation.state && browserLocation.state.finalized) || !sessionBookingDetails) {
+		if ((browserLocation.state && browserLocation.state.finalized) || !bookingDetails) {
 			navigate("/dashboard")
 		}
-	}, [browserLocation, navigate, sessionBookingDetails])
+	}, [browserLocation, navigate, bookingDetails])
 
 	useEffect(() => {
 		if (message) setIsMessageOverLimit(message.length >= 100)
 	}, [message])
 
-	if (!browserLocation.state && !sessionBookingDetails) {
+	if (!browserLocation.state && !bookingDetails) {
 		//Or show some kind of loading spinner
 		return null
 	}

@@ -8,13 +8,13 @@ import DoctorHeader from "./doctor-header"
 import PersonalInfo from "src/components/doctor-dashboard/personal-info"
 import PastAppointmentsSection from "src/components/doctor-dashboard/past-appointments/past-appointments-section"
 import UpcomingAppointmentsSection from "src/components/doctor-dashboard/upcoming-appointments/upcoming-appointments-section"
+import retrieveFromSessionStorage from "src/utils/retrieve-from-session-storage"
 
 export default function DoctorDashboard() {
 	const { userType } = useSimpleUserVerification()
 	const { dashboardData, setDashboardData } = useSetDoctorDashboardData()
-	const storedData = sessionStorage.getItem("DoctorPersonalInfo")
-	const parsedData = storedData && JSON.parse(storedData)
-	const [personalInfo, setPersonalInfo] = useState(parsedData)
+	const doctorPersonalInfo = retrieveFromSessionStorage("DoctorPersonalInfo")
+	const [personalInfo, setPersonalInfo] = useState<BirthDateInfo | null>(doctorPersonalInfo)
 	const [pastAppointments, setPastAppointments] = useState<DoctorDashboardData[]>([])
 	const [upcomingAppointments, setUpcomingAppointments] = useState<DoctorDashboardData[]>([])
 

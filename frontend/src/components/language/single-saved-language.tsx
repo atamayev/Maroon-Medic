@@ -1,10 +1,10 @@
 import DeleteButtonOptions from "../delete-buttons/delete-button-options"
 
 interface SingleLanguageProps {
-  language: LanguageItem,
-  deleteStatuses: DeleteStatusesDictionary,
-  setDeleteStatuses: React.Dispatch<React.SetStateAction<DeleteStatusesDictionary>>
-  handleDeleteLanguage: (language: LanguageItem) => void
+	language: LanguageItem,
+	deleteStatuses: DeleteStatusesDictionary,
+	setDeleteStatuses: React.Dispatch<React.SetStateAction<DeleteStatusesDictionary>>
+	handleDeleteLanguage: (language: LanguageItem) => void
 }
 
 function SingleSavedLanguage (props: SingleLanguageProps) {

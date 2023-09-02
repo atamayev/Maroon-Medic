@@ -20,11 +20,18 @@ const useLoginSubmit = (
 			setLoading(true)
 			const response = await AuthDataService.login(loginInformationObject)
 			if (response.status === 200) {
+				if (VetOrPatient === "Vet") sessionStorage.setItem("UserType", "Doctor")
+				else sessionStorage.setItem("UserType", "Patient")
+
 				if ((sessionStorage.getItem("bookingDetails") !== null) && VetOrPatient === "Patient") {
 					const bookingDetails = JSON.parse(sessionStorage.getItem("bookingDetails") ?? "{}")
 					navigate("/finalize-booking", { state: bookingDetails })
-				} else navigate("/dashboard")
-			} else setError("Login didn't work")
+				} else {
+					navigate("/dashboard")
+				}
+			} else {
+				setError("Login didn't work")
+			}
 		} catch (error: unknown) {
 			handle401AxiosErrorAndSetCustomError(error, setError)
 		}

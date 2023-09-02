@@ -4,13 +4,8 @@ import Hash from "../../setup-and-security/hash"
 import { UUID_to_ID } from "../../setup-and-security/UUID"
 
 export default async function changePassword (req: Request, res: Response): Promise<Response> {
-	const {userType, currentPassword, newPassword} = req.body.changePasswordObject
-	const cookies = req.cookies
-	let UUID: string = ""
-
-	if (userType !== "Doctor" && userType !== "Patient") return res.status(401).json({ shouldRedirect: true, redirectURL: "/" })
-	else if (userType === "Doctor") UUID = cookies.DoctorUUID
-	else if (userType === "Patient") UUID = cookies.PatientUUID
+	const { currentPassword, newPassword } = req.body.changePasswordObject
+	const UUID = req.headers.uuid as string
 
 	let userId: number
 	try {

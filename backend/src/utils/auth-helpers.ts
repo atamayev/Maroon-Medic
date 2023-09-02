@@ -2,40 +2,15 @@ import jwt from "jsonwebtoken"
 import Hash from "../setup-and-security/hash"
 import AuthDB from "../db/auth-db"
 
-export function getUserInfo(cookies: Express.Request["cookies"]): { type: DoctorOrPatient, UUID: string, newUserUUID: string } {
-	let type: DoctorOrPatient = "Patient"
-	let UUID: string = ""
-	let newUserUUID: string = ""
-
-	if ("DoctorUUID" in cookies || "DoctorAccessToken" in cookies) {
-		UUID = cookies.DoctorUUID!
-		type = "Doctor"
-		if ("DoctorNewUser" in cookies) newUserUUID = cookies.DoctorNewUser!
-	} else if ("PatientUUID" in cookies || "PatientAccessToken" in cookies) {
-		UUID = cookies.PatientUUID!
-		type = "Patient"
-		if ("PatientNewUser" in cookies) newUserUUID = cookies.PatientNewUser!
-	}
-
-	return { type, UUID, newUserUUID }
-}
-
-export async function handleLogoutInDB(UUID: string, newUserUUID: string): Promise<void> {
+export async function handleLogoutInDB(UUID: string): Promise<void> {
 	try {
 		if (UUID) await AuthDB.deleteUUIDUponLogout(UUID)
-		if (newUserUUID) await AuthDB.deleteUUIDUponLogout(newUserUUID)
 	} catch (error: unknown) {
 	}
 }
 
-export function getUserType(cookies: Express.Request["cookies"]): "Doctor" | "Patient" | undefined {
-	if ("DoctorAccessToken" in cookies && "DoctorUUID" in cookies) return "Doctor"
-	else if ("PatientAccessToken" in cookies && "PatientUUID" in cookies) return "Patient"
-	return undefined
-}
-
 export function getDecodedUUID(responseType: string, accessToken: string): string {
-	const jwtKey = responseType === "Patient" ? process.env.PATIENT_JWT_KEY! : process.env.DOCTOR_JWT_KEY!
+	const jwtKey = responseType === "Patient" ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY
 	const payload = jwt.verify(accessToken, jwtKey) as JwtPayload
 
 	if (typeof payload === "object") {

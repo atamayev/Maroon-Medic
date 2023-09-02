@@ -28,19 +28,22 @@ const handleError = (error: unknown, clearSession: boolean) => {
 export function VerifyContextProvider ({ children }: VerifyContextProviderProps) {
 	async function userVerification(clearSession: boolean): VerifyContextReturnType {
 		try {
-			if (!CheckCookie.forContext("DoctorAccessToken") && !CheckCookie.forContext("PatientAccessToken")) {
+			if (!CheckCookie.forContext("AccessToken")) {
 				return clearAndReturnFalse(clearSession)
 			}
+			const authToken = CheckCookie.getCookie("AccessToken")
 
-			const response = await AuthDataService.verify()
+			const response = await AuthDataService.verify(authToken)
 
 			if (response.data.isValid !== true) {
 				return clearAndReturnFalse(clearSession)
 			}
 
+			const userType = sessionStorage.getItem("UserType") as DoctorOrPatientOrNull
+
 			return {
 				verified: true,
-				userType: response.data.type,
+				userType,
 			}
 		} catch (error: unknown) {
 			return handleError(error, clearSession)

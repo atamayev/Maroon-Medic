@@ -5,10 +5,7 @@ import Hash from "../../setup-and-security/hash"
 import { loginHistory } from "../../utils/account-tracker"
 import Cookie from "../../utils/cookie-operations"
 import { ID_to_UUID } from "../../setup-and-security/UUID"
-import {
-	validateUserType,
-	signJWT,
-} from "../../utils/auth-helpers"
+import { validateUserType, signJWT } from "../../utils/auth-helpers"
 
 export default async function login (req: Request, res: Response): Promise<Response> {
 	const { email, password, loginType } = req.body.loginInformationObject
@@ -44,13 +41,13 @@ export default async function login (req: Request, res: Response): Promise<Respo
 
 	await loginHistory(results.userId)
 
-	Cookie.clearAll(res, loginType)
+	Cookie.clearAll(res)
 
 	// const expires = new Date(Date.now() + expirationTime *1000)
 
 	return res
-		.cookie(`${loginType}AccessToken`, token)
-		.cookie(`${loginType}UUID`, UUID)
+		.cookie("AccessToken", token)
+		.cookie("UUID", UUID)
 		.status(200)
 		.json()
 }

@@ -10,9 +10,9 @@ import SelectLanguage from "src/components/language/select-language"
 import AccountDetailsCard from "src/components/account-details-card"
 
 interface Props {
-  listDetails: PatientListDetails
-  spokenLanguages: LanguageItem[]
-  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>
+	listDetails: PatientListDetails
+	spokenLanguages: LanguageItem[]
+	setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>
 }
 
 export default function PatientLanguageSection(props: Props) {
@@ -25,7 +25,7 @@ export default function PatientLanguageSection(props: Props) {
 }
 
 function PatientLanguages(props: Props) {
-	const {listDetails, spokenLanguages, setSpokenLanguages} = props
+	const { listDetails, spokenLanguages, setSpokenLanguages } = props
 	const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
 	const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage()
 

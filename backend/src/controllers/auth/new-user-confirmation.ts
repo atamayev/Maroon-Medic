@@ -3,13 +3,16 @@ import AuthDB from "../../db/auth-db"
 
 export async function newDoctorConfirmation (req: Request, res: Response): Promise<Response> {
 	const doctorPermission = false
-	const newDoctorUUID = req.cookies.DoctorNewUser
-	const existingDoctorUUID = req.cookies.DoctorUUID
+	const userType = req.headers["user-type"] as DoctorOrPatient
+	const isNewDoctor = req.headers["new-user"] as unknown as boolean
+	const doctorUUID = req.headers.uuid as string
 
-	if (!newDoctorUUID || !existingDoctorUUID) return res.status(400).json(doctorPermission)
+	if (!isNewDoctor || !doctorUUID || userType !== "Doctor") {
+		return res.status(400).json(doctorPermission)
+	}
 
 	try {
-		const doBothUUIDExist = await AuthDB.checkIfUUIDsExist(newDoctorUUID, existingDoctorUUID)
+		const doBothUUIDExist = await AuthDB.checkIfUUIDsExist(doctorUUID)
 		return res.status(200).json(doBothUUIDExist)
 	} catch (error: unknown) {
 		return res.status(400).json(doctorPermission)
@@ -18,13 +21,16 @@ export async function newDoctorConfirmation (req: Request, res: Response): Promi
 
 export async function newPatientConfirmation (req: Request, res: Response): Promise<Response> {
 	const patientPermission = false
-	const newPatientUUID = req.cookies.PatientNewUser
-	const existingPatientUUID = req.cookies.PatientUUID
+	const userType = req.headers["user-type"] as DoctorOrPatient
+	const isNewPatient = req.headers["new-user"] as unknown as boolean
+	const patientUUID = req.headers.uuid as string
 
-	if (!newPatientUUID || !existingPatientUUID) return res.status(400).json(patientPermission)
+	if (!isNewPatient || !patientUUID || userType !== "Patient") {
+		return res.status(400).json(patientPermission)
+	}
 
 	try {
-		const doBothUUIDExist = await AuthDB.checkIfUUIDsExist(newPatientUUID, existingPatientUUID)
+		const doBothUUIDExist = await AuthDB.checkIfUUIDsExist(patientUUID)
 		return res.status(200).json(doBothUUIDExist)
 	} catch (error: unknown) {
 		return res.status(400).json(patientPermission)

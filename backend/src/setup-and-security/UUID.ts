@@ -14,7 +14,7 @@ export async function ID_to_UUID(userId: number): Promise<string> {
 }
 
 export async function UUID_to_ID(UUID: string): Promise<number> {
-	if (!UUID) throw new Error(`no UUID received in ${UUID_to_ID.name}`)
+	if (!UUID) throw new Error(`No UUID received in ${UUID_to_ID.name}`)
 
 	try {
 		const userId = await UUIDDB.retrieveUUID(UUID)

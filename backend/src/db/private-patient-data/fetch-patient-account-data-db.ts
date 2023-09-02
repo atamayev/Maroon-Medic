@@ -21,7 +21,8 @@ export default new class FetchPatientAccountDataDB {
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
 		const languages = results.map((row: RowDataPacket) => row as LanguageItem)
-		return languages
+		const camelCasedLanguages = transformArrayOfObjectsToCamelCase(languages)
+		return camelCasedLanguages as LanguageItem[]
 	}
 
 	async petData (patientId: number): Promise<CompletePetInfo[]> {

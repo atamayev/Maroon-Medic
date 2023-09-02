@@ -11,7 +11,7 @@ import {
 } from "../../utils/auth-helpers"
 
 export default async function register (req: Request, res: Response): Promise<Response> {
-	const {email, password, loginType } = req.body.registerInformationObject
+	const { email, password, loginType } = req.body.registerInformationObject
 
 	if (!validateUserType(loginType)) return res.status(400).json("Invalid User Type")
 
@@ -47,12 +47,12 @@ export default async function register (req: Request, res: Response): Promise<Re
 	const newUserUUID = await ID_to_UUID(userId)
 	await loginHistory(userId)
 
-	Cookie.clearAll(res, loginType)
+	Cookie.clearAll(res)
 
 	return res
-		.cookie(`${loginType}AccessToken`, token)
-		.cookie(`${loginType}UUID`, UUID)
-		.cookie(`${loginType}NewUser`, newUserUUID)
+		.cookie("AccessToken", token)
+		.cookie("UUID", UUID)
+		.cookie("NewUser", newUserUUID)
 		.status(200)
 		.json()
 }
