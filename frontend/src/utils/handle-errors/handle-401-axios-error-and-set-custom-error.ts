@@ -9,8 +9,8 @@ const handle401AxiosErrorAndSetCustomError = (
 	if (error instanceof AxiosError) {
 		if (error.response?.status === 401) {
 			invalidUserAction(error.response.data)
-		} else if (error.response?.status === 400) {
-			setError(error.response.data)
+		} else if (error.response) {
+			setError(error.response.data.error || "An unexpected error occurred.")
 		}
 	}
 

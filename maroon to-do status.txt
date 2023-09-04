@@ -8,7 +8,7 @@ ASAP:
 15. Change the JWT/access token to send through the auth header instead of as a cookie (better for security, mobile integration)
 	also for uuid.
 16. make a new footer
-
+17. Add a return type to all data service functions (extend the axios response)
 
 -add choose your pet to make an appointment. if the user isn't logged in, show a login/register button in the booking section.
 	the first question should be: choose which pet you would like to take to the vet
@@ -29,6 +29,8 @@ CONTEXT
 		This object should somehow be part of http-common. See how we did it in OpenAPI JS project
 		userType can be stored in session storage in plaintext (for reload)
 		UUID and AccessToken should be in cookies, to serve as a backstop if page reloaded
+			
+			-Make sure that all components that traditionally rely on session storage are not observers (rely on the context/class)
 			Make personal info it's own context
 			Combine authContext and verify context. make it into a memoized class, initialized as null in index.tsx
 

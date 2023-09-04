@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios"
 import http from "../http-common"
 
 interface AppointmentObject {
@@ -8,19 +9,19 @@ interface AppointmentObject {
 	appointmentPrice: number
 	nvi: number
 	addressesId: number
-	InstantBook: boolean
+	instantBook: boolean
 	message: string
 	selectedPetId: number
 }
 
 export default new class CalendarDataService {
-	async makeAppointment(appointmentObject: AppointmentObject) {
-		return await http.post("/calendar/make-appointment", {appointmentObject})
+	async makeAppointment(appointmentObject: AppointmentObject): Promise<AxiosResponse<EmptyResponse>> {
+		return await http.post<EmptyResponse>("/calendar/make-appointment", {appointmentObject})
 	}
-	async fillCalendarDetails() {
-		return await http.get("/calendar/get-doctor-calendar-details")
+	async fillCalendarDetails(): Promise<AxiosResponse<DoctorDashboardData[]>> {
+		return await http.get<DoctorDashboardData[]>("/calendar/get-doctor-calendar-details")
 	}
-	async confirmAppointment(appointmentId: number) {
-		return await http.patch("/calendar/confirm-appointment", {appointmentId})
+	async confirmAppointment(appointmentId: number): Promise<AxiosResponse<EmptyResponse>> {
+		return await http.patch<EmptyResponse>("/calendar/confirm-appointment", {appointmentId})
 	}
 }()

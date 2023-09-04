@@ -9,7 +9,7 @@ import {
 const router = express.Router()
 
 router.get("/s/:query", searchByQuery)
-router.get("/fetchAllUsers", fetchUsers)
+router.get("/fetch-all-users", fetchUsers)
 router.get("/fetch-languages-list", fetchAllLanguages)
 router.get("/fetch-services-and-categories-list", fetchAllServicesAndCategories)
 

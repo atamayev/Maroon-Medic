@@ -13,11 +13,11 @@ import {
 export default async function register (req: Request, res: Response): Promise<Response> {
 	const { email, password, loginType } = req.body.registerInformationObject
 
-	if (!validateUserType(loginType)) return res.status(400).json("Invalid User Type")
+	if (!validateUserType(loginType)) return res.status(400).json({ error: "Invalid User Type" })
 
 	const { exists, accountExistError } = await doesAccountExist(email, loginType)
 	if (accountExistError) return res.status(500).json({ error: accountExistError })
-	else if (exists) return res.status(400).json("Email already exists!")
+	else if (exists) return res.status(400).json({ error: "Email already exists!" })
 
 	const {hashedPassword, hashError} = await hashPassword(password)
 	if (hashError) return res.status(500).json({ error: hashError })

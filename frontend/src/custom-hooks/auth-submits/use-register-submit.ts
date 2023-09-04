@@ -24,7 +24,6 @@ const useRegisterSubmit = (
 			setLoading(true)
 			const response = await AuthDataService.register(registerInformationObject)
 			if (response.status === 200) navigate(`/new-${VetOrPatient.toLowerCase()}`)
-			else setError("Registration didn't work")
 		} catch (error: unknown) {
 			handle401AxiosErrorAndSetCustomError(error, setError)
 		}

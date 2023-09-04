@@ -24,19 +24,19 @@ export const SearchContext = createContext<SearchContextType>(defaultSearchConte
 
 export function SearchContextProvider (props: Props) {
 	const [searchTerm, setSearchTerm] = useState(sessionStorage.getItem("searchTerm") || "")
-	const [items, setItems] = useState([])
+	const [items, setItems] = useState<DoctorPersonalData[]>([])
 
 	async function fetchData () {
 		const pathname = window.location.pathname
 
 		try {
-			let result
+			let result: DoctorPersonalData[] = []
 			if (pathname === "/") {
-				result = await SearchDataService.fetchAllUsers()
+				result = (await SearchDataService.fetchAllUsers()).data
 			} else if (pathname.startsWith("/s/")) {
-				result = await SearchDataService.searchByQuery(searchTerm)
+				result = (await SearchDataService.searchByQuery(searchTerm)).data
 			}
-			if (result) setItems(result.data)
+			setItems(result)
 		} catch (error) {
 		}
 	}

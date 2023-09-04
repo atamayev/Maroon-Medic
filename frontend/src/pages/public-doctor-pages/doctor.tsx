@@ -16,17 +16,17 @@ import ServicedPetsSection from "./public-doctor-serviced-pets"
 
 export default function Doctor () {
 	const { id } = useParams()
-	const [spokenLanguages, setSpokenLanguages] = useState([])
-	const [providedServices, setProvidedServices] = useState([])
-	const [doctorSpecialties, setDoctorSpecialties] = useState([])
-	const [preVetEducation, setPreVetEducation] = useState([])
-	const [vetEducation, setVetEducation] = useState([])
+	const [spokenLanguages, setSpokenLanguages] = useState<LanguageName[]>([])
+	const [providedServices, setProvidedServices] = useState<ServiceItemNotNullablePrice[]>([])
+	const [doctorSpecialties, setDoctorSpecialties] = useState<OrganizationSpecialtyName[]>([])
+	const [preVetEducation, setPreVetEducation] = useState<GeneralEducationItem[]>([])
+	const [vetEducation, setVetEducation] = useState<EducationBase[]>([])
 	const [addresses, setAddresses] = useState<PublicAddressData[]>(
 		[{ addressPriority: 0, addressesId: -1, addressTitle: "", addressLine1  : "", addressLine2: "",
 			city: "", state: "", zip: "", country: "", phone: "", instantBook: false, times:[]
 		}])
-	const [description, setDescription] = useState("")
-	const [servicedPets, setServicedPets] = useState([])
+	const [description, setDescription] = useState<string>("")
+	const [servicedPets, setServicedPets] = useState<ServicedPetData[]>([])
 	const [personalData, setPersonalData] = useState<DoctorPersonalData>({firstName: "", lastName: "", gender: "", nvi: 0})
 
 	const idNumber = Number(id)

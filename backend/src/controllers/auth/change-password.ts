@@ -17,16 +17,16 @@ export default async function changePassword (req: Request, res: Response): Prom
 	try {
 		const hashedOldPassword = await AuthDB.retrieveUserPassword(userId)
 		const isOldPasswordMatch = await Hash.checkPassword(currentPassword, hashedOldPassword)
-		if (!isOldPasswordMatch) return res.status(400).json("Old Password is incorrect")
+		if (!isOldPasswordMatch) return res.status(400).json({ error: "Old Password is incorrect" })
 		else {
 			const isSamePassword = await Hash.checkPassword(newPassword, hashedOldPassword)
-			if (isSamePassword) return res.status(402).json("New Password cannot be the same as the old password")
+			if (isSamePassword) return res.status(402).json({ error: "New Password cannot be the same as the old password" })
 
 			const newHashedPassword = await Hash.hashCredentials(newPassword)
 			await AuthDB.updatePassword(newHashedPassword, userId)
 			return res.status(200).json()
 		}
 	} catch (error: unknown) {
-		return res.status(500).json("Errror in changing password")
+		return res.status(500).json({ error: "Errror in changing password" })
 	}
 }

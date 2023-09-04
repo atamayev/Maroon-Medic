@@ -35,6 +35,18 @@ declare global {
 	selectedDay: string | null
 	selectedTime: string | null
   }
+
+  interface PublicDoctorAccountDetails {
+    doctorLanguages: LanguageName[]
+    doctorServices: DetailedServiceItem[]
+    doctorSpecialties: OrganizationSpecialtyName[]
+    doctorPreVetEducation: PreVetEducation[]
+    doctorVetEducation: VetEducation[]
+    doctorAddressData: PublicAddressData[]
+    description: string
+    servicedPets: ServicedPetData[]
+    doctorPersonalInfo: DoctorPersonalInfo
+  }
 }
 
 export {}

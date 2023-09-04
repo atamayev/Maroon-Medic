@@ -4,7 +4,6 @@ import {
 	fetchPatientLists,
 	fetchPetTypes,
 	fetchInsurances
-
 } from "../controllers/lists-controller"
 
 const router = express.Router()

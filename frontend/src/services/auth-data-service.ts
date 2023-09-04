@@ -1,36 +1,38 @@
+import { AxiosResponse } from "axios"
 import http from "../http-common"
 
 export default new class AuthDataService {
-	async logout() {
-		return await http.post("auth/logout")
+	async logout(): Promise<AxiosResponse<EmptyResponse | RedirectResponse>> {
+		return await http.post<EmptyResponse | RedirectResponse>("auth/logout")
 	}
-	async verify(authToken: string | null) {
-		return await http.post("/auth/verify", {}, {
-			headers: {
-				"Authorization": `Bearer ${authToken}`
-			}
-		})
+	async verify(): Promise<AxiosResponse<JWTResponse | RedirectResponse>> {
+		return await http.post<JWTResponse | RedirectResponse>("/auth/verify")
 	}
-	async login(loginInformationObject: AuthCredentials) {
-		return await http.post("/auth/login",
+	async login(loginInformationObject: AuthCredentials): Promise<AxiosResponse<EmptyResponse | ErrorResponse>> {
+		return await http.post<EmptyResponse | ErrorResponse>("/auth/login",
 			{loginInformationObject},
-			{withCredentials: true})
+			{withCredentials: true}
+		)
 	}
-	async register(registerInformationObject: AuthCredentials) {
-		return await http.post("/auth/register",
+	async register(registerInformationObject: AuthCredentials): Promise<AxiosResponse<EmptyResponse | ErrorResponse>> {
+		return await http.post<EmptyResponse | ErrorResponse>("/auth/register",
 			{registerInformationObject},
-			{withCredentials: true})
+			{withCredentials: true}
+		)
 	}
-	async newDoctorConfirmation() {
-		return await http.get("/auth/new-doctor-confirmation")
+	async newDoctorConfirmation(): Promise<AxiosResponse<boolean>> {
+		return await http.get<boolean>("/auth/new-doctor-confirmation")
 	}
-	async newPatientConfirmation() {
-		return await http.get("/auth/new-patient-confirmation")
+	async newPatientConfirmation(): Promise<AxiosResponse<boolean>> {
+		return await http.get<boolean>("/auth/new-patient-confirmation")
 	}
-	async fetchLoginHistry() {
-		return await http.get("/auth/fetch-login-history")
+	async fetchLoginHistry(): Promise<AxiosResponse<LoginHistoryItem[] | RedirectResponse>> {
+		return await http.get<LoginHistoryItem[] | RedirectResponse>("/auth/fetch-login-history")
 	}
-	async changePassword(changePasswordObject: ChangePasswordObject) {
-		return await http.post("/auth/change-password", {changePasswordObject})
+	async changePassword(changePasswordObject: ChangePasswordObject):
+		Promise<AxiosResponse<EmptyResponse | ErrorResponse | RedirectResponse>> {
+		return await http.post<EmptyResponse | ErrorResponse | RedirectResponse>("/auth/change-password",
+			{changePasswordObject}
+		)
 	}
 }()

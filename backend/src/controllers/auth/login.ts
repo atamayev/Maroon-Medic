@@ -17,7 +17,7 @@ export default async function login (req: Request, res: Response): Promise<Respo
 
 	try {
 		results = await AuthDB.retrieveUserIdAndPassword(email, loginType)
-		if (_.isEmpty(results)) return res.status(404).json("Username not found!")
+		if (_.isEmpty(results)) return res.status(404).json({ error: "Username not found!" })
 		else hashedPassword = results.password
 	} catch (error: unknown) {
 		return res.status(500).json({ error: "Problem with email selection" })
@@ -31,7 +31,7 @@ export default async function login (req: Request, res: Response): Promise<Respo
 		return res.status(500).json({ error: "Problem with checking password" })
 	}
 
-	if (bool === false) return res.status(400).json("Wrong Username or Password!")
+	if (bool === false) return res.status(400).json({ error: "Wrong Username or Password!" })
 	const idKey = `${loginType}Id`
 	const UUID = await ID_to_UUID(results.userId)
 	const payload = { [idKey]: UUID }
