@@ -2,10 +2,7 @@ To-do:
 
 ASAP:
 
-When registering, should .cookie("NewUser", newUserUUID) be a boolean or a string. used differently in different places
-	see http-common
-	see new-user-confirmation
-18. Context Stuff
+Context Stuff
 	Currently, calling verify context on every re-render
 10. Make the pets in the patient header be the pets that the user has
 11. Fix calendar appointments not rendering
@@ -23,8 +20,6 @@ When registering, should .cookie("NewUser", newUserUUID) be a boolean or a strin
 		or, make the UUID be a header (ie authorizatoin header) whenever sending a req back and forth
 			don't make it doctorUUID or patientUUID, just make it UUID. same for AccessToken
 			think about the best way to structure the acess token/ uuid thing
-
--Combine the newDoctorConfirmation and newPatientConfirmation
 
 CONTEXT
 	When logging in, an object should be created that has 1) the user type, 2) the UUID 3) the AccessToken

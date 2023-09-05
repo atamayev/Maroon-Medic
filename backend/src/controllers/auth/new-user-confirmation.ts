@@ -2,46 +2,32 @@ import { Response, Request } from "express"
 import AuthDB from "../../db/auth-db"
 import { extractAccessToken, getDecodedNewUser } from "../../utils/auth-helpers"
 
-export async function newDoctorConfirmation (req: Request, res: Response): Promise<Response> {
-	const doctorPermission = false
-	const userType = req.headers["user-type"] as DoctorOrPatient
-	const doctorUUID = req.headers.uuid as string
-
-	const accessToken = extractAccessToken(req)
-	if (!accessToken) return res.status(400).json(doctorPermission)
-
-	const isNewUser = getDecodedNewUser("Doctor", accessToken)
-
-	if (!isNewUser || !doctorUUID || userType !== "Doctor") {
-		return res.status(400).json(doctorPermission)
-	}
-
-	try {
-		const doBothUUIDExist = await AuthDB.checkIfUUIDExists(doctorUUID)
-		return res.status(200).json(doBothUUIDExist)
-	} catch (error: unknown) {
-		return res.status(400).json(doctorPermission)
-	}
+export async function newDoctorConfirmation (req: Request, res: Response): Promise<void> {
+	await newUserConfirmation(req, res, "Doctor")
 }
 
-export async function newPatientConfirmation (req: Request, res: Response): Promise<Response> {
-	const patientPermission = false
+export async function newPatientConfirmation (req: Request, res: Response): Promise<void> {
+	await newUserConfirmation(req, res, "Patient")
+}
+
+async function newUserConfirmation (req: Request, res: Response, doctorOrPatient: DoctorOrPatient): Promise<Response> {
+	const permission = false
+	const userUUID = req.headers.uuid as string
 	const userType = req.headers["user-type"] as DoctorOrPatient
-	const patientUUID = req.headers.uuid as string
 
 	const accessToken = extractAccessToken(req)
-	if (!accessToken) return res.status(400).json(patientPermission)
+	if (!accessToken) return res.status(400).json(permission)
 
-	const isNewUser = getDecodedNewUser("Patient", accessToken)
+	const isNewUser = getDecodedNewUser(doctorOrPatient, accessToken)
 
-	if (!isNewUser || !patientUUID || userType !== "Patient") {
-		return res.status(400).json(patientPermission)
+	if (!isNewUser || !userUUID || userType !== doctorOrPatient) {
+		return res.status(400).json(permission)
 	}
 
 	try {
-		const doBothUUIDExist = await AuthDB.checkIfUUIDExists(patientUUID)
+		const doBothUUIDExist = await AuthDB.checkIfUUIDExists(userUUID)
 		return res.status(200).json(doBothUUIDExist)
 	} catch (error: unknown) {
-		return res.status(400).json(patientPermission)
+		return res.status(400).json(permission)
 	}
 }
