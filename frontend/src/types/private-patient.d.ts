@@ -23,6 +23,10 @@ declare global {
   type SavedPetItem = BasePetInfo & {
     petInfoId: number
   }
+
+  interface PatientAccountDetails {
+    languages: LanguageItem[]
+  }
 }
 
 export {}

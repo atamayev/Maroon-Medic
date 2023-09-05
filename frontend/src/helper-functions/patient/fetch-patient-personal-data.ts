@@ -12,7 +12,7 @@ export default async function fetchPatientPersonalInfo (
 	}
 
 	if (response) {
-		setHeaderData(response.data.FirstName)
+		setHeaderData(response.data.firstName)
 		sessionStorage.setItem("PatientPersonalInfo", JSON.stringify(response.data))
 	}
 }

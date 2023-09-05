@@ -1,11 +1,14 @@
+import { useContext } from "react"
 import SettingsLinks from "../../../components/settings-links"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
 import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import DoctorHeader from "../doctor-header"
+import { AppContext } from "src/contexts/maroon-context"
 
 export default function DoctorSettingsCards() {
 	const { userType } = useSimpleUserVerification()
-
+	const appContext = useContext(AppContext)
+	console.log(appContext.UUID)
 	if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
 	return (

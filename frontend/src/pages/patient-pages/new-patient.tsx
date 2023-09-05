@@ -22,13 +22,17 @@ export default function NewPatient () {
 	const { newUserSubmit } = useNewUserSubmit(setError, setLoading, "Patient")
 
 	const verifyNewPatient = async () => {
-		const result = await userVerification(false)
-		if (result.verified === true && result.userType === "Patient") {
-			const patientResult = await AuthDataService.newPatientConfirmation()
-			if (patientResult.data === false) navigate("/patient-register")
+		try {
+			const result = await userVerification(false)
+			if (result.verified === true && result.userType === "Patient") {
+				const patientResult = await AuthDataService.newPatientConfirmation()
+				if (patientResult.data === false) navigate("/patient-register")
+			}
+			else if (result.verified === true && result.userType === "Doctor") navigate("/dashboard")
+			else navigate("/patient-register")
+		} catch (err) {
+			navigate("/")
 		}
-		else if (result.verified === true && result.userType === "Doctor") navigate("/dashboard")
-		else navigate("/patient-register")
 	}
 
 	useEffect(() => {

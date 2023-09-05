@@ -35,10 +35,11 @@ export default function NewAccountForm(props: Props) {
 					<DOBSection personalInfo={newInfo} setPersonalInfo={setNewInfo} />
 					<Button
 						className="w-100"
-						colorClass="bg-yellow-400"
-						hoverClass="hover:bg-yellow-600"
+						colorClass="bg-green-600"
+						hoverClass="hover:bg-green-700"
 						title="Submit"
 						disabled={loading}
+						textColor = "text-white"
 					/>
 				</form>
 			</div>

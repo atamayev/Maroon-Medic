@@ -6,8 +6,7 @@ import handle401AxiosError from "src/utils/handle-errors/handle-401-axios-error"
 export default async function fetchPersonalInfoData(
 	setPersonalInfo: React.Dispatch<React.SetStateAction<BirthDateInfo>>,
 	userType: DoctorOrPatient
-): Promise<void>
-{
+): Promise<void> {
 	try {
 		let response: AxiosResponse
 

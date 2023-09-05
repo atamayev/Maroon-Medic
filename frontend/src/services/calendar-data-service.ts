@@ -1,19 +1,6 @@
 import { AxiosResponse } from "axios"
 import http from "../http-common"
 
-interface AppointmentObject {
-	serviceAndCategoryListId: number
-	appointmentDate: string
-	appointmentTime: string
-	appointmentTimespan: number
-	appointmentPrice: number
-	nvi: number
-	addressesId: number
-	instantBook: boolean
-	message: string
-	selectedPetId: number
-}
-
 export default new class CalendarDataService {
 	async makeAppointment(appointmentObject: AppointmentObject): Promise<AxiosResponse<EmptyResponse>> {
 		return await http.post<EmptyResponse>("/calendar/make-appointment", {appointmentObject})

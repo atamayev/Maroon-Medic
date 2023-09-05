@@ -55,7 +55,7 @@ export default function DropdownItems ({ dropdown } : Props) {
 			<Link to="/vet-login" className={unboldedDropdownItemCSS} role="menuitem">Vet Log In</Link>
 			<Link to="/patient-register" className={boldedDropdownItemCSS} role="menuitem">Patient Sign up</Link>
 			<Link to="/patient-login" className={unboldedDropdownItemCSS} role="menuitem">Patient Log In</Link>
-			<div className="border-t border-gray-100"></div>
+			<div className="border-t border-gray-300"></div>
 			<Link to="/help" className={unboldedDropdownItemCSS} role="menuitem">Help</Link>
 		</>
 	)

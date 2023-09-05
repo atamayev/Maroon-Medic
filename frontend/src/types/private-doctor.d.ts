@@ -26,6 +26,17 @@ declare global {
     servicePrice: number
   }
 
+  interface VetEducationData {
+	schoolId: number
+	educationTypeId: number
+	startDate: string
+	endDate: string
+  }
+
+  interface PreVetEducationData extends VetEducationData {
+	majorId: number
+  }
+
   interface EducationBase {
     schoolName: string
     educationType: string
@@ -49,6 +60,19 @@ declare global {
   type PicturesItem = {
     pictureLink: string
     pictureNumber: number
+  }
+
+  interface DoctorAccountDetails {
+    languages: LanguageItem[]
+    services: DetailedServiceItem[]
+    specialties: OrganizationSpecialty[]
+    preVetEducation: PreVetEducation[]
+    vetEducation: VetEducation[]
+    addressData: PrivateDoctorAddressData[]
+    description: string
+    servicedPets: ServicedPetItem[]
+    verified: boolean
+    publiclyAvailable: boolean
   }
 
   type DoctorAccountDispatchers = {

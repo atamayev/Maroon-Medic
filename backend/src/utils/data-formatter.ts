@@ -3,7 +3,7 @@ import { Dayjs } from "dayjs"
 import TimeUtils from "./time"
 
 export default new class Format {
-	personalData(results: {firstName: string, lastName: string, gender: string, dateOfBirth: string}): FormattedPersonalData {
+	personalData(results: UserInfo): FormattedPersonalData {
 		const dateOfBirth: Dayjs = TimeUtils.simpleDayJSConvert(results.dateOfBirth)
 		const personalData = {
 			firstName: results.firstName,

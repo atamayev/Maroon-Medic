@@ -19,7 +19,7 @@ export default async function modifyAddressData(
 		if (response.status === 200) {
 			let newAddressData
 
-			if (operation === PrivateDoctorDataService.addAddressData) {
+			if (operation === PrivateDoctorDataService.addAddressData && typeof response.data === "number") {
 				address.addressesId = response.data
 				newAddressData = [...DoctorAccountDetails.addressData, address]
 			} else if (operation === PrivateDoctorDataService.updateAddressData) {

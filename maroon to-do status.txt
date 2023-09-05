@@ -1,14 +1,13 @@
 To-do:
 
 ASAP:
-
+	
+18. Context Stuff
+	Currently, calling verify context on every re-render
 10. Make the pets in the patient header be the pets that the user has
 11. Fix calendar appointments not rendering
 12. Write the logic that makes sure that when making a booking, the vet is able to service the pet that the user has. See below
-15. Change the JWT/access token to send through the auth header instead of as a cookie (better for security, mobile integration)
-	also for uuid.
 16. make a new footer
-17. Add a return type to all data service functions (extend the axios response)
 
 -add choose your pet to make an appointment. if the user isn't logged in, show a login/register button in the booking section.
 	the first question should be: choose which pet you would like to take to the vet

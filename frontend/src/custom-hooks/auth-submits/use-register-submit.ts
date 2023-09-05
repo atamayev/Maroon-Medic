@@ -23,7 +23,12 @@ const useRegisterSubmit = (
 		try {
 			setLoading(true)
 			const response = await AuthDataService.register(registerInformationObject)
-			if (response.status === 200) navigate(`/new-${VetOrPatient.toLowerCase()}`)
+			if (response.status === 200) {
+				if (VetOrPatient === "Vet") sessionStorage.setItem("UserType", "Doctor")
+				else sessionStorage.setItem("UserType", "Patient")
+
+				navigate(`/new-${VetOrPatient.toLowerCase()}`)
+			}
 		} catch (error: unknown) {
 			handle401AxiosErrorAndSetCustomError(error, setError)
 		}

@@ -1,3 +1,4 @@
+import _ from "lodash"
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
 import handle401AxiosError from "src/utils/handle-errors/handle-401-axios-error"
 
@@ -12,7 +13,7 @@ export default async function fetchDoctorPersonalInfo (
 	}
 
 	if (response) {
-		setHeaderData(response.data.FirstName)
+		setHeaderData("Dr. " + _.upperFirst(response.data.lastName))
 		sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(response.data))
 	}
 }

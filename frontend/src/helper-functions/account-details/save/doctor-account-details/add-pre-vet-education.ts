@@ -10,7 +10,7 @@ export default async function addPreVetEducation(
 	setPreVetEducationConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
 	try {
-		const mappedPreVetGeneralEducationItem = {
+		const mappedPreVetGeneralEducationItem: PreVetEducationData = {
 			schoolId: listDetails.preVetSchools
 				.find(school => school.schoolName === preVetGeneralEducationItem.schoolName)!.preVetSchoolListId,
 			majorId: listDetails.majors.find(major => major.majorName === preVetGeneralEducationItem.majorName)!.majorListId,
@@ -20,7 +20,7 @@ export default async function addPreVetEducation(
 			endDate: moment(preVetGeneralEducationItem.endDate, "MMMM D, YYYY").format("YYYY-MM-DD")
 		}
 		const response = await PrivateDoctorDataService.addPreVetEducationData(mappedPreVetGeneralEducationItem)
-		if (response.status === 200) {
+		if (response.status === 200 && typeof response.data === "number") {
 			preVetGeneralEducationItem.preVetEducationMappingId = response.data
 			const newPreVetEducation = [...preVetEducation, preVetGeneralEducationItem]
 			setPreVetEducation(newPreVetEducation)

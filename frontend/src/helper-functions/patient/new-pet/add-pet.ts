@@ -26,7 +26,7 @@ export default async function addPet(
 		handle401AxiosErrorAndSetMessageType(error, setPetConfirmation)
 	}
 
-	if (response && response.status === 200) {
+	if (response && response.status === 200 && typeof response.data === "number") {
 		const updatedPetData = petDataOperations(petData, response.data)
 		const newPetData = [...savedPetData, updatedPetData]
 		setSavedPetData(newPetData)

@@ -61,7 +61,7 @@ export async function fetchPersonalData (req: Request, res: Response): Promise<R
 	}
 }
 
-export async function pets (req: Request, res: Response): Promise<void> {
+export async function fetchPetData (req: Request, res: Response): Promise<void> {
 	const patientId = req.patientId
 	const operation: () => Promise<CompletePetInfo[]> = async () => {
 		return await FetchPatientAccountData.pets(patientId)

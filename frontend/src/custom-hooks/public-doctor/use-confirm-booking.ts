@@ -11,7 +11,7 @@ interface ConfirmBookingProps {
 export default function useConfirmBooking(): (props: ConfirmBookingProps) => Promise<void> {
 	const navigate = useNavigate()
 	return async ({appointmentInformation, serviceMinutes, personalData, message}: ConfirmBookingProps): Promise<void> => {
-		const appointmentObject = {
+		const appointmentObject: AppointmentObject = {
 			serviceAndCategoryListId: appointmentInformation.selectedService!.serviceAndCategoryListId,
 			appointmentDate: appointmentInformation.selectedDay!,
 			appointmentTime: appointmentInformation.selectedTime!,
