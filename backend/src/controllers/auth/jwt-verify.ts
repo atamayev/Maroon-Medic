@@ -2,7 +2,7 @@ import _ from "lodash"
 import { Response, Request } from "express"
 import AuthDB from "../../db/auth-db"
 import Cookie from "../../utils/cookie-operations"
-import { getDecodedUUID } from "../../utils/auth-helpers"
+import { extractAccessToken, getDecodedUUID } from "../../utils/auth-helpers"
 
 export default async function jwtVerify(req: Request, res: Response): Promise<Response> {
 	const userType = req.headers["user-type"] as DoctorOrPatient | undefined
@@ -12,12 +12,7 @@ export default async function jwtVerify(req: Request, res: Response): Promise<Re
 		return res.status(401).json({ shouldRedirect: true, redirectURL: "/" })
 	}
 
-	const authHeader = req.headers.authorization
-	let accessToken: string | undefined
-
-	if (authHeader && authHeader.startsWith("Bearer ")) {
-		accessToken = authHeader.split(" ")[1]
-	}
+	const accessToken = extractAccessToken(req)
 
 	if (_.isUndefined(accessToken) || _.isUndefined(userType)) {
 		Cookie.clearAll(res)

@@ -6,7 +6,6 @@ declare global {
 			headers: {
 				"uuid": string
 				"user-type": "Doctor" | "Patient"
-				"new-user": boolean
 				"authorization": string
 			}
 			params: {

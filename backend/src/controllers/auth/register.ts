@@ -39,12 +39,11 @@ export default async function register (req: Request, res: Response): Promise<Re
 
 	const idKey = `${loginType}Id`
 	const UUID = await ID_to_UUID(userId)
-	const payload = { [idKey]: UUID }
+	const payload = { [idKey]: UUID, newUser: true }
 
 	const token = signJWT(payload, loginType)
 	if (!token) return res.status(500).json({ error: "Problem with Signing JWT" })
 
-	const newUserUUID = await ID_to_UUID(userId)
 	await loginHistory(userId)
 
 	Cookie.clearAll(res)
@@ -52,7 +51,6 @@ export default async function register (req: Request, res: Response): Promise<Re
 	return res
 		.cookie("AccessToken", token)
 		.cookie("UUID", UUID)
-		.cookie("NewUser", newUserUUID)
 		.status(200)
 		.json()
 }

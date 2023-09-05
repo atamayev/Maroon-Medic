@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken"
 import Hash from "../setup-and-security/hash"
 import AuthDB from "../db/auth-db"
+import { Request } from "express"
 
 export async function handleLogoutInDB(UUID: string): Promise<void> {
 	try {
@@ -19,6 +20,26 @@ export function getDecodedUUID(responseType: string, accessToken: string): strin
 	}
 
 	return ""
+}
+
+export function getDecodedNewUser(responseType: string, accessToken: string): boolean {
+	const jwtKey = responseType === "Patient" ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY
+	const payload = jwt.verify(accessToken, jwtKey) as JwtPayload
+
+	if (typeof payload === "object") {
+		return (payload as JwtPayload).newUser as boolean
+	}
+
+	return false
+}
+
+export function extractAccessToken(req: Request): string | undefined {
+	const authHeader = req.headers.authorization
+	let accessToken: string | undefined
+	if (authHeader && authHeader.startsWith("Bearer ")) {
+		accessToken = authHeader.split(" ")[1]
+	}
+	return accessToken
 }
 
 export function validateUserType(type: string): type is "Doctor" | "Patient" {

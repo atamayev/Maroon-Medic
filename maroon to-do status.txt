@@ -1,7 +1,10 @@
 To-do:
 
 ASAP:
-	
+
+When registering, should .cookie("NewUser", newUserUUID) be a boolean or a string. used differently in different places
+	see http-common
+	see new-user-confirmation
 18. Context Stuff
 	Currently, calling verify context on every re-render
 10. Make the pets in the patient header be the pets that the user has

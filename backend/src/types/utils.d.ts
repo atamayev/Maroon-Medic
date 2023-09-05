@@ -7,6 +7,7 @@ declare global {
     DoctorId?: string
     PatientId?: string
     exp?: number
+	newUser?: boolean
   }
 
   type UserIdAndPassword = {

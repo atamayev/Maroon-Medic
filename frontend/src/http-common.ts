@@ -9,19 +9,16 @@ const http = axios.create({
 	}
 })
 
-
 http.interceptors.request.use((config) => {
-	// Retrieve values from session storage
+	// Retrieve values from session storage/cookies
 	const userType = sessionStorage.getItem("UserType")
 	const accessToken = cookieCheck.getCookie("AccessToken")
 	const UUID = cookieCheck.getCookie("UUID")
-	const newUser = cookieCheck.getCookie("NewUser")
 
 	// Update headers
 	if (userType) config.headers["user-type"] = userType
 	if (accessToken) config.headers["authorization"] = `Bearer ${accessToken}`
 	if (UUID) config.headers["uuid"] = UUID
-	if (newUser) config.headers["new-user"] = newUser
 
 	return config
 })
