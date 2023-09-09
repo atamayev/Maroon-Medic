@@ -3,19 +3,20 @@ import LoginHistory from "../../../components/login-history"
 import ChangePassword from "../../../components/change-password/change-password"
 import useSetLoginHistory from "../../../custom-hooks/use-set-login-history"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
-import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import DoctorHeader from "../doctor-header"
+import { useContext } from "react"
+import { AppContext } from "src/contexts/maroon-context"
 
 function DoctorLoginAndSecurity () {
-	const { userType } = useSimpleUserVerification()
-	const loginHistory = useSetLoginHistory(userType, "Doctor")
+	const appContext = useContext(AppContext)
+	const loginHistory = useSetLoginHistory(appContext.userType, "Doctor")
 
-	if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
+	if (appContext.userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
 	return (
 		<>
 			<DoctorHeader/>
-			<ChangePassword type = {userType}/>
+			<ChangePassword type = {appContext.userType}/>
 			{loginHistory.map((item, index) => (
 				<LoginHistory key = {index} loginHistoryItem = {item} />
 			))}

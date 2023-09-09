@@ -1,14 +1,15 @@
-import { useEffect } from "react"
+import _ from "lodash"
+import { useContext, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import useSimpleUserVerification from "./use-simple-user-verification"
+import { AppContext } from "src/contexts/maroon-context"
 
-const useConfirmNotLoggedIn = (clearSession = true): void => {
-	const { userType } = useSimpleUserVerification(clearSession)
+const useConfirmNotLoggedIn = (): void => {
+	const appContext = useContext(AppContext)
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		if (userType ) navigate("/dashboard")
-	}, [userType, navigate])
+		if (!_.isNil(appContext.userType)) navigate("/dashboard")
+	}, [appContext.userType])
 }
 
 export default useConfirmNotLoggedIn

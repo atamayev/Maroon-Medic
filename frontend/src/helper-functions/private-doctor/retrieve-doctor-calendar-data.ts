@@ -1,8 +1,6 @@
 import fetchDoctorCalendarDetails from "./fetch-calendar-details"
 
-const retrieveDoctorCalendarData = async (userType: DoctorOrPatientOrNull): Promise<DoctorCalendarEvent[]> => {
-	if (userType !== "Doctor") return []
-
+const retrieveDoctorCalendarData = async (): Promise<DoctorCalendarEvent[]> => {
 	try {
 		const storedCalendarData = sessionStorage.getItem("DoctorCalendarDetails")
 		if (storedCalendarData) return JSON.parse(storedCalendarData)

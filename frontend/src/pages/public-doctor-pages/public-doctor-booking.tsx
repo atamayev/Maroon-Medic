@@ -1,9 +1,9 @@
 import _ from "lodash"
 import moment from "moment"
-import { useState, useEffect } from "react"
+import { observer } from "mobx-react"
+import { useState, useEffect, useContext } from "react"
 import useFetchAndSetPetData from "src/custom-hooks/public-doctor/use-fetch-and-set-pet-data"
 import generateTimeSlots from "src/helper-functions/public-doctor/booking-page/generate-time-slots"
-import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
 import NoAvailableTimes from "src/components/booking/no-available-times"
 import PatientNotLoggedIn from "src/components/booking/patient-not-logged-in"
 import SelectLocation from "src/components/booking/select-location"
@@ -16,6 +16,7 @@ import DoctorDoesNotHaveLocations from "src/components/booking/doctor-does-not-h
 import DoctorDoesNotOfferServices from "src/components/booking/doctor-does-not-offer-services"
 import { getDayIndex } from "src/utils/time"
 import NoLocationHasTimes from "src/components/booking/no-location-has-times"
+import { AppContext } from "src/contexts/maroon-context"
 
 interface Props {
 	providedServices: ServiceItemNotNullablePrice[]
@@ -24,10 +25,10 @@ interface Props {
 }
 
 // eslint-disable-next-line max-lines-per-function
-export default function BookingSection(props: Props) {
+function BookingSection(props: Props) {
+	const appContext = useContext(AppContext)
 	const { providedServices, addresses, personalData } = props
-	const { userType } = useSimpleUserVerification(false)
-	const { savedPetData } = useFetchAndSetPetData(userType)
+	const { savedPetData } = useFetchAndSetPetData()
 	const [appointmentInformation, setAppointmentInformation] = useState<AppointmentInformation>({
 		selectedPet: null,
 		selectedService: null,
@@ -78,7 +79,7 @@ export default function BookingSection(props: Props) {
 	const anyLocationHasTimes = addresses.some(location => location.times && !_.isEmpty(location.times))
 
 	function MakeBooking () {
-		if (userType !== "Patient") return <PatientNotLoggedIn />
+		if (appContext.userType !== "Patient") return <PatientNotLoggedIn />
 		if (!anyLocationHasTimes) return <NoLocationHasTimes personalData = {personalData} />
 		if (_.isEmpty(addresses)) return <DoctorDoesNotHaveLocations personalData = {personalData} />
 		if (_.isEmpty(providedServices)) return <DoctorDoesNotOfferServices personalData = {personalData} />
@@ -143,3 +144,5 @@ export default function BookingSection(props: Props) {
 
 	return <MakeBooking />
 }
+
+export default observer(BookingSection)

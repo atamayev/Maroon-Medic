@@ -86,8 +86,6 @@ declare global {
 	newConfirmPassword: string
   }
 
-  type VerifyContextReturnType = Promise<{verified: boolean, userType?: DoctorOrPatientOrNull}>
-
   interface VerifyContextType {
 	userVerification: (clearSession: boolean) => VerifyContextReturnType
   }

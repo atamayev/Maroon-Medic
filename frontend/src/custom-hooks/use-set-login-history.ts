@@ -8,6 +8,7 @@ export default function useSetLoginHistory(
 	const [loginHistory, setLoginHistory] = useState<LoginHistoryItem[]>([])
 
 	const checkForLoginHistory: () => Promise<void> = async () => {
+		if (userType !== expectedUserType) return
 		try {
 			const storedLoginHistory = sessionStorage.getItem("LoginHistory")
 			if (storedLoginHistory) setLoginHistory(JSON.parse(storedLoginHistory))

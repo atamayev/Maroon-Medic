@@ -4,8 +4,8 @@ declare global {
   type MysqlTimestamp = string
 
   interface JwtPayload {
-    DoctorId?: string
-    PatientId?: string
+    DoctorUUID?: string
+    PatientUUID?: string
     exp?: number
 	newUser?: boolean
   }

@@ -1,10 +1,10 @@
 import _ from "lodash"
-import { Response, Request } from "express"
-import AuthDB from "../../db/auth-db"
-import Cookie from "../../utils/cookie-operations"
-import { extractAccessToken, getDecodedUUID } from "../../utils/auth-helpers"
+import { Request, Response, NextFunction } from "express"
+import AuthDB from "../db/auth-db"
+import Cookie from "../utils/cookie-operations"
+import { extractAccessToken, getDecodedUUID } from "../utils/auth-helpers"
 
-export default async function jwtVerify(req: Request, res: Response): Promise<Response> {
+export default async function jwtVerify(req: Request, res: Response, next: NextFunction): Promise<void| Response> {
 	const userType = req.headers["user-type"] as DoctorOrPatient | undefined
 
 	if (!userType) {
@@ -20,14 +20,15 @@ export default async function jwtVerify(req: Request, res: Response): Promise<Re
 	}
 
 	try {
-		const decodedUUID = getDecodedUUID(userType, accessToken)
-		const doesRecordExist = await AuthDB.checkIfUUIDExists(decodedUUID)
+		const UUID = getDecodedUUID(userType, accessToken)
+		const doesRecordExist = await AuthDB.checkIfUUIDExists(UUID)
 
 		if (doesRecordExist) {
-			return res.status(200).json({ isValid: true, type: userType })
+			req.headers.uuid = UUID
+			next()
 		}
 	} catch (error: unknown) {
-		console.log(error)
+		console.log("Error in JWT Verify", error)
 	}
 
 	const redirectURL = userType === "Doctor" ? "/vet-login" : "/patient-login"

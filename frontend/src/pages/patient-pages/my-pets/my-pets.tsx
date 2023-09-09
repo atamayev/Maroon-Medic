@@ -1,15 +1,16 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
-import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import useFetchPetData from "src/custom-hooks/use-fetch-pet-data"
 import PatientHeader from "../patient-header"
 import NewPet from "./new-pet"
 import ShowAddPet from "src/components/my-pets/show-add-pet"
 import SavedPetData from "src/components/my-pets/saved-pet-data/saved-pet-data"
+import { AppContext } from "src/contexts/maroon-context"
+import { observer } from "mobx-react"
 
-export default function MyPets() {
-	const { userType } = useSimpleUserVerification()
+function MyPets() {
+	const appContext = useContext(AppContext)
 	const [petConfirmation, setPetConfirmation] = useConfirmationMessage()
 	const [newPetData, setNewPetData] = useState<PetItemForCreation>(
 		{ name: "", gender:"", dateOfBirth: "", pet: "", petType: "", insuranceName: "", petListId: -1, insuranceListId: -1 }
@@ -17,9 +18,9 @@ export default function MyPets() {
 	const [showAddPet, setShowAddPet] = useState(false)
 	const [showModal, setShowModal] = useState(false)
 	const [petToDelete, setPetToDelete] = useState<SavedPetItem | null>(null)
-	const { savedPetData, setSavedPetData, petTypes, insurances } = useFetchPetData(userType)
+	const { savedPetData, setSavedPetData, petTypes, insurances } = useFetchPetData(appContext.userType)
 
-	if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
+	if (appContext.userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
 	return (
 		<>
@@ -51,3 +52,5 @@ export default function MyPets() {
 		</>
 	)
 }
+
+export default observer(MyPets)

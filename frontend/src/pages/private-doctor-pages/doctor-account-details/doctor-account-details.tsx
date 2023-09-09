@@ -1,6 +1,6 @@
-import { useState } from "react"
+import { observer } from "mobx-react"
+import { useContext, useState } from "react"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
-import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import DoctorHeader from "../doctor-header"
 import PetsSection from "./pets"
 import ServiceSection from "./service"
@@ -15,10 +15,11 @@ import VerificationSection from "./verification-status"
 import PreVetEducationSection from "./pre-vet-education"
 import PersonalInfoLinkSection from "./personalInfoLink"
 import useSetDoctorAccountDetails from "src/custom-hooks/account-details/use-set-doctor-account-details"
+import { AppContext } from "src/contexts/maroon-context"
 
 // eslint-disable-next-line complexity, max-lines-per-function
-export default function DoctorAccountDetails() {
-	const { userType } = useSimpleUserVerification()
+function DoctorAccountDetails() {
+	const appContext = useContext(AppContext)
 	const [listDetails, setListDetails] = useState<DoctorListDetails>({
 		languages: [],
 		servicesAndCategories: [],
@@ -78,7 +79,7 @@ export default function DoctorAccountDetails() {
 		dispatchers
 	)
 
-	if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
+	if (appContext.userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
 	return (
 		<div>
@@ -140,3 +141,5 @@ export default function DoctorAccountDetails() {
 		</div>
 	)
 }
+
+export default observer(DoctorAccountDetails)

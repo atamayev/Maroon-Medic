@@ -11,11 +11,16 @@ interface Props {
 function Layout (props: Props) {
 	const { showHeader, children, search, dropdown } = props
 
+	function IsShowHeader () {
+		if (!showHeader) return null
+		return <Header search = {search} dropdown = {dropdown} />
+	}
+
 	return (
 		<>
-			{showHeader && <Header search={search} dropdown={dropdown} />}
-			<div className="flex min-h-min justify-center" style={{ minHeight: "80.75vh" }}>
-				<div className="w-5/6" style={{ maxWidth: "4000px" }}>
+			<IsShowHeader />
+			<div className = "flex min-h-min justify-center" style = {{ minHeight: "80.75vh" }}>
+				<div className = "w-5/6" style = {{ maxWidth: "4000px" }}>
 					<div>
 						{children}
 					</div>

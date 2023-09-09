@@ -4,12 +4,12 @@ import {
 	makeAppointment,
 	confirmAppointment
 } from "../controllers/calendar-controller"
-import GetIDFromUUID from "../utils/get-id-from-uuid"
+import GetIDFromUUID from "../middleware/get-id-from-uuid"
 
 const router = express.Router()
 
 router.post("/make-appointment", GetIDFromUUID.patient, makeAppointment)
 router.get("/get-doctor-calendar-details", GetIDFromUUID.doctor, getDoctorCalendarDetails)
-router.patch("/confirm-appointment", confirmAppointment)
+router.patch("/confirm-appointment", GetIDFromUUID.doctor, confirmAppointment)
 
 export default router

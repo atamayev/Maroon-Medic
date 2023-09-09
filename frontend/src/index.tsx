@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { disableReactDevTools } from "@fvilers/disable-react-devtools"
 import "./styles/index.css"
 import App from "./App"
-import { VerifyContextProvider } from "./contexts/verify-context"
 import { SearchContextProvider } from "./contexts/search-context"
 import TopLevelComponent from "./top-level-component"
 
@@ -17,15 +16,13 @@ root.render(
 	// <React.StrictMode>
 	<BrowserRouter>
 		<TopLevelComponent>
-			<VerifyContextProvider>
-				<SearchContextProvider>
+			<SearchContextProvider>
 
-					<Routes>
-						<Route path = "/*" element = {<App/>} />
-					</Routes>
+				<Routes>
+					<Route path = "/*" element = {<App/>} />
+				</Routes>
 
-				</SearchContextProvider>
-			</VerifyContextProvider>
+			</SearchContextProvider>
 		</TopLevelComponent>
 	</BrowserRouter>
 	// </React.StrictMode>

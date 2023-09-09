@@ -2,8 +2,9 @@ import { useState } from "react"
 import useRegisterSubmit from "src/custom-hooks/auth-submits/use-register-submit"
 import LoginAndRegistrationForm from "../../components/login-and-registration-form/login-and-registration-form"
 import useConfirmNotLoggedIn from "../../custom-hooks/use-confirm-not-logged-in"
+import { observer } from "mobx-react"
 
-export default function PatietRegister() {
+function PatientRegister() {
 	const VetOrPatient = "Patient"
 	const [registerInformationObject, setRegisterInformationObject] = useState<AuthCredentials>(
 		{loginType: VetOrPatient, email: "", password: ""}
@@ -14,7 +15,7 @@ export default function PatietRegister() {
 	const [showPassword, setShowPassword] = useState(false)
 	const { registerSubmit } = useRegisterSubmit(setError, setLoading, VetOrPatient)
 
-	useConfirmNotLoggedIn(false)
+	useConfirmNotLoggedIn()
 
 	return (
 		<LoginAndRegistrationForm
@@ -32,3 +33,5 @@ export default function PatietRegister() {
 		/>
 	)
 }
+
+export default observer(PatientRegister)

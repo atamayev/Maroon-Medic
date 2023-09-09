@@ -13,12 +13,10 @@ http.interceptors.request.use((config) => {
 	// Retrieve values from session storage/cookies
 	const userType = sessionStorage.getItem("UserType")
 	const accessToken = cookieCheck.getCookie("AccessToken")
-	const UUID = cookieCheck.getCookie("UUID")
 
 	// Update headers
 	if (userType) config.headers["user-type"] = userType
 	if (accessToken) config.headers["authorization"] = `Bearer ${accessToken}`
-	if (UUID) config.headers["uuid"] = UUID
 
 	return config
 })

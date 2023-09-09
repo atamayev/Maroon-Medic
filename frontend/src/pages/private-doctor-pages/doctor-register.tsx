@@ -1,9 +1,10 @@
 import { useState } from "react"
+import { observer } from "mobx-react"
 import useRegisterSubmit from "src/custom-hooks/auth-submits/use-register-submit"
 import useConfirmNotLoggedIn from "../../custom-hooks/use-confirm-not-logged-in"
 import LoginAndRegistrationForm from "../../components/login-and-registration-form/login-and-registration-form"
 
-export default function DoctorRegister() {
+function DoctorRegister() {
 	const [registerInformationObject, setRegisterInformationObject] = useState<AuthCredentials>(
 		{loginType: "Doctor", email: "", password: ""}
 	)
@@ -31,3 +32,5 @@ export default function DoctorRegister() {
 		/>
 	)
 }
+
+export default observer(DoctorRegister)

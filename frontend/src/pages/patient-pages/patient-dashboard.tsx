@@ -1,17 +1,18 @@
 import _ from "lodash"
 import moment from "moment"
-import { useEffect, useState } from "react"
+import { observer } from "mobx-react"
+import { useContext, useEffect, useState } from "react"
 import UnauthorizedUser from "../../components/unauthorized-user/unauthorized-user"
 import useSetPatientDashboardData from "src/custom-hooks/use-set-patient-dashboard-data"
-import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
 import PatientHeader from "./patient-header"
 import UpcomingAppointmentsSection from "src/components/patient-dashboard/upcoming-appointments/upcoming-appointments-section"
 import PastAppointmentsSection from "src/components/patient-dashboard/past-appointments/past-appointments-section"
 import PersonalInfo from "src/components/patient-dashboard/personal-info"
 import retrieveFromSessionStorage from "src/utils/retrieve-from-session-storage"
+import { AppContext } from "src/contexts/maroon-context"
 
-export default function PatientDashboard() {
-	const { userType } = useSimpleUserVerification()
+function PatientDashboard() {
+	const appContext = useContext(AppContext)
 	const { dashboardData } = useSetPatientDashboardData()
 	const patientPersonalInfo = retrieveFromSessionStorage("PatientPersonalInfo") as BirthDateInfo
 	const [personalInfo, setPersonalInfo] = useState<BirthDateInfo>(patientPersonalInfo)
@@ -19,7 +20,7 @@ export default function PatientDashboard() {
 	const [upcomingAppointments, setUpcomingAppointments] = useState<PatientDashboardData[]>([])
 
 	useEffect(() => {
-		if (userType !== "Patient") return
+		if (appContext.userType !== "Patient") return
 		const interval = setInterval(() => {
 			const sessionInfo = sessionStorage.getItem("PatientPersonalInfo")
 			if (sessionInfo) {
@@ -35,7 +36,7 @@ export default function PatientDashboard() {
 	}, [])
 
 	useEffect(() => {
-		if (!_.isEmpty(dashboardData) && userType === "Patient") {
+		if (!_.isEmpty(dashboardData) && appContext.userType === "Patient") {
 			const now = moment()
 			const pastPatientAppointments = dashboardData.filter(appointment =>
 				moment(appointment.appointmentDate, "MMMM Do, YYYY, h:mm A") < now
@@ -49,7 +50,7 @@ export default function PatientDashboard() {
 		}
 	}, [dashboardData])
 
-	if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
+	if (appContext.userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
 	function DashboardData () {
 		if (_.isEmpty(dashboardData)) return <>No upcoming appointments</>
@@ -69,3 +70,5 @@ export default function PatientDashboard() {
 		</div>
 	)
 }
+
+export default observer(PatientDashboard)

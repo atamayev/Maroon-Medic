@@ -32,9 +32,12 @@ export default async function login (req: Request, res: Response): Promise<Respo
 	}
 
 	if (bool === false) return res.status(400).json({ error: "Wrong Username or Password!" })
-	const idKey = `${loginType}Id`
+	const idKey = `${loginType}UUID`
 	const UUID = await ID_to_UUID(results.userId)
-	const payload = { [idKey]: UUID }
+	const payload: JwtPayload = {
+		[idKey]: UUID,
+		newUser: false
+	}
 
 	const token = signJWT(payload, loginType)
 	if (!token) return res.status(500).json({ error: "Problem with Signing JWT" })
@@ -43,11 +46,8 @@ export default async function login (req: Request, res: Response): Promise<Respo
 
 	Cookie.clearAll(res)
 
-	// const expires = new Date(Date.now() + expirationTime *1000)
-
 	return res
 		.cookie("AccessToken", token)
-		.cookie("UUID", UUID)
 		.status(200)
-		.json()
+		.json({ authenticated: true, userType: loginType })
 }

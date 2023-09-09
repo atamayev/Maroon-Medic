@@ -1,35 +1,33 @@
 import { makeAutoObservable } from "mobx"
 import { createContext } from "react"
-import cookieCheck from "src/utils/cookie-check"
+import { PersonalInfoContext } from "./personal-info-context"
 
 export class MaroonContext {
 	constructor() {
 		makeAutoObservable(this)
-		this.UUID = cookieCheck.getCookie("UUID")
-		this.accessToken = cookieCheck.getCookie("AccessToken")
-		this.userType = cookieCheck.getCookie("UserType") as "Doctor" | "Patient" | null
-		this.newUser = cookieCheck.getCookie("NewUser") === "true"
 	}
 
-	private _UUID: string | null = null
-	private _accessToken: string | null = null
-	private _userType: "Doctor" | "Patient" | null = null
+	private _isAuthenticated: boolean = false
+	private _userType: DoctorOrPatientOrNull = null
 	private _newUser: boolean = false
+	private _personalInfo: PersonalInfoContext | null = null
 
-	get UUID(): string | null {
-		return this._UUID
+	initializePersonalInfo(birthDateInfo: BirthDateInfo): void {
+		if (this.isAuthenticated && this._userType) {
+			this._personalInfo = new PersonalInfoContext(birthDateInfo)
+		}
 	}
 
-	get accessToken(): string | null {
-		return this._accessToken
+	get isAuthenticated(): boolean {
+		return this._isAuthenticated
 	}
 
-	set UUID(value: string | null) {
-		this._UUID = value
+	set isAuthenticated(value: boolean) {
+		this._isAuthenticated = value
 	}
 
-	set accessToken(value: string | null) {
-		this._accessToken = value
+	get personalInfo(): PersonalInfoContext | null {
+		return this._personalInfo
 	}
 
 	get userType(): "Doctor" | "Patient" | null {

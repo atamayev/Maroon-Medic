@@ -1,15 +1,14 @@
 import { useContext } from "react"
 import SettingsLinks from "../../../components/settings-links"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
-import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import DoctorHeader from "../doctor-header"
 import { AppContext } from "src/contexts/maroon-context"
+import { observer } from "mobx-react"
 
-export default function DoctorSettingsCards() {
-	const { userType } = useSimpleUserVerification()
+function DoctorSettingsCards() {
 	const appContext = useContext(AppContext)
-	console.log(appContext.UUID)
-	if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
+
+	if (appContext.userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
 	return (
 		<>
@@ -22,3 +21,5 @@ export default function DoctorSettingsCards() {
 		</>
 	)
 }
+
+export default observer(DoctorSettingsCards)

@@ -11,12 +11,15 @@ export async function handleLogoutInDB(UUID: string): Promise<void> {
 }
 
 export function getDecodedUUID(responseType: string, accessToken: string): string {
-	const jwtKey = responseType === "Patient" ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY
+	let jwtKey
+	if (responseType === "Patient") jwtKey = process.env.PATIENT_JWT_KEY
+	else jwtKey = process.env.DOCTOR_JWT_KEY
+
 	const payload = jwt.verify(accessToken, jwtKey) as JwtPayload
 
 	if (typeof payload === "object") {
-		if (responseType === "Doctor") return (payload as JwtPayload).DoctorId as string
-		else return (payload as JwtPayload).PatientId as string
+		if (responseType === "Doctor") return (payload as JwtPayload).DoctorUUID as string
+		else return (payload as JwtPayload).PatientUUID as string
 	}
 
 	return ""

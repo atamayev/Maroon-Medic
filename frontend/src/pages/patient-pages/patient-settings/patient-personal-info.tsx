@@ -1,7 +1,8 @@
+import { useContext } from "react"
+import { observer } from "mobx-react"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
-import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import useSetPersonalInfo from "../../../custom-hooks/use-set-personal-info"
 import savePersonalInfo from "src/helper-functions/shared/save-personal-info"
 import FirstNameInput from "src/components/personal-info-inputs/first-name-input"
@@ -10,14 +11,14 @@ import GenderSection from "src/components/personal-info-inputs/gender-input"
 import DOBSection from "src/components/date-of-birth/dob-section"
 import PatientHeader from "../patient-header"
 import Button from "src/components/button"
+import { AppContext } from "src/contexts/maroon-context"
 
-export default function PatientPersonalInfo() {
-	const { userType } = useSimpleUserVerification()
-
-	const {personalInfo, setPersonalInfo} = useSetPersonalInfo(userType, "Patient")
+function PatientPersonalInfo() {
+	const appContext = useContext(AppContext)
+	const { personalInfo, setPersonalInfo } = useSetPersonalInfo(appContext.userType, "Patient")
 	const [personalInfoConfirmation, setPersonalInfoConfirmation] = useConfirmationMessage()
 
-	if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
+	if (appContext.userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
 	return (
 		<div>
@@ -27,7 +28,7 @@ export default function PatientPersonalInfo() {
 					<form
 						onSubmit={(e) => {
 							e.preventDefault()
-							savePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)
+							savePersonalInfo(personalInfo, setPersonalInfoConfirmation, appContext.userType!)
 						}}
 						className="space-y-4"
 					>
@@ -52,3 +53,5 @@ export default function PatientPersonalInfo() {
 		</div>
 	)
 }
+
+export default observer(PatientPersonalInfo)

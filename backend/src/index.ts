@@ -11,7 +11,8 @@ import publicDoctorDataRoutes from "./routes/public-doctor-data-routes"
 import searchRoutes from "./routes/search-ROUTES"
 import calendarRoutes from "./routes/calendar-routes"
 import listsRoutes from "./routes/lists-routes"
-import GetIDFromUUID from "./utils/get-id-from-uuid"
+import GetIDFromUUID from "./middleware/get-id-from-uuid"
+import jwtVerify from "./middleware/jwt-verify"
 
 dotenv.config()
 
@@ -62,11 +63,11 @@ app.use(cookieParser())
 app.use(express.json())
 
 app.use("/api/auth", authRoutes)
-app.use("/api/private-doctor-data", GetIDFromUUID.doctor, privateDoctorDataRoutes)
-app.use("/api/private-patient-data", GetIDFromUUID.patient, privatePatientDataRoutes)
+app.use("/api/private-doctor-data", jwtVerify, GetIDFromUUID.doctor, privateDoctorDataRoutes)
+app.use("/api/private-patient-data", jwtVerify, GetIDFromUUID.patient, privatePatientDataRoutes)
 app.use("/api/public-doctor-data", publicDoctorDataRoutes)
 app.use("/api/search", searchRoutes)
-app.use("/api/calendar", calendarRoutes)
+app.use("/api/calendar", jwtVerify, calendarRoutes)
 app.use("/api/lists", listsRoutes)
 app.use("*", (req, res) => res.status(404).json({ error: "Route not found"}))
 

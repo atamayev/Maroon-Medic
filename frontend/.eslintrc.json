@@ -32,7 +32,7 @@
 				"selector": "variable",
 				"format": ["camelCase"],
 				"filter": {
-				  "regex": "^(DoctorAccountDetails|PatientAccountDetails|VetOrPatient|UUID)$",
+				  "regex": "^(DoctorAccountDetails|PatientAccountDetails|VetOrPatient)$",
 				  "match": false
 				}
 			},
@@ -44,7 +44,7 @@
 				"selector": "parameter",
 				"format": ["camelCase"],
 				"filter": {
-					"regex": "^(DoctorAccountDetails|PatientAccountDetails|VetOrPatient|UUID)$",
+					"regex": "^(DoctorAccountDetails|PatientAccountDetails|VetOrPatient)$",
 					"match": false
 				}
 			},

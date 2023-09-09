@@ -1,9 +1,30 @@
 To-do:
 
-ASAP:
+Current problem:
+1. User type/access Token incorrectly set to the context
+2. Add the new info context logic to the use-register-submit also
+
+Consider making seperate JWT functions for patient and doctor. This way, userType won't be needed as a header
+
+
+See what happens when a previously assigned access token is re-assgined as a cookie
+Does the doctor get the privileges of the old doctor? Shouldn't happen, if the uuid is unique to the first doctor. 
+
+replace const appContext = useContext(AppContext) with 
+		const { userType } = useContext(AppContext)
+	if only need one of the attributes of AppContext, and if only reading. if need to write, will not work (unless maybe use let?)
+
+
+Figure out if it makes sense to store userType both in session and on the context level
+	or is just session storage ok
+
+Make sure
+	sharedState.isAuthenticated = !!accessToken
+	is ok. try putting in a fake cookie token and seeing what happens
 
 Context Stuff
 	Currently, calling verify context on every re-render
+Make JWT verify into a middleware instead of a seperately called function. Consider making 
 10. Make the pets in the patient header be the pets that the user has
 11. Fix calendar appointments not rendering
 12. Write the logic that makes sure that when making a booking, the vet is able to service the pet that the user has. See below

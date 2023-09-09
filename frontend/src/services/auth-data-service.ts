@@ -5,17 +5,14 @@ export default new class AuthDataService {
 	async logout(): Promise<AxiosResponse<EmptyResponse | RedirectResponse>> {
 		return await http.post<EmptyResponse | RedirectResponse>("auth/logout")
 	}
-	async verify(): Promise<AxiosResponse<JWTResponse | RedirectResponse>> {
-		return await http.post<JWTResponse | RedirectResponse>("/auth/verify")
-	}
-	async login(loginInformationObject: AuthCredentials): Promise<AxiosResponse<EmptyResponse | ErrorResponse>> {
-		return await http.post<EmptyResponse | ErrorResponse>("/auth/login",
+	async login(loginInformationObject: AuthCredentials): Promise<AxiosResponse<LoginRegisterSuccess | ErrorResponse>> {
+		return await http.post<LoginRegisterSuccess | ErrorResponse>("/auth/login",
 			{loginInformationObject},
 			{withCredentials: true}
 		)
 	}
-	async register(registerInformationObject: AuthCredentials): Promise<AxiosResponse<EmptyResponse | ErrorResponse>> {
-		return await http.post<EmptyResponse | ErrorResponse>("/auth/register",
+	async register(registerInformationObject: AuthCredentials): Promise<AxiosResponse<LoginRegisterSuccess | ErrorResponse>> {
+		return await http.post<LoginRegisterSuccess | ErrorResponse>("/auth/register",
 			{registerInformationObject},
 			{withCredentials: true}
 		)

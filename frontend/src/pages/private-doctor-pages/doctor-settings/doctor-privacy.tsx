@@ -1,11 +1,13 @@
+import { useContext } from "react"
+import { observer } from "mobx-react"
+import { AppContext } from "src/contexts/maroon-context"
 import DoctorHeader from "../doctor-header"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
-import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 
-export default function DoctorPrivacy() {
-	const { userType } = useSimpleUserVerification()
+function DoctorPrivacy() {
+	const appContext = useContext(AppContext)
 
-	if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
+	if (appContext.userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
 	return (
 		<>
@@ -14,3 +16,5 @@ export default function DoctorPrivacy() {
 		</>
 	)
 }
+
+export default observer(DoctorPrivacy)

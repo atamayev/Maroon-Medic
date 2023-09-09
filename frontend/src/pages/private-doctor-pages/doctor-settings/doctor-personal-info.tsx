@@ -1,9 +1,9 @@
-
+import { useContext } from "react"
+import { observer } from "mobx-react"
 import Button from "src/components/button"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
-import useSimpleUserVerification from "../../../custom-hooks/use-simple-user-verification"
 import useSetPersonalInfo from "../../../custom-hooks/use-set-personal-info"
 import savePersonalInfo from "src/helper-functions/shared/save-personal-info"
 import FirstNameInput from "src/components/personal-info-inputs/first-name-input"
@@ -11,13 +11,14 @@ import LastNameInput from "src/components/personal-info-inputs/last-name-input"
 import GenderSection from "src/components/personal-info-inputs/gender-input"
 import DOBSection from "src/components/date-of-birth/dob-section"
 import DoctorHeader from "../doctor-header"
+import { AppContext } from "src/contexts/maroon-context"
 
-export default function DoctorPersonalInfo() {
-	const { userType } = useSimpleUserVerification()
-	const {personalInfo, setPersonalInfo } = useSetPersonalInfo(userType, "Doctor")
+function DoctorPersonalInfo() {
+	const appContext = useContext(AppContext)
+	const { personalInfo, setPersonalInfo } = useSetPersonalInfo(appContext.userType, "Doctor")
 	const [personalInfoConfirmation, setPersonalInfoConfirmation] = useConfirmationMessage()
 
-	if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
+	if (appContext.userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
 	return (
 		<div>
@@ -27,7 +28,7 @@ export default function DoctorPersonalInfo() {
 					<form
 						onSubmit = {(e) => {
 							e.preventDefault()
-							savePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)
+							savePersonalInfo(personalInfo, setPersonalInfoConfirmation, appContext.userType!)
 						}}>
 						<FirstNameInput personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
 						<LastNameInput personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
@@ -50,3 +51,5 @@ export default function DoctorPersonalInfo() {
 		</div>
 	)
 }
+
+export default observer(DoctorPersonalInfo)

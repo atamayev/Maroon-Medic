@@ -3,6 +3,7 @@ declare global {
 	type ErrorResponse = { error: string }
 	type RedirectResponse = { shouldRedirect: boolean, redirectURL: string }
 	type JWTResponse = { isValid: boolean, type: DoctorOrPatient }
+	type LoginRegisterSuccess = { authenticated: boolean, userType: DoctorOrPatient }
 }
 
 export {}

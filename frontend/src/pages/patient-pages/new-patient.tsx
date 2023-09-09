@@ -1,11 +1,11 @@
-import { useState, useEffect, useContext } from "react"
-import {useNavigate} from "react-router-dom"
-import { VerifyContext } from "../../contexts/verify-context"
-import AuthDataService from "../../services/auth-data-service"
+import { useState, useContext } from "react"
 import NewAccountForm from "../../components/new-account-form"
 import useNewUserSubmit from "../../custom-hooks/auth-submits/use-new-user-submit"
+import { AppContext } from "src/contexts/maroon-context"
+import { observer } from "mobx-react"
 
-export default function NewPatient () {
+function NewPatient () {
+	const appContext = useContext(AppContext)
 	const [newPatientInfo, setNewPatientInfo] = useState<BirthDateInfo>({
 		firstName: "",
 		lastName: "",
@@ -16,28 +16,10 @@ export default function NewPatient () {
 	})
 	const [error, setError] = useState("")
 	const [loading, setLoading] = useState(false)
-	const {userVerification} = useContext(VerifyContext)
-	const navigate = useNavigate()
 
 	const { newUserSubmit } = useNewUserSubmit(setError, setLoading, "Patient")
 
-	const verifyNewPatient = async () => {
-		try {
-			const result = await userVerification(false)
-			if (result.verified === true && result.userType === "Patient") {
-				const patientResult = await AuthDataService.newPatientConfirmation()
-				if (patientResult.data === false) navigate("/patient-register")
-			}
-			else if (result.verified === true && result.userType === "Doctor") navigate("/dashboard")
-			else navigate("/patient-register")
-		} catch (err) {
-			navigate("/")
-		}
-	}
-
-	useEffect(() => {
-		verifyNewPatient()
-	}, [])
+	if (appContext.userType !== "Patient") return null
 
 	return (
 		<NewAccountForm
@@ -49,3 +31,5 @@ export default function NewPatient () {
 		/>
 	)
 }
+
+export default observer(NewPatient)

@@ -1,18 +1,23 @@
 import { useState } from "react"
+import { observer } from "mobx-react"
 import useLoginSubmit from "src/custom-hooks/auth-submits/use-login-submit"
 import useConfirmNotLoggedIn from "../../custom-hooks/use-confirm-not-logged-in"
 import LoginAndRegistrationForm from "../../components/login-and-registration-form/login-and-registration-form"
 
-export default function DoctorLogin() {
+function DoctorLogin() {
 	const [loginInformationObject, setLoginInformationObject] =
-    useState<AuthCredentials>({loginType: "Doctor", email: "", password: ""})
+		useState<AuthCredentials>({
+			loginType: "Doctor",
+			email: "",
+			password: ""
+		})
 	const VetOrPatient = "Vet"
 	const [error, setError] = useState("")
 	const [loading, setLoading] = useState(false)
 	const [showPassword, setShowPassword] = useState(false)
 	const { loginSubmit } = useLoginSubmit(setError, setLoading, VetOrPatient)
 
-	useConfirmNotLoggedIn(false)
+	useConfirmNotLoggedIn()
 
 	return (
 		<LoginAndRegistrationForm
@@ -28,3 +33,5 @@ export default function DoctorLogin() {
 		/>
 	)
 }
+
+export default observer(DoctorLogin)

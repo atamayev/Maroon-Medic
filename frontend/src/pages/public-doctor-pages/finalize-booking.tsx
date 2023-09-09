@@ -1,21 +1,22 @@
-import { useEffect, useState } from "react"
+import { observer } from "mobx-react"
+import { useContext, useEffect, useState } from "react"
 import Button from "src/components/button"
 import { useNavigate, useLocation } from "react-router-dom"
 import UnauthorizedUser from "../../components/unauthorized-user/unauthorized-user"
-import useSimpleUserVerification from "../../custom-hooks/use-simple-user-verification"
 import useConfirmBooking from "../../custom-hooks/public-doctor/use-confirm-booking"
 import DoctorPersonalInfo from "src/components/finalize-booking/doctor-personal-info"
 import CustomPatientMessage from "src/components/finalize-booking/custom-patient-message"
 import FinalizeBookingCardText from "src/components/finalize-booking/finalize-booking-card-text"
 import retrieveFromSessionStorage from "src/utils/retrieve-from-session-storage"
+import { AppContext } from "src/contexts/maroon-context"
 
 // eslint-disable-next-line max-lines-per-function
-export default function FinalizeBookingPage() {
+function FinalizeBookingPage() {
+	const appContext = useContext(AppContext)
 	const [message, setMessage] = useState("")
 	const [isMessageOverLimit, setIsMessageOverLimit] = useState(false)
 	const browserLocation = useLocation()
 	const navigate = useNavigate()
-	const { userType } = useSimpleUserVerification(false)
 
 	let appointmentInformation: AppointmentInformation = {} as AppointmentInformation
 	let serviceMinutes: number = -1
@@ -51,7 +52,7 @@ export default function FinalizeBookingPage() {
 		return null
 	}
 
-	if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
+	if (appContext.userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
 	function ConfirmOrRequestBook () {
 		if (appointmentInformation.selectedLocation?.instantBook) return "Confirm"
@@ -104,3 +105,5 @@ export default function FinalizeBookingPage() {
 		</div>
 	)
 }
+
+export default observer(FinalizeBookingPage)

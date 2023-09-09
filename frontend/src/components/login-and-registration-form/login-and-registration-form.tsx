@@ -55,7 +55,7 @@ export default function LoginAndRegistrationForm({
 			<div className = "mt-5 mx-2 bg-white border shadow rounded-lg p-6 w-7/12 mx-auto">
 				<h1
 					className = "flex justify-center mx-auto mb-4 text-5xl font-extrabold \
-					leading-none tracking-tight text-gray-900"
+						leading-none tracking-tight text-gray-900"
 				>
 					{VetOrPatient} {loginOrSignUp}
 				</h1>
