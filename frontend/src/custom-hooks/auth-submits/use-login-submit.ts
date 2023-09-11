@@ -28,11 +28,11 @@ const useLoginSubmit = (
 				appContext.isAuthenticated = true
 				if (VetOrPatient === "Vet") {
 					// appContext.userType = "Doctor"
-					sessionStorage.setItem("UserType", "Doctor")
+					localStorage.setItem("UserType", "Doctor")
 				}
 				else {
 					// appContext.userType = "Patient"
-					sessionStorage.setItem("UserType", "Patient")
+					localStorage.setItem("UserType", "Patient")
 				}
 
 				if ((sessionStorage.getItem("bookingDetails") !== null) && VetOrPatient === "Patient") {

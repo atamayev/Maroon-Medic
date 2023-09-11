@@ -27,7 +27,10 @@ function DropdownItems ({ dropdown } : Props) {
 	const handleLogout = async () => {
 		try {
 			const response = await AuthDataService.logout()
-			if (response.status === 200) sessionStorage.clear()
+			if (response.status === 200) {
+				localStorage.clear()
+				sessionStorage.clear()
+			}
 		} catch (error) {
 		}
 		handleRefresh()

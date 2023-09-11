@@ -7,12 +7,9 @@ Fix the types on the vet education, prevet education in fetch public doctor data
 	fix in front-end as well.
 
 Current problem:
--Move userType to localS storage (to persist across tabs)
 1. User type/access Token incorrectly set to the context
-2. Add the new info context logic to the use-register-submit also
 
 Consider making seperate JWT functions for patient and doctor. This way, userType won't be needed as a header
-
 
 See what happens when a previously assigned access token is re-assgined as a cookie
 Does the doctor get the privileges of the old doctor? Shouldn't happen, if the uuid is unique to the first doctor. 
@@ -42,29 +39,9 @@ recheck if the rapid reload here makes sense:
 		return () => clearInterval(interval)
 	}, [])
 
-
-Figure out the best way to call the PersonalInfoContext and the dashboard data context (is it just by doing appContext.dashboardData?)
-	Or should dashboard data be accessed directly via context?
-
 Context Stuff
 	Currently, calling verify context on every re-render
 Make JWT verify into a middleware instead of a seperately called function. Consider making 
-10. Make the pets in the patient header be the pets that the user has
-11. Fix calendar appointments not rendering
-12. Write the logic that makes sure that when making a booking, the vet is able to service the pet that the user has. See below
-16. make a new footer
-
--add choose your pet to make an appointment. if the user isn't logged in, show a login/register button in the booking section.
-	the first question should be: choose which pet you would like to take to the vet
-		if the user only has one vet, skip that question, and just set the state to that pet/pettype
-	if the vet doesn't service that specific pet type, then show message: "Dr. __ doesn't service [type of pet]". Have a dummy button that says: "Search for vets near you that service [pet type]"
-	after the appointment is made, should go to a confirmation page after the 'finalize-booking' page, which lists the details in pretty format. from there, have a button: go to dashboard
-
--setup postman to make making requests easier.
-	add the Doctor/Patient UUID as a cookie, and hit the endpoint directly
-		or, make the UUID be a header (ie authorizatoin header) whenever sending a req back and forth
-			don't make it doctorUUID or patientUUID, just make it UUID. same for AccessToken
-			think about the best way to structure the acess token/ uuid thing
 
 CONTEXT
 	When logging in, an object should be created that has 1) the user type, 2) the UUID 3) the AccessToken
@@ -90,8 +67,25 @@ CONTEXT
 
 			Move data like personal info into a context. If it's used by multiple components, move it into a context. Every time you navigate, show the context data, but call the API to check for changes simultaneously
 
-Work to make the naming of the types in the front/backend match up better
+10. Make the pets in the patient header be the pets that the user has
+11. Fix calendar appointments not rendering
+12. Write the logic that makes sure that when making a booking, the vet is able to service the pet that the user has. See below
+16. make a new footer
+
+Make the naming of the types in the front/backend match up better
 Make search context into a class. cleaner that way.
+
+-add choose your pet to make an appointment. if the user isn't logged in, show a login/register button in the booking section.
+	the first question should be: choose which pet you would like to take to the vet
+		if the user only has one vet, skip that question, and just set the state to that pet/pettype
+	if the vet doesn't service that specific pet type, then show message: "Dr. __ doesn't service [type of pet]". Have a dummy button that says: "Search for vets near you that service [pet type]"
+	after the appointment is made, should go to a confirmation page after the 'finalize-booking' page, which lists the details in pretty format. from there, have a button: go to dashboard
+
+-setup postman to make making requests easier.
+	add the Doctor/Patient UUID as a cookie, and hit the endpoint directly
+		or, make the UUID be a header (ie authorizatoin header) whenever sending a req back and forth
+			don't make it doctorUUID or patientUUID, just make it UUID. same for AccessToken
+			think about the best way to structure the acess token/ uuid thing
 
 On the My-Pets page, make each pet have it's own 'row' card, similar to addersses in doctor account details (shouldn't be able to close/open, always open)
 	show something like the picture on the left side, and then the details on the right. Details can include past appointments, other stuff (can always add later)

@@ -6,7 +6,7 @@ export default function TopLevelComponent ({ children } : { children: React.Reac
 	const sharedState = useMemo(() => new MaroonContext(), [])
 	const accessToken = cookieCheck.getCookie("AccessToken")
 	const userType: DoctorOrPatientOrUndefined = "Doctor"
-	// const userType = sessionStorage.getItem("UserType") as DoctorOrPatientOrNull
+	// const userType = localStorage.getItem("UserType") as DoctorOrPatientOrNull
 
 	sharedState.isAuthenticated = !!accessToken
 	sharedState.userType = userType

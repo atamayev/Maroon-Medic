@@ -1,6 +1,9 @@
 import { useNavigate } from "react-router-dom"
 import AuthDataService from "../../services/auth-data-service"
 import handle401AxiosErrorAndSetCustomError from "src/utils/handle-errors/handle-401-axios-error-and-set-custom-error"
+import { useContext } from "react"
+import { AppContext } from "src/contexts/maroon-context"
+import { isLoginRegisterSuccess } from "src/utils/type-checks"
 
 const useRegisterSubmit = (
 	setError: React.Dispatch<React.SetStateAction<string>>,
@@ -11,6 +14,7 @@ const useRegisterSubmit = (
   passwordConfirm: string) => Promise<void>
 } => {
 	const navigate = useNavigate()
+	const appContext = useContext(AppContext)
 
 	const registerSubmit = async (
 		e: React.FormEvent<HTMLFormElement>,
@@ -23,9 +27,16 @@ const useRegisterSubmit = (
 		try {
 			setLoading(true)
 			const response = await AuthDataService.register(registerInformationObject)
-			if (response.status === 200) {
-				if (VetOrPatient === "Vet") sessionStorage.setItem("UserType", "Doctor")
-				else sessionStorage.setItem("UserType", "Patient")
+			if (response.status === 200  && isLoginRegisterSuccess(response.data)) {
+				appContext.isAuthenticated = true
+				if (VetOrPatient === "Vet") {
+					// appContext.userType = "Doctor"
+					localStorage.setItem("UserType", "Doctor")
+				}
+				else {
+					// appContext.userType = "Patient"
+					localStorage.setItem("UserType", "Patient")
+				}
 
 				navigate(`/new-${VetOrPatient.toLowerCase()}`)
 			}
