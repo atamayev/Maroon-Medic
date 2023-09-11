@@ -1,14 +1,14 @@
 import { useContext } from "react"
+import { observer } from "mobx-react"
 import SettingsLinks from "../../../components/settings-links"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
 import DoctorHeader from "../doctor-header"
 import { AppContext } from "src/contexts/maroon-context"
-import { observer } from "mobx-react"
 
 function DoctorSettingsCards() {
-	const appContext = useContext(AppContext)
+	const { userType } = useContext(AppContext)
 
-	if (appContext.userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
+	if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
 	return (
 		<>

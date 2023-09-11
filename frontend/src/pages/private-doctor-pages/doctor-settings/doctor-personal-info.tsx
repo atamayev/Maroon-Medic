@@ -14,11 +14,11 @@ import DoctorHeader from "../doctor-header"
 import { AppContext } from "src/contexts/maroon-context"
 
 function DoctorPersonalInfo() {
-	const appContext = useContext(AppContext)
-	const { personalInfo, setPersonalInfo } = useSetPersonalInfo(appContext.userType, "Doctor")
+	const { userType } = useContext(AppContext)
+	const { personalInfo, setPersonalInfo } = useSetPersonalInfo(userType, "Doctor")
 	const [personalInfoConfirmation, setPersonalInfoConfirmation] = useConfirmationMessage()
 
-	if (appContext.userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
+	if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
 	return (
 		<div>
@@ -28,7 +28,7 @@ function DoctorPersonalInfo() {
 					<form
 						onSubmit = {(e) => {
 							e.preventDefault()
-							useSavePersonalInfo(personalInfo, setPersonalInfoConfirmation, appContext.userType!)
+							useSavePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)
 						}}>
 						<FirstNameInput personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
 						<LastNameInput personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />

@@ -6,9 +6,9 @@ import PatientHeader from "../patient-header"
 import { AppContext } from "src/contexts/maroon-context"
 
 function PatientSettingsCards() {
-	const appContext = useContext(AppContext)
+	const { userType } = useContext(AppContext)
 
-	if (appContext.userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
+	if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
 	return (
 		<>

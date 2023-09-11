@@ -20,7 +20,7 @@ function CustomEvent ({ event }: { event: DoctorCalendarEvent }) {
 
 function DoctorCalendar() {
 	const [events, setEvents] = useState<DoctorCalendarEvent[]>([])
-	const appContext = useContext(AppContext)
+	const { userType } = useContext(AppContext)
 
 	useEffect(() => {
 		const fetchCalendarData = async () => {
@@ -30,7 +30,7 @@ function DoctorCalendar() {
 		fetchCalendarData()
 	}, [])
 
-	if (appContext.userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
+	if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
 	return (
 		<div>

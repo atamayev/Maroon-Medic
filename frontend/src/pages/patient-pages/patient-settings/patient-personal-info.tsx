@@ -14,11 +14,11 @@ import Button from "src/components/button"
 import { AppContext } from "src/contexts/maroon-context"
 
 function PatientPersonalInfo() {
-	const appContext = useContext(AppContext)
-	const { personalInfo, setPersonalInfo } = useSetPersonalInfo(appContext.userType, "Patient")
+	const { userType } = useContext(AppContext)
+	const { personalInfo, setPersonalInfo } = useSetPersonalInfo(userType, "Patient")
 	const [personalInfoConfirmation, setPersonalInfoConfirmation] = useConfirmationMessage()
 
-	if (appContext.userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
+	if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
 	return (
 		<div>
@@ -28,7 +28,7 @@ function PatientPersonalInfo() {
 					<form
 						onSubmit={(e) => {
 							e.preventDefault()
-							useSavePersonalInfo(personalInfo, setPersonalInfoConfirmation, appContext.userType!)
+							useSavePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)
 						}}
 						className="space-y-4"
 					>

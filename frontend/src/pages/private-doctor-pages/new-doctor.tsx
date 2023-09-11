@@ -5,7 +5,7 @@ import useNewUserSubmit from "../../custom-hooks/auth-submits/use-new-user-submi
 import { AppContext } from "src/contexts/maroon-context"
 
 function NewDoctor () {
-	const appContext = useContext(AppContext)
+	const { userType } = useContext(AppContext)
 	const [newDoctorInfo, setNewDoctorInfo] = useState<BirthDateInfo>({
 		firstName: "",
 		lastName: "",
@@ -19,7 +19,7 @@ function NewDoctor () {
 
 	const { newUserSubmit } = useNewUserSubmit(setError, setLoading, "Vet")
 
-	if (appContext.userType !== "Doctor") return null
+	if (userType !== "Doctor") return null
 
 	return (
 		<NewAccountForm

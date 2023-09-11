@@ -26,7 +26,7 @@ interface Props {
 
 // eslint-disable-next-line max-lines-per-function
 function BookingSection(props: Props) {
-	const appContext = useContext(AppContext)
+	const { userType } = useContext(AppContext)
 	const { providedServices, addresses, personalData } = props
 	const { savedPetData } = useFetchAndSetPetData()
 	const [appointmentInformation, setAppointmentInformation] = useState<AppointmentInformation>({
@@ -79,7 +79,7 @@ function BookingSection(props: Props) {
 	const anyLocationHasTimes = addresses.some(location => location.times && !_.isEmpty(location.times))
 
 	function MakeBooking () {
-		if (appContext.userType !== "Patient") return <PatientNotLoggedIn />
+		if (userType !== "Patient") return <PatientNotLoggedIn />
 		if (!anyLocationHasTimes) return <NoLocationHasTimes personalData = {personalData} />
 		if (_.isEmpty(addresses)) return <DoctorDoesNotHaveLocations personalData = {personalData} />
 		if (_.isEmpty(providedServices)) return <DoctorDoesNotOfferServices personalData = {personalData} />

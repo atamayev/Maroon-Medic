@@ -18,7 +18,7 @@ interface Props {
 }
 
 function DropdownItems ({ dropdown } : Props) {
-	const appContext = useContext(AppContext)
+	const { userType } = useContext(AppContext)
 
 	const handleRefresh = useHandleRefresh()
 	const unboldedDropdownItemCSS = "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 transition-all duration-100"
@@ -34,7 +34,7 @@ function DropdownItems ({ dropdown } : Props) {
 	}
 
 	if (dropdown === false) return null
-	if (appContext.userType !== "Doctor" && appContext.userType !== "Patient") {
+	if (userType !== "Doctor" && userType !== "Patient") {
 		return (
 			<>
 				<Link to="/vet-register" className={boldedDropdownItemCSS} role="menuitem">Vet Sign up</Link>

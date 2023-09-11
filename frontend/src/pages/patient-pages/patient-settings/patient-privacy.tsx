@@ -5,9 +5,9 @@ import { AppContext } from "src/contexts/maroon-context"
 import { observer } from "mobx-react"
 
 function PatientPrivacy() {
-	const appContext = useContext(AppContext)
+	const { userType } = useContext(AppContext)
 
-	if (appContext.userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
+	if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
 	return (
 		<>

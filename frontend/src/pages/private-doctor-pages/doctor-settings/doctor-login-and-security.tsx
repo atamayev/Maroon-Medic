@@ -8,15 +8,15 @@ import { useContext } from "react"
 import { AppContext } from "src/contexts/maroon-context"
 
 function DoctorLoginAndSecurity () {
-	const appContext = useContext(AppContext)
-	const loginHistory = useSetLoginHistory(appContext.userType, "Doctor")
+	const { userType } = useContext(AppContext)
+	const loginHistory = useSetLoginHistory(userType, "Doctor")
 
-	if (appContext.userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
+	if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
 	return (
 		<>
 			<DoctorHeader/>
-			<ChangePassword type = {appContext.userType}/>
+			<ChangePassword type = {userType}/>
 			{loginHistory.map((item, index) => (
 				<LoginHistory key = {index} loginHistoryItem = {item} />
 			))}

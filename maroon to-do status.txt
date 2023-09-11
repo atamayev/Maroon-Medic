@@ -11,16 +11,11 @@ Current problem:
 1. User type/access Token incorrectly set to the context
 2. Add the new info context logic to the use-register-submit also
 
--Move all the helper functions/save/doctor-account-details files to hooks
 Consider making seperate JWT functions for patient and doctor. This way, userType won't be needed as a header
 
 
 See what happens when a previously assigned access token is re-assgined as a cookie
 Does the doctor get the privileges of the old doctor? Shouldn't happen, if the uuid is unique to the first doctor. 
-
-replace const appContext = useContext(AppContext) with 
-		const { userType } = useContext(AppContext)
-	if only need one of the attributes of AppContext, and if only reading. if need to write, will not work (unless maybe use let?)
 
 Consider removing the if statements and just setting the state to the response.data in fetchDoctorAccountDetails, fetchPatientAccountDetails
 	Since we already know that the response contains the necessary attributes

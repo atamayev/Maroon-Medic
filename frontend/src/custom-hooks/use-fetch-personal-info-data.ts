@@ -9,7 +9,7 @@ export default async function useFetchPersonalInfoData(
 	setPersonalInfo: React.Dispatch<React.SetStateAction<BirthDateInfo>>,
 	userType: DoctorOrPatient
 ): Promise<void> {
-	const appContext = useContext(AppContext)
+	const { initializePersonalInfo } = useContext(AppContext)
 
 	try {
 		let response: AxiosResponse
@@ -18,7 +18,7 @@ export default async function useFetchPersonalInfoData(
 		else response = await PrivatePatientDataService.fillPersonalData()
 
 		setPersonalInfo(response.data)
-		appContext.initializePersonalInfo(response.data)
+		initializePersonalInfo(response.data)
 	} catch (error: unknown) {
 		handle401AxiosError(error)
 	}

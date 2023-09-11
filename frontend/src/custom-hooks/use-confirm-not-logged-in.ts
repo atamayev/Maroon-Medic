@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom"
 import { AppContext } from "src/contexts/maroon-context"
 
 const useConfirmNotLoggedIn = (): void => {
-	const appContext = useContext(AppContext)
+	const { userType } = useContext(AppContext)
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		if (!_.isNil(appContext.userType)) navigate("/dashboard")
-	}, [appContext.userType])
+		if (!_.isNil(userType)) navigate("/dashboard")
+	}, [userType])
 }
 
 export default useConfirmNotLoggedIn

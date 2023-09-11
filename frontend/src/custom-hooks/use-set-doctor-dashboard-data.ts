@@ -7,14 +7,14 @@ export default function useSetDoctorDashboardData(): {
 	dashboardData: DoctorDashboardData[],
 	setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardData[]>>}
 {
-	const appContext = useContext(AppContext)
+	const { initializeDashboardData } = useContext(AppContext)
 	const [dashboardData, setDashboardData] = useState<DoctorDashboardData[]>([])
 
 	const fetchAndSetDashboardData: () => Promise<void> = async () => {
 		try {
 			const response = await PrivateDoctorDataService.fillDashboard()
 			setDashboardData(response.data)
-			appContext.dashboardData = response.data
+			initializeDashboardData(response.data)
 		} catch (error: unknown) {
 			handle401AxiosError(error)
 		}

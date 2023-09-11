@@ -5,9 +5,9 @@ import DoctorHeader from "../doctor-header"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
 
 function DoctorPrivacy() {
-	const appContext = useContext(AppContext)
+	const { userType } = useContext(AppContext)
 
-	if (appContext.userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
+	if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
 	return (
 		<>

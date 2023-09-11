@@ -6,11 +6,11 @@ import handle401AxiosError from "src/utils/handle-errors/handle-401-axios-error"
 export default async function useFetchPatientAccountDetails(
 	setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>
 ): Promise<void> {
-	const appContext = useContext(AppContext)
+	const { initializePatientAccountDetails } = useContext(AppContext)
 	try {
 		const response = await PrivatePatientDataService.fillAccountDetails()
 		if (response.data.languages) setSpokenLanguages(response.data.languages)
-		appContext.initializePatientAccountDetails(response.data)
+		initializePatientAccountDetails(response.data)
 	} catch (error: unknown) {
 		handle401AxiosError(error)
 	}

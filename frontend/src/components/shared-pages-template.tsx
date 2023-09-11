@@ -10,11 +10,11 @@ interface Props {
 
 function SharedPagesTemplate(props: Props) {
 	const { doctorContent, patientContent } = props
-	const appContext = useContext(AppContext)
+	const { userType } = useContext(AppContext)
 
 	function Component () {
-		if (appContext.userType === "Doctor") return doctorContent
-		else if (appContext.userType === "Patient") return patientContent
+		if (userType === "Doctor") return doctorContent
+		else if (userType === "Patient") return patientContent
 		return <NullUser/>
 	}
 
