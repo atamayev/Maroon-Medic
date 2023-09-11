@@ -60,9 +60,23 @@ export async function fetchPersonalData (req: Request, res: Response): Promise<R
 export async function fetchAccountDetails (req: Request, res: Response): Promise<Response> {
 	const doctorId = req.doctorId
 
+	let response: DoctorAccountDetails = {
+		languages            : [],
+		services             : [],
+		specialties          : [],
+		preVetEducation      : [],
+		vetEducation         : [],
+		addressData          : [],
+		description          : "",
+		servicedPets         : [],
+		verified             : false,
+		publiclyAvailable    : false
+		// pictures             : []
+	}
+
 	try {
 		const verificationAndPublicAv = await FetchDoctorAccountData.verifiedAndPubliclyAvailable(doctorId)
-		const response: DoctorAccountDetails = {
+		response = {
 			languages            : await FetchDoctorAccountData.languages(doctorId),
 			services             : await FetchDoctorAccountData.services(doctorId),
 			specialties          : await FetchDoctorAccountData.specialties(doctorId),
@@ -77,6 +91,6 @@ export async function fetchAccountDetails (req: Request, res: Response): Promise
 		}
 		return res.status(200).json(response)
 	} catch (error: unknown) {
-		return res.status(400).json([])
+		return res.status(400).json(response)
 	}
 }

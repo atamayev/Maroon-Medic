@@ -1,24 +1,25 @@
+import { useContext } from "react"
 import PrivateDoctorDataService from "../../../../services/private-doctor-data-service"
 import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle-401-axios-error-and-set-message-type"
+import { AppContext } from "src/contexts/maroon-context"
 
-export default async function deleteAddressData(
+export default async function useDeleteAddressData(
 	addressId: number,
 	setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>,
 	setAddressesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
-	const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
+	const { doctorAccountDetails } = useContext(AppContext)
 
 	try {
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const response = await PrivateDoctorDataService.deleteAddressData(addressId)
 
 		if (response.status === 200) {
-			const newAddressData = DoctorAccountDetails.addressData.filter(
-				(addr: DoctorAddressData) => addr.addressesId !== addressId)
+			const newAddressData = doctorAccountDetails!.addressData.filter(
+				(addr: DoctorAddressData) => addr.addressesId !== addressId
+			)
 
-			DoctorAccountDetails.addressData = newAddressData
+			doctorAccountDetails!.addressData = newAddressData
 			setAddresses(newAddressData)
-			sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
 			setAddressesConfirmation({messageType: "saved"})
 		}
 	} catch (error: unknown) {

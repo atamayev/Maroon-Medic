@@ -8,7 +8,6 @@ import FetchPatientAccountData from "../../utils/fetch-account-and-public-data/f
 
 export async function newPatient (req: Request, res: Response): Promise<void> {
 	const patientId = req.patientId
-
 	const newPatientObject = req.body.newPatientObject
 
 	const dateOfBirth = TimeUtils.convertDOBStringIntoMySQLDate(
@@ -71,12 +70,16 @@ export async function fetchPetData (req: Request, res: Response): Promise<void> 
 
 export async function fetchAccountDetails (req: Request, res: Response): Promise<Response> {
 	const patientId = req.patientId
+	let response: PatientAccountDetails
 	try {
-		const response: PatientAccountDetails = {
+		response = {
 			languages: await FetchPatientAccountData.languages(patientId)
 		}
 		return res.status(200).json(response)
 	} catch (error: unknown) {
-		return res.status(400).json([])
+		response = {
+			languages: []
+		}
+		return res.status(400).json(response)
 	}
 }

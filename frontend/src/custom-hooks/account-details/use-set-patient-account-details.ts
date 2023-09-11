@@ -1,20 +1,25 @@
-import { useEffect } from "react"
-import fetchPatientAccountDetails from "src/helper-functions/account-details/fetch/fetch-patient-account-details"
-import fetchPatientLists from "src/helper-functions/account-details/fetch/fetch-patient-lists"
+import _ from "lodash"
+import { useContext, useEffect } from "react"
+import { AppContext } from "src/contexts/maroon-context"
+import fetchPatientAccountDetails from "src/custom-hooks/account-details/fetch/use-fetch-patient-account-details"
+import fetchPatientLists from "src/custom-hooks/account-details/fetch/use-fetch-patient-lists"
 
 export function usePatientAccountDetails(
 	setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
 	setListDetails: React.Dispatch<React.SetStateAction<PatientListDetails>>,
 	userType: DoctorOrPatientOrNull
 ): void {
+	const appContext = useContext(AppContext)
+
 	const fetchAndSetAccountDetails: () => void = async () => {
 		try {
-			const storedAccountDetails = sessionStorage.getItem("PatientAccountDetails")
-			if (!storedAccountDetails) await fetchPatientAccountDetails(setSpokenLanguages)
+			if (_.isNull(appContext.patientAccountDetails)) {
+				await fetchPatientAccountDetails(setSpokenLanguages)
+			}
 
-			const storedListDetails = sessionStorage.getItem("ListDetails")
-			if (storedListDetails) setListDetails(JSON.parse(storedListDetails))
-			else await fetchPatientLists(setListDetails)
+			if (_.isNull(appContext.patientLists)) {
+				await fetchPatientLists(setListDetails)
+			} else setListDetails(appContext.patientLists)
 		} catch (error) {
 		}
 	}

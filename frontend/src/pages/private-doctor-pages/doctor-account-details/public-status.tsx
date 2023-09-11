@@ -1,11 +1,11 @@
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
-import updatePublicAvailability from "../../../helper-functions/account-details/save/doctor-account-details/update-public-availability"
+import useUpdatePublicAvailability from "src/custom-hooks/account-details/save/doctor-account-details/use-update-public-availability"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import AccountDetailsCard from "src/components/account-details-card"
 
 interface Props {
-  publiclyAvailable: boolean
-  setPubliclyAvailable: React.Dispatch<React.SetStateAction<boolean>>
+	publiclyAvailable: boolean
+	setPubliclyAvailable: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export default function PublicStatusSection (props: Props) {
@@ -29,7 +29,7 @@ function PublicAvailability (props: Props) {
 				<button
 					value = {0}
 					onClick = {() =>
-						updatePublicAvailability(false, publiclyAvailable, setPubliclyAvailable, setPubliclyAvailableConfirmation)
+						useUpdatePublicAvailability(false, publiclyAvailable, setPubliclyAvailable, setPubliclyAvailableConfirmation)
 					}
 					className = {`border-red-400 border p-2 mr-2 rounded w-14 transition-all duration-100
 						${!publiclyAvailable ? "bg-red-600 text-white" : "bg-white text-black hover:bg-red-300"}
@@ -41,7 +41,7 @@ function PublicAvailability (props: Props) {
 				<button
 					value = {1}
 					onClick = {() =>
-						updatePublicAvailability(true, publiclyAvailable, setPubliclyAvailable, setPubliclyAvailableConfirmation)
+						useUpdatePublicAvailability(true, publiclyAvailable, setPubliclyAvailable, setPubliclyAvailableConfirmation)
 					}
 					className = {`border-green-500 border p-2 rounded w-14 transition-all duration-100
 						${publiclyAvailable ? "bg-green-700 text-white" : "bg-white text-black hover:bg-green-400"}

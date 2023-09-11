@@ -1,5 +1,5 @@
 import Button from "src/components/button"
-import saveDescription from "src/helper-functions/account-details/save/doctor-account-details/save-description"
+import useSaveDescription from "src/custom-hooks/account-details/save/doctor-account-details/use-save-description"
 
 interface Props {
 	description: string
@@ -15,7 +15,7 @@ export default function SaveDescriptionButton (props: Props) {
 			colorClass = "bg-green-700"
 			hoverClass = "hover:bg-green-800"
 			title = "Save"
-			onClick = {() => saveDescription(description, setDescriptionConfirmation)}
+			onClick = {() => useSaveDescription(description, setDescriptionConfirmation)}
 			textColor = "text-white"
 		/>
 	)

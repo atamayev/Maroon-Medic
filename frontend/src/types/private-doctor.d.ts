@@ -64,11 +64,11 @@ declare global {
 
   interface DoctorAccountDetails {
     languages: LanguageItem[]
-    services: DetailedServiceItem[]
-    specialties: OrganizationSpecialty[]
-    preVetEducation: PreVetEducation[]
-    vetEducation: VetEducation[]
-    addressData: PrivateDoctorAddressData[]
+    services: ServiceItemNotNullablePrice[]
+    specialties: SpecialtyItem[]
+    preVetEducation: PreVetEducationItem[]
+    vetEducation: VetEducationItem[]
+    addressData: DoctorAddressData[]
     description: string
     servicedPets: ServicedPetItem[]
     verified: boolean

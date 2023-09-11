@@ -1,20 +1,22 @@
+import { useContext } from "react"
+import { AppContext } from "src/contexts/maroon-context"
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
 import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle-401-axios-error-and-set-message-type"
 
-export default async function deleteVetEducation(
+export default async function useDeleteVetEducationItem(
 	vetEducationMappingId: number,
 	vetEducation: VetEducationItem[],
 	setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItem[]>>,
 	setVetEducationConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
+	const { doctorAccountDetails } = useContext(AppContext)
+
 	try {
 		const response = await PrivateDoctorDataService.deleteVetEducationData(vetEducationMappingId)
 		if (response.status === 200) {
 			const newVetEducation = vetEducation.filter(object => object.vetEducationMappingId !== vetEducationMappingId)
 			setVetEducation(newVetEducation)
-			const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") || "{}")
-			DoctorAccountDetails.vetEducation = newVetEducation
-			sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
+			doctorAccountDetails!.vetEducation = newVetEducation
 			setVetEducationConfirmation({ messageType: "saved" })
 		} else {
 			setVetEducationConfirmation({messageType: "problem"})

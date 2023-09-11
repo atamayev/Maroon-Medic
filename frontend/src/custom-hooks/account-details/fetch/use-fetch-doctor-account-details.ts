@@ -1,13 +1,15 @@
 /* eslint-disable complexity */
 import _ from "lodash"
+import { useContext } from "react"
+import { AppContext } from "src/contexts/maroon-context"
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
 import handle401AxiosError from "src/utils/handle-errors/handle-401-axios-error"
 
-export default async function FetchDoctorAccountDetails(
-	dispatchers: DoctorAccountDispatchers
-): Promise<void> {
+export default async function useFetchDoctorAccountDetails(dispatchers: DoctorAccountDispatchers): Promise<void> {
+	const appContext = useContext(AppContext)
 	try {
 		const response = await PrivateDoctorDataService.fillAccountDetails()
+		//Consider removing the if statements and just setting the state to the response.data
 		if (response.data) {
 			if (response.data.languages) dispatchers.setSpokenLanguages(response.data.languages)
 			if (response.data.services) {
@@ -27,7 +29,7 @@ export default async function FetchDoctorAccountDetails(
 			}
 			if (_.has(response.data, "publiclyAvailable")) dispatchers.setPubliclyAvailable(response.data.publiclyAvailable)
 			// if (response.data.pictures) ; //set pictures
-			sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(response.data))
+			appContext.initializeDoctorAccountDetails(response.data)
 		}
 	} catch (error: unknown) {
 		handle401AxiosError(error)

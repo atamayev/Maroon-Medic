@@ -5,7 +5,7 @@ import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import useSetPersonalInfo from "../../../custom-hooks/use-set-personal-info"
-import savePersonalInfo from "src/helper-functions/shared/save-personal-info"
+import useSavePersonalInfo from "src/helper-functions/shared/use-save-personal-info"
 import FirstNameInput from "src/components/personal-info-inputs/first-name-input"
 import LastNameInput from "src/components/personal-info-inputs/last-name-input"
 import GenderSection from "src/components/personal-info-inputs/gender-input"
@@ -28,7 +28,7 @@ function DoctorPersonalInfo() {
 					<form
 						onSubmit = {(e) => {
 							e.preventDefault()
-							savePersonalInfo(personalInfo, setPersonalInfoConfirmation, appContext.userType!)
+							useSavePersonalInfo(personalInfo, setPersonalInfoConfirmation, appContext.userType!)
 						}}>
 						<FirstNameInput personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
 						<LastNameInput personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />

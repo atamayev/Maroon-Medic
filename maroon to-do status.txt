@@ -1,9 +1,17 @@
 To-do:
 
+
+Fix the types on the vet education, prevet education in fetch public doctor data db
+	they do not contain the mapping id, and a new type should be created specifically for the public data.
+	go through the other public doctor data types, and see if they just use the private doctor types. make sure the fields match up.
+	fix in front-end as well.
+
 Current problem:
+-Move userType to localS storage (to persist across tabs)
 1. User type/access Token incorrectly set to the context
 2. Add the new info context logic to the use-register-submit also
 
+-Move all the helper functions/save/doctor-account-details files to hooks
 Consider making seperate JWT functions for patient and doctor. This way, userType won't be needed as a header
 
 
@@ -14,6 +22,8 @@ replace const appContext = useContext(AppContext) with
 		const { userType } = useContext(AppContext)
 	if only need one of the attributes of AppContext, and if only reading. if need to write, will not work (unless maybe use let?)
 
+Consider removing the if statements and just setting the state to the response.data in fetchDoctorAccountDetails, fetchPatientAccountDetails
+	Since we already know that the response contains the necessary attributes
 
 Figure out if it makes sense to store userType both in session and on the context level
 	or is just session storage ok
@@ -21,6 +31,25 @@ Figure out if it makes sense to store userType both in session and on the contex
 Make sure
 	sharedState.isAuthenticated = !!accessToken
 	is ok. try putting in a fake cookie token and seeing what happens
+
+recheck if the rapid reload here makes sense:
+		useEffect(() => {
+		if (appContext.userType !== "Doctor") return
+		const interval = setInterval(() => {
+			if (appContext.personalInfo) {
+				setPersonalInfo(appContext.personalInfo)
+				clearInterval(interval)
+			}
+			// Check every 10 miliseconds
+		}, 10)
+
+		// Clean up interval on unmount
+		return () => clearInterval(interval)
+	}, [])
+
+
+Figure out the best way to call the PersonalInfoContext and the dashboard data context (is it just by doing appContext.dashboardData?)
+	Or should dashboard data be accessed directly via context?
 
 Context Stuff
 	Currently, calling verify context on every re-render
@@ -65,6 +94,9 @@ CONTEXT
 				Use classes when data is sensitive
 
 			Move data like personal info into a context. If it's used by multiple components, move it into a context. Every time you navigate, show the context data, but call the API to check for changes simultaneously
+
+Work to make the naming of the types in the front/backend match up better
+Make search context into a class. cleaner that way.
 
 On the My-Pets page, make each pet have it's own 'row' card, similar to addersses in doctor account details (shouldn't be able to close/open, always open)
 	show something like the picture on the left side, and then the details on the right. Details can include past appointments, other stuff (can always add later)

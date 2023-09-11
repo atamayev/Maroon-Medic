@@ -10,8 +10,8 @@ const http = axios.create({
 })
 
 http.interceptors.request.use((config) => {
-	// Retrieve values from session storage/cookies
-	const userType = sessionStorage.getItem("UserType")
+	const userType: DoctorOrPatientOrUndefined = "Doctor"
+	// const userType: DoctorOrPatientOrUndefined = sessionStorage.getItem("UserType")
 	const accessToken = cookieCheck.getCookie("AccessToken")
 
 	// Update headers

@@ -1,5 +1,5 @@
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
-import modifyServicesData from "../doctor-account-details-helpers/modify-services-data"
+import useModifyServicesData from "../../../../custom-hooks/account-details/save/doctor-account-details-helpers/use-modify-services-data"
 
 export default async function updateServices(
 	newServiceObject: ServiceItemNotNullablePrice,
@@ -7,7 +7,7 @@ export default async function updateServices(
 	setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemNotNullablePrice[]>>,
 	setServicesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
-	return await modifyServicesData(
+	return await useModifyServicesData(
 		PrivateDoctorDataService.updateService,
 		newServiceObject,
 		providedServices,

@@ -19,9 +19,6 @@ const defaultSearchContext: SearchContextType = {
 	fetchData: () => {},
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export const SearchContext = createContext<SearchContextType>(defaultSearchContext)
-
 export function SearchContextProvider (props: Props) {
 	const [searchTerm, setSearchTerm] = useState(sessionStorage.getItem("searchTerm") || "")
 	const [items, setItems] = useState<DoctorPersonalData[]>([])
@@ -47,3 +44,6 @@ export function SearchContextProvider (props: Props) {
 		</SearchContext.Provider>
 	)
 }
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const SearchContext = createContext<SearchContextType>(defaultSearchContext)

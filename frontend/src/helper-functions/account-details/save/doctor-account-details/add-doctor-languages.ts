@@ -1,5 +1,6 @@
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
-import modifyDoctorLanguages from "../doctor-account-details-helpers/modify-doctor-languages"
+import useModifyDoctorLanguages
+	from "../../../../custom-hooks/account-details/save/doctor-account-details-helpers/use-modify-doctor-languages"
 
 export default async function addDoctorLanguages(
 	languageId: number,
@@ -7,7 +8,7 @@ export default async function addDoctorLanguages(
 	setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
 	setLanguagesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
-	return await modifyDoctorLanguages(
+	return await useModifyDoctorLanguages(
 		PrivateDoctorDataService.addLanguage,
 		languageId,
 		newSpokenLanguages,

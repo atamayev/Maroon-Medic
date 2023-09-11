@@ -33,31 +33,29 @@ function DoctorAccountDetails() {
 	})
 	//const [carouselIndex, setCarouselIndex] = useState(0)
 
-	const doctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
+	const [spokenLanguages, setSpokenLanguages] = useState<LanguageItem[]>(appContext.doctorAccountDetails?.languages || [])
 
-	const [spokenLanguages, setSpokenLanguages] = useState<LanguageItem[]>(doctorAccountDetails?.languages || [])
-
-	const [providedServices, setProvidedServices] = useState<ServiceItemNotNullablePrice[]>(doctorAccountDetails?.services || [])
+	const [providedServices, setProvidedServices] = useState<ServiceItemNotNullablePrice[]>(appContext.doctorAccountDetails?.services || [])
 	const [expandedCategories, setExpandedCategories] = useState<string[]>([])
 
-	const [doctorSpecialties, setDoctorSpecialties] = useState<SpecialtyItem[]>(doctorAccountDetails?.specialties || [])
+	const [doctorSpecialties, setDoctorSpecialties] = useState<SpecialtyItem[]>(appContext.doctorAccountDetails?.specialties || [])
 
-	const [preVetEducation, setPreVetEducation] = useState<PreVetEducationItem[]>(doctorAccountDetails?.preVetEducation || [])
+	const [preVetEducation, setPreVetEducation] = useState<PreVetEducationItem[]>(appContext.doctorAccountDetails?.preVetEducation || [])
 
-	const [vetEducation, setVetEducation] = useState<VetEducationItem[]>(doctorAccountDetails?.vetEducation || [])
+	const [vetEducation, setVetEducation] = useState<VetEducationItem[]>(appContext.doctorAccountDetails?.vetEducation || [])
 
 	const [addresses, setAddresses] = useState<DoctorAddressData[]>(
-		doctorAccountDetails?.addressData ||
+		appContext.doctorAccountDetails?.addressData ||
 	[{ addressPriority: 0, addressesId: -1, addressTitle: "", addressLine1: "", addressLine2: "", city: "",
-		state: "", zip: "", country: "", phone: [], addressPublicStatus: true, instantBook: false, times:[]}])
+		state: "", zip: "", country: "", phone: "", addressPublicStatus: true, instantBook: false, times:[]}])
 
-	const [description, setDescription] = useState<string>(doctorAccountDetails?.description || "")
+	const [description, setDescription] = useState<string>(appContext.doctorAccountDetails?.description || "")
 
-	const [servicedPets, setServicedPets] = useState<ServicedPetItem[]>(doctorAccountDetails?.servicedPets || [])
+	const [servicedPets, setServicedPets] = useState<ServicedPetItem[]>(appContext.doctorAccountDetails?.servicedPets || [])
 	const [expandedPetTypes, setExpandedPetTypes] = useState<string[]>([])
 
-	const [publiclyAvailable, setPubliclyAvailable] = useState<boolean>(doctorAccountDetails?.publiclyAvailable || false)
-	const verified: boolean = doctorAccountDetails?.verified || false
+	const [publiclyAvailable, setPubliclyAvailable] = useState<boolean>(appContext.doctorAccountDetails?.publiclyAvailable || false)
+	const verified: boolean = appContext.doctorAccountDetails?.verified || false
 
 	const dispatchers: DoctorAccountDispatchers = {
 		setSpokenLanguages,

@@ -1,5 +1,6 @@
 declare global {
   type DoctorOrPatient = "Doctor" | "Patient"
+  type DoctorOrPatientOrUndefined = DoctorOrPatient | undefined
 
   type MysqlTimestamp = string
 

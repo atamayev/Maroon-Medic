@@ -1,28 +1,31 @@
-import PrivateDoctorDataService from "../../../../services/private-doctor-data-service"
+import { useContext } from "react"
+import PrivatePatientDataService from "../../../../services/private-patient-data-service"
 import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle-401-axios-error-and-set-message-type"
+import { AppContext } from "src/contexts/maroon-context"
 
-type LanguageOperationsType = typeof PrivateDoctorDataService.deleteLanguage |
-                              typeof PrivateDoctorDataService.addLanguage
+type LanguageOperationsType = typeof PrivatePatientDataService.deleteLanguage |
+                              typeof PrivatePatientDataService.addLanguage
 
-export default async function modifyDoctorLanguages(
+export default async function useModifyPatientLanguages(
 	operation: LanguageOperationsType,
 	languageId: number,
 	newSpokenLanguages: LanguageItem[],
 	setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
 	setLanguagesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
+	const { patientAccountDetails } = useContext(AppContext)
 	let response
+
 	try {
 		response = await operation(languageId)
 	} catch (error: unknown) {
 		handle401AxiosErrorAndSetMessageType(error, setLanguagesConfirmation)
 		return
 	}
+
 	if (response.status === 200) {
 		setSpokenLanguages(newSpokenLanguages)
-		const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
-		DoctorAccountDetails.languages = newSpokenLanguages
-		sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
+		patientAccountDetails!.languages = newSpokenLanguages
 		setLanguagesConfirmation({messageType: "saved"})
 	} else {
 		setLanguagesConfirmation({messageType: "problem"})

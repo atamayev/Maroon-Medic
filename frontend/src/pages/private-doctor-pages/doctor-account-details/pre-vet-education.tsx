@@ -71,7 +71,7 @@ function PreVetEducation(props: Props) {
 
 	const savePreVetEducation = useSaveAddPreVetEducation(
 		preVetEducation, setPreVetEducation,
-		listDetails, setPreVetEducationConfirmation
+		setPreVetEducationConfirmation
 	)
 
 	const handleDeleteOnClick = useDeletePreVetEducation(preVetEducation, setPreVetEducation, setPreVetEducationConfirmation)

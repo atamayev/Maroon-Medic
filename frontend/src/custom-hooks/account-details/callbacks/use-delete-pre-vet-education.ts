@@ -1,5 +1,5 @@
 import { useCallback } from "react"
-import deletePreVetEducation from "src/helper-functions/account-details/save/doctor-account-details/delete-pre-vet-education"
+import useDeletePreVetEducationItem from "../save/doctor-account-details/use-delete-pre-vet-education"
 
 const useDeletePreVetEducation = (
 	preVetEducation: PreVetEducationItem[],
@@ -8,13 +8,14 @@ const useDeletePreVetEducation = (
 ): (PreVetEducation: PreVetEducationItem) => void => {
 	return useCallback(
 		async (preVetEducationItem: PreVetEducationItem) => {
-			await deletePreVetEducation(
+			await useDeletePreVetEducationItem(
 				preVetEducationItem.preVetEducationMappingId,
 				preVetEducation,
 				setPreVetEducation,
 				setPreVetEducationConfirmation
 			)
-		}, [preVetEducation, setPreVetEducation, setPreVetEducationConfirmation])
+		}, [preVetEducation]
+	)
 }
 
 export default useDeletePreVetEducation

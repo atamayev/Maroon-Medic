@@ -19,18 +19,19 @@ const useLoginSubmit = (
 		loginInformationObject: AuthCredentials
 	): Promise<void> => {
 		setError("")
+		e.preventDefault()
+		setLoading(true)
+
 		try {
-			e.preventDefault()
-			setLoading(true)
 			const response = await AuthDataService.login(loginInformationObject)
 			if (response.status === 200 && isLoginRegisterSuccess(response.data)) {
 				appContext.isAuthenticated = true
 				if (VetOrPatient === "Vet") {
-					appContext.userType = "Doctor"
+					// appContext.userType = "Doctor"
 					sessionStorage.setItem("UserType", "Doctor")
 				}
 				else {
-					appContext.userType = "Patient"
+					// appContext.userType = "Patient"
 					sessionStorage.setItem("UserType", "Patient")
 				}
 
@@ -40,7 +41,7 @@ const useLoginSubmit = (
 				} else {
 					navigate("/dashboard")
 				}
-			}
+			} else setError("Unable to login. Please reload and try again.")
 		} catch (error: unknown) {
 			handle401AxiosErrorAndSetCustomError(error, setError)
 		}

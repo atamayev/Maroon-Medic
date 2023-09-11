@@ -1,7 +1,6 @@
 import { makeAutoObservable } from "mobx"
-import { createContext } from "react"
 
-export class PersonalInfoContext {
+export class PersonalInfoClass {
 	constructor(info: BirthDateInfo) {
 		makeAutoObservable(this)
 		Object.assign(this, info)
@@ -14,7 +13,3 @@ export class PersonalInfoContext {
 	birthMonth: string = ""
 	birthYear: number = -1
 }
-
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export const PersonalInfoAppContext = createContext(new PersonalInfoContext({} as BirthDateInfo))
-

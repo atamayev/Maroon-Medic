@@ -1,9 +1,11 @@
 import moment from "moment"
+import { MaroonContext } from "src/contexts/maroon-context"
 import AuthDataService from "src/services/auth-data-service"
 import handle401AxiosError from "src/utils/handle-errors/handle-401-axios-error"
 
 export default async function fetchLoginHistory(
-	setLoginHistory: React.Dispatch<React.SetStateAction<LoginHistoryItem[]>>
+	setLoginHistory: React.Dispatch<React.SetStateAction<LoginHistoryItem[]>>,
+	appContext: MaroonContext
 ): Promise<void> {
 	try {
 		const response = await AuthDataService.fetchLoginHistry()
@@ -13,7 +15,7 @@ export default async function fetchLoginHistory(
 				loginAt: moment(item.loginAt).format("MMMM Do, YYYY [at] h:mmA"),
 			}))
 			setLoginHistory(formattedData)
-			sessionStorage.setItem("LoginHistory", JSON.stringify(formattedData))
+			appContext.loginHistory = formattedData
 		}
 	} catch (error: unknown) {
 		handle401AxiosError(error)

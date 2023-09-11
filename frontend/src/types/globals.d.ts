@@ -86,10 +86,6 @@ declare global {
 	newConfirmPassword: string
   }
 
-  interface VerifyContextType {
-	userVerification: (clearSession: boolean) => VerifyContextReturnType
-  }
-
   interface LoginHistoryItem {
 	loginAt: string
   }

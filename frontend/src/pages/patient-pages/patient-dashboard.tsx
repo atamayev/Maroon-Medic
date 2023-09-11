@@ -8,23 +8,20 @@ import PatientHeader from "./patient-header"
 import UpcomingAppointmentsSection from "src/components/patient-dashboard/upcoming-appointments/upcoming-appointments-section"
 import PastAppointmentsSection from "src/components/patient-dashboard/past-appointments/past-appointments-section"
 import PersonalInfo from "src/components/patient-dashboard/personal-info"
-import retrieveFromSessionStorage from "src/utils/retrieve-from-session-storage"
 import { AppContext } from "src/contexts/maroon-context"
 
 function PatientDashboard() {
 	const appContext = useContext(AppContext)
 	const { dashboardData } = useSetPatientDashboardData()
-	const patientPersonalInfo = retrieveFromSessionStorage("PatientPersonalInfo") as BirthDateInfo
-	const [personalInfo, setPersonalInfo] = useState<BirthDateInfo>(patientPersonalInfo)
+	const [personalInfo, setPersonalInfo] = useState<BirthDateInfo>(appContext.personalInfo!)
 	const [pastAppointments, setPastAppointments] = useState<PatientDashboardData[]>([])
 	const [upcomingAppointments, setUpcomingAppointments] = useState<PatientDashboardData[]>([])
 
 	useEffect(() => {
 		if (appContext.userType !== "Patient") return
 		const interval = setInterval(() => {
-			const sessionInfo = sessionStorage.getItem("PatientPersonalInfo")
-			if (sessionInfo) {
-				setPersonalInfo(JSON.parse(sessionInfo))
+			if (appContext.personalInfo) {
+				setPersonalInfo(appContext.personalInfo)
 				// Clear the interval once the data is set
 				clearInterval(interval)
 			}

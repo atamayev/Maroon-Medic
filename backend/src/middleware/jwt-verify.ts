@@ -5,7 +5,7 @@ import Cookie from "../utils/cookie-operations"
 import { extractAccessToken, getDecodedUUID } from "../utils/auth-helpers"
 
 export default async function jwtVerify(req: Request, res: Response, next: NextFunction): Promise<void| Response> {
-	const userType = req.headers["user-type"] as DoctorOrPatient | undefined
+	const userType = req.headers["user-type"] as DoctorOrPatientOrUndefined
 
 	if (!userType) {
 		Cookie.clearAll(res)

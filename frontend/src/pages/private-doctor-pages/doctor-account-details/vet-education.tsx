@@ -65,7 +65,7 @@ function VetEducation(props: Props) {
 
 	const saveVetEducation = useSaveAddVetEducation(
 		vetEducation, setVetEducation,
-		listDetails, setVetEducationConfirmation
+		setVetEducationConfirmation
 	)
 
 	const handleDeleteOnClick = useDeleteVetEducation(vetEducation, setVetEducation, setVetEducationConfirmation)

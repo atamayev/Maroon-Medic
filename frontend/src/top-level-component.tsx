@@ -5,7 +5,8 @@ import cookieCheck from "./utils/cookie-check"
 export default function TopLevelComponent ({ children } : { children: React.ReactNode }) {
 	const sharedState = useMemo(() => new MaroonContext(), [])
 	const accessToken = cookieCheck.getCookie("AccessToken")
-	const userType = sessionStorage.getItem("UserType") as DoctorOrPatientOrNull
+	const userType: DoctorOrPatientOrUndefined = "Doctor"
+	// const userType = sessionStorage.getItem("UserType") as DoctorOrPatientOrNull
 
 	sharedState.isAuthenticated = !!accessToken
 	sharedState.userType = userType

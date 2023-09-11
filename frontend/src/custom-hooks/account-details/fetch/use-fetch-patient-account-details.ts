@@ -1,13 +1,16 @@
+import { useContext } from "react"
+import { AppContext } from "src/contexts/maroon-context"
 import PrivatePatientDataService from "src/services/private-patient-data-service"
 import handle401AxiosError from "src/utils/handle-errors/handle-401-axios-error"
 
-export default async function fetchPatientAccountDetails(
+export default async function useFetchPatientAccountDetails(
 	setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>
 ): Promise<void> {
+	const appContext = useContext(AppContext)
 	try {
 		const response = await PrivatePatientDataService.fillAccountDetails()
 		if (response.data.languages) setSpokenLanguages(response.data.languages)
-		sessionStorage.setItem("PatientAccountDetails", JSON.stringify(response.data))
+		appContext.initializePatientAccountDetails(response.data)
 	} catch (error: unknown) {
 		handle401AxiosError(error)
 	}

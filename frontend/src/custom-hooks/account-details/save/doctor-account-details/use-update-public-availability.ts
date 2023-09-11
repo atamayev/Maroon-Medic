@@ -1,23 +1,26 @@
+import { useContext } from "react"
+import { AppContext } from "src/contexts/maroon-context"
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
 import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle-401-axios-error-and-set-message-type"
 
-export default async function updatePublicAvailability (
+export default async function useUpdatePublicAvailability(
 	value: boolean,
 	publiclyAvailable: boolean,
 	setPubliclyAvailable: React.Dispatch<React.SetStateAction<boolean>>,
 	setPubliclyAvailableConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
+	const { doctorAccountDetails } = useContext(AppContext)
+
 	if (value === publiclyAvailable) {
 		setPubliclyAvailableConfirmation({messageType: "same"})
 		return
 	}
-	const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") || "{}")
+
 	try {
 		const response = await PrivateDoctorDataService.savePublicAvailibility(value)
 		if (response.status === 200) {
 			setPubliclyAvailable(value)
-			DoctorAccountDetails.publiclyAvailable = value
-			sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
+			doctorAccountDetails!.publiclyAvailable = value
 			setPubliclyAvailableConfirmation({messageType: "saved"})
 		}
 	} catch (error: unknown) {

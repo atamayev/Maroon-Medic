@@ -1,5 +1,5 @@
 import { useCallback } from "react"
-import deleteVetEducation from "src/helper-functions/account-details/save/doctor-account-details/delete-vet-education"
+import useDeleteVetEducationItem from "../save/doctor-account-details/use-delete-vet-education"
 
 export const useDeleteVetEducation = (
 	vetEducation: VetEducationItem[],
@@ -8,13 +8,13 @@ export const useDeleteVetEducation = (
 ): ((VetEducation: VetEducationItem) => void) => {
 	return useCallback(
 		async (vetEducationItem: VetEducationItem) => {
-			await deleteVetEducation(
+			await useDeleteVetEducationItem(
 				vetEducationItem.vetEducationMappingId,
 				vetEducation,
 				setVetEducation,
 				setVetEducationConfirmation
 			)
-		}, [vetEducation, setVetEducation, setVetEducationConfirmation])
+		}, [vetEducation])
 }
 
 export default useDeleteVetEducation

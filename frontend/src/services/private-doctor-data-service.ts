@@ -2,7 +2,7 @@ import { AxiosResponse } from "axios"
 import http from "../http-common"
 
 export default new class PrivateDoctorDataService {
-	async addingDoctorInfo(newDoctorObject: BirthDateInfo): Promise<AxiosResponse<EmptyResponse>>  {
+	async addNewDoctorInfo(newDoctorObject: BirthDateInfo): Promise<AxiosResponse<EmptyResponse>>  {
 		return await http.post<EmptyResponse>("private-doctor-data/new-doctor", {newDoctorObject})
 	}
 	async fillDashboard(): Promise<AxiosResponse<DoctorDashboardData[]>> {

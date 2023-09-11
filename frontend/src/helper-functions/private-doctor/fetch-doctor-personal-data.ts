@@ -1,19 +1,11 @@
-import _ from "lodash"
+import { AxiosResponse } from "axios"
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
 import handle401AxiosError from "src/utils/handle-errors/handle-401-axios-error"
 
-export default async function fetchDoctorPersonalInfo (
-	setHeaderData: React.Dispatch<React.SetStateAction<string>>
-): Promise<void> {
-	let response
+export default async function fetchDoctorPersonalInfo (): Promise<AxiosResponse<BirthDateInfo> | void> {
 	try {
-		response = await PrivateDoctorDataService.fillPersonalData()
+		return await PrivateDoctorDataService.fillPersonalData()
 	} catch (error: unknown) {
 		handle401AxiosError(error)
-	}
-
-	if (response) {
-		setHeaderData("Dr. " + _.upperFirst(response.data.lastName))
-		sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(response.data))
 	}
 }

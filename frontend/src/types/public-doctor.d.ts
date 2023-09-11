@@ -38,14 +38,14 @@ declare global {
 
   interface PublicDoctorAccountDetails {
     doctorLanguages: LanguageName[]
-    doctorServices: DetailedServiceItem[]
+    doctorServices: ServiceItemNotNullablePrice[]
     doctorSpecialties: OrganizationSpecialtyName[]
-    doctorPreVetEducation: PreVetEducation[]
-    doctorVetEducation: VetEducation[]
+    doctorPreVetEducation: PreVetEducationItem[]
+    doctorVetEducation: VetEducationItem[]
     doctorAddressData: PublicAddressData[]
     description: string
     servicedPets: ServicedPetData[]
-    doctorPersonalInfo: DoctorPersonalInfo
+    doctorPersonalInfo: DoctorPersonalData
   }
 }
 

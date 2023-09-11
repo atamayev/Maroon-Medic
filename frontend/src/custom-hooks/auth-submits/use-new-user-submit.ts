@@ -1,7 +1,9 @@
+import { useContext } from "react"
 import { useNavigate } from "react-router-dom"
 import PrivateDoctorDataService from "../../services/private-doctor-data-service"
 import PrivatePatientDataService from "../../services/private-patient-data-service"
 import handle401AxiosErrorAndSetCustomError from "src/utils/handle-errors/handle-401-axios-error-and-set-custom-error"
+import { AppContext } from "src/contexts/maroon-context"
 
 const useAssignBookingDetailsNavigateToFinalizeBooking = (): void => {
 	const navigate = useNavigate()
@@ -20,23 +22,31 @@ const useNewUserSubmit = (
 	VetOrPatient: VetOrPatient
 ): { newUserSubmit: (e: React.FormEvent<HTMLFormElement>, newInfo: BirthDateInfo) => Promise<void>} => {
 	const navigate = useNavigate()
+	const appContext = useContext(AppContext)
 
 	const newUserSubmit = async (
 		e: React.FormEvent<HTMLFormElement>,
 		newInfo: BirthDateInfo
 	): Promise<void> => {
-
 		setError("")
+		e.preventDefault()
+		setLoading(true)
+
 		try {
-			e.preventDefault()
-			setLoading(true)
 			let response
-			if (VetOrPatient === "Vet") response = await PrivateDoctorDataService.addingDoctorInfo(newInfo)
-			else response = await PrivatePatientDataService.addingPatientInfo(newInfo)
+			if (VetOrPatient === "Vet") response = await PrivateDoctorDataService.addNewDoctorInfo(newInfo)
+			else response = await PrivatePatientDataService.addNewPatientInfo(newInfo)
 
 			if (response.status === 200) {
-				if (VetOrPatient === "Vet") sessionStorage.setItem("DoctorPersonalInfo", JSON.stringify(newInfo))
-				else sessionStorage.setItem("PatientPersonalInfo", JSON.stringify(newInfo))
+				appContext.initializePersonalInfo(newInfo)
+				// if (VetOrPatient === "Vet") {
+				// 	// appContext.userType = "Doctor"
+				// 	appContext.initializePersonalInfo(newInfo)
+				// }
+				// else {
+				// 	// appContext.userType = "Patient"
+				// 	appContext.initializePersonalInfo(newInfo)
+				// }
 				if ((sessionStorage.getItem("bookingDetails")) && VetOrPatient === "Patient") {
 					useAssignBookingDetailsNavigateToFinalizeBooking()
 				}

@@ -1,10 +1,12 @@
+import { useContext } from "react"
 import PrivateDoctorDataService from "../../../../services/private-doctor-data-service"
 import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle-401-axios-error-and-set-message-type"
+import { AppContext } from "src/contexts/maroon-context"
 
 type SpecialtyOperationsType = typeof PrivateDoctorDataService.deleteSpecialty |
                                typeof PrivateDoctorDataService.addSpecialty
 
-export default async function modifyDoctorSpecialties(
+export default async function useModifyDoctorSpecialties(
 	operation: SpecialtyOperationsType,
 	specialtyId: number,
 	newDoctorSpecialties: SpecialtyItem[],
@@ -12,18 +14,19 @@ export default async function modifyDoctorSpecialties(
 	setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void,
 	callback: () => void
 ): Promise<void> {
+	const { doctorAccountDetails } = useContext(AppContext)
 	let response
+
 	try {
 		response = await operation(specialtyId)
 	} catch (error: unknown) {
 		handle401AxiosErrorAndSetMessageType(error, setSpecialtiesConfirmation)
 		return
 	}
+
 	if (response.status === 200) {
 		setDoctorSpecialties(newDoctorSpecialties)
-		const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
-		DoctorAccountDetails.specialties = newDoctorSpecialties
-		sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
+		doctorAccountDetails!.specialties = newDoctorSpecialties
 		setSpecialtiesConfirmation({messageType: "saved"})
 	} else {
 		setSpecialtiesConfirmation({messageType: "problem"})

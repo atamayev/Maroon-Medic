@@ -2,6 +2,7 @@
 declare global {
   type DoctorOrPatient = "Doctor" | "Patient"
   type DoctorOrPatientOrNull = DoctorOrPatient | null
+  type DoctorOrPatientOrUndefined = DoctorOrPatient | undefined
   type VetOrPatient = "Vet" | "Patient"
   type doctorOrpatient = "doctor" | "patient"
   type vetOrpatient = "vet" | "patient"

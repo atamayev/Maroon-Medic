@@ -1,18 +1,23 @@
+import { useContext } from "react"
 import moment from "moment"
+import { AppContext } from "src/contexts/maroon-context"
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
 import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle-401-axios-error-and-set-message-type"
 
-export default async function addVetEducation(
+export default async function useAddVetEducation(
 	vetGeneralEducationItem: VetEducationItem,
 	vetEducation: VetEducationItem[],
 	setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItem[]>>,
-	listDetails: DoctorListDetails,
 	setVetEducationConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
+	const appContext = useContext(AppContext)
+
 	try {
 		const mappedVetGeneralEducationItem: VetEducationData = {
-			schoolId: listDetails.vetSchools.find(school => school.schoolName === vetGeneralEducationItem.schoolName)!.vetSchoolListId,
-			educationTypeId: listDetails.vetEducationTypes.find(
+			schoolId: appContext.doctorLists!.vetSchools.find(
+				school => school.schoolName === vetGeneralEducationItem.schoolName
+			)!.vetSchoolListId,
+			educationTypeId: appContext.doctorLists!.vetEducationTypes.find(
 				educationType => educationType.educationType === vetGeneralEducationItem.educationType)!.vetEducationTypeId,
 			startDate: moment(vetGeneralEducationItem.startDate, "MMMM D, YYYY").format("YYYY-MM-DD"),
 			endDate: moment(vetGeneralEducationItem.endDate, "MMMM D, YYYY").format("YYYY-MM-DD")
@@ -22,9 +27,7 @@ export default async function addVetEducation(
 			vetGeneralEducationItem.vetEducationMappingId = response.data
 			const newVetEducation = [...vetEducation, vetGeneralEducationItem]
 			setVetEducation(newVetEducation)
-			const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") || "{}")
-			DoctorAccountDetails.vetEducation = newVetEducation
-			sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
+			appContext.doctorAccountDetails!.vetEducation = newVetEducation
 			setVetEducationConfirmation({messageType: "saved"})
 		} else {
 			setVetEducationConfirmation({messageType: "problem"})

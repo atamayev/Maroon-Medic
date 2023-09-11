@@ -9,8 +9,7 @@ import { AppContext } from "src/contexts/maroon-context"
 function PatientAccountDetails() {
 	const appContext = useContext(AppContext)
 	const [listDetails, setListDetails] = useState({} as PatientListDetails)
-	const patientAccountDetails = JSON.parse(sessionStorage.getItem("PatientAccountDetails") || "{}")
-	const [spokenLanguages, setSpokenLanguages] = useState<LanguageItem[]>(patientAccountDetails?.languages || [])
+	const [spokenLanguages, setSpokenLanguages] = useState<LanguageItem[]>(appContext.patientAccountDetails?.languages || [])
 
 	usePatientAccountDetails(setSpokenLanguages, setListDetails, appContext.userType)
 

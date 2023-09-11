@@ -1,11 +1,13 @@
+import { useContext } from "react"
 import PrivateDoctorDataService from "../../../../services/private-doctor-data-service"
 import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle-401-axios-error-and-set-message-type"
+import { AppContext } from "src/contexts/maroon-context"
 
 type ServiceOperationsType = typeof PrivateDoctorDataService.deleteService |
                              typeof PrivateDoctorDataService.updateService |
                              typeof PrivateDoctorDataService.addService
 
-export default async function modifyServicesData(
+export default async function useModifyServicesData(
 	operation: ServiceOperationsType,
 	serviceObject: ServiceItemNotNullablePrice,
 	providedServices: ServiceItemNotNullablePrice[],
@@ -13,6 +15,8 @@ export default async function modifyServicesData(
 	setServicesConfirmation: (conf: ConfirmationMessage) => void,
 	setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemNullablePrice[]>> | null = null
 ): Promise<void> {
+	const { doctorAccountDetails } = useContext(AppContext)
+
 	try {
 		const response = await operation(serviceObject)
 
@@ -35,9 +39,7 @@ export default async function modifyServicesData(
 			}
 
 			setProvidedServices(newProvidedServices)
-			const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") ?? "{}")
-			DoctorAccountDetails.services = newProvidedServices
-			sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
+			doctorAccountDetails!.services = newProvidedServices
 			setServicesConfirmation({messageType: "saved"})
 		}
 	} catch (error: unknown) {

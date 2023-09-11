@@ -1,15 +1,15 @@
+import { useContext } from "react"
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
 import shouldSaveDescription from "src/utils/save-account-details"
 import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle-401-axios-error-and-set-message-type"
+import { AppContext } from "src/contexts/maroon-context"
 
-export default async function saveDescription(
+export default async function useSaveDescription(
 	description: string,
 	setDescriptionConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
-	const DoctorAccountDetails = JSON.parse(sessionStorage.getItem("DoctorAccountDetails") || "{}")
-	const savedDescriptionData = DoctorAccountDetails.description
-
-	const shouldSave = shouldSaveDescription(savedDescriptionData, description)
+	const { doctorAccountDetails } = useContext(AppContext)
+	const shouldSave = shouldSaveDescription(doctorAccountDetails!.description, description)
 
 	if (!shouldSave) {
 		setDescriptionConfirmation({messageType: "same"})
@@ -19,8 +19,7 @@ export default async function saveDescription(
 	try {
 		const response = await PrivateDoctorDataService.saveDescriptionData(description)
 		if (response.status === 200) {
-			DoctorAccountDetails.description = description
-			sessionStorage.setItem("DoctorAccountDetails", JSON.stringify(DoctorAccountDetails))
+			doctorAccountDetails!.description = description
 			setDescriptionConfirmation({messageType: "saved"})
 		}
 	} catch (error: unknown) {

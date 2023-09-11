@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react"
-import fetchPersonalInfoData from "src/helper-functions/shared/fetch-personal-info-data"
+import { useState, useEffect, useContext } from "react"
+import { AppContext } from "src/contexts/maroon-context"
+import useFetchPersonalInfoData from "src/custom-hooks/use-fetch-personal-info-data"
 
 export default function useSetPersonalInfo(
 	userType: DoctorOrPatientOrNull,
 	expectedUserType: DoctorOrPatient
 ): {personalInfo: BirthDateInfo, setPersonalInfo: React.Dispatch<React.SetStateAction<BirthDateInfo>>}
 {
+	const appContext = useContext(AppContext)
 	const [personalInfo, setPersonalInfo] = useState<BirthDateInfo>({
 		firstName: "",
 		lastName: "",
@@ -19,9 +21,8 @@ export default function useSetPersonalInfo(
 		if (userType !== expectedUserType) return
 		const fetchAndSetPersonalInfo: () => Promise<void> = async () => {
 			try {
-				const storedPersonalInfoData = sessionStorage.getItem(`${userType}PersonalInfo`)
-				if (storedPersonalInfoData) setPersonalInfo(JSON.parse(storedPersonalInfoData))
-				else await fetchPersonalInfoData(setPersonalInfo, userType)
+				if (appContext.personalInfo) setPersonalInfo(appContext.personalInfo)
+				else await useFetchPersonalInfoData(setPersonalInfo, userType)
 			} catch (error) {
 			}
 		}

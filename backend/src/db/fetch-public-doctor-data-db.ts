@@ -36,10 +36,10 @@ export default new class FetchPublicDoctorDataDB {
 
 	async preVetEducation (doctorId: number): Promise<PreVetEducation[]> {
 		const sql = `SELECT ${mysqlTables.pre_vet_school_list}.school_name, ${mysqlTables.major_list}.major_name,
-		${mysqlTables.pre_vet_education_type_list}.education_type, ${mysqlTables.pre_vet_education_mapping}.start_date,
-		${mysqlTables.pre_vet_education_mapping}.end_date
+			${mysqlTables.pre_vet_education_type_list}.education_type, ${mysqlTables.pre_vet_education_mapping}.start_date,
+			${mysqlTables.pre_vet_education_mapping}.end_date
 		FROM ${mysqlTables.pre_vet_education_mapping}, ${mysqlTables.pre_vet_school_list},
-		${mysqlTables.major_list}, ${mysqlTables.pre_vet_education_type_list}
+			${mysqlTables.major_list}, ${mysqlTables.pre_vet_education_type_list}
 		WHERE ${mysqlTables.pre_vet_education_mapping}.school_id = ${mysqlTables.pre_vet_school_list}.pre_vet_school_list_id
 		AND ${mysqlTables.pre_vet_education_mapping}.major_id = ${mysqlTables.major_list}.major_list_id
 		AND ${mysqlTables.pre_vet_education_mapping}.education_type_id =

@@ -1,22 +1,20 @@
 import { useCallback } from "react"
-import addVetEducation from "src/helper-functions/account-details/save/doctor-account-details/add-vet-education"
+import useAddVetEducation from "../save/doctor-account-details/use-add-vet-education"
 
 const useSaveAddVetEducation = (
 	vetEducation: VetEducationItem[],
 	setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItem[]>>,
-	listDetails: DoctorListDetails,
 	setVetEducationConfirmation: (conf: ConfirmationMessage) => void
 ): ((selectedEducationObj: VetEducationItem) => void) => {
 	return useCallback(
 		async (selectedEducationObj: VetEducationItem) => {
-			await addVetEducation(
+			await useAddVetEducation(
 				selectedEducationObj,
 				vetEducation,
 				setVetEducation,
-				listDetails,
 				setVetEducationConfirmation
 			)
-		}, [vetEducation, setVetEducation, listDetails, setVetEducationConfirmation])
+		}, [vetEducation, setVetEducation, setVetEducationConfirmation])
 }
 
 export default useSaveAddVetEducation

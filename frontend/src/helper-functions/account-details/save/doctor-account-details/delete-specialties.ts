@@ -1,5 +1,6 @@
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
-import modifyDoctorSpecialties from "../doctor-account-details-helpers/modify-doctor-specialties"
+import useModifyDoctorSpecialties
+	from "../../../../custom-hooks/account-details/save/doctor-account-details-helpers/use-modify-doctor-specialties"
 
 export default async function deleteSpecialties(
 	specialtyId: number,
@@ -8,7 +9,7 @@ export default async function deleteSpecialties(
 	setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>,
 	setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
-	return await modifyDoctorSpecialties(
+	return await useModifyDoctorSpecialties(
 		PrivateDoctorDataService.deleteSpecialty,
 		specialtyId,
 		newDoctorSpecialties,

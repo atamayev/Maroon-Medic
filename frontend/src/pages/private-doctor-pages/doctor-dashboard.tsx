@@ -8,23 +8,21 @@ import DoctorHeader from "./doctor-header"
 import PersonalInfo from "src/components/doctor-dashboard/personal-info"
 import PastAppointmentsSection from "src/components/doctor-dashboard/past-appointments/past-appointments-section"
 import UpcomingAppointmentsSection from "src/components/doctor-dashboard/upcoming-appointments/upcoming-appointments-section"
-import retrieveFromSessionStorage from "src/utils/retrieve-from-session-storage"
 import { AppContext } from "src/contexts/maroon-context"
 
 function DoctorDashboard() {
 	const appContext = useContext(AppContext)
 	const { dashboardData, setDashboardData } = useSetDoctorDashboardData()
-	const doctorPersonalInfo = retrieveFromSessionStorage("DoctorPersonalInfo")
-	const [personalInfo, setPersonalInfo] = useState<BirthDateInfo | null>(doctorPersonalInfo)
+	const [personalInfo, setPersonalInfo] = useState<BirthDateInfo | null>(appContext.personalInfo)
 	const [pastAppointments, setPastAppointments] = useState<DoctorDashboardData[]>([])
 	const [upcomingAppointments, setUpcomingAppointments] = useState<DoctorDashboardData[]>([])
 
 	useEffect(() => {
 		if (appContext.userType !== "Doctor") return
 		const interval = setInterval(() => {
-			const sessionInfo = sessionStorage.getItem("DoctorPersonalInfo")
-			if (sessionInfo) {
-				setPersonalInfo(JSON.parse(sessionInfo))
+			if (appContext.personalInfo) {
+				setPersonalInfo(appContext.personalInfo)
+				// Clear the interval once the data is set
 				clearInterval(interval)
 			}
 			// Check every 10 miliseconds
