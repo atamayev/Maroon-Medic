@@ -1,16 +1,17 @@
 import _ from "lodash"
-import { useEffect, useState } from "react"
+import { observer } from "mobx-react"
+import { useEffect, useState, useContext } from "react"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import ServiceList from "src/components/doctor-account-details/service/service-list"
 import AccountDetailsCard from "src/components/account-details-card"
+import { AppContext } from "src/contexts/maroon-context"
 
 interface Props {
-  listDetails: DoctorListDetails
-  providedServices: ServiceItemNotNullablePrice[]
-  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemNotNullablePrice[]>>
-  expandedCategories: string[]
-  setExpandedCategories: React.Dispatch<React.SetStateAction<string[]>>
+	providedServices: ServiceItemNotNullablePrice[]
+	setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemNotNullablePrice[]>>
+	expandedCategories: string[]
+	setExpandedCategories: React.Dispatch<React.SetStateAction<string[]>>
 }
 
 export default function ServiceSection (props: Props) {
@@ -23,8 +24,9 @@ export default function ServiceSection (props: Props) {
 }
 
 function VetServices (props: Props) {
+	const { providedServices, setProvidedServices, expandedCategories, setExpandedCategories } = props
+	const { doctorLists } = useContext(AppContext)
 	const [servicesConfirmation, setServicesConfirmation] = useConfirmationMessage()
-	const { listDetails, providedServices, setProvidedServices, expandedCategories, setExpandedCategories } = props
 	const [selectedServices, setSelectedServices] = useState<ServiceItemNullablePrice[]>([])
 
 	useEffect(() => {
@@ -35,19 +37,22 @@ function VetServices (props: Props) {
 	}, [providedServices])
 
 	type CategoriesType = {
-	[key: string]: ServiceListItem[]
+		[key: string]: ServiceListItem[]
 	}
 
 	const categories: CategoriesType = {}
 
-	if (listDetails.servicesAndCategories) {
-		listDetails.servicesAndCategories.forEach(service => {
-			if (!categories[service.categoryName]) categories[service.categoryName] = []
-			categories[service.categoryName].push(service)
-		})
-	}
+	if (_.isNull(doctorLists)) return null
 
-	if (_.isEmpty(_.uniq(listDetails.servicesAndCategories.map((item) => item.categoryName)))) return <>Loading...</>
+	doctorLists.servicesAndCategories.forEach(service => {
+		if (!categories[service.categoryName]) categories[service.categoryName] = []
+		categories[service.categoryName].push(service)
+	})
+
+	if (
+		_.isNull(doctorLists) ||
+		_.isEmpty(_.uniq(doctorLists.servicesAndCategories.map((item) => item.categoryName)))
+	) return <>Loading...</>
 
 	return (
 		<>
@@ -69,3 +74,5 @@ function VetServices (props: Props) {
 		</>
 	)
 }
+
+observer(VetServices)

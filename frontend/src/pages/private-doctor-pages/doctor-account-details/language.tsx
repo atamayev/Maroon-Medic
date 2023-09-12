@@ -1,4 +1,6 @@
-import { useState } from "react"
+import _ from "lodash"
+import { observer } from "mobx-react"
+import { useState, useContext } from "react"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import SavedLanguageList from "src/components/language/saved-languages-list"
@@ -8,11 +10,11 @@ import useDeleteLanguage from "src/custom-hooks/account-details/callbacks/use-de
 import useAddLanguage from "src/custom-hooks/account-details/callbacks/use-add-language"
 import SelectLanguage from "src/components/language/select-language"
 import AccountDetailsCard from "src/components/account-details-card"
+import { AppContext } from "src/contexts/maroon-context"
 
 interface Props {
-  listDetails: DoctorListDetails
-  spokenLanguages: LanguageItem[]
-  setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>
+	spokenLanguages: LanguageItem[]
+	setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>
 }
 
 export default function LanguageSection(props: Props) {
@@ -25,15 +27,18 @@ export default function LanguageSection(props: Props) {
 }
 
 function VetLanguages(props: Props) {
-	const {listDetails, spokenLanguages, setSpokenLanguages} = props
+	const { spokenLanguages, setSpokenLanguages } = props
+	const { doctorLists } = useContext(AppContext)
 	const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
 	const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage()
 
 	useUpdateDeleteLanguageStatuses(deleteStatuses, setDeleteStatuses, spokenLanguages)
 
-	const languageOptions = useGenerateLanguageOptions(listDetails.languages, spokenLanguages)
+	const languageOptions = useGenerateLanguageOptions(spokenLanguages)
 
-	const handleLanguageChange = useAddLanguage(spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, "doctor")
+	if (_.isNull(doctorLists)) return null
+
+	const handleLanguageChange = useAddLanguage(spokenLanguages, setSpokenLanguages, doctorLists, setLanguagesConfirmation, "doctor")
 
 	const handleDeleteLanguage = useDeleteLanguage(spokenLanguages, setSpokenLanguages, setLanguagesConfirmation, "doctor")
 
@@ -56,3 +61,5 @@ function VetLanguages(props: Props) {
 		</>
 	)
 }
+
+observer(VetLanguages)

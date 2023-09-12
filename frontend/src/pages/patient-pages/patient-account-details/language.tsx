@@ -31,7 +31,7 @@ function PatientLanguages(props: Props) {
 
 	useUpdateDeleteLanguageStatuses(deleteStatuses, setDeleteStatuses, spokenLanguages)
 
-	const languageOptions = useGenerateLanguageOptions(listDetails.languages, spokenLanguages)
+	const languageOptions = useGenerateLanguageOptions(spokenLanguages)
 
 	const handleLanguageChange = useAddLanguage(spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, "patient")
 

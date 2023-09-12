@@ -1,13 +1,17 @@
 import _ from "lodash"
+import { useContext } from "react"
+import { AppContext } from "src/contexts/maroon-context"
 
 interface Props {
-	listDetails: DoctorListDetails
 	selectedPreVetSchool: string
 	setSelectedPreVetSchool: (value: React.SetStateAction<string>) => void
 }
 
 export default function SelectPreVetSchool (props: Props) {
-	const { listDetails, selectedPreVetSchool, setSelectedPreVetSchool } = props
+	const { selectedPreVetSchool, setSelectedPreVetSchool } = props
+	const { doctorLists } = useContext(AppContext)
+
+	if (_.isNull(doctorLists)) return null
 
 	return (
 		<div>
@@ -19,7 +23,7 @@ export default function SelectPreVetSchool (props: Props) {
 				onChange = {(e) => setSelectedPreVetSchool(e.target.value)}
 			>
 				<option value = "" disabled>Choose a School</option>
-				{_.uniqBy(listDetails.preVetSchools, "schoolName").map(
+				{_.uniqBy(doctorLists.preVetSchools, "schoolName").map(
 					(school) => (
 						<option key = {school.preVetSchoolListId} value = {school.schoolName}>
 							{school.schoolName}

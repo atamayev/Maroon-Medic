@@ -20,17 +20,6 @@ import { AppContext } from "src/contexts/maroon-context"
 // eslint-disable-next-line complexity, max-lines-per-function
 function DoctorAccountDetails() {
 	const appContext = useContext(AppContext)
-	const [listDetails, setListDetails] = useState<DoctorListDetails>({
-		languages: [],
-		servicesAndCategories: [],
-		specialties: [],
-		preVetSchools: [],
-		preVetEducationTypes: [],
-		majors: [],
-		vetSchools: [],
-		vetEducationTypes: [],
-		pets: []
-	})
 	//const [carouselIndex, setCarouselIndex] = useState(0)
 
 	const [spokenLanguages, setSpokenLanguages] = useState<LanguageItem[]>(appContext.doctorAccountDetails?.languages || [])
@@ -71,11 +60,7 @@ function DoctorAccountDetails() {
 		setPubliclyAvailable
 	}
 
-	useSetDoctorAccountDetails(
-		setListDetails,
-		setExpandedCategories,
-		dispatchers
-	)
+	useSetDoctorAccountDetails(setExpandedCategories, dispatchers)
 
 	if (appContext.userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
@@ -83,12 +68,10 @@ function DoctorAccountDetails() {
 		<div>
 			<DoctorHeader/>
 			<PreVetEducationSection
-				listDetails = {listDetails}
 				preVetEducation = {preVetEducation}
 				setPreVetEducation = {setPreVetEducation}
 			/>
 			<VetEducationSection
-				listDetails = {listDetails}
 				vetEducation = {vetEducation}
 				setVetEducation = {setVetEducation}
 			/>
@@ -102,24 +85,20 @@ function DoctorAccountDetails() {
 				setCarouselIndex = {setCarouselIndex}
 			/> */}
 			<PetsSection
-				listDetails = {listDetails}
 				servicedPets = {servicedPets}
 				setServicedPets = {setServicedPets}
 				expandedPetTypes = {expandedPetTypes}
 				setExpandedPetTypes = {setExpandedPetTypes}
 			/>
 			<SpecialtySection
-				listDetails = {listDetails}
 				doctorSpecialties = {doctorSpecialties}
 				setDoctorSpecialties = {setDoctorSpecialties}
 			/>
 			<LanguageSection
-				listDetails = {listDetails}
 				spokenLanguages = {spokenLanguages}
 				setSpokenLanguages = {setSpokenLanguages}
 			/>
 			<ServiceSection
-				listDetails = {listDetails}
 				providedServices = {providedServices}
 				setProvidedServices = {setProvidedServices}
 				expandedCategories = {expandedCategories}

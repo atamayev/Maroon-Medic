@@ -1,5 +1,6 @@
 import _ from "lodash"
-import { useState, useEffect, useMemo } from "react"
+import { observer } from "mobx-react"
+import { useState, useEffect, useMemo, useContext } from "react"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import useDeleteSpecialty from "src/custom-hooks/account-details/callbacks/use-delete-specialty"
@@ -8,11 +9,11 @@ import SelectOrganization from "src/components/doctor-account-details/specialty/
 import SelectSpecialty from "src/components/doctor-account-details/specialty/select-specialty"
 import SavedSpecialtyList from "src/components/doctor-account-details/specialty/saved-specialty-list"
 import AccountDetailsCard from "src/components/account-details-card"
+import { AppContext } from "src/contexts/maroon-context"
 
 interface Props {
-  listDetails: DoctorListDetails
-  doctorSpecialties: SpecialtyItem[]
-  setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>
+	doctorSpecialties: SpecialtyItem[]
+	setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>
 }
 
 export default function SpecialtySection (props: Props) {
@@ -25,13 +26,19 @@ export default function SpecialtySection (props: Props) {
 }
 
 function VetSpecialties(props: Props) {
+	const { doctorSpecialties, setDoctorSpecialties } = props
+	const { doctorLists } = useContext(AppContext)
 	const [selectedOrganization, setSelectedOrganization] = useState("")
 	const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
-	const {listDetails, doctorSpecialties, setDoctorSpecialties} = props
 	const [specialtiesConfirmation, setSpecialtiesConfirmation] = useConfirmationMessage()
 
+	if (
+		_.isNull(doctorLists) ||
+		_.isEmpty(_.uniq(doctorLists.specialties.map((item) => item.organizationName)))
+	) return <p>Loading...</p>
+
 	const specialties = selectedOrganization
-		? listDetails.specialties.filter((item) => item.organizationName === selectedOrganization)
+		? doctorLists.specialties.filter((item) => item.organizationName === selectedOrganization)
 		: []
 
 	useEffect(() => {
@@ -67,7 +74,6 @@ function VetSpecialties(props: Props) {
 		doctorSpecialties,
 		setDoctorSpecialties,
 		setSelectedOrganization,
-		listDetails,
 		setSpecialtiesConfirmation
 	)
 
@@ -76,12 +82,10 @@ function VetSpecialties(props: Props) {
 		setSpecialtiesConfirmation, setSelectedOrganization
 	)
 
-	if (_.isEmpty(_.uniq(listDetails.specialties.map((item) => item.organizationName)))) return <p>Loading...</p>
 
 	return (
 		<>
 			<SelectOrganization
-				listDetails = {listDetails}
 				selectedOrganization = {selectedOrganization}
 				setSelectedOrganization = {setSelectedOrganization}
 			/>
@@ -106,3 +110,5 @@ function VetSpecialties(props: Props) {
 		</>
 	)
 }
+
+observer(SpecialtySection)

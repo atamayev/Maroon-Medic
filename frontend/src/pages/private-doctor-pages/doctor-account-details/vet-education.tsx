@@ -1,5 +1,6 @@
 import _ from "lodash"
-import { useState, useEffect } from "react"
+import { observer } from "mobx-react"
+import { useState, useEffect, useContext } from "react"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import useDeleteVetEducation from "src/custom-hooks/account-details/callbacks/use-delete-vet-education"
@@ -11,9 +12,9 @@ import VetEducationTime from "src/components/doctor-account-details/education/ve
 import AddAndSaveVetEducationButton from "src/components/doctor-account-details/education/vet-education/add-and-save-vet-education-button"
 import SavedVetEducationList from "src/components/doctor-account-details/education/vet-education/saved-vet-education-list"
 import AccountDetailsCard from "src/components/account-details-card"
+import { AppContext } from "src/contexts/maroon-context"
 
 interface Props {
-	listDetails: DoctorListDetails
 	vetEducation: VetEducationItem[]
 	setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItem[]>>
 }
@@ -28,7 +29,8 @@ export default function VetEducationSection (props: Props) {
 }
 
 function VetEducation(props: Props) {
-	const { listDetails, vetEducation, setVetEducation } = props
+	const { vetEducation, setVetEducation } = props
+	const { doctorLists } = useContext(AppContext)
 	const [selectedVetSchool, setSelectedVetSchool] = useState("")
 	const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
 	const [selectedVetEducationType, setSelectedVetEducationType] = useState("")
@@ -70,18 +72,19 @@ function VetEducation(props: Props) {
 
 	const handleDeleteOnClick = useDeleteVetEducation(vetEducation, setVetEducation, setVetEducationConfirmation)
 
-	if (_.isEmpty(_.uniq(listDetails.vetSchools.map((item) => item.schoolName)))) return <p>Loading...</p>
+	if (
+		_.isNull(doctorLists) ||
+		_.isEmpty(_.uniq(doctorLists.vetSchools.map((item) => item.schoolName)))
+	) return <p>Loading...</p>
 
 	return (
 		<>
 			<SelectVetSchool
-				listDetails = {listDetails}
 				selectedVetSchool = {selectedVetSchool}
 				setSelectedVetSchool = {setSelectedVetSchool}
 			/>
 
 			<SelectVetEducationType
-				listDetails = {listDetails}
 				selectedVetEducationType = {selectedVetEducationType}
 				selectedVetSchool = {selectedVetSchool}
 				setSelectedVetEducationType = {setSelectedVetEducationType}
@@ -113,3 +116,5 @@ function VetEducation(props: Props) {
 		</>
 	)
 }
+
+observer(VetEducation)

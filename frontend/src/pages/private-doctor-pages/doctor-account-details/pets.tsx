@@ -1,11 +1,13 @@
 import _ from "lodash"
+import { useContext } from "react"
+import { observer } from "mobx-react"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import ServicedPets from "src/components/doctor-account-details/serviced-pets/serviced-pets"
 import AccountDetailsCard from "src/components/account-details-card"
+import { AppContext } from "src/contexts/maroon-context"
 
 interface Props {
-	listDetails: DoctorListDetails
 	servicedPets: ServicedPetItem[]
 	expandedPetTypes: string[]
 	setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItem[]>>
@@ -22,22 +24,25 @@ export default function PetsSection (props: Props) {
 }
 
 function PetsServiced (props: Props) {
-	const { listDetails, servicedPets, expandedPetTypes, setServicedPets, setExpandedPetTypes } = props
+	const { servicedPets, expandedPetTypes, setServicedPets, setExpandedPetTypes } = props
+	const { doctorLists } = useContext(AppContext)
 	const [petsConfirmation, setPetsConfirmation] = useConfirmationMessage()
 
 	type PetTypesType = {
 		[key: string]: ServicedPetItem[]
 	}
 
-	const petTypes: PetTypesType = {}
-	if (listDetails.pets) {
-		listDetails.pets.forEach(petType => {
-			if (!petTypes[petType.petType]) petTypes[petType.petType] = []
-			petTypes[petType.petType].push(petType)
-		})
-	}
+	if (
+		_.isNull(doctorLists) ||
+		_.isEmpty(_.uniq(doctorLists.pets.map((item) => item.petType)))
+	) return <>Loading...</>
 
-	if (_.isEmpty(_.uniq(listDetails.pets.map((item) => item.petType)))) return <>Loading...</>
+	const petTypes: PetTypesType = {}
+
+	doctorLists.pets.forEach(petType => {
+		if (!petTypes[petType.petType]) petTypes[petType.petType] = []
+		petTypes[petType.petType].push(petType)
+	})
 
 	return (
 		<>
@@ -56,3 +61,5 @@ function PetsServiced (props: Props) {
 		</>
 	)
 }
+
+observer(PetsSection)

@@ -14,7 +14,7 @@ interface Props {
 export default function DescriptionSection (props: Props) {
 	return (
 		<AccountDetailsCard
-			title = "Languages"
+			title = "Description"
 			content = {<Description {...props} />}
 		/>
 	)

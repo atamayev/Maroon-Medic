@@ -1,10 +1,12 @@
-import { makeAutoObservable } from "mobx"
+import _ from "lodash"
 import { createContext } from "react"
+import { makeAutoObservable } from "mobx"
 import { PersonalInfoClass } from "../classes/personal-info-class"
 import { DashboardDataClass } from "../classes/dashboard-data-class"
 import { PatientAccountDetailsClass } from "src/classes/patient-account-details-class"
 import { DoctorAccountDetailsClass } from "src/classes/doctor-account-details-class"
 import { PatientListsClass } from "src/classes/patient-lists"
+import { DoctorListsClass } from "src/classes/doctor-lists"
 
 export class MaroonContext {
 	constructor() {
@@ -24,13 +26,13 @@ export class MaroonContext {
 	private _doctorLists: DoctorListDetails | null = null
 
 	public initializePersonalInfo(birthDateInfo: BirthDateInfo): void {
-		if (this._isAuthenticated && this._userType) {
+		if (this._isAuthenticated && !_.isNull(this._userType)) {
 			this._personalInfo = new PersonalInfoClass(birthDateInfo)
 		}
 	}
 
 	public initializeDashboardData(dashboardData: DoctorDashboardData[] | PatientDashboardData[]): void {
-		if (this._isAuthenticated && this._userType) {
+		if (this._isAuthenticated && !_.isNull(this._userType)) {
 			this._dashboardData = dashboardData.map((data) => new DashboardDataClass(data))
 		}
 	}
@@ -48,14 +50,14 @@ export class MaroonContext {
 	}
 
 	public initializePatientLists(patientLists: PatientListDetails): void {
-		if (this._isAuthenticated && this._userType === "Doctor") {
+		if (this._isAuthenticated && this._userType === "Patient") {
 			this._patientLists = new PatientListsClass(patientLists)
 		}
 	}
 
 	public initializeDoctorLists(doctorLists: DoctorListDetails): void {
-		if (this._isAuthenticated && this._userType === "Patient") {
-			this._doctorLists = doctorLists
+		if (this._isAuthenticated && this._userType === "Doctor") {
+			this._doctorLists = new DoctorListsClass(doctorLists)
 		}
 	}
 

@@ -1,5 +1,6 @@
 import _ from "lodash"
-import { useState, useEffect } from "react"
+import { observer } from "mobx-react"
+import { useState, useEffect, useContext } from "react"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import useDeletePreVetEducation from "src/custom-hooks/account-details/callbacks/use-delete-pre-vet-education"
@@ -13,11 +14,11 @@ import PreVetEducationTime from "src/components/doctor-account-details/education
 import AddAndSavePreVetEducationButton
 	from "src/components/doctor-account-details/education/pre-vet-education/add-and-save-pre-vet-education-button"
 import AccountDetailsCard from "src/components/account-details-card"
+import { AppContext } from "src/contexts/maroon-context"
 
 interface Props {
-  listDetails: DoctorListDetails
-  preVetEducation: PreVetEducationItem[]
-  setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItem[]>>
+	preVetEducation: PreVetEducationItem[]
+	setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItem[]>>
 }
 
 export default function PreVetEducationSection(props: Props) {
@@ -30,7 +31,8 @@ export default function PreVetEducationSection(props: Props) {
 }
 
 function PreVetEducation(props: Props) {
-	const { listDetails, preVetEducation, setPreVetEducation } = props
+	const { preVetEducation, setPreVetEducation } = props
+	const { doctorLists } = useContext(AppContext)
 	const [selectedPreVetSchool, setSelectedPreVetSchool] = useState<string>("")
 	const [selectedMajor, setSelectedMajor] = useState<string>("")
 	const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
@@ -76,25 +78,25 @@ function PreVetEducation(props: Props) {
 
 	const handleDeleteOnClick = useDeletePreVetEducation(preVetEducation, setPreVetEducation, setPreVetEducationConfirmation)
 
-	if (_.isEmpty(_.uniq(listDetails.preVetSchools.map((item) => item.schoolName)))) return <p> Loading... </p>
+	if (
+		_.isNull(doctorLists) ||
+		_.isEmpty(_.uniq(doctorLists.preVetSchools.map((item) => item.schoolName)))
+	) return <p> Loading... </p>
 
 	return (
 		<>
 			<SelectPreVetSchool
-				listDetails = {listDetails}
 				selectedPreVetSchool = {selectedPreVetSchool}
 				setSelectedPreVetSchool = {setSelectedPreVetSchool}
 			/>
 
 			<SelectMajor
-				listDetails = {listDetails}
 				selectedPreVetSchool = {selectedPreVetSchool}
 				selectedMajor = {selectedMajor}
 				setSelectedMajor = {setSelectedMajor}
 			/>
 
 			<SelectPreVetEducationType
-				listDetails = {listDetails}
 				selectedPreVetEducationType = {selectedPreVetEducationType}
 				selectedMajor = {selectedMajor}
 				setSelectedPreVetEducationType = {setSelectedPreVetEducationType}
@@ -126,3 +128,5 @@ function PreVetEducation(props: Props) {
 		</>
 	)
 }
+
+observer(PreVetEducation)
