@@ -13,24 +13,8 @@ import { AppContext } from "src/contexts/maroon-context"
 function DoctorDashboard() {
 	const appContext = useContext(AppContext)
 	const { dashboardData, setDashboardData } = useSetDoctorDashboardData()
-	const [personalInfo, setPersonalInfo] = useState<BirthDateInfo | null>(appContext.personalInfo)
 	const [pastAppointments, setPastAppointments] = useState<DoctorDashboardData[]>([])
 	const [upcomingAppointments, setUpcomingAppointments] = useState<DoctorDashboardData[]>([])
-
-	useEffect(() => {
-		if (appContext.userType !== "Doctor") return
-		const interval = setInterval(() => {
-			if (appContext.personalInfo) {
-				setPersonalInfo(appContext.personalInfo)
-				// Clear the interval once the data is set
-				clearInterval(interval)
-			}
-			// Check every 10 miliseconds
-		}, 10)
-
-		// Clean up interval on unmount
-		return () => clearInterval(interval)
-	}, [])
 
 	useEffect(() => {
 		if (!_.isEmpty(dashboardData) && appContext.userType === "Doctor") {
@@ -66,7 +50,7 @@ function DoctorDashboard() {
 	return (
 		<>
 			<DoctorHeader/>
-			<PersonalInfo personalInfo = {personalInfo} />
+			<PersonalInfo />
 			<DashboardData />
 		</>
 	)

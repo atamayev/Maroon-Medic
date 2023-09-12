@@ -1,54 +1,47 @@
 import _ from "lodash"
-import { useState, useEffect, useContext } from "react"
+import { useEffect, useContext } from "react"
 import fetchDoctorPersonalInfo from "src/helper-functions/private-doctor/fetch-doctor-personal-data"
 import fetchPatientPersonalInfo from "src/helper-functions/patient/fetch-patient-personal-data"
-import { AppContext } from "src/contexts/maroon-context"
+import { AppContext, MaroonContext } from "src/contexts/maroon-context"
 
-export default function useSetHeaderData(userType: DoctorOrPatientOrNull): {
-	headerData: string,
-	setHeaderData: React.Dispatch<React.SetStateAction<string>>
-	} {
-	const [headerData, setHeaderData] = useState("Profile")
+export default function useSetHeaderData(): void {
+	const appContext = useContext(AppContext)
 
 	const getHeaderData: () => void = async () => {
-		try {
-			if (userType === "Doctor") await setDoctorHeaderData(setHeaderData)
-			else if (userType === "Patient") await setPatientHeaderData(setHeaderData)
-		} catch (error) {
+		if (!_.isNull(appContext.personalInfo)) {
+			if (appContext.userType === "Doctor") {
+				appContext.headerData = `Dr. ${appContext.personalInfo.lastName}`
+			} else if (appContext.userType === "Patient") {
+				appContext.headerData = appContext.personalInfo.firstName
+			}
+			return
+		}
+
+		if (appContext.headerData === "Profile") {
+			try {
+				if (appContext.userType === "Doctor") await setDoctorHeaderData(appContext)
+				else if (appContext.userType === "Patient") await setPatientHeaderData(appContext)
+			} catch (error) {
+			}
 		}
 	}
 
 	useEffect(() => {
+		if (appContext.headerData !== "Profile") return
 		getHeaderData()
-	// Uncomment this:
-	// }, [userType])
 	}, [])
-
-	return { headerData, setHeaderData }
 }
 
-async function setDoctorHeaderData (setHeaderData: React.Dispatch<React.SetStateAction<string>>): Promise<void> {
-	const appContext = useContext(AppContext)
-
-	if (appContext.personalInfo) setHeaderData("Dr. " + _.upperFirst(appContext.personalInfo.lastName))
-
-	else {
-		const response = await fetchDoctorPersonalInfo()
-		if (!response) return
-		setHeaderData("Dr. " + _.upperFirst(response.data.lastName))
-		appContext.initializePersonalInfo(response.data)
-	}
+async function setDoctorHeaderData (appContext: MaroonContext): Promise<void> {
+	const response = await fetchDoctorPersonalInfo()
+	if (!response) return
+	appContext.initializePersonalInfo(response.data)
+	appContext.headerData = `Dr. ${response.data.lastName}`
 }
 
-async function setPatientHeaderData (setHeaderData: React.Dispatch<React.SetStateAction<string>>): Promise<void> {
-	const appContext = useContext(AppContext)
-
-	if (appContext.personalInfo) setHeaderData(appContext.personalInfo.firstName)
-
-	else {
-		const response = await fetchPatientPersonalInfo()
-		if (!response) return
-		setHeaderData(response.data.firstName)
-		appContext.initializePersonalInfo(response.data)
-	}
+async function setPatientHeaderData (appContext: MaroonContext): Promise<void> {
+	const response = await fetchPatientPersonalInfo()
+	if (!response) return
+	appContext.initializePersonalInfo(response.data)
+	appContext.headerData = response.data.firstName
 }

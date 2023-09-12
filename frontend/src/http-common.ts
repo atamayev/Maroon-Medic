@@ -10,8 +10,7 @@ const http = axios.create({
 })
 
 http.interceptors.request.use((config) => {
-	const userType: DoctorOrPatientOrUndefined = "Doctor"
-	// const userType: DoctorOrPatientOrUndefined = localStorage.getItem("UserType")
+	const userType: DoctorOrPatientOrNull = localStorage.getItem("UserType") as DoctorOrPatientOrNull
 	const accessToken = cookieCheck.getCookie("AccessToken")
 
 	// Update headers

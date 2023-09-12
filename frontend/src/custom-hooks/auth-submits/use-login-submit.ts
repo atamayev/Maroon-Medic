@@ -27,11 +27,12 @@ const useLoginSubmit = (
 			if (response.status === 200 && isLoginRegisterSuccess(response.data)) {
 				appContext.isAuthenticated = true
 				if (VetOrPatient === "Vet") {
-					// appContext.userType = "Doctor"
+					appContext.userType = "Doctor"
 					localStorage.setItem("UserType", "Doctor")
 				}
+
 				else {
-					// appContext.userType = "Patient"
+					appContext.userType = "Patient"
 					localStorage.setItem("UserType", "Patient")
 				}
 

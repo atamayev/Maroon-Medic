@@ -15,6 +15,7 @@ export class MaroonContext {
 	private _userType: DoctorOrPatientOrNull = null
 	private _newUser: boolean = false
 	private _personalInfo: PersonalInfoClass | null = null
+	private _headerData: string = "Profile"
 	private _dashboardData: DashboardDataClass[] | null = null
 	private _loginHistory: LoginHistoryItem[] | null = null
 	private _patientAccountDetails: PatientAccountDetailsClass | null = null
@@ -22,40 +23,54 @@ export class MaroonContext {
 	private _patientLists: PatientListsClass | null = null
 	private _doctorLists: DoctorListDetails | null = null
 
-	initializePersonalInfo(birthDateInfo: BirthDateInfo): void {
-		if (this.isAuthenticated && this._userType) {
+	public initializePersonalInfo(birthDateInfo: BirthDateInfo): void {
+		if (this._isAuthenticated && this._userType) {
 			this._personalInfo = new PersonalInfoClass(birthDateInfo)
 		}
 	}
 
-	initializeDashboardData(dashboardData: DoctorDashboardData[] | PatientDashboardData[]): void {
-		if (this.isAuthenticated && this._userType) {
+	public initializeDashboardData(dashboardData: DoctorDashboardData[] | PatientDashboardData[]): void {
+		if (this._isAuthenticated && this._userType) {
 			this._dashboardData = dashboardData.map((data) => new DashboardDataClass(data))
 		}
 	}
 
-	initializePatientAccountDetails(patientAccountDetails: PatientAccountDetails): void {
-		if (this.isAuthenticated && this._userType === "Patient") {
+	public initializePatientAccountDetails(patientAccountDetails: PatientAccountDetails): void {
+		if (this._isAuthenticated && this._userType === "Patient") {
 			this._patientAccountDetails = new PatientAccountDetailsClass(patientAccountDetails)
 		}
 	}
 
-	initializeDoctorAccountDetails(doctorAccountDetails: DoctorAccountDetails): void {
-		if (this.isAuthenticated && this._userType === "Doctor") {
+	public initializeDoctorAccountDetails(doctorAccountDetails: DoctorAccountDetails): void {
+		if (this._isAuthenticated && this._userType === "Doctor") {
 			this._doctorAccountDetails = new DoctorAccountDetailsClass(doctorAccountDetails)
 		}
 	}
 
-	initializePatientLists(patientLists: PatientListDetails): void {
-		if (this.isAuthenticated && this._userType === "Doctor") {
+	public initializePatientLists(patientLists: PatientListDetails): void {
+		if (this._isAuthenticated && this._userType === "Doctor") {
 			this._patientLists = new PatientListsClass(patientLists)
 		}
 	}
 
-	initializeDoctorLists(doctorLists: DoctorListDetails): void {
-		if (this.isAuthenticated && this._userType === "Patient") {
+	public initializeDoctorLists(doctorLists: DoctorListDetails): void {
+		if (this._isAuthenticated && this._userType === "Patient") {
 			this._doctorLists = doctorLists
 		}
+	}
+
+	public logout(): void {
+		this._isAuthenticated = false
+		this._userType = null
+		this._newUser = false
+		this._personalInfo = null
+		this._headerData = "Profile"
+		this._dashboardData = null
+		this._loginHistory = null
+		this._patientAccountDetails = null
+		this._doctorAccountDetails = null
+		this._patientLists = null
+		this._doctorLists = null
 	}
 
 	get doctorLists(): DoctorListDetails | null {
@@ -104,6 +119,14 @@ export class MaroonContext {
 
 	get personalInfo(): PersonalInfoClass | null {
 		return this._personalInfo
+	}
+
+	get headerData(): string {
+		return this._headerData
+	}
+
+	set headerData(value: string) {
+		this._headerData = value
 	}
 
 	get userType(): "Doctor" | "Patient" | null {

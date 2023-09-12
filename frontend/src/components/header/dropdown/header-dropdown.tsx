@@ -1,19 +1,18 @@
+import { observer } from "mobx-react"
+import { useLocation } from "react-router-dom"
 import { useState, useEffect, useRef, useContext } from "react"
 import pic from "../../../images/ProfileImage.jpg"
 import useSetHeaderData from "src/custom-hooks/use-set-header-data"
 import DropdownItemsContainer from "./dropdown-items-container"
-import { observer } from "mobx-react"
-import { useLocation } from "react-router-dom"
 import { AppContext } from "src/contexts/maroon-context"
 
 interface Props {
-  dropdown?: boolean
+	dropdown?: boolean
 }
 
 function HeaderDropdown ({ dropdown } : Props) {
-	const { userType } = useContext(AppContext)
 	const location = useLocation()
-	const { headerData } = useSetHeaderData(userType)
+	const { headerData } = useContext(AppContext)
 	const [isOpen, setIsOpen] = useState(false)
 
 	const dropdownRef = useRef<HTMLDivElement>(null)
@@ -23,6 +22,8 @@ function HeaderDropdown ({ dropdown } : Props) {
 			setIsOpen(false)
 		}
 	}
+
+	useSetHeaderData()
 
 	useEffect(() => {
 		document.addEventListener("mousedown", handleClickOutside)

@@ -35,7 +35,7 @@ function BookingSection(props: Props) {
 		selectedLocation: null,
 		selectedDay: null,
 		selectedTime: null
-	} as AppointmentInformation)
+	})
 	const [availableTimes, setAvailableTimes] = useState<string[]>([])
 	const [availableDates, setAvailableDates] = useState<string[]>([])
 	const [serviceMinutes, setServiceMinutes] = useState<number>(0)

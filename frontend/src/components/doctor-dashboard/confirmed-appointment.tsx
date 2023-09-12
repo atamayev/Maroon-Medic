@@ -4,10 +4,10 @@ import CalendarDataService from "src/services/calendar-data-service"
 import invalidUserAction from "src/utils/invalid-user-action"
 
 interface ApproveAppointmentProps {
-  setStatus: React.Dispatch<React.SetStateAction<AppointmentStatus>>,
-  appointmentsId: number,
-  dashboardData: DoctorDashboardData[],
-  setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardData[]>>
+	setStatus: React.Dispatch<React.SetStateAction<AppointmentStatus>>,
+	appointmentsId: number,
+	dashboardData: DoctorDashboardData[],
+	setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardData[]>>
 }
 
 async function approveAppointment (props: ApproveAppointmentProps) {

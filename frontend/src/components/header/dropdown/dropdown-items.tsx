@@ -1,3 +1,4 @@
+import _ from "lodash"
 import { observer } from "mobx-react"
 import AuthDataService from "src/services/auth-data-service"
 import { useCallback, useContext } from "react"
@@ -18,7 +19,7 @@ interface Props {
 }
 
 function DropdownItems ({ dropdown } : Props) {
-	const { userType } = useContext(AppContext)
+	const appContext = useContext(AppContext)
 
 	const handleRefresh = useHandleRefresh()
 	const unboldedDropdownItemCSS = "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 transition-all duration-100"
@@ -30,6 +31,7 @@ function DropdownItems ({ dropdown } : Props) {
 			if (response.status === 200) {
 				localStorage.clear()
 				sessionStorage.clear()
+				appContext.logout()
 			}
 		} catch (error) {
 		}
@@ -37,7 +39,7 @@ function DropdownItems ({ dropdown } : Props) {
 	}
 
 	if (dropdown === false) return null
-	if (userType !== "Doctor" && userType !== "Patient") {
+	if (_.isNull(appContext.userType)) {
 		return (
 			<>
 				<Link to="/vet-register" className={boldedDropdownItemCSS} role="menuitem">Vet Sign up</Link>
@@ -55,9 +57,9 @@ function DropdownItems ({ dropdown } : Props) {
 			<Link to="/account-details" className={unboldedDropdownItemCSS} role="menuitem">Account Details</Link>
 			<div className = "block">
 				<button
-					onClick={handleLogout}
-					className={unboldedDropdownItemCSS + " w-full text-left"}
-					role="menuitem"
+					onClick = {handleLogout}
+					className = {unboldedDropdownItemCSS + " w-full text-left"}
+					role = "menuitem"
 				>
 					Sign out
 				</button>

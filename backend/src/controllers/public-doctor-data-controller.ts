@@ -8,8 +8,9 @@ export async function returnDoctorPageData (req: Request, res: Response): Promis
 	const NVI = Number(req.params.NVI)
 	const doctorId: number = Number(await OperationHandler.executeAsyncAndReturnValue(res, CalendarDB.retrieveDoctorIdFromNVI, NVI))
 
+	let response: PublicDoctorAccountDetails
 	try {
-		const response: PublicDoctorAccountDetails = {
+		response = {
 			doctorLanguages:       await FetchPublicDoctorData.languages(doctorId),
 			doctorServices:        await FetchDoctorAccountData.services(doctorId),
 			doctorSpecialties:     await FetchPublicDoctorData.specialties(doctorId),
@@ -23,6 +24,22 @@ export async function returnDoctorPageData (req: Request, res: Response): Promis
 		response.doctorPersonalInfo.NVI = NVI
 		return res.status(200).json(response)
 	} catch (error: unknown) {
-		return res.status(400).json([])
+		response = {
+			doctorLanguages:       [],
+			doctorServices:        [],
+			doctorSpecialties:     [],
+			doctorPreVetEducation: [],
+			doctorVetEducation:    [],
+			doctorAddressData:     [],
+			description:           "",
+			servicedPets:          [],
+			doctorPersonalInfo:   {
+				NVI: -1,
+				firstName: "",
+				lastName: "",
+				gender: "",
+			}
+		}
+		return res.status(400).json(response)
 	}
 }
