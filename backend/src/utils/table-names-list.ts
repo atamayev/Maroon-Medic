@@ -17,7 +17,6 @@ export const mysqlTables = {
 	pet_list: "pet_list",
 	pet_mapping: "pet_mapping",
 	doctor_phone_numbers: "doctor_phone_numbers",
-	pictures: "pictures",
 	pre_vet_education_mapping: "pre_vet_education_mapping",
 	pre_vet_education_type_list: "pre_vet_education_type_list",
 	pre_vet_school_list: "pre_vet_school_list",

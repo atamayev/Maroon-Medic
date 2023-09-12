@@ -71,7 +71,6 @@ export async function fetchAccountDetails (req: Request, res: Response): Promise
 		servicedPets         : [],
 		verified             : false,
 		publiclyAvailable    : false
-		// pictures             : []
 	}
 
 	try {
@@ -87,7 +86,6 @@ export async function fetchAccountDetails (req: Request, res: Response): Promise
 			servicedPets         : await FetchDoctorAccountData.servicedPets(doctorId),
 			verified             : verificationAndPublicAv.verified,
 			publiclyAvailable    : verificationAndPublicAv.publiclyAvailable
-			// response.pictures             = await FetchDoctorAccountData.pictures(doctorId)
 		}
 		return res.status(200).json(response)
 	} catch (error: unknown) {

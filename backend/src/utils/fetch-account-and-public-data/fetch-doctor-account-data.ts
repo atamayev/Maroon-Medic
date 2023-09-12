@@ -96,9 +96,4 @@ export default new class FetchDoctorAccountData {
 			return {publiclyAvailable: false, verified: false}
 		}
 	}
-
-	async pictures (doctorId: number): Promise<PicturesItem[]> {
-		const result = await this.#fetchDoctorAccountData(doctorId, FetchDoctorAccountDataDB.pictures)
-		return result as PicturesItem[]
-	}
 }()

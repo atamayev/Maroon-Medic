@@ -58,11 +58,6 @@ declare global {
     verified: boolean
   }
 
-  type PicturesItem = {
-    pictureLink: string
-    pictureNumber: number
-  }
-
   type PrivateDoctorAddressData = AddressData & {
     phone: string
     times: DoctorAvailability[]

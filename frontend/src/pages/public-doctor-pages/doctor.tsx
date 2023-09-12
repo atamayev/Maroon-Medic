@@ -42,7 +42,6 @@ export default function Doctor () {
 			if (response.data.doctorAddressData) setAddresses(response.data.doctorAddressData)
 			if (response.data.description) setDescription(response.data.description)
 			if (response.data.servicedPets) setServicedPets(response.data.servicedPets)
-			// if (response.data.doctorPictures) ;// Somehow set pictures.
 			if (response.data.doctorPersonalInfo) setPersonalData(response.data.doctorPersonalInfo)
 		} catch (error) {
 		}

@@ -196,18 +196,4 @@ export default new class FetchDoctorAccountDataDB {
 
 		return status
 	}
-
-	async pictures (doctorId: number): Promise<PicturesItem[]> {
-		const sql = `SELECT picture_link, picture_number
-      FROM ${mysqlTables.pictures}
-      WHERE doctor_id = ?`
-
-		const values = [doctorId]
-
-		const connection = await connectDatabase()
-		const [results] = await connection.execute(sql, values) as RowDataPacket[]
-		const pictures = results.map((row: RowDataPacket) => row as PicturesItem)
-		const camelCasedPictures = transformArrayOfObjectsToCamelCase(pictures)
-		return camelCasedPictures as PicturesItem[]
-	}
 }()

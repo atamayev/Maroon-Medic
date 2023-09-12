@@ -140,18 +140,6 @@ CREATE TABLE service_mapping(
 
 SELECT * FROM service_mapping;
 
-CREATE TABLE pictures(
-	pictures_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	picture_link VARCHAR(512),
-	picture_number INT, -- picture number is the primary, secondary, etc.
-	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	doctor_id INT UNSIGNED NOT NULL,
-	FOREIGN KEY (doctor_id) REFERENCES credentials(user_id)
-);
-
-SELECT * FROM pictures;
-
 CREATE TABLE language_list(
 	language_list_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	language_name VARCHAR(150) NOT NULL
@@ -321,6 +309,18 @@ CREATE TABLE login_history(
 );
 
 SELECT * FROM login_history;
+
+-- CREATE TABLE pictures(
+-- 	pictures_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+-- 	picture_link VARCHAR(512),
+-- 	picture_number INT, -- picture number is the primary, secondary, etc.
+-- 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+-- 	doctor_id INT UNSIGNED NOT NULL,
+-- 	FOREIGN KEY (doctor_id) REFERENCES credentials(user_id)
+-- );
+
+-- SELECT * FROM pictures;
 
 -- CREATE TABLE detailed_booking_availability(
 -- 	detailed_booking_availability_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
