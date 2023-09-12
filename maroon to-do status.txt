@@ -1,71 +1,31 @@
 To-do:
 
 
+Context Bugs/To-do:
+	To-do:
+		Finish moving data into classes from session storage
+		Make sure
+			sharedState.isAuthenticated = !!accessToken
+			is ok. try putting in a fake cookie token and seeing what happens
+		Figure out if it makes sense to store userType both in session and on the context level
+			or is just session storage ok
+		See what happens when a previously assigned access token is re-assgined as a cookie
+			Does the doctor get the privileges of the old doctor? Shouldn't happen, if the uuid is unique to the first doctor. 
+
+	Bugs:
+		Fix logout (should re-direct and clear memory immediately). Currently looks like it clears memory, and then re-directs
+
+
 Fix the types on the vet education, prevet education in fetch public doctor data db
 	they do not contain the mapping id, and a new type should be created specifically for the public data.
 	go through the other public doctor data types, and see if they just use the private doctor types. make sure the fields match up.
 	fix in front-end as well.
 
-Current problem:
-1. User type/access Token incorrectly set to the context
-
-Consider making seperate JWT functions for patient and doctor. This way, userType won't be needed as a header
-
-See what happens when a previously assigned access token is re-assgined as a cookie
-Does the doctor get the privileges of the old doctor? Shouldn't happen, if the uuid is unique to the first doctor. 
 
 Consider removing the if statements and just setting the state to the response.data in fetchDoctorAccountDetails, fetchPatientAccountDetails
 	Since we already know that the response contains the necessary attributes
 
-Figure out if it makes sense to store userType both in session and on the context level
-	or is just session storage ok
-
-Make sure
-	sharedState.isAuthenticated = !!accessToken
-	is ok. try putting in a fake cookie token and seeing what happens
-
-recheck if the rapid reload here makes sense:
-		useEffect(() => {
-		if (appContext.userType !== "Doctor") return
-		const interval = setInterval(() => {
-			if (appContext.personalInfo) {
-				setPersonalInfo(appContext.personalInfo)
-				clearInterval(interval)
-			}
-			// Check every 10 miliseconds
-		}, 10)
-
-		// Clean up interval on unmount
-		return () => clearInterval(interval)
-	}, [])
-
-Context Stuff
-	Currently, calling verify context on every re-render
-Make JWT verify into a middleware instead of a seperately called function. Consider making 
-
-CONTEXT
-	When logging in, an object should be created that has 1) the user type, 2) the UUID 3) the AccessToken
-		This object should somehow be part of http-common. See how we did it in OpenAPI JS project
-		userType can be stored in session storage in plaintext (for reload)
-		UUID and AccessToken should be in cookies, to serve as a backstop if page reloaded
-			
-			-Make sure that all components that traditionally rely on session storage are not observers (rely on the context/class)
-			Make personal info it's own context
-			Combine authContext and verify context. make it into a memoized class, initialized as null in index.tsx
-
-
-			Make the auth token and cookie stored in a class, like in context.ts in deployment manager
-				reading from memory is faster than from session storage
-				Create an auth class to store all of this stuff. Make the class have UUID, AccessToken, userType
-
-			Classes vs useState:
-				Use classes when you need to use variables across components.
-				useState is used for temporary memory within a component
-
-			Classes vs session storage:
-				Use classes when data is sensitive
-
-			Move data like personal info into a context. If it's used by multiple components, move it into a context. Every time you navigate, show the context data, but call the API to check for changes simultaneously
+Consider making seperate JWT functions for patient and doctor. This way, userType won't be needed as a header
 
 10. Make the pets in the patient header be the pets that the user has
 11. Fix calendar appointments not rendering
