@@ -13,7 +13,7 @@ export default function DescriptionCharacterLimit (props: Props) {
 
 	return (
 		<div style = {counterStyleLimit()}>
-      Character Limit: {description.length} / 1000
+			Character Limit: {description.length} / 1000
 		</div>
 	)
 }

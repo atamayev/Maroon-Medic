@@ -16,23 +16,18 @@ import AddAndSavePreVetEducationButton
 import AccountDetailsCard from "src/components/account-details-card"
 import { AppContext } from "src/contexts/maroon-context"
 
-interface Props {
-	preVetEducation: PreVetEducationItem[]
-	setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItem[]>>
-}
-
-export default function PreVetEducationSection(props: Props) {
+export default function PreVetEducationSection() {
 	return (
 		<AccountDetailsCard
 			title = "Pre-vet education"
-			content = {<PreVetEducation {...props} />}
+			content = {<PreVetEducation />}
 		/>
 	)
 }
 
-function PreVetEducation(props: Props) {
-	const { preVetEducation, setPreVetEducation } = props
-	const { doctorLists } = useContext(AppContext)
+// eslint-disable-next-line complexity
+function PreVetEducation() {
+	const { doctorLists, doctorAccountDetails } = useContext(AppContext)
 	const [selectedPreVetSchool, setSelectedPreVetSchool] = useState<string>("")
 	const [selectedMajor, setSelectedMajor] = useState<string>("")
 	const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
@@ -45,16 +40,21 @@ function PreVetEducation(props: Props) {
 	})
 	const [preVetEducationConfirmation, setPreVetEducationConfirmation] = useConfirmationMessage()
 
+	if (
+		_.isNull(doctorLists) ||
+		_.isEmpty(_.uniq(doctorLists.preVetSchools.map((item) => item.schoolName))) ||
+		_.isNull(doctorAccountDetails)
+	) return <p> Loading... </p>
+
 	const allChoicesFilled = Boolean(selectedPreVetSchool && selectedMajor && selectedPreVetEducationType &&
     timeState.startMonth && timeState.endMonth && timeState.startYear && timeState.endYear)
 
 	useEffect(() => {
 		const newDeleteStatuses = { ...deleteStatuses }
 
-		// Go through each status
 		for (const preVetEducationMappingId in newDeleteStatuses) {
 			// If the language Id does not exist in the vetEducation list, delete the status
-			if (!preVetEducation.some(
+			if (!doctorAccountDetails.preVetEducation.some(
 				(preVetEducationItem) => preVetEducationItem.preVetEducationMappingId === Number(preVetEducationMappingId)
 			)) {
 				delete newDeleteStatuses[preVetEducationMappingId]
@@ -62,7 +62,7 @@ function PreVetEducation(props: Props) {
 		}
 
 		setDeleteStatuses(newDeleteStatuses)
-	}, [preVetEducation])
+	}, [doctorAccountDetails.preVetEducation])
 
 	const handleAddEducation = useAddPreVetEducation(
 		selectedPreVetSchool, setSelectedPreVetSchool,
@@ -71,17 +71,9 @@ function PreVetEducation(props: Props) {
 		selectedMajor, setSelectedMajor
 	)
 
-	const savePreVetEducation = useSaveAddPreVetEducation(
-		preVetEducation, setPreVetEducation,
-		setPreVetEducationConfirmation
-	)
+	const savePreVetEducation = useSaveAddPreVetEducation(setPreVetEducationConfirmation)
 
-	const handleDeleteOnClick = useDeletePreVetEducation(preVetEducation, setPreVetEducation, setPreVetEducationConfirmation)
-
-	if (
-		_.isNull(doctorLists) ||
-		_.isEmpty(_.uniq(doctorLists.preVetSchools.map((item) => item.schoolName)))
-	) return <p> Loading... </p>
+	const handleDeleteOnClick = useDeletePreVetEducation(setPreVetEducationConfirmation)
 
 	return (
 		<>
@@ -115,7 +107,6 @@ function PreVetEducation(props: Props) {
 			/>
 
 			<SavedPreVetEducationList
-				preVetEducation = {preVetEducation}
 				deleteStatuses = {deleteStatuses}
 				setDeleteStatuses = {setDeleteStatuses}
 				handleDeleteOnClick = {handleDeleteOnClick}

@@ -5,21 +5,16 @@ interface Props {
 	category: string
 	selectedServices: ServiceItemNullablePrice[]
 	setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemNullablePrice[]>>
-	providedServices: ServiceItemNotNullablePrice[]
-	setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemNotNullablePrice[]>>
 	setServicesConfirmation: (conf: ConfirmationMessage) => void
 }
 
 export default function ServiceCheckbox (props: Props) {
-	const { service, category, selectedServices, setSelectedServices,
-		providedServices, setProvidedServices, setServicesConfirmation } = props
+	const { service, category, selectedServices, setSelectedServices, setServicesConfirmation } = props
 
 	return (
 		<>
 			<ServiceActionButton
 				service = {service}
-				providedServices = {providedServices}
-				setProvidedServices = {setProvidedServices}
 				selectedServices = {selectedServices}
 				setSelectedServices = {setSelectedServices}
 				setServicesConfirmation = {setServicesConfirmation}

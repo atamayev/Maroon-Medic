@@ -1,6 +1,6 @@
 import moment from "moment"
 
-export const addEducation = (
+const addEducation = (
 	selectedSchool: string,
 	setSelectedSchool: React.Dispatch<React.SetStateAction<string>>,
 	selectedEducationType: string,

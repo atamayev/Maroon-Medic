@@ -1,27 +1,24 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import DescriptionInput from "src/components/doctor-account-details/description/description-input"
 import SaveDescriptionButton from "src/components/doctor-account-details/description/save-description-button"
 import DescriptionCharacterLimit from "src/components/doctor-account-details/description/character-limit"
 import AccountDetailsCard from "src/components/account-details-card"
+import { AppContext } from "src/contexts/maroon-context"
 
-interface Props {
-  description: string
-  setDescription: React.Dispatch<React.SetStateAction<string>>
-}
-
-export default function DescriptionSection (props: Props) {
+export default function DescriptionSection () {
 	return (
 		<AccountDetailsCard
 			title = "Description"
-			content = {<Description {...props} />}
+			content = {<Description />}
 		/>
 	)
 }
 
-function Description(props: Props) {
-	const { description, setDescription } = props
+function Description() {
+	const { doctorAccountDetails } = useContext(AppContext)
+	const [description, setDescription] = useState<string>(doctorAccountDetails?.description || "")
 	const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false)
 	const [descriptionConfirmation, setDescriptionConfirmation] = useConfirmationMessage()
 

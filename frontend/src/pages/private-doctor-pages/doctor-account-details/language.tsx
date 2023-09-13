@@ -12,35 +12,29 @@ import SelectLanguage from "src/components/language/select-language"
 import AccountDetailsCard from "src/components/account-details-card"
 import { AppContext } from "src/contexts/maroon-context"
 
-interface Props {
-	spokenLanguages: LanguageItem[]
-	setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>
-}
-
-export default function LanguageSection(props: Props) {
+export default function LanguageSection() {
 	return (
 		<AccountDetailsCard
 			title = "Languages"
-			content = {<VetLanguages {...props} />}
+			content = {<VetLanguages />}
 		/>
 	)
 }
 
-function VetLanguages(props: Props) {
-	const { spokenLanguages, setSpokenLanguages } = props
-	const { doctorLists } = useContext(AppContext)
+function VetLanguages() {
+	const { doctorLists, doctorAccountDetails } = useContext(AppContext)
 	const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
 	const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage()
 
-	useUpdateDeleteLanguageStatuses(deleteStatuses, setDeleteStatuses, spokenLanguages)
+	useUpdateDeleteLanguageStatuses(deleteStatuses, setDeleteStatuses, doctorAccountDetails?.languages)
 
-	const languageOptions = useGenerateLanguageOptions(spokenLanguages)
+	const languageOptions = useGenerateLanguageOptions()
 
-	if (_.isNull(doctorLists)) return null
+	const handleLanguageChange = useAddLanguage(doctorLists, setLanguagesConfirmation, "Doctor")
 
-	const handleLanguageChange = useAddLanguage(spokenLanguages, setSpokenLanguages, doctorLists, setLanguagesConfirmation, "doctor")
+	const handleDeleteLanguage = useDeleteLanguage(setLanguagesConfirmation, "Doctor")
 
-	const handleDeleteLanguage = useDeleteLanguage(spokenLanguages, setSpokenLanguages, setLanguagesConfirmation, "doctor")
+	if (_.isNull(doctorLists) || _.isNull(doctorAccountDetails)) return <> Loading... </>
 
 	return (
 		<>
@@ -49,7 +43,7 @@ function VetLanguages(props: Props) {
 				languageOptions = {languageOptions}
 			/>
 			<SavedLanguageList
-				spokenLanguages = {spokenLanguages}
+				spokenLanguages = {doctorAccountDetails.languages}
 				deleteStatuses = {deleteStatuses}
 				setDeleteStatuses = {setDeleteStatuses}
 				handleDeleteLanguage = {handleDeleteLanguage}

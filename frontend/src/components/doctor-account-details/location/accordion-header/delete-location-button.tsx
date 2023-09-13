@@ -1,21 +1,24 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import Button from "src/components/button"
+import { AppContext } from "src/contexts/maroon-context"
 import deleteLocation from "src/helper-functions/account-details/save/doctor-account-details/delete-location"
 
 interface Props {
 	address: DoctorAddressData
-	addresses: DoctorAddressData[]
-	setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>
 	setAddressesConfirmation: (conf: ConfirmationMessage) => void
 }
 
 export default function DeleteLocationButton (props: Props) {
-	const { address, addresses, setAddresses, setAddressesConfirmation } = props
+	const { address, setAddressesConfirmation } = props
+	const { doctorAccountDetails } = useContext(AppContext)
+
 	const [status, setStatus] = useState("initial" as DeleteStatuses)
 
 	const handleDeleteAddress = () => {
-		if (address.addressesId === -1) setAddresses(addresses.filter(addressf => addressf.addressPriority !== address.addressPriority))
-		else deleteLocation(address.addressesId, setAddresses, setAddressesConfirmation)
+		if (address.addressesId === -1) {
+			doctorAccountDetails?.addressData.filter(addressf => addressf.addressPriority !== address.addressPriority)
+		}
+		else deleteLocation(address.addressesId, setAddressesConfirmation)
 	}
 
 	if (status !== "initial") {

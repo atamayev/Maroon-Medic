@@ -6,8 +6,6 @@ import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle
 
 export default async function useAddVetEducation(
 	vetGeneralEducationItem: VetEducationItem,
-	vetEducation: VetEducationItem[],
-	setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItem[]>>,
 	setVetEducationConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
 	const appContext = useContext(AppContext)
@@ -25,8 +23,7 @@ export default async function useAddVetEducation(
 		const response = await PrivateDoctorDataService.addVetEducationData(mappedVetGeneralEducationItem)
 		if (response.status === 200 && typeof response.data === "number") {
 			vetGeneralEducationItem.vetEducationMappingId = response.data
-			const newVetEducation = [...vetEducation, vetGeneralEducationItem]
-			setVetEducation(newVetEducation)
+			const newVetEducation = [...appContext.doctorAccountDetails!.vetEducation, vetGeneralEducationItem]
 			appContext.doctorAccountDetails!.vetEducation = newVetEducation
 			setVetEducationConfirmation({messageType: "saved"})
 		} else {

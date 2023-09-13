@@ -1,11 +1,13 @@
+import _ from "lodash"
 import { useEffect } from "react"
 
 export default function useUpdateDeleteLanguageStatuses(
 	deleteStatuses: DeleteStatusesDictionary,
 	setDeleteStatuses: React.Dispatch<React.SetStateAction<DeleteStatusesDictionary>>,
-	spokenLanguages: LanguageItem[]
+	spokenLanguages: LanguageItem[] | undefined
 ): void {
 	useEffect(() => {
+		if (_.isUndefined(spokenLanguages)) return
 		const newDeleteStatuses = { ...deleteStatuses }
 
 		// Go through each status

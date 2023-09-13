@@ -5,8 +5,6 @@ import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle
 
 export default async function useDeletePreVetEducationItem(
 	preVetEducationMappingId: number,
-	preVetEducation: PreVetEducationItem[],
-	setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItem[]>>,
 	setPreVetEducationConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
 	const { doctorAccountDetails } = useContext(AppContext)
@@ -14,8 +12,9 @@ export default async function useDeletePreVetEducationItem(
 	try {
 		const response = await PrivateDoctorDataService.deletePreVetEducationData(preVetEducationMappingId)
 		if (response.status === 200) {
-			const newPreVetEducation = preVetEducation.filter(object => object.preVetEducationMappingId !== preVetEducationMappingId)
-			setPreVetEducation(newPreVetEducation)
+			const newPreVetEducation = doctorAccountDetails!.preVetEducation.filter(
+				object => object.preVetEducationMappingId !== preVetEducationMappingId
+			)
 			doctorAccountDetails!.preVetEducation = newPreVetEducation
 			setPreVetEducationConfirmation({messageType: "saved"})
 		} else {

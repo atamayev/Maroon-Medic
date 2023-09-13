@@ -11,30 +11,25 @@ import SavedSpecialtyList from "src/components/doctor-account-details/specialty/
 import AccountDetailsCard from "src/components/account-details-card"
 import { AppContext } from "src/contexts/maroon-context"
 
-interface Props {
-	doctorSpecialties: SpecialtyItem[]
-	setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>
-}
-
-export default function SpecialtySection (props: Props) {
+export default function SpecialtySection () {
 	return (
 		<AccountDetailsCard
 			title = "Specialties"
-			content = {<VetSpecialties {...props}/>}
+			content = {<VetSpecialties />}
 		/>
 	)
 }
 
-function VetSpecialties(props: Props) {
-	const { doctorSpecialties, setDoctorSpecialties } = props
-	const { doctorLists } = useContext(AppContext)
+function VetSpecialties() {
+	const { doctorLists, doctorAccountDetails } = useContext(AppContext)
 	const [selectedOrganization, setSelectedOrganization] = useState("")
 	const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
 	const [specialtiesConfirmation, setSpecialtiesConfirmation] = useConfirmationMessage()
 
 	if (
 		_.isNull(doctorLists) ||
-		_.isEmpty(_.uniq(doctorLists.specialties.map((item) => item.organizationName)))
+		_.isEmpty(_.uniq(doctorLists.specialties.map((item) => item.organizationName))) ||
+		_.isNull(doctorAccountDetails)
 	) return <p>Loading...</p>
 
 	const specialties = selectedOrganization
@@ -47,18 +42,18 @@ function VetSpecialties(props: Props) {
 		// Go through each status
 		for (const specialityListId in newDeleteStatuses) {
 			// If the language Id does not exist in the spokenLanguages list, delete the status
-			if (!doctorSpecialties.some((speciality) => speciality.specialtiesListId === Number(specialityListId))) {
+			if (!doctorAccountDetails.specialties.some((speciality) => speciality.specialtiesListId === Number(specialityListId))) {
 				delete newDeleteStatuses[specialityListId]
 			}
 		}
 
 		setDeleteStatuses(newDeleteStatuses)
-	}, [doctorSpecialties])
+	}, [doctorAccountDetails.specialties])
 
 	const specificSpecialtiesOptions = useMemo(() => {
 		return specialties
 			.filter((specialty) =>
-				!doctorSpecialties.find(
+				!doctorAccountDetails.specialties.find(
 					(doctorSpecialty) =>
 						doctorSpecialty.specialtiesListId === specialty.specialtiesListId
 				)
@@ -68,20 +63,19 @@ function VetSpecialties(props: Props) {
 					{specialty.specialtyName}
 				</option>
 			))
-	}, [specialties, doctorSpecialties])
+	}, [specialties, doctorAccountDetails.specialties])
 
 	const handleSpecialtyChange = useAddSpecialty(
-		doctorSpecialties,
-		setDoctorSpecialties,
+		doctorAccountDetails.specialties,
 		setSelectedOrganization,
 		setSpecialtiesConfirmation
 	)
 
 	const handleDeleteSpecialty = useDeleteSpecialty(
-		doctorSpecialties, setDoctorSpecialties,
-		setSpecialtiesConfirmation, setSelectedOrganization
+		doctorAccountDetails.specialties,
+		setSpecialtiesConfirmation,
+		setSelectedOrganization
 	)
-
 
 	return (
 		<>
@@ -97,7 +91,6 @@ function VetSpecialties(props: Props) {
 			/>
 
 			<SavedSpecialtyList
-				doctorSpecialties = {doctorSpecialties}
 				deleteStatuses = {deleteStatuses}
 				setDeleteStatuses = {setDeleteStatuses}
 				handleDeleteSpecialty = {handleDeleteSpecialty}

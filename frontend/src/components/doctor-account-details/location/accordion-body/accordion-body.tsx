@@ -1,23 +1,24 @@
+import { AppContext } from "src/contexts/maroon-context"
 import FirstAccordionBodyRow from "./first-accordion-body-row"
 import SecondAccordionBodyRow from "./second-accordion-body-row"
 import MapDataAndWeekDays from "./times-section/map-data-and-week-days"
+import { useContext } from "react"
 
 interface Props {
 	isOpen: boolean
 	address: DoctorAddressData
-	addresses: DoctorAddressData[]
-	setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>
 }
 
 export default function AccordionBody (props: Props) {
-	const { isOpen, address, setAddresses, addresses } = props
+	const { isOpen, address } = props
+	const { doctorAccountDetails } = useContext(AppContext)
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, addressPriority: number) => {
-		const newAddresses = addresses.map(addressItem => {
+		const newAddresses = doctorAccountDetails!.addressData.map(addressItem => {
 			if (addressItem.addressPriority === addressPriority) return { ...addressItem, [event.target.name]: event.target.value }
 			return addressItem
 		})
-		setAddresses(newAddresses)
+		doctorAccountDetails!.addressData = newAddresses
 	}
 
 	return (
@@ -33,8 +34,6 @@ export default function AccordionBody (props: Props) {
 				/>
 				<MapDataAndWeekDays
 					address={address}
-					setAddresses={setAddresses}
-					addresses={addresses}
 				/>
 			</form>
 		</div>

@@ -10,8 +10,6 @@ type ServiceOperationsType = typeof PrivateDoctorDataService.deleteService |
 export default async function useModifyServicesData(
 	operation: ServiceOperationsType,
 	serviceObject: ServiceItemNotNullablePrice,
-	providedServices: ServiceItemNotNullablePrice[],
-	setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemNotNullablePrice[]>>,
 	setServicesConfirmation: (conf: ConfirmationMessage) => void,
 	setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemNullablePrice[]>> | null = null
 ): Promise<void> {
@@ -23,23 +21,22 @@ export default async function useModifyServicesData(
 		if (response.status === 200) {
 			let newProvidedServices
 			if (operation === PrivateDoctorDataService.addService) {
-				newProvidedServices = [...providedServices, serviceObject]
+				newProvidedServices = [...doctorAccountDetails!.services, serviceObject]
 			} else if (operation === PrivateDoctorDataService.updateService) {
-				newProvidedServices = providedServices.map(service =>
+				newProvidedServices = doctorAccountDetails?.services.map(service =>
 					service.serviceAndCategoryListId === serviceObject.serviceAndCategoryListId ? serviceObject : service
 				)
 			} else if (operation === PrivateDoctorDataService.deleteService) {
-				newProvidedServices = providedServices.filter(service =>
+				newProvidedServices = doctorAccountDetails?.services.filter(service =>
 					service.serviceAndCategoryListId !== serviceObject.serviceAndCategoryListId
 				)
 				// eslint-disable-next-line max-depth
-				if (setSelectedServices) setSelectedServices(newProvidedServices)
+				if (setSelectedServices) setSelectedServices(newProvidedServices!)
 			} else {
 				throw new Error("Unknown operation")
 			}
 
-			setProvidedServices(newProvidedServices)
-			doctorAccountDetails!.services = newProvidedServices
+			doctorAccountDetails!.services = newProvidedServices!
 			setServicesConfirmation({messageType: "saved"})
 		}
 	} catch (error: unknown) {

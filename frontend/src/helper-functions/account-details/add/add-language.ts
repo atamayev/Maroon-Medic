@@ -1,24 +1,31 @@
-import addDoctorLanguages from "../save/doctor-account-details/add-doctor-languages"
-import addPatientLanguages from "../save/patient-account-details/add-patient-languages"
+import useModifyDoctorLanguages from "src/custom-hooks/account-details/save/doctor-account-details-helpers/use-modify-doctor-languages"
+import PrivateDoctorDataService from "src/services/private-doctor-data-service"
+import useModifyPatientLanguages from "src/custom-hooks/account-details/save/patient-account-details/use-modify-patient-languages"
+import PrivatePatientDataService from "src/services/private-patient-data-service"
 
-export const addLanguage = async (
+const addLanguage = async (
 	selectedLanguageId: number,
-	spokenLanguages: LanguageItem[],
-	setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
 	listDetails: DoctorListDetails | PatientListDetails,
 	setLanguagesConfirmation: (conf: ConfirmationMessage) => void,
-	doctorOrPatient: doctorOrpatient
+	doctorOrPatient: DoctorOrPatient
 ): Promise<void> => {
 	const selectedLanguage = listDetails.languages.find((lang) => lang.languageListId === selectedLanguageId)
 
 	if (selectedLanguage) {
-		const newSpokenLanguages = [...spokenLanguages, selectedLanguage]
-
-		if (doctorOrPatient === "doctor") {
-			await addDoctorLanguages(selectedLanguageId, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
+		if (doctorOrPatient === "Doctor") {
+			await useModifyDoctorLanguages(
+				PrivateDoctorDataService.addLanguage,
+				selectedLanguage,
+				setLanguagesConfirmation
+			)
 		}
 		else {
-			await addPatientLanguages(selectedLanguageId, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
+			await useModifyPatientLanguages(
+				PrivatePatientDataService.addLanguage,
+				selectedLanguage,
+				setLanguagesConfirmation
+
+			)
 		}
 	}
 }

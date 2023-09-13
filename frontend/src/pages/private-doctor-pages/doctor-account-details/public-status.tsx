@@ -1,25 +1,25 @@
+import _ from "lodash"
+import { useContext } from "react"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import useUpdatePublicAvailability from "src/custom-hooks/account-details/save/doctor-account-details/use-update-public-availability"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import AccountDetailsCard from "src/components/account-details-card"
+import { AppContext } from "src/contexts/maroon-context"
 
-interface Props {
-	publiclyAvailable: boolean
-	setPubliclyAvailable: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-export default function PublicStatusSection (props: Props) {
+export default function PublicStatusSection () {
 	return (
 		<AccountDetailsCard
 			title = "Public Availbility Status"
-			content = {<PublicAvailability {...props} />}
+			content = {<PublicAvailability />}
 		/>
 	)
 }
 
-function PublicAvailability (props: Props) {
-	const { publiclyAvailable, setPubliclyAvailable } = props
+function PublicAvailability () {
+	const { doctorAccountDetails } = useContext(AppContext)
 	const [publiclyAvailableConfirmation, setPubliclyAvailableConfirmation] = useConfirmationMessage()
+
+	if (_.isNull(doctorAccountDetails)) return null
 
 	return (
 		<div>
@@ -29,10 +29,10 @@ function PublicAvailability (props: Props) {
 				<button
 					value = {0}
 					onClick = {() =>
-						useUpdatePublicAvailability(false, publiclyAvailable, setPubliclyAvailable, setPubliclyAvailableConfirmation)
+						useUpdatePublicAvailability(false, doctorAccountDetails.publiclyAvailable, setPubliclyAvailableConfirmation)
 					}
 					className = {`border-red-400 border p-2 mr-2 rounded w-14 transition-all duration-100
-						${!publiclyAvailable ? "bg-red-600 text-white" : "bg-white text-black hover:bg-red-300"}
+						${!doctorAccountDetails.publiclyAvailable ? "bg-red-600 text-white" : "bg-white text-black hover:bg-red-300"}
 					`}
 				>
 					No
@@ -41,10 +41,10 @@ function PublicAvailability (props: Props) {
 				<button
 					value = {1}
 					onClick = {() =>
-						useUpdatePublicAvailability(true, publiclyAvailable, setPubliclyAvailable, setPubliclyAvailableConfirmation)
+						useUpdatePublicAvailability(true, doctorAccountDetails.publiclyAvailable, setPubliclyAvailableConfirmation)
 					}
 					className = {`border-green-500 border p-2 rounded w-14 transition-all duration-100
-						${publiclyAvailable ? "bg-green-700 text-white" : "bg-white text-black hover:bg-green-400"}
+						${doctorAccountDetails.publiclyAvailable ? "bg-green-700 text-white" : "bg-white text-black hover:bg-green-400"}
 					`}
 				>
 					Yes

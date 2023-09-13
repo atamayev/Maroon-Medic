@@ -9,7 +9,6 @@ type AddressOperationsType = typeof PrivateDoctorDataService.updateAddressData |
 export default async function useModifyAddressData(
 	operation: AddressOperationsType,
 	address: DoctorAddressData,
-	setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>,
 	setAddressesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
 	const { doctorAccountDetails } = useContext(AppContext)
@@ -33,7 +32,6 @@ export default async function useModifyAddressData(
 			}
 
 			doctorAccountDetails!.addressData = newAddressData
-			setAddresses(newAddressData)
 			setAddressesConfirmation({messageType: "saved"})
 		}
 	} catch (error: unknown) {

@@ -6,10 +6,9 @@ import useFetchDoctorAccountDetails from "src/custom-hooks/account-details/fetch
 
 export default function useSetDoctorAccountDetails(
 	setExpandedCategories: React.Dispatch<React.SetStateAction<string[]>>,
-	dispatchers: DoctorAccountDispatchers
 ): void {
 	const appContext = useContext(AppContext)
-	const fetchDoctorAccountDetails = useFetchDoctorAccountDetails(dispatchers)
+	const fetchDoctorAccountDetails = useFetchDoctorAccountDetails()
 	const fetchDoctorLists = useFetchDoctorLists()
 
 	const getDoctorAccountDetails: () => void = async () => {
@@ -30,6 +29,7 @@ export default function useSetDoctorAccountDetails(
 	}
 
 	useEffect(() => {
+		if (appContext.userType !== "Doctor") return
 		getDoctorAccountDetails()
-	}, [])
+	}, [appContext.userType])
 }

@@ -2,8 +2,7 @@ import useDeleteAddressData from "../../../../custom-hooks/account-details/save/
 
 export default async function deleteLocation(
 	address: number,
-	setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>,
 	setAddressesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
-	return await useDeleteAddressData(address, setAddresses, setAddressesConfirmation)
+	return await useDeleteAddressData(address, setAddressesConfirmation)
 }

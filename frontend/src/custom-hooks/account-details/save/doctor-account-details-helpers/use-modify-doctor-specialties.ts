@@ -10,7 +10,6 @@ export default async function useModifyDoctorSpecialties(
 	operation: SpecialtyOperationsType,
 	specialtyId: number,
 	newDoctorSpecialties: SpecialtyItem[],
-	setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>,
 	setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void,
 	callback: () => void
 ): Promise<void> {
@@ -25,7 +24,6 @@ export default async function useModifyDoctorSpecialties(
 	}
 
 	if (response.status === 200) {
-		setDoctorSpecialties(newDoctorSpecialties)
 		doctorAccountDetails!.specialties = newDoctorSpecialties
 		setSpecialtiesConfirmation({messageType: "saved"})
 	} else {

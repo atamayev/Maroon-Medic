@@ -5,7 +5,6 @@ import { AppContext } from "src/contexts/maroon-context"
 
 export default async function useDeleteAddressData(
 	addressId: number,
-	setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>,
 	setAddressesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
 	const { doctorAccountDetails } = useContext(AppContext)
@@ -19,7 +18,6 @@ export default async function useDeleteAddressData(
 			)
 
 			doctorAccountDetails!.addressData = newAddressData
-			setAddresses(newAddressData)
 			setAddressesConfirmation({messageType: "saved"})
 		}
 	} catch (error: unknown) {

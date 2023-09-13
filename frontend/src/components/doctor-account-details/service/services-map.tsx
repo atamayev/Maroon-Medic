@@ -7,14 +7,11 @@ interface Props {
 	expandedCategories: string[]
 	selectedServices: ServiceItemNullablePrice[]
 	setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemNullablePrice[]>>
-	providedServices: ServiceItemNotNullablePrice[]
-	setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemNotNullablePrice[]>>
 	setServicesConfirmation: (conf: ConfirmationMessage) => void
 }
 
 export default function ServicesMap (props: Props) {
-	const { category, services, expandedCategories, selectedServices, setSelectedServices,
-		providedServices, setProvidedServices, setServicesConfirmation } = props
+	const { category, services, expandedCategories, selectedServices, setSelectedServices, setServicesConfirmation } = props
 
 	if (!(services.length <= 1 || expandedCategories.includes(category))) return null
 
@@ -29,8 +26,6 @@ export default function ServicesMap (props: Props) {
 							category = {category}
 							selectedServices = {selectedServices}
 							setSelectedServices = {setSelectedServices}
-							providedServices = {providedServices}
-							setProvidedServices = {setProvidedServices}
 							setServicesConfirmation = {setServicesConfirmation}
 						/>
 						<IsSelectedService

@@ -1,19 +1,26 @@
-import deletePatientLanguages from "src/helper-functions/account-details/save/patient-account-details/delete-patient-languages"
-import deleteDoctorLanguages from "../save/doctor-account-details/delete-doctor-languages"
+import useModifyDoctorLanguages from "src/custom-hooks/account-details/save/doctor-account-details-helpers/use-modify-doctor-languages"
+import PrivateDoctorDataService from "src/services/private-doctor-data-service"
+import useModifyPatientLanguages from "src/custom-hooks/account-details/save/patient-account-details/use-modify-patient-languages"
+import PrivatePatientDataService from "src/services/private-patient-data-service"
 
-export const deleteLanguage = async (
+const deleteLanguage = async (
 	language: LanguageItem,
-	spokenLanguages: LanguageItem[],
-	setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
 	setLanguagesConfirmation: (conf: ConfirmationMessage) => void,
-	doctorOrPatient: doctorOrpatient
+	doctorOrPatient: DoctorOrPatient
 ): Promise<void> => {
-	const newSpokenLanguages = spokenLanguages.filter(l => l.languageListId !== language.languageListId)
-	if (doctorOrPatient === "doctor") {
-		await deleteDoctorLanguages(language.languageListId, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
+	if (doctorOrPatient === "Doctor") {
+		await useModifyDoctorLanguages(
+			PrivateDoctorDataService.deleteLanguage,
+			language,
+			setLanguagesConfirmation
+		)
 	}
 	else {
-		await deletePatientLanguages(language.languageListId, newSpokenLanguages, setSpokenLanguages, setLanguagesConfirmation)
+		await useModifyPatientLanguages(
+			PrivatePatientDataService.deleteLanguage,
+			language,
+			setLanguagesConfirmation
+		)
 	}
 }
 

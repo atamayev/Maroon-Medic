@@ -3,18 +3,19 @@ import useModifyDoctorSpecialties
 	from "../../../../custom-hooks/account-details/save/doctor-account-details-helpers/use-modify-doctor-specialties"
 
 export default async function addSpecialties(
-	specialtyId: number,
-	newDoctorSpecialties: SpecialtyItem[],
-	setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>,
+	selectedSpecialty: SpecialtyItem | undefined,
+	doctorSpecialties: SpecialtyItem[],
 	setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>,
 	setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
-	return await useModifyDoctorSpecialties(
-		PrivateDoctorDataService.addSpecialty,
-		specialtyId,
-		newDoctorSpecialties,
-		setDoctorSpecialties,
-		setSpecialtiesConfirmation,
-		() => setSelectedOrganization("")
-	)
+	if (selectedSpecialty) {
+		const newDoctorSpecialties = [...doctorSpecialties, selectedSpecialty]
+		return await useModifyDoctorSpecialties(
+			PrivateDoctorDataService.addSpecialty,
+			selectedSpecialty.specialtiesListId,
+			newDoctorSpecialties,
+			setSpecialtiesConfirmation,
+			() => setSelectedOrganization("")
+		)
+	}
 }

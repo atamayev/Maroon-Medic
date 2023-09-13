@@ -8,23 +8,26 @@ type LanguageOperationsType = typeof PrivateDoctorDataService.deleteLanguage |
 
 export default async function useModifyDoctorLanguages(
 	operation: LanguageOperationsType,
-	languageId: number,
-	newSpokenLanguages: LanguageItem[],
-	setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
+	language: LanguageItem,
 	setLanguagesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
 	const { doctorAccountDetails } = useContext(AppContext)
+	let newSpokenLanguages: LanguageItem[]
+	if (operation === PrivateDoctorDataService.deleteLanguage) {
+		newSpokenLanguages = doctorAccountDetails?.languages.filter(l => l.languageListId !== language.languageListId) || []
+	} else {
+		newSpokenLanguages = [...doctorAccountDetails!.languages, language]
+	}
 
 	let response
 	try {
-		response = await operation(languageId)
+		response = await operation(language.languageListId)
 	} catch (error: unknown) {
 		handle401AxiosErrorAndSetMessageType(error, setLanguagesConfirmation)
 		return
 	}
 
 	if (response.status === 200) {
-		setSpokenLanguages(newSpokenLanguages)
 		doctorAccountDetails!.languages = newSpokenLanguages
 		setLanguagesConfirmation({messageType: "saved"})
 	} else {

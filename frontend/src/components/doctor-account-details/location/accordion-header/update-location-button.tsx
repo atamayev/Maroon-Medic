@@ -7,12 +7,11 @@ import { AppContext } from "src/contexts/maroon-context"
 
 interface Props {
 	address: DoctorAddressData
-	setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>
 	setAddressesConfirmation: (conf: ConfirmationMessage) => void
 }
 
 export default function UpdateLocationButton (props: Props) {
-	const {address, setAddresses, setAddressesConfirmation} = props
+	const {address, setAddressesConfirmation} = props
 
 	const { doctorAccountDetails} = useContext(AppContext)
 
@@ -30,7 +29,7 @@ export default function UpdateLocationButton (props: Props) {
 			title = "Update Location"
 			onClick = {(e: React. MouseEvent) => {
 				e.stopPropagation()
-				updateLocation(address, setAddresses, setAddressesConfirmation)
+				updateLocation(address, setAddressesConfirmation)
 			}}
 			disabled = {!areAllFieldsValid(address) || !areAllTimesValid(address)}
 			textColor = "text-white"

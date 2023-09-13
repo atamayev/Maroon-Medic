@@ -4,12 +4,11 @@ import { areAllFieldsValid, areAllTimesValid } from "src/utils/all-field-checks"
 
 interface Props {
 	address: DoctorAddressData
-	setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>
 	setAddressesConfirmation: (conf: ConfirmationMessage) => void
 }
 
 export default function AddLocationButton (props: Props) {
-	const {address, setAddresses, setAddressesConfirmation} = props
+	const {address, setAddressesConfirmation} = props
 
 	return (
 		<Button
@@ -19,7 +18,7 @@ export default function AddLocationButton (props: Props) {
 			title = "Add Location"
 			onClick = {(e: React.MouseEvent) => {
 				e.stopPropagation()
-				addLocation(address, setAddresses, setAddressesConfirmation)
+				addLocation(address, setAddressesConfirmation)
 			}}
 			disabled = {!areAllFieldsValid(address) || !areAllTimesValid(address)}
 			textColor = "text-white"

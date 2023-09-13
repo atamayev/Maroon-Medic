@@ -14,23 +14,17 @@ import SavedVetEducationList from "src/components/doctor-account-details/educati
 import AccountDetailsCard from "src/components/account-details-card"
 import { AppContext } from "src/contexts/maroon-context"
 
-interface Props {
-	vetEducation: VetEducationItem[]
-	setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItem[]>>
-}
-
-export default function VetEducationSection (props: Props) {
+export default function VetEducationSection () {
 	return (
 		<AccountDetailsCard
 			title = "Vet Education"
-			content = {<VetEducation {...props} />}
+			content = {<VetEducation />}
 		/>
 	)
 }
 
-function VetEducation(props: Props) {
-	const { vetEducation, setVetEducation } = props
-	const { doctorLists } = useContext(AppContext)
+function VetEducation() {
+	const { doctorLists, doctorAccountDetails } = useContext(AppContext)
 	const [selectedVetSchool, setSelectedVetSchool] = useState("")
 	const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
 	const [selectedVetEducationType, setSelectedVetEducationType] = useState("")
@@ -43,7 +37,13 @@ function VetEducation(props: Props) {
 	const [vetEducationConfirmation, setVetEducationConfirmation] = useConfirmationMessage()
 
 	const allChoicesFilled = Boolean(selectedVetSchool && selectedVetEducationType &&
-    timeState.startMonth && timeState.endMonth && timeState.startYear && timeState.endYear)
+		timeState.startMonth && timeState.endMonth && timeState.startYear && timeState.endYear)
+
+	if (
+		_.isNull(doctorLists) ||
+		_.isEmpty(_.uniq(doctorLists.vetSchools.map((item) => item.schoolName))) ||
+		_.isNull(doctorAccountDetails)
+	) return <p>Loading...</p>
 
 	useEffect(() => {
 		const newDeleteStatuses = { ...deleteStatuses }
@@ -51,13 +51,15 @@ function VetEducation(props: Props) {
 		// Go through each status
 		for (const vetEducationMappingId in newDeleteStatuses) {
 			// If the language Id does not exist in the vetEducation list, delete the status
-			if (!vetEducation.some((vetEducationItem) => vetEducationItem.vetEducationMappingId === Number(vetEducationMappingId))) {
+			if (!doctorAccountDetails.vetEducation.some(
+				(vetEducationItem) => vetEducationItem.vetEducationMappingId === Number(vetEducationMappingId)
+			)) {
 				delete newDeleteStatuses[vetEducationMappingId]
 			}
 		}
 
 		setDeleteStatuses(newDeleteStatuses)
-	}, [vetEducation])
+	}, [doctorAccountDetails.vetEducation])
 
 	const handleAddEducation = useAddVetEducation(
 		selectedVetSchool, setSelectedVetSchool,
@@ -65,17 +67,9 @@ function VetEducation(props: Props) {
 		timeState,setTimeState
 	)
 
-	const saveVetEducation = useSaveAddVetEducation(
-		vetEducation, setVetEducation,
-		setVetEducationConfirmation
-	)
+	const saveVetEducation = useSaveAddVetEducation(setVetEducationConfirmation)
 
-	const handleDeleteOnClick = useDeleteVetEducation(vetEducation, setVetEducation, setVetEducationConfirmation)
-
-	if (
-		_.isNull(doctorLists) ||
-		_.isEmpty(_.uniq(doctorLists.vetSchools.map((item) => item.schoolName)))
-	) return <p>Loading...</p>
+	const handleDeleteOnClick = useDeleteVetEducation(setVetEducationConfirmation)
 
 	return (
 		<>
@@ -103,7 +97,6 @@ function VetEducation(props: Props) {
 			/>
 
 			<SavedVetEducationList
-				vetEducation = {vetEducation}
 				deleteStatuses = {deleteStatuses}
 				setDeleteStatuses = {setDeleteStatuses}
 				handleDeleteOnClick = {handleDeleteOnClick}

@@ -6,34 +6,24 @@ import AddNewLocationButton from "src/components/doctor-account-details/location
 import AddressAccordionMap from "src/components/doctor-account-details/location/address-accordion-map"
 import AccountDetailsCard from "src/components/account-details-card"
 
-interface Props {
-  addresses: DoctorAddressData[]
-  setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>
-}
-
-export default function LocationSection(props: Props) {
+export default function LocationSection() {
 	return (
 		<AccountDetailsCard
 			title = "Locations"
-			content = {<AddressForm {...props} />}
+			content = {<AddressForm />}
 		/>
 	)
 }
 
-function AddressForm(props: Props) {
-	const { addresses, setAddresses } = props
+function AddressForm() {
 	const [addressesConfirmation, setAddressesConfirmation] = useConfirmationMessage()
 
 	return (
 		<>
 			<AddressAccordionMap
-				addresses = {addresses}
-				setAddresses = {setAddresses}
 				setAddressesConfirmation = {setAddressesConfirmation}
 			/>
 			<AddNewLocationButton
-				addresses = {addresses}
-				setAddresses = {setAddresses}
 			/>
 			<SavedConfirmationMessage
 				confirmationMessage = {addressesConfirmation}

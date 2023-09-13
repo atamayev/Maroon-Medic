@@ -1,21 +1,24 @@
+import _ from "lodash"
+import { useContext } from "react"
 import AccountDetailsCard from "src/components/account-details-card"
 import Button from "src/components/button"
+import { AppContext } from "src/contexts/maroon-context"
 
-interface Props {
-  verified: boolean
-}
-
-export default function VerificationSection (props: Props) {
+export default function VerificationSection () {
 	return (
 		<AccountDetailsCard
 			title = "Verification Status"
-			content = {<VetVerification {...props} />}
+			content = {<VetVerification />}
 		/>
 	)
 }
 
-function VetVerification ({ verified } : { verified: boolean }) {
-	if (verified) {
+function VetVerification () {
+	const { doctorAccountDetails } = useContext(AppContext)
+
+	if (_.isNull(doctorAccountDetails)) return null
+
+	if (doctorAccountDetails.verified) {
 		return (
 			<>
 				Account Verification Status:

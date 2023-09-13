@@ -1,24 +1,25 @@
+import { useContext } from "react"
 import LocationMapData from "./map-data"
 import WeekDays from "./weekdays"
+import { AppContext } from "src/contexts/maroon-context"
 
 interface Props {
 	address: DoctorAddressData
-	setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>
-	addresses: DoctorAddressData[]
 }
 
 export default function MapDataAndWeekDays (props: Props) {
-	const { address, setAddresses, addresses } = props
+	const { address } = props
+	const { doctorAccountDetails } = useContext(AppContext)
 
 	const handleTimesChange = (newTimesFn: React.SetStateAction<DoctorAvailability[]>, addressPriority: number) => {
-		const newAddresses = addresses.map(singleAddress => {
+		const newAddresses = doctorAccountDetails!.addressData.map(singleAddress => {
 			if (singleAddress.addressPriority === addressPriority) {
 				const newTimes = typeof newTimesFn === "function" ? newTimesFn(singleAddress.times) : newTimesFn
 				return { ...singleAddress, times: newTimes }
 			}
 			return singleAddress
 		})
-		setAddresses(newAddresses)
+		doctorAccountDetails!.addressData = newAddresses
 	}
 
 	return (

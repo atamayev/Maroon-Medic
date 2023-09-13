@@ -4,14 +4,12 @@ import useModifyServicedPets from "../../../../custom-hooks/account-details/save
 export default async function deleteServicedPets(
 	petId: number,
 	newServicedPets: ServicedPetItem[],
-	setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItem[]>>,
 	setPetsConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
 	return await useModifyServicedPets(
 		PrivateDoctorDataService.deleteServicedPet,
 		petId,
 		newServicedPets,
-		setServicedPets,
 		setPetsConfirmation
 	)
 }

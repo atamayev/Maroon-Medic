@@ -3,25 +3,26 @@ import InstantBook from "./instant-book"
 import SaveOrUpdateButton from "./save-or-update-button"
 import DeleteLocationButton from "./delete-location-button"
 import AddressTitle from "./address-title"
+import { useContext } from "react"
+import { AppContext } from "src/contexts/maroon-context"
 
 interface Props {
 	index: number
 	address: DoctorAddressData
-	addresses: DoctorAddressData[]
-	setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>
 	setAddressesConfirmation: (conf: ConfirmationMessage) => void
 	toggleOpen: () => void
 }
 
 export default function AccordionHeader (props: Props) {
-	const { index, address, addresses, setAddresses, setAddressesConfirmation, toggleOpen } = props
+	const { index, address, setAddressesConfirmation, toggleOpen } = props
+	const { doctorAccountDetails } = useContext(AppContext)
 
 	const handleToggleChange = (
 		addressPriority: number,
 		field: keyof Pick<DoctorAddressData, "addressPublicStatus" | "instantBook">
 	) => {
 		// Create a copy of the addresses state
-		const updatedAddresses = [...addresses]
+		const updatedAddresses = [...doctorAccountDetails!.addressData]
 		// Find the index of the address object with the matching priority
 		const addressIndex = updatedAddresses.findIndex(addr => addr.addressPriority === addressPriority)
 
@@ -30,7 +31,7 @@ export default function AccordionHeader (props: Props) {
 		} else {
 			return
 		}
-		setAddresses(updatedAddresses)
+		doctorAccountDetails!.addressData = updatedAddresses
 	}
 
 	return (
@@ -55,14 +56,11 @@ export default function AccordionHeader (props: Props) {
 				<div className = "flex items-center">
 					<SaveOrUpdateButton
 						address = {address}
-						setAddresses = {setAddresses}
 						setAddressesConfirmation = {setAddressesConfirmation}
 					/>
 				</div>
 				<DeleteLocationButton
 					address = {address}
-					addresses = {addresses}
-					setAddresses = {setAddresses}
 					setAddressesConfirmation = {setAddressesConfirmation}
 				/>
 			</div>

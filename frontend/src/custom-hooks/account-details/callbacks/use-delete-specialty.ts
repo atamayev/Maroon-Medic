@@ -3,7 +3,6 @@ import deleteSpecialty from "src/helper-functions/account-details/delete/delete-
 
 export const useDeleteSpecialty = (
 	doctorSpecialties: SpecialtyItem[],
-	setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>,
 	setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void,
 	setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>
 ): ((specialty: SpecialtyItem) => void) => {
@@ -12,12 +11,11 @@ export const useDeleteSpecialty = (
 			await deleteSpecialty(
 				specialty,
 				doctorSpecialties,
-				setDoctorSpecialties,
 				setSelectedOrganization,
 				setSpecialtiesConfirmation
 			)
 		},
-		[doctorSpecialties, setDoctorSpecialties, setSpecialtiesConfirmation]
+		[doctorSpecialties, setSpecialtiesConfirmation]
 	)
 }
 

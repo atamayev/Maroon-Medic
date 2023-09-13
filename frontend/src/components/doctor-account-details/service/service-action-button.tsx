@@ -2,23 +2,25 @@ import Button from "src/components/button"
 import updateServices from "src/helper-functions/account-details/save/doctor-account-details/update-services"
 import addServices from "src/helper-functions/account-details/save/doctor-account-details/add-services"
 import deleteServices from "src/helper-functions/account-details/save/doctor-account-details/delete-services"
+import { useContext } from "react"
+import { AppContext } from "src/contexts/maroon-context"
 
 interface Props {
-  service: ServiceListItem
-  providedServices: ServiceItemNotNullablePrice[]
-  setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemNotNullablePrice[]>>
-  selectedServices: ServiceItemNullablePrice[]
-  setServicesConfirmation: (conf: ConfirmationMessage) => void
-  setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemNullablePrice[]>>
+	service: ServiceListItem
+	selectedServices: ServiceItemNullablePrice[]
+	setServicesConfirmation: (conf: ConfirmationMessage) => void
+	setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemNullablePrice[]>>
 }
 
 export default function ServiceActionButton (props: Props) {
-	const { service, providedServices, setProvidedServices, selectedServices, setServicesConfirmation, setSelectedServices } = props
+	const { service, selectedServices, setServicesConfirmation, setSelectedServices } = props
+	const { doctorAccountDetails } = useContext(AppContext)
+
 	const selectedService =
 		selectedServices.find(
 			s => s.serviceAndCategoryListId === service.serviceAndCategoryListId
 		) as ServiceItemNotNullablePrice | undefined
-	const providedService = providedServices.find(s => s.serviceAndCategoryListId === service.serviceAndCategoryListId)
+	const providedService = doctorAccountDetails?.services.find(s => s.serviceAndCategoryListId === service.serviceAndCategoryListId)
 
 	const isSelected = selectedService !== undefined
 	const isProvided = providedService !== undefined
@@ -31,8 +33,6 @@ export default function ServiceActionButton (props: Props) {
 			<Button
 				onClick = {() => deleteServices(
 					selectedService!,
-					providedServices,
-					setProvidedServices,
 					setServicesConfirmation,
 					setSelectedServices
 				)}
@@ -48,7 +48,7 @@ export default function ServiceActionButton (props: Props) {
 	function UpdateServiceButton () {
 		return (
 			<Button
-				onClick = {() => updateServices(selectedService!, providedServices, setProvidedServices, setServicesConfirmation)}
+				onClick = {() => updateServices(selectedService!, setServicesConfirmation)}
 				title = "Update"
 				colorClass = "bg-amber-600"
 				hoverClass = "hover:bg-amber-700"
@@ -61,7 +61,7 @@ export default function ServiceActionButton (props: Props) {
 	function AddServiceButton () {
 		return (
 			<Button
-				onClick = {() => addServices(selectedService!, providedServices, setProvidedServices, setServicesConfirmation)}
+				onClick = {() => addServices(selectedService!, setServicesConfirmation)}
 				title = "Add"
 				colorClass = "bg-green-600"
 				hoverClass = "hover:bg-green-700"

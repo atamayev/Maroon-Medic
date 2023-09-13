@@ -6,8 +6,6 @@ import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle
 
 export default async function useAddPreVetEducation(
 	preVetGeneralEducationItem: PreVetEducationItem,
-	preVetEducation: PreVetEducationItem[],
-	setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItem[]>>,
 	setPreVetEducationConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
 	const appContext = useContext(AppContext)
@@ -25,8 +23,7 @@ export default async function useAddPreVetEducation(
 		const response = await PrivateDoctorDataService.addPreVetEducationData(mappedPreVetGeneralEducationItem)
 		if (response.status === 200 && typeof response.data === "number") {
 			preVetGeneralEducationItem.preVetEducationMappingId = response.data
-			const newPreVetEducation = [...preVetEducation, preVetGeneralEducationItem]
-			setPreVetEducation(newPreVetEducation)
+			const newPreVetEducation = [...appContext.doctorAccountDetails!.preVetEducation, preVetGeneralEducationItem]
 			appContext.doctorAccountDetails!.preVetEducation = newPreVetEducation
 			setPreVetEducationConfirmation({messageType: "saved"})
 		} else {

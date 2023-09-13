@@ -1,22 +1,21 @@
 import { useCallback, useContext } from "react"
 import { AppContext } from "src/contexts/maroon-context"
-import addSpecialty from "src/helper-functions/account-details/add/add-sepcialty"
+import addSpecialties from "src/helper-functions/account-details/save/doctor-account-details/add-specialties"
 
-export const useAddSpecialty = (
+const useAddSpecialty = (
 	doctorSpecialties: SpecialtyItem[],
-	setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>,
 	setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>,
 	setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void
 ): (e: React.ChangeEvent<HTMLSelectElement>) => Promise<void> => {
 	const { doctorLists } = useContext(AppContext)
 
 	return useCallback(async (e: React.ChangeEvent<HTMLSelectElement>) => {
-		await addSpecialty(
-			Number(e.target.value),
+		const selectedSpecialtyId = Number(e.target.value)
+		const selectedSpecialty = doctorLists!.specialties.find((spec) => spec.specialtiesListId === selectedSpecialtyId)
+		await addSpecialties(
+			selectedSpecialty,
 			doctorSpecialties,
-			setDoctorSpecialties,
 			setSelectedOrganization,
-			doctorLists!,
 			setSpecialtiesConfirmation
 		)
 	}, [doctorSpecialties])

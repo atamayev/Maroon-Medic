@@ -1,4 +1,5 @@
-import { useState } from "react"
+import _ from "lodash"
+import { useState, useContext } from "react"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import SavedLanguageList from "src/components/language/saved-languages-list"
@@ -8,34 +9,31 @@ import useDeleteLanguage from "src/custom-hooks/account-details/callbacks/use-de
 import useAddLanguage from "src/custom-hooks/account-details/callbacks/use-add-language"
 import SelectLanguage from "src/components/language/select-language"
 import AccountDetailsCard from "src/components/account-details-card"
+import { AppContext } from "src/contexts/maroon-context"
 
-interface Props {
-	listDetails: PatientListDetails
-	spokenLanguages: LanguageItem[]
-	setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>
-}
-
-export default function PatientLanguageSection(props: Props) {
+export default function PatientLanguageSection() {
 	return (
 		<AccountDetailsCard
 			title = "Languages"
-			content = {<PatientLanguages {...props} />}
+			content = {<PatientLanguages />}
 		/>
 	)
 }
 
-function PatientLanguages(props: Props) {
-	const { listDetails, spokenLanguages, setSpokenLanguages } = props
+function PatientLanguages() {
+	const { patientLists, patientAccountDetails } = useContext(AppContext)
 	const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
 	const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage()
 
-	useUpdateDeleteLanguageStatuses(deleteStatuses, setDeleteStatuses, spokenLanguages)
+	useUpdateDeleteLanguageStatuses(deleteStatuses, setDeleteStatuses, patientAccountDetails?.languages)
 
-	const languageOptions = useGenerateLanguageOptions(spokenLanguages)
+	const languageOptions = useGenerateLanguageOptions()
 
-	const handleLanguageChange = useAddLanguage(spokenLanguages, setSpokenLanguages, listDetails, setLanguagesConfirmation, "patient")
+	const handleLanguageChange = useAddLanguage(patientLists!, setLanguagesConfirmation, "Patient")
 
-	const handleDeleteLanguage = useDeleteLanguage(spokenLanguages, setSpokenLanguages, setLanguagesConfirmation, "patient")
+	const handleDeleteLanguage = useDeleteLanguage(setLanguagesConfirmation, "Patient")
+
+	if (_.isNull(patientAccountDetails) || _.isNull(patientLists)) return null
 
 	return (
 		<>
@@ -44,7 +42,7 @@ function PatientLanguages(props: Props) {
 				languageOptions = {languageOptions}
 			/>
 			<SavedLanguageList
-				spokenLanguages = {spokenLanguages}
+				spokenLanguages = {patientAccountDetails.languages}
 				deleteStatuses = {deleteStatuses}
 				setDeleteStatuses = {setDeleteStatuses}
 				handleDeleteLanguage = {handleDeleteLanguage}

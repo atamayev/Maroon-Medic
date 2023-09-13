@@ -11,14 +11,12 @@ interface Props {
 	setExpandedCategories: React.Dispatch<React.SetStateAction<string[]>>
 	selectedServices: ServiceItemNullablePrice[]
 	setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemNullablePrice[]>>
-	providedServices: ServiceItemNotNullablePrice[]
-	setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemNotNullablePrice[]>>
 	setServicesConfirmation: (conf: ConfirmationMessage) => void
 }
 
 export default function ServiceList (props: Props) {
 	const { categories, expandedCategories, setExpandedCategories,
-		selectedServices, setSelectedServices, providedServices, setProvidedServices, setServicesConfirmation } = props
+		selectedServices, setSelectedServices, setServicesConfirmation } = props
 
 	return (
 		<>
@@ -37,8 +35,6 @@ export default function ServiceList (props: Props) {
 						expandedCategories = {expandedCategories}
 						selectedServices = {selectedServices}
 						setSelectedServices = {setSelectedServices}
-						providedServices = {providedServices}
-						setProvidedServices = {setProvidedServices}
 						setServicesConfirmation = {setServicesConfirmation}
 					/>
 				</div>

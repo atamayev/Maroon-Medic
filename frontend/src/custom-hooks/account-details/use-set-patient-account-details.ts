@@ -1,31 +1,29 @@
 import _ from "lodash"
 import { useContext, useEffect } from "react"
 import { AppContext } from "src/contexts/maroon-context"
-import fetchPatientAccountDetails from "src/custom-hooks/account-details/fetch/use-fetch-patient-account-details"
-import fetchPatientLists from "src/custom-hooks/account-details/fetch/use-fetch-patient-lists"
+import useFetchPatientAccountDetails from "src/custom-hooks/account-details/fetch/use-fetch-patient-account-details"
+import useFetchPatientLists from "src/custom-hooks/account-details/fetch/use-fetch-patient-lists"
 
-export function usePatientAccountDetails(
-	setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
-	setListDetails: React.Dispatch<React.SetStateAction<PatientListDetails>>,
-	userType: DoctorOrPatientOrNull
-): void {
+export function usePatientAccountDetails(): void {
 	const appContext = useContext(AppContext)
+	const fetchPatientAccountDetails = useFetchPatientAccountDetails()
+	const fetchPatientLists = useFetchPatientLists()
 
 	const fetchAndSetAccountDetails: () => void = async () => {
 		try {
 			if (_.isNull(appContext.patientAccountDetails)) {
-				await fetchPatientAccountDetails(setSpokenLanguages)
+				await fetchPatientAccountDetails()
 			}
 
 			if (_.isNull(appContext.patientLists)) {
-				await fetchPatientLists(setListDetails)
-			} else setListDetails(appContext.patientLists)
+				await fetchPatientLists()
+			}
 		} catch (error) {
 		}
 	}
 
 	useEffect(() => {
-		if (userType !== "Patient") return
+		if (appContext.userType !== "Patient") return
 		fetchAndSetAccountDetails()
-	}, [userType])
+	}, [appContext.userType])
 }

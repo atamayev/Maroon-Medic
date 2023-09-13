@@ -10,7 +10,6 @@ export default async function useModifyServicedPets(
 	operation: ServicedPetsOperationsType,
 	petId: number,
 	newServicedPets: ServicedPetItem[],
-	setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItem[]>>,
 	setPetsConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
 	const { doctorAccountDetails } = useContext(AppContext)
@@ -22,7 +21,6 @@ export default async function useModifyServicedPets(
 		return
 	}
 	if (response.status === 200) {
-		setServicedPets(newServicedPets)
 		doctorAccountDetails!.servicedPets = newServicedPets
 		setPetsConfirmation({messageType: "saved"})
 	} else {

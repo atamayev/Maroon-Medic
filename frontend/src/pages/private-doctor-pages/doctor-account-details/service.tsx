@@ -8,8 +8,6 @@ import AccountDetailsCard from "src/components/account-details-card"
 import { AppContext } from "src/contexts/maroon-context"
 
 interface Props {
-	providedServices: ServiceItemNotNullablePrice[]
-	setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemNotNullablePrice[]>>
 	expandedCategories: string[]
 	setExpandedCategories: React.Dispatch<React.SetStateAction<string[]>>
 }
@@ -24,17 +22,17 @@ export default function ServiceSection (props: Props) {
 }
 
 function VetServices (props: Props) {
-	const { providedServices, setProvidedServices, expandedCategories, setExpandedCategories } = props
-	const { doctorLists } = useContext(AppContext)
+	const { expandedCategories, setExpandedCategories } = props
+	const { doctorLists, doctorAccountDetails } = useContext(AppContext)
 	const [servicesConfirmation, setServicesConfirmation] = useConfirmationMessage()
 	const [selectedServices, setSelectedServices] = useState<ServiceItemNullablePrice[]>([])
 
 	useEffect(() => {
 		//Initialize selectedServices to providedServices
-		if (providedServices) {
-			setSelectedServices(providedServices)
+		if (doctorAccountDetails?.services) {
+			setSelectedServices(doctorAccountDetails.services)
 		}
-	}, [providedServices])
+	}, [doctorAccountDetails?.services])
 
 	type CategoriesType = {
 		[key: string]: ServiceListItem[]
@@ -42,17 +40,15 @@ function VetServices (props: Props) {
 
 	const categories: CategoriesType = {}
 
-	if (_.isNull(doctorLists)) return null
+	if (
+		_.isNull(doctorLists) ||
+		_.isEmpty(_.uniq(doctorLists.servicesAndCategories.map((item) => item.categoryName)))
+	) return <>Loading...</>
 
 	doctorLists.servicesAndCategories.forEach(service => {
 		if (!categories[service.categoryName]) categories[service.categoryName] = []
 		categories[service.categoryName].push(service)
 	})
-
-	if (
-		_.isNull(doctorLists) ||
-		_.isEmpty(_.uniq(doctorLists.servicesAndCategories.map((item) => item.categoryName)))
-	) return <>Loading...</>
 
 	return (
 		<>
@@ -62,8 +58,6 @@ function VetServices (props: Props) {
 				setExpandedCategories = {setExpandedCategories}
 				selectedServices = {selectedServices}
 				setSelectedServices = {setSelectedServices}
-				providedServices = {providedServices}
-				setProvidedServices = {setProvidedServices}
 				setServicesConfirmation = {setServicesConfirmation}
 			/>
 

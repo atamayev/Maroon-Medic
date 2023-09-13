@@ -57,11 +57,6 @@ declare global {
     vetEducationMappingId: number
   }
 
-  type PicturesItem = {
-    pictureLink: string
-    pictureNumber: number
-  }
-
   interface DoctorAccountDetails {
     languages: LanguageItem[]
     services: ServiceItemNotNullablePrice[]
@@ -73,20 +68,6 @@ declare global {
     servicedPets: ServicedPetItem[]
     verified: boolean
     publiclyAvailable: boolean
-  }
-
-  type DoctorAccountDispatchers = {
-    setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
-    setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemNotNullablePrice[]>>,
-    setExpandedCategories: React.Dispatch<React.SetStateAction<string[]>>,
-    setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>,
-    setPreVetEducation: React.Dispatch<React.SetStateAction<PreVetEducationItem[]>>,
-    setVetEducation: React.Dispatch<React.SetStateAction<VetEducationItem[]>>,
-    setAddresses: React.Dispatch<React.SetStateAction<DoctorAddressData[]>>,
-    setDescription: React.Dispatch<React.SetStateAction<string>>,
-    setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItem[]>>,
-    setExpandedPetTypes: React.Dispatch<React.SetStateAction<string[]>>,
-    setPubliclyAvailable: React.Dispatch<React.SetStateAction<boolean>>
   }
 }
 

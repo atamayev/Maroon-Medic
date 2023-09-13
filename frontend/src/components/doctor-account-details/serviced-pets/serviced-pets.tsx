@@ -7,16 +7,13 @@ type PetTypesType = {
 
 interface Props {
   petTypes: PetTypesType
-  servicedPets: ServicedPetItem[]
   expandedPetTypes: string[]
-  setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItem[]>>
   setExpandedPetTypes: React.Dispatch<React.SetStateAction<string[]>>
   setPetsConfirmation: (conf: ConfirmationMessage) => void
 }
 
 export default function ServicedPets (props: Props) {
-	const { petTypes, servicedPets, expandedPetTypes, setServicedPets,
-		setExpandedPetTypes, setPetsConfirmation } = props
+	const { petTypes, expandedPetTypes, setExpandedPetTypes, setPetsConfirmation } = props
 
 	return (
 		<>
@@ -32,8 +29,6 @@ export default function ServicedPets (props: Props) {
 					<ShowPetsSection
 						pets = {pets}
 						petType = {petType}
-						servicedPets = {servicedPets}
-						setServicedPets = {setServicedPets}
 						setPetsConfirmation = {setPetsConfirmation}
 						expandedPetTypes = {expandedPetTypes}
 					/>

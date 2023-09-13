@@ -3,15 +3,11 @@ import useModifyServicesData from "../../../../custom-hooks/account-details/save
 
 export default async function addServices(
 	newServiceObject: ServiceItemNotNullablePrice,
-	providedServices: ServiceItemNotNullablePrice[],
-	setProvidedServices: React.Dispatch<React.SetStateAction<ServiceItemNotNullablePrice[]>>,
 	setServicesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
 	return await useModifyServicesData(
 		PrivateDoctorDataService.addService,
 		newServiceObject,
-		providedServices,
-		setProvidedServices,
 		setServicesConfirmation
 	)
 }

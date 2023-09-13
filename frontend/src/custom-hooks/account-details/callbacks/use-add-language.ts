@@ -1,24 +1,23 @@
+import _ from "lodash"
 import { useCallback } from "react"
 import addLanguage from "src/helper-functions/account-details/add/add-language"
 
-export const useAddLanguage = (
-	spokenLanguages: LanguageItem[],
-	setSpokenLanguages: React.Dispatch<React.SetStateAction<LanguageItem[]>>,
-	listDetails: DoctorListDetails | PatientListDetails,
+const useAddLanguage = (
+	listDetails: DoctorListDetails | PatientListDetails | null,
 	setLanguagesConfirmation: (conf: ConfirmationMessage) => void,
-	doctorOrPatient: doctorOrpatient
+	doctorOrPatient: DoctorOrPatient
 ): (e: React.ChangeEvent<HTMLSelectElement>) => void => {
 	return useCallback(
 		async (e: React.ChangeEvent<HTMLSelectElement>) => {
-			await addLanguage(
-				Number(e.target.value),
-				spokenLanguages,
-				setSpokenLanguages,
-				listDetails,
-				setLanguagesConfirmation,
-				doctorOrPatient
-			)
-		}, [spokenLanguages, listDetails, setSpokenLanguages, setLanguagesConfirmation])
+			if (!_.isNull(listDetails)) {
+				await addLanguage(
+					Number(e.target.value),
+					listDetails,
+					setLanguagesConfirmation,
+					doctorOrPatient
+				)
+			}
+		}, [listDetails, setLanguagesConfirmation])
 }
 
 export default useAddLanguage

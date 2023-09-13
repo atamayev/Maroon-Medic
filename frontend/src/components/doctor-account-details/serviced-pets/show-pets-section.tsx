@@ -1,20 +1,25 @@
+import _ from "lodash"
+import { useContext } from "react"
+import { AppContext } from "src/contexts/maroon-context"
 import usePetsCheckboxChange from "src/custom-hooks/account-details/callbacks/use-pets-checkbox-change"
 
 interface Props {
 	pets: ServicedPetItem[]
 	petType: string
-	servicedPets: ServicedPetItem[]
-	setServicedPets: React.Dispatch<React.SetStateAction<ServicedPetItem[]>>
 	setPetsConfirmation: (conf: ConfirmationMessage) => void
 	expandedPetTypes: string[]
 }
 
 export default function ShowPetsSection (props: Props) {
-	const { pets, petType, servicedPets, setServicedPets, setPetsConfirmation, expandedPetTypes } = props
+	const { pets, petType, setPetsConfirmation, expandedPetTypes } = props
+	const { doctorAccountDetails } = useContext(AppContext)
 
-	const handleCheckboxChange = usePetsCheckboxChange(servicedPets, setServicedPets, setPetsConfirmation)
+	if (
+		(pets.length > 1 && !expandedPetTypes.includes(petType)) ||
+		_.isNull(doctorAccountDetails)
+	) return null
 
-	if (pets.length > 1 && !expandedPetTypes.includes(petType)) return null
+	const handleCheckboxChange = usePetsCheckboxChange(doctorAccountDetails.servicedPets, setPetsConfirmation)
 
 	return (
 		<div>
@@ -25,7 +30,7 @@ export default function ShowPetsSection (props: Props) {
 						id = {`${petType}-${pet.petListId}`}
 						name = "pet"
 						value = {pet.petListId}
-						checked = {servicedPets.find((serviced) => serviced.petListId === pet.petListId) !== undefined}
+						checked = {doctorAccountDetails.servicedPets.find((serviced) => serviced.petListId === pet.petListId) !== undefined}
 						onChange = {(event) => {handleCheckboxChange(event, pet)}}
 					/>
 					<label htmlFor = {`${petType}-${pet.petListId}`}>{pet.pet}</label>

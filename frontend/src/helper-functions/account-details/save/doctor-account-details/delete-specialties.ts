@@ -5,7 +5,6 @@ import useModifyDoctorSpecialties
 export default async function deleteSpecialties(
 	specialtyId: number,
 	newDoctorSpecialties: SpecialtyItem[],
-	setDoctorSpecialties: React.Dispatch<React.SetStateAction<SpecialtyItem[]>>,
 	setSelectedOrganization: React.Dispatch<React.SetStateAction<string>>,
 	setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void
 ): Promise<void> {
@@ -13,7 +12,6 @@ export default async function deleteSpecialties(
 		PrivateDoctorDataService.deleteSpecialty,
 		specialtyId,
 		newDoctorSpecialties,
-		setDoctorSpecialties,
 		setSpecialtiesConfirmation,
 		() => setSelectedOrganization("")
 	)

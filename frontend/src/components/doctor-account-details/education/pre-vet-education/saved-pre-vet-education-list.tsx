@@ -1,18 +1,23 @@
+import _ from "lodash"
+import { useContext } from "react"
+import { AppContext } from "src/contexts/maroon-context"
 import SingleSavedPreVetEducation from "./single-saved-pre-vet-education"
 
 interface Props {
-	preVetEducation: PreVetEducationItem[]
 	deleteStatuses: DeleteStatusesDictionary
 	setDeleteStatuses: React.Dispatch<React.SetStateAction<DeleteStatusesDictionary>>
 	handleDeleteOnClick: (PreVetEducation: PreVetEducationItem) => void
 }
 
 export default function SavedPreVetEducationList (props: Props) {
-	const { preVetEducation, deleteStatuses, setDeleteStatuses, handleDeleteOnClick } = props
+	const { deleteStatuses, setDeleteStatuses, handleDeleteOnClick } = props
+	const { doctorAccountDetails } = useContext(AppContext)
+
+	if (_.isNull(doctorAccountDetails)) return null
 
 	return (
 		<ul>
-			{preVetEducation.map((singlePreVetEducation) => (
+			{doctorAccountDetails.preVetEducation.map((singlePreVetEducation) => (
 				<SingleSavedPreVetEducation
 					key = {singlePreVetEducation.preVetEducationMappingId}
 					singlePreVetEducation = {singlePreVetEducation}
