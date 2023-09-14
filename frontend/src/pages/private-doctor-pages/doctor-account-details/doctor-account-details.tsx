@@ -30,6 +30,7 @@ function DoctorAccountDetails() {
 	return (
 		<div>
 			<DoctorHeader/>
+
 			<PreVetEducationSection	/>
 			<VetEducationSection />
 			<DescriptionSection />

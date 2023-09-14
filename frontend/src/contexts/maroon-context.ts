@@ -2,11 +2,12 @@ import _ from "lodash"
 import { createContext } from "react"
 import { makeAutoObservable } from "mobx"
 import { PersonalInfoClass } from "../classes/personal-info-class"
-import { DashboardDataClass } from "../classes/dashboard-data-class"
+import { DoctorDashboardDataClass } from "../classes/doctor-dashboard-data-class"
 import { PatientAccountDetailsClass } from "src/classes/patient-account-details-class"
 import { DoctorAccountDetailsClass } from "src/classes/doctor-account-details-class"
 import { PatientListsClass } from "src/classes/patient-lists"
 import { DoctorListsClass } from "src/classes/doctor-lists"
+import { PatientDashboardDataClass } from "src/classes/patient-dashboard-data-class"
 
 export class MaroonContext {
 	constructor() {
@@ -18,7 +19,8 @@ export class MaroonContext {
 	private _newUser: boolean = false
 	private _personalInfo: PersonalInfoClass | null = null
 	private _headerData: string = "Profile"
-	private _dashboardData: DashboardDataClass[] | null = null
+	private _doctorDashboardData: DoctorDashboardDataClass[] | null = null
+	private _patientDashboardData: PatientDashboardDataClass[] | null = null
 	private _loginHistory: LoginHistoryItem[] | null = null
 	private _patientAccountDetails: PatientAccountDetailsClass | null = null
 	private _doctorAccountDetails: DoctorAccountDetailsClass | null = null
@@ -31,9 +33,15 @@ export class MaroonContext {
 		}
 	}
 
-	public initializeDashboardData(dashboardData: DoctorDashboardData[] | PatientDashboardData[]): void {
+	public initializeDoctorDashboardData(dashboardData: DoctorDashboardData[]): void {
 		if (this._isAuthenticated && !_.isNull(this._userType)) {
-			this._dashboardData = dashboardData.map((data) => new DashboardDataClass(data))
+			this._doctorDashboardData = dashboardData.map((data) => new DoctorDashboardDataClass(data))
+		}
+	}
+
+	public initializePatientDashboardData(dashboardData: PatientDashboardData[]): void {
+		if (this._isAuthenticated && !_.isNull(this._userType)) {
+			this._patientDashboardData = dashboardData.map((data) => new PatientDashboardDataClass(data))
 		}
 	}
 
@@ -62,12 +70,15 @@ export class MaroonContext {
 	}
 
 	public logout(): void {
+		localStorage.clear()
+		sessionStorage.clear()
 		this._isAuthenticated = false
 		this._userType = null
 		this._newUser = false
 		this._personalInfo = null
 		this._headerData = "Profile"
-		this._dashboardData = null
+		this._doctorDashboardData = null
+		this._patientDashboardData = null
 		this._loginHistory = null
 		this._patientAccountDetails = null
 		this._doctorAccountDetails = null
@@ -95,12 +106,20 @@ export class MaroonContext {
 		return this._patientAccountDetails
 	}
 
-	get dashboardData(): DashboardDataClass[] | null {
-		return this._dashboardData
+	get doctorDashboardData(): DoctorDashboardDataClass[] | null {
+		return this._doctorDashboardData
 	}
 
-	set dashboardData(value: DashboardDataClass[] | null) {
-		this._dashboardData = value
+	set doctorDashboardData(value: DoctorDashboardDataClass[] | null) {
+		this._doctorDashboardData = value
+	}
+
+	get patientDashboardData(): PatientDashboardDataClass[] | null {
+		return this._patientDashboardData
+	}
+
+	set patientDashboardData(value: PatientDashboardDataClass[] | null) {
+		this._patientDashboardData = value
 	}
 
 	get loginHistory(): LoginHistoryItem[] | null {

@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx"
 
-export class DashboardDataClass {
-	constructor(dashboardData: DoctorDashboardData | PatientDashboardData) {
+export class PatientDashboardDataClass {
+	constructor(dashboardData: PatientDashboardData) {
 		makeAutoObservable(this)
 		Object.assign(this, dashboardData)
 	}
@@ -23,12 +23,6 @@ export class DashboardDataClass {
 	country: string = ""
 	zip: string = ""
 	petName: string = ""
-
-	//For if the user is a doctor
-	patientFirstName?: string = ""
-	patientLastName?: string = ""
-
-	//For if the user is a patient
-	doctorFirstName?: string = ""
-	doctorLastName?: string = ""
+	doctorFirstName: string = ""
+	doctorLastName: string = ""
 }

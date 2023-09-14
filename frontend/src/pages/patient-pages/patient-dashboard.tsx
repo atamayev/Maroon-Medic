@@ -12,29 +12,34 @@ import { AppContext } from "src/contexts/maroon-context"
 
 function PatientDashboard() {
 	const appContext = useContext(AppContext)
-	const { dashboardData } = useSetPatientDashboardData()
 	const [pastAppointments, setPastAppointments] = useState<PatientDashboardData[]>([])
 	const [upcomingAppointments, setUpcomingAppointments] = useState<PatientDashboardData[]>([])
 
 	useEffect(() => {
-		if (!_.isEmpty(dashboardData) && appContext.userType === "Patient") {
-			const now = moment()
-			const pastPatientAppointments = dashboardData.filter(appointment =>
-				moment(appointment.appointmentDate, "MMMM Do, YYYY, h:mm A") < now
-			)
-			const upcomingPatientAppointments = dashboardData.filter(appointment =>
-				moment(appointment.appointmentDate, "MMMM Do, YYYY, h:mm A") >= now
-			)
+		if (
+			_.isNull(appContext.patientDashboardData) ||
+			_.isEmpty(appContext.patientDashboardData) ||
+			appContext.userType !== "Patient"
+		) return
 
-			setPastAppointments(pastPatientAppointments)
-			setUpcomingAppointments(upcomingPatientAppointments)
-		}
-	}, [dashboardData])
+		const now = moment()
+		const pastPatientAppointments = appContext.patientDashboardData.filter(appointment =>
+			moment(appointment.appointmentDate, "MMMM Do, YYYY, h:mm A") < now
+		)
+		const upcomingPatientAppointments = appContext.patientDashboardData.filter(appointment =>
+			moment(appointment.appointmentDate, "MMMM Do, YYYY, h:mm A") >= now
+		)
+
+		setPastAppointments(pastPatientAppointments)
+		setUpcomingAppointments(upcomingPatientAppointments)
+	}, [appContext.patientDashboardData])
+
+	useSetPatientDashboardData()
 
 	if (appContext.userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
 	function DashboardData () {
-		if (_.isEmpty(dashboardData)) return <>No upcoming appointments</>
+		if (_.isEmpty(appContext.patientDashboardData)) return <>No upcoming appointments</>
 		return (
 			<>
 				<UpcomingAppointmentsSection upcomingAppointments = {upcomingAppointments} />

@@ -28,18 +28,14 @@ function DropdownItems ({ dropdown } : Props) {
 	const handleLogout = async () => {
 		try {
 			const response = await AuthDataService.logout()
-			if (response.status === 200) {
-				localStorage.clear()
-				sessionStorage.clear()
-				appContext.logout()
-			}
+			if (response.status === 200) appContext.logout()
 		} catch (error) {
 		}
 		handleRefresh()
 	}
 
 	if (dropdown === false) return null
-	if (_.isNull(appContext.userType)) {
+	else if (_.isNull(appContext.userType)) {
 		return (
 			<>
 				<Link to="/vet-register" className={boldedDropdownItemCSS} role="menuitem">Vet Sign up</Link>

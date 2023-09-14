@@ -12,35 +12,38 @@ import { AppContext } from "src/contexts/maroon-context"
 
 function DoctorDashboard() {
 	const appContext = useContext(AppContext)
-	const { dashboardData, setDashboardData } = useSetDoctorDashboardData()
 	const [pastAppointments, setPastAppointments] = useState<DoctorDashboardData[]>([])
 	const [upcomingAppointments, setUpcomingAppointments] = useState<DoctorDashboardData[]>([])
 
 	useEffect(() => {
-		if (!_.isEmpty(dashboardData) && appContext.userType === "Doctor") {
-			const now = moment()
-			const pastDoctorAppointments = dashboardData.filter(appointment =>
-				moment(appointment.appointmentDate, "MMMM Do, YYYY, h:mm A") < now
-			)
-			const upcomingDoctorAppointments = dashboardData.filter(appointment =>
-				moment(appointment.appointmentDate, "MMMM Do, YYYY, h:mm A") >= now
-			)
+		if (
+			_.isNull(appContext.doctorDashboardData) ||
+			_.isEmpty(appContext.doctorDashboardData) ||
+			appContext.userType !== "Doctor"
+		) return
 
-			setPastAppointments(pastDoctorAppointments)
-			setUpcomingAppointments(upcomingDoctorAppointments)
-		}
-	}, [dashboardData])
+		const now = moment()
+		const pastDoctorAppointments = appContext.doctorDashboardData.filter(appointment =>
+			moment(appointment.appointmentDate, "MMMM Do, YYYY, h:mm A") < now
+		)
+		const upcomingDoctorAppointments = appContext.doctorDashboardData.filter(appointment =>
+			moment(appointment.appointmentDate, "MMMM Do, YYYY, h:mm A") >= now
+		)
+
+		setPastAppointments(pastDoctorAppointments)
+		setUpcomingAppointments(upcomingDoctorAppointments)
+	}, [appContext.doctorDashboardData])
+
+	useSetDoctorDashboardData()
 
 	if (appContext.userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
 	function DashboardData () {
-		if (_.isEmpty(dashboardData)) return <>No upcoming appointments</>
+		if (_.isEmpty(appContext.doctorDashboardData)) return <>No upcoming appointments</>
 		return (
 			<>
 				<UpcomingAppointmentsSection
 					upcomingDoctorAppointments = {upcomingAppointments}
-					dashboardData = {dashboardData}
-					setDashboardData = {setDashboardData}
 				/>
 				<PastAppointmentsSection pastAppointments = {pastAppointments}/>
 			</>

@@ -1,12 +1,13 @@
 import _ from "lodash"
 import UpcomingAppointmentCard from "./upcoming-appointment-card"
 
-export default function UpcomingAppointmentsMap ({ upcomingDoctorAppointments, dashboardData, setDashboardData } :
-  { upcomingDoctorAppointments: DoctorDashboardData[],
-    dashboardData: DoctorDashboardData[],
-    setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardData[]>>
-   }
-) {
+interface Props {
+	upcomingDoctorAppointments: DoctorDashboardData[]
+}
+
+export default function UpcomingAppointmentsMap (props: Props) {
+	const { upcomingDoctorAppointments } = props
+
 	if (_.isEmpty(upcomingDoctorAppointments)) return <>No upcoming appointments</>
 	return (
 		<>
@@ -14,8 +15,6 @@ export default function UpcomingAppointmentsMap ({ upcomingDoctorAppointments, d
 				<UpcomingAppointmentCard
 					key = {appointment.appointmentsId}
 					appointment = {appointment}
-					dashboardData = {dashboardData}
-					setDashboardData = {setDashboardData}
 				/>
 			))}
 		</>

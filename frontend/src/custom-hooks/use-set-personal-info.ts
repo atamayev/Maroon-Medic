@@ -30,5 +30,5 @@ export default function useSetPersonalInfo(
 		fetchAndSetPersonalInfo()
 	}, [userType])
 
-	return {personalInfo, setPersonalInfo}
+	return { personalInfo, setPersonalInfo }
 }

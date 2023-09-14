@@ -11,12 +11,10 @@ const returnDoctorConfirmationStatus = (appointment: DoctorDashboardData) => {
 
 interface Props {
 	appointment: DoctorDashboardData,
-	dashboardData: DoctorDashboardData[],
-	setDashboardData: React.Dispatch<React.SetStateAction<DoctorDashboardData[]>>
 }
 
 export default function UpcomingAppointmentCard (props: Props) {
-	const { appointment, dashboardData, setDashboardData } = props
+	const { appointment } = props
 
 	const [status, setStatus] = useState<AppointmentStatus>(returnDoctorConfirmationStatus(appointment))
 
@@ -24,7 +22,7 @@ export default function UpcomingAppointmentCard (props: Props) {
 		<div className="mb-3 relative border border-brown-400 bg-yellow-100 rounded" style={{ margin: "0 10px" }}>
 			<div className="p-4">
 				<h1 className="text-brown-800 text-lg">
-          Appointment with {appointment.patientFirstName} {appointment.patientLastName} on {appointment.appointmentDate}
+					Appointment with {appointment.patientFirstName} {appointment.patientLastName} on {appointment.appointmentDate}
 				</h1>
 				<div>
 					<MessageSection appointment={appointment} />
@@ -33,8 +31,6 @@ export default function UpcomingAppointmentCard (props: Props) {
 						status={status}
 						setStatus={setStatus}
 						appointment={appointment}
-						dashboardData={dashboardData}
-						setDashboardData={setDashboardData}
 					/>
 					<ApprovedAppointment status={status} />
 				</div>
