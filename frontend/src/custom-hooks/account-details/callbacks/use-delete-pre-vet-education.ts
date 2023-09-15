@@ -1,16 +1,18 @@
 import { useCallback } from "react"
-import useDeletePreVetEducationItem from "../save/doctor-account-details/use-delete-pre-vet-education"
+import useDeletePreVetEducationItem from "../save/doctor-account-details/use-delete-pre-vet-education-item"
 
 const useDeletePreVetEducation = (
 	setPreVetEducationConfirmation: (conf: ConfirmationMessage) => void
 ): (PreVetEducation: PreVetEducationItem) => void => {
+	const deletePreVetEducationItem = useDeletePreVetEducationItem()
+
 	return useCallback(
 		async (preVetEducationItem: PreVetEducationItem) => {
-			await useDeletePreVetEducationItem(
+			await deletePreVetEducationItem(
 				preVetEducationItem.preVetEducationMappingId,
 				setPreVetEducationConfirmation
 			)
-		}, []
+		}, [deletePreVetEducationItem]
 	)
 }
 

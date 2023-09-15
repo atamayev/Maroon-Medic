@@ -1,5 +1,6 @@
 import Button from "src/components/button"
-import addLocation from "src/helper-functions/account-details/save/doctor-account-details/add-location"
+import useModifyAddressData from "src/custom-hooks/account-details/save/doctor-account-details-helpers/use-modify-address-data"
+import PrivateDoctorDataService from "src/services/private-doctor-data-service"
 import { areAllFieldsValid, areAllTimesValid } from "src/utils/all-field-checks"
 
 interface Props {
@@ -10,6 +11,8 @@ interface Props {
 export default function AddLocationButton (props: Props) {
 	const {address, setAddressesConfirmation} = props
 
+	const modifyAddressData = useModifyAddressData()
+
 	return (
 		<Button
 			className = "mr-3"
@@ -18,7 +21,11 @@ export default function AddLocationButton (props: Props) {
 			title = "Add Location"
 			onClick = {(e: React.MouseEvent) => {
 				e.stopPropagation()
-				addLocation(address, setAddressesConfirmation)
+				modifyAddressData(
+					PrivateDoctorDataService.addAddressData,
+					address,
+					setAddressesConfirmation
+				)
 			}}
 			disabled = {!areAllFieldsValid(address) || !areAllTimesValid(address)}
 			textColor = "text-white"

@@ -6,6 +6,7 @@ import useFetchDoctorAccountDetails from "src/custom-hooks/account-details/fetch
 
 export default function useSetDoctorAccountDetails(
 	setExpandedCategories: React.Dispatch<React.SetStateAction<string[]>>,
+	setExpandedPetTypes: React.Dispatch<React.SetStateAction<string[]>>
 ): void {
 	const appContext = useContext(AppContext)
 	const fetchDoctorAccountDetails = useFetchDoctorAccountDetails()
@@ -18,6 +19,9 @@ export default function useSetDoctorAccountDetails(
 			} else {
 				setExpandedCategories(
 					appContext.doctorAccountDetails.services.map((service: ServiceItemNotNullablePrice) => service.categoryName)
+				)
+				setExpandedPetTypes(
+					appContext.doctorAccountDetails.servicedPets.map((servicedPet: ServicedPetItem) => servicedPet.petType)
 				)
 			}
 

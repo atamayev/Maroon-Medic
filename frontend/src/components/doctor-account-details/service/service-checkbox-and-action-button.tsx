@@ -8,7 +8,7 @@ interface Props {
 	setServicesConfirmation: (conf: ConfirmationMessage) => void
 }
 
-export default function ServiceCheckbox (props: Props) {
+export default function ServiceCheckboxAndActionButton (props: Props) {
 	const { service, category, selectedServices, setSelectedServices, setServicesConfirmation } = props
 
 	return (

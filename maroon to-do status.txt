@@ -1,9 +1,7 @@
 To-do:
 
-
 Context Bugs/To-do:
 	To-do:
-		Fix description, public status not rendering immediately bug
 		Finish moving data into classes from session storage
 		Make sure
 			sharedState.isAuthenticated = !!accessToken
@@ -15,6 +13,9 @@ Context Bugs/To-do:
 
 	Bugs:
 		Fix logout (should re-direct and clear memory immediately). Currently looks like it clears memory, and then re-directs
+		Descriptoin, Public Status, verified, language list not rendering immediately
+		Delete address doesn't work
+		Site crashes when petTypes expanded
 
 Remove setX from the dependencies of any useEffects, useCallbacks
 

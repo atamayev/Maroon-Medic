@@ -4,13 +4,15 @@ import useDeleteVetEducationItem from "../save/doctor-account-details/use-delete
 export const useDeleteVetEducation = (
 	setVetEducationConfirmation: (conf: ConfirmationMessage) => void
 ): ((VetEducation: VetEducationItem) => void) => {
+	const deleteVetEducationItem = useDeleteVetEducationItem()
+
 	return useCallback(
 		async (vetEducationItem: VetEducationItem) => {
-			await useDeleteVetEducationItem(
+			await deleteVetEducationItem(
 				vetEducationItem.vetEducationMappingId,
 				setVetEducationConfirmation
 			)
-		}, [])
+		}, [deleteVetEducationItem])
 }
 
 export default useDeleteVetEducation

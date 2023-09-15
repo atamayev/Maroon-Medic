@@ -1,6 +1,6 @@
 interface SelectLanguageProps {
-  languageOptions: JSX.Element[],
-  handleLanguageChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
+	languageOptions: JSX.Element[],
+	handleLanguageChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
 export default function SelectLanguage ({handleLanguageChange, languageOptions}: SelectLanguageProps) {

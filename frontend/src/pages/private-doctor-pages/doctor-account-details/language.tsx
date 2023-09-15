@@ -21,7 +21,7 @@ export default function LanguageSection() {
 }
 
 function VetLanguages() {
-	const { doctorLists, doctorAccountDetails } = useContext(AppContext)
+	const { doctorAccountDetails } = useContext(AppContext)
 	const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
 	const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage()
 
@@ -29,7 +29,7 @@ function VetLanguages() {
 
 	const languageOptions = useGenerateLanguageOptions()
 
-	const handleLanguageChange = useAddLanguage(doctorLists, setLanguagesConfirmation, "Doctor")
+	const handleLanguageChange = useAddLanguage(setLanguagesConfirmation, "Doctor")
 
 	const handleDeleteLanguage = useDeleteLanguage(setLanguagesConfirmation, "Doctor")
 

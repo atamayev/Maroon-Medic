@@ -29,7 +29,9 @@ function ServicedPets (props: Props) {
 		<>
 			{Object.entries(petTypes).map(([petType, pets]) => (
 				<div key = {petType} style = {{ marginBottom: "10px" }}>
-					<label htmlFor = {petType}>{petType}</label>
+					<label htmlFor = {petType}>
+						{petType}
+					</label>
 					<OpenClosePetType
 						pets = {pets}
 						petType = {petType}

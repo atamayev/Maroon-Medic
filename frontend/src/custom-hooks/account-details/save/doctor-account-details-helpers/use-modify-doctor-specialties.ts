@@ -6,29 +6,38 @@ import { AppContext } from "src/contexts/maroon-context"
 type SpecialtyOperationsType = typeof PrivateDoctorDataService.deleteSpecialty |
                                typeof PrivateDoctorDataService.addSpecialty
 
-export default async function useModifyDoctorSpecialties(
+export default function useModifyDoctorSpecialties() : (
 	operation: SpecialtyOperationsType,
 	specialtyId: number,
 	newDoctorSpecialties: SpecialtyItem[],
 	setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void,
 	callback: () => void
-): Promise<void> {
+) => Promise<void> {
 	const { doctorAccountDetails } = useContext(AppContext)
-	let response
 
-	try {
-		response = await operation(specialtyId)
-	} catch (error: unknown) {
-		handle401AxiosErrorAndSetMessageType(error, setSpecialtiesConfirmation)
-		return
-	}
+	return async (
+		operation: SpecialtyOperationsType,
+		specialtyId: number,
+		newDoctorSpecialties: SpecialtyItem[],
+		setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void,
+		callback: () => void
+	): Promise<void> => {
+		let response
 
-	if (response.status === 200) {
-		doctorAccountDetails!.specialties = newDoctorSpecialties
-		setSpecialtiesConfirmation({messageType: "saved"})
-	} else {
-		setSpecialtiesConfirmation({messageType: "problem"})
-		return
+		try {
+			response = await operation(specialtyId)
+		} catch (error: unknown) {
+			handle401AxiosErrorAndSetMessageType(error, setSpecialtiesConfirmation)
+			return
+		}
+
+		if (response.status === 200) {
+			doctorAccountDetails!.specialties = newDoctorSpecialties
+			setSpecialtiesConfirmation({messageType: "saved"})
+		} else {
+			setSpecialtiesConfirmation({messageType: "problem"})
+			return
+		}
+		callback()
 	}
-	callback()
 }

@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { observer } from "mobx-react"
 import { useEffect, useState, useContext } from "react"
-import ServiceCheckbox from "./service-checkbox"
+import ServiceCheckboxAndActionButton from "./service-checkbox-and-action-button"
 import IsSelectedService from "./is-selected-service"
 import { AppContext } from "src/contexts/maroon-context"
 
@@ -30,7 +30,7 @@ function ServicesMap (props: Props) {
 				const selectedService = selectedServices.find(s => s.serviceAndCategoryListId === service.serviceAndCategoryListId)
 				return (
 					<div key = {service.serviceAndCategoryListId} style = {{ paddingLeft: "20px" }}>
-						<ServiceCheckbox
+						<ServiceCheckboxAndActionButton
 							service = {service}
 							category = {category}
 							selectedServices = {selectedServices}

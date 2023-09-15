@@ -16,10 +16,7 @@ export default function useGenerateLanguageOptions(): JSX.Element[] {
 	}
 
 	return useMemo(() => {
-		if (
-			!(_.isArray(languagesList) && !_.isEmpty(languagesList)) ||
-			_.isNull(savedLanguages)
-		) return []
+		if (_.isNull(languagesList)) return []
 
 		return languagesList
 			.filter(

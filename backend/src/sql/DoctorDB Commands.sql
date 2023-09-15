@@ -270,8 +270,8 @@ CREATE TABLE addresses(
 );
 
 select * from addresses;
-select * from addresses where isactive;
-SELECT * FROM addresses inner join phone on addresses.addresses_id = phone.address_id WHERE addresses.isactive;
+select * from addresses where is_active;
+SELECT * FROM addresses inner join phone on addresses.addresses_id = phone.address_id WHERE addresses.is_active;
 -- update addresses set is_active = 0 where doctor_id;
 
 CREATE TABLE doctor_phone_numbers(

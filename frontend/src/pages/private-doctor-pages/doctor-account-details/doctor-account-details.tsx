@@ -23,7 +23,7 @@ function DoctorAccountDetails() {
 
 	const [expandedPetTypes, setExpandedPetTypes] = useState<string[]>([])
 
-	useSetDoctorAccountDetails(setExpandedCategories)
+	useSetDoctorAccountDetails(setExpandedCategories, setExpandedPetTypes)
 
 	if (appContext.userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 

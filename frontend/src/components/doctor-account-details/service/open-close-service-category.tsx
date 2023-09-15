@@ -13,6 +13,7 @@ export default function OpenCloseServiceCategory (props: Props) {
 	if (services.length <= 1) return null
 
 	const isOpen = expandedCategories.includes(category)
+
 	function IsOpen () {
 		if (isOpen) return "^"
 		return "v"

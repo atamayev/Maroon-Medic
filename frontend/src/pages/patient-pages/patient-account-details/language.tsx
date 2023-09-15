@@ -21,7 +21,7 @@ export default function PatientLanguageSection() {
 }
 
 function PatientLanguages() {
-	const { patientLists, patientAccountDetails } = useContext(AppContext)
+	const { patientAccountDetails } = useContext(AppContext)
 	const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
 	const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage()
 
@@ -29,7 +29,7 @@ function PatientLanguages() {
 
 	const languageOptions = useGenerateLanguageOptions()
 
-	const handleLanguageChange = useAddLanguage(patientLists!, setLanguagesConfirmation, "Patient")
+	const handleLanguageChange = useAddLanguage(setLanguagesConfirmation, "Patient")
 
 	const handleDeleteLanguage = useDeleteLanguage(setLanguagesConfirmation, "Patient")
 

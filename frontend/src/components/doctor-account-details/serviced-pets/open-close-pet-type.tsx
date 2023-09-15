@@ -2,10 +2,10 @@ import Button from "src/components/button"
 import togglePetType from "src/helper-functions/account-details/toggle/toggle-pet-type"
 
 interface Props {
-  pets: ServicedPetItem[]
-  petType: string
-  expandedPetTypes: string[]
-  setExpandedPetTypes: React.Dispatch<React.SetStateAction<string[]>>
+	pets: ServicedPetItem[]
+	petType: string
+	expandedPetTypes: string[]
+	setExpandedPetTypes: React.Dispatch<React.SetStateAction<string[]>>
 }
 
 export default function OpenClosePetType (props: Props) {

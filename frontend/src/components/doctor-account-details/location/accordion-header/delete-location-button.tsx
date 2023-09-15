@@ -1,24 +1,28 @@
+import _ from "lodash"
+import { observer } from "mobx-react"
 import { useContext, useState } from "react"
 import Button from "src/components/button"
 import { AppContext } from "src/contexts/maroon-context"
-import deleteLocation from "src/helper-functions/account-details/save/doctor-account-details/delete-location"
+import useDeleteAddressData from "src/custom-hooks/account-details/save/doctor-account-details-helpers/use-delete-address-data"
 
 interface Props {
 	address: DoctorAddressData
 	setAddressesConfirmation: (conf: ConfirmationMessage) => void
 }
 
-export default function DeleteLocationButton (props: Props) {
+function DeleteLocationButton (props: Props) {
 	const { address, setAddressesConfirmation } = props
 	const { doctorAccountDetails } = useContext(AppContext)
 
 	const [status, setStatus] = useState("initial" as DeleteStatuses)
+	const deleteAddressData = useDeleteAddressData()
 
 	const handleDeleteAddress = () => {
+		if (_.isNull(doctorAccountDetails)) return
 		if (address.addressesId === -1) {
-			doctorAccountDetails?.addressData.filter(addressf => addressf.addressPriority !== address.addressPriority)
+			_.filter(doctorAccountDetails.addressData, a => a.addressPriority !== address.addressPriority)
 		}
-		else deleteLocation(address.addressesId, setAddressesConfirmation)
+		else deleteAddressData(address.addressesId, setAddressesConfirmation)
 	}
 
 	if (status !== "initial") {
@@ -64,3 +68,5 @@ export default function DeleteLocationButton (props: Props) {
 		/>
 	)
 }
+
+export default observer(DeleteLocationButton)

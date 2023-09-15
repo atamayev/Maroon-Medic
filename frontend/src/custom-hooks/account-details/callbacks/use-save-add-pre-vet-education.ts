@@ -4,13 +4,15 @@ import useAddPreVetEducation from "src/custom-hooks/account-details/save/doctor-
 export const useSaveAddPreVetEducation = (
 	setPreVetEducationConfirmation: (conf: ConfirmationMessage) => void
 ): ((selectedEducationObj: PreVetEducationItem) => void) => {
+	const addPreVetEducation = useAddPreVetEducation()
+
 	return useCallback(
 		async (selectedEducationObj: PreVetEducationItem) => {
-			await useAddPreVetEducation(
+			await addPreVetEducation(
 				selectedEducationObj,
 				setPreVetEducationConfirmation
 			)
-		}, [setPreVetEducationConfirmation])
+		}, [addPreVetEducation])
 }
 
 export default useSaveAddPreVetEducation

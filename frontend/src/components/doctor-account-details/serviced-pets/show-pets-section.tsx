@@ -16,8 +16,8 @@ function ShowPetsSection (props: Props) {
 	const { doctorAccountDetails } = useContext(AppContext)
 
 	if (
-		(pets.length > 1 && !expandedPetTypes.includes(petType)) ||
-		_.isNull(doctorAccountDetails)
+		_.isNull(doctorAccountDetails) ||
+		(pets.length > 1 && !expandedPetTypes.includes(petType))
 	) return null
 
 	const handleCheckboxChange = usePetsCheckboxChange(doctorAccountDetails.servicedPets, setPetsConfirmation)

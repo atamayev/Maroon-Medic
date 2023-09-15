@@ -1,9 +1,8 @@
 import Button from "src/components/button"
-import updateServices from "src/helper-functions/account-details/save/doctor-account-details/update-services"
-import addServices from "src/helper-functions/account-details/save/doctor-account-details/add-services"
-import deleteServices from "src/helper-functions/account-details/save/doctor-account-details/delete-services"
 import { useContext } from "react"
 import { AppContext } from "src/contexts/maroon-context"
+import useModifyServicesData from "src/custom-hooks/account-details/save/doctor-account-details-helpers/use-modify-services-data"
+import PrivateDoctorDataService from "src/services/private-doctor-data-service"
 
 interface Props {
 	service: ServiceListItem
@@ -27,11 +26,13 @@ export default function ServiceActionButton (props: Props) {
 
 	// check if service time and price are filled
 	const isFilled = isSelected && selectedService.serviceTime && selectedService.servicePrice
+	const modifyServicesData = useModifyServicesData()
 
 	function DeleteServiceButton () {
 		return (
 			<Button
-				onClick = {() => deleteServices(
+				onClick = {() => modifyServicesData(
+					PrivateDoctorDataService.deleteService,
 					selectedService!,
 					setServicesConfirmation,
 					setSelectedServices
@@ -48,7 +49,11 @@ export default function ServiceActionButton (props: Props) {
 	function UpdateServiceButton () {
 		return (
 			<Button
-				onClick = {() => updateServices(selectedService!, setServicesConfirmation)}
+				onClick = {() => modifyServicesData(
+					PrivateDoctorDataService.updateService,
+					selectedService!,
+					setServicesConfirmation,
+				)}
 				title = "Update"
 				colorClass = "bg-amber-600"
 				hoverClass = "hover:bg-amber-700"
@@ -61,7 +66,11 @@ export default function ServiceActionButton (props: Props) {
 	function AddServiceButton () {
 		return (
 			<Button
-				onClick = {() => addServices(selectedService!, setServicesConfirmation)}
+				onClick = {() => modifyServicesData(
+					PrivateDoctorDataService.addService,
+					selectedService!,
+					setServicesConfirmation
+				)}
 				title = "Add"
 				colorClass = "bg-green-600"
 				hoverClass = "hover:bg-green-700"
