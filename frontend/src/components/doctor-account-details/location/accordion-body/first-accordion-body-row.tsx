@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function FirstAccordionBodyRow (props: Props) {
-	const {address, handleInputChange} = props
+	const { address, handleInputChange } = props
 
 	return (
 		<div className = "flex flex-wrap">

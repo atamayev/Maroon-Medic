@@ -14,7 +14,6 @@ export default function useSetDoctorAccountDetails(
 	const getDoctorAccountDetails: () => void = async () => {
 		try {
 			if (_.isNull(appContext.doctorAccountDetails)) {
-				console.log("here")
 				await fetchDoctorAccountDetails()
 			} else {
 				setExpandedCategories(
@@ -30,7 +29,6 @@ export default function useSetDoctorAccountDetails(
 	}
 
 	useEffect(() => {
-		console.log(appContext.userType)
 		if (appContext.userType !== "Doctor") return
 		getDoctorAccountDetails()
 	}, [appContext.userType])

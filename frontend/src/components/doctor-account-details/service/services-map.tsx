@@ -1,17 +1,26 @@
+import _ from "lodash"
+import { observer } from "mobx-react"
+import { useEffect, useState, useContext } from "react"
 import ServiceCheckbox from "./service-checkbox"
 import IsSelectedService from "./is-selected-service"
+import { AppContext } from "src/contexts/maroon-context"
 
 interface Props {
 	category: string
 	services: ServiceListItem[]
 	expandedCategories: string[]
-	selectedServices: ServiceItemNullablePrice[]
-	setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemNullablePrice[]>>
 	setServicesConfirmation: (conf: ConfirmationMessage) => void
 }
 
-export default function ServicesMap (props: Props) {
-	const { category, services, expandedCategories, selectedServices, setSelectedServices, setServicesConfirmation } = props
+function ServicesMap (props: Props) {
+	const { category, services, expandedCategories, setServicesConfirmation } = props
+	const { doctorAccountDetails } = useContext(AppContext)
+	const [selectedServices, setSelectedServices] = useState<ServiceItemNullablePrice[]>([])
+
+	useEffect(() => {
+		if (_.isNull(doctorAccountDetails) || _.isEmpty(doctorAccountDetails.services)) return
+		setSelectedServices(doctorAccountDetails.services)
+	}, [doctorAccountDetails?.services])
 
 	if (!(services.length <= 1 || expandedCategories.includes(category))) return null
 
@@ -40,3 +49,5 @@ export default function ServicesMap (props: Props) {
 		</div>
 	)
 }
+
+export default observer(ServicesMap)

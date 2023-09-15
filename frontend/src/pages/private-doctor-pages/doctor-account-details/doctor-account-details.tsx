@@ -29,7 +29,6 @@ function DoctorAccountDetails() {
 
 	return (
 		<div>
-			{appContext.userType}
 			<DoctorHeader/>
 
 			<PreVetEducationSection	/>

@@ -1,4 +1,6 @@
-import { useEffect, useState, useContext } from "react"
+import _ from "lodash"
+import { observer } from "mobx-react"
+import { useState, useContext, useEffect } from "react"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import DescriptionInput from "src/components/doctor-account-details/description/description-input"
@@ -7,7 +9,7 @@ import DescriptionCharacterLimit from "src/components/doctor-account-details/des
 import AccountDetailsCard from "src/components/account-details-card"
 import { AppContext } from "src/contexts/maroon-context"
 
-export default function DescriptionSection () {
+export default function DescriptionSection() {
 	return (
 		<AccountDetailsCard
 			title = "Description"
@@ -18,18 +20,16 @@ export default function DescriptionSection () {
 
 function Description() {
 	const { doctorAccountDetails } = useContext(AppContext)
-	const [description, setDescription] = useState<string>(doctorAccountDetails?.description || "")
-	const [isDescriptionOverLimit, setIsDescriptionOverLimit] = useState(false)
+	const [description, setDescription] = useState(doctorAccountDetails?.description || "")
 	const [descriptionConfirmation, setDescriptionConfirmation] = useConfirmationMessage()
 
 	useEffect(() => {
-		if (description || description === "") setIsDescriptionOverLimit(description.length >= 1000)
-	}, [description])
+		if (_.isNull(doctorAccountDetails)) return
+		setDescription(doctorAccountDetails.description)
+	}, [doctorAccountDetails?.description])
 
 	return (
-		<form
-			className="space-y-4"
-		>
+		<form className="space-y-4">
 			<DescriptionInput
 				description = {description}
 				setDescription = {setDescription}
@@ -37,7 +37,6 @@ function Description() {
 
 			<DescriptionCharacterLimit
 				description = {description}
-				isDescriptionOverLimit = {isDescriptionOverLimit}
 			/>
 
 			<SaveDescriptionButton
@@ -52,3 +51,5 @@ function Description() {
 		</form>
 	)
 }
+
+observer(Description)

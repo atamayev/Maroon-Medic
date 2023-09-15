@@ -5,6 +5,7 @@ import useUpdatePublicAvailability from "src/custom-hooks/account-details/save/d
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import AccountDetailsCard from "src/components/account-details-card"
 import { AppContext } from "src/contexts/maroon-context"
+import { observer } from "mobx-react"
 
 export default function PublicStatusSection () {
 	return (
@@ -43,9 +44,10 @@ function PublicAvailability () {
 					onClick = {() =>
 						useUpdatePublicAvailability(true, doctorAccountDetails.publiclyAvailable, setPubliclyAvailableConfirmation)
 					}
-					className = {`border-green-500 border p-2 rounded w-14 transition-all duration-100
-						${doctorAccountDetails.publiclyAvailable ? "bg-green-700 text-white" : "bg-white text-black hover:bg-green-400"}
-					`}
+					className = {
+						`border-green-500 border p-2 rounded w-14 transition-all duration-100
+						${doctorAccountDetails.publiclyAvailable ? "bg-green-700 text-white" : "bg-white text-black hover:bg-green-400"}`
+					}
 				>
 					Yes
 				</button>
@@ -57,3 +59,5 @@ function PublicAvailability () {
 		</div>
 	)
 }
+
+observer(PublicStatusSection)

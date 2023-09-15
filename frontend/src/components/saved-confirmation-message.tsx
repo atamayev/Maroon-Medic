@@ -1,9 +1,10 @@
 interface Props {
-  confirmationMessage: ConfirmationMessage,
-  whatIsBeingSaved: string
+	confirmationMessage: ConfirmationMessage
+	whatIsBeingSaved: string
 }
 
-export default function SavedConfirmationMessage ({confirmationMessage, whatIsBeingSaved}: Props) {
+export default function SavedConfirmationMessage (props: Props) {
+	const { confirmationMessage, whatIsBeingSaved } = props
 	const messageType = confirmationMessage.messageType
 	let messageContent = ""
 

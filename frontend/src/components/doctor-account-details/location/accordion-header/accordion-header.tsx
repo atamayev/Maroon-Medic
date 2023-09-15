@@ -5,6 +5,7 @@ import DeleteLocationButton from "./delete-location-button"
 import AddressTitle from "./address-title"
 import { useContext } from "react"
 import { AppContext } from "src/contexts/maroon-context"
+import { observer } from "mobx-react"
 
 interface Props {
 	index: number
@@ -13,7 +14,7 @@ interface Props {
 	toggleOpen: () => void
 }
 
-export default function AccordionHeader (props: Props) {
+function AccordionHeader (props: Props) {
 	const { index, address, setAddressesConfirmation, toggleOpen } = props
 	const { doctorAccountDetails } = useContext(AppContext)
 
@@ -35,7 +36,10 @@ export default function AccordionHeader (props: Props) {
 	}
 
 	return (
-		<div onClick = {toggleOpen} className = "flex justify-between items-center p-3 bg-gray-200 text-black cursor-pointer">
+		<div
+			onClick = {toggleOpen}
+			className = "flex justify-between items-center p-3 bg-gray-200 text-black cursor-pointer"
+		>
 			<div className = "flex space-x-4">
 				<PublicStatus
 					address = {address}
@@ -67,3 +71,5 @@ export default function AccordionHeader (props: Props) {
 		</div>
 	)
 }
+
+export default observer(AccordionHeader)

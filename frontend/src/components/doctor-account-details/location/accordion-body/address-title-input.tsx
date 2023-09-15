@@ -1,8 +1,8 @@
 import FormGroup from "src/components/form-group"
 
 interface Props {
-  address: DoctorAddressData
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>, addressPriority: number) => void
+	address: DoctorAddressData
+	handleInputChange: (event: React.ChangeEvent<HTMLInputElement>, addressPriority: number) => void
 }
 
 export default function AddressTitleInput ({address, handleInputChange}: Props) {

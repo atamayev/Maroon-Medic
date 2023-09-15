@@ -1,5 +1,4 @@
 import FormGroup from "src/components/form-group"
-import { useCallback } from "react"
 
 interface Props {
 	description: string
@@ -9,15 +8,11 @@ interface Props {
 export default function DescriptionInput (props: Props) {
 	const { description, setDescription } = props
 
-	const handleDescriptionChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-		setDescription(event.target.value)
-	}, [setDescription])
-
 	return (
 		<FormGroup
 			id = "Description"
 			value = {description}
-			onChange = {event => {handleDescriptionChange(event)}}
+			onChange = {event => {setDescription(event.target.value)}}
 			maxLength = {1000}
 			as = "textarea"
 			rows = {3}

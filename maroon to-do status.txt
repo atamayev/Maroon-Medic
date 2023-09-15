@@ -3,6 +3,7 @@ To-do:
 
 Context Bugs/To-do:
 	To-do:
+		Fix description, public status not rendering immediately bug
 		Finish moving data into classes from session storage
 		Make sure
 			sharedState.isAuthenticated = !!accessToken

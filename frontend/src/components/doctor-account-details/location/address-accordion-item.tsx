@@ -3,9 +3,9 @@ import AccordionBody from "./accordion-body/accordion-body"
 import AccordionHeader from "./accordion-header/accordion-header"
 
 interface AddressAccordionProps {
-  index: number
-  address: DoctorAddressData
-  setAddressesConfirmation: (conf: ConfirmationMessage) => void
+	index: number
+	address: DoctorAddressData
+	setAddressesConfirmation: (conf: ConfirmationMessage) => void
 }
 
 export default function AddressAccordionItem (props: AddressAccordionProps) {

@@ -1,22 +1,29 @@
+import _ from "lodash"
+import { useContext, useState, useEffect } from "react"
 import ServicesMap from "./services-map"
 import OpenCloseServiceCategory from "./open-close-service-category"
+import { AppContext } from "src/contexts/maroon-context"
+import { observer } from "mobx-react"
 
 type CategoriesType = {
-  [key: string]: ServiceListItem[]
+	[key: string]: ServiceListItem[]
 }
 
 interface Props {
-	categories: CategoriesType
 	expandedCategories: string[]
 	setExpandedCategories: React.Dispatch<React.SetStateAction<string[]>>
-	selectedServices: ServiceItemNullablePrice[]
-	setSelectedServices: React.Dispatch<React.SetStateAction<ServiceItemNullablePrice[]>>
 	setServicesConfirmation: (conf: ConfirmationMessage) => void
 }
 
-export default function ServiceList (props: Props) {
-	const { categories, expandedCategories, setExpandedCategories,
-		selectedServices, setSelectedServices, setServicesConfirmation } = props
+function ServiceList (props: Props) {
+	const { expandedCategories, setExpandedCategories, setServicesConfirmation } = props
+	const { doctorLists } = useContext(AppContext)
+	const [categories, setCategories] = useState<CategoriesType>({})
+
+	useEffect(() => {
+		if (_.isNull(doctorLists) || _.isEmpty(doctorLists.pets)) return
+		setCategories(_.groupBy(doctorLists.servicesAndCategories, "categoryName"))
+	}, [doctorLists])
 
 	return (
 		<>
@@ -33,8 +40,6 @@ export default function ServiceList (props: Props) {
 						category = {category}
 						services = {services}
 						expandedCategories = {expandedCategories}
-						selectedServices = {selectedServices}
-						setSelectedServices = {setSelectedServices}
 						setServicesConfirmation = {setServicesConfirmation}
 					/>
 				</div>
@@ -42,3 +47,5 @@ export default function ServiceList (props: Props) {
 		</>
 	)
 }
+
+export default observer(ServiceList)

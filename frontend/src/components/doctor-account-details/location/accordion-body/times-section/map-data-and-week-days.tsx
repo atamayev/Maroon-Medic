@@ -2,12 +2,13 @@ import { useContext } from "react"
 import LocationMapData from "./map-data"
 import WeekDays from "./weekdays"
 import { AppContext } from "src/contexts/maroon-context"
+import { observer } from "mobx-react"
 
 interface Props {
 	address: DoctorAddressData
 }
 
-export default function MapDataAndWeekDays (props: Props) {
+function MapDataAndWeekDays (props: Props) {
 	const { address } = props
 	const { doctorAccountDetails } = useContext(AppContext)
 
@@ -32,3 +33,5 @@ export default function MapDataAndWeekDays (props: Props) {
 		</div>
 	)
 }
+
+export default observer(MapDataAndWeekDays)

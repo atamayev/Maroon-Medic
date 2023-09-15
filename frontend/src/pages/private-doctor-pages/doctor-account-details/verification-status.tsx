@@ -1,4 +1,5 @@
 import _ from "lodash"
+import { observer } from "mobx-react"
 import { useContext } from "react"
 import AccountDetailsCard from "src/components/account-details-card"
 import Button from "src/components/button"
@@ -42,3 +43,5 @@ function VetVerification () {
 		</>
 	)
 }
+
+observer(VerificationSection)

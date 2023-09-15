@@ -23,8 +23,7 @@ function AddressForm() {
 			<AddressAccordionMap
 				setAddressesConfirmation = {setAddressesConfirmation}
 			/>
-			<AddNewLocationButton
-			/>
+			<AddNewLocationButton />
 			<SavedConfirmationMessage
 				confirmationMessage = {addressesConfirmation}
 				whatIsBeingSaved = "Locations"

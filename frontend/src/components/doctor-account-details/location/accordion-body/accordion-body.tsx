@@ -3,13 +3,14 @@ import FirstAccordionBodyRow from "./first-accordion-body-row"
 import SecondAccordionBodyRow from "./second-accordion-body-row"
 import MapDataAndWeekDays from "./times-section/map-data-and-week-days"
 import { useContext } from "react"
+import { observer } from "mobx-react"
 
 interface Props {
 	isOpen: boolean
 	address: DoctorAddressData
 }
 
-export default function AccordionBody (props: Props) {
+function AccordionBody (props: Props) {
 	const { isOpen, address } = props
 	const { doctorAccountDetails } = useContext(AppContext)
 
@@ -39,3 +40,5 @@ export default function AccordionBody (props: Props) {
 		</div>
 	)
 }
+
+export default observer(AccordionBody)
