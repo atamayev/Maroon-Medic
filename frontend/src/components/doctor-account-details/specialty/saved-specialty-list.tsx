@@ -1,7 +1,8 @@
+import _ from "lodash"
+import { observer } from "mobx-react"
 import { AppContext } from "src/contexts/maroon-context"
 import SingleSavedSpecialty from "./single-saved-specialty"
 import { useContext } from "react"
-import _ from "lodash"
 
 interface Props {
 	deleteStatuses: DeleteStatusesDictionary
@@ -9,7 +10,7 @@ interface Props {
 	handleDeleteSpecialty: (specialty: SpecialtyItem) => void
 }
 
-export default function SavedSpecialtyList (props: Props) {
+function SavedSpecialtyList (props: Props) {
 	const { deleteStatuses, setDeleteStatuses, handleDeleteSpecialty } = props
 	const { doctorAccountDetails } = useContext(AppContext)
 
@@ -29,3 +30,5 @@ export default function SavedSpecialtyList (props: Props) {
 		</ul>
 	)
 }
+
+export default observer(SavedSpecialtyList)

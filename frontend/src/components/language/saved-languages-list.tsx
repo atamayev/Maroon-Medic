@@ -1,21 +1,29 @@
 import _ from "lodash"
+import { useContext } from "react"
 import SingleSavedLanguage from "./single-saved-language"
+import { AppContext } from "src/contexts/maroon-context"
+import { observer } from "mobx-react"
 
 interface SavedLanguageList {
-	spokenLanguages: LanguageItem[],
-	deleteStatuses: DeleteStatusesDictionary,
+	deleteStatuses: DeleteStatusesDictionary
 	setDeleteStatuses: React.Dispatch<React.SetStateAction<DeleteStatusesDictionary>>
 	handleDeleteLanguage: (language: LanguageItem) => void
 }
 
-export default function SavedLanguageList (props: SavedLanguageList) {
-	const { spokenLanguages, deleteStatuses, setDeleteStatuses, handleDeleteLanguage } = props
+function SavedLanguageList (props: SavedLanguageList) {
+	const { deleteStatuses, setDeleteStatuses, handleDeleteLanguage } = props
+	const appContext = useContext(AppContext)
+	let accountDetails
 
-	if (!_.isArray(spokenLanguages) || _.isEmpty(spokenLanguages)) return null
+	if (appContext.userType === "Patient") accountDetails = appContext.patientAccountDetails
+	else if (appContext.userType === "Doctor") accountDetails = appContext.doctorAccountDetails
+	else return null
+
+	if (_.isNull(accountDetails) || _.isEmpty(accountDetails.languages)) return null
 
 	return (
 		<ul>
-			{spokenLanguages.map((language) => (
+			{accountDetails.languages.map((language) => (
 				<SingleSavedLanguage
 					key = {language.languageListId}
 					language = {language}
@@ -27,3 +35,5 @@ export default function SavedLanguageList (props: SavedLanguageList) {
 		</ul>
 	)
 }
+
+export default observer(SavedLanguageList)

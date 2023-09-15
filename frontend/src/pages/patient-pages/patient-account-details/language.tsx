@@ -1,4 +1,3 @@
-import _ from "lodash"
 import { useState, useContext } from "react"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
@@ -10,6 +9,7 @@ import useAddLanguage from "src/custom-hooks/account-details/callbacks/use-add-l
 import SelectLanguage from "src/components/language/select-language"
 import AccountDetailsCard from "src/components/account-details-card"
 import { AppContext } from "src/contexts/maroon-context"
+import { observer } from "mobx-react"
 
 export default function PatientLanguageSection() {
 	return (
@@ -33,8 +33,6 @@ function PatientLanguages() {
 
 	const handleDeleteLanguage = useDeleteLanguage(setLanguagesConfirmation, "Patient")
 
-	if (_.isNull(patientAccountDetails) || _.isNull(patientLists)) return null
-
 	return (
 		<>
 			<SelectLanguage
@@ -42,7 +40,6 @@ function PatientLanguages() {
 				languageOptions = {languageOptions}
 			/>
 			<SavedLanguageList
-				spokenLanguages = {patientAccountDetails.languages}
 				deleteStatuses = {deleteStatuses}
 				setDeleteStatuses = {setDeleteStatuses}
 				handleDeleteLanguage = {handleDeleteLanguage}
@@ -54,3 +51,5 @@ function PatientLanguages() {
 		</>
 	)
 }
+
+observer(PatientLanguages)

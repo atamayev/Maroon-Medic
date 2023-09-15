@@ -1,4 +1,5 @@
 import _ from "lodash"
+import { observer } from "mobx-react"
 import { useContext } from "react"
 import { AppContext } from "src/contexts/maroon-context"
 
@@ -7,7 +8,7 @@ interface Props {
 	setSelectedVetSchool: (value: React.SetStateAction<string>) => void
 }
 
-export default function SelectVetSchool (props: Props) {
+function SelectVetSchool (props: Props) {
 	const { selectedVetSchool, setSelectedVetSchool } = props
 	const { doctorLists } = useContext(AppContext)
 
@@ -34,3 +35,5 @@ export default function SelectVetSchool (props: Props) {
 		</div>
 	)
 }
+
+export default observer(SelectVetSchool)

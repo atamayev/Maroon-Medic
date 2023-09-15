@@ -2,6 +2,7 @@ import _ from "lodash"
 import { useContext } from "react"
 import { AppContext } from "src/contexts/maroon-context"
 import SingleSavedPreVetEducation from "./single-saved-pre-vet-education"
+import { observer } from "mobx-react"
 
 interface Props {
 	deleteStatuses: DeleteStatusesDictionary
@@ -9,7 +10,7 @@ interface Props {
 	handleDeleteOnClick: (PreVetEducation: PreVetEducationItem) => void
 }
 
-export default function SavedPreVetEducationList (props: Props) {
+function SavedPreVetEducationList (props: Props) {
 	const { deleteStatuses, setDeleteStatuses, handleDeleteOnClick } = props
 	const { doctorAccountDetails } = useContext(AppContext)
 
@@ -29,3 +30,5 @@ export default function SavedPreVetEducationList (props: Props) {
 		</ul>
 	)
 }
+
+export default observer(SavedPreVetEducationList)

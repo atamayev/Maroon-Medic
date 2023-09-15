@@ -1,4 +1,3 @@
-import _ from "lodash"
 import { observer } from "mobx-react"
 import { useState, useEffect, useContext } from "react"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
@@ -24,7 +23,7 @@ export default function VetEducationSection () {
 }
 
 function VetEducation() {
-	const { doctorLists, doctorAccountDetails } = useContext(AppContext)
+	const { doctorAccountDetails } = useContext(AppContext)
 	const [selectedVetSchool, setSelectedVetSchool] = useState("")
 	const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
 	const [selectedVetEducationType, setSelectedVetEducationType] = useState("")
@@ -39,19 +38,13 @@ function VetEducation() {
 	const allChoicesFilled = Boolean(selectedVetSchool && selectedVetEducationType &&
 		timeState.startMonth && timeState.endMonth && timeState.startYear && timeState.endYear)
 
-	if (
-		_.isNull(doctorLists) ||
-		_.isEmpty(_.uniq(doctorLists.vetSchools.map((item) => item.schoolName))) ||
-		_.isNull(doctorAccountDetails)
-	) return <p>Loading...</p>
-
 	useEffect(() => {
 		const newDeleteStatuses = { ...deleteStatuses }
 
 		// Go through each status
 		for (const vetEducationMappingId in newDeleteStatuses) {
 			// If the language Id does not exist in the vetEducation list, delete the status
-			if (!doctorAccountDetails.vetEducation.some(
+			if (!doctorAccountDetails?.vetEducation.some(
 				(vetEducationItem) => vetEducationItem.vetEducationMappingId === Number(vetEducationMappingId)
 			)) {
 				delete newDeleteStatuses[vetEducationMappingId]
@@ -59,12 +52,12 @@ function VetEducation() {
 		}
 
 		setDeleteStatuses(newDeleteStatuses)
-	}, [doctorAccountDetails.vetEducation])
+	}, [doctorAccountDetails?.vetEducation])
 
 	const handleAddEducation = useAddVetEducation(
 		selectedVetSchool, setSelectedVetSchool,
 		selectedVetEducationType, setSelectedVetEducationType,
-		timeState,setTimeState
+		timeState, setTimeState
 	)
 
 	const saveVetEducation = useSaveAddVetEducation(setVetEducationConfirmation)

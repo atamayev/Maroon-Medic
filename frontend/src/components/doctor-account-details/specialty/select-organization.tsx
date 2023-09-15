@@ -1,13 +1,14 @@
 import _ from "lodash"
+import { observer } from "mobx-react"
 import { useContext } from "react"
 import { AppContext } from "src/contexts/maroon-context"
 
 interface Props {
-  selectedOrganization: string
-  setSelectedOrganization: (value: React.SetStateAction<string>) => void
+	selectedOrganization: string
+	setSelectedOrganization: (value: React.SetStateAction<string>) => void
 }
 
-export default function SelectOrganization (props: Props) {
+function SelectOrganization (props: Props) {
 	const { selectedOrganization, setSelectedOrganization } = props
 	const { doctorLists } = useContext(AppContext)
 
@@ -33,3 +34,5 @@ export default function SelectOrganization (props: Props) {
 		</div>
 	)
 }
+
+export default observer(SelectOrganization)

@@ -1,4 +1,5 @@
 import _ from "lodash"
+import { observer } from "mobx-react"
 import { useContext } from "react"
 import { AppContext } from "src/contexts/maroon-context"
 
@@ -8,7 +9,7 @@ interface Props {
 	setSelectedMajor: (value: React.SetStateAction<string>) => void
 }
 
-export default function SelectMajor (props: Props) {
+function SelectMajor (props: Props) {
 	const { selectedPreVetSchool, selectedMajor, setSelectedMajor } = props
 	const { doctorLists } = useContext(AppContext)
 
@@ -35,3 +36,5 @@ export default function SelectMajor (props: Props) {
 		</>
 	)
 }
+
+export default observer(SelectMajor)

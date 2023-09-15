@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { observer } from "mobx-react"
-import { useState, useEffect, useMemo, useContext } from "react"
+import { useState, useEffect, useContext } from "react"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import useDeleteSpecialty from "src/custom-hooks/account-details/callbacks/use-delete-specialty"
@@ -21,22 +21,13 @@ export default function SpecialtySection () {
 }
 
 function VetSpecialties() {
-	const { doctorLists, doctorAccountDetails } = useContext(AppContext)
+	const { doctorAccountDetails } = useContext(AppContext)
 	const [selectedOrganization, setSelectedOrganization] = useState("")
 	const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
 	const [specialtiesConfirmation, setSpecialtiesConfirmation] = useConfirmationMessage()
 
-	if (
-		_.isNull(doctorLists) ||
-		_.isEmpty(_.uniq(doctorLists.specialties.map((item) => item.organizationName))) ||
-		_.isNull(doctorAccountDetails)
-	) return <p>Loading...</p>
-
-	const specialties = selectedOrganization
-		? doctorLists.specialties.filter((item) => item.organizationName === selectedOrganization)
-		: []
-
 	useEffect(() => {
+		if (_.isNull(doctorAccountDetails) || _.isEmpty(doctorAccountDetails.specialties)) return
 		const newDeleteStatuses = { ...deleteStatuses }
 
 		// Go through each status
@@ -48,31 +39,16 @@ function VetSpecialties() {
 		}
 
 		setDeleteStatuses(newDeleteStatuses)
-	}, [doctorAccountDetails.specialties])
-
-	const specificSpecialtiesOptions = useMemo(() => {
-		return specialties
-			.filter((specialty) =>
-				!doctorAccountDetails.specialties.find(
-					(doctorSpecialty) =>
-						doctorSpecialty.specialtiesListId === specialty.specialtiesListId
-				)
-			)
-			.map((specialty) => (
-				<option key = {specialty.specialtiesListId} value = {specialty.specialtiesListId}>
-					{specialty.specialtyName}
-				</option>
-			))
-	}, [specialties, doctorAccountDetails.specialties])
+	}, [doctorAccountDetails?.specialties])
 
 	const handleSpecialtyChange = useAddSpecialty(
-		doctorAccountDetails.specialties,
+		doctorAccountDetails?.specialties || [],
 		setSelectedOrganization,
 		setSpecialtiesConfirmation
 	)
 
 	const handleDeleteSpecialty = useDeleteSpecialty(
-		doctorAccountDetails.specialties,
+		doctorAccountDetails?.specialties || [],
 		setSpecialtiesConfirmation,
 		setSelectedOrganization
 	)
@@ -86,7 +62,6 @@ function VetSpecialties() {
 
 			<SelectSpecialty
 				selectedOrganization = {selectedOrganization}
-				specificSpecialtiesOptions = {specificSpecialtiesOptions}
 				handleSpecialtyChange = {handleSpecialtyChange}
 			/>
 

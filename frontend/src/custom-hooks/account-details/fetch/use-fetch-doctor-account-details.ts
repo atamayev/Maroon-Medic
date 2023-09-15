@@ -4,16 +4,16 @@ import PrivateDoctorDataService from "src/services/private-doctor-data-service"
 import handle401AxiosError from "src/utils/handle-errors/handle-401-axios-error"
 
 export default function useFetchDoctorAccountDetails(): () => Promise<void> {
-	const { initializeDoctorAccountDetails } = useContext(AppContext)
+	const appContext = useContext(AppContext)
 
 	const fetchDoctorAccountDetails = useCallback(async () => {
 		try {
 			const response = await PrivateDoctorDataService.fillAccountDetails()
-			initializeDoctorAccountDetails(response.data)
+			appContext.initializeDoctorAccountDetails(response.data)
 		} catch (error: unknown) {
 			handle401AxiosError(error)
 		}
-	}, [])
+	}, [appContext.userType])
 
 	return fetchDoctorAccountDetails
 }

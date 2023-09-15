@@ -1,4 +1,3 @@
-import _ from "lodash"
 import { observer } from "mobx-react"
 import { useState, useEffect, useContext } from "react"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
@@ -27,7 +26,7 @@ export default function PreVetEducationSection() {
 
 // eslint-disable-next-line complexity
 function PreVetEducation() {
-	const { doctorLists, doctorAccountDetails } = useContext(AppContext)
+	const appContext = useContext(AppContext)
 	const [selectedPreVetSchool, setSelectedPreVetSchool] = useState<string>("")
 	const [selectedMajor, setSelectedMajor] = useState<string>("")
 	const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
@@ -40,12 +39,6 @@ function PreVetEducation() {
 	})
 	const [preVetEducationConfirmation, setPreVetEducationConfirmation] = useConfirmationMessage()
 
-	if (
-		_.isNull(doctorLists) ||
-		_.isEmpty(_.uniq(doctorLists.preVetSchools.map((item) => item.schoolName))) ||
-		_.isNull(doctorAccountDetails)
-	) return <p> Loading... </p>
-
 	const allChoicesFilled = Boolean(selectedPreVetSchool && selectedMajor && selectedPreVetEducationType &&
     timeState.startMonth && timeState.endMonth && timeState.startYear && timeState.endYear)
 
@@ -54,7 +47,7 @@ function PreVetEducation() {
 
 		for (const preVetEducationMappingId in newDeleteStatuses) {
 			// If the language Id does not exist in the vetEducation list, delete the status
-			if (!doctorAccountDetails.preVetEducation.some(
+			if (!appContext.doctorAccountDetails?.preVetEducation.some(
 				(preVetEducationItem) => preVetEducationItem.preVetEducationMappingId === Number(preVetEducationMappingId)
 			)) {
 				delete newDeleteStatuses[preVetEducationMappingId]
@@ -62,7 +55,7 @@ function PreVetEducation() {
 		}
 
 		setDeleteStatuses(newDeleteStatuses)
-	}, [doctorAccountDetails.preVetEducation])
+	}, [appContext.doctorAccountDetails?.preVetEducation])
 
 	const handleAddEducation = useAddPreVetEducation(
 		selectedPreVetSchool, setSelectedPreVetSchool,

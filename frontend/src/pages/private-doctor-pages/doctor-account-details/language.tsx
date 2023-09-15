@@ -1,4 +1,3 @@
-import _ from "lodash"
 import { observer } from "mobx-react"
 import { useState, useContext } from "react"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
@@ -34,8 +33,6 @@ function VetLanguages() {
 
 	const handleDeleteLanguage = useDeleteLanguage(setLanguagesConfirmation, "Doctor")
 
-	if (_.isNull(doctorLists) || _.isNull(doctorAccountDetails)) return <> Loading... </>
-
 	return (
 		<>
 			<SelectLanguage
@@ -43,7 +40,6 @@ function VetLanguages() {
 				languageOptions = {languageOptions}
 			/>
 			<SavedLanguageList
-				spokenLanguages = {doctorAccountDetails.languages}
 				deleteStatuses = {deleteStatuses}
 				setDeleteStatuses = {setDeleteStatuses}
 				handleDeleteLanguage = {handleDeleteLanguage}

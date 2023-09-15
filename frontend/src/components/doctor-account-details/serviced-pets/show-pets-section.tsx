@@ -1,4 +1,5 @@
 import _ from "lodash"
+import { observer } from "mobx-react"
 import { useContext } from "react"
 import { AppContext } from "src/contexts/maroon-context"
 import usePetsCheckboxChange from "src/custom-hooks/account-details/callbacks/use-pets-checkbox-change"
@@ -10,7 +11,7 @@ interface Props {
 	expandedPetTypes: string[]
 }
 
-export default function ShowPetsSection (props: Props) {
+function ShowPetsSection (props: Props) {
 	const { pets, petType, setPetsConfirmation, expandedPetTypes } = props
 	const { doctorAccountDetails } = useContext(AppContext)
 
@@ -39,3 +40,5 @@ export default function ShowPetsSection (props: Props) {
 		</div>
 	)
 }
+
+export default observer(ShowPetsSection)
