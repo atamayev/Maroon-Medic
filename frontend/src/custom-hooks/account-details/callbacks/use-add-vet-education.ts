@@ -16,9 +16,9 @@ export const useAddVetEducation = (
 			timeState, setTimeState,
 		)
 	}, [
-		selectedVetSchool, setSelectedVetSchool,
-		selectedVetEducationType, setSelectedVetEducationType,
-		timeState, setTimeState,
+		selectedVetSchool,
+		selectedVetEducationType,
+		timeState,
 	])
 }
 

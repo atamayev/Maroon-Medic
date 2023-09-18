@@ -27,7 +27,7 @@ const useDeleteLanguage = (
 					setLanguagesConfirmation
 				)
 			}
-		}, [])
+		}, [modifyDoctorLanguages, modifyPatientLanguages])
 }
 
 export default useDeleteLanguage

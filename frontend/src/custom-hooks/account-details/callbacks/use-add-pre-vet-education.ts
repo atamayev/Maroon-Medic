@@ -19,10 +19,10 @@ export const useAddPreVetEducation = (
 			selectedMajor, setSelectedMajor
 		)
 	}, [
-		selectedPreVetSchool, setSelectedPreVetSchool,
-		selectedPreVetEducationType, setSelectedPreVetEducationType,
-		timeState, setTimeState,
-		selectedMajor, setSelectedMajor
+		selectedPreVetSchool,
+		selectedPreVetEducationType,
+		timeState,
+		selectedMajor
 	])
 }
 

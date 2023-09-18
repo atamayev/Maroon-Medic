@@ -41,7 +41,7 @@ function FinalizeBookingPage() {
 		if ((browserLocation.state && browserLocation.state.finalized) || !bookingDetails) {
 			navigate("/dashboard")
 		}
-	}, [browserLocation, navigate, bookingDetails])
+	}, [browserLocation, bookingDetails])
 
 	useEffect(() => {
 		if (message) setIsMessageOverLimit(message.length >= 100)
