@@ -1,16 +1,17 @@
 import _ from "lodash"
 import { observer } from "mobx-react"
-import AuthDataService from "src/services/auth-data-service"
 import { useCallback, useContext } from "react"
-import { useLocation, Link } from "react-router-dom"
+import { useLocation, Link, useNavigate } from "react-router-dom"
+import AuthDataService from "src/services/auth-data-service"
 import { AppContext } from "src/contexts/maroon-context"
 
 const useHandleRefresh = () => {
 	const location = useLocation()
+	const navigate = useNavigate()
 
 	return useCallback(() => {
-		if (location.pathname === "/") window.location.reload()
-		else window.location.href = "/"
+		if (location.pathname === "/") navigate(0)
+		else navigate("/")
 	}, [location])
 }
 

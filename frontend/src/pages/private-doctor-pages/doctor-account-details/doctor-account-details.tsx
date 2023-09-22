@@ -17,7 +17,7 @@ import useSetDoctorAccountDetails from "src/custom-hooks/account-details/use-set
 import { AppContext } from "src/contexts/maroon-context"
 
 function DoctorAccountDetails() {
-	const appContext = useContext(AppContext)
+	const { userType } = useContext(AppContext)
 
 	const [expandedCategories, setExpandedCategories] = useState<string[]>([])
 
@@ -25,7 +25,7 @@ function DoctorAccountDetails() {
 
 	useSetDoctorAccountDetails(setExpandedCategories, setExpandedPetTypes)
 
-	if (appContext.userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
+	if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
 	return (
 		<div>

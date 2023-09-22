@@ -10,6 +10,7 @@ function NullUser () {
 					colorClass = "bg-green-600"
 					hoverClass = "hover:bg-green-700"
 					title = "Register"
+					textColor = "text-white"
 				/>
 			</Link>
 			<Link to = "/patient-login">
@@ -17,6 +18,7 @@ function NullUser () {
 					colorClass = "bg-green-600"
 					hoverClass = "hover:bg-green-700"
 					title = "Login"
+					textColor = "text-white"
 				/>
 			</Link>
 		</div>

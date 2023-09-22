@@ -5,7 +5,7 @@ import { AppContext } from "src/contexts/maroon-context"
 import { observer } from "mobx-react"
 
 function NewPatient () {
-	const appContext = useContext(AppContext)
+	const { userType } = useContext(AppContext)
 	const [newPatientInfo, setNewPatientInfo] = useState<BirthDateInfo>({
 		firstName: "",
 		lastName: "",
@@ -19,7 +19,7 @@ function NewPatient () {
 
 	const { newUserSubmit } = useNewUserSubmit(setError, setLoading, "Patient")
 
-	if (appContext.userType !== "Patient") return null
+	if (userType !== "Patient") return null
 
 	return (
 		<NewAccountForm

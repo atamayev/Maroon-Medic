@@ -5,13 +5,13 @@ import retrieveFromSessionStorage from "src/utils/retrieve-from-session-storage"
 
 export default function useFetchAndSetPetData(): { savedPetData: SavedPetItem[] } {
 	const patientPetData = retrieveFromSessionStorage("PatientPetData")
-	const appContext = useContext(AppContext)
+	const { userType } = useContext(AppContext)
 	const [savedPetData, setSavedPetData] = useState<SavedPetItem[]>(patientPetData || [])
 
 	useEffect(() => {
 		const fetchAndSetPetData: () => void = async () => {
 			try {
-				if (appContext.userType !== "Patient") return
+				if (userType !== "Patient") return
 
 				const storedPetData = sessionStorage.getItem("PatientPetData")
 				if (storedPetData) setSavedPetData(JSON.parse(storedPetData))

@@ -23,20 +23,18 @@ export default function useModifyAddressData() : (
 			const response = await operation(addressData, times)
 
 			if (response.status === 200) {
-				let newAddressData
 
 				if (operation === PrivateDoctorDataService.addAddressData && typeof response.data === "number") {
 					address.addressesId = response.data
-					newAddressData = [...doctorAccountDetails!.addressData, address]
 				} else if (operation === PrivateDoctorDataService.updateAddressData) {
-					newAddressData = doctorAccountDetails!.addressData.map(
+					const newAddressData = doctorAccountDetails!.addressData.map(
 						(addr: DoctorAddressData) => addr.addressesId === address.addressesId ? address : addr
 					)
+					doctorAccountDetails!.addressData = newAddressData
 				} else {
 					throw new Error("Unknown operation")
 				}
 
-				doctorAccountDetails!.addressData = newAddressData
 				setAddressesConfirmation({messageType: "saved"})
 			}
 		} catch (error: unknown) {

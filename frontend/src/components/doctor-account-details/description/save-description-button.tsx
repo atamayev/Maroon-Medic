@@ -8,6 +8,7 @@ interface Props {
 
 export default function SaveDescriptionButton (props: Props) {
 	const { description, setDescriptionConfirmation } = props
+	const saveDescription = useSaveDescription()
 
 	return (
 		<Button
@@ -15,7 +16,7 @@ export default function SaveDescriptionButton (props: Props) {
 			colorClass = "bg-green-700"
 			hoverClass = "hover:bg-green-800"
 			title = "Save"
-			onClick = {() => useSaveDescription(description, setDescriptionConfirmation)}
+			onClick = {() => saveDescription(description, setDescriptionConfirmation)}
 			textColor = "text-white"
 		/>
 	)

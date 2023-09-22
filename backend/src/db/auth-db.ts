@@ -1,10 +1,10 @@
 import { mysqlTables } from "../utils/table-names-list"
 import { connectDatabase } from "../setup-and-security/connect"
-import { OkPacket, RowDataPacket } from "mysql2"
+import { ResultSetHeader, RowDataPacket } from "mysql2"
 import { transformArrayOfObjectsToCamelCase } from "../utils/transform-keys-to-camel-case"
 
 type LoginHistoryRecord = {
-  loginAt: string
+	loginAt: string
 }
 
 export default new class AuthDB {
@@ -48,7 +48,7 @@ export default new class AuthDB {
 		const values = [username, password, registrationType]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values)
-		return (results as OkPacket).insertId
+		return (results as ResultSetHeader).insertId
 	}
 
 	async addDoctorSpecificDetails (userId: number): Promise<void> {

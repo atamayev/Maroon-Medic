@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function AddLocationButton (props: Props) {
-	const {address, setAddressesConfirmation} = props
+	const { address, setAddressesConfirmation } = props
 
 	const modifyAddressData = useModifyAddressData()
 

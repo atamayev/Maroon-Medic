@@ -1,9 +1,14 @@
+import { observer } from "mobx-react"
+import useGenerateLanguageOptions from "src/custom-hooks/account-details/use-generate-language-options"
+
 interface SelectLanguageProps {
-	languageOptions: JSX.Element[],
 	handleLanguageChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
-export default function SelectLanguage ({handleLanguageChange, languageOptions}: SelectLanguageProps) {
+function SelectLanguage (props: SelectLanguageProps) {
+	const { handleLanguageChange } = props
+	const languageOptions = useGenerateLanguageOptions()
+
 	return (
 		<select
 			id="language"
@@ -20,3 +25,5 @@ export default function SelectLanguage ({handleLanguageChange, languageOptions}:
 		</select>
 	)
 }
+
+export default observer(SelectLanguage)

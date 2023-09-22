@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default function UpdateLocationButton (props: Props) {
-	const {address, setAddressesConfirmation} = props
+	const { address, setAddressesConfirmation } = props
 
 	const { doctorAccountDetails} = useContext(AppContext)
 

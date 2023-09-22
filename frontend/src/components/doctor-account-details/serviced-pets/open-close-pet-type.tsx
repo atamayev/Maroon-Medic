@@ -1,3 +1,4 @@
+import { observer } from "mobx-react"
 import Button from "src/components/button"
 import togglePetType from "src/helper-functions/account-details/toggle/toggle-pet-type"
 
@@ -8,7 +9,7 @@ interface Props {
 	setExpandedPetTypes: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-export default function OpenClosePetType (props: Props) {
+function OpenClosePetType (props: Props) {
 	const { pets, petType, expandedPetTypes, setExpandedPetTypes } = props
 	if (pets.length <= 1) return null
 
@@ -30,3 +31,5 @@ export default function OpenClosePetType (props: Props) {
 		/>
 	)
 }
+
+export default observer(OpenClosePetType)

@@ -11,7 +11,7 @@ const useAddAccordion = (): () => void => {
 		let maxPriority = Math.max(...doctorAccountDetails.addressData.map(address => address.addressPriority))
 		if (maxPriority === -Infinity) maxPriority = 0
 
-		doctorAccountDetails!.addressData = [...doctorAccountDetails!.addressData,
+		doctorAccountDetails.addressData = [...doctorAccountDetails.addressData,
 			{
 				addressPriority: maxPriority + 1,
 				addressesId: -1,

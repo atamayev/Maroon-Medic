@@ -1,6 +1,6 @@
 import { mysqlTables } from "../../utils/table-names-list"
 import { connectDatabase } from "../../setup-and-security/connect"
-import { OkPacket, RowDataPacket } from "mysql2"
+import { ResultSetHeader, RowDataPacket } from "mysql2"
 
 type PhoneData = {
   addressesId: number
@@ -128,7 +128,7 @@ export default new class SaveDoctorDataDB {
 			preVetEducationObject.startDate, preVetEducationObject.endDate, doctorId]
 		const connection = await connectDatabase()
 		const [result] = await connection.execute(sql, values)
-		return (result as OkPacket).insertId
+		return (result as ResultSetHeader).insertId
 	}
 
 	async addVetEducationData (vetEducationObject: AddEducationItem, doctorId: number): Promise<number> {
@@ -138,7 +138,7 @@ export default new class SaveDoctorDataDB {
 			vetEducationObject.startDate, vetEducationObject.endDate, doctorId]
 		const connection = await connectDatabase()
 		const [result] = await connection.execute(sql, values)
-		return (result as OkPacket).insertId
+		return (result as ResultSetHeader).insertId
 	}
 
 	async deletePreVetEducationData (preVetEducationId: number): Promise<void> {
@@ -172,7 +172,7 @@ export default new class SaveDoctorDataDB {
 			addressObject.addressPublicStatus, addressObject.addressPriority, addressObject.instantBook, doctorId]
 		const connection = await connectDatabase()
 		const [result] = await connection.execute(sql, values)
-		return (result as OkPacket).insertId
+		return (result as ResultSetHeader).insertId
 	}
 
 	async addPhoneRecord (phone: string, addressId: number): Promise<void> {

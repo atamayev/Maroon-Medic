@@ -3,6 +3,7 @@ To-do:
 Context Bugs/To-do:
 	To-do:
 		Finish moving data into classes from session storage
+			Move the public doctor data into a class
 		Make sure
 			sharedState.isAuthenticated = !!accessToken
 			is ok. try putting in a fake cookie token and seeing what happens
@@ -12,14 +13,13 @@ Context Bugs/To-do:
 			Does the doctor get the privileges of the old doctor? Shouldn't happen, if the uuid is unique to the first doctor. 
 
 	Bugs:
-		Fix logout (should re-direct and clear memory immediately). Currently looks like it clears memory, and then re-directs
-		Descriptoin, Public Status, verified, language list not rendering immediately
-		Delete address doesn't work
-		Site crashes when petTypes expanded
-
-Remove setX from the dependencies of any useEffects, useCallbacks
+		Update address button will never appear because the input change function acts directly on the context.
+			the old and update address will always be the same - the updated is constantly being set as the new
+		save personal data hook doesn't work
+		check over registration hooks
 
 Fix the types on the vet education, prevet education in fetch public doctor data db
+
 	they do not contain the mapping id, and a new type should be created specifically for the public data.
 	go through the other public doctor data types, and see if they just use the private doctor types. make sure the fields match up.
 	fix in front-end as well.

@@ -1,3 +1,4 @@
+import { observer } from "mobx-react"
 import FormGroup from "src/components/form-group"
 
 interface Props {
@@ -5,7 +6,7 @@ interface Props {
 	setDescription: React.Dispatch<React.SetStateAction<string>>
 }
 
-export default function DescriptionInput (props: Props) {
+function DescriptionInput (props: Props) {
 	const { description, setDescription } = props
 
 	return (
@@ -19,3 +20,5 @@ export default function DescriptionInput (props: Props) {
 		/>
 	)
 }
+
+export default observer(DescriptionInput)

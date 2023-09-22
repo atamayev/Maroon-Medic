@@ -1,6 +1,6 @@
 import { mysqlTables } from "../../utils/table-names-list"
 import { connectDatabase } from "../../setup-and-security/connect"
-import { OkPacket, RowDataPacket } from "mysql2"
+import { ResultSetHeader, RowDataPacket } from "mysql2"
 
 interface PersonalInfo {
   firstName: string
@@ -53,7 +53,7 @@ export default new class SavePatientDataDB {
 		const values = [petData.name, petData.gender, petData.dateOfBirth, patientId, petData.petListId]
 		const connection = await connectDatabase()
 		const [result] = await connection.execute(sql, values)
-		return (result as OkPacket).insertId
+		return (result as ResultSetHeader).insertId
 	}
 
 	async addNewPetInsurance (insuranceListId: number, petInfoId: number): Promise<void> {

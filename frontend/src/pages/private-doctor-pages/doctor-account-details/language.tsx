@@ -4,7 +4,6 @@ import SavedConfirmationMessage from "../../../components/saved-confirmation-mes
 import useConfirmationMessage from "../../../custom-hooks/use-confirmation-message"
 import SavedLanguageList from "src/components/language/saved-languages-list"
 import useUpdateDeleteLanguageStatuses from "src/custom-hooks/account-details/use-update-delete-language-statuses"
-import useGenerateLanguageOptions from "src/custom-hooks/account-details/use-generate-language-options"
 import useDeleteLanguage from "src/custom-hooks/account-details/callbacks/use-delete-language"
 import useAddLanguage from "src/custom-hooks/account-details/callbacks/use-add-language"
 import SelectLanguage from "src/components/language/select-language"
@@ -27,8 +26,6 @@ function VetLanguages() {
 
 	useUpdateDeleteLanguageStatuses(deleteStatuses, setDeleteStatuses, doctorAccountDetails?.languages)
 
-	const languageOptions = useGenerateLanguageOptions()
-
 	const handleLanguageChange = useAddLanguage(setLanguagesConfirmation, "Doctor")
 
 	const handleDeleteLanguage = useDeleteLanguage(setLanguagesConfirmation, "Doctor")
@@ -37,7 +34,6 @@ function VetLanguages() {
 		<>
 			<SelectLanguage
 				handleLanguageChange = {handleLanguageChange}
-				languageOptions = {languageOptions}
 			/>
 			<SavedLanguageList
 				deleteStatuses = {deleteStatuses}

@@ -16,14 +16,13 @@ export default function useSetDoctorAccountDetails(
 		try {
 			if (_.isNull(appContext.doctorAccountDetails)) {
 				await fetchDoctorAccountDetails()
-			} else {
-				setExpandedCategories(
-					appContext.doctorAccountDetails.services.map((service: ServiceItemNotNullablePrice) => service.categoryName)
-				)
-				setExpandedPetTypes(
-					appContext.doctorAccountDetails.servicedPets.map((servicedPet: ServicedPetItem) => servicedPet.petType)
-				)
 			}
+			setExpandedCategories(
+				appContext.doctorAccountDetails!.services.map((service: ServiceItemNotNullablePrice) => service.categoryName)
+			)
+			setExpandedPetTypes(
+				appContext.doctorAccountDetails!.servicedPets.map((servicedPet: ServicedPetItem) => servicedPet.petType)
+			)
 
 			if (_.isNull(appContext.doctorLists)) {
 				await fetchDoctorLists()
