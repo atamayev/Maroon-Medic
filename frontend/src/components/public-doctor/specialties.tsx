@@ -3,30 +3,26 @@ import { observer } from "mobx-react"
 import useRetrieveDoctorIDFromParams from "src/custom-hooks/public-doctor/use-retrieve-doctor-id-from-params"
 import useRetrieveSinglePublicDoctorData from "src/custom-hooks/public-doctor/use-retrieve-single-public-doctor-data"
 
-interface CategoriesType {
-	[key: string]: ServiceItemNotNullablePrice[]
+interface OrganizationsType {
+	[key: string]: OrganizationSpecialtyName[]
 }
 
-function ProvidedServices() {
+function Specialties() {
 	const doctorID = useRetrieveDoctorIDFromParams()
 	const doctorData = useRetrieveSinglePublicDoctorData(doctorID)
 
 	if (_.isNull(doctorData)) return null
 
-	const categories: CategoriesType = {}
-	doctorData.doctorServices.forEach(service => {
-		if (!categories[service.categoryName]) categories[service.categoryName] = []
-		categories[service.categoryName].push(service)
-	})
+	const organizations: OrganizationsType = _.groupBy(doctorData.doctorSpecialties, "organizationName")
 
 	return (
 		<>
-			{Object.entries(categories).map(([category, services], outerIndex) => (
+			{Object.entries(organizations).map(([organization, specialties], outerIndex) => (
 				<div key = {outerIndex} style = {{ marginBottom: "10px" }}>
-					<h3>{category}</h3>
-					{services.map((service, innerIndex) => (
+					<h3>{organization}</h3>
+					{specialties.map((specialty, innerIndex) => (
 						<p key = {innerIndex}>
-							{service.serviceName} - {service.serviceTime}, ${service.servicePrice}
+							{specialty.specialtyName}
 						</p>
 					))}
 				</div>
@@ -35,4 +31,4 @@ function ProvidedServices() {
 	)
 }
 
-export default observer(ProvidedServices)
+export default observer(Specialties)

@@ -4,31 +4,25 @@ import useRetrieveDoctorIDFromParams from "src/custom-hooks/public-doctor/use-re
 import useRetrieveSinglePublicDoctorData from "src/custom-hooks/public-doctor/use-retrieve-single-public-doctor-data"
 
 interface CategoriesType {
-	[key: string]: OrganizationSpecialtyName[]
+	[petType: string]: ServicedPetData[]
 }
 
-function Specialties() {
+function ServicedPets() {
 	const doctorID = useRetrieveDoctorIDFromParams()
 	const doctorData = useRetrieveSinglePublicDoctorData(doctorID)
 
-	const organizations: CategoriesType = {}
-	doctorData?.doctorSpecialties.forEach(specialty => {
-		if (!organizations[specialty.organizationName]) {
-			organizations[specialty.organizationName] = []
-		}
-		(organizations[specialty.organizationName] as OrganizationSpecialtyName[]).push(specialty)
-	})
-
 	if (_.isNull(doctorData)) return null
+
+	const categories: CategoriesType = _.groupBy(doctorData.servicedPets, "petType")
 
 	return (
 		<>
-			{Object.entries(organizations).map(([organization, specialties], outerIndex) => (
+			{Object.entries(categories).map(([petType, pets], outerIndex) => (
 				<div key = {outerIndex} style = {{ marginBottom: "10px" }}>
-					<h3>{organization}</h3>
-					{specialties.map((specialty, innerIndex) => (
+					<h3>{petType}</h3>
+					{pets.map((pet, innerIndex) => (
 						<p key = {innerIndex}>
-							{specialty.specialtyName}
+							{pet.pet}
 						</p>
 					))}
 				</div>
@@ -37,4 +31,4 @@ function Specialties() {
 	)
 }
 
-export default observer(Specialties)
+export default observer(ServicedPets)

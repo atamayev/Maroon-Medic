@@ -1,5 +1,5 @@
 import PublicDoctorCard from "src/components/public-doctor-card"
-import ServicedPets from "src/components/public-doctor-locations/serviced-pets"
+import ServicedPets from "src/components/public-doctor/serviced-pets"
 
 export default function ServicedPetsSection() {
 	return (

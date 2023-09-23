@@ -4,29 +4,32 @@ import useRetrieveDoctorIDFromParams from "src/custom-hooks/public-doctor/use-re
 import useRetrieveSinglePublicDoctorData from "src/custom-hooks/public-doctor/use-retrieve-single-public-doctor-data"
 
 interface CategoriesType {
-	[key: string]: ServicedPetData[]
+	[key: string]: ServiceItemNotNullablePrice[]
 }
 
-function ServicedPets() {
+function ProvidedServices() {
 	const doctorID = useRetrieveDoctorIDFromParams()
 	const doctorData = useRetrieveSinglePublicDoctorData(doctorID)
 
 	if (_.isNull(doctorData)) return null
 
 	const categories: CategoriesType = {}
-	doctorData.servicedPets.forEach(pet => {
-		if (!categories[pet.petType]) categories[pet.petType] = []
-		categories[pet.petType].push(pet)
+	doctorData.doctorServices.forEach(service => {
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+		if (!categories[service.categoryName]) {
+			categories[service.categoryName] = []
+		}
+		categories[service.categoryName].push(service)
 	})
 
 	return (
 		<>
-			{Object.entries(categories).map(([petType, pets], outerIndex) => (
+			{Object.entries(categories).map(([category, services], outerIndex) => (
 				<div key = {outerIndex} style = {{ marginBottom: "10px" }}>
-					<h3>{petType}</h3>
-					{pets.map((pet, innerIndex) => (
+					<h3>{category}</h3>
+					{services.map((service, innerIndex) => (
 						<p key = {innerIndex}>
-							{pet.pet}
+							{service.serviceName} - {service.serviceTime}, ${service.servicePrice}
 						</p>
 					))}
 				</div>
@@ -35,4 +38,4 @@ function ServicedPets() {
 	)
 }
 
-export default observer(ServicedPets)
+export default observer(ProvidedServices)
