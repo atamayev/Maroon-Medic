@@ -1,3 +1,4 @@
+import _ from "lodash"
 import Button from "../button"
 
 interface Props {
@@ -6,7 +7,7 @@ interface Props {
 }
 
 export default function InitialDeleteButton ({ status, setStatus }: Props) {
-	if (status !== "initial") return null
+	if (!_.isUndefined(status)) return null
 
 	return (
 		<Button

@@ -20,8 +20,6 @@ Context Bugs/To-do:
 maybe instead of passing the doctorID down from the doctor.tsx page, it's better to assign a currentDoctorID variable in the context/class
 	Then, access that variable to see what the current ID is. 
 
-fix the unneccesary conditionals
-
 Fix the types on the vet education, prevet education in fetch public doctor data db
 	they do not contain the mapping id, and a new type should be created specifically for the public data.
 	go through the other public doctor data types, and see if they just use the private doctor types. make sure the fields match up.

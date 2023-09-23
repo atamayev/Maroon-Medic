@@ -9,7 +9,7 @@ declare global {
 
 	type MysqlTimestamp = string
 
-	type DeleteStatuses = "deleting" | "initial"
+	type DeleteStatuses = undefined | "deleting"
 
 	type DeleteStatusesDictionary = {
 		[key: number]: DeleteStatuses

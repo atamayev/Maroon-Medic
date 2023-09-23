@@ -10,7 +10,7 @@ interface Props {
 export default function SingleSavedVetEducation (props: Props) {
 	const { singleVetEducation, deleteStatuses, setDeleteStatuses, handleDeleteOnClick } = props
 
-	const status = deleteStatuses[singleVetEducation.vetEducationMappingId] || "initial"
+	const status = deleteStatuses[singleVetEducation.vetEducationMappingId]
 
 	const setStatus = (newStatus: DeleteStatuses) => {
 		setDeleteStatuses((prevStatuses) => ({

@@ -1,16 +1,16 @@
 import DeleteButtonOptions from "src/components/delete-buttons/delete-button-options"
 
 interface Props {
-  deleteStatuses: DeleteStatusesDictionary
-  setDeleteStatuses: React.Dispatch<React.SetStateAction<DeleteStatusesDictionary>>
-  specialty: SpecialtyItem
-  handleDeleteSpecialty: (specialty: SpecialtyItem) => void
+	deleteStatuses: DeleteStatusesDictionary
+	setDeleteStatuses: React.Dispatch<React.SetStateAction<DeleteStatusesDictionary>>
+	specialty: SpecialtyItem
+	handleDeleteSpecialty: (specialty: SpecialtyItem) => void
 }
 
 export default function SingleSavedSpecialty (props: Props) {
 	const { deleteStatuses, setDeleteStatuses, specialty, handleDeleteSpecialty } = props
 
-	const status = deleteStatuses[specialty.specialtiesListId] || "initial"
+	const status = deleteStatuses[specialty.specialtiesListId]
 
 	const setStatus = (newStatus: DeleteStatuses) => {
 		setDeleteStatuses((prevStatuses) => ({

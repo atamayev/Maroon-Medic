@@ -14,7 +14,7 @@ export default function NevermindButton ({ status, setStatus }: Props) {
 			colorClass = "bg-amber-600"
 			hoverClass = "hover:bg-amber-700"
 			title = "Nevermind"
-			onClick = {() => setStatus("initial")}
+			onClick = {() => setStatus(undefined)}
 			textColor = "text-white"
 		/>
 	)

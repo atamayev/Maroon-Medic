@@ -25,7 +25,7 @@ function DeleteLocationButton (props: Props) {
 		else deleteAddressData(address.addressesId, setAddressesConfirmation)
 	}
 
-	if (status !== "initial") {
+	if (!_.isUndefined(status)) {
 		return (
 			<>
 				<Button
@@ -35,7 +35,7 @@ function DeleteLocationButton (props: Props) {
 					title = "Nevermind"
 					onClick = {(e: React.MouseEvent) => {
 						e.stopPropagation()
-						setStatus("initial")
+						setStatus(undefined)
 					}}
 					textColor = "text-white"
 				/>
