@@ -10,25 +10,32 @@ const useAddLanguage = (
 	setLanguagesConfirmation: (conf: ConfirmationMessage) => void,
 	doctorOrPatient: DoctorOrPatient
 ): (e: React.ChangeEvent<HTMLSelectElement>) => void => {
-	const { doctorLists } = useContext(AppContext)
+	const { doctorLists, patientLists } = useContext(AppContext)
 
 	const modifyDoctorLanguages = useModifyDoctorLanguages()
 	const modifyPatientLanguages = useModifyPatientLanguages()
 
 	return useCallback(
 		async (e: React.ChangeEvent<HTMLSelectElement>) => {
-			if (_.isNull(doctorLists)) return
 			const selectedLanguageId = Number(e.target.value)
-			const selectedLanguage = doctorLists.languages.find((lang) => lang.languageListId === selectedLanguageId)
-			if (_.isUndefined(selectedLanguage)) return
+			if (
+				(doctorOrPatient === "Doctor" && _.isNull(doctorLists)) ||
+				(doctorOrPatient === "Patient" && _.isNull(patientLists))
+			) return
+
 			if (doctorOrPatient === "Doctor") {
+				const selectedLanguage = doctorLists!.languages.find((lang) => lang.languageListId === selectedLanguageId)
+				if (_.isUndefined(selectedLanguage)) return
 				await modifyDoctorLanguages(
 					PrivateDoctorDataService.addLanguage,
 					selectedLanguage,
 					setLanguagesConfirmation
 				)
 			}
+
 			else {
+				const selectedLanguage = patientLists!.languages.find((lang) => lang.languageListId === selectedLanguageId)
+				if (_.isUndefined(selectedLanguage)) return
 				await modifyPatientLanguages(
 					PrivatePatientDataService.addLanguage,
 					selectedLanguage,

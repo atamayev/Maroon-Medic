@@ -17,6 +17,7 @@ function PatientPersonalInfo() {
 	const { userType } = useContext(AppContext)
 	const { personalInfo, setPersonalInfo } = useSetPersonalInfo(userType, "Patient")
 	const [personalInfoConfirmation, setPersonalInfoConfirmation] = useConfirmationMessage()
+	const savePersonalInfo = useSavePersonalInfo()
 
 	if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
@@ -28,7 +29,7 @@ function PatientPersonalInfo() {
 					<form
 						onSubmit={(e) => {
 							e.preventDefault()
-							useSavePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)
+							savePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)
 						}}
 						className="space-y-4"
 					>

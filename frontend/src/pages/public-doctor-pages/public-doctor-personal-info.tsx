@@ -15,7 +15,7 @@ function PersonalInfo({ personalData }: { personalData: DoctorPersonalData }) {
 	const { firstName, lastName } = personalData
 	return (
 		<>
-      Dr. {""} {_.upperFirst(firstName || "")}
+			Dr. {""} {_.upperFirst(firstName || "")}
 			{""} {_.upperFirst(lastName || "")}
 		</>
 	)

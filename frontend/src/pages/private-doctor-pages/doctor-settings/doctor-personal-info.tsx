@@ -17,6 +17,7 @@ function DoctorPersonalInfo() {
 	const { userType } = useContext(AppContext)
 	const { personalInfo, setPersonalInfo } = useSetPersonalInfo(userType, "Doctor")
 	const [personalInfoConfirmation, setPersonalInfoConfirmation] = useConfirmationMessage()
+	const savePersonalInfo = useSavePersonalInfo()
 
 	if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
@@ -28,7 +29,7 @@ function DoctorPersonalInfo() {
 					<form
 						onSubmit = {(e) => {
 							e.preventDefault()
-							useSavePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)
+							savePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)
 						}}>
 						<FirstNameInput personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
 						<LastNameInput personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />

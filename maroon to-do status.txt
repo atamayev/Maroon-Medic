@@ -7,6 +7,7 @@ Context Bugs/To-do:
 		Make sure
 			sharedState.isAuthenticated = !!accessToken
 			is ok. try putting in a fake cookie token and seeing what happens
+				Crashes the backend
 		Figure out if it makes sense to store userType both in session and on the context level
 			or is just session storage ok
 		See what happens when a previously assigned access token is re-assgined as a cookie
@@ -15,11 +16,9 @@ Context Bugs/To-do:
 	Bugs:
 		Update address button will never appear because the input change function acts directly on the context.
 			the old and update address will always be the same - the updated is constantly being set as the new
-		save personal data hook doesn't work
 		check over registration hooks
 
 Fix the types on the vet education, prevet education in fetch public doctor data db
-
 	they do not contain the mapping id, and a new type should be created specifically for the public data.
 	go through the other public doctor data types, and see if they just use the private doctor types. make sure the fields match up.
 	fix in front-end as well.

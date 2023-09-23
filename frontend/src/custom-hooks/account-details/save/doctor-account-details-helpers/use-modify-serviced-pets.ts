@@ -13,6 +13,7 @@ export default function useModifyServicedPets() : (
 	setPetsConfirmation: (conf: ConfirmationMessage) => void
 ) => Promise<void> {
 	const { doctorAccountDetails } = useContext(AppContext)
+
 	return async (
 		operation: ServicedPetsOperationsType,
 		petId: number,
