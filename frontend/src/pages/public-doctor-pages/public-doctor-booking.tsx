@@ -2,7 +2,7 @@ import _ from "lodash"
 import moment from "moment"
 import { observer } from "mobx-react"
 import { useState, useEffect, useContext } from "react"
-import useFetchAndSetPetData from "src/custom-hooks/public-doctor/use-fetch-and-set-pet-data"
+import useSetPetDataForBooking from "src/custom-hooks/public-doctor/use-set-pet-data-for-booking"
 import generateTimeSlots from "src/helper-functions/public-doctor/booking-page/generate-time-slots"
 import NoAvailableTimes from "src/components/booking/no-available-times"
 import PatientNotLoggedIn from "src/components/booking/patient-not-logged-in"
@@ -22,10 +22,9 @@ import useRetrieveDoctorIDFromParams from "src/custom-hooks/public-doctor/use-re
 // eslint-disable-next-line max-lines-per-function
 function BookingSection() {
 	const doctorID = useRetrieveDoctorIDFromParams()
-
 	const appContext = useContext(AppContext)
 	const doctorData = appContext.retrieveSinglePublicDoctorData(doctorID)
-	const { savedPetData } = useFetchAndSetPetData()
+	useSetPetDataForBooking()
 	const [appointmentInformation, setAppointmentInformation] = useState<AppointmentInformation>({
 		selectedPet: null,
 		selectedService: null,
@@ -39,13 +38,13 @@ function BookingSection() {
 	const [noAvailableTimesMessage, setNoAvailableTimesMessage] = useState(false)
 
 	useEffect(() => {
-		if (savedPetData.length === 1) {
+		if (appContext.patientPetData.length === 1) {
 			setAppointmentInformation({
 				...appointmentInformation,
-				selectedPet: savedPetData[0]
+				selectedPet: appContext.patientPetData[0]
 			})
 		}
-	}, [savedPetData])
+	}, [appContext.patientPetData])
 
 	useEffect(() => {
 		if (appointmentInformation.selectedDay && appointmentInformation.selectedLocation && appointmentInformation.selectedService) {
@@ -89,7 +88,6 @@ function BookingSection() {
 			</div>
 			<div className = "row">
 				<ChoosePet
-					savedPetData = {savedPetData}
 					appointmentInformation = {appointmentInformation}
 					setAppointmentInformation = {setAppointmentInformation}
 				/>

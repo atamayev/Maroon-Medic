@@ -15,7 +15,7 @@ export default function PetGenderSection (props: Props) {
 				<label className="inline-flex items-center">
 					<input
 						type="radio"
-						name="Gender"
+						name="gender"
 						value="Male"
 						checked = {newPetData.gender === "Male"}
 						onChange={(e) => handlePetInfoInput(e, newPetData, setNewPetData)}
@@ -27,7 +27,7 @@ export default function PetGenderSection (props: Props) {
 				<label className="inline-flex items-center ml-6">
 					<input
 						type="radio"
-						name="Gender"
+						name="gender"
 						value="Female"
 						checked = {newPetData.gender === "Female"}
 						onChange={(e) => handlePetInfoInput(e, newPetData, setNewPetData)}

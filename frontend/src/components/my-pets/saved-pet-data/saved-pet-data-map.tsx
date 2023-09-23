@@ -1,27 +1,33 @@
+import { useContext } from "react"
+import { observer } from "mobx-react"
 import SavedPetDataTitle from "./saved-pet-data-title"
 import SavedPetDataText from "./saved-pet-data-text"
+import { AppContext } from "src/contexts/maroon-context"
 
 interface Props {
-  savedPetData: SavedPetItem[]
-  setSavedPetData: React.Dispatch<React.SetStateAction<SavedPetItem[]>>
-  setPetToDelete: React.Dispatch<React.SetStateAction<SavedPetItem | null>>
-  setShowModal: React.Dispatch<React.SetStateAction<boolean>>
+	setPetToDelete: React.Dispatch<React.SetStateAction<SavedPetItem | null>>
+	setShowModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function SavedPetDataMap (props: Props) {
-	const { savedPetData, setPetToDelete, setShowModal } = props
+function SavedPetDataMap (props: Props) {
+	const { setPetToDelete, setShowModal } = props
+	const appContext = useContext(AppContext)
 
 	return (
 		<div className="flex flex-wrap">
-			{savedPetData.map((pet) => (
+			{appContext.patientPetData.map((pet) => (
 				<div
 					key={pet.petInfoId}
 					className="m-3 bg-yellow-100 border border-brown-400 rounded"
 					style={{ width: "18rem", marginTop: "10px" }}
 				>
 					<div className="p-4">
-						<SavedPetDataTitle pet={pet} setPetToDelete={setPetToDelete} setShowModal={setShowModal} />
-						<SavedPetDataText pet={pet} />
+						<SavedPetDataTitle
+							pet = {pet}
+							setPetToDelete = {setPetToDelete}
+							setShowModal = {setShowModal}
+						/>
+						<SavedPetDataText pet = {pet} />
 					</div>
 				</div>
 			))}
@@ -29,3 +35,4 @@ export default function SavedPetDataMap (props: Props) {
 	)
 }
 
+export default observer(SavedPetDataMap)

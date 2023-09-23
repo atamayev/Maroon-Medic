@@ -16,7 +16,7 @@ export default function DOBSection (props: Props) {
 			label = "Date of Birth"
 			type = "date"
 			onChange = {(e) => handlePetInfoInput(e, newPetData, setNewPetData)}
-			name = "DOB"
+			name = "dateOfBirth"
 			value = {newPetData.dateOfBirth || ""}
 			required
 		/>

@@ -41,7 +41,7 @@ export async function addPet (req: Request, res: Response): Promise<void> {
 	const petInfoId = await OperationHandler.executeAsyncAndReturnValue(res, SavePatientDataDB.addNewPet, petData, patientId)
 	const petInfoIdNumber = Number(petInfoId)
 	const operation: () => Promise<void> = async () => {
-		await SavePatientDataDB.addNewPetInsurance(petData.insurance_list_id, petInfoIdNumber)
+		await SavePatientDataDB.addNewPetInsurance(petData.insuranceListId, petInfoIdNumber)
 	}
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation, petInfoIdNumber)
 }

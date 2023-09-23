@@ -3,6 +3,10 @@ To-do:
 Context Bugs/To-do:
 	To-do:
 		Finish moving data into classes from session storage
+			Make search context into a class. cleaner that way.
+			Move the search term to utilize the params vs session storage.
+
+		move react-big-calendar localizer to dayjs. then move all front end to dayjs
 		Make sure
 			sharedState.isAuthenticated = !!accessToken
 			is ok. try putting in a fake cookie token and seeing what happens
@@ -20,13 +24,12 @@ Context Bugs/To-do:
 maybe instead of passing the doctorID down from the doctor.tsx page, it's better to assign a currentDoctorID variable in the context/class
 	Then, access that variable to see what the current ID is. 
 
+Maroon --> Mane Transition
+
 Fix the types on the vet education, prevet education in fetch public doctor data db
 	they do not contain the mapping id, and a new type should be created specifically for the public data.
 	go through the other public doctor data types, and see if they just use the private doctor types. make sure the fields match up.
 	fix in front-end as well.
-
-Consider removing the if statements and just setting the state to the response.data in fetchDoctorAccountDetails, fetchPatientAccountDetails
-	Since we already know that the response contains the necessary attributes
 
 Consider making seperate JWT functions for patient and doctor. This way, userType won't be needed as a header
 
@@ -36,7 +39,6 @@ Consider making seperate JWT functions for patient and doctor. This way, userTyp
 16. make a new footer
 
 Make the naming of the types in the front/backend match up better
-Make search context into a class. cleaner that way.
 
 -add choose your pet to make an appointment. if the user isn't logged in, show a login/register button in the booking section.
 	the first question should be: choose which pet you would like to take to the vet

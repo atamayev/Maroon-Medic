@@ -1,12 +1,12 @@
 import { observer } from "mobx-react"
 import moment from "moment"
-import { useState, useEffect, useContext } from "react"
+import { useEffect, useContext } from "react"
 import { Calendar, momentLocalizer } from "react-big-calendar"
 import "react-big-calendar/lib/css/react-big-calendar.css"
-import retrieveDoctorCalendarData from "src/helper-functions/private-doctor/retrieve-doctor-calendar-data"
 import UnauthorizedUser from "../../components/unauthorized-user/unauthorized-user"
 import DoctorHeader from "./doctor-header"
 import { AppContext } from "src/contexts/maroon-context"
+import usefetchDoctorCalendarDetails from "src/helper-functions/private-doctor/use-fetch-calendar-details"
 
 const localizer = momentLocalizer(moment)
 
@@ -19,18 +19,14 @@ function CustomEvent ({ event }: { event: DoctorCalendarEvent }) {
 }
 
 function DoctorCalendar() {
-	const [events, setEvents] = useState<DoctorCalendarEvent[]>([])
-	const { userType } = useContext(AppContext)
+	const appContext = useContext(AppContext)
+	const fetchDoctorCalendarDetails = usefetchDoctorCalendarDetails()
 
 	useEffect(() => {
-		const fetchCalendarData = async () => {
-			const calendarData = await retrieveDoctorCalendarData()
-			setEvents(calendarData)
-		}
-		fetchCalendarData()
+		fetchDoctorCalendarDetails()
 	}, [])
 
-	if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
+	if (appContext.userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
 	return (
 		<div>
@@ -39,7 +35,7 @@ function DoctorCalendar() {
 				localizer = {localizer}
 				defaultDate = {new Date()}
 				defaultView = "month"
-				events = {events}
+				events = {appContext.doctorCalendarDetails}
 				style = {{ height: "100vh" }}
 				components = {{
 					event: CustomEvent,

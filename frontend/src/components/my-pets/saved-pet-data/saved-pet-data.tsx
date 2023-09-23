@@ -3,26 +3,19 @@ import DeletePetModal from "../delete-pet-modal"
 import SavedPetDataMap from "./saved-pet-data-map"
 
 interface Props {
-  savedPetData: SavedPetItem[]
-  setSavedPetData: React.Dispatch<React.SetStateAction<SavedPetItem[]>>
-  showModal: boolean
-  setShowModal: React.Dispatch<React.SetStateAction<boolean>>
-  petToDelete: SavedPetItem | null
-  setPetConfirmation: (conf: ConfirmationMessage) => void
-  setPetToDelete: React.Dispatch<React.SetStateAction<SavedPetItem | null>>
+	showModal: boolean
+	setShowModal: React.Dispatch<React.SetStateAction<boolean>>
+	petToDelete: SavedPetItem | null
+	setPetConfirmation: (conf: ConfirmationMessage) => void
+	setPetToDelete: React.Dispatch<React.SetStateAction<SavedPetItem | null>>
 }
 
 export default function SavedPetData (props: Props) {
-	const { savedPetData, setSavedPetData, showModal,
-		setShowModal, petToDelete, setPetConfirmation, setPetToDelete } = props
-
-	if (_.isEmpty(savedPetData)) return null
+	const { showModal, setShowModal, petToDelete, setPetConfirmation, setPetToDelete } = props
 
 	return (
 		<>
 			<SavedPetDataMap
-				savedPetData = {savedPetData}
-				setSavedPetData = {setSavedPetData}
 				setShowModal = {setShowModal}
 				setPetToDelete = {setPetToDelete}
 			/>
@@ -31,8 +24,6 @@ export default function SavedPetData (props: Props) {
 				showModal = {showModal}
 				setShowModal = {setShowModal}
 				petToDelete = {petToDelete}
-				savedPetData = {savedPetData}
-				setSavedPetData = {setSavedPetData}
 				setPetConfirmation = {setPetConfirmation}
 			/>
 		</>

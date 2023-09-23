@@ -1,3 +1,4 @@
+import { useState } from "react"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
 import DeleteButton from "src/components/new-pet/delete-button"
 import PetNameSection from "src/components/new-pet/pet-name-section"
@@ -6,24 +7,24 @@ import DOBSection from "src/components/new-pet/DOB-section"
 import PetTypeSection from "src/components/new-pet/pet-type-section"
 import InsuranceSection from "src/components/new-pet/insurance-section"
 import AddPetButton from "src/components/new-pet/add-pet-button"
-import addPet from "src/helper-functions/patient/new-pet/add-pet"
+import useAddPet from "src/helper-functions/patient/new-pet/use-add-pet"
 
 interface AddPetProps {
-  newPetData: PetItemForCreation
-  setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>
-  petTypes: ServicedPetItem[]
-  insurances: InsuranceItem[]
-  petConfirmation: ConfirmationMessage
-  setPetConfirmation: (conf: ConfirmationMessage) => void
-  showAddPet: boolean
-  setShowAddPet: React.Dispatch<React.SetStateAction<boolean>>
-  savedPetData: SavedPetItem[]
-  setSavedPetData: React.Dispatch<React.SetStateAction<SavedPetItem[]>>
+	petConfirmation: ConfirmationMessage
+	setPetConfirmation: (conf: ConfirmationMessage) => void
+	showAddPet: boolean
+	setShowAddPet: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export default function NewPet (props: AddPetProps) {
-	const { newPetData, setNewPetData, petTypes, insurances, petConfirmation,
-		setPetConfirmation, showAddPet, setShowAddPet, savedPetData, setSavedPetData } = props
+	const { petConfirmation,
+		setPetConfirmation, showAddPet, setShowAddPet } = props
+
+	const [newPetData, setNewPetData] = useState<PetItemForCreation>(
+		{ name: "", gender:"", dateOfBirth: "", pet: "", petType: "", insuranceName: "", petListId: -1, insuranceListId: -1 }
+	)
+
+	const addPet = useAddPet()
 
 	if (!showAddPet) return null
 
@@ -39,7 +40,7 @@ export default function NewPet (props: AddPetProps) {
 				<form
 					onSubmit = {(e) => {
 						e.preventDefault()
-						addPet(newPetData, setNewPetData, setPetConfirmation, savedPetData, setSavedPetData, setShowAddPet)
+						addPet(newPetData, setNewPetData, setPetConfirmation, setShowAddPet)
 					}}
 				>
 					<PetNameSection
@@ -59,13 +60,11 @@ export default function NewPet (props: AddPetProps) {
 
 					<PetTypeSection
 						newPetData={newPetData}
-						petTypes={petTypes}
 						setNewPetData={setNewPetData}
 					/>
 
 					<InsuranceSection
 						newPetData={newPetData}
-						insurances={insurances}
 						setNewPetData={setNewPetData}
 					/>
 

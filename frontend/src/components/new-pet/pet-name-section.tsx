@@ -2,8 +2,8 @@ import FormGroup from "../form-group"
 import handlePetInfoInput from "src/helper-functions/patient/new-pet/handle-input-change/handle-pet-info-input"
 
 interface Props {
-  newPetData: PetItemForCreation
-  setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>
+	newPetData: PetItemForCreation
+	setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>
 }
 
 export default function PetNameSection (props: Props) {
@@ -15,7 +15,7 @@ export default function PetNameSection (props: Props) {
 			label = "Pet Name:"
 			type = "text"
 			onChange = {(e) => handlePetInfoInput(e, newPetData, setNewPetData)}
-			name = "Name"
+			name = "name"
 			placeholder = "Hedwig"
 			required
 			value = {newPetData.name || ""}

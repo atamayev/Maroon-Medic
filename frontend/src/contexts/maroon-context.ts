@@ -21,13 +21,17 @@ export class MaroonContext {
 	private _personalInfo: PersonalInfoClass | null = null
 	private _headerData: string = "Profile"
 	private _doctorDashboardData: DoctorDashboardDataClass[] | null = null
+	private _doctorCalendarDetails: DoctorCalendarEvent[] = []
 	private _patientDashboardData: PatientDashboardDataClass[] | null = null
-	private _loginHistory: LoginHistoryItem[] | null = null
+	private _loginHistory: LoginHistoryItem[] = []
 	private _patientAccountDetails: PatientAccountDetailsClass | null = null
 	private _doctorAccountDetails: DoctorAccountDetailsClass | null = null
 	private _patientLists: PatientListsClass | null = null
 	private _doctorLists: DoctorListDetails | null = null
 	private _publicDoctorDataMap: Map<number, PublicDoctorDataClass> = new Map()
+	private _patientPetData: SavedPetItem[] | [] = []
+	private _petTypes: ServicedPetItem[] | null = null
+	private _insurances: InsuranceItem[] | null = null
 
 	public initializePersonalInfo(birthDateInfo: BirthDateInfo): void {
 		if (this._isAuthenticated && !_.isNull(this._userType)) {
@@ -98,7 +102,7 @@ export class MaroonContext {
 		this._headerData = "Profile"
 		this._doctorDashboardData = null
 		this._patientDashboardData = null
-		this._loginHistory = null
+		this._loginHistory = []
 		this._patientAccountDetails = null
 		this._doctorAccountDetails = null
 		this._patientLists = null
@@ -137,15 +141,23 @@ export class MaroonContext {
 		return this._patientDashboardData
 	}
 
+	get doctorCalendarDetails(): DoctorCalendarEvent[] {
+		return this._doctorCalendarDetails
+	}
+
+	set doctorCalendarDetails(value: DoctorCalendarEvent[]) {
+		this._doctorCalendarDetails = value
+	}
+
 	set patientDashboardData(value: PatientDashboardDataClass[] | null) {
 		this._patientDashboardData = value
 	}
 
-	get loginHistory(): LoginHistoryItem[] | null {
+	get loginHistory(): LoginHistoryItem[] {
 		return this._loginHistory
 	}
 
-	set loginHistory(value: LoginHistoryItem[] | null) {
+	set loginHistory(value: LoginHistoryItem[]) {
 		this._loginHistory = value
 	}
 
@@ -183,6 +195,30 @@ export class MaroonContext {
 
 	set newUser(value: boolean) {
 		this._newUser = value
+	}
+
+	get patientPetData(): SavedPetItem[] {
+		return this._patientPetData
+	}
+
+	set patientPetData(petData: SavedPetItem[]) {
+		this._patientPetData = petData
+	}
+
+	get petTypes(): ServicedPetItem[] | null {
+		return this._petTypes
+	}
+
+	set petTypes(value: ServicedPetItem[] | null) {
+		this._petTypes = value
+	}
+
+	get insurances(): InsuranceItem[] | null {
+		return this._insurances
+	}
+
+	set insurances(value: InsuranceItem[] | null) {
+		this._insurances = value
 	}
 }
 

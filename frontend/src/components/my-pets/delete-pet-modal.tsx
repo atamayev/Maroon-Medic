@@ -1,21 +1,20 @@
 import Button from "../button"
-import deletePet from "src/helper-functions/patient/my-pets/delete-pet"
+import useDeletePet from "src/custom-hooks/my-pets/use-delete-pet"
 
 const handleCloseModal = (setShowModal: React.Dispatch<React.SetStateAction<boolean>>) => {
 	setShowModal(false)
 }
 
 interface Props {
-  showModal: boolean
-  setShowModal: React.Dispatch<React.SetStateAction<boolean>>
-  petToDelete: SavedPetItem | null
-  savedPetData: SavedPetItem[]
-  setSavedPetData: React.Dispatch<React.SetStateAction<SavedPetItem[]>>
-  setPetConfirmation: (conf: ConfirmationMessage) => void
+	showModal: boolean
+	setShowModal: React.Dispatch<React.SetStateAction<boolean>>
+	petToDelete: SavedPetItem | null
+	setPetConfirmation: (conf: ConfirmationMessage) => void
 }
 
 export default function DeletePetModal (props: Props) {
-	const { showModal, setShowModal, petToDelete, savedPetData, setSavedPetData, setPetConfirmation } = props
+	const { showModal, setShowModal, petToDelete, setPetConfirmation } = props
+	const deletePet = useDeletePet()
 
 	return (
 		<div
@@ -27,7 +26,7 @@ export default function DeletePetModal (props: Props) {
 				<span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 				<div
 					className="inline-block align-bottom bg-white rounded-lg text-left
-            overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+						overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
 				>
 					<div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
 						<div className="sm:flex sm:items-start">
@@ -46,7 +45,7 @@ export default function DeletePetModal (props: Props) {
 							hoverClass="hover:bg-red-600"
 							className = "mx-2"
 							onClick={() => {
-								deletePet(petToDelete!.petInfoId, savedPetData, setSavedPetData, setPetConfirmation)
+								deletePet(petToDelete!.petInfoId, setPetConfirmation)
 								handleCloseModal(setShowModal)
 							}}
 							textColor = "text-white"
