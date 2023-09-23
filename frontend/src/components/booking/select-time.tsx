@@ -2,13 +2,16 @@ import moment from "moment"
 import FormGroup from "../form-group"
 import handleTimeChange from "src/helper-functions/public-doctor/booking-page/handle-time-change"
 
-interface SelectTimeProps  extends AppointmentBookingProps{
+interface SelectTimeProps {
+	appointmentInformation: AppointmentInformation
+	setAppointmentInformation: React.Dispatch<React.SetStateAction<AppointmentInformation>>
 	availableTimes: string[]
 	serviceMinutes: number
 }
 
 export default function SelectTime (props: SelectTimeProps) {
 	const { appointmentInformation, setAppointmentInformation, availableTimes, serviceMinutes } = props
+
 	if (!(
 		appointmentInformation.selectedService &&
 		appointmentInformation.selectedLocation &&

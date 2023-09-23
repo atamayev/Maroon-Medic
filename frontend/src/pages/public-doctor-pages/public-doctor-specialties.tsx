@@ -1,41 +1,11 @@
-import _ from "lodash"
 import PublicDoctorCard from "src/components/public-doctor-card"
+import Specialties from "src/components/public-doctor-locations/specialties"
 
-interface CategoriesType {
-  [key: string]: OrganizationSpecialtyName[]
-}
-
-export default function SpecialtiesSection({ doctorSpecialties } : { doctorSpecialties: OrganizationSpecialtyName[] }) {
-	if (_.isEmpty(doctorSpecialties)) return null
+export default function SpecialtiesSection() {
 	return (
 		<PublicDoctorCard
 			title = "Specialties"
-			content = {<Specialties doctorSpecialties = {doctorSpecialties} />}
+			content = {<Specialties />}
 		/>
-	)
-}
-
-function Specialties({ doctorSpecialties } : { doctorSpecialties: OrganizationSpecialtyName[] }) {
-	const organizations: CategoriesType = {}
-	doctorSpecialties.forEach(specialty => {
-		if (!organizations[specialty.organizationName]) {
-			organizations[specialty.organizationName] = []
-		}
-		(organizations[specialty.organizationName] as OrganizationSpecialtyName[]).push(specialty)
-	})
-
-	return (
-		<>
-			{Object.entries(organizations).map(([organization, specialties], outerIndex) => (
-				<div key = {outerIndex} style = {{ marginBottom: "10px" }}>
-					<h3>{organization}</h3>
-					{specialties.map((specialty, innerIndex) => (
-						<p key = {innerIndex}>
-							{specialty.specialtyName}
-						</p>
-					))}
-				</div>
-			))}
-		</>
 	)
 }

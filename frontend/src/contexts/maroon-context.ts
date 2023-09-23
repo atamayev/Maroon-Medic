@@ -8,6 +8,7 @@ import { DoctorAccountDetailsClass } from "src/classes/doctor-account-details-cl
 import { PatientListsClass } from "src/classes/patient-lists"
 import { DoctorListsClass } from "src/classes/doctor-lists"
 import { PatientDashboardDataClass } from "src/classes/patient-dashboard-data-class"
+import { PublicDoctorDataClass } from "src/classes/public-doctor-data-class"
 
 export class MaroonContext {
 	constructor() {
@@ -26,6 +27,7 @@ export class MaroonContext {
 	private _doctorAccountDetails: DoctorAccountDetailsClass | null = null
 	private _patientLists: PatientListsClass | null = null
 	private _doctorLists: DoctorListDetails | null = null
+	private _publicDoctorDataMap: Map<number, PublicDoctorDataClass> = new Map()
 
 	public initializePersonalInfo(birthDateInfo: BirthDateInfo): void {
 		if (this._isAuthenticated && !_.isNull(this._userType)) {
@@ -67,6 +69,23 @@ export class MaroonContext {
 		if (this._isAuthenticated && this._userType === "Doctor") {
 			this._doctorLists = new DoctorListsClass(doctorLists)
 		}
+	}
+
+	public initializeSinglePublicDoctorData(doctorID: number, publicDoctorData: PublicDoctorAccountDetails): void {
+		let singleDoctorData = this._publicDoctorDataMap.get(doctorID)
+		if (_.isUndefined(singleDoctorData)) {
+			singleDoctorData = new PublicDoctorDataClass(publicDoctorData)
+			this._publicDoctorDataMap.set(doctorID, publicDoctorData)
+		}
+	}
+
+	public retrieveSinglePublicDoctorData(doctorId: number | null): PublicDoctorDataClass | null {
+		if (_.isNull(doctorId)) return null
+		return this._publicDoctorDataMap.get(doctorId) ?? null
+	}
+
+	public doesDoctorExist(doctorId: number): boolean {
+		return this._publicDoctorDataMap.has(doctorId)
 	}
 
 	public logout(): void {

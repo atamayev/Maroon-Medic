@@ -1,25 +1,26 @@
 import _ from "lodash"
+import { observer } from "mobx-react"
 import PublicDoctorCard from "src/components/public-doctor-card"
+import useRetrieveDoctorIDFromParams from "src/custom-hooks/public-doctor/use-retrieve-doctor-id-from-params"
+import useRetrieveSinglePublicDoctorData from "src/custom-hooks/public-doctor/use-retrieve-single-public-doctor-data"
 
-interface Props {
-  preVetEducation: GeneralEducationItem[]
-  vetEducation: EducationBase[]
-  personalData: DoctorPersonalData
-}
+function EducationSection() {
+	const doctorID = useRetrieveDoctorIDFromParams()
+	const doctorData = useRetrieveSinglePublicDoctorData(doctorID)
 
-export default function EducationSection(props: Props) {
-	const { preVetEducation, vetEducation, personalData } = props
-	if (_.isEmpty(preVetEducation) && _.isEmpty(vetEducation)) return null
+	if (_.isNull(doctorData)) return null
+	if (_.isEmpty(doctorData.doctorPreVetEducation) && _.isEmpty(doctorData.doctorVetEducation)) return null
+
 	return (
 		<PublicDoctorCard
-			title = {`Where did Dr. ${_.upperFirst(personalData.lastName || "")} go to school?`}
+			title = {`Where did Dr. ${_.upperFirst(doctorData.doctorPersonalInfo.lastName || "")} go to school?`}
 			content = {
 				<>
 					<h3>Pre-Veterinary Education</h3>
-					<Education educationList = {preVetEducation} hasMajor = {true} />
+					<Education educationList = {doctorData.doctorPreVetEducation} hasMajor = {true} />
 
 					<h3>Veterinary Education</h3>
-					<Education educationList = {vetEducation} hasMajor = {true} />
+					<Education educationList = {doctorData.doctorVetEducation} hasMajor = {true} />
 				</>
 			}
 		/>
@@ -27,8 +28,8 @@ export default function EducationSection(props: Props) {
 }
 
 interface EducationProps {
-  educationList: GeneralEducationItem[]
-  hasMajor: boolean
+	educationList: GeneralEducationItem[]
+	hasMajor: boolean
 }
 
 function Education({ educationList, hasMajor } : EducationProps) {
@@ -44,3 +45,5 @@ function Education({ educationList, hasMajor } : EducationProps) {
 		</>
 	)
 }
+
+export default observer(EducationSection)

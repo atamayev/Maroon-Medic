@@ -1,20 +1,20 @@
+import _ from "lodash"
+import { observer } from "mobx-react"
 import PublicDoctorCard from "src/components/public-doctor-card"
+import useRetrieveDoctorIDFromParams from "src/custom-hooks/public-doctor/use-retrieve-doctor-id-from-params"
+import useRetrieveSinglePublicDoctorData from "src/custom-hooks/public-doctor/use-retrieve-single-public-doctor-data"
 
-interface Props {
-  description: string
-}
+function DescriptionSection() {
+	const doctorID = useRetrieveDoctorIDFromParams()
+	const doctorData = useRetrieveSinglePublicDoctorData(doctorID)
 
-export default function DescriptionSection(props: Props) {
-	if (!props.description) return null
-	return <VetDescription {...props}/>
-}
-
-function VetDescription(props: Props) {
-	const description = props.description
+	if (_.isNull(doctorData)) return null
 	return (
 		<PublicDoctorCard
 			title = "Description"
-			content = {<>{description}</>}
+			content = {<>{doctorData.description}</>}
 		/>
 	)
 }
+
+export default observer(DescriptionSection)

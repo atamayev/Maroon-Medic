@@ -1,11 +1,13 @@
 import _ from "lodash"
 import Button from "../button"
 import { useNavigate } from "react-router-dom"
+import useRetrieveSinglePublicDoctorData from "src/custom-hooks/public-doctor/use-retrieve-single-public-doctor-data"
+import useRetrieveDoctorIDFromParams from "src/custom-hooks/public-doctor/use-retrieve-doctor-id-from-params"
+import { observer } from "mobx-react"
 
 interface FinalizeBookingProps {
 	appointmentInformation: AppointmentInformation
 	serviceMinutes: number
-	personalData: DoctorPersonalData
 }
 
 function ConfirmOrRequestMessage (selectedLocation: PublicAddressData) {
@@ -13,16 +15,20 @@ function ConfirmOrRequestMessage (selectedLocation: PublicAddressData) {
 	return "Request"
 }
 
-export default function FinalizeBookingButton (props: FinalizeBookingProps) {
-	const { appointmentInformation, serviceMinutes, personalData } = props
+function FinalizeBookingButton (props: FinalizeBookingProps) {
+	const { appointmentInformation, serviceMinutes } = props
+	const doctorID = useRetrieveDoctorIDFromParams()
+	const doctorData = useRetrieveSinglePublicDoctorData(doctorID)
+
 	const navigate = useNavigate()
+	if (_.isNull(doctorData)) return null
 	if (_.some(appointmentInformation, value => value === null)) return null
 
 	const finalizeBookingClick = () => {
 		const bookingDetails = {
 			appointmentInformation,
 			serviceMinutes,
-			personalData,
+			personalData: doctorData.doctorPersonalInfo,
 		}
 
 		sessionStorage.setItem("bookingDetails", JSON.stringify(bookingDetails))
@@ -40,3 +46,5 @@ export default function FinalizeBookingButton (props: FinalizeBookingProps) {
 		/>
 	)
 }
+
+export default observer(FinalizeBookingButton)

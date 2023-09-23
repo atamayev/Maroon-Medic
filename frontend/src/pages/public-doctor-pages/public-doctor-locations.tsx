@@ -1,43 +1,11 @@
-import _ from "lodash"
 import PublicDoctorCard from "src/components/public-doctor-card"
-import AddressSection from "src/components/public-doctor-locations/address-section"
-import TimesSection from "src/components/public-doctor-locations/times-section"
+import Locations from "src/components/public-doctor-locations/locations"
 
-export default function LocationsSection( { addresses } : {addresses: PublicAddressData[]}) {
-	if (_.isEmpty(addresses)) return null
+export default function LocationsSection() {
 	return (
 		<PublicDoctorCard
 			title = "Locations"
-			content = {<Locations addressesList = {addresses} />}
+			content = {<Locations />}
 		/>
-	)
-}
-
-function Locations({ addressesList }: { addressesList: PublicAddressData[] }) {
-	function InstantBook ({ address }: {address: PublicAddressData}) {
-		if (address.instantBook) return <>Instant book available</>
-		return <>Instant book unavailable</>
-	}
-
-	function PhoneSection ({ address }: {address: PublicAddressData}) {
-		if (!address.phone) return null
-		return <p>Phone: {address.phone}</p>
-	}
-
-	return (
-		<>
-			{addressesList.map((address: PublicAddressData) => (
-				<div key = {address.addressesId}>
-					<div className = "row">
-						<div className = "col-md-6">
-							<AddressSection address = {address} />
-							<InstantBook address = {address} />
-							<PhoneSection address = {address} />
-						</div>
-						<TimesSection address = {address} />
-					</div>
-				</div>
-			))}
-		</>
 	)
 }

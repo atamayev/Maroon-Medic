@@ -3,7 +3,6 @@ To-do:
 Context Bugs/To-do:
 	To-do:
 		Finish moving data into classes from session storage
-			Move the public doctor data into a class
 		Make sure
 			sharedState.isAuthenticated = !!accessToken
 			is ok. try putting in a fake cookie token and seeing what happens
@@ -17,6 +16,11 @@ Context Bugs/To-do:
 		Update address button will never appear because the input change function acts directly on the context.
 			the old and update address will always be the same - the updated is constantly being set as the new
 		check over registration hooks
+
+maybe instead of passing the doctorID down from the doctor.tsx page, it's better to assign a currentDoctorID variable in the context/class
+	Then, access that variable to see what the current ID is. 
+
+fix the unneccesary conditionals
 
 Fix the types on the vet education, prevet education in fetch public doctor data db
 	they do not contain the mapping id, and a new type should be created specifically for the public data.

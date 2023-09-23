@@ -3,12 +3,12 @@ import handleDayChange from "src/helper-functions/public-doctor/booking-page/han
 import AvailableDates from "./available-dates"
 
 interface SelectDayProps extends AppointmentBookingProps {
-	personalData: DoctorPersonalData
 	availableDates: string[]
 }
 
 export default function SelectDay (props: SelectDayProps) {
-	const { appointmentInformation, setAppointmentInformation, personalData, availableDates } = props
+	const { appointmentInformation, setAppointmentInformation, availableDates } = props
+
 	if (!(
 		appointmentInformation.selectedService &&
 		appointmentInformation.selectedLocation &&
@@ -27,7 +27,6 @@ export default function SelectDay (props: SelectDayProps) {
 				<option value = "" disabled>Select...</option>
 				<AvailableDates
 					appointmentInformation = {appointmentInformation}
-					personalData = {personalData}
 					availableDates = {availableDates}
 				/>
 			</FormGroup>

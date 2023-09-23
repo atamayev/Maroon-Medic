@@ -1,6 +1,7 @@
-/* eslint-disable complexity */
-import { useState, useEffect} from "react"
-import {useParams} from "react-router-dom"
+import _ from "lodash"
+import { observer } from "mobx-react"
+import { useEffect, useContext } from "react"
+import { AppContext } from "src/contexts/maroon-context"
 import PublicDoctorDataService from "../../services/public-doctor-data-service"
 import "./card.css"
 import BookingSection from "./public-doctor-booking"
@@ -13,80 +14,41 @@ import SpecialtiesSection from "./public-doctor-specialties"
 import PersonalInfoSection from "./public-doctor-personal-info"
 import DescriptionSection from "./public-doctor-description"
 import ServicedPetsSection from "./public-doctor-serviced-pets"
+import useRetrieveDoctorIDFromParams from "src/custom-hooks/public-doctor/use-retrieve-doctor-id-from-params"
 
-export default function Doctor () {
-	const { id } = useParams()
-	const [spokenLanguages, setSpokenLanguages] = useState<LanguageName[]>([])
-	const [providedServices, setProvidedServices] = useState<ServiceItemNotNullablePrice[]>([])
-	const [doctorSpecialties, setDoctorSpecialties] = useState<OrganizationSpecialtyName[]>([])
-	const [preVetEducation, setPreVetEducation] = useState<GeneralEducationItem[]>([])
-	const [vetEducation, setVetEducation] = useState<EducationBase[]>([])
-	const [addresses, setAddresses] = useState<PublicAddressData[]>(
-		[{ addressPriority: 0, addressesId: -1, addressTitle: "", addressLine1  : "", addressLine2: "",
-			city: "", state: "", zip: "", country: "", phone: "", instantBook: false, times:[]
-		}])
-	const [description, setDescription] = useState<string>("")
-	const [servicedPets, setServicedPets] = useState<ServicedPetData[]>([])
-	const [personalData, setPersonalData] = useState<DoctorPersonalData>({firstName: "", lastName: "", gender: "", nvi: 0})
-
-	const idNumber = Number(id)
+function Doctor () {
+	const doctorID = useRetrieveDoctorIDFromParams()
+	const appContext = useContext(AppContext)
 
 	async function FillDoctorData(doctorIDNumber: number) {
+		const doesDoctorExistInMemory = appContext.doesDoctorExist(doctorIDNumber)
+		if (doesDoctorExistInMemory) return
 		try {
 			const response = await PublicDoctorDataService.getSingleDoctor(doctorIDNumber)
-			//Todo: Move all this to a single object
-			if (response.data.doctorLanguages) setSpokenLanguages(response.data.doctorLanguages)
-			if (response.data.doctorServices) setProvidedServices(response.data.doctorServices)
-			if (response.data.doctorSpecialties) setDoctorSpecialties(response.data.doctorSpecialties)
-			if (response.data.doctorPreVetEducation) setPreVetEducation(response.data.doctorPreVetEducation)
-			if (response.data.doctorVetEducation) setVetEducation(response.data.doctorVetEducation)
-			if (response.data.doctorAddressData) setAddresses(response.data.doctorAddressData)
-			if (response.data.description) setDescription(response.data.description)
-			if (response.data.servicedPets) setServicedPets(response.data.servicedPets)
-			if (response.data.doctorPersonalInfo) setPersonalData(response.data.doctorPersonalInfo)
+			appContext.initializeSinglePublicDoctorData(doctorIDNumber, response.data)
 		} catch (error) {
 		}
 	}
 
 	useEffect(() => {
-		FillDoctorData(idNumber)
+		if (_.isNull(doctorID)) return
+		FillDoctorData(doctorID)
 	}, [])
 
 	return (
 		<>
-			<PersonalInfoSection
-				personalData = {personalData}
-			/>
-			<BookingSection
-				providedServices = {providedServices}
-				addresses = {addresses}
-				personalData = {personalData}
-			/>
-			<DescriptionSection
-				description = {description}
-			/>
-			<LocationsSection
-				addresses = {addresses}
-			/>
-			<ServicedPetsSection
-				servicedPets = {servicedPets}
-			/>
-			<LanguageSection
-				spokenLanguages = {spokenLanguages}
-			/>
-			<ServiceSection
-				providedServices = {providedServices}
-			/>
-			<EducationSection
-				preVetEducation = {preVetEducation}
-				vetEducation = {vetEducation}
-				personalData = {personalData}
-			/>
-			<SpecialtiesSection
-				doctorSpecialties = {doctorSpecialties}
-			/>
-			<ReviewsSection
-			/>
+			<PersonalInfoSection />
+			<BookingSection	/>
+			<DescriptionSection />
+			<LocationsSection />
+			<ServicedPetsSection />
+			<LanguageSection />
+			<ServiceSection	/>
+			<EducationSection />
+			<SpecialtiesSection	/>
+			<ReviewsSection />
 		</>
 	)
 }
+
+export default observer(Doctor)

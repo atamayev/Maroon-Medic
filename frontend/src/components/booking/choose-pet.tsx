@@ -4,7 +4,9 @@ import Button from "../button"
 import handlePetChange from "src/helper-functions/public-doctor/booking-page/handle-pet-change"
 import FormGroup from "../form-group"
 
-interface ChoosePetProps extends AppointmentBookingProps {
+interface ChoosePetProps {
+	appointmentInformation: AppointmentInformation
+	setAppointmentInformation: React.Dispatch<React.SetStateAction<AppointmentInformation>>
 	savedPetData: SavedPetItem[]
 }
 
@@ -27,7 +29,13 @@ export default function ChoosePet (props: ChoosePetProps) {
 		)
 	}
 
-	if (savedPetData.length === 1) return <div className="col-md-6">Selected Pet: {appointmentInformation.selectedPet?.name}</div>
+	if (savedPetData.length === 1) {
+		return (
+			<div className="col-md-6">
+				Selected Pet: {appointmentInformation.selectedPet?.name}
+			</div>
+		)
+	}
 
 	return (
 		<div className="col-md-6">

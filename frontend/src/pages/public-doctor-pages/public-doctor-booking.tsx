@@ -17,17 +17,14 @@ import DoctorDoesNotOfferServices from "src/components/booking/doctor-does-not-o
 import { getDayIndex } from "src/utils/time"
 import NoLocationHasTimes from "src/components/booking/no-location-has-times"
 import { AppContext } from "src/contexts/maroon-context"
-
-interface Props {
-	providedServices: ServiceItemNotNullablePrice[]
-	addresses: PublicAddressData[]
-	personalData: DoctorPersonalData
-}
+import useRetrieveDoctorIDFromParams from "src/custom-hooks/public-doctor/use-retrieve-doctor-id-from-params"
 
 // eslint-disable-next-line max-lines-per-function
-function BookingSection(props: Props) {
-	const { userType } = useContext(AppContext)
-	const { providedServices, addresses, personalData } = props
+function BookingSection() {
+	const doctorID = useRetrieveDoctorIDFromParams()
+
+	const appContext = useContext(AppContext)
+	const doctorData = appContext.retrieveSinglePublicDoctorData(doctorID)
 	const { savedPetData } = useFetchAndSetPetData()
 	const [appointmentInformation, setAppointmentInformation] = useState<AppointmentInformation>({
 		selectedPet: null,
@@ -76,73 +73,66 @@ function BookingSection(props: Props) {
 		setAvailableDates(dates)
 	}, [appointmentInformation.selectedLocation])
 
-	const anyLocationHasTimes = addresses.some(location => location.times && !_.isEmpty(location.times))
+	const anyLocationHasTimes = doctorData?.doctorAddressData.some(location => location.times && !_.isEmpty(location.times))
 
-	function MakeBooking () {
-		if (userType !== "Patient") return <PatientNotLoggedIn />
-		if (!anyLocationHasTimes) return <NoLocationHasTimes personalData = {personalData} />
-		if (_.isEmpty(addresses)) return <DoctorDoesNotHaveLocations personalData = {personalData} />
-		if (_.isEmpty(providedServices)) return <DoctorDoesNotOfferServices personalData = {personalData} />
+	if (_.isNull(doctorData)) return null
 
-		return (
-			<div className="bg-white border border-gray-300 rounded p-4 mb-4 card-bottom-margin">
-				<div className="border-b pb-2 mb-4">
-					<h2>Ready to make a booking?</h2>
-				</div>
-				<div className = "row">
-					<ChoosePet
-						savedPetData = {savedPetData}
-						appointmentInformation = {appointmentInformation}
-						setAppointmentInformation = {setAppointmentInformation}
-					/>
-				</div>
+	if (appContext.userType !== "Patient") return <PatientNotLoggedIn />
+	if (!anyLocationHasTimes) return <NoLocationHasTimes />
+	if (_.isEmpty(doctorData.doctorAddressData)) return <DoctorDoesNotHaveLocations />
+	if (_.isEmpty(doctorData.doctorServices)) return <DoctorDoesNotOfferServices />
 
-				<div className = "row">
-					<SelectService
-						providedServices = {providedServices}
-						appointmentInformation = {appointmentInformation}
-						setAppointmentInformation = {setAppointmentInformation}
-					/>
-
-					<SelectLocation
-						addresses = {addresses}
-						appointmentInformation = {appointmentInformation}
-						setAppointmentInformation = {setAppointmentInformation}
-						setNoAvailableTimesMessage = {setNoAvailableTimesMessage}
-					/>
-				</div>
-
-				<NoAvailableTimes
-					noAvailableTimesMessage = {noAvailableTimesMessage}
-					personalData = {personalData}
-				/>
-
-				<div className = "row">
-					<SelectDay
-						appointmentInformation = {appointmentInformation}
-						setAppointmentInformation = {setAppointmentInformation}
-						personalData = {personalData}
-						availableDates = {availableDates}
-					/>
-
-					<SelectTime
-						appointmentInformation = {appointmentInformation}
-						setAppointmentInformation = {setAppointmentInformation}
-						availableTimes = {availableTimes}
-						serviceMinutes = {serviceMinutes}
-					/>
-				</div>
-
-				<FinalizeBookingButton
+	return (
+		<div className="bg-white border border-gray-300 rounded p-4 mb-4 card-bottom-margin">
+			<div className="border-b pb-2 mb-4">
+				<h2>Ready to make a booking?</h2>
+			</div>
+			<div className = "row">
+				<ChoosePet
+					savedPetData = {savedPetData}
 					appointmentInformation = {appointmentInformation}
-					serviceMinutes = {serviceMinutes}
-					personalData = {personalData}
+					setAppointmentInformation = {setAppointmentInformation}
 				/>
 			</div>
-		)
-	}
 
-	return <MakeBooking />
+			<div className = "row">
+				<SelectService
+					appointmentInformation = {appointmentInformation}
+					setAppointmentInformation = {setAppointmentInformation}
+				/>
+
+				<SelectLocation
+					appointmentInformation = {appointmentInformation}
+					setAppointmentInformation = {setAppointmentInformation}
+					setNoAvailableTimesMessage = {setNoAvailableTimesMessage}
+				/>
+			</div>
+
+			<NoAvailableTimes
+				noAvailableTimesMessage = {noAvailableTimesMessage}
+			/>
+
+			<div className = "row">
+				<SelectDay
+					appointmentInformation = {appointmentInformation}
+					setAppointmentInformation = {setAppointmentInformation}
+					availableDates = {availableDates}
+				/>
+
+				<SelectTime
+					appointmentInformation = {appointmentInformation}
+					setAppointmentInformation = {setAppointmentInformation}
+					availableTimes = {availableTimes}
+					serviceMinutes = {serviceMinutes}
+				/>
+			</div>
+
+			<FinalizeBookingButton
+				appointmentInformation = {appointmentInformation}
+				serviceMinutes = {serviceMinutes}
+			/>
+		</div>
+	)
 }
 
 export default observer(BookingSection)

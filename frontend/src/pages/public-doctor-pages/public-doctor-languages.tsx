@@ -1,24 +1,11 @@
-import _ from "lodash"
 import PublicDoctorCard from "src/components/public-doctor-card"
+import SpokenLanguages from "src/components/public-doctor-locations/spoken-languages"
 
-export default function LanguageSection({ spokenLanguages }: { spokenLanguages: LanguageName[] }) {
-	if (_.isEmpty(spokenLanguages)) return null
+export default function LanguageSection() {
 	return (
 		<PublicDoctorCard
 			title = "Languages"
-			content = {<SpokenLanguages spokenLanguages = {spokenLanguages} />}
+			content = {<SpokenLanguages />}
 		/>
-	)
-}
-
-function SpokenLanguages({ spokenLanguages }: { spokenLanguages: LanguageName[] }) {
-	return (
-		<>
-			{spokenLanguages.map((language, index) => (
-				<p key = {index}>
-					{language.languageName}
-				</p>
-			))}
-		</>
 	)
 }
