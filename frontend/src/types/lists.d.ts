@@ -1,72 +1,72 @@
 declare global {
-  interface DoctorListDetails {
-    languages: LanguageItem[]
-    servicesAndCategories: ServiceListItem[]
-    specialties: SpecialtyItem[]
-    preVetSchools: PreVetSchool[]
-    preVetEducationTypes: PreVetEducationType[]
-    majors: Major[]
-    vetSchools: VetSchoolList[]
-    vetEducationTypes: VetEducationType[]
-    pets: ServicedPetItem[]
-  }
+	interface DoctorListDetails {
+		languages: LanguageItem[]
+		servicesAndCategories: ServiceListItem[]
+		specialties: SpecialtyItem[]
+		preVetSchools: PreVetSchool[]
+		preVetEducationTypes: PreVetEducationType[]
+		majors: Major[]
+		vetSchools: VetSchoolList[]
+		vetEducationTypes: VetEducationType[]
+		pets: ServicedPetItem[]
+	}
 
-  interface PatientListDetails {
-    languages: LanguageItem[]
-  }
+	interface PatientListDetails {
+		languages: LanguageItem[]
+	}
 
-  type ServiceListItem = {
-    serviceAndCategoryListId: number
-    categoryName: string
-    serviceName: string
-  }
+	type ServiceListItem = {
+		serviceAndCategoryListId: number
+		categoryName: string
+		serviceName: string
+	}
 
-  type ServicedPetItem = {
-    petListId: number
-    pet: string
-    petType: string
-  }
+	type ServicedPetItem = {
+		petListId: number
+		pet: string
+		petType: string
+	}
 
-  type PreVetSchool = {
-    preVetSchoolListId: number
-    schoolName: string
-  }
+	type PreVetSchool = {
+		preVetSchoolListId: number
+		schoolName: string
+	}
 
-  type Major = {
-    majorListId: number
-    majorName: string
-  }
+	type Major = {
+		majorListId: number
+		majorName: string
+	}
 
-  type PreVetEducationType = {
-    preVetEducationTypeId: number
-    educationType: string
-  }
+	type PreVetEducationType = {
+		preVetEducationTypeId: number
+		educationType: string
+	}
 
-  type VetSchoolList = {
-    vetSchoolListId: number
-    schoolName: string
-  }
+	type VetSchoolList = {
+		vetSchoolListId: number
+		schoolName: string
+	}
 
-  type VetEducationType = {
-    vetEducationTypeId: number
-    educationType: string
-  }
+	type VetEducationType = {
+		vetEducationTypeId: number
+		educationType: string
+	}
 
-  type InsuranceItem = {
-    insuranceListId: number
-    insuranceName: string
-  }
+	type InsuranceItem = {
+		insuranceListId: number
+		insuranceName: string
+	}
 
-  type SpecialtyItem = {
-    specialtiesListId: number
-    organizationName: string
-    specialtyName: string
-  }
+	type SpecialtyItem = {
+		specialtiesListId: number
+		organizationName: string
+		specialtyName: string
+	}
 
-  type LanguageItem = {
-    languageListId: number
-    languageName: string
-  }
+	type LanguageItem = {
+		languageListId: number
+		languageName: string
+	}
 }
 
 export {}
