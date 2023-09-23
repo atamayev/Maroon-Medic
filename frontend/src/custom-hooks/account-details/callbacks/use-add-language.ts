@@ -10,7 +10,7 @@ const useAddLanguage = (
 	setLanguagesConfirmation: (conf: ConfirmationMessage) => void,
 	doctorOrPatient: DoctorOrPatient
 ): (e: React.ChangeEvent<HTMLSelectElement>) => void => {
-	const { doctorLists, patientLists } = useContext(AppContext)
+	const appContext = useContext(AppContext)
 
 	const modifyDoctorLanguages = useModifyDoctorLanguages()
 	const modifyPatientLanguages = useModifyPatientLanguages()
@@ -19,12 +19,12 @@ const useAddLanguage = (
 		async (e: React.ChangeEvent<HTMLSelectElement>) => {
 			const selectedLanguageId = Number(e.target.value)
 			if (
-				(doctorOrPatient === "Doctor" && _.isNull(doctorLists)) ||
-				(doctorOrPatient === "Patient" && _.isNull(patientLists))
+				(doctorOrPatient === "Doctor" && _.isNull(appContext.doctorLists)) ||
+				(doctorOrPatient === "Patient" && _.isNull(appContext.patientLists))
 			) return
 
 			if (doctorOrPatient === "Doctor") {
-				const selectedLanguage = doctorLists!.languages.find((lang) => lang.languageListId === selectedLanguageId)
+				const selectedLanguage = appContext.doctorLists!.languages.find((lang) => lang.languageListId === selectedLanguageId)
 				if (_.isUndefined(selectedLanguage)) return
 				await modifyDoctorLanguages(
 					PrivateDoctorDataService.addLanguage,
@@ -34,7 +34,7 @@ const useAddLanguage = (
 			}
 
 			else {
-				const selectedLanguage = patientLists!.languages.find((lang) => lang.languageListId === selectedLanguageId)
+				const selectedLanguage = appContext.patientLists!.languages.find((lang) => lang.languageListId === selectedLanguageId)
 				if (_.isUndefined(selectedLanguage)) return
 				await modifyPatientLanguages(
 					PrivatePatientDataService.addLanguage,

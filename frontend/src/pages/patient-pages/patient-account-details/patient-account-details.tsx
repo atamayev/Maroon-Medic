@@ -3,8 +3,8 @@ import { observer } from "mobx-react"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
 import { usePatientAccountDetails } from "src/custom-hooks/account-details/use-set-patient-account-details"
 import PatientHeader from "../patient-header"
-import PatientLanguageSection from "./language"
 import { AppContext } from "src/contexts/maroon-context"
+import PatientLanguageSection from "./language"
 
 function PatientAccountDetails() {
 	const appContext = useContext(AppContext)

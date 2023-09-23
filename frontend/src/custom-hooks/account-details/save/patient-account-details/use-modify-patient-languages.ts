@@ -1,3 +1,4 @@
+import _ from "lodash"
 import { useContext } from "react"
 import PrivatePatientDataService from "../../../../services/private-patient-data-service"
 import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle-401-axios-error-and-set-message-type"
@@ -11,18 +12,19 @@ export default function useModifyPatientLanguages() : (
 	language: LanguageItem,
 	setLanguagesConfirmation: (conf: ConfirmationMessage) => void
 ) => Promise<void> {
-	const { patientAccountDetails } = useContext(AppContext)
+	const appContext = useContext(AppContext)
 
 	return async (
 		operation: LanguageOperationsType,
 		language: LanguageItem,
 		setLanguagesConfirmation: (conf: ConfirmationMessage) => void
 	): Promise<void> => {
+		if (_.isNull(appContext.patientAccountDetails)) return
 		let newSpokenLanguages: LanguageItem[]
 		if (operation === PrivatePatientDataService.deleteLanguage) {
-			newSpokenLanguages = patientAccountDetails?.languages.filter(l => l.languageListId !== language.languageListId) || []
+			newSpokenLanguages = appContext.patientAccountDetails.languages.filter(l => l.languageListId !== language.languageListId)
 		} else {
-			newSpokenLanguages = [...patientAccountDetails!.languages, language]
+			newSpokenLanguages = [...appContext.patientAccountDetails.languages, language]
 		}
 		let response
 
@@ -34,7 +36,7 @@ export default function useModifyPatientLanguages() : (
 		}
 
 		if (response.status === 200) {
-			patientAccountDetails!.languages = newSpokenLanguages
+			appContext.patientAccountDetails.languages = newSpokenLanguages
 			setLanguagesConfirmation({messageType: "saved"})
 		} else {
 			setLanguagesConfirmation({messageType: "problem"})
