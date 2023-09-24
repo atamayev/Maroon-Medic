@@ -1,14 +1,12 @@
 import { observer } from "mobx-react"
-import moment from "moment"
+import dayjs from "dayjs"
 import { useEffect, useContext } from "react"
-import { Calendar, momentLocalizer } from "react-big-calendar"
+import { Calendar, dayjsLocalizer  } from "react-big-calendar"
 import "react-big-calendar/lib/css/react-big-calendar.css"
 import UnauthorizedUser from "../../components/unauthorized-user/unauthorized-user"
 import DoctorHeader from "./doctor-header"
 import { AppContext } from "src/contexts/maroon-context"
 import usefetchDoctorCalendarDetails from "src/custom-hooks/use-fetch-calendar-details"
-
-const localizer = momentLocalizer(moment)
 
 function CustomEvent ({ event }: { event: DoctorCalendarEvent }) {
 	let tailwindCSS = ""
@@ -19,6 +17,7 @@ function CustomEvent ({ event }: { event: DoctorCalendarEvent }) {
 }
 
 function DoctorCalendar() {
+	const localizer = dayjsLocalizer(dayjs)
 	const appContext = useContext(AppContext)
 	const fetchDoctorCalendarDetails = usefetchDoctorCalendarDetails()
 

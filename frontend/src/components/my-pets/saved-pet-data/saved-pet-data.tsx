@@ -1,4 +1,3 @@
-import _ from "lodash"
 import DeletePetModal from "../delete-pet-modal"
 import SavedPetDataMap from "./saved-pet-data-map"
 

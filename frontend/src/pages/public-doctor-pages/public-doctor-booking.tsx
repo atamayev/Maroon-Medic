@@ -1,5 +1,5 @@
 import _ from "lodash"
-import moment from "moment"
+import dayjs from "dayjs"
 import { observer } from "mobx-react"
 import { useState, useEffect, useContext } from "react"
 import useSetPetDataForBooking from "src/custom-hooks/public-doctor/use-set-pet-data-for-booking"
@@ -63,7 +63,7 @@ function BookingSection() {
 
 		const daysOfWeek = appointmentInformation.selectedLocation.times.map(time => getDayIndex(time.dayOfWeek))
 		const dates = []
-		let date = moment()
+		let date = dayjs()
 		while (dates.length < 10) {
 			const dayIndex = date.day() as DayIndeces
 			if (daysOfWeek.includes(dayIndex)) dates.push(date.format("dddd, MMMM Do, YYYY"))

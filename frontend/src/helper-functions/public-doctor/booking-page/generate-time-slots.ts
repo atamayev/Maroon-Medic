@@ -1,4 +1,4 @@
-import moment from "moment"
+import dayjs from "dayjs"
 import { convertToMinutes } from "src/utils/time"
 
 const generateTimeSlots = (
@@ -9,7 +9,7 @@ const generateTimeSlots = (
 	setServiceMinutes: React.Dispatch<React.SetStateAction<number>>
 ): void => {
 	// Get the working hours for the selected day
-	const selectedDayOfWeek = moment(selectedDay, "dddd, MMMM Do, YYYY").format("dddd")
+	const selectedDayOfWeek = dayjs(selectedDay, "dddd, MMMM D, YYYY").format("dddd")
 	const workingHours = selectedLocationObject.times.find(time => time.dayOfWeek === selectedDayOfWeek)
 
 	if (workingHours) {
@@ -17,8 +17,8 @@ const generateTimeSlots = (
 		const start = workingHours.startTime.split(":")
 		const end = workingHours.endTime.split(":")
 
-		let currentTime = moment().hour(Number(start[0])).minute(Number(start[1]))
-		const endTime = moment().hour(Number(end[0])).minute(Number(end[1]))
+		let currentTime = dayjs().hour(Number(start[0])).minute(Number(start[1]))
+		const endTime = dayjs().hour(Number(end[0])).minute(Number(end[1]))
 
 		const serviceMinutes = convertToMinutes(selectedServiceObject.serviceTime)
 		setServiceMinutes(serviceMinutes)

@@ -1,4 +1,6 @@
-import moment from "moment"
+import dayjs from "dayjs"
+import duration from "dayjs/plugin/duration"
+dayjs.extend(duration)
 
 export function getDayIndex(day: string): DayIndeces {
 	switch (day) {
@@ -16,8 +18,8 @@ export function getDayIndex(day: string): DayIndeces {
 export function convertToMinutes(input: string): number {
 	if (typeof input === "string") {
 		const value = parseInt(input.split(" ")[0])
-		if (input.includes("hour")) return moment.duration(value, "hours").asMinutes()
-		else if (input.includes("day")) return moment.duration(value, "days").asMinutes()
+		if (input.includes("hour")) return dayjs.duration(value, "hour").as("minute")
+		else if (input.includes("day")) return dayjs.duration(value, "day").as("minute")
 		else return value
 	}
 	return 0

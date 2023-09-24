@@ -2,7 +2,6 @@ To-do:
 
 Context Bugs/To-do:
 	To-do:
-		move react-big-calendar localizer to dayjs. then move all front end to dayjs
 		Make sure
 			sharedState.isAuthenticated = !!accessToken
 			is ok. try putting in a fake cookie token and seeing what happens

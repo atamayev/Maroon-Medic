@@ -1,5 +1,5 @@
+import dayjs from "dayjs"
 import { useContext } from "react"
-import moment from "moment"
 import { AppContext } from "src/contexts/maroon-context"
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
 import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle-401-axios-error-and-set-message-type"
@@ -21,8 +21,8 @@ export default function useAddVetEducation() : (
 				)!.vetSchoolListId,
 				educationTypeId: appContext.doctorLists!.vetEducationTypes.find(
 					educationType => educationType.educationType === vetGeneralEducationItem.educationType)!.vetEducationTypeId,
-				startDate: moment(vetGeneralEducationItem.startDate, "MMMM D, YYYY").format("YYYY-MM-DD"),
-				endDate: moment(vetGeneralEducationItem.endDate, "MMMM D, YYYY").format("YYYY-MM-DD")
+				startDate: dayjs(vetGeneralEducationItem.startDate, "MMMM D, YYYY").format("YYYY-MM-DD"),
+				endDate: dayjs(vetGeneralEducationItem.endDate, "MMMM D, YYYY").format("YYYY-MM-DD")
 			}
 			const response = await PrivateDoctorDataService.addVetEducationData(mappedVetGeneralEducationItem)
 			if (response.status === 200 && typeof response.data === "number") {

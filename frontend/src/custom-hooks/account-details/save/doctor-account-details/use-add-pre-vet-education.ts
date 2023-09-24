@@ -1,4 +1,4 @@
-import moment from "moment"
+import dayjs from "dayjs"
 import { useContext } from "react"
 import { AppContext } from "src/contexts/maroon-context"
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
@@ -23,8 +23,8 @@ export default function useAddPreVetEducation() : (
 				)!.majorListId,
 				educationTypeId: appContext.doctorLists!.preVetEducationTypes.find(
 					educationType => educationType.educationType === preVetGeneralEducationItem.educationType)!.preVetEducationTypeId,
-				startDate: moment(preVetGeneralEducationItem.startDate, "MMMM D, YYYY").format("YYYY-MM-DD"),
-				endDate: moment(preVetGeneralEducationItem.endDate, "MMMM D, YYYY").format("YYYY-MM-DD")
+				startDate: dayjs(preVetGeneralEducationItem.startDate, "MMMM D, YYYY").format("YYYY-MM-DD"),
+				endDate: dayjs(preVetGeneralEducationItem.endDate, "MMMM D, YYYY").format("YYYY-MM-DD")
 			}
 			const response = await PrivateDoctorDataService.addPreVetEducationData(mappedPreVetGeneralEducationItem)
 			if (response.status === 200 && typeof response.data === "number") {

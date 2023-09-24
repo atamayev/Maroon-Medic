@@ -1,4 +1,4 @@
-import moment from "moment"
+import dayjs from "dayjs"
 import FormGroup from "../form-group"
 import handleTimeChange from "src/helper-functions/public-doctor/booking-page/handle-time-change"
 
@@ -30,7 +30,7 @@ export default function SelectTime (props: SelectTimeProps) {
 				<option value = "" disabled>Select...</option>
 				{availableTimes.map((time) => (
 					<option key={time} value={time}>
-						{time} - {moment(time, "h:mm A").add(serviceMinutes, "minutes").format("h:mm A")}
+						{time} - {dayjs(time, "h:mm A").add(serviceMinutes, "minute").format("h:mm A")}
 					</option>
 				))}
 			</FormGroup>

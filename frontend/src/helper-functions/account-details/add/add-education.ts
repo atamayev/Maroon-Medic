@@ -1,4 +1,4 @@
-import moment from "moment"
+import dayjs from "dayjs"
 
 const addEducation = (
 	selectedSchool: string,
@@ -13,8 +13,8 @@ const addEducation = (
 	const selectedEducationObj: GeneralEducationItem = {
 		schoolName: selectedSchool,
 		educationType: selectedEducationType,
-		startDate: moment(`${timeState.startYear}-${timeState.startMonth}-1`,"YYYY-MMMM-D").format("MMMM D, YYYY"),
-		endDate: moment(`${timeState.endYear}-${timeState.endMonth}-1`,"YYYY-MMMM-D").format("MMMM D, YYYY"),
+		startDate: dayjs(`${timeState.startYear}-${timeState.startMonth}-1`, "YYYY-MMMM-D").format("MMMM D, YYYY"),
+		endDate: dayjs(`${timeState.endYear}-${timeState.endMonth}-1`, "YYYY-MMMM-D").format("MMMM D, YYYY")
 	}
 	if (selectedMajor) selectedEducationObj.majorName = selectedMajor
 

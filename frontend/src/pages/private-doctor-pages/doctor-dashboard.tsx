@@ -1,5 +1,7 @@
 import _ from "lodash"
-import moment from "moment"
+import dayjs from "dayjs"
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter"
+dayjs.extend(isSameOrAfter)
 import { observer } from "mobx-react"
 import { useContext, useEffect, useState } from "react"
 import UnauthorizedUser from "../../components/unauthorized-user/unauthorized-user"
@@ -22,12 +24,12 @@ function DoctorDashboard() {
 			appContext.userType !== "Doctor"
 		) return
 
-		const now = moment()
+		const now = dayjs()
 		const pastDoctorAppointments = appContext.doctorDashboardData.filter(appointment =>
-			moment(appointment.appointmentDate, "MMMM Do, YYYY, h:mm A") < now
+			dayjs(appointment.appointmentDate, "MMMM D, YYYY, h:mm A").isBefore(now)
 		)
 		const upcomingDoctorAppointments = appContext.doctorDashboardData.filter(appointment =>
-			moment(appointment.appointmentDate, "MMMM Do, YYYY, h:mm A") >= now
+			dayjs(appointment.appointmentDate, "MMMM D, YYYY, h:mm A").isSameOrAfter(now)
 		)
 
 		setPastAppointments(pastDoctorAppointments)
