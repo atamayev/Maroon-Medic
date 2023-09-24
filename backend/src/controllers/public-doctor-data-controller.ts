@@ -1,8 +1,8 @@
+import { Request, Response } from "express"
 import CalendarDB from "../db/calendar-db"
 import OperationHandler from "../utils/operation-handler"
 import FetchPublicDoctorData from "../utils/fetch-account-and-public-data/fetch-public-doctor-data"
 import FetchDoctorAccountData from "../utils/fetch-account-and-public-data/fetch-doctor-account-data"
-import { Request, Response } from "express"
 
 export async function returnDoctorPageData (req: Request, res: Response): Promise<Response> {
 	const NVI = Number(req.params.NVI)

@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { observer } from "mobx-react"
 import { useContext } from "react"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 import useUpdatePublicAvailability from "src/custom-hooks/account-details/save/doctor-account-details/use-update-public-availability"
 
 interface Props {
@@ -10,10 +10,10 @@ interface Props {
 
 function HidePublicStatus (props: Props) {
 	const { setPubliclyAvailableConfirmation } = props
-	const { doctorAccountDetails } = useContext(AppContext)
+	const doctorAccountDetails = useContext(AppContext).privateDoctorData?.doctorAccountDetails
 
 	const updatePublicAvailability = useUpdatePublicAvailability()
-	if (_.isNull(doctorAccountDetails)) return null
+	if (_.isNil(doctorAccountDetails)) return null
 
 	return (
 		<button

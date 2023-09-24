@@ -5,7 +5,7 @@ import { Calendar, dayjsLocalizer  } from "react-big-calendar"
 import "react-big-calendar/lib/css/react-big-calendar.css"
 import UnauthorizedUser from "../../components/unauthorized-user/unauthorized-user"
 import DoctorHeader from "./doctor-header"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 import usefetchDoctorCalendarDetails from "src/custom-hooks/use-fetch-calendar-details"
 
 function CustomEvent ({ event }: { event: DoctorCalendarEvent }) {
@@ -25,7 +25,7 @@ function DoctorCalendar() {
 		fetchDoctorCalendarDetails()
 	}, [])
 
-	if (appContext.userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
+	if (appContext.auth.userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
 	return (
 		<div>
@@ -34,7 +34,7 @@ function DoctorCalendar() {
 				localizer = {localizer}
 				defaultDate = {new Date()}
 				defaultView = "month"
-				events = {appContext.doctorCalendarDetails}
+				events = {appContext.privateDoctorData?.doctorCalendarDetails}
 				style = {{ height: "100vh" }}
 				components = {{
 					event: CustomEvent,

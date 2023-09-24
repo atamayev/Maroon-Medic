@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { observer } from "mobx-react"
 import { useEffect, useContext } from "react"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 import PublicDoctorDataService from "../../services/public-doctor-data-service"
 import "./card.css"
 import BookingSection from "./public-doctor-booking"
@@ -21,13 +21,13 @@ function Doctor () {
 	const appContext = useContext(AppContext)
 
 	async function fillDoctorData(doctorIDNumber: number): Promise<void> {
-		const doesDoctorExistInMemory = appContext.doesDoctorExist(doctorIDNumber)
+		const doesDoctorExistInMemory = appContext.publicDoctorData?.doesDoctorExist(doctorIDNumber)
 		if (doesDoctorExistInMemory) return
 		try {
 			const response = await PublicDoctorDataService.getSingleDoctor(doctorIDNumber)
 			if (response.status === 200) {
 				console.log(response.data)
-				appContext.initializeSinglePublicDoctorData(doctorIDNumber, response.data as PublicDoctorAccountDetails)
+				appContext.publicDoctorData?.initializeSinglePublicDoctorData(doctorIDNumber, response.data as PublicDoctorAccountDetails)
 			}
 		} catch (error) {
 		}

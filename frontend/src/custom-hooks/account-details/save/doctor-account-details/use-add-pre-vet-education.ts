@@ -1,6 +1,6 @@
 import dayjs from "dayjs"
 import { useContext } from "react"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
 import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle-401-axios-error-and-set-message-type"
 
@@ -16,12 +16,12 @@ export default function useAddPreVetEducation() : (
 	): Promise<void> => {
 		try {
 			const mappedPreVetGeneralEducationItem: PreVetEducationData = {
-				schoolId: appContext.doctorLists!.preVetSchools
+				schoolId: appContext.privateDoctorData!.doctorLists!.preVetSchools
 					.find(school => school.schoolName === preVetGeneralEducationItem.schoolName)!.preVetSchoolListId,
-				majorId: appContext.doctorLists!.majors.find(
+				majorId: appContext.privateDoctorData!.doctorLists!.majors.find(
 					major => major.majorName === preVetGeneralEducationItem.majorName
 				)!.majorListId,
-				educationTypeId: appContext.doctorLists!.preVetEducationTypes.find(
+				educationTypeId: appContext.privateDoctorData!.doctorLists!.preVetEducationTypes.find(
 					educationType => educationType.educationType === preVetGeneralEducationItem.educationType)!.preVetEducationTypeId,
 				startDate: dayjs(preVetGeneralEducationItem.startDate, "MMMM D, YYYY").format("YYYY-MM-DD"),
 				endDate: dayjs(preVetGeneralEducationItem.endDate, "MMMM D, YYYY").format("YYYY-MM-DD")
@@ -29,8 +29,10 @@ export default function useAddPreVetEducation() : (
 			const response = await PrivateDoctorDataService.addPreVetEducationData(mappedPreVetGeneralEducationItem)
 			if (response.status === 200 && typeof response.data === "number") {
 				preVetGeneralEducationItem.preVetEducationMappingId = response.data
-				const newPreVetEducation = [...appContext.doctorAccountDetails!.preVetEducation, preVetGeneralEducationItem]
-				appContext.doctorAccountDetails!.preVetEducation = newPreVetEducation
+				const newPreVetEducation = [
+					...appContext.privateDoctorData!.doctorAccountDetails!.preVetEducation, preVetGeneralEducationItem
+				]
+				appContext.privateDoctorData!.doctorAccountDetails!.preVetEducation = newPreVetEducation
 				setPreVetEducationConfirmation({messageType: "saved"})
 			} else {
 				setPreVetEducationConfirmation({messageType: "problem"})

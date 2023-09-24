@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { observer } from "mobx-react"
 import { useContext, useState, useEffect } from "react"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 import OpenClosePetType from "./open-close-pet-type"
 import ShowPetsSection from "./show-pets-section"
 
@@ -17,7 +17,7 @@ interface Props {
 
 function ServicedPets (props: Props) {
 	const { expandedPetTypes, setExpandedPetTypes, setPetsConfirmation } = props
-	const { doctorLists } = useContext(AppContext)
+	const doctorLists = useContext(AppContext).privateDoctorData?.doctorLists
 	const [petTypes, setPetTypes] = useState<PetTypesType>({})
 
 	useEffect(() => {

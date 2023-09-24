@@ -13,7 +13,7 @@ function AvailableDates (props: Props) {
 	const doctorID = useRetrieveDoctorIDFromParams()
 	const doctorData = useRetrieveSinglePublicDoctorData(doctorID)
 
-	if (_.isNull(doctorData)) return null
+	if (_.isNil(doctorData)) return null
 
 	if (appointmentInformation.selectedDay ===
 		`Dr. ${_.upperFirst(doctorData.doctorPersonalInfo.lastName || "")} does not currently have any open appointments at this location`

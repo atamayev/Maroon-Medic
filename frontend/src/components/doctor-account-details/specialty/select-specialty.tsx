@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { useContext, useState, useEffect } from "react"
 import { observer } from "mobx-react"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 interface Props {
 	selectedOrganization: string
@@ -10,7 +10,7 @@ interface Props {
 
 function SelectSpecialty (props: Props) {
 	const { handleSpecialtyChange, selectedOrganization } = props
-	const { doctorLists, doctorAccountDetails } = useContext(AppContext)
+	const { doctorLists, doctorAccountDetails } = useContext(AppContext).privateDoctorData
 	const [specificSpecialtiesOptions, setSpecificSpecialtiesOptions] = useState<JSX.Element[]>([])
 
 	useEffect(() => {

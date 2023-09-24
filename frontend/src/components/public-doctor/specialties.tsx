@@ -11,7 +11,7 @@ function Specialties() {
 	const doctorID = useRetrieveDoctorIDFromParams()
 	const doctorData = useRetrieveSinglePublicDoctorData(doctorID)
 
-	if (_.isNull(doctorData)) return null
+	if (_.isNil(doctorData)) return null
 
 	const organizations: OrganizationsType = _.groupBy(doctorData.doctorSpecialties, "organizationName")
 

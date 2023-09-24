@@ -3,12 +3,12 @@ import { observer } from "mobx-react"
 import SettingsLinks from "../../../components/settings-links"
 import UnauthorizedUser from "../../../components/unauthorized-user/unauthorized-user"
 import PatientHeader from "../patient-header"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 function PatientSettingsCards() {
-	const { userType } = useContext(AppContext)
+	const appContext = useContext(AppContext)
 
-	if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
+	if (appContext.auth.userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
 	return (
 		<>

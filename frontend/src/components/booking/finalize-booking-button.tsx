@@ -21,7 +21,7 @@ function FinalizeBookingButton (props: FinalizeBookingProps) {
 	const doctorData = useRetrieveSinglePublicDoctorData(doctorID)
 
 	const navigate = useNavigate()
-	if (_.isNull(doctorData)) return null
+	if (_.isNil(doctorData)) return null
 	if (_.some(appointmentInformation, value => value === null)) return null
 
 	const finalizeBookingClick = () => {

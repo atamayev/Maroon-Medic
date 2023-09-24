@@ -9,7 +9,9 @@ Context Bugs/To-do:
 		See what happens when a previously assigned access token is re-assgined as a cookie
 			Does the doctor get the privileges of the old doctor? Shouldn't happen, if the uuid is unique to the first doctor. 
 
-		Break up the maroon context class into multiple classes. Try to make each class responsible for each type of data, so that there aren't a million methods in One parent class
+		Break up the maroon context class into multiple classes. 
+			Try to make each class responsible for each type of data, so that there aren't a million methods in One parent class
+			make all classes default exports
 	Bugs:
 		Update address button will never appear because the input change function acts directly on the context.
 			the old and update address will always be the same - the updated is constantly being set as the new

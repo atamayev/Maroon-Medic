@@ -1,6 +1,6 @@
 import { AxiosError } from "axios"
 import { useContext } from "react"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 import CalendarDataService from "src/services/calendar-data-service"
 import invalidUserAction from "src/utils/invalid-user-action"
 
@@ -17,11 +17,11 @@ export default async function useApproveAppointment (props: ApproveAppointmentPr
 		const response = await CalendarDataService.confirmAppointment(appointmentsId)
 		if (response.status === 200) {
 			// Update the doctorConfirmationStatus for the specific appointment
-			const updatedDashboardData = appContext.doctorDashboardData!.map(appointment => {
+			const updatedDashboardData = appContext.privateDoctorData.doctorDashboardData!.map(appointment => {
 				if (appointment.appointmentsId === appointmentsId) return { ...appointment, doctorConfirmationStatus: true }
 				return appointment
 			})
-			appContext.doctorDashboardData = updatedDashboardData
+			appContext.privateDoctorData.doctorDashboardData = updatedDashboardData
 			setStatus("approved")
 		} else {
 			setStatus("pending")

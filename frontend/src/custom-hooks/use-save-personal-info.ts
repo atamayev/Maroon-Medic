@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { useContext } from "react"
 import { AxiosResponse } from "axios"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
 import PrivatePatientDataService from "src/services/private-patient-data-service"
 

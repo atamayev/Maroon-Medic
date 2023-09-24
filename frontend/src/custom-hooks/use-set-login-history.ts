@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 import fetchLoginHistory from "src/helper-functions/shared/fetch-login-history"
 
 export default function useSetLoginHistory(
@@ -12,7 +12,9 @@ export default function useSetLoginHistory(
 	const checkForLoginHistory: () => Promise<void> = async () => {
 		if (userType !== expectedUserType) return
 		try {
-			if (appContext.loginHistory) setLoginHistory(appContext.loginHistory)
+			if (appContext.sharedData?.loginHistory) {
+				setLoginHistory(appContext.sharedData.loginHistory)
+			}
 			else await fetchLoginHistory(setLoginHistory, appContext)
 		} catch (error) {
 		}

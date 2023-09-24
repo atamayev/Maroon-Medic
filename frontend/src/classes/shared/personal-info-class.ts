@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx"
 
-export class PersonalInfoClass {
+export default class PersonalInfoClass {
 	constructor(info: BirthDateInfo) {
 		makeAutoObservable(this)
 		Object.assign(this, info)

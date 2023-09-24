@@ -6,7 +6,7 @@ import useRetrieveSinglePublicDoctorData from "src/custom-hooks/public-doctor/us
 function DoctorDoesNotHaveLocations () {
 	const doctorID = useRetrieveDoctorIDFromParams()
 	const doctorData = useRetrieveSinglePublicDoctorData(doctorID)
-	if (_.isNull(doctorData)) return null
+	if (_.isNil(doctorData)) return null
 
 	return (
 		<div className="mb-4 border border-brown-400 bg-yellow-100 rounded">

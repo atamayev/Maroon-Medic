@@ -9,7 +9,7 @@ import SelectOrganization from "src/components/doctor-account-details/specialty/
 import SelectSpecialty from "src/components/doctor-account-details/specialty/select-specialty"
 import SavedSpecialtyList from "src/components/doctor-account-details/specialty/saved-specialty-list"
 import AccountDetailsCard from "src/components/account-details-card"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 export default function SpecialtySection () {
 	return (
@@ -21,13 +21,13 @@ export default function SpecialtySection () {
 }
 
 function VetSpecialties() {
-	const { doctorAccountDetails } = useContext(AppContext)
+	const doctorAccountDetails = useContext(AppContext).privateDoctorData?.doctorAccountDetails
 	const [selectedOrganization, setSelectedOrganization] = useState("")
 	const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
 	const [specialtiesConfirmation, setSpecialtiesConfirmation] = useConfirmationMessage()
 
 	useEffect(() => {
-		if (_.isNull(doctorAccountDetails) || _.isEmpty(doctorAccountDetails.specialties)) return
+		if (_.isNil(doctorAccountDetails) || _.isEmpty(doctorAccountDetails.specialties)) return
 		const newDeleteStatuses = { ...deleteStatuses }
 
 		// Go through each status

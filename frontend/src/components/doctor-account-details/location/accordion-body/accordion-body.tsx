@@ -1,4 +1,4 @@
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 import FirstAccordionBodyRow from "./first-accordion-body-row"
 import SecondAccordionBodyRow from "./second-accordion-body-row"
 import MapDataAndWeekDays from "./times-section/map-data-and-week-days"
@@ -12,7 +12,7 @@ interface Props {
 
 function AccordionBody (props: Props) {
 	const { isOpen, address } = props
-	const { doctorAccountDetails } = useContext(AppContext)
+	const doctorAccountDetails = useContext(AppContext).privateDoctorData?.doctorAccountDetails
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, addressPriority: number) => {
 		const newAddresses = doctorAccountDetails!.addressData.map(addressItem => {

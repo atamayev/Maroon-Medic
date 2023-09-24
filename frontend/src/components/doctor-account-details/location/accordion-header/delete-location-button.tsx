@@ -2,7 +2,7 @@ import _ from "lodash"
 import { observer } from "mobx-react"
 import { useContext, useState } from "react"
 import Button from "src/components/button"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 import useDeleteAddressData from "src/custom-hooks/account-details/save/doctor-account-details-helpers/use-delete-address-data"
 
 interface Props {
@@ -12,13 +12,13 @@ interface Props {
 
 function DeleteLocationButton (props: Props) {
 	const { address, setAddressesConfirmation } = props
-	const { doctorAccountDetails } = useContext(AppContext)
+	const doctorAccountDetails = useContext(AppContext).privateDoctorData?.doctorAccountDetails
 
 	const [status, setStatus] = useState<DeleteStatuses>(undefined)
 	const deleteAddressData = useDeleteAddressData()
 
 	const handleDeleteAddress = () => {
-		if (_.isNull(doctorAccountDetails)) return
+		if (_.isNil(doctorAccountDetails)) return
 		if (address.addressesId === -1) {
 			_.filter(doctorAccountDetails.addressData, a => a.addressPriority !== address.addressPriority)
 		}

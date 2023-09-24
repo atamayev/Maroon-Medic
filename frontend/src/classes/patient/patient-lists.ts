@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx"
 
-export class PatientListsClass {
+export default class PatientListsClass {
 	constructor(patientLists: PatientListDetails) {
 		makeAutoObservable(this)
 		Object.assign(this, patientLists)

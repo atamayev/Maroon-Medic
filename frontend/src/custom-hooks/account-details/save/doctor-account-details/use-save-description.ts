@@ -2,13 +2,13 @@ import { useContext } from "react"
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
 import shouldSaveDescription from "src/utils/save-account-details"
 import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle-401-axios-error-and-set-message-type"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 export default function useSaveDescription() : (
 	description: string,
 	setDescriptionConfirmation: (conf: ConfirmationMessage) => void
 ) => Promise<void> {
-	const { doctorAccountDetails } = useContext(AppContext)
+	const doctorAccountDetails = useContext(AppContext).privateDoctorData?.doctorAccountDetails
 
 	return async (description, setDescriptionConfirmation): Promise<void> => {
 		const shouldSave = shouldSaveDescription(doctorAccountDetails!.description, description)

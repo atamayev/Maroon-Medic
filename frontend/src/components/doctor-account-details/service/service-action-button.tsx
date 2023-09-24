@@ -1,6 +1,6 @@
 import Button from "src/components/button"
 import { useContext } from "react"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 import useModifyServicesData from "src/custom-hooks/account-details/save/doctor-account-details-helpers/use-modify-services-data"
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
 
@@ -13,7 +13,7 @@ interface Props {
 
 export default function ServiceActionButton (props: Props) {
 	const { service, selectedServices, setServicesConfirmation, setSelectedServices } = props
-	const { doctorAccountDetails } = useContext(AppContext)
+	const doctorAccountDetails = useContext(AppContext).privateDoctorData?.doctorAccountDetails
 
 	const selectedService =
 		selectedServices.find(

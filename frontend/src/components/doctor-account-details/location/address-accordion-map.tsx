@@ -2,7 +2,7 @@ import _ from "lodash"
 import { useContext } from "react"
 import { observer } from "mobx-react"
 import AddressAccordionItem from "./address-accordion-item"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 interface Props {
 	setAddressesConfirmation: (conf: ConfirmationMessage) => void
@@ -10,9 +10,9 @@ interface Props {
 
 function AddressAccordionMap (props: Props) {
 	const { setAddressesConfirmation } = props
-	const { doctorAccountDetails } = useContext(AppContext)
+	const doctorAccountDetails = useContext(AppContext).privateDoctorData?.doctorAccountDetails
 
-	if (_.isNull(doctorAccountDetails)) return null
+	if (_.isNil(doctorAccountDetails)) return null
 
 	const sortedAddresses = doctorAccountDetails.addressData.slice().sort((a, b) => a.addressPriority - b.addressPriority)
 

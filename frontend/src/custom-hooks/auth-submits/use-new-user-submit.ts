@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import PrivateDoctorDataService from "../../services/private-doctor-data-service"
 import PrivatePatientDataService from "../../services/private-patient-data-service"
 import handle401AxiosErrorAndSetCustomError from "src/utils/handle-errors/handle-401-axios-error-and-set-custom-error"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 const useAssignBookingDetailsNavigateToFinalizeBooking = (): void => {
 	const navigate = useNavigate()
@@ -40,11 +40,11 @@ const useNewUserSubmit = (
 			if (response.status === 200) {
 				appContext.initializePersonalInfo(newInfo)
 				// if (VetOrPatient === "Vet") {
-				// 	// appContext.userType = "Doctor"
+				// 	// appContext.auth.userType = "Doctor"
 				// 	appContext.initializePersonalInfo(newInfo)
 				// }
 				// else {
-				// 	// appContext.userType = "Patient"
+				// 	// appContext.auth.userType = "Patient"
 				// 	appContext.initializePersonalInfo(newInfo)
 				// }
 				if ((sessionStorage.getItem("bookingDetails")) && VetOrPatient === "Patient") {

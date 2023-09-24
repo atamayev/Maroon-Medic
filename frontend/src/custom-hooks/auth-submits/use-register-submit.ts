@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom"
 import AuthDataService from "../../services/auth-data-service"
 import handle401AxiosErrorAndSetCustomError from "src/utils/handle-errors/handle-401-axios-error-and-set-custom-error"
 import { useContext } from "react"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 import { isLoginRegisterSuccess } from "src/utils/type-checks"
 
 const useRegisterSubmit = (
@@ -28,13 +28,13 @@ const useRegisterSubmit = (
 			setLoading(true)
 			const response = await AuthDataService.register(registerInformationObject)
 			if (response.status === 200  && isLoginRegisterSuccess(response.data)) {
-				appContext.isAuthenticated = true
+				appContext.auth.isAuthenticated = true
 				if (VetOrPatient === "Vet") {
-					appContext.userType = "Doctor"
+					appContext.auth.userType = "Doctor"
 					localStorage.setItem("UserType", "Doctor")
 				}
 				else {
-					appContext.userType = "Patient"
+					appContext.auth.userType = "Patient"
 					localStorage.setItem("UserType", "Patient")
 				}
 

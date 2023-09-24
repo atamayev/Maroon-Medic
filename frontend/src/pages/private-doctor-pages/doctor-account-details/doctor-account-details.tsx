@@ -14,10 +14,10 @@ import VerificationSection from "./verification-status"
 import PreVetEducationSection from "./pre-vet-education"
 import PersonalInfoLinkSection from "./personalInfoLink"
 import useSetDoctorAccountDetails from "src/custom-hooks/account-details/use-set-doctor-account-details"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 function DoctorAccountDetails() {
-	const { userType } = useContext(AppContext)
+	const appContext = useContext(AppContext)
 
 	const [expandedCategories, setExpandedCategories] = useState<string[]>([])
 
@@ -25,7 +25,7 @@ function DoctorAccountDetails() {
 
 	useSetDoctorAccountDetails(setExpandedCategories, setExpandedPetTypes)
 
-	if (userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
+	if (appContext.auth.userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
 	return (
 		<div>

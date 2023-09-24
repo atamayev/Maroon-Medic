@@ -3,7 +3,7 @@ import { observer } from "mobx-react"
 import { useCallback, useContext } from "react"
 import { useLocation, Link, useNavigate } from "react-router-dom"
 import AuthDataService from "src/services/auth-data-service"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 const useHandleRefresh = () => {
 	const location = useLocation()
@@ -36,7 +36,7 @@ function DropdownItems ({ dropdown } : Props) {
 	}
 
 	if (dropdown === false) return null
-	else if (_.isNull(appContext.userType)) {
+	else if (_.isNull(appContext.auth.userType)) {
 		return (
 			<>
 				<Link to="/vet-register" className={boldedDropdownItemCSS} role="menuitem">Vet Sign up</Link>

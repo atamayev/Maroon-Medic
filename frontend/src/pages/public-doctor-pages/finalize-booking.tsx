@@ -8,11 +8,11 @@ import DoctorPersonalInfo from "src/components/finalize-booking/doctor-personal-
 import CustomPatientMessage from "src/components/finalize-booking/custom-patient-message"
 import FinalizeBookingCardText from "src/components/finalize-booking/finalize-booking-card-text"
 import retrieveFromSessionStorage from "src/utils/retrieve-from-session-storage"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 // eslint-disable-next-line max-lines-per-function
 function FinalizeBookingPage() {
-	const { userType } = useContext(AppContext)
+	const appContext = useContext(AppContext)
 	const [message, setMessage] = useState("")
 	const [isMessageOverLimit, setIsMessageOverLimit] = useState(false)
 	const browserLocation = useLocation()
@@ -52,7 +52,7 @@ function FinalizeBookingPage() {
 		return null
 	}
 
-	if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
+	if (appContext.auth.userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
 	function ConfirmOrRequestBook () {
 		if (appointmentInformation.selectedLocation?.instantBook) return "Confirm"

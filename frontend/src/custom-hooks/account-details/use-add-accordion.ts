@@ -1,12 +1,12 @@
 import _ from "lodash"
 import { useContext } from "react"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 const useAddAccordion = (): () => void => {
-	const { doctorAccountDetails } = useContext(AppContext)
+	const doctorAccountDetails = useContext(AppContext).privateDoctorData?.doctorAccountDetails
 
 	const addAccordion = (): void => {
-		if (_.isNull(doctorAccountDetails)) return
+		if (_.isNil(doctorAccountDetails)) return
 
 		let maxPriority = Math.max(...doctorAccountDetails.addressData.map(address => address.addressPriority))
 		if (maxPriority === -Infinity) maxPriority = 0

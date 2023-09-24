@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { observer } from "mobx-react"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 import SingleSavedSpecialty from "./single-saved-specialty"
 import { useContext } from "react"
 
@@ -12,9 +12,9 @@ interface Props {
 
 function SavedSpecialtyList (props: Props) {
 	const { deleteStatuses, setDeleteStatuses, handleDeleteSpecialty } = props
-	const { doctorAccountDetails } = useContext(AppContext)
+	const doctorAccountDetails = useContext(AppContext).privateDoctorData?.doctorAccountDetails
 
-	if (_.isNull(doctorAccountDetails)) return <p>Loading...</p>
+	if (_.isNil(doctorAccountDetails)) return <p>Loading...</p>
 
 	return (
 		<ul>

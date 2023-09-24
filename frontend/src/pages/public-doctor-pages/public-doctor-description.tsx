@@ -8,7 +8,7 @@ function DescriptionSection() {
 	const doctorID = useRetrieveDoctorIDFromParams()
 	const doctorData = useRetrieveSinglePublicDoctorData(doctorID)
 
-	if (_.isNull(doctorData)) return null
+	if (_.isNil(doctorData)) return null
 	return (
 		<PublicDoctorCard
 			title = "Description"

@@ -10,7 +10,7 @@ import DoctorHeader from "./doctor-header"
 import PersonalInfo from "src/components/doctor-dashboard/personal-info"
 import PastAppointmentsSection from "src/components/doctor-dashboard/past-appointments/past-appointments-section"
 import UpcomingAppointmentsSection from "src/components/doctor-dashboard/upcoming-appointments/upcoming-appointments-section"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 function DoctorDashboard() {
 	const appContext = useContext(AppContext)
@@ -19,29 +19,29 @@ function DoctorDashboard() {
 
 	useEffect(() => {
 		if (
-			_.isNull(appContext.doctorDashboardData) ||
-			_.isEmpty(appContext.doctorDashboardData) ||
-			appContext.userType !== "Doctor"
+			_.isNull(appContext.privateDoctorData.doctorDashboardData) ||
+			_.isEmpty(appContext.privateDoctorData.doctorDashboardData) ||
+			appContext.auth.userType !== "Doctor"
 		) return
 
 		const now = dayjs()
-		const pastDoctorAppointments = appContext.doctorDashboardData.filter(appointment =>
+		const pastDoctorAppointments = appContext.privateDoctorData.doctorDashboardData.filter(appointment =>
 			dayjs(appointment.appointmentDate, "MMMM D, YYYY, h:mm A").isBefore(now)
 		)
-		const upcomingDoctorAppointments = appContext.doctorDashboardData.filter(appointment =>
+		const upcomingDoctorAppointments = appContext.privateDoctorData.doctorDashboardData.filter(appointment =>
 			dayjs(appointment.appointmentDate, "MMMM D, YYYY, h:mm A").isSameOrAfter(now)
 		)
 
 		setPastAppointments(pastDoctorAppointments)
 		setUpcomingAppointments(upcomingDoctorAppointments)
-	}, [appContext.doctorDashboardData])
+	}, [appContext.privateDoctorData.doctorDashboardData])
 
 	useSetDoctorDashboardData()
 
-	if (appContext.userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
+	if (appContext.auth.userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
 	function DashboardData () {
-		if (_.isEmpty(appContext.doctorDashboardData)) return <>No upcoming appointments</>
+		if (_.isEmpty(appContext.privateDoctorData.doctorDashboardData)) return <>No upcoming appointments</>
 		return (
 			<>
 				<UpcomingAppointmentsSection

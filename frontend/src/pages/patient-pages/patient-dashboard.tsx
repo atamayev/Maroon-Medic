@@ -10,7 +10,7 @@ import PatientHeader from "./patient-header"
 import UpcomingAppointmentsSection from "src/components/patient-dashboard/upcoming-appointments/upcoming-appointments-section"
 import PastAppointmentsSection from "src/components/patient-dashboard/past-appointments/past-appointments-section"
 import PersonalInfo from "src/components/patient-dashboard/personal-info"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 function PatientDashboard() {
 	const appContext = useContext(AppContext)
@@ -19,29 +19,29 @@ function PatientDashboard() {
 
 	useEffect(() => {
 		if (
-			_.isNull(appContext.patientDashboardData) ||
-			_.isEmpty(appContext.patientDashboardData) ||
-			appContext.userType !== "Patient"
+			_.isNil(appContext.patientData?.patientDashboardData) ||
+			_.isEmpty(appContext.patientData?.patientDashboardData) ||
+			appContext.auth.userType !== "Patient"
 		) return
 
 		const now = dayjs()
-		const pastPatientAppointments = appContext.patientDashboardData.filter(appointment =>
+		const pastPatientAppointments = appContext.patientData?.patientDashboardData.filter(appointment =>
 			dayjs(appointment.appointmentDate, "MMMM D, YYYY, h:mm A").isBefore(now)
 		)
-		const upcomingPatientAppointments = appContext.patientDashboardData.filter(appointment =>
+		const upcomingPatientAppointments = appContext.patientData?.patientDashboardData.filter(appointment =>
 			dayjs(appointment.appointmentDate, "MMMM D, YYYY, h:mm A").isSameOrAfter(now)
 		)
 
-		setPastAppointments(pastPatientAppointments)
-		setUpcomingAppointments(upcomingPatientAppointments)
-	}, [appContext.patientDashboardData])
+		if (!_.isNil(pastPatientAppointments)) setPastAppointments(pastPatientAppointments)
+		if (!_.isNil(upcomingPatientAppointments)) setUpcomingAppointments(upcomingPatientAppointments)
+	}, [appContext.patientData?.patientDashboardData])
 
 	useSetPatientDashboardData()
 
-	if (appContext.userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
+	if (appContext.auth.userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
 	function DashboardData () {
-		if (_.isEmpty(appContext.patientDashboardData)) return <>No upcoming appointments</>
+		if (_.isEmpty(appContext.patientData?.patientDashboardData)) return <>No upcoming appointments</>
 		return (
 			<>
 				<UpcomingAppointmentsSection upcomingAppointments = {upcomingAppointments} />

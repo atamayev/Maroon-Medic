@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import PrivateDoctorDataService from "../../../../services/private-doctor-data-service"
 import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle-401-axios-error-and-set-message-type"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 type SpecialtyOperationsType = typeof PrivateDoctorDataService.deleteSpecialty |
                                typeof PrivateDoctorDataService.addSpecialty
@@ -13,7 +13,7 @@ export default function useModifyDoctorSpecialties() : (
 	setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void,
 	callback: () => void
 ) => Promise<void> {
-	const { doctorAccountDetails } = useContext(AppContext)
+	const doctorAccountDetails = useContext(AppContext).privateDoctorData?.doctorAccountDetails!
 
 	return async (
 		operation: SpecialtyOperationsType,

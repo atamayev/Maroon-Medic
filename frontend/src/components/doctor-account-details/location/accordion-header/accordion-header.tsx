@@ -4,7 +4,7 @@ import SaveOrUpdateButton from "./save-or-update-button"
 import DeleteLocationButton from "./delete-location-button"
 import AddressTitle from "./address-title"
 import { useContext } from "react"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 import { observer } from "mobx-react"
 
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
 
 function AccordionHeader (props: Props) {
 	const { index, address, setAddressesConfirmation, toggleOpen } = props
-	const { doctorAccountDetails } = useContext(AppContext)
+	const doctorAccountDetails = useContext(AppContext).privateDoctorData?.doctorAccountDetails
 
 	const handleToggleChange = (
 		addressPriority: number,

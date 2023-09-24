@@ -2,12 +2,12 @@ import _ from "lodash"
 import { useContext } from "react"
 import { observer } from "mobx-react"
 import Button from "../../button"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 function UnverifiedVet() {
-	const { doctorAccountDetails } = useContext(AppContext)
+	const doctorAccountDetails = useContext(AppContext).privateDoctorData?.doctorAccountDetails
 
-	if (_.isNull(doctorAccountDetails) || doctorAccountDetails.verified) return null
+	if (_.isNil(doctorAccountDetails) || doctorAccountDetails.verified) return null
 
 	return (
 		<Button

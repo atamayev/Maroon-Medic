@@ -11,15 +11,15 @@ import GenderSection from "src/components/personal-info-inputs/gender-input"
 import DOBSection from "src/components/date-of-birth/dob-section"
 import PatientHeader from "../patient-header"
 import Button from "src/components/button"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 function PatientPersonalInfo() {
-	const { userType } = useContext(AppContext)
-	const { personalInfo, setPersonalInfo } = useSetPersonalInfo(userType, "Patient")
+	const appContext = useContext(AppContext)
+	const { personalInfo, setPersonalInfo } = useSetPersonalInfo(appContext.auth.userType, "Patient")
 	const [personalInfoConfirmation, setPersonalInfoConfirmation] = useConfirmationMessage()
 	const savePersonalInfo = useSavePersonalInfo()
 
-	if (userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
+	if (appContext.auth.userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
 	return (
 		<div>
@@ -29,7 +29,7 @@ function PatientPersonalInfo() {
 					<form
 						onSubmit={(e) => {
 							e.preventDefault()
-							savePersonalInfo(personalInfo, setPersonalInfoConfirmation, userType)
+							savePersonalInfo(personalInfo, setPersonalInfoConfirmation, appContext.auth.userType!)
 						}}
 						className="space-y-4"
 					>

@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
 import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle-401-axios-error-and-set-message-type"
 
@@ -8,7 +8,7 @@ export default function useUpdatePublicAvailability() : (
 	publiclyAvailable: boolean,
 	setPubliclyAvailableConfirmation: (conf: ConfirmationMessage) => void
 ) => Promise<void> {
-	const { doctorAccountDetails } = useContext(AppContext)
+	const doctorAccountDetails = useContext(AppContext).privateDoctorData?.doctorAccountDetails
 
 	return async (
 		value: boolean,

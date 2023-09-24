@@ -1,5 +1,6 @@
+import _ from "lodash"
 import { useState, useEffect, useContext } from "react"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 import useFetchPersonalInfoData from "src/custom-hooks/use-fetch-personal-info-data"
 
 export default function useSetPersonalInfo(
@@ -7,7 +8,7 @@ export default function useSetPersonalInfo(
 	expectedUserType: DoctorOrPatient
 ): {personalInfo: BirthDateInfo, setPersonalInfo: React.Dispatch<React.SetStateAction<BirthDateInfo>>}
 {
-	const appContext = useContext(AppContext)
+	const sharedData = useContext(AppContext).sharedData
 	const [personalInfo, setPersonalInfo] = useState<BirthDateInfo>({
 		firstName: "",
 		lastName: "",
@@ -21,7 +22,9 @@ export default function useSetPersonalInfo(
 		if (userType !== expectedUserType) return
 		const fetchAndSetPersonalInfo: () => Promise<void> = async () => {
 			try {
-				if (appContext.personalInfo) setPersonalInfo(appContext.personalInfo)
+				if (!_.isNull(sharedData) && !_.isNull(sharedData.personalInfo)) {
+					setPersonalInfo(sharedData.personalInfo)
+				}
 				else await useFetchPersonalInfoData(setPersonalInfo, userType)
 			} catch (error) {
 			}

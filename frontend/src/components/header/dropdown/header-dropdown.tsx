@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useContext } from "react"
 import pic from "../../../images/ProfileImage.jpg"
 import useSetHeaderData from "src/custom-hooks/use-set-header-data"
 import DropdownItemsContainer from "./dropdown-items-container"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 interface Props {
 	dropdown?: boolean
@@ -12,7 +12,7 @@ interface Props {
 
 function HeaderDropdown ({ dropdown } : Props) {
 	const location = useLocation()
-	const { headerData } = useContext(AppContext)
+	const headerData = useContext(AppContext).sharedData?.headerData
 	const [isOpen, setIsOpen] = useState(false)
 
 	const dropdownRef = useRef<HTMLDivElement>(null)
@@ -49,7 +49,7 @@ function HeaderDropdown ({ dropdown } : Props) {
 						onClick={() => setIsOpen(!isOpen)}
 					>
 						<span className="max-w-xs truncate">
-							{headerData}
+							{headerData || "Profile"}
 						</span>
 						<img src = {pic} alt="profile" className="ml-2 h-5 w-5" />
 					</button>

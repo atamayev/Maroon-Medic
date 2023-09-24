@@ -1,17 +1,18 @@
+import _ from "lodash"
 import { useMemo, useContext } from "react"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 export default function useGenerateLanguageOptions(): JSX.Element[] {
 	const appContext = useContext(AppContext)
 
 	let languagesList: LanguageItem[] = []
 	let savedLanguages: LanguageItem[] = []
-	if (appContext.userType === "Doctor") {
-		languagesList = appContext.doctorLists?.languages || []
-		savedLanguages = appContext.doctorAccountDetails?.languages || []
-	} else {
-		languagesList = appContext.patientLists?.languages || []
-		savedLanguages = appContext.patientAccountDetails?.languages || []
+	if (appContext.auth.userType === "Doctor" && !_.isNull(appContext.privateDoctorData)) {
+		languagesList = appContext.privateDoctorData.doctorLists?.languages || []
+		savedLanguages = appContext.privateDoctorData.doctorAccountDetails?.languages || []
+	} else if (!_.isNull(appContext.patientData)) {
+		languagesList = appContext.patientData.patientLists?.languages || []
+		savedLanguages = appContext.patientData.patientAccountDetails?.languages || []
 	}
 
 	return useMemo(() => {

@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import PrivateDoctorDataService from "../../../../services/private-doctor-data-service"
 import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle-401-axios-error-and-set-message-type"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 type AddressOperationsType = typeof PrivateDoctorDataService.updateAddressData |
                              typeof PrivateDoctorDataService.addAddressData
@@ -11,7 +11,7 @@ export default function useModifyAddressData() : (
 	address: DoctorAddressData,
 	setAddressesConfirmation: (conf: ConfirmationMessage) => void
 ) => Promise<void> {
-	const { doctorAccountDetails } = useContext(AppContext)
+	const doctorAccountDetails = useContext(AppContext).privateDoctorData?.doctorAccountDetails
 
 	return async (
 		operation: AddressOperationsType,

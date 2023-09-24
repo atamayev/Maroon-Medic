@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import Button from "../button"
 import handlePetChange from "src/helper-functions/public-doctor/booking-page/handle-pet-change"
 import FormGroup from "../form-group"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 interface ChoosePetProps {
 	appointmentInformation: AppointmentInformation
@@ -13,9 +13,9 @@ interface ChoosePetProps {
 
 export default function ChoosePet (props: ChoosePetProps) {
 	const { appointmentInformation, setAppointmentInformation } = props
-	const appContext = useContext(AppContext)
+	const patientPetData = useContext(AppContext).patientData?.patientPetData
 
-	if (_.isEmpty(appContext.patientPetData)) {
+	if (_.isNil(patientPetData) || _.isEmpty(patientPetData)) {
 		return (
 			<div className="col-md-6">
 			You need to add a pet to make an appointment
@@ -31,7 +31,7 @@ export default function ChoosePet (props: ChoosePetProps) {
 		)
 	}
 
-	if (appContext.patientPetData.length === 1) {
+	if (patientPetData.length === 1) {
 		return (
 			<div className="col-md-6">
 				Selected Pet: {appointmentInformation.selectedPet?.name}
@@ -48,7 +48,7 @@ export default function ChoosePet (props: ChoosePetProps) {
 				onChange = {(e) =>
 					handlePetChange(
 						e,
-						appContext.patientPetData,
+						patientPetData,
 						setAppointmentInformation
 					)
 				}
@@ -56,7 +56,7 @@ export default function ChoosePet (props: ChoosePetProps) {
 				required = {true}
 			>
 				<option value = "" disabled>Select...</option>
-				{appContext.patientPetData.map((pet, index) => (
+				{patientPetData.map((pet, index) => (
 					<option key={index} value={pet.petInfoId}>
 						{pet.name}
 					</option>

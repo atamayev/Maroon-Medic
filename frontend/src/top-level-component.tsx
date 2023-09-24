@@ -1,5 +1,5 @@
 import { useMemo } from "react"
-import { AppContext, MaroonContext } from "./contexts/maroon-context"
+import AppContext , { MaroonContext } from "./contexts/maroon-context"
 import cookieCheck from "./utils/cookie-check"
 
 export default function TopLevelComponent ({ children } : { children: React.ReactNode }) {
@@ -7,8 +7,8 @@ export default function TopLevelComponent ({ children } : { children: React.Reac
 	const accessToken = cookieCheck.getCookie("AccessToken")
 	const userType = localStorage.getItem("UserType") as DoctorOrPatientOrNull
 
-	sharedState.isAuthenticated = !!accessToken
-	sharedState.userType = userType
+	sharedState.auth.isAuthenticated = !!accessToken
+	sharedState.auth.userType = userType
 
 	return (
 		<AppContext.Provider value={sharedState}>

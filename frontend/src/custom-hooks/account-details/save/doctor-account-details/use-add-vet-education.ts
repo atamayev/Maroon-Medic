@@ -1,6 +1,6 @@
 import dayjs from "dayjs"
 import { useContext } from "react"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
 import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle-401-axios-error-and-set-message-type"
 
@@ -8,7 +8,7 @@ export default function useAddVetEducation() : (
 	vetGeneralEducationItem: VetEducationItem,
 	setVetEducationConfirmation: (conf: ConfirmationMessage) => void
 ) => Promise<void> {
-	const appContext = useContext(AppContext)
+	const { privateDoctorData } = useContext(AppContext)
 
 	return async (
 		vetGeneralEducationItem: VetEducationItem,
@@ -16,10 +16,10 @@ export default function useAddVetEducation() : (
 	): Promise<void> => {
 		try {
 			const mappedVetGeneralEducationItem: VetEducationData = {
-				schoolId: appContext.doctorLists!.vetSchools.find(
+				schoolId: privateDoctorData.doctorLists!.vetSchools.find(
 					school => school.schoolName === vetGeneralEducationItem.schoolName
 				)!.vetSchoolListId,
-				educationTypeId: appContext.doctorLists!.vetEducationTypes.find(
+				educationTypeId: privateDoctorData.doctorLists!.vetEducationTypes.find(
 					educationType => educationType.educationType === vetGeneralEducationItem.educationType)!.vetEducationTypeId,
 				startDate: dayjs(vetGeneralEducationItem.startDate, "MMMM D, YYYY").format("YYYY-MM-DD"),
 				endDate: dayjs(vetGeneralEducationItem.endDate, "MMMM D, YYYY").format("YYYY-MM-DD")
@@ -27,8 +27,8 @@ export default function useAddVetEducation() : (
 			const response = await PrivateDoctorDataService.addVetEducationData(mappedVetGeneralEducationItem)
 			if (response.status === 200 && typeof response.data === "number") {
 				vetGeneralEducationItem.vetEducationMappingId = response.data
-				const newVetEducation = [...appContext.doctorAccountDetails!.vetEducation, vetGeneralEducationItem]
-				appContext.doctorAccountDetails!.vetEducation = newVetEducation
+				const newVetEducation = [...privateDoctorData.doctorAccountDetails!.vetEducation, vetGeneralEducationItem]
+				privateDoctorData.doctorAccountDetails!.vetEducation = newVetEducation
 				setVetEducationConfirmation({messageType: "saved"})
 			} else {
 				setVetEducationConfirmation({messageType: "problem"})

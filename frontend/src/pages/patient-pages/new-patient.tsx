@@ -1,11 +1,11 @@
 import { useState, useContext } from "react"
 import NewAccountForm from "../../components/new-account-form"
 import useNewUserSubmit from "../../custom-hooks/auth-submits/use-new-user-submit"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 import { observer } from "mobx-react"
 
 function NewPatient () {
-	const { userType } = useContext(AppContext)
+	const appContext = useContext(AppContext)
 	const [newPatientInfo, setNewPatientInfo] = useState<BirthDateInfo>({
 		firstName: "",
 		lastName: "",
@@ -19,7 +19,7 @@ function NewPatient () {
 
 	const { newUserSubmit } = useNewUserSubmit(setError, setLoading, "Patient")
 
-	if (userType !== "Patient") return null
+	if (appContext.auth.userType !== "Patient") return null
 
 	return (
 		<NewAccountForm

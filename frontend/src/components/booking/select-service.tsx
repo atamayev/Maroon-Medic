@@ -10,7 +10,7 @@ function SelectService (props: AppointmentBookingProps) {
 	const doctorID = useRetrieveDoctorIDFromParams()
 	const doctorData = useRetrieveSinglePublicDoctorData(doctorID)
 
-	if (_.isNull(doctorData)) return null
+	if (_.isNil(doctorData)) return null
 	if (_.isNil(appointmentInformation.selectedPet)) return null
 
 	return (

@@ -8,7 +8,7 @@ function EducationSection() {
 	const doctorID = useRetrieveDoctorIDFromParams()
 	const doctorData = useRetrieveSinglePublicDoctorData(doctorID)
 
-	if (_.isNull(doctorData)) return null
+	if (_.isNil(doctorData)) return null
 	if (_.isEmpty(doctorData.doctorPreVetEducation) && _.isEmpty(doctorData.doctorVetEducation)) return null
 
 	return (

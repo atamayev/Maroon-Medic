@@ -16,14 +16,14 @@ import DoctorDoesNotHaveLocations from "src/components/booking/doctor-does-not-h
 import DoctorDoesNotOfferServices from "src/components/booking/doctor-does-not-offer-services"
 import { getDayIndex } from "src/utils/time"
 import NoLocationHasTimes from "src/components/booking/no-location-has-times"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 import useRetrieveDoctorIDFromParams from "src/custom-hooks/public-doctor/use-retrieve-doctor-id-from-params"
 
 // eslint-disable-next-line max-lines-per-function
 function BookingSection() {
 	const doctorID = useRetrieveDoctorIDFromParams()
 	const appContext = useContext(AppContext)
-	const doctorData = appContext.retrieveSinglePublicDoctorData(doctorID)
+	const doctorData = appContext.publicDoctorData?.retrieveSinglePublicDoctorData(doctorID)
 	useSetPetDataForBooking()
 	const [appointmentInformation, setAppointmentInformation] = useState<AppointmentInformation>({
 		selectedPet: null,
@@ -38,13 +38,13 @@ function BookingSection() {
 	const [noAvailableTimesMessage, setNoAvailableTimesMessage] = useState(false)
 
 	useEffect(() => {
-		if (appContext.patientPetData.length === 1) {
+		if (appContext.patientData?.patientPetData.length === 1) {
 			setAppointmentInformation({
 				...appointmentInformation,
-				selectedPet: appContext.patientPetData[0]
+				selectedPet: appContext.patientData.patientPetData[0]
 			})
 		}
-	}, [appContext.patientPetData])
+	}, [appContext.patientData?.patientPetData])
 
 	useEffect(() => {
 		if (appointmentInformation.selectedDay && appointmentInformation.selectedLocation && appointmentInformation.selectedService) {
@@ -74,9 +74,9 @@ function BookingSection() {
 
 	const anyLocationHasTimes = doctorData?.doctorAddressData.some(location => location.times && !_.isEmpty(location.times))
 
-	if (_.isNull(doctorData)) return null
+	if (_.isNil(doctorData)) return null
 
-	if (appContext.userType !== "Patient") return <PatientNotLoggedIn />
+	if (appContext.auth.userType !== "Patient") return <PatientNotLoggedIn />
 	if (!anyLocationHasTimes) return <NoLocationHasTimes />
 	if (_.isEmpty(doctorData.doctorAddressData)) return <DoctorDoesNotHaveLocations />
 	if (_.isEmpty(doctorData.doctorServices)) return <DoctorDoesNotOfferServices />

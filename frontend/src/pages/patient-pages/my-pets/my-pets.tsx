@@ -6,7 +6,7 @@ import useFetchAllPetData from "src/custom-hooks/use-fetch-all-pet-data"
 import PatientHeader from "../patient-header"
 import ShowAddPet from "src/components/my-pets/show-add-pet"
 import SavedPetData from "src/components/my-pets/saved-pet-data/saved-pet-data"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 import NewPet from "./new-pet"
 
 function MyPets() {
@@ -17,7 +17,7 @@ function MyPets() {
 	const [petToDelete, setPetToDelete] = useState<SavedPetItem | null>(null)
 	useFetchAllPetData()
 
-	if (appContext.userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
+	if (appContext.auth.userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
 	return (
 		<>

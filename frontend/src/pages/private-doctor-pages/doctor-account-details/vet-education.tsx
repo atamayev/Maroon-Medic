@@ -11,7 +11,7 @@ import VetEducationTime from "src/components/doctor-account-details/education/ve
 import AddAndSaveVetEducationButton from "src/components/doctor-account-details/education/vet-education/add-and-save-vet-education-button"
 import SavedVetEducationList from "src/components/doctor-account-details/education/vet-education/saved-vet-education-list"
 import AccountDetailsCard from "src/components/account-details-card"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 export default function VetEducationSection () {
 	return (
@@ -23,7 +23,7 @@ export default function VetEducationSection () {
 }
 
 function VetEducation() {
-	const { doctorAccountDetails } = useContext(AppContext)
+	const doctorAccountDetails = useContext(AppContext).privateDoctorData?.doctorAccountDetails
 	const [selectedVetSchool, setSelectedVetSchool] = useState("")
 	const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
 	const [selectedVetEducationType, setSelectedVetEducationType] = useState("")

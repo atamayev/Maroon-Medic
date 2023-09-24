@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import PrivateDoctorDataService from "../../../../services/private-doctor-data-service"
 import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle-401-axios-error-and-set-message-type"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 type ServiceOperationsType = typeof PrivateDoctorDataService.deleteService |
                              typeof PrivateDoctorDataService.updateService |
@@ -14,7 +14,7 @@ type ModifyServicesFunction = (
 ) => Promise<void>
 
 export default function useModifyServicesData() : ModifyServicesFunction {
-	const { doctorAccountDetails } = useContext(AppContext)
+	const doctorAccountDetails = useContext(AppContext).privateDoctorData?.doctorAccountDetails
 
 	return async (
 		operation: ServiceOperationsType,

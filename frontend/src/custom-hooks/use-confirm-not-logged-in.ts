@@ -1,15 +1,15 @@
 import _ from "lodash"
 import { useContext, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 const useConfirmNotLoggedIn = (): void => {
-	const { userType } = useContext(AppContext)
+	const appContext = useContext(AppContext)
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		if (!_.isNil(userType)) navigate("/dashboard")
-	}, [userType])
+		if (!_.isNil(appContext.auth.userType)) navigate("/dashboard")
+	}, [appContext.auth.userType])
 }
 
 export default useConfirmNotLoggedIn

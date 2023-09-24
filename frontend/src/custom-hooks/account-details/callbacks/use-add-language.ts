@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { useCallback, useContext } from "react"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 import useModifyDoctorLanguages from "../save/doctor-account-details-helpers/use-modify-doctor-languages"
 import useModifyPatientLanguages from "../save/patient-account-details/use-modify-patient-languages"
 import PrivatePatientDataService from "src/services/private-patient-data-service"
@@ -19,12 +19,14 @@ const useAddLanguage = (
 		async (e: React.ChangeEvent<HTMLSelectElement>) => {
 			const selectedLanguageId = Number(e.target.value)
 			if (
-				(doctorOrPatient === "Doctor" && _.isNull(appContext.doctorLists)) ||
-				(doctorOrPatient === "Patient" && _.isNull(appContext.patientLists))
+				(doctorOrPatient === "Doctor" && _.isNil(appContext.privateDoctorData?.doctorLists)) ||
+				(doctorOrPatient === "Patient" && _.isNil(appContext.patientData?.patientLists))
 			) return
 
 			if (doctorOrPatient === "Doctor") {
-				const selectedLanguage = appContext.doctorLists!.languages.find((lang) => lang.languageListId === selectedLanguageId)
+				const selectedLanguage = appContext.privateDoctorData!.doctorLists!.languages.find(
+					(lang) => lang.languageListId === selectedLanguageId
+				)
 				if (_.isUndefined(selectedLanguage)) return
 				await modifyDoctorLanguages(
 					PrivateDoctorDataService.addLanguage,
@@ -34,7 +36,9 @@ const useAddLanguage = (
 			}
 
 			else {
-				const selectedLanguage = appContext.patientLists!.languages.find((lang) => lang.languageListId === selectedLanguageId)
+				const selectedLanguage = appContext.patientData?.patientLists!.languages.find(
+					(lang) => lang.languageListId === selectedLanguageId
+				)
 				if (_.isUndefined(selectedLanguage)) return
 				await modifyPatientLanguages(
 					PrivatePatientDataService.addLanguage,

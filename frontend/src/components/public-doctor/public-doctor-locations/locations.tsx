@@ -19,7 +19,7 @@ function Locations() {
 		return <p>Phone: {address.phone}</p>
 	}
 
-	if (_.isNull(doctorData)) return null
+	if (_.isNil(doctorData)) return null
 
 	return (
 		<>

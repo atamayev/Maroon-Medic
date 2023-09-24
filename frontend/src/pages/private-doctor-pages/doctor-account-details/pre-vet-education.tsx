@@ -1,3 +1,4 @@
+import _ from "lodash"
 import { observer } from "mobx-react"
 import { useState, useEffect, useContext } from "react"
 import SavedConfirmationMessage from "../../../components/saved-confirmation-message"
@@ -13,7 +14,7 @@ import PreVetEducationTime from "src/components/doctor-account-details/education
 import AddAndSavePreVetEducationButton
 	from "src/components/doctor-account-details/education/pre-vet-education/add-and-save-pre-vet-education-button"
 import AccountDetailsCard from "src/components/account-details-card"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 export default function PreVetEducationSection() {
 	return (
@@ -26,7 +27,7 @@ export default function PreVetEducationSection() {
 
 // eslint-disable-next-line complexity
 function PreVetEducation() {
-	const appContext = useContext(AppContext)
+	const preVetEducation = useContext(AppContext).privateDoctorData?.doctorAccountDetails?.preVetEducation
 	const [selectedPreVetSchool, setSelectedPreVetSchool] = useState<string>("")
 	const [selectedMajor, setSelectedMajor] = useState<string>("")
 	const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
@@ -43,11 +44,12 @@ function PreVetEducation() {
     timeState.startMonth && timeState.endMonth && timeState.startYear && timeState.endYear)
 
 	useEffect(() => {
+		if (_.isUndefined(preVetEducation)) return
 		const newDeleteStatuses = { ...deleteStatuses }
 
 		for (const preVetEducationMappingId in newDeleteStatuses) {
 			// If the language Id does not exist in the vetEducation list, delete the status
-			if (!appContext.doctorAccountDetails?.preVetEducation.some(
+			if (!preVetEducation.some(
 				(preVetEducationItem) => preVetEducationItem.preVetEducationMappingId === Number(preVetEducationMappingId)
 			)) {
 				delete newDeleteStatuses[preVetEducationMappingId]
@@ -55,7 +57,7 @@ function PreVetEducation() {
 		}
 
 		setDeleteStatuses(newDeleteStatuses)
-	}, [appContext.doctorAccountDetails?.preVetEducation])
+	}, [preVetEducation])
 
 	const handleAddEducation = useAddPreVetEducation(
 		selectedPreVetSchool, setSelectedPreVetSchool,

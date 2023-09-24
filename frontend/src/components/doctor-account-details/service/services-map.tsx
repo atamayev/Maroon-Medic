@@ -3,7 +3,7 @@ import { observer } from "mobx-react"
 import { useEffect, useState, useContext } from "react"
 import ServiceCheckboxAndActionButton from "./service-checkbox-and-action-button"
 import IsSelectedService from "./is-selected-service"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 interface Props {
 	category: string
@@ -14,11 +14,11 @@ interface Props {
 
 function ServicesMap (props: Props) {
 	const { category, services, expandedCategories, setServicesConfirmation } = props
-	const { doctorAccountDetails } = useContext(AppContext)
+	const doctorAccountDetails = useContext(AppContext).privateDoctorData?.doctorAccountDetails
 	const [selectedServices, setSelectedServices] = useState<ServiceItemNullablePrice[]>([])
 
 	useEffect(() => {
-		if (_.isNull(doctorAccountDetails) || _.isEmpty(doctorAccountDetails.services)) return
+		if (_.isNil(doctorAccountDetails) || _.isEmpty(doctorAccountDetails.services)) return
 		setSelectedServices(doctorAccountDetails.services)
 	}, [doctorAccountDetails?.services])
 

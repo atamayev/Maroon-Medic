@@ -11,7 +11,7 @@ function ServicedPets() {
 	const doctorID = useRetrieveDoctorIDFromParams()
 	const doctorData = useRetrieveSinglePublicDoctorData(doctorID)
 
-	if (_.isNull(doctorData)) return null
+	if (_.isNil(doctorData)) return null
 
 	const categories: CategoriesType = _.groupBy(doctorData.servicedPets, "petType")
 

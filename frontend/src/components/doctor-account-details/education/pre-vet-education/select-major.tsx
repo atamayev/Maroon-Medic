@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { observer } from "mobx-react"
 import { useContext } from "react"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 interface Props {
 	selectedPreVetSchool: string
@@ -11,7 +11,7 @@ interface Props {
 
 function SelectMajor (props: Props) {
 	const { selectedPreVetSchool, selectedMajor, setSelectedMajor } = props
-	const { doctorLists } = useContext(AppContext)
+	const doctorLists = useContext(AppContext).privateDoctorData?.doctorLists
 
 	if (!selectedPreVetSchool || _.isNull(doctorLists)) return null
 

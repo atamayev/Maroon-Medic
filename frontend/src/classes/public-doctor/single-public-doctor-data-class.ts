@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx"
 
-export class PublicDoctorDataClass {
+export default class SinglePublicDoctorDataClass {
 	constructor(info: PublicDoctorAccountDetails) {
 		makeAutoObservable(this)
 		Object.assign(this, info)

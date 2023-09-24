@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { AxiosResponse } from "axios"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
 import PrivatePatientDataService from "src/services/private-patient-data-service"
 import handle401AxiosError from "src/utils/handle-errors/handle-401-axios-error"

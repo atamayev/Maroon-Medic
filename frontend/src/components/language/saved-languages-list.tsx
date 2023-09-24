@@ -1,8 +1,8 @@
 import _ from "lodash"
 import { useContext } from "react"
-import SingleSavedLanguage from "./single-saved-language"
-import { AppContext } from "src/contexts/maroon-context"
 import { observer } from "mobx-react"
+import SingleSavedLanguage from "./single-saved-language"
+import AppContext from "src/contexts/maroon-context"
 
 interface SavedLanguageList {
 	deleteStatuses: DeleteStatusesDictionary
@@ -15,11 +15,15 @@ function SavedLanguageList (props: SavedLanguageList) {
 	const appContext = useContext(AppContext)
 	let accountDetails
 
-	if (appContext.userType === "Patient") accountDetails = appContext.patientAccountDetails
-	else if (appContext.userType === "Doctor") accountDetails = appContext.doctorAccountDetails
+	if (appContext.auth.userType === "Patient") {
+		accountDetails = appContext.patientData?.patientAccountDetails
+	}
+	else if (appContext.auth.userType === "Doctor") {
+		accountDetails = appContext.privateDoctorData?.doctorAccountDetails
+	}
 	else return null
 
-	if (_.isNull(accountDetails) || _.isEmpty(accountDetails.languages)) return null
+	if (_.isNil(accountDetails) || _.isEmpty(accountDetails.languages)) return null
 
 	return (
 		<ul>

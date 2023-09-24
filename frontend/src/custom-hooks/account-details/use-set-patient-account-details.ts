@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { useContext, useEffect } from "react"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 import useFetchPatientAccountDetails from "src/custom-hooks/account-details/fetch/use-fetch-patient-account-details"
 import useFetchPatientLists from "src/custom-hooks/account-details/fetch/use-fetch-patient-lists"
 
@@ -23,7 +23,7 @@ export function usePatientAccountDetails(): void {
 	}
 
 	useEffect(() => {
-		if (appContext.userType !== "Patient") return
+		if (appContext.auth.userType !== "Patient") return
 		fetchAndSetAccountDetails()
-	}, [appContext.userType])
+	}, [appContext.auth.userType])
 }

@@ -5,10 +5,10 @@ import SavedConfirmationMessage from "../../saved-confirmation-message"
 import DescriptionInput from "src/components/doctor-account-details/description/description-input"
 import SaveDescriptionButton from "src/components/doctor-account-details/description/save-description-button"
 import DescriptionCharacterLimit from "src/components/doctor-account-details/description/character-limit"
-import { AppContext } from "src/contexts/maroon-context"
+import AppContext from "src/contexts/maroon-context"
 
 function DescriptionContent() {
-	const { doctorAccountDetails } = useContext(AppContext)
+	const doctorAccountDetails = useContext(AppContext).privateDoctorData?.doctorAccountDetails
 	const [description, setDescription] = useState(doctorAccountDetails?.description || "")
 	const [descriptionConfirmation, setDescriptionConfirmation] = useConfirmationMessage()
 
