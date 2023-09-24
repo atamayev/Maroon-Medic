@@ -6,7 +6,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css"
 import UnauthorizedUser from "../../components/unauthorized-user/unauthorized-user"
 import DoctorHeader from "./doctor-header"
 import { AppContext } from "src/contexts/maroon-context"
-import usefetchDoctorCalendarDetails from "src/helper-functions/private-doctor/use-fetch-calendar-details"
+import usefetchDoctorCalendarDetails from "src/custom-hooks/use-fetch-calendar-details"
 
 const localizer = momentLocalizer(moment)
 

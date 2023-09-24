@@ -7,7 +7,7 @@ import DOBSection from "src/components/new-pet/DOB-section"
 import PetTypeSection from "src/components/new-pet/pet-type-section"
 import InsuranceSection from "src/components/new-pet/insurance-section"
 import AddPetButton from "src/components/new-pet/add-pet-button"
-import useAddPet from "src/helper-functions/patient/new-pet/use-add-pet"
+import useAddPet from "src/custom-hooks/my-pets/use-add-pet"
 
 interface AddPetProps {
 	petConfirmation: ConfirmationMessage

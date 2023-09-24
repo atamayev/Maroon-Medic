@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { AppContext } from "src/contexts/maroon-context"
-import PrivatePatientDataService from "../../../services/private-patient-data-service"
+import PrivatePatientDataService from "../../services/private-patient-data-service"
 import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle-401-axios-error-and-set-message-type"
 
 function petDataOperations(petData: PetItemForCreation, responseData: number): SavedPetItem {

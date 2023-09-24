@@ -1,5 +1,5 @@
 import Button from "src/components/button"
-import useAddAccordion from "src/helper-functions/account-details/add/use-add-accordion"
+import useAddAccordion from "src/custom-hooks/account-details/use-add-accordion"
 
 export default function AddNewLocationButton () {
 	const addAccordion = useAddAccordion()
