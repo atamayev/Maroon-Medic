@@ -6,7 +6,9 @@ import { Request, Response } from "express"
 
 export async function returnDoctorPageData (req: Request, res: Response): Promise<Response> {
 	const NVI = Number(req.params.NVI)
-	const doctorId: number = Number(await OperationHandler.executeAsyncAndReturnValue(res, CalendarDB.retrieveDoctorIdFromNVI, NVI))
+	const doctorId = Number(await OperationHandler.executeAsyncAndReturnValue(res, CalendarDB.retrieveDoctorIdFromNVI, NVI))
+	const nonExistentDoctorId = 0
+	if (doctorId === nonExistentDoctorId) return res.status(400).json({ error: "Doctor does not exist" })
 
 	let response: PublicDoctorAccountDetails
 	try {

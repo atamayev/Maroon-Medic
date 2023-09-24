@@ -1,17 +1,18 @@
-import { useContext, useEffect } from "react"
-import { SearchContext } from "../../contexts/search-context"
+import { useEffect, useState } from "react"
 import SearchResults from "./search-results"
+import fetchDoctorHomeList from "src/helper-functions/search"
 
 export default function HomeDoctorsList() {
-	const { items, fetchData, setSearchTerm } = useContext(SearchContext)
+	const [doctorData, setDoctorData] = useState<DoctorData[]>([])
+
+	const retrieveData = async () => {
+		const data = await fetchDoctorHomeList()
+		setDoctorData(data)
+	}
 
 	useEffect(() => {
-		setSearchTerm("")
-		fetchData()
+		retrieveData()
 	}, [])
 
-	// This has no function rn, since there are less than 1000 users. once there are more, only the first 100 will be returned
-	const data = items.slice(0, 1000)
-
-	return <SearchResults data = {data}/>
+	return <SearchResults data = {doctorData}/>
 }

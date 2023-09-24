@@ -3,7 +3,7 @@ import TimeUtils from "../utils/time"
 import CalendarDB from "../db/calendar-db"
 import OperationHandler from "../utils/operation-handler"
 
-export async function makeAppointment(req: Request, res: Response): Promise<void> {
+export async function makeAppointment(req: Request, res: Response): Promise<Response | void> {
 	const appointmentObject = req.body.appointmentObject
 	const patientId = req.patientId
 	const NVI = appointmentObject.NVI
@@ -11,6 +11,9 @@ export async function makeAppointment(req: Request, res: Response): Promise<void
 	const doctorId: number = Number(
 		await OperationHandler.executeAsyncAndReturnValue(res, CalendarDB.retrieveDoctorIdFromNVI, NVI)
 	)
+
+	const nonExistentDoctorId = 0
+	if (doctorId === nonExistentDoctorId) return res.status(400).json({ error: "Doctor does not exist" })
 
 	const mysqlDateTime = TimeUtils.convertAppointmentDateTimeIntoMySQLDate(
 		appointmentObject.appointmentDate,

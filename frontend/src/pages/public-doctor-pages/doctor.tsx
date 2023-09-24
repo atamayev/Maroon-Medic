@@ -20,20 +20,23 @@ function Doctor () {
 	const doctorID = useRetrieveDoctorIDFromParams()
 	const appContext = useContext(AppContext)
 
-	async function FillDoctorData(doctorIDNumber: number) {
+	async function fillDoctorData(doctorIDNumber: number): Promise<void> {
 		const doesDoctorExistInMemory = appContext.doesDoctorExist(doctorIDNumber)
 		if (doesDoctorExistInMemory) return
 		try {
 			const response = await PublicDoctorDataService.getSingleDoctor(doctorIDNumber)
-			appContext.initializeSinglePublicDoctorData(doctorIDNumber, response.data)
+			if (response.status === 200) {
+				console.log(response.data)
+				appContext.initializeSinglePublicDoctorData(doctorIDNumber, response.data as PublicDoctorAccountDetails)
+			}
 		} catch (error) {
 		}
 	}
 
 	useEffect(() => {
 		if (_.isNull(doctorID)) return
-		FillDoctorData(doctorID)
-	}, [])
+		fillDoctorData(doctorID)
+	}, [doctorID])
 
 	return (
 		<>

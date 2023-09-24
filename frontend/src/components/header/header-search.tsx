@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { useLocation } from "react-router-dom"
 import Button from "../button"
 
@@ -30,13 +31,12 @@ const searchDefaultValue = (searchTerm: string, pathname: string) => {
 }
 
 interface Props {
-  search?: boolean
-  searchTerm: string
-  setSearchTerm: (value: string) => void
+	search?: boolean
 }
 
 export default function HeaderSearch (props: Props) {
-	const { search = true, searchTerm, setSearchTerm } = props
+	const { search = true } = props
+	const [searchTerm, setSearchTerm] = useState(sessionStorage.getItem("searchTerm") || "")
 
 	const location = useLocation()
 

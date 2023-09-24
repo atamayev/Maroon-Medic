@@ -1,15 +1,17 @@
+import _ from "lodash"
 import { mysqlTables } from "../utils/table-names-list"
 import { connectDatabase } from "../setup-and-security/connect"
 import { RowDataPacket } from "mysql2"
 import { transformArrayOfObjectsToCamelCase } from "../utils/transform-keys-to-camel-case"
 
 export default new class CalendarDB {
-	async retrieveDoctorIdFromNVI (NVI: number): Promise<number> {
+	async retrieveDoctorIdFromNVI (NVI: number): Promise<number | null> {
 		const sql = `SELECT doctor_id FROM ${mysqlTables.doctor_specific_info} WHERE NVI = ?`
 		const values = [NVI]
 		const connection = await connectDatabase()
-		const [results] = await connection.execute(sql, values)
-		const doctorId = (results as RowDataPacket[])[0].doctor_id
+		const [results] = await connection.execute(sql, values) as RowDataPacket[]
+		if (_.isEmpty(results)) return null
+		const doctorId = (results)[0].doctor_id
 		return doctorId
 	}
 

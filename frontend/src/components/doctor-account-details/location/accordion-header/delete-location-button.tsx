@@ -14,7 +14,7 @@ function DeleteLocationButton (props: Props) {
 	const { address, setAddressesConfirmation } = props
 	const { doctorAccountDetails } = useContext(AppContext)
 
-	const [status, setStatus] = useState("initial" as DeleteStatuses)
+	const [status, setStatus] = useState<DeleteStatuses>(undefined)
 	const deleteAddressData = useDeleteAddressData()
 
 	const handleDeleteAddress = () => {

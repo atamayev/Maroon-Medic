@@ -15,13 +15,14 @@ export default function AddAndSaveVetEducationButton (props: Props) {
 	return (
 		<Button
 			className = "mt-3"
-			colorClass = "bg-green-600"
-			hoverClass = "hover:bg-green-700"
+			colorClass = "bg-green-700"
+			hoverClass = "hover:bg-green-800"
 			title = "Add"
 			onClick = {() => {
 				const selectedEducationObj = handleAddEducation()
 				saveVetEducation(selectedEducationObj as VetEducationItem)
 			}}
+			textColor = "text-white"
 		/>
 	)
 }

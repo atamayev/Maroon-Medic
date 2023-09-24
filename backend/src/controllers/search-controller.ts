@@ -4,7 +4,7 @@ import OperationHandler from "../utils/operation-handler"
 import { Request, Response } from "express"
 
 interface Params {
-  query: string
+	query: string
 }
 
 export async function searchByQuery (req: Request<Params>, res: Response): Promise<Response> {
