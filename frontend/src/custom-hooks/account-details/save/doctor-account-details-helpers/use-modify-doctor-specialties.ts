@@ -13,7 +13,7 @@ export default function useModifyDoctorSpecialties() : (
 	setSpecialtiesConfirmation: (conf: ConfirmationMessage) => void,
 	callback: () => void
 ) => Promise<void> {
-	const doctorAccountDetails = useContext(AppContext).privateDoctorData?.doctorAccountDetails!
+	const doctorAccountDetails = useContext(AppContext).privateDoctorData?.doctorAccountDetails
 
 	return async (
 		operation: SpecialtyOperationsType,
