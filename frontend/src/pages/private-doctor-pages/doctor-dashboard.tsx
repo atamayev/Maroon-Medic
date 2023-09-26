@@ -18,6 +18,7 @@ function DoctorDashboard() {
 	const [upcomingAppointments, setUpcomingAppointments] = useState<DoctorDashboardData[]>([])
 
 	useEffect(() => {
+		if (_.isNull(appContext.privateDoctorData)) return
 		if (
 			_.isNull(appContext.privateDoctorData.doctorDashboardData) ||
 			_.isEmpty(appContext.privateDoctorData.doctorDashboardData) ||
@@ -34,13 +35,14 @@ function DoctorDashboard() {
 
 		setPastAppointments(pastDoctorAppointments)
 		setUpcomingAppointments(upcomingDoctorAppointments)
-	}, [appContext.privateDoctorData.doctorDashboardData])
+	}, [appContext.privateDoctorData?.doctorDashboardData])
 
 	useSetDoctorDashboardData()
 
 	if (appContext.auth.userType !== "Doctor") return <UnauthorizedUser vetOrpatient = {"vet"}/>
 
 	function DashboardData () {
+		if (_.isNull(appContext.privateDoctorData)) return null
 		if (_.isEmpty(appContext.privateDoctorData.doctorDashboardData)) return <>No upcoming appointments</>
 		return (
 			<>

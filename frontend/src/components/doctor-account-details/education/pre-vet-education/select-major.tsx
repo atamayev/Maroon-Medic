@@ -13,7 +13,7 @@ function SelectMajor (props: Props) {
 	const { selectedPreVetSchool, selectedMajor, setSelectedMajor } = props
 	const doctorLists = useContext(AppContext).privateDoctorData?.doctorLists
 
-	if (!selectedPreVetSchool || _.isNull(doctorLists)) return null
+	if (!selectedPreVetSchool || _.isNil(doctorLists)) return null
 
 	return (
 		<>

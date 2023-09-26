@@ -21,7 +21,7 @@ function ServicedPets (props: Props) {
 	const [petTypes, setPetTypes] = useState<PetTypesType>({})
 
 	useEffect(() => {
-		if (_.isNull(doctorLists) || _.isEmpty(doctorLists.pets)) return
+		if (_.isNil(doctorLists) || _.isEmpty(doctorLists.pets)) return
 		setPetTypes(_.groupBy(doctorLists.pets, "petType"))
 	}, [doctorLists])
 

@@ -1,3 +1,4 @@
+import _ from "lodash"
 import { AxiosError } from "axios"
 import { useContext } from "react"
 import AppContext from "src/contexts/maroon-context"
@@ -11,17 +12,19 @@ interface ApproveAppointmentProps {
 
 export default async function useApproveAppointment (props: ApproveAppointmentProps): Promise<void> {
 	const { setStatus, appointmentsId } = props
-	const appContext = useContext(AppContext)
+	const privateDoctorData = useContext(AppContext).privateDoctorData
+
+	if (_.isNull(privateDoctorData)) return
 
 	try {
 		const response = await CalendarDataService.confirmAppointment(appointmentsId)
 		if (response.status === 200) {
 			// Update the doctorConfirmationStatus for the specific appointment
-			const updatedDashboardData = appContext.privateDoctorData.doctorDashboardData!.map(appointment => {
+			const updatedDashboardData = privateDoctorData.doctorDashboardData!.map(appointment => {
 				if (appointment.appointmentsId === appointmentsId) return { ...appointment, doctorConfirmationStatus: true }
 				return appointment
 			})
-			appContext.privateDoctorData.doctorDashboardData = updatedDashboardData
+			privateDoctorData.doctorDashboardData = updatedDashboardData
 			setStatus("approved")
 		} else {
 			setStatus("pending")

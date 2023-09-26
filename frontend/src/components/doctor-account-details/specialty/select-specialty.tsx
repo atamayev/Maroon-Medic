@@ -10,7 +10,8 @@ interface Props {
 
 function SelectSpecialty (props: Props) {
 	const { handleSpecialtyChange, selectedOrganization } = props
-	const { doctorLists, doctorAccountDetails } = useContext(AppContext).privateDoctorData
+	// Might cause an error: if privateDoctorData is null, then doctorLists and doctorAccountDetails will be undefined
+	const { doctorLists, doctorAccountDetails } = useContext(AppContext).privateDoctorData!
 	const [specificSpecialtiesOptions, setSpecificSpecialtiesOptions] = useState<JSX.Element[]>([])
 
 	useEffect(() => {

@@ -14,7 +14,7 @@ interface Props {
 export default function UpdateLocationButton (props: Props) {
 	const { address, setAddressesConfirmation } = props
 
-	const { doctorAccountDetails} = useContext(AppContext)
+	const { doctorAccountDetails} = useContext(AppContext).privateDoctorData!
 
 	const originalAddress = doctorAccountDetails?.addressData.find(
 		(addr: DoctorAddressData) => addr.addressesId === address.addressesId)

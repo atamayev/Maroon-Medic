@@ -1,3 +1,4 @@
+import _ from "lodash"
 import { useEffect, useContext } from "react"
 import AppContext from "src/contexts/maroon-context"
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
@@ -7,9 +8,10 @@ export default function useSetDoctorDashboardData(): void {
 	const appContext = useContext(AppContext)
 
 	const fetchAndSetDashboardData: () => Promise<void> = async () => {
+		if (_.isNull(appContext.privateDoctorData)) return
 		try {
 			const response = await PrivateDoctorDataService.fillDashboard()
-			appContext.initializeDoctorDashboardData(response.data)
+			appContext.privateDoctorData.initializeDoctorDashboardData(response.data)
 		} catch (error: unknown) {
 			handle401AxiosError(error)
 		}

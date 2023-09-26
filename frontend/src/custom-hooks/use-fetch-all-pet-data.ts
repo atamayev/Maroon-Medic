@@ -13,6 +13,7 @@ export default function useFetchAllPetData(): void {
 	const fetchPetData = useFetchPetData()
 
 	const getPetData: () => void = async () => {
+		if (_.isNull(appContext.patientData)) return
 		try {
 			if (_.isNull(appContext.patientData.petTypes)) {
 				await fetchPetTypesList()
@@ -20,7 +21,7 @@ export default function useFetchAllPetData(): void {
 			if (_.isNull(appContext.patientData.insurances)) {
 				await fetchInsurancesList()
 			}
-			if (_.isEmpty(appContext.patientPetData)) {
+			if (_.isEmpty(appContext.patientData.patientPetData)) {
 				await fetchPetData()
 			}
 		} catch (error) {

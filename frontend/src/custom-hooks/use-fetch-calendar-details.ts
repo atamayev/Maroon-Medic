@@ -1,12 +1,14 @@
+import _ from "lodash"
 import { useContext } from "react"
 import AppContext from "src/contexts/maroon-context"
 import CalendarDataService from "../services/calendar-data-service"
 import handle401AxiosError from "src/utils/handle-errors/handle-401-axios-error"
 
 export default function useFetchDoctorCalendarDetails(): () => Promise<void> {
-	const appContext = useContext(AppContext)
+	const privateDoctorData = useContext(AppContext).privateDoctorData
 
 	return async (): Promise<void> => {
+		if (_.isNull(privateDoctorData)) return
 		try {
 			const response = await CalendarDataService.fillCalendarDetails()
 			if (response.status === 200) {
@@ -21,7 +23,7 @@ export default function useFetchDoctorCalendarDetails(): () => Promise<void> {
 						doctorConfirmationStatus: appointment.doctorConfirmationStatus
 					}
 				})
-				appContext.doctorCalendarDetails = events
+				privateDoctorData.doctorCalendarDetails = events
 			}
 		} catch (error: unknown) {
 			handle401AxiosError(error)

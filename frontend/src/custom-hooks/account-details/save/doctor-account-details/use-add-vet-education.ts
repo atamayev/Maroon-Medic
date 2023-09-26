@@ -1,4 +1,5 @@
 import dayjs from "dayjs"
+import _ from "lodash"
 import { useContext } from "react"
 import AppContext from "src/contexts/maroon-context"
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
@@ -14,6 +15,7 @@ export default function useAddVetEducation() : (
 		vetGeneralEducationItem: VetEducationItem,
 		setVetEducationConfirmation: (conf: ConfirmationMessage) => void
 	): Promise<void> => {
+		if (_.isNull(privateDoctorData)) return
 		try {
 			const mappedVetGeneralEducationItem: VetEducationData = {
 				schoolId: privateDoctorData.doctorLists!.vetSchools.find(

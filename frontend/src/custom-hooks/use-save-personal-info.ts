@@ -18,15 +18,16 @@ export default function useSavePersonalInfo () : (
 		userType: DoctorOrPatient
 	): Promise<void> => {
 		const stringifiedPersonalInfoData = personalInfo
+		if (_.isNull(appContext.sharedData)) return
 
 		try {
-			if (!_.isEqual(stringifiedPersonalInfoData, appContext.personalInfo)) {
+			if (!_.isEqual(stringifiedPersonalInfoData, appContext.sharedData.personalInfo)) {
 				let response: AxiosResponse
 				if (userType === "Doctor") response = await PrivateDoctorDataService.savePersonalData(personalInfo)
 				else response = await PrivatePatientDataService.savePersonalData(personalInfo)
 
 				if (response.status === 200) {
-					appContext.initializePersonalInfo(personalInfo)
+					appContext.sharedData.initializePersonalInfo(personalInfo)
 					setPersonalInfoConfirmation({messageType: "saved"})
 				}
 			} else {

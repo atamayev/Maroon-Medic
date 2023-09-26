@@ -21,7 +21,7 @@ function ServiceList (props: Props) {
 	const [categories, setCategories] = useState<CategoriesType>({})
 
 	useEffect(() => {
-		if (_.isNull(doctorLists) || _.isEmpty(doctorLists.pets)) return
+		if (_.isNil(doctorLists) || _.isEmpty(doctorLists.pets)) return
 		setCategories(_.groupBy(doctorLists.servicesAndCategories, "categoryName"))
 	}, [doctorLists])
 

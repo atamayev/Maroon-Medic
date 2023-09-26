@@ -20,7 +20,7 @@ export default function PatientLanguageSection() {
 }
 
 function PatientLanguages() {
-	const { patientAccountDetails } = useContext(AppContext)
+	const { patientAccountDetails } = useContext(AppContext).patientData!
 	const [deleteStatuses, setDeleteStatuses] = useState<DeleteStatusesDictionary>({})
 	const [languagesConfirmation, setLanguagesConfirmation] = useConfirmationMessage()
 

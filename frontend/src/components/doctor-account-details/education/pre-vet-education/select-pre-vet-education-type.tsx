@@ -13,7 +13,7 @@ function SelectPreVetEducationType (props: Props) {
 	const { selectedPreVetEducationType, selectedMajor, setSelectedPreVetEducationType } = props
 	const doctorLists = useContext(AppContext).privateDoctorData?.doctorLists
 
-	if (!selectedMajor || _.isNull(doctorLists)) return null
+	if (!selectedMajor || _.isNil(doctorLists)) return null
 
 	return (
 		<div>

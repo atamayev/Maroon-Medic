@@ -1,3 +1,4 @@
+import _ from "lodash"
 import dayjs from "dayjs"
 import { MaroonContext } from "src/contexts/maroon-context"
 import AuthDataService from "src/services/auth-data-service"
@@ -7,6 +8,7 @@ export default async function fetchLoginHistory(
 	setLoginHistory: React.Dispatch<React.SetStateAction<LoginHistoryItem[]>>,
 	appContext: MaroonContext
 ): Promise<void> {
+	if (_.isNull(appContext.sharedData)) return
 	try {
 		const response = await AuthDataService.fetchLoginHistry()
 		if (Array.isArray(response.data) && response.data.length > 0 && "loginAt" in response.data[0]) {
@@ -15,7 +17,7 @@ export default async function fetchLoginHistory(
 				loginAt: dayjs(item.loginAt).format("MMMM D, YYYY [at] h:mmA")
 			}))
 			setLoginHistory(formattedData)
-			appContext.loginHistory = formattedData
+			appContext.sharedData.loginHistory = formattedData
 		}
 	} catch (error: unknown) {
 		handle401AxiosError(error)

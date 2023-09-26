@@ -1,3 +1,4 @@
+import _ from "lodash"
 import { useContext } from "react"
 import AppContext from "src/contexts/maroon-context"
 import PrivatePatientDataService from "../../services/private-patient-data-service"
@@ -10,10 +11,11 @@ export default function useDeletePet() : (
 	const appContext = useContext(AppContext)
 
 	return async (petInfoId, setPetConfirmation): Promise<void> => {
+		if (_.isNull(appContext.patientData)) return
 		try {
 			const response = await PrivatePatientDataService.deletePetData(petInfoId)
 			if (response.status === 200) {
-				appContext.patientPetData = appContext.patientPetData.filter(item => item.petInfoId !== petInfoId)
+				appContext.patientData.patientPetData = appContext.patientData.patientPetData.filter(item => item.petInfoId !== petInfoId)
 			} else {
 				setPetConfirmation({messageType: "problem"})
 			}

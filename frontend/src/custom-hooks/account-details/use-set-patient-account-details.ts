@@ -10,12 +10,13 @@ export function usePatientAccountDetails(): void {
 	const fetchPatientLists = useFetchPatientLists()
 
 	const fetchAndSetAccountDetails: () => void = async () => {
+		if (_.isNull(appContext.patientData)) return
 		try {
-			if (_.isNull(appContext.patientAccountDetails)) {
+			if (_.isNull(appContext.patientData.patientAccountDetails)) {
 				await fetchPatientAccountDetails()
 			}
 
-			if (_.isNull(appContext.patientLists)) {
+			if (_.isNull(appContext.patientData.patientLists)) {
 				await fetchPatientLists()
 			}
 		} catch (error) {

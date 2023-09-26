@@ -9,7 +9,7 @@ export default async function useFetchPersonalInfoData(
 	setPersonalInfo: React.Dispatch<React.SetStateAction<BirthDateInfo>>,
 	userType: DoctorOrPatient
 ): Promise<void> {
-	const { initializePersonalInfo } = useContext(AppContext)
+	const { initializePersonalInfo } = useContext(AppContext).sharedData!
 
 	try {
 		let response: AxiosResponse
