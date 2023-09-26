@@ -1,5 +1,5 @@
 import { useState } from "react"
-import useRegisterSubmit from "src/custom-hooks/auth-submits/use-register-submit"
+import useRegisterSubmit from "src/custom-hooks/auth/auth-submits/use-register-submit"
 import LoginAndRegistrationForm from "../../components/login-and-registration-form/login-and-registration-form"
 import useConfirmNotLoggedIn from "../../custom-hooks/use-confirm-not-logged-in"
 import { observer } from "mobx-react"

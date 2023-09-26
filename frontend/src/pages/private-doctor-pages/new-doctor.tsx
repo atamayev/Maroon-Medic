@@ -1,7 +1,7 @@
 import { observer } from "mobx-react"
 import { useState, useContext } from "react"
 import NewAccountForm from "../../components/new-account-form"
-import useNewUserSubmit from "../../custom-hooks/auth-submits/use-new-user-submit"
+import useNewUserSubmit from "../../custom-hooks/auth/auth-submits/use-new-user-submit"
 import AppContext from "src/contexts/maroon-context"
 
 function NewDoctor () {

@@ -1,9 +1,9 @@
+import _ from "lodash"
 import { useNavigate } from "react-router-dom"
-import AuthDataService from "../../services/auth-data-service"
+import AuthDataService from "../../../services/auth-data-service"
 import handle401AxiosErrorAndSetCustomError from "src/utils/handle-errors/handle-401-axios-error-and-set-custom-error"
-import { useContext } from "react"
-import AppContext from "src/contexts/maroon-context"
 import { isLoginRegisterSuccess } from "src/utils/type-checks"
+import useSetUserTypeAfterLogin from "src/custom-hooks/auth/set-user-type-after-login"
 
 const useRegisterSubmit = (
 	setError: React.Dispatch<React.SetStateAction<string>>,
@@ -14,7 +14,6 @@ const useRegisterSubmit = (
   passwordConfirm: string) => Promise<void>
 } => {
 	const navigate = useNavigate()
-	const appContext = useContext(AppContext)
 
 	const registerSubmit = async (
 		e: React.FormEvent<HTMLFormElement>,
@@ -28,17 +27,9 @@ const useRegisterSubmit = (
 			setLoading(true)
 			const response = await AuthDataService.register(registerInformationObject)
 			if (response.status === 200  && isLoginRegisterSuccess(response.data)) {
-				appContext.auth.isAuthenticated = true
-				if (VetOrPatient === "Vet") {
-					appContext.auth.userType = "Doctor"
-					localStorage.setItem("UserType", "Doctor")
-				}
-				else {
-					appContext.auth.userType = "Patient"
-					localStorage.setItem("UserType", "Patient")
-				}
+				useSetUserTypeAfterLogin(VetOrPatient)
 
-				navigate(`/new-${VetOrPatient.toLowerCase()}`)
+				navigate(`/new-${_.toLower(VetOrPatient)}`)
 			}
 		} catch (error: unknown) {
 			handle401AxiosErrorAndSetCustomError(error, setError)

@@ -1,3 +1,4 @@
+import _ from "lodash"
 import { Link } from "react-router-dom"
 
 interface Props {
@@ -11,7 +12,7 @@ function ForgotPassword (props: Props) {
 	if (loginOrSignUp !== "Login") return null
 	return (
 		<div className = "w-100 text-center mt-3">
-			<Link to = {`/${VetOrPatient.toLowerCase()}-forgot-password`}>Forgot Password?</Link>
+			<Link to = {`/${_.toLower(VetOrPatient)}-forgot-password`}>Forgot Password?</Link>
 		</div>
 	)
 }

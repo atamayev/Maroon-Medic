@@ -7,7 +7,7 @@ const handleLocationChange = (
 	setNoAvailableTimesMessage: React.Dispatch<React.SetStateAction<boolean>>
 ): void => {
 	const value = event.target.value
-	const selectedLocationObject = addresses.find(location => location.addressesId.toString() === value)
+	const selectedLocationObject = addresses.find(location => _.toString(location.addressesId) === value)
 
 	if (value === "Select...") {
 		setAppointmentInformation(prev => ({

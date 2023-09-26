@@ -9,7 +9,9 @@ const changePassword = async (
 	type: DoctorOrPatient
 ): Promise<void> => {
 	setMessage("")
-	if (changePasswordObject.newPassword !== changePasswordObject.newConfirmPassword) return setMessage("New passwords don't match")
+	if (changePasswordObject.newPassword !== changePasswordObject.newConfirmPassword) {
+		return setMessage("New passwords don't match")
+	}
 	else {
 		try {
 			setLoading(true)
