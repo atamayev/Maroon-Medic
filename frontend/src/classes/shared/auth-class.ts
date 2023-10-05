@@ -1,8 +1,13 @@
 import { makeAutoObservable } from "mobx"
 
 export default class AuthClass {
-	constructor() {
+	constructor(
+		private readonly accessToken: string | null,
+		userType: DoctorOrPatientOrNull
+	) {
 		makeAutoObservable(this)
+		this._isAuthenticated = !!this.accessToken
+		this._userType = userType
 	}
 
 	private _isAuthenticated: boolean = false
@@ -11,7 +16,7 @@ export default class AuthClass {
 
 	public clearAuthData(): void {
 		this.isAuthenticated = false
-		this.userType = null
+		this._userType = null
 		this.newUser = false
 	}
 

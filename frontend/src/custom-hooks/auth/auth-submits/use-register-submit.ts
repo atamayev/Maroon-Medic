@@ -14,6 +14,7 @@ const useRegisterSubmit = (
   passwordConfirm: string) => Promise<void>
 } => {
 	const navigate = useNavigate()
+	const setUserTypeAfterLogin = useSetUserTypeAfterLogin()
 
 	const registerSubmit = async (
 		e: React.FormEvent<HTMLFormElement>,
@@ -27,7 +28,7 @@ const useRegisterSubmit = (
 			setLoading(true)
 			const response = await AuthDataService.register(registerInformationObject)
 			if (response.status === 200  && isLoginRegisterSuccess(response.data)) {
-				useSetUserTypeAfterLogin(VetOrPatient)
+				setUserTypeAfterLogin(VetOrPatient)
 
 				navigate(`/new-${_.toLower(VetOrPatient)}`)
 			}

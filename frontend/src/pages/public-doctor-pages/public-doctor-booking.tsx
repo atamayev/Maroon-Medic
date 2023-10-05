@@ -23,7 +23,7 @@ import useRetrieveDoctorIDFromParams from "src/custom-hooks/public-doctor/use-re
 function BookingSection() {
 	const doctorID = useRetrieveDoctorIDFromParams()
 	const appContext = useContext(AppContext)
-	const doctorData = appContext.publicDoctorData?.retrieveSinglePublicDoctorData(doctorID)
+	const doctorData = appContext.publicDoctorData.retrieveSinglePublicDoctorData(doctorID)
 	useSetPetDataForBooking()
 	const [appointmentInformation, setAppointmentInformation] = useState<AppointmentInformation>({
 		selectedPet: null,

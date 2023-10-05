@@ -6,6 +6,6 @@ import AppContext from "src/contexts/maroon-context"
 export default function useRetrieveSinglePublicDoctorData(doctorID: number | null): PublicDoctorDataClass | null | undefined {
 	const appContext = useContext(AppContext)
 	if (_.isNull(doctorID)) return null
-	const doctorData = appContext.publicDoctorData?.retrieveSinglePublicDoctorData(doctorID)
+	const doctorData = appContext.publicDoctorData.retrieveSinglePublicDoctorData(doctorID)
 	return doctorData
 }

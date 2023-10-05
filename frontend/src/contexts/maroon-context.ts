@@ -5,11 +5,15 @@ import SharedDataClass from "src/classes/shared/shared-data-class"
 import PrivateDoctorDataClass from "src/classes/private-doctor/private-doctor-data-class"
 import PatientDataClass from "src/classes/patient/patient-data-class"
 import PublicDoctorDataClass from "src/classes/public-doctor/public-doctor-data-class"
+import cookieCheck from "src/utils/cookie-check"
 
 export class MaroonContext {
 	constructor() {
 		makeAutoObservable(this)
-		this.auth = new AuthClass()
+		const accessToken = cookieCheck.getCookie("AccessToken")
+		const userType = localStorage.getItem("UserType") as DoctorOrPatientOrNull
+		this.auth = new AuthClass(accessToken, userType)
+		this.publicDoctorData = new PublicDoctorDataClass()
 		this.initializeModules()
 	}
 
@@ -17,7 +21,7 @@ export class MaroonContext {
 	public sharedData: SharedDataClass | null = null
 	public privateDoctorData: PrivateDoctorDataClass | null = null
 	public patientData: PatientDataClass | null = null
-	public publicDoctorData: PublicDoctorDataClass | null = null
+	public publicDoctorData: PublicDoctorDataClass
 
 	private initializeModules(): void {
 		if (this.auth.isAuthenticated) {
@@ -25,7 +29,7 @@ export class MaroonContext {
 
 			if (this.auth.userType === "Doctor") {
 				this.privateDoctorData = new PrivateDoctorDataClass(this.auth)
-			} else {
+			} else if (this.auth.userType === "Patient") {
 				this.patientData = new PatientDataClass(this.auth)
 			}
 		}

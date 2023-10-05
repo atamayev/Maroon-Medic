@@ -11,6 +11,7 @@ const useLoginSubmit = (
 ): {loginSubmit: (e: React.FormEvent<HTMLFormElement>, loginInformationObject: AuthCredentials) => Promise<void>} => {
 
 	const navigate = useNavigate()
+	const setUserTypeAfterLogin = useSetUserTypeAfterLogin()
 
 	const loginSubmit = async (
 		e: React.FormEvent<HTMLFormElement>,
@@ -23,7 +24,7 @@ const useLoginSubmit = (
 		try {
 			const response = await AuthDataService.login(loginInformationObject)
 			if (response.status === 200 && isLoginRegisterSuccess(response.data)) {
-				useSetUserTypeAfterLogin(VetOrPatient)
+				setUserTypeAfterLogin(VetOrPatient)
 
 				if ((sessionStorage.getItem("bookingDetails") !== null) && VetOrPatient === "Patient") {
 					const bookingDetails = JSON.parse(sessionStorage.getItem("bookingDetails") ?? "{}")

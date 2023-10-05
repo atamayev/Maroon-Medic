@@ -21,13 +21,12 @@ function Doctor () {
 	const appContext = useContext(AppContext)
 
 	async function fillDoctorData(doctorIDNumber: number): Promise<void> {
-		const doesDoctorExistInMemory = appContext.publicDoctorData?.doesDoctorExist(doctorIDNumber)
+		const doesDoctorExistInMemory = appContext.publicDoctorData.doesDoctorExist(doctorIDNumber)
 		if (doesDoctorExistInMemory) return
 		try {
 			const response = await PublicDoctorDataService.getSingleDoctor(doctorIDNumber)
 			if (response.status === 200) {
-				console.log(response.data)
-				appContext.publicDoctorData?.initializeSinglePublicDoctorData(doctorIDNumber, response.data as PublicDoctorAccountDetails)
+				appContext.publicDoctorData.initializeSinglePublicDoctorData(doctorIDNumber, response.data as PublicDoctorAccountDetails)
 			}
 		} catch (error) {
 		}
