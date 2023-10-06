@@ -54,5 +54,5 @@ export default async function register (req: Request, res: Response): Promise<Re
 	return res
 		.cookie("AccessToken", token)
 		.status(200)
-		.json({ authenticated: true, userType: loginType })
+		.json({ authenticated: true, userType: loginType, accessToken: token })
 }

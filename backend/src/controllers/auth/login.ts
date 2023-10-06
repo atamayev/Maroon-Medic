@@ -49,5 +49,5 @@ export default async function login (req: Request, res: Response): Promise<Respo
 	return res
 		.cookie("AccessToken", token)
 		.status(200)
-		.json({ authenticated: true, userType: loginType })
+		.json({ authenticated: true, userType: loginType, accessToken: token })
 }

@@ -2,13 +2,10 @@ To-do:
 
 Context tasks:
 	To-do:
-		Make sure sharedState.isAuthenticated = !!accessToken is ok.
-			try putting in a fake cookie token and seeing what happens
-				Crashes the backend
 		See what happens when a previously assigned access token is re-assgined as a cookie
 			Does the doctor get the privileges of the old doctor? Shouldn't happen, if the uuid is unique to the first doctor. 
 	Bugs:
-		Data doesn't load immediately after login. the auth object isn't created immediately after login
+		Creting an invalid AccessToken cookie crashes the site
 		Update address button will never appear because the input change function acts directly on the context.
 			the old and update address will always be the same - the updated is constantly being set as the new
 			after fixing this, try making an appointment

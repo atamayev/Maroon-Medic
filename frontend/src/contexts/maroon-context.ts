@@ -23,7 +23,7 @@ export class MaroonContext {
 	public patientData: PatientDataClass | null = null
 	public publicDoctorData: PublicDoctorDataClass
 
-	private initializeModules(): void {
+	public initializeModules(): void {
 		if (this.auth.isAuthenticated) {
 			this.sharedData = new SharedDataClass()
 

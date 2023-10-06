@@ -24,9 +24,9 @@ const useLoginSubmit = (
 		try {
 			const response = await AuthDataService.login(loginInformationObject)
 			if (response.status === 200 && isLoginRegisterSuccess(response.data)) {
-				setUserTypeAfterLogin(VetOrPatient)
+				setUserTypeAfterLogin(VetOrPatient, response.data.accessToken)
 
-				if ((sessionStorage.getItem("bookingDetails") !== null) && VetOrPatient === "Patient") {
+				if (VetOrPatient === "Patient" && (sessionStorage.getItem("bookingDetails") !== null)) {
 					const bookingDetails = JSON.parse(sessionStorage.getItem("bookingDetails") ?? "{}")
 					navigate("/finalize-booking", { state: bookingDetails })
 				} else {
