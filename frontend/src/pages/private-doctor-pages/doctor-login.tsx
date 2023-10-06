@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { observer } from "mobx-react"
 import useLoginSubmit from "src/custom-hooks/auth/auth-submits/use-login-submit"
-import useConfirmNotLoggedIn from "../../custom-hooks/use-confirm-not-logged-in"
+import useRedirectKnownUser from "../../custom-hooks/redirects/use-redirect-known-user"
 import LoginAndRegistrationForm from "../../components/login-and-registration-form/login-and-registration-form"
 
 function DoctorLogin() {
@@ -17,7 +17,7 @@ function DoctorLogin() {
 	const [showPassword, setShowPassword] = useState(false)
 	const { loginSubmit } = useLoginSubmit(setError, setLoading, VetOrPatient)
 
-	useConfirmNotLoggedIn()
+	useRedirectKnownUser()
 
 	return (
 		<LoginAndRegistrationForm

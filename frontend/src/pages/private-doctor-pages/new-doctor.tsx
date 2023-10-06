@@ -3,6 +3,7 @@ import { useState, useContext } from "react"
 import NewAccountForm from "../../components/new-account-form"
 import useNewUserSubmit from "../../custom-hooks/auth/auth-submits/use-new-user-submit"
 import AppContext from "src/contexts/maroon-context"
+import useRedirectNullUser from "src/custom-hooks/redirects/use-redirect-null-user"
 
 function NewDoctor () {
 	const appContext = useContext(AppContext)
@@ -16,6 +17,8 @@ function NewDoctor () {
 	})
 	const [error, setError] = useState("")
 	const [loading, setLoading] = useState(false)
+
+	useRedirectNullUser("vet")
 
 	const { newUserSubmit } = useNewUserSubmit(setError, setLoading, "Vet")
 

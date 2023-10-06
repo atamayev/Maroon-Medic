@@ -6,9 +6,6 @@ Context tasks:
 			the old and update address will always be the same - the updated is constantly being set as the new
 			after fixing this, try making an appointment
 
-Consider adding a re-direct to the new-vet/new-patient page, if the userType isn't a vet or patient
-	Current just shows blank page
-
 When searching for a doctor that doesn't exist: http://localhost:3000/vet/1000607
 	it should say: doctor does not exist.
 
