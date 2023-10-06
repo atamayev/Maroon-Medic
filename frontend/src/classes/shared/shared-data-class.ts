@@ -8,7 +8,7 @@ export default class SharedDataClass {
 
 	private _personalInfo: PersonalInfoClass | null = null
 	private _headerData: string = "Profile"
-	private _loginHistory: LoginHistoryItem[] = []
+	private _loginHistory: LoginHistoryItem[] | null = null
 
 	public initializePersonalInfo(birthDateInfo: BirthDateInfo): void {
 		this._personalInfo = new PersonalInfoClass(birthDateInfo)
@@ -17,7 +17,7 @@ export default class SharedDataClass {
 	public clearSharedData(): void {
 		this.personalInfo = null
 		this.headerData = "Profile"
-		this.loginHistory = []
+		this.loginHistory = null
 	}
 
 	get personalInfo(): PersonalInfoClass | null {
@@ -36,11 +36,11 @@ export default class SharedDataClass {
 		this._headerData = value
 	}
 
-	get loginHistory(): LoginHistoryItem[] {
+	get loginHistory(): LoginHistoryItem[] | null {
 		return this._loginHistory
 	}
 
-	set loginHistory(value: LoginHistoryItem[]) {
+	set loginHistory(value: LoginHistoryItem[] | null) {
 		this._loginHistory = value
 	}
 }

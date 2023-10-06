@@ -5,7 +5,6 @@ Context tasks:
 		Update address button will never appear because the input change function acts directly on the context.
 			the old and update address will always be the same - the updated is constantly being set as the new
 			after fixing this, try making an appointment
-		Login history doesn't show
 
 Consider adding a re-direct to the new-vet/new-patient page, if the userType isn't a vet or patient
 	Current just shows blank page
