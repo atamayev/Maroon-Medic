@@ -1,19 +1,13 @@
 To-do:
 
-Context Bugs/To-do:
-	To-do:
-		Make sure sharedState.isAuthenticated = !!accessToken is ok.
-			try putting in a fake cookie token and seeing what happens
-				Crashes the backend
-		See what happens when a previously assigned access token is re-assgined as a cookie
-			Does the doctor get the privileges of the old doctor? Shouldn't happen, if the uuid is unique to the first doctor. 
+Context tasks:
 	Bugs:
 		Update address button will never appear because the input change function acts directly on the context.
 			the old and update address will always be the same - the updated is constantly being set as the new
 			after fixing this, try making an appointment
-		check over registration hooks
-		When searching for a doctor that doesn't exist: http://localhost:3000/vet/1000607
-			it should say: doctor does not exist.
+
+When searching for a doctor that doesn't exist: http://localhost:3000/vet/1000607
+	it should say: doctor does not exist.
 
 Maroon --> Mane Transition
 

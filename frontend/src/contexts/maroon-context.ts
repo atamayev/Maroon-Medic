@@ -23,14 +23,14 @@ export class MaroonContext {
 	public patientData: PatientDataClass | null = null
 	public publicDoctorData: PublicDoctorDataClass
 
-	private initializeModules(): void {
+	public initializeModules(): void {
 		if (this.auth.isAuthenticated) {
-			this.sharedData = new SharedDataClass(this.auth)
+			this.sharedData = new SharedDataClass()
 
 			if (this.auth.userType === "Doctor") {
-				this.privateDoctorData = new PrivateDoctorDataClass(this.auth)
+				this.privateDoctorData = new PrivateDoctorDataClass()
 			} else if (this.auth.userType === "Patient") {
-				this.patientData = new PatientDataClass(this.auth)
+				this.patientData = new PatientDataClass()
 			}
 		}
 	}
@@ -40,6 +40,12 @@ export class MaroonContext {
 		sessionStorage.clear()
 	}
 
+	private clearModules(): void {
+		this.sharedData = null
+		this.privateDoctorData = null
+		this.patientData = null
+	}
+
 	public logout(): void {
 		this.clearStorage()
 		this.auth.clearAuthData()
@@ -47,6 +53,7 @@ export class MaroonContext {
 
 		this.privateDoctorData?.clearDoctorData()
 		this.patientData?.clearPatientData()
+		this.clearModules()
 	}
 }
 

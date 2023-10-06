@@ -1,6 +1,6 @@
 interface ResponseData {
-  shouldRedirect: boolean
-  redirectURL: string
+	shouldRedirect: boolean
+	redirectURL: string
 }
 
 const invalidUserAction = (responseData: ResponseData): void => {

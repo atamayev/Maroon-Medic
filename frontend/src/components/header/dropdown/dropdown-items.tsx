@@ -1,4 +1,3 @@
-import _ from "lodash"
 import { observer } from "mobx-react"
 import { useCallback, useContext } from "react"
 import { useLocation, Link, useNavigate } from "react-router-dom"
@@ -16,7 +15,7 @@ const useHandleRefresh = () => {
 }
 
 interface Props {
-  dropdown?: boolean
+	dropdown?: boolean
 }
 
 function DropdownItems ({ dropdown } : Props) {
@@ -36,7 +35,7 @@ function DropdownItems ({ dropdown } : Props) {
 	}
 
 	if (dropdown === false) return null
-	else if (_.isNull(appContext.auth.userType)) {
+	else if (appContext.auth.isAuthenticated === false) {
 		return (
 			<>
 				<Link to="/vet-register" className={boldedDropdownItemCSS} role="menuitem">Vet Sign up</Link>

@@ -1,3 +1,4 @@
+import _ from "lodash"
 import { makeAutoObservable } from "mobx"
 
 export default class AuthClass {
@@ -6,8 +7,15 @@ export default class AuthClass {
 		userType: DoctorOrPatientOrNull
 	) {
 		makeAutoObservable(this)
-		this._isAuthenticated = !!this.accessToken
-		this._userType = userType
+		this.assignAuthData(userType)
+	}
+
+	private assignAuthData(userType: DoctorOrPatientOrNull): void {
+		if (!_.isNull(this.accessToken) && !_.isNull(userType)) {
+			this._isAuthenticated = true
+			this._userType = userType
+			localStorage.setItem("UserType", userType as DoctorOrPatient)
+		}
 	}
 
 	private _isAuthenticated: boolean = false
@@ -34,6 +42,7 @@ export default class AuthClass {
 
 	set userType(value: DoctorOrPatientOrNull) {
 		this._userType = value
+		localStorage.setItem("UserType", value as DoctorOrPatient)
 	}
 
 	get newUser(): boolean {

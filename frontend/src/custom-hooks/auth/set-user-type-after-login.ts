@@ -1,20 +1,19 @@
 import { useContext } from "react"
+import AuthClass from "src/classes/shared/auth-class"
 import AppContext from "src/contexts/maroon-context"
 
-export default function useSetUserTypeAfterLogin (): (VetOrPatient: VetOrPatient) => void {
-	const authContext = useContext(AppContext).auth
+export default function useSetUserTypeAfterLogin (): (VetOrPatient: VetOrPatient, accessToken: string) => void {
+	const appContext = useContext(AppContext)
 
-	const setUserTypeAfterLogin = (VetOrPatient: VetOrPatient): void => {
-		authContext.isAuthenticated = true
-		if (VetOrPatient === "Vet") {
-			authContext.userType = "Doctor"
-			localStorage.setItem("UserType", "Doctor")
-		}
+	const setUserTypeAfterLogin = (VetOrPatient: VetOrPatient, accessToken: string): void => {
+		let userType: DoctorOrPatient
+		if (VetOrPatient === "Vet") userType = "Doctor"
 
-		else {
-			authContext.userType = "Patient"
-			localStorage.setItem("UserType", "Patient")
-		}
+		else userType = "Patient"
+
+		appContext.auth = new AuthClass(accessToken, userType)
+		localStorage.setItem("UserType", userType)
+		appContext.initializeModules()
 	}
 
 	return setUserTypeAfterLogin

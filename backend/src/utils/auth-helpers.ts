@@ -10,16 +10,20 @@ export async function handleLogoutInDB(UUID: string): Promise<void> {
 	}
 }
 
-export function getDecodedUUID(responseType: string, accessToken: string): string {
+export function getDecodedUUID(responseType: string, accessToken: string): string | undefined {
 	let jwtKey
 	if (responseType === "Patient") jwtKey = process.env.PATIENT_JWT_KEY
 	else jwtKey = process.env.DOCTOR_JWT_KEY
+	let payload: JwtPayload | string = ""
 
-	const payload = jwt.verify(accessToken, jwtKey) as JwtPayload
+	try {
+		payload = jwt.verify(accessToken, jwtKey) as JwtPayload
+	} catch (error) {
+	}
 
 	if (typeof payload === "object") {
-		if (responseType === "Doctor") return (payload as JwtPayload).DoctorUUID as string
-		else return (payload as JwtPayload).PatientUUID as string
+		if (responseType === "Doctor") return (payload).DoctorUUID
+		else return (payload).PatientUUID
 	}
 
 	return ""

@@ -49,7 +49,9 @@ function DoctorDashboard() {
 				<UpcomingAppointmentsSection
 					upcomingDoctorAppointments = {upcomingAppointments}
 				/>
-				<PastAppointmentsSection pastAppointments = {pastAppointments}/>
+				<PastAppointmentsSection
+					pastAppointments = {pastAppointments}
+				/>
 			</>
 		)
 	}

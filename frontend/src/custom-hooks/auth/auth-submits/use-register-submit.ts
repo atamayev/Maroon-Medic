@@ -28,7 +28,7 @@ const useRegisterSubmit = (
 			setLoading(true)
 			const response = await AuthDataService.register(registerInformationObject)
 			if (response.status === 200  && isLoginRegisterSuccess(response.data)) {
-				setUserTypeAfterLogin(VetOrPatient)
+				setUserTypeAfterLogin(VetOrPatient, response.data.accessToken)
 
 				navigate(`/new-${_.toLower(VetOrPatient)}`)
 			}

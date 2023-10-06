@@ -27,6 +27,8 @@ export default async function jwtVerify(req: Request, res: Response, next: NextF
 
 	try {
 		const UUID = getDecodedUUID(userType, accessToken)
+		if (_.isUndefined(UUID)) return handleKnownUserTypeUnauthorized()
+
 		const doesRecordExist = await AuthDB.checkIfUUIDExists(UUID)
 
 		if (doesRecordExist) {

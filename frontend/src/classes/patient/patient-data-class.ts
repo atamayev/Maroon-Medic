@@ -1,17 +1,13 @@
-import _ from "lodash"
 import { makeAutoObservable } from "mobx"
-import AuthClass from "../shared/auth-class"
 import PatientDashboardDataClass from "./patient-dashboard-data-class"
 import PatientListsClass from "./patient-lists"
 import PatientAccountDetailsClass from "./patient-account-details-class"
 
 export default class PatientDataClass {
-	constructor(auth: AuthClass) {
+	constructor() {
 		makeAutoObservable(this)
-		this._auth = auth
 	}
 
-	private _auth: AuthClass
 	private _patientDashboardData: PatientDashboardDataClass[] | null = null
 	private _patientAccountDetails: PatientAccountDetailsClass | null = null
 	private _patientLists: PatientListsClass | null = null
@@ -20,21 +16,15 @@ export default class PatientDataClass {
 	private _insurances: InsuranceItem[] | null = null
 
 	public initializePatientDashboardData(dashboardData: PatientDashboardData[]): void {
-		if (this._auth.isAuthenticated && !_.isNull(this._auth.userType)) {
-			this._patientDashboardData = dashboardData.map((data) => new PatientDashboardDataClass(data))
-		}
+		this._patientDashboardData = dashboardData.map((data) => new PatientDashboardDataClass(data))
 	}
 
 	public initializePatientAccountDetails(patientAccountDetails: PatientAccountDetails): void {
-		if (this._auth.isAuthenticated && this._auth.userType === "Patient") {
-			this._patientAccountDetails = new PatientAccountDetailsClass(patientAccountDetails)
-		}
+		this._patientAccountDetails = new PatientAccountDetailsClass(patientAccountDetails)
 	}
 
 	public initializePatientLists(patientLists: PatientListDetails): void {
-		if (this._auth.isAuthenticated && this._auth.userType === "Patient") {
-			this._patientLists = new PatientListsClass(patientLists)
-		}
+		this._patientLists = new PatientListsClass(patientLists)
 	}
 
 	public clearPatientData(): void {

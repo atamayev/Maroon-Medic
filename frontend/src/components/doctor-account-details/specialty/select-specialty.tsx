@@ -11,23 +11,24 @@ interface Props {
 function SelectSpecialty (props: Props) {
 	const { handleSpecialtyChange, selectedOrganization } = props
 	// Might cause an error: if privateDoctorData is null, then doctorLists and doctorAccountDetails will be undefined
-	const { doctorLists, doctorAccountDetails } = useContext(AppContext).privateDoctorData!
+	const privateDoctorData = useContext(AppContext).privateDoctorData
 	const [specificSpecialtiesOptions, setSpecificSpecialtiesOptions] = useState<JSX.Element[]>([])
 
 	useEffect(() => {
 		if (
-			_.isNull(doctorLists) ||
-			_.isEmpty(doctorLists.specialties) ||
-			_.isNull(doctorAccountDetails)
+			_.isNull(privateDoctorData) ||
+			_.isNull(privateDoctorData.doctorLists) ||
+			_.isEmpty(privateDoctorData.doctorLists.specialties) ||
+			_.isNull(privateDoctorData.doctorAccountDetails)
 		) return
 
 		const specialties = selectedOrganization
-			? doctorLists.specialties.filter((item) => item.organizationName === selectedOrganization)
+			? privateDoctorData.doctorLists.specialties.filter((item) => item.organizationName === selectedOrganization)
 			: []
 
 		const newOptions = specialties
 			.filter((specialty) =>
-				!doctorAccountDetails.specialties.find(
+				!privateDoctorData.doctorAccountDetails?.specialties.find(
 					(doctorSpecialty) =>
 						doctorSpecialty.specialtiesListId === specialty.specialtiesListId
 				)
@@ -40,7 +41,7 @@ function SelectSpecialty (props: Props) {
 
 		setSpecificSpecialtiesOptions(newOptions)
 
-	}, [doctorLists, doctorAccountDetails, selectedOrganization])
+	}, [privateDoctorData?.doctorLists, privateDoctorData?.doctorAccountDetails, selectedOrganization])
 
 	if (!selectedOrganization) return null
 
