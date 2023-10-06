@@ -28,9 +28,9 @@ export class MaroonContext {
 			this.sharedData = new SharedDataClass(this.auth)
 
 			if (this.auth.userType === "Doctor") {
-				this.privateDoctorData = new PrivateDoctorDataClass(this.auth)
+				this.privateDoctorData = new PrivateDoctorDataClass()
 			} else if (this.auth.userType === "Patient") {
-				this.patientData = new PatientDataClass(this.auth)
+				this.patientData = new PatientDataClass()
 			}
 		}
 	}
