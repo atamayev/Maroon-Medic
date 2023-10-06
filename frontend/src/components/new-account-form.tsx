@@ -5,11 +5,11 @@ import DOBSection from "./date-of-birth/dob-section"
 import Button from "./button"
 
 interface Props {
-  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void,
-  error: string,
-  newInfo: BirthDateInfo,
-  setNewInfo: (newInfo: BirthDateInfo) => void,
-  loading: boolean
+	handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void,
+	error: string,
+	newInfo: BirthDateInfo,
+	setNewInfo: (newInfo: BirthDateInfo) => void,
+	loading: boolean
 }
 
 export default function NewAccountForm(props: Props) {

@@ -11,7 +11,7 @@ interface FinalizeBookingProps {
 }
 
 function ConfirmOrRequestMessage (selectedLocation: PublicAddressData) {
-	if (selectedLocation.instantBook) return "Confirm"
+	if (selectedLocation.instantBook === true) return "Confirm"
 	return "Request"
 }
 

@@ -12,7 +12,7 @@ function Layout (props: Props) {
 	const { showHeader, children, search, dropdown } = props
 
 	function IsShowHeader () {
-		if (!showHeader) return null
+		if (showHeader === false) return null
 		return <Header search = {search} dropdown = {dropdown} />
 	}
 
