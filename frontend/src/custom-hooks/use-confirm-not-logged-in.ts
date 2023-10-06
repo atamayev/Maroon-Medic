@@ -8,8 +8,10 @@ const useConfirmNotLoggedIn = (): void => {
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		if (!_.isNil(appContext.auth.userType)) navigate("/dashboard")
-	}, [appContext.auth.userType])
+		if (!_.isNil(appContext.auth.userType)) {
+			navigate("/dashboard")
+		}
+	}, [])
 }
 
 export default useConfirmNotLoggedIn

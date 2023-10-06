@@ -28,10 +28,20 @@ export default function useSetHeaderData(): void {
 	}
 
 	useEffect(() => {
-		if (
-			_.isNull(appContext.sharedData) ||
-			appContext.sharedData.headerData !== "Profile"
-		) return
+		if (!_.isNull(appContext.sharedData)) {
+			if (
+				appContext.auth.userType === "Doctor" &&
+				appContext.sharedData.headerData === `Dr. ${appContext.sharedData.personalInfo?.lastName || ""}`
+			) {
+				return
+			}
+			else if (
+				appContext.auth.userType === "Patient" &&
+				appContext.sharedData.headerData === appContext.sharedData.personalInfo?.firstName
+			) {
+				return
+			}
+		}
 		getHeaderData()
 	}, [])
 }

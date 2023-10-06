@@ -14,6 +14,7 @@ function DoctorRegister() {
 	const [loading, setLoading] = useState(false)
 	const [showPassword, setShowPassword] = useState(false)
 	const { registerSubmit } = useRegisterSubmit(setError, setLoading, VetOrPatient)
+
 	useConfirmNotLoggedIn()
 
 	return (

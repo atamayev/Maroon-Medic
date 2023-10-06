@@ -52,14 +52,14 @@ export default function LoginAndRegistrationForm({
 
 	return (
 		<div className = "flex justify-center">
-			<div className = "mt-5 mx-2 bg-white border shadow rounded-lg p-6 w-7/12 mx-auto">
+			<div className = "mt-5 bg-white border shadow rounded-lg p-6 w-7/12 mx-auto">
 				<h1
 					className = "flex justify-center mx-auto mb-4 text-5xl font-extrabold \
 						leading-none tracking-tight text-gray-900"
 				>
 					{VetOrPatient} {loginOrSignUp}
 				</h1>
-				<form onSubmit = {handleSubmit}>
+				<form>
 					<EmailInput
 						credentials = {credentials}
 						setCredentials = {setCredentials}
@@ -92,6 +92,7 @@ export default function LoginAndRegistrationForm({
 						disabled = {loading}
 						title = {loginOrSignUp}
 						textColor = "text-white"
+						onClick = {handleSubmit}
 					/>
 
 				</form>
