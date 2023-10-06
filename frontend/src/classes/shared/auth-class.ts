@@ -34,6 +34,7 @@ export default class AuthClass {
 
 	set userType(value: DoctorOrPatientOrNull) {
 		this._userType = value
+		localStorage.setItem("UserType", value as DoctorOrPatient)
 	}
 
 	get newUser(): boolean {

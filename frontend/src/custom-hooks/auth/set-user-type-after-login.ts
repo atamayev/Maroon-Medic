@@ -6,15 +6,9 @@ export default function useSetUserTypeAfterLogin (): (VetOrPatient: VetOrPatient
 
 	const setUserTypeAfterLogin = (VetOrPatient: VetOrPatient): void => {
 		authContext.isAuthenticated = true
-		if (VetOrPatient === "Vet") {
-			authContext.userType = "Doctor"
-			localStorage.setItem("UserType", "Doctor")
-		}
+		if (VetOrPatient === "Vet") authContext.userType = "Doctor"
 
-		else {
-			authContext.userType = "Patient"
-			localStorage.setItem("UserType", "Patient")
-		}
+		else authContext.userType = "Patient"
 	}
 
 	return setUserTypeAfterLogin

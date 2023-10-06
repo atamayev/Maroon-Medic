@@ -13,14 +13,13 @@ function areAllFieldsValid(petData: PetItemForCreation) {
 	return true
 }
 
-
 const newPetName = (petName: string | null) => {
 	if (!petName) return "Pet"
 	return petName
 }
 
 interface Props {
-  newPetData: PetItemForCreation
+	newPetData: PetItemForCreation
 }
 
 export default function AddPetButton (props: Props) {
@@ -29,11 +28,11 @@ export default function AddPetButton (props: Props) {
 	return (
 		<div>
 			<Button
-				//need to make this button  a 'submit' button
-				colorClass = "bg-green-500"
-				hoverClass = "hover:bg-green-600"
+				colorClass = "bg-green-600"
+				hoverClass = "hover:bg-green-700"
 				title = {`Add ${newPetName(newPetData.name)}`}
 				disabled = {!areAllFieldsValid(newPetData)}
+				textColor = "text-white"
 			/>
 		</div>
 	)
