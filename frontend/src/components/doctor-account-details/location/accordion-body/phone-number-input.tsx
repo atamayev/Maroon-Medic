@@ -10,7 +10,7 @@ export default function PhoneNumberInput ({address, handleInputChange}: Props) {
 		<div className="w-full md:w-1/4 px-2 mb-3">
 			<FormGroup
 				className = "mb-3"
-				label = "Phone Number"
+				label = "Phone Number *"
 				type = "number"
 				placeholder = "Phone Number"
 				value = {address.phone}

@@ -27,8 +27,19 @@ export default function useModifyAddressData() : (
 			if (response.status === 200) {
 
 				if (operation === PrivateDoctorDataService.addAddressData && typeof response.data === "number") {
-					doctorAccountDetails.temporaryAddressData[address.addressPriority - 1].addressesId = response.data
-					doctorAccountDetails.addressData = doctorAccountDetails.temporaryAddressData
+					const indexToUpdate = doctorAccountDetails.temporaryAddressData.findIndex(
+						(addr) => addr.addressPriority === address.addressPriority
+					)
+					// eslint-disable-next-line max-depth
+					if (indexToUpdate !== -1) {
+						const updatedAddress = { ...doctorAccountDetails.temporaryAddressData[indexToUpdate] }
+
+						updatedAddress.addressesId = response.data
+
+						// Re-insert updated object back into the array
+						doctorAccountDetails.temporaryAddressData[indexToUpdate] = updatedAddress
+						doctorAccountDetails.addressData[indexToUpdate] = updatedAddress
+					}
 
 				} else if (operation === PrivateDoctorDataService.updateAddressData) {
 					const newAddressData = doctorAccountDetails.temporaryAddressData.map(

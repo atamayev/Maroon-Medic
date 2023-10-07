@@ -5,7 +5,8 @@ function isAddressValid(address: DoctorAddressData): boolean {
 		address.city &&
 		address.state &&
 		address.zip &&
-		address.country
+		address.country &&
+		address.phone
 	)
 }
 

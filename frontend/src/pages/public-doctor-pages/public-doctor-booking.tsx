@@ -73,11 +73,10 @@ function BookingSection() {
 	}, [appointmentInformation.selectedLocation])
 
 	const anyLocationHasTimes = doctorData?.doctorAddressData.some(location => location.times && !_.isEmpty(location.times))
-
 	if (_.isNil(doctorData)) return null
 
 	if (appContext.auth.userType !== "Patient") return <PatientNotLoggedIn />
-	if (!anyLocationHasTimes) return <NoLocationHasTimes />
+	if (anyLocationHasTimes === false) return <NoLocationHasTimes />
 	if (_.isEmpty(doctorData.doctorAddressData)) return <DoctorDoesNotHaveLocations />
 	if (_.isEmpty(doctorData.doctorServices)) return <DoctorDoesNotOfferServices />
 
