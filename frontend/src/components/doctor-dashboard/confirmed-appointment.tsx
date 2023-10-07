@@ -1,4 +1,4 @@
-import useApproveAppointment from "src/custom-hooks/use-approve-appointment"
+import useApproveAppointment from "src/custom-hooks/private-doctor/use-approve-appointment"
 import Button from "../button"
 
 interface ConfirmedAppointmentProps {

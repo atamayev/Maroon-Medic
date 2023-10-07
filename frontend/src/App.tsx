@@ -1,8 +1,11 @@
 import { Routes, Route } from "react-router-dom"
 import routes from "./routes"
 import Layout from "./layout"
+import useMonitorUserType from "./custom-hooks/use-monitor-user-type"
 
 export default function App() {
+	useMonitorUserType()
+
 	return (
 		<Routes>
 			{routes.map((route, index) => (

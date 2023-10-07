@@ -1,18 +1,8 @@
 import { observer } from "mobx-react"
-import { useCallback, useContext } from "react"
-import { useLocation, Link, useNavigate } from "react-router-dom"
-import AuthDataService from "src/services/auth-data-service"
+import { useContext } from "react"
+import { Link } from "react-router-dom"
 import AppContext from "src/contexts/maroon-context"
-
-const useHandleRefresh = () => {
-	const location = useLocation()
-	const navigate = useNavigate()
-
-	return useCallback(() => {
-		if (location.pathname === "/") navigate(0)
-		else navigate("/")
-	}, [location])
-}
+import useHandleLogout from "src/custom-hooks/auth/use-handle-logout"
 
 interface Props {
 	dropdown?: boolean
@@ -21,18 +11,9 @@ interface Props {
 function DropdownItems ({ dropdown } : Props) {
 	const appContext = useContext(AppContext)
 
-	const handleRefresh = useHandleRefresh()
+	const handleLogout = useHandleLogout()
 	const unboldedDropdownItemCSS = "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 transition-all duration-100"
 	const boldedDropdownItemCSS = "font-bold text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 transition-all duration-100"
-
-	const handleLogout = async () => {
-		try {
-			const response = await AuthDataService.logout()
-			if (response.status === 200) appContext.logout()
-		} catch (error) {
-		}
-		handleRefresh()
-	}
 
 	if (dropdown === false) return null
 	else if (appContext.auth.isAuthenticated === false) {
