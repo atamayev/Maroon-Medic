@@ -11,8 +11,11 @@ export default function WeekDays (props: WeekDaysProps) {
 	const { times, setTimes } = props
 
 	const handleDayToggle = (day: DayOfWeek) => {
-		if (times.some(time => time.dayOfWeek === day)) setTimes(times.filter(time => time.dayOfWeek !== day))
-		else setTimes([...times, { dayOfWeek: day, startTime: "", endTime: "" }])
+		if (times.some(time => time.dayOfWeek === day)) {
+			setTimes(times.filter(time => time.dayOfWeek !== day))
+		} else {
+			setTimes([...times, { dayOfWeek: day, startTime: "", endTime: "" }])
+		}
 	}
 
 	const handleTimeChange = (day: DayOfWeek, timeType: "startTime" | "endTime" | "", newTime: string) => {

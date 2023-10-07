@@ -13,14 +13,14 @@ function MapDataAndWeekDays (props: Props) {
 	const doctorAccountDetails = useContext(AppContext).privateDoctorData?.doctorAccountDetails
 
 	const handleTimesChange = (newTimesFn: React.SetStateAction<DoctorAvailability[]>, addressPriority: number) => {
-		const newAddresses = doctorAccountDetails!.addressData.map(singleAddress => {
+		const newAddresses = doctorAccountDetails!.temporaryAddressData.map(singleAddress => {
 			if (singleAddress.addressPriority === addressPriority) {
 				const newTimes = typeof newTimesFn === "function" ? newTimesFn(singleAddress.times) : newTimesFn
 				return { ...singleAddress, times: newTimes }
 			}
 			return singleAddress
 		})
-		doctorAccountDetails!.addressData = newAddresses
+		doctorAccountDetails!.temporaryAddressData = newAddresses
 	}
 
 	return (

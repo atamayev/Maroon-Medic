@@ -1,7 +1,8 @@
 import _ from "lodash"
+import { useContext } from "react"
+import { observer } from "mobx-react"
 import Button from "src/components/button"
 import { areAllFieldsValid, areAllTimesValid } from "src/utils/all-field-checks"
-import { useContext } from "react"
 import AppContext from "src/contexts/maroon-context"
 import useModifyAddressData from "src/custom-hooks/account-details/save/doctor-account-details-helpers/use-modify-address-data"
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
@@ -11,16 +12,16 @@ interface Props {
 	setAddressesConfirmation: (conf: ConfirmationMessage) => void
 }
 
-export default function UpdateLocationButton (props: Props) {
+function UpdateLocationButton (props: Props) {
 	const { address, setAddressesConfirmation } = props
 
 	const { doctorAccountDetails} = useContext(AppContext).privateDoctorData!
 
+	const modifyAddressData = useModifyAddressData()
+
 	const originalAddress = doctorAccountDetails?.addressData.find(
 		(addr: DoctorAddressData) => addr.addressesId === address.addressesId)
 	const isAddressSame = _.isEqual(originalAddress, address)
-
-	const modifyAddressData = useModifyAddressData()
 
 	if (isAddressSame) return null
 
@@ -43,3 +44,5 @@ export default function UpdateLocationButton (props: Props) {
 		/>
 	)
 }
+
+export default observer(UpdateLocationButton)

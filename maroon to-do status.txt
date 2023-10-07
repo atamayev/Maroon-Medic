@@ -2,18 +2,16 @@ To-do:
 
 Context tasks:
 	Bugs:
-		Update address button will never appear because the input change function acts directly on the context.
-			the old and update address will always be the same - the updated is constantly being set as the new
-			after fixing this, try making an appointment
+		If the local storage userType is changed to something like "Dotor", the pages show that the user is not logged in, but the dropdown still shows dashboard, account details, sign out
 
+Remove the welcome or back function, and any implementations
+Go through making an appointment, make sure everything works
 Maroon --> Mane Transition
 
 Fix the types on the vet education, prevet education in fetch public doctor data db
 	they do not contain the mapping id, and a new type should be created specifically for the public data.
 	go through the other public doctor data types, and see if they just use the private doctor types. make sure the fields match up.
 	fix in front-end as well.
-
-Consider making seperate JWT functions for patient and doctor. This way, userType won't be needed as a header
 
 10. Make the pet emojis/pictures in the patient header be the pets that the user has
 12. Write the logic that makes sure that when making a booking, the vet is able to service the pet that the user has. See below

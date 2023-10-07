@@ -271,13 +271,13 @@ CREATE TABLE addresses(
 
 select * from addresses;
 select * from addresses where is_active;
-SELECT * FROM addresses inner join phone on addresses.addresses_id = phone.address_id WHERE addresses.is_active;
+SELECT * FROM addresses inner join doctor_phone_numbers on addresses.addresses_id = doctor_phone_numbers.address_id WHERE addresses.is_active;
 -- update addresses set is_active = 0 where doctor_id;
 
 CREATE TABLE doctor_phone_numbers(
 	phone_numbers_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	phone VARCHAR(150),
-	phone_type varchar(20), -- cell, office, fax
+	phone_type VARCHAR(20), -- cell, office, fax
 	address_id INT UNSIGNED NOT NULL,
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

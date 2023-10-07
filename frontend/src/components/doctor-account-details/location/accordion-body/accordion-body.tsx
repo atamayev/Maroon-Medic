@@ -15,11 +15,11 @@ function AccordionBody (props: Props) {
 	const doctorAccountDetails = useContext(AppContext).privateDoctorData?.doctorAccountDetails
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, addressPriority: number) => {
-		const newAddresses = doctorAccountDetails!.addressData.map(addressItem => {
+		const newAddresses = doctorAccountDetails!.temporaryAddressData.map(addressItem => {
 			if (addressItem.addressPriority === addressPriority) return { ...addressItem, [event.target.name]: event.target.value }
 			return addressItem
 		})
-		doctorAccountDetails!.addressData = newAddresses
+		doctorAccountDetails!.temporaryAddressData = newAddresses
 	}
 
 	return (

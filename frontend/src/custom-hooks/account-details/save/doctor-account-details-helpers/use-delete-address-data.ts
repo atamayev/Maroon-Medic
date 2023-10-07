@@ -17,11 +17,12 @@ export default function useDeleteAddressData() : (
 			const response = await PrivateDoctorDataService.deleteAddressData(addressId)
 
 			if (response.status === 200) {
-				const newAddressData = doctorAccountDetails!.addressData.filter(
+				const newAddressData = doctorAccountDetails!.temporaryAddressData.filter(
 					(addr: DoctorAddressData) => addr.addressesId !== addressId
 				)
 
 				doctorAccountDetails!.addressData = newAddressData
+				doctorAccountDetails!.temporaryAddressData = newAddressData
 				setAddressesConfirmation({messageType: "saved"})
 			}
 		} catch (error: unknown) {

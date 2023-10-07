@@ -16,4 +16,6 @@ export default class DoctorAccountDetailsClass {
 	servicedPets: ServicedPetItem[] = []
 	verified: boolean = false
 	publiclyAvailable: boolean = false
+
+	temporaryAddressData: DoctorAddressData[] = []
 }

@@ -1,12 +1,13 @@
+import { observer } from "mobx-react"
 import UpdateLocationButton from "./update-location-button"
 import AddLocationButton from "./add-location-button"
 
 interface Props {
-  address: DoctorAddressData
-  setAddressesConfirmation: (conf: ConfirmationMessage) => void
+	address: DoctorAddressData
+	setAddressesConfirmation: (conf: ConfirmationMessage) => void
 }
 
-export default function SaveOrUpdateButton (props: Props) {
+function SaveOrUpdateButton (props: Props) {
 	const { address, setAddressesConfirmation } = props
 	const nonExistantAddressesId = -1
 
@@ -26,3 +27,5 @@ export default function SaveOrUpdateButton (props: Props) {
 		/>
 	)
 }
+
+export default observer(SaveOrUpdateButton)
