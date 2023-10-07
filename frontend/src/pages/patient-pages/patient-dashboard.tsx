@@ -9,7 +9,6 @@ import useSetPatientDashboardData from "src/custom-hooks/patient/use-set-patient
 import PatientHeader from "./patient-header"
 import UpcomingAppointmentsSection from "src/components/patient-dashboard/upcoming-appointments/upcoming-appointments-section"
 import PastAppointmentsSection from "src/components/patient-dashboard/past-appointments/past-appointments-section"
-import PersonalInfo from "src/components/patient-dashboard/personal-info"
 import AppContext from "src/contexts/maroon-context"
 
 function PatientDashboard() {
@@ -53,7 +52,6 @@ function PatientDashboard() {
 	return (
 		<div>
 			<PatientHeader />
-			<PersonalInfo />
 			<DashboardData />
 		</div>
 	)

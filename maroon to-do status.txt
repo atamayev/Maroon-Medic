@@ -1,7 +1,7 @@
 To-do:
 
-Remove the welcome or back function, and any implementations
 Go through making an appointment, make sure everything works
+
 Maroon --> Mane Transition
 
 Fix the types on the vet education, prevet education in fetch public doctor data db
