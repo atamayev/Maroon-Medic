@@ -55,6 +55,8 @@ On the vet dashboard, make the appointments clickable, shows the patients detail
 
 LATER:
 
+-Delete momentjs from front-end. figure out the dayjs conversion problem in the select-time.tsx.
+
 -figure out IP Address situation (for the login and security page). Also see if can figure out what kind of device the user has
 
 Make the "Add Address" Button Finalize a Location, make it within the accordion.

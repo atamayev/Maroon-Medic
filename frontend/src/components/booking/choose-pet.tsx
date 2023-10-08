@@ -20,6 +20,17 @@ function ChoosePet (props: ChoosePetProps) {
 	const patientPetData = appContext.patientData?.patientPetData
 	const doctorData = appContext.publicDoctorData.retrieveSinglePublicDoctorData(doctorID)
 
+	if (_.isNull(doctorData)) return null
+
+	const isServicedByDoctor = (pet: string) => {
+		return doctorData.servicedPets.some(servicedPet => servicedPet.pet === pet)
+	}
+
+	const showPetName = (pet: SavedPetItem) => {
+		if (isServicedByDoctor(pet.pet)) return pet.name
+		return `${pet.name} (Dr. ${doctorData.doctorPersonalInfo.lastName} does not service ${pet.pet}s)`
+	}
+
 	if (_.isNil(patientPetData) || _.isEmpty(patientPetData)) {
 		return (
 			<div className="col-md-6">
@@ -53,21 +64,17 @@ function ChoosePet (props: ChoosePetProps) {
 				required = {true}
 			>
 				<option value = "" disabled>Select...</option>
-				{patientPetData.map((pet, index) => {
-					const isServicedByDoctor = doctorData!.servicedPets.some(servicedPet => servicedPet.pet === pet.pet)
-					return (
-						<option
-							key = {index}
-							value = {pet.petInfoId}
-							disabled = {!isServicedByDoctor}
-						>
-							{isServicedByDoctor ? pet.name : `${pet.name} (Doctor does not service ${pet.pet}s})`}
-						</option>
-					)
-				})}
+				{patientPetData.map((pet, index) => (
+					<option
+						key = {index}
+						value = {pet.petInfoId}
+						disabled = {!isServicedByDoctor(pet.pet)}
+					>
+						{showPetName(pet)}
+					</option>
+				))}
 			</FormGroup>
 		</div>
-
 	)
 }
 
