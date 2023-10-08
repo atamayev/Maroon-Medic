@@ -66,7 +66,7 @@ function BookingSection() {
 		let date = dayjs()
 		while (dates.length < 10) {
 			const dayIndex = date.day() as DayIndeces
-			if (daysOfWeek.includes(dayIndex)) dates.push(date.format("dddd, MMMM Do, YYYY"))
+			if (daysOfWeek.includes(dayIndex)) dates.push(date.format("dddd, MMMM D, YYYY"))
 			date = date.clone().add(1, "days")
 		}
 		setAvailableDates(dates)

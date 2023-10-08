@@ -1,9 +1,9 @@
 import _ from "lodash"
-import Button from "../button"
+import { observer } from "mobx-react"
 import { useNavigate } from "react-router-dom"
+import Button from "../button"
 import useRetrieveSinglePublicDoctorData from "src/custom-hooks/public-doctor/use-retrieve-single-public-doctor-data"
 import useRetrieveDoctorIDFromParams from "src/custom-hooks/public-doctor/use-retrieve-doctor-id-from-params"
-import { observer } from "mobx-react"
 
 interface FinalizeBookingProps {
 	appointmentInformation: AppointmentInformation

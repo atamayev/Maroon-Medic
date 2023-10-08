@@ -1,5 +1,11 @@
 To-do:
 
+-add choose your pet to make an appointment. if the user isn't logged in, show a login/register button in the booking section.
+	the first question should be: choose which pet you would like to take to the vet
+		if the user only has one pet, skip that question, and just set the state to that pet/pettype
+	if the vet doesn't service that specific pet type, then show message: "Dr. __ doesn't service [type of pet]". Have a dummy button that says: "Search for vets near you that service [pet type]"
+	after the appointment is made, should go to a confirmation page after the 'finalize-booking' page, which lists the details in pretty format. from there, have a button: go to dashboard
+
 Go through making an appointment, make sure everything works
 
 Maroon --> Mane Transition
@@ -13,12 +19,6 @@ Fix the types on the vet education, prevet education in fetch public doctor data
 12. Write the logic that makes sure that when making a booking, the vet is able to service the pet that the user has. See below
 
 Make the naming of the types in the front/backend match up better
-
--add choose your pet to make an appointment. if the user isn't logged in, show a login/register button in the booking section.
-	the first question should be: choose which pet you would like to take to the vet
-		if the user only has one vet, skip that question, and just set the state to that pet/pettype
-	if the vet doesn't service that specific pet type, then show message: "Dr. __ doesn't service [type of pet]". Have a dummy button that says: "Search for vets near you that service [pet type]"
-	after the appointment is made, should go to a confirmation page after the 'finalize-booking' page, which lists the details in pretty format. from there, have a button: go to dashboard
 
 -setup postman to make making requests easier.
 	add the Doctor/Patient UUID as a cookie, and hit the endpoint directly
