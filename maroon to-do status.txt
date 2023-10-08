@@ -6,17 +6,14 @@ To-do:
 	if the vet doesn't service that specific pet type, then show message: "Dr. __ doesn't service [type of pet]". Have a dummy button that says: "Search for vets near you that service [pet type]"
 	after the appointment is made, should go to a confirmation page after the 'finalize-booking' page, which lists the details in pretty format. from there, have a button: go to dashboard
 
-Go through making an appointment, make sure everything works
-
-Maroon --> Mane Transition
-
 Fix the types on the vet education, prevet education in fetch public doctor data db
 	they do not contain the mapping id, and a new type should be created specifically for the public data.
 	go through the other public doctor data types, and see if they just use the private doctor types. make sure the fields match up.
 	fix in front-end as well.
 
-10. Make the pet emojis/pictures in the patient header be the pets that the user has
-12. Write the logic that makes sure that when making a booking, the vet is able to service the pet that the user has. See below
+Go through making an appointment, make sure everything works
+
+Maroon --> Mane Transition
 
 Make the naming of the types in the front/backend match up better
 
