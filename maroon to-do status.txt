@@ -1,7 +1,7 @@
 To-do:
 
--Make appointment edits:
-	after the appointment is made, should go to a confirmation page after the 'finalize-booking' page, which lists the details in pretty format. from there, have a button: go to dashboard
+Doctor dashboard edits
+	Each unapproved appointment should be an accordion. when click, should open more details, and have approve/deny appointment options
 
 Fix the types on the vet education, prevet education in fetch public doctor data db
 	they do not contain the mapping id, and a new type should be created specifically for the public data.

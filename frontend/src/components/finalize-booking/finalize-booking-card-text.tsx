@@ -1,8 +1,8 @@
 import moment from "moment"
 
 interface Props {
-	appointmentInformation: AppointmentInformation,
-	serviceMinutes: number,
+	appointmentInformation: AppointmentInformation
+	serviceMinutes: number
 }
 
 export default function FinalizeBookingCardText (props: Props) {
@@ -38,5 +38,4 @@ export default function FinalizeBookingCardText (props: Props) {
 			</div>
 		</div>
 	)
-
 }
