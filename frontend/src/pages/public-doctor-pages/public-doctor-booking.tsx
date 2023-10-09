@@ -38,15 +38,6 @@ function BookingSection() {
 	const [noAvailableTimesMessage, setNoAvailableTimesMessage] = useState(false)
 
 	useEffect(() => {
-		if (appContext.patientData?.patientPetData.length === 1) {
-			setAppointmentInformation({
-				...appointmentInformation,
-				selectedPet: appContext.patientData.patientPetData[0]
-			})
-		}
-	}, [appContext.patientData?.patientPetData])
-
-	useEffect(() => {
 		if (appointmentInformation.selectedDay && appointmentInformation.selectedLocation && appointmentInformation.selectedService) {
 			generateTimeSlots(
 				appointmentInformation.selectedDay,
@@ -59,7 +50,7 @@ function BookingSection() {
 	}, [appointmentInformation.selectedDay, appointmentInformation.selectedLocation, appointmentInformation.selectedService])
 
 	useEffect(() => {
-		if (!appointmentInformation.selectedLocation) return
+		if (_.isNull(appointmentInformation.selectedLocation)) return
 
 		const daysOfWeek = appointmentInformation.selectedLocation.times.map(time => getDayIndex(time.dayOfWeek))
 		const dates = []
@@ -72,7 +63,7 @@ function BookingSection() {
 		setAvailableDates(dates)
 	}, [appointmentInformation.selectedLocation])
 
-	const anyLocationHasTimes = doctorData?.doctorAddressData.some(location => location.times && !_.isEmpty(location.times))
+	const anyLocationHasTimes = doctorData?.doctorAddressData.some(location => !_.isEmpty(location.times))
 	if (_.isNil(doctorData)) return null
 
 	if (appContext.auth.userType !== "Patient") return <PatientNotLoggedIn />

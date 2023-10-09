@@ -38,7 +38,6 @@ export default async function jwtVerify(req: Request, res: Response, next: NextF
 		}
 	} catch (error: unknown) {
 		handleKnownUserTypeUnauthorized()
-		console.log("Error in JWT Verify", error)
 	}
 	handleKnownUserTypeUnauthorized()
 }

@@ -1,20 +1,16 @@
 To-do:
 
--Make appointment edits:
-	if the user only has one pet, make their pet the default choice, dropdown not necessary
-		When doing this, make sure that the vet is able to service that type of pet, before making it the default.
-	if the vet doesn't service a specific pet type that a user has, then show message: "Dr. __ doesn't service [type of pet]". 
-		Have a dummy button that says: "Search for vets near you that service [pet type]"
-	after the appointment is made, should go to a confirmation page after the 'finalize-booking' page, which lists the details in pretty format. from there, have a button: go to dashboard
+Doctor dashboard edits
+	Each unapproved appointment should be an accordion. when click, should open more details, and have approve/deny appointment options
 
 Fix the types on the vet education, prevet education in fetch public doctor data db
 	they do not contain the mapping id, and a new type should be created specifically for the public data.
 	go through the other public doctor data types, and see if they just use the private doctor types. make sure the fields match up.
 	fix in front-end as well.
 
-Maroon --> Mane Transition
-
 Make the naming of the types in the front/backend match up better
+
+Maroon --> Mane Transition
 
 -setup postman to make making requests easier.
 	add the Doctor/Patient UUID as a cookie, and hit the endpoint directly
@@ -29,7 +25,6 @@ On the My-Pets page, make each pet have it's own 'row' card, similar to addersse
 
 -start figuring out only being able to make appointments during available time slots (shouldn't be able to book an appointment while that time slot is booked)
 
--try making an appointment, not requesting (in finalize-booking), going back, and making a different appointmet. does session storage updat?
 -think about how isActive should work - what actually happens when a user deletes their account. should a new user be allowed to make an account with that same email instantaneosly?
 
 make the phone number input in the location.js only accept numbers (Phone input)

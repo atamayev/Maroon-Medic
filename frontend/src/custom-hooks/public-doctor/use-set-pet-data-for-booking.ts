@@ -9,11 +9,9 @@ export default function useSetPetDataForBooking(): void {
 
 	const fetchAndSetPetData: () => void = async () => {
 		if (_.isNull(appContext.patientData)) return
-		try {
-			if (_.isEmpty(appContext.patientData.patientPetData)) {
-				await fetchPetData()
-			}
-		} catch (error) {
+
+		if (_.isEmpty(appContext.patientData.patientPetData)) {
+			await fetchPetData()
 		}
 	}
 

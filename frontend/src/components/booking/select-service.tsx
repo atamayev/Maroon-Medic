@@ -1,8 +1,8 @@
 import _ from "lodash"
+import { observer } from "mobx-react"
 import FormGroup from "../form-group"
 import handleServiceChange from "src/helper-functions/public-doctor/booking-page/handle-service-change"
 import useRetrieveSinglePublicDoctorData from "src/custom-hooks/public-doctor/use-retrieve-single-public-doctor-data"
-import { observer } from "mobx-react"
 import useRetrieveDoctorIDFromParams from "src/custom-hooks/public-doctor/use-retrieve-doctor-id-from-params"
 
 function SelectService (props: AppointmentBookingProps) {

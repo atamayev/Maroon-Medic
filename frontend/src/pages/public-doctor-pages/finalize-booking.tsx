@@ -3,18 +3,20 @@ import { useContext, useEffect, useState } from "react"
 import Button from "src/components/button"
 import { useNavigate, useLocation } from "react-router-dom"
 import UnauthorizedUser from "../../components/unauthorized-user/unauthorized-user"
-import useConfirmBooking from "../../custom-hooks/public-doctor/use-confirm-booking"
+import confirmBooking from "../../helper-functions/public-doctor/booking-page/confirm-booking"
 import DoctorPersonalInfo from "src/components/finalize-booking/doctor-personal-info"
 import CustomPatientMessage from "src/components/finalize-booking/custom-patient-message"
 import FinalizeBookingCardText from "src/components/finalize-booking/finalize-booking-card-text"
 import retrieveFromSessionStorage from "src/utils/retrieve-from-session-storage"
 import AppContext from "src/contexts/maroon-context"
 import ConfirmOrRequestBook from "src/components/booking/confirm-or-request-book"
+import ConfirmedBookingModal from "src/components/finalize-booking/confirmed-booking-modal"
 
 function FinalizeBookingPage() {
 	const appContext = useContext(AppContext)
 	const [message, setMessage] = useState("")
 	const [isMessageOverLimit, setIsMessageOverLimit] = useState(false)
+	const [showModal, setShowModal] = useState(false)
 	const browserLocation = useLocation()
 	const navigate = useNavigate()
 
@@ -55,19 +57,19 @@ function FinalizeBookingPage() {
 	if (appContext.auth.userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
 	function ConfirmBookingButton () {
-		const confirmBooking = useConfirmBooking()
 		return (
 			<Button
 				colorClass = "bg-green-600"
 				hoverClass = "hover:bg-green-700"
 				title = {ConfirmOrRequestBook(appointmentInformation)}
 				onClick = {() => {
-					confirmBooking({
+					confirmBooking(
 						appointmentInformation,
 						serviceMinutes,
 						personalData,
-						message
-					})
+						message,
+						setShowModal
+					)
 				}}
 				textColor = "text-white"
 			/>
@@ -95,6 +97,12 @@ function FinalizeBookingPage() {
 						personalData={personalData}
 					/>
 					<ConfirmBookingButton />
+					<ConfirmedBookingModal
+						appointmentInformation={appointmentInformation}
+						serviceMinutes={serviceMinutes}
+						message={message}
+						showModal = {showModal}
+					/>
 				</div>
 			</div>
 		</div>

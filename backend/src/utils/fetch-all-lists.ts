@@ -20,7 +20,6 @@ export default new class FetchAll {
 			redisClient.set(tableName, JSON.stringify(camelCasedResults)).catch(error => console.error(error))
 			return camelCasedResults
 		} catch (error: unknown) {
-			console.log(error)
 			return []
 		}
 	}
