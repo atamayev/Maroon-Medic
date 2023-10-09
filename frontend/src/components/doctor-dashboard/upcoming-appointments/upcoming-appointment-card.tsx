@@ -19,7 +19,7 @@ export default function UpcomingAppointmentCard (props: Props) {
 	const [status, setStatus] = useState<AppointmentStatus>(returnDoctorConfirmationStatus(appointment))
 
 	return (
-		<div className="mb-3 relative border border-brown-400 bg-yellow-100 rounded" style={{ margin: "0 10px" }}>
+		<div className="my-3 relative border border-brown-400 bg-yellow-100 rounded" style={{ margin: "10px" }}>
 			<div className="p-4">
 				<h1 className="text-brown-800 text-lg">
 					Appointment with {appointment.patientFirstName} {appointment.patientLastName} on {appointment.appointmentDate}

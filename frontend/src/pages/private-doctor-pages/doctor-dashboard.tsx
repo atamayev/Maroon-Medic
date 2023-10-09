@@ -45,12 +45,8 @@ function DoctorDashboard() {
 		if (_.isEmpty(appContext.privateDoctorData.doctorDashboardData)) return <>No upcoming appointments</>
 		return (
 			<>
-				<UpcomingAppointmentsSection
-					upcomingDoctorAppointments = {upcomingAppointments}
-				/>
-				<PastAppointmentsSection
-					pastAppointments = {pastAppointments}
-				/>
+				<UpcomingAppointmentsSection upcomingDoctorAppointments = {upcomingAppointments} />
+				<PastAppointmentsSection pastAppointments = {pastAppointments} />
 			</>
 		)
 	}

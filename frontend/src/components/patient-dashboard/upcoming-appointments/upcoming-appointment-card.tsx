@@ -1,7 +1,13 @@
 import AppointmentConfirmationStatus from "../appointment-confirmation-status"
 import MessageSection from "../message-section"
 
-export default function UpcomingAppointmentCard ({ appointment }: { appointment: PatientDashboardData }) {
+interface Props {
+	appointment: PatientDashboardData
+}
+
+export default function UpcomingAppointmentCard (props: Props) {
+	const { appointment } = props
+
 	return (
 		<div className="mb-3 bg-yellow-100 border border-brown-400 rounded" style={{ margin: "0 10px", position: "relative" }}>
 			<div className="p-4">

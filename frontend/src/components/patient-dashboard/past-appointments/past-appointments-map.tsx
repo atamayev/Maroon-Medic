@@ -1,17 +1,16 @@
 import _ from "lodash"
 import PastAppointmentCard from "./past-appointment-card"
-import { sortDoctorAppointmentsByDate } from "src/utils/sort-appointments-by-date"
+import { sortPatientAppointmentsByDate } from "src/utils/sort-appointments-by-date"
 
 interface Props {
-	pastDoctorAppointments: DoctorDashboardData[]
+	pastPatientAppointments: PatientDashboardData[]
 }
 
 export default function PastAppointmentsMap (props: Props) {
-	const { pastDoctorAppointments } = props
+	const { pastPatientAppointments } = props
+	if (_.isEmpty(pastPatientAppointments)) return <>No past appointments</>
 
-	if (_.isEmpty(pastDoctorAppointments)) return <>No past appointments</>
-
-	const sortedPastAppointments = sortDoctorAppointmentsByDate(pastDoctorAppointments)
+	const sortedPastAppointments = sortPatientAppointmentsByDate(pastPatientAppointments)
 
 	return (
 		<>
