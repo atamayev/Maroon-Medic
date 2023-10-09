@@ -14,7 +14,7 @@ export default function PendingAppointment (props: Props) {
 			colorClass = "bg-amber-600"
 			hoverClass = "hover:bg-amber-700"
 			onClick = {() => {setStatus("confirming")}}
-			title = "Pending approval"
+			title = "Approve Appointment"
 			textColor = "text-white"
 		/>
 	)

@@ -13,7 +13,7 @@ export default function ConfirmedAppointment (props: ConfirmedAppointmentProps) 
 
 	if (status !== "confirming") return null
 	return (
-		<span style={{ display: "block" }}>
+		<>
 			<Button
 				colorClass = "bg-green-600"
 				hoverClass = "hover:bg-green-700"
@@ -22,17 +22,17 @@ export default function ConfirmedAppointment (props: ConfirmedAppointmentProps) 
 						setStatus,
 						appointment.appointmentsId
 					)}
-				title = "Approve Appointment"
+				title = "Confirm Appointment Approval"
 				textColor = "text-white"
 			/>
 			<Button
 				colorClass="bg-red-600"
 				hoverClass="hover:bg-red-700"
 				onClick = {() => setStatus("pending")}
-				title = "X"
+				title = "Nevermind"
 				textColor = "text-white"
 				className = "mx-2"
 			/>
-		</span>
+		</>
 	)
 }

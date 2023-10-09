@@ -1,9 +1,9 @@
 To-do:
 
 Doctor dashboard edits
-	Each unapproved appointment should be an accordion. when click, should open more details, and have approve/deny appointment options
-	Order the appointments by their date.
+	Make past appointments accordions
 	Make a filter to filter approved or unapproved appointments 
+	Make it an ability for a doctor to deny an appointment. Might need to transfer from binary approval to 
 
 Fix the types on the vet education, prevet education in fetch public doctor data db
 	they do not contain the mapping id, and a new type should be created specifically for the public data.

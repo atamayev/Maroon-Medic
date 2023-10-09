@@ -7,9 +7,9 @@ export default function MessageSection (props: Props) {
 
 	if (!appointment.patientMessage) return null
 	return (
-		<span style={{ display: "block" }}>
+		<div>
 			Patient Message:
 			{" " + appointment.patientMessage}
-		</span>
+		</div>
 	)
 }
