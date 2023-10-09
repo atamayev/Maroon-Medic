@@ -1,14 +1,12 @@
 import { observer } from "mobx-react"
-import AppointmentApprovalStatus from "../appointment-approval-status.sx"
 
 interface Props {
 	appointment: DoctorDashboardData
 	toggleOpen: () => void
-	status: AppointmentStatus
 }
 
-function UpcomingAppointmentCardHeader (props: Props) {
-	const { appointment, toggleOpen, status} = props
+function PastAppointmentCardHeader (props: Props) {
+	const { appointment, toggleOpen} = props
 
 	return (
 		<div
@@ -19,12 +17,9 @@ function UpcomingAppointmentCardHeader (props: Props) {
 				<h1 className="text-brown-800 text-lg">
 					Appointment with {appointment.patientFirstName} {appointment.patientLastName} on {appointment.appointmentDate}
 				</h1>
-				<div>
-					<AppointmentApprovalStatus status={status} />
-				</div>
 			</div>
 		</div>
 	)
 }
 
-export default observer(UpcomingAppointmentCardHeader)
+export default observer(PastAppointmentCardHeader)

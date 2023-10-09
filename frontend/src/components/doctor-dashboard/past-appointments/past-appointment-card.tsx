@@ -1,16 +1,26 @@
+import { useState } from "react"
+import PastAppointmentCardHeader from "./past-appointment-card-header"
+import PastAppointmentCardBody from "./past-appointment-card-body"
+
 interface Props {
 	appointment: DoctorDashboardData
 }
 
 export default function PastAppointmentCard (props: Props) {
 	const { appointment } = props
+	const [isOpen, setIsOpen] = useState(false)
 
 	return (
 		<div className="my-3 relative" style={{ margin: "10px" }}>
 			<div className="p-4 border border-brown-400 bg-yellow-100 rounded">
-				<h1 className="text-brown-800 text-lg">
-					Appointment with {appointment.patientFirstName} {appointment.patientLastName} on {appointment.appointmentDate}
-				</h1>
+				<PastAppointmentCardHeader
+					appointment={appointment}
+					toggleOpen={() => setIsOpen(!isOpen)}
+				/>
+				<PastAppointmentCardBody
+					isOpen={isOpen}
+					appointment={appointment}
+				/>
 			</div>
 		</div>
 	)

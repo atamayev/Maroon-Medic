@@ -1,6 +1,7 @@
 import { observer } from "mobx-react"
 import PendingAppointment from "../pending-appointment"
 import ConfirmedAppointment from "../confirmed-appointment"
+import MessageSection from "../message-section"
 
 interface Props {
 	isOpen: boolean
@@ -14,6 +15,8 @@ function UpcomingAppointmentCardBody (props: Props) {
 
 	return (
 		<div className={`transition-all duration-300 ease-in-out ${isOpen ? "max-h-screen" : "max-h-0"} overflow-hidden`}>
+			<MessageSection appointment={appointment} />
+
 			<PendingAppointment
 				status={status}
 				setStatus={setStatus}
