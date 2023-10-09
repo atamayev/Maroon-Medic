@@ -12,9 +12,9 @@ Fix the types on the vet education, prevet education in fetch public doctor data
 	go through the other public doctor data types, and see if they just use the private doctor types. make sure the fields match up.
 	fix in front-end as well.
 
-Maroon --> Mane Transition
-
 Make the naming of the types in the front/backend match up better
+
+Maroon --> Mane Transition
 
 -setup postman to make making requests easier.
 	add the Doctor/Patient UUID as a cookie, and hit the endpoint directly
@@ -29,7 +29,6 @@ On the My-Pets page, make each pet have it's own 'row' card, similar to addersse
 
 -start figuring out only being able to make appointments during available time slots (shouldn't be able to book an appointment while that time slot is booked)
 
--try making an appointment, not requesting (in finalize-booking), going back, and making a different appointmet. does session storage updat?
 -think about how isActive should work - what actually happens when a user deletes their account. should a new user be allowed to make an account with that same email instantaneosly?
 
 make the phone number input in the location.js only accept numbers (Phone input)
