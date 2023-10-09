@@ -1,10 +1,6 @@
 To-do:
 
 -Make appointment edits:
-	if the user only has one pet, make their pet the default choice, dropdown not necessary
-		When doing this, make sure that the vet is able to service that type of pet, before making it the default.
-	if the vet doesn't service a specific pet type that a user has, then show message: "Dr. __ doesn't service [type of pet]". 
-		Have a dummy button that says: "Search for vets near you that service [pet type]"
 	after the appointment is made, should go to a confirmation page after the 'finalize-booking' page, which lists the details in pretty format. from there, have a button: go to dashboard
 
 Fix the types on the vet education, prevet education in fetch public doctor data db
