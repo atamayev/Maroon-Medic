@@ -1,18 +1,14 @@
 import _ from "lodash"
-import Button from "../button"
+import { observer } from "mobx-react"
 import { useNavigate } from "react-router-dom"
+import Button from "../button"
 import useRetrieveSinglePublicDoctorData from "src/custom-hooks/public-doctor/use-retrieve-single-public-doctor-data"
 import useRetrieveDoctorIDFromParams from "src/custom-hooks/public-doctor/use-retrieve-doctor-id-from-params"
-import { observer } from "mobx-react"
+import ConfirmOrRequestBook from "./confirm-or-request-book"
 
 interface FinalizeBookingProps {
 	appointmentInformation: AppointmentInformation
 	serviceMinutes: number
-}
-
-function ConfirmOrRequestMessage (selectedLocation: PublicAddressData) {
-	if (selectedLocation.instantBook === true) return "Confirm"
-	return "Request"
 }
 
 function FinalizeBookingButton (props: FinalizeBookingProps) {
@@ -31,15 +27,17 @@ function FinalizeBookingButton (props: FinalizeBookingProps) {
 			personalData: doctorData.doctorPersonalInfo,
 		}
 
-		sessionStorage.setItem("bookingDetails", JSON.stringify(bookingDetails))
-		navigate("/finalize-booking", { state: bookingDetails })
+		const stringifiedBookingDetails = JSON.stringify(bookingDetails)
+
+		sessionStorage.setItem("bookingDetails", stringifiedBookingDetails)
+		navigate("/finalize-booking", { state: stringifiedBookingDetails })
 	}
 
 	return (
 		<Button
-			title = {`Click to ${ConfirmOrRequestMessage(appointmentInformation.selectedLocation!)} your appointment`}
+			title = {`Click to ${ConfirmOrRequestBook(appointmentInformation)} your appointment`}
 			className="mt-3 font-semibold"
-			onClick={() => finalizeBookingClick()}
+			onClick={finalizeBookingClick}
 			colorClass = "bg-green-600"
 			hoverClass = "hover:bg-green-700"
 			textColor = "text-white"

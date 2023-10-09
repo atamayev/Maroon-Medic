@@ -20,7 +20,8 @@ function DeleteLocationButton (props: Props) {
 	const handleDeleteAddress = () => {
 		if (_.isNil(doctorAccountDetails)) return
 		if (address.addressesId === -1) {
-			_.filter(doctorAccountDetails.addressData, a => a.addressPriority !== address.addressPriority)
+			const newAddress = _.filter(doctorAccountDetails.temporaryAddressData, a => a.addressPriority !== address.addressPriority)
+			doctorAccountDetails.temporaryAddressData = newAddress
 		}
 		else deleteAddressData(address.addressesId, setAddressesConfirmation)
 	}

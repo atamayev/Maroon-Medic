@@ -1,8 +1,8 @@
 import Button from "../button"
 
 interface Props {
-  status: AppointmentStatus,
-  setStatus: React.Dispatch<React.SetStateAction<AppointmentStatus>>
+	status: AppointmentStatus,
+	setStatus: React.Dispatch<React.SetStateAction<AppointmentStatus>>
 }
 
 export default function PendingAppointment (props: Props) {
@@ -15,6 +15,7 @@ export default function PendingAppointment (props: Props) {
 			hoverClass = "hover:bg-amber-700"
 			onClick = {() => {setStatus("confirming")}}
 			title = "Pending approval"
+			textColor = "text-white"
 		/>
 	)
 }

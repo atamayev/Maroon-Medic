@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { useContext } from "react"
 import AppContext from "src/contexts/maroon-context"
-import CalendarDataService from "../services/calendar-data-service"
+import CalendarDataService from "../../services/calendar-data-service"
 import handle401AxiosError from "src/utils/handle-errors/handle-401-axios-error"
 
 export default function useFetchDoctorCalendarDetails(): () => Promise<void> {

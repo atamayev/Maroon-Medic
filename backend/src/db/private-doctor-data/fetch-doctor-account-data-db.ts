@@ -116,9 +116,9 @@ export default new class FetchDoctorAccountDataDB {
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
 		const addressData = results.map((row: RowDataPacket) => row as PrivateDoctorAddressData)
-		const formattedAddressData = Format.addressDataToBoolean(addressData)
-		const camelCasedAddressData = transformArrayOfObjectsToCamelCase(formattedAddressData)
-		return camelCasedAddressData as PrivateDoctorAddressData[]
+		const camelCasedAddressData = transformArrayOfObjectsToCamelCase(addressData)
+		const formattedAddressData = Format.addressDataToBoolean(camelCasedAddressData as PrivateDoctorAddressData[])
+		return formattedAddressData as PrivateDoctorAddressData[]
 	}
 
 	async availabilityData (addressId: number): Promise<DoctorAvailability[]> {

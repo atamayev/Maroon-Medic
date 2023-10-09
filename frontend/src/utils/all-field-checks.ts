@@ -1,11 +1,12 @@
 function isAddressValid(address: DoctorAddressData): boolean {
 	return Boolean(
 		address.addressTitle &&
-    address.addressLine1 &&
-    address.city &&
-    address.state &&
-    address.zip &&
-    address.country
+		address.addressLine1 &&
+		address.city &&
+		address.state &&
+		address.zip &&
+		address.country &&
+		address.phone
 	)
 }
 
@@ -22,7 +23,9 @@ export function areAllFieldsValid(address: DoctorAddressData): boolean {
 
 export function areAllTimesValid(address: DoctorAddressData): boolean {
 	for (const time of address.times) {
-		if (new Date(`1970-01-01T${time.endTime}:00`) <= new Date(`1970-01-01T${time.startTime}:00`)) return false
+		if (new Date(`1970-01-01T${time.endTime}:00`) <= new Date(`1970-01-01T${time.startTime}:00`)) {
+			return false
+		}
 	}
 	return true
 }

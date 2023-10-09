@@ -9,7 +9,7 @@ declare global {
 	}
 
 	type DoctorPersonalInfo = BasicPersonalInfo & {
-		NVI: number
+		nvi: number
 		gender: string
 	}
 

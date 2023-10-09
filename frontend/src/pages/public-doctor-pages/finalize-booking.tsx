@@ -9,8 +9,8 @@ import CustomPatientMessage from "src/components/finalize-booking/custom-patient
 import FinalizeBookingCardText from "src/components/finalize-booking/finalize-booking-card-text"
 import retrieveFromSessionStorage from "src/utils/retrieve-from-session-storage"
 import AppContext from "src/contexts/maroon-context"
+import ConfirmOrRequestBook from "src/components/booking/confirm-or-request-book"
 
-// eslint-disable-next-line max-lines-per-function
 function FinalizeBookingPage() {
 	const appContext = useContext(AppContext)
 	const [message, setMessage] = useState("")
@@ -25,9 +25,9 @@ function FinalizeBookingPage() {
 	const bookingDetails = retrieveFromSessionStorage("bookingDetails")
 
 	if (browserLocation.state) {
-		({ appointmentInformation, serviceMinutes, personalData } = browserLocation.state)
+		({ appointmentInformation, serviceMinutes, personalData } = JSON.parse(browserLocation.state))
 	} else if (bookingDetails) {
-		({ appointmentInformation, serviceMinutes, personalData } = bookingDetails)
+		({ appointmentInformation, serviceMinutes, personalData } = JSON.parse(bookingDetails))
 	}
 
 	useEffect(() => {
@@ -54,18 +54,13 @@ function FinalizeBookingPage() {
 
 	if (appContext.auth.userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
-	function ConfirmOrRequestBook () {
-		if (appointmentInformation.selectedLocation?.instantBook) return "Confirm"
-		return "Request"
-	}
-
 	function ConfirmBookingButton () {
 		const confirmBooking = useConfirmBooking()
 		return (
 			<Button
 				colorClass = "bg-green-600"
 				hoverClass = "hover:bg-green-700"
-				title = {ConfirmOrRequestBook()}
+				title = {ConfirmOrRequestBook(appointmentInformation)}
 				onClick = {() => {
 					confirmBooking({
 						appointmentInformation,
@@ -83,7 +78,7 @@ function FinalizeBookingPage() {
 		<div className = "container mt-5">
 			<div className="bg-white border border-gray-300 rounded p-4 mb-4">
 				<div className="border-b pb-2 mb-4">
-					<h2>{ConfirmOrRequestBook()} an Appointment</h2>
+					<h2>{ConfirmOrRequestBook(appointmentInformation)} an Appointment</h2>
 				</div>
 				<div className="p-4">
 					<h3>

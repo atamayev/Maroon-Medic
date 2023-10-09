@@ -1,19 +1,35 @@
 import _ from "lodash"
 import { useContext } from "react"
+import { observer } from "mobx-react"
 import { Link } from "react-router-dom"
 import Button from "../button"
 import handlePetChange from "src/helper-functions/public-doctor/booking-page/handle-pet-change"
 import FormGroup from "../form-group"
 import AppContext from "src/contexts/maroon-context"
+import useRetrieveDoctorIDFromParams from "src/custom-hooks/public-doctor/use-retrieve-doctor-id-from-params"
 
 interface ChoosePetProps {
 	appointmentInformation: AppointmentInformation
 	setAppointmentInformation: React.Dispatch<React.SetStateAction<AppointmentInformation>>
 }
 
-export default function ChoosePet (props: ChoosePetProps) {
+function ChoosePet (props: ChoosePetProps) {
 	const { appointmentInformation, setAppointmentInformation } = props
-	const patientPetData = useContext(AppContext).patientData?.patientPetData
+	const doctorID = useRetrieveDoctorIDFromParams()
+	const appContext = useContext(AppContext)
+	const patientPetData = appContext.patientData?.patientPetData
+	const doctorData = appContext.publicDoctorData.retrieveSinglePublicDoctorData(doctorID)
+
+	if (_.isNull(doctorData)) return null
+
+	const isServicedByDoctor = (pet: string) => {
+		return doctorData.servicedPets.some(servicedPet => servicedPet.pet === pet)
+	}
+
+	const showPetName = (pet: SavedPetItem) => {
+		if (isServicedByDoctor(pet.pet)) return pet.name
+		return `${pet.name} (Dr. ${doctorData.doctorPersonalInfo.lastName} does not service ${pet.pet}s)`
+	}
 
 	if (_.isNil(patientPetData) || _.isEmpty(patientPetData)) {
 		return (
@@ -27,14 +43,6 @@ export default function ChoosePet (props: ChoosePetProps) {
 						title = "Add a Pet"
 					/>
 				</Link>
-			</div>
-		)
-	}
-
-	if (patientPetData.length === 1) {
-		return (
-			<div className="col-md-6">
-				Selected Pet: {appointmentInformation.selectedPet?.name}
 			</div>
 		)
 	}
@@ -57,11 +65,17 @@ export default function ChoosePet (props: ChoosePetProps) {
 			>
 				<option value = "" disabled>Select...</option>
 				{patientPetData.map((pet, index) => (
-					<option key={index} value={pet.petInfoId}>
-						{pet.name}
+					<option
+						key = {index}
+						value = {pet.petInfoId}
+						disabled = {!isServicedByDoctor(pet.pet)}
+					>
+						{showPetName(pet)}
 					</option>
 				))}
 			</FormGroup>
 		</div>
 	)
 }
+
+export default observer(ChoosePet)

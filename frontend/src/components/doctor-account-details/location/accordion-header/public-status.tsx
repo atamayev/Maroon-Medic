@@ -1,11 +1,11 @@
 import Toggle from "react-toggle"
 
 interface Props {
-  address: DoctorAddressData
-  handleToggleChange: (
-    addressPriority: number,
-    field: keyof Pick<DoctorAddressData, "addressPublicStatus" | "instantBook">
-  ) => void
+	address: DoctorAddressData
+	handleToggleChange: (
+		addressPriority: number,
+		field: keyof Pick<DoctorAddressData, "addressPublicStatus" | "instantBook">
+	) => void
 }
 
 export default function PublicStatus (props: Props) {

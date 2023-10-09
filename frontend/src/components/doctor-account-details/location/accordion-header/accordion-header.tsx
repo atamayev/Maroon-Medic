@@ -1,11 +1,12 @@
+import _ from "lodash"
+import { useContext } from "react"
+import { observer } from "mobx-react"
 import PublicStatus from "./public-status"
 import InstantBook from "./instant-book"
 import SaveOrUpdateButton from "./save-or-update-button"
 import DeleteLocationButton from "./delete-location-button"
 import AddressTitle from "./address-title"
-import { useContext } from "react"
 import AppContext from "src/contexts/maroon-context"
-import { observer } from "mobx-react"
 
 interface Props {
 	index: number
@@ -22,17 +23,14 @@ function AccordionHeader (props: Props) {
 		addressPriority: number,
 		field: keyof Pick<DoctorAddressData, "addressPublicStatus" | "instantBook">
 	) => {
-		// Create a copy of the addresses state
-		const updatedAddresses = [...doctorAccountDetails!.addressData]
-		// Find the index of the address object with the matching priority
-		const addressIndex = updatedAddresses.findIndex(addr => addr.addressPriority === addressPriority)
+		const updatedAddresses = _.cloneDeep(doctorAccountDetails!.temporaryAddressData)
 
-		if (field in updatedAddresses[addressIndex]) {
-			updatedAddresses[addressIndex][field] = !updatedAddresses[addressIndex][field]
-		} else {
-			return
-		}
-		doctorAccountDetails!.addressData = updatedAddresses
+		const addressToUpdate = _.find(updatedAddresses, { addressPriority })
+
+		// Toggle the value
+		if (addressToUpdate) addressToUpdate[field] = !addressToUpdate[field]
+
+		doctorAccountDetails!.temporaryAddressData = updatedAddresses
 	}
 
 	return (

@@ -19,6 +19,7 @@ export default class PrivateDoctorDataClass {
 
 	public initializeDoctorAccountDetails(doctorAccountDetails: DoctorAccountDetails): void {
 		this._doctorAccountDetails = new DoctorAccountDetailsClass(doctorAccountDetails)
+		this._doctorAccountDetails.temporaryAddressData = this._doctorAccountDetails.addressData
 	}
 
 	public initializeDoctorLists(doctorLists: DoctorListDetails): void {

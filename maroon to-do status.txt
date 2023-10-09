@@ -1,35 +1,20 @@
 To-do:
 
-Context tasks:
-	Bugs:
-		Update address button will never appear because the input change function acts directly on the context.
-			the old and update address will always be the same - the updated is constantly being set as the new
-			after fixing this, try making an appointment
-
-When searching for a doctor that doesn't exist: http://localhost:3000/vet/1000607
-	it should say: doctor does not exist.
-
-Maroon --> Mane Transition
+-Make appointment edits:
+	if the user only has one pet, make their pet the default choice, dropdown not necessary
+		When doing this, make sure that the vet is able to service that type of pet, before making it the default.
+	if the vet doesn't service a specific pet type that a user has, then show message: "Dr. __ doesn't service [type of pet]". 
+		Have a dummy button that says: "Search for vets near you that service [pet type]"
+	after the appointment is made, should go to a confirmation page after the 'finalize-booking' page, which lists the details in pretty format. from there, have a button: go to dashboard
 
 Fix the types on the vet education, prevet education in fetch public doctor data db
 	they do not contain the mapping id, and a new type should be created specifically for the public data.
 	go through the other public doctor data types, and see if they just use the private doctor types. make sure the fields match up.
 	fix in front-end as well.
 
-Consider making seperate JWT functions for patient and doctor. This way, userType won't be needed as a header
-
-10. Make the pets in the patient header be the pets that the user has
-11. Fix calendar appointments not rendering
-12. Write the logic that makes sure that when making a booking, the vet is able to service the pet that the user has. See below
-16. make a new footer
+Maroon --> Mane Transition
 
 Make the naming of the types in the front/backend match up better
-
--add choose your pet to make an appointment. if the user isn't logged in, show a login/register button in the booking section.
-	the first question should be: choose which pet you would like to take to the vet
-		if the user only has one vet, skip that question, and just set the state to that pet/pettype
-	if the vet doesn't service that specific pet type, then show message: "Dr. __ doesn't service [type of pet]". Have a dummy button that says: "Search for vets near you that service [pet type]"
-	after the appointment is made, should go to a confirmation page after the 'finalize-booking' page, which lists the details in pretty format. from there, have a button: go to dashboard
 
 -setup postman to make making requests easier.
 	add the Doctor/Patient UUID as a cookie, and hit the endpoint directly
@@ -39,7 +24,7 @@ Make the naming of the types in the front/backend match up better
 
 On the My-Pets page, make each pet have it's own 'row' card, similar to addersses in doctor account details (shouldn't be able to close/open, always open)
 	show something like the picture on the left side, and then the details on the right. Details can include past appointments, other stuff (can always add later)
-	
+
 -mini bug when making a booking. make a booking with `changes in behavior`. The time is 10 AM- 10AM (it's a full day appointment). Should say something like (10AM (july 17) - 10AM (july 18))
 
 -start figuring out only being able to make appointments during available time slots (shouldn't be able to book an appointment while that time slot is booked)
@@ -68,6 +53,8 @@ On the vet dashboard, make the appointments clickable, shows the patients detail
 - go through DoctorDashboard Layout txt file
 
 LATER:
+
+-Delete momentjs from front-end. figure out the dayjs conversion problem in the select-time.tsx.
 
 -figure out IP Address situation (for the login and security page). Also see if can figure out what kind of device the user has
 

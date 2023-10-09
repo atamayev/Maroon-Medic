@@ -1,3 +1,4 @@
+import _ from "lodash"
 import dayjs from "dayjs"
 import { convertToMinutes } from "src/utils/time"
 
@@ -12,7 +13,7 @@ const generateTimeSlots = (
 	const selectedDayOfWeek = dayjs(selectedDay, "dddd, MMMM D, YYYY").format("dddd")
 	const workingHours = selectedLocationObject.times.find(time => time.dayOfWeek === selectedDayOfWeek)
 
-	if (workingHours) {
+	if (!_.isUndefined(workingHours)) {
 		const times = []
 		const start = workingHours.startTime.split(":")
 		const end = workingHours.endTime.split(":")

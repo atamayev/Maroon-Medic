@@ -14,7 +14,7 @@ function AddressAccordionMap (props: Props) {
 
 	if (_.isNil(doctorAccountDetails)) return null
 
-	const sortedAddresses = doctorAccountDetails.addressData.slice().sort((a, b) => a.addressPriority - b.addressPriority)
+	const sortedAddresses = doctorAccountDetails.temporaryAddressData.slice().sort((a, b) => a.addressPriority - b.addressPriority)
 
 	return (
 		<>

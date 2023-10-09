@@ -6,7 +6,7 @@ import OperationHandler from "../utils/operation-handler"
 export async function makeAppointment(req: Request, res: Response): Promise<Response | void> {
 	const appointmentObject = req.body.appointmentObject
 	const patientId = req.patientId
-	const NVI = appointmentObject.NVI
+	const NVI = appointmentObject.nvi
 
 	const doctorId: number = Number(
 		await OperationHandler.executeAsyncAndReturnValue(res, CalendarDB.retrieveDoctorIdFromNVI, NVI)

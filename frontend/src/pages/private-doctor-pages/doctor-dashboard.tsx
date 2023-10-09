@@ -5,9 +5,8 @@ dayjs.extend(isSameOrAfter)
 import { observer } from "mobx-react"
 import { useContext, useEffect, useState } from "react"
 import UnauthorizedUser from "../../components/unauthorized-user/unauthorized-user"
-import useSetDoctorDashboardData from "src/custom-hooks/use-set-doctor-dashboard-data"
+import useSetDoctorDashboardData from "src/custom-hooks/private-doctor/use-set-doctor-dashboard-data"
 import DoctorHeader from "./doctor-header"
-import PersonalInfo from "src/components/doctor-dashboard/personal-info"
 import PastAppointmentsSection from "src/components/doctor-dashboard/past-appointments/past-appointments-section"
 import UpcomingAppointmentsSection from "src/components/doctor-dashboard/upcoming-appointments/upcoming-appointments-section"
 import AppContext from "src/contexts/maroon-context"
@@ -59,7 +58,6 @@ function DoctorDashboard() {
 	return (
 		<>
 			<DoctorHeader/>
-			<PersonalInfo />
 			<DashboardData />
 		</>
 	)
