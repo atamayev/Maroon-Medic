@@ -126,7 +126,7 @@ export default new class FetchPublicDoctorDataDB {
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
 		const personalData = results[0] as DoctorPersonalInfo
-		personalData.NVI = 0
+		personalData.nvi = 0
 		const camelCasedPersonalData = transformKeysToCamelCase(personalData)
 		return camelCasedPersonalData as DoctorPersonalInfo
 	}

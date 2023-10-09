@@ -5,7 +5,7 @@ function AppointmentConfirmationStatus ({ appointment }: { appointment: PatientD
 	let badgeText = ""
 	let tooltipText = ""
 
-	if (appointment.doctorConfirmationStatus === false) {
+	if (!appointment.doctorConfirmationStatus) {
 		badgeText = "Pending approval"
 		tooltipText = `Dr. ${appointment.doctorFirstName} has not yet approved your appointment.`
 	} else {
@@ -31,7 +31,7 @@ function AppointmentConfirmationStatus ({ appointment }: { appointment: PatientD
 			<span
 				className={
 					`absolute top-2 right-2 rounded-full px-2 py-1 border-2
-          ${appointment.doctorConfirmationStatus === false ? "border-yellow-400" : ""}`}
+          				${!appointment.doctorConfirmationStatus ? "border-yellow-400" : ""}`}
 			>
 				{badgeText}
 			</span>

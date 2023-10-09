@@ -1,15 +1,12 @@
 declare global {
-	interface DoctorPersonalData {
+	type DoctorData = {
 		firstName: string
 		lastName: string
-		gender: string
 		nvi: number
 	}
 
-	interface DoctorData {
-		firstName: string
-		lastName: string
-		nvi: number
+	type DoctorPersonalData = DoctorData & {
+		gender: string
 	}
 
 	interface BirthDateInfo {

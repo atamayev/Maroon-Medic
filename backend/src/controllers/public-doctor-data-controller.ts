@@ -23,7 +23,7 @@ export async function returnDoctorPageData (req: Request, res: Response): Promis
 			servicedPets:          await FetchPublicDoctorData.servicedPets(doctorId),
 			doctorPersonalInfo:    await FetchPublicDoctorData.personalInfo(doctorId)
 		}
-		response.doctorPersonalInfo.NVI = NVI
+		response.doctorPersonalInfo.nvi = NVI
 		return res.status(200).json(response)
 	} catch (error: unknown) {
 		response = {
@@ -36,7 +36,7 @@ export async function returnDoctorPageData (req: Request, res: Response): Promis
 			description:           "",
 			servicedPets:          [],
 			doctorPersonalInfo:   {
-				NVI: -1,
+				nvi: -1,
 				firstName: "",
 				lastName: "",
 				gender: "",

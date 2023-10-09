@@ -1,17 +1,16 @@
 To-do:
 
--add choose your pet to make an appointment. if the user isn't logged in, show a login/register button in the booking section.
-	the first question should be: choose which pet you would like to take to the vet
-		if the user only has one pet, skip that question, and just set the state to that pet/pettype
-	if the vet doesn't service that specific pet type, then show message: "Dr. __ doesn't service [type of pet]". Have a dummy button that says: "Search for vets near you that service [pet type]"
+-Make appointment edits:
+	if the user only has one pet, make their pet the default choice, dropdown not necessary
+		When doing this, make sure that the vet is able to service that type of pet, before making it the default.
+	if the vet doesn't service a specific pet type that a user has, then show message: "Dr. __ doesn't service [type of pet]". 
+		Have a dummy button that says: "Search for vets near you that service [pet type]"
 	after the appointment is made, should go to a confirmation page after the 'finalize-booking' page, which lists the details in pretty format. from there, have a button: go to dashboard
 
 Fix the types on the vet education, prevet education in fetch public doctor data db
 	they do not contain the mapping id, and a new type should be created specifically for the public data.
 	go through the other public doctor data types, and see if they just use the private doctor types. make sure the fields match up.
 	fix in front-end as well.
-
-Go through making an appointment, make sure everything works
 
 Maroon --> Mane Transition
 

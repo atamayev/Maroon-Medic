@@ -1,5 +1,4 @@
 import moment from "moment"
-import dayjs from "dayjs"
 import FormGroup from "../form-group"
 import handleTimeChange from "src/helper-functions/public-doctor/booking-page/handle-time-change"
 
@@ -14,6 +13,7 @@ export default function SelectTime (props: SelectTimeProps) {
 	const { appointmentInformation, setAppointmentInformation, availableTimes, serviceMinutes } = props
 
 	const addServiceMinutes = (time: string) => {
+		//Change this to dayjs:
 		return moment(time, "h:mm A").add(serviceMinutes, "minute").format("h:mm A")
 	}
 
