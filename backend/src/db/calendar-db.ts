@@ -77,4 +77,11 @@ export default new class CalendarDB {
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
+
+	async denyAppointmentStatus (appointmentId: number): Promise<void> {
+		const sql = `UPDATE ${mysqlTables.appointments} SET doctor_confirmation_status = "Denied" WHERE appointments_id = ?`
+		const values = [appointmentId]
+		const connection = await connectDatabase()
+		await connection.execute(sql, values)
+	}
 }()

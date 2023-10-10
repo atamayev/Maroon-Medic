@@ -43,3 +43,10 @@ export async function confirmAppointment (req: Request, res: Response): Promise<
 	const operation: () => Promise<void> = async () => await CalendarDB.confirmAppointmentStatus(appointmentId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
+
+export async function denyAppointment (req: Request, res: Response): Promise<void> {
+	const appointmentId = req.body.appointmentId
+
+	const operation: () => Promise<void> = async () => await CalendarDB.denyAppointmentStatus(appointmentId)
+	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
+}

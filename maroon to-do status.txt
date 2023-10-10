@@ -1,8 +1,5 @@
 To-do:
 
-Doctor dashboard edits
-	Make it an ability for a doctor to deny an appointment. Might need to transfer from binary approval to string
-
 Fix the types on the vet education, prevet education in fetch public doctor data db
 	they do not contain the mapping id, and a new type should be created specifically for the public data.
 	go through the other public doctor data types, and see if they just use the private doctor types. make sure the fields match up.
@@ -48,6 +45,9 @@ On the vet dashboard, make the appointments clickable, shows the patients detail
 - go through DoctorDashboard Layout txt file
 
 LATER:
+
+When a doctor declines a patient, they have to provide a reason for declining (can be a dropdown with common reasons)
+	If the reason for declining is something like 'That time slot was already taken' (ie on another booking platform), then the patient should be presented with more time slot options to make a booking 
 
 -Delete momentjs from front-end. figure out the dayjs conversion problem in the select-time.tsx.
 
