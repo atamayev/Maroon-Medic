@@ -22,7 +22,12 @@ export default function useApproveAppointment(): (
 			if (response.status === 200) {
 				// Update the doctorConfirmationStatus for the specific appointment
 				const updatedDashboardData = privateDoctorData.doctorDashboardData!.map(appointment => {
-					if (appointment.appointmentsId === appointmentsId) return { ...appointment, doctorConfirmationStatus: true }
+					if (appointment.appointmentsId === appointmentsId) {
+						return {
+							...appointment,
+							doctorConfirmationStatus: "Approved" as DoctorConfirmationStatuses
+						}
+					}
 					return appointment
 				})
 				privateDoctorData.doctorDashboardData = updatedDashboardData

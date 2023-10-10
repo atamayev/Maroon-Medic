@@ -56,7 +56,7 @@ function FinalizeBookingPage() {
 
 	if (appContext.auth.userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
-	function ConfirmBookingButton () {
+	function ConfirmBookingButton() {
 		return (
 			<Button
 				colorClass = "bg-green-600"
@@ -76,11 +76,17 @@ function FinalizeBookingPage() {
 		)
 	}
 
+	function AppointmentHeader() {
+		const confirmOrRequest = ConfirmOrRequestBook(appointmentInformation)
+		if (confirmOrRequest === "Confirm") return "Confirm your appointment"
+		return "Request an appointment"
+	}
+
 	return (
 		<div className = "container mt-5">
 			<div className="bg-white border border-gray-300 rounded p-4 mb-4">
 				<div className="border-b pb-2 mb-4">
-					<h2>{ConfirmOrRequestBook(appointmentInformation)} an Appointment</h2>
+					<h2>{AppointmentHeader()}</h2>
 				</div>
 				<div className="p-4">
 					<h3>

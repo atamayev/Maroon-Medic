@@ -7,6 +7,9 @@ declare global {
 		serviceAndCategoryListId: number
 		selectedPetId: number
 		addressesId: number
+		nvi: number
+		appointmentDate: string
+		appointmentTime: string
 	}
 
 	interface CalendarData {
@@ -15,7 +18,7 @@ declare global {
 		appointmentPrice: number
 		patientMessage: string
 		appointmentTimespan: number
-		doctorConfirmationStatus: boolean
+		doctorConfirmationStatus: DoctorConfirmationStatuses
 		createdAt: MysqlTimestamp
 		categoryName: string
 		serviceName: string

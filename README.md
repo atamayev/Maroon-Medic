@@ -10,3 +10,5 @@ To run Redis, follow the following steps:
 Before Pushing Code, always run:
 1. `npm run lint` Make sure there are no errors before pushing to the repo.
 2. `npm run type-check`
+
+or, run `npm run validate` to run both commands at once.

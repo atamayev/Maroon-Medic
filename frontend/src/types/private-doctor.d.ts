@@ -8,7 +8,7 @@ declare global {
 		title: string
 		start: Date
 		end: Date
-		doctorConfirmationStatus: boolean
+		doctorConfirmationStatus: DoctorConfirmationStatuses
 	}
 
 	type ServiceItem = {

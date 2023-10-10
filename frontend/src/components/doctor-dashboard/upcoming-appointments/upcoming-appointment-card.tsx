@@ -1,10 +1,10 @@
+import _ from "lodash"
 import { useState } from "react"
 import UpcomingAppointmentCardHeader from "./upcoming-appointment-card-header"
 import UpcomingAppointmentCardBody from "./upcoming-appointment-card-body"
 
-const returnDoctorConfirmationStatus = (appointment: DoctorDashboardData) => {
-	if (!appointment.doctorConfirmationStatus) return "pending"
-	return "approved"
+const returnDoctorConfirmationStatus = (appointment: DoctorDashboardData): AppointmentStatus => {
+	return _.toLower(appointment.doctorConfirmationStatus) as AppointmentStatus
 }
 
 interface Props {

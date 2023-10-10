@@ -17,7 +17,7 @@ declare global {
 
 	type DayOfWeek = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday"
 
-	type AppointmentStatus = "approved" | "pending" | "confirming"
+	type AppointmentStatus = "approved" | "pending" | "confirming" | "denied"
 
 	type ConfirmationMessage = {
 		messageType: "saved" | "same" | "problem" | "none" | null,

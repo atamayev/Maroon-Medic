@@ -32,12 +32,14 @@ declare global {
 		dateOfBirth: MysqlTimestamp
 	}
 
+	type DoctorConfirmationStatuses = "Pending" | "Approved" | "Denied"
+
 	interface DashboardDataType {
 		appointmentsId: number
 		appointmentDate: MysqlTimestamp
 		appointmentPrice: number
 		patientMessage: string
-		doctorConfirmationStatus: boolean
+		doctorConfirmationStatus: DoctorConfirmationStatuses
 		createdAt: MysqlTimestamp
 		categoryName: string
 		serviceName: string
