@@ -17,13 +17,13 @@ export default function UpcomingAppointmentsSection (props: Props) {
 
 		if (showApproved) {
 			filteredAppointments = filteredAppointments.concat(
-				upcomingDoctorAppointments.filter((appointment) => appointment.doctorConfirmationStatus)
+				upcomingDoctorAppointments.filter((appointment) => appointment.doctorConfirmationStatus === "Approved")
 			)
 		}
 
 		if (showUnapproved) {
 			filteredAppointments = filteredAppointments.concat(
-				upcomingDoctorAppointments.filter((appointment) => !appointment.doctorConfirmationStatus)
+				upcomingDoctorAppointments.filter((appointment) => appointment.doctorConfirmationStatus === "Pending")
 			)
 		}
 

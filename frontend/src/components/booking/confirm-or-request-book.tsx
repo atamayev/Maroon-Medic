@@ -1,4 +1,5 @@
 export default function ConfirmOrRequestBook (appointmentInformation: AppointmentInformation) {
-	if (appointmentInformation.selectedLocation?.instantBook === true) return "Confirm"
+	const booleanInstantBook = Boolean(appointmentInformation.selectedLocation?.instantBook)
+	if (booleanInstantBook === true) return "Confirm"
 	return "Request"
 }

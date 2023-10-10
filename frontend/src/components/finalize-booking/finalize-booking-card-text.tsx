@@ -31,7 +31,7 @@ export default function FinalizeBookingCardText (props: Props) {
 					Time:
 				</strong>
 				{" "} {appointmentInformation.selectedTime} - {" "}
-				{moment(appointmentInformation.selectedTime, "HH:mm").add(serviceMinutes, "minute").format("h:mm A")}
+				{moment(appointmentInformation.selectedTime, "h:mm A").add(serviceMinutes, "minute").format("h:mm A")}
 			</div>
 			<div className="block text-brown-800 mb-1">
 				<strong className="font-bold">Price:</strong> ${appointmentInformation.selectedService!.servicePrice}

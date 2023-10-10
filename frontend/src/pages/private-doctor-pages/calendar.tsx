@@ -1,5 +1,5 @@
-import { observer } from "mobx-react"
 import dayjs from "dayjs"
+import { observer } from "mobx-react"
 import { useEffect, useContext } from "react"
 import { Calendar, dayjsLocalizer  } from "react-big-calendar"
 import "react-big-calendar/lib/css/react-big-calendar.css"
@@ -10,8 +10,8 @@ import usefetchDoctorCalendarDetails from "src/custom-hooks/private-doctor/use-f
 
 function CustomEvent ({ event }: { event: DoctorCalendarEvent }) {
 	let tailwindCSS = ""
-	if (event.doctorConfirmationStatus === false) tailwindCSS = "bg-orange-400"
-	else tailwindCSS = "bg-blue-400"
+	if (event.doctorConfirmationStatus === "Pending") tailwindCSS = "bg-orange-400"
+	else if (event.doctorConfirmationStatus === "Approved") "bg-blue-400"
 
 	return <div className={tailwindCSS}> {event.title} </div>
 }

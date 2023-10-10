@@ -50,9 +50,11 @@ declare global {
 		endTime: string
 	}
 
+	type DoctorConfirmationStatuses = "Pending" | "Approved" | "Denied"
+
 	interface DashboardDataType {
 		appointmentsId: number
-		doctorConfirmationStatus: boolean
+		doctorConfirmationStatus: DoctorConfirmationStatuses
 		categoryName: string
 		createdAt: MysqlTimestamp
 		serviceName: string

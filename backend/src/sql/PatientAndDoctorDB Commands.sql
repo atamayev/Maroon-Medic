@@ -6,7 +6,7 @@ CREATE TABLE appointments(
 	appointment_price DECIMAL(5,2) NOT NULL CHECK(appointment_price >= 0),
 	appointment_timespan INT UNSIGNED NOT NULL CHECK(appointment_timespan >= 0),
 	patient_message VARCHAR(1000),
-	doctor_confirmation_status BOOLEAN NOT NULL,
+	doctor_confirmation_status ENUM('Pending', 'Approved', 'Denied'),
 	service_and_category_list_id INT UNSIGNED NOT NULL,
 	pet_info_id INT UNSIGNED NOT NULL,
 	patient_id INT UNSIGNED NOT NULL,
@@ -21,6 +21,6 @@ CREATE TABLE appointments(
 	FOREIGN KEY (addresses_id) REFERENCES addresses(addresses_id),
 	UNIQUE (appointment_date, service_and_category_list_id, pet_info_id, doctor_id)
 );
-
 SELECT * FROM appointments;
+
 UPDATE Appointments set Doctor_confirmation_status = 0 where doctor_id;

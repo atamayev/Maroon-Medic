@@ -5,7 +5,7 @@ import AppContext from "src/contexts/maroon-context"
 import CalendarDataService from "src/services/calendar-data-service"
 import invalidUserAction from "src/utils/invalid-user-action"
 
-export default function useApproveAppointment(): (
+export default function useDenyAppointment(): (
 	setStatus: React.Dispatch<React.SetStateAction<AppointmentStatus>>,
 	appointmentsId: number
 ) => Promise<void> {
@@ -18,20 +18,20 @@ export default function useApproveAppointment(): (
 		if (_.isNull(privateDoctorData)) return
 
 		try {
-			const response = await CalendarDataService.confirmAppointment(appointmentsId)
+			const response = await CalendarDataService.denyAppointment(appointmentsId)
 			if (response.status === 200) {
 				// Update the doctorConfirmationStatus for the specific appointment
 				const updatedDashboardData = privateDoctorData.doctorDashboardData!.map(appointment => {
 					if (appointment.appointmentsId === appointmentsId) {
 						return {
 							...appointment,
-							doctorConfirmationStatus: "Approved" as DoctorConfirmationStatuses
+							doctorConfirmationStatus: "Denied" as DoctorConfirmationStatuses
 						}
 					}
 					return appointment
 				})
 				privateDoctorData.doctorDashboardData = updatedDashboardData
-				setStatus("approved")
+				setStatus("denied")
 			} else {
 				setStatus("pending")
 			}

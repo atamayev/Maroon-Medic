@@ -10,12 +10,23 @@ export default function PendingAppointment (props: Props) {
 
 	if (status !== "pending") return null
 	return (
-		<Button
-			colorClass = "bg-amber-600"
-			hoverClass = "hover:bg-amber-700"
-			onClick = {() => {setStatus("confirming")}}
-			title = "Approve Appointment"
-			textColor = "text-white"
-		/>
+		<>
+			<Button
+				colorClass = "bg-green-700"
+				hoverClass = "hover:bg-green-800"
+				onClick = {() => {setStatus("confirming-approval")}}
+				title = "Approve Appointment"
+				textColor = "text-white"
+			/>
+
+			<Button
+				colorClass = "bg-red-600"
+				hoverClass = "hover:bg-red-700"
+				onClick = {() => {setStatus("confirming-denied")}}
+				title = "Decline Appointment"
+				textColor = "text-white"
+				className = "mx-2"
+			/>
+		</>
 	)
 }

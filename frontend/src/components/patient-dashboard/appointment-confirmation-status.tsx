@@ -11,16 +11,19 @@ function AppointmentConfirmationStatus (props: Props) {
 	let badgeText = ""
 	let tooltipText = ""
 
-	if (appointment.doctorConfirmationStatus === false) {
+	if (appointment.doctorConfirmationStatus === "Pending") {
 		badgeText = "Pending approval"
 		tooltipText = `Dr. ${appointment.doctorFirstName} has not yet approved your appointment.`
-	} else {
+	} else if (appointment.doctorConfirmationStatus === "Approved") {
 		badgeText = "Appointment approved"
 		tooltipText = `Dr. ${appointment.doctorFirstName} is looking forward to the appointment.`
+	} else {
+		badgeText = "Appointment declined"
+		tooltipText = `Dr. ${appointment.doctorFirstName} has declined the appointment.`
 	}
 
 	function TooltipMessage () {
-		if (!showTooltip) return null
+		if (showTooltip === false) return null
 		return (
 			<div className="absolute top-0 right-0 transform translate-x-full translate-y-full bg-black text-white text-xs rounded p-2">
 				{tooltipText}

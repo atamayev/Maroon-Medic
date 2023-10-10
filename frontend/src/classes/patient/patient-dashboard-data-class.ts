@@ -7,7 +7,7 @@ export default class PatientDashboardDataClass {
 	}
 
 	appointmentsId: number = -1
-	doctorConfirmationStatus: boolean = false
+	doctorConfirmationStatus: DoctorConfirmationStatuses = "Pending"
 	categoryName: string = ""
 	createdAt: MysqlTimestamp = ""
 	serviceName: string = ""

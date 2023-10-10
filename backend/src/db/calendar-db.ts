@@ -15,11 +15,13 @@ export default new class CalendarDB {
 		return doctorId
 	}
 
+	// eslint-disable-next-line max-params
 	async addAppointment (
 		dateTime: MysqlTimestamp,
 		appointmentObject: AppointmentObject,
+		appointmentStatus: DoctorConfirmationStatuses,
 		doctorId: number,
-		patientId: number,
+		patientId: number
 	): Promise<void> {
 		const sql = `INSERT INTO ${mysqlTables.appointments}
       (appointment_date, appointment_price, appointment_timespan, patient_message, doctor_confirmation_status,
@@ -27,7 +29,7 @@ export default new class CalendarDB {
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
 
 		const values = [dateTime, appointmentObject.appointmentPrice, appointmentObject.appointmentTimespan, appointmentObject.message,
-			appointmentObject.instantBook, appointmentObject.serviceAndCategoryListId,
+			appointmentStatus, appointmentObject.serviceAndCategoryListId,
 			appointmentObject.selectedPetId, patientId, doctorId, appointmentObject.addressesId
 		]
 		const connection = await connectDatabase()
@@ -70,7 +72,14 @@ export default new class CalendarDB {
 	}
 
 	async confirmAppointmentStatus (appointmentId: number): Promise<void> {
-		const sql = `UPDATE ${mysqlTables.appointments} SET doctor_confirmation_status = 1 WHERE appointments_id = ?`
+		const sql = `UPDATE ${mysqlTables.appointments} SET doctor_confirmation_status = "Approved" WHERE appointments_id = ?`
+		const values = [appointmentId]
+		const connection = await connectDatabase()
+		await connection.execute(sql, values)
+	}
+
+	async denyAppointmentStatus (appointmentId: number): Promise<void> {
+		const sql = `UPDATE ${mysqlTables.appointments} SET doctor_confirmation_status = "Denied" WHERE appointments_id = ?`
 		const values = [appointmentId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)

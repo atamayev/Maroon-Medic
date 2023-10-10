@@ -1,6 +1,6 @@
 import { observer } from "mobx-react"
 import PendingAppointment from "../pending-appointment"
-import ConfirmedAppointment from "../confirmed-appointment"
+import ConfirmOrDenyAppointment from "../confirm-or-deny-appointment"
 import MessageSection from "../message-section"
 
 interface Props {
@@ -21,7 +21,7 @@ function UpcomingAppointmentCardBody (props: Props) {
 				status={status}
 				setStatus={setStatus}
 			/>
-			<ConfirmedAppointment
+			<ConfirmOrDenyAppointment
 				status={status}
 				setStatus={setStatus}
 				appointment={appointment}
