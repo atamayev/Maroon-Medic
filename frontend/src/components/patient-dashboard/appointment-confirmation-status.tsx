@@ -31,6 +31,16 @@ function AppointmentConfirmationStatus (props: Props) {
 		)
 	}
 
+	const doctorConfirmationClass = () => {
+		if (appointment.doctorConfirmationStatus === "Pending") {
+			return "bg-yellow-500"
+		} else if (appointment.doctorConfirmationStatus === "Approved") {
+			return "bg-green-500"
+		} else {
+			return "bg-red-500"
+		}
+	}
+
 	return (
 		<div
 			onMouseEnter={() => setShowTooltip(true)}
@@ -39,7 +49,7 @@ function AppointmentConfirmationStatus (props: Props) {
 			<span
 				className = {
 					`absolute top-2 right-2 px-2 py-1 text-black rounded-full
-          				${!appointment.doctorConfirmationStatus ? "bg-green-500" : "bg-yellow-500"}`}
+          				${doctorConfirmationClass()}`}
 			>
 				{badgeText}
 			</span>
