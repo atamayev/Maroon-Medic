@@ -1,7 +1,5 @@
 To-do:
 
-Fix the bug that shows the appointment as being 1:40PM - 2AM on the confirm booking screen
-
 Doctor dashboard edits
 	Make it an ability for a doctor to deny an appointment. Might need to transfer from binary approval to string
 
