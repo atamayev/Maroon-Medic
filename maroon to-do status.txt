@@ -1,6 +1,7 @@
 To-do:
 
 Doctor dashboard edits
+	Make patient dashboard also have a header/body
 	Add a vector art arrow for when an accordion is open vs closed
 	Make a filter to filter approved or unapproved appointments 
 	Make it an ability for a doctor to deny an appointment. Might need to transfer from binary approval to 

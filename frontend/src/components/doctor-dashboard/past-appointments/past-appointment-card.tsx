@@ -11,7 +11,7 @@ export default function PastAppointmentCard (props: Props) {
 	const [isOpen, setIsOpen] = useState(false)
 
 	return (
-		<div className="my-3 relative" style={{ margin: "10px" }}>
+		<div className="my-3 relative">
 			<div className="p-4 border border-brown-400 bg-yellow-100 rounded">
 				<PastAppointmentCardHeader
 					appointment={appointment}

@@ -1,11 +1,17 @@
 import { useState } from "react"
 
-function AppointmentConfirmationStatus ({ appointment }: { appointment: PatientDashboardData }) {
+interface Props {
+	appointment: PatientDashboardData
+}
+
+function AppointmentConfirmationStatus (props: Props) {
+	const { appointment } = props
+
 	const [showTooltip, setShowTooltip] = useState(false)
 	let badgeText = ""
 	let tooltipText = ""
 
-	if (!appointment.doctorConfirmationStatus) {
+	if (appointment.doctorConfirmationStatus === false) {
 		badgeText = "Pending approval"
 		tooltipText = `Dr. ${appointment.doctorFirstName} has not yet approved your appointment.`
 	} else {
@@ -26,12 +32,11 @@ function AppointmentConfirmationStatus ({ appointment }: { appointment: PatientD
 		<div
 			onMouseEnter={() => setShowTooltip(true)}
 			onMouseLeave={() => setShowTooltip(false)}
-			className="relative"
 		>
 			<span
-				className={
-					`absolute top-2 right-2 rounded-full px-2 py-1 border-2
-          				${!appointment.doctorConfirmationStatus ? "border-yellow-400" : ""}`}
+				className = {
+					`absolute top-2 right-2 px-2 py-1 text-black rounded-full
+          				${!appointment.doctorConfirmationStatus ? "bg-green-500" : "bg-yellow-500"}`}
 			>
 				{badgeText}
 			</span>
