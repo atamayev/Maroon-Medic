@@ -18,7 +18,7 @@ function Specialties() {
 	return (
 		<>
 			{Object.entries(organizations).map(([organization, specialties], outerIndex) => (
-				<div key = {outerIndex} style = {{ marginBottom: "10px" }}>
+				<div key = {outerIndex} className = "mb-3">
 					<h3>{organization}</h3>
 					{specialties.map((specialty, innerIndex) => (
 						<p key = {innerIndex}>

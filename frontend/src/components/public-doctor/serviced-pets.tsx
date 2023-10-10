@@ -18,7 +18,7 @@ function ServicedPets() {
 	return (
 		<>
 			{Object.entries(categories).map(([petType, pets], outerIndex) => (
-				<div key = {outerIndex} style = {{ marginBottom: "10px" }}>
+				<div key = {outerIndex} className = "mb-3">
 					<h3>{petType}</h3>
 					{pets.map((pet, innerIndex) => (
 						<p key = {innerIndex}>

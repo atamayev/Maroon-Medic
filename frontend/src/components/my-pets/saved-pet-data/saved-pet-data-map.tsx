@@ -21,8 +21,7 @@ function SavedPetDataMap (props: Props) {
 			{patientData.patientPetData.map((pet) => (
 				<div
 					key={pet.petInfoId}
-					className="m-3 bg-yellow-100 border border-brown-400 rounded"
-					style={{ width: "18rem", marginTop: "10px" }}
+					className="m-3 bg-yellow-100 border border-brown-400 rounded mt-3 w-72"
 				>
 					<div className="p-4">
 						<SavedPetDataTitle
