@@ -1,9 +1,9 @@
+import { useContext } from "react"
+import { observer } from "mobx-react"
 import AppContext from "src/contexts/maroon-context"
 import FirstAccordionBodyRow from "./first-accordion-body-row"
 import SecondAccordionBodyRow from "./second-accordion-body-row"
 import MapDataAndWeekDays from "./times-section/map-data-and-week-days"
-import { useContext } from "react"
-import { observer } from "mobx-react"
 
 interface Props {
 	isOpen: boolean

@@ -28,7 +28,7 @@ function ServiceList (props: Props) {
 	return (
 		<>
 			{Object.entries(categories).map(([category, services]) => (
-				<div key = {category} style = {{ marginBottom: "10px" }}>
+				<div key = {category} className = "mb-3">
 					<label htmlFor = {category}>{category}</label>
 					<OpenCloseServiceCategory
 						category = {category}

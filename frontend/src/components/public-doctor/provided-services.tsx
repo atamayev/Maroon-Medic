@@ -25,7 +25,7 @@ function ProvidedServices() {
 	return (
 		<>
 			{Object.entries(categories).map(([category, services], outerIndex) => (
-				<div key = {outerIndex} style = {{ marginBottom: "10px" }}>
+				<div key = {outerIndex} className = "mb-3">
 					<h3>{category}</h3>
 					{services.map((service, innerIndex) => (
 						<p key = {innerIndex}>

@@ -1,15 +1,27 @@
-import AppointmentConfirmationStatus from "../appointment-confirmation-status"
+import { useState } from "react"
+import PastAppointmentCardHeader from "./past-appointment-card-header"
+import PastAppointmentCardBody from "./past-appointment-card-body"
 
-export default function PastAppointmentCard ({ appointment }: { appointment: PatientDashboardData }) {
+interface Props {
+	appointment: PatientDashboardData
+}
+
+export default function PastAppointmentCard (props: Props) {
+	const { appointment } = props
+	const [isOpen, setIsOpen] = useState(false)
+
 	return (
-		<div className="mb-3 bg-yellow-100 border border-brown-400 rounded" style={{ margin: "0 10px", position: "relative" }}>
-			<div className="p-4">
-				<div className="flex justify-between items-center">
-					<span className="text-brown-800 font-bold">
-            Appointment with Dr. {appointment.doctorFirstName} {appointment.doctorLastName} on {appointment.appointmentDate}
-					</span>
-					<AppointmentConfirmationStatus appointment={appointment} />
-				</div>
+		<div className="my-3 relative">
+			<div className="p-4 border border-brown-400 bg-yellow-100 rounded">
+				<PastAppointmentCardHeader
+					appointment={appointment}
+					toggleOpen={() => setIsOpen(!isOpen)}
+					isOpen={isOpen}
+				/>
+				<PastAppointmentCardBody
+					isOpen={isOpen}
+					appointment={appointment}
+				/>
 			</div>
 		</div>
 	)

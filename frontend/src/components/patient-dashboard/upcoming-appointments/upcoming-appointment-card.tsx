@@ -1,19 +1,27 @@
-import AppointmentConfirmationStatus from "../appointment-confirmation-status"
-import MessageSection from "../message-section"
+import { useState } from "react"
+import UpcomingAppointmentCardHeader from "./upcoming-appointment-card-header"
+import UpcomingAppointmentCardBody from "./upcoming-appointment-card-body"
 
-export default function UpcomingAppointmentCard ({ appointment }: { appointment: PatientDashboardData }) {
+interface Props {
+	appointment: PatientDashboardData
+}
+
+export default function UpcomingAppointmentCard (props: Props) {
+	const { appointment } = props
+	const [isOpen, setIsOpen] = useState(false)
+
 	return (
-		<div className="mb-3 bg-yellow-100 border border-brown-400 rounded" style={{ margin: "0 10px", position: "relative" }}>
+		<div className="my-3 relative border border-brown-400 bg-yellow-100 rounded">
 			<div className="p-4">
-				<div className="flex justify-between items-center mb-2">
-					<span className="text-brown-800 font-bold">
-						Appointment with Dr. {appointment.doctorFirstName} {appointment.doctorLastName} on {appointment.appointmentDate}
-					</span>
-					<AppointmentConfirmationStatus appointment={appointment} />
-				</div>
-				<div className="text-amber-700">
-					<MessageSection appointment={appointment} />
-				</div>
+				<UpcomingAppointmentCardHeader
+					appointment={appointment}
+					toggleOpen={() => setIsOpen(!isOpen)}
+					isOpen={isOpen}
+				/>
+				<UpcomingAppointmentCardBody
+					isOpen={isOpen}
+					appointment={appointment}
+				/>
 			</div>
 		</div>
 	)

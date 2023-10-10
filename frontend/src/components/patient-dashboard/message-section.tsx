@@ -1,11 +1,14 @@
-function MessageSection ({ appointment } : { appointment: PatientDashboardData }) {
+interface Props {
+	appointment: PatientDashboardData
+}
+
+export default function MessageSection (props: Props) {
+	const { appointment } = props
 	if (!appointment.patientMessage) return null
 	return (
-		<span style = {{ display: "block" }}>
-      Your Message: {""}
-			{appointment.patientMessage}
+		<span>
+			Your Message:
+			{" " + appointment.patientMessage}
 		</span>
 	)
 }
-
-export default MessageSection
