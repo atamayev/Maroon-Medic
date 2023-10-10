@@ -16,6 +16,7 @@ export default function PastAppointmentCard (props: Props) {
 				<PastAppointmentCardHeader
 					appointment={appointment}
 					toggleOpen={() => setIsOpen(!isOpen)}
+					isOpen={isOpen}
 				/>
 				<PastAppointmentCardBody
 					isOpen={isOpen}

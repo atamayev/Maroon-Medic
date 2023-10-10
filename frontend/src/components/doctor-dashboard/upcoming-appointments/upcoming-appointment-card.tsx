@@ -23,6 +23,7 @@ export default function UpcomingAppointmentCard (props: Props) {
 					appointment={appointment}
 					toggleOpen={() => setIsOpen(!isOpen)}
 					status={status}
+					isOpen={isOpen}
 				/>
 
 				<UpcomingAppointmentCardBody

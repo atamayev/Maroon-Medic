@@ -16,6 +16,7 @@ export default function UpcomingAppointmentCard (props: Props) {
 				<UpcomingAppointmentCardHeader
 					appointment={appointment}
 					toggleOpen={() => setIsOpen(!isOpen)}
+					isOpen={isOpen}
 				/>
 				<UpcomingAppointmentCardBody
 					isOpen={isOpen}

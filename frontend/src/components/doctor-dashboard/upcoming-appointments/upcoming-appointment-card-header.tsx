@@ -1,14 +1,16 @@
 import { observer } from "mobx-react"
 import AppointmentApprovalStatus from "../appointment-approval-status.sx"
+import AccordionArrow from "src/components/accordion-arrow"
 
 interface Props {
 	appointment: DoctorDashboardData
 	toggleOpen: () => void
 	status: AppointmentStatus
+	isOpen: boolean
 }
 
 function UpcomingAppointmentCardHeader (props: Props) {
-	const { appointment, toggleOpen, status} = props
+	const { appointment, toggleOpen, status, isOpen} = props
 
 	return (
 		<div
@@ -23,6 +25,7 @@ function UpcomingAppointmentCardHeader (props: Props) {
 					<AppointmentApprovalStatus status={status} />
 				</div>
 			</div>
+			<AccordionArrow isOpen = {isOpen} />
 		</div>
 	)
 }
