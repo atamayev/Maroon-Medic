@@ -86,13 +86,6 @@ export async function addPetInsurance (req: Request, res: Response): Promise<voi
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-export async function deletePetInsurance (req: Request, res: Response): Promise<void> {
-	const petInfoId = req.body.petInfoId as number
-	const insuranceListId = req.body.insuranceListId as number
-	const operation: () => Promise<void> = async () => await SavePatientDataDB.deletePetInsurance(insuranceListId, petInfoId)
-	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
-}
-
 export async function addPetMedication (req: Request, res: Response): Promise<void> {
 	const petInfoId = req.body.petInfoId as number
 	const petMedication = req.body.petMedication as PetMedications

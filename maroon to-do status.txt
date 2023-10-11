@@ -3,10 +3,8 @@ To-do:
 Add Pet edits
 	Medication name, frequency (optional)
 		Add and delete 
-	Past procedures (procedure name, and date)
+	Past procedures (procedure name, and date) (optional)
 		Add and delete
-	Make insurance deleteble
-
 
 Make the pets list be an accordion
 

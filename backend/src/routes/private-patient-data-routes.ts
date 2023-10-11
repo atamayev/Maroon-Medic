@@ -13,7 +13,6 @@ import {
 	addPet,
 	deletePet,
 	addPetInsurance,
-	deletePetInsurance,
 	addPetProcedure,
 	addPetMedication,
 	deletePetMedication,
@@ -34,7 +33,6 @@ router.post("/save-personal-data", savePersonalData)
 router.post("/add-pet-data", addPet)
 router.delete("/delete-pet-data/:petId", deletePet)
 router.post("/add-pet-insurance", addPetInsurance)
-router.post("/delete-pet-insurance", deletePetInsurance)
 
 router.post("/add-pet-medication", addPetMedication)
 router.post("/delete-pet-medication", deletePetMedication)

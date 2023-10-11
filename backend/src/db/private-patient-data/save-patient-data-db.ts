@@ -70,13 +70,6 @@ export default new class SavePatientDataDB {
 		await connection.execute(sql, values)
 	}
 
-	async deletePetInsurance (insuranceListId: number, petInfoId: number): Promise<void> {
-		const sql = `DELETE FROM ${mysqlTables.insurance_mapping} WHERE insurance_id = ? AND pet_info_id = ?`
-		const values = [insuranceListId, petInfoId]
-		const connection = await connectDatabase()
-		await connection.execute(sql, values)
-	}
-
 	async deleteAllPetInsurances (petInfoId: number): Promise<void> {
 		const sql = `DELETE FROM ${mysqlTables.insurance_mapping} WHERE pet_info_id = ?`
 		const values = [petInfoId]
