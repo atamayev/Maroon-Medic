@@ -11,7 +11,13 @@ import {
 	addLanguage,
 	deleteLanguage,
 	addPet,
-	deletePet
+	deletePet,
+	addPetInsurance,
+	deletePetInsurance,
+	addPetProcedure,
+	addPetMedication,
+	deletePetMedication,
+	deletePetProcedure
 } from "../controllers/private-patient-data/save-patient-data-controller"
 
 const router = express.Router()
@@ -27,5 +33,13 @@ router.delete("/delete-language/:languageId", deleteLanguage)
 router.post("/save-personal-data", savePersonalData)
 router.post("/add-pet-data", addPet)
 router.delete("/delete-pet-data/:petId", deletePet)
+router.post("/add-pet-insurance", addPetInsurance)
+router.post("/delete-pet-insurance", deletePetInsurance)
+
+router.post("/add-pet-medication", addPetMedication)
+router.post("/delete-pet-medication", deletePetMedication)
+
+router.post("/add-pet-procedure", addPetProcedure)
+router.post("/delete-pet-procedure", deletePetProcedure)
 
 export default router

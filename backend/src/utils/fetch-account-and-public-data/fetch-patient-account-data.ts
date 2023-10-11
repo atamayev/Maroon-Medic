@@ -23,12 +23,12 @@ export default new class FetchPatientAccountData {
 
 				for (const pet of retrievePetData) {
 					const petMedicationResults = await FetchPatientAccountDataDB.petMedications(pet.petInfoId)
-					pet.petMedictions = petMedicationResults || []
+					pet.petMedictions = petMedicationResults
 				}
 
 				for (const pet of retrievePetData) {
 					const petProcedureResults = await FetchPatientAccountDataDB.petProcedures(pet.petInfoId)
-					pet.petProcedures = petProcedureResults || []
+					pet.petProcedures = petProcedureResults
 				}
 			}
 			return retrievePetData
