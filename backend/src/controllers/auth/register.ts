@@ -11,7 +11,7 @@ import {
 } from "../../utils/auth-helpers"
 
 export default async function register (req: Request, res: Response): Promise<Response> {
-	const { email, password, loginType } = req.body.registerInformationObject
+	const { email, password, loginType } = req.body.registerInformationObject as LoginInformationObject
 
 	if (!validateUserType(loginType)) return res.status(400).json({ error: "Invalid User Type" })
 

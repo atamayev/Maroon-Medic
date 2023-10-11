@@ -9,7 +9,7 @@ export async function savePersonalData (req: Request, res: Response): Promise<vo
 	const doctorId = req.doctorId
 	const doesRecordExist = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.checkIfPersonalDataExists, doctorId)
 
-	const personalInfo = req.body.personalInfo
+	const personalInfo = req.body.personalInfo as FormattedPersonalData
 
 	const dateOfBirth = TimeUtils.convertDOBStringIntoMySQLDate(personalInfo.birthMonth, personalInfo.birthDay, personalInfo.birthYear)
 
@@ -24,7 +24,7 @@ export async function savePersonalData (req: Request, res: Response): Promise<vo
 
 export async function saveDescriptionData (req: Request, res: Response): Promise<void> {
 	const doctorId = req.doctorId
-	const description = req.body.description
+	const description = req.body.description as string
 
 	const doesDescriptionExist = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.checkIfDescriptionExists, doctorId)
 
@@ -38,7 +38,7 @@ export async function saveDescriptionData (req: Request, res: Response): Promise
 }
 
 export async function addLanguage (req: Request, res: Response): Promise<void> {
-	const languageId: number = req.body.languageId
+	const languageId = req.body.languageId as number
 	const doctorId = req.doctorId
 	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.addLanguage(languageId, doctorId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
@@ -52,7 +52,7 @@ export async function deleteLanguage (req: Request, res: Response): Promise<void
 }
 
 export async function addSpecialty (req: Request, res: Response): Promise<void> {
-	const specialtyId = req.body.specialtyId
+	const specialtyId = req.body.specialtyId as number
 	const doctorId = req.doctorId
 	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.addSpecialty(specialtyId, doctorId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
@@ -66,7 +66,7 @@ export async function deleteSpecialty (req: Request, res: Response): Promise<voi
 }
 
 export async function addServicedPet (req: Request, res: Response): Promise<void> {
-	const servicedPetId = req.body.petId
+	const servicedPetId = req.body.petId as number
 	const doctorId = req.doctorId
 	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.addServicedPet(servicedPetId, doctorId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
@@ -80,14 +80,14 @@ export async function deleteServicedPet (req: Request, res: Response): Promise<v
 }
 
 export async function addService (req: Request, res: Response): Promise<void> {
-	const serviceObject = req.body.serviceObject
+	const serviceObject = req.body.serviceObject as DetailedServiceItem
 	const doctorId = req.doctorId
 	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.addServicesData(serviceObject, doctorId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
 export async function updateService (req: Request, res: Response): Promise<void> {
-	const serviceObject = req.body.serviceObject
+	const serviceObject = req.body.serviceObject as DetailedServiceItem
 	const doctorId = req.doctorId
 	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.updateServicesData(serviceObject, doctorId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
@@ -102,7 +102,7 @@ export async function deleteService (req: Request, res: Response): Promise<void>
 
 export async function addPreVetEducationData (req: Request, res: Response): Promise<void> {
 	const doctorId = req.doctorId
-	const preVetEducationData = req.body.preVetEducationData
+	const preVetEducationData = req.body.preVetEducationData as AddPreVetEducationItem
 	const operation: () => Promise<number> = async () => {
 		return await SaveDoctorDataDB.addPreVetEducationData(preVetEducationData, doctorId)
 	}
@@ -118,7 +118,7 @@ export async function deletePreVetEducationData (req: Request, res: Response): P
 
 export async function addVetEducationData (req: Request, res: Response): Promise<void> {
 	const doctorId = req.doctorId
-	const vetEducationData = req.body.vetEducationData
+	const vetEducationData = req.body.vetEducationData as AddEducationItem
 	const operation: () => Promise<number> = async () => {
 		return await SaveDoctorDataDB.addVetEducationData(vetEducationData, doctorId)
 	}
@@ -133,8 +133,8 @@ export async function deleteVetEducationData (req: Request, res: Response): Prom
 
 export async function addAddress (req: Request, res: Response): Promise<Response> {
 	const doctorId = req.doctorId
-	const addressData = req.body.addressData
-	const timesData = req.body.times
+	const addressData = req.body.addressData as PrivateDoctorAddressLessTimes
+	const timesData = req.body.times as DoctorAvailability[]
 
 	const insertId = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.addAddressRecord, addressData, doctorId)
 	const insertIdNumber = Number(insertId)
@@ -168,8 +168,8 @@ export async function deleteAddress (req: Request, res: Response): Promise<void>
 }
 
 export async function updateAddress (req: Request, res: Response): Promise<void> {
-	const addressData = req.body.addressData
-	const timesData = req.body.times
+	const addressData = req.body.addressData as PrivateDoctorAddressLessTimes
+	const timesData = req.body.times as DoctorAvailability[]
 
 	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.updateAddressRecord(addressData)
 	await OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, operation)

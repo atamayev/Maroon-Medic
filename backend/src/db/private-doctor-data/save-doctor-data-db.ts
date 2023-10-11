@@ -17,7 +17,7 @@ export default new class SaveDoctorDataDB {
 		return Boolean(doesRecordExist)
 	}
 
-	async updatePersonalData (personalInfo: DoctorPersonalInfoWithoutNVI, dateOfBirth: MysqlTimestamp, doctorId: number): Promise<void> {
+	async updatePersonalData (personalInfo: FormattedPersonalData, dateOfBirth: MysqlTimestamp, doctorId: number): Promise<void> {
 		const sql = `UPDATE ${mysqlTables.basic_user_info} SET first_name = ?, last_name = ?, gender = ?, date_of_birth = ?
 			WHERE user_id = ?`
 		const values = [personalInfo.firstName, personalInfo.lastName, personalInfo.gender, dateOfBirth, doctorId]
@@ -25,7 +25,7 @@ export default new class SaveDoctorDataDB {
 		await connection.execute(sql, values)
 	}
 
-	async addPersonalData (personalInfo: DoctorPersonalInfoWithoutNVI, dateOfBirth: MysqlTimestamp, doctorId: number): Promise<void> {
+	async addPersonalData (personalInfo: FormattedPersonalData, dateOfBirth: MysqlTimestamp, doctorId: number): Promise<void> {
 		const sql = `INSERT INTO ${mysqlTables.basic_user_info} (first_name, last_name, gender, date_of_birth, user_id)
 			VALUES (?, ?, ?, ?, ?)`
 		const values = [personalInfo.firstName, personalInfo.lastName, personalInfo.gender, dateOfBirth, doctorId]
@@ -98,7 +98,7 @@ export default new class SaveDoctorDataDB {
 		await connection.execute(sql, values)
 	}
 
-	async addServicesData (addedData: ServiceItem, doctorId: number): Promise<void> {
+	async addServicesData (addedData: DetailedServiceItem, doctorId: number): Promise<void> {
 		const sql = `INSERT INTO ${mysqlTables.service_mapping}
     		(service_and_category_id, service_time, service_price, doctor_id) VALUES (?, ?, ?, ?)`
 		const values = [addedData.serviceAndCategoryListId, addedData.serviceTime, addedData.servicePrice, doctorId]
@@ -113,7 +113,7 @@ export default new class SaveDoctorDataDB {
 		await connection.execute(sql, values)
 	}
 
-	async updateServicesData (updatedData: ServiceItem, doctorId: number): Promise<void> {
+	async updateServicesData (updatedData: DetailedServiceItem, doctorId: number): Promise<void> {
 		const sql = `UPDATE ${mysqlTables.service_mapping}
 			SET service_time = ?, service_price = ? WHERE service_and_category_id = ? AND doctor_id = ?`
 		const values = [updatedData.serviceTime, updatedData.servicePrice, updatedData.serviceAndCategoryListId, doctorId]

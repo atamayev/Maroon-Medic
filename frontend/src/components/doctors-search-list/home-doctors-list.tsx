@@ -6,8 +6,12 @@ export default function HomeDoctorsList() {
 	const [doctorData, setDoctorData] = useState<DoctorData[]>([])
 
 	const retrieveData = async () => {
-		const data = await fetchDoctorHomeList()
-		setDoctorData(data)
+		try {
+			const data = await fetchDoctorHomeList()
+			setDoctorData(data)
+		} catch (error) {
+
+		}
 	}
 
 	useEffect(() => {

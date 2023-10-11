@@ -2,12 +2,6 @@ import { mysqlTables } from "../../utils/table-names-list"
 import { connectDatabase } from "../../setup-and-security/connect"
 import { ResultSetHeader, RowDataPacket } from "mysql2"
 
-interface PersonalInfo {
-  firstName: string
-  lastName: string
-  gender: string
-}
-
 export default new class SavePatientDataDB {
 	async checkIfPersonalDataExists (patientId: number): Promise<boolean> {
 		const sql = `SELECT EXISTS(SELECT 1 FROM ${mysqlTables.basic_user_info} WHERE user_id = ?) AS 'exists' `
@@ -18,7 +12,7 @@ export default new class SavePatientDataDB {
 		return Boolean(doesRecordExist)
 	}
 
-	async updatePersonalData (personalInfo: PersonalInfo, dateOfBirth: MysqlTimestamp, patientId: number): Promise<void> {
+	async updatePersonalData (personalInfo: FormattedPersonalData, dateOfBirth: MysqlTimestamp, patientId: number): Promise<void> {
 		const sql = `UPDATE ${mysqlTables.basic_user_info} SET first_name = ?, last_name = ?, gender = ?, date_of_birth = ?
 			WHERE user_id = ?`
 		const values = [personalInfo.firstName, personalInfo.lastName, personalInfo.gender, dateOfBirth, patientId]
@@ -26,7 +20,7 @@ export default new class SavePatientDataDB {
 		await connection.execute(sql, values)
 	}
 
-	async addPersonalData (personalInfo: PersonalInfo, dateOfBirth: MysqlTimestamp, patientId: number): Promise<void> {
+	async addPersonalData (personalInfo: FormattedPersonalData, dateOfBirth: MysqlTimestamp, patientId: number): Promise<void> {
 		const sql = `INSERT INTO ${mysqlTables.basic_user_info} (first_name, last_name, gender, date_of_birth, user_id)
 			VALUES (?, ?, ?, ?, ?)`
 		const values = [personalInfo.firstName, personalInfo.lastName, personalInfo.gender, dateOfBirth, patientId]

@@ -4,7 +4,7 @@ import Hash from "../../setup-and-security/hash"
 import { UUID_to_ID } from "../../setup-and-security/UUID"
 
 export default async function changePassword (req: Request, res: Response): Promise<Response> {
-	const { currentPassword, newPassword } = req.body.changePasswordObject
+	const { currentPassword, newPassword } = req.body.changePasswordObject as ChangePasswordObject
 	const UUID = req.headers.uuid as string
 
 	let userId: number

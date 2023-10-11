@@ -8,7 +8,7 @@ import { ID_to_UUID } from "../../setup-and-security/UUID"
 import { validateUserType, signJWT } from "../../utils/auth-helpers"
 
 export default async function login (req: Request, res: Response): Promise<Response> {
-	const { email, password, loginType } = req.body.loginInformationObject
+	const { email, password, loginType } = req.body.loginInformationObject as LoginInformationObject
 
 	if (!validateUserType(loginType)) return res.status(400).json("Invalid User Type")
 

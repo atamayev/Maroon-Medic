@@ -58,14 +58,16 @@ declare global {
 		verified: boolean
 	}
 
-	type PrivateDoctorAddressData = AddressData & {
-		phone: string
-		times: DoctorAvailability[]
+	type PrivateDoctorAddressLessTimesAndPhone = AddressData & {
 		addressPublicStatus: boolean
 	}
 
-	type PrivateDoctorAddressLessTimesAndPhone = AddressData & {
-		addressPublicStatus: boolean
+	type PrivateDoctorAddressLessTimes = PrivateDoctorAddressLessTimesAndPhone & {
+		phone: string
+	}
+
+	type PrivateDoctorAddressData = PrivateDoctorAddressLessTimes & {
+		times: DoctorAvailability[]
 	}
 }
 

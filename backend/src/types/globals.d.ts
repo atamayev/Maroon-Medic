@@ -1,11 +1,8 @@
 declare global {
-	type ServiceItem = {
+	type DetailedServiceItem = {
 		serviceAndCategoryListId: number
 		serviceTime: string
 		servicePrice: number
-	}
-
-	type DetailedServiceItem = ServiceItem & {
 		categoryName: string
 		serviceName: string
 	}
@@ -53,8 +50,8 @@ declare global {
 	}
 
 	type AddressData = {
-		addressesId: number
 		addressPriority: number
+		addressesId: number
 		addressTitle: string
 		addressLine1: string
 		addressLine2: string

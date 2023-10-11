@@ -8,7 +8,7 @@ import FetchPatientAccountData from "../../utils/fetch-account-and-public-data/f
 
 export async function newPatient (req: Request, res: Response): Promise<void> {
 	const patientId = req.patientId
-	const newPatientObject = req.body.newPatientObject
+	const newPatientObject = req.body.newPatientObject as FormattedPersonalData
 
 	const dateOfBirth = TimeUtils.convertDOBStringIntoMySQLDate(
 		newPatientObject.birthMonth,
