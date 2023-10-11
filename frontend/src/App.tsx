@@ -3,7 +3,6 @@ import routes from "./routes"
 import Layout from "./layout"
 import useMonitorUserType from "./custom-hooks/use-monitor-user-type"
 
-
 export default function App() {
 	useMonitorUserType()
 
