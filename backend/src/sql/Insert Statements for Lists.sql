@@ -2362,7 +2362,7 @@ INSERT INTO major_list (Major_name) VALUES
 ("Zoology")
 ;
 
-INSERT INTO pre_vet_education_type_list (educationType) VALUES
+INSERT INTO pre_vet_education_type_list (education_type) VALUES
 ('Associate of Arts (A.A.)'),
 ('Associate of Science (A.S.)'),
 ('Associate of Applied Science (A.A.S.)'),
@@ -2436,13 +2436,13 @@ INSERT INTO vet_school_list (school_name) VALUES
 ("Western University of Health Sciences")
 ;
 
-INSERT INTO vet_education_type_list (educationType) VALUES
+INSERT INTO vet_education_type_list (education_type) VALUES
 ('ACVS Fellowship'),
 ('Doctor of Veterinary Medicine (D.V.M)'),
 ('Veterinariae Medicinae Doctoris (V.M.D)')
 ;
 
-INSERT INTO specialties_list (organizationName, specialty_name) VALUES
+INSERT INTO specialties_list (organization_name, specialty_name) VALUES
 ('American Board of Veterinary Practitioners',	'Avian'),
 ('American Board of Veterinary Practitioners',	'Beef cattle'),
 ('American Board of Veterinary Practitioners',	'Canine and feline'),
