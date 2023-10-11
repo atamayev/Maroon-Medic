@@ -1,9 +1,21 @@
 To-do:
 
+Add Pet edits
+	Medication name, frequency (optional)
+		Add and delete 
+	Past procedures (procedure name, and date)
+		Add and delete
+	Make insurance deleteble
+	
+
+Make the pets list be an accordion
+
 Fix the types on the vet education, prevet education in fetch public doctor data db
 	they do not contain the mapping id, and a new type should be created specifically for the public data.
 	go through the other public doctor data types, and see if they just use the private doctor types. make sure the fields match up.
 	fix in front-end as well.
+
+Assign types to all of the req.body.X in the backend
 
 Make the naming of the types in the front/backend match up better
 

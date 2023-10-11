@@ -14,4 +14,10 @@ export default new class PrivateDoctorDataService {
 	async fillInsurances(): Promise<AxiosResponse<InsuranceItem[]>> {
 		return await http.get<InsuranceItem[]>("/lists/fetch-insurances")
 	}
+	async fillPetMedications(): Promise<AxiosResponse<PetMedicationsItem[]>> {
+		return await http.get<PetMedicationsItem[]>("/lists/fetch-pet-medications")
+	}
+	async fillPetProcedures(): Promise<AxiosResponse<PetProceduresItem[]>> {
+		return await http.get<PetProceduresItem[]>("/lists/fetch-pet-procedures")
+	}
 }()

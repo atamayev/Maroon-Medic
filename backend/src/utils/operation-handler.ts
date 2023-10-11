@@ -2,6 +2,7 @@
 import { Response } from "express"
 
 export default new class OperationHandler {
+	// Use this function when you want to execute an async operation and return a custom value to the client
 	async executeAsyncOperationAndReturnCustomValueToRes(
 		res: Response,
 		operation: () => Promise<any>,
@@ -16,6 +17,7 @@ export default new class OperationHandler {
 		}
 	}
 
+	// Use this function when you want to execute an async operation without a custom value to the client
 	async executeAsyncOperationWithoutReturnValueNorRes(
 		res: Response,
 		operation: () => Promise<any>,
@@ -29,6 +31,7 @@ export default new class OperationHandler {
 		}
 	}
 
+	// Use this function when you want to execute an async operation and return the value of the operation to the client
 	async executeAsyncAndReturnValueToRes(
 		res: Response,
 		operation: () => Promise<any>,
@@ -43,6 +46,9 @@ export default new class OperationHandler {
 		}
 	}
 
+	// Use this function when you want to execute an async operation and return the value of the operation.
+	// This function does not return a value to the client
+	// This function accepts arbitrary number of arguments
 	async executeAsyncAndReturnValue<T>(
 		res: Response,
 		fn: (...args: any[]) => Promise<T>,

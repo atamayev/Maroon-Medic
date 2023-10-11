@@ -23,6 +23,32 @@ declare global {
 		petType: string
 		petInfoId: number
 		insuranceName: string
+		petMedictions: PetMedications[]
+		petProcedures: PetProcedures[]
+	}
+
+	type PetMedications = {
+		petMedicationsId: number
+		frequencyPeriod: string
+		frequencyCount: number
+	}
+
+	type PetProcedures = {
+		petProcedureId: number
+		procedureDate: MysqlTimestamp
+	}
+
+	interface PetItemForCreation {
+		name: string
+		gender: string
+		dateOfBirth: string
+		pet: string
+		petType: string
+		insuranceName: string
+		petListId: number
+		insuranceListId: number
+		petMedications: PetMedications[]
+		petProcedures: PetProcedures[]
 	}
 }
 

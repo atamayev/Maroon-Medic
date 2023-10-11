@@ -61,6 +61,16 @@ declare global {
 		languageListId: number
 		languageName: string
 	}
+
+	type PetMedicationsItem = {
+		petMedicationsListId: number
+		medicationName: string
+	}
+
+	type PetProceduresItem = {
+		petProceduresListId: number
+		procedureName: string
+	}
 }
 
 export {}

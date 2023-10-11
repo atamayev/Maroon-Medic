@@ -56,6 +56,13 @@ export default new class SavePatientDataDB {
 		return (result as ResultSetHeader).insertId
 	}
 
+	async deletePet(petId: number): Promise<void> {
+		const sql = `UPDATE ${mysqlTables.pet_info} SET is_active = 0 WHERE pet_info_id = ?`
+		const values = [petId]
+		const connection = await connectDatabase()
+		await connection.execute(sql, values)
+	}
+
 	async addNewPetInsurance (insuranceListId: number, petInfoId: number): Promise<void> {
 		const sql = `INSERT INTO ${mysqlTables.insurance_mapping} (insurance_id, pet_info_id) VALUES (?, ?)`
 		const values = [insuranceListId, petInfoId]
@@ -63,9 +70,62 @@ export default new class SavePatientDataDB {
 		await connection.execute(sql, values)
 	}
 
-	async deletePet(petId: number): Promise<void> {
-		const sql = `UPDATE ${mysqlTables.pet_info} SET is_active = 0 WHERE pet_info_id = ?`
-		const values = [petId]
+	async deletePetInsurance (insuranceListId: number, petInfoId: number): Promise<void> {
+		const sql = `DELETE FROM ${mysqlTables.insurance_mapping} WHERE insurance_id = ? AND pet_info_id = ?`
+		const values = [insuranceListId, petInfoId]
+		const connection = await connectDatabase()
+		await connection.execute(sql, values)
+	}
+
+	async deleteAllPetInsurances (petInfoId: number): Promise<void> {
+		const sql = `DELETE FROM ${mysqlTables.insurance_mapping} WHERE pet_info_id = ?`
+		const values = [petInfoId]
+		const connection = await connectDatabase()
+		await connection.execute(sql, values)
+	}
+
+	async addNewPetMedication (petMedication: PetMedications, petInfoId: number): Promise<void> {
+		const sql = `INSERT INTO ${mysqlTables.pet_medications_mapping}
+			(pet_medications_id, pet_info_id, frequency_period, frequency_count) VALUES (?, ?, ?, ?)`
+		const values = [petMedication.petMedicationsId, petInfoId, petMedication.frequencyPeriod, petMedication.frequencyCount]
+		const connection = await connectDatabase()
+		await connection.execute(sql, values)
+	}
+
+	async deletePetMedication (petMedicationId: number, petInfoId: number): Promise<void> {
+		const sql = `DELETE FROM ${mysqlTables.pet_medications_mapping}
+			WHERE pet_medications_id = ? AND pet_info_id = ?`
+		const values = [petMedicationId, petInfoId]
+		const connection = await connectDatabase()
+		await connection.execute(sql, values)
+	}
+
+	async deleteAllPetMedications (petInfoId: number): Promise<void> {
+		const sql = `DELETE FROM ${mysqlTables.pet_medications_mapping} WHERE pet_info_id = ?`
+		const values = [petInfoId]
+		const connection = await connectDatabase()
+		await connection.execute(sql, values)
+	}
+
+	async addNewPetProcedure (petData: PetProcedures, petInfoId: number): Promise<void> {
+		const sql = `INSERT INTO ${mysqlTables.pet_procedures_mapping}
+			(pet_procedures_id, pet_info_id, procedure_date) VALUES (?, ?, ?)`
+		const values = [petData.petProcedureId, petInfoId, petData.procedureDate]
+		const connection = await connectDatabase()
+		await connection.execute(sql, values)
+	}
+
+	async deletePetProcedure (petMedicationId: number, petInfoId: number): Promise<void> {
+		const sql = `DELETE FROM ${mysqlTables.pet_procedures_mapping}
+			WHERE pet_medications_id = ? AND pet_info_id = ?`
+		const values = [petMedicationId, petInfoId]
+		const connection = await connectDatabase()
+		await connection.execute(sql, values)
+	}
+
+	async deleteAllPetProcedures (petInfoId: number): Promise<void> {
+		const sql = `DELETE FROM ${mysqlTables.pet_procedures_mapping} WHERE pet_info_id = ?`
+		const values = [petInfoId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}

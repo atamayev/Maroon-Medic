@@ -20,6 +20,16 @@ export default new class FetchPatientAccountData {
 					const insuranceResults = await FetchPatientAccountDataDB.petInsurances(pet.petInfoId)
 					pet.insuranceName = insuranceResults || ""
 				}
+
+				for (const pet of retrievePetData) {
+					const petMedicationResults = await FetchPatientAccountDataDB.petMedications(pet.petInfoId)
+					pet.petMedictions = petMedicationResults || []
+				}
+
+				for (const pet of retrievePetData) {
+					const petProcedureResults = await FetchPatientAccountDataDB.petProcedures(pet.petInfoId)
+					pet.petProcedures = petProcedureResults || []
+				}
 			}
 			return retrievePetData
 		} catch (error: unknown) {

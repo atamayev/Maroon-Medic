@@ -250,6 +250,49 @@ CREATE TABLE specialty_mapping(
 
 SELECT * FROM specialty_mapping;
 
+CREATE TABLE pet_medications_list(
+	pet_medications_list_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	medication_name VARCHAR(300) NOT NULL
+);
+
+SELECT * FROM pet_medications_list;
+
+CREATE TABLE pet_medications_mapping(
+    pet_medications_mapping_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    pet_medications_id INT UNSIGNED NOT NULL,
+    pet_info_id INT UNSIGNED NOT NULL,
+    frequency_period ENUM('day', 'week', 'month') NOT NULL,
+    frequency_count INT UNSIGNED NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (pet_medications_id) REFERENCES pet_medications_list(pet_medications_list_id),
+    FOREIGN KEY (pet_info_id) REFERENCES pet_info(pet_info_id),
+    UNIQUE (pet_medications_id, pet_info_id)
+);
+
+SELECT * FROM pet_medications_mapping;
+
+CREATE TABLE pet_procedures_list(
+	pet_procedures_list_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	procedure_name VARCHAR(300) NOT NULL
+);
+
+SELECT * FROM pet_procedures_list;
+
+CREATE TABLE pet_procedures_mapping(
+    pet_procedures_mapping_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    pet_procedures_id INT UNSIGNED NOT NULL,
+    pet_info_id INT UNSIGNED NOT NULL,
+	procedure_date DATE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (pet_procedures_id) REFERENCES pet_procedures_list(pet_procedures_list_id),
+    FOREIGN KEY (pet_info_id) REFERENCES pet_info(pet_info_id),
+    UNIQUE (pet_procedures_id, pet_info_id)
+);
+
+SELECT * FROM pet_procedures_mapping;
+
 CREATE TABLE addresses(
 	addresses_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	address_title VARCHAR(200) NOT NULL,
