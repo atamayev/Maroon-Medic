@@ -4,6 +4,17 @@ declare global {
 		doctorLastName: string
 	}
 
+	type PetMedications = {
+		petMedicationsId: number
+		frequencyPeriod: string
+		frequencyCount: number
+	}
+
+	type PetProcedures = {
+		petProcedureId: number
+		procedureDate: MysqlTimestamp
+	}
+
 	interface BasePetInfo {
 		name: string
 		gender: string
@@ -11,6 +22,8 @@ declare global {
 		pet: string
 		petType: string
 		insuranceName: string
+		petMedications: PetMedications[]
+		petProcedures: PetProcedures[]
 	}
 
 	//This is the type for the pet data when it is being 'created' (not saved)

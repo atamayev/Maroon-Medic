@@ -13,8 +13,6 @@ Fix the types on the vet education, prevet education in fetch public doctor data
 	go through the other public doctor data types, and see if they just use the private doctor types. make sure the fields match up.
 	fix in front-end as well.
 
-Assign types to all of the req.body.X in the backend
-
 Make the naming of the types in the front/backend match up better
 
 Maroon --> Mane Transition
