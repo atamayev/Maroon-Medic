@@ -4,7 +4,6 @@ import SelectPetMedication from "./select-pet-medication"
 import SelectMedicationFrequency from "./select-medication-frequency"
 import SelectMedicationTimePeriod from "./select-medication-time-period"
 import Button from "src/components/button"
-import _ from "lodash"
 
 interface Props {
 	newPetData: PetItemForCreation

@@ -1,5 +1,6 @@
 To-do:
 
+-change the pet procedures to be able to add multiple of hte same procedure 
 Add Pet edits
 	Medication name, frequency (optional)
 		Add and delete 
@@ -7,6 +8,8 @@ Add Pet edits
 		Add and delete
 
 Make the pets list be an accordion
+
+Fix the postcss in the package.json to "postcss": "8.4.31",
 
 Learn how to do debugging in typsecript (breakpoints) https://www.youtube.com/watch?v=d56mG7DezGs
 

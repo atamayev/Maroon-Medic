@@ -16,8 +16,13 @@ declare global {
 	}
 
 	type PetProcedures = {
-		petProcedureId: number
+		petProceduresListId: number
 		procedureDate: MysqlTimestamp
+	}
+
+	type NewPetProceduresItem = PetProcedures & {
+		id: number
+		showDate: boolean
 	}
 
 	interface BasePetInfo {
