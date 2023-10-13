@@ -10,18 +10,24 @@ interface Props {
 	setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>
 }
 
-interface PetMedicationsItem {
+type NewPetMedicationsItem  = PetMedications &{
 	id: number
 	showFrequencyAndTimePeriod: boolean
 }
 
 function PetMedications(props: Props) {
 	const { newPetData, setNewPetData } = props
-	const [medications, setMedications] = useState<PetMedicationsItem[]>([{id: 1, showFrequencyAndTimePeriod: false}])
+	const [medications, setMedications] = useState<NewPetMedicationsItem[]>([])
 	const nextId = medications.length + 1
 
 	const addMedication = () => {
-		setMedications([...medications, {id: nextId, showFrequencyAndTimePeriod: false}])
+		setMedications([...medications, {
+			id: nextId,
+			showFrequencyAndTimePeriod: false,
+			petMedicationsId: 0,
+			frequencyPeriod: "",
+			frequencyCount: 0
+		}])
 	}
 
 	const removeMedication = (id: number) => {
@@ -35,8 +41,8 @@ function PetMedications(props: Props) {
 				<div key={med.id}>
 					<SelectPetMedication
 						id={med.id}
-						newPetData={newPetData}
-						setNewPetData={setNewPetData}
+						medications={medications}
+						setMedications={setMedications}
 						setShowFrequencyAndTimePeriod={(val: boolean) => {
 							const updatedMeds = medications.map(m => {
 								if (m.id === med.id) m.showFrequencyAndTimePeriod = val

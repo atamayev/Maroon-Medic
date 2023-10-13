@@ -15,6 +15,9 @@ Fix the types on the vet education, prevet education in fetch public doctor data
 
 Make the naming of the types in the front/backend match up better
 
+--change all front-end select month, day, year into a "date", like in pets.js
+	-make the date only be sometime in the past
+
 Maroon --> Mane Transition
 
 -setup postman to make making requests easier.
@@ -22,9 +25,6 @@ Maroon --> Mane Transition
 		or, make the UUID be a header (ie authorizatoin header) whenever sending a req back and forth
 			don't make it doctorUUID or patientUUID, just make it UUID. same for AccessToken
 			think about the best way to structure the acess token/ uuid thing
-
-On the My-Pets page, make each pet have it's own 'row' card, similar to addersses in doctor account details (shouldn't be able to close/open, always open)
-	show something like the picture on the left side, and then the details on the right. Details can include past appointments, other stuff (can always add later)
 
 -mini bug when making a booking. make a booking with `changes in behavior`. The time is 10 AM- 10AM (it's a full day appointment). Should say something like (10AM (july 17) - 10AM (july 18))
 
@@ -37,9 +37,6 @@ make the phone number input in the location.js only accept numbers (Phone input)
 -duplicate entries need to be accounted for when added to DB. Unique constraints. when the same data is entered into the pre_vet_edcatinn_mapping table, it gives an error, but doesn't enter the data.
 	Make the error on the front-end be say something like: duplicate entry. Or, don't allow the user to add the same entry twice
 	Do this for all tables
-
---change all front-end select month, day, year into a "date", like in pets.js
-	-make the date only be sometime in the past
 
 - when registering as a patient, need to make it clear when the user is entering data regrading the human, and when about the pet
 
