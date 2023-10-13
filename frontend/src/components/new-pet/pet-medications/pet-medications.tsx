@@ -10,7 +10,7 @@ interface Props {
 	setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>
 }
 
-type NewPetMedicationsItem  = PetMedications &{
+type NewPetMedicationsItem  = PetMedications & {
 	id: number
 	showFrequencyAndTimePeriod: boolean
 }
@@ -43,13 +43,6 @@ function PetMedications(props: Props) {
 						id={med.id}
 						medications={medications}
 						setMedications={setMedications}
-						setShowFrequencyAndTimePeriod={(val: boolean) => {
-							const updatedMeds = medications.map(m => {
-								if (m.id === med.id) m.showFrequencyAndTimePeriod = val
-								return m
-							})
-							setMedications(updatedMeds)
-						}}
 					/>
 					<SelectMedicationFrequency
 						id={med.id}

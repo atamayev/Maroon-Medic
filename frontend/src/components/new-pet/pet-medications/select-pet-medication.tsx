@@ -10,7 +10,6 @@ type NewPetMedicationsItem  = PetMedications & {
 
 interface Props {
 	id: number
-	setShowFrequencyAndTimePeriod: (val: boolean) => void
 	medications: NewPetMedicationsItem[]
 	setMedications: React.Dispatch<React.SetStateAction<NewPetMedicationsItem[]>>
 }
@@ -25,7 +24,7 @@ const filterUnsavedMedications = (
 }
 
 function SelectPetMedication(props: Props) {
-	const { id, setShowFrequencyAndTimePeriod, medications, setMedications } = props
+	const { id, medications, setMedications } = props
 	const patientData = useContext(AppContext).patientData
 
 	const filteredMedications = useMemo(() => {
@@ -66,8 +65,6 @@ function SelectPetMedication(props: Props) {
 		const newPetMedications = updateOrAddMedication(medications, newMedication)
 
 		setMedications(newPetMedications)
-
-		setShowFrequencyAndTimePeriod(true)
 	}
 
 	return (
@@ -75,7 +72,7 @@ function SelectPetMedication(props: Props) {
 			id="pet-medication"
 			name="pet-medication"
 			key={medications.length}
-			value={medications[medications.length - 1]?.petMedicationsId || ""}
+			value={medications[id - 1]?.petMedicationsId || ""}
 			onChange={handleSelectOption}
 			className = "text-brown-800 bg-yellow-100 border border-brown-400 \
 				rounded px-3 py-2 w-full focus:outline-none focus:border-amber-500"
