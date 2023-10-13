@@ -42,7 +42,6 @@ function SelectPetMedication(props: Props) {
 		return filterUnsavedMedications(patientData.petMedications, medications)
 	}, [patientData?.petMedications, medications])
 
-
 	const handleSelectOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		const selectedMedication = filteredMedications.find(
 			(medication) => medication.petMedicationsListId === Number(e.target.value)
@@ -55,7 +54,7 @@ function SelectPetMedication(props: Props) {
 			showFrequencyAndTimePeriod: true,
 			petMedicationsListId: selectedMedication.petMedicationsListId,
 			frequencyPeriod: "",
-			frequencyCount: 0,
+			frequencyCount: "",
 		}
 
 		const newPetMedications = updateOrAddMedication(medications, newMedication)

@@ -28,10 +28,12 @@ export default function NewPet (props: AddPetProps) {
 			petMedications: [], petProcedures: []
 		}
 	)
+	const [medications, setMedications] = useState<NewPetMedicationsItem[]>([])
+	const [procedures, setProcedures] = useState<NewPetProceduresItem[]>([])
 
 	const addPet = useAddPet()
-
-	if (!showAddPet) return null
+	console.log(procedures)
+	if (showAddPet === false) return null
 
 	return (
 		<div className="bg-white shadow rounded overflow-hidden border">
@@ -45,7 +47,7 @@ export default function NewPet (props: AddPetProps) {
 				<form
 					onSubmit = {(e) => {
 						e.preventDefault()
-						addPet(newPetData, setNewPetData, setPetConfirmation, setShowAddPet)
+						addPet(newPetData, setNewPetData, medications, procedures, setPetConfirmation, setShowAddPet)
 					}}
 				>
 					<div className = "flex">
@@ -79,22 +81,24 @@ export default function NewPet (props: AddPetProps) {
 
 						<div className = "w-1/3 mx-10">
 							<PetMedications
-								newPetData={newPetData}
-								setNewPetData={setNewPetData}
+								medications={medications}
+								setMedications={setMedications}
 							/>
 						</div>
 
 						<div className = "w-1/3">
 							<PetProcedures
-								newPetData={newPetData}
-								setNewPetData={setNewPetData}
+								procedures={procedures}
+								setProcedures={setProcedures}
 							/>
 						</div>
 					</div>
-					<div className="flex justify-end">
 
+					<div className="flex justify-end">
 						<AddPetButton
 							newPetData={newPetData}
+							medications={medications}
+							procedures={procedures}
 						/>
 					</div>
 

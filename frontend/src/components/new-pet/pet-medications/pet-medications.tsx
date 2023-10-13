@@ -1,18 +1,20 @@
-import { useState } from "react"
+import _ from "lodash"
+import { useContext } from "react"
 import { observer } from "mobx-react"
 import SelectPetMedication from "./select-pet-medication"
 import SelectMedicationFrequency from "./select-medication-frequency"
 import SelectMedicationTimePeriod from "./select-medication-time-period"
 import Button from "src/components/button"
+import AppContext from "src/contexts/maroon-context"
 
 interface Props {
-	newPetData: PetItemForCreation
-	setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>
+	medications: NewPetMedicationsItem[]
+	setMedications: React.Dispatch<React.SetStateAction<NewPetMedicationsItem[]>>
 }
 
 function PetMedications(props: Props) {
-	const { newPetData, setNewPetData } = props
-	const [medications, setMedications] = useState<NewPetMedicationsItem[]>([])
+	const { medications, setMedications } = props
+	const patientData = useContext(AppContext).patientData
 	const nextId = medications.length ? Math.max(...medications.map(med => med.id)) + 1 : 1
 
 	const addMedication = () => {
@@ -21,13 +23,25 @@ function PetMedications(props: Props) {
 			showFrequencyAndTimePeriod: false,
 			petMedicationsListId: 0,
 			frequencyPeriod: "",
-			frequencyCount: 0
+			frequencyCount: ""
 		}])
 	}
 
 	const removeMedication = (id: number) => {
 		setMedications(medications.filter(med => med.id !== id))
-		// Update newPetData to remove the medication
+	}
+
+	function DeleteMedicationTitle (id: number) {
+		const medicationItem = medications.find(med => med.id === id)
+		if (_.isUndefined(medicationItem)) return ""
+
+		const petMedListId = medicationItem.petMedicationsListId
+
+		const matchingPetMedication = patientData?.petMedications?.find(
+			med => med.petMedicationsListId === petMedListId
+		)
+
+		return "Delete " + _.get(matchingPetMedication, "medicationName", "")
 	}
 
 	return (
@@ -41,18 +55,18 @@ function PetMedications(props: Props) {
 					/>
 					<SelectMedicationFrequency
 						id={med.id}
-						newPetData={newPetData}
-						setNewPetData={setNewPetData}
+						medications={medications}
+						setMedications={setMedications}
 						showFrequencyAndTimePeriod={med.showFrequencyAndTimePeriod}
 					/>
 					<SelectMedicationTimePeriod
 						id={med.id}
-						newPetData={newPetData}
-						setNewPetData={setNewPetData}
+						medications={medications}
+						setMedications={setMedications}
 						showFrequencyAndTimePeriod={med.showFrequencyAndTimePeriod}
 					/>
 					<Button
-						title = "Delete Medication"
+						title = {DeleteMedicationTitle(med.id)}
 						onClick={() => removeMedication(med.id)}
 						colorClass = "bg-red-500"
 						hoverClass = "hover:bg-red-600"

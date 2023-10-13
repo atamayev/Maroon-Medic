@@ -1,16 +1,29 @@
-import { useState } from "react"
+import _ from "lodash"
 
 interface Props {
 	id: number
-	newPetData: PetItemForCreation
-	setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>
+	medications: NewPetMedicationsItem[]
+	setMedications: React.Dispatch<React.SetStateAction<NewPetMedicationsItem[]>>
 	showFrequencyAndTimePeriod: boolean
 }
 
 export default function SelectMedicationFrequency(props: Props) {
-	const { id, newPetData, setNewPetData, showFrequencyAndTimePeriod } = props
+	const { id, medications, setMedications, showFrequencyAndTimePeriod } = props
 
-	const [selectedNumber, setSelectedNumber] = useState<string | null>(null)
+	const medicationItem = _.find(medications, ["id", id])
+	const value = _.get(medicationItem, "frequencyCount", "")
+
+	const handleSelectFrequency = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		const updatedFrequency = e.target.value
+
+		const updatedMedications = medications.map(medication => {
+			if (medication.id === id) {
+				return { ...medication, frequencyCount: updatedFrequency }
+			}
+			return medication
+		})
+		setMedications(updatedMedications)
+	}
 
 	if (showFrequencyAndTimePeriod === false) return null
 
@@ -18,8 +31,8 @@ export default function SelectMedicationFrequency(props: Props) {
 		<select
 			id="number"
 			name="number"
-			value={selectedNumber || ""}
-			onChange={(e) => setSelectedNumber(e.target.value)}
+			value={value || ""}
+			onChange={handleSelectFrequency}
 			className="text-brown-800 bg-yellow-100 border border-brown-400 rounded px-3 py-2 \
 				w-full focus:outline-none focus:border-amber-500"
 		>

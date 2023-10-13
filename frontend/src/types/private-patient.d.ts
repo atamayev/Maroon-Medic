@@ -6,8 +6,8 @@ declare global {
 
 	type PetMedications = {
 		petMedicationsListId: number
+		frequencyCount: string
 		frequencyPeriod: string
-		frequencyCount: number
 	}
 
 	type NewPetMedicationsItem  = PetMedications & {

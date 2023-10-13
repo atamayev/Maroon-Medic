@@ -1,4 +1,9 @@
 To-do:
+bug: 
+	-change petMedicationsListId --> petMedicationsId
+	- will need to either convert from "Once", "Twice", etc. to 1, 2, 3. or change the variable type in the db to be a string (enum of "Once", "Twice", etc.)
+	-petProceduresListId --> petProcedureId
+	-- possibly need to convert the procedure Date to a SQL date?
 
 -change the pet procedures to be able to add multiple of hte same procedure 
 Add Pet edits

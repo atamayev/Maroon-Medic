@@ -1,7 +1,7 @@
 import Button from "src/components/button"
 import useModifyAddressData from "src/custom-hooks/account-details/save/doctor-account-details-helpers/use-modify-address-data"
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
-import { areAllFieldsValid, areAllTimesValid } from "src/utils/all-field-checks"
+import { areAllFieldsValid, areAllTimesValid } from "src/utils/field-checks/location-field-checks"
 
 interface Props {
 	address: DoctorAddressData

@@ -1,17 +1,5 @@
 import Button from "../button"
-
-function areAllFieldsValid(petData: PetItemForCreation) {
-	if (
-		!petData.name ||
-		!petData.gender ||
-		!petData.dateOfBirth ||
-		!petData.petType ||
-		!petData.insuranceName
-	) {
-		return false
-	}
-	return true
-}
+import areAllNewPetFieldsValid from "src/utils/field-checks/new-pet-field-checks"
 
 const newPetName = (petName: string | null) => {
 	if (!petName) return "Pet"
@@ -20,10 +8,14 @@ const newPetName = (petName: string | null) => {
 
 interface Props {
 	newPetData: PetItemForCreation
+	medications: NewPetMedicationsItem[]
+	procedures: NewPetProceduresItem[]
 }
 
 export default function AddPetButton (props: Props) {
-	const { newPetData } = props
+	const { newPetData, medications, procedures } = props
+
+	console.log(areAllNewPetFieldsValid(newPetData, medications, procedures))
 
 	return (
 		<div>
@@ -31,7 +23,7 @@ export default function AddPetButton (props: Props) {
 				colorClass = "bg-green-600"
 				hoverClass = "hover:bg-green-700"
 				title = {`Add ${newPetName(newPetData.name)}`}
-				disabled = {!areAllFieldsValid(newPetData)}
+				disabled = {!areAllNewPetFieldsValid(newPetData, medications, procedures)}
 				textColor = "text-white"
 			/>
 		</div>

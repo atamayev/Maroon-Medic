@@ -1,16 +1,27 @@
-import { useState } from "react"
+import _ from "lodash"
 
 interface Props {
 	id: number
-	newPetData: PetItemForCreation
-	setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>
+	medications: NewPetMedicationsItem[]
+	setMedications: React.Dispatch<React.SetStateAction<NewPetMedicationsItem[]>>
 	showFrequencyAndTimePeriod: boolean
 }
 
 export default function SelectMedicationTimePeriod(props: Props) {
-	const { id, newPetData, setNewPetData, showFrequencyAndTimePeriod } = props
+	const { id, medications, setMedications, showFrequencyAndTimePeriod } = props
 
-	const [selectedTimePeriod, setSelectedTimePeriod] = useState<string | null>(null)
+	const medicationItem = _.find(medications, ["id", id])
+	const value = _.get(medicationItem, "frequencyPeriod", "")
+
+	const handleSelectTimePeriod = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		const updatedMedications = medications.map(medication => {
+			if (medication.id === id) {
+				return { ...medication, frequencyPeriod: e.target.value }
+			}
+			return medication
+		})
+		setMedications(updatedMedications)
+	}
 
 	if (showFrequencyAndTimePeriod === false) return null
 
@@ -18,8 +29,8 @@ export default function SelectMedicationTimePeriod(props: Props) {
 		<select
 			id="time-period"
 			name="time-period"
-			value={selectedTimePeriod || ""}
-			onChange={(e) => setSelectedTimePeriod(e.target.value)}
+			value={value || ""}
+			onChange={handleSelectTimePeriod}
 			className="text-brown-800 bg-yellow-100 border border-brown-400 rounded px-3 py-2 \
 				w-full focus:outline-none focus:border-amber-500"
 		>

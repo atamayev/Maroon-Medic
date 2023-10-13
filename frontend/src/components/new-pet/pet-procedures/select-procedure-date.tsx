@@ -1,17 +1,29 @@
-import { useState } from "react"
+import _ from "lodash"
 import FormGroup from "src/components/form-group"
 
 interface Props {
 	id: number
-	newPetData: PetItemForCreation
-	setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>
+	procedures: NewPetProceduresItem[]
+	setProcedures: React.Dispatch<React.SetStateAction<NewPetProceduresItem[]>>
 	showDate: boolean
 }
 
 export default function SelectProcedureDate(props: Props) {
-	const { id, newPetData, setNewPetData, showDate } = props
+	const { id, procedures, setProcedures, showDate } = props
 
-	const [selectedDate, setSelectedDate] = useState<string | null>(null)
+	const medicationItem = _.find(procedures, ["id", id])
+	const value = _.get(medicationItem, "procedureDate", "")
+
+
+	const handleSelectDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const updatedProcedues = procedures.map(procedure => {
+			if (procedure.id === id) {
+				return { ...procedure, procedureDate: e.target.value }
+			}
+			return procedure
+		})
+		setProcedures(updatedProcedues)
+	}
 
 	if (showDate === false) return null
 
@@ -21,9 +33,9 @@ export default function SelectProcedureDate(props: Props) {
 			className = "mb-3"
 			label = "Procedure Date"
 			type = "date"
-			onChange = {(e) => setSelectedDate(e.target.value)}
+			onChange = {handleSelectDate}
 			name = "dateOfBirth"
-			value = {selectedDate || ""}
+			value = {value || ""}
 			required
 		/>
 	)
