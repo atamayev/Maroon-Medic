@@ -8,7 +8,7 @@ import PetTypeSection from "src/components/new-pet/pet-type-section"
 import InsuranceSection from "src/components/new-pet/insurance-section"
 import AddPetButton from "src/components/new-pet/add-pet-button"
 import useAddPet from "src/custom-hooks/my-pets/use-add-pet"
-import PastPetProcedures from "src/components/new-pet/pet-procedures/past-pet-procedures"
+import PetProcedures from "src/components/new-pet/pet-procedures/pet-procedures"
 import PetMedications from "src/components/new-pet/pet-medications/pet-medications"
 
 interface AddPetProps {
@@ -85,7 +85,7 @@ export default function NewPet (props: AddPetProps) {
 						</div>
 
 						<div className = "w-1/3">
-							<PastPetProcedures
+							<PetProcedures
 								newPetData={newPetData}
 								setNewPetData={setNewPetData}
 							/>

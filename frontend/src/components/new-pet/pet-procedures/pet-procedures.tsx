@@ -9,7 +9,7 @@ interface Props {
 	setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>
 }
 
-function PastPetProcedures(props: Props) {
+function PetProcedures(props: Props) {
 	const { newPetData, setNewPetData } = props
 	const [procedures, setProcedures] = useState<NewPetProceduresItem[]>([])
 	const nextId = procedures.length ? Math.max(...procedures.map(med => med.id)) + 1 : 1
@@ -61,4 +61,4 @@ function PastPetProcedures(props: Props) {
 	)
 }
 
-export default observer(PastPetProcedures)
+export default observer(PetProcedures)
