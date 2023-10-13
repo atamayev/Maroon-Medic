@@ -8,6 +8,8 @@ Add Pet edits
 
 Make the pets list be an accordion
 
+Learn how to do debugging in typsecript (breakpoints) https://www.youtube.com/watch?v=d56mG7DezGs
+
 Fix the types on the vet education, prevet education in fetch public doctor data db
 	they do not contain the mapping id, and a new type should be created specifically for the public data.
 	go through the other public doctor data types, and see if they just use the private doctor types. make sure the fields match up.

@@ -4,27 +4,23 @@ import SelectPetMedication from "./select-pet-medication"
 import SelectMedicationFrequency from "./select-medication-frequency"
 import SelectMedicationTimePeriod from "./select-medication-time-period"
 import Button from "src/components/button"
+import _ from "lodash"
 
 interface Props {
 	newPetData: PetItemForCreation
 	setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>
 }
 
-type NewPetMedicationsItem  = PetMedications & {
-	id: number
-	showFrequencyAndTimePeriod: boolean
-}
-
 function PetMedications(props: Props) {
 	const { newPetData, setNewPetData } = props
 	const [medications, setMedications] = useState<NewPetMedicationsItem[]>([])
-	const nextId = medications.length + 1
+	const nextId = medications.length ? Math.max(...medications.map(med => med.id)) + 1 : 1
 
 	const addMedication = () => {
 		setMedications([...medications, {
 			id: nextId,
 			showFrequencyAndTimePeriod: false,
-			petMedicationsId: 0,
+			petMedicationsListId: 0,
 			frequencyPeriod: "",
 			frequencyCount: 0
 		}])

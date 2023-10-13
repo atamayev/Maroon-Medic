@@ -3,11 +3,6 @@ import { observer } from "mobx-react"
 import { useContext, useMemo } from "react"
 import AppContext from "src/contexts/maroon-context"
 
-type NewPetMedicationsItem  = PetMedications & {
-	id: number
-	showFrequencyAndTimePeriod: boolean
-}
-
 interface Props {
 	id: number
 	medications: NewPetMedicationsItem[]
@@ -23,6 +18,18 @@ const filterUnsavedMedications = (
 	})
 }
 
+const updateOrAddMedication = (
+	medications: NewPetMedicationsItem[],
+	newMedication: NewPetMedicationsItem
+): NewPetMedicationsItem[] => {
+	return medications.map((medication) => {
+		if (medication.id === newMedication.id) {
+			return newMedication
+		}
+		return medication
+	})
+}
+
 function SelectPetMedication(props: Props) {
 	const { id, medications, setMedications } = props
 	const patientData = useContext(AppContext).patientData
@@ -35,17 +42,6 @@ function SelectPetMedication(props: Props) {
 		return filterUnsavedMedications(patientData.petMedications, medications)
 	}, [patientData?.petMedications, medications])
 
-	const updateOrAddMedication = (
-		medications1: NewPetMedicationsItem[],
-		newMedication: NewPetMedicationsItem
-	): NewPetMedicationsItem[] => {
-		return medications1.map((medication) => {
-			if (medication.id === newMedication.id) {
-				return newMedication
-			}
-			return medication
-		})
-	}
 
 	const handleSelectOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		const selectedMedication = filteredMedications.find(
@@ -57,7 +53,7 @@ function SelectPetMedication(props: Props) {
 		const newMedication  = {
 			id,
 			showFrequencyAndTimePeriod: true,
-			petMedicationsId: selectedMedication.petMedicationsListId,
+			petMedicationsListId: selectedMedication.petMedicationsListId,
 			frequencyPeriod: "",
 			frequencyCount: 0,
 		}
@@ -67,12 +63,15 @@ function SelectPetMedication(props: Props) {
 		setMedications(newPetMedications)
 	}
 
+	const medicationItem = _.find(medications, ["id", id])
+	const value = _.get(medicationItem, "petMedicationsListId", "")
+
 	return (
 		<select
 			id="pet-medication"
 			name="pet-medication"
 			key={medications.length}
-			value={medications[id - 1]?.petMedicationsId || ""}
+			value = {value || ""}
 			onChange={handleSelectOption}
 			className = "text-brown-800 bg-yellow-100 border border-brown-400 \
 				rounded px-3 py-2 w-full focus:outline-none focus:border-amber-500"

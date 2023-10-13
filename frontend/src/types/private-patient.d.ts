@@ -5,9 +5,14 @@ declare global {
 	}
 
 	type PetMedications = {
-		petMedicationsId: number
+		petMedicationsListId: number
 		frequencyPeriod: string
 		frequencyCount: number
+	}
+
+	type NewPetMedicationsItem  = PetMedications & {
+		id: number
+		showFrequencyAndTimePeriod: boolean
 	}
 
 	type PetProcedures = {
