@@ -6,7 +6,6 @@ CREATE TABLE credentials (
 	user_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	email VARCHAR(150) NOT NULL,
 	password VARCHAR(150) NOT NULL,
-	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	user_type VARCHAR(20) NOT NULL, -- can be Doctor, Patient, admin, Administrator
 	is_active BOOLEAN NOT NULL DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
