@@ -4,26 +4,25 @@ import AppContext from "src/contexts/maroon-context"
 import fetchLoginHistory from "src/helper-functions/shared/fetch-login-history"
 
 export default function useSetLoginHistory(
-	userType: DoctorOrPatientOrNull,
 	expectedUserType: DoctorOrPatient
 ): LoginHistoryItem[] {
-	const sharedData = useContext(AppContext).sharedData
+	const appContext = useContext(AppContext)
 	const [loginHistory, setLoginHistory] = useState<LoginHistoryItem[]>([])
 
 	useEffect(() => {
-		if (userType !== expectedUserType) return
+		if (appContext.auth.userType !== expectedUserType) return
 		const checkForLoginHistory: () => Promise<void> = async () => {
 			try {
-				if (!_.isNull(sharedData) && !_.isNull(sharedData.loginHistory)) {
-					setLoginHistory(sharedData.loginHistory)
+				if (!_.isNull(appContext.sharedData) && !_.isNull(appContext.sharedData.loginHistory)) {
+					setLoginHistory(appContext.sharedData.loginHistory)
 				}
-				else await fetchLoginHistory(setLoginHistory, sharedData)
+				else await fetchLoginHistory(setLoginHistory, appContext.sharedData)
 			} catch (error) {
 			}
 		}
 
 		checkForLoginHistory()
-	}, [userType])
+	}, [appContext.auth.userType])
 
 	return loginHistory
 }

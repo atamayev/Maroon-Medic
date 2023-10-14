@@ -8,14 +8,12 @@ import PrivatePatientDataService from "src/services/private-patient-data-service
 export default function useSavePersonalInfo () : (
 	personalInfo: BirthDateInfo,
 	setPersonalInfoConfirmation: (conf: ConfirmationMessage) => void,
-	userType: DoctorOrPatient
 ) => Promise<void> {
 	const appContext = useContext(AppContext)
 
 	return async (
 		personalInfo: BirthDateInfo,
 		setPersonalInfoConfirmation: (conf: ConfirmationMessage) => void,
-		userType: DoctorOrPatient
 	): Promise<void> => {
 		const stringifiedPersonalInfoData = personalInfo
 		if (_.isNull(appContext.sharedData)) return
@@ -23,8 +21,11 @@ export default function useSavePersonalInfo () : (
 		try {
 			if (!_.isEqual(stringifiedPersonalInfoData, appContext.sharedData.personalInfo)) {
 				let response: AxiosResponse
-				if (userType === "Doctor") response = await PrivateDoctorDataService.savePersonalData(personalInfo)
-				else response = await PrivatePatientDataService.savePersonalData(personalInfo)
+				if (appContext.auth.userType === "Doctor") {
+					response = await PrivateDoctorDataService.savePersonalData(personalInfo)
+				} else {
+					response = await PrivatePatientDataService.savePersonalData(personalInfo)
+				}
 
 				if (response.status === 200) {
 					appContext.sharedData.initializePersonalInfo(personalInfo)

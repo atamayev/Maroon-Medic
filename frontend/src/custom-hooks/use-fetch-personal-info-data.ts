@@ -7,20 +7,19 @@ import PrivatePatientDataService from "src/services/private-patient-data-service
 import handle401AxiosError from "src/utils/handle-errors/handle-401-axios-error"
 
 export default async function useFetchPersonalInfoData(
-	setPersonalInfo: React.Dispatch<React.SetStateAction<BirthDateInfo>>,
-	userType: DoctorOrPatient
+	setPersonalInfo: React.Dispatch<React.SetStateAction<BirthDateInfo>>
 ): Promise<void> {
-	const sharedData = useContext(AppContext).sharedData
+	const appContext = useContext(AppContext)
 
 	try {
-		if (_.isNull(sharedData)) return
+		if (_.isNull(appContext.sharedData) || _.isNull(appContext.auth.userType)) return
 		let response: AxiosResponse
 
-		if (userType === "Doctor") response = await PrivateDoctorDataService.fillPersonalData()
+		if (appContext.auth.userType === "Doctor") response = await PrivateDoctorDataService.fillPersonalData()
 		else response = await PrivatePatientDataService.fillPersonalData()
 
 		setPersonalInfo(response.data)
-		sharedData.initializePersonalInfo(response.data)
+		appContext.sharedData.initializePersonalInfo(response.data)
 	} catch (error: unknown) {
 		handle401AxiosError(error)
 	}

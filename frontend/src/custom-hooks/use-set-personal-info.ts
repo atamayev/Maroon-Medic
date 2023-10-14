@@ -4,27 +4,27 @@ import AppContext from "src/contexts/maroon-context"
 import useFetchPersonalInfoData from "src/custom-hooks/use-fetch-personal-info-data"
 
 export default function useSetPersonalInfo(
-	userType: DoctorOrPatientOrNull,
 	expectedUserType: DoctorOrPatient
-): {personalInfo: BirthDateInfo, setPersonalInfo: React.Dispatch<React.SetStateAction<BirthDateInfo>>}
-{
-	const sharedData = useContext(AppContext).sharedData
+): {
+	personalInfo: BirthDateInfo, setPersonalInfo: React.Dispatch<React.SetStateAction<BirthDateInfo>>
+} {
+	const appContext = useContext(AppContext)
 	const [personalInfo, setPersonalInfo] = useState<BirthDateInfo>({} as BirthDateInfo)
 
 	useEffect(() => {
-		if (userType !== expectedUserType) return
+		if (appContext.auth.userType !== expectedUserType) return
 		const fetchAndSetPersonalInfo: () => Promise<void> = async () => {
 			try {
-				if (!_.isNull(sharedData) && !_.isNull(sharedData.personalInfo)) {
-					setPersonalInfo(sharedData.personalInfo)
+				if (!_.isNull(appContext.sharedData) && !_.isNull(appContext.sharedData.personalInfo)) {
+					setPersonalInfo(appContext.sharedData.personalInfo)
 				}
-				else await useFetchPersonalInfoData(setPersonalInfo, userType)
+				else await useFetchPersonalInfoData(setPersonalInfo)
 			} catch (error) {
 			}
 		}
 
 		fetchAndSetPersonalInfo()
-	}, [userType])
+	}, [appContext.auth.userType])
 
 	return { personalInfo, setPersonalInfo }
 }
