@@ -14,7 +14,7 @@ export async function searchByQuery (req: Request, res: Response): Promise<Respo
 }
 
 export async function fetchUsers (req: Request, res: Response): Promise<void> {
-	const operation: () => Promise<DoctorPersonalInfo[]> = async () => {
+	const operation: () => Promise<DoctorPersonalInfoWithoutGender[]> = async () => {
 		return await SearchDB.retrieveAllDoctors()
 	}
 	await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])

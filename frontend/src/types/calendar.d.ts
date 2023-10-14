@@ -1,15 +1,15 @@
 declare global {
 	interface AppointmentObject {
+		appointmentPrice: number
+		appointmentTimespan: number
+		message: string
+		instantBook: boolean
 		serviceAndCategoryListId: number
+		selectedPetId: number
+		addressesId: number
+		nvi: number
 		appointmentDate: string
 		appointmentTime: string
-		appointmentTimespan: number
-		appointmentPrice: number
-		nvi: number
-		addressesId: number
-		instantBook: boolean
-		message: string
-		selectedPetId: number
 	}
 }
 

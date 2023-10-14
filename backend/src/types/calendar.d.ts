@@ -16,8 +16,8 @@ declare global {
 		appointmentsId: number
 		appointmentDate: MysqlTimestamp
 		appointmentPrice: number
-		patientMessage: string
 		appointmentTimespan: number
+		patientMessage: string
 		doctorConfirmationStatus: DoctorConfirmationStatuses
 		createdAt: MysqlTimestamp
 		categoryName: string

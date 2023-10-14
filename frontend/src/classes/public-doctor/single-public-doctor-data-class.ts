@@ -9,8 +9,8 @@ export default class SinglePublicDoctorDataClass {
 	doctorLanguages: LanguageName[] = []
 	doctorServices: ServiceItemNotNullablePrice[] = []
 	doctorSpecialties: OrganizationSpecialtyName[] = []
-	doctorPreVetEducation: PreVetEducationItem[] = []
-	doctorVetEducation: VetEducationItem[] = []
+	doctorPreVetEducation: PublicPreVetEducationItem[] = []
+	doctorVetEducation: EducationBase[] = []
 	doctorAddressData: PublicAddressData[] = []
 	description: string = ""
 	servicedPets: ServicedPetData[] = []

@@ -22,7 +22,7 @@ declare global {
 		servicePrice: number | null
 	}
 
-	interface ServiceItemNotNullablePrice extends ServiceItem{
+	interface ServiceItemNotNullablePrice extends ServiceItem {
 		servicePrice: number
 	}
 

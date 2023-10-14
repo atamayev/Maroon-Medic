@@ -98,6 +98,12 @@ declare global {
 		appointmentInformation: AppointmentInformation
 		setAppointmentInformation: React.Dispatch<React.SetStateAction<AppointmentInformation>>
 	}
+
+	type SpecialtyItem = {
+		specialtiesListId: number
+		organizationName: string
+		specialtyName: string
+	}
 }
 
 export {}
