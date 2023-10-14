@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import _ from "lodash"
 import { useContext } from "react"
 import AppContext from "src/contexts/maroon-context"
@@ -16,14 +17,21 @@ function petDataOperations(petData: PetItemForCreation, responseData: number): S
 export default function useAddPet() : (
 	petData: PetItemForCreation,
 	setPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>,
+	medications: NewPetMedicationsItem[],
+	procedures: NewPetProceduresItem[],
 	setPetConfirmation: (conf: ConfirmationMessage) => void,
 	setShowAddPet: React.Dispatch<React.SetStateAction<boolean>>
 ) => Promise<void> {
 	const appContext = useContext(AppContext)
 
-	return async (petData, setPetData, setPetConfirmation, setShowAddPet): Promise<void> => {
+	return async (petData, setPetData, medications, procedures, setPetConfirmation, setShowAddPet): Promise<void> => {
 		if (_.isNull(appContext.patientData)) return
 		try {
+			const filteredMedications = medications.map(({ id, showFrequencyAndTimePeriod, ...rest }) => rest)
+			const filteredProcedures = procedures.map(({ id, showDate, ...rest }) => rest)
+			petData.petMedications = filteredMedications
+			petData.petProcedures = filteredProcedures
+
 			const response = await PrivatePatientDataService.addPetData(petData)
 			if (response.status === 200 && typeof response.data === "number") {
 				const updatedPetData = petDataOperations(petData, response.data)

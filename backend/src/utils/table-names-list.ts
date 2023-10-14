@@ -27,5 +27,9 @@ export const mysqlTables = {
 	uuid_reference: "uuid_reference",
 	vet_education_mapping: "vet_education_mapping",
 	vet_education_type_list: "vet_education_type_list",
-	vet_school_list: "vet_school_list"
+	vet_school_list: "vet_school_list",
+	pet_medications_list: "pet_medications_list",
+	pet_medications_mapping: "pet_medications_mapping",
+	pet_procedures_list: "pet_procedures_list",
+	pet_procedures_mapping: "pet_procedures_mapping",
 }

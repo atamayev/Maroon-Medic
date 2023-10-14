@@ -1,9 +1,9 @@
 import _ from "lodash"
 import { useContext } from "react"
+import { observer } from "mobx-react"
 import AppContext from "src/contexts/maroon-context"
 import FormGroup from "../form-group"
-import handlePetInfoInput from "src/helper-functions/patient/new-pet/handle-input-change/handle-pet-info-input"
-import { observer } from "mobx-react"
+import ifInsuranceSelected from "src/helper-functions/patient/new-pet/handle-input-change/if-insurance-selected"
 
 interface Props {
 	newPetData: PetItemForCreation
@@ -20,7 +20,7 @@ function InsuranceSection (props: Props) {
 		<FormGroup
 			as = "select"
 			onChange = {
-				(e) => handlePetInfoInput(e, newPetData, setNewPetData, insurances)
+				(e) => ifInsuranceSelected(e.target.value, insurances, newPetData, setNewPetData)
 			}
 			name = "insurance"
 			required

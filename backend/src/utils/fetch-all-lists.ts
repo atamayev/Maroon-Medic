@@ -28,6 +28,14 @@ export default new class FetchAll {
 		return await this.#fetchAll(mysqlTables.insurance_list)
 	}
 
+	async petMedications(): Promise<PetMedicationsItem[]> {
+		return await this.#fetchAll(mysqlTables.pet_medications_list)
+	}
+
+	async petProcedures(): Promise<PetProceduresItem[]> {
+		return await this.#fetchAll(mysqlTables.pet_procedures_list)
+	}
+
 	async languages(): Promise<LanguageItem[]> {
 		return await this.#fetchAll(mysqlTables.language_list)
 	}

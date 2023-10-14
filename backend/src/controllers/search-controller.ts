@@ -3,12 +3,8 @@ import FetchAll from "../utils/fetch-all-lists"
 import OperationHandler from "../utils/operation-handler"
 import { Request, Response } from "express"
 
-interface Params {
-	query: string
-}
-
-export async function searchByQuery (req: Request<Params>, res: Response): Promise<Response> {
-	const userQuery = req.params.query
+export async function searchByQuery (req: Request, res: Response): Promise<Response> {
+	const userQuery = req.params.query as string
 	try {
 		const searchResults = await SearchDB.retrieveDoctorsFromSearchTerm(userQuery)
 		return res.status(200).json(searchResults)

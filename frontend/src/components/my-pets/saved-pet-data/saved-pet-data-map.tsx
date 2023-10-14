@@ -12,13 +12,13 @@ interface Props {
 
 function SavedPetDataMap (props: Props) {
 	const { setPetToDelete, setShowModal } = props
-	const { patientData } = useContext(AppContext)
+	const patientPetData = useContext(AppContext).patientData?.patientPetData
 
-	if (_.isNull(patientData)) return null
+	if (_.isNil(patientPetData)) return null
 
 	return (
 		<div className="flex flex-wrap">
-			{patientData.patientPetData.map((pet) => (
+			{patientPetData.map((pet) => (
 				<div
 					key={pet.petInfoId}
 					className="m-3 bg-yellow-100 border border-brown-400 rounded mt-3 w-72"

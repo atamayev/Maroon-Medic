@@ -59,4 +59,38 @@ export default new class FetchPatientAccountDataDB {
 		const insurance = (camelCasedPetData[0] as InsuranceItem).insuranceName
 		return insurance as string
 	}
+
+	async petMedications (petInfoId: number): Promise<PetMedications[]> {
+		const sql = `SELECT ${mysqlTables.pet_medications_list}.medication_name
+        FROM ${mysqlTables.pet_medications_list}
+            JOIN ${mysqlTables.pet_medications_mapping} ON
+            ${mysqlTables.pet_medications_list}.pet_medications_list_id = ${mysqlTables.pet_medications_mapping}.pet_medications_id
+        WHERE
+            ${mysqlTables.pet_medications_mapping}.pet_info_id = ?`
+
+		const values = [petInfoId]
+
+		const connection = await connectDatabase()
+		const [results] = await connection.execute(sql, values) as RowDataPacket[]
+		const petMedicationsResults = results.map((row: RowDataPacket) => row as PetMedications)
+		const camelCasedPetMedicationData = transformArrayOfObjectsToCamelCase(petMedicationsResults)
+		return camelCasedPetMedicationData as PetMedications[]
+	}
+
+	async petProcedures (petInfoId: number): Promise<PetProcedures[]> {
+		const sql = `SELECT ${mysqlTables.pet_procedures_list}.procedure_name
+        FROM ${mysqlTables.pet_procedures_list}
+            JOIN ${mysqlTables.pet_procedures_mapping} ON
+            ${mysqlTables.pet_procedures_list}.pet_procedures_list_id = ${mysqlTables.pet_procedures_mapping}.pet_procedures_id
+        WHERE
+            ${mysqlTables.pet_procedures_mapping}.pet_info_id = ?`
+
+		const values = [petInfoId]
+
+		const connection = await connectDatabase()
+		const [results] = await connection.execute(sql, values) as RowDataPacket[]
+		const petProceduresResults = results.map((row: RowDataPacket) => row as PetProcedures)
+		const camelCasedPetProceduresData = transformArrayOfObjectsToCamelCase(petProceduresResults)
+		return camelCasedPetProceduresData as PetProcedures[]
+	}
 }()

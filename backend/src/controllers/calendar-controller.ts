@@ -38,14 +38,14 @@ export async function getDoctorCalendarDetails(req: Request, res: Response): Pro
 }
 
 export async function confirmAppointment (req: Request, res: Response): Promise<void> {
-	const appointmentId = req.body.appointmentId
+	const appointmentId = req.body.appointmentId as number
 
 	const operation: () => Promise<void> = async () => await CalendarDB.confirmAppointmentStatus(appointmentId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
 export async function denyAppointment (req: Request, res: Response): Promise<void> {
-	const appointmentId = req.body.appointmentId
+	const appointmentId = req.body.appointmentId as number
 
 	const operation: () => Promise<void> = async () => await CalendarDB.denyAppointmentStatus(appointmentId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)

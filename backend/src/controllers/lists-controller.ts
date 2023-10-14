@@ -44,3 +44,17 @@ export async function fetchInsurances (req: Request, res: Response): Promise<voi
 	}
 	await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }
+
+export async function fetchPetMedications (req: Request, res: Response): Promise<void> {
+	const operation: () => Promise<PetMedicationsItem[]> = async () => {
+		return await FetchAll.petMedications()
+	}
+	await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
+}
+
+export async function fetchPetProcedures (req: Request, res: Response): Promise<void> {
+	const operation: () => Promise<PetProceduresItem[]> = async () => {
+		return await FetchAll.petProcedures()
+	}
+	await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
+}

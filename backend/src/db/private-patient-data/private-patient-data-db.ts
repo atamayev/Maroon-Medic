@@ -4,7 +4,7 @@ import { RowDataPacket } from "mysql2"
 import { transformArrayOfObjectsToCamelCase, transformKeysToCamelCase } from "../../utils/transform-keys-to-camel-case"
 
 export default new class PrivatePatientDataDB {
-	async addNewPatientInfo (patientInfo: UserInfo, dateOfBirth: MysqlTimestamp, userId: number): Promise<void> {
+	async addNewPatientInfo (patientInfo: FormattedPersonalData, dateOfBirth: MysqlTimestamp, userId: number): Promise<void> {
 		const sql = `INSERT INTO ${mysqlTables.basic_user_info} (first_name, last_name, gender, date_of_birth, user_id)
 			VALUES (?, ?, ?, ?, ?)`
 		const values = [patientInfo.firstName, patientInfo.lastName, patientInfo.gender, dateOfBirth, userId]

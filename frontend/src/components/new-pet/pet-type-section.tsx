@@ -1,9 +1,9 @@
 import _ from "lodash"
-import { observer } from "mobx-react"
 import { useContext } from "react"
+import { observer } from "mobx-react"
 import AppContext from "src/contexts/maroon-context"
 import FormGroup from "../form-group"
-import handlePetInfoInput from "src/helper-functions/patient/new-pet/handle-input-change/handle-pet-info-input"
+import ifPetTypeSelected from "src/helper-functions/patient/new-pet/handle-input-change/if-pet-type-selected"
 
 interface Props {
 	newPetData: PetItemForCreation
@@ -12,14 +12,16 @@ interface Props {
 
 function PetTypeSection (props: Props) {
 	const { newPetData, setNewPetData } = props
-	const appContext = useContext(AppContext)
+	const petTypes = useContext(AppContext).patientData?.petTypes
 
-	if (_.isNull(appContext.patientData) || _.isNull(appContext.patientData.petTypes)) return null
+	if (_.isNil(petTypes)) return null
 
 	return (
 		<FormGroup
 			as = "select"
-			onChange = {(e) => handlePetInfoInput(e, newPetData, setNewPetData, appContext.patientData!.petTypes!)}
+			onChange = {(e) =>
+				ifPetTypeSelected(e.target.value, petTypes, newPetData, setNewPetData)
+			}
 			name = "petType"
 			required
 			id = "formPetType"
@@ -27,7 +29,7 @@ function PetTypeSection (props: Props) {
 			value = {newPetData.pet || ""}
 		>
 			<option value = "" disabled>Select</option>
-			{appContext.patientData.petTypes.map((petType) => (
+			{petTypes.map((petType) => (
 				<option
 					key = {petType.petListId}
 					value = {petType.pet}
