@@ -9,12 +9,7 @@ export default function useSetPersonalInfo(
 ): {personalInfo: BirthDateInfo, setPersonalInfo: React.Dispatch<React.SetStateAction<BirthDateInfo>>}
 {
 	const sharedData = useContext(AppContext).sharedData
-	const [personalInfo, setPersonalInfo] = useState<BirthDateInfo>({
-		firstName: "",
-		lastName: "",
-		dateOfBirth: "",
-		gender: ""
-	})
+	const [personalInfo, setPersonalInfo] = useState<BirthDateInfo>({} as BirthDateInfo)
 
 	useEffect(() => {
 		if (userType !== expectedUserType) return

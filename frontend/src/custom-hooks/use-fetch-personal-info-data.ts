@@ -1,3 +1,4 @@
+import _ from "lodash"
 import { useContext } from "react"
 import { AxiosResponse } from "axios"
 import AppContext from "src/contexts/maroon-context"
@@ -9,16 +10,17 @@ export default async function useFetchPersonalInfoData(
 	setPersonalInfo: React.Dispatch<React.SetStateAction<BirthDateInfo>>,
 	userType: DoctorOrPatient
 ): Promise<void> {
-	const { initializePersonalInfo } = useContext(AppContext).sharedData!
+	const sharedData = useContext(AppContext).sharedData
 
 	try {
+		if (_.isNull(sharedData)) return
 		let response: AxiosResponse
 
 		if (userType === "Doctor") response = await PrivateDoctorDataService.fillPersonalData()
 		else response = await PrivatePatientDataService.fillPersonalData()
 
 		setPersonalInfo(response.data)
-		initializePersonalInfo(response.data)
+		sharedData.initializePersonalInfo(response.data)
 	} catch (error: unknown) {
 		handle401AxiosError(error)
 	}
