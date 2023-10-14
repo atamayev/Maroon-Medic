@@ -1,17 +1,14 @@
 import _ from "lodash"
-import { Dayjs } from "dayjs"
-import TimeUtils from "./time"
+import dayjs from "dayjs"
 
 export default new class Format {
 	personalData(results: UserInfo): FormattedPersonalData {
-		const dateOfBirth: Dayjs = TimeUtils.simpleDayJSConvert(results.dateOfBirth)
+		const dateOfBirth = dayjs(results.dateOfBirth)
 		const personalData = {
 			firstName: results.firstName,
 			lastName: results.lastName,
 			gender: results.gender,
-			birthMonth: dateOfBirth.format("MMMM"),
-			birthDay: dateOfBirth.date(),
-			birthYear: dateOfBirth.year()
+			dateOfBirth: dateOfBirth.format("YYYY-MM-DD"),
 		}
 		return personalData
 	}

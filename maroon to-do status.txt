@@ -1,5 +1,6 @@
 To-do:
 
+-after reloading on personal information page, the details don't load
 Make the pets list be an accordion
 
 Learn how to do debugging in typsecript (breakpoints) https://www.youtube.com/watch?v=d56mG7DezGs

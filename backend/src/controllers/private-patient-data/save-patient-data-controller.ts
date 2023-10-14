@@ -1,6 +1,5 @@
 import _ from "lodash"
 import { Response, Request } from "express"
-import TimeUtils from "../../utils/time"
 import OperationHandler from "../../utils/operation-handler"
 import SavePatientDataDB from "../../db/private-patient-data/save-patient-data-db"
 import changeSavePetKeyNames from "../../utils/change-save-pet-key-names"
@@ -11,13 +10,11 @@ export async function savePersonalData (req: Request, res: Response): Promise<vo
 
 	const personalInfo = req.body.personalInfo as FormattedPersonalData
 
-	const dateOfBirth = TimeUtils.convertDOBStringIntoMySQLDate(personalInfo.birthMonth, personalInfo.birthDay, personalInfo.birthYear)
-
 	if (doesRecordExist === true) {
-		const operation: () => Promise<void> = async () => await SavePatientDataDB.updatePersonalData(personalInfo, dateOfBirth, patientId)
+		const operation: () => Promise<void> = async () => await SavePatientDataDB.updatePersonalData(personalInfo, patientId)
 		await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 	} else {
-		const operation: () => Promise<void> = async () => await SavePatientDataDB.addPersonalData(personalInfo, dateOfBirth, patientId)
+		const operation: () => Promise<void> = async () => await SavePatientDataDB.addPersonalData(personalInfo, patientId)
 		await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 	}
 }

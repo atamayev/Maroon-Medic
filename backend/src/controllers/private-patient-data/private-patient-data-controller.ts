@@ -10,14 +10,7 @@ export async function newPatient (req: Request, res: Response): Promise<void> {
 	const patientId = req.patientId
 	const newPatientObject = req.body.newPatientObject as FormattedPersonalData
 
-	const dateOfBirth = TimeUtils.convertDOBStringIntoMySQLDate(
-		newPatientObject.birthMonth,
-		newPatientObject.birthDay,
-		newPatientObject.birthYear
-	)
-	const operation: () => Promise<void> = async () => await PrivatePatientDataDB.addNewPatientInfo(
-		newPatientObject, dateOfBirth, patientId
-	)
+	const operation: () => Promise<void> = async () => await PrivatePatientDataDB.addNewPatientInfo(newPatientObject, patientId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
@@ -43,9 +36,7 @@ export async function fetchPersonalData (req: Request, res: Response): Promise<R
 		firstName: "",
 		lastName: "",
 		gender: "",
-		birthMonth: "",
-		birthDay: -1,
-		birthYear: -1
+		dateOfBirth: "",
 	}
 
 	try {
