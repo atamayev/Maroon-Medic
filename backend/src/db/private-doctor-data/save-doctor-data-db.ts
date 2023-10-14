@@ -17,18 +17,18 @@ export default new class SaveDoctorDataDB {
 		return Boolean(doesRecordExist)
 	}
 
-	async updatePersonalData (personalInfo: FormattedPersonalData, dateOfBirth: MysqlTimestamp, doctorId: number): Promise<void> {
+	async updatePersonalData (personalInfo: FormattedPersonalData, doctorId: number): Promise<void> {
 		const sql = `UPDATE ${mysqlTables.basic_user_info} SET first_name = ?, last_name = ?, gender = ?, date_of_birth = ?
 			WHERE user_id = ?`
-		const values = [personalInfo.firstName, personalInfo.lastName, personalInfo.gender, dateOfBirth, doctorId]
+		const values = [personalInfo.firstName, personalInfo.lastName, personalInfo.gender, personalInfo.dateOfBirth, doctorId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
-	async addPersonalData (personalInfo: FormattedPersonalData, dateOfBirth: MysqlTimestamp, doctorId: number): Promise<void> {
+	async addPersonalData (personalInfo: FormattedPersonalData, doctorId: number): Promise<void> {
 		const sql = `INSERT INTO ${mysqlTables.basic_user_info} (first_name, last_name, gender, date_of_birth, user_id)
 			VALUES (?, ?, ?, ?, ?)`
-		const values = [personalInfo.firstName, personalInfo.lastName, personalInfo.gender, dateOfBirth, doctorId]
+		const values = [personalInfo.firstName, personalInfo.lastName, personalInfo.gender, personalInfo.dateOfBirth, doctorId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}

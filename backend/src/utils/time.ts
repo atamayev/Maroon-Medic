@@ -1,4 +1,4 @@
-import dayjs, { Dayjs } from "dayjs"
+import dayjs from "dayjs"
 import customParseFormat from "dayjs/plugin/customParseFormat"
 dayjs.extend(customParseFormat)
 
@@ -7,12 +7,6 @@ export default new class TimeUtils {
 		// Remove "th", "st", "nd", "rd" from the date
 		const newDateStr = dateStr.replace(/\b(\d+)(th|st|nd|rd)\b/g, "$1")
 		return newDateStr
-	}
-
-	convertDOBStringIntoMySQLDate(month: string, day: number, year: number): string {
-		const dateOfBirthStr = `${month} ${day} ${year}`
-		const dateOfBirth = dayjs(dateOfBirthStr, "MMMM D YYYY").format("YYYY-MM-DD")
-		return dateOfBirth
 	}
 
 	convertMySQLDateIntoReadableString(date: string): string {
@@ -31,9 +25,5 @@ export default new class TimeUtils {
 
 		const mysqlDateTime = dateTime.format("YYYY-MM-DD HH:mm:ss")
 		return mysqlDateTime
-	}
-
-	simpleDayJSConvert(date: string): Dayjs {
-		return dayjs(date)
 	}
 }()

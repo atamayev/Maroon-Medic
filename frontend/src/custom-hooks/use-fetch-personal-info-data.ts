@@ -1,3 +1,4 @@
+import _ from "lodash"
 import { useContext } from "react"
 import { AxiosResponse } from "axios"
 import AppContext from "src/contexts/maroon-context"
@@ -5,21 +6,25 @@ import PrivateDoctorDataService from "src/services/private-doctor-data-service"
 import PrivatePatientDataService from "src/services/private-patient-data-service"
 import handle401AxiosError from "src/utils/handle-errors/handle-401-axios-error"
 
-export default async function useFetchPersonalInfoData(
-	setPersonalInfo: React.Dispatch<React.SetStateAction<BirthDateInfo>>,
-	userType: DoctorOrPatient
-): Promise<void> {
-	const { initializePersonalInfo } = useContext(AppContext).sharedData!
+export default function useFetchPersonalInfoData(): (
+	setPersonalInfo: React.Dispatch<React.SetStateAction<BirthDateInfo>>
+) => Promise<void> {
+	const appContext = useContext(AppContext)
 
-	try {
-		let response: AxiosResponse
+	const fetchData = async (setPersonalInfo: React.Dispatch<React.SetStateAction<BirthDateInfo>>): Promise<void> => {
+		try {
+			if (_.isNull(appContext.sharedData) || _.isNull(appContext.auth.userType)) return
+			let response: AxiosResponse
 
-		if (userType === "Doctor") response = await PrivateDoctorDataService.fillPersonalData()
-		else response = await PrivatePatientDataService.fillPersonalData()
+			if (appContext.auth.userType === "Doctor") response = await PrivateDoctorDataService.fillPersonalData()
+			else response = await PrivatePatientDataService.fillPersonalData()
 
-		setPersonalInfo(response.data)
-		initializePersonalInfo(response.data)
-	} catch (error: unknown) {
-		handle401AxiosError(error)
+			setPersonalInfo(response.data)
+			appContext.sharedData.initializePersonalInfo(response.data)
+		} catch (error: unknown) {
+			handle401AxiosError(error)
+		}
 	}
+
+	return fetchData
 }

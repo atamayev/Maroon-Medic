@@ -1,7 +1,7 @@
 import FirstNameInput from "./personal-info-inputs/first-name-input"
 import LastNameInput from "./personal-info-inputs/last-name-input"
 import GenderSection from "./personal-info-inputs/gender-input"
-import DOBSection from "./date-of-birth/dob-section"
+import DOBSection from "./date-of-birth"
 import Button from "./button"
 
 interface Props {

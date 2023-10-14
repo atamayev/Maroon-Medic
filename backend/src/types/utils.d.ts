@@ -20,9 +20,7 @@ declare global {
 		firstName: string
 		lastName: string
 		gender: string
-		birthMonth: string
-		birthDay: number
-		birthYear: number
+		dateOfBirth: string
 	}
 }
 

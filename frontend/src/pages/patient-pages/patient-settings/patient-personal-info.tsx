@@ -8,18 +8,18 @@ import useSavePersonalInfo from "src/custom-hooks/use-save-personal-info"
 import FirstNameInput from "src/components/personal-info-inputs/first-name-input"
 import LastNameInput from "src/components/personal-info-inputs/last-name-input"
 import GenderSection from "src/components/personal-info-inputs/gender-input"
-import DOBSection from "src/components/date-of-birth/dob-section"
+import DOBSection from "src/components/date-of-birth"
 import PatientHeader from "../patient-header"
 import Button from "src/components/button"
 import AppContext from "src/contexts/maroon-context"
 
 function PatientPersonalInfo() {
-	const appContext = useContext(AppContext)
-	const { personalInfo, setPersonalInfo } = useSetPersonalInfo(appContext.auth.userType, "Patient")
+	const authContext = useContext(AppContext).auth
+	const { personalInfo, setPersonalInfo } = useSetPersonalInfo("Patient")
 	const [personalInfoConfirmation, setPersonalInfoConfirmation] = useConfirmationMessage()
 	const savePersonalInfo = useSavePersonalInfo()
 
-	if (appContext.auth.userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
+	if (authContext.userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
 	return (
 		<div>
@@ -29,7 +29,7 @@ function PatientPersonalInfo() {
 					<form
 						onSubmit={(e) => {
 							e.preventDefault()
-							savePersonalInfo(personalInfo, setPersonalInfoConfirmation, appContext.auth.userType!)
+							savePersonalInfo(personalInfo, setPersonalInfoConfirmation)
 						}}
 						className="space-y-4"
 					>

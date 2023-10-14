@@ -10,9 +10,7 @@ function NewDoctor () {
 	const [newDoctorInfo, setNewDoctorInfo] = useState<BirthDateInfo>({
 		firstName: "",
 		lastName: "",
-		birthMonth: "",
-		birthDay: -1,
-		birthYear: -1,
+		dateOfBirth: "",
 		gender: ""
 	})
 	const [error, setError] = useState("")

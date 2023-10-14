@@ -8,15 +8,15 @@ import PatientHeader from "../patient-header"
 import AppContext from "src/contexts/maroon-context"
 
 function PatientLoginAndSecurity() {
-	const appContext = useContext(AppContext)
-	const loginHistory = useSetLoginHistory(appContext.auth.userType, "Patient")
+	const authContext = useContext(AppContext).auth
+	const loginHistory = useSetLoginHistory("Patient")
 
-	if (appContext.auth.userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
+	if (authContext.userType !== "Patient") return <UnauthorizedUser vetOrpatient = {"patient"}/>
 
 	return (
 		<>
 			<PatientHeader/>
-			<ChangePassword type = {appContext.auth.userType}/>
+			<ChangePassword type = {authContext.userType}/>
 			{loginHistory.map((item, index) => (
 				<LoginHistory key = {index} loginHistoryItem = {item} />
 			))}
