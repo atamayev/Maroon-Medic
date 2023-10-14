@@ -2,18 +2,6 @@ CREATE DATABASE MaroonDB;
 USE MaroonDB;
 SHOW TABLES;
 
-CREATE TABLE credentials (
-	user_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	email VARCHAR(150) NOT NULL,
-	password VARCHAR(150) NOT NULL,
-	user_type VARCHAR(20) NOT NULL, -- can be Doctor, Patient, admin, Administrator
-	is_active BOOLEAN NOT NULL DEFAULT 1,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-
-SELECT * FROM credentials;
-
 CREATE TABLE doctor_specific_info(
 	NVI INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	verified BOOLEAN NOT NULL,
@@ -25,28 +13,6 @@ CREATE TABLE doctor_specific_info(
 )AUTO_INCREMENT = 1000000;
 
 SELECT * FROM doctor_specific_info;
-
-CREATE TABLE basic_user_info (
-	basic_user_info_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	first_name VARCHAR(150) NOT NULL,
-	last_name VARCHAR(150) NOT NULL,
-	gender VARCHAR(150) NOT NULL,
-	date_of_birth DATE NOT NULL,
-	user_id INT UNSIGNED NOT NULL,
-	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	FOREIGN KEY (user_id) REFERENCES credentials(user_id)
-);
-
-SELECT * FROM basic_user_info;
-
-CREATE TABLE pet_list(
-	pet_list_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	pet VARCHAR(30) NOT NULL,
-	pet_type VARCHAR(30) NOT NULL
-);
-
-SELECT * FROM pet_list;
 
 CREATE TABLE pet_mapping( -- which types of animals each vet services
 	pet_mapping_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -60,32 +26,6 @@ CREATE TABLE pet_mapping( -- which types of animals each vet services
 
 SELECT * FROM pet_mapping;
 
-CREATE TABLE pet_info ( -- specific info about each pet (from the Patient POV)
-	pet_info_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	name VARCHAR(150) NOT NULL,
-	gender VARCHAR(150) NOT NULL,
-	date_of_birth DATE NOT NULL,
-	patient_id INT UNSIGNED NOT NULL,
-	pet_id INT UNSIGNED NOT NULL,
-	is_active BOOLEAN NOT NULL DEFAULT 1, -- set to 1 by default, when a patient deletes pet, set to 0.
-	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	FOREIGN KEY (patient_id) REFERENCES credentials(user_id),
-	FOREIGN KEY (pet_id) REFERENCES pet_list(pet_list_id)
-);
-
-SELECT * FROM pet_info;
-
-CREATE TABLE UUID_reference(
-	UUID_reference_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	UUID VARCHAR(150) NOT NULL,
-	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	user_id INT UNSIGNED NOT NULL,
-	FOREIGN KEY (user_id) REFERENCES credentials(user_id)
-);
-
-SELECT * FROM UUID_reference;
-
 CREATE TABLE descriptions(
 	descriptions_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	description VARCHAR(2500),
@@ -96,33 +36,6 @@ CREATE TABLE descriptions(
 );
 
 SELECT * FROM descriptions;
-
-CREATE TABLE insurance_list(
-	insurance_list_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	insurance_name VARCHAR(200) NOT NULL
-);
-
-SELECT * FROM insurance_list;
-
-CREATE TABLE insurance_mapping(
-	insurance_mapping_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	insurance_id INT UNSIGNED NOT NULL,
-	pet_info_id INT UNSIGNED NOT NULL,
-	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	FOREIGN KEY (insurance_id) REFERENCES insurance_list(insurance_list_id),
-	FOREIGN KEY (pet_info_id) REFERENCES pet_info(pet_info_id),
-	UNIQUE (insurance_id, pet_info_id)
-);
-
-SELECT * FROM insurance_mapping;
-
-CREATE TABLE service_and_category_list(
-	service_and_category_list_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	category_name VARCHAR(250) NOT NULL,
-	service_name VARCHAR(250) NOT NULL
-);
-
-SELECT * FROM service_and_category_list;
 
 CREATE TABLE service_mapping(
 	service_mapping_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -138,46 +51,6 @@ CREATE TABLE service_mapping(
 );
 
 SELECT * FROM service_mapping;
-
-CREATE TABLE language_list(
-	language_list_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	language_name VARCHAR(150) NOT NULL
-);
-
-SELECT * FROM language_list;
-
-CREATE TABLE language_mapping(
-	language_mapping_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	language_id INT UNSIGNED NOT NULL,
-	user_id INT UNSIGNED NOT NULL,
-	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	FOREIGN KEY (language_id) REFERENCES language_list(language_list_id),
-	FOREIGN KEY (user_id) REFERENCES credentials(user_id),
-	UNIQUE (language_id, user_id)
-);
-
-SELECT * FROM language_mapping;
-
-CREATE TABLE pre_vet_school_list(
-	pre_vet_school_list_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	school_name VARCHAR(300) NOT NULL
-);
-
-SELECT * FROM pre_vet_school_list;
-
-CREATE TABLE major_list(
-	major_list_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	major_name VARCHAR(300) NOT NULL
-);
-
-SELECT * FROM major_list;
-
-CREATE TABLE pre_vet_education_type_list(
-	pre_vet_education_type_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	education_type VARCHAR(150) NOT NULL
-);
-
-SELECT * FROM pre_vet_education_type_list;
 
 CREATE TABLE pre_vet_education_mapping(
 	pre_vet_education_mapping_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -198,20 +71,6 @@ CREATE TABLE pre_vet_education_mapping(
 
 SELECT * FROM pre_vet_education_mapping;
 
-CREATE TABLE vet_school_list(
-	vet_school_list_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	school_name VARCHAR(300) NOT NULL
-);
-
-SELECT * FROM vet_school_list;
-
-CREATE TABLE vet_education_type_list(
-	vet_education_type_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	education_type VARCHAR(150) NOT NULL
-);
-
-SELECT * FROM vet_education_type_list;
-
 CREATE TABLE vet_education_mapping(
 	vet_education_mapping_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	school_id INT UNSIGNED NOT NULL,
@@ -228,14 +87,6 @@ CREATE TABLE vet_education_mapping(
 );
 
 SELECT * FROM vet_education_mapping;
-
-CREATE TABLE specialties_list(
-	specialties_list_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	organization_name VARCHAR(300) NOT NULL,
-	specialty_name VARCHAR(300) NOT NULL
-);
-
-SELECT * FROM specialties_list;
 
 CREATE TABLE specialty_mapping(
 	specialty_mapping_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -341,16 +192,6 @@ CREATE TABLE booking_availability(
 
 SELECT * FROM booking_availability JOIN addresses ON booking_availability.address_id = addresses.addresses_id where addresses.is_active;
 SELECT * FROM booking_availability;
-
-CREATE TABLE login_history(
-	login_history_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	ip_address VARCHAR(15),
-	user_id INT UNSIGNED NOT NULL,
-	login_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	FOREIGN KEY (user_id) REFERENCES credentials(user_id)
-);
-
-SELECT * FROM login_history;
 
 -- CREATE TABLE pictures(
 -- 	pictures_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
