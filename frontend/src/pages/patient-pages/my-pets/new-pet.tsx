@@ -32,7 +32,6 @@ export default function NewPet (props: AddPetProps) {
 	const [procedures, setProcedures] = useState<NewPetProceduresItem[]>([])
 
 	const addPet = useAddPet()
-	console.log(procedures)
 	if (showAddPet === false) return null
 
 	return (

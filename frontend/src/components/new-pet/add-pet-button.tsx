@@ -15,8 +15,6 @@ interface Props {
 export default function AddPetButton (props: Props) {
 	const { newPetData, medications, procedures } = props
 
-	console.log(areAllNewPetFieldsValid(newPetData, medications, procedures))
-
 	return (
 		<div>
 			<Button

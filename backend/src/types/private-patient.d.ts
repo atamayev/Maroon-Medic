@@ -30,7 +30,7 @@ declare global {
 	type PetMedications = {
 		petMedicationsId: number
 		frequencyPeriod: string
-		frequencyCount: number
+		frequencyCount: string
 	}
 
 	type PetProcedures = {
@@ -38,7 +38,18 @@ declare global {
 		procedureDate: MysqlTimestamp
 	}
 
-	interface PetItemForCreation {
+	type PetMedicationsPreProcessed = {
+		petMedicationsListId: number
+		frequencyPeriod: string
+		frequencyCount: string
+	}
+
+	type PetProceduresPreProcessed = {
+		petProceduresListId: number
+		procedureDate: MysqlTimestamp
+	}
+
+	type PetItemForCreation = {
 		name: string
 		gender: string
 		dateOfBirth: string
@@ -47,6 +58,14 @@ declare global {
 		insuranceName: string
 		petListId: number
 		insuranceListId: number
+	}
+
+	type PetItemForCreationPreProcessed = PetItemForCreationPreProcessed & {
+		petMedications: PetMedicationsPreProcessed[]
+		petProcedures: PetProceduresPreProcessed[]
+	}
+
+	type PetItemForCreationPostProcessed = PetItemForCreationPreProcessed & {
 		petMedications: PetMedications[]
 		petProcedures: PetProcedures[]
 	}

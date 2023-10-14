@@ -13,7 +13,6 @@ function checkPetDataFields(petData: PetItemForCreation): boolean {
 }
 
 function checkMedicationFields(medications: NewPetMedicationsItem[]): boolean {
-	console.log("medications",medications)
 	for (const medication of medications) {
 		if (!medication.frequencyPeriod) {
 			return false
@@ -23,7 +22,6 @@ function checkMedicationFields(medications: NewPetMedicationsItem[]): boolean {
 }
 
 function checkProcedureFields(procedures: NewPetProceduresItem[]): boolean {
-	console.log("procedures",procedures)
 	for (const procedure of procedures) {
 		if (!procedure.procedureDate) {
 			return false

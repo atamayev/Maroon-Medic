@@ -3,6 +3,7 @@ import { Response, Request } from "express"
 import TimeUtils from "../../utils/time"
 import OperationHandler from "../../utils/operation-handler"
 import SavePatientDataDB from "../../db/private-patient-data/save-patient-data-db"
+import changeSavePetKeyNames from "../../utils/change-save-pet-key-names"
 
 export async function savePersonalData (req: Request, res: Response): Promise<void> {
 	const patientId = req.patientId
@@ -37,8 +38,9 @@ export async function deleteLanguage (req: Request, res: Response): Promise<void
 
 export async function addPet (req: Request, res: Response): Promise<Response> {
 	const patientId = req.patientId
-	const petData = req.body.petData as PetItemForCreation
-	console.log(petData)
+	const unProcessedPetData = req.body.petData as PetItemForCreationPreProcessed
+
+	const petData = changeSavePetKeyNames(unProcessedPetData)
 
 	const petInfoId = await OperationHandler.executeAsyncAndReturnValue(res, SavePatientDataDB.addNewPet, petData, patientId)
 	const petInfoIdNumber = Number(petInfoId)

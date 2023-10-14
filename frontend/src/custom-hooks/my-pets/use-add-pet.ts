@@ -32,8 +32,6 @@ export default function useAddPet() : (
 			petData.petMedications = filteredMedications
 			petData.petProcedures = filteredProcedures
 
-			console.log(petData)
-
 			const response = await PrivatePatientDataService.addPetData(petData)
 			if (response.status === 200 && typeof response.data === "number") {
 				const updatedPetData = petDataOperations(petData, response.data)
