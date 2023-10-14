@@ -18,12 +18,16 @@ declare global {
 		times: DoctorAvailability[]
 	}
 
+	type PublicPreVetEducation = EducationItem & {
+		majorName: string
+	}
+
 	interface PublicDoctorAccountDetails {
 		doctorLanguages: LanguageName[]
 		doctorServices: DetailedServiceItem[]
 		doctorSpecialties: OrganizationSpecialtyName[]
-		doctorPreVetEducation: PreVetEducation[]
-		doctorVetEducation: VetEducation[]
+		doctorPreVetEducation: PublicPreVetEducation[]
+		doctorVetEducation: EducationItem[]
 		doctorAddressData: PublicAddressData[]
 		description: string
 		servicedPets: ServicedPetData[]

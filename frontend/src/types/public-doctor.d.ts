@@ -36,12 +36,16 @@ declare global {
 		selectedTime: string | null
 	}
 
+	type PublicPreVetEducationItem = EducationBase & {
+		majorName: string
+	}
+
 	interface PublicDoctorAccountDetails {
 		doctorLanguages: LanguageName[]
 		doctorServices: ServiceItemNotNullablePrice[]
 		doctorSpecialties: OrganizationSpecialtyName[]
-		doctorPreVetEducation: PreVetEducationItem[]
-		doctorVetEducation: VetEducationItem[]
+		doctorPreVetEducation: PublicPreVetEducationItem[]
+		doctorVetEducation: EducationBase[]
 		doctorAddressData: PublicAddressData[]
 		description: string
 		servicedPets: ServicedPetData[]

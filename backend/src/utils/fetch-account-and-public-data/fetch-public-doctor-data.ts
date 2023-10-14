@@ -39,12 +39,12 @@ export default new class FetchPublicDoctorData {
 		return result as OrganizationSpecialtyName[]
 	}
 
-	async preVetEducation(doctorId: number): Promise<PreVetEducation[]> {
-		return await this.#fetchEducationData<PreVetEducation>(doctorId, FetchPublicDoctorDataDB.preVetEducation)
+	async preVetEducation(doctorId: number): Promise<PublicPreVetEducation[]> {
+		return await this.#fetchEducationData<PublicPreVetEducation>(doctorId, FetchPublicDoctorDataDB.preVetEducation)
 	}
 
-	async vetEducation(doctorId: number): Promise<VetEducation[]> {
-		return await this.#fetchEducationData<VetEducation>(doctorId, FetchPublicDoctorDataDB.vetEducation)
+	async vetEducation(doctorId: number): Promise<EducationItem[]> {
+		return await this.#fetchEducationData<EducationItem>(doctorId, FetchPublicDoctorDataDB.vetEducation)
 	}
 
 	async servicedPets (doctorId: number): Promise<ServicedPetData[]> {

@@ -8,6 +8,10 @@ declare global {
 		gender: string
 	}
 
+	type DoctorPersonalInfoWithoutGender = BasicPersonalInfo & {
+		nvi: number
+	}
+
 	type DoctorPersonalInfo = BasicPersonalInfo & {
 		nvi: number
 		gender: string

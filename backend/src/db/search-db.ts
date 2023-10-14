@@ -4,7 +4,7 @@ import { RowDataPacket } from "mysql2"
 import { transformArrayOfObjectsToCamelCase } from "../utils/transform-keys-to-camel-case"
 
 export default new class SearchDB {
-	async retrieveDoctorsFromSearchTerm (searchTerm: string): Promise<DoctorPersonalInfo[]> {
+	async retrieveDoctorsFromSearchTerm (searchTerm: string): Promise<DoctorPersonalInfoWithoutGender[]> {
 		const sql = `SELECT NVI, first_name, last_name FROM ${mysqlTables.basic_user_info}
         LEFT JOIN ${mysqlTables.doctor_specific_info} ON
           ${mysqlTables.basic_user_info}.user_id = ${mysqlTables.doctor_specific_info}.doctor_id
@@ -17,12 +17,12 @@ export default new class SearchDB {
 		const values = [`${searchTerm}%`]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
-		const doctorsList = results.map((row: RowDataPacket) => row as DoctorPersonalInfo)
+		const doctorsList = results.map((row: RowDataPacket) => row as DoctorPersonalInfoWithoutGender)
 		const camelCasedDoctorsList = transformArrayOfObjectsToCamelCase(doctorsList)
-		return camelCasedDoctorsList as DoctorPersonalInfo[]
+		return camelCasedDoctorsList as DoctorPersonalInfoWithoutGender[]
 	}
 
-	async retrieveAllDoctors (): Promise<DoctorPersonalInfo[]> {
+	async retrieveAllDoctors (): Promise<DoctorPersonalInfoWithoutGender[]> {
 		const sql = `SELECT NVI, first_name, last_name FROM ${mysqlTables.basic_user_info}
               LEFT JOIN ${mysqlTables.doctor_specific_info}
                 ON ${mysqlTables.basic_user_info}.user_id = ${mysqlTables.doctor_specific_info}.doctor_id
@@ -35,8 +35,8 @@ export default new class SearchDB {
 
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql) as RowDataPacket[]
-		const doctorsList = results.map((row: RowDataPacket) => row as DoctorPersonalInfo)
+		const doctorsList = results.map((row: RowDataPacket) => row as DoctorPersonalInfoWithoutGender)
 		const camelCasedDoctorsList = transformArrayOfObjectsToCamelCase(doctorsList)
-		return camelCasedDoctorsList as DoctorPersonalInfo[]
+		return camelCasedDoctorsList as DoctorPersonalInfoWithoutGender[]
 	}
 }()

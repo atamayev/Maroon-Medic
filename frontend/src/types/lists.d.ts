@@ -6,7 +6,7 @@ declare global {
 		preVetSchools: PreVetSchool[]
 		preVetEducationTypes: PreVetEducationType[]
 		majors: Major[]
-		vetSchools: VetSchoolList[]
+		vetSchools: VetSchool[]
 		vetEducationTypes: VetEducationType[]
 		pets: ServicedPetItem[]
 	}
@@ -42,7 +42,7 @@ declare global {
 		educationType: string
 	}
 
-	type VetSchoolList = {
+	type VetSchool = {
 		vetSchoolListId: number
 		schoolName: string
 	}
@@ -55,12 +55,6 @@ declare global {
 	type InsuranceItem = {
 		insuranceListId: number
 		insuranceName: string
-	}
-
-	type SpecialtyItem = {
-		specialtiesListId: number
-		organizationName: string
-		specialtyName: string
 	}
 
 	type LanguageItem = {

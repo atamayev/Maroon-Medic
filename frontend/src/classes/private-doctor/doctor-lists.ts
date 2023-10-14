@@ -12,7 +12,7 @@ export default class DoctorListsClass {
 	preVetSchools: PreVetSchool[] = []
 	preVetEducationTypes: PreVetEducationType[] = []
 	majors: Major[] = []
-	vetSchools: VetSchoolList[] = []
+	vetSchools: VetSchool[] = []
 	vetEducationTypes: VetEducationType[] = []
 	pets: ServicedPetItem[] = []
 }

@@ -34,7 +34,7 @@ export default new class FetchPublicDoctorDataDB {
 		return camelCasedSpecialties as OrganizationSpecialtyName[]
 	}
 
-	async preVetEducation (doctorId: number): Promise<PreVetEducation[]> {
+	async preVetEducation (doctorId: number): Promise<PublicPreVetEducation[]> {
 		const sql = `SELECT ${mysqlTables.pre_vet_school_list}.school_name, ${mysqlTables.major_list}.major_name,
 			${mysqlTables.pre_vet_education_type_list}.education_type, ${mysqlTables.pre_vet_education_mapping}.start_date,
 			${mysqlTables.pre_vet_education_mapping}.end_date
@@ -49,12 +49,12 @@ export default new class FetchPublicDoctorDataDB {
 		const values = [doctorId]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
-		const preVetEducation = results.map((row: RowDataPacket) => row as PreVetEducation)
+		const preVetEducation = results.map((row: RowDataPacket) => row as PublicPreVetEducation)
 		const camelCasedPreVetEducation = transformArrayOfObjectsToCamelCase(preVetEducation)
-		return camelCasedPreVetEducation as PreVetEducation[]
+		return camelCasedPreVetEducation as PublicPreVetEducation[]
 	}
 
-	async vetEducation (doctorId: number): Promise<VetEducation[]> {
+	async vetEducation (doctorId: number): Promise<EducationItem[]> {
 		const sql = `SELECT ${mysqlTables.vet_school_list}.school_name, ${mysqlTables.vet_education_type_list}.education_type,
 			${mysqlTables.vet_education_mapping}.start_date, ${mysqlTables.vet_education_mapping}.end_date
 			FROM ${mysqlTables.vet_education_mapping}, ${mysqlTables.vet_school_list}, ${mysqlTables.vet_education_type_list}
@@ -66,9 +66,9 @@ export default new class FetchPublicDoctorDataDB {
 		const values = [doctorId]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
-		const vetEducation = results.map((row: RowDataPacket) => row as VetEducation)
+		const vetEducation = results.map((row: RowDataPacket) => row as EducationItem)
 		const camelCasedVetEducation = transformArrayOfObjectsToCamelCase(vetEducation)
-		return camelCasedVetEducation as VetEducation[]
+		return camelCasedVetEducation as EducationItem[]
 	}
 
 	async servicedPets (doctorId: number): Promise<ServicedPetData[]> {
