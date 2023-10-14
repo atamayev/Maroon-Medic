@@ -4,8 +4,6 @@ Make the pets list be an accordion
 
 Learn how to do debugging in typsecript (breakpoints) https://www.youtube.com/watch?v=d56mG7DezGs
 
-Make the naming of the types in the front/backend match up better
-
 --change all front-end select month, day, year into a "date", like in pets.js
 	-make the date only be sometime in the past
 
