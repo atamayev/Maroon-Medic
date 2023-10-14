@@ -8,13 +8,13 @@ import {
 	fetchPetProcedures
 } from "../controllers/lists-controller"
 
-const router = express.Router()
+const listsRoutes = express.Router()
 
-router.get("/fetch-doctor-lists", fetchDoctorLists)
-router.get("/fetch-patient-lists", fetchPatientLists)
-router.get("/fetch-pet-types", fetchPetTypes)
-router.get("/fetch-insurances", fetchInsurances)
-router.get("/fetch-pet-medications", fetchPetMedications)
-router.get("/fetch-pet-procedures", fetchPetProcedures)
+listsRoutes.get("/fetch-doctor-lists", fetchDoctorLists)
+listsRoutes.get("/fetch-patient-lists", fetchPatientLists)
+listsRoutes.get("/fetch-pet-types", fetchPetTypes)
+listsRoutes.get("/fetch-insurances", fetchInsurances)
+listsRoutes.get("/fetch-pet-medications", fetchPetMedications)
+listsRoutes.get("/fetch-pet-procedures", fetchPetProcedures)
 
-export default router
+export default listsRoutes

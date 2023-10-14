@@ -27,39 +27,39 @@ import {
 	updateAddress
 } from "../controllers/private-doctor-data/save-doctor-data-controller"
 
-const router = express.Router()
+const privateDoctorDataRoutes = express.Router()
 
-router.post("/new-doctor", newDoctor)
-router.get("/fetch-dashboard-data", fetchDashboardData)
-router.get("/fetch-personal-data", fetchPersonalData)
-router.get("/fetch-account-details-data", fetchAccountDetails)
+privateDoctorDataRoutes.post("/new-doctor", newDoctor)
+privateDoctorDataRoutes.get("/fetch-dashboard-data", fetchDashboardData)
+privateDoctorDataRoutes.get("/fetch-personal-data", fetchPersonalData)
+privateDoctorDataRoutes.get("/fetch-account-details-data", fetchAccountDetails)
 
-router.post("/save-personal-data", savePersonalData)
-router.post("/save-description-data", saveDescriptionData)
+privateDoctorDataRoutes.post("/save-personal-data", savePersonalData)
+privateDoctorDataRoutes.post("/save-description-data", saveDescriptionData)
 
-router.post("/add-language", addLanguage)
-router.delete("/delete-language/:languageId", deleteLanguage)
+privateDoctorDataRoutes.post("/add-language", addLanguage)
+privateDoctorDataRoutes.delete("/delete-language/:languageId", deleteLanguage)
 
-router.post("/add-specialty", addSpecialty)
-router.delete("/delete-specialty/:specialtyId", deleteSpecialty)
+privateDoctorDataRoutes.post("/add-specialty", addSpecialty)
+privateDoctorDataRoutes.delete("/delete-specialty/:specialtyId", deleteSpecialty)
 
-router.post("/add-serviced-pet", addServicedPet)
-router.delete("/delete-serviced-pet/:servicedPetId", deleteServicedPet)
+privateDoctorDataRoutes.post("/add-serviced-pet", addServicedPet)
+privateDoctorDataRoutes.delete("/delete-serviced-pet/:servicedPetId", deleteServicedPet)
 
-router.post("/add-pre-vet-education-data", addPreVetEducationData)
-router.delete("/delete-pre-vet-education-data/:preVetEducationId", deletePreVetEducationData)
+privateDoctorDataRoutes.post("/add-pre-vet-education-data", addPreVetEducationData)
+privateDoctorDataRoutes.delete("/delete-pre-vet-education-data/:preVetEducationId", deletePreVetEducationData)
 
-router.post("/add-vet-education-data", addVetEducationData)
-router.delete("/delete-vet-education-data/:vetEducationId", deleteVetEducationData)
+privateDoctorDataRoutes.post("/add-vet-education-data", addVetEducationData)
+privateDoctorDataRoutes.delete("/delete-vet-education-data/:vetEducationId", deleteVetEducationData)
 
-router.post("/add-service", addService)
-router.patch("/update-service", updateService)
-router.delete("/delete-service/:serviceId", deleteService)
+privateDoctorDataRoutes.post("/add-service", addService)
+privateDoctorDataRoutes.patch("/update-service", updateService)
+privateDoctorDataRoutes.delete("/delete-service/:serviceId", deleteService)
 
-router.post("/add-address", addAddress)
-router.patch("/update-address", updateAddress)
-router.delete("/delete-address/:addressId", deleteAddress)
+privateDoctorDataRoutes.post("/add-address", addAddress)
+privateDoctorDataRoutes.patch("/update-address", updateAddress)
+privateDoctorDataRoutes.delete("/delete-address/:addressId", deleteAddress)
 
-router.post("/save-public-availibility-data", savePublicAvailibilityData)
+privateDoctorDataRoutes.post("/save-public-availibility-data", savePublicAvailibilityData)
 
-export default router
+export default privateDoctorDataRoutes

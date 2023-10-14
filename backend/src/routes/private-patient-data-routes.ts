@@ -19,25 +19,25 @@ import {
 	deletePetProcedure
 } from "../controllers/private-patient-data/save-patient-data-controller"
 
-const router = express.Router()
+const privatePatientDataRoutes = express.Router()
 
-router.post("/new-patient", newPatient)
-router.get("/fetch-dashboard-data", fetchDashboardData)
-router.get("/fetch-personal-data", fetchPersonalData)
-router.get("/fetch-account-details-data", fetchAccountDetails)
-router.get("/fetch-pet-data", fetchPetData)
-router.post("/add-language", addLanguage)
-router.delete("/delete-language/:languageId", deleteLanguage)
+privatePatientDataRoutes.post("/new-patient", newPatient)
+privatePatientDataRoutes.get("/fetch-dashboard-data", fetchDashboardData)
+privatePatientDataRoutes.get("/fetch-personal-data", fetchPersonalData)
+privatePatientDataRoutes.get("/fetch-account-details-data", fetchAccountDetails)
+privatePatientDataRoutes.get("/fetch-pet-data", fetchPetData)
+privatePatientDataRoutes.post("/add-language", addLanguage)
+privatePatientDataRoutes.delete("/delete-language/:languageId", deleteLanguage)
 
-router.post("/save-personal-data", savePersonalData)
-router.post("/add-pet-data", addPet)
-router.delete("/delete-pet-data/:petId", deletePet)
-router.post("/add-pet-insurance", addPetInsurance)
+privatePatientDataRoutes.post("/save-personal-data", savePersonalData)
+privatePatientDataRoutes.post("/add-pet-data", addPet)
+privatePatientDataRoutes.delete("/delete-pet-data/:petId", deletePet)
+privatePatientDataRoutes.post("/add-pet-insurance", addPetInsurance)
 
-router.post("/add-pet-medication", addPetMedication)
-router.post("/delete-pet-medication", deletePetMedication)
+privatePatientDataRoutes.post("/add-pet-medication", addPetMedication)
+privatePatientDataRoutes.post("/delete-pet-medication", deletePetMedication)
 
-router.post("/add-pet-procedure", addPetProcedure)
-router.post("/delete-pet-procedure", deletePetProcedure)
+privatePatientDataRoutes.post("/add-pet-procedure", addPetProcedure)
+privatePatientDataRoutes.post("/delete-pet-procedure", deletePetProcedure)
 
-export default router
+export default privatePatientDataRoutes

@@ -7,11 +7,11 @@ import {
 } from "../controllers/calendar-controller"
 import GetIDFromUUID from "../middleware/get-id-from-uuid"
 
-const router = express.Router()
+const calendarRoutes = express.Router()
 
-router.post("/make-appointment", GetIDFromUUID.patient, makeAppointment)
-router.get("/get-doctor-calendar-details", GetIDFromUUID.doctor, getDoctorCalendarDetails)
-router.patch("/confirm-appointment", GetIDFromUUID.doctor, confirmAppointment)
-router.patch("/deny-appointment", GetIDFromUUID.doctor, denyAppointment)
+calendarRoutes.post("/make-appointment", GetIDFromUUID.patient, makeAppointment)
+calendarRoutes.get("/get-doctor-calendar-details", GetIDFromUUID.doctor, getDoctorCalendarDetails)
+calendarRoutes.patch("/confirm-appointment", GetIDFromUUID.doctor, confirmAppointment)
+calendarRoutes.patch("/deny-appointment", GetIDFromUUID.doctor, denyAppointment)
 
-export default router
+export default calendarRoutes
