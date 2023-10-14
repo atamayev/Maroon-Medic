@@ -12,9 +12,7 @@ declare global {
 	interface BirthDateInfo {
 		firstName: string
 		lastName: string
-		birthMonth: string
-		birthDay: number
-		birthYear: number
+		dateOfBirth: string
 		gender: string
 	}
 

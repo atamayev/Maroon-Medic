@@ -5,6 +5,7 @@ interface Props {
   className?: string,
   id?: string,
   label?: string,
+  max?: string,
   maxLength?: number,
   name?: string,
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
@@ -14,7 +15,7 @@ interface Props {
   rows?: number,
   type?: string,
   value?: string,
-  children?: React.ReactNode
+  children?: React.ReactNode,
 }
 
 export default function FormGroup({
@@ -22,6 +23,7 @@ export default function FormGroup({
 	className,
 	id,
 	label,
+	max,
 	maxLength,
 	name,
 	onChange,
@@ -42,6 +44,7 @@ export default function FormGroup({
 			<Component
 				className ="mt-1 p-2 w-full border rounded-md text-gray-900"
 				id = {id}
+				max={max}
 				maxLength = {maxLength}
 				name = {name}
 				onChange = {onChange}

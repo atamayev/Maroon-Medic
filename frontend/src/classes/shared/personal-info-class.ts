@@ -9,7 +9,5 @@ export default class PersonalInfoClass {
 	firstName: string = ""
 	lastName: string = ""
 	gender: string = ""
-	birthDay: number = -1
-	birthMonth: string = ""
-	birthYear: number = -1
+	dateOfBirth: string = ""
 }

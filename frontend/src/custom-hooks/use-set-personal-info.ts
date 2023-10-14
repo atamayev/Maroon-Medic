@@ -12,9 +12,7 @@ export default function useSetPersonalInfo(
 	const [personalInfo, setPersonalInfo] = useState<BirthDateInfo>({
 		firstName: "",
 		lastName: "",
-		birthMonth: "",
-		birthDay: -1,
-		birthYear: -1,
+		dateOfBirth: "",
 		gender: ""
 	})
 

@@ -9,7 +9,7 @@ import useSavePersonalInfo from "src/custom-hooks/use-save-personal-info"
 import FirstNameInput from "src/components/personal-info-inputs/first-name-input"
 import LastNameInput from "src/components/personal-info-inputs/last-name-input"
 import GenderSection from "src/components/personal-info-inputs/gender-input"
-import DOBSection from "src/components/date-of-birth/dob-section"
+import DateOfBirth from "src/components/date-of-birth"
 import DoctorHeader from "../doctor-header"
 import AppContext from "src/contexts/maroon-context"
 
@@ -34,7 +34,7 @@ function DoctorPersonalInfo() {
 						<FirstNameInput personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
 						<LastNameInput personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
 						<GenderSection personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
-						<DOBSection personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
+						<DateOfBirth personalInfo = {personalInfo} setPersonalInfo = {setPersonalInfo} />
 						<Button
 							title = "Save"
 							className = "w-100"

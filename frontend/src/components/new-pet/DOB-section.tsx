@@ -2,8 +2,8 @@ import FormGroup from "../form-group"
 import handlePetInfoInput from "src/helper-functions/patient/new-pet/handle-input-change/handle-pet-info-input"
 
 interface Props {
-  newPetData: PetItemForCreation
-  setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>
+	newPetData: PetItemForCreation
+	setNewPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>
 }
 
 export default function DOBSection (props: Props) {
