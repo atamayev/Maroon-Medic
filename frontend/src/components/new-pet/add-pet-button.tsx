@@ -8,8 +8,8 @@ const newPetName = (petName: string | null) => {
 
 interface Props {
 	newPetData: PetItemForCreation
-	medications: NewPetMedicationsItem[]
-	procedures: NewPetProceduresItem[]
+	medications: NewPetMedicationItem[]
+	procedures: NewPetProcedureItem[]
 }
 
 export default function AddPetButton (props: Props) {

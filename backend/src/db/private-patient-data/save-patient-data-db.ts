@@ -71,7 +71,7 @@ export default new class SavePatientDataDB {
 		await connection.execute(sql, values)
 	}
 
-	async addNewPetMedication (petMedication: PetMedications, petInfoId: number): Promise<void> {
+	async addNewPetMedication (petMedication: PetMedication, petInfoId: number): Promise<void> {
 		const sql = `INSERT INTO ${mysqlTables.pet_medications_mapping}
 			(pet_medications_id, pet_info_id, frequency_period, frequency_count) VALUES (?, ?, ?, ?)`
 		const values = [petMedication.petMedicationsId, petInfoId, petMedication.frequencyPeriod, petMedication.frequencyCount]
@@ -94,7 +94,7 @@ export default new class SavePatientDataDB {
 		await connection.execute(sql, values)
 	}
 
-	async addNewPetProcedure (petData: PetProcedures, petInfoId: number): Promise<void> {
+	async addNewPetProcedure (petData: PetProcedure, petInfoId: number): Promise<void> {
 		const sql = `INSERT INTO ${mysqlTables.pet_procedures_mapping}
 			(pet_procedures_id, pet_info_id, procedure_date) VALUES (?, ?, ?)`
 		const values = [petData.petProcedureId, petInfoId, petData.procedureDate]

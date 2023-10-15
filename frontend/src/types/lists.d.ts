@@ -62,12 +62,12 @@ declare global {
 		languageName: string
 	}
 
-	type PetMedicationsItem = {
+	type PetMedicationItem = {
 		petMedicationsListId: number
 		medicationName: string
 	}
 
-	type PetProceduresItem = {
+	type PetProcedureItem = {
 		petProceduresListId: number
 		procedureName: string
 	}

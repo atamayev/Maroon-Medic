@@ -12,7 +12,7 @@ function checkPetDataFields(petData: PetItemForCreation): boolean {
 	return true
 }
 
-function checkMedicationFields(medications: NewPetMedicationsItem[]): boolean {
+function checkMedicationFields(medications: NewPetMedicationItem[]): boolean {
 	for (const medication of medications) {
 		if (!medication.frequencyPeriod) {
 			return false
@@ -21,7 +21,7 @@ function checkMedicationFields(medications: NewPetMedicationsItem[]): boolean {
 	return true
 }
 
-function checkProcedureFields(procedures: NewPetProceduresItem[]): boolean {
+function checkProcedureFields(procedures: NewPetProcedureItem[]): boolean {
 	for (const procedure of procedures) {
 		if (!procedure.procedureDate) {
 			return false
@@ -32,8 +32,8 @@ function checkProcedureFields(procedures: NewPetProceduresItem[]): boolean {
 
 export default function areAllNewPetFieldsValid(
 	petData: PetItemForCreation,
-	medications: NewPetMedicationsItem[],
-	procedures: NewPetProceduresItem[]
+	medications: NewPetMedicationItem[],
+	procedures: NewPetProcedureItem[]
 ): boolean {
 
 	if (checkPetDataFields(petData) === false) return false

@@ -28,7 +28,7 @@ export default new class FetchAll {
 		return await this.#fetchAll(mysqlTables.insurance_list)
 	}
 
-	async petMedications(): Promise<PetMedicationsItem[]> {
+	async petMedications(): Promise<PetMedicationItem[]> {
 		return await this.#fetchAll(mysqlTables.pet_medications_list)
 	}
 

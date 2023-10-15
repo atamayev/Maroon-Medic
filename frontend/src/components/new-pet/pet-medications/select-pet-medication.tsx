@@ -5,23 +5,23 @@ import AppContext from "src/contexts/maroon-context"
 
 interface Props {
 	id: number
-	medications: NewPetMedicationsItem[]
-	setMedications: React.Dispatch<React.SetStateAction<NewPetMedicationsItem[]>>
+	medications: NewPetMedicationItem[]
+	setMedications: React.Dispatch<React.SetStateAction<NewPetMedicationItem[]>>
 }
 
 const filterUnsavedMedications = (
-	petMedicationsList: PetMedicationsItem[],
-	savedPetMedications: PetMedications[]
-): PetMedicationsItem[] => {
+	petMedicationsList: PetMedicationItem[],
+	savedPetMedications: PetMedication[]
+): PetMedicationItem[] => {
 	return _.filter(petMedicationsList, (medication) => {
 		return !_.some(savedPetMedications, ["petMedicationsId", medication.petMedicationsListId])
 	})
 }
 
 const updateOrAddMedication = (
-	medications: NewPetMedicationsItem[],
-	newMedication: NewPetMedicationsItem
-): NewPetMedicationsItem[] => {
+	medications: NewPetMedicationItem[],
+	newMedication: NewPetMedicationItem
+): NewPetMedicationItem[] => {
 	return medications.map((medication) => {
 		if (medication.id === newMedication.id) {
 			return newMedication

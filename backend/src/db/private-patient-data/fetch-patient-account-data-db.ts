@@ -60,7 +60,7 @@ export default new class FetchPatientAccountDataDB {
 		return insurance as string
 	}
 
-	async petMedications (petInfoId: number): Promise<PetMedications[]> {
+	async petMedications (petInfoId: number): Promise<PetMedication[]> {
 		const sql = `SELECT ${mysqlTables.pet_medications_list}.medication_name
         FROM ${mysqlTables.pet_medications_list}
             JOIN ${mysqlTables.pet_medications_mapping} ON
@@ -72,12 +72,12 @@ export default new class FetchPatientAccountDataDB {
 
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
-		const petMedicationsResults = results.map((row: RowDataPacket) => row as PetMedications)
+		const petMedicationsResults = results.map((row: RowDataPacket) => row as PetMedication)
 		const camelCasedPetMedicationData = transformArrayOfObjectsToCamelCase(petMedicationsResults)
-		return camelCasedPetMedicationData as PetMedications[]
+		return camelCasedPetMedicationData as PetMedication[]
 	}
 
-	async petProcedures (petInfoId: number): Promise<PetProcedures[]> {
+	async petProcedures (petInfoId: number): Promise<PetProcedure[]> {
 		const sql = `SELECT ${mysqlTables.pet_procedures_list}.procedure_name
         FROM ${mysqlTables.pet_procedures_list}
             JOIN ${mysqlTables.pet_procedures_mapping} ON
@@ -89,8 +89,8 @@ export default new class FetchPatientAccountDataDB {
 
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
-		const petProceduresResults = results.map((row: RowDataPacket) => row as PetProcedures)
+		const petProceduresResults = results.map((row: RowDataPacket) => row as PetProcedure)
 		const camelCasedPetProceduresData = transformArrayOfObjectsToCamelCase(petProceduresResults)
-		return camelCasedPetProceduresData as PetProcedures[]
+		return camelCasedPetProceduresData as PetProcedure[]
 	}
 }()

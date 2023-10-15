@@ -17,8 +17,8 @@ function petDataOperations(petData: PetItemForCreation, responseData: number): S
 export default function useAddPet() : (
 	petData: PetItemForCreation,
 	setPetData: React.Dispatch<React.SetStateAction<PetItemForCreation>>,
-	medications: NewPetMedicationsItem[],
-	procedures: NewPetProceduresItem[],
+	medications: NewPetMedicationItem[],
+	procedures: NewPetProcedureItem[],
 	setPetConfirmation: (conf: ConfirmationMessage) => void,
 	setShowAddPet: React.Dispatch<React.SetStateAction<boolean>>
 ) => Promise<void> {

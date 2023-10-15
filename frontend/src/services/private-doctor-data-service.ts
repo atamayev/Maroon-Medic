@@ -62,11 +62,11 @@ export default new class PrivateDoctorDataService {
 	async deleteService(serviceObject: ServiceItemNotNullablePrice): Promise<AxiosResponse<EmptyResponse>> {
 		return await http.delete<EmptyResponse>(`/private-doctor-data/delete-service/${serviceObject.serviceAndCategoryListId}`)
 	}
-	async addAddressData(addressData: BaseAddressData, times: DoctorAvailability[]): Promise<AxiosResponse<number | EmptyResponse>> {
-		return await http.post<number | EmptyResponse>("/private-doctor-data/add-address", {addressData, times})
+	async addAddressData(addressData: BaseAddressData, timesData: DoctorAvailability[]): Promise<AxiosResponse<number | EmptyResponse>> {
+		return await http.post<number | EmptyResponse>("/private-doctor-data/add-address", {addressData, timesData})
 	}
-	async updateAddressData(addressData: BaseAddressData, times: DoctorAvailability[]): Promise<AxiosResponse<EmptyResponse>> {
-		return await http.patch<EmptyResponse>("/private-doctor-data/update-address", {addressData, times})
+	async updateAddressData(addressData: BaseAddressData, timesData: DoctorAvailability[]): Promise<AxiosResponse<EmptyResponse>> {
+		return await http.patch<EmptyResponse>("/private-doctor-data/update-address", {addressData, timesData})
 	}
 	async deleteAddressData(addressId: number): Promise<AxiosResponse<EmptyResponse>> {
 		return await http.delete<EmptyResponse>(`/private-doctor-data/delete-address/${addressId}`)

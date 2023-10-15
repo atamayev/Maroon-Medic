@@ -29,9 +29,15 @@ import {
 import validateNewDoctorDataRequestBody
 	from "../middleware/request-validation/private-doctor-data-routes/validate-new-doctor-data-request-body"
 import validateSavePersonalDataRequestBody
-	from "../middleware/request-validation/private-doctor-data-routes/validate-save-personal-data-request-body"
+	from "../middleware/request-validation/validate-save-personal-data-request-body"
 import validateSaveDescriptionDataRequestBody
 	from "../middleware/request-validation/private-doctor-data-routes/validate-save-description-data-request-body"
+import validateAddVetEducationDataRequestBody
+	from "../middleware/request-validation/private-doctor-data-routes/validate-add-vet-education-data-request-body"
+import validateAddAddressDataRequestBody
+	from "../middleware/request-validation/private-doctor-data-routes/validate-add-address-data-request-body"
+import validatePublicAvailabilityRequestBody
+	from "../middleware/request-validation/private-doctor-data-routes/validate-public-availability-request-body"
 
 const privateDoctorDataRoutes = express.Router()
 
@@ -52,7 +58,7 @@ privateDoctorDataRoutes.delete("/delete-specialty/:specialtyId", deleteSpecialty
 privateDoctorDataRoutes.post("/add-serviced-pet/:servicedPetId", addServicedPet)
 privateDoctorDataRoutes.delete("/delete-serviced-pet/:servicedPetId", deleteServicedPet)
 
-privateDoctorDataRoutes.post("/add-pre-vet-education-data", addPreVetEducationData)
+privateDoctorDataRoutes.post("/add-pre-vet-education-data", validateAddVetEducationDataRequestBody, addPreVetEducationData)
 privateDoctorDataRoutes.delete("/delete-pre-vet-education-data/:preVetEducationId", deletePreVetEducationData)
 
 privateDoctorDataRoutes.post("/add-vet-education-data", addVetEducationData)
@@ -62,10 +68,10 @@ privateDoctorDataRoutes.post("/add-service", addService)
 privateDoctorDataRoutes.patch("/update-service", updateService)
 privateDoctorDataRoutes.delete("/delete-service/:serviceId", deleteService)
 
-privateDoctorDataRoutes.post("/add-address", addAddress)
-privateDoctorDataRoutes.patch("/update-address", updateAddress)
+privateDoctorDataRoutes.post("/add-address", validateAddAddressDataRequestBody, addAddress)
+privateDoctorDataRoutes.patch("/update-address", validateAddAddressDataRequestBody, updateAddress)
 privateDoctorDataRoutes.delete("/delete-address/:addressId", deleteAddress)
 
-privateDoctorDataRoutes.post("/save-public-availibility-data", savePublicAvailibilityData)
+privateDoctorDataRoutes.post("/save-public-availibility-data", validatePublicAvailabilityRequestBody, savePublicAvailibilityData)
 
 export default privateDoctorDataRoutes

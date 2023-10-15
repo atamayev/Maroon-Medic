@@ -7,8 +7,8 @@ import AppContext from "src/contexts/maroon-context"
 import _ from "lodash"
 
 interface Props {
-	procedures: NewPetProceduresItem[]
-	setProcedures: React.Dispatch<React.SetStateAction<NewPetProceduresItem[]>>
+	procedures: NewPetProcedureItem[]
+	setProcedures: React.Dispatch<React.SetStateAction<NewPetProcedureItem[]>>
 }
 
 function PetProcedures(props: Props) {

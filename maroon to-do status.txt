@@ -1,12 +1,16 @@
 To-do:
 
-- change the add Language, (all other adds) to be req.params instead of req.body
+-change from petMedications/procedures -- > medication/procedure
+	will need to be changed on the db level: pet_procedures_mapping
+	pet_medications_mapping
+	unpluralize the table names, and the pet_procedures_mapping_id, pet_procedures_id
 
 -if a user tampers with the accessToken and is force logged out, their UUID should be deleted from the table
 
 -for all of the req.body stuff, need to make it more resilient. if a malicous actor sends an empty request, it could break the backend
 	- add middleware to each of the backend functinos to extract the necessary parts of the function
 	- test endpoints that take params (what happens if no params provided, etc. - think of other edge cases)
+	- Go through all of the request validtors, and make sure the error responses are correct (aren't just copied and pasted)
 
 -setup postman to make making requests easier.
 	add the Doctor/Patient UUID as a cookie, and hit the endpoint directly

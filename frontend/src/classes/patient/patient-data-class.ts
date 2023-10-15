@@ -14,8 +14,8 @@ export default class PatientDataClass {
 	private _patientPetData: SavedPetItem[] | [] = []
 	private _petTypes: ServicedPetItem[] | null = null
 	private _insurances: InsuranceItem[] | null = null
-	private _petMedications: PetMedicationsItem[] | null = null
-	private _petProcedures: PetProceduresItem[] | null = null
+	private _petMedications: PetMedicationItem[] | null = null
+	private _petProcedures: PetProcedureItem[] | null = null
 
 	public initializePatientDashboardData(dashboardData: PatientDashboardData[]): void {
 		this._patientDashboardData = dashboardData.map((data) => new PatientDashboardDataClass(data))
@@ -88,19 +88,19 @@ export default class PatientDataClass {
 		this._insurances = value
 	}
 
-	get petMedications(): PetMedicationsItem[] | null {
+	get petMedications(): PetMedicationItem[] | null {
 		return this._petMedications
 	}
 
-	set petMedications(value: PetMedicationsItem[] | null) {
+	set petMedications(value: PetMedicationItem[] | null) {
 		this._petMedications = value
 	}
 
-	get petProcedures(): PetProceduresItem[] | null {
+	get petProcedures(): PetProcedureItem[] | null {
 		return this._petProcedures
 	}
 
-	set petProcedures(value: PetProceduresItem[] | null) {
+	set petProcedures(value: PetProcedureItem[] | null) {
 		this._petProcedures = value
 	}
 }

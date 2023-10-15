@@ -3,8 +3,8 @@ import FormGroup from "src/components/form-group"
 
 interface Props {
 	id: number
-	procedures: NewPetProceduresItem[]
-	setProcedures: React.Dispatch<React.SetStateAction<NewPetProceduresItem[]>>
+	procedures: NewPetProcedureItem[]
+	setProcedures: React.Dispatch<React.SetStateAction<NewPetProcedureItem[]>>
 	showDate: boolean
 }
 

@@ -46,7 +46,7 @@ export async function fetchInsurances (req: Request, res: Response): Promise<voi
 }
 
 export async function fetchPetMedications (req: Request, res: Response): Promise<void> {
-	const operation: () => Promise<PetMedicationsItem[]> = async () => {
+	const operation: () => Promise<PetMedicationItem[]> = async () => {
 		return await FetchAll.petMedications()
 	}
 	await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])

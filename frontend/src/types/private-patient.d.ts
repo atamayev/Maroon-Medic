@@ -4,23 +4,23 @@ declare global {
 		doctorLastName: string
 	}
 
-	type PetMedications = {
+	type PetMedication = {
 		petMedicationsListId: number
 		frequencyCount: string
 		frequencyPeriod: string
 	}
 
-	type NewPetMedicationsItem  = PetMedications & {
+	type NewPetMedicationItem  = PetMedication & {
 		id: number
 		showFrequencyAndTimePeriod: boolean
 	}
 
-	type PetProcedures = {
+	type PetProcedure = {
 		petProceduresListId: number
 		procedureDate: MysqlTimestamp
 	}
 
-	type NewPetProceduresItem = PetProcedures & {
+	type NewPetProcedureItem = PetProcedure & {
 		id: number
 		showDate: boolean
 	}
@@ -32,8 +32,8 @@ declare global {
 		pet: string
 		petType: string
 		insuranceName: string
-		petMedications: PetMedications[]
-		petProcedures: PetProcedures[]
+		petMedications: PetMedication[]
+		petProcedures: PetProcedure[]
 	}
 
 	//This is the type for the pet data when it is being 'created' (not saved)

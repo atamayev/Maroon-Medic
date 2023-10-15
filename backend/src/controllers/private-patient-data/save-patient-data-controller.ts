@@ -87,28 +87,32 @@ export async function deletePet (req: Request, res: Response): Promise<void | Re
 
 export async function addPetMedication (req: Request, res: Response): Promise<void> {
 	const petInfoId = req.body.petInfoId as number
-	const petMedication = req.body.petMedication as PetMedications
+	const petMedication = req.body.petMedication as PetMedication
 	const operation: () => Promise<void> = async () => await SavePatientDataDB.addNewPetMedication(petMedication, petInfoId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-export async function deletePetMedication (req: Request, res: Response): Promise<void> {
+export async function deletePetMedication (req: Request, res: Response): Promise<void | Response> {
+	const petMedicationId: number = Number(req.params.petMedicationId)
+	if (isNaN(petMedicationId)) return res.status(400).json({ error: "Invalid petMedication ID" })
+
 	const petInfoId = req.body.petInfoId as number
-	const petMedicationId = req.body.petMedicationId as number
 	const operation: () => Promise<void> = async () => await SavePatientDataDB.deletePetMedication(petMedicationId, petInfoId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
 export async function addPetProcedure (req: Request, res: Response): Promise<void> {
 	const petInfoId = req.body.petInfoId as number
-	const petProcedure = req.body.petProcedure as PetProcedures
+	const petProcedure = req.body.petProcedure as PetProcedure
 	const operation: () => Promise<void> = async () => await SavePatientDataDB.addNewPetProcedure(petProcedure, petInfoId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-export async function deletePetProcedure (req: Request, res: Response): Promise<void> {
+export async function deletePetProcedure (req: Request, res: Response): Promise<void | Response> {
+	const petProcedureId: number = Number(req.params.petProcedureId)
+	if (isNaN(petProcedureId)) return res.status(400).json({ error: "Invalid petProcedure ID" })
+
 	const petInfoId = req.body.petInfoId as number
-	const petProcedureId = req.body.petProcedureId as number
 	const operation: () => Promise<void> = async () => await SavePatientDataDB.deletePetProcedure(petProcedureId, petInfoId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }

@@ -2,8 +2,8 @@ import _ from "lodash"
 
 interface Props {
 	id: number
-	medications: NewPetMedicationsItem[]
-	setMedications: React.Dispatch<React.SetStateAction<NewPetMedicationsItem[]>>
+	medications: NewPetMedicationItem[]
+	setMedications: React.Dispatch<React.SetStateAction<NewPetMedicationItem[]>>
 	showFrequencyAndTimePeriod: boolean
 }
 

@@ -148,7 +148,7 @@ export async function deleteVetEducationData (req: Request, res: Response): Prom
 export async function addAddress (req: Request, res: Response): Promise<Response> {
 	const doctorId = req.doctorId
 	const addressData = req.body.addressData as PrivateDoctorAddressLessTimes
-	const timesData = req.body.times as DoctorAvailability[]
+	const timesData = req.body.timesData as DoctorAvailability[]
 
 	const insertId = await OperationHandler.executeAsyncAndReturnValue(res, SaveDoctorDataDB.addAddressRecord, addressData, doctorId)
 	const insertIdNumber = Number(insertId)
@@ -184,7 +184,7 @@ export async function deleteAddress (req: Request, res: Response): Promise<void 
 
 export async function updateAddress (req: Request, res: Response): Promise<void> {
 	const addressData = req.body.addressData as PrivateDoctorAddressLessTimes
-	const timesData = req.body.times as DoctorAvailability[]
+	const timesData = req.body.timesData as DoctorAvailability[]
 
 	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.updateAddressRecord(addressData)
 	await OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, operation)
