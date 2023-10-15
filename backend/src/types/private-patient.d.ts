@@ -28,7 +28,7 @@ declare global {
 	}
 
 	type PetMedication = {
-		petMedicationsId: number
+		petMedicationId: number
 		frequencyPeriod: string
 		frequencyCount: string
 	}
@@ -39,13 +39,13 @@ declare global {
 	}
 
 	type PetMedicationPreProcessed = {
-		petMedicationsListId: number
+		petMedicationListId: number
 		frequencyPeriod: string
 		frequencyCount: string
 	}
 
 	type PetProcedurePreProcessed = {
-		petProceduresListId: number
+		petProcedureListId: number
 		procedureDate: MysqlTimestamp
 	}
 

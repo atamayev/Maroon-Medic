@@ -65,24 +65,24 @@ CREATE TABLE vet_education_type_list(
 
 SELECT * FROM vet_education_type_list;
 
-CREATE TABLE specialties_list(
-	specialties_list_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE specialty_list(
+	specialty_list_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	organization_name VARCHAR(300) NOT NULL,
 	specialty_name VARCHAR(300) NOT NULL
 );
 
-SELECT * FROM specialties_list;
+SELECT * FROM specialty_list;
 
-CREATE TABLE pet_medications_list(
-	pet_medications_list_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE pet_medication_list(
+	pet_medication_list_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	medication_name VARCHAR(300) NOT NULL
 );
 
-SELECT * FROM pet_medications_list;
+SELECT * FROM pet_medication_list;
 
-CREATE TABLE pet_procedures_list(
-	pet_procedures_list_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE pet_procedure_list(
+	pet_procedure_list_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	procedure_name VARCHAR(300) NOT NULL
 );
 
-SELECT * FROM pet_procedures_list;
+SELECT * FROM pet_procedure_list;

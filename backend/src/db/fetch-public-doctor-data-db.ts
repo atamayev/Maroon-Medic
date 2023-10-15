@@ -20,10 +20,10 @@ export default new class FetchPublicDoctorDataDB {
 	}
 
 	async specialties (doctorId: number): Promise<OrganizationSpecialtyName[]> {
-		const sql = `SELECT ${mysqlTables.specialties_list}.organization_name, ${mysqlTables.specialties_list}.specialty_name
-		FROM ${mysqlTables.specialties_list}
+		const sql = `SELECT ${mysqlTables.specialty_list}.organization_name, ${mysqlTables.specialty_list}.specialty_name
+		FROM ${mysqlTables.specialty_list}
 			JOIN ${mysqlTables.specialty_mapping}
-			ON ${mysqlTables.specialties_list}.specialties_list_id = ${mysqlTables.specialty_mapping}.specialty_id
+			ON ${mysqlTables.specialty_list}.specialty_list_id = ${mysqlTables.specialty_mapping}.specialty_id
 		WHERE ${mysqlTables.specialty_mapping}.doctor_id = ?`
 
 		const values = [doctorId]

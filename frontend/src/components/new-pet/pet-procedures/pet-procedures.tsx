@@ -20,7 +20,7 @@ function PetProcedures(props: Props) {
 		setProcedures([...procedures, {
 			id: nextId,
 			showDate: false,
-			petProceduresListId: 0,
+			petProcedureListId: 0,
 			procedureDate: "",
 		}])
 	}
@@ -34,10 +34,10 @@ function PetProcedures(props: Props) {
 		const medicationItem = procedures.find(med => med.id === id)
 		if (_.isUndefined(medicationItem)) return ""
 
-		const petMedListId = medicationItem.petProceduresListId
+		const petMedListId = medicationItem.petProcedureListId
 
 		const matchingPetMedication = patientData?.petProcedures?.find(
-			med => med.petProceduresListId === petMedListId
+			med => med.petProcedureListId === petMedListId
 		)
 
 		return "Delete " + _.get(matchingPetMedication, "procedureName", "")

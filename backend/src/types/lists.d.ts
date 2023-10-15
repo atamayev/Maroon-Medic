@@ -63,13 +63,11 @@ declare global {
 	}
 
 	type PetMedicationItem = {
-		//Change this to petMedicationListId
-		petMedicationsListId: number
+		petMedicationListId: number
 		medicationName: string
 	}
 
 	type PetProceduresItem = {
-		//Change this to petProcedureListId
 		petProceduresListId: number
 		procedureName: string
 	}

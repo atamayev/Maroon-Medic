@@ -1,6 +1,6 @@
+import { Request, Response } from "express"
 import FetchAll from "../utils/fetch-all-lists"
 import OperationHandler from "../utils/operation-handler"
-import { Request, Response } from "express"
 
 export async function fetchDoctorLists (req: Request, res: Response): Promise<Response> {
 	try {

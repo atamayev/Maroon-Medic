@@ -61,12 +61,12 @@ export default new class FetchPatientAccountDataDB {
 	}
 
 	async petMedications (petInfoId: number): Promise<PetMedication[]> {
-		const sql = `SELECT ${mysqlTables.pet_medications_list}.medication_name
-        FROM ${mysqlTables.pet_medications_list}
-            JOIN ${mysqlTables.pet_medications_mapping} ON
-            ${mysqlTables.pet_medications_list}.pet_medications_list_id = ${mysqlTables.pet_medications_mapping}.pet_medications_id
+		const sql = `SELECT ${mysqlTables.pet_medication_list}.medication_name
+        FROM ${mysqlTables.pet_medication_list}
+            JOIN ${mysqlTables.pet_medication_mapping} ON
+            ${mysqlTables.pet_medication_list}.pet_medication_list_id = ${mysqlTables.pet_medication_mapping}.pet_medication_id
         WHERE
-            ${mysqlTables.pet_medications_mapping}.pet_info_id = ?`
+            ${mysqlTables.pet_medication_mapping}.pet_info_id = ?`
 
 		const values = [petInfoId]
 
@@ -78,12 +78,12 @@ export default new class FetchPatientAccountDataDB {
 	}
 
 	async petProcedures (petInfoId: number): Promise<PetProcedure[]> {
-		const sql = `SELECT ${mysqlTables.pet_procedures_list}.procedure_name
-        FROM ${mysqlTables.pet_procedures_list}
-            JOIN ${mysqlTables.pet_procedures_mapping} ON
-            ${mysqlTables.pet_procedures_list}.pet_procedures_list_id = ${mysqlTables.pet_procedures_mapping}.pet_procedures_id
+		const sql = `SELECT ${mysqlTables.pet_procedure_list}.procedure_name
+        FROM ${mysqlTables.pet_procedure_list}
+            JOIN ${mysqlTables.pet_procedure_mapping} ON
+            ${mysqlTables.pet_procedure_list}.pet_procedure_list_id = ${mysqlTables.pet_procedure_mapping}.pet_procedure_id
         WHERE
-            ${mysqlTables.pet_procedures_mapping}.pet_info_id = ?`
+            ${mysqlTables.pet_procedure_mapping}.pet_info_id = ?`
 
 		const values = [petInfoId]
 

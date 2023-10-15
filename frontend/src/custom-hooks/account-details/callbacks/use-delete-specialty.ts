@@ -11,11 +11,11 @@ export const useDeleteSpecialty = (
 
 	return useCallback(
 		async (specialty: SpecialtyItem) => {
-			const newDoctorSpecialties = doctorSpecialties.filter(s => s.specialtiesListId !== specialty.specialtiesListId)
+			const newDoctorSpecialties = doctorSpecialties.filter(s => s.specialtyListId !== specialty.specialtyListId)
 
 			await modifyDoctorSpecialties(
 				PrivateDoctorDataService.deleteSpecialty,
-				specialty.specialtiesListId,
+				specialty.specialtyListId,
 				newDoctorSpecialties,
 				setSpecialtiesConfirmation,
 				() => setSelectedOrganization("")

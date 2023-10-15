@@ -8,6 +8,7 @@ function NullUser () {
 			<Link to = "/patient-register">
 				<Button
 					colorClass = "bg-green-600"
+					className = "mt-3 mr-3"
 					hoverClass = "hover:bg-green-700"
 					title = "Register"
 					textColor = "text-white"

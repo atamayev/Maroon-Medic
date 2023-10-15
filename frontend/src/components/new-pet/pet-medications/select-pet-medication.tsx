@@ -14,7 +14,7 @@ const filterUnsavedMedications = (
 	savedPetMedications: PetMedication[]
 ): PetMedicationItem[] => {
 	return _.filter(petMedicationsList, (medication) => {
-		return !_.some(savedPetMedications, ["petMedicationsId", medication.petMedicationsListId])
+		return !_.some(savedPetMedications, ["petMedicationId", medication.petMedicationListId])
 	})
 }
 
@@ -44,7 +44,7 @@ function SelectPetMedication(props: Props) {
 
 	const handleSelectOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		const selectedMedication = filteredMedications.find(
-			(medication) => medication.petMedicationsListId === Number(e.target.value)
+			(medication) => medication.petMedicationListId === Number(e.target.value)
 		)
 
 		if (_.isUndefined(selectedMedication)) return
@@ -52,7 +52,7 @@ function SelectPetMedication(props: Props) {
 		const newMedication  = {
 			id,
 			showFrequencyAndTimePeriod: true,
-			petMedicationsListId: selectedMedication.petMedicationsListId,
+			petMedicationListId: selectedMedication.petMedicationListId,
 			frequencyPeriod: "",
 			frequencyCount: "",
 		}
@@ -63,7 +63,7 @@ function SelectPetMedication(props: Props) {
 	}
 
 	const medicationItem = _.find(medications, ["id", id])
-	const value = _.get(medicationItem, "petMedicationsListId", "")
+	const value = _.get(medicationItem, "petMedicationListId", "")
 
 	return (
 		<select
@@ -79,7 +79,7 @@ function SelectPetMedication(props: Props) {
 				Choose a Pet Medication
 			</option>
 			{filteredMedications.map((medication) => (
-				<option key={medication.petMedicationsListId} value={medication.petMedicationsListId}>
+				<option key={medication.petMedicationListId} value={medication.petMedicationListId}>
 					{medication.medicationName}
 				</option>
 			))}

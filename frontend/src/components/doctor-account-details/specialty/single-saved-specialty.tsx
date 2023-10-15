@@ -10,12 +10,12 @@ interface Props {
 export default function SingleSavedSpecialty (props: Props) {
 	const { deleteStatuses, setDeleteStatuses, specialty, handleDeleteSpecialty } = props
 
-	const status = deleteStatuses[specialty.specialtiesListId]
+	const status = deleteStatuses[specialty.specialtyListId]
 
 	const setStatus = (newStatus: DeleteStatuses) => {
 		setDeleteStatuses((prevStatuses) => ({
 			...prevStatuses,
-			[specialty.specialtiesListId]: newStatus,
+			[specialty.specialtyListId]: newStatus,
 		}))
 	}
 

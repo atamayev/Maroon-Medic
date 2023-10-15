@@ -14,6 +14,8 @@ function SelectOrganization (props: Props) {
 
 	if (_.isNil(doctorLists)) return null
 
+	console.log(doctorLists.specialties)
+
 	return (
 		<div>
 			<label htmlFor = "organization">Select an organization: </label>
