@@ -3,6 +3,7 @@ declare global {
 		interface Request {
 			doctorId: number
 			patientId: number
+			accessToken: string
 			headers: {
 				"uuid": string
 				"user-type": "Doctor" | "Patient"

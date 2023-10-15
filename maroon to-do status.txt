@@ -1,16 +1,20 @@
 To-do:
 
-Make the pets list be an accordion
-
-Learn how to do debugging in typsecript (breakpoints) https://www.youtube.com/watch?v=d56mG7DezGs
-
-Maroon --> Mane Transition
+-for all of the req.body stuff, need to make it more resilient. if a malicous actor sends an empty request, it could break the backend
+	- add middleware to each of the backend functinos to extract the necessary parts of the function
+	- test endpoints that take params (what happens if no params provided, etc. - think of other edge cases)
 
 -setup postman to make making requests easier.
 	add the Doctor/Patient UUID as a cookie, and hit the endpoint directly
 		or, make the UUID be a header (ie authorizatoin header) whenever sending a req back and forth
 			don't make it doctorUUID or patientUUID, just make it UUID. same for AccessToken
 			think about the best way to structure the acess token/ uuid thing
+
+Make the pets list be an accordion
+
+Learn how to do debugging in typsecript (breakpoints) https://www.youtube.com/watch?v=d56mG7DezGs
+
+Maroon --> Mane Transition
 
 -mini bug when making a booking. make a booking with `changes in behavior`. The time is 10 AM- 10AM (it's a full day appointment). Should say something like (10AM (july 17) - 10AM (july 18))
 
