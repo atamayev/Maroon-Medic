@@ -37,16 +37,24 @@ export async function getDoctorCalendarDetails(req: Request, res: Response): Pro
 	await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])
 }
 
-export async function confirmAppointment (req: Request, res: Response): Promise<void> {
-	const appointmentId = req.body.appointmentId as number
+export async function confirmAppointment (req: Request, res: Response): Promise<void | Response> {
+	const doctorId = req.doctorId
+	const appointmentId = Number(req.params.appointmentId)
+	if (isNaN(appointmentId)) {
+		return res.status(400).json({ error: "Invalid appointmentId" })
+	}
 
-	const operation: () => Promise<void> = async () => await CalendarDB.confirmAppointmentStatus(appointmentId)
+	const operation: () => Promise<void> = async () => await CalendarDB.confirmAppointmentStatus(appointmentId, doctorId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-export async function denyAppointment (req: Request, res: Response): Promise<void> {
-	const appointmentId = req.body.appointmentId as number
+export async function denyAppointment (req: Request, res: Response): Promise<void | Response> {
+	const doctorId = req.doctorId
+	const appointmentId = Number(req.params.appointmentId)
+	if (isNaN(appointmentId)) {
+		return res.status(400).json({ error: "Invalid appointmentId" })
+	}
 
-	const operation: () => Promise<void> = async () => await CalendarDB.denyAppointmentStatus(appointmentId)
+	const operation: () => Promise<void> = async () => await CalendarDB.denyAppointmentStatus(appointmentId, doctorId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }

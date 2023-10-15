@@ -8,7 +8,7 @@ import authRoutes from "./routes/auth-routes"
 import privateDoctorDataRoutes from "./routes/private-doctor-data-routes"
 import privatePatientDataRoutes from "./routes/private-patient-data-routes"
 import publicDoctorDataRoutes from "./routes/public-doctor-data-routes"
-import searchRoutes from "./routes/search-ROUTES"
+import searchRoutes from "./routes/search-routes"
 import calendarRoutes from "./routes/calendar-routes"
 import listsRoutes from "./routes/lists-routes"
 import GetIDFromUUID from "./middleware/get-id-from-uuid"
@@ -68,7 +68,7 @@ app.use("/api/private-patient-data", jwtVerify, GetIDFromUUID.patient, privatePa
 app.use("/api/public-doctor-data", publicDoctorDataRoutes)
 app.use("/api/search", searchRoutes)
 app.use("/api/calendar", jwtVerify, calendarRoutes)
-app.use("/api/lists", listsRoutes)
+app.use("/api/lists", jwtVerify, listsRoutes)
 app.use("*", (req, res) => res.status(404).json({ error: "Route not found"}))
 
 // Initialization of server:

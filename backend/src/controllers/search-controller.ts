@@ -5,6 +5,10 @@ import { Request, Response } from "express"
 
 export async function searchByQuery (req: Request, res: Response): Promise<Response> {
 	const userQuery = req.params.query as string
+	if (typeof userQuery !== "string") {
+		res.status(400).json({ error: "Invalid or missing query parameter" })
+	}
+
 	try {
 		const searchResults = await SearchDB.retrieveDoctorsFromSearchTerm(userQuery)
 		return res.status(200).json(searchResults)

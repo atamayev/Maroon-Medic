@@ -5,12 +5,13 @@ export default function validateLoginRequestBody (req: Request, res: Response, n
 		return res.status(400).json({ error: "Bad Request: Missing or invalid body" })
 	}
 
-	const loginInfo = req.body.loginInformationObject
-	if (!loginInfo || typeof loginInfo !== "object") {
+	const { loginInformationObject } = req.body as { loginInformationObject?: LoginInformationObject }
+
+	if (!loginInformationObject || typeof loginInformationObject !== "object") {
 		return res.status(400).json({ error: "Bad Request: Missing or invalid loginInformationObject" })
 	}
 
-	const { email, password, loginType } = loginInfo
+	const { email, password, loginType } = loginInformationObject
 	if (!email || !password || !loginType) {
 		return res.status(400).json({ error: "Bad Request: Missing required fields" })
 	}
