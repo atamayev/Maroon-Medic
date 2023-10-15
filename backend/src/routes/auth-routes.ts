@@ -6,11 +6,11 @@ import changePassword from "../controllers/auth/change-password"
 import logout from "../controllers/auth/logout"
 import { newDoctorConfirmation, newPatientConfirmation } from "../controllers/auth/new-user-confirmation"
 import jwtVerify from "../middleware/jwt-verify"
-import validateLoginRequestBody from "../middleware/auth-routes-request-validation/validate-login-request-body"
-import validateRegisterRequestBody from "../middleware/auth-routes-request-validation/validate-register-request-body"
-import validateChangePasswordRequest from "../middleware/auth-routes-request-validation/validate-change-password-request"
-import validateUUIDInHeader from "../middleware/auth-routes-request-validation/validate-uuid-in-header"
-import validateNewUserConfirmationRequest from "../middleware/auth-routes-request-validation/validate-new-user-request"
+import validateLoginRequestBody from "../middleware/request-validation/auth-routes/validate-login-request-body"
+import validateRegisterRequestBody from "../middleware/request-validation/auth-routes/validate-register-request-body"
+import validateChangePasswordRequest from "../middleware/request-validation/auth-routes/validate-change-password-request-body"
+import validateUUIDInHeader from "../middleware/request-validation/auth-routes/validate-uuid-in-header"
+import validateNewUserConfirmationRequest from "../middleware/request-validation/auth-routes/validate-new-user-request"
 
 const authRoutes = express.Router()
 

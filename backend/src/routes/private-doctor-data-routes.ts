@@ -26,16 +26,22 @@ import {
 	deleteAddress,
 	updateAddress
 } from "../controllers/private-doctor-data/save-doctor-data-controller"
+import validateNewDoctorDataRequestBody
+	from "../middleware/request-validation/private-doctor-data-routes/validate-new-doctor-data-request-body"
+import validateSavePersonalDataRequestBody
+	from "../middleware/request-validation/private-doctor-data-routes/validate-save-personal-data-request-body"
+import validateSaveDescriptionDataRequestBody
+	from "../middleware/request-validation/private-doctor-data-routes/validate-save-description-data-request-body"
 
 const privateDoctorDataRoutes = express.Router()
 
-privateDoctorDataRoutes.post("/new-doctor", newDoctor)
+privateDoctorDataRoutes.post("/new-doctor", validateNewDoctorDataRequestBody, newDoctor)
 privateDoctorDataRoutes.get("/fetch-dashboard-data", fetchDashboardData)
 privateDoctorDataRoutes.get("/fetch-personal-data", fetchPersonalData)
 privateDoctorDataRoutes.get("/fetch-account-details-data", fetchAccountDetails)
 
-privateDoctorDataRoutes.post("/save-personal-data", savePersonalData)
-privateDoctorDataRoutes.post("/save-description-data", saveDescriptionData)
+privateDoctorDataRoutes.post("/save-personal-data", validateSavePersonalDataRequestBody, savePersonalData)
+privateDoctorDataRoutes.post("/save-description-data", validateSaveDescriptionDataRequestBody, saveDescriptionData)
 
 privateDoctorDataRoutes.post("/add-language", addLanguage)
 privateDoctorDataRoutes.delete("/delete-language/:languageId", deleteLanguage)

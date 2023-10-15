@@ -18,10 +18,12 @@ import {
 	deletePetMedication,
 	deletePetProcedure
 } from "../controllers/private-patient-data/save-patient-data-controller"
+import validateNewPatientDataRequestBody
+	from "../middleware/request-validation/patient-data-routes/validate-new-patient-data-request-body"
 
 const privatePatientDataRoutes = express.Router()
 
-privatePatientDataRoutes.post("/new-patient", newPatient)
+privatePatientDataRoutes.post("/new-patient", validateNewPatientDataRequestBody, newPatient)
 privatePatientDataRoutes.get("/fetch-dashboard-data", fetchDashboardData)
 privatePatientDataRoutes.get("/fetch-personal-data", fetchPersonalData)
 privatePatientDataRoutes.get("/fetch-account-details-data", fetchAccountDetails)

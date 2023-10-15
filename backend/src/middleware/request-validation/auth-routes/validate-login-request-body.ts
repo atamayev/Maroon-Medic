@@ -8,7 +8,7 @@ export default function validateLoginRequestBody (req: Request, res: Response, n
 	const { loginInformationObject } = req.body as { loginInformationObject?: LoginInformationObject }
 
 	if (!loginInformationObject || typeof loginInformationObject !== "object") {
-		return res.status(400).json({ error: "Bad Request: Missing or invalid loginInformationObject" })
+		return res.status(400).json({ error: "Bad Request: Missing or invalid Login Information" })
 	}
 
 	const { email, password, loginType } = loginInformationObject

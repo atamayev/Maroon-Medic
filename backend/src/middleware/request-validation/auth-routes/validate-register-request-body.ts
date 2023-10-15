@@ -7,7 +7,7 @@ export default function validateRegisterRequestBody (req: Request, res: Response
 
 	const loginInfo = req.body.registerInformationObject
 	if (!loginInfo || typeof loginInfo !== "object") {
-		return res.status(400).json({ error: "Bad Request: Missing or invalid registerInformationObject" })
+		return res.status(400).json({ error: "Bad Request: Missing or invalid Register Information" })
 	}
 
 	const { email, password, loginType } = loginInfo

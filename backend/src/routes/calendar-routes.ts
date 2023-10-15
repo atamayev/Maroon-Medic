@@ -6,7 +6,7 @@ import {
 	denyAppointment
 } from "../controllers/calendar-controller"
 import GetIDFromUUID from "../middleware/get-id-from-uuid"
-import validateMakeAppointmentRequestBody from "../middleware/calendar-routes-request-validation/validate-make-appointment-request-body"
+import validateMakeAppointmentRequestBody from "../middleware/request-validation/calendar-routes/validate-make-appointment-request-body"
 
 const calendarRoutes = express.Router()
 

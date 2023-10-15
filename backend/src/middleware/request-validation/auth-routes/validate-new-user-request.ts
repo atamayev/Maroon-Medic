@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express"
-import { extractAccessToken } from "../../utils/auth-helpers"
+import { extractAccessToken } from "../../../utils/auth-helpers"
 
 export default function validateNewUserConfirmationRequest(
 	req: Request,
