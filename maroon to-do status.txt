@@ -4,16 +4,7 @@ Make the pets list be an accordion
 
 Learn how to do debugging in typsecript (breakpoints) https://www.youtube.com/watch?v=d56mG7DezGs
 
---change all front-end select month, day, year into a "date", like in pets.js
-	-make the date only be sometime in the past
-
 Maroon --> Mane Transition
-
--setup postman to make making requests easier.
-	add the Doctor/Patient UUID as a cookie, and hit the endpoint directly
-		or, make the UUID be a header (ie authorizatoin header) whenever sending a req back and forth
-			don't make it doctorUUID or patientUUID, just make it UUID. same for AccessToken
-			think about the best way to structure the acess token/ uuid thing
 
 -mini bug when making a booking. make a booking with `changes in behavior`. The time is 10 AM- 10AM (it's a full day appointment). Should say something like (10AM (july 17) - 10AM (july 18))
 

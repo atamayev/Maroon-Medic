@@ -2,42 +2,40 @@ import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
 import AuthDB from "../db/auth-db"
 import Cookie from "../utils/cookie-operations"
-import { extractAccessToken, getDecodedUUID } from "../utils/auth-helpers"
+import { getDecodedUUID } from "../utils/auth-helpers"
 
-export default async function jwtVerify(req: Request, res: Response, next: NextFunction): Promise<void| Response> {
-	const userType = req.headers["user-type"] as DoctorOrPatientOrUndefined
-
-	if (!userType  || _.isUndefined(userType)) {
-		Cookie.clearAll(res)
-		return res.status(401).json({ shouldRedirect: true, redirectURL: "/" })
-	}
-
-	const accessToken = extractAccessToken(req)
-
-	if (_.isUndefined(accessToken)) {
-		Cookie.clearAll(res)
-		return res.status(401).json({ shouldRedirect: true, redirectURL: "/" })
-	}
-
-	const handleKnownUserTypeUnauthorized = (): Response => {
-		const redirectURL = userType === "Doctor" ? "/vet-login" : "/patient-login"
-		Cookie.clearAll(res)
-		return res.status(401).json({ shouldRedirect: true, redirectURL: redirectURL })
-	}
-
+export default async function jwtVerify(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {
+		const userType = req.headers["user-type"] as DoctorOrPatientOrUndefined
+		const accessToken = req.headers.authorization
+
+		if (_.isUndefined(userType) || _.isUndefined(accessToken)) {
+			return handleUnauthorized()
+		}
+
 		const UUID = getDecodedUUID(userType, accessToken)
-		if (_.isUndefined(UUID)) return handleKnownUserTypeUnauthorized()
+
+		if (_.isUndefined(UUID)) return handleKnownUserTypeUnauthorized(userType)
 
 		const doesRecordExist = await AuthDB.checkIfUUIDExists(UUID)
 
-		if (doesRecordExist) {
-			req.headers.uuid = UUID
-			next()
-			return
-		}
+		if (doesRecordExist === false) return handleKnownUserTypeUnauthorized(userType)
+
+		req.headers.uuid = UUID
+		next()
 	} catch (error: unknown) {
-		handleKnownUserTypeUnauthorized()
+		console.error("Error in jwtVerify: ", error)
+		return handleUnauthorized()
 	}
-	handleKnownUserTypeUnauthorized()
+
+	function handleUnauthorized(): Response {
+		Cookie.clearAll(res)
+		return res.status(401).json({ shouldRedirect: true, redirectURL: "/" })
+	}
+
+	function handleKnownUserTypeUnauthorized(userType: DoctorOrPatientOrUndefined): Response {
+		const redirectURL = userType === "Doctor" ? "/vet-login" : "/patient-login"
+		Cookie.clearAll(res)
+		return res.status(401).json({ shouldRedirect: true, redirectURL })
+	}
 }

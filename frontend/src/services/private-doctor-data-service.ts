@@ -21,19 +21,19 @@ export default new class PrivateDoctorDataService {
 		return await http.post<EmptyResponse>("/private-doctor-data/save-description-data", {description})
 	}
 	async addLanguage(languageId: number): Promise<AxiosResponse<EmptyResponse>> {
-		return await http.post<EmptyResponse>("/private-doctor-data/add-language", {languageId})
+		return await http.post<EmptyResponse>(`/private-doctor-data/add-language/${languageId}`)
 	}
 	async deleteLanguage(languageId: number): Promise<AxiosResponse<EmptyResponse>> {
 		return await http.delete<EmptyResponse>(`/private-doctor-data/delete-language/${languageId}`)
 	}
 	async addSpecialty(specialtyId: number): Promise<AxiosResponse<EmptyResponse>> {
-		return await http.post<EmptyResponse>("/private-doctor-data/add-specialty", {specialtyId: specialtyId})
+		return await http.post<EmptyResponse>(`/private-doctor-data/add-specialty/${specialtyId}`)
 	}
 	async deleteSpecialty(specialtyId: number): Promise<AxiosResponse<EmptyResponse>> {
 		return await http.delete<EmptyResponse>(`/private-doctor-data/delete-specialty/${specialtyId}`)
 	}
 	async addServicedPet(petId: number): Promise<AxiosResponse<EmptyResponse>> {
-		return await http.post<EmptyResponse>("/private-doctor-data/add-serviced-pet", {petId: petId})
+		return await http.post<EmptyResponse>(`/private-doctor-data/add-serviced-pet/${petId}`)
 	}
 	async deleteServicedPet(petId: number): Promise<AxiosResponse<EmptyResponse>> {
 		return await http.delete<EmptyResponse>(`/private-doctor-data/delete-serviced-pet/${petId}`)
@@ -62,11 +62,11 @@ export default new class PrivateDoctorDataService {
 	async deleteService(serviceObject: ServiceItemNotNullablePrice): Promise<AxiosResponse<EmptyResponse>> {
 		return await http.delete<EmptyResponse>(`/private-doctor-data/delete-service/${serviceObject.serviceAndCategoryListId}`)
 	}
-	async addAddressData(addressData: BaseAddressData, times: DoctorAvailability[]): Promise<AxiosResponse<number | EmptyResponse>> {
-		return await http.post<number | EmptyResponse>("/private-doctor-data/add-address", {addressData, times})
+	async addAddressData(addressData: BaseAddressData, timesData: DoctorAvailability[]): Promise<AxiosResponse<number | EmptyResponse>> {
+		return await http.post<number | EmptyResponse>("/private-doctor-data/add-address", {addressData, timesData})
 	}
-	async updateAddressData(addressData: BaseAddressData, times: DoctorAvailability[]): Promise<AxiosResponse<EmptyResponse>> {
-		return await http.patch<EmptyResponse>("/private-doctor-data/update-address", {addressData, times})
+	async updateAddressData(addressData: BaseAddressData, timesData: DoctorAvailability[]): Promise<AxiosResponse<EmptyResponse>> {
+		return await http.patch<EmptyResponse>("/private-doctor-data/update-address", {addressData, timesData})
 	}
 	async deleteAddressData(addressId: number): Promise<AxiosResponse<EmptyResponse>> {
 		return await http.delete<EmptyResponse>(`/private-doctor-data/delete-address/${addressId}`)

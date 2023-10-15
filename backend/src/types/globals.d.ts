@@ -8,7 +8,7 @@ declare global {
 	}
 
 	type OrganizationSpecialty = {
-		specialtiesListId: number
+		specialtyListId: number
 		organizationName: string
 		specialtyName: string
 	}

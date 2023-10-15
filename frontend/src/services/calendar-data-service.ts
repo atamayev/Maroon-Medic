@@ -9,9 +9,9 @@ export default new class CalendarDataService {
 		return await http.get<DoctorDashboardData[]>("/calendar/get-doctor-calendar-details")
 	}
 	async confirmAppointment(appointmentId: number): Promise<AxiosResponse<EmptyResponse>> {
-		return await http.patch<EmptyResponse>("/calendar/confirm-appointment", {appointmentId})
+		return await http.patch<EmptyResponse>(`/calendar/confirm-appointment/${appointmentId}`)
 	}
 	async denyAppointment(appointmentId: number): Promise<AxiosResponse<EmptyResponse>> {
-		return await http.patch<EmptyResponse>("/calendar/deny-appointment", {appointmentId})
+		return await http.patch<EmptyResponse>(`/calendar/deny-appointment/${appointmentId}`)
 	}
 }()

@@ -16,7 +16,7 @@ INSERT INTO insurance_list (insurance_name) VALUES
 ('Spot'),
 ('Trupanion');
 
-INSERT INTO pet_medications_list(medication_name) VALUES
+INSERT INTO pet_medication_list(medication_name) VALUES
 ('Acepromazine'),
 ('Alprazolam'),
 ('Amantadine'),
@@ -76,7 +76,7 @@ INSERT INTO pet_medications_list(medication_name) VALUES
 ('Trazodone'),
 ('Tylosin');
 
-INSERT INTO pet_procedures_list (procedure_name) VALUES 
+INSERT INTO pet_procedure_list (procedure_name) VALUES 
 ('Amputation'),
 ('Anal Gland Removal'),
 ('Cataract Surgery'),
@@ -2543,7 +2543,7 @@ INSERT INTO vet_education_type_list (education_type) VALUES
 ('Veterinariae Medicinae Doctoris (V.M.D)')
 ;
 
-INSERT INTO specialties_list (organization_name, specialty_name) VALUES
+INSERT INTO specialty_list (organization_name, specialty_name) VALUES
 ('American Board of Veterinary Practitioners',	'Avian'),
 ('American Board of Veterinary Practitioners',	'Beef cattle'),
 ('American Board of Veterinary Practitioners',	'Canine and feline'),

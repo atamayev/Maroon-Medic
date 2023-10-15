@@ -1,6 +1,6 @@
+import { Request, Response } from "express"
 import FetchAll from "../utils/fetch-all-lists"
 import OperationHandler from "../utils/operation-handler"
-import { Request, Response } from "express"
 
 export async function fetchDoctorLists (req: Request, res: Response): Promise<Response> {
 	try {
@@ -46,7 +46,7 @@ export async function fetchInsurances (req: Request, res: Response): Promise<voi
 }
 
 export async function fetchPetMedications (req: Request, res: Response): Promise<void> {
-	const operation: () => Promise<PetMedicationsItem[]> = async () => {
+	const operation: () => Promise<PetMedicationItem[]> = async () => {
 		return await FetchAll.petMedications()
 	}
 	await OperationHandler.executeAsyncAndReturnValueToRes(res, operation, [])

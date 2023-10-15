@@ -98,7 +98,7 @@ declare global {
 	}
 
 	type SpecialtyItem = {
-		specialtiesListId: number
+		specialtyListId: number
 		organizationName: string
 		specialtyName: string
 	}

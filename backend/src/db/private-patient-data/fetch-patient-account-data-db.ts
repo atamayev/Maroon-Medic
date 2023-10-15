@@ -60,37 +60,37 @@ export default new class FetchPatientAccountDataDB {
 		return insurance as string
 	}
 
-	async petMedications (petInfoId: number): Promise<PetMedications[]> {
-		const sql = `SELECT ${mysqlTables.pet_medications_list}.medication_name
-        FROM ${mysqlTables.pet_medications_list}
-            JOIN ${mysqlTables.pet_medications_mapping} ON
-            ${mysqlTables.pet_medications_list}.pet_medications_list_id = ${mysqlTables.pet_medications_mapping}.pet_medications_id
+	async petMedications (petInfoId: number): Promise<PetMedication[]> {
+		const sql = `SELECT ${mysqlTables.pet_medication_list}.medication_name
+        FROM ${mysqlTables.pet_medication_list}
+            JOIN ${mysqlTables.pet_medication_mapping} ON
+            ${mysqlTables.pet_medication_list}.pet_medication_list_id = ${mysqlTables.pet_medication_mapping}.pet_medication_id
         WHERE
-            ${mysqlTables.pet_medications_mapping}.pet_info_id = ?`
+            ${mysqlTables.pet_medication_mapping}.pet_info_id = ?`
 
 		const values = [petInfoId]
 
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
-		const petMedicationsResults = results.map((row: RowDataPacket) => row as PetMedications)
+		const petMedicationsResults = results.map((row: RowDataPacket) => row as PetMedication)
 		const camelCasedPetMedicationData = transformArrayOfObjectsToCamelCase(petMedicationsResults)
-		return camelCasedPetMedicationData as PetMedications[]
+		return camelCasedPetMedicationData as PetMedication[]
 	}
 
-	async petProcedures (petInfoId: number): Promise<PetProcedures[]> {
-		const sql = `SELECT ${mysqlTables.pet_procedures_list}.procedure_name
-        FROM ${mysqlTables.pet_procedures_list}
-            JOIN ${mysqlTables.pet_procedures_mapping} ON
-            ${mysqlTables.pet_procedures_list}.pet_procedures_list_id = ${mysqlTables.pet_procedures_mapping}.pet_procedures_id
+	async petProcedures (petInfoId: number): Promise<PetProcedure[]> {
+		const sql = `SELECT ${mysqlTables.pet_procedure_list}.procedure_name
+        FROM ${mysqlTables.pet_procedure_list}
+            JOIN ${mysqlTables.pet_procedure_mapping} ON
+            ${mysqlTables.pet_procedure_list}.pet_procedure_list_id = ${mysqlTables.pet_procedure_mapping}.pet_procedure_id
         WHERE
-            ${mysqlTables.pet_procedures_mapping}.pet_info_id = ?`
+            ${mysqlTables.pet_procedure_mapping}.pet_info_id = ?`
 
 		const values = [petInfoId]
 
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
-		const petProceduresResults = results.map((row: RowDataPacket) => row as PetProcedures)
+		const petProceduresResults = results.map((row: RowDataPacket) => row as PetProcedure)
 		const camelCasedPetProceduresData = transformArrayOfObjectsToCamelCase(petProceduresResults)
-		return camelCasedPetProceduresData as PetProcedures[]
+		return camelCasedPetProceduresData as PetProcedure[]
 	}
 }()

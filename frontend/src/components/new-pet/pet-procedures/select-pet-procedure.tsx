@@ -5,23 +5,23 @@ import AppContext from "src/contexts/maroon-context"
 
 interface Props {
 	id: number
-	procedures: NewPetProceduresItem[]
-	setProcedures: React.Dispatch<React.SetStateAction<NewPetProceduresItem[]>>
+	procedures: NewPetProcedureItem[]
+	setProcedures: React.Dispatch<React.SetStateAction<NewPetProcedureItem[]>>
 }
 
 const filterUnsavedProcedures = (
-	petProceduresList: PetProceduresItem[],
-	savedPetProcedures: PetProcedures[]
-): PetProceduresItem[] => {
+	petProceduresList: PetProcedureItem[],
+	savedPetProcedures: PetProcedure[]
+): PetProcedureItem[] => {
 	return _.filter(petProceduresList, (procedure) => {
-		return !_.some(savedPetProcedures, ["petProceduresId", procedure.petProceduresListId])
+		return !_.some(savedPetProcedures, ["petProcedureId", procedure.petProcedureListId])
 	})
 }
 
 const updateOrAddProcedure = (
-	procedures: NewPetProceduresItem[],
-	newProcedure: NewPetProceduresItem
-): NewPetProceduresItem[] => {
+	procedures: NewPetProcedureItem[],
+	newProcedure: NewPetProcedureItem
+): NewPetProcedureItem[] => {
 	return procedures.map((procedure) => {
 		if (procedure.id === newProcedure.id) {
 			return newProcedure
@@ -45,7 +45,7 @@ function SelectPetProcedure(props: Props) {
 
 	const handleSelectOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		const selectedProcedure = filteredProcedures.find(
-			(procedure) => procedure.petProceduresListId === Number(e.target.value)
+			(procedure) => procedure.petProcedureListId === Number(e.target.value)
 		)
 
 		if (_.isUndefined(selectedProcedure)) return
@@ -53,7 +53,7 @@ function SelectPetProcedure(props: Props) {
 		const newProcedure  = {
 			id,
 			showDate: true,
-			petProceduresListId: selectedProcedure.petProceduresListId,
+			petProcedureListId: selectedProcedure.petProcedureListId,
 			procedureDate: "",
 		}
 
@@ -63,7 +63,7 @@ function SelectPetProcedure(props: Props) {
 	}
 
 	const procedureItem = _.find(procedures, ["id", id])
-	const value = _.get(procedureItem, "petProceduresListId", "")
+	const value = _.get(procedureItem, "petProcedureListId", "")
 
 	return (
 		<select
@@ -79,7 +79,7 @@ function SelectPetProcedure(props: Props) {
 				Choose a Pet Procedure
 			</option>
 			{filteredProcedures.map((procedure) => (
-				<option key={procedure.petProceduresListId} value={procedure.petProceduresListId}>
+				<option key={procedure.petProcedureListId} value={procedure.petProcedureListId}>
 					{procedure.procedureName}
 				</option>
 			))}

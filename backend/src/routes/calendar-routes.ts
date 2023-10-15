@@ -6,12 +6,13 @@ import {
 	denyAppointment
 } from "../controllers/calendar-controller"
 import GetIDFromUUID from "../middleware/get-id-from-uuid"
+import validateMakeAppointmentRequestBody from "../middleware/request-validation/calendar-routes/validate-make-appointment-request-body"
 
-const router = express.Router()
+const calendarRoutes = express.Router()
 
-router.post("/make-appointment", GetIDFromUUID.patient, makeAppointment)
-router.get("/get-doctor-calendar-details", GetIDFromUUID.doctor, getDoctorCalendarDetails)
-router.patch("/confirm-appointment", GetIDFromUUID.doctor, confirmAppointment)
-router.patch("/deny-appointment", GetIDFromUUID.doctor, denyAppointment)
+calendarRoutes.post("/make-appointment", GetIDFromUUID.patient, validateMakeAppointmentRequestBody, makeAppointment)
+calendarRoutes.get("/get-doctor-calendar-details", GetIDFromUUID.doctor, getDoctorCalendarDetails)
+calendarRoutes.patch("/confirm-appointment/:appointmentId", GetIDFromUUID.doctor, confirmAppointment)
+calendarRoutes.patch("/deny-appointment/:appointmentId", GetIDFromUUID.doctor, denyAppointment)
 
-export default router
+export default calendarRoutes

@@ -7,7 +7,7 @@ function UnauthorizedUserBodyText ({ vetOrpatient }: { vetOrpatient: vetOrpatien
 			<p>You are not logged in as a {vetOrpatient}. Please make an account, or login below</p>
 			<Link to = {`/${vetOrpatient}-register`}>
 				<Button
-					className = "mt-3"
+					className = "mt-3 mr-3"
 					colorClass = "bg-green-600"
 					hoverClass = "hover:bg-green-700"
 					title = "Register"

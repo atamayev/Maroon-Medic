@@ -4,8 +4,11 @@ import OperationHandler from "../utils/operation-handler"
 import FetchPublicDoctorData from "../utils/fetch-account-and-public-data/fetch-public-doctor-data"
 import FetchDoctorAccountData from "../utils/fetch-account-and-public-data/fetch-doctor-account-data"
 
+// eslint-disable-next-line max-lines-per-function
 export async function returnDoctorPageData (req: Request, res: Response): Promise<Response> {
 	const NVI = Number(req.params.NVI)
+	if (isNaN(NVI)) return res.status(400).json({ error: "Invalid NVI" })
+
 	const doctorId = Number(await OperationHandler.executeAsyncAndReturnValue(res, CalendarDB.retrieveDoctorIdFromNVI, NVI))
 	const nonExistentDoctorId = 0
 	if (doctorId === nonExistentDoctorId) return res.status(400).json({ error: "Doctor does not exist" })

@@ -23,29 +23,29 @@ declare global {
 		petType: string
 		petInfoId: number
 		insuranceName: string
-		petMedictions: PetMedications[]
-		petProcedures: PetProcedures[]
+		petMedictions: PetMedication[]
+		petProcedures: PetProcedure[]
 	}
 
-	type PetMedications = {
-		petMedicationsId: number
+	type PetMedication = {
+		petMedicationId: number
 		frequencyPeriod: string
 		frequencyCount: string
 	}
 
-	type PetProcedures = {
+	type PetProcedure = {
 		petProcedureId: number
 		procedureDate: MysqlTimestamp
 	}
 
-	type PetMedicationsPreProcessed = {
-		petMedicationsListId: number
+	type PetMedicationPreProcessed = {
+		petMedicationListId: number
 		frequencyPeriod: string
 		frequencyCount: string
 	}
 
-	type PetProceduresPreProcessed = {
-		petProceduresListId: number
+	type PetProcedurePreProcessed = {
+		petProcedureListId: number
 		procedureDate: MysqlTimestamp
 	}
 
@@ -61,13 +61,13 @@ declare global {
 	}
 
 	type PetItemForCreationPreProcessed = PetItemForCreationPreProcessed & {
-		petMedications: PetMedicationsPreProcessed[]
-		petProcedures: PetProceduresPreProcessed[]
+		petMedications: PetMedicationPreProcessed[]
+		petProcedures: PetProcedurePreProcessed[]
 	}
 
 	type PetItemForCreationPostProcessed = PetItemForCreationPreProcessed & {
-		petMedications: PetMedications[]
-		petProcedures: PetProcedures[]
+		petMedications: PetMedication[]
+		petProcedures: PetProcedure[]
 	}
 }
 

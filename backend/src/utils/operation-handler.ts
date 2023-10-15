@@ -7,13 +7,13 @@ export default new class OperationHandler {
 		res: Response,
 		operation: () => Promise<any>,
 		whatToReturnSuccess: any = null
-	): Promise<void> {
+	): Promise<void | Response> {
 		try {
 			await operation()
 			res.status(200).json(whatToReturnSuccess)
 		} catch (error: any) {
 			console.log(error)
-			res.status(400).json()
+			return res.status(400).json()
 		}
 	}
 
@@ -22,12 +22,12 @@ export default new class OperationHandler {
 		res: Response,
 		operation: () => Promise<any>,
 		whatToReturnFailure: string[] | null = null
-	): Promise<void> {
+	): Promise<void | Response> {
 		try {
 			await operation()
 		} catch (error: any) {
 			console.log(error)
-			res.status(400).json(whatToReturnFailure)
+			return res.status(400).json(whatToReturnFailure)
 		}
 	}
 
@@ -36,13 +36,13 @@ export default new class OperationHandler {
 		res: Response,
 		operation: () => Promise<any>,
 		whatToReturnFailure: string[] | null = null
-	): Promise<void> {
+	): Promise<void | Response> {
 		try {
 			const result = await operation()
 			res.status(200).json(result)
 		} catch (error: any) {
 			console.log(error)
-			res.status(400).json(whatToReturnFailure)
+			return res.status(400).json(whatToReturnFailure)
 		}
 	}
 
@@ -53,13 +53,12 @@ export default new class OperationHandler {
 		res: Response,
 		fn: (...args: any[]) => Promise<T>,
 		...args: any[]
-	): Promise<T | void> {
+	): Promise<T | void | Response> {
 		try {
 			return await fn(...args)
 		} catch (error: any) {
 			console.log(error)
-			res.status(400).json()
-			// throw error // This is necessary to stop execution of the caller function if the check fails
+			return res.status(400).json()
 		}
 	}
 }()

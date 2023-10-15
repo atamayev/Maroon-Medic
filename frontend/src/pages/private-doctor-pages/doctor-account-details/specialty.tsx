@@ -33,7 +33,7 @@ function VetSpecialties() {
 		// Go through each status
 		for (const specialityListId in newDeleteStatuses) {
 			// If the language Id does not exist in the spokenLanguages list, delete the status
-			if (!doctorAccountDetails.specialties.some((speciality) => speciality.specialtiesListId === Number(specialityListId))) {
+			if (!doctorAccountDetails.specialties.some((speciality) => speciality.specialtyListId === Number(specialityListId))) {
 				delete newDeleteStatuses[specialityListId]
 			}
 		}

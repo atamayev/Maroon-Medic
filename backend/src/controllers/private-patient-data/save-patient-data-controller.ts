@@ -19,15 +19,19 @@ export async function savePersonalData (req: Request, res: Response): Promise<vo
 	}
 }
 
-export async function addLanguage (req: Request, res: Response): Promise<void> {
-	const languageId = req.body.languageId as number
+export async function addLanguage (req: Request, res: Response): Promise<void | Response> {
+	const languageId: number = Number(req.params.languageId)
+	if (isNaN(languageId)) return res.status(400).json({ error: "Invalid language ID" })
+
 	const patientId = req.patientId
 	const operation: () => Promise<void> = async () => await SavePatientDataDB.addLanguage(languageId, patientId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-export async function deleteLanguage (req: Request, res: Response): Promise<void> {
+export async function deleteLanguage (req: Request, res: Response): Promise<void | Response> {
 	const languageId: number = Number(req.params.languageId)
+	if (isNaN(languageId)) return res.status(400).json({ error: "Invalid languageID" })
+
 	const patientId = req.patientId
 	const operation: () => Promise<void> = async () => await SavePatientDataDB.deleteLanguage(languageId, patientId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
@@ -64,8 +68,10 @@ export async function addPet (req: Request, res: Response): Promise<Response> {
 	return res.status(200).json(petInfoId)
 }
 
-export async function deletePet (req: Request, res: Response): Promise<void> {
+export async function deletePet (req: Request, res: Response): Promise<void | Response> {
 	const petId: number = Number(req.params.petId)
+	if (isNaN(petId)) return res.status(400).json({ error: "Invalid petID" })
+
 	const operation: () => Promise<void> = async () => await SavePatientDataDB.deletePet(petId)
 	await OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, operation)
 
@@ -79,37 +85,34 @@ export async function deletePet (req: Request, res: Response): Promise<void> {
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation4)
 }
 
-export async function addPetInsurance (req: Request, res: Response): Promise<void> {
-	const petInfoId = req.body.petInfoId as number
-	const insuranceListId = req.body.insuranceListId as number
-	const operation: () => Promise<void> = async () => await SavePatientDataDB.addNewPetInsurance(insuranceListId, petInfoId)
-	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
-}
-
 export async function addPetMedication (req: Request, res: Response): Promise<void> {
 	const petInfoId = req.body.petInfoId as number
-	const petMedication = req.body.petMedication as PetMedications
+	const petMedication = req.body.petMedication as PetMedication
 	const operation: () => Promise<void> = async () => await SavePatientDataDB.addNewPetMedication(petMedication, petInfoId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-export async function deletePetMedication (req: Request, res: Response): Promise<void> {
+export async function deletePetMedication (req: Request, res: Response): Promise<void | Response> {
+	const petMedicationId: number = Number(req.params.petMedicationId)
+	if (isNaN(petMedicationId)) return res.status(400).json({ error: "Invalid petMedication ID" })
+
 	const petInfoId = req.body.petInfoId as number
-	const petMedicationId = req.body.petMedicationId as number
 	const operation: () => Promise<void> = async () => await SavePatientDataDB.deletePetMedication(petMedicationId, petInfoId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
 export async function addPetProcedure (req: Request, res: Response): Promise<void> {
 	const petInfoId = req.body.petInfoId as number
-	const petProcedure = req.body.petProcedure as PetProcedures
+	const petProcedure = req.body.petProcedure as PetProcedure
 	const operation: () => Promise<void> = async () => await SavePatientDataDB.addNewPetProcedure(petProcedure, petInfoId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-export async function deletePetProcedure (req: Request, res: Response): Promise<void> {
+export async function deletePetProcedure (req: Request, res: Response): Promise<void | Response> {
+	const petProcedureId: number = Number(req.params.petProcedureId)
+	if (isNaN(petProcedureId)) return res.status(400).json({ error: "Invalid petProcedure ID" })
+
 	const petInfoId = req.body.petInfoId as number
-	const petProcedureId = req.body.petProcedureId as number
 	const operation: () => Promise<void> = async () => await SavePatientDataDB.deletePetProcedure(petProcedureId, petInfoId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }

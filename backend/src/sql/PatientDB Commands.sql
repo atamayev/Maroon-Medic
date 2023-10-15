@@ -28,31 +28,31 @@ CREATE TABLE insurance_mapping(
 
 SELECT * FROM insurance_mapping;
 
-CREATE TABLE pet_procedures_mapping(
-    pet_procedures_mapping_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    pet_procedures_id INT UNSIGNED NOT NULL,
+CREATE TABLE pet_procedure_mapping(
+    pet_procedure_mapping_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    pet_procedure_id INT UNSIGNED NOT NULL,
     pet_info_id INT UNSIGNED NOT NULL,
 	procedure_date DATE NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (pet_procedures_id) REFERENCES pet_procedures_list(pet_procedures_list_id),
+    FOREIGN KEY (pet_procedure_id) REFERENCES pet_procedure_list(pet_procedure_list_id),
     FOREIGN KEY (pet_info_id) REFERENCES pet_info(pet_info_id),
-    UNIQUE (pet_procedures_id, pet_info_id)
+    UNIQUE (pet_procedure_id, pet_info_id)
 );
 
-SELECT * FROM pet_procedures_mapping;
+SELECT * FROM pet_procedure_mapping;
 
-CREATE TABLE pet_medications_mapping(
-    pet_medications_mapping_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    pet_medications_id INT UNSIGNED NOT NULL,
+CREATE TABLE pet_medication_mapping(
+    pet_medication_mapping_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    pet_medication_id INT UNSIGNED NOT NULL,
     pet_info_id INT UNSIGNED NOT NULL,
     frequency_period ENUM('day', 'week', 'month') NOT NULL,
     frequency_count ENUM("Once", "Twice", "Three Times", "Four Times", "Five Times") NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (pet_medications_id) REFERENCES pet_medications_list(pet_medications_list_id),
+    FOREIGN KEY (pet_medication_id) REFERENCES pet_medication_list(pet_medication_list_id),
     FOREIGN KEY (pet_info_id) REFERENCES pet_info(pet_info_id),
-    UNIQUE (pet_medications_id, pet_info_id)
+    UNIQUE (pet_medication_id, pet_info_id)
 );
-drop table pet_medications_mapping;
-SELECT * FROM pet_medications_mapping;
+
+SELECT * FROM pet_medication_mapping;

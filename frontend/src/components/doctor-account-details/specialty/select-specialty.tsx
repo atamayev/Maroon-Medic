@@ -30,11 +30,11 @@ function SelectSpecialty (props: Props) {
 			.filter((specialty) =>
 				!privateDoctorData.doctorAccountDetails?.specialties.find(
 					(doctorSpecialty) =>
-						doctorSpecialty.specialtiesListId === specialty.specialtiesListId
+						doctorSpecialty.specialtyListId === specialty.specialtyListId
 				)
 			)
 			.map((specialty) => (
-				<option key={specialty.specialtiesListId} value={specialty.specialtiesListId}>
+				<option key={specialty.specialtyListId} value={specialty.specialtyListId}>
 					{specialty.specialtyName}
 				</option>
 			))

@@ -6,15 +6,20 @@ import changePassword from "../controllers/auth/change-password"
 import logout from "../controllers/auth/logout"
 import { newDoctorConfirmation, newPatientConfirmation } from "../controllers/auth/new-user-confirmation"
 import jwtVerify from "../middleware/jwt-verify"
+import validateLoginRequestBody from "../middleware/request-validation/auth-routes/validate-login-request-body"
+import validateRegisterRequestBody from "../middleware/request-validation/auth-routes/validate-register-request-body"
+import validateChangePasswordRequest from "../middleware/request-validation/auth-routes/validate-change-password-request-body"
+import validateUUIDInHeader from "../middleware/request-validation/auth-routes/validate-uuid-in-header"
+import validateNewUserConfirmationRequest from "../middleware/request-validation/auth-routes/validate-new-user-request"
 
-const router = express.Router()
+const authRoutes = express.Router()
 
-router.post("/login", login)
-router.post("/register", register)
-router.post("/logout", jwtVerify, logout)
-router.get("/fetch-login-history", jwtVerify, fetchLoginHistory)
-router.post("/change-password", jwtVerify, changePassword)
-router.get("/new-doctor-confirmation", jwtVerify, newDoctorConfirmation)
-router.get("/new-patient-confirmation", jwtVerify, newPatientConfirmation)
+authRoutes.post("/login", validateLoginRequestBody, login)
+authRoutes.post("/register", validateRegisterRequestBody, register)
+authRoutes.post("/logout", jwtVerify, validateUUIDInHeader, logout)
+authRoutes.get("/fetch-login-history", jwtVerify, validateUUIDInHeader, fetchLoginHistory)
+authRoutes.post("/change-password", jwtVerify, validateChangePasswordRequest, changePassword)
+authRoutes.get("/new-doctor-confirmation", jwtVerify, validateNewUserConfirmationRequest, newDoctorConfirmation)
+authRoutes.get("/new-patient-confirmation", jwtVerify, validateNewUserConfirmationRequest, newPatientConfirmation)
 
-export default router
+export default authRoutes

@@ -8,8 +8,8 @@ import Button from "src/components/button"
 import AppContext from "src/contexts/maroon-context"
 
 interface Props {
-	medications: NewPetMedicationsItem[]
-	setMedications: React.Dispatch<React.SetStateAction<NewPetMedicationsItem[]>>
+	medications: NewPetMedicationItem[]
+	setMedications: React.Dispatch<React.SetStateAction<NewPetMedicationItem[]>>
 }
 
 function PetMedications(props: Props) {
@@ -21,7 +21,7 @@ function PetMedications(props: Props) {
 		setMedications([...medications, {
 			id: nextId,
 			showFrequencyAndTimePeriod: false,
-			petMedicationsListId: 0,
+			petMedicationListId: 0,
 			frequencyPeriod: "",
 			frequencyCount: ""
 		}])
@@ -35,10 +35,10 @@ function PetMedications(props: Props) {
 		const medicationItem = medications.find(med => med.id === id)
 		if (_.isUndefined(medicationItem)) return ""
 
-		const petMedListId = medicationItem.petMedicationsListId
+		const petMedListId = medicationItem.petMedicationListId
 
 		const matchingPetMedication = patientData?.petMedications?.find(
-			med => med.petMedicationsListId === petMedListId
+			med => med.petMedicationListId === petMedListId
 		)
 
 		return "Delete " + _.get(matchingPetMedication, "medicationName", "")

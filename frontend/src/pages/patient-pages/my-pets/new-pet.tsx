@@ -28,8 +28,8 @@ export default function NewPet (props: AddPetProps) {
 			petMedications: [], petProcedures: []
 		}
 	)
-	const [medications, setMedications] = useState<NewPetMedicationsItem[]>([])
-	const [procedures, setProcedures] = useState<NewPetProceduresItem[]>([])
+	const [medications, setMedications] = useState<NewPetMedicationItem[]>([])
+	const [procedures, setProcedures] = useState<NewPetProcedureItem[]>([])
 
 	const addPet = useAddPet()
 	if (showAddPet === false) return null

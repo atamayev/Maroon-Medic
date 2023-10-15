@@ -71,16 +71,18 @@ export default new class CalendarDB {
 		return camelCasedCalendarData as CalendarData[]
 	}
 
-	async confirmAppointmentStatus (appointmentId: number): Promise<void> {
-		const sql = `UPDATE ${mysqlTables.appointments} SET doctor_confirmation_status = "Approved" WHERE appointments_id = ?`
-		const values = [appointmentId]
+	async confirmAppointmentStatus (appointmentId: number, doctorId: number): Promise<void> {
+		const sql = `UPDATE ${mysqlTables.appointments} SET doctor_confirmation_status = "Approved"
+			WHERE appointments_id = ? AND doctor_id = ?`
+		const values = [appointmentId, doctorId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}
 
-	async denyAppointmentStatus (appointmentId: number): Promise<void> {
-		const sql = `UPDATE ${mysqlTables.appointments} SET doctor_confirmation_status = "Denied" WHERE appointments_id = ?`
-		const values = [appointmentId]
+	async denyAppointmentStatus (appointmentId: number, doctorId: number): Promise<void> {
+		const sql = `UPDATE ${mysqlTables.appointments} SET doctor_confirmation_status = "Denied"
+			WHERE appointments_id = ? AND doctor_id = ?`
+		const values = [appointmentId, doctorId]
 		const connection = await connectDatabase()
 		await connection.execute(sql, values)
 	}

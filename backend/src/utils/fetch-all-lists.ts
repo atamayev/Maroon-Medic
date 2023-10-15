@@ -28,12 +28,12 @@ export default new class FetchAll {
 		return await this.#fetchAll(mysqlTables.insurance_list)
 	}
 
-	async petMedications(): Promise<PetMedicationsItem[]> {
-		return await this.#fetchAll(mysqlTables.pet_medications_list)
+	async petMedications(): Promise<PetMedicationItem[]> {
+		return await this.#fetchAll(mysqlTables.pet_medication_list)
 	}
 
 	async petProcedures(): Promise<PetProceduresItem[]> {
-		return await this.#fetchAll(mysqlTables.pet_procedures_list)
+		return await this.#fetchAll(mysqlTables.pet_procedure_list)
 	}
 
 	async languages(): Promise<LanguageItem[]> {
@@ -45,7 +45,7 @@ export default new class FetchAll {
 	}
 
 	async specialties(): Promise<OrganizationSpecialty[]> {
-		return await this.#fetchAll(mysqlTables.specialties_list)
+		return await this.#fetchAll(mysqlTables.specialty_list)
 	}
 
 	async preVetSchools(): Promise<PreVetSchool[]> {

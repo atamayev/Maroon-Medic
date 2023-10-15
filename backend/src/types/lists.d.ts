@@ -62,8 +62,8 @@ declare global {
 		languageName: string
 	}
 
-	type PetMedicationsItem = {
-		petMedicationsListId: number
+	type PetMedicationItem = {
+		petMedicationListId: number
 		medicationName: string
 	}
 

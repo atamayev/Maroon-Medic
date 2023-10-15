@@ -20,7 +20,7 @@ function SavedSpecialtyList (props: Props) {
 		<ul>
 			{doctorAccountDetails.specialties.map((specialty) => (
 				<SingleSavedSpecialty
-					key = {specialty.specialtiesListId}
+					key = {specialty.specialtyListId}
 					deleteStatuses = {deleteStatuses}
 					setDeleteStatuses = {setDeleteStatuses}
 					specialty = {specialty}
