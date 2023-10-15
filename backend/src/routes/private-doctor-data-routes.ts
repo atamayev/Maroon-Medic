@@ -43,13 +43,13 @@ privateDoctorDataRoutes.get("/fetch-account-details-data", fetchAccountDetails)
 privateDoctorDataRoutes.post("/save-personal-data", validateSavePersonalDataRequestBody, savePersonalData)
 privateDoctorDataRoutes.post("/save-description-data", validateSaveDescriptionDataRequestBody, saveDescriptionData)
 
-privateDoctorDataRoutes.post("/add-language", addLanguage)
+privateDoctorDataRoutes.post("/add-language/:languageId", addLanguage)
 privateDoctorDataRoutes.delete("/delete-language/:languageId", deleteLanguage)
 
-privateDoctorDataRoutes.post("/add-specialty", addSpecialty)
+privateDoctorDataRoutes.post("/add-specialty/:specialtyId", addSpecialty)
 privateDoctorDataRoutes.delete("/delete-specialty/:specialtyId", deleteSpecialty)
 
-privateDoctorDataRoutes.post("/add-serviced-pet", addServicedPet)
+privateDoctorDataRoutes.post("/add-serviced-pet/:servicedPetId", addServicedPet)
 privateDoctorDataRoutes.delete("/delete-serviced-pet/:servicedPetId", deleteServicedPet)
 
 privateDoctorDataRoutes.post("/add-pre-vet-education-data", addPreVetEducationData)

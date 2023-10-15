@@ -21,19 +21,19 @@ export default new class PrivateDoctorDataService {
 		return await http.post<EmptyResponse>("/private-doctor-data/save-description-data", {description})
 	}
 	async addLanguage(languageId: number): Promise<AxiosResponse<EmptyResponse>> {
-		return await http.post<EmptyResponse>("/private-doctor-data/add-language", {languageId})
+		return await http.post<EmptyResponse>(`/private-doctor-data/add-language/${languageId}`)
 	}
 	async deleteLanguage(languageId: number): Promise<AxiosResponse<EmptyResponse>> {
 		return await http.delete<EmptyResponse>(`/private-doctor-data/delete-language/${languageId}`)
 	}
 	async addSpecialty(specialtyId: number): Promise<AxiosResponse<EmptyResponse>> {
-		return await http.post<EmptyResponse>("/private-doctor-data/add-specialty", {specialtyId: specialtyId})
+		return await http.post<EmptyResponse>(`/private-doctor-data/add-specialty/${specialtyId}`)
 	}
 	async deleteSpecialty(specialtyId: number): Promise<AxiosResponse<EmptyResponse>> {
 		return await http.delete<EmptyResponse>(`/private-doctor-data/delete-specialty/${specialtyId}`)
 	}
 	async addServicedPet(petId: number): Promise<AxiosResponse<EmptyResponse>> {
-		return await http.post<EmptyResponse>("/private-doctor-data/add-serviced-pet", {petId: petId})
+		return await http.post<EmptyResponse>(`/private-doctor-data/add-serviced-pet/${petId}`)
 	}
 	async deleteServicedPet(petId: number): Promise<AxiosResponse<EmptyResponse>> {
 		return await http.delete<EmptyResponse>(`/private-doctor-data/delete-serviced-pet/${petId}`)

@@ -1,5 +1,7 @@
 To-do:
 
+- change the add Language, (all other adds) to be req.params instead of req.body
+
 -if a user tampers with the accessToken and is force logged out, their UUID should be deleted from the table
 
 -for all of the req.body stuff, need to make it more resilient. if a malicous actor sends an empty request, it could break the backend

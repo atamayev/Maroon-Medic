@@ -18,7 +18,7 @@ export default new class PrivatePatientDataService {
 		return await http.get<PatientAccountDetails>("/private-patient-data/fetch-account-details-data")
 	}
 	async addLanguage(languageId: number): Promise<AxiosResponse<EmptyResponse>> {
-		return await http.post<EmptyResponse>("/private-patient-data/add-language", {languageId})
+		return await http.post<EmptyResponse>(`/private-patient-data/add-language/${languageId}`)
 	}
 	async deleteLanguage(languageId: number): Promise<AxiosResponse<EmptyResponse>> {
 		return await http.delete<EmptyResponse>(`/private-patient-data/delete-language/${languageId}`)

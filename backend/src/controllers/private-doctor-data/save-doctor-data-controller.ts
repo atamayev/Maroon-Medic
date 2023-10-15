@@ -34,43 +34,55 @@ export async function saveDescriptionData (req: Request, res: Response): Promise
 	}
 }
 
-export async function addLanguage (req: Request, res: Response): Promise<void> {
-	const languageId = req.body.languageId as number
+export async function addLanguage (req: Request, res: Response): Promise<void | Response> {
+	const languageId: number = Number(req.params.languageId)
+	if (isNaN(languageId)) return res.status(400).json({ error: "Invalid languageID" })
+
 	const doctorId = req.doctorId
 	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.addLanguage(languageId, doctorId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-export async function deleteLanguage (req: Request, res: Response): Promise<void> {
+export async function deleteLanguage (req: Request, res: Response): Promise<void | Response> {
 	const languageId: number = Number(req.params.languageId)
+	if (isNaN(languageId)) return res.status(400).json({ error: "Invalid languageID" })
+
 	const doctorId = req.doctorId
 	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.deleteLanguage(languageId, doctorId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-export async function addSpecialty (req: Request, res: Response): Promise<void> {
-	const specialtyId = req.body.specialtyId as number
+export async function addSpecialty (req: Request, res: Response): Promise<void | Response> {
+	const specialtyId: number = Number(req.params.specialtyId)
+	if (isNaN(specialtyId)) return res.status(400).json({ error: "Invalid specialtyID" })
+
 	const doctorId = req.doctorId
 	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.addSpecialty(specialtyId, doctorId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-export async function deleteSpecialty (req: Request, res: Response): Promise<void> {
+export async function deleteSpecialty (req: Request, res: Response): Promise<void | Response> {
 	const specialtyId: number = Number(req.params.specialtyId)
+	if (isNaN(specialtyId)) return res.status(400).json({ error: "Invalid specialtyID" })
+
 	const doctorId = req.doctorId
 	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.deleteSpecialty(specialtyId, doctorId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-export async function addServicedPet (req: Request, res: Response): Promise<void> {
-	const servicedPetId = req.body.petId as number
+export async function addServicedPet (req: Request, res: Response): Promise<void | Response> {
+	const servicedPetId: number = Number(req.params.servicedPetId)
+	if (isNaN(servicedPetId)) return res.status(400).json({ error: "Invalid pet ID" })
+
 	const doctorId = req.doctorId
 	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.addServicedPet(servicedPetId, doctorId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-export async function deleteServicedPet (req: Request, res: Response): Promise<void> {
+export async function deleteServicedPet (req: Request, res: Response): Promise<void | Response> {
 	const servicedPetId: number = Number(req.params.servicedPetId)
+	if (isNaN(servicedPetId)) return res.status(400).json({ error: "Invalid pet ID" })
+
 	const doctorId = req.doctorId
 	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.deleteServicedPet(servicedPetId, doctorId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
@@ -90,10 +102,12 @@ export async function updateService (req: Request, res: Response): Promise<void>
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-export async function deleteService (req: Request, res: Response): Promise<void> {
-	const servicedPetId: number = Number(req.params.serviceId)
+export async function deleteService (req: Request, res: Response): Promise<void | Response> {
+	const serviceId: number = Number(req.params.serviceId)
+	if (isNaN(serviceId)) return res.status(400).json({ error: "Invalid service ID" })
+
 	const doctorId = req.doctorId
-	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.deleteServicesData(servicedPetId, doctorId)
+	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.deleteServicesData(serviceId, doctorId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
@@ -106,8 +120,9 @@ export async function addPreVetEducationData (req: Request, res: Response): Prom
 	await OperationHandler.executeAsyncAndReturnValueToRes(res, operation)
 }
 
-export async function deletePreVetEducationData (req: Request, res: Response): Promise<void> {
+export async function deletePreVetEducationData (req: Request, res: Response): Promise<void | Response> {
 	const preVetEducationId: number = Number(req.params.preVetEducationId)
+	if (isNaN(preVetEducationId)) return res.status(400).json({ error: "Invalid education ID" })
 
 	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.deletePreVetEducationData(preVetEducationId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
@@ -122,8 +137,10 @@ export async function addVetEducationData (req: Request, res: Response): Promise
 	await OperationHandler.executeAsyncAndReturnValueToRes(res, operation)
 }
 
-export async function deleteVetEducationData (req: Request, res: Response): Promise<void> {
+export async function deleteVetEducationData (req: Request, res: Response): Promise<void | Response> {
 	const vetEducationId: number = Number(req.params.vetEducationId)
+	if (isNaN(vetEducationId)) return res.status(400).json({ error: "Invalid education ID" })
+
 	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.deleteVetEducationData(vetEducationId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
@@ -151,8 +168,9 @@ export async function addAddress (req: Request, res: Response): Promise<Response
 	return res.status(200).json(insertId)
 }
 
-export async function deleteAddress (req: Request, res: Response): Promise<void> {
+export async function deleteAddress (req: Request, res: Response): Promise<void | Response> {
 	const addressId: number = Number(req.params.addressId)
+	if (isNaN(addressId)) return res.status(400).json({ error: "Invalid address ID" })
 
 	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.deleteAddressRecord(addressId)
 	await OperationHandler.executeAsyncOperationWithoutReturnValueNorRes(res, operation)
@@ -182,8 +200,8 @@ export async function updateAddress (req: Request, res: Response): Promise<void>
 
 export async function savePublicAvailibilityData (req: Request, res: Response): Promise<void> {
 	const doctorId = req.doctorId
-
 	const publicAvailibility = req.body.publicAvailibility
+
 	const operation: () => Promise<void> = async () => await SaveDoctorDataDB.updatePublicAvilability(publicAvailibility, doctorId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }

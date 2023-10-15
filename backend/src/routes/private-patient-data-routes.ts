@@ -12,7 +12,6 @@ import {
 	deleteLanguage,
 	addPet,
 	deletePet,
-	addPetInsurance,
 	addPetProcedure,
 	addPetMedication,
 	deletePetMedication,
@@ -28,13 +27,12 @@ privatePatientDataRoutes.get("/fetch-dashboard-data", fetchDashboardData)
 privatePatientDataRoutes.get("/fetch-personal-data", fetchPersonalData)
 privatePatientDataRoutes.get("/fetch-account-details-data", fetchAccountDetails)
 privatePatientDataRoutes.get("/fetch-pet-data", fetchPetData)
-privatePatientDataRoutes.post("/add-language", addLanguage)
+privatePatientDataRoutes.post("/add-language/:languageId", addLanguage)
 privatePatientDataRoutes.delete("/delete-language/:languageId", deleteLanguage)
 
 privatePatientDataRoutes.post("/save-personal-data", savePersonalData)
 privatePatientDataRoutes.post("/add-pet-data", addPet)
 privatePatientDataRoutes.delete("/delete-pet-data/:petId", deletePet)
-privatePatientDataRoutes.post("/add-pet-insurance", addPetInsurance)
 
 privatePatientDataRoutes.post("/add-pet-medication", addPetMedication)
 privatePatientDataRoutes.post("/delete-pet-medication", deletePetMedication)

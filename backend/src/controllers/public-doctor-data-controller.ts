@@ -7,9 +7,7 @@ import FetchDoctorAccountData from "../utils/fetch-account-and-public-data/fetch
 // eslint-disable-next-line max-lines-per-function
 export async function returnDoctorPageData (req: Request, res: Response): Promise<Response> {
 	const NVI = Number(req.params.NVI)
-	if (isNaN(NVI)) {
-		return res.status(400).json({ error: "Invalid NVI" })
-	}
+	if (isNaN(NVI)) return res.status(400).json({ error: "Invalid NVI" })
 
 	const doctorId = Number(await OperationHandler.executeAsyncAndReturnValue(res, CalendarDB.retrieveDoctorIdFromNVI, NVI))
 	const nonExistentDoctorId = 0
