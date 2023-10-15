@@ -7,7 +7,7 @@ export default function validateNewDoctorDataRequestBody (req: Request, res: Res
 	const { newDoctorObject } = req.body as { newDoctorObject?: FormattedPersonalData }
 
 	if (!newDoctorObject || typeof newDoctorObject !== "object") {
-		return res.status(400).json({ error: "Bad Request: Missing or DoctorInformation" })
+		return res.status(400).json({ error: "Bad Request: Missing or invalid DoctorInformation" })
 	}
 
 	next()

@@ -8,7 +8,7 @@ export default function validateSaveDescriptionDataRequestBody (req: Request, re
 	const { description } = req.body as { description?: string }
 
 	if (typeof description !== "string") {
-		return res.status(400).json({ error: "Bad Request: Missing or invalid Personal Info" })
+		return res.status(400).json({ error: "Bad Request: Missing or invalid Description" })
 	}
 
 	next()

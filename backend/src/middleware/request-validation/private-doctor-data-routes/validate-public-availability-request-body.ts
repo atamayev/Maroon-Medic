@@ -8,7 +8,7 @@ export default function validatePublicAvailabilityRequestBody (req: Request, res
 	const { publicAvailibility } = req.body as { publicAvailibility?: boolean }
 
 	if (typeof publicAvailibility !== "boolean") {
-		return res.status(400).json({ error: "Bad Request: Missing or invalid Vet Education" })
+		return res.status(400).json({ error: "Bad Request: Missing or invalid Public Availability" })
 	}
 
 	next()

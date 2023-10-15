@@ -13,7 +13,7 @@ export default function validateChangePasswordRequest(req: Request, res: Respons
 	}
 
 	if (!changePasswordObject.currentPassword || !changePasswordObject.newPassword) {
-		return res.status(400).json({ error: "Incomplete changePasswordObject" })
+		return res.status(400).json({ error: "Incomplete Change Password Information" })
 	}
 
 	next()

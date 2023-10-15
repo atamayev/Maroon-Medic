@@ -7,7 +7,7 @@ export default function validateSavePetProcedureDataRequestBody (req: Request, r
 	const { petProcedure } = req.body as { petProcedure?: PetProcedure }
 
 	if (!petProcedure || typeof petProcedure !== "object") {
-		return res.status(400).json({ error: "Bad Request: Missing or Pet Procedure Data" })
+		return res.status(400).json({ error: "Bad Request: Missing or invalid Pet Procedure Data" })
 	}
 
 	next()
