@@ -1,7 +1,5 @@
 To-do:
 
--if a user tampers with the accessToken and is force logged out, their UUID should be deleted from the table
-
 Make the pets list be an accordion
 
 Learn how to do debugging in typsecript (breakpoints) https://www.youtube.com/watch?v=d56mG7DezGs
