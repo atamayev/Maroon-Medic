@@ -40,15 +40,6 @@ export function getDecodedNewUser(responseType: string, accessToken: string): bo
 	return false
 }
 
-export function extractAccessToken(req: Request): string | undefined {
-	const authHeader = req.headers.authorization
-	let accessToken: string | undefined
-	if (authHeader && authHeader.startsWith("Bearer ")) {
-		accessToken = authHeader.split(" ")[1]
-	}
-	return accessToken
-}
-
 export function validateUserType(type: string): type is "Doctor" | "Patient" {
 	return type === "Doctor" || type === "Patient"
 }

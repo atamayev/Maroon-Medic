@@ -2,12 +2,12 @@ import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
 import AuthDB from "../db/auth-db"
 import Cookie from "../utils/cookie-operations"
-import { extractAccessToken, getDecodedUUID } from "../utils/auth-helpers"
+import { getDecodedUUID } from "../utils/auth-helpers"
 
 export default async function jwtVerify(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {
 		const userType = req.headers["user-type"] as DoctorOrPatientOrUndefined
-		const accessToken = extractAccessToken(req)
+		const accessToken = req.headers.authorization
 
 		if (_.isUndefined(userType) || _.isUndefined(accessToken)) {
 			return handleUnauthorized()

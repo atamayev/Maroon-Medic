@@ -1,5 +1,5 @@
+import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
-import { extractAccessToken } from "../../../utils/auth-helpers"
 
 export default function validateNewUserConfirmationRequest(
 	req: Request,
@@ -16,8 +16,9 @@ export default function validateNewUserConfirmationRequest(
 		return res.status(400).json({ error: "Invalid or missing user-type in headers" })
 	}
 
-	const accessToken = extractAccessToken(req)
-	if (!accessToken) {
+	const accessToken = req.headers.authorization
+
+	if (_.isUndefined(accessToken)) {
 		return res.status(400).json({ error: "Access token is required" })
 	}
 

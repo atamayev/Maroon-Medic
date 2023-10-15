@@ -15,7 +15,7 @@ http.interceptors.request.use((config) => {
 
 	// Update headers
 	if (userType) config.headers["user-type"] = userType
-	if (accessToken) config.headers["authorization"] = `Bearer ${accessToken}`
+	if (accessToken) config.headers["authorization"] = accessToken
 
 	return config
 })
