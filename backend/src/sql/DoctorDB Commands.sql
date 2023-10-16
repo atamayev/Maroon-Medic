@@ -100,13 +100,6 @@ CREATE TABLE specialty_mapping(
 
 SELECT * FROM specialty_mapping;
 
-CREATE TABLE pet_medication_list(
-	pet_medication_list_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	medication_name VARCHAR(300) NOT NULL
-);
-
-SELECT * FROM pet_medication_list;
-
 CREATE TABLE pet_medication_mapping(
     pet_medication_mapping_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     pet_medication_id INT UNSIGNED NOT NULL,
@@ -121,13 +114,6 @@ CREATE TABLE pet_medication_mapping(
 );
 
 SELECT * FROM pet_medication_mapping;
-
-CREATE TABLE pet_procedure_list(
-	pet_procedure_list_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	procedure_name VARCHAR(300) NOT NULL
-);
-
-SELECT * FROM pet_procedure_list;
 
 CREATE TABLE pet_procedure_mapping(
     pet_procedure_mapping_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,

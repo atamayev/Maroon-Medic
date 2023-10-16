@@ -86,3 +86,10 @@ CREATE TABLE pet_procedure_list(
 );
 
 SELECT * FROM pet_procedure_list;
+
+CREATE TABLE specialty_review_category_list(
+	specialty_review_category_list_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	review_category_name VARCHAR(300) NOT NULL
+);
+
+SELECT * FROM specialty_review_category_list;

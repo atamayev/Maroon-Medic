@@ -1,5 +1,11 @@
 To-do:
 
+-Reviews:
+	Add endpoints for each of the tables (4 for each table: get, post, delete (update isActive), and actually update)
+
+Renaming MySQL field names:
+	Rename all primary keys that are plural (descriptions_id, addresses_id, phone_numbers_id, appointments_id) 
+
 Make the pets list be an accordion
 
 Learn how to do debugging in typsecript (breakpoints) https://www.youtube.com/watch?v=d56mG7DezGs
@@ -19,9 +25,6 @@ make the phone number input in the location.js only accept numbers (Phone input)
 	Do this for all tables
 
 - when registering as a patient, need to make it clear when the user is entering data regrading the human, and when about the pet
-
--Reviews:
-	Patient's able to make a review after the appointment date is completed, given that the appointment is approved by the doctor.
 
 On the vet dashboard, make the appointments clickable, shows the patients details, pet details, etc.
 	Should go to a newly created appointment page, which nicely lays out the appointment details.

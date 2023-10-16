@@ -80,6 +80,46 @@ CREATE TABLE appointments(
 	FOREIGN KEY (addresses_id) REFERENCES addresses(addresses_id),
 	UNIQUE (appointment_date, service_and_category_list_id, pet_info_id, doctor_id)
 );
-SELECT * FROM appointments;
 
-UPDATE Appointments set Doctor_confirmation_status = 0 where doctor_id;
+SELECT * FROM appointments;
+UPDATE appointments set doctor_confirmation_status = 0 where doctor_id;
+
+CREATE TABLE reviews(
+	review_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	appointment_id INT UNSIGNED NOT NULL,
+	pet_info_id INT UNSIGNED NOT NULL,
+	patient_id INT UNSIGNED NOT NULL,
+	doctor_id INT UNSIGNED NOT NULL,
+	patient_review_message VARCHAR(1000),
+	review_rating ENUM('1', '2', '3', '4', '5') NOT NULL,
+	doctor_review_response VARCHAR(1000),
+	is_active BOOLEAN NOT NULL DEFAULT 1, -- set to 1 by default, when a patient deletes a review, set to 0.
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	FOREIGN KEY (appointment_id) REFERENCES appointments(appointments_id),
+	FOREIGN KEY (pet_info_id) REFERENCES pet_info(pet_info_id),
+	FOREIGN KEY (patient_id) REFERENCES Credentials(user_id),
+	FOREIGN KEY (doctor_id) REFERENCES Credentials(user_id),
+	UNIQUE (appointments_id)
+);
+
+SELECT * FROM reviews;
+
+CREATE TABLE review_reactions(
+	review_reaction_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	review_id INT UNSIGNED NOT NULL,
+	review_reaction BOOLEAN NOT NULL, -- thumbs up/down
+	FOREIGN KEY (review_id) REFERENCES reviews(review_id)
+);
+
+CREATE TABLE specialty_reviews(
+	specialty_review_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	review_id INT UNSIGNED NOT NULL,
+	specialty_review_category_id INT UNSIGNED NOT NULL,
+	specialty_review_message VARCHAR(1000),
+	review_rating ENUM('1', '2', '3', '4', '5') NOT NULL,
+	FOREIGN KEY (review_id) REFERENCES reviews(review_id),
+	FOREIGN KEY (specialty_review_category_id) REFERENCES specialty_review_category_list(specialty_review_category_list_id)
+);
+
+SELECT * FROM specialty_reviews;
