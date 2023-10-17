@@ -13,6 +13,7 @@ import calendarRoutes from "./routes/calendar-routes"
 import listsRoutes from "./routes/lists-routes"
 import GetIDFromUUID from "./middleware/get-id-from-uuid"
 import jwtVerify from "./middleware/jwt-verify"
+import reviewsRoutes from "./routes/reviews-routes"
 
 dotenv.config()
 
@@ -69,6 +70,7 @@ app.use("/api/public-doctor-data", publicDoctorDataRoutes)
 app.use("/api/search", searchRoutes)
 app.use("/api/calendar", jwtVerify, calendarRoutes)
 app.use("/api/lists", jwtVerify, listsRoutes)
+app.use("/api/reviews", jwtVerify, reviewsRoutes)
 app.use("*", (req, res) => res.status(404).json({ error: "Route not found"}))
 
 // Initialization of server:

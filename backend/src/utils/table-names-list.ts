@@ -32,4 +32,9 @@ export const mysqlTables = {
 	pet_medication_mapping: "pet_medication_mapping",
 	pet_procedure_list: "pet_procedure_list",
 	pet_procedure_mapping: "pet_procedure_mapping",
+	reviews: "reviews",
+	review_reactions: "review_reactions",
+	specialty_reviews: "specialty_reviews",
+	specialty_review_category_list: "specialty_review_category_list",
+	doctor_review_responses: "doctor_review_responses",
 }

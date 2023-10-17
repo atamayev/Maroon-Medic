@@ -91,8 +91,7 @@ CREATE TABLE reviews(
 	patient_id INT UNSIGNED NOT NULL,
 	doctor_id INT UNSIGNED NOT NULL,
 	patient_review_message VARCHAR(1000),
-	review_rating ENUM('1', '2', '3', '4', '5') NOT NULL,
-	doctor_review_response VARCHAR(1000),
+	patient_review_rating ENUM('1', '2', '3', '4', '5') NOT NULL,
 	is_active BOOLEAN NOT NULL DEFAULT 1, -- set to 1 by default, when a patient deletes a review, set to 0.
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -105,10 +104,21 @@ CREATE TABLE reviews(
 
 SELECT * FROM reviews;
 
+CREATE TABLE doctor_review_responses(
+	doctor_review_response_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	review_id INT UNSIGNED NOT NULL,
+	doctor_review_response VARCHAR(1000),
+	is_active BOOLEAN NOT NULL DEFAULT 1,
+	FOREIGN KEY (review_id) REFERENCES reviews(review_id)
+);
+
+SELECT * FROM doctor_review_responses;
+
 CREATE TABLE review_reactions(
 	review_reaction_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	review_id INT UNSIGNED NOT NULL,
 	review_reaction BOOLEAN NOT NULL, -- thumbs up/down
+	is_active BOOLEAN NOT NULL DEFAULT 1,
 	FOREIGN KEY (review_id) REFERENCES reviews(review_id)
 );
 
@@ -118,6 +128,7 @@ CREATE TABLE specialty_reviews(
 	specialty_review_category_id INT UNSIGNED NOT NULL,
 	specialty_review_message VARCHAR(1000),
 	review_rating ENUM('1', '2', '3', '4', '5') NOT NULL,
+	is_active BOOLEAN NOT NULL DEFAULT 1,
 	FOREIGN KEY (review_id) REFERENCES reviews(review_id),
 	FOREIGN KEY (specialty_review_category_id) REFERENCES specialty_review_category_list(specialty_review_category_list_id)
 );
