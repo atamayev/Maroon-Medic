@@ -39,7 +39,7 @@ export async function returnDoctorPageData (req: Request, res: Response): Promis
 			doctorAddressData:     [],
 			description:           "",
 			servicedPets:          [],
-			doctorPersonalInfo:   {
+			doctorPersonalInfo:    {
 				nvi: -1,
 				firstName: "",
 				lastName: "",

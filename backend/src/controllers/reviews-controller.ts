@@ -17,8 +17,9 @@ export async function updateReview (req: Request, res: Response): Promise<void> 
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-export async function deleteReview (req: Request, res: Response): Promise<void> {
-	const reviewId = req.body.reviewId as number
+export async function deleteReview (req: Request, res: Response): Promise<void | Response> {
+	const reviewId = Number(req.params.reviewId)
+	if (isNaN(reviewId)) return res.status(400).json({ error: "Invalid reviewId" })
 
 	const operation: () => Promise<void> = async () => await ReviewsDb.deleteReview(reviewId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
@@ -38,8 +39,9 @@ export async function updateDoctorReviewResponse (req: Request, res: Response): 
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-export async function deleteDoctorReviewResponse (req: Request, res: Response): Promise<void> {
-	const reviewId = req.body.reviewId as number
+export async function deleteDoctorReviewResponse (req: Request, res: Response): Promise<void | Response> {
+	const reviewId = Number(req.params.reviewId)
+	if (isNaN(reviewId)) return res.status(400).json({ error: "Invalid reviewId" })
 
 	const operation: () => Promise<void> = async () => await ReviewsDb.deleteDoctorReviewResponse(reviewId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
@@ -59,8 +61,9 @@ export async function updateReviewReaction (req: Request, res: Response): Promis
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-export async function deleteReviewReaction (req: Request, res: Response): Promise<void> {
-	const reviewId = req.body.reviewId as number
+export async function deleteReviewReaction (req: Request, res: Response): Promise<void | Response> {
+	const reviewId = Number(req.params.reviewId)
+	if (isNaN(reviewId)) return res.status(400).json({ error: "Invalid reviewId" })
 
 	const operation: () => Promise<void> = async () => await ReviewsDb.deleteReviewReaction(reviewId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
@@ -81,12 +84,10 @@ export async function updateSpecialtyReview (req: Request, res: Response): Promi
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
 
-export async function deleteSpecialtyReview (req: Request, res: Response): Promise<void> {
-	const reviewId = req.body.reviewId as number
+export async function deleteSpecialtyReview (req: Request, res: Response): Promise<void | Response> {
+	const reviewId = Number(req.params.reviewId)
+	if (isNaN(reviewId)) return res.status(400).json({ error: "Invalid reviewId" })
 
 	const operation: () => Promise<void> = async () => await ReviewsDb.deleteSpecialtyReview(reviewId)
 	await OperationHandler.executeAsyncOperationAndReturnCustomValueToRes(res, operation)
 }
-
-// for public doctor routes: fetch reviews
-// for public doctor routes: fetch reviews reactions/comments (for each review)
