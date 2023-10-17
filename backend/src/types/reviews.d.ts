@@ -25,6 +25,16 @@ declare global {
 		specialtyReviewMessage?: string
 		specialtyReviewRating: number
 	}
+
+	type PublicDoctorReview = {
+		reviewId: number
+		patientId: number
+		patientReviewMessage?: string
+		patientReviewRating: number
+		doctorReviewResponse?: string
+		positiveReviewReactions?: number
+		negativeReviewReactions?: number
+	}
 }
 
 export {}

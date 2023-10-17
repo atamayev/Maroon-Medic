@@ -80,4 +80,9 @@ export default new class FetchPublicDoctorData {
 		const result = await this.#fetchDoctorData<DoctorPersonalInfo>(doctorId, FetchPublicDoctorDataDB.personalData)
 		return result as DoctorPersonalInfo
 	}
+
+	async reviews (doctorId: number): Promise<PublicDoctorReview[]> {
+		const result = await this.#fetchDoctorData(doctorId, FetchPublicDoctorDataDB.reviews)
+		return result as PublicDoctorReview[]
+	}
 }()

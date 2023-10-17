@@ -32,6 +32,7 @@ declare global {
 		description: string
 		servicedPets: ServicedPetData[]
 		doctorPersonalInfo: DoctorPersonalInfo
+		reviews: PublicDoctorReview[]
 	}
 }
 

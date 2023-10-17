@@ -2,6 +2,7 @@ To-do:
 
 -Reviews:
 	Add endpoints for each of the tables (4 for each table: get, post, delete (update isActive), and actually update)
+	Add req body validators 
 
 -Change the CRUD operations of endpoints. ask GPT this question:
 	If i have an endpoint leads to a sql statement that updates a record in a table, wht kind of endpoint should it be (post, patch, etc.)

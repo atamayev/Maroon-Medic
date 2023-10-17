@@ -24,7 +24,8 @@ export async function returnDoctorPageData (req: Request, res: Response): Promis
 			doctorAddressData:     await FetchPublicDoctorData.addresses(doctorId),
 			description:           await FetchDoctorAccountData.description(doctorId),
 			servicedPets:          await FetchPublicDoctorData.servicedPets(doctorId),
-			doctorPersonalInfo:    await FetchPublicDoctorData.personalInfo(doctorId)
+			doctorPersonalInfo:    await FetchPublicDoctorData.personalInfo(doctorId),
+			reviews: 			   await FetchPublicDoctorData.reviews(doctorId),
 		}
 		response.doctorPersonalInfo.nvi = NVI
 		return res.status(200).json(response)
@@ -43,7 +44,8 @@ export async function returnDoctorPageData (req: Request, res: Response): Promis
 				firstName: "",
 				lastName: "",
 				gender: "",
-			}
+			},
+			reviews: [],
 		}
 		return res.status(400).json(response)
 	}
