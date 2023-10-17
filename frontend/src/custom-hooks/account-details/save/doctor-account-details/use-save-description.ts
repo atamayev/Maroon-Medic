@@ -1,3 +1,4 @@
+import _ from "lodash"
 import { useContext } from "react"
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
 import shouldSaveDescription from "src/utils/save-account-details"
@@ -11,7 +12,8 @@ export default function useSaveDescription() : (
 	const doctorAccountDetails = useContext(AppContext).privateDoctorData?.doctorAccountDetails
 
 	return async (description, setDescriptionConfirmation): Promise<void> => {
-		const shouldSave = shouldSaveDescription(doctorAccountDetails!.description, description)
+		if (_.isNil(doctorAccountDetails)) return
+		const shouldSave = shouldSaveDescription(doctorAccountDetails.description, description)
 
 		if (!shouldSave) {
 			setDescriptionConfirmation({messageType: "same"})
@@ -21,7 +23,7 @@ export default function useSaveDescription() : (
 		try {
 			const response = await PrivateDoctorDataService.saveDescriptionData(description)
 			if (response.status === 200) {
-				doctorAccountDetails!.description = description
+				doctorAccountDetails.description = description
 				setDescriptionConfirmation({messageType: "saved"})
 			}
 		} catch (error: unknown) {

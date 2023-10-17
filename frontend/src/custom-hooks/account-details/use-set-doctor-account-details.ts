@@ -14,17 +14,18 @@ export default function useSetDoctorAccountDetails(
 
 	const getDoctorAccountDetails: () => void = async () => {
 		try {
-			if (_.isNull(appContext.privateDoctorData)) return
+			if (_.isNull(appContext.privateDoctorData) || (_.isNull(appContext.privateDoctorData.doctorAccountDetails))) return
+
 			if (_.isNull(appContext.privateDoctorData.doctorAccountDetails)) {
 				await fetchDoctorAccountDetails()
 			}
 			setExpandedCategories(
-				appContext.privateDoctorData.doctorAccountDetails!.services.map(
+				appContext.privateDoctorData.doctorAccountDetails.services.map(
 					(service: ServiceItemNotNullablePrice) => service.categoryName
 				)
 			)
 			setExpandedPetTypes(
-				appContext.privateDoctorData.doctorAccountDetails!.servicedPets.map((servicedPet: ServicedPetItem) => servicedPet.petType)
+				appContext.privateDoctorData.doctorAccountDetails.servicedPets.map((servicedPet: ServicedPetItem) => servicedPet.petType)
 			)
 
 			if (_.isNull(appContext.privateDoctorData.doctorLists)) {

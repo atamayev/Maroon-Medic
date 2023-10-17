@@ -1,3 +1,4 @@
+import _ from "lodash"
 import { useContext } from "react"
 import AppContext from "src/contexts/maroon-context"
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
@@ -11,12 +12,14 @@ export default function useDeleteVetEducationItem() : (
 
 	return async (vetEducationMappingId: number, setVetEducationConfirmation: (conf: ConfirmationMessage) => void): Promise<void> => {
 		try {
+			if (_.isNil(doctorAccountDetails)) return
+
 			const response = await PrivateDoctorDataService.deleteVetEducationData(vetEducationMappingId)
 			if (response.status === 200) {
-				const newVetEducation = doctorAccountDetails!.vetEducation.filter(
+				const newVetEducation = doctorAccountDetails.vetEducation.filter(
 					object => object.vetEducationMappingId !== vetEducationMappingId
 				)
-				doctorAccountDetails!.vetEducation = newVetEducation
+				doctorAccountDetails.vetEducation = newVetEducation
 				setVetEducationConfirmation({ messageType: "saved" })
 			} else {
 				setVetEducationConfirmation({messageType: "problem"})

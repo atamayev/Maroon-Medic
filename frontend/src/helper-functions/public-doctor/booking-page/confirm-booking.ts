@@ -1,3 +1,4 @@
+import _ from "lodash"
 import CalendarDataService from "../../../services/calendar-data-service"
 
 export default async function confirmBooking (
@@ -8,17 +9,26 @@ export default async function confirmBooking (
 	setShowModal: (value: boolean) => void
 ): Promise<void> {
 
+	if (
+		_.isNil(appointmentInformation) ||
+		_.isNil(appointmentInformation.selectedService) ||
+		_.isNil(appointmentInformation.selectedDay) ||
+		_.isNil(appointmentInformation.selectedTime) ||
+		_.isNil(appointmentInformation.selectedLocation) ||
+		_.isNil(appointmentInformation.selectedPet)
+	) return
+
 	const appointmentObject: AppointmentObject = {
-		serviceAndCategoryListId: appointmentInformation.selectedService!.serviceAndCategoryListId,
-		appointmentDate: appointmentInformation.selectedDay!,
-		appointmentTime: appointmentInformation.selectedTime!,
+		serviceAndCategoryListId: appointmentInformation.selectedService.serviceAndCategoryListId,
+		appointmentDate: appointmentInformation.selectedDay,
+		appointmentTime: appointmentInformation.selectedTime,
 		appointmentTimespan: serviceMinutes,
-		appointmentPrice: appointmentInformation.selectedService!.servicePrice,
+		appointmentPrice: appointmentInformation.selectedService.servicePrice,
 		nvi: personalData.nvi,
-		addressesId: appointmentInformation.selectedLocation!.addressesId,
-		instantBook: appointmentInformation.selectedLocation!.instantBook,
+		addressesId: appointmentInformation.selectedLocation.addressesId,
+		instantBook: appointmentInformation.selectedLocation.instantBook,
 		message: message,
-		selectedPetId: appointmentInformation.selectedPet!.petInfoId
+		selectedPetId: appointmentInformation.selectedPet.petInfoId
 	}
 
 	try {

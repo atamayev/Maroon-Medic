@@ -1,3 +1,4 @@
+import _ from "lodash"
 import moment from "moment"
 
 interface Props {
@@ -8,20 +9,27 @@ interface Props {
 export default function FinalizeBookingCardText (props: Props) {
 	const { appointmentInformation, serviceMinutes } = props
 
+	if (_.isNull(appointmentInformation.selectedPet) ||
+		_.isNull(appointmentInformation.selectedService) ||
+		_.isNull(appointmentInformation.selectedLocation) ||
+		_.isNull(appointmentInformation.selectedDay) ||
+		_.isNull(appointmentInformation.selectedTime)
+	) return null
+
 	return (
 		<div className="bg-yellow-100 p-4 rounded border border-brown-400">
 			<div className="block text-brown-800 mb-1">
-				<strong className="font-bold">Pet:</strong> {appointmentInformation.selectedPet!.name}
+				<strong className="font-bold">Pet:</strong> {appointmentInformation.selectedPet.name}
 			</div>
 			<div className="block text-brown-800 mb-1">
-				<strong className="font-bold">Service:</strong> {appointmentInformation.selectedService!.serviceName}
+				<strong className="font-bold">Service:</strong> {appointmentInformation.selectedService.serviceName}
 			</div>
 			<div className="block text-brown-800 mb-1">
 				<strong className="font-bold">
 					Location:
 				</strong>
-				{" "} {appointmentInformation.selectedLocation!.addressTitle}: {" "}
-				{appointmentInformation.selectedLocation!.addressLine1} {" "} {appointmentInformation.selectedLocation!.addressLine2}
+				{" "} {appointmentInformation.selectedLocation.addressTitle}: {" "}
+				{appointmentInformation.selectedLocation.addressLine1} {" "} {appointmentInformation.selectedLocation.addressLine2}
 			</div>
 			<div className="block text-brown-800 mb-1">
 				<strong className="font-bold">Day:</strong> {appointmentInformation.selectedDay}
@@ -34,7 +42,7 @@ export default function FinalizeBookingCardText (props: Props) {
 				{moment(appointmentInformation.selectedTime, "h:mm A").add(serviceMinutes, "minute").format("h:mm A")}
 			</div>
 			<div className="block text-brown-800 mb-1">
-				<strong className="font-bold">Price:</strong> ${appointmentInformation.selectedService!.servicePrice}
+				<strong className="font-bold">Price:</strong> ${appointmentInformation.selectedService.servicePrice}
 			</div>
 		</div>
 	)

@@ -1,3 +1,4 @@
+import _ from "lodash"
 import { useContext } from "react"
 import PrivateDoctorDataService from "../../../../services/private-doctor-data-service"
 import handle401AxiosErrorAndSetMessageType from "src/utils/handle-errors/handle-401-axios-error-and-set-message-type"
@@ -14,15 +15,16 @@ export default function useDeleteAddressData() : (
 		setAddressesConfirmation: (conf: ConfirmationMessage) => void
 	): Promise<void> => {
 		try {
+			if (_.isNil(doctorAccountDetails)) return
 			const response = await PrivateDoctorDataService.deleteAddressData(addressId)
 
 			if (response.status === 200) {
-				const newAddressData = doctorAccountDetails!.temporaryAddressData.filter(
+				const newAddressData = doctorAccountDetails.temporaryAddressData.filter(
 					(addr: DoctorAddressData) => addr.addressesId !== addressId
 				)
 
-				doctorAccountDetails!.addressData = newAddressData
-				doctorAccountDetails!.temporaryAddressData = newAddressData
+				doctorAccountDetails.addressData = newAddressData
+				doctorAccountDetails.temporaryAddressData = newAddressData
 				setAddressesConfirmation({messageType: "saved"})
 			}
 		} catch (error: unknown) {

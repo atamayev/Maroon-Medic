@@ -11,7 +11,8 @@ function PastAppointmentCardBody (props: Props) {
 
 	return (
 		<div className={`transition-all duration-300 ease-in-out ${isOpen ? "max-h-screen" : "max-h-0"} overflow-hidden`}>
-			<MessageSection appointment={appointment} />
+			<MessageSection appointment = {appointment} />
+
 		</div>
 	)
 }

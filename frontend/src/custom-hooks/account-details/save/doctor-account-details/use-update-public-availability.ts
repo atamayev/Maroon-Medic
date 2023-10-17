@@ -1,3 +1,4 @@
+import _ from "lodash"
 import { useContext } from "react"
 import AppContext from "src/contexts/maroon-context"
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
@@ -20,10 +21,12 @@ export default function useUpdatePublicAvailability() : (
 			return
 		}
 
+		if (_.isNil(doctorAccountDetails)) return
+
 		try {
 			const response = await PrivateDoctorDataService.savePublicAvailibility(value)
 			if (response.status === 200) {
-				doctorAccountDetails!.publiclyAvailable = value
+				doctorAccountDetails.publiclyAvailable = value
 				setPubliclyAvailableConfirmation({messageType: "saved"})
 			}
 		} catch (error: unknown) {

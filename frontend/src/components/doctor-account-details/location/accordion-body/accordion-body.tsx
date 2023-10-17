@@ -1,3 +1,4 @@
+import _ from "lodash"
 import { useContext } from "react"
 import { observer } from "mobx-react"
 import AppContext from "src/contexts/maroon-context"
@@ -15,11 +16,13 @@ function AccordionBody (props: Props) {
 	const doctorAccountDetails = useContext(AppContext).privateDoctorData?.doctorAccountDetails
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, addressPriority: number) => {
-		const newAddresses = doctorAccountDetails!.temporaryAddressData.map(addressItem => {
+		if (_.isNil(doctorAccountDetails)) return
+
+		const newAddresses = doctorAccountDetails.temporaryAddressData.map(addressItem => {
 			if (addressItem.addressPriority === addressPriority) return { ...addressItem, [event.target.name]: event.target.value }
 			return addressItem
 		})
-		doctorAccountDetails!.temporaryAddressData = newAddresses
+		doctorAccountDetails.temporaryAddressData = newAddresses
 	}
 
 	return (

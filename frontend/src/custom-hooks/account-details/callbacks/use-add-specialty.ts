@@ -16,7 +16,8 @@ const useAddSpecialty = (
 		async (e: React.ChangeEvent<HTMLSelectElement>) => {
 			if (_.isNil(doctorLists)) return
 			const selectedSpecialtyId = Number(e.target.value)
-			const selectedSpecialty = doctorLists!.specialties.find((spec) => spec.specialtyListId === selectedSpecialtyId)
+
+			const selectedSpecialty = doctorLists.specialties.find((spec) => spec.specialtyListId === selectedSpecialtyId)
 			if (_.isUndefined(selectedSpecialty)) return
 			const newDoctorSpecialties = [...doctorSpecialties, selectedSpecialty]
 			await modifyDoctorSpecialties(

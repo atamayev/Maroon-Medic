@@ -10,11 +10,16 @@ export default function useSetPatientAppointmentsdData(
 	const appContext = useContext(AppContext)
 
 	const assignAppointments = (): void => {
+		if (
+			_.isNull(appContext.patientData) ||
+			_.isNil(appContext.patientData.patientDashboardData)
+		) return
+
 		const now = dayjs()
-		const pastPatientAppointments = appContext.patientData!.patientDashboardData!.filter(appointment =>
+		const pastPatientAppointments = appContext.patientData.patientDashboardData.filter(appointment =>
 			dayjs(appointment.appointmentDate, "MMMM D, YYYY, h:mm A").isBefore(now)
 		)
-		const upcomingPatientAppointments = appContext.patientData!.patientDashboardData!.filter(appointment =>
+		const upcomingPatientAppointments = appContext.patientData.patientDashboardData.filter(appointment =>
 			dayjs(appointment.appointmentDate, "MMMM D, YYYY, h:mm A").isSameOrAfter(now)
 		)
 
@@ -23,9 +28,8 @@ export default function useSetPatientAppointmentsdData(
 	}
 
 	useEffect(() => {
-		if (_.isNull(appContext.patientData)) return
-
 		if (
+			_.isNull(appContext.patientData) ||
 			_.isNil(appContext.patientData.patientDashboardData) ||
 			_.isEmpty(appContext.patientData.patientDashboardData) ||
 			appContext.auth.userType !== "Patient"

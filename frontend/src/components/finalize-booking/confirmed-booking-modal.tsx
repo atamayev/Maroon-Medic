@@ -1,6 +1,7 @@
 import moment from "moment"
 import Button from "../button"
 import { useNavigate } from "react-router-dom"
+import _ from "lodash"
 
 interface Props {
 	message: string
@@ -18,6 +19,11 @@ export default function ConfirmedBookingModal (props: Props) {
 		// Ensures that the user is not able to navigate back to finalize booking right after making an appointment:
 		navigate("/dashboard", { state: { finalized: true } })
 	}
+
+	if (_.isNull(appointmentInformation.selectedPet) ||
+		_.isNull(appointmentInformation.selectedService) ||
+		_.isNull(appointmentInformation.selectedLocation)
+	) return null
 
 	return (
 		<div
@@ -38,20 +44,20 @@ export default function ConfirmedBookingModal (props: Props) {
 								<div className="mt-2">
 									<div className="bg-yellow-100 p-4 rounded border border-brown-400">
 										<div className="block text-brown-800 mb-1">
-											<strong className="font-bold">Pet:</strong> {appointmentInformation.selectedPet!.name}
+											<strong className="font-bold">Pet:</strong> {appointmentInformation.selectedPet.name}
 										</div>
 										<div className="block text-brown-800 mb-1">
 											<strong className="font-bold">
 												Service:
-											</strong> {appointmentInformation.selectedService!.serviceName}
+											</strong> {appointmentInformation.selectedService.serviceName}
 										</div>
 										<div className="block text-brown-800 mb-1">
 											<strong className="font-bold">
 												Location:
 											</strong>
-											{" "} {appointmentInformation.selectedLocation!.addressTitle}: {" "}
-											{appointmentInformation.selectedLocation!.addressLine1} {" "}
-											{appointmentInformation.selectedLocation!.addressLine2}
+											{" "} {appointmentInformation.selectedLocation.addressTitle}: {" "}
+											{appointmentInformation.selectedLocation.addressLine1} {" "}
+											{appointmentInformation.selectedLocation.addressLine2}
 										</div>
 										<div className="block text-brown-800 mb-1">
 											<strong className="font-bold">Day:</strong> {appointmentInformation.selectedDay}
@@ -67,7 +73,7 @@ export default function ConfirmedBookingModal (props: Props) {
 										<div className="block text-brown-800 mb-1">
 											<strong className="font-bold">
 												Price:
-											</strong> ${appointmentInformation.selectedService!.servicePrice}
+											</strong> ${appointmentInformation.selectedService.servicePrice}
 										</div>
 										<div className="block text-brown-800 mb-1">
 											<strong className="font-bold">

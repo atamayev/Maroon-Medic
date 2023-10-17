@@ -15,13 +15,16 @@ export default function useDenyAppointment(): (
 		setStatus: React.Dispatch<React.SetStateAction<AppointmentStatus>>,
 		appointmentsId: number
 	): Promise<void> => {
-		if (_.isNull(privateDoctorData)) return
+		if (
+			_.isNull(privateDoctorData) ||
+			_.isNil(privateDoctorData.doctorDashboardData)
+		) return
 
 		try {
 			const response = await CalendarDataService.denyAppointment(appointmentsId)
 			if (response.status === 200) {
 				// Update the doctorConfirmationStatus for the specific appointment
-				const updatedDashboardData = privateDoctorData.doctorDashboardData!.map(appointment => {
+				const updatedDashboardData = privateDoctorData.doctorDashboardData.map(appointment => {
 					if (appointment.appointmentsId === appointmentsId) {
 						return {
 							...appointment,

@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import _ from "lodash"
 import { useCallback, useContext } from "react"
 import AppContext from "src/contexts/maroon-context"
@@ -18,13 +19,15 @@ const useAddLanguage = (
 	return useCallback(
 		async (e: React.ChangeEvent<HTMLSelectElement>) => {
 			const selectedLanguageId = Number(e.target.value)
+
 			if (
 				(doctorOrPatient === "Doctor" && _.isNil(appContext.privateDoctorData?.doctorLists)) ||
 				(doctorOrPatient === "Patient" && _.isNil(appContext.patientData?.patientLists))
 			) return
 
 			if (doctorOrPatient === "Doctor") {
-				const selectedLanguage = appContext.privateDoctorData!.doctorLists!.languages.find(
+				if (_.isNull(appContext.privateDoctorData) || _.isNull(appContext.privateDoctorData.doctorLists)) return
+				const selectedLanguage = appContext.privateDoctorData.doctorLists.languages.find(
 					(lang) => lang.languageListId === selectedLanguageId
 				)
 				if (_.isUndefined(selectedLanguage)) return
@@ -33,10 +36,10 @@ const useAddLanguage = (
 					selectedLanguage,
 					setLanguagesConfirmation
 				)
-			}
+			} else {
+				if (_.isNull(appContext.patientData) || _.isNull(appContext.patientData.patientLists)) return
 
-			else {
-				const selectedLanguage = appContext.patientData?.patientLists!.languages.find(
+				const selectedLanguage = appContext.patientData.patientLists.languages.find(
 					(lang) => lang.languageListId === selectedLanguageId
 				)
 				if (_.isUndefined(selectedLanguage)) return

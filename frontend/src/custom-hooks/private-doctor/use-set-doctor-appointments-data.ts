@@ -10,11 +10,16 @@ export default function useSetDoctorAppointmentsdData(
 	const appContext = useContext(AppContext)
 
 	const assignAppointments = (): void => {
+		if (
+			_.isNull(appContext.privateDoctorData) ||
+			_.isNil(appContext.privateDoctorData.doctorDashboardData)
+		) return
+
 		const now = dayjs()
-		const pastDoctorAppointments = appContext.privateDoctorData!.doctorDashboardData!.filter(appointment =>
+		const pastDoctorAppointments = appContext.privateDoctorData.doctorDashboardData.filter(appointment =>
 			dayjs(appointment.appointmentDate, "MMMM D, YYYY, h:mm A").isBefore(now)
 		)
-		const upcomingDoctorAppointments = appContext.privateDoctorData!.doctorDashboardData!.filter(appointment =>
+		const upcomingDoctorAppointments = appContext.privateDoctorData.doctorDashboardData.filter(appointment =>
 			dayjs(appointment.appointmentDate, "MMMM D, YYYY, h:mm A").isSameOrAfter(now)
 		)
 
@@ -23,8 +28,8 @@ export default function useSetDoctorAppointmentsdData(
 	}
 
 	useEffect(() => {
-		if (_.isNull(appContext.privateDoctorData)) return
 		if (
+			_.isNull(appContext.privateDoctorData) ||
 			_.isNull(appContext.privateDoctorData.doctorDashboardData) ||
 			_.isEmpty(appContext.privateDoctorData.doctorDashboardData) ||
 			appContext.auth.userType !== "Doctor"

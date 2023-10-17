@@ -1,3 +1,4 @@
+import _ from "lodash"
 import Button from "../button"
 import useDeletePet from "src/custom-hooks/my-pets/use-delete-pet"
 
@@ -45,7 +46,8 @@ export default function DeletePetModal (props: Props) {
 							hoverClass="hover:bg-red-600"
 							className = "mx-2"
 							onClick={() => {
-								deletePet(petToDelete!.petInfoId, setPetConfirmation)
+								if (_.isNull(petToDelete)) return
+								deletePet(petToDelete.petInfoId, setPetConfirmation)
 								handleCloseModal(setShowModal)
 							}}
 							textColor = "text-white"

@@ -23,14 +23,16 @@ function AccordionHeader (props: Props) {
 		addressPriority: number,
 		field: keyof Pick<DoctorAddressData, "addressPublicStatus" | "instantBook">
 	) => {
-		const updatedAddresses = _.cloneDeep(doctorAccountDetails!.temporaryAddressData)
+		if (_.isNil(doctorAccountDetails)) return
+
+		const updatedAddresses = _.cloneDeep(doctorAccountDetails.temporaryAddressData)
 
 		const addressToUpdate = _.find(updatedAddresses, { addressPriority })
 
 		// Toggle the value
 		if (addressToUpdate) addressToUpdate[field] = !addressToUpdate[field]
 
-		doctorAccountDetails!.temporaryAddressData = updatedAddresses
+		doctorAccountDetails.temporaryAddressData = updatedAddresses
 	}
 
 	return (
