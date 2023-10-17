@@ -14,12 +14,13 @@ interface Props {
 
 function UpdateLocationButton (props: Props) {
 	const { address, setAddressesConfirmation } = props
-
-	const { doctorAccountDetails} = useContext(AppContext).privateDoctorData!
+	const doctorAccountDetails = useContext(AppContext).privateDoctorData?.doctorAccountDetails
 
 	const modifyAddressData = useModifyAddressData()
 
-	const originalAddress = doctorAccountDetails?.addressData.find(
+	if (_.isNil(doctorAccountDetails)) return null
+
+	const originalAddress = doctorAccountDetails.addressData.find(
 		(addr: DoctorAddressData) => addr.addressesId === address.addressesId)
 	const isAddressSame = _.isEqual(originalAddress, address)
 

@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken"
 import Hash from "../setup-and-security/hash"
 import AuthDB from "../db/auth-db"
-import { Request } from "express"
 
 export async function handleLogoutInDB(UUID: string): Promise<void> {
 	try {
@@ -45,7 +44,7 @@ export function validateUserType(type: string): type is "Doctor" | "Patient" {
 }
 
 export function signJWT(payload: object, userType: "Doctor" | "Patient"): string | undefined {
-	const jwtKey = userType === "Patient" ? process.env.PATIENT_JWT_KEY! : process.env.DOCTOR_JWT_KEY!
+	const jwtKey = userType === "Patient" ? process.env.PATIENT_JWT_KEY : process.env.DOCTOR_JWT_KEY
 	try {
 		return jwt.sign(payload, jwtKey)
 	} catch (error: unknown) {

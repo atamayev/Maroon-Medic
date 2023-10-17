@@ -2,7 +2,7 @@ import FormGroup from "../form-group"
 
 interface Props {
   loginOrSignUp: "Login" | "Sign up",
-  passwordConfirm: string,
+  passwordConfirm: string | undefined,
   setPasswordConfirm?: (passwordConfirm: string) => void,
   showPassword: "text" | "password",
 }

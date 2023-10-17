@@ -73,7 +73,7 @@ export default function LoginAndRegistrationForm({
 
 					<ConfirmPassword
 						loginOrSignUp = {loginOrSignUp}
-						passwordConfirm = {passwordConfirm!}
+						passwordConfirm = {passwordConfirm}
 						setPasswordConfirm = {setPasswordConfirm}
 						showPassword = {isShowPassword()}
 					/>

@@ -1,5 +1,7 @@
-import Button from "src/components/button"
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import _ from "lodash"
 import { useContext } from "react"
+import Button from "src/components/button"
 import AppContext from "src/contexts/maroon-context"
 import useModifyServicesData from "src/custom-hooks/account-details/save/doctor-account-details-helpers/use-modify-services-data"
 import PrivateDoctorDataService from "src/services/private-doctor-data-service"
@@ -80,7 +82,7 @@ export default function ServiceActionButton (props: Props) {
 		)
 	}
 
-	if (isSelected && isFilled) {
+	if (isSelected && isFilled && !_.isUndefined(providedService)) {
 		if (isProvided) {
 			if (providedService.serviceTime === selectedService.serviceTime &&
           providedService.servicePrice === selectedService.servicePrice) {

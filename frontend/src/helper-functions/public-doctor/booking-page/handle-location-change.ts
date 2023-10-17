@@ -8,6 +8,7 @@ const handleLocationChange = (
 ): void => {
 	const value = event.target.value
 	const selectedLocationObject = addresses.find(location => _.toString(location.addressesId) === value)
+	if (_.isNil(selectedLocationObject)) return
 
 	if (value === "Select...") {
 		setAppointmentInformation(prev => ({
@@ -17,7 +18,7 @@ const handleLocationChange = (
 			selectedTime: null,
 		}))
 		setNoAvailableTimesMessage(false)
-	} else if (_.isEmpty(selectedLocationObject?.times)) {
+	} else if (_.isEmpty(selectedLocationObject.times)) {
 		setNoAvailableTimesMessage(true)
 		setAppointmentInformation(prev => ({
 			...prev,
@@ -28,7 +29,7 @@ const handleLocationChange = (
 		setNoAvailableTimesMessage(false)
 		setAppointmentInformation(prev => ({
 			...prev,
-			selectedLocation: selectedLocationObject!
+			selectedLocation: selectedLocationObject
 		}))
 	}
 }
