@@ -44,9 +44,9 @@ privatePatientDataRoutes.post("/add-pet-data", validateSavePetDataRequestBody, a
 privatePatientDataRoutes.delete("/delete-pet-data/:petId", deletePet)
 
 privatePatientDataRoutes.post("/add-pet-medication", validateSavePetMedicationDataRequestBody, addPetMedication)
-privatePatientDataRoutes.post("/delete-pet-medication/:petMedicationId", deletePetMedication)
+privatePatientDataRoutes.delete("/delete-pet-medication/:petMedicationId", deletePetMedication)
 
 privatePatientDataRoutes.post("/add-pet-procedure", validateSavePetProcedureDataRequestBody, addPetProcedure)
-privatePatientDataRoutes.post("/delete-pet-procedure/:petProcedureId", deletePetProcedure)
+privatePatientDataRoutes.delete("/delete-pet-procedure/:petProcedureId", deletePetProcedure)
 
 export default privatePatientDataRoutes

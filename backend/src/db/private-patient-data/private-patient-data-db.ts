@@ -1,6 +1,6 @@
+import { RowDataPacket } from "mysql2"
 import { mysqlTables } from "../../utils/table-names-list"
 import { connectDatabase } from "../../setup-and-security/connect"
-import { RowDataPacket } from "mysql2"
 import { transformArrayOfObjectsToCamelCase, transformKeysToCamelCase } from "../../utils/transform-keys-to-camel-case"
 
 export default new class PrivatePatientDataDB {

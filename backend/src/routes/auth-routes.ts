@@ -17,8 +17,10 @@ const authRoutes = express.Router()
 authRoutes.post("/login", validateLoginRequestBody, login)
 authRoutes.post("/register", validateRegisterRequestBody, register)
 authRoutes.post("/logout", jwtVerify, validateUUIDInHeader, logout)
+
 authRoutes.get("/fetch-login-history", jwtVerify, validateUUIDInHeader, fetchLoginHistory)
 authRoutes.post("/change-password", jwtVerify, validateChangePasswordRequest, changePassword)
+
 authRoutes.get("/new-doctor-confirmation", jwtVerify, validateNewUserConfirmationRequest, newDoctorConfirmation)
 authRoutes.get("/new-patient-confirmation", jwtVerify, validateNewUserConfirmationRequest, newPatientConfirmation)
 
