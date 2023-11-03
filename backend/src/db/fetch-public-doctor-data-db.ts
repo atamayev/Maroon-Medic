@@ -133,21 +133,24 @@ export default new class FetchPublicDoctorDataDB {
 
 	async reviews(doctorId: number): Promise<PublicDoctorReview[]> {
 		const sql = `
-		  SELECT
+			SELECT
 			${mysqlTables.reviews}.review_id, ${mysqlTables.reviews}.patient_id,
 			${mysqlTables.reviews}.patient_review_message, ${mysqlTables.reviews}.patient_review_rating,
 			${mysqlTables.doctor_review_responses}.doctor_review_response,
-			SUM(${mysqlTables.review_reactions}.review_reaction = 1) as positiveReviewReactions,
-			SUM(${mysqlTables.review_reactions}.review_reaction = 0) as negativeReviewReactions
-		  FROM ${mysqlTables.reviews}
-		  LEFT JOIN ${mysqlTables.doctor_review_responses}
-		  	ON ${mysqlTables.reviews}.review_id = ${mysqlTables.doctor_review_responses}.review_id AND
-			${mysqlTables.doctor_review_responses}.is_active = 1
-		  LEFT JOIN ${mysqlTables.review_reactions}
-		  	ON ${mysqlTables.reviews}.review_id = ${mysqlTables.review_reactions}.review_id
-			AND ${mysqlTables.review_reactions}.is_active = 1
-		  WHERE ${mysqlTables.reviews}.doctor_id = ? AND ${mysqlTables.reviews}.is_active = 1
-		  GROUP BY ${mysqlTables.reviews}.review_id`
+			${mysqlTables.basic_user_info}.first_name AS patient_first_name, ${mysqlTables.basic_user_info}.last_name AS patient_last_name,
+			SUM(${mysqlTables.review_reactions}.review_reaction = 1) AS positiveReviewReactions,
+			SUM(${mysqlTables.review_reactions}.review_reaction = 0) AS negativeReviewReactions
+			FROM ${mysqlTables.reviews}
+			LEFT JOIN ${mysqlTables.doctor_review_responses}
+				ON ${mysqlTables.reviews}.review_id = ${mysqlTables.doctor_review_responses}.review_id
+				AND ${mysqlTables.doctor_review_responses}.is_active = 1
+			LEFT JOIN ${mysqlTables.review_reactions}
+				ON ${mysqlTables.reviews}.review_id = ${mysqlTables.review_reactions}.review_id
+				AND ${mysqlTables.review_reactions}.is_active = 1
+			INNER JOIN ${mysqlTables.basic_user_info}
+				ON ${mysqlTables.reviews}.patient_id = ${mysqlTables.basic_user_info}.user_id
+				WHERE ${mysqlTables.reviews}.doctor_id = ? AND ${mysqlTables.reviews}.is_active = 1
+			GROUP BY ${mysqlTables.reviews}.review_id`
 
 		const values = [doctorId]
 		const connection = await connectDatabase()

@@ -4,7 +4,6 @@ CREATE TABLE credentials (
 	user_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	email VARCHAR(150) NOT NULL,
 	password VARCHAR(150) NOT NULL,
-	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	user_type VARCHAR(20) NOT NULL, -- can be Doctor, Patient, admin, Administrator
 	is_active BOOLEAN NOT NULL DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -13,7 +12,7 @@ CREATE TABLE credentials (
 
 SELECT * FROM credentials;
 
-CREATE TABLE basic_user_info (
+CREATE TABLE basic_user_info ( -- rename to users
 	basic_user_info_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	first_name VARCHAR(150) NOT NULL,
 	last_name VARCHAR(150) NOT NULL,
@@ -82,11 +81,12 @@ CREATE TABLE appointments(
 );
 
 SELECT * FROM appointments;
-UPDATE appointments set doctor_confirmation_status = 0 where doctor_id;
+SELECT * FROM appointments WHERE doctor_id = '1';
+UPDATE appointments SET doctor_confirmation_status = 0 where doctor_id;
 
 CREATE TABLE reviews(
 	review_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	appointment_id INT UNSIGNED NOT NULL,
+	appointments_id INT UNSIGNED NOT NULL,
 	pet_info_id INT UNSIGNED NOT NULL,
 	patient_id INT UNSIGNED NOT NULL,
 	doctor_id INT UNSIGNED NOT NULL,
@@ -95,7 +95,7 @@ CREATE TABLE reviews(
 	is_active BOOLEAN NOT NULL DEFAULT 1, -- set to 1 by default, when a patient deletes a review, set to 0.
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	FOREIGN KEY (appointment_id) REFERENCES appointments(appointments_id),
+	FOREIGN KEY (appointments_id) REFERENCES appointments(appointments_id),
 	FOREIGN KEY (pet_info_id) REFERENCES pet_info(pet_info_id),
 	FOREIGN KEY (patient_id) REFERENCES Credentials(user_id),
 	FOREIGN KEY (doctor_id) REFERENCES Credentials(user_id),
@@ -109,7 +109,8 @@ CREATE TABLE doctor_review_responses(
 	review_id INT UNSIGNED NOT NULL,
 	doctor_review_response VARCHAR(1000),
 	is_active BOOLEAN NOT NULL DEFAULT 1,
-	FOREIGN KEY (review_id) REFERENCES reviews(review_id)
+	FOREIGN KEY (review_id) REFERENCES reviews(review_id),
+    UNIQUE (review_id)
 );
 
 SELECT * FROM doctor_review_responses;
@@ -127,10 +128,11 @@ CREATE TABLE specialty_reviews(
 	review_id INT UNSIGNED NOT NULL,
 	specialty_review_category_id INT UNSIGNED NOT NULL,
 	specialty_review_message VARCHAR(1000),
-	review_rating ENUM('1', '2', '3', '4', '5') NOT NULL,
+	review_rating BOOLEAN NOT NULL,
 	is_active BOOLEAN NOT NULL DEFAULT 1,
 	FOREIGN KEY (review_id) REFERENCES reviews(review_id),
-	FOREIGN KEY (specialty_review_category_id) REFERENCES specialty_review_category_list(specialty_review_category_list_id)
+	FOREIGN KEY (specialty_review_category_id) REFERENCES specialty_review_category_list(specialty_review_category_list_id),
+    UNIQUE (review_id, specialty_review_category_id)
 );
 
 SELECT * FROM specialty_reviews;

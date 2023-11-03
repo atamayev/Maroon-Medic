@@ -117,6 +117,13 @@ INSERT INTO pet_procedure_list (procedure_name) VALUES
 ('Urinary Bladder Stone Removal'),
 ('Vulvoplasty');
 
+INSERT INTO specialty_review_category_list (review_category_name) VALUES
+('Clean Office'),
+('Clear Communication'),
+('Convenient Location'),
+('Friendly Staff'),
+('Short Wait Time');
+
 INSERT INTO service_and_category_list (category_name, service_name) VALUES
 ('Allergies & Dermatology',	'Allergies & Dermatology'),
 ('Behavioral Consultations',	'Behavioral Issues'),
@@ -268,7 +275,8 @@ INSERT INTO service_and_category_list (category_name, service_name) VALUES
 ('Wellness Care',	'Wellness & Preventive Care')
 ;
 
-INSERT INTO pet_list (pet, pet_type) VALUES ('Alpaca', 'Farm Animal'),
+INSERT INTO pet_list (pet, pet_type) VALUES
+('Alpaca', 'Farm Animal'),
 ('Budgie', 'Bird'),
 ('Canary', 'Bird'),
 ('Cat', 'Cat'),

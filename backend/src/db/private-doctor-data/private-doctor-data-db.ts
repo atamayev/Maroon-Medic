@@ -12,6 +12,7 @@ export default new class PrivateDoctorDataDB {
 		await connection.execute(sql, values)
 	}
 
+	// eslint-disable-next-line max-lines-per-function
 	async retrieveDoctorDashboard (doctorId: number): Promise<DoctorDashboardData[]> {
 		const sql = `SELECT
           ${mysqlTables.appointments}.appointments_id, ${mysqlTables.appointments}.appointment_date,
@@ -25,23 +26,37 @@ export default new class PrivateDoctorDataDB {
           ${mysqlTables.addresses}.address_title, ${mysqlTables.addresses}.address_line_1, ${mysqlTables.addresses}.address_line_2,
           ${mysqlTables.addresses}.city, ${mysqlTables.addresses}.state, ${mysqlTables.addresses}.zip, ${mysqlTables.addresses}.country,
           ${mysqlTables.basic_user_info}.first_name AS patientFirstName, ${mysqlTables.basic_user_info}.last_name AS patientLastName
-      FROM ${mysqlTables.appointments}
-          INNER JOIN ${mysqlTables.service_and_category_list} ON
-			${mysqlTables.appointments}.service_and_category_list_id =
-			${mysqlTables.service_and_category_list}.service_and_category_list_id
-          INNER JOIN ${mysqlTables.addresses} ON
-          	${mysqlTables.appointments}.addresses_id = ${mysqlTables.addresses}.addresses_id
-          	AND ${mysqlTables.addresses}.doctor_id = ${mysqlTables.appointments}.doctor_id
-          INNER JOIN ${mysqlTables.basic_user_info} ON ${mysqlTables.appointments}.patient_id = ${mysqlTables.basic_user_info}.user_id
-		  INNER JOIN ${mysqlTables.pet_info} ON ${mysqlTables.appointments}.pet_info_id = ${mysqlTables.pet_info}.pet_info_id
-      WHERE
-          ${mysqlTables.appointments}.doctor_id = ?`
+		  ${mysqlTables.reviews}.review_id, ${mysqlTables.reviews}.patient_review_message, ${mysqlTables.reviews}.patient_review_rating,
+		  ${mysqlTables.doctor_review_responses}.doctor_review_response,
+		  SUM(${mysqlTables.review_reactions}.review_reaction = 1) AS positiveReviewReactions,
+		  SUM(${mysqlTables.review_reactions}.review_reaction = 0) AS negativeReviewReactions
+		FROM ${mysqlTables.appointments}
+			LEFT JOIN ${mysqlTables.reviews} ON
+				${mysqlTables.appointments}.appointments_id = ${mysqlTables.reviews}.appointments_id AND
+				${mysqlTables.reviews}.is_active = 1
+			LEFT JOIN ${mysqlTables.doctor_review_responses} ON
+				${mysqlTables.reviews}.review_id = ${mysqlTables.doctor_review_responses}.review_id AND
+				${mysqlTables.doctor_review_responses}.is_active = 1
+			LEFT JOIN ${mysqlTables.review_reactions} ON
+				${mysqlTables.reviews}.review_id = ${mysqlTables.review_reactions}.review_id AND
+				${mysqlTables.review_reactions}.is_active = 1
+			INNER JOIN ${mysqlTables.service_and_category_list} ON
+				${mysqlTables.appointments}.service_and_category_list_id =
+				${mysqlTables.service_and_category_list}.service_and_category_list_id
+			INNER JOIN ${mysqlTables.addresses} ON
+				${mysqlTables.appointments}.addresses_id = ${mysqlTables.addresses}.addresses_id AND
+				${mysqlTables.addresses}.doctor_id = ${mysqlTables.appointments}.doctor_id
+			INNER JOIN ${mysqlTables.basic_user_info} ON ${mysqlTables.appointments}.patient_id = ${mysqlTables.basic_user_info}.user_id
+			INNER JOIN ${mysqlTables.pet_info} ON ${mysqlTables.appointments}.pet_info_id = ${mysqlTables.pet_info}.pet_info_id
+		WHERE
+			${mysqlTables.appointments}.doctor_id = ?`
 
 		const values = [doctorId]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
 		const dashboardData = results.map((row: RowDataPacket) => row as DoctorDashboardData)
 		const camelCasedDashboardData = transformArrayOfObjectsToCamelCase(dashboardData)
+		console.log(camelCasedDashboardData)
 		return camelCasedDashboardData as DoctorDashboardData[]
 	}
 

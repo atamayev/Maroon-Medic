@@ -6,7 +6,7 @@ export default new class ReviewsDB {
 	//Standard Reviews:
 	async addReview(reviewInfo: NewReview, patientId: number): Promise<void> {
 		const sql = `INSERT INTO ${mysqlTables.reviews}
-			(appointment_id, pet_info_id, patient_id, doctor_id, patient_review_message, patient_review_rating)
+			(appointments_id, pet_info_id, patient_id, doctor_id, patient_review_message, patient_review_rating)
 			VALUES (?, ?, ?, ?, ?, ?)`
 		const values = [reviewInfo.appointmentId, reviewInfo.petInfoId, patientId,
 			reviewInfo.doctorId, reviewInfo.patientReviewMessage, reviewInfo.patientReviewRating]

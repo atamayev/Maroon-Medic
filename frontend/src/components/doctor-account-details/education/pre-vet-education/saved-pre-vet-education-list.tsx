@@ -1,8 +1,8 @@
 import _ from "lodash"
 import { useContext } from "react"
+import { observer } from "mobx-react"
 import AppContext from "src/contexts/maroon-context"
 import SingleSavedPreVetEducation from "./single-saved-pre-vet-education"
-import { observer } from "mobx-react"
 
 interface Props {
 	deleteStatuses: DeleteStatusesDictionary

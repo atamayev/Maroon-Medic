@@ -36,7 +36,7 @@ export default new class PrivatePatientDataDB {
 		const values = [patientId]
 		const connection = await connectDatabase()
 		const [results] = await connection.execute(sql, values) as RowDataPacket[]
-		const dashboardData = results.map((row: RowDataPacket) => row as DoctorDashboardData)
+		const dashboardData = results.map((row: RowDataPacket) => row as PatientDashboardData)
 		const camelCasedDashboardData = transformArrayOfObjectsToCamelCase(dashboardData)
 		return camelCasedDashboardData as PatientDashboardData[]
 	}

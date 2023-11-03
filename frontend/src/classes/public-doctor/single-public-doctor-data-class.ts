@@ -15,4 +15,5 @@ export default class SinglePublicDoctorDataClass {
 	description: string = ""
 	servicedPets: ServicedPetData[] = []
 	doctorPersonalInfo: DoctorPersonalData = {} as DoctorPersonalData
+	reviews: PublicDoctorReview[] = []
 }

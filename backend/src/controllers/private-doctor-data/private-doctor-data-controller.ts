@@ -26,6 +26,7 @@ export async function fetchDashboardData (req: Request, res: Response): Promise<
 		}
 		return res.status(200).json(dashboardData)
 	} catch (error: unknown) {
+		console.log(error)
 		return res.status(500).json([])
 	}
 }

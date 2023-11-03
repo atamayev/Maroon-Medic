@@ -1,19 +1,33 @@
 To-do:
 
 -Reviews:
+	To-do:
+		-Fix the doctor dashboard not retrieving data
+	- Add the review informatino to the dashboard Data for each appointment 
+		(will need a few more keys - reviewRating, reviewMessage, specialtyReviews?: {reviewRating, reviewCategory}, doctor response, reviewReactions
 	Add endpoints for each of the tables (4 for each table: get, post, delete (update isActive), and actually update)
+
+Clean up the fetch doctor dashboard data
 
 -Change the CRUD operations of endpoints. ask GPT this question:
 	If i have an endpoint leads to a sql statement that updates a record in a table, wht kind of endpoint should it be (post, patch, etc.)
+	Some of the current post endpoints should be delete/patch
+
+- add created at and updated at to each table
+-add unique constraints to all tables maroon (even the ones that have select for existance checks in the logic), and the loookup tables.
 
 Renaming MySQL field names:
 	Rename all primary keys that are plural (descriptions_id, addresses_id, phone_numbers_id, appointments_id) 
+
+-Change the gender option to not be a dropdown, but to be like the pet gender button (add other gender if necessary)
+
+- Significantly improve vet and pet onboarding - should not be super complex, look at what vetster did - very intuitive
 
 Make the pets list be an accordion
 
 Learn how to do debugging in typsecript (breakpoints) https://www.youtube.com/watch?v=d56mG7DezGs
 
-Maroon --> Mane Transition
+Maroon --> Max
 
 -mini bug when making a booking. make a booking with `changes in behavior`. The time is 10 AM- 10AM (it's a full day appointment). Should say something like (10AM (july 17) - 10AM (july 18))
 
@@ -82,3 +96,5 @@ inactivity logout ( 5 mins). implement on the verification level (in the jwt)
 -Implement scrollSpy into Account Details, other components to make scrolling through various sections easier
 
 -Allow for entering a decimal place service price (while typing). Permit the user to enter 10.50 instead of 1050, and then a . between 10 and 50.
+
+-Consider adding a ORM to the backend to interface with the DB. Essentially allows for interfacing with the DB without writing SQL

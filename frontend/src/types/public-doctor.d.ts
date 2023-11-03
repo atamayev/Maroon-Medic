@@ -40,6 +40,17 @@ declare global {
 		majorName: string
 	}
 
+	type PublicDoctorReview = {
+		reviewId: number
+		patientFirstName: string
+		patientLastName: string
+		patientReviewMessage?: string
+		patientReviewRating: number
+		doctorReviewResponse?: string
+		positiveReviewReactions?: number
+		negativeReviewReactions?: number
+	}
+
 	interface PublicDoctorAccountDetails {
 		doctorLanguages: LanguageName[]
 		doctorServices: ServiceItemNotNullablePrice[]
@@ -50,6 +61,7 @@ declare global {
 		description: string
 		servicedPets: ServicedPetData[]
 		doctorPersonalInfo: DoctorPersonalData
+		reviews: PublicDoctorReview[]
 	}
 }
 

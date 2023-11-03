@@ -28,7 +28,8 @@ declare global {
 
 	type PublicDoctorReview = {
 		reviewId: number
-		patientId: number
+		patientFirstName: string
+		patientLastName: string
 		patientReviewMessage?: string
 		patientReviewRating: number
 		doctorReviewResponse?: string

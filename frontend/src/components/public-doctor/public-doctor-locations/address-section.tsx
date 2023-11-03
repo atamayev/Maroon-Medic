@@ -1,4 +1,4 @@
-function AddressSection ({ address }: {address: PublicAddressData}) {
+export default function AddressSection ({ address }: {address: PublicAddressData}) {
 	return (
 		<>
 			<h4>{address.addressTitle}</h4>
@@ -8,5 +8,3 @@ function AddressSection ({ address }: {address: PublicAddressData}) {
 		</>
 	)
 }
-
-export default AddressSection
